@@ -35,23 +35,12 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
-      - run: |
-          NODE_ENV=production npm run docs:build
-          chmod -c -R +rX ".vitepress/dist" | while read line; do
-            echo "::warning title=Invalid file permissions automatically fixed::$line"
-          done
-          tar \
-            --dereference --hard-dereference \
-            --directory ".vitepress/dist" \
-            -cvf "$RUNNER_TEMP/artifact.tar" \
-            --exclude=.git \
-            --exclude=.github \
-            .
+      - run: NODE_ENV=production npm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
-          path: ${{ runner.temp }}/artifact.tar
+          path: .vitepress/dist
 
   # Deployment job
   deploy:

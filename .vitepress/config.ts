@@ -1,6 +1,5 @@
-const isGhEnv = process.env.NODE_ENV === 'production'
-import { defineConfig, TransformContext } from 'vitepress'
-import { join, relative } from 'node:path'
+const base = process.env.GH_BASE || '/docs/'
+import { defineConfig, TransformContext } from 'vitepress'import { join, relative } from 'node:path'
 import { writeFileSync } from 'node:fs'
 
 import sidebar from './sidebar'
@@ -22,7 +21,7 @@ const nav = [
 export default defineConfig({
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
-  base: isGhEnv ? '/cap-js/docs/' : '/docs/',
+  base: process.env.GH_BASE || '/docs/',
   themeConfig: {
     logo: '/images/cap.svg',
     nav,

@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
-      - run: NODE_ENV=production npm run docs:build
+      - run: NODE_ENV=production GH_BASE=/ npm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

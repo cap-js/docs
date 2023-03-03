@@ -1,5 +1,5 @@
-const base = process.env.GH_BASE || '/docs/'
-import { defineConfig, TransformContext } from 'vitepress'import { join, relative } from 'node:path'
+import { defineConfig, TransformContext } from 'vitepress'
+import { join, relative } from 'node:path'
 import { writeFileSync } from 'node:fs'
 
 import sidebar from './sidebar'

@@ -1,8 +1,7 @@
 name: Deploy Vitepress on GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
+  pull_request:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -53,3 +52,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+        with:
+          preview: true

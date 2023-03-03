@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
-    - run: |
+      - run: |
         NODE_ENV=production npm run docs:build
         chmod -c -R +rX ".vitepress/dist" | while read line; do
           echo "::warning title=Invalid file permissions automatically fixed::$line"

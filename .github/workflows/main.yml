@@ -1,4 +1,4 @@
-name: Deploy Vitepress on GitHub Pages
+name: Build & Deploy
 
 on:
   # Runs on pushes targeting the default branch

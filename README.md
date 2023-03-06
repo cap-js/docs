@@ -1,8 +1,8 @@
-# Documentation for SAP Cloud Application Programming Model (CAP)
+# Documentation for SAP Cloud Application Programming Model
 
 ## About this project
 
-Contains the documentation pages for SAP Cloud Application Programming Model (CAP)
+Contains the documentation pages for SAP Cloud Application Programming Model
 
 ## Requirements and Setup
 

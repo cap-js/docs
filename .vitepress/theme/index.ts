@@ -7,10 +7,8 @@ import Layout from './Layout.vue';
  * @type {import('vitepress/theme')}
  */
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout: Layout,
   enhanceApp(ctx:any) {
-    // extend default theme custom behaviour.
-    DefaultTheme.enhanceApp(ctx)
   }
 }

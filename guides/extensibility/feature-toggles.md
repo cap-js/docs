@@ -9,6 +9,7 @@ breadcrumbs:
   - Feature Toggles
 permalink: guides/extensibility/feature-toggles
 status: released
+impl-variants: true  # to enable Node.js/Java toggle
 ---
 
 # Feature Toggles

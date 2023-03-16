@@ -1,7 +1,7 @@
 <template>
 
 <!-- EXCLUDE IN NOTEBOOK START -->
-<div id="impl-variants" class="impl-variants-toggle">
+<div id="impl-variants" class="impl-variants-toggle" v-if="supportsVariants">
   <a impl-variant="node" class="impl-variant" title="Content for Node.js">Node.js</a>
   <a impl-variant="java" class="impl-variant" title="Content for Java">Java</a>
 </div>
@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
-
 export const knownImplVariants = ['node', 'java']
 export function toggleImplVariant(variant, initial) {
   if (!knownImplVariants.includes(variant))  variant = knownImplVariants[0]
@@ -87,11 +85,18 @@ function markClasses(el, classes) {
 </script>
 
 <script setup>
+  import { onMounted, computed } from 'vue'
+  import { useData } from 'vitepress'
+
+  const { frontmatter } = useData()
+  const supportsVariants = computed(() => !!frontmatter.value['impl-variants'])
+
   onMounted(() => {
     const initialImplVariant = queryParam('impl-variant') || localStorage['impl-variant']
     markStatus()
     toggleImplVariant(initialImplVariant, true)
   })
+
 </script>
 
 <style scoped>

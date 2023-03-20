@@ -86,6 +86,13 @@ const sidebar: DefaultTheme.Sidebar = [
           {"link": "/guides/deployment/custom-builds", "text": "Custom Builds", "items": []}
         ],
         "collapsed": true
+      },
+      {
+        "link": "/guides/querying",
+        "text": "Querying",
+        "items": [
+          { "link": "" }
+        ]
       }
     ],
     "collapsed": true

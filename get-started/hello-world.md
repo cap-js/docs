@@ -21,8 +21,6 @@ service say {
 }
 ```
 
-
-
 ## Implement it
 
 ... for example, using [Node.js](../node.js) express.js handlers style.

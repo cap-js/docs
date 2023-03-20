@@ -39,7 +39,8 @@ export default defineConfig({
     },
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/'}
-    ]
+    ],
+    outline: [1,3]
   },
   lastUpdated: true,
   cleanUrls: true,
@@ -58,7 +59,10 @@ export default defineConfig({
         path: join(__dirname, 'cds.tmLanguage.json'),
         aliases: ['cds']
       }
-    ]
+    ],
+    toc: {
+      level: [2,2]
+    }
   },
   vite: {
     plugins: [
@@ -76,6 +80,6 @@ export default defineConfig({
   },
   buildEnd: async ({ outDir }) => {
     await sitemap.generate(outDir, siteHostName, links)
-  },
+  }
 })
 

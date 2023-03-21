@@ -332,7 +332,7 @@ WHERE author.name='Emily Brontë'
 All column references get qualified &rarr; in contrast to plain SQL joins there’s no risk of ambiguous or conflicting column names.
 :::
 
-### With Infix Filters {}
+### With Infix Filters
 
 Append infix filters to associations in path expressions to narrow the resulting joins. For example:
 
@@ -355,7 +355,7 @@ If an infix filter effectively reduces the cardinality of a *to-many* associatio
 SELECT name, books[1: favorite=true].title from Authors
 ```
 
-### Exists Predicate {}
+### Exists Predicate
 
 Use a filtered path expression to test if any element of the associated collection matches the given filter:
 

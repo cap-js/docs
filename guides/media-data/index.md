@@ -2,7 +2,7 @@
 index: 55
 title: Media Data
 synopsis: >
-  CAP provides out-of-the-box support for serving media and other binary data. 
+  CAP provides out-of-the-box support for serving media and other binary data.
 layout: cookbook
 status: released
 ---
@@ -40,7 +40,7 @@ The following examples show these annotations in action:
 
 1. Media data is stored in a database with a fixed media type `image/png`:
 
-```swift
+```cds
 entity Books { //...
   image : LargeBinary @Core.MediaType: 'image/png';
 }
@@ -48,7 +48,7 @@ entity Books { //...
 
 2. Media data is stored in a database with a _variable_ media type:
 
-```swift
+```cds
 entity Books { //...
   image : LargeBinary @Core.MediaType: imageType;
   imageType : String  @Core.IsMediaType;
@@ -57,7 +57,7 @@ entity Books { //...
 
 3. Media data is stored in an external repository:
 
-```swift
+```cds
 entity Books { //...
   imageUrl  : String @Core.IsURL @Core.MediaType: imageType;
   imageType : String @Core.IsMediaType;
@@ -65,7 +65,7 @@ entity Books { //...
 ```
 
 4. Content disposition data is stored in a database with a _variable_ disposition:
-```swift
+```cds
 entity Authors { //...
   image : LargeBinary @Core.MediaType: imageType @Core.ContentDisposition.Filename: fileName;
   fileName : String;
@@ -74,7 +74,7 @@ entity Authors { //...
 
 5. The image shall have the suggested file name but be displayed inline nevertheless:
 
-```swift
+```cds
 entity Authors { //...
   image : LargeBinary @Core.MediaType: imageType @Core.ContentDisposition.Filename: fileName @Core.ContentDisposition.Type: 'inline';
   fileName : String;
@@ -91,7 +91,7 @@ In case you rename the properties holding the media type or content disposition 
 
 Read media data using `GET` requests of the form `/Entity(<ID>)/mediaProperty`:
 
-```swift
+```cds
 GET ../Books(201)/image
 > Content-Type: application/octet-stream
 ```
@@ -102,7 +102,7 @@ GET ../Books(201)/image
 
 Read media data with `@Core.ContentDisposition.Filename` in the model:
 
-```swift
+```cds
 GET ../Authors(201)/image
 > Content-Disposition: 'attachment; filename="foo.jpg"'
 ```
@@ -113,13 +113,13 @@ GET ../Authors(201)/image
 
 As a first step, create an entity without media data using a POST request to the entity. After creating the entity, you can insert a media property using the PUT method. The MIME type is passed in the `Content-Type` header. Here are some sample requests:
 
-```swift
+```cds
 POST ../Books
 Content-Type: application/json
 { <JSON> }
 ```
 
-```swift
+```cds
 PUT ../Books(201)/image
 Content-Type: image/png
 <MEDIA>
@@ -131,7 +131,7 @@ Content-Type: image/png
 
 The media data for an entity can be updated using the PUT method:
 
-```swift
+```cds
 PUT ../Books(201)/image
 Content-Type: image/png
 <MEDIA>
@@ -143,13 +143,13 @@ Content-Type: image/png
 
 One option is to delete the complete entity, including all media data:
 
-```swift
+```cds
 DELETE ../Books(201)
 ```
 
 Alternatively, you can delete a media data element individually:
 
-```swift
+```cds
 DELETE ../Books(201)/image
 ```
 
@@ -158,7 +158,7 @@ DELETE ../Books(201)/image
 The following are requests and responses for the entity containing redirected media data from the third example, "Media data is stored in an external repository".
 > This format is used by OData-Version: 4.0. To be changed in OData-Version: 4.01.
 
-```swift
+```cds
 GET: ../Books(201)
 >{ ...
     image@odata.mediaReadLink: "http://other-server/image.jpeg",

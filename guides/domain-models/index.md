@@ -62,7 +62,7 @@ While CDS provides great support for structured types, you should always think t
 
 #### **Good:**{:style="color:teal"}
 
-```swift
+```cds
 entity Contacts {
   isCompany : Boolean;
   company   : String;
@@ -74,7 +74,7 @@ entity Contacts {
 
 #### **Bad:**{:style="color:darkred"}
 
-```swift
+```cds
 entity Contacts {
   isCompany   : Boolean;
   companyData : CompanyDetails;
@@ -155,14 +155,14 @@ We recommend adopting the following simple naming conventions as commonly used i
 
 ### Distinguish _entities_, _types_, and _elements_
 
-* Start **_entity_** and **_type_** names with capital letters 
+* Start **_entity_** and **_type_** names with capital letters
 * Use **plural** form for **_entities_** - for example, `Authors`
 * Use **singular** form for **_types_** - for example, `Genre`
 * Start **_elements_** with a **lowercase** letter - for example, `name`
 
 ##### Example:
 
-```swift
+```cds
 entity Books {
   key ID : UUID;
   title : String;
@@ -176,8 +176,8 @@ type Genre : String enum {
 
 ::: tip _Prefer Concise and Comprehensible Naming_
 <!-- PLEASE DO NOT REPLACE uses of "e.g." with "for example" in here... -->
-Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`  
-Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`  
+Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
+Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
 Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#use-canonic-primary-keys)
 :::
 
@@ -187,7 +187,7 @@ Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#
 
 You can use [namespaces](../../cds/cdl#namespaces) to help getting to unique names without bloating your code with fully qualified names. Beyond this, there's nothing special about them. At the end of the day, they're just prefixes, which are automatically applied to all relevant names in a file. For example:
 
-```swift
+```cds
 namespace foo.bar;
 entity Boo {}
 entity Moo : Boo {}
@@ -195,7 +195,7 @@ entity Moo : Boo {}
 
 ... is equivalent to:
 
-```swift
+```cds
 entity foo.bar.Boo {}
 entity foo.bar.Moo : foo.bar.Boo {}
 ```
@@ -237,14 +237,14 @@ Namespaces and [contexts](../../cds/cdl#context) are similar. In former uses of 
 
 ### Entities Represent Domain Data
 
-Let's start conceptual with the good old method of writing requirements in natural language, 
+Let's start conceptual with the good old method of writing requirements in natural language,
 then highlighting nouns, verbs, prepositions, keywords, etc., as in this:
 
 > "We want to create a bookshop allowing users to browse **Books** and **Authors**, and <u>navigate</u> from Books to Authors and vice versa. Books are classified by **Genre**".
 
 We could translate that into CDS as follows:
 
-```swift
+```cds
 namespace capire.bookshop;
 
 entity Books {
@@ -271,8 +271,8 @@ type Genre : String enum {
 We used CDS's basic means for capturing data structures here.
 
 ::: tip
-**Entities** represent data, with records identified by [**primary keys**](#primary-keys).  
-**Types** are used to describe the types of elements within entities.  
+**Entities** represent data, with records identified by [**primary keys**](#primary-keys).
+**Types** are used to describe the types of elements within entities.
 :::
 
 
@@ -294,7 +294,7 @@ In addition, [**_@sap/cds/common_**](../../cds/common) provides a set of reuse t
 
 For example, usage is as simple as this:
 
-```swift
+```cds
 using { Country } from '@sap/cds/common';
 entity Addresses {
   street  : String;
@@ -306,7 +306,7 @@ entity Addresses {
 
 
 ::: tip
-**Use common reuse types and aspects**, such as from [_@sap/cds/common_](../../cds/common), to keep models concise, as well as benefitting from improved **interoperability**, proven **best practices**, and centrally optimized **out-of-the-box** support through generic implementations in CAP runtimes or other reuse libraries. 
+**Use common reuse types and aspects**, such as from [_@sap/cds/common_](../../cds/common), to keep models concise, as well as benefitting from improved **interoperability**, proven **best practices**, and centrally optimized **out-of-the-box** support through generic implementations in CAP runtimes or other reuse libraries.
 :::
 
 
@@ -320,7 +320,7 @@ With CAP, you stay on a conceptual level. For example, when having to serve loca
 
 #### **Do:**{:style="color:teal"}
 
-```swift
+```cds
 entity Books { ...
   title : localized String;
   descr : localized String;
@@ -331,7 +331,7 @@ entity Books { ...
 
 In contrast to that, this is what you would usually have to do without having CAP's `localized` support:
 
-```swift
+```cds
 entity Books { ...
   title : String;
   descr : String;
@@ -344,10 +344,10 @@ entity Books_texts { ...
 }
 ```
 
-Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out-of-the-box. 
+Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out-of-the-box.
 
 ::: tip
-By placing `_texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility. 
+By placing `_texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility.
 :::
 
 <!-- TODO -->
@@ -359,17 +359,17 @@ By placing `_texts` entities and associations behind the scenes, CAP's **out-of-
 
 ### Custom-Defined Derived Types
 
-The basic way to declare custom-defined types is to use the `:` syntax to derive new types from given base types like so: 
+The basic way to declare custom-defined types is to use the `:` syntax to derive new types from given base types like so:
 
-```swift
+```cds
 type User : String; //> merely for increasing expressiveness
 type Genre : String enum { Mystery; Fiction; ... }
-type DayOfWeek : Number @assert.range:[1,7]; 
+type DayOfWeek : Number @assert.range:[1,7];
 ```
 
 ::: warning _❗ Use Custom-defined types reasonably_
-They’re valuable when you have a decent **reuse ratio**. Without reuse, your models would then be much harder to read and understand, as one always has to look up respective type definitions. 
-<br>Here is a **bad practice example**: 
+They’re valuable when you have a decent **reuse ratio**. Without reuse, your models would then be much harder to read and understand, as one always has to look up respective type definitions.
+<br>Here is a **bad practice example**:
 <br>`entity Book { key ID:BookID; name:BookName; descr:BookDescr; ... }`
 :::
 
@@ -377,7 +377,7 @@ They’re valuable when you have a decent **reuse ratio**. Without reuse, your m
 
 While the preceding samples only showed derived _scalar_ types, the same is available for _structured_ types, for example:
 
-```swift
+```cds
 type Person : { firstname: String; lastname: String; }
 type Contact : Person {
   company   : String;
@@ -387,19 +387,19 @@ type Contact : Person {
 ```
 
 ... as well as for _entities_:
-```swift
+```cds
 using { managed, temporal } from '@sap/cds/common';
 entity Contacts : Contact, managed, temporal {
   key ID : UUID;
 }
 ```
 
-> While the use of `:` very much looks like and works like (multiple) inheritance, 
+> While the use of `:` very much looks like and works like (multiple) inheritance,
 it's actually [based on and applying CDS Aspects](../../cds/cdl#includes).
 
 ::: warning _❗ Avoid Dogmatic Separation of Entity Types and Entity Sets_
-It's possible to use includes and always have separate declarations of entity types and entity sets 
-(for example, as in _OData_), following this pattern: 
+It's possible to use includes and always have separate declarations of entity types and entity sets
+(for example, as in _OData_), following this pattern:
 <br> `type <EntityType> : {...}`
 <br> `entity <EntitySet> : <EntityType> {}`
 <br> **We strongly discourage doing that**, as it’s counterproductive to our goals of concise and comprehensible domain models.
@@ -411,45 +411,45 @@ It's possible to use includes and always have separate declarations of entity ty
 
 ### Deriving Types with Projections {: .impl.concept}
 
-While includes allow deriving new structured types from existing ones by taking all inherited elements, CDS also allows to create derived struct types **by projection**, by which you can selectively pick and map fields 
+While includes allow deriving new structured types from existing ones by taking all inherited elements, CDS also allows to create derived struct types **by projection**, by which you can selectively pick and map fields
 from another type or entity:
 
-```swift
+```cds
 type Contact {
-  firstname : String; 
+  firstname : String;
   lastname  : String;
   company   : String;
   isCompany : boolean;
   addresses : ...
 }
-type Person : projection on Contact { 
-  firstname, 
-  lastname, 
-  addresses, 
+type Person : projection on Contact {
+  firstname,
+  lastname,
+  addresses,
   false as isCompany,
 }
-type Company : projection on Contact { 
+type Company : projection on Contact {
   true as isCompany,
-  company as name, 
-  addresses, 
+  company as name,
+  addresses,
 }
 ```
 
 > Projections are very much like views and actually use the same syntax and powerful underpinning mapping options as [projections in views](../../cds/cdl#views).
-> Yet, they don't result in any kind of database views, of course. 
+> Yet, they don't result in any kind of database views, of course.
 
 #### Using `excluding` Clauses {: .impl.concept}
 
 Also the `excluding` clauses known from [CQL] can be used in type projections. With that, the previous example could also be rewritten like that:
 
-```swift
-type Person : projection on Contact { 
+```cds
+type Person : projection on Contact {
   *, false as isCompany,
 } excluding { company }
 
-type Company : projection on Contact { 
+type Company : projection on Contact {
   *, true as isCompany,
-  company as name, 
+  company as name,
 } excluding { firstname, lastname }
 ```
 
@@ -482,7 +482,7 @@ Prefer **_simple_**, **_technical_**, and **_immutable_** primary keys as much a
 
 We recommend using canonically named and typed primary keys, as in the following examples:
 
-```swift
+```cds
 entity Books {
   key ID : UUID;
   title : String;
@@ -499,13 +499,13 @@ This eases the implementation of generic functions that can apply the same ways 
 
 While CDS has to stay open for any kind of use cases, projects can establish more restricted rules and policies. For example they can turn this recommendation of using canonic primary keys into a project-wide policy by using base types and aspects as follows:
 
-```swift
+```cds
 // common definitions
 entity StandardEntity {
   key ID : UUID;
 }
 ```
-```swift
+```cds
 using { StandardEntity } from './common';
 entity Books : StandardEntity {
   title : String;
@@ -580,7 +580,7 @@ Finally, existing data that shall be imported into or processed by a CAP app may
 
 Compositions are used to model document structures through _"contained-in"_ relationships. For example, in the following definition of `Orders`, the `Orders.Items` composition refers to the `Order_Items` entity, with the entries of the latter being fully dependent objects of `Orders`.
 
-```swift
+```cds
 // Define Orders with contained OrderItems
 entity Orders {
   key ID   : UUID;
@@ -612,7 +612,7 @@ CAP runtimes provide out-of-the-box support to serve structured document data th
 
 Eliminating to-parent associations and on conditions:
 
-```swift
+```cds
 entity Orders {
   key ID   : UUID;
   Items    : Composition of many Order_Items;
@@ -625,7 +625,7 @@ aspect Order_Items {
 
 Alternatively with anonymous inline types:
 
-```swift
+```cds
 entity Orders {
   key ID   : UUID;
   Items    : Composition of many {
@@ -648,7 +648,7 @@ Prefer using [Compositions of Aspects] to model document structures with contain
 If you don't need bidirectional associations, you can use compositions of aspects to model many-to-many relationships as follows:
 Let's start with an example without composition of aspects, based on a many-to-many relationship sample, for example, as in GitHub repositories as projects:
 
-```swift
+```cds
 entity Projects { ...
    members : Composition of many Users_in_Projects on members.project = $self;
 }
@@ -656,15 +656,15 @@ entity Users { ... }
 // link table to reflect many-to-many relationship:
 entity Users_in_Projects { ...
    project : Association to Projects;
-   member : Association to Users; 
+   member : Association to Users;
 }
 ```
 
 With [Compositions of Aspects] this simplifies to:
 
-```swift
+```cds
 entity Projects { ...
-   members : Composition of many { key user : Association to Users; } 
+   members : Composition of many { key user : Association to Users; }
 }
 entity Users { ... }
 ```
@@ -682,7 +682,7 @@ For example, let's say we have to model Contacts with e-mail addresses and phone
 
 **Good**{:style="color:teal"}, as this would allow you to map `emails` and `phones` to simple JSON attributes and speed up reading and writing data significantly.
 
-```swift
+```cds
 entity Contacts {
   key ID : UUID;
   name : String;
@@ -697,7 +697,7 @@ entity Contacts {
 
 **Bad**{:style="color:darkred"}, because this would end up with lots of JOINs when mapping to relational databases, with detrimental effects on read and write performance, as well as making the model harder to read.
 
-```swift
+```cds
 entity Contacts {
   key ID : UUID;
   name : String;
@@ -724,7 +724,7 @@ Prefer using [`array of`](../../cds/cdl#arrayed-types) for things like lists of 
 :::
 
 ::: tip
-If you use UI5 and/or SAP Fiori Elements use compositions instead of [arrayed types](../../cds/cdl#arrayed-types). UI5 and SAP Fiori Elements don't support OData models that have entities with elements of [arrayed type](../../cds/cdl#arrayed-types). 
+If you use UI5 and/or SAP Fiori Elements use compositions instead of [arrayed types](../../cds/cdl#arrayed-types). UI5 and SAP Fiori Elements don't support OData models that have entities with elements of [arrayed type](../../cds/cdl#arrayed-types).
 :::
 
 
@@ -736,9 +736,9 @@ If you use UI5 and/or SAP Fiori Elements use compositions instead of [arrayed ty
 
 ### Associations Capture Relationships
 
-CAP uses _Associations_ to capture relationships between entities. This is rather in line with Object-oriented and NoSQL. 
+CAP uses _Associations_ to capture relationships between entities. This is rather in line with Object-oriented and NoSQL.
 
-```swift
+```cds
 entity Books {
   key ID : Integer;
   title  : String;
@@ -765,9 +765,9 @@ In payloads of requests and responses, Associations map to reference values:
 
 ### Associations Are like Forward-Declared Joins
 
-In contrast to _Associations_ in CDS, persistence modeling using SQL DDL, would capture relationships mere foreign keys, and the respective JOINs have to be done in each query. 
+In contrast to _Associations_ in CDS, persistence modeling using SQL DDL, would capture relationships mere foreign keys, and the respective JOINs have to be done in each query.
 
-##### Example in SQL DDL: 
+##### Example in SQL DDL:
 
 Schema Definition:
 
@@ -796,7 +796,7 @@ JOIN Authors AS author on author_ID = author.ID
 
 Schema Definition:
 
-```swift
+```cds
 entity Books {
   key ID : Integer;
   title  : String;
@@ -819,8 +819,8 @@ SELECT ID, title, author.name from Books
 {:.indent}
 
 ::: tip
-That _Associations_ act like **_forward-declared joins_** means:  
-Queries just use them much like forward-declared table aliases. There's no need to repeat the respective JOINs and ON conditions all over the place. 
+That _Associations_ act like **_forward-declared joins_** means:
+Queries just use them much like forward-declared table aliases. There's no need to repeat the respective JOINs and ON conditions all over the place.
 :::
 
 
@@ -832,7 +832,7 @@ When deploying to relational databases Associations are mapped to foreign keys. 
 
 #### **Do:**{: style="color:teal"}
 
-```swift
+```cds
 entity Books { ...
   author : Association to Authors;
 }
@@ -840,7 +840,7 @@ entity Books { ...
 
 #### **Don't:**{: style="color:darkred"}
 
-```swift
+```cds
 entity Books { ...
   author_ID : UUID;
   author : Association to Authors on author.ID = author_ID;
@@ -856,7 +856,7 @@ Prefer using [Managed Associations](../../cds/cdl#managed-associations) as much 
 
 Simply add the `many` qualifier keyword to indicate a to-many cardinality:
 
-```swift
+```cds
 entity Authors { ...
   books : Association to many Books;
 }
@@ -864,7 +864,7 @@ entity Authors { ...
 
 If your models are meant to target APIs, this is all that is required. When targeting deployment to databases though, we need to specify a _reverse_ to-one associations on target sides, and connect to that using SQL-like `on` conditions:
 
-```swift
+```cds
 entity Authors { ...
   books : Association to many Books on books.author = $self;
 }
@@ -885,7 +885,7 @@ CDS currently doesn’t provide dedicated support for _many-to-many_ association
 
 You can break that down into two _one-to-many_ associations as follows:
 
-```swift
+```cds
 entity Authors { ...
   books : Association to many Books_Authors on books.author = $self;
 }
@@ -910,8 +910,8 @@ entity Books_Authors { ...
 
 CDS's [Aspects](../../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. Decompose models and definitions into files with potentially different life cycles, contributed by different _people_.
 
-Consumers always see the merged effective models, with the separation into aspects fully transparent to them. 
- 
+Consumers always see the merged effective models, with the separation into aspects fully transparent to them.
+
 <!-- TODO -->
 <!-- #### Content -->
 <!-- filled in automatically by script -->
@@ -921,7 +921,7 @@ Consumers always see the merged effective models, with the separation into aspec
 
 Essentially, Aspects allow you to extend any kind of definitions, for example with new elements, from wherever you are, like this:
 
-```swift
+```cds
 using { SomeEntity } from 'somewhere';
 extend SomeEntity with {
   // adding new fields
@@ -929,7 +929,7 @@ extend SomeEntity with {
 }
 ```
 
-This will be merged into an effective model, which looks to consumers as if `someNewField` would have always been in `SomeEntity` from the very beginning. 
+This will be merged into an effective model, which looks to consumers as if `someNewField` would have always been in `SomeEntity` from the very beginning.
 
 
 
@@ -937,14 +937,14 @@ This will be merged into an effective model, which looks to consumers as if `som
 
 You can also add new entities or types and extend existing ones with Associations or Compositions:
 
-```swift
+```cds
 using { SomeEntity } from 'somewhere';
 
 // defining new entities
 entity SomeNewEntity {...}
 
 extend SomeEntity with {
-  // adding new relationships 
+  // adding new relationships
   associated : Association to SomeNewEntity;
   composed   : Composition of {...};
 }
@@ -957,7 +957,7 @@ Such extensions can be placed anywhere, in the same files as definitions, in sep
 
 The syntax variant `annotate` allows you to **add** and/or **override** annotations as follows:
 
-```swift
+```cds
 using { SomeEntity } from 'somewhere';
 // adding or overriding annotations
 annotate SomeEntity with @another.annotation {
@@ -969,16 +969,16 @@ annotate SomeEntity with @another.annotation {
 
 So basically, you can extend an entity with new fields and associations, as well as add and override annotations in one statement, for example:
 
-```swift
+```cds
 using { SomeEntity } from 'somewhere';
 
 // defining new entities
 entity SomeNewEntity {...}
 
 extend SomeEntity with @your.annotation {
-// adding new fields 
+// adding new fields
   someNewField: String @with.some.annotations;
-// adding new relationships 
+// adding new relationships
   associated : Association to SomeNewEntity;
   composed   : Composition of {...};
 }
@@ -1004,17 +1004,17 @@ Aspects allow you to _flexibly_ and _transparently_ _add_ new **entities**, **fi
 
 ## Using _Aspects_ for Separation of Concerns {:#separation-of-concerns}
 
-Aspects allow you to factor out cross-cutting or technical concerns into separate models/files, potentially with different ownerships and lifecycles. This greatly facilitates [keeping core domain models **concise** and **comprehensible**](#kiss). 
+Aspects allow you to factor out cross-cutting or technical concerns into separate models/files, potentially with different ownerships and lifecycles. This greatly facilitates [keeping core domain models **concise** and **comprehensible**](#kiss).
 
 For example, you could separate concerns into separate files as follows:
 
 - _schema.cds_ - your **core domain model**, kept clean and comprehensible
-- _admin-model.cds_ - adds additional fields required for **maintenance** and **auditing** 
+- _admin-model.cds_ - adds additional fields required for **maintenance** and **auditing**
 - _auth-model.cds_ - adds annotations for **authorization** in a separate file
 - _analytics-model.cds_ - adds annotations required for **analytics** use cases
 - _fiori-app.cds_ - adds annotations required for SAP Fiori UIs
 
-```swift
+```cds
 // schema.cds -- basic structure definitions, kept tidy...
 entity Books {
   key ID : UUID;
@@ -1022,14 +1022,14 @@ entity Books {
   author : Association to Authors;
 }
 entity Authors { ... }
-``` 
+```
 
 
 ### Using Ad-Hoc Anonymous Aspects
 
 You can also place extensions into separate files within the same project:
 
-```swift
+```cds
 // admin-model.cds -- technical concerns as separate aspects
 using { sap.capire.bookshop as our } from './schema';
 extend our.Books with {
@@ -1053,7 +1053,7 @@ Aspects allow you to _flexibly_ and _transparently_ **separate concerns**, in th
 Instead of extending several definitions repeatedly with the same aspects, you can also predefine _named aspects_ and then easily apply these extensions repeatedly.
 Actually, this is commonly done with the [`managed` aspects provided through `@sap/cds/common`](../../cds/common#aspect-managed), defined as follows:
 
-```swift
+```cds
 aspect managed {
   createdAt  : Timestamp @cds.on.insert : $now;
   createdBy  : User      @cds.on.insert : $user;
@@ -1065,7 +1065,7 @@ aspect managed {
 
 Given that, we can simplify the previous extensions as follows:
 
-```swift
+```cds
 // admin-model.cds -- technical concerns as separate aspects
 using { sap.capire.bookshop as our } from '@capire/bookshop';
 using { managed } from '@sap/cds/common';
@@ -1099,13 +1099,13 @@ npm add @capire/bookshop
 ```
 
 2. **Reuse** models from bookshop in our models:
-```swift
+```cds
 using { sap.capire.bookshop as our } from '@capire/bookshop';
 ...
 ```
 
 3. **Extend** imported definitions as before:
-```swift
+```cds
 using { sap.capire.bookshop as our } from '@capire/bookshop';
 extend our.Books with {
   modifiedBy : User;
@@ -1142,7 +1142,7 @@ npm add @capire/reviews
 ```
 
 2. **Mash up and Extend** imported models to extend `Books` with `Reviews`:
-```swift
+```cds
 using { sap.capire.bookshop.Books } from '@capire/bookshop';
 using { ReviewsService.Reviews } from '@capire/reviews';
 extend Books with {
@@ -1164,7 +1164,7 @@ Aspects greatly promote **composing** new solutions from two or more reuse packa
 Here is another example that is a bit more complex, showing you the power of Aspects, by showing how to apply them to reuse definitions, and hence transitively to all definitions reusing those definitions.
 
 1. **A foundation package**, like _[@sap/cds/common]_, could provide these definitions to capture change information and/or manage temporal data for arbitrary entities.
-```swift
+```cds
 aspect tracked {
   created: { _by: User; at: DateTime; };
   modified: { _by: User; at: DateTime; };
@@ -1174,14 +1174,14 @@ type User : String @title:'User ID';
 [See also @sap/cds/common][@sap/cds/common]{:.learn-more}
 
 2. **An application**, like _[@capire/bookshop]_, would selectively use these as follows:
-```swift
+```cds
 entity Books : tracked, temporal { ... }
 entity Authors : tracked { ... }
 ```
 [Learn more about the inheritance-like `:`-syntax variant of applying aspects.](../../cds/cdl#includes){:.learn-more}
 
 3. **A third party**, such as individual SaaS customers of that application, ISVs, or partners providing prebuilt extension packages, could extend the foundation aspects as follows:
-```swift
+```cds
 extend tracked with {
   changes : Composition of many ChangeNotes on changes.subject = $self;
 }
@@ -1199,13 +1199,13 @@ entity ChangeNotes {
 
 ## Using _Aspects_ for Modularization & Verticalization {: #verticalization}
 
-We can use the same techniques as depicted above not only to factor out technical concerns but also to construct a complex model as a core model covering the common needs of all use cases, plus a set of prebuilt extension packages to address different advanced use cases. 
+We can use the same techniques as depicted above not only to factor out technical concerns but also to construct a complex model as a core model covering the common needs of all use cases, plus a set of prebuilt extension packages to address different advanced use cases.
 
 ![Modularization](assets/modularization.drawio.svg){:style="width:90%"}
 
 For example, see [Adding own Code Lists](../../cds/common#adding-own-code-lists) to see how to extend the `Countries` reuse entities from `@sap/cds/common` with a new code list `Regions`.
 
-This helps us to achieve greatly **lowered entry barriers** for the 80% of the masses, as well as serving the 20% by allowing all to **flexibly** and **selectively** choose what they need, without them suffering from "one-size-fits-all" complexity syndromes. 
+This helps us to achieve greatly **lowered entry barriers** for the 80% of the masses, as well as serving the 20% by allowing all to **flexibly** and **selectively** choose what they need, without them suffering from "one-size-fits-all" complexity syndromes.
 
 
 The same applies to **verticalization** scenarios in which the prebuilt extension packages of some common core modes could address the needs of certain industries or regions by providing respective extensions and adaptations. The originators of the base solution, partners or specialized ISVs could provide such prebuilt industry-specific or region-specific packages.
@@ -1214,6 +1214,6 @@ The same applies to **verticalization** scenarios in which the prebuilt extensio
 
 ## Using _Aspects_ for SaaS-level Customization <br> (aka _Dynamic Extensibility_) {:#extensibility}
 
-Finally, taking that one step further, CAP applies the same techniques when we allow subscribers of a SaaS solution to add extension fields or adjust labels and other annotation-based properties, in order to adapt subscribed SaaS software to their needs. In that case, the **extensions are applied dynamically at runtime** of the SaaS application. 
+Finally, taking that one step further, CAP applies the same techniques when we allow subscribers of a SaaS solution to add extension fields or adjust labels and other annotation-based properties, in order to adapt subscribed SaaS software to their needs. In that case, the **extensions are applied dynamically at runtime** of the SaaS application.
 
 [Learn more on that in the **SaaS Extensibility** guide.](../extensibility){:.learn-more}

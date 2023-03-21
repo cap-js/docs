@@ -175,7 +175,7 @@ Within postfix projections, the `*` operator queries are handled slightly differ
 
 #### Example:
 
-```swift
+```cds
 SELECT from Books { *, author.name as author }
 ```
 
@@ -186,14 +186,14 @@ Queries like in our example, would result in duplicate element effects for `auth
 
 Use the `excluding` clause in combination with `SELECT *` to select all elements except for the ones listed in the exclude list.
 
-```swift
+```cds
 SELECT from Books { * } excluding { author }
 ```
 
 The effect is about **late materialization** of signatures and staying open to late extensions.
 For example, assume the following definitions:
 
-```swift
+```cds
 entity Foo { foo : String; bar : String; car : String; }
 entity Bar as SELECT from Foo excluding { bar };
 entity Boo as SELECT from Foo { foo, car };
@@ -208,7 +208,7 @@ SELECT * from Boo --> { foo, car }
 
 Now, assume a consumer of that package extends the definitions as follows:
 
-```swift
+```cds
 extend Foo with { boo : String; }
 ```
 
@@ -441,7 +441,7 @@ In the ON condition you can, besides target elements, only reference elements of
 
 This syntax can also be used to add new unmanaged associations to a projection or view via `extend`:
 
-```swift
+```cds
 extend BookReviews with columns {
   subject as bookID,
   book : Association to Books on book.ID = bookID

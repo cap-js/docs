@@ -64,7 +64,7 @@ console.log (cds.compile.to.yaml (model))
 
 ### From _.cds_ Source Files
 
-```swift
+```cds
 // some.cds source file
 entity Products {
     key ID: Integer;

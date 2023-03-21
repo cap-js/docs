@@ -53,7 +53,7 @@ Therefore, we raised that to an error-level message with compiler v2.
 
 Example:
 
-```swift
+```cds
 context my {
   entity E { ..., f: Association to F; }
   entity F { ... }
@@ -79,7 +79,7 @@ You have three options to solve this problem, which can also be combined:
 Annotate ambiguous targets with `@cds.redirection.target: false`
 :::
 
-```swift
+```cds
 service S {
   entity F1 @(cds.redirection.target:false) as projection on my.F;
   entity F2 @(cds.redirection.target:false) as projection on my.F;
@@ -97,7 +97,7 @@ Call `cds fix-redirects` to let the compiler generate the required annotate stat
 Annotate the preferred targets with `@cds.redirection.target: true`
 :::
 
-```swift
+```cds
 service S {
   entity F1 @(cds.redirection.target:true) as projection on my.F;
   entity F2 as projection on my.F;
@@ -110,7 +110,7 @@ service S {
 Redirect an association's target explicitly with `redirected to`
 :::
 
-```swift
+```cds
 service S {
   entity F1 as projection on my.F;
   entity F2 as projection on my.F;
@@ -131,7 +131,7 @@ this is not reliably robust anymore, therefore we had to raise the warning to an
 
 Example:
 
-```swift
+```cds
 entity Foo { a: Integer; }
 entity Bar { b: Foo.a; }
 ```
@@ -163,7 +163,7 @@ we saw this did happen in stakeholder models.
 Example:
 {:#foo-texts-example}
 
-```swift
+```cds
 entity Foo : cuid { /* ...; */ title : localized String; }
 entity FooTexts as projection on Foo_texts; //> error
 ```
@@ -181,7 +181,7 @@ both, in CDS models as well as in Node.js or Java coding.
 
 > That is, in the previous example:
 
-```swift
+```cds
 entity FooTexts as projection on Foo.texts;
 ```
 
@@ -199,7 +199,7 @@ When replacing the double quotes, check carefully whether you want a delimited i
 Example:
 
 <!-- cds-mode: ignore, because it's deprecated syntax -->
-```swift
+```cds
 @UI.Facets: [{ ..., "@UI.Hidden": "cancelled" }]
 @Common.Label: "A Label String"
 entity Foo { /* ...; */ cancelled: Boolean; }
@@ -223,7 +223,7 @@ Correct each to either of:
 
 Applying these fixes to the previous example would result in:
 
-```swift
+```cds
 @UI.Facets: [{ ..., @UI.Hidden: cancelled }]
 @Common.Label: 'A Label String'
 entity Foo { /* ...; */ cancelled: Boolean; }
@@ -244,7 +244,7 @@ without keyword `as`. You really should fix that as we've seen hard-to-detect er
 
 Example:
 
-```swift
+```cds
 entity Foo as select from Bar b // table alias w/o 'as'
 {
   column1 c1,  // column alias w/o 'as'
@@ -277,7 +277,7 @@ explicitly from now on.
 
 Example:
 
-```swift
+```cds
 entity Foo as select from Bar {
   (foo || bar) as foobar : String
 };
@@ -293,7 +293,7 @@ Add explicit SQL `cast` expressions as shown in the following sample.
 :::
 
 
-```swift
+```cds
 entity Foo as select from Bar {
   cast (foo || bar as String) as foobar
 };
@@ -309,7 +309,7 @@ While we saw this in models only rarely, find below error messages you might fac
 
 #### 1. Only `types` Allowed:
 
-```swift
+```cds
 aspect SomeAspect {...}
 entity SomeEntity {...}
 entity E { x: SomeAspect; y: SomeEntity; }
@@ -327,7 +327,7 @@ Don't use an `aspect` or an `entity` where only types are allowed.
 
 #### 2. Only `entities` from Same Service Allowed:
 
-```swift
+```cds
 entity ExternalEntity {...}
 service S { action foo() returns ExternalEntity; }
 ```
@@ -367,7 +367,7 @@ Using such names for your own definitions (also with delimiters) results in a **
 
 Example:
 
-```swift
+```cds
 entity $Funny { ... };   // this name should not be used
 entity ![$Too] { ... };  // this name should not be used
 ```
@@ -454,7 +454,7 @@ Tuples in expressions like `x in (1, 2, 3)` are expressed as `list`.
 Example:
 
 <!-- cds-mode: xpr -->
-```swift
+```cds
 a * ( b + ( c ) )
 ```
 is now represented as:
@@ -466,7 +466,7 @@ is now represented as:
 The tuple:
 
 <!-- cds-mode: xpr -->
-```swift
+```cds
 (1, 2, 3)
 ```
 is now represented as:
@@ -532,7 +532,7 @@ While you should not have to refer to these auto-exposed entities at all, we saw
 
 A prominent example is the auto-exposure of text entities:
 
-```swift
+```cds
 entity Foo { /* ...; */ descr: localized String; }
 service S {
   entity Bar as projection on Foo;
@@ -559,7 +559,7 @@ You shouldn't rely on the presence of these views in the database, as they can d
 
 Example for the definition:
 
-```swift
+```cds
 entity E {
   key id : Integer;
   t : localized String;
@@ -603,7 +603,7 @@ If a CDS view or projection contains virtual elements, they're no longer reflect
 
 Example:
 
-```swift
+```cds
 entity E { /* ...; */ virtual foo : Integer; }
 entity P as projection on E;
 ```
@@ -642,7 +642,7 @@ With compiler v1 the "texts" entity is generated with the suffix `_texts`, while
 
 For the following entity:
 
-```swift
+```cds
 entity Books {
   key ID    : UUID; //= source's primary key
       title : localized String;
@@ -651,7 +651,7 @@ entity Books {
 
 the compiler v1 generates:
 
-```swift
+```cds
 // CDS compiler v1
 extend entity Books with {
   texts : Composition of many Books_texts on texts.ID=ID;
@@ -668,7 +668,7 @@ entity Books_texts {
 
 whereas the compiler v2 will generate:
 
-```swift
+```cds
 // CDS compiler v2
 extend entity Books with {
   texts : Composition of many Books.texts on texts.ID=ID;
@@ -719,7 +719,7 @@ If a CSV file has already been deployed to a productive SAP HANA schema it can't
 
 In CDS a type may be used _within_ a service that is defined _outside_ of this service, like the type `Status` in the following example:
 
-```swift
+```cds
 type Status {
     code : Boolean;
 }
@@ -802,7 +802,7 @@ Your custom coded needs to be adapted accordingly. This will not be necessary if
 
 CDS allows to use anonymous inline defined types in a service, for example as items types of an arryed type or as a return type of a function:
 
-```swift
+```cds
 service hr {
   entity Person {
     emails: many {

@@ -125,7 +125,7 @@ Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples
 
 Package `@capire/reviews` essentially provides a `ReviewsService`, [declared like that](https://github.com/sap-samples/cloud-cap-samples/blob/main/reviews/srv/reviews-service.cds):
 
-```swift
+```cds
 service ReviewsService {
 
   // Sync API
@@ -457,7 +457,7 @@ messaging.on ('ReviewsService.reviewed', msg => console.log(msg))
 
 When declaring events in CDS models, be aware that the fully qualified name of the event is used as topic names when emitting to message brokers. Based on the following model, the resulting topic name is `my.namespace.SomeEventEmitter.SomeEvent`.
 
-```swift
+```cds
 namespace my.namespace;
 service SomeEventEmitter {
   event SomeEvent { ... }
@@ -466,7 +466,7 @@ service SomeEventEmitter {
 
 If you want to manually define the topic, you can use the `@topic` annotation:
 
-```swift
+```cds
 //...
 @topic: 'some/very/different/topic-name'
 event SomeEvent { ... }
@@ -551,7 +551,7 @@ In contrast to CAP, the asynchronous APIs of SAP S/4HANA are separate from the s
 So, the effort on the CAP side is to fill this gap.
 You can achieve it like that, for example, for an already imported SAP S/4HANA BusinessPartner API:
 
-```swift
+```cds
 // filling in missing events as found on SAP API Business Hub
 using { API_BUSINESS_PARTNER as S4 } from './API_BUSINESS_PARTNER';
 extend service S4 with {

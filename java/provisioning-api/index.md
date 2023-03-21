@@ -8,7 +8,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 ---
 
 # Event Handlers
-<style>
+<style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
@@ -404,11 +404,11 @@ Generic handlers typically are executed by the framework before `HandlerOrder.EA
 1. Generic framework handlers
 2. Custom handlers, annotated with `HandlerOrder.EARLY`
 3. Custom handlers for phases `@Before`, `@On`, and `@After`
-4. Custom handlers, annotated with `HandlerOrder.LATE` 
+4. Custom handlers, annotated with `HandlerOrder.LATE`
 5. Generic framework handlers
 
 
-For example, in the following snippet, several methods are bound to the same phase of the `READ` event for the same entity and are executed one after another: 
+For example, in the following snippet, several methods are bound to the same phase of the `READ` event for the same entity and are executed one after another:
 
 ```java
 

@@ -7,7 +7,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 
 # Stack Architecture
-<style>
+<style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
   }

@@ -5,7 +5,7 @@ status: released
 ---
 
 # Monitoring
-<style>
+<style scoped>
   h1:before {
     content: "Advanced"; display: block; font-size: 60%; margin: 0 0 .2em;
   }

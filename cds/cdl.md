@@ -11,7 +11,7 @@ outline: 'deep'
 <!--@include: ../links.md-->
 
 # Definition Language (CDL)
-<!-- <style>
+<!-- <style scoped>
   h2 {
     font-weight: 300; font-size: 2.8em; color: #222;
     border-bottom: .5px solid silver;

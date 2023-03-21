@@ -20,7 +20,7 @@ Nevertheless, there are a few changes that you as a user should notice and that 
 This section describes these changes and what is necessary to migrate your application to compiler v2. For a complete list of all changes, refer to the compiler's changelog.
 
 
-<style>
+<style scoped>
   h3 {
     margin: 77px 0 44px;
     font-size: 1.5em;

@@ -1,6 +1,6 @@
 import { TransformContext } from 'vitepress'
 import { join, relative } from 'node:path'
-import { writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 
 export function generate(id:string, ctx:TransformContext) {
   let redirects = ctx.pageData.frontmatter['redirect_from']
@@ -16,6 +16,7 @@ export function generate(id:string, ctx:TransformContext) {
   <head><meta http-equiv="refresh" content="0; url='${to}'" /></head>
   <body><p>Please follow <a href="${to}">this link</a>.</p></body>
 </html>`
+  mkdirSync(outDir, {recursive:true})
   for (let redirect of redirects) {
     redirect = redirect.replace(/\/$/, '') // remove trailing sep.
     const file = join(outDir, redirect+'.html')

@@ -2,11 +2,11 @@
 title: Upgrade to Compiler v2
 shorty: Compiler v2
 synopsis: >
-  CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward. 
-  All projects are recommended to **upgrade as soon as possible**, as the former version will only receive critical fixes after cv2 is 
+  CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
+  All projects are recommended to **upgrade as soon as possible**, as the former version will only receive critical fixes after cv2 is
   released.
 layout: cds-ref
-redirect_from: releases/compiler-v2
+# redirect_from: releases/compiler-v2
 status: released
 ---
 
@@ -21,10 +21,10 @@ This section describes these changes and what is necessary to migrate your appli
 
 
 <style>
-  h3 { 
-    margin: 77px 0 44px; 
-    font-size: 1.5em; 
-    font-weight:500; 
+  h3 {
+    margin: 77px 0 44px;
+    font-size: 1.5em;
+    font-weight:500;
   }
   .error {
     font-family: monospace;
@@ -36,18 +36,18 @@ This section describes these changes and what is necessary to migrate your appli
 
 ## Things You _Must_ Fix {:#must-fix}
 
-Following are the most likely things you might face when upgrading to compiler v2, and **must** fix. 
+Following are the most likely things you might face when upgrading to compiler v2, and **must** fix.
 
 ::: tip
-Most of these things can already be fixed with compiler v1, 
-before upgrading to v2 &rarr; find respective hints in the following sections. 
+Most of these things can already be fixed with compiler v1,
+before upgrading to v2 &rarr; find respective hints in the following sections.
 :::
 
 ### Fix ambiguous `redirects`
 
-When there's no unique target for [**_auto-redirection_**](../../guides/providing-services#auto-redirected-associations), 
-compiler v1 'silently' skipped respective associations with a warning. 
-Yet, many ignored these warnings, which lead to hard-to-detect subsequent errors. 
+When there's no unique target for [**_auto-redirection_**](../../guides/providing-services#auto-redirected-associations),
+compiler v1 'silently' skipped respective associations with a warning.
+Yet, many ignored these warnings, which lead to hard-to-detect subsequent errors.
 Therefore, we raised that to an error-level message with compiler v2.
 
 
@@ -81,8 +81,8 @@ Annotate ambiguous targets with `@cds.redirection.target: false`
 
 ```swift
 service S {
-  entity F1 @(cds.redirection.target:false) as projection on my.F; 
-  entity F2 @(cds.redirection.target:false) as projection on my.F; 
+  entity F1 @(cds.redirection.target:false) as projection on my.F;
+  entity F2 @(cds.redirection.target:false) as projection on my.F;
   entity E as projection on my.E;  //> E.f will be skipped as before
 }
 ```
@@ -99,8 +99,8 @@ Annotate the preferred targets with `@cds.redirection.target: true`
 
 ```swift
 service S {
-  entity F1 @(cds.redirection.target:true) as projection on my.F; 
-  entity F2 as projection on my.F; 
+  entity F1 @(cds.redirection.target:true) as projection on my.F;
+  entity F2 as projection on my.F;
   entity E as projection on my.E;  //> E.f will refer to S.F1
 }
 ```
@@ -112,8 +112,8 @@ Redirect an association's target explicitly with `redirected to`
 
 ```swift
 service S {
-  entity F1 as projection on my.F; 
-  entity F2 as projection on my.F; 
+  entity F1 as projection on my.F;
+  entity F2 as projection on my.F;
   entity E as projection on my.E {
     *, f : redirected to F1        //> E.f will refer to S.F1
   }
@@ -123,10 +123,10 @@ service S {
 You can fix this already with compiler v1 &rarr; just pay attention to the warning.
 
 
-### Fix refs to `Foo.element` 
+### Fix refs to `Foo.element`
 
-With compiler v2 the only syntax to refer to elements is `Foo:element`. Former versions also tolerated 
-`Foo.elements` with a warning. With the introduction of [_Scoped Names_](../../cds/cdl#scoped-names), 
+With compiler v2 the only syntax to refer to elements is `Foo:element`. Former versions also tolerated
+`Foo.elements` with a warning. With the introduction of [_Scoped Names_](../../cds/cdl#scoped-names),
 this is not reliably robust anymore, therefore we had to raise the warning to an error.
 
 Example:
@@ -153,11 +153,11 @@ You can fix this already with compiler v1 &rarr; just pay attention to the warni
 
 ### Fix refs to `Foo_texts`
 
-With compiler v2, suffixes of generated texts entities change from `_texts` to `.texts`. 
-This is to consistently apply the same principles and automatisms, including upcoming ones, 
+With compiler v2, suffixes of generated texts entities change from `_texts` to `.texts`.
+This is to consistently apply the same principles and automatisms, including upcoming ones,
 of [_Scoped Names_](../../cds/cdl#scoped-names) and [_Managed Compositions_](../../cds/cdl#managed-compositions) also for [_Localized Data_](../../guides/localized-data#behind-the-scenes).
 
-While you should not have to refer to these generated entities at all, 
+While you should not have to refer to these generated entities at all,
 we saw this did happen in stakeholder models.
 
 Example:
@@ -175,19 +175,19 @@ No artifact has been found with name “Foo_texts”
 <!-- TODO -->
 
 ::: tip **Fix:**
-Adjust references to use suffix `.texts` instead of `_texts`, 
+Adjust references to use suffix `.texts` instead of `_texts`,
 both, in CDS models as well as in Node.js or Java coding.
 :::
 
 > That is, in the previous example:
- 
+
 ```swift
-entity FooTexts as projection on Foo.texts; 
+entity FooTexts as projection on Foo.texts;
 ```
 
 
 
-### Fix Uses of `"string?"` 
+### Fix Uses of `"string?"`
 
 Delimited identifiers with double quotes `"..."` are no longer allowed.
 They've been deprecated since CDS compiler version 1.23.0 with a warning.
@@ -208,16 +208,16 @@ entity "Strange Name, isn't it?" { /*...*/ }
 
 Compiling this would result in four errors of this form (warning in case of compiler v1):
 
-Deprecated delimited identifier syntax, use ![...] 
+Deprecated delimited identifier syntax, use ![...]
 {:.error.danger}
 <!-- TODO -->
-Deprecated delimited identifier syntax, use ![...] 
+Deprecated delimited identifier syntax, use ![...]
 {:.error.warning}
 
-::: tip **Fix:** 
-Correct each to either of: 
-<br> **1.** &mdash; `'string'` if you actually meant to specify a string literal 
-<br> **2.** &mdash; `identifier` for references, which don't need quoting at all 
+::: tip **Fix:**
+Correct each to either of:
+<br> **1.** &mdash; `'string'` if you actually meant to specify a string literal
+<br> **2.** &mdash; `identifier` for references, which don't need quoting at all
 <br> **3.** &mdash; `![non-identifier]` if you really need a quoted identifier &rarr; rare
 :::
 
@@ -230,9 +230,9 @@ entity Foo { /* ...; */ cancelled: Boolean; }
 entity ![Strange Name, isn't it?] { /* ... */ }
 ```
 
-> **Ad 2:** We saw many cases of quoted element references in annotation values, such as in _@UI.Hidden:_`cancelled` above &rarr; you don't need to quote valid identifiers. 
+> **Ad 2:** We saw many cases of quoted element references in annotation values, such as in _@UI.Hidden:_`cancelled` above &rarr; you don't need to quote valid identifiers.
 
-> **Ad 3:** Note that with compiler v2, and in contrast to cv1, nested annotation keys like `@UI.Hidden` above don't have to be quoted anymore. 
+> **Ad 3:** Note that with compiler v2, and in contrast to cv1, nested annotation keys like `@UI.Hidden` above don't have to be quoted anymore.
 
 You can partially fix this already with compiler v1, especially with respect to the most common cases 1 and 2 above.
 
@@ -240,16 +240,16 @@ You can partially fix this already with compiler v1, especially with respect to 
 ### Use `as` Alias Always
 
 Compiler v2 now reports a warning when you use the SQL laziness of specifying table or column aliases
-without keyword `as`. You really should fix that as we've seen hard-to-detect errors in models. 
+without keyword `as`. You really should fix that as we've seen hard-to-detect errors in models.
 
-Example: 
+Example:
 
 ```swift
 entity Foo as select from Bar b // table alias w/o 'as'
 {
   column1 c1,  // column alias w/o 'as'
-  column2, 
-  column3      // missing comma !! 
+  column2,
+  column3      // missing comma !!
   column4      // -> column alias w/o 'as' !!!
 };
 ```
@@ -259,19 +259,19 @@ Compiling this would give you one error and two warnings of this kind:
 Add the keyword **AS** in front of the alias name
 {:.error.warning}
 
-::: tip **Fix:** 
+::: tip **Fix:**
 Always do as the warning asks you to do
 :::
 
-Reasoning: The table aliases can conflict with keywords when moving to other databases in future, 
-hence too fragile to allow in going forward. 
+Reasoning: The table aliases can conflict with keywords when moving to other databases in future,
+hence too fragile to allow in going forward.
 The missing comma case is ugly and hard to detect.
 
 
-### Use explicit `casts` 
+### Use explicit `casts`
 
-With compiler v2, appending a type declaration to a column expression in a 
-view's query doesn't generate a `cast` in SQL anymore, as that created 
+With compiler v2, appending a type declaration to a column expression in a
+view's query doesn't generate a `cast` in SQL anymore, as that created
 conflicts with various database-specific behaviors. Hence, add such casts
 explicitly from now on.
 
@@ -288,7 +288,7 @@ Can fail at runtime with an SAP HANA exception like that:
 ... exception 70006930
 {:.error.danger}
 
-::: tip **Fix:** 
+::: tip **Fix:**
 Add explicit SQL `cast` expressions as shown in the following sample.
 :::
 
@@ -302,8 +302,8 @@ entity Foo as select from Bar {
 
 ### Use Valid `types` Only
 
-Compiler v2 removed some quirks when specifying types, such as for elements, parameters, or in casts, 
-which caused hard-to-resolve subsequent errors. 
+Compiler v2 removed some quirks when specifying types, such as for elements, parameters, or in casts,
+which caused hard-to-resolve subsequent errors.
 
 While we saw this in models only rarely, find below error messages you might face when upgrading to compiler v2, with corresponding fixes.
 
@@ -312,7 +312,7 @@ While we saw this in models only rarely, find below error messages you might fac
 ```swift
 aspect SomeAspect {...}
 entity SomeEntity {...}
-entity E { x: SomeAspect; y: SomeEntity; } 
+entity E { x: SomeAspect; y: SomeEntity; }
 ```
 
 Compiling this produces errors of this form:
@@ -329,7 +329,7 @@ Don't use an `aspect` or an `entity` where only types are allowed.
 
 ```swift
 entity ExternalEntity {...}
-service S { action foo() returns ExternalEntity; }  
+service S { action foo() returns ExternalEntity; }
 ```
 
 Compiling this produces errors of this form in compiler v2 or warnings in compiler v1:
@@ -353,14 +353,14 @@ You can fix this already with compiler v1 &rarr; just pay attention to the warni
 
 ## Things You _Should_ Fix {:#should-fix}
 
-Following are things, which don't break when upgrading to compiler v2, but nevertheless **should** 
-be fixed whenever possible, as they might cause nifty follow-up problems. 
-Most of these things have been warnings already with compiler v1, 
-which you should have been paid attention to. 
+Following are things, which don't break when upgrading to compiler v2, but nevertheless **should**
+be fixed whenever possible, as they might cause nifty follow-up problems.
+Most of these things have been warnings already with compiler v1,
+which you should have been paid attention to.
 
 
 
-### Avoid Names Starting with `$` 
+### Avoid Names Starting with `$`
 
 All names that start with `$` are reserved for internal purposes.
 Using such names for your own definitions (also with delimiters) results in a **warning** and should be avoided.
@@ -372,7 +372,7 @@ entity $Funny { ... };   // this name should not be used
 entity ![$Too] { ... };  // this name should not be used
 ```
 
-::: tip **Fix:** 
+::: tip **Fix:**
 Choose a different name.
 :::
 
@@ -380,12 +380,12 @@ Choose a different name.
 
 ### Replace `abstract entity`
 
-Abstract entities are deprecated, the definition of an `abstract entity` now results in this warning: 
+Abstract entities are deprecated, the definition of an `abstract entity` now results in this warning:
 
 Abstract entity definitions are deprecated; use aspect definitions instead.
 {:.error.warning}
 
-::: tip **Fix:** 
+::: tip **Fix:**
 Use [aspects](../../cds/cdl#aspects) instead of abstract entities.
 :::
 
@@ -437,7 +437,7 @@ Aspects like `aspect A { ... }` are represented in CSN with kind `aspect`:
 }
 ```
 
-With compiler v1, aspects were represented with kind `type` plus `$syntax: aspect`.  
+With compiler v1, aspects were represented with kind `type` plus `$syntax: aspect`.
 
 In addition, abstract entities are now represented in CSN like aspects (see that also "Abstract entities are deprecated").
 
@@ -552,7 +552,7 @@ Their names can change or they can even disappear in a future version. If you re
 
 ### Removed: `localized.<...>` Entries in CSN
 
-For entities with "localized" elements, "convenience" views are still generated 
+For entities with "localized" elements, "convenience" views are still generated
 [behind the scenes](../../guides/localized-data#behind-the-scenes) into the database, but the CSN doesn't contain them anymore.
 
 You shouldn't rely on the presence of these views in the database, as they can disappear in a future version.
@@ -585,7 +585,7 @@ If you've got custom code that evaluates the CSN and uses these types, you need 
 Also in Java, [accessor-](../../java/advanced#accessor-interfaces) or [model interfaces](../../java/advanced#model-interfaces) generated for these types, will change.
 
 
-### Removed: Property `$syntax` 
+### Removed: Property `$syntax`
 
 CSN does no longer contain the undocumented, internal attribute `$syntax`.
 
@@ -636,7 +636,7 @@ CAP Java supports using CDS models that have been compiled with the CDS complier
 
 For every entity that has *localized* elements the CDS compiler [behind the scenes](../../guides/localized-data#behind-the-scenes) generates a corresponding "texts" entity that holds the translated texts. The name of this entity changes with CDS compiler v2.
 
-::: warning _❗ Warning_{:.warning-title}  
+::: warning _❗ Warning_{:.warning-title}
 With compiler v1 the "texts" entity is generated with the suffix `_texts`, while the compiler v2 uses the suffix `.texts`!
 :::
 
@@ -645,7 +645,7 @@ For the following entity:
 ```swift
 entity Books {
   key ID    : UUID; //= source's primary key
-      title : localized String;    
+      title : localized String;
 }
 ```
 
@@ -661,7 +661,7 @@ extend entity Books with {
 
 entity Books_texts {
   key locale : String(5);
-  key ID     : UUID; 
+  key ID     : UUID;
       title  : String;
 }
 ```
@@ -678,12 +678,12 @@ extend entity Books with {
 
 entity Books.texts {
   key locale : String(5);
-  key ID     : UUID; 
+  key ID     : UUID;
       title  : String;
 }
 ```
 
-While this change is taken into account automatically by the OData protocol adapters, it might require attention in your Java custom code. 
+While this change is taken into account automatically by the OData protocol adapters, it might require attention in your Java custom code.
 
 #### Avoid Using the Fully Qualified "texts" Entity Name {: #texts-entity-name}
 
@@ -696,7 +696,7 @@ Map<String, Object> id = singletonMap(ID, 17);
 Select.from("bookshop.Books_texts").matching(id);
 ```
 
-you should rather construct the query as: 
+you should rather construct the query as:
 
 ```java
 Map<String, Object> id = singletonMap(ID, 17);
@@ -711,7 +711,7 @@ CAP Java allows to [provide initial data](../../guides/databases#providing-initi
 mv bookshop-Books_texts.csv bookshop-Books.texts.csv
 ```
 
-::: warning _❗ Warning_{:.warning-title} 
+::: warning _❗ Warning_{:.warning-title}
 If a CSV file has already been deployed to a productive SAP HANA schema it can't be renamed any longer. To support this situation cds deploy as well as the CSV data loader in CAP Java still suppport CSV files with a `_texts` suffix.
 :::
 
@@ -754,7 +754,7 @@ In this example, the return type of the `cancel` function is automatically expos
 
 With compiler v1 this change was also reflected in the CSN. With compiler v2 this is not the case any longer.
 
-::: warning _❗ Warning_{:.warning-title} 
+::: warning _❗ Warning_{:.warning-title}
 If types are used in a service that are defined outside of the service the [generated accessor interface](../../java/data#generated-accessor-interfaces) will change when upgrading from compiler v1 to v2!
 :::
 
@@ -805,10 +805,10 @@ CDS allows to use anonymous inline defined types in a service, for example as it
 ```swift
 service hr {
   entity Person {
-    emails: many { 
-        key kind    : String; 
-            address : String; 
-    }; 
+    emails: many {
+        key kind    : String;
+            address : String;
+    };
   }
 }
 ```
@@ -836,7 +836,7 @@ OData, however, does not support anonymous types. Hence, the compiler will autom
 
 In this example the compiler generated the type `Person_emails` in the OData service `hr`.
 
-::: warning _❗ Warning_{:.warning-title} 
+::: warning _❗ Warning_{:.warning-title}
 If an inline defined type is used in a service the [generated accessor interface](../../java/data#generated-accessor-interfaces) will change (an inner interface is generated) when upgrading from compiler v1 to v2!
 :::
 

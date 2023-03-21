@@ -64,7 +64,7 @@ class Receiver extends cds.Service { async init() {
 
 ::: tip
 **Emitters** usually emit messages to *themselves* to inform *potential* listeners about certain events.
-**Receivers** connect to *Emitters* to register handlers to such emitted events. 
+**Receivers** connect to *Emitters* to register handlers to such emitted events.
 :::
 
 
@@ -108,7 +108,7 @@ Using messaging has two major advantages:
 
 
 
-## Walkthrough: Books Reviews Sample 
+## Walkthrough: Books Reviews Sample
 
 The following explanations walk us through a books review example from cap/samples:
 
@@ -225,10 +225,10 @@ Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to disp
 - Change the 5-star rating with the dropdown.
 - Choose *Submit*.
 - Enter *bob* to authenticate.
-  
+
 → In the terminal window you should see a server reaction like this:
 
-<img src="assets/image-20211018184509053.png" alt="image-20211018184509053" style="zoom:50%;" />
+<img src="./assets/image-20211018184509053.png" alt="image-20211018184509053" style="zoom:50%;" />
 
 Which means the `ReviewsService` emitted a `reviewed` message that was received by the enhanced `CatalogService`.
 
@@ -317,7 +317,7 @@ You can simulate a server outage to demonstrate the value of messaging for resil
 
 → You should see some trace output like that:
 
-<img src="assets/image-20211019200708529.png" alt="image-20211019200708529" style="zoom:50%;" />
+<img src="./assets/image-20211019200708529.png" alt="image-20211019200708529" style="zoom:50%;" />
 
 ::: tip
 **Resilience by design** — All messages emitted while the receiver was down stayed in the messaging queue and are delivered when the server is back.

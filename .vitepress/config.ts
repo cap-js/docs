@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
-import sidebar from './sidebar'
+import { sidebar, nav4 } from './sidebar'
 import { SearchPlugin } from 'vitepress-plugin-search'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
@@ -9,18 +9,9 @@ import * as redirects from './redirects'
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const links: { url:string, lastmod?:number}[] = []
 
-const nav = [
-  { text: 'About', link: '/about/' },
-  { text: 'Get Started', link: '/get-started/' },
-  { text: 'Cookbook', link: '/guides/' },
-  // { text: 'Advanced', link: '/advanced/' },
-  // { text: 'Tools', link: '/tools/' },
-  // { text: 'CDS', link: '/cds/' },
-  // { text: 'Java', link: '/java/' },
-  // { text: 'Node.js', link: '/node.js/' },
-  // { text: 'Releases', link: '/releases/' },
-  { text: 'Resources', link: '/resources/' },
-]
+const sideb = sidebar('menu.md')
+//@ts-ignore
+const nav = nav4(sideb).filter(i => ['About', 'Getting Started', 'Cookbook', 'CDS', 'Resources'].includes(i.text))
 
 export default defineConfig({
   title: 'CAPire',
@@ -29,7 +20,7 @@ export default defineConfig({
   themeConfig: {
     logo: '/images/cap.svg',
     nav,
-    sidebar,
+    sidebar: sideb,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`

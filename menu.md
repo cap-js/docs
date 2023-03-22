@@ -1,0 +1,113 @@
+### About
+
+- [About CAP](/about/)
+- Related Concepts <!-- /about/related -->
+- Features <!-- /about/features -->
+- Glossary <!-- /about/glossary -->
+
+### [Getting Started](/get-started/)
+
+- [Hello World!](/get-started/hello-world)
+- [in a Nutshell](/get-started/in-a-nutshell)
+- Project Layouts <!-- /get-started/projects/ -->
+- Grow As You Go <!-- /get-started/grow-as-you-go -->
+
+### Cookbook <!-- /guides/ -->
+
+- [Domain Modeling](/guides/domain-models/)
+- Providing Services <!-- /guides/providing-services/ -->
+- Consuming Services <!-- /guides/using-services/ -->
+- [Messaging](/guides/messaging/)
+- [Querying](/guides/querying/)
+- Databases <!-- /guides/databases/ -->
+- Authorization <!-- /guides/authorization/ -->
+- Localization, i18n <!-- /guides/i18n/ -->
+- Localized Data <!-- /guides/localized-data/ -->
+- Temporal Data <!-- /guides/temporal-data/ -->
+- [Media Data](/guides/media-data/)
+- Data Privacy <!-- /guides/data-privacy/ -->
+  - Basics <!-- /guides/data-privacy/introduction -->
+  - Personal Data Management <!-- /guides/data-privacy/pdm -->
+  - Audit Log <!-- /guides/data-privacy/audit-log -->
+
+### Advanced <!-- /advanced/ -->
+
+- OpenAPI <!-- /advanced/openapi -->
+- AsyncAPI <!-- /advanced/asyncapi -->
+- OData <!-- /advanced/odata/ -->
+- Hybrid Testing <!-- /advanced/hybrid-testing/ -->
+- Performance Modeling <!-- /advanced/performance-modeling/ -->
+
+### Tools <!-- /tools/ -->
+
+- CDS Lint Rules <!-- /tools/lint-rulelist/rules-released -->
+
+### [CDS](/cds/)
+
+- [Definition Language](/cds/cdl)
+- Schema Notation <!-- /cds/csn -->
+- [Query Language](/cds/cql)
+- Query Notation <!-- /cds/cqn -->
+- Expressions <!-- /cds/cxn -->
+- Built-in Types <!-- /cds/types -->
+- @sap/cds/common <!-- /cds/common -->
+- [Annotations](/cds/annotations)
+- Compiler Messages <!-- /cds/compiler-messages -->
+- [Upgrade to Compiler v2](/cds/compiler-v2/)
+- [Nature of Models](/cds/models)
+
+### Java <!-- /java/ -->
+
+- Getting Started <!-- /java/getting-started/ -->
+- [Stack Architecture](/java/architecture/)
+- Services <!-- /java/consumption-api/ -->
+- [Event Handlers](/java/provisioning-api/)
+- Working with Data <!-- /java/data/ -->
+- Building CQL Statements <!-- /java/query-api/ -->
+- Executing CQL Statements <!-- /java/query-execution/ -->
+- Introspecting CQL Statements <!-- /java/query-introspection/ -->
+- Working with CDS Models <!-- /java/reflection-api/ -->
+- Persistence Services <!-- /java/persistence-services/ -->
+- Application Services <!-- /java/application-services/ -->
+- Indicating Errors <!-- /java/indicating-errors/ -->
+- Request Contexts <!-- /java/request-contexts/ -->
+- ChangeSet Contexts <!-- /java/changeset-contexts/ -->
+- Security <!-- /java/security/ -->
+- Remote Services <!-- /java/remote-services/ -->
+- Messaging <!-- /java/messaging-foundation/ -->
+- Advanced Concepts <!-- /java/advanced/ -->
+- Audit Logging <!-- /java/auditlog/ -->
+- Transactional Outbox <!-- /java/outbox/ -->
+- Development <!-- /java/development/ -->
+  - CDS Properties <!-- /java/development/properties -->
+- Observability <!-- /java/observability/ -->
+- Migration <!-- /java/migration/ -->
+
+### [Node.js](/node.js/)
+
+- cds Facade <!-- /node.js/cds-facade -->
+- Application Services <!-- /node.js/app-services/ -->
+- Best Practices <!-- /node.js/best-practices/ -->
+- cds.compile <!-- /node.js/cds-compile -->
+- cds.connect <!-- /node.js/cds-connect -->
+- Transactions <!-- /node.js/cds-context-tx -->
+- CDS Design Time <!-- /node.js/cds-dk -->
+- Configuration <!-- /node.js/cds-env -->
+- cds.log <!-- /node.js/cds-log -->
+- cds.reflect <!-- /node.js/cds-reflect -->
+- cds.serve/r <!-- /node.js/cds-serve -->
+- [cds.test](/node.js/cds-test)
+- cds.ql <!-- /node.js/cds-ql/ -->
+- cds.Event/Request <!-- /node.js/events/ -->
+- Class cds.Service <!-- /node.js/services/ -->
+- Databases <!-- /node.js/databases/ -->
+- Messaging <!-- /node.js/messaging/ -->
+- Middlewares <!-- /node.js/middlewares/ -->
+- Protocols <!-- /node.js/protocols/ -->
+- Remote Services <!-- /node.js/remote-services/ -->
+- Authentication <!-- /node.js/authentication/ -->
+- Using TypeScript <!-- /node.js/typescript -->
+
+### [Resources](/resources/)
+
+- CAP Events Overview <!-- /resources/events/ -->

@@ -1,6 +1,5 @@
 ---
 section: About
-permalink: about/
 status: released
 ---
 
@@ -71,7 +70,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
 | **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori]** and **[SAP HANA]** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio], and [Visual Studio Code] or [Eclipse]. | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started) CLI and any editor or IDE of your choice. |
 
 
 
@@ -97,7 +96,7 @@ The figure below illustrates the prevalent use of CDS models (in the left column
 
 ###### Core Data Services (CDS)
 
-[CDS] is our universal modeling language to capture static, as well as behavioral aspects of problem domains in **conceptual**, **concise**, and **comprehensible** ways, and hence serves as the very backbone of CAP.
+[CDS](../cds) is our universal modeling language to capture static, as well as behavioral aspects of problem domains in **conceptual**, **concise**, and **comprehensible** ways, and hence serves as the very backbone of CAP.
 
 ###### Domain Models in CDS
 
@@ -105,17 +104,17 @@ The figure below illustrates the prevalent use of CDS models (in the left column
 
 Domain Models capture static aspects of problem domains as well-known _entity-relationship models_.
 
-**_[Associations]_** capture relationships. _[Compositions]_ extend that to easily model **document structures**.
+**_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
-**_[Annotations]_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations][Input Validation], or [Authorization].
+**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services#input-validation), [Input Validation](../guides/providing-services#input-validation) or [Authorization](../guides/authorization).
 
 ###### CDS Aspects & Mixins
 
 <img src="../assets/concepts/aspects.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
 
-**_[Aspects]_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
+**_[Aspects](../cds/cdl#aspects)_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
 
-This greatly promotes **[adaptability]({{guides}}/extensibility)** in _verticalization_ and _customization_ scenarios, especially in SaaS solutions.
+This greatly promotes **[adaptability](../guides/extensibility)** in _verticalization_ and _customization_ scenarios, especially in SaaS solutions.
 
 Moreover, that fosters [**separation of concerns**](../guides/domain-models#use-aspects-for-separation-of-concerns-and-verticalization), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
 
@@ -155,7 +154,7 @@ Following is an excerpt of generic features provided:
 
 <br>
 
-[See also the Features Overview](features){:.learn-more}
+[See also the Features Overview](./features){:.learn-more}
 
 
 
@@ -169,7 +168,7 @@ All data access in CAP is through dynamic queries, which allows clients to reque
 
 ###### Core Query Language (CQL)
 
-**[CQL]** is CDS’s advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
+**[CQL](../cds/cql)** is CDS’s advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
 
 ```sql
 SELECT ID, addresses.country.name from Employees
@@ -185,7 +184,7 @@ SELECT Employees.ID, Countries.name FROM Employees
 
 <img src="../assets/concepts/querying.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
 
-**Queries are first-order objects** – using [CQN] as a plain object notation – sent
+**Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
@@ -194,7 +193,7 @@ or to **database** services, which translate them to native database queries for
 
 <img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
 
-We also use [CQL] in CDS to declare [_de-normalized views_]({{cdl}}#views) on the underlying domain model, such as in tailored service APIs.
+We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/cdl#views) on the underlying domain model, such as in tailored service APIs.
 
 <br>
 
@@ -233,9 +232,9 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-_[Late-cut µ services](../guides/providing-services#late-cut-microservices)_{:.tip-title}
+::: tip _[Late-cut µ services](../guides/providing-services#late-cut-microservices)_{:.tip-title}
 This protocol-agnostic API allows [mocking remote services](../get-started/grow-as-you-go#with-mocks), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
-{:.tip}
+:::
 
 
 ###### Ubiquitous Events {:#events}
@@ -246,9 +245,9 @@ This protocol-agnostic API allows [mocking remote services](../get-started/grow-
 
 We add custom logic in [event handlers](../guides/providing-services#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
-_Domain-level Eventing_{:.tip-title}
+::: tip _Domain-level Eventing_{:.tip-title}
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.
-{:.tip}
+:::
 
 
 ## Jumpstart & Grow-as-you-go {:#grow-as-you-go}
@@ -265,18 +264,18 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 <br>
 
 
-## [Related Concepts](related) {:.toc-redirect}
+## [Related Concepts](./related) {:.toc-redirect}
 
-[Learn more how CAP relates to other concepts.](related){:.learn-more}
+[Learn more how CAP relates to other concepts.](./related){:.learn-more}
 
-## [Features Overview](features)
+## [Features Overview](./features)
 {:.toc-redirect}
 
-[Get an overview of all features.](features){:.learn-more}
+[Get an overview of all features.](./features){:.learn-more}
 
-## [Glossary](glossary) {:.toc-redirect}
+## [Glossary](./glossary) {:.toc-redirect}
 
-[Glossary of common terms and abbreviations.](glossary){:.learn-more}
+[Glossary of common terms and abbreviations.](./glossary){:.learn-more}
 
 
 <br>

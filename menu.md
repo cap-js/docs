@@ -1,9 +1,9 @@
 ### About
 
 - [About CAP](/about/)
-- Related Concepts <!-- /about/related -->
+- [Related Concepts](/about/related)
 - Features <!-- /about/features -->
-- Glossary <!-- /about/glossary -->
+- [Glossary](/about/glossary)
 
 ### [Getting Started](/get-started/)
 
@@ -65,13 +65,13 @@
 - Working with Data <!-- /java/data/ -->
 - Building CQL Statements <!-- /java/query-api/ -->
 - Executing CQL Statements <!-- /java/query-execution/ -->
-- Introspecting CQL Statements <!-- /java/query-introspection/ -->
+- [Introspecting CQL Statements](/java/query-introspection/)
 - Working with CDS Models <!-- /java/reflection-api/ -->
 - Persistence Services <!-- /java/persistence-services/ -->
-- Application Services <!-- /java/application-services/ -->
-- Indicating Errors <!-- /java/indicating-errors/ -->
-- Request Contexts <!-- /java/request-contexts/ -->
-- ChangeSet Contexts <!-- /java/changeset-contexts/ -->
+- [Application Services](/java/application-services/)
+- [Indicating Errors](/java/indicating-errors/)
+- [Request Contexts](/java/request-contexts/)
+- [ChangeSet Contexts](/java/changeset-contexts/)
 - Security <!-- /java/security/ -->
 - Remote Services <!-- /java/remote-services/ -->
 - Messaging <!-- /java/messaging-foundation/ -->
@@ -86,7 +86,7 @@
 ### [Node.js](/node.js/)
 
 - cds Facade <!-- /node.js/cds-facade -->
-- Application Services <!-- /node.js/app-services/ -->
+- [Application Services](/node.js/app-services/)
 - Best Practices <!-- /node.js/best-practices/ -->
 - cds.compile <!-- /node.js/cds-compile -->
 - cds.connect <!-- /node.js/cds-connect -->
@@ -105,8 +105,8 @@
 - Middlewares <!-- /node.js/middlewares/ -->
 - Protocols <!-- /node.js/protocols/ -->
 - Remote Services <!-- /node.js/remote-services/ -->
-- Authentication <!-- /node.js/authentication/ -->
-- Using TypeScript <!-- /node.js/typescript -->
+- [Authentication](/node.js/authentication/)
+- [Using TypeScript](/node.js/typescript)
 
 ### [Resources](/resources/)
 

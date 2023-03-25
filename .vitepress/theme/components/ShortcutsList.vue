@@ -28,7 +28,7 @@ import { knownImplVariants, toggleImplVariant } from './ImplVariants.vue'
 onMounted(()   => document.addEventListener('keydown', onKeyDown))
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 
-const querySelectorSearchInput = 'input[type=search]'
+const querySelectorSearchInput = 'input[class=search-input]'
 const commands = ref([
   clickCommand('Edit on Github', ['e'], 'div.edit-link > a'),
   clickCommand('Search', ['/'], querySelectorSearchInput),

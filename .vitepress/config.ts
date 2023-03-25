@@ -1,7 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
 import { sidebar, nav4 } from './sidebar'
-import { SearchPlugin } from 'vitepress-plugin-search'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
 
@@ -56,14 +55,7 @@ export default defineConfig({
     }
   },
   vite: {
-    plugins: [
-      //@ts-ignore
-      SearchPlugin({
-        previewLength: 62,
-        buttonLabel: 'Search',
-        placeholder: 'Search docs',
-      })
-    ],
+    plugins: [],
   },
   transformHtml(code, id, ctx) {
     redirects.generate(id, ctx)

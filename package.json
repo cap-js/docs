@@ -19,7 +19,6 @@
     "eslint-plugin-vue": "^9.6.0",
     "flexsearch": "^0.7.31",
     "sitemap": "^7.1.1",
-    "vitepress": "^1.0.0-alpha.61",
-    "vitepress-plugin-search": "^1.0.4-alpha.18"
+    "vitepress": "^1.0.0-alpha.62"
   }
 }

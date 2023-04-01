@@ -108,11 +108,11 @@ For example, the authorization of the following CDS service:
 
 ```cds
 service CustomerService @(requires: 'authenticated-user'){
-  entity Orders @(restrict: [ 
+  entity Orders @(restrict: [
     { grant: ['READ','WRITE'], to: 'admin' },
   ]){/*...*/}
   entity Approval @(restrict: [
-    { grant: 'WRITE', where: '$user.level > 2' } 
+    { grant: 'WRITE', where: '$user.level > 2' }
   ]){/*...*/}
 }
 ```
@@ -136,12 +136,12 @@ cds.serve ('CustomerService') .with (function(){
 
 ## Authentication Strategies {:#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production. 
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](../cds-env), for example:
 
 ```jsonc
 "cds": { // in package.json
-  "requires": { 
+  "requires": {
     "auth": { "kind": "jwt" }
   }
 }
@@ -186,7 +186,7 @@ This authentication strategy uses basic authentication with pre-defined mock use
 }
 ```
 
-You can optionally configure users as follows: 
+You can optionally configure users as follows:
 
 ```jsonc
 "cds": { // in package.json
@@ -194,8 +194,8 @@ You can optionally configure users as follows:
     "auth": {
       "kind": "mocked",
       "users": {
-        "<user.id>": { 
-          "password": "<password>", 
+        "<user.id>": {
+          "password": "<password>",
           "roles": [ "<role-name>", ... ],
           "userAttributes": { ... }
         }
@@ -222,7 +222,7 @@ The default configuration shipped with `@sap/cds` specifies these users:
 ```
 
 ::: tip
-This default configuration is merged with your custom configuration such that, by default, logins by alice, bob, ... and others (`*`) are allowed. 
+This default configuration is merged with your custom configuration such that, by default, logins by alice, bob, ... and others (`*`) are allowed.
 :::
 
 If you want to restrict these additional logins, you need to overwrite the defaults:
@@ -254,7 +254,7 @@ This authentication strategy uses basic authentication to use mock users during 
 }
 ```
 
-You can optionally configure users as follows: 
+You can optionally configure users as follows:
 
 ```jsonc
 "cds": { // in package.json
@@ -262,8 +262,8 @@ You can optionally configure users as follows:
     "auth": {
       "kind": "basic",
       "users": {
-        "<user.id>": { 
-          "password": "<password>", 
+        "<user.id>": {
+          "password": "<password>",
           "roles": [ "<role-name>", ... ],
           "userAttributes": { ... }
         }
@@ -381,7 +381,7 @@ module.exports = function custom_auth (req, res, next) {
     roles: ['<role-a>', '<role-b>']
     attr: {
       <user-attribute-a>: '<value>',
-      <user-attribute-b>: '<value>' 
+      <user-attribute-b>: '<value>'
     }
   })
   req.tenant = '<tenant>'
@@ -497,7 +497,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png)
+   ![Create role collections](./assets/create-role-collection.png){:.adapt}
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.

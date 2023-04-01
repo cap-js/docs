@@ -43,3 +43,8 @@ a.learn-more::before {
   display: inline-block;
   margin-right: 5px;
 }
+
+/* inverts image colors in dark mode */
+:root.dark img.adapt {
+  filter: brightness(.9) invert(1) hue-rotate(177deg)
+}

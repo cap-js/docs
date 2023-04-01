@@ -35,7 +35,7 @@ Alternatively, you can even configure test on integration level to be executed l
 
 The following diagram illustrates the modular stack architecture and highlights the generic components:
 
-<img src="./assets/modularized-architecture.png" width="600px">
+<img src="./assets/modularized-architecture.png" width="600px" class="adapt">
 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
 * The [application framework](#application-framework) defines the runtime basis of your application.

@@ -15,7 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 The following figure illustrates this central role of domain models:
 
-![domain models](../../assets/domain-models.drawio.svg)
+![domain models](../../assets/domain-models.drawio.svg){:.adapt}
 
 [See also the introduction in the _About_ page](../../about#domain-modeling){:.learn-more}
 

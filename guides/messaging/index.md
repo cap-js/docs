@@ -72,11 +72,11 @@ class Receiver extends cds.Service { async init() {
 
 A *Request* in CAP is actually a specialization of an *Event Message*. The same intrinsic mechanisms of sending and reacting to events are used for asynchronous communication in inverse order. A typical flow:
 
-![sync.drawio](assets/sync.drawio.svg)
+![sync.drawio](assets/sync.drawio.svg){:.adapt}
 
 Asynchronous communication looks similar, just with reversed roles:
 
-![async.drawio](assets/async.drawio.svg)
+![async.drawio](assets/async.drawio.svg){:.adapt}
 
 ::: tip
 **Event Listeners vs Interceptors** — requests are handled the same ways as events, with one major difference: While `on` handlers for events are *listeners* (all are called), handlers for synchronous requests are *interceptors* (only the topmost is called by the framework). An interceptor then decides whether to pass down control to `next` handlers or not.
@@ -87,7 +87,7 @@ Asynchronous communication looks similar, just with reversed roles:
 To sum up, handling events in CAP is done in the same way as you would handle requests in a service provider. Also, emitting event messages is similar to sending requests. The major difference is that the initiative is inverted: While *Consumers* connect to *Services* in synchronous communications, the *Receivers* connect to _Emitters_ in asynchronous ones;
 _Emitters_ in turn don't know _Receivers_.
 
-![sync-async.drawio](assets/sync-async.drawio.svg)
+![sync-async.drawio](assets/sync-async.drawio.svg){:.adapt}
 
 ::: tip
 **Blurring the line between synchronous and asynchronous APIs** — in essence services receive events. The emitting service itself or other services can register handlers for those events in order to implement the logic of how to react to these events.
@@ -116,7 +116,7 @@ The following explanations walk us through a books review example from cap/sampl
 * **[@capire/reviews](https://github.com/sap-samples/cloud-cap-samples/tree/main/reviews)** provides an independent service to manage reviews.
 * **[@capire/bookstore](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore)** combines both into a composite application.
 
-![cap-samples.drawio](assets/cap-samples.drawio.svg)
+![cap-samples.drawio](assets/cap-samples.drawio.svg){:.adapt}
 
 Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples/cloud-cap-samples#readme) for getting the samples and exercising the following steps.
 {:.tip}
@@ -197,7 +197,7 @@ The message payload is in the `data` property of the inbound `msg` object.
 
 As emitting and handling events is an intrinsic feature of the CAP core runtimes, there's nothing else required when emitters and receivers live in the same process.
 
-![local.drawio](assets/local.drawio.svg)
+![local.drawio](assets/local.drawio.svg){:.adapt}
 
 Let's see that in action...
 
@@ -219,7 +219,7 @@ As apparent from the output, both, the two bookshop services `CatalogService` an
 
 Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to display the Vue.js UI that is provided with the reviews service sample:
 
-![image-20211018184259395](assets/image-20211018184259395.png)
+![image-20211018184259395](assets/image-20211018184259395.png){:.adapt}
 
 - Choose one of the reviews.
 - Change the 5-star rating with the dropdown.
@@ -228,7 +228,7 @@ Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to disp
 
 → In the terminal window you should see a server reaction like this:
 
-<img src="./assets/image-20211018184509053.png" alt="image-20211018184509053" style="zoom:50%;" />
+<img src="./assets/image-20211018184509053.png" alt="image-20211018184509053" style="zoom:50%;"/>
 
 Which means the `ReviewsService` emitted a `reviewed` message that was received by the enhanced `CatalogService`.
 
@@ -236,14 +236,14 @@ Which means the `ReviewsService` emitted a `reviewed` message that was received 
 
 Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the list of books served by `CatalogService` and refresh to see the updated average rating and reviews count:
 
-![image-20211018184900010](assets/image-20211018184900010.png)
+![image-20211018184900010](assets/image-20211018184900010.png){:.adapt}
 
 
 ## Using Message Channels
 
 When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic.
 
-![remote.drawio](assets/remote.drawio.svg)
+![remote.drawio](assets/remote.drawio.svg){:.adapt}
 
 
 ::: tip
@@ -340,13 +340,13 @@ By default CAP uses a single message channel for all messages.
 
 For example: If you consume messages from SAP S/4HANA in an enhanced version of `bookstore`, as well as emit messages a customer could subscribe and react to in a customer extension, the overall topology would look like that:
 
-![composite1.drawio](assets/composite1.drawio.svg)
+![composite1.drawio](assets/composite1.drawio.svg){:.adapt}
 
 ### Using Separate Channels
 
 Now, sometimes you want to use separate channels for different emitters or receivers. Let's assume you want to have a dedicated channel for all events from SAP S/4HANA, and yet another separate one for all outgoing events, to which customer extensions can subscribe too. This situation is illustrated in this graphic:
 
-![composite2.drawio](assets/composite2.drawio.svg)
+![composite2.drawio](assets/composite2.drawio.svg){:.adapt}
 
 This is possible when using [low-level messaging](#low-level-messaging), but comes at the price of loosing all advantages of conceptual-level messaging as explained in the following.
 
@@ -354,7 +354,7 @@ This is possible when using [low-level messaging](#low-level-messaging), but com
 
 To avoid falling back to low-level messaging, CAP provides the `composite-messaging` implementation, which basically acts like a transparent dispatcher for both, inbound and outbound messages. The resulting topology would look like that:
 
-![composite3.drawio](assets/composite3.drawio.svg)
+![composite3.drawio](assets/composite3.drawio.svg){:.adapt}
 
 
 ::: tip

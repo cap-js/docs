@@ -20,13 +20,13 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: 22px auto 0">
+<img src="../assets/overview.drawio.svg" style="width:450px; margin: 22px auto 0" class="adapt">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.png" style="height:40px" />
-  <img src="../assets/logos/express.png" style="height:30px" />
-  <img src="../assets/logos/java.svg" style="height:44px" />
-  <img src="../assets/logos/spring.svg" style="height:25px" />
+  <img src="../assets/logos/nodejs.png" style="height:40px"  class="adapt"/>
+  <img src="../assets/logos/express.png" style="height:30px"  class="adapt"/>
+  <img src="../assets/logos/java.svg" style="height:44px" class="adapt"/>
+  <img src="../assets/logos/spring.svg" style="height:25px"  class="adapt"/>
 </div>
 
 <style scoped>
@@ -90,7 +90,7 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
 <figure>
-  <img src="../assets/core-concepts.drawio.svg" width="650px">
+  <img src="../assets/core-concepts.drawio.svg" width="650px"  class="adapt">
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
 
@@ -100,7 +100,7 @@ The figure below illustrates the prevalent use of CDS models (in the left column
 
 ###### Domain Models in CDS
 
-<img src="../assets/concepts/domain-modeling.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
+<img src="../assets/concepts/domain-modeling.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt" >
 
 Domain Models capture static aspects of problem domains as well-known _entity-relationship models_.
 
@@ -110,7 +110,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 ###### CDS Aspects & Mixins
 
-<img src="../assets/concepts/aspects.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
+<img src="../assets/concepts/aspects.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
 
 **_[Aspects](../cds/cdl#aspects)_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
 
@@ -182,7 +182,7 @@ SELECT Employees.ID, Countries.name FROM Employees
 
 ###### Queries as first-order Objects (CQN)
 
-<img src="../assets/concepts/querying.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
+<img src="../assets/concepts/querying.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
 
 **Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
@@ -191,7 +191,7 @@ or to **database** services, which translate them to native database queries for
 
 ###### Projections at Design Time
 
-<img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;">
+<img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
 
 We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/cdl#views) on the underlying domain model, such as in tailored service APIs.
 
@@ -212,21 +212,21 @@ All behavioral aspects in CAP are based on ubiquitous notions of [Services](#ser
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-  <img src="../assets/agnostic-services.drawio.svg" width="333px">
+  <img src="../assets/agnostic-services.drawio.svg" width="333px" class="adapt">
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
 
 ###### Service Definitions in CDS
 
-<img src="../assets/concepts/service-definitions.png" width="300px" style="float:left; margin: 0px 22px 22px 0;">
+<img src="../assets/concepts/service-definitions.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
 
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
 
 
 ###### Uniform Consumption
 
-<img src="../assets/concepts/service-consumption.png" width="300px" style="float:left; margin: 0px 22px 44px 0;">
+<img src="../assets/concepts/service-consumption.png" width="300px" style="float:left; margin: 0px 22px 44px 0;" class="adapt">
 
 **Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
@@ -239,7 +239,7 @@ This protocol-agnostic API allows [mocking remote services](../get-started/grow-
 
 ###### Ubiquitous Events {:#events}
 
-<img src="../assets/concepts/events.png" width="300px" style="float:left; margin: 0px 22px 22px 0;">
+<img src="../assets/concepts/events.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 

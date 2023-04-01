@@ -149,7 +149,7 @@ This time `cds watch` reacted with additional output like this:
 As you can see in the log output, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
 
 Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page: <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-![Welcome](./assets/welcome.png){:style="width:450px; box-shadow: 1px 1px 5px #888888"}
+![Welcome](./assets/welcome.png){:style="width:450px; box-shadow: 1px 1px 5px #888888" .adapt}
 
 > Alice is a [default user with admin privileges](../../node.js/authentication/#mocked). Use it to access the `admin` service. You don't need to enter a password.
 
@@ -260,14 +260,14 @@ Simply add an _index.html_ file into the _app/_ folder, to replace the generic i
 
 For example, you can [find a simple Vue.js app in **cap/samples**](./assets/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#cat-service).
 
-![](./assets/vue-app.png){:style="margin:0"}
+![](./assets/vue-app.png){:style="margin:0" .adapt}
 
 
 ### SAP Fiori UIs {:#fiori}
 
 Besides, being usable from any UI frontends using standard AJAX requests, CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori draft.
 
-![](./assets/fiori-app.png){:style="margin:0"}
+![](./assets/fiori-app.png){:style="margin:0" .adapt}
 
 [Learn more about **Serving Fiori UIS**.](../../advanced/fiori){:.learn-more}
 

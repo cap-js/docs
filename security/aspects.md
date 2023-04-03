@@ -520,10 +520,10 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 
 ::: tip
 <div markdown="1" class="impl java">
-In case the default setting doesn't fit, [connection pool properties](../../java/multitenancy#data-source-pooling-configuration) and [driver settings](../../java/persistence-services#datasource-configuration) can be customized, respectively.
+In case the default setting doesn't fit, <a href="../java/multitenancy#data-source-pooling-configuration">connection pool properties</a> and <a href="../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 </div>
 <div markdown="1" class="impl node">
-In case the default setting doesn't fit, [connection pool properties](../node.js/databases#pool) [driver settings](../node.js/databases#tcp-keepalive-with-hdb) can be customized, respectively.
+In case the default setting doesn't fit, <a href="../node.js/databases#pool">connection pool properties</a> and <a href="../node.js/databases#tcp-keepalive-with-hdb">driver settings</a> can be customized, respectively.
 </div>
 :::
 

@@ -21,7 +21,7 @@ The following figure illustrates this central role of domain models:
 
 ## Capture Intent  &rarr; _What, not How_
 
-Domain Models describe the _static, data-related_ aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](../databases)* deployed to databases as well as for *[service definitions][services]*. Sometimes, domain models might also be exposed for [reuse in other projects](../extensibility/composition).
+Domain Models describe the _static, data-related_ aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](../databases/)* deployed to databases as well as for *[service definitions][services]*. Sometimes, domain models might also be exposed for [reuse in other projects](../extensibility/composition).
 
 
 

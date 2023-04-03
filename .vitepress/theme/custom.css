@@ -59,9 +59,9 @@ pre.log {
   padding: 20px 25px;
   border-radius: 14px;
 
-  @media screen and (max-width: 415px) {
+  /* @media screen and (max-width: 415px) {
     font-size: 55%;
-  }
+  } */
 }
 
 pre.log em {

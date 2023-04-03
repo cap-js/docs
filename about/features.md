@@ -1,0 +1,263 @@
+---
+status: released
+---
+
+<script setup>
+  import { h } from 'vue'
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
+  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
+  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
+  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
+  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
+  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
+</script>
+<style scoped>
+  .ga   { color: var(--vp-c-green-dark); font-weight:900;}
+  .na   { color: #aaa; font-size:90%; }
+  .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
+  .plan { color: #089; font-size:90% }
+  .contrib { color: #999; font-size:90% }
+</style>
+
+# Features Overview
+
+Following is an index of the features currently covered by CAP, with status and availability information. In addition, we also list features, which are planned or already in development, but not yet generally available, to give you an idea about our roadmap.
+
+
+#### Legend
+
+| Tag    | Explanation                                       |
+|:------:|---------------------------------------------------|
+| <X/>   | generally and publicly available today            |
+| <Na/>  | not applicable for this combination               |
+| <D/>   | in progress; likely to become available near-term |
+| <O/>   | we might pick that up for development soon        |
+| <C/>   | not scheduled for development by us so far        |
+| <Ac/>  | already active contribution                       |
+
+### CLI & Tools Support
+
+| CLI commands                                                                  |                        |
+|-------------------------------------------------------------------------------|------------------------|
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project) | `cds init <project>`   |
+| Add a feature to an existing project                                          | `cds add <facets>`     |
+| [Add models from external sources](../get-started/grow-as-you-go#with-mocks)  | `cds import <api>`     |
+| [Compile cds models to different outputs](../node.js/cds-compile)             | `cds compile <models>` |
+| [Run your services in local server](../node.js/cds-serve)                     | `cds serve <services>` |
+| [Run and restart on file changes](../get-started/in-a-nutshell#run)           | `cds watch`            |
+| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                 | `cds repl`             |
+| Inspect effective configuration                                               | `cds env`              |
+| Prepare for deployment                                                        | `cds build`            |
+| Deploy to databases or cloud                                                  | `cds deploy`           |
+| Create an extension project                                                   | `cds extend <app-url>` |
+| Activate an extension project                                                 | `cds activate `        |
+| Login to extendable SaaS application                                          | `cds login <app-url>`  |
+| Logout from extendable SaaS application                                       | `cds logout `          |
+
+
+> Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases) for CAP.
+
+<br>
+
+| Editors/IDE Support      | Application Studio | VSCode | Eclipse |
+|--------------------------|:------------------:|:------:|:-------:|
+| CDS Syntax Highlighting  |       <X/>         | <X/>   |  <X/>   |
+| CDS Code Completion      |       <X/>         | <X/>   |  <X/>   |
+| CDS Prettifier           |       <X/>         | <X/>   |  <X/>   |
+| Advanced Debug/Run Tools |       <X/>         |        |         |
+| Project Explorer         |       <X/>         |        |         |
+| ...                      |                    |        |         |
+
+
+### CDS Language & Compiler
+
+|                                                                                                                   | CDS  |
+|-------------------------------------------------------------------------------------------------------------------|:----:|
+| [Entity-Relationship Modeling](../cds/cdl#entities)                                                               | <X/> |
+| [Custom-defined Types](../cds/cdl#types)                                                                          | <X/> |
+| [Views / Projections ](../cds/cdl#views)                                                                          | <X/> |
+| [Associations & Compositions](../cds/cdl#associations)                                                            | <X/> |
+| [Annotations](../cds/cdl#annotations) &rarr; [Common](../cds/annotations), [OData](../advanced/odata#annotations) | <X/> |
+| [Aspects](../guides/domain-models#aspects)                                                                        | <X/> |
+| [Services...](../cds/cdl#services)                                                                                | <X/> |
+| [&mdash; w/ Redirected Associations](../cds/cdl#auto-redirect)                                                    | <X/> |
+| [&mdash; w/ Auto-exposed Targets](../cds/cdl#auto-expose)                                                         | <X/> |
+| [&mdash; w/ Actions & Functions](../cds/cdl#actions)                                                              | <X/> |
+| [&mdash; w/ Events](../cds/cdl#events)                                                                            | <X/> |
+| [Managed Compositions of Aspects](../cds/cdl#managed-compositions)                                                | <X/> |
+| Structured Elements                                                                                               | <O/> |
+| Nested Projections                                                                                                | <O/> |
+| Calculated Fields                                                                                                 | <O/> |
+| Managed _n:m_ Associations                                                                                        | <O/> |
+| Pluggable CDS linter                                                                                              | <D/> |
+| [CDS linter](../tools/#cds-lint)                                                                                  | <X/> |
+
+### Providing Services
+
+| Core Framework Features                                                                |  CDS  | Node.js | Java |
+|----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers) | <Na/> |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents | <X/>  |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services/#input-validation)           | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-models/#use-uuids-for-technical-keys)      | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services/#implicit-pagination)                   | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/authorization)                                              | <X/>  |  <X/>   | <X/> |
+| [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/media-data)                                        | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services/#etag)               | <X/>  |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
+
+
+<br>
+
+| Enterprise Features                                                                              |  CDS  | Node.js | Java |
+|--------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Authorization](../guides/authorization)                                                         | <X/>  |  <X/>   | <X/> |
+| [Analytics in Fiori](../advanced/odata#data-aggregation)                                         | <X/>  |  <D/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                              | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services/#managed-data)                                       | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data)                                                       | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data)                                                         | <X/>  |  <X/>   | <X/> |
+| [Dynamic Extensibility](../guides/extensibility)                                                 | <X/>  |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]      | <Na/> |  <X/>   | <X/> |{% if jekyll.environment != "external" %}
+| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog/)] | <Na/> |  <X/>   | <X/> |{%endif%}
+
+
+<br>
+
+| Inbound Protocol Support                              | CDS <sup>1</sup> |      Node.js      |       Java        |
+|-------------------------------------------------------|:----------------:|:-----------------:|:-----------------:|
+| [REST/OpenAPI](../advanced/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
+| [OData V2](../advanced/odata#v2-support) <sup>2</sup> |       <X/>       | <X/> <sup>3</sup> |       <X/>        |
+| OData V4                                              |       <X/>       |       <X/>        |       <X/>        |
+| OData V4 for APIs                                     |       <D/>       |       <D/>        |       <D/>        |
+| GraphQL<sup>4</sup>                                   |       <C/>       | <X/><sup>5</sup>  | <C/> <sup>6</sup> |
+
+
+<br>
+
+> <sup>1</sup> Export CDS models to ... <br>
+> <sup>2</sup> To support customers with existing OData V2 UIs<br>
+> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-proxy-node)  <br>
+> <sup>4</sup> Could be a good case for 3rd-party contribution <br>
+> <sup>5</sup> For Node.js try out the [GraphQL Adapter](../node.js/protocols#graphql-adapter) <br>
+> <sup>6</sup> For Java try out the provided [sample code](https://github.com/SAP-samples/cloud-cap-samples-java/commit/16dc5d9a1f103eb1336405ee601dc7004f70538f). <br>
+
+
+### Consuming Services
+
+| [Service Consumption APIs](../guides/using-services) | Node.js | Java |
+|------------------------------------------------------|:-------:|:----:|
+| Uniform Consumption APIs → Hexagonal Architecture    |  <X/>   | <X/> |
+| Dynamic Querying                                     |  <X/>   | <X/> |
+| Programmatic Delegation                              |  <X/>   | <X/> |
+| Generic Delegation                                   |  <O/>   | <O/> |
+| Resilience (retry, circuit breaking, ...)            |  <C/>   | <X/> |
+
+
+<br>
+
+| Outbound Protocol Support                             | CDS <sup>1</sup> | Node.js | Java |
+|-------------------------------------------------------|:----------------:|:-------:|:----:|
+| [REST/OpenAPI](../node.js/cds-dk#import-from-openapi) |       <X/>       |  <X/>   | <X/> |
+| OData V2                                              |       <X/>       |  <X/>   | <X/> |
+| OData V4                                              |       <X/>       |  <X/>   | <X/> |
+| GraphQL<sup>2</sup>                                   |       <C/>       |  <C/>   | <C/> |
+
+> <sup>1</sup> Import API to CSN <br>
+> <sup>2</sup> Could be a good case for 3rd-party contribution <br>
+
+[Learn more about supported features for consuming services.](../guides/using-services){:.learn-more}
+
+### Events / Messaging
+
+|                                                                                                                                                                               |  CDS  | Node.js |                                             Java                                             |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:--------------------------------------------------------------------------------------------:|
+| [Declared Events in CDS](../cds/cdl#events)                                                                                                                                   | <X/>  |  <X/>   |                                             <X/>                                             |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                             <X/>                                             |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#maven-dependency-for-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                             <X/>                                             |
+| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                             <X/>                                             |
+| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing-1)\|[Java](../java/messaging-foundation#maven-dependency-for-message-queuing-support) | <Na/> |  <X/>   |                                             <X/>                                             |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                             <X/>                                             |
+| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | {% if jekyll.environment != "external" %}<X/><br><sup>beta</sup> {% else %} <O/> {% endif %} |
+| Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                              |
+| Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                              |
+
+
+
+### Database Support
+
+|                                                | CDS/deploy |      Node.js       | Java |
+|------------------------------------------------|:----------:|:------------------:|:----:|
+| [SAP HANA](../guides/databases)                |    <X/>    |        <X/>        | <X/> |
+| [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
+| [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
+| [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
+| Pluggable drivers architecture                 |    <D/>    |        <D/>        | <X/> |
+| Out-of-the-box support for other databases?    |    <C/>    |        <C/>        | <C/> |
+
+
+> <sup>1</sup> For Node.js, see community project [cds-pg - PostgreSQL adapter for SAP CDS](https://www.npmjs.com/package/cds-pg). <br>
+> <sup>2</sup> To speed up development. Not for productive use! <br>
+
+> You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
+
+<!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
+| [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |
+| &mdash; using Liquibase                                        |   <C/>    | <Na/>  | <Na/> |
+| &mdash; using Flyway                                           |   <C/>    | <Na/>  | <Na/> |-->
+
+<!-- HANA Platform?-->
+
+
+### UIs/Frontend Support
+
+|                                                                                                  | CDS  | Node.js | Java |
+|--------------------------------------------------------------------------------------------------|:----:|:-------:|:----:|
+| [Serving Fiori UIs](../advanced/fiori)                                                           | <X/> |  <X/>   | <X/> |
+| [Fiori Annotations in CDS](../advanced/fiori#fiori-annotations)                                  | <X/> |  <X/>   | <X/> |
+| [Advanced Value Help](../advanced/fiori#value-help-support)                                      | <X/> |  <X/>   | <X/> |
+| [Draft Support](../advanced/fiori#draft-support)                                                 | <X/> |  <X/>   | <X/> |
+| [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                           | <X/> |  <X/>   | <X/> |
+| [Support for Fiori Analytics](../advanced/analytics)                                             | <X/> |  <D/>   | <X/> |
+| [Support for other UI technologies, e.g. Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
+
+>  <sup>1</sup> through standard REST/AJAX
+
+
+### Platform Support & Integration
+
+|                                                                               | Node.js | Java |
+|-------------------------------------------------------------------------------|:-------:|:----:|
+| [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment) |  <X/>   | <X/> |
+| Deploy to/run on _Kubernetes_<sup>1</sup>                                     |  <D/>   | <D/> |
+| [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                |  <X/>   | <X/> |
+| [SaaS on-/off-boarding](../guides/deployment/as-saas)                         |  <X/>   | <X/> |
+| [Multitenancy](../guides/multitenancy)                                        |  <X/>   | <X/> |
+| Health checks                                                                 |  <O/>   | <X/> |
+
+> <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
+
+
+### Extensibility {: .impl.internal}
+
+|                                                                                                  |      |
+|--------------------------------------------------------------------------------------------------|:----:|
+| [Tenant-Specific Extensions](../guides/extensibility)                                            | <X/> |
+| [Adding Extension Fields](../guides/extensibility/customization#develop-and-activate-extension)  | <X/> |
+| [Adding new Entities](../guides/extensibility/customization#develop-and-activate-extension)      | <X/> |
+| [Adding new Relationships](../guides/extensibility/customization#develop-and-activate-extension) | <X/> |
+| [Adding/Overriding Annotations](../guides/extensibility/customization)                           | <X/> |
+| Adding Events                                                                                    | <O/> |
+| [Extension Namespaces](../guides/extensibility/customization)                                    | <X/> |
+| [Extension Templates](../guides/extensibility/customization#extension-templates)                 | <X/> |
+| Custom Governance Checks                                                                         | <D/> |
+| [Generic Input Validations](../guides/providing-services/#input-validation)                      | <X/> |
+| Declarative Constraints                                                                          | <O/> |
+| Execute Sandboxed Code                                                                           | <O/> |
+| Runtime API for In-App Extensibility                                                             | <D/> |
+| [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                             | <D/> |
+| Propagating Extensions across (µ) Services                                                       | <O/> |

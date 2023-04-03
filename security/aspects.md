@@ -4,6 +4,7 @@ synopsis: >
 permalink: security/aspects
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
+impl-variants: true
 ---
 
 # Security Aspects
@@ -231,7 +232,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 | Platform service | URL | Authorization
 | -----------------| --- | -------------
 | Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging` | [Technical role](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`,
-|                            | `/messaging/enterprise-messaging/deploy` | [Technical role]`emmanagement`
+|                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`
 
 </div>
 
@@ -289,16 +290,14 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
 For instance, filters for [instance-based authorization](../guides/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
-<div markdown="1" class="impl java">
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
-</div>
+{: .impl .node }
 
-<div markdown="1" class="impl node">
 To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../node.js/cds-facade#cds-model).
 Request-related data is propagated down the call stack (for instance [cds.context](../node.js/middlewares#cdscontext)).
-</div>
+{: .impl .java }
 
 ::: tip
 Make sure that custom code doesn't break tenant data isolation.
@@ -311,15 +310,15 @@ Excessive use of resources requested by a single tenant could cause runtime prob
 
 CAP helps to control resource usage:
 
-<div markdown="1" class="impl java">
-- Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.
-- By default, tenants have dedicated DB connection pools.
-</div>
+<ul markdown="1" class="impl java">
+ <li>Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.</li>
+ <li>By default, tenants have dedicated DB connection pools.</li>
+</ul>
 
-<div markdown="1" class="impl node">
-- Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.
-- Tenants have dedicated DB connection pools.
-</div>
+<ul markdown="1" class="impl node">
+  <li>Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.</li>
+  <li>Tenants have dedicated DB connection pools.</li>
+</ul>
 
 ::: tip
 Make sure that custom code doesn't introduce excessive memory or CPU consumption within a single request.
@@ -372,11 +371,13 @@ Apart from that the used web server frameworks such as Spring or Express already
 - [CLRF injections](https://owasp.org/www-community/vulnerabilities/CRLF_Injection) or [log injections](https://owasp.org/www-community/attacks/Log_Injection) can occur when untrusted user input is written to log output.
 
 CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
+{: .impl .node}
 
 ::: warning
 ❗ Currently, CAP applications need to care for escaping user data that is used as input parameter for application logging.
 It's recommended to make use of an existing Encoder such as OWASP [ESAPI](https://www.javadoc.io/doc/org.owasp.esapi/esapi/2.0.1/org/owasp/esapi/Encoder.html).
 :::
+{: .impl .java }
 
 - [Deserialization of untrusted data](https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data) can lead to serious exploits including remote code execution.
 The OData adapter converts JSON payload into an object representation. Here it follows a hardened deserialization process where the deserializer capabilities (e.g. no default types in Jackson) are restricted to a minimum.
@@ -428,7 +429,8 @@ SAPUI5 provides [protection mechanisms](https://sapui5.hana.ondemand.com/sdk/#/t
 :::
 
 
-### Additional Protection Mechanisms {: #additional-attacks} <!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
+### Additional Protection Mechanisms {: #additional-attacks}
+<!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
 
 There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
 Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
@@ -547,8 +549,7 @@ This can be achieved automatically by consuming [Application Autoscaler](https:/
 
 <div id="#security-secure-storage" />
 
-
-### Separation of Tenant Data {: #storage-separation}
+### Separation of Tenant Data {: #storage-separation }
 
 Prerequisite to a tenant-specific encryption is that the business data of subscriber tenants as well as the provider tenant is strictly separated.
 CAP leverages [HDI containers](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebf0aa26958443f58f86b862056862d4.html) to provide a [strong data isolation](#isolated-persistent-data) out of the box.
@@ -563,7 +564,7 @@ Applications can also create HDI containers at deployment time that are suitable
 :::
 
 
-### Encryption of Tenant Data {: #storage-encryption}
+### Encryption of Tenant Data {: #storage-encryption }
 <!-- #SEC-272 -->
 
 SAP HANA Cloud (HC) offers strong server-side storage encryption that is transparent for applications.
@@ -578,27 +579,30 @@ In `Customer-Specific Encryption Key (CSEK)` mode, the tenant-specific key is ma
 but in `Customer-Controlled Encryption Key (CCEK)` mode the customer (that is, SaaS subscriber) defines and controls the key.
 
 Customer-specific keys need to be explicitly activated in the application configuration.
-For Java, the application property `cds.multitenancy.datasource.hanaEncryptionMode` supports all encryption modes as described in the HC [documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/1c69829fd68941dfa699cbaae5417a8d.html?state=DRAFT).
+
+For Java, the application property `cds.multitenancy.datasource.hanaEncryptionMode` supports all encryption modes as described in the HC [documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/1c69829fd68941dfa699cbaae5417a8d.html?state=DRAFT).<!--{: .impl .java }-->
 
 For Node.js, the cds configuration needs to contain the parameters as described in the HC [documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/1c69829fd68941dfa699cbaae5417a8d.html?state=DRAFT) in the Deployment Service configuration.
-```js
-    "requires": {
-      ...
-      "cds.xt.DeploymentService": {
-        "hdi": {
-          "create": {
-            "provisioning_parameters": {
-              "dataEncryption": {
-                "mode": "MANAGED_KEY"
-              },
-              "enableTenant": true
-            }
-          }
+<!--{: .impl .node }-->
+
+```json
+"requires": {
+  ...
+  "cds.xt.DeploymentService": {
+    "hdi": {
+      "create": {
+        "provisioning_parameters": {
+          "dataEncryption": {
+            "mode": "MANAGED_KEY"
+          },
+          "enableTenant": true
         }
       }
-    ...
     }
+  }
+}
 ```
+<!-- {: .impl .node } -->
 
 ::: tip
 Currently, Customer Encryption Key mode is only activated for new HDI containers created for business tenants.
@@ -606,9 +610,9 @@ Currently, Customer Encryption Key mode is only activated for new HDI containers
 
 [HANA Cloud with Customer-Managed Keys (CMK) Consumption Guide](https://github.wdf.sap.corp/pages/HANA-Cloud/hc-doc-cmk-stakeholder/){:.learn-more}
 
-## Secure by Default and by Design {: #secure-by-default}
+## Secure by Default and by Design {: #secure-by-default }
 
-### Secure Default Configuration {: #secure-default}
+### Secure Default Configuration {: #secure-default }
 <!-- #SEC-244 #SEC-281 -->
 
 Where possible, CAP default configuration matches the secure by default principle:
@@ -641,12 +645,13 @@ CAP runtime differentiates several types of error situations during request proc
 - Unrecoverable errors due to serious issues in the VM (for example, lack of memory) or program flaws.
 
 In general, **exceptions immediately stop the execution of the current request**.
-<div markdown="1" class="impl java">
+
 In Java, the thrown [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is automatically scoped to the current request by means of thread isolation.
-</div>
-<div markdown="1" class="impl node">
+{: .impl .java}
+
 CAP Node.js adds an exception wrapper to ensure that only the failing request is affected by the exception.
-</div>
+{: .impl .node}
+
 Customers can react in dedicated exception handlers if necessary.
 
 In contrast, **errors stop the overall microservice** to ensure that security measures aren't weakened.

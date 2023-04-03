@@ -54,7 +54,7 @@ Find more about BTP platform security here:
 [SAP BTP Security (Community)](https://community.sap.com/topics/btp-security){:.learn-more}
 
 
-<div target="security-dwc" />
+<div id="security-dwc" />
 
 ### CAP in Local Environment{: #local}
 

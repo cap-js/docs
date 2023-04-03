@@ -16,6 +16,7 @@
 }
 
 kbd {
+  font-size: 13px;
   display: inline-block;
   padding: 5px;
   line-height: 11px;
@@ -47,4 +48,28 @@ a.learn-more::before {
 /* inverts image colors in dark mode */
 :root.dark img.adapt {
   filter: brightness(.9) invert(1) hue-rotate(177deg)
+}
+
+pre.log {
+  background: black;
+  font-style: italic;
+  font-size: smaller;
+  line-height: 1.3em;
+  color: #00ffffe0;
+  padding: 20px 25px;
+  border-radius: 14px;
+
+  @media screen and (max-width: 415px) {
+    font-size: 55%;
+  }
+}
+
+pre.log em {
+  color: #00ff00e0;
+}
+pre.log b {
+  color: #ee0000e0;
+}
+pre.log i {
+  color: grey;
 }

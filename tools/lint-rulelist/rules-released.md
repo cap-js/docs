@@ -39,8 +39,4 @@ status: released
 </style>
 
 
-<!--- {% include _toc %} -->
-
-{% if jekyll.environment == "external" %}
-  <!--- {% include _git/eslint-plugin-cds/docs/Rules-released.md %} -->
-{% endif %}
+<!--@include: ./gen/Rules-released.md -->

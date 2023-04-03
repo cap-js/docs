@@ -32,7 +32,7 @@ Connect an adequate logging service to meet compliance requirements such as [SAP
 - Messages temporarily written to transaction outbox might contain personal data. The entries are mandatory to operate the system.
 If necessary, applications can process these messages by standard CAP functionality (CDS model `@sap/cds/srv/outbox`).
 
-- Be aware that personal data might be added automatically when using the [managed](../../guides/providing-services#managed-data) aspect.
+- Be aware that personal data might be added automatically when using the [managed](../guides/providing-services#managed-data) aspect.
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 
@@ -51,11 +51,11 @@ Also refer to related guides of most important platform services:
 ## Data Protection & Privacy Supported by CAP {: #dpp-support}
 <!-- TODO: Duplicate attribute error with: #SEC-255 #SEC-265 #SEC-254 -->
 
-CAP provides several [features](../../guides/data-privacy/) to help applications meet DPP-requirements:
+CAP provides several [features](../guides/data-privacy/) to help applications meet DPP-requirements:
 
-- The [Personal Data Management (PDM)](../../guides/data-privacy/pdm) integration has a configurable **retrieval function**, which can be used to inform data subjects about personal data stored related to them.
+- The [Personal Data Management (PDM)](../guides/data-privacy/pdm) integration has a configurable **retrieval function**, which can be used to inform data subjects about personal data stored related to them.
 - CAP also provides a *fully model-driven* approach to track **changes in personal data** or **read access to sensitive personal data** in the audit log.
-Having [declared personal data](../../guides/data-privacy/introduction#indicate-privacy) in your model, CAP automatically triggers corresponding [audit log events](../../guides/data-privacy/audit-log).
+Having [declared personal data](../guides/data-privacy/introduction#indicate-privacy) in your model, CAP automatically triggers corresponding [audit log events](../guides/data-privacy/audit-log).
 
 ::: warning
 ❗ So far, applications have to integrate [SAP Data Retention Manager](https://help.sap.com/docs/DATA_RETENTION_MANAGER) to implement an adequate **erasure function** for personal data out of retention period.

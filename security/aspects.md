@@ -213,7 +213,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |  | OData v2/v4 | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../guides/authorization#requires) |
 | Index page | | `/index.html` | none |
 
-> <sup>1</sup> See [protocols and paths](../../java/application-services#configure-path-and-protocol)
+> <sup>1</sup> See [protocols and paths](../java/application-services#configure-path-and-protocol)
 
 > <sup>2</sup> No authorization by default
 
@@ -370,7 +370,7 @@ Apart from that the used web server frameworks such as Spring or Express already
 
 - [CLRF injections](https://owasp.org/www-community/vulnerabilities/CRLF_Injection) or [log injections](https://owasp.org/www-community/attacks/Log_Injection) can occur when untrusted user input is written to log output.
 
-CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
+CAP Node.js offers a CLRF-safe [logging API](../node.js/cds-log#logging-in-production) that should be used for application logs.
 {: .impl .node}
 
 ::: warning
@@ -502,7 +502,7 @@ Design your CDS services exposed to web adapters on need-to-know basis. Be espec
 #### CAP Service Runtime
 
 Open transactions are expensive as they bind many resources such as a database connection as well as memory buffers.
-To minimize the amount of time a transaction must be kept open, the CAP runtime offers an [Outbox Service](../../java/outbox) that allows to schedule asynchronous remote calls in the business transaction.
+To minimize the amount of time a transaction must be kept open, the CAP runtime offers an [Outbox Service](../java/outbox) that allows to schedule asynchronous remote calls in the business transaction.
 Hence, the request time to process a business query, which requires a remote call (such as to an audit log server or messaging broker), is minimized and independent from the response time of the remote service.
 
 ::: tip
@@ -664,7 +664,7 @@ Align the exception handling in your custom coding with the provided exception h
 
 ### Auditlog Service
 
-CAP provides a technical [AuditlogService](../../java/auditlog/#auditlog-service) that defines a high-level API to emit security events.
+CAP provides a technical [AuditlogService](../java/auditlog/#auditlog-service) that defines a high-level API to emit security events.
 It helps to decouple business logic from the concrete audit log implementation. By default, it writes audit log events to console.
 
 ::: warning

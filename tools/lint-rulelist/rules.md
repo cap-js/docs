@@ -41,8 +41,4 @@ embed: link
 </style>
 
 
-<!--- {% include _toc %} -->
-
-{% if jekyll.environment != "external" %}
-  <!--- {% include _git/eslint-plugin-cds/docs/Rules.md %} -->
-{% endif %}
+<!--@include: ./gen/Rules.md -->

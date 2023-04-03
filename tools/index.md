@@ -489,21 +489,20 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
     display: inline !important;
     margin: 0px !important;
   }
-  table td { border: none; }
   tr td {
     padding-left: 0;
     padding-right: 0;
   }
 </style>
 
-<table>
-  <tr>
-    <td>
+<table style="border: none;">
+  <tr style="border: none;">
+    <td style="border: none;">
       To catch issues with CDS models and the CDS environment early, CAP provides an <a href="https://eslint.org/">ESLint plugin</a> with a set of <a href="#cds-lint-rules">recommended rules</a>.
       <!-- {% if jekyll.environment != "external" %}, on top of which you can apply your <a href="{{cap}}/tools/#lint-custom-rules">own application-specific rules</a>.{% else %}.{% endif %} -->
       Together with the <code>lint</code> client of the <a href="https://www.npmjs.com/package/@sap/cds-dk"><code>@sap/cds-dk</code></a>, this comprises <b>CDS Lint</b>.
     </td>
-    <td style="width:30%; padding:0;">
+    <td style="width:30%; padding:0; border: none;">
       <img src="./assets/cdslint.svg" style="margin-top:0; margin-right: -30%">
     </td>
   </tr>
@@ -537,11 +536,11 @@ If there are no lint errors, there is no output. Otherwise, a standard ESLint er
 
 The **CDS Lint** rules are a set of generic rules based on CAP best practices. The subset of these we consider most essential is part of the `recommended` configuration of the `@sap/eslint-plugin-cds` package.
 
-{% if jekyll.environment != "external" %}
-  <!--- {% include _git/eslint-plugin-cds/docs/RuleList.md %} -->
-{% else if %}
-  <!--- {% include _git/eslint-plugin-cds/docs/RuleList-released.md %} -->
-{% endif %}
+<!-- TODO fix conditional include -->
+
+<!--@include: ./lint-rulelist/gen/RuleList.md -->
+
+<!--@_XXX_include: ./lint-rulelist/gen/RuleList-released.md -->
 
 ### Customization
 <br>

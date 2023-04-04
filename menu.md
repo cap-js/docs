@@ -52,7 +52,7 @@
 - [Common Types and Aspects](/cds/common)
 - [Common Annotations](/cds/annotations)
 - [Compiler Messages](/cds/compiler-messages)
-- [Upgrade to Compiler v2](/cds/compiler-v2/)
+- [Upgrade to Compiler v2](/cds/compiler-v2)
 - [Nature of Models](/cds/models)
 
 ### [Java](/java/)

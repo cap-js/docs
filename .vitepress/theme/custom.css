@@ -73,3 +73,9 @@ pre.log b {
 pre.log i {
   color: grey;
 }
+
+.subtitle {
+  margin: -3.3em 0 2em;
+  font-size: 1.7em;
+  font-weight: 100;
+}

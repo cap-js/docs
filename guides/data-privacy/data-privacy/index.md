@@ -26,7 +26,7 @@ Please refer to the former [Data Privacy guide](../data-privacy) for what's curr
 
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like {% if jekyll.environment != "external" %} SAP Audit Log Service, or {% endif %} SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
-<img src="./assets/Data Privacy.drawio.svg" alt="Data Privacy.drawio" style="zoom:111%;" class="adapt" />
+<img src="./assets/Data Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" class="adapt" />
 
 
 ### Related SAP Product Standards {: .impl.internal}

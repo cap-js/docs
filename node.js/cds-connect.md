@@ -22,7 +22,7 @@ The latter include **database** services. In all cases use `cds.connect` to conn
 ## Connecting to Required Services {: #cds-connect-to }
 
 
-### cds.connect.to  <i>  (name, options?) &#8594; [service](services) </i>
+### cds.connect.to  <i>  (name, options?) &#8594; [service](services/) </i>
 
 Connects to a required service and returns a _Promise_ resolving to a corresponding _[Service]_ instance.
 Subsequent invocations with the same service name all return the same instance.
@@ -46,7 +46,7 @@ Service instances are cached in [`cds.services`](cds-facade#cds-services), thus 
 
 
 
-### cds.connect.to  <i>  (options) &#8594; [service](services) </i>
+### cds.connect.to  <i>  (options) &#8594; [service](services/) </i>
 
 Ad-hoc connection (&rarr; only for tests):
 
@@ -56,7 +56,7 @@ cds.connect.to ({ kind:'sqlite', credentials:{database:'my.db'} })
 
 
 
-### cds.connect.to  <i>  ('\<kind\>:\<url\>') &#8594; [service](services) </i>
+### cds.connect.to  <i>  ('\<kind\>:\<url\>') &#8594; [service](services/) </i>
 
 This is a shortcut for ad-hoc connections.
 
@@ -608,7 +608,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
 
 ###  <i>  Through _.cdsrc-private.json_ File for Local Testing </i>
 
-[Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing#bind-to-cloud-services)
+[Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing/#bind-to-cloud-services)
 
 ```json
 {

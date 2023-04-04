@@ -120,7 +120,7 @@ The `req` object in your express middleware is not the same as `req` in your CDS
     
 ### cds.once  <i>  ('**bootstrap**', ([express.js app](cds-facade#cds-app))=>{}) </i> 
 
-A one-time event, emitted immediately after the [express.js app]
+A one-time event, emitted immediately after the [express.js app](cds-facade#cds-app)
 has been created and before any middleware or CDS services are added to it.
 
 ```js

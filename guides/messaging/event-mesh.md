@@ -308,12 +308,13 @@ In case of Java, you additionally need to set `CDS_MULTITENANCY_CALLBACKURL`, as
 
 When upgrading deployed applications **new subscriptions are currently not propagated to already onboarded tenants** → as a temporary work-around to compensate for this, a REST API is provided to trigger that manually. Calling this REST API requires the caller to have a role that includes the scope `$XSAPPNAME.emmanagement`.
 
-_❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{:.warning-title}
 As soon as a better integration into the SaaS management processes is found, the provided REST APIs will be deprecated and removed.
-{:.warning}
+:::
 
+::: tip
 To create the messaging infrastructure for existing tenants you have to trigger the tenant update by the SaaS provisioning service. The tenant update only updates the messaging-related configuration, such as related queues, topic subscriptions and webhook registrations. 
-{:.tip}
+:::
 
 ### For Node.js
 

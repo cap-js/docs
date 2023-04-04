@@ -39,8 +39,6 @@
 
 ### [Tools](/tools/)
 
-- [CDS Lint Rules](/tools/lint-rulelist/rules-released)
-
 ### [CDS](/cds/)
 
 - [Definition Language (CDL)](/cds/cdl)

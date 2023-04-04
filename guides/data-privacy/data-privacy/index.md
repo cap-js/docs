@@ -26,7 +26,7 @@ Please refer to the former [Data Privacy guide](../data-privacy) for what's curr
 
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like {% if jekyll.environment != "external" %} SAP Audit Log Service, or {% endif %} SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
-<img src="assets/Data Privacy.drawio.svg" alt="Data Privacy.drawio" style="zoom:111%;" class="adapt" />
+<img src="./assets/Data Privacy.drawio.svg" alt="Data Privacy.drawio" style="zoom:111%;" class="adapt" />
 
 
 ### Related SAP Product Standards {: .impl.internal}
@@ -363,7 +363,7 @@ cds env requires.audit-log --profile production
 
 By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
 
-![Transactional Outbox.drawio](assets/Transactional Outbox.drawio.svg)
+![Transactional Outbox.drawio](./assets/Transactional Outbox.drawio.svg)
 
 
 
@@ -705,8 +705,8 @@ TODO: Similar to above, I'd like us to say something like:
 
 Open the SAP Personal Data Manager application from the _Instances and Subscriptions_ page in the SAP BTP cockpit.
 
-![tile in the cockpit](assets/pdmCockpit.png){:width="500"}
+![tile in the cockpit](./assets/pdmCockpit.png){:width="500"}
 
 In the personal data manager application you can search for data subjects with _First Name_, _Last Name_, and _Date of Birth_, or alternatively with their _ID_.
 
-![PDM UI](assets/pdmApplication.png){:width="500"}
+![PDM UI](./assets/pdmApplication.png){:width="500"}

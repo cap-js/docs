@@ -1,6 +1,5 @@
-### About
+### [About](/about/)
 
-- [About CAP](/about/)
 - [Related Concepts](/about/related)
 - [Features](/about/features)
 - [Glossary](/about/glossary)

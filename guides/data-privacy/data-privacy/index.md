@@ -100,7 +100,7 @@ entity Orders : cuid, managed {
 
 Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Subject Details*  or *Related Data Objects*.
 
-<img src="assets/Data Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
+<img src="./assets/Data Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
 Following the [best practice of separation of concerns](//guides/domain-models/#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
 

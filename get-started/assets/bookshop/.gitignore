@@ -1,6 +1,0 @@
-_out
-*.db
-gen/
-srv/src/main/resources/edmx/
-app/webapp/
-node_modules/

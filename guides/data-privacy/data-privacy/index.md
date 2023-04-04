@@ -26,7 +26,7 @@ Please refer to the former [Data Privacy guide](../data-privacy) for what's curr
 
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like {% if jekyll.environment != "external" %} SAP Audit Log Service, or {% endif %} SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
-<img src="./assets/Data Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" class="adapt" />
+<img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" class="adapt" />
 
 
 ### Related SAP Product Standards {: .impl.internal}
@@ -100,7 +100,7 @@ entity Orders : cuid, managed {
 
 Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Subject Details*  or *Related Data Objects*.
 
-<img src="./assets/Data Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
+<img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
 Following the [best practice of separation of concerns](//guides/domain-models/#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
 
@@ -363,7 +363,7 @@ cds env requires.audit-log --profile production
 
 By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
 
-![Transactional Outbox.drawio](./assets/Transactional Outbox.drawio.svg)
+![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
 
 
 

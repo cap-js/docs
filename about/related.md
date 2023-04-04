@@ -21,7 +21,7 @@ In contrast to DDD however, CAP prefers a strong distinction of active services 
 
 ###### CAP promotes CQRS {:#cqrs}
 
-Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](../guides/providing-services#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There’s no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'.
+Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](../guides/providing-services/#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There’s no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'.
 
 
 ###### CAP and Event Sourcing {:#event-sourcing}
@@ -30,7 +30,7 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 ###### CAP supports SQL {:#sql}
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl.md#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#postfix-projections) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way.
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#postfix-projections) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way.
 
 
 ###### CAP supports NoSQL {:#nosql}
@@ -50,7 +50,7 @@ CAP employs proven basics of Entity-Relationship Modeling for capturing the conc
 
 ###### CAP == Aspect-Oriented Programming {:#aop }
 
-[Aspects](../cds/cdl#aspects) in [CDS](../cds) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas))
+[Aspects](../cds/cdl#aspects) in [CDS](../cds/) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas))
 
 
 ###### CAP == Functional Programming {:#functional-programming}

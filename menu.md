@@ -77,7 +77,7 @@
 - [Development](/java/development/)
   - [CDS Properties](/java/development/properties)
 - [Observability](/java/observability/)
-- [Migration](/java/migration/)
+- [Migration](/java/migration)
 
 ### [Node.js](/node.js/)
 

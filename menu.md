@@ -72,7 +72,7 @@
 - [Remote Services](/java/remote-services/)
 - [Messaging](/java/messaging-foundation/)
 - [Advanced Concepts](/java/advanced)
-- [Audit Logging](/java/auditlog/)
+- [Audit Logging](/java/auditlog)
 - [Transactional Outbox](/java/outbox/)
 - [Development](/java/development/)
   - [CDS Properties](/java/development/properties)

@@ -1,5 +1,4 @@
 ---
-permalink: /node.js/cds-test/
 shorty: cds.test
 # synopsis: How test CAP Node.js applications.
 status: released
@@ -10,7 +9,7 @@ status: released
 Learn more about best practices to test CAP Node.js applications using the `cds.test` toolkit.
 Find samples for such tests in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/master/test) and in [CAP SFLIGHT app](https://github.com/SAP-samples/cap-sflight/tree/main/test).
 
-For more details how to test Java applications, see the [Java documentation]({{cap}}/java/development/#testing-cap-java-applications).
+For more details how to test Java applications, see the [Java documentation](../java/development#testing-cap-java-applications).
 
 
 
@@ -23,7 +22,9 @@ Add optional dependencies required by `cds.test`:
 npm add -D axios chai chai-as-promised chai-subset jest
 ```
 
-If you have cloned [cap/samples], you get that for free. {:.tip}
+::: tip
+If you have cloned [cap/samples]( https://github.com/sap-samples/cloud-cap-samples), you get that for free. 
+::: 
 
 
 ## Running a CAP Server
@@ -54,9 +55,13 @@ cds.test.in(__dirname)
 
 For example, this would have `cds.env` loading the configuration from _package.json_ and _.cdsrc.json_ files found next to the test file, that is, in the same folder.
 
-**Important:** Don't use `process.chdir()` in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests. {:.danger}
+::: danger
+**Important:** Don't use `process.chdir()` in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests. 
+::: 
 
-**Tip:** Prefer using relative filenames derived from `__dirname` as arguments to `cds.test` to allow your tests be started from whatever working directory. {:.tip}
+::: tip
+Prefer using relative filenames derived from `__dirname` as arguments to `cds.test` to allow your tests be started from whatever working directory. 
+::: 
 
 
 ##### Silenced Server Log
@@ -160,9 +165,10 @@ describe('my test suite', ()=>{
 
 To be portable, you need to use a specific implementation of `expect`, like the one from `chai` provided through `cds.test()`, as shown in the previous sample.
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods.
-
+::: tip
 [All tests in cap/samples](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
-Run them with `npm run jest` or with `npm run mocha`. {:.tip}
+Run them with `npm run jest` or with `npm run mocha`. 
+::: 
 
 
 
@@ -202,7 +208,7 @@ Similarly, you can use other test watchers like `mocha -w`.
 You can use `cds.test` in REPL, for example, by running this from your command line:
 
 ```sh
-[samples] cds repl
+[samples](https://github.com/sap-samples/cloud-cap-samples) cds repl
 Welcome to cds repl v5.5.0
 ```
 ```js
@@ -210,7 +216,7 @@ Welcome to cds repl v5.5.0
 Test {}
 ```
 ```sh
-[cds] - model loaded from 6 file(s):
+[cds](cds) - model loaded from 6 file(s):
 
   ./bookshop/db/schema.cds
   ./bookshop/srv/admin-service.cds
@@ -219,7 +225,7 @@ Test {}
   ./../../cds/common.cds
   ./common/index.cds
 
-[cds] - connect to db > sqlite { database: ':memory:' }
+[cds](cds) - connect to db > sqlite { database: ':memory:' }
  > filling sap.capire.bookshop.Authors from ./bookshop/db/data/sap.capire.bookshop-Authors.csv
  > filling sap.capire.bookshop.Books from ./bookshop/db/data/sap.capire.bookshop-Books.csv
  > filling sap.capire.bookshop.Books.texts from ./bookshop/db/data/sap.capire.bookshop-Books_texts.csv
@@ -228,11 +234,11 @@ Test {}
  > filling sap.common.Currencies.texts from ./common/data/sap.common-Currencies_texts.csv
 /> successfully deployed to sqlite in-memory db
 
-[cds] - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
-[cds] - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
+[cds](cds) - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
+[cds](cds) - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
 
-[cds] - server listening on { url: 'http://localhost:64914' }
-[cds] - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
+[cds](cds) - server listening on { url: 'http://localhost:64914' }
+[cds](cds) - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
 [ terminate with ^C ]
 ```
 ```js
@@ -301,7 +307,7 @@ await data.delete()
 
 ### `cds.test (projectDir)` → `Test` {: #run}
 
-Launches a CDS server with an arbitrary port and returns a subclass which also acts as an [Axios] lookalike, providing methods to send requests.
+Launches a CDS server with an arbitrary port and returns a subclass which also acts as an [Axios]( https://github.com/axios/axios) lookalike, providing methods to send requests.
 Launch a server in the given project folder, using a default command of `cds serve --in-memory?`.
 
 The server is shut down after all tests have been executed.
@@ -318,8 +324,7 @@ Instances of this class are returned by `cds.test()`. See below for its function
 
 #### `.GET/PATCH/POST/PUT/DELETE (url, ...)` ⇢ [`response`](https://github.com/axios/axios#response-schema) {: #get}
 
-Aliases for corresponding [`get/patch/...` methods from Axios](https://github.com/axios/axios#instance-methods).
-For calls w/o additional parameters, a simplified call style is available where the `()` can be omitted. For example, <pre>GET `/foo`</pre>  and <code>GET(`/foo`)</code> are equivalent. {:.indent}
+Aliases for corresponding [`get/patch/...` methods from Axios](https://github.com/axios/axios#instance-methods). For calls w/o additional parameters, a simplified call style is available where the `()` can be omitted. For example, <pre>GET `/foo`</pre>  and <code>GET(`/foo`)</code> are equivalent. {:.indent}
 
 #### `.expect` → [`expect`](https://www.chaijs.com/api/bdd/) {: #expect}
 
@@ -379,3 +384,4 @@ await expect(POST(`/catalog/Books`,{ID:333})).to.be.rejectedWith(
 await expect(POST(`/catalog/Books`,{ID:333})).to.be.rejectedWith(
   /read?only/i)  // better: check for the essential information, use regexes
 ```
+

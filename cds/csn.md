@@ -191,12 +191,12 @@ Foo2 = { type:"cds.String", kind:"type" }
 
 Custom-defined types are entries in [`definitions`](#definitions) with an optional property `kind`=`"type"` and the following properties.
 
-| Property   | Used for                                                                                     |
-|------------|----------------------------------------------------------------------------------------------|
-| `type`     | [Scalar Types](#scalar-types), [Structured Types](struct], and [Associations)(#associations) |
-| `elements` | [Structured Types](struct)                                                                   |
-| `items`    | [Arrayed Types](arrays)                                                                      |
-| `enum`     | [Enumeration Types](enum)                                                                    |
+| Property   | Used for                                                              |
+|------------|-----------------------------------------------------------------------|
+| `type`     | [Scalar Types](#scalar-types), [Structured Types], and [Associations] |
+| `elements` | [Structured Types](struct)                                            |
+| `items`    | [Arrayed Types](arrays)                                               |
+| `enum`     | [Enumeration Types](enum)                                             |
 
 
 #### Example
@@ -427,6 +427,8 @@ Use the `projection` property for views if you don't need the full power of SQL.
 * `elements` &ndash; optional [elements signature](#views-with-declared-signatures), omitted and inferred
 
 ## Associations
+
+[Associations]: #associations
 
 Associations are like [scalar type definitions](scalar) with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
 

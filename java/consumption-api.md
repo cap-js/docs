@@ -1,4 +1,5 @@
 ---
+synopsis: Services are one of the core concepts of CAP. This section describes how services are represented in the CAP Java SDK and how their event-based APIs can be used. One of the key APIs provided by services is the uniform query API based on CQN statements.
 redirect_from:
 - java/srv-run
 - java/result-handling

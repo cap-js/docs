@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
-[toc]
+[[toc]]
 
 ## Postfix Projections {:#postfix-projections }
 

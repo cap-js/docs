@@ -112,23 +112,23 @@ There are several places where literals can show up in models, such as in SQL ex
 
 Standard literals are represented as in JSON:
 
-| Kind | Example |
-| &ndash; | &ndash; |
-| Globals | `true`, `false`, `null` |
-| Numbers<sup>1</sup> | `11` or  `2.4` |
-| Strings | `"foo"` |
-| Dates<sup>2</sup> |  `"2016-11-24"` |
-| Times<sup>2</sup>  |  `"16:11"` |
-| DateTimes<sup>2</sup> |  `"2016-11-24T16:11"` |
-| Records |  `{"foo":<literal>, ...}` |
-| Arrays |  `[<literal>, ...]` |
+| Kind                  | Example                  |
+|-----------------------|--------------------------|
+| Globals               | `true`, `false`, `null`  |
+| Numbers<sup>1</sup>   | `11` or  `2.4`           |
+| Strings               | `"foo"`                  |
+| Dates<sup>2</sup>     | `"2016-11-24"`           |
+| Times<sup>2</sup>     | `"16:11"`                |
+| DateTimes<sup>2</sup> | `"2016-11-24T16:11"`     |
+| Records               | `{"foo":<literal>, ...}` |
+| Arrays                | `[<literal>, ...]`       |
 
 In addition, CSN specifies these special forms for references, expressions, and `enum` symbols:
 
-| Kind | Example |
-| &ndash; | &ndash; |
-| Unparsed Expressions | `{"=":"foo.bar < 9"}` |
-| Enum symbols<sup>3</sup> |  `{"#":"asc"}` |
+| Kind                     | Example               |
+|--------------------------|-----------------------|
+| Unparsed Expressions     | `{"=":"foo.bar < 9"}` |
+| Enum symbols<sup>3</sup> | `{"#":"asc"}`         |
 
 #### Remarks
 
@@ -177,7 +177,7 @@ Names **must**:
 * `type` &ndash; an optional base type that this definition is derived from
 * [`elements`][elements] &ndash; optional dictionary of [_elements_](elements) in case of structured types
 
-Property `kind` is always omitted for [elements](] and can be omitted for top-level [type definitions)(#type-definitions). These examples are semantically equivalent:
+Property `kind` is always omitted for [elements] and can be omitted for top-level [type definitions]. These examples are semantically equivalent:
 
 ```js
 Foo1 = { type:"cds.String" }
@@ -185,20 +185,18 @@ Foo2 = { type:"cds.String", kind:"type" }
 ```
 
 
+## Type Definitions {:#type-definitions}
 
-
-
-## Type Definitions
+[type definitions]: #type-definitions
 
 Custom-defined types are entries in [`definitions`](#definitions) with an optional property `kind`=`"type"` and the following properties.
 
-| Property | Used for |
-| &ndash; | &ndash; |
-| `type` | [Scalar Types](#scalar-types), [Structured Types](struct], and [Associations)(#associations) |
-| `elements` | [Structured Types](struct) |
-| `items` | [Arrayed Types](arrays) |
-| `enum` | [Enumeration Types](enum) |
-
+| Property   | Used for                                                                                     |
+|------------|----------------------------------------------------------------------------------------------|
+| `type`     | [Scalar Types](#scalar-types), [Structured Types](struct], and [Associations)(#associations) |
+| `elements` | [Structured Types](struct)                                                                   |
+| `items`    | [Arrayed Types](arrays)                                                                      |
+| `enum`     | [Enumeration Types](enum)                                                                    |
 
 
 #### Example

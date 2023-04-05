@@ -33,9 +33,14 @@
 
 - [OpenAPI](/advanced/openapi)
 - [AsyncAPI](/advanced/asyncapi)
-- [OData](/advanced/odata/)
-- [Hybrid Testing](/advanced/hybrid-testing/)
-- [Performance Modeling](/advanced/performance-modeling/)
+- [OData](/advanced/odata)
+- [Fiori UIs](/advanced/fiori)
+- [Analytics](/advanced/analytics)
+- [Monitoring](/advanced/monitoring)
+- [Hybrid Testing](/advanced/hybrid-testing)
+- [Native SAP HANA](/advanced/hana)
+- [Performance Modeling](/advanced/performance-modeling)
+- [Troubleshooting](/advanced/troubleshooting)
 
 ### [Tools](/tools/)
 

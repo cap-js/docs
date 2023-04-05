@@ -12,6 +12,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
+[[toc]]
+
 ## Postfix Projections {:#postfix-projections }
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:

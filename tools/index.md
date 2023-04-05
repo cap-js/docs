@@ -536,11 +536,7 @@ If there are no lint errors, there is no output. Otherwise, a standard ESLint er
 
 The **CDS Lint** rules are a set of generic rules based on CAP best practices. The subset of these we consider most essential is part of the `recommended` configuration of the `@sap/eslint-plugin-cds` package.
 
-<!-- TODO fix conditional include -->
-
-<!--@include: ./lint-rulelist/gen/RuleList.md -->
-
-<!--@_XXX_include: ./lint-rulelist/gen/RuleList-released.md -->
+<span id="cds-lint-rules" />
 
 ### Customization
 <br>

@@ -118,8 +118,9 @@ The following explanations walk us through a books review example from cap/sampl
 
 ![cap-samples.drawio](assets/cap-samples.drawio.svg){:.adapt}
 
+::: tip
 Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples/cloud-cap-samples#readme) for getting the samples and exercising the following steps.
-{:.tip}
+:::
 
 ### Declaring Events in CDS {:.h2}
 
@@ -246,8 +247,8 @@ When emitters and receivers live in separate processes, you need to add a messag
 ![remote.drawio](assets/remote.drawio.svg){:.adapt}
 
 
-::: tip
-**Uniform, Agnostic Messaging**{:.tip-title} — CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which stays on conceptual level.
+::: tip **Uniform, Agnostic Messaging** {:.tip-title}
+CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which stays on conceptual level.
 :::
 
 ### 1. Use `file-based-messaging` in Development

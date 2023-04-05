@@ -16,10 +16,10 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Handling CRUD Events {: #crudevents}
 
-Application Services provide a [CQN query API](../consumption-api#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
+Application Services provide a [CQN query API](consumption-api#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
 The processing of these events is usually extended when adding business logic to the Application Service.
 
-The following table lists the static event name constants that exist for these event names on the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html) interface and their corresponding [event-specific Event Context interfaces](../provisioning-api#eventcontext). These constants and interfaces should be used, when registering and implementing event handlers:
+The following table lists the static event name constants that exist for these event names on the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html) interface and their corresponding [event-specific Event Context interfaces](provisioning-api#eventcontext). These constants and interfaces should be used, when registering and implementing event handlers:
 
 | Event | Constant | Event Context |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ public void createBooks(CdsCreateEventContext context, List<Books> books) { }
 ```
 
 ::: tip
-To learn more about the entity data argument `List<Books> books` of the event handler method, have a look at [this section](../provisioning-api#pojoarguments).
+To learn more about the entity data argument `List<Books> books` of the event handler method, have a look at [this section](provisioning-api#pojoarguments).
 :::
 
 ### OData Requests
@@ -51,9 +51,9 @@ http(s)://<application_url>/<base_path>/<service_name>
 |Parameter | Description
 | --- | --- |
 |`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties] for their default values.       |
-|`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../../cds/cdl#service-definitions)).        |
+|`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../cds/cdl#service-definitions)).        |
 
-[Learn more about how OData URLs are configured.](../application-services#serve-configuration){:.learn-more} 
+[Learn more about how OData URLs are configured.](application-services#serve-configuration){:.learn-more}
 
 The OData protocol adapters use the CQN query APIs to retrieve a response for the requests they receive.
 They transform OData-specific requests into a CQN query, which is run on the Application Service.
@@ -186,16 +186,16 @@ Result r = deletedRows(deleteCount).result();
 
 ## Actions and Functions {: #actions}
 
-[Actions](../../cds/cdl#actions) and [Functions](../../cds/cdl#actions) enhance the API provided by an Application Service with custom operations. They have well-defined input parameters and a return value, that are modelled in CDS.
+[Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) enhance the API provided by an Application Service with custom operations. They have well-defined input parameters and a return value, that are modelled in CDS.
 Actions or functions are handled - just like CRUD events - using event handlers. To trigger an action or function on an Application Service an event with the action's or function's name is emitted on it.
 
-Actions and functions are therefore implemented through event handlers. For each action or function an event handler of the [`On`](../provisioning-api#on) phase should be defined,
-which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](../provisioning-api#eventcompletion).
+Actions and functions are therefore implemented through event handlers. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined,
+which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion).
 
-The [CAP Java SDK Maven Plugin](../development#cds-maven-plugin) is capable of generating event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
+The [CAP Java SDK Maven Plugin](development#cds-maven-plugin) is capable of generating event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
 
 If an action or function is bound to an entity, the entity needs to be specified while registering the event handler.
-For bound actions or functions the Event Context interface provides a [CqnSelect](../query-api#select) statement, which targets the entity the action or function was triggered on.
+For bound actions or functions the Event Context interface provides a [CqnSelect](query-api#select) statement, which targets the entity the action or function was triggered on.
 
 The following example shows how all of this plays together to implement an event handler for an action:
 
@@ -257,7 +257,7 @@ public class CatalogServiceHandler implements EventHandler {
 ```
 
 ::: tip
-The unused methods `setCqn(CqnSelect)`, `setStars(Integer)`, and `getResult()` are useful when [triggering the event](../consumption-api#customevents) on the service.
+The unused methods `setCqn(CqnSelect)`, `setStars(Integer)`, and `getResult()` are useful when [triggering the event](consumption-api#customevents) on the service.
 :::
 
 
@@ -272,15 +272,15 @@ This section summarizes some best practices for implementing event handlers and 
 
 2. Which services should my event handlers usually interact with?
 
-    The CAP Java SDK provides [APIs](../java/consumption-api) that can be used in event handlers to interact with other services.
+    The CAP Java SDK provides [APIs](consumption-api) that can be used in event handlers to interact with other services.
     These other services can be used to request data, that is required by the event handler implementation.
 
-    If you’re implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it’s a good practice to read this data from the database using the [Persistence Service](../consumption-api#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
+    If you’re implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it’s a good practice to read this data from the database using the [Persistence Service](consumption-api#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
 
-    If you’re mashing up your service with another Application Service and also return data from that service to the client, it’s a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
+    If you’re mashing up your service with another Application Service and also return data from that service to the client, it’s a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
     If you do not require this decoupling, you can also access the service's entities directly from the database.
 
-    In case you’re working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](../fiori-drafts#draftservices) to query and interact with drafts.
+    In case you’re working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](fiori-drafts#draftservices) to query and interact with drafts.
 
 3. How should I implement business or domain logic shared across services?
 
@@ -318,7 +318,7 @@ cds:
 
 With the annotation `@path`, you can configure the relative path of a service under which it's served by protocol adapters. The path is appended to the protocol adapter's base path.
 
-With the annotations `@protocol` or `@protocols`, you can configure a list of protocol adapters a service should be served by. By default, a service is served by all protocol adapters. If you explicitly define a protocol, the service is only served by that protocol adapter. 
+With the annotations `@protocol` or `@protocols`, you can configure a list of protocol adapters a service should be served by. By default, a service is served by all protocol adapters. If you explicitly define a protocol, the service is only served by that protocol adapter.
 
 In the following example, the service `CatalogService` is available on the combined paths `/odata/v4/browse` with OData V4 and `/odata/v2/browse` with OData V2:
 

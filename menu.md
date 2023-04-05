@@ -69,7 +69,7 @@
 - [Request Contexts](/java/request-contexts/)
 - [ChangeSet Contexts](/java/changeset-contexts/)
 - [Security](/java/security)
-- [Remote Services](/java/remote-services/)
+- [Remote Services](/java/remote-services)
 - [Messaging](/java/messaging-foundation/)
 - [Advanced Concepts](/java/advanced)
 - [Audit Logging](/java/auditlog)

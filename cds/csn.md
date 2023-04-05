@@ -430,7 +430,7 @@ Use the `projection` property for views if you don't need the full power of SQL.
 
 [Associations]: #associations
 
-Associations are like [scalar type definitions](scalar) with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
+Associations are like [scalar type definitions][scalar] with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
 
 ### Basic to-one Associations
 

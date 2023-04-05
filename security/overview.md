@@ -8,9 +8,9 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 # Platform Security
 
-This section provides an overview about the security architecture of CAP applications on different platforms.
+{{ $frontmatter.synopsis }}
 
-## Platform Compliance {: #platform-compliance}
+## Platform Compliance {: #platform-compliance }
 
 CAP applications run in a certain environment, that is, in the context of some platform framework that has specific characteristics.
 The underlying framework has a major impact on the security of the application,
@@ -24,7 +24,7 @@ End-to-end security necessarily requires compliance with all security policies o
 Consult the relevant security documentation accordingly.
 :::
 
-### CAP in Cloud Environment {: #cloud}
+### CAP in Cloud Environment {: #cloud }
 
 Currently, CAP supports to run on two cloud runtimes of [SAP Business Technology Platform](https://help.sap.com/docs/btp):
 
@@ -56,7 +56,7 @@ Find more about BTP platform security here:
 
 <div id="security-dwc" />
 
-### CAP in Local Environment{: #local}
+### CAP in Local Environment{: #local
 
 Security not only plays a crucial role in [cloud](#cloud) environments, but also during local development.
 Apparently the security requirements are different from cloud scenario as local endpoints are typically not exposed for remote clients.
@@ -85,7 +85,7 @@ CAP as a framework has flexible APIs to integrate with services including custom
 The most important services for security offered by the platform:
 [Webcast SAP BTP Cloud Identity and Security Services](https://assets.dm.ux.sap.com/webinars/sap-user-groups-k4u/pdfs/221117_sap_security_webcast_series_sap_btp_cloud_identity_and_security_services.pdf){:.learn-more}
 
-#### [SAP Cloud Identity Services - Identity Authentication](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) {: #identity-service}
+#### [SAP Cloud Identity Services - Identity Authentication](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) {: #identity-service }
 
 The Identity Authentication service defines the user base for (CAP) applications resp. services and allows to control access.
 Customers can integrate their 3rd party or on-premise identity provider (IdP) and harden security by defining multifactor authentication or by narrowing client IP ranges.
@@ -125,7 +125,7 @@ Note the security [guide](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e
 As [pointed out](#platform-compliance), CAP cloud applications run in a specific context that has a major impact on the security [architecture](#architecture-overview).
 CAP requires a dedicated [platform environment](#platform-environment) to integrate with in order to ensure end-to-end security.
 
-### Architecture Overview {: #architecture-overview}
+### Architecture Overview {: #architecture-overview }
 
 The following diagram provides a high-level overview about the security-relevant aspects of a deployed CAP application in a cloud environment:
 
@@ -134,7 +134,7 @@ The following diagram provides a high-level overview about the security-relevant
 
 To serve a business request, different runtime components are involved: a request, issued by a UI or technical client ([public zone](#public-zone)), is forwarded by a gateway or ingress router to the CAP application. In case of an UI request, an [Application Router](https://help.sap.com/docs/btp/sap-business-technology-platform/application-router) instance acts as a proxy. The CAP application might make use of a CAP sidecar. All application components ([application zone](#application-zone)) might make use of platform services such as database or identity service ([platform zone](#platform-zone)).
 
-#### Public Zone {: #public-zone}
+#### Public Zone {: #public-zone }
 
 From CAP's point of view, all components without specific security requirements belong to the public zone.
 Hence, security of server components may not relay on the behaviour or structure of consumer components such as browsers or technical clients.
@@ -142,7 +142,7 @@ The platform's gateway provides a single point of entry for any incoming call an
 As malicious users have free access to public zone, these endpoints need to be protected carefully.
 Ideally, the set of exposed endpoints is reduced to a minimum, for instance by means of adequate network configuration.
 
-#### Platform Zone {: #platform-zone}
+#### Platform Zone {: #platform-zone }
 
 The platform zone contains all platform components and services that are *configured and maintained* by the application provider.
 CAP applications consume these low-level [platform services](#btp-services) in order to serve higher-level business requests.
@@ -175,7 +175,7 @@ Without limitation of generality, there may be multiple CAP services or sidecars
 :::
 
 
-### Required Platform Environment {: #platform-environment}
+### Required Platform Environment {: #platform-environment }
 
 There are several assumptions that a CAP application need to make about the platform environment it is deployed to:
 

@@ -9,9 +9,9 @@ impl-variants: true
 
 # Security Aspects
 
-This section describes in detail what CAP offers to protect your application.
+{{ $frontmatter.synopsis }}
 
-## Secure Communications {: #secure-communications}
+## Secure Communications {: #secure-communications }
 
 
 ### Encrypted Communication Channels {: #encrypted-channels }
@@ -126,7 +126,7 @@ Note that the applied authentication strategy is specified by server offering an
 
 <div id="security-mtls" />
 
-### Maintaining Sessions {: #sessions}
+### Maintaining Sessions {: #sessions }
 <!-- #SEC-220 #SEC-221 -->
 
 CAP microservices require [authentication](#authenticate-requests) of all requests, but they don't support logon flows for UI clients.
@@ -140,7 +140,7 @@ The Application Router redirects the login to the identity service, fetches an O
 Hence, authentication is still mandatory for CAP microservices.
 :::
 
-### Maintaining Secrets {: #secrets}
+### Maintaining Secrets {: #secrets }
 <!-- #SEC-309 -->
 
 To run a CAP application that authenticates users and consumes remote services, **it isn't required to manage any secrets such as keys, tokens, or passwords**.
@@ -150,14 +150,14 @@ Also CAP doesn't store any of them, but relies on platform [injection mechanisms
 In case you still need to store any secrets, use a platform service [SAP Credential Store](https://help.sap.com/docs/CREDENTIAL_STORE).
 :::
 
-## Secure Authorization {: #secure-authorization}
+## Secure Authorization {: #secure-authorization }
 <!-- #SEC-248 -->
 
 According to segregation of duties paradigm, user administrators need to control how different users may interact with the application.
 Critical combinations of authorizations must be avoided. Basically, access rules for [business users](#business-authz) are different from [platform users](#platform-authz).
 
 
-### Authorization of Business Users {: #business-authz}
+### Authorization of Business Users {: #business-authz }
 <!-- #SEC-376 #SEC-250 -->
 
 To align with the principle of least privilege, applications need to enforce fine-grained access control for business users from the subscriber tenants.
@@ -198,7 +198,7 @@ CAP authorization enforcement doesn't automatically log successful and unsuccess
 Applications need to add corresponding custom handlers to support it.
 :::
 
-#### Authorization of CAP Endpoints {: #cap-endpoints}
+#### Authorization of CAP Endpoints {: #cap-endpoints }
 <!-- #SEC-236 -->
 
 In general, responses created by *standard* CAP handlers and services are created on need-to-know basis.
@@ -262,7 +262,7 @@ Similar to [business consumption](#business-authz), different scenarios apply on
 - [Roles in the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment)
 - [Roles in the Kyma Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/assign-roles-in-kyma-environment)
 
-## Secure Multi-Tenancy {: #secure-multitenancy}
+## Secure Multi-Tenancy {: #secure-multitenancy }
 <!-- #SEC-378 -->
 
 Multitenant SaaS-applications need to take care for security aspects on a higher level.
@@ -276,7 +276,7 @@ All directly or indirectly involved services that process the business request r
 
 The CAP runtime is designed from scratch to support tenant isolation:
 
-### Isolated Persistent Data {: #isolated-persistent-data}
+### Isolated Persistent Data {: #isolated-persistent-data }
 
 Having configured [Multitenancy in CAP](../guides/multitenancy), when serving a business request, CAP automatically targets an isolated HDI container dedicated for the request tenant to execute DB statements.
 Here, CAP's data query API based on [CQN](../cds/cqn) is orthogonal to multitenancy, that is, custom CAP handlers can be implemented agnostic to MT.
@@ -285,7 +285,7 @@ During tenant onboarding process, CAP triggers the HDI container creation via [S
 The containers have separated DB schemas and dedicated technical DB users for access.
 CAP guarantees that code for business requests runs on a DB connection opened for the technical user of the tenant's container.
 
-### Isolated Transient Data {: #isolated-transient-data}
+### Isolated Transient Data {: #isolated-transient-data }
 
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
 For instance, filters for [instance-based authorization](../guides/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
@@ -303,22 +303,26 @@ Request-related data is propagated down the call stack (for instance [cds.contex
 Make sure that custom code doesn't break tenant data isolation.
 :::
 
-### Limiting Resource Consumption {: #limiting-resource-consumption}
+### Limiting Resource Consumption {: #limiting-resource-consumption }
 
 Tenant-aware microservices also need to handle resource consumption of tenants, in particular with regards to CPU, memory, and network connections.
 Excessive use of resources requested by a single tenant could cause runtime problems for other consumers (noisy neighbor problem).
 
 CAP helps to control resource usage:
 
-<ul markdown="1" class="impl java">
- <li>Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.</li>
- <li>By default, tenants have dedicated DB connection pools.</li>
-</ul>
+<div markdown="1" class="impl java">
 
-<ul markdown="1" class="impl node">
-  <li>Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.</li>
-  <li>Tenants have dedicated DB connection pools.</li>
-</ul>
+- Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.
+- By default, tenants have dedicated DB connection pools.
+
+</div>
+
+<div markdown="1" class="impl node">
+
+- Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.
+- Tenants have dedicated DB connection pools.
+
+</div>
 
 ::: tip
 Make sure that custom code doesn't introduce excessive memory or CPU consumption within a single request.
@@ -333,15 +337,15 @@ Last but not least you need to implement a **scaling strategy** to meet increasi
 ❗ **Sizing and scaling** is up to application developers and operators. CAP default values aren't suitable for all applications.
 :::
 
-## Secure Against Untrusted Input {: #secure-untrusted-input}
+## Secure Against Untrusted Input {: #secure-untrusted-input }
 
 Without protection mechanism in place, a malicious user could misuse a valid (that is, authenticated) session with the server and attack valuable business assets.
 
-### Protection Against Injection Attacks {: #injection-attacks}
+### Protection Against Injection Attacks {: #injection-attacks }
 
 Attackers can send malicious input data in a regular request to make the server perform unintended actions that can lead to serious data exploits.
 
-#### Common Attack Patterns {: #common-injection-attacks}
+#### Common Attack Patterns {: #common-injection-attacks }
 <!-- #SEC-100 #SEC-283 #SEC-228  -->
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection).
@@ -371,7 +375,7 @@ Apart from that the used web server frameworks such as Spring or Express already
 - [CLRF injections](https://owasp.org/www-community/vulnerabilities/CRLF_Injection) or [log injections](https://owasp.org/www-community/attacks/Log_Injection) can occur when untrusted user input is written to log output.
 
 CAP Node.js offers a CLRF-safe [logging API](../node.js/cds-log#logging-in-production) that should be used for application logs.
-{: .impl .node}
+{: .impl .node }
 
 ::: warning
 ❗ Currently, CAP applications need to care for escaping user data that is used as input parameter for application logging.
@@ -385,7 +389,7 @@ A strong input validation based on EDMX model is done as well.
 Moreover, deserialization errors terminate the request and are tracked in the application log.
 
 
-#### General Recommendations Against Injections {: #general-injection-attacks}
+#### General Recommendations Against Injections {: #general-injection-attacks }
 <!-- #SEC-100 -->
 
 In general, to achieve perfect injection resistance, applications should have input validation, output validation, and a proper Content-Security-Policy in place.
@@ -410,7 +414,7 @@ SAPUI5 is [CSP-compliant](https://sapui5.hana.ondemand.com/sdk/#/topic/fe1a6dba9
 ❗ Applications have to **configure Content Security Policy** to meet basic compliance.
 :::
 
-### Protection Against Service Misuse Attacks {: #misues-attacks}
+### Protection Against Service Misuse Attacks {: #misues-attacks }
 <!-- #SEC-375 #SEC-223 #SEC-264 #SEC-278 -->
 
 - [Server Side Request Forgery (SSRF)](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery) abuses server functionality to read or update resources from a secondary system.
@@ -429,7 +433,7 @@ SAPUI5 provides [protection mechanisms](https://sapui5.hana.ondemand.com/sdk/#/t
 :::
 
 
-### Additional Protection Mechanisms {: #additional-attacks}
+### Additional Protection Mechanisms {: #additional-attacks }
 <!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
 
 There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
@@ -647,10 +651,10 @@ CAP runtime differentiates several types of error situations during request proc
 In general, **exceptions immediately stop the execution of the current request**.
 
 In Java, the thrown [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is automatically scoped to the current request by means of thread isolation.
-{: .impl .java}
+{: .impl .java }
 
 CAP Node.js adds an exception wrapper to ensure that only the failing request is affected by the exception.
-{: .impl .node}
+{: .impl .node }
 
 Customers can react in dedicated exception handlers if necessary.
 

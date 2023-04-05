@@ -28,7 +28,7 @@ This section describes how to configure applications. CAP Java applications can 
 
 For a first introduction, have a look at our [sample application](https://github.com/sap-samples/cloud-cap-samples-java) and the [configuration profiles](https://github.com/SAP-samples/cloud-cap-samples-java/blob/master/srv/src/main/resources/application.yaml) we added there.
 
-Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties/) as a reference.
+Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
 ### Service Bindings on SAP BTP, Kyma Runtime {:#kubernetes-service-bindings}
 

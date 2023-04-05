@@ -71,7 +71,7 @@
 - [Security](/java/security/)
 - [Remote Services](/java/remote-services/)
 - [Messaging](/java/messaging-foundation/)
-- [Advanced Concepts](/java/advanced/)
+- [Advanced Concepts](/java/advanced)
 - [Audit Logging](/java/auditlog/)
 - [Transactional Outbox](/java/outbox/)
 - [Development](/java/development/)

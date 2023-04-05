@@ -2,8 +2,6 @@
 synopsis: >
   This section describes how data is represented and used in the CAP Java SDK.
 status: released
-redirect_from:
-- java/cds4j/typed-access
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 <!--- Migrated: @external/java/040-Data/index.md -> @external/java/data/index.md -->

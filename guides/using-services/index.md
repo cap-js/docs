@@ -476,7 +476,7 @@ You can use dependency injection to get access to the remote service:
 CqnService bupa;
 ```
 
-Then execute your queries using the [Querying API](//java/query-execution/):
+Then execute your queries using the [Querying API](//java/query-execution):
 
 ```java
 CqnSelect select = Select.from(ABusinessPartner_.class).limit(100);

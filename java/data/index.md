@@ -218,7 +218,7 @@ In CAP Java data is represented in maps. To simplify data access in custom code,
 
 ![accessor.drawio](assets/accessor.drawio.svg){:.adapt}
 
-The `Row`s of a [query result](../query-execution/#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
+The `Row`s of a [query result](../query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
 ```java
 Map<String, Object> map = new HashMap<>();
@@ -282,7 +282,7 @@ This section shows examples using structured data in [CQL](../cds/cql) statement
 
 ### Deep Inserts through Compositions and Cascading Associations
 
-*Deep Inserts* create new target entities along compositions and associations that [cascade](../query-execution/#cascading-over-associations) the insert operation.
+*Deep Inserts* create new target entities along compositions and associations that [cascade](../query-execution#cascading-over-associations) the insert operation.
 In this example an order with a header in status 'open' is created via a deep insert along the `header` composition.
 
 ```java
@@ -681,7 +681,7 @@ processor.addGenerator(
 
 ## Media Type Processing {: #mediatypeprocessing}
 
-The data for [media type entity properties](../../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](../provisioning-api/#pojoarguments). See also [Structured Data](data#structured-data) and [Typed Access](data#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](data#predefined-types)).
+The data for [media type entity properties](../../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](../provisioning-api#pojoarguments). See also [Structured Data](data#structured-data) and [Typed Access](data#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](data#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

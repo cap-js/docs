@@ -63,7 +63,7 @@
 - [Stack Architecture](/java/architecture)
 - [Services](/java/consumption-api)
 - [Event Handlers](/java/provisioning-api)
-- [Working with Data](/java/data/)
+- [Working with Data](/java/data)
 - [Building CQL Statements](/java/query-api)
 - [Executing CQL Statements](/java/query-execution)
 - [Introspecting CQL Statements](/java/query-introspection)

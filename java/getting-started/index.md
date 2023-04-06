@@ -104,7 +104,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../../get-started/grow-as-you-go/)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html) using the following command:
+Following the "[Grow As You Go](../../get-started/grow-as-you-go/)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry

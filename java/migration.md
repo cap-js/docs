@@ -903,8 +903,8 @@ The following table summarizes the behaviour of associations between different d
 
 #### cds-maven-plugin
 
-The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html).
+The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html){:target="_blank"}.
 
 #### cds4j-maven-plugin
 
-The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html) which provides the same functionality and more.
+The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html){:target="_blank"} which provides the same functionality and more.

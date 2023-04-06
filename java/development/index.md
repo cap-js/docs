@@ -329,7 +329,7 @@ CDS Maven plugin provides several goals to perform CDS-related build steps. It c
 
 Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. On how to modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
-See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){:.adapt} for more details.
+See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){:target="_blank"} for more details.
 
 ### Local Development Support {: #local-development-support}
 
@@ -411,7 +411,7 @@ Follow this [troubleshooting guide](../../advanced/troubleshooting#xmake) to ove
 
 #### Installation of Node.js Fails
 
-The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../assets/cds-maven-plugin-site/install-node-mojo.html) uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo.html) with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
+The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../assets/cds-maven-plugin-site/install-node-mojo.html){:target="_blank"} uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo){:target="_blank"} with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
 
 The following sample shows the configuration with the internal download URL by defining a property `node.url`, which points to the correct location. If executed in xMake environment, the property is set to the artifactory location:
 

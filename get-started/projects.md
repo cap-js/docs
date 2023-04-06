@@ -44,12 +44,12 @@ Projects created with [`cds init`](#cds-init) have this default layout: {:.impl 
 
 Projects created with [`cds init --add java`](#cds-init) have this default layout: {:.impl .java}
 
-| Files/Folders | Description |
-|:--- |:--- |
-| _app/_ | UI content goes in here; one or more in subfolders |
-| _db/_ | [Domain Models](../../guides/domain-models/) and database-related content go in here |
-| _srv/_ | [Service definitions](../../guides/providing-services/) and implementations go in here |
-| _package.json_ or _pom.xml_ | your project descriptor |
+| Files/Folders               | Description                                                                         |
+|:----------------------------|:------------------------------------------------------------------------------------|
+| _app/_                      | UI content goes in here; one or more in subfolders                                  |
+| _db/_                       | [Domain Models](../guides/domain-models/) and database-related content go in here   |
+| _srv/_                      | [Service definitions](../guides/providing-services/) and implementations go in here |
+| _package.json_ or _pom.xml_ | your project descriptor                                                             |
 
 
 While you’re free to choose your own project layout, we recommend adopting the following default layout to leverage built-in support and zero configuration.
@@ -79,7 +79,7 @@ cds env get folders
 #> { db:'db/', srv:'srv/', app:'app/' }
 ```
 
-You can change these settings to adjust your project layout, for example, in your _package.json_ file as documented in the [Node.js Configuration](../../node.js/cds-env) guide:
+You can change these settings to adjust your project layout, for example, in your _package.json_ file as documented in the [Node.js Configuration](../node.js/cds-env) guide:
 
 ```json
 {

@@ -8,7 +8,7 @@
 
 - [Hello World!](/get-started/hello-world)
 - [In a Nutshell](/get-started/in-a-nutshell)
-- [Project Layouts](/get-started/projects/)
+- [Project Layouts](/get-started/projects)
 - [Grow As You Go](/get-started/grow-as-you-go)
 
 ### [Cookbook](/guides/)

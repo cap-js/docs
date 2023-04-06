@@ -102,7 +102,7 @@
 - [cds.Event/Request](/node.js/events/)
 - [Class cds.Service](/node.js/services/)
 - [Databases](/node.js/databases)
-- [Messaging](/node.js/messaging/)
+- [Messaging](/node.js/messaging)
 - [Middlewares](/node.js/middlewares/)
 - [Protocols](/node.js/protocols)
 - [Remote Services](/node.js/remote-services/)

@@ -5,7 +5,7 @@ synopsis: >
 status: released
 
 ---
-<!--- Migrated: @external/java/301-Messaging-Foundation/0-index.md -> @external/java/messaging-foundation.md -->
+<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
 
 # Messaging
 
@@ -23,9 +23,9 @@ In the following, we provide a basic introduction to publish-subscribe-based mes
 
 ::: tip
 The described messaging features are available from version `cds.java@1.19.0`.
-::: 
+:::
 
-## Pub-Sub Messaging 
+## Pub-Sub Messaging
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they’re interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
@@ -78,7 +78,7 @@ In section [CDS-Declared Events](#cds-declared-events), we show how to declare e
 
 ::: tip
 The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there’s also support for a persistent outbox. See [Java - Outbox](../outbox/) for more information.
-::: 
+:::
 
 
 ## Receiving
@@ -101,17 +101,17 @@ As you can see in the example, the event context not only provides access to the
 
 {% if jekyll.environment != "external" %}
 ::: tip
-Note: When using SAP Event Mesh in multitenant mode, no unique message ID will be available via `getMessageId`, as SAP Event Mesh does not provide it when delivering messages via WebHook subscriptions that are used in this mode. If the payload itself contains a unique message ID (for example when using [CloudEvents](#cloudevents) format for messages), consider using this ID instead. 
- ::: 
+Note: When using SAP Event Mesh in multitenant mode, no unique message ID will be available via `getMessageId`, as SAP Event Mesh does not provide it when delivering messages via WebHook subscriptions that are used in this mode. If the payload itself contains a unique message ID (for example when using [CloudEvents](#cloudevents) format for messages), consider using this ID instead.
+ :::
 {% endif %}
 
 ::: tip
 For messaging services, the `@On` handlers don't need to be completed by the `context.setCompleted()` method. The reason for that is because CAP wants to support the parallel handling of the messaging events and completes the context automatically. There could be numerous use cases where different components of the CAP application want to be notified by messaging events. Even more, you should not complete the context in the handler manually. Otherwise, not all registered handlers can be notified.
-::: 
+:::
 
 ::: warning _❗ Warning_
 If any exceptions occur in the handler, the messaging service will not acknowledge the message as successfully processed to the broker. In consequence, the broker will deliver this message again.
-::: 
+:::
 
 ## CDS-Declared Events
 
@@ -247,7 +247,7 @@ cds:
 
 ::: tip
 In local testing scenarios it might be useful to manually inject messages into the `file-based message broker`, by manually editing its storage file and adding lines to it. New lines will be interpreted as new messages and will be consumed by services subscribed to matching topics. Have a look at the contents of the storage file with a normal text editor after having sent a few messages to get an example of the syntax, which should be self-explanatory.
-::: 
+:::
 
 ### Using Real Brokers
 
@@ -292,7 +292,7 @@ cds:
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-::: 
+:::
 
 ```xml
 <dependency>
@@ -311,13 +311,13 @@ cds:
 
 ::: tip
 In contrast to SAP Event Mesh the Redis feature is a PubSub service which means that the Redis events are broadcasted and delivered to all subscribed clients simultaneously. That means, each instance of your application receives the same event send by the Redis service. And it's not guaranteed that really all events are delivered by the infrastructure, for example: If an application instance is not connected to the Redis service, the emitted events are going to be lost.
-::: 
+:::
 
 #### Configuring Apache Kafka Support: {: .impl.beta .impl.internal #configuring-apache-kafka-support}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-::: 
+:::
 
 This feature provides out-of-the-box messaging with CDS-defined events using [Apache Kafka](https://kafka.apache.org/) as a message broker.
 It leverages Apache Kafka's advanced features for high horizontal scalability and reliability. Per default, all CAP events are sent to predefined topic `cds.default`.
@@ -356,7 +356,7 @@ Or you integrate with a Kafka message broker:
 
 ::: tip
 If a binding to an Apache Kafka service exists, the configuration in your _application.yaml_ is optional.
-::: 
+:::
 
 #### Injecting Messaging Services
 
@@ -419,7 +419,7 @@ In the Cloud Foundry environment, you can create service instances for message b
 
 ::: tip
 If you want to use message broker services you created in the Cloud Foundry environment while testing on your local machine, then you need to manually provide binding information when starting your application. How this works will be explained in the following section.
-::: 
+:::
 
 As a prerequisite of using message brokers from the Cloud Foundry environment, you need to include the Maven dependency for CAP’s Cloud Foundry support to your _pom.xml_ file, as well as the dependency for the desired message broker, and a dependency for a messaging adapter if you not only want to send, but also receive messages.
 
@@ -467,7 +467,7 @@ Example:
 }
 ```
 
-[Learn more about _default-env.json_.](../../node.js/cds-env#in-default-envjson){:.learn-more}
+[Learn more about _default-env.json_.](../node.js/cds-env#in-default-envjson){:.learn-more}
 
 
 #### VCAP_SERVICES Template for SAP Event Mesh
@@ -533,7 +533,7 @@ As you can see in the configuration, the usage and routing of two messaging serv
 
 ::: tip
 If you emit messages with a topic to the composite messaging service that isn’t defined in its routing configuration, then the delivery will fail. Consider careful review of your configuration, when you start sending/receiving messages from/to new topics.
-::: 
+:::
 
 Example for receiving messages with a given topic via the composite messaging service:
 
@@ -570,7 +570,7 @@ If a queue with the given name already exists on the broker, then this queue wil
 
 ::: tip
 Depending on the used message broker, there can be restrictions to what names can be used for queues. Check the documentation of the used broker to ensure you’re using a valid name. See [Syntax for Naming Queues, Topics, and Topic Patterns](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/72ac1fad2dd34c4886d672e66b22b54b.html) in the SAP Event Mesh documentation for more details.
-::: 
+:::
 
 At the time of queue creation, configuration parameters can be passed to the queue. As options and parameters that can be set for a queue depend on the used message broker, custom key value pairs can be defined that will be passed as queue configuration to the broker at time of queue creation. Check the documentation of the used message broker to see which options can be set. Here is an example:
 
@@ -598,7 +598,7 @@ Depending on the configuration, queues can be set up on the broker with autogene
 
 ::: warning
 Queues will not be deleted when removed from the configuration, as you might have configured a manually created queue that should not be deleted and messages in the queue must not be deleted.
-::: 
+:::
 
 At startup of your application CAP messaging will make sure that all configured queues exist, and only if not, that they're created with specified configuration options. Then subscriptions to the queues will be made as defined.
 
@@ -695,7 +695,7 @@ In this example, the `first-messaging` service uses the default connection and t
 {% if jekyll.environment != "external" %}
 ::: tip
 When using SAP Event Mesh in multitenant mode, no dedicated connections are used to connect to queues. CAP is using WebHook subscriptions in this mode, so that SAP Event Mesh will deliver new incoming messages via HTTP calls to the CAP service. In this mode, the described setting does not apply.
-::: 
+:::
 {% endif %}
 
 
@@ -730,7 +730,7 @@ private void handleError(MessagingErrorEventContext context) {
 
 ::: warning _❗ Warning_
 The way how unsuccessfully delivered messages are treated, fully depends on the messaging broker. Please check in section [Acknowledgement Support](#acknowledgement-support)  whether the messaging broker you are using is suitable for your error handler implementation.
-::: 
+:::
 
 
 #### Acknowledgement Support
@@ -745,7 +745,7 @@ Not all messaging brokers provide the acknowledgement support. This means, the r
 
 ::: tip
 If a broker supports the message acknowledgement and a message is not acknowledged by the application, it will be redelivered.
-::: 
+:::
 
 ### Sending and Receiving in the Same Instance
 
@@ -819,7 +819,7 @@ When using a CAP service that has [events declared in its CDS model](#cds-declar
 
 ::: tip
 Headers of the CloudEvents message can be accessed using the EventContext generated for this event by using its generic `get(String)` API.
-::: 
+:::
 
 The following example shows how to access headers of a CloudEvents message:
 
@@ -835,12 +835,12 @@ private void ratingChanged(ReviewedContext context) {
 
 When using a CAP messaging service directly to emit the raw message payload as a String, please make sure to emit a valid JSON object representation in this String that has the message payload embedded in the `data` attribute (for example `messagingService.emit("sap.cap.reviews.v1.ReviewService.changed.v1", "{"data":{"subject":"4711","rating":3.6}}");`). Then all missing header fields that are required for a valid CloudEvents message will be extended. If you emit a String that is not a valid JSON, then the message cannot be extended and the String will be emitted as-is as the event message content.
 
-[Learn more about **CloudEvents**.](../../guides/messaging/#cloudevents){:.learn-more}
+[Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){:.learn-more}
 
 
 ## Multitenancy {: .impl.internal}
 
 SAP-internal stakeholders are allowed to use SAP Event Mesh as a message broker in a multitenancy mode.
 
-[Learn more about **Multitenancy**.](../../guides/messaging/event-mesh#multitenancy){:.learn-more}
+[Learn more about **Multitenancy**.](../guides/messaging/event-mesh#multitenancy){:.learn-more}
 

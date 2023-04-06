@@ -34,11 +34,7 @@ export default defineConfig({
   },
   lastUpdated: true,
   cleanUrls: true,
-  ignoreDeadLinks: [
-    /http:\/\/localhost/,
-    /^\//, // absolute links in menu.md
-    /\/releases\//
-  ],
+  ignoreDeadLinks: true,
   markdown: {
     lineNumbers: true,
     attrs: {

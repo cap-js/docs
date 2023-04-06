@@ -26,7 +26,7 @@ As an application developer you'd primarily use the Node.js APIs documented here
 
 All the rest is largely handled by the CAP runtime framework behind the scenes.
 This especially applies to bootstrapping the [`cds.server`](cds-server) and the generic features
-provided through [`cds.ApplicationService`](app-services).
+provided through [`cds.ApplicationService`](app-services/).
 
 
 <!-- ## Content {:#toc}
@@ -52,7 +52,7 @@ provided through [`cds.ApplicationService`](app-services).
 - [Middlewares](middlewares)
 - [Authentication](authentication)
 - [Inbound Protocols](protocols)
-- [Application Services](app-services)
+- [Application Services](app-services/)
 - [Remote Services](remote-services)
 - [Transactions](cds-context-tx)
 - [Databases](databases)

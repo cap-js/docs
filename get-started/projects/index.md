@@ -13,7 +13,7 @@ impl-variants: true
 
 ## Start New Projects with `cds init` {:#cds-init}
 
-Use `cds init` to start new projects. 
+Use `cds init` to start new projects.
 
 <div class="impl node">
 
@@ -42,7 +42,7 @@ Following the ideas of _Convention over Configuration_ and _Grow as you go_ new 
 
 Projects created with [`cds init`](#cds-init) have this default layout: {:.impl .node}
 
-Projects created with [`cds init --add-java`](#cds-init) have this default layout: {:.impl .java}
+Projects created with [`cds init --add java`](#cds-init) have this default layout: {:.impl .java}
 
 | Files/Folders | Description |
 |:--- |:--- |
@@ -70,7 +70,7 @@ Many `cds` and `mvn cds` commands work with the above project layout by default.
 - _schema.cds_
 - _services.cds_
 
-These locations are taken from a configuration option `cds.roots`, which in turn you can inspect using the `cds env` command: 
+These locations are taken from a configuration option `cds.roots`, which in turn you can inspect using the `cds env` command:
 
 ```sh
 cds env get roots
@@ -79,7 +79,7 @@ cds env get folders
 #> { db:'db/', srv:'srv/', app:'app/' }
 ```
 
-You can change these settings to adjust your project layout, for example, in your _package.json_ file as documented in the [Node.js Configuration](../../node.js/cds-env) guide: 
+You can change these settings to adjust your project layout, for example, in your _package.json_ file as documented in the [Node.js Configuration](../../node.js/cds-env) guide:
 
 ```json
 {

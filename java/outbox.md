@@ -23,7 +23,7 @@ status: released
 Usually the emit of messages should be delayed until the main transaction succeeded, otherwise recipients will also receive messages in case of a rollback.
 To solve this problem, a transactional outbox can be used to defer the emit of messages until the success of the current transaction.
 
-The transactional outbox is a part of the CAP technical services for [Messaging](./messaging-foundation/) and [AuditLog](./auditlog).
+The transactional outbox is a part of the CAP technical services for [Messaging](./messaging-foundation) and [AuditLog](./auditlog).
 
 
 ## In-Memory Outbox (Default) {: #in-memory}
@@ -33,11 +33,11 @@ The in-memory outbox is used per default and the messages are emitted when the c
 
 ## Persistent Outbox {: #persistent}
 
-The persistent outbox requires a persistence layer in order to persist the messages before emitting them. Here, the to-be-emitted message is stored in a database table first. The same database transaction is used as for other operations, therefore transactional consistency is guaranteed. 
+The persistent outbox requires a persistence layer in order to persist the messages before emitting them. Here, the to-be-emitted message is stored in a database table first. The same database transaction is used as for other operations, therefore transactional consistency is guaranteed.
 
-Once the transaction succeeds, the messages are read from the database table and emitted. 
+Once the transaction succeeds, the messages are read from the database table and emitted.
 
-- If an emit was successful, the respective message is deleted from the database table. 
+- If an emit was successful, the respective message is deleted from the database table.
 - If an emit wasn't successful, there will be a retry after some (exponentially growing) waiting time. After a maximum number of attempts, the message is ignored for processing and remains in the database table. Even if the app crashes the messages can be redelivered after successful application startup.
 
 To configure the persistent outbox you can use the `outbox.persistent` section in the _application.yaml_:
@@ -59,7 +59,7 @@ of an entry,  is stored. The error is stored in the element `lastError` of the e
 
 ::: warning _❗ Warning_{:.warning-title}
 In order to enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
-::: 
+:::
 
 ```json
     "cds": {
@@ -79,11 +79,11 @@ In case of MT scenario make sure that the required configuration is also done in
 
 ::: tip
 Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base model. You need to update the tenant models after deployment. You don't need to update MTX Sidecar in this case.
-::: 
+:::
 
 ::: tip
 Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
-::: 
+:::
 
 
 #### Troubleshooting

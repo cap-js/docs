@@ -75,7 +75,7 @@
 - [ChangeSet Contexts](/java/changeset-contexts)
 - [Security](/java/security)
 - [Remote Services](/java/remote-services)
-- [Messaging](/java/messaging-foundation/)
+- [Messaging](/java/messaging-foundation)
 - [Advanced Concepts](/java/advanced)
 - [Audit Logging](/java/auditlog)
 - [Transactional Outbox](/java/outbox)

@@ -255,7 +255,7 @@ The new CAP Java SDK introduces new annotations for event handlers. Replace even
 | `@AfterDelete(entity = "yourEntityName")` | `@After(event = CqnService.EVENT_DELETE, entity = "yourEntityName")` |
 
 ::: tip
-The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](query-introspection/#using-the-iterator) in custom code.
+The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](query-introspection#using-the-iterator) in custom code.
 :::
 
 ##### Event Handler Signatures

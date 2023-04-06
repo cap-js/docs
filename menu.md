@@ -60,7 +60,7 @@
 ### [Java](/java/)
 
 - [Getting Started](/java/getting-started)
-- [Stack Architecture](/java/architecture/)
+- [Stack Architecture](/java/architecture)
 - [Services](/java/consumption-api)
 - [Event Handlers](/java/provisioning-api)
 - [Working with Data](/java/data/)

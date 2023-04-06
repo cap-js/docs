@@ -153,7 +153,7 @@ Beside the common Spring features such as dependency injection and a sophisticat
 
 ::: tip
 None of the listed features will be available out of the box in case you choose to pack and deploy your web application as plain Java Servlet in a *war* file.
-::: 
+:::
 
 
 ### Spring Beans Exposed by the Runtime {: #exposed-beans}
@@ -214,7 +214,7 @@ mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-Darchetyp
 {% if jekyll.environment != "external" %}
 ::: tip
 In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` in `-DarchetypeVersion` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
-::: 
+:::
 {% endif %}
 
 It supports the following command line options:
@@ -259,7 +259,7 @@ You can provide this version by adding the following property to the `properties
 
 ::: tip
 Make sure to regularly update `@sap/cds-dk` according to [our guidance](../../releases/schedule). For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
-::: 
+:::
 
 #### Using a Global cds-dk
 
@@ -289,7 +289,7 @@ By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the install
 
 ::: tip _Recommendation_ <!--  -->
 This should be done at least with every **major update** of `@sap/cds-dk`.
-::: 
+:::
 
 ### Increased developer efficiency with Spring Boot Devtools
 In order to speed up your development turnaround you can add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) dependency to your CAP Java application. Just add this dependency to the `pom.xml` of your `srv` module:
@@ -315,7 +315,7 @@ The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java ru
 
 ::: tip
 Especially CDS builds result in a lot of changed resources in your project. To have a smooth experience, define a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile) and [use `auto-build` goal](#cds-auto-build) of the CDS Maven plugin started from the command line.
-::: 
+:::
 
 ### CDS Maven Plugin {: #cds-maven-plugin}
 
@@ -354,7 +354,7 @@ When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/
 
 ::: warning
 The `watch` goal only works on Windows if the Spring Boot Devtools are enabled.
-::: 
+:::
 
 #### CDS Auto-Build
 
@@ -362,7 +362,7 @@ If you want to have the comfort of an automated CDS build like with the `watch` 
 
 ::: tip
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
-::: 
+:::
 
 #### Local Development for Multitenant Applications {:.impl.beta}
 
@@ -411,7 +411,7 @@ Follow this [troubleshooting guide](../../advanced/troubleshooting#xmake) to ove
 
 #### Installation of Node.js Fails
 
-The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../../assets/cds-maven-plugin-site/install-node-mojo.html) uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo.html) with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
+The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../assets/cds-maven-plugin-site/install-node-mojo.html) uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo.html) with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
 
 The following sample shows the configuration with the internal download URL by defining a property `node.url`, which points to the correct location. If executed in xMake environment, the property is set to the artifactory location:
 
@@ -455,7 +455,7 @@ The following sample shows the configuration with the internal download URL by d
 
 ::: tip
 On xMake the environment variable `XMAKE_IMPORT_APT_0` points to the internal Node.js download URL.
-::: 
+:::
 
 See [xMake Build Lifecycle](https://github.wdf.sap.corp/pages/xmake-ci/User-Guide/Setting_up_a_Build/About_Build_Properties/xmake_Build_Lifecycle/#default-values-in-environmentcfg-and-environmentjson) for more details about valid URLs on xMake.
 
@@ -470,7 +470,7 @@ This configuration is done in the `~/.m2/settings.xml` according to the [documen
 
 ::: tip
 There's already a default [settings.xml](https://int.repositories.cloud.sap/artifactory/build-releases/settings.xml) available for internal usage at SAP.
-::: 
+:::
 
 
 ## Testing CAP Java Applications
@@ -483,7 +483,7 @@ Typical areas that require testing are the [services](../consumption-api#cdsserv
 
 ::: tip
 Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it is recommended to utilize it for writing tests.
-::: 
+:::
 
 ### Best Practices
 
@@ -548,7 +548,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 ::: tip
 You can find a more complete sample of the previous snippet in our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java).
-::: 
+:::
 
 The `CatalogServiceHandler` here implements two handler methods -- `onSubmitOrder` and `discountBooks` -- that should be covered by tests.
 
@@ -564,7 +564,7 @@ That allows us to verify its behavior in a unit test by creating a `CatalogServi
 
 ::: tip
 For mocking, you can use [Mockito](https://site.mockito.org/), which is already included with the `spring-boot-starter-test` "Starter".
-::: 
+:::
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -594,7 +594,7 @@ public class CatalogServiceHandlerTest {
 
 ::: tip
 You can find a variant of this sample code also in our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/test/java/my/bookshop/handlers/CatalogServiceHandlerTest.java).
-::: 
+:::
 
 Whenever possible, mocking dependencies and just testing the pure processing logic of an implementation allows you to ignore the integration bits and parts of an event handler, which is a solid first layer of your testing efforts.
 
@@ -619,7 +619,7 @@ public class CatalogServiceTest {
 
         // book with title "The Raven" and a stock quantity of > 111
         Books book = result.single(Books.class);
-	
+
         assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");
     }
 }
@@ -677,7 +677,7 @@ public class CatalogServiceTest {
 
 ::: tip
 For a more extensive version of the previous `CatalogServiceTest` snippets, have a look at our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/test/java/my/bookshop/CatalogServiceTest.java).
-::: 
+:::
 
 #### API Integration Testing
 
@@ -715,7 +715,7 @@ public class CatalogServiceITest {
 
 ::: tip
 Check out the version in our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/test/java/my/bookshop/CatalogServiceITest.java) for additional examples of integration testing.
-::: 
+:::
 
 
 

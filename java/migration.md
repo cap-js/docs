@@ -41,7 +41,7 @@ The classic CAP Java Runtime came in several different flavors supporting either
 
 ::: tip
 By default, the CAP Java Runtime comes with protocol adapters for OData V4 and [OData V2 (Beta)](#v2adapter). Therefore, you can migrate your frontend code to new CAP Java SDK without change. In addition, you have the option to move from SAP Fiori Elements V2 to SAP Fiori Elements V4 at any time.
-::: 
+:::
 
 ### Migrate the Project Structure
 
@@ -54,7 +54,7 @@ mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeG
 {% if jekyll.environment != "external" %}
 ::: tip
 In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` in `-DarchetypeVersion` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
-::: 
+:::
 {% endif %}
 
 Further details about creating a new CAP Java project and the project structure itself can be found in section [Starting a New Project](getting-started/#new-project).
@@ -72,7 +72,7 @@ Rename the service module folder to your preferred name and adjust also the `<mo
 
 ::: tip
 If you’ve changed the service module folder name, you have to consider this in the next steps.
-::: 
+:::
 
 ### Copy the CDS Model
 
@@ -100,7 +100,7 @@ If your CDS model depends on other reusable CDS models, add those dependencies t
 
 ::: tip
 In your CDS model, ensure that you explicitly define the data type of the elements whenever an aggregate function (max, min, avg etc.) is used, else the build might fail.
-::: 
+:::
 
 In the following example, element `createdAt` has an explicitly specified datatype (that is `timestamp`):
 
@@ -128,7 +128,7 @@ Therefore, copy and replace the whole `cds` section from your classic _package.j
 
 ::: tip
 If there’s also a `<CLASSIC-PROJECT-ROOT>/.cdsrc.json` in your classic project to configure the CDS build, copy this file to the new project.
-::: 
+:::
 
 You can validate the final CDS configuration by executing a CDS command in the root folder of the new project:
 
@@ -187,7 +187,7 @@ add those dependencies manually to section `dependencies` in file `<NEW-PROJECT-
 
 ::: tip
 Don't add any dependencies of the classic Java Runtime to the new project. Those dependencies are already replaced with the corresponding version of the new CAP Java SDK.
-::: 
+:::
 
 
 #### Migrate Event Handlers
@@ -218,7 +218,7 @@ Annotate all of your event handler classes with the following annotations and en
 
 ::: tip
 All event handler classes also *have* to implement the marker interface `com.sap.cds.services.handler.EventHandler`. Otherwise, the event handlers defined in the class won't get called.
-::: 
+:::
 
 Finally, your event handler class has to look similar to this example:
 
@@ -335,7 +335,7 @@ The new CAP Java SDK doesn't support these annotations anymore. Instead, it supp
 
 To replace the `@InitTransaction` handler, you can use the `beforeClose` method, instead. This method is called at the end of the transaction and can be used, for example, to validate incoming data across multiple requests in an OData batch *before* the transaction is committed. It's possible to cancel the transaction in this phase by throwing an `ServiceException`.
 
-The CAP Java SDK sample application shows how such a validation using the `ChangeSetListener` approach can be implemented. See [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/cross-validation/srv/src/main/java/my/bookshop/handlers/ChapterServiceHandler.java) for the example code. 
+The CAP Java SDK sample application shows how such a validation using the `ChangeSetListener` approach can be implemented. See [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/cross-validation/srv/src/main/java/my/bookshop/handlers/ChapterServiceHandler.java) for the example code.
 
 Note, that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
@@ -600,16 +600,16 @@ To be able to migrate the backend from the *Classic Java Runtime* without making
 		}
 	}
 	```
-	
+
 	::: tip
 	In case you're using [multitenancy](./multitenancy/), keep in mind to make the same change in the _.cdsrc.json_ of the _mtx-sidecar_.
-	::: 
+	:::
 
 After rerunning the Maven build and starting the CAP Java application, Application Services are served as OData V2. By default, the endpoints will be available under `<host:port>/odata/v2/<Service>`. The default response format is `xml`, to request `json` use `$format=json` or `Accept: application/json` header.
 
 ::: tip
 The index page available at \<host:port\> lists service endpoints of all protocol adapters.
-::: 
+:::
 
 
 
@@ -752,7 +752,7 @@ This section describes the changes in CAP Java between the major versions 1.x an
 
 ::: warning
 This migration guide is published as a preview. It may be subject to change before the relase of CAP Java 2.0.
-::: 
+:::
 
 ### Spring Boot 3
 
@@ -903,8 +903,8 @@ The following table summarizes the behaviour of associations between different d
 
 #### cds-maven-plugin
 
-The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](https://cap.cloud.sap/docs/assets/cds-maven-plugin-site/generate-mojo.html).
+The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html).
 
 #### cds4j-maven-plugin
 
-The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](../../assets/cds-maven-plugin-site/plugin-info.html) which provides the same functionality and more.
+The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html) which provides the same functionality and more.

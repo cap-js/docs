@@ -260,7 +260,7 @@ SELECT ID, texts.locale, texts.title, texts.descr from Books
 
 The generic handlers of the service runtimes automatically serve read requests from `localized` views. Users see all texts in their preferred language or the fallback language.
 
-[See also **Enabling Draft for Localized Data**.](../../advanced/fiori/#draft-for-localized-data){: .learn-more}
+[See also **Enabling Draft for Localized Data**.](../../advanced/fiori#draft-for-localized-data){: .learn-more}
 
 For example, given this service definition:
 

@@ -434,7 +434,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 > Use [_authenticated_](../java/security/#mock-users) to query the `admin` service. You don't need to enter a password. {:.impl .java}
 
 [Learn more about **Generic Providers**.](../guides/providing-services/){:.learn-more}
-[Learn more about **OData's Query Options**.](../advanced/odata/){:.learn-more}
+[Learn more about **OData's Query Options**.](../advanced/odata){:.learn-more}
 
 <!-- EXCLUDE IN NOTEBOOK START -->
 ### Deploying Persistent Databases {:.impl .node}
@@ -493,7 +493,7 @@ Besides, being usable from any UI frontends using standard AJAX requests, CAP pr
 
 ![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/nutshell/fiori-app.png){:style="margin:0" .adapt}
 
-[Learn more about **Serving Fiori UIS**.](../advanced/fiori/){:.learn-more}
+[Learn more about **Serving Fiori UIS**.](../advanced/fiori){:.learn-more}
 
 
 ### Using OData Protocol
@@ -501,7 +501,7 @@ Besides, being usable from any UI frontends using standard AJAX requests, CAP pr
 As CAP-based services are full-fledged OData services out-of-the-box, you can use advanced
 query options, such as `$select`, `$expand`, `$search`, and many more.
 
-[Learn more about **Serving OData Protocol**.](../advanced/odata/){:.learn-more}
+[Learn more about **Serving OData Protocol**.](../advanced/odata){:.learn-more}
 
 
 ## Adding Custom Logic {:#adding-custom-logic}
@@ -674,7 +674,7 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Providing Services](../guides/providing-services/)
 - [Consuming Services](../guides/providing-services/)
 - [Using Databases](../guides/databases/)
-- [Adding/Serving UIs](../advanced/fiori/)
+- [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
 
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment).

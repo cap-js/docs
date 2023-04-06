@@ -32,7 +32,7 @@ Use `cds.ql` to read and write data based on CDS models. Its features include:
 
 ## Providing Initial Data {: #providing-initial-data}
 
-CSV files in your project are picked up by deployments for both SQLite and SAP HANA. If you've accidentally deployed such data to a productive database, see this [troubleshooting](../../advanced/troubleshooting/#hana-csv) entry on how to recover from this situation.
+CSV files in your project are picked up by deployments for both SQLite and SAP HANA. If you've accidentally deployed such data to a productive database, see this [troubleshooting](../../advanced/troubleshooting#hana-csv) entry on how to recover from this situation.
 
 The locations of CSV files are determined based on the location of CDS model files. CSV files can be defined in any _csv_ or _data_ subfolder, including _db/data_ and _db/csv_. Initial data is only fetched, if the corresponding entity is contained in your compiled model. This also includes CSV files of *reuse modules*. `cds build` will copy these files into the application's deployment folder.
 
@@ -93,7 +93,7 @@ The fastest way to let your application run is using a local SQLite database via
 ### SAP HANA {: #get-hana}
 
 When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](../../guides/deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
-If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../../advanced/troubleshooting/#get-hana) to learn about your options.
+If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../../advanced/troubleshooting#get-hana) to learn about your options.
 
 #### Enhance Project Configuration for SAP HANA Cloud {: #configure-hana}
 
@@ -105,7 +105,7 @@ cds add hana --for hybrid
 
 > This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
 ::: tip
-The profile `hybrid` relates to [the hybrid testing](../../advanced/hybrid-testing/) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment) guide.
+The profile `hybrid` relates to [the hybrid testing](../../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment) guide.
 :::
 
 ##### For Node.js
@@ -141,9 +141,9 @@ Behind the scenes, `cds deploy` does the following:
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
 [Learn more about the deployment using HDI](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){:.learn-more}
-[Learn more about hybrid testing using service bindings to Cloud services.](../../advanced/hybrid-testing/#run-with-service-bindings){:.learn-more}
+[Learn more about hybrid testing using service bindings to Cloud services.](../../advanced/hybrid-testing#run-with-service-bindings){:.learn-more}
 
-If you run into issues, see the [Troubleshooting](../../advanced/troubleshooting/#hana) guide.
+If you run into issues, see the [Troubleshooting](../../advanced/troubleshooting#hana) guide.
 
 #### Deploy Using `cf deploy` or `cf push`
 
@@ -160,11 +160,11 @@ By default, when deploying data models to SQL databases, all entities become SQL
 * Use `@cds.persistence.exists` to indicate that an object shouldn’t be created in the database,
   because the database object already exists. The names of the existing object and its columns must exactly
   match the names that would have been generated based on the entity definition.
-  One of the common scenarios where this annotation comes in handy is [Using Native SAP HANA Artifacts](../../advanced/hana/)
+  One of the common scenarios where this annotation comes in handy is [Using Native SAP HANA Artifacts](../../advanced/hana)
   in a CAP application.
 
 * If the entity in the model annotated with `@cds.persistence.exists` represents a user-defined function or a
-  calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../../advanced/hana/#calculated-views-and-user-defined-functions) for more details.
+  calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
 #### Skipping Entities {:.impl.beta}
 * Use `@cds.persistence.skip` to indicate that an object shouldn’t be created in the database,
@@ -495,7 +495,7 @@ first_value(name order by price desc)
 ```
 Restriction: `COLLATE` is not supported.
 
-For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../../advanced/hana/) for more details.
+For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../../advanced/hana) for more details.
 
 
 #### SAP HANA Spatial grid generator functions
@@ -1035,7 +1035,7 @@ But for other databases this is not the case. Find here a collection of resource
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
 {% if jekyll.environment != "external" %}
-[There also reserved words related to SAP Fiori.](../../advanced/fiori/#reserved-words){:.learn-more}
+[There also reserved words related to SAP Fiori.](../../advanced/fiori#reserved-words){:.learn-more}
 {% endif %}
 
 ## Auto-Generating Primary Keys {: .impl.concept}

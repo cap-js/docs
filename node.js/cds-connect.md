@@ -382,7 +382,7 @@ Please pay attention to the underscore ("`_`") character at the end of the prefi
 
 ::: warning
 For the _configuration path_, you **must** use the underscore ("`_`") character as delimiter. CAP supports dot ("`.`") as well, but Kubernetes won't recognize variables using dots. Your _service name_ **mustn't** contain underscores.
-::: 
+:::
 
 
 ####  <i>  Through the file system </i> {:#file-system-service-bindings}
@@ -441,7 +441,7 @@ For example, you can enable it in the _package.json_ file for your production pr
 
 ::: warning
 This is a backward compatibility feature.<br> It might be removed in a next [major CAP version](../releases/schedule#yearly-major-releases).
-::: 
+:::
 
 Each service that has credentials and a `vcap.label` property is put into the `VCAP_SERVICES` env variable. All properties from the service's `vcap` object will be taken over to the service binding.
 
@@ -553,7 +553,7 @@ cds.requires.remote-service.credentials = { "url":"http://...", ... }
 ::: warning
 ❗ Never add secrets or passwords to _package.json_ or _.cdsrc.json_!
 General rule of thumb: `.credentials` are always filled (and overridden) from process environment on process start.
-::: 
+:::
 
 One prominent exception of that, which you would frequently add to your _package.json_ is the definition of a database file for persistent sqlite database during development:
 ```json
@@ -608,7 +608,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
 
 ###  <i>  Through _.cdsrc-private.json_ File for Local Testing </i>
 
-[Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing/#bind-to-cloud-services)
+[Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing#bind-to-cloud-services)
 
 ```json
 {
@@ -629,7 +629,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
 
 ::: warning
 Make sure that the _.cdsrc-private.json_ file is not checked into your project.
-::: 
+:::
 
 ###  <i>  Through `process.env` Variables </i> {:#bindings-via-process-env}
 

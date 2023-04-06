@@ -46,7 +46,7 @@ The [predefined CDS types](../cds/types/) are mapped to Java types and as follow
 
 ### SAP HANA-Specific Data Types
 
-To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../advanced/hana/#hana-types) are supported:
+To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../advanced/hana#hana-types) are supported:
 
 | CDS Type | Java Type | Remark |
 | --- | --- | ---  |

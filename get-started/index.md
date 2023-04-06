@@ -52,7 +52,7 @@ With the first steps below, you can go for a minimal local setup as follows:
 4. For CAP Java projects, install [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) additionally.
 
 
-[Problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting/#npm-installation){:.learn-more}
+[Problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){:.learn-more}
 
 ::: tip
 Also use [our tools](../tools/) to improve your development experience.

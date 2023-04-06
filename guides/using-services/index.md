@@ -1131,7 +1131,7 @@ cds:
 
 ### Connect to Remote Services from Local
 
-If you use SAP BTP destinations, you can access them locally using [CAP's hybrid testing capabilities](//advanced/hybrid-testing/) with the following procedure:
+If you use SAP BTP destinations, you can access them locally using [CAP's hybrid testing capabilities](//advanced/hybrid-testing) with the following procedure:
 
 #### Bind to Remote Destinations
 
@@ -1158,7 +1158,7 @@ Your local application needs access to an XSUAA and Destination service instance
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
-    [Learn more about `cds bind`.](//advanced/hybrid-testing/#bind-a-local-application-to-services-on-cloud-foundry){:.learn-more}
+    [Learn more about `cds bind`.](//advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){:.learn-more}
 
 #### Run a Node.js Application with a Destination
 
@@ -1216,7 +1216,7 @@ cds bind --exec -- mvn spring-boot:run \
   -Dspring-boot.run.profiles=default,hybrid
 ```
 
-[Learn more about `cds bind --exec`.](//advanced/hybrid-testing/#run-arbitrary-commands-with-service-bindings){:.learn-more}
+[Learn more about `cds bind --exec`.](//advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){:.learn-more}
 
 
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {:#forward-auth-token}

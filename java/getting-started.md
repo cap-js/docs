@@ -71,7 +71,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 ### Run the CAP Java Maven Archetype
 
-Use the [CAP Java Maven archetype](../../java/development/#the-maven-archetype) to bootstrap a new CAP Java project:
+Use the [CAP Java Maven archetype](../java/development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```bash
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
@@ -104,7 +104,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../../get-started/grow-as-you-go/)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
+Following the "[Grow As You Go](../get-started/grow-as-you-go/)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry

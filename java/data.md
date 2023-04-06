@@ -4,7 +4,7 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/040-Data/index.md -> @external/java/data/index.md -->
+<!--- Migrated: @external/java/040-Data/index.md -> @external/java/dataindex.md -->
 
 # Working with Data
 
@@ -20,7 +20,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Predefined Types
 
-The [predefined CDS types](../../cds/types/) are mapped to Java types and as follows:
+The [predefined CDS types](../cds/types/) are mapped to Java types and as follows:
 
 | CDS Type | Java Type | Remark |
 | --- | --- | ---  |
@@ -46,7 +46,7 @@ The [predefined CDS types](../../cds/types/) are mapped to Java types and as fol
 
 ### SAP HANA-Specific Data Types
 
-To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../../advanced/hana/#hana-types) are supported:
+To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../advanced/hana/#hana-types) are supported:
 
 | CDS Type | Java Type | Remark |
 | --- | --- | ---  |
@@ -108,10 +108,10 @@ aspect OrderItems {
 [Find this source also in **cap/samples**.](java-samples/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){: .learn-more}
 
 In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
-![ent-rel.drawio](assets/entrel.drawio.svg){:.adapt}
+![ent-rel.drawio](./assets/entrel.drawio.svg){:.adapt}
 
 ::: tip
-Use [Managed Compositions of Aspects](../../guides/domain-models/#managed-compositions) to model unidirectional one-to-many compositions.
+Use [Managed Compositions of Aspects](../guides/domain-models/#managed-compositions) to model unidirectional one-to-many compositions.
 :::
 
 ### Relationships to other entities
@@ -216,7 +216,7 @@ author.put("books", Arrays.asList(book1, book2));
 
 In CAP Java data is represented in maps. To simplify data access in custom code, CAP Java additionally provides generated [accessor interfaces](#typed-access) which extend [CdsData](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CdsData.html), enhancing the `Map` interface with path access to nested data and build-in serialization to JSON.
 
-![accessor.drawio](assets/accessor.drawio.svg){:.adapt}
+![accessor.drawio](./assets/accessor.drawio.svg){:.adapt}
 
 The `Row`s of a [query result](../query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
@@ -443,7 +443,7 @@ interface Equity {
 
 In CDS models it is allowed to extend a definition (for example, of an entity) with one or more named [aspects](../cds/cdl#aspects). The aspect allows to define elements or annotations that are common to all extending definitions in one place.
 
-This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../../cds/cdl/#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
+This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl/#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
 The `@cds.java.extends` annotation can contain an array of string values, each of which denoting the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
 
 ```cds
@@ -681,7 +681,7 @@ processor.addGenerator(
 
 ## Media Type Processing {: #mediatypeprocessing}
 
-The data for [media type entity properties](../../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](../provisioning-api#pojoarguments). See also [Structured Data](data#structured-data) and [Typed Access](data#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](data#predefined-types)).
+The data for [media type entity properties](../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](../provisioning-api#pojoarguments). See also [Structured Data](data#structured-data) and [Typed Access](data#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](data#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

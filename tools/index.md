@@ -63,10 +63,7 @@ npm i -g @sap/cds-dk
 
 Start `cds watch` and enter `debug`. This restarts the application in debug mode. Similarly, `debug-brk` will start debug mode, but pause the application at the first line, so that you can debug bootstrap code.
 
-If you do this in VS Code's integrated terminal with the 'Auto Attach' feature enabled, debugging starts right away:
-<img src="./assets/debug-with-cds-watch.gif" style="box-shadow: 1px 1px 5px #888888;" title="Attaching and using the debugger in VS Code using 'cds watch'.">
-
-If you executed `cds watch` on a standalone terminal, you can still attach a Node.js debugger to the process.
+If you do this in VS Code's integrated terminal with the 'Auto Attach' feature enabled, debugging starts right away. If you executed `cds watch` on a standalone terminal, you can still attach a Node.js debugger to the process.
 
 For example:
 - In VS Code, use the _Debug: Attach to Node Process_ command.

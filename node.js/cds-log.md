@@ -15,7 +15,7 @@ status: released
 
 ## cds.log  <i>  (id?, options?) </i> {: #cds-log}
 
-Returns a logger identified by the given id. 
+Returns a logger identified by the given id.
 
 ```js
 const LOG = cds.log('sql')
@@ -27,21 +27,21 @@ LOG.info ('whatever', you, 'like...')
 - `options?` — alternative to `level` pass an options object with:
   - `level?` — the [log level](#log-levels)  specified as string or number — default: `'info'`
   - `label?` — the [log label](#logger-label) to add to each log output — default: `id`
-- `level?` — specify a string instead of `options` as a shorthand for `{level}`  
+- `level?` — specify a string instead of `options` as a shorthand for `{level}`
 
 ```js
 // all following are equivalent...
-const LOG = cds.log('foo', 'warn')  //> shorthand for: 
+const LOG = cds.log('foo', 'warn')  //> shorthand for:
 const LOG = cds.log('foo', { level: 'warn' })
 // including case-insensitivity...
-const LOG = cds.log('foo', 'WARN')  //> shorthand for: 
+const LOG = cds.log('foo', 'WARN')  //> shorthand for:
 const LOG = cds.log('foo', { level: 'WARN' })
 ```
 
 
 ### *Logger `id` — cached & shared loggers* {:#logger-id}
 
-The loggers constructed by `cds.log()` are cached internally, and the same instances are returned on subsequent invocations of `cds.log()` with the same `id`. This allows to use and share the same logger in different modules. 
+The loggers constructed by `cds.log()` are cached internally, and the same instances are returned on subsequent invocations of `cds.log()` with the same `id`. This allows to use and share the same logger in different modules.
 
 ```js
 const LOG1 = cds.log('foo')
@@ -68,21 +68,21 @@ cds.log() → {
   trace(...), _trace,
   debug(...), _debug,
   info(...),  _info, log(...), // alias for info()
-  warn(...),  _warn, 
+  warn(...),  _warn,
   error(...), _error,
 }
 ```
 
 In addition, there is a boolean indicator to check which levels are active through corresponding underscored property, for example, `LOG._debug` is true if debug is enabled.
 
-### *Recommendations* 
+### *Recommendations*
 1. **Leave formatting to the log functions** — for example don't expensivelly construct debug messages, which aren't logged at all if debug is not switched on. For example:
 
    ```js
-   // DONT: 
+   // DONT:
    const { format } = require('util')
    LOG.debug (`Expected ${arg} to be a string, but got: ${format(value)}`)
-   // DO: 
+   // DO:
    LOG.debug ('Expected', arg, 'to be a string, but got', value)
    ```
 
@@ -111,10 +111,10 @@ cds.log.format = (id, level, ...args) => [ `[${id}]`, '-', ...args ]
 // a verbose format:
 const _levels = [ 'SILENT', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE' ]
 cds.log.format = (id, level, ...args) => [
-  '[', (new Date).toISOString(), 
-  '|', _levels[level].padEnd(5), 
-  '|', cds.context?.tenant || '-', 
-  '|', cds.context?.id || '-', 
+  '[', (new Date).toISOString(),
+  '|', _levels[level].padEnd(5),
+  '|', cds.context?.tenant || '-',
+  '|', cds.context?.id || '-',
   '|', id, '] -', ...args
 ]
 ```
@@ -128,10 +128,10 @@ You can also change the format used by newly or formerly constructed loggers usi
 ```js
 const _levels = [ 'SILENT', 'ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE' ]
 const LOG = cds.log('foo') .setFormat ((id, level, ...args) => [
-  '[', (new Date).toISOString(), 
-  '|', _levels[level].padEnd(5), 
-  '|', cds.context?.tenant || '-', 
-  '|', cds.context?.id || '-', 
+  '[', (new Date).toISOString(),
+  '|', _levels[level].padEnd(5),
+  '|', cds.context?.tenant || '-',
+  '|', cds.context?.id || '-',
   '|', id, '] -', ...args
 ])
 ```
@@ -139,14 +139,14 @@ const LOG = cds.log('foo') .setFormat ((id, level, ...args) => [
 
 ## cds.log.levels {: #log-levels }
 
-Constants of supported log levels: 
+Constants of supported log levels:
 
 ```js
-cds.log.levels = { 
+cds.log.levels = {
   SILENT: 0,    // all log output switched off
   ERROR: 1,     // logs errors only
   WARN: 2,      // logs errors and warnings only
-  INFO: 3,      // logs errors, warnings and general infos 
+  INFO: 3,      // logs errors, warnings and general infos
   DEBUG: 4,     // logs errors, warnings, info, and debug
                 // (and trace when using default logger implementation)
   TRACE: 5,     // most detailed log level
@@ -208,13 +208,13 @@ cds.log('foo','debug') // switches the 'foo' logger to 'debug' level
 
 ## cds.log.Logger
 
-Constructs a new logger with the method signature of `{ trace, debug, log, info, warn, error }` (cf. [`console`](https://nodejs.org/api/console.html)). The default implementation maps each method to the equivalent methods of `console`. 
+Constructs a new logger with the method signature of `{ trace, debug, log, info, warn, error }` (cf. [`console`](https://nodejs.org/api/console.html)). The default implementation maps each method to the equivalent methods of `console`.
 
 You can assign different implementations by exchanging the factory with your own, for example, in order to integrate advanced logging frameworks such as [winston](#winston).
 
 #### *Arguments*
 
-- `label`— the log label to use with each log output, if appliccable 
+- `label`— the log label to use with each log output, if appliccable
 - `level`— the log level to enable → *0=off, 1=error, 2=warn, 3=info, 4=debug, 5=trace*
 
 
@@ -225,7 +225,7 @@ You can assign different implementations by exchanging the factory with your own
 npm add winston
 ```
 
-Being designed as a simple log facade, `cds.log` can be easily integrated with advanced logging framworks such as  [`winston`](https://www.npmjs.com/package/winston). For example, using the built-in convenience method `cds.log.winstonLogger()` in your project's server.js like that: 
+Being designed as a simple log facade, `cds.log` can be easily integrated with advanced logging framworks such as  [`winston`](https://www.npmjs.com/package/winston). For example, using the built-in convenience method `cds.log.winstonLogger()` in your project's server.js like that:
 
 ```js
 cds.log.Logger = cds.log.winstonLogger()
@@ -248,7 +248,7 @@ cds.log.Logger = cds.log.winstonLogger({
 
 ### _Custom Loggers_
 
-Custom loggers basically have to return an object fulfilling the `console`-like [`cds.log` loggers API](#logger-api) as in this example:  
+Custom loggers basically have to return an object fulfilling the `console`-like [`cds.log` loggers API](#logger-api) as in this example:
 
 ```js
 const winston = require("winston")
@@ -290,7 +290,7 @@ DEBUG=app,sql cds watch
 DEBUG=all cds watch
 ```
 
-Values can be 
+Values can be
 
   - comma-separated list of [logger ids](#logger-id), or
   - the value `all` to switch on all debug ouput.
@@ -360,7 +360,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | Database Deployment                                          | `deploy`        |
 | Multitenancy and Extensibility                               | `mtx`           |
 
-> 
+>
 
 
 
@@ -370,7 +370,7 @@ During development, we want concise, human-readable output in the console, with 
 
 The default log formatter does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the default log formatter.
 
-![Default Formatter Output](./assets/default-formatter-output.png){:.adapt}
+![Default Formatter Output](./assets/default-formatter-output.png)
 
 
 ## Logging in Production

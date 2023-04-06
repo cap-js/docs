@@ -1,7 +1,7 @@
 ---
 synopsis: >
-  One of the key [CAP design principles](../about/#open-and-opinionated) is to be an opinionated but yet open framework. Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java SDK.
-  The [modular architecture](architecture#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](architecture#stack_configuration) and custom extensions.
+  One of the key CAP design principles is to be an opinionated but yet open framework. Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java SDK.
+  The modular architecture reflects this requirement, allowing fine-grained stack configuration and custom extensions.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -13,7 +13,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+One of the key [CAP design principles](../../about/#open-and-opinionated) is to be an opinionated but yet open framework. Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java SDK.
+The [modular architecture](#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](#stack_configuration) and custom extensions.
 
 
 ## Modular Architecture {: #modular_architecture}

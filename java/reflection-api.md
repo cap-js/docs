@@ -40,7 +40,7 @@ or, in Spring, be injected:
 CdsModel model;
 ```
 
-On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector`, or using the `read` method from a [CSN](../../cds/csn) String or [InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
+On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector`, or using the `read` method from a [CSN](../cds/csn) String or [InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
 InputStream csnJson = ...
@@ -93,17 +93,17 @@ if (type.isSimple()) {   // true
 }
 ```
 
-### Get and Inspect All Elements of an Entity	
+### Get and Inspect All Elements of an Entity
 
-```java	
-CdsEntity books = model.getEntity("my.bookshop.Books");	
-Stream<CdsElement> elements = books.elements();	
-```	
+```java
+CdsEntity books = model.getEntity("my.bookshop.Books");
+Stream<CdsElement> elements = books.elements();
+```
 
-The method `elements()` returns a stream of all elements of the given entity, structured type, or event. It's important to note that the Model Reflection API doesn't guarantee the element order to be exactly like in the source CSN document. However, the order is guaranteed to be stable during multiple consecutive model reads.	
+The method `elements()` returns a stream of all elements of the given entity, structured type, or event. It's important to note that the Model Reflection API doesn't guarantee the element order to be exactly like in the source CSN document. However, the order is guaranteed to be stable during multiple consecutive model reads.
 
 ::: tip
-In case the element names are known beforehand it's recommended to access them by name through the `getElement(String name)` method.	
+In case the element names are known beforehand it's recommended to access them by name through the `getElement(String name)` method.
 :::
 
 ### Get and Inspect an Association Element of an Entity
@@ -182,7 +182,7 @@ Stream<CdsElement> elements = order.elements()
 
 ### Feature Toggles and Active Feature Set
 
-[Feature toggles](../../guides/extensibility/feature-toggles) allow to dynamically enable or disable parts of an application at runtime or to alter the behaviour depending on features.
+[Feature toggles](../guides/extensibility/feature-toggles) allow to dynamically enable or disable parts of an application at runtime or to alter the behaviour depending on features.
 
 Feature toggles can be used for different purposes. They can be used as release toggles to selectively enable some features for some customers only based on a deployment vector. Or they can be used as runtime toggles to dynamically enable or disable selected features for selected users.
 
@@ -217,7 +217,7 @@ The database schema resulting from CDS build at design time contains *all* featu
 
 ### The Model Provider Service
 
-![feature-toggles.drawio](./assets/feature-toggles.drawio.svg){:.adapt}
+![feature-toggles.drawio](../assets/feature-toggles.drawio.svg){:.adapt}
 
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 
@@ -227,7 +227,7 @@ The active features set can't be changed within an active transaction.
 
 ### Toggling SAP Fiori UI Elements
 
-In an [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) application, the UI is captured with annotations in the CDS model. Hence, toggling of [SAP Fiori elements annotations](../../advanced/fiori#what-are-sap-fiori-annotations) is already leveraged by the above concept: To enable toggling of such annotations (and thus UI elements), it's required that the EDMX returned by the `$metadata` respects the feature vector. This is automatically achieved by maintaining different model variants according to activated features as described in the previous section.
+In an [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) application, the UI is captured with annotations in the CDS model. Hence, toggling of [SAP Fiori elements annotations](../advanced/fiori#what-are-sap-fiori-annotations) is already leveraged by the above concept: To enable toggling of such annotations (and thus UI elements), it's required that the EDMX returned by the `$metadata` respects the feature vector. This is automatically achieved by maintaining different model variants according to activated features as described in the previous section.
 
 ### Features on the Database
 

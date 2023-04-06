@@ -67,7 +67,7 @@
 - [Building CQL Statements](/java/query-api)
 - [Executing CQL Statements](/java/query-execution)
 - [Introspecting CQL Statements](/java/query-introspection)
-- [Working with CDS Models](/java/reflection-api/)
+- [Working with CDS Models](/java/reflection-api)
 - [Persistence Services](/java/persistence-services)
 - [Application Services](/java/application-services)
 - [Indicating Errors](/java/indicating-errors)

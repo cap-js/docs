@@ -1,6 +1,6 @@
 ---
 shorty: <code>cds</code><i>.Event/Request
-redirect_from: 
+redirect_from:
   - node.js/requests
 layout: node-js
 status: released
@@ -24,22 +24,22 @@ Class `cds.EventContext` represents the invocation context of incoming request a
 
 ### ctx.context <i> → cds.EventContext </i> {:#eve-context .impl.concept}
 
-The current instance's root context; `this.context === this` if this is a root context. 
+The current instance's root context; `this.context === this` if this is a root context.
 
 [Learn more about root contexts in the **Transactions** guide](transactions){:.learn-more}
 
 ::: danger
 IMPORTANT: this is not a stable API yet.
-::: 
+:::
 
 
 
 ### ctx.id <i> → string </i> {:#req-id }
 
 <div class="indent" markdown="1">
-A unique string used for request correlation. 
+A unique string used for request correlation.
 
-For inbound HTTP requests the implementation fills it from these sources in order of precedence: 
+For inbound HTTP requests the implementation fills it from these sources in order of precedence:
 - `x-correlation-id` header
 - `x-correlationid` header
 - `x-request-id` header
@@ -79,9 +79,9 @@ The current user's preferred locale, usually taken from HTTP Accept-Language hea
 ### ctx.timestamp <i> → Date </i> {:#req-timestamp }
 
 <div class="indent" markdown="1">
-Returns a stable timestamp for the current request being processed. 
+Returns a stable timestamp for the current request being processed.
 
-The first invocation on a request or any nested request calls and returns the response of [`new Date()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). Subsequent invocations return the formerly determined and pinned value. 
+The first invocation on a request or any nested request calls and returns the response of [`new Date()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). Subsequent invocations return the formerly determined and pinned value.
 
 The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same timestamp value.
 
@@ -116,7 +116,7 @@ srv.before('CREATE', Order, function(req) {
 ```
 ::: danger
 A request has `succeeded` or `failed` only once the respective transaction was finally committed or rolled back. Hence, `succeeded` handlers can't veto the commit anymore. Even more, as the final `commit` or `rollback` already happened, they run outside framework-managed transaction boundaries.
-::: 
+:::
 
 To veto requests, either use the `req.before('commit')` hook described above, or [service-level event handlers](services#event-handlers) as shown in the following example:
 
@@ -135,7 +135,7 @@ db.before('COMMIT', function(req) {
 To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](transactions).
 ::: warning
 Errors thrown by the registered handlers are treated the same as any other error thrown during request processing. Hence, if you are doing something that should not result in an error being returned to the client, make sure to either start an asynchronous workflow via `cds.spawn()` or to wrap your code in a `try...catch` block.
-::: 
+:::
 
 Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. Following the atomicity property ("all or nothing"), if at least one of the requests in the changeset fails, all requests fail.
 
@@ -203,7 +203,7 @@ Provides access to original inbound protocol-specific request objects. For event
 
 ::: warning
 Please refrain from using internal properties of that object, i.e. the ones starting with '_'. They might be removed in any future release without notice.
-::: 
+:::
 
 
 
@@ -238,8 +238,8 @@ For example:
 
 {:style="font-style:italic;width:80%;"}
 
-[See also `req.path` to learn how to access full navigation paths.](#req-path){:.learn-more} 
-[See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){:.learn-more} 
+[See also `req.path` to learn how to access full navigation paths.](#req-path){:.learn-more}
+[See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){:.learn-more}
 [Learn more about linked models and definitions.](cds-reflect#cds-reflect){:.learn-more}
 
 
@@ -305,7 +305,7 @@ If bound custom operations `req.query` contains the query to the entity, on whic
 
 ### req.subject  <i>  &#8674; [ref](../cds/cxn#references) </i> {:#req-subject }
 
-Acts as a pointer to one or more instances targeted by the request.  
+Acts as a pointer to one or more instances targeted by the request.
 It can be used as input for [cds.ql](cds-ql) as follows:
 
 ```js
@@ -365,7 +365,7 @@ if (req.errors) //> get out somehow...
 - `code` _Number (Optional)_ - Represents the error code associated with the message. If the number is in the range of HTTP status codes and the error has a severity of 4, this argument sets the HTTP response status code.
 - `message` _String \| Object \| Error_ - See below for details on the non-string version.
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
-- `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](app-services#i18n) for details.
+- `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](app-services/#i18n) for details.
 
 ####  <i>  Using an Object as Argument </i>
 

@@ -1,7 +1,7 @@
 ---
 shorty: cds.ql
 synopsis: >
-  Use the `cds.ql` to construct queries using a [fluent](cds-ql#fluent-api), SQL-like API. 
+  Use the `cds.ql` to construct queries using a [fluent](cds-ql#fluent-api), SQL-like API.
 layout: node-js
 status: released
 ---
@@ -47,8 +47,8 @@ let q4 = DELETE.from('Books').where({ID:201})
 
 
 ::: tip *Not Locked in to SQL*{:.tip-title}
-While both, [CQN](../cds/cqn) as well as the [fluent API](#fluent-api) resemble well-known SQL syntax, `cds.ql` isn't locked in to SQL. In fact, queries can be sent to any kind of services, including NoSQL databases or [remote services](remote-services) for execution. 
-::: 
+While both, [CQN](../cds/cqn) as well as the [fluent API](#fluent-api) resemble well-known SQL syntax, `cds.ql` isn't locked in to SQL. In fact, queries can be sent to any kind of services, including NoSQL databases or [remote services](remote-services) for execution.
+:::
 
 
 ###  <em>  Using Service APIs plus Fluent APIs </em> {:#service-api}
@@ -75,7 +75,7 @@ let q4 = cds.delete('Books').where({ID:201})
 
 ###  <em>  Using Tagged Template String Literals </em> {:#tts}
 
-Version 5 of `@sap/cds` introduced support for [tagged template string literals](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals) with both API styles, which greatly promotes embedded CQL experience. 
+Version 5 of `@sap/cds` introduced support for [tagged template string literals](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals) with both API styles, which greatly promotes embedded CQL experience.
 
 The [Fluent API example above](#fluent-api) could be rewritten like this:
 
@@ -92,16 +92,16 @@ Similarly, we could rewrite [the Service API example](#service-api) like this:
 let q1 = cds.read `Books` .where `ID=${201}`
 let q2 = cds.create `Books` .entries ({title:'Wuthering Heights'})
 let q3 = cds.update `Books` .where `ID=${201}` .with `title=${'Sturmhöhe'}`
-let q4 = cds.delete `Books` .where `ID=${201}` 
+let q4 = cds.delete `Books` .where `ID=${201}`
 ```
 
 
 ###  <em>  Using Reflected Definitions as Query Targets </em> {:#using-reflected-defs}
 
-It is recommended best practice to use entity definitions reflected from a service's model to construct queries. 
+It is recommended best practice to use entity definitions reflected from a service's model to construct queries.
 Doing so greatly simplifies code as it avoids repeating namespaces all over the place.
 
-For example: 
+For example:
 
 ```sql
 const { Books } = cds.entities
@@ -303,7 +303,7 @@ Whenever there's user input involved...
 
 ## **SELECT** ... {:#SELECT}
 
-Fluent API to construct [CQN SELECT](../cds/cqn#select) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order. 
+Fluent API to construct [CQN SELECT](../cds/cqn#select) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
 ### SELECT...
 
@@ -316,19 +316,19 @@ SELECT `a, b as c` .from `Foo`  -- is a shortcut for:
 SELECT .columns `a, b as c` .from `Foo`
 ```
 
-Moreover, it accepts a single tagged template string which can comprise all [CQL](../cds/cql.md) clauses, starting with `from`:
+Moreover, it accepts a single tagged template string which can comprise all [CQL](../cds/cql) clauses, starting with `from`:
 
 ```js
 const limit = 11, sort_column = 'a'
 const q = SELECT `from Foo {
    a, b as c, sum(d)
-} where x < ${limit} 
+} where x < ${limit}
 group by a,b
 order by ${sort_column} asc`
 const foos = await q
 ```
 
-This can be used to construct [CQN](../cds/cqn.md) query objects from statement using [CQL](../cds/cql.md) language constructs which are not covered by `cds.ql` Fluent API.
+This can be used to construct [CQN](../cds/cqn) query objects from statement using [CQL](../cds/cql) language constructs which are not covered by `cds.ql` Fluent API.
 
 </div>
 
@@ -345,7 +345,7 @@ const one = await SELECT.one.from (Authors)
 > same effect, but potentially more expensive:
 
 ```js
-const [one] = await SELECT.from (Authors) 
+const [one] = await SELECT.from (Authors)
 ```
 
 Start the query with `SELECT.distinct` to skip duplicates as in SQL:
@@ -360,7 +360,7 @@ SELECT.distinct.from (Authors)
 
 <div class="indent" markdown="1">
 
-Specifies  which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql.md) projections and path expressions. If called repeatedly, respective columns are added cumulatively.
+Specifies  which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. If called repeatedly, respective columns are added cumulatively.
 
 
 #### <em> API Style Variants </em>
@@ -369,24 +369,24 @@ The clauses methods can be used in varying order as follows...
 
 1. SQL-style Prefix Projections
 ```sql
-SELECT `a, b as c, count(d) as e` .from `Foo` 
+SELECT `a, b as c, count(d) as e` .from `Foo`
 ```
 ... which essentially is a shortcut to:
 ```sql
 SELECT .columns `a, b as c, count(d) as e` .from `Foo`
 ```
 
-2. CQL-style Postfix Projections 
+2. CQL-style Postfix Projections
 ```sql
-SELECT .from `Foo` .columns `a, b as c, count(d) as e` 
+SELECT .from `Foo` .columns `a, b as c, count(d) as e`
 ```
 
 ... optionally enclosed in braces:
 ```sql
-SELECT .from `Foo` .columns `{ a, b as c, count(d) as e }` 
+SELECT .from `Foo` .columns `{ a, b as c, count(d) as e }`
 ```
 
-> The examples above show [tagged template syntax variants](#tts), the same styles are available with [classic method call variants](#fluent-api) or when [Service Querying APIs](#service-api). 
+> The examples above show [tagged template syntax variants](#tts), the same styles are available with [classic method call variants](#fluent-api) or when [Service Querying APIs](#service-api).
 
 
 
@@ -397,27 +397,27 @@ In all API style variants, the arguments describe the desired projections, which
 
 1. [A projection function](#projection-functions):
 ```js
-SELECT.from `Foo` .columns (foo => { 
-     foo.a, foo.b.as('c') 
+SELECT.from `Foo` .columns (foo => {
+     foo.a, foo.b.as('c')
 })
 ```
 
-2. [A tagged template string](#tts): 
+2. [A tagged template string](#tts):
 ```js
 SELECT.from `Foo` .columns `{ a, b as c }`
 ```
 
-3. [CQL column expressions](../cds/cql.md): 
+3. [CQL column expressions](../cds/cql.md):
 ```js
 SELECT.from `Foo` .columns ('a', 'b as c')
 ```
 
-4. [CQN expression objects](../cdl/cqn.md): 
+4. [CQN expression objects](../cdl/cqn.md):
 ```js
 SELECT.from `Foo` .columns ({ref:['a']}, {ref:['b'], as:'c'})
 ```
 
-5. An array of 3 and/or 4: 
+5. An array of 3 and/or 4:
 ```js
 SELECT.from `Foo` .columns ([ 'a', 'b as c' ])
 ```
@@ -431,7 +431,7 @@ SELECT.from `Foo` .columns ([ 'a', 'b as c' ])
 Projection functions are the **most recommended** way to specify projections as they have several advantages (with tagged templates coming closest):
 
 - they support nested projections, aka expands
-- they don't need to call a parser 
+- they don't need to call a parser
 - they resemble CQL very much
 - they use standard JavaScript constructs
 - we can perspectively offer type inference and code completion
@@ -441,7 +441,7 @@ With respect to resembling CQL let's compare this query in CQL using entity alia
 ```sql
 SELECT from Authors a {
    a.ID, a.name, a.books {
-     *, createdAt as since, 
+     *, createdAt as since,
      suppliers[city='Paris']{*}
    }
 }
@@ -452,22 +452,22 @@ Here is the same using `cds.ql` with projection functions:
 ```js
 SELECT.from ('Authors', a => {
    a.ID, a.name, a.books (b => {
-     b`.*`, b.createdAt`as since`, 
+     b`.*`, b.createdAt`as since`,
      b.suppliers`[city='Paris']`('*')
    })
 })
 ```
 
-Projection functions use these mechanisms: 
+Projection functions use these mechanisms:
 
 - projections are single-argument arrow functions: `a => { ... }`
-- with the argument as entity alias in column expressions: `a.name` 
+- with the argument as entity alias in column expressions: `a.name`
 - with functions for nested projections: `a.books (b => {...})`
 - with `*` as special case of that: ```b`.*` ```, and `b.suppliers('*')`
 - with template strings for aliases: ```b.createdAt`as since` ```
 - as well as for infix filters: ```b.suppliers`[city='Paris']` ```
 
-**Note:** Not every CQL or SQL construct can be expressed with projection functions. This is where tagged template strings kick in. 
+**Note:** Not every CQL or SQL construct can be expressed with projection functions. This is where tagged template strings kick in.
 
 </div>
 
@@ -475,11 +475,11 @@ Projection functions use these mechanisms:
 
  [Learn more about *excluding* clauses in CQL](../cds/cql#excluding-clause){:.learn-more} {: .indent}
 
-### <i>&#8627;</i> .from  <i>  (entity, key?, cols?)  </i> {: #select-from } 
+### <i>&#8627;</i> .from  <i>  (entity, key?, cols?)  </i> {: #select-from }
 
 <div class='indent' markdown='1'>
 
- Fills in [CQN `from` clauses](../cds/cqn.md#select), optionally adding a primary key, and a projection. The latter are alternatives for using separate `.one`, `.where` and  `.columns` clauses. 
+ Fills in [CQN `from` clauses](../cds/cqn.md#select), optionally adding a primary key, and a projection. The latter are alternatives for using separate `.one`, `.where` and  `.columns` clauses.
 
 
 For example, these queries:
@@ -492,9 +492,9 @@ SELECT.from (Books,201, b => { b.ID, b.title })
 ... are equivalent to these:
 
 ```js
-SELECT.one.from (Books) .where ({ID:201}) 
-SELECT.one.from (Books) .where ({ID:201}) 
-.columns (b => { b.ID, b.title }) 
+SELECT.one.from (Books) .where ({ID:201})
+SELECT.one.from (Books) .where ({ID:201})
+.columns (b => { b.ID, b.title })
 ```
 
 > NOTE: Specifying a `key` argument automatically [enables `SELECT.one`](#select-one)
@@ -510,7 +510,7 @@ SELECT.from `my.bookshop.Books`
 SELECT.from `Books` //> for namespace my.bookshop
 ```
 
-- An entity definition from a reflected model. 
+- An entity definition from a reflected model.
 ```js
 const { Books } = cds.entities
 SELECT.from (Books)
@@ -538,7 +538,7 @@ SELECT.from (Books.texts, {ID:201, locale:'de'})
 
 </div>
 
-### <i>&#8627;</i>.alias  <i>  (string) </i> {: #select-alias } 
+### <i>&#8627;</i>.alias  <i>  (string) </i> {: #select-alias }
 
 Specifies the alias which you can refer to in other functions:
 
@@ -582,8 +582,8 @@ With tagged template strings we could construct a query like that:
 
 ```js
 SELECT.from `Foo` .where `name like ${name} and (
-   kind in ${kinds} 
-   or ratio between ${min} and ${max} 
+   kind in ${kinds}
+   or ratio between ${min} and ${max}
    or stock >= ${stock}
 )`
 ```
@@ -591,19 +591,19 @@ SELECT.from `Foo` .where `name like ${name} and (
 Doing the same with object literals would look like that:
 
 ```js
-SELECT.from('Foo') .where ({ name: {like:'%foo%'}, and: { 
-   kind: { in: kinds }, 
-   or: { ratio: { between: min, and: max }, 
+SELECT.from('Foo') .where ({ name: {like:'%foo%'}, and: {
+   kind: { in: kinds },
+   or: { ratio: { between: min, and: max },
      or: { stock: { '>=': stock } }
     }
 }})
 ```
 
 The provided expression is consistently accounted for by wrapping the existing where clause in an `xpr` if needed.
-   
+
 </div>
 
-### <i>&#8627;</i>.groupBy  <i>  (...refs)  </i> 
+### <i>&#8627;</i>.groupBy  <i>  (...refs)  </i>
 
 <div class='indent' markdown='1'>
 
@@ -617,7 +617,7 @@ SELECT ... .groupBy ({ref:['a','name']}, {ref:['b']})
 
 </div>
 
-### <i>&#8627;</i>.orderBy  <i>  (...refs+) </i> 
+### <i>&#8627;</i>.orderBy  <i>  (...refs+) </i>
 
 <div class='indent' markdown='1'>
 
@@ -632,11 +632,11 @@ SELECT ... .orderBy ({ref:['a','name']}, {ref:['b'],sort:'desc'})
 </div>
 
 
-### <i>&#8627;</i>.limit  <i>  (rows, offset?) </i> 
+### <i>&#8627;</i>.limit  <i>  (rows, offset?) </i>
 
 <div class='indent' markdown='1'>
 
-Equivalent of the standard SQL `limit` and `offset` clauses. 
+Equivalent of the standard SQL `limit` and `offset` clauses.
 Arguments can be standard numbers or [CXN](../cds/cxn.md) expression objects.
 
 ```js
@@ -651,7 +651,7 @@ SELECT ... .limit (25,100)  //> fifth page
 
 <div class='indent' markdown='1'>
 
-Exclusively locks the selected rows for subsequent updates in the current transaction, thereby preventing concurrent updates by other parallel transactions. 
+Exclusively locks the selected rows for subsequent updates in the current transaction, thereby preventing concurrent updates by other parallel transactions.
 
 ```js
 try {
@@ -675,7 +675,7 @@ All acquired locks are released when the current transaction is finished, that i
 ### <i>&#8627;</i>.forShareLock  <i>  () </i> {:#select-forsharelock }
 
 Locks the selected rows in the current transaction, thereby preventing concurrent updates by other parallel
-transactions, until the transaction is committed or rolled back. Using a shared lock allows all transactions to read the locked record. 
+transactions, until the transaction is committed or rolled back. Using a shared lock allows all transactions to read the locked record.
 
 If a queried record is already exclusively locked by another transaction, the `.forShareLock()` method waits for the lock to be released.
 
@@ -876,16 +876,16 @@ The root constant `UPDATE` is a function itself, which acts as a shortcut to `UP
 
 ```sql
 UPDATE `Books` .set `stock = stock - ${quantity}` -- as shortcut to:
-UPDATE.entity `Books` .set `stock = stock - ${quantity}` 
+UPDATE.entity `Books` .set `stock = stock - ${quantity}`
 ```
 
 </div>
 
-### <i>&#8627;</i>.entity  <i>  (entity, key?) ... </i> 
+### <i>&#8627;</i>.entity  <i>  (entity, key?) ... </i>
 
 <div class="indent" markdown="1">
 
-Specifies the target of the update operation, either as a fully qualified name, a name local to the target service or as a reflected definition. 
+Specifies the target of the update operation, either as a fully qualified name, a name local to the target service or as a reflected definition.
 
 ##### Argument `entity` can be one of:
 
@@ -896,7 +896,7 @@ UPDATE `my.bookshop.Books` ...
 UPDATE `Books` ... //> for namespace my.bookshop
 ```
 
-- An entity definition from a reflected model. 
+- An entity definition from a reflected model.
 
 ```js
 const { Books } = cds.entities
@@ -923,7 +923,7 @@ UPDATE (Books.texts, {ID:201, locale:'de'}) .with(...)
 </div>
 
 
-### <i>&#8627;</i>.with, set  <i>  (...) </i> 
+### <i>&#8627;</i>.with, set  <i>  (...) </i>
 
 <div class="indent" markdown="1">
 
@@ -945,11 +945,11 @@ UPDATE (Books,ID) .with ({
 })
 ```
 
-> Method `.set` and `.with` are aliases to the same method. 
+> Method `.set` and `.with` are aliases to the same method.
 
 </div>
 
-### <i>&#8627;</i>.where  <i>  (expr) </i> 
+### <i>&#8627;</i>.where  <i>  (expr) </i>
 
 [As in SELECT.where](#where){:.learn-more}
 
@@ -983,14 +983,14 @@ DELETE.from('Books').where ({stock:{'<':1}})
 
 ## Class cds.**Query**  {: #cds-query}
 
-Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#fluent-api) to construct queries as highlighted below. 
+Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#fluent-api) to construct queries as highlighted below.
 
 
 
 ### .cmd  <i>  &#8674; 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | ... </i> {:#query-cmd}
 
 
-The current command, that is one of these strings: 
+The current command, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`
@@ -1002,7 +1002,6 @@ The current command, that is one of these strings:
 This is usefull for generic query processors, such as outbound protocol adapters or database services, which need to translate given queries into target representations.
 
 
-
 ### .then  <i>  &#8594; results </i> {:#query-then}
 
-All instances of `cds.Query`, that is, all queries constructed with the fluent API functions as documented below, are thenables. `await`ing them executes the query with the target's service, or the primary database service as explained in section [Executing Queries](#await-ing-queries). 
+All instances of `cds.Query`, that is, all queries constructed with the fluent API functions as documented below, are thenables. `await`ing them executes the query with the target's service, or the primary database service as explained in section [Executing Queries](#await-ing-queries).

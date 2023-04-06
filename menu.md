@@ -64,7 +64,7 @@
 - [Services](/java/consumption-api)
 - [Event Handlers](/java/provisioning-api)
 - [Working with Data](/java/data/)
-- [Building CQL Statements](/java/query-api/)
+- [Building CQL Statements](/java/query-api)
 - [Executing CQL Statements](/java/query-execution)
 - [Introspecting CQL Statements](/java/query-introspection/)
 - [Working with CDS Models](/java/reflection-api/)

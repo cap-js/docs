@@ -76,7 +76,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 ::: tip
 Don't forget to execute `npm install`, as the sample repository has multiple parts that require each other.
-::: 
+:::
 </div>
 
 
@@ -300,7 +300,7 @@ As you can see in the log output, the two service definitions have been compiled
 
 ::: warning
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
-::: 
+:::
 </div>
 
 <div class="impl java">
@@ -526,8 +526,8 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){: .learn-more .impl .node target="_blank"}
-[Learn more about providing service implementations **in Node.js**.](../node.js/services/#srv-impls){:.learn-more .impl .node} 
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api/#handlerclasses){:.learn-more .impl .node}
+[Learn more about providing service implementations **in Node.js**.](../node.js/services/#srv-impls){:.learn-more .impl .node}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){:.learn-more .impl .node}
 
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {:.impl .java}
 
@@ -546,7 +546,7 @@ public class CatalogHandler implements EventHandler {
 
 ::: tip
 Place the code in your package of choice and use your IDE to generate the needed `import` statements.
-::: 
+:::
 </div>
 
 
@@ -588,7 +588,7 @@ public void addDiscountIfApplicable(List<Books> books) {
 ```
 {:.impl .java}
 
-[Learn more about **event handlers** in the  CAP Java documentation.](../java/provisioning-api/#handlerclasses){:.learn-more} {:.impl .java}
+[Learn more about **event handlers** in the  CAP Java documentation.](../java/provisioning-api#handlerclasses){:.learn-more} {:.impl .java}
 
 
 ### Consuming Other Services
@@ -680,4 +680,3 @@ With this getting started guide we introduced many of the basics of CAP, such as
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment).
 
 Also **see the reference sections** to find detailed documentation about [**CDS**](../cds), as well as [**Node.js**](../node.js) and [**Java**](../java) Service SDKs and runtimes.
-

@@ -71,7 +71,7 @@ module.exports = class say {
 
 > That has limited flexibility, for example, you can register only one handler per event. {: .impl .node}
 
-... for example, using a [CAP Java](../java/provisioning-api/) custom handler like this:
+... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
 
 File _srv/src/main/java/customer/hello_world_java/handlers/HelloWorld.java_, content:
 
@@ -128,4 +128,3 @@ mvn cds:watch
 http://localhost:8080/odata/v4/say/hello(to='world') {: .impl .java}
 
 <!--- {% include links.md %} -->
-

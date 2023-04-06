@@ -374,7 +374,7 @@ On databases other than HANA, only [as-of-now-queries](../../guides/temporal-dat
 
 ### Multiuser
 
-The CAP Java SDK supports connection pooling and pessimistic locking via [select for update](../../java/query-execution/#pessimistic-locking)
+The CAP Java SDK supports connection pooling and pessimistic locking via [select for update](../../java/query-execution#pessimistic-locking)
 for HANA, H2 and PostgreSQL.
 
 Although connection pooling can be configured for SQLite, we recommend to set the `maximum-pool-size` to 1, due to the limited concurrency support in SQLite.

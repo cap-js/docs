@@ -1012,7 +1012,7 @@ The following sections give an overview how to do so, which links to respective 
 public class FooServiceImpl implements EventHandler {...}
 ```
 
-[Learn more about Event Handler classes in Java.](//java/provisioning-api/#handlerclasses){:.learn-more}
+[Learn more about Event Handler classes in Java.](//java/provisioning-api#handlerclasses){:.learn-more}
 
 ### Registering Event Handlers
 
@@ -1040,7 +1040,7 @@ public class BookshopServiceImpl implements EventHandler {
 }
 ```
 
-[Learn more about **adding event handlers in Java**.](//java/provisioning-api/#handlerclasses){:.learn-more}
+[Learn more about **adding event handlers in Java**.](//java/provisioning-api#handlerclasses){:.learn-more}
 
 ### Hooks for Event Handlers → `on`, `before`, `after`
 
@@ -1071,7 +1071,7 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 - The `tenant` using your SaaS application, if enabled
 
 [Learn more about **implementing event handlers in Node.js**.](//node.js/events/#cds-request){:.learn-more}
- [Learn more about **implementing event handlers in Java**.](//java/provisioning-api/#eventcontext){:.learn-more}
+ [Learn more about **implementing event handlers in Java**.](//java/provisioning-api#eventcontext){:.learn-more}
 
 
 

@@ -46,7 +46,7 @@ Invoking a `connect()` method creates an instance of the Data Store API.
 The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../cds/cql) statements.
 The CDS Data Store is used to implement the [Persistence Service](./consumption-api#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn’t based on events and event handlers.
 
-The `CdsDataStore` API is similar to the [`CqnService` API](./query-execution/#queries). The only difference is, that the `run` method is called `execute`:
+The `CdsDataStore` API is similar to the [`CqnService` API](./query-execution#queries). The only difference is, that the `run` method is called `execute`:
 
 ```java
 CdsDataStore dataStore = ...;
@@ -63,7 +63,7 @@ dataStore.setSessionContext(sessionContext);
 
 ::: tip
 When implementing a CAP application, using the [Persistence Service](./consumption-api#persistenceservice) is preferred over the CDS Data Store.
-::: 
+:::
 
 ## Execute Native SQL with Spring's JDBC Template {: #jdbctemplate}
 
@@ -94,7 +94,7 @@ The static model and accessor interfaces can be generated using the [CDS Maven P
 
 ::: warning _❗ Warning_ <!-- {.:warning-title} -->
 Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](./data#renaming-elements-in-java) annotation.
-::: 
+:::
 
 ### Static Model in the Query Builder
 
@@ -237,4 +237,3 @@ Select<Books_> query = Select.from(Books_.class)			// Note the usage of model in
 
 List<Books> books = dataStore.execute(query).listOf(Books.class);	// After executing the query the result can be converted to a typed representation List of Books.
 ```
-

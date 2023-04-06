@@ -221,7 +221,7 @@ Kyma clusters run an [Istio](https://istio.io/) service mesh. Istio allows to [c
 
 CAP adds headers for request correlation to its outbound requests that allows logging and tracing across micro services.
 
-[Learn more about request correlation in Node.js.](//node.js/cds-log/#node-observability-correlation){:.learn-more} [Learn more about request correlation in Java.](//java/observability/#correlation-ids){:.learn-more}
+[Learn more about request correlation in Node.js.](//node.js/cds-log/#node-observability-correlation){:.learn-more} [Learn more about request correlation in Java.](//java/observability#correlation-ids){:.learn-more}
 
 ## Automated Testing {:.impl.beta}
 

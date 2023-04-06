@@ -3,7 +3,7 @@ synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
-<!--- Migrated: @external/java/700-Observability/0-index.md -> @external/java/observability.md -->
+<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
 
 # Observability
 <style scoped>
@@ -58,22 +58,22 @@ public void readAuthors(List<Orders> orders) {
 
 Some remarks:
 
-* [Logging Configuration](#logging-configuration) shows how to configure loggers individually to control the emitted log messages. 
+* [Logging Configuration](#logging-configuration) shows how to configure loggers individually to control the emitted log messages.
 * The API is robust with regards to the passed parameters, that means, no exception is thrown on parameters mismatch or invalid parameters.
 
 ::: tip
 Prefer *passing parameters* over *concatenating* the message. `logger.info("Consolidating order " + order)` creates the message `String` regardless the configured log level. This can have a negative impact on performance.
-::: 
+:::
 
 ::: tip
-A `ServiceException` thrown in handler code and indicating a server error (that is, HTTP response code `5xx`) is *automatically* logged as error along with a stacktrace. 
-::: 
+A `ServiceException` thrown in handler code and indicating a server error (that is, HTTP response code `5xx`) is *automatically* logged as error along with a stacktrace.
+:::
 
 
 ### Logging Configuration with Spring Boot {: #logging-configuration}
 
-To set up a logging system, a concrete logging framework has to be chosen and, if necessary, corresponding SLF4j adapters. 
-In case your application runs on Spring Boot and you make use of Spring starter packages, **you most likely don't have to add any explicit dependency**, as the bundle `spring-boot-starter-logging` is part of all Spring Boot starters. It provides `logback` as default logging framework and in addition adapters for the most common logging frameworks (`log4j` and `jul`). 
+To set up a logging system, a concrete logging framework has to be chosen and, if necessary, corresponding SLF4j adapters.
+In case your application runs on Spring Boot and you make use of Spring starter packages, **you most likely don't have to add any explicit dependency**, as the bundle `spring-boot-starter-logging` is part of all Spring Boot starters. It provides `logback` as default logging framework and in addition adapters for the most common logging frameworks (`log4j` and `jul`).
 
 Similarly, no specific log output configuration is required for local development, as per default, log messages are written to console in human-readable form, which contains timestamp, thread, and logger component information. To customize the log output, for instance to add some application-specific information, you can create corresponding configuration files (such as `logback-spring.xml` for logback) to the classpath and Spring will pick it automatically. Consult the documentation of the dedicated logging framework to learn about the configuration file format.
 
@@ -116,14 +116,14 @@ You can overrule the given logging configuration with a corresponding environmen
 LOGGING_LEVEL_MY_LOGGERS_ORDER = DEBUG
 ```
 
-and restart the application. 
+and restart the application.
 ::: tip
 Note that Spring normalizes the variable's suffix to lower case, for example, `MY_LOGGERS_ORDER` to `my.loggers.order`, which actually matches the package name. However, configuring a dedicated logger (such as `my.loggers.order.Consolidation`) can not work in general as class names are in camel case typically.
-::: 
+:::
 
 ::: tip
 On SAP BTP, Cloud Foundry environment, you can add the environment variable with `cf set-env <app name> LOGGING_LEVEL_MY_LOGGERS_ORDER DEBUG`. Don't forget to restart the application with `cf restart <app name>` afterwards. The additional configuration endures an application restart but might be lost on redeployment.
-::: 
+:::
 
 #### At Runtime Without Restart {: #logging-configuration-runtime}
 
@@ -167,11 +167,11 @@ Most of the loggers are used on DEBUG level by default as they produce quite som
 
 ::: tip
 Spring comes with its own [standard logger groups](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/html/boot-features-logging.html#boot-features-custom-log-groups). For instance, `web` is useful to track HTTP requests. However, HTTP access logs gathered by the Cloud Foundry platform router are also available in the application log.
-::: 
+:::
 
 ### Logging Service {: #logging-service}
 
-The platform offers a central application logging service to which the application log output can be streamed to. Operators can analyze the log output by means of higher-level tools. 
+The platform offers a central application logging service to which the application log output can be streamed to. Operators can analyze the log output by means of higher-level tools.
 
 In Cloud Foundry environment, the service `application-logs` offers an ELK stack (Elasticsearch/Logstash/Kibana). To get connected with the logging service, the application needs to be bound against a corresponding service instance. To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
@@ -192,7 +192,7 @@ During local development, you might want to stick to the (human-readable) standa
 <!DOCTYPE xml>
 <configuration debug="false" scan="false">
 	<springProfile name="cloud">
-		<!-- logback configuration of ConsoleAppender according 
+		<!-- logback configuration of ConsoleAppender according
 		     to cf-java-logging-support documentation -->
 		[...]
 	</springProfile>
@@ -204,7 +204,7 @@ During local development, you might want to stick to the (human-readable) standa
 
 ::: tip
 For an example on how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](../java/multitenancy#app-log-support).
-::: 
+:::
 
 ### Correlation IDs
 
@@ -212,7 +212,7 @@ In general, a request can be handled by unrelated execution units such as intern
 
 In case you've configured `cf-java-logging-support` as described in [Logging Service](#logging-service) before, *correlation IDs are handled out-of-the-box by the CAP Java SDK*. In particular, this includes:
 
-- Generation of IDs in non-HTTP contexts 
+- Generation of IDs in non-HTTP contexts
 - Thread propagation through [Request Contexts](../java/request-contexts#threading-requestcontext)
 - Propagation to remote services when called via CloudSDK (for instance [Remote Services](../remote-services) or [MTX sidecar](../multitenancy/#mtx-sidecar-server))
 
@@ -221,16 +221,16 @@ By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. 
 
 ## Monitoring and Tracing {: #monitoring-and-tracing}
 
-Connect your productive application to a [monitoring](#monitoring) tool in order to identify resource bottlenecks at an early stage and to take appropriate countermeasurements. 
+Connect your productive application to a [monitoring](#monitoring) tool in order to identify resource bottlenecks at an early stage and to take appropriate countermeasurements.
 Sometimes it is necessary to use a [tracing](#tracing) tool that allows much deeper insights to track down resource consumption issues.
 
 
 ### Monitoring {: #monitoring}
 
-When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities. 
+When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities.
 In addition, call-graphs can be reconstructed and visualized that represent the flow of web requests within the components and services.
 
-On SAP BTP, [Dynatrace](https://www.dynatrace.com/support/help) is positioned as monitoring solution for productive applications and services. 
+On SAP BTP, [Dynatrace](https://www.dynatrace.com/support/help) is positioned as monitoring solution for productive applications and services.
 You can add a Dynatrace connection to your CAP Java application by [additional configuration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
 
 ### Tracing {: #tracing}
@@ -282,7 +282,7 @@ to your application configuration. In addition, to enable remote access add the 
 
 ::: warning _❗ Attention_{:.warning-title}
 Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
-::: 
+:::
 
 To establish a connection with a remote JMX client, first open an ssh tunnel to the application via `cf` CLI as operator user:
 
@@ -295,8 +295,8 @@ Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX cl
 - [JConsole](http://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
 - [OpenJDK Mission Control](https://github.com/openjdk/jmc), which can be installed separately.
 
- 
-<!--- Migrated: @external/java/700-Observability/03-availability.md -> @external/java/observability/availability.md -->
+
+<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/observabilityavailability.md -->
 ## Availability {: #availability}
 
 This section describes how to set up an endpoint for availability or health check. At first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:
@@ -341,7 +341,7 @@ The example configuration makes Spring exposing only the health endpoint with he
 
 ::: tip
 CAP Java SDK replaces default `db` indicator in case of multitenancy with an implementation that includes the status of all tenant databases.
-::: 
+:::
 
 Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up, `503` for down) in JSON format with the overall `status` property (for example, `UP` or `DOWN`) and the contributing components:
 
@@ -367,7 +367,7 @@ management.endpoint.health.show-details: always
 
 ::: warning _❗ Attention_{:.warning-title}
 A public health check endpoint may neither disclose system internal data (for example, health indicator details) nor introduce significant resource consumption (for example, doing synchronous database request).
-::: 
+:::
 
 Find all details about configuration opportunities in [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) documentation.
 
@@ -385,7 +385,7 @@ public class CryptoHealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
-        Health.Builder status = cryptoService.isAvailalbe() ? 
+        Health.Builder status = cryptoService.isAvailalbe() ?
               Health.up() : Health.down();
         return status.build();
     }
@@ -396,21 +396,21 @@ The custom `HealthIndicator` for the mandatory `CryptoService` is registered by 
 
 #### Protected Health Checks {: #protected-health-checks}
 
-Optionally, you can configure a protected health check endpoint. On the one hand this gives you higher flexibility with regards to the detail level of the response but on the other hand introduces additional configuration and management efforts (for instance key management).  
+Optionally, you can configure a protected health check endpoint. On the one hand this gives you higher flexibility with regards to the detail level of the response but on the other hand introduces additional configuration and management efforts (for instance key management).
 As this highly depends on the configuration capabilities of the client services, CAP does not come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](security#custom-spring-security-config).
 
 
-<!--- Migrated: @external/java/700-Observability/04-metrics.md -> @external/java/observability/metrics.md -->
+<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
 ## Metrics {: #metrics}
 
 
-Metrics are mainly referring to operational information about various resources of the running application such as HTTP sessions and worker threads, JDBC connections, JVM memory including GC statistics etc. Similar to [health checks](#spring-health-checks), Spring Boot comes with a bunch of built-in metrics based on [Spring Actuator](#spring-boot-actuators) framework.  
+Metrics are mainly referring to operational information about various resources of the running application such as HTTP sessions and worker threads, JDBC connections, JVM memory including GC statistics etc. Similar to [health checks](#spring-health-checks), Spring Boot comes with a bunch of built-in metrics based on [Spring Actuator](#spring-boot-actuators) framework.
 Actuators form an open framework, which can be enhanced by libraries (see [CDS Actuator](#cds-actuator)) as well as the application (see [Custom Actuators](#custom-actuators)) with additional information.
 
 
 ### Spring Boot Actuators and Metrics {: #spring-boot-actuators }
 
-[Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) are designed to provide a set of out-of-the box supportability features, that help to make your application observable in production.  
+[Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) are designed to provide a set of out-of-the box supportability features, that help to make your application observable in production.
 
 To add actuator support in your application, add following dependency:
 
@@ -450,8 +450,8 @@ CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides informa
 - Security configuration (authentication type etc.)
 - Loaded features such as `cds-feature-xsuaa`
 - Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](../persistence-services#datasource-configuration))
- 
- 
+
+
 #### Custom Actuators {: #custom-actuators }
 
 Similar to [Custom Health Indicators](#custom-health-indicators), you can add application-specific actuators as done in the following example:

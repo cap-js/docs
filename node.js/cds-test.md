@@ -9,7 +9,7 @@ status: released
 Learn more about best practices to test CAP Node.js applications using the `cds.test` toolkit.
 Find samples for such tests in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/master/test) and in [CAP SFLIGHT app](https://github.com/SAP-samples/cap-sflight/tree/main/test).
 
-For more details how to test Java applications, see the [Java documentation](../java/development#testing-cap-java-applications).
+For more details how to test Java applications, see the [Java documentation](../java/development/#testing-cap-java-applications).
 
 
 
@@ -23,8 +23,8 @@ npm add -D axios chai chai-as-promised chai-subset jest
 ```
 
 ::: tip
-If you have cloned [cap/samples]( https://github.com/sap-samples/cloud-cap-samples), you get that for free. 
-::: 
+If you have cloned [cap/samples]( https://github.com/sap-samples/cloud-cap-samples), you get that for free.
+:::
 
 
 ## Running a CAP Server
@@ -56,12 +56,12 @@ cds.test.in(__dirname)
 For example, this would have `cds.env` loading the configuration from _package.json_ and _.cdsrc.json_ files found next to the test file, that is, in the same folder.
 
 ::: danger
-**Important:** Don't use `process.chdir()` in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests. 
-::: 
+**Important:** Don't use `process.chdir()` in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests.
+:::
 
 ::: tip
-Prefer using relative filenames derived from `__dirname` as arguments to `cds.test` to allow your tests be started from whatever working directory. 
-::: 
+Prefer using relative filenames derived from `__dirname` as arguments to `cds.test` to allow your tests be started from whatever working directory.
+:::
 
 
 ##### Silenced Server Log
@@ -167,8 +167,8 @@ To be portable, you need to use a specific implementation of `expect`, like the 
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods.
 ::: tip
 [All tests in cap/samples](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
-Run them with `npm run jest` or with `npm run mocha`. 
-::: 
+Run them with `npm run jest` or with `npm run mocha`.
+:::
 
 
 

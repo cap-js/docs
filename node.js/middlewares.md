@@ -13,7 +13,7 @@ status: released
 
 ::: warning
 Customization is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-::: 
+:::
 
 <!--- {% include links-for-node.md %} -->
 <!--- {% include _chapters toc="2,3" %} -->
@@ -24,7 +24,7 @@ To use [tracing](#tracing) and [customization](#customization), you can start th
 
 ::: tip
 This configuration becomes the default with one of our upcoming releases.
-::: 
+:::
 
 ## Default Middlewares
 
@@ -43,7 +43,7 @@ To enable this middleware, you can set for example the [environment variable](cd
 
 #### Authentication
 
-[By configuring an authentication strategy](./authentication/#strategies), a middleware is mounted that fulfills the configured strategy.
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
 
 #### cds.context.user / cds.context.tenant
 
@@ -70,7 +70,7 @@ cds.middlewares.before = [
 ::: warning _Be aware of the interdependencies of middlewares_ <!--  -->
 _ctx_model_ requires that _cds.context_ middleware has run before.
 _ctx_auth_ requires that _authentication_ has run before.
-::: 
+:::
 
 {:.impl.concept}
 ### After Middlewares
@@ -83,7 +83,7 @@ exports.after = [
 ::: warning
 As of now, the protocol adapters terminate the request itself.
 In the future, they will provide an error object to the error middleware which terminates the request.
-::: 
+:::
 
 
 ## Customization
@@ -115,7 +115,7 @@ cds.middlewares = {
 In order to plug in custom middlewares, you can override the complete list of middlewares or extend the list programmatically.
 ::: warning
 Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
-::: 
+:::
 
 [Learn more about the middlewares Default Order.](../middlewares#default-order){:.learn-more}
 

@@ -41,7 +41,7 @@ Example:
 ```
 ::: tip
 We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
-::: 
+:::
 
 ### Keep Open Ranges When *Publishing* for Reuse {:#publish } <!-- TODO: revisit duplicated attribute {: #reuse} -->
 
@@ -75,7 +75,7 @@ Therefore, the rules when publishing packages for reuse are:
 
 ::: tip
 If both your package and a consuming package reuse the same CDS models, loading those models would fail because it's impossible to automatically merge the two versions, nor is it possible to load two independent versions. The reason for this is that it's reusing models that share the **same** single definitions.
-::: 
+:::
 
 
 ### Lock Dependencies Before *Deploying* {:#deploy }
@@ -96,6 +96,12 @@ The _package-lock.json_ file in your project root freezes all dependencies and i
 
 This ensures that the deployed tool/service/app doesn't receive new vulnerabilities, for example, through updated open source packages, without you being able to apply the necessary tests as prescribed by our security standards.
 
+<div class="tip" markdown="1">
+
+We recommend running `npm update` regularly and frequently during development to ensure that you receive the latest fixes.<br>
+Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automatize this process.
+{% if jekyll.environment != "external" %}<br>Here at SAP there is a [renovate deployment](https://github.wdf.sap.corp/OSPO/renovate-controller) available.{% endif %}
+</div>
 
 ### Minimize Usage of Open Source Packages {:#oss _}
 
@@ -191,7 +197,7 @@ cds.on('bootstrap', app => {
 ```
 ::: tip
 Consult [OpenUI5 Content Security Policy documentation](https://openui5.hana.ondemand.com/topic/fe1a6dba940e479fb7c3bc753f92b28c) for the list of directives that SAPUI5 requires.
-::: 
+:::
 
 ### Cross-Site Request Forgery (CSRF) Token
 
@@ -199,12 +205,12 @@ Protect against cross-side request forgery (CSRF) attacks by enabling CSRF token
 ::: tip
 For a SAPUI5 (SAP Fiori/SAP Fiori Elements) application developer, CSRF token handling is transparent.
 There’s no need to program or to configure anything in additional. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
-::: 
+:::
 
 [Learn more about CSRF tokens and SAPUI5 in the **Cross-Site Scripting** documentation.](https://sapui5.hana.ondemand.com/#/topic/91f0bd316f4d1014b6dd926db0e91070){:.learn-more}
 
 ::: warning _❗ The request must never be cacheable._ <!--  -->
-::: 
+:::
 
 #### Using App Router
 
@@ -218,7 +224,7 @@ On the backend side, except for handling the _HEAD_ request mentioned previously
 In the following example, the _POST_ method is protected.
 ::: tip
 If you use SAP Fiori Elements, requests to the backend are sent as batch requests using the _POST_ method. In this case, an arbitrary _POST_ request should be protected.
-::: 
+:::
 
 As already mentioned, in case the server rejects because of a bad CSRF token, the response with a status _403_ and a header _“X-CSRF-Token: required”_ should be returned to the UI. For this purpose, the error handling in the following example is extended:
 
@@ -255,14 +261,14 @@ cds.on('bootstrap', async app => {
 [Learn more about backend coding in the **csurf** documentation.](https://www.npmjs.com/package/csurf){:.learn-more}
 ::: tip
 If you're using horizontal scaling of Node.js virtual machines, the CSRF handling should be done at the approuter level.
-::: 
+:::
 
 ### Cross-Origin Resource Sharing (CORS)
 
 With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
 ::: tip
 CORS should either be configured in the _App Router_ or in the backend, but not in both places.
-::: 
+:::
 
 #### Using App Router
 

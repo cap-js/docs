@@ -87,8 +87,8 @@ module.exports = { CatalogService }
 
 ## How to Implement Services {:#srv-impls}
 
-Service implementations are essentially collections of [event handlers] registered with service instances to handle incoming requests and event messages. 
-The sections below explain where and how to do so. 
+Service implementations are essentially collections of [event handlers] registered with service instances to handle incoming requests and event messages.
+The sections below explain where and how to do so.
 
 
 ###  <i> **Where** to Implement Services? </i> {:#srv-impl-where}
@@ -138,7 +138,7 @@ module.exports = FooService
 
 ###  <i> <span style="color:grey"><i>&#8627;</i> </span> In files specified in `@impl` annotations </i> {:#impl-annotation}
 
-Use the `@impl` annotation to specify alternative files to load implementations from: 
+Use the `@impl` annotation to specify alternative files to load implementations from:
 
 
 ```cds
@@ -174,8 +174,8 @@ service FooService {}
 service BarService {}
 ```
 
-Instead of providing separate implementation files [specified by `@impl` annotations](#impl-annotation), 
-you can also provide multiple implementations in a single sibling file like that: 
+Instead of providing separate implementation files [specified by `@impl` annotations](#impl-annotation),
+you can also provide multiple implementations in a single sibling file like that:
 
 ```js
 // srv/services.js
@@ -184,7 +184,7 @@ class FooService extends cds.Service {...}
 class BarService extends cds.Service {...}
 module.exports = { FooService, BarService }
 ```
-> Note: The exported names are expected to match the names of the service definitions in your CDS model. 
+> Note: The exported names are expected to match the names of the service definitions in your CDS model.
 
 
 
@@ -211,7 +211,7 @@ class CatalogService extends cds.ApplicationService {
     this.before ('CREATE', Books, req => {...})
     this.on ('UPDATE', Books, req => {...}) // overrides the default handler
     // ensure to call super.init()
-    await super.init() 
+    await super.init()
   }
 }
 module.exports = CatalogService
@@ -226,7 +226,7 @@ You can also overload API methods of `cds.Service`, or subclasses thereof.
 
 ### <span style="color:grey"><i>&#8627;</i> </span>  <i> As plain functions </i> {:#cds-service-impl}
 
-The simplest way to provide custom event handlers is to return a function that registers event handler with the instance of `cds.Service` as follows: 
+The simplest way to provide custom event handlers is to return a function that registers event handler with the instance of `cds.Service` as follows:
 
 ```js
 module.exports = function(){ // `this` is the instance of cds.Service
@@ -247,11 +247,11 @@ module.exports = (srv)=>{ // `srv` is the instance of cds.Service
 
 ### <span style="color:grey"><i>&#8627;</i> </span>  <i> With `async/await` </i>
 
-Quite frequently you need to call async functions in your impl functions, just declare your impl function as `async` to use `await` inside: 
+Quite frequently you need to call async functions in your impl functions, just declare your impl function as `async` to use `await` inside:
 
 ```js
 const cds = require('@sap/cds')
-module.exports = async function(){ 
+module.exports = async function(){
   const SomeOtherService = await cds.connect.to('SomeOtherService')
   // ...
 }
@@ -471,8 +471,8 @@ The [linked](cds-reflect#cds-reflect) [service definition](../cds/csn#services) 
 </div>
 
 ### srv.namespace <i> &#8674; string </i> {:.first-of-many}
-### srv.entities <i> (namespace) &#8674; {[defs]} </i> 
-### srv.events <i> (namespace) &#8674; {[defs]} </i> 
+### srv.entities <i> (namespace) &#8674; {[defs]} </i>
+### srv.events <i> (namespace) &#8674; {[defs]} </i>
 ### srv.operations <i> (namespace) &#8674; {[defs]} </i> {:#srv-entities}
 
 [definitions]: ../cds/csn#definitions
@@ -527,7 +527,7 @@ const books = await cds.read (Books)
 [event handler]: #event-handlers
 
 
-Register event handlers with instances of [`cds.Service`](services) to add custom logic to serve operations or react to events emitted by these services. 
+Register event handlers with instances of [`cds.Service`](services) to add custom logic to serve operations or react to events emitted by these services.
 
 
 ### srv.on  <i>  (event, path?, handler) &#8674; this </i> {: #srv-on}
@@ -661,7 +661,7 @@ cds.serve('cat-service') .with (function(){
 
 ::: warning
 Note: Depending on when the error occurs, the request's [continuation](cds-context-tx#event-contexts) (that is, `cds.context`) may be `undefined` or incomplete (for example, missing user information).
-::: 
+:::
 
 The error is subsequently processed for the client following [OData's Error Response Body format](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ErrorResponseBody). Hence, if you want to add custom properties, they must be prefixed with `@` in order to not be purged.
 
@@ -806,7 +806,7 @@ this.reject (['CREATE','UPDATE','DELETE'], ['Books','Authors'])
 Use `srv.prepend` in order to register handlers, which shall be executed before already registered handlers.
 In particular, this can be used to override handlers from reused services as in [cap/samples/bookstore/srv/mashup.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/srv/mashup.js):
 
-For example, the following would register a handler for inserting Orders that runs _instead of_ the default handlers of the connected database service. 
+For example, the following would register a handler for inserting Orders that runs _instead of_ the default handlers of the connected database service.
 
 ```js
 const CatalogService = await cds.connect.to ('CatalogService')
@@ -835,7 +835,7 @@ db.prepend (()=>{
 
 ###  <i> For _Common CRUD_ and _REST-style_ Events </i>
 
-CAP service definitions frequently provide data-centric APIs by exposing projections on underlying domain model entities as introduced in the [Getting Started guide](../get-started/in-a-nutshell#defining-services): 
+CAP service definitions frequently provide data-centric APIs by exposing projections on underlying domain model entities as introduced in the [Getting Started guide](../get-started/in-a-nutshell#defining-services):
 
 ```cds
 using { sap.capire.bookshop as my } from '../db/schema';
@@ -866,8 +866,8 @@ For each of which you can add custom handlers, either by specifying the CRUD ope
 const cds = require('@sap/cds')
 module.exports = cds.service.impl (function(){
   // CRUD-style handler registration        REST-style registration
-  this.on ('READ','Books', ...)   /* or: */ this.on ('GET','Books', ...) 
-  this.on ('CREATE','Books', ...) /* or: */ this.on ('POST','Books', ...) 
+  this.on ('READ','Books', ...)   /* or: */ this.on ('GET','Books', ...)
+  this.on ('CREATE','Books', ...) /* or: */ this.on ('POST','Books', ...)
   //...
 })
 ```
@@ -877,7 +877,7 @@ module.exports = cds.service.impl (function(){
 ###  <i> For _Custom_ Events, i.e., _Actions_ and _Functions_ </i>
 
 
-In addition to the common CRUD and REST events, you can declare custom events as [actions or functions](../cds/cdl#actions). 
+In addition to the common CRUD and REST events, you can declare custom events as [actions or functions](../cds/cdl#actions).
 
 ```cds
 service CatalogService { ...
@@ -886,14 +886,14 @@ service CatalogService { ...
 }
 ```
 
-Register handlers for these as follows: 
+Register handlers for these as follows:
 
 ```js
 // srv/admin-service.js
 const cds = require('@sap/cds')
 module.exports = cds.service.impl (function(){
   this.on ('submitOrder', (req) => {...})
-  this.on ('getMyOrders', (req) => {...}) 
+  this.on ('getMyOrders', (req) => {...})
 })
 ```
 
@@ -902,7 +902,7 @@ module.exports = cds.service.impl (function(){
 
 
 
-Most frequently you would add event handlers to _provided_ services. Yet, you can also add handlers to services _consumed_ in your project, even to generic services provided by the CAP framework itself, like the default database service: 
+Most frequently you would add event handlers to _provided_ services. Yet, you can also add handlers to services _consumed_ in your project, even to generic services provided by the CAP framework itself, like the default database service:
 
 ```js
 const db = await cds.connect.to('db')
@@ -914,9 +914,9 @@ db.after ('READ','*', each => {...})
 
 ###  <i> For _Synchronous_ and _Asynchronous_ Events </i>
 
-The APIs documented below are used to register handlers for _synchronous_ requests as well as for subscription to _asynchronous_ events. 
+The APIs documented below are used to register handlers for _synchronous_ requests as well as for subscription to _asynchronous_ events.
 
-For example, given this service definition: 
+For example, given this service definition:
 ```cds
 service ReviewsService { //...
   event reviewed : { subject: String; rating: Decimal }
@@ -936,7 +936,7 @@ ReviewsService.on ('reviewed', (msg) => {...})
 
 ### srv.emit  <i>  ({ event, data?, headers? })  </i>
 
-This is the basic method to send both, [asynchronous event messages](messaging), as well as synchronous [requests](events). 
+This is the basic method to send both, [asynchronous event messages](messaging), as well as synchronous [requests](events).
 The implementation constructs an instance of [`cds.Event`], which is then dispatched through all registered [event handlers](#event-handlers).
 
 
@@ -964,7 +964,7 @@ this.emit ('reviewed', { subject, rating }) //> see below
 
 </div>
 
-_**Returns**_ a _Promise_ resolving to the response of respective event handlers. 
+_**Returns**_ a _Promise_ resolving to the response of respective event handlers.
 
 [For results of queries, see `srv.run`.](#srv-run){:.learn-more}
 
@@ -972,7 +972,7 @@ _**Returns**_ a _Promise_ resolving to the response of respective event handlers
 
 ### srv.emit  <i>  (event, data?, headers?)  </i>
 
-Convenience variant to [`srv.emit`](#srv-emit), which allows to specify the primary properties for [emitting asynchronous event messages](messaging).  
+Convenience variant to [`srv.emit`](#srv-emit), which allows to specify the primary properties for [emitting asynchronous event messages](messaging).
 Here's an example from [_cap/samples/reviews_](https://github.com/sap-samples/cloud-cap-samples/tree/master/reviews/srv/reviews-service.js):
 
 ```js
@@ -982,9 +982,9 @@ this.emit ('reviewed', { subject, rating })
 
 ### srv.on  <i>  (event, handler) &#8674; this </i> {:#srv-on-event}
 
-Subscribe to asynchronous events by registering handlers using the common `srv.on()` method. 
+Subscribe to asynchronous events by registering handlers using the common `srv.on()` method.
 
-For example, given this service definition: 
+For example, given this service definition:
 ```cds
 service ReviewsService { //...
   event reviewed : { subject: String; rating: Decimal }
@@ -996,7 +996,7 @@ const ReviewsService = await cds.connect.to('ReviewsService')
 ReviewsService.on ('reviewed', (msg) => {...})
 ```
 
-There's one major difference, though: Handlers for synchronous requests execute as **interceptors**, which pass control to subsequent handlers by calling `next()`, handlers for asynchronous events execute as **listeners** with all registered handlers being executed without calling `next()`. 
+There's one major difference, though: Handlers for synchronous requests execute as **interceptors**, which pass control to subsequent handlers by calling `next()`, handlers for asynchronous events execute as **listeners** with all registered handlers being executed without calling `next()`.
 
 
 ## REST-style API {:#srv-send }
@@ -1023,7 +1023,7 @@ srv.send({ event: 'AuthorCreated', data, headers })
 [Learn more about `cds.Requests`.](events#cds-request){:.learn-more}
 [Learn more about Event Messages.](events#cds-event){:.learn-more}
 
-Alternatively queries in _[CQN](../cds/cqn.md)_ notation can be used:
+Alternatively queries in _[CQN](../cds/cqn)_ notation can be used:
 
 ```js
 const { Books, Authors } = srv.entities //> reflection
@@ -1129,12 +1129,12 @@ const [books, authors] = await srv.run ([SELECT.from(Books), SELECT.from(Authors
 ```
 {:.indent}
 
-[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){:.learn-more} 
+[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){:.learn-more}
 [Learn more about `srv.run` variant to send native query string.](#srv-run-sql){:.learn-more .indent}
 
 ::: tip
 If an array of queries is passed to `srv.run`, queries are run in parallel.
-::: 
+:::
 
 _**Returns** a Promise resolving to..._
 
@@ -1174,7 +1174,7 @@ cds.run (`SELECT * from Some_Table_Function (11,'foo')`)
 ```
 ::: tip
 You need to pass fully qualified database table names.
-::: 
+:::
 
 
 _**Passing Arguments:**_
@@ -1189,7 +1189,7 @@ cds.run ('SELECT * from Authors where name like ?',['%Poe%'])
 ```
 ::: tip
 Prefer that over concatenating values into query strings to avoid SQL injection.
-::: 
+:::
 
 
 ###  <i>  Convenient Shortcuts: </i>
@@ -1236,7 +1236,7 @@ Method `srv.insert` is a SQL-reminiscent variant of `srv.create` with the follow
 srv.insert(data) .into (entity)
 srv.create(entity) .entries (data)
 ```
-   
+
 ### <span style="color:#800; font-weight:500">srv</span>.upsert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`UPSERT` query](cds-ql#UPSERT) </i>
 
 Method `srv.upsert` inserts an entity or updates it if it doesn't exist.
@@ -1309,11 +1309,11 @@ const res3 = await cats.submitOrder ('Books', 251, 1)
 
 ::: warning
 Streaming is currently limited to [database services](databases).
-::: 
+:::
 
 ### srv.stream<i> (column) </i> .from<i> (entity) </i> .where<i> (filter) &#8674; [Readable Stream](https://nodejs.org/api/stream.html) </i>
 
-This method allows streaming binary data properties. 
+This method allows streaming binary data properties.
 It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
 
 ```js

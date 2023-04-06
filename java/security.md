@@ -31,7 +31,7 @@ Hence both, authentication and authorization, are essential for application secu
 
 ::: warning _❗ Warning_ <!--  -->
 Without security configured, CDS services are exposed to public. Proper configuration of authentication __and__ authorization is required to secure your CAP application.
-::: 
+:::
 
 ## Authentication {: #authentication}
 
@@ -47,7 +47,7 @@ Your application is secured by XSUAA-authentication **automatically**, if
 ::: tip
 CAP Java picks only a single XSUAA binding. If you have multiple bindings, choose a specific binding with property `cds.security.xsuaa.binding`.
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
-::: 
+:::
 
 The individual dependencies can be explicitly added in the `pom.xml` file of your service.
 On SAP BTP Cloud Foundry environment, recommended alternative is to use `cds-starter-cloudfoundry` bundle which covers all required dependencies for XSUAA-authentication:
@@ -68,10 +68,10 @@ Your application is secured by IAS-authentication **automatically**, if
 2. The application is bound to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
 ::: warning
 To enforce IAS authentication, make sure no XSUAA instance is bound to the CAP service at the same time.
-::: 
+:::
 ::: tip
 To allow forwarding to remote services, JWT tokens issued by IAS service do not contain authorization information. In particular, no scopes are included. Closing this gap is up to you in your application.
-::: 
+:::
 
 ### Automatic Spring Boot Security Configuration {: #spring-boot}
 
@@ -105,7 +105,7 @@ service BooksService @(requires: 'any') {
 > <sup>1</sup> Since version 1.25.0
 ::: tip
 For multitenant applications, it's required to authenticate all endpoints as the tenant information is essential for processing the request.
-::: 
+:::
 
 There are several application parameters in section `cds.security.authentication` that influence the behaviour of the auto-configuration:
 
@@ -137,7 +137,7 @@ Please note that it's only possible to make an endpoint public, if the full endp
 For example you can only make an entity public, if the service that contains it is also considered public.
 ::: tip
 Please note that the authentication mode has no impact on the *authorization* behaviour.
-::: 
+:::
 
 #### Customizing Spring Boot Security Configuration {: #custom-spring-security-config}
 
@@ -163,11 +163,11 @@ public class AppSecurityConfig {
 Due to the custom configuration, all URLs matching `/public/**` are opened for public access.
 ::: tip
 The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/aug22#minimum-spring-boot-version-27x) or later. Older versions need to use the deprecated `WebSecurityConfigurerAdapter`.
-::: 
+:::
 
 ::: warning _❗ Warning_ <!--  -->
 Be cautious with the configuration of the `HttpSecurity` instance in your custom configuration. Make sure that only the intended endpoints are affected.
-::: 
+:::
 
 Example:
 ```java
@@ -371,7 +371,7 @@ As a workaround for the limitations with paths in `where`-conditions, you may co
 CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note, that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
 ::: warning
 An empty or non-existent attribute list is interpreted as **unrestricted access**, because XSUAA sends an empty attribute list for attributes that are marked as unrestricted by default. There are plans to align this behaviour with the CAP Node.js runtime in future and also treat this as fully restricted with regards to the missing/empty attribute list.
-::: 
+:::
 
 ### Enforcement API & Custom Handlers {: #enforcement-api}
 
@@ -403,7 +403,7 @@ The most helpful getters in `UserInfo` are listed in the following table:
 | `getRoles()` | Returns the roles of the current user |
 | `getAttributeValues(String attribute)` | Returns the value list of the given user attribute. Referred by `$user.<attribute>`. |
 
-It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](request-contexts) for more details.
+It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](./request-contexts) for more details.
 For instance, you might want to run internal service calls in privileged mode that bypasses authorization checks:
 
 ```java

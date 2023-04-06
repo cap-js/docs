@@ -102,7 +102,7 @@ You can localize these strings, by putting them into property files and passing 
 When running your application on Spring, the CAP Java SDK integrates with [Spring's support for handling text resource bundles](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization). This handling by default expects translated texts in a `messages.properties` file under `src/main/resources`.
 
 The texts defined in the resource bundles can be formatted based on the syntax defined by `java.text.MessageFormat`.
-When the message or exception text is sent to the client it’s localized using the client's locale, as described [here](../../guides/i18n#user-locale).
+When the message or exception text is sent to the client it’s localized using the client's locale, as described [here](../guides/i18n#user-locale).
 
 `messages.properties`
 ```

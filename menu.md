@@ -70,7 +70,7 @@
 - [Working with CDS Models](/java/reflection-api/)
 - [Persistence Services](/java/persistence-services)
 - [Application Services](/java/application-services)
-- [Indicating Errors](/java/indicating-errors/)
+- [Indicating Errors](/java/indicating-errors)
 - [Request Contexts](/java/request-contexts)
 - [ChangeSet Contexts](/java/changeset-contexts)
 - [Security](/java/security)

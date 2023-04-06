@@ -88,7 +88,7 @@
 
 - [cds Facade](/node.js/cds-facade)
 - [Application Services](/node.js/app-services/)
-- [Best Practices](/node.js/best-practices/)
+- [Best Practices](/node.js/best-practices)
 - [cds.compile](/node.js/cds-compile)
 - [cds.connect](/node.js/cds-connect)
 - [Transactions](/node.js/cds-context-tx)

@@ -50,8 +50,7 @@ const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.
 
 A user's unique ID.
 It corresponds to `$user` in [`@restrict` annotations](../../guides/authorization) of your CDS models
-(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.)
-{:.indent}
+(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {:.indent}
 
 
 ### user.is <i> (\<role\>) </i> &#8594;  boolean {:#user-is}
@@ -68,8 +67,7 @@ The role names correspond to the values of [`@requires` and the `@restrict.grant
 ### user.attr<i>.\<x\> : string </i> {:#user-attr}
 
 User-related attributes, for example, from JWT tokens
-These correspond to `$user.<x>` in [`@restrict` annotations](../../guides/authorization) of your CDS models
-{:.indent}
+These correspond to `$user.<x>` in [`@restrict` annotations](../../guides/authorization) of your CDS models {:.indent}
 
 
 
@@ -148,7 +146,7 @@ You can override these defaults and configure the authentication strategy to be 
 ```
 
 ::: tip
-> Run `cds env get requires.auth` in your project root to find out the effective authentication config for your current environment.
+Run `cds env get requires.auth` in your project root to find out the effective authentication config for your current environment.
 :::
 
 
@@ -285,7 +283,7 @@ This is the default strategy used in production. User identity, as well as assig
 npm add passport
 ```
 
-**Prerequisites:** You need to add [@sap/xssec] to your project:
+**Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
 npm add @sap/xssec
 ```
@@ -405,10 +403,10 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 2. Go to the project you have created in [Getting started in a Nutshell](../../get-started/in-a-nutshell).
 
 3. Configure your app for XSUAA-based authentication if not done yet:
-```sh
-cds add xsuaa --for hybrid
-```
-This command creates the XSUAA configuration file `xs-security.json` and adds the service and required dependencies to your `package.json` file.
+    ```sh
+    cds add xsuaa --for hybrid
+    ```
+  This command creates the XSUAA configuration file `xs-security.json` and adds the service and required dependencies to your `package.json` file.
 
 4. Make sure `xsappname` is configured and `tenant-mode` is set to `dedicated` in `xs-security.json` file:
 ```json
@@ -524,7 +522,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
 3. In your project folder run:
 
-    <div markdown="block" code-variants="bash,cmd,powershell">
+    ::: code-group
     ```bash
     cds bind --exec -- npm start --prefix app
     ```
@@ -534,7 +532,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
     ```powershell
     cds bind --exec '--' npm start --prefix app
     ```
-    </div>
+    :::
 
     [Learn more about `cds bind --exec`.](../../advanced/hybrid-testing#cds-bind-exec){:.learn-more}
 

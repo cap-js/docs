@@ -139,7 +139,7 @@ To make the authentication work, you have to enable the security strategy by ins
 npm install @sap/xssec
 ```
 
-[Learn more about authorization in CAP using Node.js.](../../node.js/authentication/#jwt){:.learn-more}
+[Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){:.learn-more}
 
 
 At this point, you are done with your application. Let's set up the SAP Personal Data Manager and try it out.

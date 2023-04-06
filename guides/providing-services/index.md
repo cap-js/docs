@@ -861,7 +861,7 @@ The pseudo variables used in the annotations are resolved as follows:
   + `$user.<attr>` is replaced by the value of the respective attribute of the current user
 - `$uuid` is replaced by a version 4 UUID
 
-[Learn more about **Authentication** in Node.js.](//node.js/authentication/){:.learn-more}
+[Learn more about **Authentication** in Node.js.](//node.js/authentication){:.learn-more}
 [Learn more about **Authentication** in Java.](//java/security/#authentication){:.learn-more}
 
 ### Differences to `defaults`

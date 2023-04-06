@@ -106,7 +106,7 @@
 - [Middlewares](/node.js/middlewares)
 - [Protocols](/node.js/protocols)
 - [Remote Services](/node.js/remote-services)
-- [Authentication](/node.js/authentication/)
+- [Authentication](/node.js/authentication)
 - [Using TypeScript](/node.js/typescript)
 
 ### [Security](/security/)

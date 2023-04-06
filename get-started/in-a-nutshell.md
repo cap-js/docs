@@ -429,7 +429,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 - _[admin/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {:.impl .java}
 - _[admin/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {:.impl .java}
 
-> Use [_Alice_](../node.js/authentication/#mocked) as user to query the `admin` service. You don't need to enter a password. {:.impl .node}
+> Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {:.impl .node}
 
 > Use [_authenticated_](../java/security/#mock-users) to query the `admin` service. You don't need to enter a password. {:.impl .java}
 

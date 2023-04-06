@@ -356,7 +356,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | OData Protocol Adapter                                       | `odata`         |
 | REST Protocol Adapter                                        | `rest`          |
 | GraphQL Protocol Adapter                                     | `graphql`       |
-| [Authentication](./authentication/)                    | `auth`          |
+| [Authentication](./authentication)                    | `auth`          |
 | Database Deployment                                          | `deploy`        |
 | Multitenancy and Extensibility                               | `mtx`           |
 

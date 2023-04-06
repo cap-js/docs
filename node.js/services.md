@@ -375,7 +375,7 @@ For services provided by your app, the default is `kind = 'app-service'`, which 
 
 
 
-In effect, `cds.serve` constructs instances of [`cds.ApplicationService`](./app-services/) by default.
+In effect, `cds.serve` constructs instances of [`cds.ApplicationService`](./app-services) by default.
 
 
 ##### Using Custom Kinds
@@ -857,7 +857,7 @@ For AdminService at `/admin` endpoint
 | `DELETE` _/Books_ | `DELETE` _Books_ |
 
 > In addition, CAP provides built-in support for **Fiori Draft**, which add additional CRUD events, like `NEW`, `EDIT`, `PATCH`, and `SAVE`.
-> [&rarr; Learn more about Fiori Drafts](app-services/#draft)
+> [&rarr; Learn more about Fiori Drafts](app-services#draft)
 
 For each of which you can add custom handlers, either by specifying the CRUD operation or by specifying the corresponding REST method as follows:
 

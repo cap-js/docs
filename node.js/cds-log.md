@@ -346,7 +346,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | Server and common output                                     | `cds`           |
 | CLI output                                                   | `cli`           |
 | CDS build output                                             | `build`         |
-| [Application Service](./app-services/)                 | `app`           |
+| [Application Service](./app-services)                 | `app`           |
 | [SQLite Database](databases)                        | `db\|sql\|sqlite` |
 | [SAP HANA Database](databases)                      | `db\|sql\|hana`   |
 | [SAP HANA Database Pool](databases#pool)            | `db\|pool`       |

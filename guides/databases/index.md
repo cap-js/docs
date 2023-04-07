@@ -12,9 +12,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 # Using Databases
 
 {{ $frontmatter.synopsis }}
-<!--- {% include links.md %} -->
+<!--- % include links.md %} -->
 
-## Reading and Writing Data {: .impl.beta}
+## Reading and Writing Data { .impl.beta}
 
 Use `cds.ql` to read and write data based on CDS models. Its features include:
 
@@ -30,7 +30,7 @@ Use `cds.ql` to read and write data based on CDS models. Its features include:
 
 > All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../../get-started/in-a-nutshell#repl).
 
-## Providing Initial Data {: #providing-initial-data}
+## Providing Initial Data { #providing-initial-data}
 
 CSV files in your project are picked up by deployments for both SQLite and SAP HANA. If you've accidentally deployed such data to a productive database, see this [troubleshooting](../../advanced/troubleshooting#hana-csv) entry on how to recover from this situation.
 
@@ -78,7 +78,7 @@ Get an overview of your deployment options.
 <img src="assets/using_databases.png" width="300px">
 -->
 
-### SQLite {: #deploy-to-sqlite}
+### SQLite { #deploy-to-sqlite}
 
 
 The fastest way to let your application run is using a local SQLite database via the [sqlite3](https://www.npmjs.com/package/sqlite3) npm module, which is a devDependency of your project. Using the `cds deploy --to sqlite` command line helps you deploy the database parts of the project to a local SQLite database. It does the following:
@@ -88,14 +88,14 @@ The fastest way to let your application run is using a local SQLite database via
 * Drops existing tables and views, and re-creates them according to the CDS model.
 * Deploys [CSV files](#providing-initial-data) with initial data.
 
-[See it in action](../../get-started/in-a-nutshell#databases){: .learn-more}
+[See it in action](../../get-started/in-a-nutshell#databases){ .learn-more}
 
-### SAP HANA {: #get-hana}
+### SAP HANA { #get-hana}
 
 When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](../../guides/deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
 If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../../advanced/troubleshooting#get-hana) to learn about your options.
 
-#### Enhance Project Configuration for SAP HANA Cloud {: #configure-hana}
+#### Enhance Project Configuration for SAP HANA Cloud { #configure-hana}
 
 To prepare the project, execute:
 
@@ -120,7 +120,7 @@ For your information, this is what the previous command changed in _package.json
 
 See the [Use SAP HANA as the Database for a CAP Java Application](https://developers.sap.com/tutorials/cp-cap-java-hana-db.html#880cf07a-1788-4fda-b6dd-b5a6e5259625) tutorial for the rest of the configuration.
 
-#### Deploy using `cds deploy` {: #cds-deploy-hana}
+#### Deploy using `cds deploy` { #cds-deploy-hana}
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
@@ -140,8 +140,8 @@ Behind the scenes, `cds deploy` does the following:
 * Starts `@sap/hdi-deploy` locally. Should you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
-[Learn more about the deployment using HDI](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){:.learn-more}
-[Learn more about hybrid testing using service bindings to Cloud services.](../../advanced/hybrid-testing#run-with-service-bindings){:.learn-more}
+[Learn more about the deployment using HDI](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
+[Learn more about hybrid testing using service bindings to Cloud services.](../../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
 
 If you run into issues, see the [Troubleshooting](../../advanced/troubleshooting#hana) guide.
 
@@ -156,7 +156,7 @@ By default, when deploying data models to SQL databases, all entities become SQL
 
 ### Influencing Persistence Mapping
 
-#### Using Already Existing Entities {:.impl.beta}
+#### Using Already Existing Entities {.impl.beta}
 * Use `@cds.persistence.exists` to indicate that an object shouldn’t be created in the database,
   because the database object already exists. The names of the existing object and its columns must exactly
   match the names that would have been generated based on the entity definition.
@@ -166,11 +166,11 @@ By default, when deploying data models to SQL databases, all entities become SQL
 * If the entity in the model annotated with `@cds.persistence.exists` represents a user-defined function or a
   calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
-#### Skipping Entities {:.impl.beta}
+#### Skipping Entities {.impl.beta}
 * Use `@cds.persistence.skip` to indicate that an object shouldn’t be created in the database,
   because it’s implemented in the service layer.
 
-#### Views as Tables {:.impl.beta}
+#### Views as Tables {.impl.beta}
 * Use `@cds.persistence.table` to create a table with the effective signature of a view definition instead of an SQL view.
   All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
   A common use case for this annotation is in conjunction with the `@cds.persistence.skip` annotation. The  `@cds.persistence.skip` annotation is applied automatically
@@ -204,7 +204,7 @@ CREATE TABLE foo_bar_Car_Wheel (
 )
 ```
 
-### Structured Elements &rarr; Flattened Columns {:.impl.beta}
+### Structured Elements &rarr; Flattened Columns {.impl.beta}
 Structured elements in an entity definition are equivalent to a flattened definition of individual columns. For example, the following definition:
 
 ```cds
@@ -243,7 +243,7 @@ SELECT name, address_street, address_town_name from Authors;
 
 > See [_Postfix Projections_](../../cds/cql#postfix-projections) for additional means to query struct elements.
 
-### Associations &rarr; Forward-Declared JOINs {:#associations.impl.beta}
+### Associations &rarr; Forward-Declared JOINs {#associations.impl.beta}
 
 Associations introduce forward-declared Joins. Their names act like corresponding table aliases in queries. In addition, managed associations automatically add foreign keys. For example:
 
@@ -300,7 +300,7 @@ CREATE TABLE Towns (
 );
 ```
 
-## Feature Comparison {: .impl.beta}
+## Feature Comparison { .impl.beta}
 
 SAP HANA is the primary database of choice for productive use and supports the richer feature set. However, we aim for a close to equally rich feature set on other databases to support lightweight local development. The following sections detail known gaps and limitations.
 
@@ -430,11 +430,11 @@ Views with parameters are supported on HANA only.
 
 ## Native Features
 
-### Using SQLite and SAP HANA Functions {: #sqlite-and-hana-functions}
+### Using SQLite and SAP HANA Functions { #sqlite-and-hana-functions}
 
 CAP samples demonstrate how you can use [native database functions of SQLite and SAP HANA](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803) in one code base. There is also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for it.
 
-### Functions {: #native-db-functions}
+### Functions { #native-db-functions}
 
 You can use native database functions inside your CDS model.
 CDS generically supports all functions that have the standard call syntax of `function(param1, param2)`.
@@ -521,7 +521,7 @@ entity V as select
 ```
 
 
-### Native Database Clauses {: #native-db-clauses}
+### Native Database Clauses { #native-db-clauses}
 
 CDS generates `CREATE TABLE` or `CREATE VIEW` statements for entity definitions.
 Not all clauses supported by SQL in `CREATE TABLE` or `CREATE VIEW` can directly be
@@ -657,10 +657,10 @@ The `$at` variable is used in the context of temporal data, but it can also be u
 | `sqlite` | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') |
 | `plain` | current_timestamp | current_timestamp |
 
-<!--- {% assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- {% assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
+<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
+<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
 
-## Schema Evolution {:#schema-evolution}
+## Schema Evolution {#schema-evolution}
 
 CAP supports database schema updates by detecting changes to the CDS model when executing the CDS build. If the underlying database offers built-in schema migration techniques, compatible changes can be applied to the database without any data loss or the need for additional migration logic. Incompatible changes like deletions are also detected, but require manual resolution, as they would lead to data loss.
 
@@ -689,7 +689,7 @@ There's full support for schema evolution when the _cds-mtx_ library is used for
 Tenant-specific extensibility using the _cds-mtx_ library isn't supported yet. Right now you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::
 
-### Schema Updates with SAP HANA {:#schema-updates-with-sap-hana}
+### Schema Updates with SAP HANA {#schema-updates-with-sap-hana}
 
 All schema updates in SAP HANA are applied using SAP HANA Deployment Infrastructure (HDI) design-time artifacts, which are auto-generated during CDS build execution. For backward compatibility, the default artifact type is still _.hdbcds_.
 ::: warning
@@ -698,7 +698,7 @@ This will be changed to _.hdbtable_/_.hdbview_ artifact generation, as the suppo
 
 Schema updates using _.hdbtable_ deployments are a challenge for tables with large data volume compared to _.hdbcds_. Schema changes with _.hdbtable_ are applied using temporary table generation to preserve the data. As this could lead to long deployment times, the support for _.hdbmigrationtable_ artifact generation has been added. The [Migration Table artifact type](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/52d1f5acfa754a7887e21226641eb261.html) uses explicit versioning and migration tasks. Modifications of the database table are explicitly specified in the design-time file and carried out on the database table exactly as specified. This saves the cost of an internal table-copy operation. When a new version of an already existing table is deployed, HDI performs the migration steps that haven't been applied.
 
-#### Deploy Artifact Transitions as Supported by HDI {:#deploy-artifact-transitions}
+#### Deploy Artifact Transitions as Supported by HDI {#deploy-artifact-transitions}
 
 | Current format    | hdbcds | hdbtable | hdbmigrationtable |
 |-------------------|:------:|:--------:|:-----------------:|
@@ -708,14 +708,14 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
-[Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](../../guides/databases/#configure-hana){:.learn-more}
+[Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](../../guides/databases/#configure-hana){.learn-more}
 During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which may not include any migration steps.
 :::
 
 HDI supports the _hdbcds > hdbtable > hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
 For all transitions you want to execute in HDI, you need to specify an undeploy allowlist as described in [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html) in the SAP HANA documentation.
 
-#### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {:#enabling-hdbmigrationtable-generation}
+#### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
 If you are migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you have to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions)
 
@@ -773,7 +773,7 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if inconsistencies are encountered between the generated _.hdbmigrationtable_ files and the _last-dev/csn.json_ model state. For example, the last migration version not matching the table version is such an inconsistency.
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
-### Native Database Clauses {:#schema-evolution-native-db-clauses}
+### Native Database Clauses {#schema-evolution-native-db-clauses}
 Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](../../guides/databases/#native-db-clauses). In this section we are focusing on schema evolution specific details.
 
 Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
@@ -852,7 +852,7 @@ The `"enable-drop"` option determines whether incompatible model changes are ren
 The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) or `ALTER TABLE ... DROP` (`"drop"`) statements are rendered for data type related changes. To ensure that any kind of model change can be successfully deployed to the database, you can switch the `"change-mode"` to `"drop"`, keeping in mind that any existing data will be deleted for the corresponding column. See [hdbmigrationtable Generation](../../guides/databases/#enabling-hdbmigrationtable-generation) for more details. The default value is `"alter"`.
 
 
-### Schema Evolution for SQLite (beta) {:#schevo-sqlite}
+### Schema Evolution for SQLite (beta) {#schevo-sqlite}
 ::: warning
 This is a beta feature. Its configuration and how it works may change in future releases.
 :::
@@ -901,11 +901,11 @@ Not supported:
 
 Unsupported changes lead to an error during deployment. To bring such changes to the database, switch off automatic schema evolution.
 
-<!--- {% assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- {% assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
+<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
+<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
 
 
-## Database Constraints {:#db-constraints}
+## Database Constraints {#db-constraints}
 
 The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables.
 
@@ -1034,11 +1034,11 @@ But for other databases this is not the case. Find here a collection of resource
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-{% if jekyll.environment != "external" %}
-[There also reserved words related to SAP Fiori.](../../advanced/fiori#reserved-words){:.learn-more}
-{% endif %}
+% if jekyll.environment != "external" %}
+[There also reserved words related to SAP Fiori.](../../advanced/fiori#reserved-words){.learn-more}
+% endif %}
 
-## Auto-Generating Primary Keys {: .impl.concept}
+## Auto-Generating Primary Keys { .impl.concept}
 
 TODO:
 
@@ -1049,6 +1049,6 @@ TODO:
 * ...
 
 
-## Integrating Other Databases {: .impl.concept}
+## Integrating Other Databases { .impl.concept}
 
 For CAP Java persistence support, see [here].

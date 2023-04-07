@@ -7,7 +7,7 @@ layout: cookbook
 ---
 <!--- Migrated: @external/guides/67-Data-Privacy/66-Data-Privacy/index.md -> @external/guides/data-privacy-new/index.md -->
 
-# Data Privacy & Audit Logging {:.impl.beta}
+# Data Privacy & Audit Logging {.impl.beta}
 
 ::: danger
 **❗️ Concept Only ❗️**
@@ -17,19 +17,19 @@ Please refer to the former [Data Privacy guide](../index) for what's currently i
 :::
 <br>
 
-<!--- {% include _toc levels="2,3" %} -->
-<!--- {% include links.md %} -->
+<!--- % include _toc levels="2,3" %} -->
+<!--- % include links.md %} -->
 
 
 
 ## Introduction & Overview
 
-Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like {% if jekyll.environment != "external" %} SAP Audit Log Service, or {% endif %} SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
+Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like % if jekyll.environment != "external" %} SAP Audit Log Service, or % endif %} SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
 <img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" class="adapt" />
 
 
-### Related SAP Product Standards {: .impl.internal}
+### Related SAP Product Standards { .impl.internal}
 
 Within SAP the following product standards apply:
 
@@ -62,7 +62,7 @@ While CAP and SAP BTP services greatly facilitate fulfilling the obligations rel
 In the remainder of this guide, we'll use this domain model as the base to add data privacy and audit logging.
 
 db/schema.cds
-{:.sample-label}
+{.sample-label}
 
 ```cds
 using { Country, managed, cuid } from '@sap/cds/common';
@@ -96,7 +96,7 @@ entity Orders : cuid, managed {
 
 
 
-## Annotating Personal Data {:#annotations .impl.concept}
+## Annotating Personal Data {#annotations .impl.concept}
 
 Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Subject Details*  or *Related Data Objects*.
 
@@ -106,7 +106,7 @@ Following the [best practice of separation of concerns](../../domain-models/#sep
 
 
 db/data-privacy.cds
-{:.sample-label}
+{.sample-label}
 
 ```cds
 annotate Customers with @PersonalData.kind: #Subject {
@@ -147,22 +147,22 @@ annotate Orders with @PersonalData.kind: #Related {
 ### `@PersonalData.kind: #Subject`
 
 Tags an entity as a personal data *subject*. Essentially, this is data about a natural person, e.g. customer, vendor, employee.
-{:.indent}
+{.indent}
 
 ### `@PersonalData.kind: #Details`
 
 Tags an entity to be a contained-in details entity of a subject. Usually this applies to target entities of compositions like `Customer:addresses`.
-{:.indent}
+{.indent}
 
 ### `@PersonalData.kind: #Related`
 
 Tags an entity containing personal data as being *related* to subjects. This can be transactional data entities with elements containing personal data.
-{:.indent}
+{.indent}
 
 ### `@PersonalData.role: <String>`
 
 User-chosen string designing the role name to use. Default is the entity name. For example, the above annotation could be enhanced like that:
-{:.indent}
+{.indent}
 
 ```cds
 annotate Customers with @PersonalData: {
@@ -170,28 +170,28 @@ annotate Customers with @PersonalData: {
   role: 'Customer'
 }; ...
 ```
-{:.indent}
+{.indent}
 
 
-### `@PersonalData: #SubjectID` {:#SubjectID}
+### `@PersonalData: #SubjectID` {#SubjectID}
 
 A data subject's unique key, or a reference to it. References are commonly associations or foreign keys in subject details entities, or related ones, referring to a subject entity.
-{:.indent}
+{.indent}
 
 ### `@PersonalData: #ID`
 
 The unique key for a related object. These are commonly contract numbers users can relate to, like a human-readable order number. Yet, in case of question, it can also be a technical primary key.
-{:.indent}
+{.indent}
 
 ### `@PersonalData`
 
 Identifies fields to (potentially) contain personal data. For example, this will be used to audit-log all write access operations (create, update, delete) affecting such elements in data subjects, data subject details, or related data objects.
-{:.indent}
+{.indent}
 
 ### `@PersonalData: #Sensitive`
 
 Identifies fields to (potentially) contain sensitive data. For example, this will be used to audit-log all read access operations including such elements in data subjects, data subject details, or related data objects.
-{:.indent}
+{.indent}
 
 ::: warning _Warning_ <!--  -->
 Read access logs for sensitive data happen for each and every _Read_ access. --- Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en).
@@ -220,7 +220,7 @@ annotate Customers with @PersonalData : {
 
 
 
-## Audit Logging {:.impl.concept}
+## Audit Logging {.impl.concept}
 
 CAP provides out-of-the-box support for automatic audit logging of these events:
 
@@ -236,7 +236,7 @@ In essence, the steps to use that are:
 
 In addition, custom audit logs can be recorded using the programmatic APIs.
 
-### Setup & Configuration {:#enable-audit-logging }
+### Setup & Configuration {#enable-audit-logging }
 
 Run this to enable audit logging:
 
@@ -528,7 +528,7 @@ module.exports = ConsoleAuditLogService
 
 
 
-## Personal Data Mgmt {:#sap-personal-data-manager}
+## Personal Data Mgmt {#sap-personal-data-manager}
 
 SAP BTP provides the [*SAP Personal Data Manager (PDM)*](https://help.sap.com/docs/PERSONAL_DATA_MANAGER) which allows administrators to respond to question "What data of me do you have?". To answer this question, the PDM service needs to fetch read all personal data via a respective OData endpoint, to be provided by the app as follows.
 
@@ -539,7 +539,7 @@ With CAP it is very easy to provide endpoints as required by SAP Personal Data M
 For the [our sample](#sample-application) we would add this service definition in file *srv/pdm-service.cds*:
 
 srv/pdm-service.cds
-{:.sample-label}
+{.sample-label}
 ```cds
 using { sap.capire.bookshop as my } from '../db/schema';
 service PDMService {
@@ -565,7 +565,7 @@ So the following rules apply:
 The most important search fields of the data subject, i.e. `Customers` in our case, have to be identified using `@Communication.Contact` annotations. To perform a valid search SAP Personal Data Manager needs _Surname_, _Given Name_, and _Birthday_.
 
 srv/pdm-service.cds
-{:.sample-label}
+{.sample-label}
 ```cds
 service PDMService { // as above /*...*/
 
@@ -576,7 +576,7 @@ service PDMService { // as above /*...*/
 };
 ```
 
-[Learn more about this anotation in the **Communication Vocabulary**](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Communication.md){:.learn-more}
+[Learn more about this anotation in the **Communication Vocabulary**](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Communication.md){.learn-more}
 
 
 
@@ -587,7 +587,7 @@ As we learned above, Personal Data Manager can consume flat entities only. Now, 
 
 
 srv/pdm-service.cds
-{:.sample-label}
+{.sample-label}
 <!-- cds-mode: ignore -->
 ```cds
 service PDMService { // as above ...
@@ -633,12 +633,12 @@ So far the PDM service can be used by anybody, ich is not what we want of course
    }
    ```
 
-   [Learn more about security configuration and the SAP Personal Data Manager.](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/4ee5705b8ded43e68bde610223722971.html#loio8eb6d9f889594a2d98f478bd57412ceb){:.learn-more}
+   [Learn more about security configuration and the SAP Personal Data Manager.](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/4ee5705b8ded43e68bde610223722971.html#loio8eb6d9f889594a2d98f478bd57412ceb){.learn-more}
 
 
 
 
-### Data Retention Mgmt... {:#sap-data-retention-manager .impl.concept }
+### Data Retention Mgmt... {#sap-data-retention-manager .impl.concept }
 
 Currently under construction...
 
@@ -674,7 +674,7 @@ cds add mtx,approuter,xsuaa,hana,mta --for production
 
 
 
-### Bind to SAP Audit Log Service {:#sap-audit-log-service }
+### Bind to SAP Audit Log Service {#sap-audit-log-service }
 
 As shown in the configuration](#setup--configuration) section  above, CAP provides out-of-the-box support for SAP Audit Log Service as the recommended target for collecting audit logs in production.
 
@@ -705,8 +705,8 @@ TODO: Similar to above, I'd like us to say something like:
 
 Open the SAP Personal Data Manager application from the _Instances and Subscriptions_ page in the SAP BTP cockpit.
 
-![tile in the cockpit](./assets/pdmCockpit.png){:width="500"}
+![tile in the cockpit](./assets/pdmCockpit.png){width="500"}
 
 In the personal data manager application you can search for data subjects with _First Name_, _Last Name_, and _Date of Birth_, or alternatively with their _ID_.
 
-![PDM UI](./assets/pdmApplication.png){:width="500"}
+![PDM UI](./assets/pdmApplication.png){width="500"}

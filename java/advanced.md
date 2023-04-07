@@ -20,9 +20,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 <!-- #### Content -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-## The CDS Data Store Connector {: #cdsdatastoreconnector}
+## The CDS Data Store Connector { #cdsdatastoreconnector}
 
 The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
 
@@ -41,7 +41,7 @@ CdsDataStore dataStore = jdbcConnector.connect();
 
 Invoking a `connect()` method creates an instance of the Data Store API.
 
-## The CDS Data Store {: #cdsdatastore}
+## The CDS Data Store { #cdsdatastore}
 
 The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../cds/cql) statements.
 The CDS Data Store is used to implement the [Persistence Service](./consumption-api#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn’t based on events and event handlers.
@@ -65,7 +65,7 @@ dataStore.setSessionContext(sessionContext);
 When implementing a CAP application, using the [Persistence Service](./consumption-api#persistenceservice) is preferred over the CDS Data Store.
 :::
 
-## Execute Native SQL with Spring's JDBC Template {: #jdbctemplate}
+## Execute Native SQL with Spring's JDBC Template { #jdbctemplate}
 
 The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](../advanced/hana#create-native-sap-hana-object)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.
 
@@ -88,7 +88,7 @@ public int countStock(int id) {
 See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) for more details.
 
 
-## Using CQL with a Static CDS Model {: #staticmodel}
+## Using CQL with a Static CDS Model { #staticmodel}
 
 The static model and accessor interfaces can be generated using the [CDS Maven Plugin](./development/#cds-maven-plugin).
 
@@ -131,7 +131,7 @@ entity Authors {
   books  : Association to many Books on books.author = $self;
 }
 ```
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L21){:.learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L21){.learn-more}
 
 Java
 

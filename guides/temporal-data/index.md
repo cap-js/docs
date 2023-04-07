@@ -19,7 +19,7 @@ Built-in support for temporal data follows the general principle of CDS to captu
 <!-- and [Temporal features in SQL:2011](https://cs.ulb.ac.be/public/_media/teaching/infoh415/tempfeaturessql2011.pdf).-->
 
 
-## Starting with 'Timeless' Models {:#timeless-model}
+## Starting with 'Timeless' Models {#timeless-model}
 
 For the following explanation, let's start with a base model to manage employees and their work assignments, which is free of any traces of temporal data management.
 
@@ -59,7 +59,7 @@ entity Departments {
 
 A set of sample data entries for this model, which only captures the latest state, can look like this:
 
-![Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department.](assets/timeless-data.png "Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department."){:.adapt}
+![Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department.](assets/timeless-data.png "Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department."){.adapt}
 
 > Italic titles indicate to-one associations; actual names of the respective foreign key columns in SQL are `job1_ID`, `empl_ID`, and `dept_ID`.
 
@@ -68,7 +68,7 @@ A set of sample data entries for this model, which only captures the latest stat
 
 _Temporal Entities_ represent _logical_ records of information for which we track changes over time by recording each change as individual _time slices_ in the database with valid from/to boundaries. For example, we could track the changes of Alice's primary work assignment _WA1_ over time:
 
-![Alice progressed from developer to senior developer to architect.](assets/time-slices.png "Alice progressed from developer to senior developer to architect."){:style="width:70%"}{:.adapt}
+![Alice progressed from developer to senior developer to architect.](assets/time-slices.png "Alice progressed from developer to senior developer to architect."){style="width:70%"}{.adapt}
 
 ::: tip
 Validity periods are expected to be **non-overlapping** and **closed-open** intervals; same as in SQL:2011.
@@ -126,7 +126,7 @@ entity WorkDetails : temporal {   // temporal details entity
 
 The data situation would change as follows:
 
-![Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined.](assets/temporal-details.png "Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined."){:.adapt}
+![Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined.](assets/temporal-details.png "Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined."){.adapt}
 
 
 ## Serving Temporal Data
@@ -147,11 +147,11 @@ service HRService {
 > You can omit composed entities like _WorkAssignments_ from the service, as they would get
 [auto-exposed](../providing-services/#auto-exposed-entities) automatically.
 
-### Adding Temporal Predicates {:.impl.concept}
+### Adding Temporal Predicates {.impl.concept}
 
 When temporal entities are exposed through services --- such as _WorkAssignments_ in the previous sample --- their queries are **automatically enhanced** with a predicate that narrows results based on propagated validity as follows:
 
-<!--- {% include _code sample='service-w-temporal-entities.cds' %} -->
+<!--- % include _code sample='service-w-temporal-entities.cds' %} -->
 
 ::: code-group
 ```cds [service-w-temporal-entities.cds]
@@ -169,7 +169,7 @@ service HRService { //...
 These predicates are always active, that is, for direct requests as well as indirect access through associations and navigation.
 :::
 
-### Pseudo Variables `$at.from/to` {:.impl.concept}
+### Pseudo Variables `$at.from/to` {.impl.concept}
 
 The pseudo variables `$at.from/to` used in the temporal predicates as shown in the previous sample, translate to a database-specific session context variable. For example, in SAP HANA the predicate translates to:
 
@@ -183,7 +183,7 @@ The pseudo variables `$at.from/to` used in the temporal predicates as shown in t
 Instances with `null` as their `validTo` are not found with the above where expression. Hence, please ensure that all `validTo` are set.
 :::
 
-### Propagating `$at.from/to` {:.impl.concept}
+### Propagating `$at.from/to` {.impl.concept}
 
 The service runtimes automatically set these session context variables for any READ request based on corresponding query parameters from inbound requests as follows:
 
@@ -409,7 +409,7 @@ entity SomeSnapshotEntity {
 }
 ```
 
-### Adding Time Slice IDs {:.impl.concept}
+### Adding Time Slice IDs {.impl.concept}
 
 As an alternative to using enhanced keys, you can introduce a new element to uniquely identify time slices and use that in references:
 

@@ -115,7 +115,7 @@ cds.get('./some.json') .then (cds.compile.to.yaml) .then (console.log)
 ```
 
 ### From _.yaml_ Files
-{: .impl.concept }
+{ .impl.concept }
 
 ```yaml
 definitions:

@@ -13,7 +13,7 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 {{$frontmatter.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
 
-## req.user &#8594;  cds.**User** <i> class </i> {: #cds-user}
+## req.user &#8594;  cds.**User** <i> class </i> { #cds-user}
 [user]: #cds-user
 [`req.user`]: #cds-user
 
@@ -43,17 +43,17 @@ const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.
 
 #### <i> Properties & Methods </i>
 
-<!-- {% assign user = '<span style="font-weight:500; color:#088">user</span>' %} -->
+<!-- % assign user = '<span style="font-weight:500; color:#088">user</span>' %} -->
 
 
-### user.id <i> : string </i> {:#user-id}
+### user.id <i> : string </i> {#user-id}
 
 A user's unique ID.
 It corresponds to `$user` in [`@restrict` annotations](../guides/authorization/) of your CDS models
-(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {:.indent}
+(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {.indent}
 
 
-### user.is <i> (\<role\>) </i> &#8594;  boolean {:#user-is}
+### user.is <i> (\<role\>) </i> &#8594;  boolean {#user-is}
 
 Checks if user has assigned the given role. Example usage:
 
@@ -64,25 +64,25 @@ if (req.user.is('admin')) ...
 The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/authorization/) in your CDS models.
 
 
-### user.attr<i>.\<x\> : string </i> {:#user-attr}
+### user.attr<i>.\<x\> : string </i> {#user-attr}
 
 User-related attributes, for example, from JWT tokens
-These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization/) of your CDS models {:.indent}
+These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization/) of your CDS models {.indent}
 
 
 
 
-### <i>DEPRECATED:</i> user.tenant <i> : string </i> {:#user-tenant}
+### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
 
-[Use `req/msg.tenant` instead.](events#tenant){:.learn-more}
+[Use `req/msg.tenant` instead.](events#tenant){.learn-more}
 
 
 
-### <i>DEPRECATED:</i> user.locale <i> : string </i> {:#user-locale}
+### <i>DEPRECATED:</i> user.locale <i> : string </i> {#user-locale}
 
-[Use `req/msg.locale` instead.](events#locale){:.learn-more}
+[Use `req/msg.locale` instead.](events#locale){.learn-more}
 
-### cds.**User.Privileged** <i> class </i> {: #privileged-user }
+### cds.**User.Privileged** <i> class </i> { #privileged-user }
 
 In some cases, you might need to bypass authorization checks while [consuming a local service](./services). For this, you can create a transaction with a privileged user as follows:
 
@@ -99,7 +99,7 @@ this.before('*', function (req) {
 ```
 
 
-### <i> Authorization Enforcement </i> {:.h2 #enforcement }
+### <i> Authorization Enforcement </i> {.h2 #enforcement }
 
 Applications can use the `req.user` APIs to do programmatic enforcement.
 For example, the authorization of the following CDS service:
@@ -132,7 +132,7 @@ cds.serve ('CustomerService') .with (function(){
 })
 ```
 
-## Authentication Strategies {:#strategies}
+## Authentication Strategies {#strategies}
 
 CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
@@ -151,7 +151,7 @@ Run `cds env get requires.auth` in your project root to find out the effective a
 
 
 
-### Dummy Authentication {:.h2 #dummy }
+### Dummy Authentication {.h2 #dummy }
 
 This strategy creates a user that passes all authorization checks. It’s meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
 
@@ -166,7 +166,7 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 ```
 
 
-### Mocked Authentication {:.h2 #mocked }
+### Mocked Authentication {.h2 #mocked }
 
 This authentication strategy uses basic authentication with pre-defined mock users during development.
 
@@ -234,7 +234,7 @@ If you want to restrict these additional logins, you need to overwrite the defau
 ```
 
 
-### Basic Authentication {:.h2 #basic }
+### Basic Authentication {.h2 #basic }
 
 This authentication strategy uses basic authentication to use mock users during development.
 
@@ -274,7 +274,7 @@ You can optionally configure users as follows:
 In contrast to [mocked authentication](#mocked), no default users are automatically added to the configuration.
 
 
-### JWT-based Authentication {: #jwt }
+### JWT-based Authentication { #jwt }
 
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['user account and authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
@@ -298,10 +298,10 @@ npm add @sap/xssec
 }
 ```
 
-[Learn more about testing JWT-based authentication in **XSUAA in Hybrid Setup**.](#xsuaa-setup){:.learn-more}
+[Learn more about testing JWT-based authentication in **XSUAA in Hybrid Setup**.](#xsuaa-setup){.learn-more}
 
 
-### XSUAA-based Authentication {: #xsuaa }
+### XSUAA-based Authentication { #xsuaa }
 
 Authentication kind *xsuaa* is a logical extension of kind [*jwt*](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
 
@@ -321,14 +321,14 @@ npm add @sap/xssec
 }
 ```
 
-[See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){:.learn-more}
+[See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
 ::: warning
 It’s recommended to only use this authentication kind if it’s necessary for your use case, as it denotes a lock-in to SAP BTP.
 :::
 
 
-### IAS-based Authentication {: #ias }
+### IAS-based Authentication { #ias }
 
 This is an additional authentication strategy using the [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) that can be used in production. User identity and user attributes are provided at runtime, by a bound instance of the IAS service. This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
@@ -355,7 +355,7 @@ npm add @sap/xssec
 ```
 
 
-### Custom Authentication {:#custom }
+### Custom Authentication {#custom }
 
 
 You can configure an own implementation by specifying an own `impl` as follows:
@@ -386,9 +386,9 @@ module.exports = function custom_auth (req, res, next) {
 }
 ```
 
-[If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-requser){:.learn-more}
+[If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-requser){.learn-more}
 
-## XSUAA in Hybrid Setup {:#xsuaa-setup}
+## XSUAA in Hybrid Setup {#xsuaa-setup}
 
 ### <i> Prepare Local Environment </i>
 
@@ -484,7 +484,7 @@ cds env list requires.uaa --resolve-bindings --profile hybrid
 This prints the full `uaa` configuration including the credentials.
 
 
-### <i> Set Up the Roles for the Application </i> {: #auth-in-cockpit}
+### <i> Set Up the Roles for the Application </i> { #auth-in-cockpit}
 
 By creating a service instance of the `xsuaa` service, all the roles from the _xs-security.json_ file are added to your subaccount. Next, you create a role collection that assigns these roles to your users.
 
@@ -495,7 +495,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png){:.adapt}
+   ![Create role collections](./assets/create-role-collection.png){.adapt}
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.
@@ -534,7 +534,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
     ```
     :::
 
-    [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#cds-bind-exec){:.learn-more}
+    [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#cds-bind-exec){.learn-more}
 
     This starts an [approuter](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5001](http://localhost:5001) with the credentials for the XSUAA service that you have bound using `cds bind`.
 

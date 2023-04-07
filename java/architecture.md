@@ -17,7 +17,7 @@ One of the key [CAP design principles](../about/#open-and-opinionated) is to be 
 The [modular architecture](#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](#stack_configuration) and custom extensions.
 
 
-## Modular Architecture {: #modular_architecture}
+## Modular Architecture { #modular_architecture}
 
 ### Architecture Overview
 
@@ -46,7 +46,7 @@ You can recognize five different areas of the stack, which comprise components a
 * [Application features](#application-features) are optional extensions that add additional functionality to your application.
 
 
-### Application Framework {: #application-framework}
+### Application Framework { #application-framework}
 
 Before starting the development of a new CAP-based application, an appropriate application framework to build on needs to be chosen. The architecture of the chosen framework not only has a strong impact on the structure of your project, but it also affects efforts for maintenance as well as support capabilities.
 The framework provides the basis of your web application in terms of a runtime container in which your business code can be embedded and executed. This helps to separate your business logic from common tasks like processing HTTP/REST endpoints including basic web request handling.
@@ -57,31 +57,31 @@ CAP Java SDK positions [Spring](https://spring.io) or more precisely [Spring Boo
 As all other components in the different layers of the CAP Java SDK are decoupled from the concrete application framework, thus you aren’t obligated to build on Spring. In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies. In this case, a solution based on plain Java Servlets could be favorable. Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
 
 
-### Protocol Adapters {: #protocol-adapters}
+### Protocol Adapters { #protocol-adapters}
 
 The CAP runtime is based on an [event](../about/#events) driven approach. Generally, [Service](../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../guides/providing-services/#event-handlers). During execution, services can send events to other service providers and consume the results. The native query language in CAP is [CQN](../cds/cqn), which is accepted by all services that deal with data query and manipulation. Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../about/#querying)) afterwards. Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java SDK. Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. The modular architecture allows to add custom protocol adapters in a convenient manner, which can be plugged into the stack at runtime. Note that different endpoints can be served by different protocol adapters at the same time.
 
 
-### Service Providers {: #service-providers}
+### Service Providers { #service-providers}
 
 Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../about/#domain-modeling). Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface. As described in CAPs [core concepts](../about/#services), services share the same generic provider interface and are implemented by event handlers. The service provider layer contains all generic services, which are auto-exposed by the CAP Java SDK according to the appropriate CDS model. In addition, technical services are offered such as the [Persistence Service](consumption-api#persistenceservice) or Authorization Service, which can be consumed in custom service handlers.
 
 If the generic handler implementation of a specific service doesn't match the requirements, you can extend or replace it with custom handler logic that fits your business needs. See section [Event Handlers](provisioning-api) for more details.
 
 
-### CQN Execution Engine {: #cqn-execution-engine}
+### CQN Execution Engine { #cqn-execution-engine}
 
 The CQN execution engine is responsible for processing the passed CQN events and translating them to native statements that get executed in a target persistence service like SAP HANA or SQLite. CQN statements can be built conveniently in a [fluent API](./query-api). In the future, additional targets can be added to the list of supported outbound sources.
 
 
-### Application Features {: #application-features}
+### Application Features { #application-features}
 
 The overall architecture of the CAP Java SDK allows additional components to be plugged in at runtime. This plugin mechanism makes the architecture open for future extensions and allows context-based configuration. It also enables you to override standard behavior with custom-defined logic in all different layers. Customer components or extension modules that should be loaded by the runtime need to satisfy so-called *feature* interfaces, which represent the abstraction of some functionality needed by the server at runtime. An example for this is to call the authentication procedure for which two feature implementations are provided by default: local authentication with [mock users](./security#mock-users) and production-grade XSUAA authentication. Other authentication strategies could be added and configured by customers. Similarly, there's an environment feature for the Cloud Foundry environment, which needs to be chosen if you want to run your application on [SAP BTP](https://www.sap.com/products/cloud-platform.html). Nevertheless, the same application should also be runnable in a different environment provided an appropriate feature is provided.
 
 Moreover, optional service extensions such as [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) are also modeled as features.
 
 
-## Stack Configuration {: #stack_configuration}
+## Stack Configuration { #stack_configuration}
 
  As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can’t only choose among modules prepared for different environments. You can also include optional or custom extensions.
  Which set of modules is active at runtime is a matter of compile time and runtime configuration.

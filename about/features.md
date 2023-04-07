@@ -121,8 +121,8 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Localized Data](../guides/localized-data/)                                                       | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data/)                                                         | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                                 | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]      | <Na/> |  <X/>   | <X/> |{% if jekyll.environment != "external" %}
-| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |{%endif%}
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]      | <Na/> |  <X/>   | <X/> |% if jekyll.environment != "external" %}
+| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |%endif%}
 
 
 <br>
@@ -169,7 +169,7 @@ Following is an index of the features currently covered by CAP, with status and 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>
 
-[Learn more about supported features for consuming services.](../guides/using-services/){:.learn-more}
+[Learn more about supported features for consuming services.](../guides/using-services/){.learn-more}
 
 ### Events / Messaging
 
@@ -181,7 +181,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                             <X/>                                             |
 | SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing-1)\|[Java](../java/messaging-foundation#maven-dependency-for-message-queuing-support) | <Na/> |  <X/>   |                                             <X/>                                             |
 | Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                             <X/>                                             |
-| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | {% if jekyll.environment != "external" %}<X/><br><sup>beta</sup> {% else %} <O/> {% endif %} |
+| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | % if jekyll.environment != "external" %}<X/><br><sup>beta</sup> % else %} <O/> % endif %} |
 | Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                              |
 | Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                              |
 
@@ -242,7 +242,7 @@ Following is an index of the features currently covered by CAP, with status and 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 
 
-### Extensibility {: .impl.internal}
+### Extensibility { .impl.internal}
 
 |                                                                                                  |      |
 |--------------------------------------------------------------------------------------------------|:----:|

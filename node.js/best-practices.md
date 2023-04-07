@@ -17,16 +17,16 @@ From generic Node.js best practices like dependency management and error handlin
 
 <!-- #### Content -->
 
-<!--- {% include links.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 
-## Managing Dependencies {:#dependencies}
+## Managing Dependencies {#dependencies}
 
 Projects using CAP need to manage dependencies to the respective tools and libraries in their _package.json_ and/or _pom.xml_ respectively. Follow the guidelines to make sure that you consume the latest fixes and avoid vulnerabilities and version incompatibilities. These guidelines apply to you as a _consumer_ of reuse packages as well as a _provider_ of such reuse packages.
 
 
-### Always Use the _Latest Minor_ Releases &rarr; for Example, `^5.5.0` {:#use-caret }
+### Always Use the _Latest Minor_ Releases &rarr; for Example, `^5.5.0` {#use-caret }
 
 This applies to both, *@sap* packages as well as open source ones. It makes sure that your projects receive the latest features and important fixes during development. It also makes sure that bundles have a minimal footprint by leveraging [npm's dedupe](https://docs.npmjs.com/cli/dedupe.html) feature.
 
@@ -43,7 +43,7 @@ Example:
 We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
 :::
 
-### Keep Open Ranges When *Publishing* for Reuse {:#publish } <!-- TODO: revisit duplicated attribute {: #reuse} -->
+### Keep Open Ranges When *Publishing* for Reuse {#publish } <!-- TODO: revisit duplicated attribute { #reuse} -->
 
 Let's explain this by looking at counter examples.
 
@@ -78,7 +78,7 @@ If both your package and a consuming package reuse the same CDS models, loading 
 :::
 
 
-### Lock Dependencies Before *Deploying* {:#deploy }
+### Lock Dependencies Before *Deploying* {#deploy }
 
 When releasing a service or an application to end consumers, use `npm install` or `npm update` to produce a [_package-lock.json_](https://docs.npmjs.com/files/package-lock.json) file that freezes dependencies. This guarantees that it works correctly as it did the last time you tested it and checked it for vulnerabilities.
 
@@ -100,10 +100,10 @@ This ensures that the deployed tool/service/app doesn't receive new vulnerabilit
 
 We recommend running `npm update` regularly and frequently during development to ensure that you receive the latest fixes.<br>
 Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automatize this process.
-{% if jekyll.environment != "external" %}<br>Here at SAP there is a [renovate deployment](https://github.wdf.sap.corp/OSPO/renovate-controller) available.{% endif %}
+% if jekyll.environment != "external" %}<br>Here at SAP there is a [renovate deployment](https://github.wdf.sap.corp/OSPO/renovate-controller) available.% endif %}
 </div>
 
-### Minimize Usage of Open Source Packages {:#oss _}
+### Minimize Usage of Open Source Packages {#oss _}
 
 This rule for keeping open ranges for dependencies during development, as well as when publishing for reuse, also applies for open source packages.
 
@@ -122,7 +122,7 @@ So, always take into account these rules:
 A good approach is to also provide certain features in combination with third-party packages, but to keep them, and hence the dependencies, optional; for example, express.js does this.
 
 
-### Upgrade to _Latest Majors_ as Soon as Possible {:#upgrade _}
+### Upgrade to _Latest Majors_ as Soon as Possible {#upgrade _}
 
 As providers of evolving SDKs we provide major feature updates, enhancements, and improvements in 6-12 month release cycles. These updates come with an increment of major release numbers.
 
@@ -139,7 +139,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 **Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to NPM.  Unlike _package-lock.json_, it _does_ get packaged and published to NPM registries.  See the [NPM documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
 
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 **Working with prerelease snapshots or milestones** — sometimes you need the latest features or fixes, even though they haven’t been released yet. Don't modify your dependencies in _package.json_ to do so, but simply change your registry temporarily for the respective pages to artifactory snapshots or milestones.
 
 Example:
@@ -149,7 +149,7 @@ Example:
 ```
 
 For example, you could do this in a project-level `.npmrc` file that you commit to your GitHub repository in a respective branch.
-{% endif %}
+% endif %}
 
 
 ## Securing Your Application
@@ -171,7 +171,7 @@ cds.on('bootstrap', app => {
 
 module.exports = cds.server // > delegate to default server.js
 ```
-{: style="padding: 0 33px"}
+{ style="padding: 0 33px"}
 
 Consult sources such as [Express' **Production Best Practices: Security** documentation](https://expressjs.com/en/advanced/best-practice-security.html) for state of the art application security.
 
@@ -207,7 +207,7 @@ For a SAPUI5 (SAP Fiori/SAP Fiori Elements) application developer, CSRF token ha
 There’s no need to program or to configure anything in additional. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
 :::
 
-[Learn more about CSRF tokens and SAPUI5 in the **Cross-Site Scripting** documentation.](https://sapui5.hana.ondemand.com/#/topic/91f0bd316f4d1014b6dd926db0e91070){:.learn-more}
+[Learn more about CSRF tokens and SAPUI5 in the **Cross-Site Scripting** documentation.](https://sapui5.hana.ondemand.com/#/topic/91f0bd316f4d1014b6dd926db0e91070){.learn-more}
 
 ::: warning _❗ The request must never be cacheable._ <!--  -->
 :::
@@ -216,7 +216,7 @@ There’s no need to program or to configure anything in additional. In case the
 
 The _App Router_ is configured to require a _CSRF_ token by default for all protected routes and all HTTP requests methods except _HEAD_ and _GET_. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), endpoints are CSRF protected.
 
-[Learn more about CSRF protection with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/c19f165084d742e096c5d1625cecd2d4.html?q=csrf#loioc19f165084d742e096c5d1625cecd2d4__section_xj4_pcg_2z){:.learn-more}
+[Learn more about CSRF protection with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/c19f165084d742e096c5d1625cecd2d4.html?q=csrf#loioc19f165084d742e096c5d1625cecd2d4__section_xj4_pcg_2z){.learn-more}
 
 #### Manual Implementation
 
@@ -258,7 +258,7 @@ cds.on('bootstrap', async app => {
 })
 ```
 
-[Learn more about backend coding in the **csurf** documentation.](https://www.npmjs.com/package/csurf){:.learn-more}
+[Learn more about backend coding in the **csurf** documentation.](https://www.npmjs.com/package/csurf){.learn-more}
 ::: tip
 If you're using horizontal scaling of Node.js virtual machines, the CSRF handling should be done at the approuter level.
 :::
@@ -274,7 +274,7 @@ CORS should either be configured in the _App Router_ or in the backend, but not 
 
 The _App Router_ has full support for CORS. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), CORS can be configured in the _App Router_ configuration.
 
-[Learn more about CORS handling with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/ba527058dc4d423a9e0a69ecc67f4593.html?q=allowedOrigin#loioba527058dc4d423a9e0a69ecc67f4593__section_nt3_t4k_sz){:.learn-more}
+[Learn more about CORS handling with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/ba527058dc4d423a9e0a69ecc67f4593.html?q=allowedOrigin#loioba527058dc4d423a9e0a69ecc67f4593__section_nt3_t4k_sz){.learn-more}
 
 #### Manual Implementation
 
@@ -295,7 +295,7 @@ cds.on('bootstrap', async app => {
 })
 ```
 
-[Learn more about CORS in the **MDN Web Docs** documentation.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){:.learn-more}
+[Learn more about CORS in the **MDN Web Docs** documentation.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){.learn-more}
 
 
 ## Availability Checks

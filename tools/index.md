@@ -11,8 +11,8 @@ status: released
 # Choose Your Preferred Tools
 {{$frontmatter.synopsis}}
 
-<!--- {% include links.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
 
 
@@ -72,14 +72,14 @@ For example:
 
 
 
-## Visual Studio Code {:#vscode}
+## Visual Studio Code {#vscode}
 
 ### Install Visual Studio Code
 
 1. Install [_Visual Studio Code_](https://code.visualstudio.com) and launch it.
 2. Only for macOS: Install the `code` shell command.
 
-![Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'](assets/vscode/setup.png "Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'"){: style="box-shadow: 1px 1px 5px #888888; width:450px;"}
+![Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'](assets/vscode/setup.png "Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'"){ style="box-shadow: 1px 1px 5px #888888; width:450px;"}
 
 
 ### Add CDS Editor
@@ -88,11 +88,11 @@ For example:
 2. Choose *Install* and VS Code opens the details page for the extension **SAP CDS language support**.
 3. In VS Code, choose *Install* to enable the extension.
 
-[Learn more about the **CDS Editor**.](#cds-editor){:.learn-more}
+[Learn more about the **CDS Editor**.](#cds-editor){.learn-more}
 
-{% if jekyll.environment != "external" %}
-[Find SAP-internal releases.](https://github.tools.sap/cap/npm-extension-updater){:.learn-more}
-{% endif %}
+% if jekyll.environment != "external" %}
+[Find SAP-internal releases.](https://github.tools.sap/cap/npm-extension-updater){.learn-more}
+% endif %}
 
 
 
@@ -103,7 +103,7 @@ To run services, just open the Integrated Terminal in VS Code and use one of the
 Alternatively, you can use the preconfigured tasks or launch configurations you get when creating a project with `cds init`.
 For example, in the _Debug_ view launch _cds run_ with the green arrow button:
 
-![The explorer view highlighting the debug icon and the debug view with the run button.](assets/vscode/run.png "The explorer view highlighting the debug icon and the debug view with the run button."){: style="box-shadow: 1px 1px 5px #888888; width:250px;"}
+![The explorer view highlighting the debug icon and the debug view with the run button.](assets/vscode/run.png "The explorer view highlighting the debug icon and the debug view with the run button."){ style="box-shadow: 1px 1px 5px #888888; width:250px;"}
 
 
 
@@ -111,7 +111,7 @@ For example, in the _Debug_ view launch _cds run_ with the green arrow button:
 
 You can add and stop at breakpoints in your service implementations. For example, add one to line 10 of our _srv/cat-service.js_ by clicking in the gutter as shown here:
 
-![A breakpoint on line 10 in 'cat-service.js'.](assets/vscode/debug.png "A breakpoint on line 10 in 'cat-service.js'."){: style="box-shadow: 1px 1px 5px #888888; width:250px;" .adapt}
+![A breakpoint on line 10 in 'cat-service.js'.](assets/vscode/debug.png "A breakpoint on line 10 in 'cat-service.js'."){ style="box-shadow: 1px 1px 5px #888888; width:250px;" .adapt}
 
 ... then send the _[.../Books](http://localhost:4004/browse/Books)_ request again to stop there.
 
@@ -121,10 +121,10 @@ You can add and stop at breakpoints in your service implementations. For example
 
 Restart the server when you did changes to your code using the *Debug* views restart button:
 
-![The green restart button from the debug bar.](assets/vscode/restart.png "The green restart button from the debug bar."){: style="box-shadow: 1px 1px 5px #888888; width:250px;"}
+![The green restart button from the debug bar.](assets/vscode/restart.png "The green restart button from the debug bar."){ style="box-shadow: 1px 1px 5px #888888; width:250px;"}
 
 
-### Run a CAP Notebook {: #cap-vscode-notebook}
+### Run a CAP Notebook { #cap-vscode-notebook}
 
 A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.visualstudio.com/blogs/2021/11/08/custom-notebooks) that serves you as a guide on how to create, navigate, and monitor CAP projects. With this approach, we want to encourage the CAP community to work with CAP in the same explorative manner that scientists work with their data, namely by:
 
@@ -154,7 +154,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 * You have followed the instructions in [Local Setup](../get-started/).
 * You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
-## IntelliJ {: .impl.concept}
+## IntelliJ { .impl.concept}
 
 There's a single plugin JAR, which must be installed from disk. It includes all necessary parts (except Node.js, which is automatically detected and whose location can be reconfigured if needed).
 It already supports many features like syntax highlighting, error messages, code completion, code formatting and more.
@@ -219,14 +219,14 @@ cds run
 1. Open [http://localhost:4004](http://localhost:4004) in a browser to test the application. You forwarded the port `4004` when running the container, which allows you to access the application as if it would run locally.
 
 
-## CDS Editors & LSP {:#cds-editor}
+## CDS Editors & LSP {#cds-editor}
 
 The editor powered by the CDS language server implementation, provides source code validation including diagnostics, like error messages and warnings.
 
 The following features are available for all editors based on our language server implementation for CDS in
 SAP Business Application Studio, Visual Studio Code, and Eclipse. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview) and for Eclipse at [SAP Development Tools](https://tools.hana.ondemand.com/#cloud-vscodecds).
 
-[Short video about the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){:.learn-more}
+[Short video about the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
 ### Features and Functions
 
@@ -366,7 +366,7 @@ Enable to get quickfix proposals for artifact names, like entities, that aren't 
 
 If there are new release notes, this page opens on startup. You can disable this behavior using the *CDS > Release Notes: Show Automatically* (`cds.releaseNotes.showAutomatically`) setting.
 
-##### CAP Notebooks Page {: #cap-notebooks-page}
+##### CAP Notebooks Page { #cap-notebooks-page}
 
 1. Press <kbd>F1</kbd>
 1. Open *CDS: Open CAP Notebooks Page*
@@ -444,7 +444,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### Command Line Client for CDS Code Formatter (beta) {: #command-line-client-for-cds-code-formatter}
+### Command Line Client for CDS Code Formatter (beta) { #command-line-client-for-cds-code-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
 formatting.
@@ -479,7 +479,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 
 
-## CDS Lint & ESlint {:#cds-lint}
+## CDS Lint & ESlint {#cds-lint}
 
 <style scoped>
   .emoji {
@@ -496,7 +496,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
   <tr style="border: none;">
     <td style="border: none;">
       To catch issues with CDS models and the CDS environment early, CAP provides an <a href="https://eslint.org/">ESLint plugin</a> with a set of <a href="#cds-lint-rules">recommended rules</a>.
-      <!-- {% if jekyll.environment != "external" %}, on top of which you can apply your <a href="#lint-custom-rules">own application-specific rules</a>.{% else %}.{% endif %} -->
+      <!-- % if jekyll.environment != "external" %}, on top of which you can apply your <a href="#lint-custom-rules">own application-specific rules</a>.% else %}.% endif %} -->
       Together with the <code>lint</code> client of the <a href="https://www.npmjs.com/package/@sap/cds-dk"><code>@sap/cds-dk</code></a>, this comprises <b>CDS Lint</b>.
     </td>
     <td style="width:30%; padding:0; border: none;">
@@ -527,7 +527,7 @@ If there are no lint errors, there is no output. Otherwise, a standard ESLint er
 
    This automatically adds the settings for the ESLint VS Code extension to the project's VS Code settings, installs the CDS ESLint plugin, and adds it to the ESLint configuration of your project.
 
-<!-- [Follow this link to learn about using custom rules.](#lint-custom-rules){:.learn-more} -->
+<!-- [Follow this link to learn about using custom rules.](#lint-custom-rules){.learn-more} -->
 
 ### CDS Lint Rules
 
@@ -560,7 +560,7 @@ For example:
 Linting:
 <span><em>[lint] - eslint --ext ".cds,.csn,.csv" ...</em></span></pre>
 
-#### Linting with Your Own Custom Rules {: #lint-custom-rules .impl.beta}
+#### Linting with Your Own Custom Rules { #lint-custom-rules .impl.beta}
 
 To include your own custom rules, prepare your project configuration once with:
 
@@ -605,7 +605,7 @@ To quickly unit-test a custom rule, you can find a sample _no-entity-moo.test.js
 mocha .eslint/tests/no-entity-moo
 ```
 
-## SAP Business Application Studio {:#bastudio}
+## SAP Business Application Studio {#bastudio}
 
 ### Set Up SAP Business Application Studio
 

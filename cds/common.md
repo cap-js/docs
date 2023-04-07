@@ -9,7 +9,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Common Types and Aspects
 
-_@sap/cds/common_ {:.subtitle}
+_@sap/cds/common_ {.subtitle}
 
 <br>
 
@@ -81,7 +81,7 @@ entity Foo {
 
 > The service provider runtimes automatically fill in UUID-typed keys like these with auto-generated UUIDs.
 
-[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-models/#use-canonic-primary-keys){: .learn-more}
+[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-models/#use-canonic-primary-keys){ .learn-more}
 
 
 ### Aspect `managed`
@@ -108,7 +108,7 @@ entity Foo {
 
 The annotations `@cds.on.insert/update` are handled in generic service providers so to fill in those fields automatically.
 
-[Learn more about **generic service features**.](../guides/providing-services/#managed-data){: .learn-more}
+[Learn more about **generic service features**.](../guides/providing-services/#managed-data){ .learn-more}
 
 
 ### Aspect `temporal`
@@ -119,10 +119,10 @@ This aspect basically adds two canonical elements, `validFrom` and `validTo` to 
 entity Contract : temporal {...}
 ```
 
-[Learn more about **temporal data**.][temporal data]{: .learn-more}
+[Learn more about **temporal data**.][temporal data]{ .learn-more}
 
 
-### Aspect `sap.common.TextsAspect` {:#texts-aspects}
+### Aspect `sap.common.TextsAspect` {#texts-aspects}
 
 This aspect is used when generating `.texts` entities for the unfolding of localized elements.
 It can be extended, which effectively extends all generated `.texts` entities.
@@ -133,10 +133,10 @@ aspect sap.common.TextsAspect {
 }
 ```
 
-[Learn more about **Extending .texts entities**.](../guides/localized-data/#extending-texts-entities){: .learn-more}
+[Learn more about **Extending .texts entities**.](../guides/localized-data/#extending-texts-entities){ .learn-more}
 
 
-## Common Reuse Types {:#code-types}
+## Common Reuse Types {#code-types}
 
 _@sap/cds/common_ provides predefined easy-to-use types for _Countries_, _Currencies_, and _Languages_. Use these types in all applications to foster interoperability.
 
@@ -151,7 +151,7 @@ type Country : Association to sap.common.Countries;
 
 Here's an example of how you would use that reuse type:
 
-<!--- {% include _code sample='using-country-type.cds' %} -->
+<!--- % include _code sample='using-country-type.cds' %} -->
 ```cds
 using { Country } from '@sap/cds/common';
 entity Addresses {
@@ -163,7 +163,7 @@ entity Addresses {
 
 The [code lists](#code-lists) define a key element `code`, which results in a foreign key column `country_code` in your SQL table for Addresses. For example:
 
-<!--- {% include _code sample='using-country-type.sql' %} -->
+<!--- % include _code sample='using-country-type.sql' %} -->
 ```sql
 CREATE TABLE Addresses (
   street NVARCHAR(5000),
@@ -172,7 +172,7 @@ CREATE TABLE Addresses (
 );
 ```
 
-[Learn more about **managed associations**.](cdl#associations){: .learn-more}
+[Learn more about **managed associations**.](cdl#associations){ .learn-more}
 
 
 ### Type `Currency`
@@ -181,7 +181,7 @@ CREATE TABLE Addresses (
 type Currency : Association to sap.common.Currencies;
 ```
 
-[It’s the same as for `Country`.](#type-country){: .learn-more}
+[It’s the same as for `Country`.](#type-country){ .learn-more}
 
 ### Type `Language`
 
@@ -189,10 +189,10 @@ type Currency : Association to sap.common.Currencies;
 type Language : Association to sap.common.Languages;
 ```
 
-[It’s the same as for `Country`.](#type-country){: .learn-more}
+[It’s the same as for `Country`.](#type-country){ .learn-more}
 
 
-### Type `sap.common.Locale` {:#locale-type}
+### Type `sap.common.Locale` {#locale-type}
 
 ```cds
 type sap.common.Locale : String(14) @title : '{i18n>LanguageCode}';
@@ -200,11 +200,11 @@ type sap.common.Locale : String(14) @title : '{i18n>LanguageCode}';
 
 The reuse type `sap.common.Locale` is used when generating `.texts` entities for the unfolding of *localized* elements.
 
-[Learn more about **localized data**.](localized data){: .learn-more}
+[Learn more about **localized data**.](localized data){ .learn-more}
 
 
 
-## Common Code Lists {: #code-lists}
+## Common Code Lists { #code-lists}
 
 As seen in the previous section, the reuse types `Country`, `Currency`, and `Language` are defined as associations to respective code list entities. They act as code list tables for respective elements in your domain model.
 
@@ -221,7 +221,7 @@ aspect sap.common.CodeList {
   descr : localized String(1111);
 }
 ```
-[Learn more about **localized** keyword.](../guides/localized-data/){: .learn-more}
+[Learn more about **localized** keyword.](../guides/localized-data/){ .learn-more}
 
 
 ### Entity `sap.common.Countries`
@@ -256,14 +256,14 @@ entity sap.common.Languages : CodeList {
   key code : sap.common.Locale; //> for example, en_GB
 }
 ```
-[Learn more on **normalized locales**.](../guides/i18n/#normalized-locales){: .learn-more}
+[Learn more on **normalized locales**.](../guides/i18n/#normalized-locales){ .learn-more}
 
 
 ### SQL Persistence
 
 The following table definition represents the resulting SQL persistence of the countries code list:
 
-<!--- {% include _code sample='sap-common-countries.sql' label='none' %} -->
+<!--- % include _code sample='sap-common-countries.sql' label='none' %} -->
 ```sql
 -- the basic code list table
 CREATE TABLE sap_common_Countries (
@@ -278,7 +278,7 @@ CREATE TABLE sap_common_Countries (
 
 In addition, the generic [localized data] support triggered through the `localized` keyword adds these additional tables and views to efficiently deal with translations:
 
-<!--- {% include _code sample='sap-common-countries_texts.sql' label='none' %} -->
+<!--- % include _code sample='sap-common-countries_texts.sql' label='none' %} -->
 ```sql
 -- _texts table for translations
 CREATE TABLE sap_common_Countries_texts (
@@ -290,7 +290,7 @@ CREATE TABLE sap_common_Countries_texts (
 );
 ```
 
-<!--- {% include _code sample='sap-common-countries_localized.sql' label='none' %} -->
+<!--- % include _code sample='sap-common-countries_localized.sql' label='none' %} -->
 ```sql
 -- view to easily read localized texts with automatic fallback
 CREATE VIEW localized_sap_common_Countries AS SELECT
@@ -304,10 +304,10 @@ FROM ( sap_common_Countries
 );
 ```
 
-[Learn more about **localized data**.][localized data]{: .learn-more}
+[Learn more about **localized data**.][localized data]{ .learn-more}
 
 
-### Minimalistic Design by Intent  {: #minimalistic-design-by-intend}
+### Minimalistic Design by Intent  { #minimalistic-design-by-intend}
 
 The models for code lists are intentionally minimalistic to keep the entry barriers as low as possible, focusing on the bare minimum of what all applications generally need: a unique code and localizable fields for name and full name or descriptions.
 
@@ -327,7 +327,7 @@ You can provide initial data for the code lists by placing CSV files in a folder
 
 The following is an example of a `csv` file to provide data for countries:
 
-<!--- {% include _code sample='db/csv/sap.common-Countries.csv' %} -->
+<!--- % include _code sample='db/csv/sap.common-Countries.csv' %} -->
 ::: code-group
 ```csv [db/csv/sap.common-Countries.csv]
 code;name;descr
@@ -345,14 +345,14 @@ EU;European Union;European Union
 ```
 :::
 
-[Learn more about the database aspects of **Providing Initial Data**.](../guides/databases/#providing-initial-data){: .learn-more}
+[Learn more about the database aspects of **Providing Initial Data**.](../guides/databases/#providing-initial-data){ .learn-more}
 
 
 ### Add Translated Texts
 
 In addition, you can provide translations for the `sap.common.Countries_texts` table as follows:
 
-<!--- {% include _code sample='db/csv/sap.common-Countries_texts.csv' %} -->
+<!--- % include _code sample='db/csv/sap.common-Countries_texts.csv' %} -->
 ::: code-group
 ```csv [db/csv/sap.common-Countries_texts.csv]
 code;locale;name;descr
@@ -370,16 +370,16 @@ EU;de;Europäische Union;Europäische Union
 ```
 :::
 
-[Learn more about **Localization/i18n**.](../guides/localized-data/){: .learn-more}
+[Learn more about **Localization/i18n**.](../guides/localized-data/){ .learn-more}
 
 
 ### Using Tools like Excel
 
 You can use Excel or similar tools to maintain these files. For example, the following screenshot shows how we maintained the above two files in Numbers on a Mac:
 
-![csv in numbers](./assets/csv-numbers.png){:.adapt}
+![csv in numbers](./assets/csv-numbers.png){.adapt}
 
-### Using Prebuilt Content Package {:#prebuilt-data}
+### Using Prebuilt Content Package {#prebuilt-data}
 
 Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, and `Languages`.
 
@@ -395,7 +395,7 @@ Use it in your `cds` files:
 using from '@sap/cds-common-content';
 ```
 
-[Learn more about integrating reuse packages](../guides/extensibility/composition){:.learn-more}
+[Learn more about integrating reuse packages](../guides/extensibility/composition){.learn-more}
 
 
 ## Adapting to Your Needs
@@ -407,12 +407,12 @@ Let's look at a few examples of what could be done. You can combine these extens
 You can do such extensions in the models of your project. You can also collect your extensions into reuse packages and share them as common definitions with several consuming projects, similar to _@sap/cds/common_ itself.
 :::
 
-[Learn more about providing reuse packages.](../guides/extensibility/composition){: .learn-more}
+[Learn more about providing reuse packages.](../guides/extensibility/composition){ .learn-more}
 
 
 ### Adding Detailed Fields as of [ISO 3166-1]
 
-<!--- {% include _code sample='your-common.1.cds' %} -->
+<!--- % include _code sample='your-common.1.cds' %} -->
 ```cds
 using { sap.common.Countries } from '@sap/cds/common';
 extend Countries {
@@ -442,7 +442,7 @@ entity PaymentMethods : sap.common.CodeList {
 Let's further assume the entires with code `Main` and `Travel` are required by implementations and hence must not be changed or removed. Have a look at a couple of solutions.
 
 
-#### Generic Solution {:.impl.concept}
+#### Generic Solution {.impl.concept}
 
 One option is to add an [automatic validation](../guides/providing-services/#input-validation) based on certain annotations. For example:
 
@@ -472,7 +472,7 @@ srv.on ('DELETE', 'PaymentMethods', req=>{
 
 Let's assume you prefer to have references to the latest code list entries without adjusting foreign keys. This can be achieved by adding and using numeric ISO codes for foreign keys instead of the alpha codes.
 
-<!--- {% include _code sample='your-common.2.cds' %} -->
+<!--- % include _code sample='your-common.2.cds' %} -->
 ::: code-group
 ```cds [your-common.2.cds]
 namespace your.common;
@@ -490,7 +490,7 @@ type Country : Association to Countries { numcode };
 
 You can use your own definition of `Country` instead of the one from _@sap/cds/common_ in your models as follows:
 
-<!--- {% include _code sample='using-numcodes.cds' %} -->
+<!--- % include _code sample='using-numcodes.cds' %} -->
 ```cds
 using { your.common.Country } from './your-common.2';
 
@@ -502,7 +502,7 @@ entity Addresses {
 
 ### Mapping to SAP S/4HANA or ABAP Table Signatures
 
-<!--- {% include _code sample='your-common.3.cds' %} -->
+<!--- % include _code sample='your-common.3.cds' %} -->
 ```cds
 using { sap.common.Countries } from '@sap/cds/common';
 entity Countries4GFN as projection on Countries {
@@ -526,7 +526,7 @@ As another example of adaptations, let's add support for subdivisions, that mean
 
 ### Defining a New Code List Entity
 
-<!--- {% include _code sample='your-common.4.1.cds' %} -->
+<!--- % include _code sample='your-common.4.1.cds' %} -->
 ::: code-group
 ```cds [your-common.4.1.cds]
 using sap from '@sap/cds/common';
@@ -546,14 +546,14 @@ extend sap.common.Countries {
 
 `Regions` is a new, custom-defined code list entity defined in the same way as the predefined ones in _@sap/cds/common_. In particular, it inherits all elements and annotations from the base definition [`sap.common.CodeList`](#code-lists). For example, the `@cds.autoexpose` annotation, which provides that `Regions` is auto-exposed in any OData service that has exposed entities with associations to it. The localization of the predefined elements `name` and `descr` is also inherited.
 
-[Learn in our sample how an own code list can be used to localize `enum` values.](https://github.com/SAP-samples/cap-sflight/blob/236de55b58fd0620dcd1d4f043779a7c632391b1/db/schema.cds#L60){:.learn-more}
+[Learn in our sample how an own code list can be used to localize `enum` values.](https://github.com/SAP-samples/cap-sflight/blob/236de55b58fd0620dcd1d4f043779a7c632391b1/db/schema.cds#L60){.learn-more}
 
 
 ### Defining a New Reuse Type
 
 Following the pattern for codes in _@sap/cds/common_ a bit more, you can also define a reuse type for regions as a managed association:
 
-<!--- {% include _code sample='your-common.4.2.cds' %} -->
+<!--- % include _code sample='your-common.4.2.cds' %} -->
 ::: code-group
 ```cds [your-common.4.2.cds]
 using { Regions } from './your-common.4.1'; /*>skip<*/
@@ -566,7 +566,7 @@ type Region : Association to Regions;
 
 This finally allows you to add respective elements, the same way you do it with predefined reuse types. These elements receive the same support from built-in generic features. For example:
 
-<!--- {% include _code sample='using-region-type.cds' %} -->
+<!--- % include _code sample='using-region-type.cds' %} -->
 ```cds
 using { Country, Region } from './your-common.4.2';
 entity Addresses {

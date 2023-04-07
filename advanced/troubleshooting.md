@@ -11,9 +11,9 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
-## General {: #cds}
+## General { #cds}
 
-### How Do I Resolve Installation Issues with Node.js and NPM? {: #npm-installation}
+### How Do I Resolve Installation Issues with Node.js and NPM? { #npm-installation}
 
 ##### Check the registry settings of your npm configuration
 
@@ -25,9 +25,9 @@ npm config delete "@sap:registry"
 
 Type `npm config list` to check the configuration, which is stored in a file _.npmrc_ in the user's home directory. There, no `@sap:registry` should appear.
 
-[Learn more about the move to **npmjs.org** in the blog post by DJ Adams.](https://blogs.sap.com/2020/07/02/sap-npm-packages-now-on-npmjs.org/){:.learn-more}
+[Learn more about the move to **npmjs.org** in the blog post by DJ Adams.](https://blogs.sap.com/2020/07/02/sap-npm-packages-now-on-npmjs.org/){.learn-more}
 
-##### Check the Node.js version {: #node-version}
+##### Check the Node.js version { #node-version}
 
 Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `16`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
@@ -38,8 +38,8 @@ node -v
 Should you see an error like "_Node.js v1... or higher is required for `@sap/cds ...`._" on server startup, upgrade to the indicated version at the minimum, or even better, the most recent LTS version.
 For [Cloud Foundry](https://docs.cloudfoundry.org/buildpacks/node/index.html#runtime), use the `engines` field in _package.json_.
 
-[Learn more about the release schedule of **Node.js**.](https://github.com/nodejs/release#release-schedule/){:.learn-more}
-[Learn about ways to install **Node.js**.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm){:.learn-more}
+[Learn more about the release schedule of **Node.js**.](https://github.com/nodejs/release#release-schedule/){.learn-more}
+[Learn about ways to install **Node.js**.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm){.learn-more}
 
 ##### Check access permissions on macOS or Linux
 
@@ -52,7 +52,7 @@ export PATH=~/.npm-global/bin:$PATH
 
 Also add the last line to your user profile, for example, `~/.profile`, so that future shell sessions have changed `PATH` as well.
 
-[Learn more about other ways to handle this **error**.](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally){:.learn-more}
+[Learn more about other ways to handle this **error**.](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally){.learn-more}
 
 ##### Check if your environment variables are properly set on Windows
 
@@ -67,7 +67,7 @@ Make sure that your `PATH`-environment variable contains this path.
 In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\AppData\Roaming\npm\node_modules``.
 
 
-### How Do I Consume a New Version of CDS? {: #cds-versions}
+### How Do I Consume a New Version of CDS? { #cds-versions}
 
 * Design time tools like `cds init`:
 
@@ -77,7 +77,7 @@ In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\
 
     Maintain the version of `@sap/cds` in the top-level _package.json_ of your application in the `dependencies` section.
 
-    [Learn more about recommendations on how to manage **Node.js dependencies**.](../node.js/best-practices#dependencies){:.learn-more}
+    [Learn more about recommendations on how to manage **Node.js dependencies**.](../node.js/best-practices#dependencies){.learn-more}
 
 
 * CAP Java SDK:
@@ -169,7 +169,7 @@ cds.once('listening', ({ server }) => {
 module.exports = cds.server
 ```
 
-[Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){:.learn-more}
+[Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){.learn-more}
 
 ### Why are long running requests rejected with status `502` after 30 seconds even though the application continues processing the request?
 
@@ -236,7 +236,7 @@ In addition you might want to remove the H2 dependency, which is included in the
 
 If you don't want to exclude dependencies completely, but make sure that an in-memory H2 database **isn't** used, you can disable Spring Boot's `DataSource` auto-configuration, by annotating the `Application.java` class with `@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)`. In that mode CAP Java however can still react on explicit data source configurations or database bindings.
 
-### What to Do About Maven-Related Errors in Eclipse's Problems View? {: #eclipse}
+### What to Do About Maven-Related Errors in Eclipse's Problems View? { #eclipse}
 
 - In _Problems_ view, execute _Quick fix_ from the context menu if available. If Eclipse asks you to install additional Maven Eclipse plug-ins to overcome the error, do so.
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
@@ -249,7 +249,7 @@ In recent versions of the JVM (starting with Java 11), the container resource us
  * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
  * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
 
-## SQLite {: #sqlite}
+## SQLite { #sqlite}
 
 ### How Do I Install SQLite on Windows?
 
@@ -277,9 +277,9 @@ If you want to test further, use _.help_ command to see all available commands i
 In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It’s available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
-## SAP HANA {: #hana}
+## SAP HANA { #hana}
 
-### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? {: #get-hana}
+### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? { #get-hana}
 
 To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://community.sap.com/topics/hana/cloud) for more details.
 
@@ -287,10 +287,10 @@ To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HAN
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.
 :::
 
-[Learn more about SAP HANA Cloud trying out tutorials in the Tutorial Navigator.](https://developers.sap.com/mission.hana-cloud-database-get-started.html){:.learn-more}
+[Learn more about SAP HANA Cloud trying out tutorials in the Tutorial Navigator.](https://developers.sap.com/mission.hana-cloud-database-get-started.html){.learn-more}
 
 
-### I removed sample data (_.csv_ file) from my project. Still, the data is deployed and overwrites existing data. {: #hana-csv}
+### I removed sample data (_.csv_ file) from my project. Still, the data is deployed and overwrites existing data. { #hana-csv}
 
 |  | Explanation |
 | --- | ---- |
@@ -443,7 +443,7 @@ The _cds runtime_ sets the session variable `APPLICATIONUSER`. This should alway
 
 Do not use a `XS_` prefix.
 
-## MTA {: #mta}
+## MTA { #mta}
 
 ### Why Does My MTA Build Fail?
 
@@ -470,9 +470,9 @@ If the MTA build fails with `The 'npm ci' command can only install with an exist
 - _package-lock.json_ should also be added to version control, so make sure that _.gitignore_ does __not__ contain it.
 
 The purpose of _package-lock.json_ is to pin your project's dependencies to allow for reproducible builds.
-[Learn more about dependency management in Node.js.](../node.js/best-practices#dependencies){:.learn-more}
+[Learn more about dependency management in Node.js.](../node.js/best-practices#dependencies){.learn-more}
 
-### How Can I Reduce the MTA Archive Size During Development? {: #reduce-mta-size}
+### How Can I Reduce the MTA Archive Size During Development? { #reduce-mta-size}
 
 You can reduce MTA archive sizes, and thereby speedup deployments, by omitting `node_module` folders.
 
@@ -511,7 +511,7 @@ For a start, create your [Trial Account](https://account.hanatrial.ondemand.com/
 
 <div id="sap-in-house" />
 
-### How Do I Resolve Errors with `cf` Executable? {: #cf-cli}
+### How Do I Resolve Errors with `cf` Executable? { #cf-cli}
 
 #### Installation fails — _mkdir ... The system cannot find the path specified_
 
@@ -522,17 +522,17 @@ Also, make sure to persist the variable for future sessions in the system prefer
 
 This is the same issue as with the installation error above.
 
-### Why Can't My _xs-security.json_ File Be Used to Create an XSUAA Service Instance? {: #pws-encoding}
+### Why Can't My _xs-security.json_ File Be Used to Create an XSUAA Service Instance? { #pws-encoding}
 
 |  | Explanation |
 | --- | ---- |
 | _Root Cause_ | Your file isn’t UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
 | _Solution_ | Make sure, you execute `cds compile` in a command prompt that encodes in UTF-8 when piping output into a file.
 
-[You can find related information on **Stack Overflow**.](https://stackoverflow.com/questions/40098771/changing-powershells-default-output-encoding-to-utf-8){:.learn-more}
+[You can find related information on **Stack Overflow**.](https://stackoverflow.com/questions/40098771/changing-powershells-default-output-encoding-to-utf-8){.learn-more}
 
 
-### How Can I Connect to a Backing Service Container like SAP HANA from My Local Machine? {: #cf-connect}
+### How Can I Connect to a Backing Service Container like SAP HANA from My Local Machine? { #cf-connect}
 
 Depending on, whether the container host is reachable and whether there's a proxy between your machine and the cloud, one of the following options applies:
 
@@ -561,7 +561,7 @@ Depending on, whether the container host is reachable and whether there's a prox
 
     From then on, use `localhost:30010` instead of the remote address.
 
-    [Learn more about **cf ssh**.](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html){: .learn-more}
+    [Learn more about **cf ssh**.](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html){ .learn-more}
 
 * Chisel
 
@@ -574,7 +574,7 @@ Depending on, whether the container host is reachable and whether there's a prox
     ```
     From then on, use `localhost:30010` instead of the remote address.
 
-    [Learn more about **Chisel**.](https://github.com/jpillora/chisel){: .learn-more}
+    [Learn more about **Chisel**.](https://github.com/jpillora/chisel){ .learn-more}
 
 ### Aborted Deployment With the _Create-Service-Push_ Plugin
 
@@ -582,9 +582,9 @@ If you're using _manifest.yml_ features that are part of the new Cloud Foundry A
 
 Use `cf create-service-push --push-as-subprocess` to execute `cf push` in a sub-process.
 
-[See `cf create-service-push --help` for further CLI details or visit the Create-Service-Push GitHub repository.](https://github.com/dawu415/CF-CLI-Create-Service-Push-Plugin){:.learn-more}
+[See `cf create-service-push --help` for further CLI details or visit the Create-Service-Push GitHub repository.](https://github.com/dawu415/CF-CLI-Create-Service-Push-Plugin){.learn-more}
 
-### How Can I Get Logs From My Application in Cloud Foundry? {: #cflogs-recent}
+### How Can I Get Logs From My Application in Cloud Foundry? { #cflogs-recent}
 
 The SAP BTP cockpit is not meant to analyze a huge amount of logs. You should use the Cloud Foundry CLI.
 
@@ -626,11 +626,11 @@ Mixing them together is not trivial, therefore only some special cases are suppo
 
 This refers to potential problems with [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis).
 
-### How Do I Setup a Sidecar with AppRouter? {: #mtx-as-sidecar-with-approuter}
+### How Do I Setup a Sidecar with AppRouter? { #mtx-as-sidecar-with-approuter}
 
 See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
 
-### I get a 401 error, when logging in to MTX-Sidecar through AppRouter {: #mtx-sidecar-approuter-401}
+### I get a 401 error, when logging in to MTX-Sidecar through AppRouter { #mtx-sidecar-approuter-401}
 
 1. Enable token forwarding in AppRouter, for example using _mta.yaml_:
 

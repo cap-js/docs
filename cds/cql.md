@@ -14,7 +14,7 @@ CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
 [[toc]]
 
-## Postfix Projections {:#postfix-projections }
+## Postfix Projections {#postfix-projections }
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:
 
@@ -26,7 +26,7 @@ SELECT from Authors { name, address.street }
 ```
 
 
-### Nested Expands {: .impl.beta }
+### Nested Expands { .impl.beta }
 
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:
@@ -123,7 +123,7 @@ results = [
 ```
 
 
-### Nested Inlines {: .impl.beta}
+### Nested Inlines { .impl.beta}
 
 Put a **`"."`** before the opening brace to **inline** the target elements and avoid writing lengthy lists of paths to read several elements from the same target. For example:
 
@@ -221,7 +221,7 @@ SELECT * from Boo --> { foo, car }
 
 
 
-### In Nested Expands {: .impl.beta}
+### In Nested Expands { .impl.beta}
 
 If the `*` selector is used following an association, it selects all elements of the association target.
 For example, the following queries are equivalent:
@@ -249,7 +249,7 @@ SELECT from Books { title, author { * } excluding { dateOfDeath, placeOfDeath } 
 
 
 
-### In Nested Inlines {: .impl.beta}
+### In Nested Inlines { .impl.beta}
 
 The expansion of `*` in Nested Inlines is analogous. The following queries are equivalent:
 
@@ -401,7 +401,7 @@ SQL casts and CDL casts. The former produces SQL casts when rendered into SQL, w
 SELECT cast (foo+1 as Decimal) as bar from Foo;  -- standard SQL
 SELECT from Foo { foo+1 as bar : Decimal };      -- CDL-style
 ```
-[learn more about CDL type definitions](./cdl#types){:.learn-more}
+[learn more about CDL type definitions](./cdl#types){.learn-more}
 
 Use SQL casts when you actually want a cast in SQL. CDL casts are useful for expressions such as `foo+1` as the compiler does not deduce types.
 For the OData backend, by specifying a type, the compiler will also assign the correct EDM type in the generated EDM(X) files.
@@ -426,7 +426,7 @@ SELECT from Books mixin {
 };
 ```
 
-### In the select list {:#select-list-associations}
+### In the select list {#select-list-associations}
 
 Define an unmanaged association directly in the select list of the query to add the association to the view's signature. This association cannot be used in the query itself.
 In contrast to mixins, these association definitions are also possible in projections.

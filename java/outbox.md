@@ -15,7 +15,7 @@ status: released
 
 
 <!-- #### Content -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 <!--- Migrated: @external/java/355-Outbox/01-service.md -> @external/java/outbox/service.md -->
 ## Concepts
@@ -26,12 +26,12 @@ To solve this problem, a transactional outbox can be used to defer the emit of m
 The transactional outbox is a part of the CAP technical services for [Messaging](./messaging-foundation) and [AuditLog](./auditlog).
 
 
-## In-Memory Outbox (Default) {: #in-memory}
+## In-Memory Outbox (Default) { #in-memory}
 
 The in-memory outbox is used per default and the messages are emitted when the current transaction is successful. Until then, messages are kept in memory.
 
 
-## Persistent Outbox {: #persistent}
+## Persistent Outbox { #persistent}
 
 The persistent outbox requires a persistence layer in order to persist the messages before emitting them. Here, the to-be-emitted message is stored in a database table first. The same database transaction is used as for other operations, therefore transactional consistency is guaranteed.
 
@@ -57,7 +57,7 @@ You have the following configuration options:
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry,  is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 In order to enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
 :::
 
@@ -71,7 +71,7 @@ In order to enable the persistence for the outbox, you need to add the service `
     }
 ```
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 Be aware that you need to migrate the database schemas of all tenants after you've enhanced your model with an outbox version from `@sap/cds`  version 6.0.0 or later.
 :::
 

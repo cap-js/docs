@@ -53,6 +53,6 @@ The following built-in types are provided:
 
 ### See also...
 
-[**Mapping to OData EDM types**](../advanced/odata#type-mapping){:.learn-more}
+[**Mapping to OData EDM types**](../advanced/odata#type-mapping){.learn-more}
 
-[**HANA-native Data Types**](../advanced/hana#hana-types){:.learn-more}
+[**HANA-native Data Types**](../advanced/hana#hana-types){.learn-more}

@@ -93,7 +93,7 @@ Select.from("bookshop.Books")
 
 The CQL query accesses the `name` element of the `Authors` entity, which is reached from `Books` via the `author` [association](../cds/cdl#associations). In the dynamic CQL builders, you can follow associations and compositions using the `to` method or use `get` with a path using a dot to separate the segments.
 
-### Target Entity Sets {:#target-entity-sets}
+### Target Entity Sets {#target-entity-sets}
 
 All [CDS Query Language (CQL)] statements operate on a _target entity set_, which is specified via the `from`, `into`, and `entity` methods of `Select`/`Delete`, `Insert`/`Upsert`, and `Update` statements.
 
@@ -133,13 +133,13 @@ To target components of a structured document, we recommend using path expressio
 :::
 
 
-### Filters {:#target-entity-filters}
+### Filters {#target-entity-filters}
 
 Besides using infix filters in path expressions, the `Select`, `Update`, and `Delete` builders support filtering the [target entity set](#target-entity-sets) via the `where` method. Using `where` is equivalent to defining an infix filter on the last segment of a path expression in the statement's `from` / `entity` clause. For statements that have both, an infix filter on the last path segment and a `where` filter, the resulting target filter is the conjunction (`and`) of the infix filter and the `where` filter.
 For simple filters, you can use `byId`, `matching`, or `byParams` as an alternative to `where`. All of these filter methods overwrite existing filters, except for infix filters.
 
 
-#### Using `where` {:#concepts-where-clause}
+#### Using `where` {#concepts-where-clause}
 
 Using the `where` method, you can define complex predicate [expressions](#expressions) to compose the filter:
 
@@ -254,7 +254,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It’s specified by the `from` method.
 
-#### From `entity set` {:#from-entity-set}
+#### From `entity set` {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -270,7 +270,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {:#from-reference}
+#### From `reference` {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 
@@ -288,7 +288,7 @@ import static bookshop.Bookshop_.ORDERS;
 Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 ```
 
-#### From `subquery` {:#from-select}
+#### From `subquery` {#from-select}
 
 It’s also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
@@ -311,7 +311,7 @@ Limitations:
 * The outer query can only be defined with the dynamic builder style.
 
 
-### Projections {:#projections}
+### Projections {#projections}
 
 By default, `Select` statements return all elements of the target entity. You can change this by defining a projection
 via the `columns` method of the `Select` builder. Elements can be addressed via their name, including path expressions such as _author.name_:
@@ -341,11 +341,11 @@ Select.from(BOOKS)
 
 The path expression `b.author().name()` is automatically evaluated at runtime. For an SQL data store, it's converted to a LEFT OUTER join.
 
-#### Deep Read with `expand` {:#expand}
+#### Deep Read with `expand` {#expand}
 
 Use `expand` to read deeply structured documents and entity graphs into a structured result.
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 See, how this [CQL](../cds/cql#nested-expands) query is constructed using the `Select` builder:
 
 ```sql
@@ -354,7 +354,7 @@ See, how this [CQL](../cds/cql#nested-expands) query is constructed using the `S
 SELECT from Authors { name as author, books { title, year } }
 ```
 
-{% endif %}
+% endif %}
 
 ```java
 // Java example
@@ -456,7 +456,7 @@ To expand all first level associations of an entity, use `expand()` on the entit
 ```java
 Select.from(BOOKS).columns(b -> b.expand());
 ```
-##### Optimized Expand Execution {:#expand-optimization}
+##### Optimized Expand Execution {#expand-optimization}
 
 For *to-one expands*:
 - The expand item list mustn't contain any literal value.
@@ -474,12 +474,12 @@ In case the default query optimization leads to issues, annotate the association
 and make sure the parent entity has all key elements exposed.
 
 
-#### Flattened Results with `inline` {:#inline}
+#### Flattened Results with `inline` {#inline}
 
 To flatten deeply structured documents or include elements of associated entities into a flat result,
 you can use `inline` as a short notation for using multiple paths.
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 See, how the following [CQL](../cds/cql#nested-inlines) queries are constructed using the `Select` builder:
 
 ```sql
@@ -490,7 +490,7 @@ SELECT from Authors { name, books.title as book, books.isbn, books.year }
 -- using inline
 SELECT from Authors { name, books.{ title as book, year } }
 ```
-{% endif %}
+% endif %}
 
 ```java
 // Java example
@@ -546,28 +546,28 @@ Row book = dataStore.execute(q).single();
 Object authorId = book.get("author.Id"); // path access
 ```
 
-{% if jekyll.environment == "external" %}
+% if jekyll.environment == "external" %}
 ::: tip
 Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
 integrity constraints on the database.
 :::
 
-{% else %}
+% else %}
 ::: tip
 Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
 [integrity constraints](../guides/databases/#db-constraints) on the database.
 :::
 
-{% endif %}
+% endif %}
 
 
-### Filtering and Searching {: #filtering}
+### Filtering and Searching { #filtering}
 
 The `Select` builder supports [filtering](#target-entity-filters) the target entity set via `where`, `byId`, `matching` and `byParams`. In contrast to infix filters, `where` filters of `Select` statements support path expressions. Additionally, `Select` supports `search` clauses.
 
 The `search` method adds a predicate to the query that filters out all entities where any searchable element contains a given [search term](#search-term) or matches a [search expression](#search-expression).
 
-1. Define searchable elements {:#searchable-elements}
+1. Define searchable elements {#searchable-elements}
 
     By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services/#searching-data).
 
@@ -591,7 +591,7 @@ The `search` method adds a predicate to the query that filters out all entities 
     }
     ```
 
-    {% if jekyll.environment != "external" %}
+    % if jekyll.environment != "external" %}
     In addition to a shallow search (where the search is done on the `target entity set`) you can also perform search over associated entities.
 
     Let's consider a CDS model that is more complex. It consists of 2 entities and an association between them:
@@ -612,7 +612,7 @@ The `search` method adds a predicate to the query that filters out all entities 
     ```
 
     Referring to the association `author` in `@cds.search` declares that the search is to be extended. Therefore, all elements of the `Author` entities that are reached through the association `author` are searchable.
-    {% endif %}
+    % endif %}
 
 
 1. Construct queries with `search`
@@ -627,7 +627,7 @@ The `search` method adds a predicate to the query that filters out all entities 
     }
     ```
 
-* Use search terms {:#search-term}
+* Use search terms {#search-term}
 
     The following Select statement shows how to search for an entity containing the single _search term_ "Allen".
 
@@ -642,7 +642,7 @@ The `search` method adds a predicate to the query that filters out all entities 
     > The element `title` is [searchable](#searchable-elements), even though `title` isn’t selected.
 
 * Use search expressions
-    {:#search-expression}
+    {#search-expression}
 
     It's also possible to create a more complex _search expression_ using `AND`, `OR`, and `NOT` operators. Following examples show how you can search for entities containing either term "Allen" or "Heights".
 
@@ -657,7 +657,7 @@ The `search` method adds a predicate to the query that filters out all entities 
     ```
 
 
-#### Using `where` Clause {:#where-clause}
+#### Using `where` Clause {#where-clause}
 
 In a where clause, leverage the full power of [CDS Query Language (CQL)] [expressions](#expressions) to compose the query's filter:
 
@@ -775,7 +775,7 @@ In this example, it's assumed that the total number of books is more or equal to
 The pagination isn't stateful. If rows are inserted or removed before a subsequent page is requested, the next page could contain rows that were already contained in a previous page or rows could be skipped.
 :::
 
-### Pessimistic Locking {: #write-lock}
+### Pessimistic Locking { #write-lock}
 
 Use the `lock()` method to enforce [Pessimistic Locking](../guides/providing-services/#select-for-update).
 
@@ -884,7 +884,7 @@ entity OrderItems {
   ...
 }
 ```
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L24-L36){:.learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L24-L36){.learn-more}
 
 
 Java:
@@ -908,7 +908,7 @@ CqnInsert insert = Insert.into(ORDERS).entry(order);
 On SQL data stores the execution order of the generated insert statements is parent first.
 :::
 
-## Upsert {: #upsert}
+## Upsert { #upsert}
 
 [Upsert](../cds/cqn#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
 `Upsert` statements are created with the [Upsert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Upsert.html) builder and are translated into DB native upsert statements by the CAP runtime whenever possible.
@@ -971,7 +971,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 :::
 
 
-### Deep Upsert {: #deep-upsert}
+### Deep Upsert { #deep-upsert}
 
 Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-models/#compositions-capture-contained-in-relationships), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
@@ -992,7 +992,7 @@ Check the [row count](query-execution#batch-execution) of the update result to g
 
 Use the [Update](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html) builder to create an update statement.
 
-### Updating Individual Entities {:#update-individual-entities}
+### Updating Individual Entities {#update-individual-entities}
 
 The target entity set of the update is specified by the [entity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entity-java.lang.String-) method.
 
@@ -1023,7 +1023,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
-### Deep Update {: #deep-update}
+### Deep Update { #deep-update}
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-models/#compositions-capture-contained-in-relationships). Linked entities can have compositions to other entities, which become also part of the document structure.
 
@@ -1031,7 +1031,7 @@ By default, only target entities of [compositions](../guides/domain-models/#comp
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 
-#### Full Set Representation {: #deep-update-full-set}
+#### Full Set Representation { #deep-update-full-set}
 
 In the update data, nested entity collections in **full set** representation have to be _complete_. All pre-existing entities that are not contained in the collection are deleted.
 The full set representation requires the runtime to execute additional queries to determine which entities to delete and is therefore not as efficient to process as the [delta representation](#deep-update-delta).
@@ -1079,7 +1079,7 @@ See the result of the updated *Order*:
 - Item 4 created and added to `items`
 
 
-#### Delta Representation {: #deep-update-delta}
+#### Delta Representation { #deep-update-delta}
 
 In **delta** representation, nested entity collections in the update data can be partial: the runtime only processes entities that are contained in the collection but entities that aren't contained remain untouched.
 Entities that shall be removed need to be included in the list and explicitly _marked for removal_.
@@ -1108,7 +1108,7 @@ Update.entity(ORDER).data(order);
 The deep update with order items in delta representation has similar effects as the update with items in full set representation. The only difference is that `OrderItem 3` is not deleted.
 
 
-### Bulk Update: Update Multiple Entity Records with Individual Data {:#bulk-update}
+### Bulk Update: Update Multiple Entity Records with Individual Data {#bulk-update}
 
 To update multiple entity records with individual update data, use the [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries-java.lang.Iterable-) method and provide the key values of the entities in the data.
 The individual update entries can be [deep](#deep-update). The following example illustrates this, using the generated accessor interfaces. The statement updates the status of order 1 and 2 and the header comment of order 3:
@@ -1136,7 +1136,7 @@ especially if all bulk update entries update the same set of elements.
 
 To update multiple entity records with the same update data, use searched or batch updates.
 
-#### Searched Update {:#searched-update}
+#### Searched Update {#searched-update}
 
 Use the [where](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#where-java.util.function.Function-) clause or [matching](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#matching-java.util.Map-) to update _all_ entities that match the [filter](#expressions) with _the same_ update data. In the following example, the `stock` of all books with the title containing *CAP* is set to 100:
 
@@ -1145,7 +1145,7 @@ Update.entity(BOOKS).data("stock", 100)
    .where(b -> b.title().contains("CAP"));
 ```
 
-#### Parameterized Batch Update {:#batch-update}
+#### Parameterized Batch Update {#batch-update}
 
 Use `CQL.param` in the `where` clause or `byParams` to create a parameterized update statement to execute the statement with one or multiple [parameter value sets](query-execution#batch-execution).
 
@@ -1247,7 +1247,7 @@ Delete.from(BOOKS).byParams("title", "author.name");
 
 The Query Builder API supports using expressions in many places. Expressions consist of [values](#values), which can be used, for example, in [Select.columns](#projections) to specify the select list of the statement. Values can also be used in [predicates](#predicates) that allow, for example, to specify filter criteria for [Select](#select) or [Delete](#delete) statements.
 
-### Entity References {:#entity-refs}
+### Entity References {#entity-refs}
 
 Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method. The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
@@ -1307,7 +1307,7 @@ Use `CQL.constant` if the literal value shall be treated as [constant](#constant
 
 ---
 
-#### Parameters {:#expr-param}
+#### Parameters {#expr-param}
 
 The [`param`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#param--) method can be statically imported from the helper class [CQL](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html). It provides an option to use a parameter marker in a query that is bound to an actual value only upon query execution. Using parameters you can execute a query multiple times with different parameter values.
 
@@ -1448,7 +1448,7 @@ Scalar functions are values that are calculated from other values. This calculat
 
 Predicates are expressions with a Boolean value, which are used in [filters](#where-clause) to restrict the result set or to specify a [target entity set](#target-entity-sets).
 
-#### `Comparison Operators` {:#comparison-operators}
+#### `Comparison Operators` {#comparison-operators}
 
 These comparison operators are supported:
 
@@ -1607,7 +1607,7 @@ BETWEEN
 </tr>
 </table>
 
-#### `Logical Operators` {:#logical-operators}
+#### `Logical Operators` {#logical-operators}
 
 Predicates can be combined using logical operators:
 
@@ -1675,7 +1675,7 @@ NOT
 </tr>
 </table>
 
-#### `Predicate Functions` {:#predicate-functions}
+#### `Predicate Functions` {#predicate-functions}
 
 These boolean-valued functions can be used in filters:
 
@@ -1741,7 +1741,7 @@ ENDS WITH
 </tr>
 </table>
 
-#### `anyMatch/allMatch` Predicate {:#any-match}
+#### `anyMatch/allMatch` Predicate {#any-match}
 
 The `anyMatch` and `allMatch` predicates are applied to an association and test if _any_ instance/_all_ instances of the associated entity set match a given filter condition. They are supported in filter conditions of [Select](#select), [Update](#update) and [Delete](#delete) statements.
 
@@ -1781,7 +1781,7 @@ Select.from(AUTHORS).where(a -> a.books().anyMatch(
         p.text().contains("unicorn"))));
 ```
 
-#### `EXISTS` Subquery {:#exists-subquery}
+#### `EXISTS` Subquery {#exists-subquery}
 
 An `EXISTS` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
 You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
@@ -1834,7 +1834,7 @@ CqnSelect query = Select.cqn(cqnQuery).columns("price");
 
 For `Insert`, `Update`, and `Delete` this is supported as well.
 
-## CQL Expression Trees {: #cql-helper-interface}
+## CQL Expression Trees { #cql-helper-interface}
 
 As an alternative to fluent API the [CQL](../cds/cql) statement can be built, copied, and modified using [CQL Interface](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html), which allows to build and reuse the parts of the statement.
 
@@ -1976,7 +1976,7 @@ CqnSelect query = Select.from("Books").where(b -> b.get("title").eq("Capire"));
 
 By overriding the default implementations of the CQN `Modifier`, different parts of the [CQL](../cds/cql) statement can be modified.
 
-### Modify the Where Clause {:#modify-where}
+### Modify the Where Clause {#modify-where}
 
 ```java
 import com.sap.cds.ql.CQL;
@@ -2009,7 +2009,7 @@ CqnSelect copy = CQL.copy(query, new Modifier() {
 });
 ```
 
-### Modify a `ref` {:#modify-ref}
+### Modify a `ref` {#modify-ref}
 
 Other parts of the statement, such as the `ref` or its segments can't be modified directly. Instead a new `ref` must be created.
 The following modifier makes a copy of the statement's `ref` and sets a new filter `year > 2000` on the root segment:
@@ -2029,7 +2029,7 @@ CqnSelect copy = CQL.copy(query, new Modifier() {
 });
 ```
 
-### Modify the Select List {:#modify-select}
+### Modify the Select List {#modify-select}
 
 The modifier can also be used to add or remove select list items:
 
@@ -2046,7 +2046,7 @@ CqnSelect copy = CQL.copy(query, new Modifier() {
 });
 ```
 
-### Modify the Order-By Clause {:#modify-order-by}
+### Modify the Order-By Clause {#modify-order-by}
 
 To modify the sort specification of the query, the `orderBy` method of the `Modifier` should be overridden:
 

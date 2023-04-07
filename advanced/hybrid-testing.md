@@ -7,7 +7,7 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html and https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
 
-# Hybrid Testing {: #hybrid-testing}
+# Hybrid Testing { #hybrid-testing}
 
 ## Introduction
 
@@ -28,7 +28,7 @@ cds bind -2 my-hana:my-hana-key
 Binds your CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Learn how to binding to user-provided services on cloud foundry.](#binding-user-provided-services){:.learn-more}
+[Learn how to binding to user-provided services on cloud foundry.](#binding-user-provided-services){.learn-more}
 
 Output:
 
@@ -48,7 +48,7 @@ You can omit `:my-hana-key` here, because the key name is just the name of the i
 
 In many cases, CAP knows which CDS service and kind to use for a cloud service. Like in the previous example, the `db` CDS service gets bound and set to the `hana` kind, because the given service instance is of type `hana` with plan `hdi-shared`.
 
-[Learn how to bind to arbitrary cloud services.](#with-cds-service-and-kind){:.learn-more}
+[Learn how to bind to arbitrary cloud services.](#with-cds-service-and-kind){.learn-more}
 
 The binding information is stored in the _.cdsrc-private.json_ file of your project in the `requires` section:
 
@@ -81,9 +81,9 @@ Bindings are assigned to the `hybrid` profile by default.
 
 Note that no credentials are saved. Only the information about **where the credentials can be obtained** is stored on your machine.
 
-[All `cds bind` command line options](#cds-bind-usage){:.learn-more}
+[All `cds bind` command line options](#cds-bind-usage){.learn-more}
 
-#### Bind a Local Application to User-Provided Services on Cloud Foundry {: #binding-user-provided-services}
+#### Bind a Local Application to User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
 ```sh
 cds bind my-ups -2 my-user-provided-service
@@ -201,7 +201,7 @@ If a service binding with the same name exists, `cds bind` will connect to the s
 
 ## Run with Service Bindings
 
-### Run CAP Node.js Apps with Service Bindings {: #node}
+### Run CAP Node.js Apps with Service Bindings { #node}
 
 Now, you can run your CAP service locally using the cloud service bindings:
 
@@ -302,7 +302,7 @@ VCAP_SERVICES=$(cf env <CF-APP-NAME> | perl -0pe '/VCAP_SERVICES:(.*?)VCAP_APPLI
 
 Your profile should have the `kind` settings to use the bound services, for example `requires.db = hana`.
 
-## `cds bind` Usage {: #cds-bind-usage}
+## `cds bind` Usage { #cds-bind-usage}
 
 ### By Cloud Service Only
 
@@ -348,7 +348,7 @@ By default, the bindings for the `hybrid` profile are stored in the _.cdsrc-priv
 
 This can be overwritten using the `--profile` and `--output-file` options.
 
-### Execute Commands with Bindings {: #cds-bind-exec}
+### Execute Commands with Bindings { #cds-bind-exec}
 
 You can start arbitrary command line programs with your bindings.
 
@@ -386,7 +386,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 If you want to test your application with a real SAP HANA database, do the following steps.
 
-**Preconditions**{:.warning-title}<br />
+**Preconditions**{.warning-title}<br />
 You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
 :::
 

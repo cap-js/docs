@@ -7,7 +7,7 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
 
-# Expression Notation (CXN) {: #expressions}
+# Expression Notation (CXN) { #expressions}
 
 [expression]: #expressions
 [expr]: #expressions
@@ -104,7 +104,7 @@ cqn4(`new ST_Point(2, 3)`)
   == {xpr: ['new', {func: 'ST_Point', args: [{val: 2}, {val: 3}]}]}
 ```
 
-## Lists {: #lists}
+## Lists { #lists}
 
 [list]: #lists
 
@@ -117,7 +117,7 @@ cds.parse.expr(`(foo, bar)`) == {list: [{ref: ['foo']}, {ref: ['bar']}]}
 ```
 
 
-## Operator Expressions {: #operators}
+## Operator Expressions { #operators}
 
 [xpr]: #operators
 [_xpr]: #operators
@@ -186,4 +186,4 @@ cds.parse.expr(`x=?`)  == [{ref:['x']}, '=', {ref:['?'], param:true}]
 
 ## Sub Queries
 
-[See CQN][CQN]{:.learn-more}
+[See CQN][CQN]{.learn-more}

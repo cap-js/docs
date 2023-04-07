@@ -15,9 +15,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 The following figure illustrates this central role of domain models:
 
-![domain models](../../assets/domain-models.drawio.svg){:.adapt}
+![domain models](../../assets/domain-models.drawio.svg){.adapt}
 
-[See also the introduction in the _About_ page](../../about/#domain-modeling){:.learn-more}
+[See also the introduction in the _About_ page](../../about/#domain-modeling){.learn-more}
 
 ## Capture Intent  &rarr; _What, not How_
 
@@ -25,13 +25,13 @@ Domain Models describe the _static, data-related_ aspects of a problem domain in
 
 
 
-### Promoting Domain-Driven Design {:#domain-driven-design}
+### Promoting Domain-Driven Design {#domain-driven-design}
 
 Similar to [Domain-driven Design](../../about/related#domain-driven-design), a key goal of domain modeling in CAP is to place the primary focus of projects on the problem domain, thereby promoting **close collaboration** of **developers** and **domain experts** to iteratively refine knowledge about a given problem domain.
 
 
 
-### _"Keep it simple, stupid!"_ {:#kiss}
+### _"Keep it simple, stupid!"_ {#kiss}
 
 To reach these goals of domain focus, but also for the sake of simplicity and quality, robustness and consumability, it is of utter importance to keep your models:
 
@@ -60,7 +60,7 @@ If the vast majority of your clients uses relational databases, don't overly abs
 
 While CDS provides great support for structured types, you should always think twice before using this, as several technologies that you or your customers might want to integrate with, may have difficulties with this. Moreover, flat structures are easier to understand and consume.
 
-#### **Good:**{:style="color:teal"}
+#### **Good:**{style="color:teal"}
 
 ```cds
 entity Contacts {
@@ -72,7 +72,7 @@ entity Contacts {
 }
 ```
 
-#### **Bad:**{:style="color:darkred"}
+#### **Bad:**{style="color:darkred"}
 
 ```cds
 entity Contacts {
@@ -147,7 +147,7 @@ Probably there are different extension packages in different usage contexts supp
 
 
 
-## Naming Conventions --- Recommendations {:#naming-conventions}
+## Naming Conventions --- Recommendations {#naming-conventions}
 
 We recommend adopting the following simple naming conventions as commonly used in many communities, for example, Java, JavaScript, C, SQL, etc.
 
@@ -231,7 +231,7 @@ Namespaces and [contexts](../../cds/cdl#context) are similar. In former uses of 
 
 
 
-## Entities & Types &rarr; Conceptual Modeling {: #conceptual-modeling }
+## Entities & Types &rarr; Conceptual Modeling { #conceptual-modeling }
 
 
 
@@ -266,7 +266,7 @@ type Genre : String enum {
 }
 ```
 <!-- TODO revisit -->
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/f32398ba8dd9b10c7f236282c3e1f89067e64c6f/bookshop/db/schema.cds#L2-L31){: .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/f32398ba8dd9b10c7f236282c3e1f89067e64c6f/bookshop/db/schema.cds#L2-L31){ .learn-more}
 
 We used CDS's basic means for capturing data structures here.
 
@@ -281,7 +281,7 @@ We used CDS's basic means for capturing data structures here.
 
 CDS comes with a small set of common predefined types, which are used to assign types to elements, or to derive custom-defined types from.
 
-[See list of **Built-in Types** in the CDS reference docs](../../cds/types){:.learn-more}
+[See list of **Built-in Types** in the CDS reference docs](../../cds/types){.learn-more}
 
 
 In addition, [**_@sap/cds/common_**](../../cds/common) provides a set of reuse types and aspects. Make yourself familiar with these and use them, instead of redefining the semantically same things again in different flavors. By doing so, you benefit from:
@@ -302,7 +302,7 @@ entity Addresses {
   country : Country; //> using reuse type
 }
 ```
-[Learn more about reuse types provided by _`@sap/cds/common`_.](../../cds/common){:.learn-more}
+[Learn more about reuse types provided by _`@sap/cds/common`_.](../../cds/common){.learn-more}
 
 
 ::: tip
@@ -314,11 +314,11 @@ entity Addresses {
 
 
 
-### Using `localized` Type Qualifiers {:#localized-data}
+### Using `localized` Type Qualifiers {#localized-data}
 
 With CAP, you stay on a conceptual level. For example, when having to serve localized data, you would simply add the `localized` qualifier to respective text fields in your model like so.
 
-#### **Do:**{:style="color:teal"}
+#### **Do:**{style="color:teal"}
 
 ```cds
 entity Books { ...
@@ -327,7 +327,7 @@ entity Books { ...
 }
 ```
 
-##### **Don't:**{:style="color:darkred"}
+##### **Don't:**{style="color:darkred"}
 
 In contrast to that, this is what you would usually have to do without having CAP's `localized` support:
 
@@ -351,7 +351,7 @@ By placing `_texts` entities and associations behind the scenes, CAP's **out-of-
 :::
 
 <!-- TODO -->
-[Learn more in the **Localized Data** guide.][localized data]{:.learn-more}
+[Learn more in the **Localized Data** guide.][localized data]{.learn-more}
 
 
 
@@ -409,7 +409,7 @@ It's possible to use includes and always have separate declarations of entity ty
 
 
 
-### Deriving Types with Projections {: .impl.concept}
+### Deriving Types with Projections { .impl.concept}
 
 While includes allow deriving new structured types from existing ones by taking all inherited elements, CDS also allows to create derived struct types **by projection**, by which you can selectively pick and map fields
 from another type or entity:
@@ -438,7 +438,7 @@ type Company : projection on Contact {
 > Projections are very much like views and actually use the same syntax and powerful underpinning mapping options as [projections in views](../../cds/cdl#views).
 > Yet, they don't result in any kind of database views, of course.
 
-#### Using `excluding` Clauses {: .impl.concept}
+#### Using `excluding` Clauses { .impl.concept}
 
 Also the `excluding` clauses known from [CQL] can be used in type projections. With that, the previous example could also be rewritten like that:
 
@@ -455,7 +455,7 @@ type Company : projection on Contact {
 
 
 
-## Primary Keys --- Best Practices {: #primary-keys }
+## Primary Keys --- Best Practices { #primary-keys }
 
 Primary keys are used to uniquely identify addressable top-level entities.
 Use the keyword `key` to signify one or more elements that form an entity's primary key.
@@ -563,9 +563,9 @@ Finally, existing data that shall be imported into or processed by a CAP app may
 
 #### See Also...
 
-[**Mapping UUIDs to OData**](../../advanced/odata#override-type-mapping){:.learn-more}
+[**Mapping UUIDs to OData**](../../advanced/odata#override-type-mapping){.learn-more}
 
-[**Mapping UUIDs to SQL**](../../advanced/hana#mapping-uuids-to-sql){:.learn-more}
+[**Mapping UUIDs to SQL**](../../advanced/hana#mapping-uuids-to-sql){.learn-more}
 
 
 
@@ -604,7 +604,7 @@ CAP runtimes provide out-of-the-box support to serve structured document data th
 :::
 
 
-### Using Managed Compositions of Aspects {:#managed-compositions}
+### Using Managed Compositions of Aspects {#managed-compositions}
 
 [Compositions of Aspects]: ../../cds/cdl#managed-compositions
 
@@ -643,7 +643,7 @@ Prefer using [Compositions of Aspects] to model document structures with contain
 
 
 
-### Many-to-many Relationships with Compositions of Aspects {: #many-to-many-relationships-w-compositions-of-aspects}
+### Many-to-many Relationships with Compositions of Aspects { #many-to-many-relationships-w-compositions-of-aspects}
 
 If you don't need bidirectional associations, you can use compositions of aspects to model many-to-many relationships as follows:
 Let's start with an example without composition of aspects, based on a many-to-many relationship sample, for example, as in GitHub repositories as projects:
@@ -676,11 +676,11 @@ Prefer using [Compositions of Aspects] to model uni-directional many-to-many rel
 
 
 
-### Avoid Overly Normalized Models &rarr; use `array of` {:#avoid-overly-normalized-models}
+### Avoid Overly Normalized Models &rarr; use `array of` {#avoid-overly-normalized-models}
 
 For example, let's say we have to model Contacts with e-mail addresses and phone numbers. This is how you would probably think about this on a conceptual level:
 
-**Good**{:style="color:teal"}, as this would allow you to map `emails` and `phones` to simple JSON attributes and speed up reading and writing data significantly.
+**Good**{style="color:teal"}, as this would allow you to map `emails` and `phones` to simple JSON attributes and speed up reading and writing data significantly.
 
 ```cds
 entity Contacts {
@@ -695,7 +695,7 @@ entity Contacts {
 }
 ```
 
-**Bad**{:style="color:darkred"}, because this would end up with lots of JOINs when mapping to relational databases, with detrimental effects on read and write performance, as well as making the model harder to read.
+**Bad**{style="color:darkred"}, because this would end up with lots of JOINs when mapping to relational databases, with detrimental effects on read and write performance, as well as making the model harder to read.
 
 ```cds
 entity Contacts {
@@ -749,7 +749,7 @@ entity Authors {
   name   : String;
 }
 ```
-[See _CDS Language Reference_ to learn more about Associations.](../../cds/cdl#associations){: .learn-more}
+[See _CDS Language Reference_ to learn more about Associations.](../../cds/cdl#associations){ .learn-more}
 
 
 
@@ -782,7 +782,7 @@ CREATE TABLE Authors (
   name String
 )
 ```
-{:.indent}
+{.indent}
 
 Queries:
 
@@ -790,7 +790,7 @@ Queries:
 SELECT ID, title, author.name from Books
 JOIN Authors AS author on author_ID = author.ID
 ```
-{:.indent}
+{.indent}
 
 ##### Same Example in CAP CDL:
 
@@ -807,16 +807,16 @@ entity Authors {
   name   : String;
 }
 ```
-{:.indent}
+{.indent}
 
 Queries:
 
 ```sql
 SELECT ID, title, author.name from Books
 ```
-{:.indent}
+{.indent}
 > ~~`JOIN Authors author on author_ID = author.ID`~~
-{:.indent}
+{.indent}
 
 ::: tip
 That _Associations_ act like **_forward-declared joins_** means:
@@ -826,11 +826,11 @@ Queries just use them much like forward-declared table aliases. There's no need 
 
 
 
-### Prefer Managed Associations {:#managed-associations}
+### Prefer Managed Associations {#managed-associations}
 
 When deploying to relational databases Associations are mapped to foreign keys. Yet, when mapped to non-relational databases they’re just references. Keep your domain models agnostic to that by using managed associations. Associations - especially managed ones - capture your intent, while foreign keys are rather an imperative technical discipline.
 
-#### **Do:**{: style="color:teal"}
+#### **Do:**{ style="color:teal"}
 
 ```cds
 entity Books { ...
@@ -838,7 +838,7 @@ entity Books { ...
 }
 ```
 
-#### **Don't:**{: style="color:darkred"}
+#### **Don't:**{ style="color:darkred"}
 
 ```cds
 entity Books { ...
@@ -906,7 +906,7 @@ entity Books_Authors { ...
 
 
 
-## Aspects &rarr; Aspect-Oriented Modeling {: #aspects }
+## Aspects &rarr; Aspect-Oriented Modeling { #aspects }
 
 CDS's [Aspects](../../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. Decompose models and definitions into files with potentially different life cycles, contributed by different _people_.
 
@@ -1002,7 +1002,7 @@ Aspects allow you to _flexibly_ and _transparently_ _add_ new **entities**, **fi
 
 
 
-## Using _Aspects_ for Separation of Concerns {:#separation-of-concerns}
+## Using _Aspects_ for Separation of Concerns {#separation-of-concerns}
 
 Aspects allow you to factor out cross-cutting or technical concerns into separate models/files, potentially with different ownerships and lifecycles. This greatly facilitates [keeping core domain models **concise** and **comprehensible**](#kiss).
 
@@ -1082,7 +1082,7 @@ In addition to ad-hoc extensions, **named aspects** allow you to **predefine**, 
 
 
 
-## Using _Aspects_ to Reuse, Compose and Extend {: #reuse-and-compose }
+## Using _Aspects_ to Reuse, Compose and Extend { #reuse-and-compose }
 
 
 ### Using Aspects to Extend Reused Definitions
@@ -1116,7 +1116,7 @@ extend our.Authors with {
   modifiedAt : DateTime;
 }
 ```
-[See also Adapting to Your Needs in @sap/cds/common.](../../cds/common#adapting-to-your-needs){:.learn-more}
+[See also Adapting to Your Needs in @sap/cds/common.](../../cds/common#adapting-to-your-needs){.learn-more}
 
 ::: tip
 Aspects allow you to _flexibly_ **extend and adapt reused definitions**, in the same way as if they were owned by the consuming project.
@@ -1171,14 +1171,14 @@ aspect tracked {
 }
 type User : String @title:'User ID';
 ```
-[See also @sap/cds/common][@sap/cds/common]{:.learn-more}
+[See also @sap/cds/common][@sap/cds/common]{.learn-more}
 
 2. **An application**, like _[@capire/bookshop]_, would selectively use these as follows:
 ```cds
 entity Books : tracked, temporal { ... }
 entity Authors : tracked { ... }
 ```
-[Learn more about the inheritance-like `:`-syntax variant of applying aspects.](../../cds/cdl#includes){:.learn-more}
+[Learn more about the inheritance-like `:`-syntax variant of applying aspects.](../../cds/cdl#includes){.learn-more}
 
 3. **A third party**, such as individual SaaS customers of that application, ISVs, or partners providing prebuilt extension packages, could extend the foundation aspects as follows:
 ```cds
@@ -1197,11 +1197,11 @@ entity ChangeNotes {
 
 
 
-## Using _Aspects_ for Modularization & Verticalization {: #verticalization}
+## Using _Aspects_ for Modularization & Verticalization { #verticalization}
 
 We can use the same techniques as depicted above not only to factor out technical concerns but also to construct a complex model as a core model covering the common needs of all use cases, plus a set of prebuilt extension packages to address different advanced use cases.
 
-![Modularization](assets/modularization.drawio.svg){:style="width:90%"}
+![Modularization](assets/modularization.drawio.svg){style="width:90%"}
 
 For example, see [Adding own Code Lists](../../cds/common#adding-own-code-lists) to see how to extend the `Countries` reuse entities from `@sap/cds/common` with a new code list `Regions`.
 
@@ -1212,8 +1212,8 @@ The same applies to **verticalization** scenarios in which the prebuilt extensio
 
 
 
-## Using _Aspects_ for SaaS-level Customization <br> (aka _Dynamic Extensibility_) {:#extensibility}
+## Using _Aspects_ for SaaS-level Customization <br> (aka _Dynamic Extensibility_) {#extensibility}
 
 Finally, taking that one step further, CAP applies the same techniques when we allow subscribers of a SaaS solution to add extension fields or adjust labels and other annotation-based properties, in order to adapt subscribed SaaS software to their needs. In that case, the **extensions are applied dynamically at runtime** of the SaaS application.
 
-[Learn more on that in the **SaaS Extensibility** guide.](../extensibility/){:.learn-more}
+[Learn more on that in the **SaaS Extensibility** guide.](../extensibility/){.learn-more}

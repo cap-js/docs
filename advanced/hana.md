@@ -14,7 +14,7 @@ status: released
 
 To leverage CAP in combination with native SAP HANA artifacts, it is important to understand HDI containers. An HDI container is a database schema controlled by HDI. This has implications on the handling and you need to know [the way HDI works](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/4077972509f5437c85d6a03e01509417.html), to fully understand the approach described in this advanced guide.
 
-## Adding Native SAP HANA Objects {: #add-native-objects}
+## Adding Native SAP HANA Objects { #add-native-objects}
 
 You create a new database object or there's an existing object (table, view, table function, calculation view) and you want to use it in your CDS model, for instance for exposing it in an OData service.
 
@@ -26,7 +26,7 @@ To access database artifacts residing in other HDI containers, you need the perm
 Synonyms can be used to rename database objects.
 :::
 
-### Create Native SAP HANA Object in Your Project {: #create-native-sap-hana-object}
+### Create Native SAP HANA Object in Your Project { #create-native-sap-hana-object}
 
 To create SAP HANA native tables or use SAP HANA native features, use the folder _db/src_ at design time and build, for example, your _.hdbtable_ or _.hdbsynonym_ files. This folder stays untouched during the `cds` build and the content is copied over to the _gen/db/src_ folder during the build. Use this process for all tables and features that can't be modeled using _CDS_.
 
@@ -62,7 +62,7 @@ We can distinguish two types of names - __plain__ and __quoted__.
 |Quoted    | If the existing database name also contains lower-case characters or characters that can't occur in regular SQL identifiers, it's not possible to choose a name in the CDS model that matches this name. Let's call such a database name "quoted", as the only possibility to create such a name is to quote it in the CREATE statement. In this case, it's necessary to introduce an additional database object (a synonym or a view) on top of the existing database object and construct the facade entity for this newly introduced mapping object.
 
 
-[Find here troubleshooting related to SAP HANA.](../advanced/troubleshooting#hana){:.learn-more}
+[Find here troubleshooting related to SAP HANA.](../advanced/troubleshooting#hana){.learn-more}
 
 
 ### Tables and Views Without Parameters
@@ -496,7 +496,7 @@ entity ItemSelection as projection on Items;
 
 By composing `ItemSelection` instead of `Items`, it's possible to use this composition in `Orders`.
 
-## SAP HANA-Specific Data Types {: #hana-types}
+## SAP HANA-Specific Data Types { #hana-types}
 
 The following SAP HANA-specific data types are primarily intended for porting existing SAP HANA CDS models into the CAP domain if the old SAP HANA types must be preserved in the existing database tables. If you’re starting from scratch, these types shouldn’t be used but only the [predefined CDS types](../cds/types).
 

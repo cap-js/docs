@@ -11,10 +11,10 @@ status: released
 
 {{$frontmatter.synopsis}}
 
-<!--- {% include _toc levels="2,3,6" %} -->
-<!--- {% include links.md %} -->
+<!--- % include _toc levels="2,3,6" %} -->
+<!--- % include links.md %} -->
 
-## Jump-Starting Projects {:#jumpstart}
+## Jump-Starting Projects {#jumpstart}
 
 Assuming that you’ve installed [_@sap/cds-dk_](#local-setup), jump-starting a project in CAP is as simple as this:
 
@@ -73,7 +73,7 @@ Instead of following a bottom-up approach, starting from the data model, then pu
 
 This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** results in much better service interfaces than the one you'd get by using the bottom-up approach.
 
-{:.impl.concept}
+{.impl.concept}
 ## Parallelize Your Work
 
 - TODO
@@ -116,10 +116,10 @@ Let's do some **ad hoc tests**:
 
 What we see here are the effects of [Generic Providers](../guides/providing-services/), which handle many things out of the box, such as compiling the CDS models into [OData](../advanced/odata) `$metadata` documents on the fly, as well automatically serving all CRUD requests, thereby handling all the OData protocol features such as `$batch`, up to complex choreographies such as [Fiori Draft](../advanced/fiori#draft-support). This saves us lots of work at this point and allows us to immediately go on with the next steps instead of implementing all of this in boilerplate code.
 
-[Learn more about generic providers.](../guides/providing-services/){:.learn-more}
+[Learn more about generic providers.](../guides/providing-services/){.learn-more}
 
-{:.impl.concept}
-## Using Airplane Mode {:#airplane-mode}
+{.impl.concept}
+## Using Airplane Mode {#airplane-mode}
 
 CAP provides mock ups for common cloud services and features. In particular, database, authentication, security contexts, message brokers, and more. This allows you to develop with **minimized setup complexity**, where you test functional correctness with **fast turn-around times** before running in close-to-productive setups for integration tests.
 
@@ -140,7 +140,7 @@ CAP provides mock ups for common cloud services and features. In particular, dat
 - TODO
 
 
-## Mocking App Services {:#with-mocks}
+## Mocking App Services {#with-mocks}
 
 Use `cds run --in-memory` to quickly start a lightweight Node.js server with *sqlite's* transient in-memory database instead of always deploying to and connecting to your target database. Do that not only in Node.js projects but also as a mock server in Java projects, for example, for frontend-related tasks, or as a mock up for remote services to integrate with.
 
@@ -180,7 +180,7 @@ using { API_BUSINESS_PARTNER } from './external/API_BUSINESS_PARTNER';
 1. Execute `cds run --with-mocks --in-memory` to start the mock server with in-memory database.
 
 Alternatively you can execute `cds watch`, which essentially is a shortcut to the same `cds run` command but also starts a monitor to restart the server automatically if sources are changed.
-{:.indent}
+{.indent}
 
 ###### Optionally Add Sample Data
 
@@ -272,14 +272,14 @@ http://localhost:4004/api-business-partner/reset
 
 
 
-## Late-Cut Micro Services {:.impl.concept}
+## Late-Cut Micro Services {.impl.concept}
 
 CAP promotes a service-oriented paradigm with single-purposed services, which can later be deployed and run as separate micro services. However, you can always decide to run them embedded in a single-server process, avoiding the efforts and costs for actual micro service DevOps, at least in the early phases.
 
 ### Single-Purposed Services
 
 ###### Run Embedded Services
-###### Run Separate Services {:.impl.concept}
+###### Run Separate Services {.impl.concept}
 
 ## Growing On...
 
@@ -309,7 +309,7 @@ CAP promotes a service-oriented paradigm with single-purposed services, which ca
 CAP applications can be deployed to SAP BTP, Cloud Foundry environment. In the end, it's about deploying regular Node.js and/or Java applications, and about creating and binding appropriate service instances (see the [Cloud Foundry Developer Guide](https://docs.cloudfoundry.org/devguide/)). For more details, see [Deploying to the Cloud](../guides/deployment/).
 
 
-## Summary {:.impl.concept}
+## Summary {.impl.concept}
 
 * **TODO:** Illustrate and highlight how we change classical waterfall flows by...
 * **Jumpstarting** development

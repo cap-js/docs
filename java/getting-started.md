@@ -18,7 +18,7 @@ status: released
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- {% include links.md %} -->
+<!--- % include links.md %} -->
 
 ## Introduction
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
@@ -33,11 +33,11 @@ If you use Spring Boot, you find yourself directly at home when using the CAP Ja
 
 The CAP Java SDK comes with an OData V4 protocol adapter, but it's openly designed. You can add more protocol adapters in the future or provide even custom protocol adapters by the application.
 
-It supports SAP BTP features like authentication and authorization based on XSUAA tokens{% if jekyll.environment != "external" %} or multitenancy{% endif %}. But you aren't locked in to SAP BTP using a CAP Java application.
+It supports SAP BTP features like authentication and authorization based on XSUAA tokens% if jekyll.environment != "external" %} or multitenancy% endif %}. But you aren't locked in to SAP BTP using a CAP Java application.
 
 Excited? The following sections describe how to set up a development environment to get you started.
 
-## Setting Up Local Development {: #local}
+## Setting Up Local Development { #local}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
 
 
@@ -49,9 +49,9 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.5.0 is required).
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 1. Configure Maven for the SAP build landscape by [downloading `settings.xml`](https://int.repositories.cloud.sap/artifactory/build-releases/settings.xml) and save it to `<USER_HOME>/.m2/settings.xml`.
-{% endif %}
+% endif %}
 
 5. Execute the following commands on the command line to check whether the installed tools are set up correctly:
 
@@ -64,7 +64,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
 :::
 
-## Starting a New Project {: #new-project}
+## Starting a New Project { #new-project}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
 
 Take the following steps to set up a new CAP Java application based on Spring Boot from scratch. As a prerequisite, you've set up your [development environment](#local).
@@ -76,11 +76,11 @@ Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootst
 ```bash
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
 ```
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 ::: tip
 In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
 :::
-{% endif %}
+% endif %}
 
 When prompted, specify the group ID and artifact ID of your application. The artifact ID also specifies the name of your projects root folder that is generated in your current working directory. For other values prompted, it's enough to simply confirm the default values.
 
@@ -104,7 +104,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
+Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){target="_blank"} using the following command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
@@ -183,7 +183,7 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 | -- | -- |
 | *integration-tests/src/test/java* | Contains integration test classes. |
 
-### Add SAP Cloud SDK Pipeline Support (Optional) {: .impl.internal}
+### Add SAP Cloud SDK Pipeline Support (Optional) { .impl.internal}
 
 Use the following CDS command to enable building your CAP Java project by the [SAP Cloud SDK Pipeline](https://github.com/SAP/cloud-s4-sdk-pipeline):
 
@@ -217,7 +217,7 @@ mvn spring-boot:run
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
 :::
 
-## Using Eclipse {: #eclipse}
+## Using Eclipse { #eclipse}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
 
 ### Install Eclipse
@@ -234,28 +234,28 @@ Install the [*Spring Tools 4*](https://spring.io/tools) Eclipse plugin, that mak
 Install the Eclipse plugin called _SAP Cloud Business Application Tools for Eclipse_ that supports convenient editing of CDS files.
 
 1. In Eclipse open *Help > Install New Software...*.
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 1. Add the following update site location: [http://download.xsjtools.c.eu-de-1.cloud.sap/sites/eclipse/release/](http://download.xsjtools.c.eu-de-1.cloud.sap/sites/eclipse/release/)
-{% else %}
+% else %}
 1. From [SAP Development Tools > Getting Started with the Eclipse Tools for SAP Cloud Application Programming Model](https://tools.hana.ondemand.com/#cloud-eclipsecds), add the URL of the tools update site for your Eclipse release.
-{% endif %}
+% endif %}
 1. Select *SAP Cloud Business Application Tools* > *SAP Cloud Business Application Tools for Eclipse*.
 
 1. Click *Next* and *Finish*, accept the license agreement and warning about unsigned content, restart Eclipse.
-{% if jekyll.environment != "external" %}
-[Find additional information on the wiki pages for CDS Eclipse tools.](https://github.wdf.sap.corp/cdx/cds-ls4e/wiki/){: .learn-more target="_blank"}
-{% endif %}
+% if jekyll.environment != "external" %}
+[Find additional information on the wiki pages for CDS Eclipse tools.](https://github.wdf.sap.corp/cdx/cds-ls4e/wiki/){ .learn-more target="_blank"}
+% endif %}
 
 ### Import the Project
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 1. Select *File > Import... > SAP Cloud Business Application*.
 
 2. Select the `pom.xml` file in your project and click *Finish*.
-{% else %}
+% else %}
 1. Select *File > Import... > Existing Maven Projects*.
 
 2. Select your `PROJECT-ROOT` folder and click *Go*. Finally, select the project that was found.
-{% endif %}
+% endif %}
 
 > To not be distracted by CDS tools-specific folders in Eclipse, you can define resource filters. Open the context menu on the project's root folder and select "Properties". Go to **Resource > Resource Filters** and exclude folders with the name `node_modules`.
 
@@ -275,6 +275,6 @@ Install the Eclipse plugin called _SAP Cloud Business Application Tools for Ecli
 
 2. Call the application in your browser at [http://localhost:8080/](http://localhost:8080).
 
-## Sample Application {: #sample}
+## Sample Application { #sample}
 
 Find [here](https://github.com/SAP-samples/cloud-cap-samples-java) the bookshop sample application based on CAP Java.

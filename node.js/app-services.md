@@ -11,11 +11,11 @@ status: released
 {{ $frontmatter.synopsis }}
 
 
-## cds.**ApplicationService** <i> class </i> {: #cds-app-service}
+## cds.**ApplicationService** <i> class </i> { #cds-app-service}
 
 ### class cds.**ApplicationService** <i> extends cds.Service </i>
 
-## Localized Messages / i18n {:#i18n}
+## Localized Messages / i18n {#i18n}
 
 ### Generic Errors
 
@@ -34,7 +34,7 @@ MULTIPLE_ERRORS=Es sind mehrere Fehler aufgetreten.
 
 [...]
 ```
-{: style="padding: 0 33px"}
+{ style="padding: 0 33px"}
 
 
 ### Custom Errors
@@ -63,7 +63,7 @@ module.exports = (srv) => {
   })
 }
 ```
-{: style="padding: 0 33px"}
+{ style="padding: 0 33px"}
 
 
 ### List of Generic Texts
@@ -105,7 +105,7 @@ for more information.
 ```
 
 
-## Built-in Draft Support {:#draft}
+## Built-in Draft Support {#draft}
 
 Class `ApplicationService` provides built-in support for Fiori Draft, which add these additional CRUD events:
 
@@ -137,21 +137,21 @@ srv.before ('SAVE','Books', ...)    // run at final save only
 These events get triggered during the draft edit session whenever the user tabs from one field to the next, and can be used to provide early feedback.
 
 
-### <i> Draft API </i> {:#service-draft-api .impl.concept}
+### <i> Draft API </i> {#service-draft-api .impl.concept}
 [Draft API]: #service-draft
 [`srv.edit`]: #service-draft
 
 The following methods are reserved for handling draft editing, which stores edit state on the server and allows interrupting edit sessions to continue later on from the same or a different client.
 
-### srv.new <i> (entity) </i> &#8594; draft {: .impl.concept style="margin-bottom:0px;"}
+### srv.new <i> (entity) </i> &#8594; draft { .impl.concept style="margin-bottom:0px;"}
 
-### srv.edit <i> (entity, key, locked=true) </i> &#8594; draft {: .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
+### srv.edit <i> (entity, key, locked=true) </i> &#8594; draft { .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
 
-### srv.patch <i> (entity, draft.id) </i> .with <i> (data) </i> {: .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
+### srv.patch <i> (entity, draft.id) </i> .with <i> (data) </i> { .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
 
-### srv.cancel <i> (entity, draft.id) </i> {: .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
+### srv.cancel <i> (entity, draft.id) </i> { .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
 
-### srv.save <i> (entity, draft.id) </i> &#8594; key {: .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
+### srv.save <i> (entity, draft.id) </i> &#8594; key { .impl.concept style="margin-bottom:0px; margin-top:.3em;"}
 
 These methods control the draft choreography as follows:
 
@@ -187,23 +187,23 @@ srv.before ('SAVE','Books', req => {
 
 
 
-{:.sub-section}
+{.sub-section}
 
-### srv.lock <i> (entity, key, timeout?) </i> &#8594;  lock {: .impl.concept style="margin-bottom:0px;"}
+### srv.lock <i> (entity, key, timeout?) </i> &#8594;  lock { .impl.concept style="margin-bottom:0px;"}
 
-### srv.release <i> (lock.id) </i> {: .impl.concept style="margin-top:.3em;"}
+### srv.release <i> (lock.id) </i> { .impl.concept style="margin-top:.3em;"}
 
 These methods allow locking an entity for editing, mutually excluding others from interfering with edits, hence avoiding lost-update situations (pessimistically).
 
 
-{:.sub-section}
+{.sub-section}
 
-## Programmatic Validation {: #cds-assert .impl.concept}
+## Programmatic Validation { #cds-assert .impl.concept}
 
 [assert]: #cds-assert
 [`req.assert`]: #cds-assert
 
-<!-- {% assign assert = '<span style="color:#088">assert</span> <span style="color:grey">(field)</span>' %} -->
+<!-- % assign assert = '<span style="color:#088">assert</span> <span style="color:grey">(field)</span>' %} -->
 
 ```js
 srv.before ('INSERT','Books', validateBook)
@@ -217,35 +217,35 @@ function validateBook (req) {
 }
 ```
 
-### assert (field) .meets <i>(condition) </i> {:.impl.concept}
+### assert (field) .meets <i>(condition) </i> {.impl.concept}
 
-### assert (field) .equals <i>(value) </i> {:.impl.concept}
+### assert (field) .equals <i>(value) </i> {.impl.concept}
 
-### assert (field) .is ... <i>(value) </i> {:.impl.concept}
+### assert (field) .is ... <i>(value) </i> {.impl.concept}
 
-### assert (field) .is.maxLength<i>(n) </i> {:.impl.concept}
+### assert (field) .is.maxLength<i>(n) </i> {.impl.concept}
 
-### assert (field) .is.not ... <i>(value) </i> {:.impl.concept}
+### assert (field) .is.not ... <i>(value) </i> {.impl.concept}
 
-### assert (field) .is.kindOf <i>(type) </i> {:.impl.concept}
+### assert (field) .is.kindOf <i>(type) </i> {.impl.concept}
 
-### assert (field) .is.specified<i>() </i> {:.impl.concept}
+### assert (field) .is.specified<i>() </i> {.impl.concept}
 
-### assert (field) .is.readOnly<i>() </i> {:.impl.concept}
+### assert (field) .is.readOnly<i>() </i> {.impl.concept}
 
-### assert (field) .is.inRange <i>(...) </i> {:.impl.concept}
+### assert (field) .is.inRange <i>(...) </i> {.impl.concept}
 
-### assert (field) .exists<i>() </i> {:.impl.concept}
+### assert (field) .exists<i>() </i> {.impl.concept}
 
-### assert (field) .matches <i>(string | pattern) </i> {:.impl.concept}
+### assert (field) .matches <i>(string | pattern) </i> {.impl.concept}
 
-### assert (field) .contains <i>(string | pattern) </i> {:.impl.concept}
+### assert (field) .contains <i>(string | pattern) </i> {.impl.concept}
 
-### assert (field) .startsWith <i>(string | pattern) </i> {:.impl.concept}
+### assert (field) .startsWith <i>(string | pattern) </i> {.impl.concept}
 
-### assert (field) .endsWith <i>(string | pattern) </i> {:.impl.concept}
+### assert (field) .endsWith <i>(string | pattern) </i> {.impl.concept}
 
-### assert (field) .not ... {:.impl.concept}
+### assert (field) .not ... {.impl.concept}
 
 
 ## <i> More to Come... </i>

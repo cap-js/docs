@@ -99,11 +99,11 @@ public void receiveMyTopic(TopicMessageEventContext context) {
 
 As you can see in the example, the event context not only provides access to the raw message, but also to a unique message ID.
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 ::: tip
 Note: When using SAP Event Mesh in multitenant mode, no unique message ID will be available via `getMessageId`, as SAP Event Mesh does not provide it when delivering messages via WebHook subscriptions that are used in this mode. If the payload itself contains a unique message ID (for example when using [CloudEvents](#cloudevents) format for messages), consider using this ID instead.
  :::
-{% endif %}
+% endif %}
 
 ::: tip
 For messaging services, the `@On` handlers don't need to be completed by the `context.setCompleted()` method. The reason for that is because CAP wants to support the parallel handling of the messaging events and completes the context automatically. There could be numerous use cases where different components of the CAP application want to be notified by messaging events. Even more, you should not complete the context in the handler manually. Otherwise, not all registered handlers can be notified.
@@ -217,7 +217,7 @@ cds:
 
 In this example, the `ReviewService` is declared as a remote service and thus will not be served by the current runtime. SAP Event Mesh is declared as the message broker to use. In addition, the configuration parameter `subscribePrefix` was set to `'$namespace/'` to define, that whenever doing subscriptions to topics at SAP Event Mesh, to always prefix the technical topic used for subscribing with the namespace of the bound SAP Event Mesh instance. SAP Event Mesh instances may define their own rules for valid topic names, and a common pattern is to require all topics to start with the namespace of the used instance, which would be automatically fulfilled in the example by always prefixing its namespace.
 
-[Learn more about **Topic Prefixing**.](#topic-prefixing){:.learn-more}
+[Learn more about **Topic Prefixing**.](#topic-prefixing){.learn-more}
 
 
 ## Supported Message Brokers
@@ -254,7 +254,7 @@ In local testing scenarios it might be useful to manually inject messages into t
 Besides the built-in support for `local-messaging` and `file-based-messaging`, all other implementations of technical messaging services are provided as separate CAP features, that can be included via Maven dependencies. This way you can only include the implementations needed for the message brokers you want to address.
 
 
-#### Configuring SAP Event Mesh Support: {: #configuring-sap-event-mesh-support}
+#### Configuring SAP Event Mesh Support: { #configuring-sap-event-mesh-support}
 
 ```xml
 <dependency>
@@ -271,7 +271,7 @@ cds:
     kind: "enterprise-messaging"
 ```
 
-#### Configuring Message Queuing Support: {: .impl.internal #configuring-message-queuing-support}
+#### Configuring Message Queuing Support: { .impl.internal #configuring-message-queuing-support}
 
 ```xml
 <dependency>
@@ -288,7 +288,7 @@ cds:
     kind: "message-queuing"
 ```
 
-#### Configuring Redis PubSub Support (beta): {: #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support (beta): { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -313,7 +313,7 @@ cds:
 In contrast to SAP Event Mesh the Redis feature is a PubSub service which means that the Redis events are broadcasted and delivered to all subscribed clients simultaneously. That means, each instance of your application receives the same event send by the Redis service. And it's not guaranteed that really all events are delivered by the infrastructure, for example: If an application instance is not connected to the Redis service, the emitted events are going to be lost.
 :::
 
-#### Configuring Apache Kafka Support: {: .impl.beta .impl.internal #configuring-apache-kafka-support}
+#### Configuring Apache Kafka Support: { .impl.beta .impl.internal #configuring-apache-kafka-support}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -339,7 +339,7 @@ cds:
 
 Or you integrate with a Kafka message broker:
 1. Bind your CAP application to an appropriate platform service, for example of type `kafka`,
-1. Add the following feature in your _pom.xml_: {:.ol-item-indent}
+1. Add the following feature in your _pom.xml_: {.ol-item-indent}
 
 <div class="sample-label ol-item-indent">
 
@@ -467,7 +467,7 @@ Example:
 }
 ```
 
-[Learn more about _default-env.json_.](../node.js/cds-env#in-default-envjson){:.learn-more}
+[Learn more about _default-env.json_.](../node.js/cds-env#in-default-envjson){.learn-more}
 
 
 #### VCAP_SERVICES Template for SAP Event Mesh
@@ -484,7 +484,7 @@ VCAP_SERVICES = {
 ```
 
 
-#### VCAP_SERVICES Template for Message Queuing {: .impl.internal}
+#### VCAP_SERVICES Template for Message Queuing { .impl.internal}
 
 ```bash
 VCAP_SERVICES = {
@@ -585,11 +585,11 @@ cds:
             accessType: "EXCLUSIVE"
 ```
 
-[Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){:.learn-more}
+[Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){.learn-more}
 
-{% if jekyll.environment != "external" %}
-  [Learn more about Message Queuing configuration options.](https://github.wdf.sap.corp/PubSubBroker/ssb-management/blob/master/docs/public/management-api-spec-v1.yaml){:.learn-more}
-{% endif %}
+% if jekyll.environment != "external" %}
+  [Learn more about Message Queuing configuration options.](https://github.wdf.sap.corp/PubSubBroker/ssb-management/blob/master/docs/public/management-api-spec-v1.yaml){.learn-more}
+% endif %}
 
 
 ### Queue Configuration Changes
@@ -692,11 +692,11 @@ cds:
 
 In this example, the `first-messaging` service uses the default connection and the `second-messaging` service uses a new, separate connection.
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 ::: tip
 When using SAP Event Mesh in multitenant mode, no dedicated connections are used to connect to queues. CAP is using WebHook subscriptions in this mode, so that SAP Event Mesh will deliver new incoming messages via HTTP calls to the CAP service. In this mode, the described setting does not apply.
 :::
-{% endif %}
+% endif %}
 
 
 ### Error Handling
@@ -738,10 +738,10 @@ Not all messaging brokers provide the acknowledgement support. This means, the r
 
 | Messaging Broker                                                            |  Support  |     Cause    |
 |-----------------------------------------------------------------------------|:---------:|:------------:|
-| [File Base Messaging](#local-testing)                                       | <!--- {% assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} --> &nbsp; <i style='color:#aaa; font-size:90%'>n/a</i> | |
-| [Event Mesh](#configuring-sap-event-mesh-support)                  | <!--- {% assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} --> &nbsp; <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
-| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |{% if jekyll.environment != "external" %}
-| [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>n/a</i> | |{% endif %}
+| [File Base Messaging](#local-testing)                                       | <!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} --> &nbsp; <i style='color:#aaa; font-size:90%'>n/a</i> | |
+| [Event Mesh](#configuring-sap-event-mesh-support)                  | <!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} --> &nbsp; <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
+| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |% if jekyll.environment != "external" %}
+| [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>n/a</i> | |% endif %}
 
 ::: tip
 If a broker supports the message acknowledgement and a message is not acknowledged by the application, it will be redelivered.
@@ -835,12 +835,12 @@ private void ratingChanged(ReviewedContext context) {
 
 When using a CAP messaging service directly to emit the raw message payload as a String, please make sure to emit a valid JSON object representation in this String that has the message payload embedded in the `data` attribute (for example `messagingService.emit("sap.cap.reviews.v1.ReviewService.changed.v1", "{"data":{"subject":"4711","rating":3.6}}");`). Then all missing header fields that are required for a valid CloudEvents message will be extended. If you emit a String that is not a valid JSON, then the message cannot be extended and the String will be emitted as-is as the event message content.
 
-[Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){:.learn-more}
+[Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
 
-## Multitenancy {: .impl.internal}
+## Multitenancy { .impl.internal}
 
 SAP-internal stakeholders are allowed to use SAP Event Mesh as a message broker in a multitenancy mode.
 
-[Learn more about **Multitenancy**.](../guides/messaging/event-mesh#multitenancy){:.learn-more}
+[Learn more about **Multitenancy**.](../guides/messaging/event-mesh#multitenancy){.learn-more}
 

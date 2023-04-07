@@ -15,7 +15,7 @@ status: released
 
 
 <!-- #### Content
-{% include _chapters toc="2,3" %} -->
+% include _chapters toc="2,3" %} -->
 
 ## AuditLog Service
 
@@ -51,10 +51,10 @@ Alternatively the AuditLog service can be retrieved from the `ServiceCatalog`:
 ServiceCatalog catalog = context.getServiceCatalog();
 auditLogService = (AuditLogService) catalog.getService(AuditLogService.DEFAULT_NAME);
 ```
-[See section **Using Services** for more details about retrieving services.](./consumption-api#using-services){:.learn-more}
+[See section **Using Services** for more details about retrieving services.](./consumption-api#using-services){.learn-more}
 
 
-#### Emit Personal Data Access Event {: #data-access}
+#### Emit Personal Data Access Event { #data-access}
 
 To emit a personal data access event use method [logDataAccess](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/auditlog/AuditLogService.html#logDataAccess-java.util.List-java.util.List-) of the `AuditLogService`.
 
@@ -66,7 +66,7 @@ accesses.add(access);
 auditLogService.logDataAccess(accesses);
 ```
 
-#### Emit Personal Data Modification Event {: #data-modification}
+#### Emit Personal Data Modification Event { #data-modification}
 
 To emit a personal data modification event use method [logDataModification](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/auditlog/AuditLogService.html#logDataModification-java.util.List-) of the `AuditLogService`.
 
@@ -78,7 +78,7 @@ dataModifications.add(modification);
 auditLogService.logDataModification(dataModifications);
 ```
 
-#### Emit Configuration Change Event {: #config-change}
+#### Emit Configuration Change Event { #config-change}
 
 To emit a configuration change event use method [logConfigChange](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/auditlog/AuditLogService.html#logConfigChange-java.lang.String-java.util.List-) of the `AuditLogService`.
 
@@ -90,7 +90,7 @@ configChanges.add(configChange);
 auditLogService.logConfigChange(Action.UPDATE, configChanges);
 ```
 
-#### Emit Security Event {: #security-event}
+#### Emit Security Event { #security-event}
 
 Use method [logSecurityEvent](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/auditlog/AuditLogService.html#logSecurityEvent-java.lang.String-java.lang.String-) of the `AuditLogService` to emit an security event.
 
@@ -100,7 +100,7 @@ String data = "user-name";
 auditLogService.logSecurityEvent(action, data);
 ```
 
-### Deferred AuditLog Events {: #deferred}
+### Deferred AuditLog Events { #deferred}
 
 Instead of processing the audit log events synchronously in the [audit log handler](#auditlog-handlers), the `AuditLogService` can store the event in the [outbox](./outbox). This is done in the *same* transaction of the business request. Hence, a cancelled business transaction will not send any audit log events that are bound to it. To gain fine-grained control, for example to isolate a specific event from the current transaction, you may refine the transaction scope. See [ChangeSetContext API](./changeset-contexts#defining-changeset-contexts) for more information.
 
@@ -115,14 +115,14 @@ By default, not all events are send asynchronously via (persistent) outbox.
 * All other events are stored to persistent outbox, if available. The in-memory outbox acts as a fallback otherwise.
 
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 * It is up to the application developer to make sure that audit log events stored in the persistent outbox don't violate given **compliances rules**.
 For instance, it might be appropriate not to persist audit log events triggered by users who have operator privileges. Such logs could be modified on DB level by the same user afterwards.
 * For technical reasons, the AuditLog service temporarily stores audit log events enhanced with personal data such as the request's _user_ and _tenant_.
 In case of persistent outbox, the application needs to do the necessary to comply with **data privacy rules**.
 :::
 
-## AuditLog Handlers {: #auditlog-handlers}
+## AuditLog Handlers { #auditlog-handlers}
 
 ### Default Handler
 
@@ -135,7 +135,7 @@ logging:
 ```
 
 
-### AuditLog v2 Handler {: #xmake .impl.internal}
+### AuditLog v2 Handler { #xmake .impl.internal}
 
 Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `pom.xml` of the CAP Java project:
 
@@ -158,7 +158,7 @@ cds:
 
 The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 The combination of plan `oauth2` of the AuditLog v2 service and the [Persistent Outbox](./outbox#persistent) is not supported and the start of the CAP Java application will fail. If plan `oauth2` is configured, the [In-Memory Outbox](./outbox#in-memory) has to be used.
 :::
 
@@ -173,7 +173,7 @@ By default, the Auditlog handler uses the tenant information of the current user
         auditLog.logSecurityEvent("action", “message data”);
     });
 ```
-[Learn more about modifying the user's tenant in **Defining Request Contexts**.](./request-contexts#defining-requestcontext){:.learn-more}
+[Learn more about modifying the user's tenant in **Defining Request Contexts**.](./request-contexts#defining-requestcontext){.learn-more}
 
 
 ### Custom AuditLog Handler
@@ -226,4 +226,4 @@ class CustomAuditLogHandler implements EventHandler {
 }
 ```
 
-[Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){:.learn-more}
+[Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){.learn-more}

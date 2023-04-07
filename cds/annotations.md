@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-[Learn more about the syntax of annotations.](./cdl#annotations){:.learn-more}
+[Learn more about the syntax of annotations.](./cdl#annotations){.learn-more}
 
 
 ## General Purpose
@@ -76,7 +76,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## OData
 
-[Learn more about **OData Annotations in CDS**.][OData Annotations]{:.learn-more}
+[Learn more about **OData Annotations in CDS**.][OData Annotations]{.learn-more}
 
 Shortcuts:
 

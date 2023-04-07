@@ -15,8 +15,8 @@ status: released
 Customization is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
 :::
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 ## Configuration
 
@@ -39,7 +39,7 @@ This middleware initializes [cds.context](cds-context-tx#cds-context) and starts
 The tracing middleware allows you to do a first-level performance analysis. It logs how much time is spent on which layer of the framework when serving a request.
 To enable this middleware, you can set for example the [environment variable](cds-log#debug-env-variable) `DEBUG=trace`.
 
-[Learn more about needed configuration.](#configuration){:.learn-more}
+[Learn more about needed configuration.](#configuration){.learn-more}
 
 #### Authentication
 
@@ -72,7 +72,7 @@ _ctx_model_ requires that _cds.context_ middleware has run before.
 _ctx_auth_ requires that _authentication_ has run before.
 :::
 
-{:.impl.concept}
+{.impl.concept}
 ### After Middlewares
 ```js
 exports.after = [
@@ -117,7 +117,7 @@ In order to plug in custom middlewares, you can override the complete list of mi
 Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
 :::
 
-[Learn more about the middlewares Default Order.](#default-order){:.learn-more}
+[Learn more about the middlewares Default Order.](#default-order){.learn-more}
 
 ### Customization of `req.user`
 
@@ -154,7 +154,7 @@ cds.middlewares.before = [
 ]
 ```
 
-[Learn more about Feature Vector Providers.](../guides/extensibility/feature-toggles#feature-vector-providers){:.learn-more}
+[Learn more about Feature Vector Providers.](../guides/extensibility/feature-toggles#feature-vector-providers){.learn-more}
 
 ## Current Limitations
 

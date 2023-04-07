@@ -15,11 +15,11 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-{: #security}
+{ #security}
 
-<!--- {% assign y="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- {% assign n="<i style='color:#aaa; font-size:90%'>x</i>" %} -->
-<!--- {% assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} -->
+<!--- % assign y="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
+<!--- % assign n="<i style='color:#aaa; font-size:90%'>x</i>" %} -->
+<!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} -->
 
 ## Overview
 
@@ -33,11 +33,11 @@ Hence both, authentication and authorization, are essential for application secu
 Without security configured, CDS services are exposed to public. Proper configuration of authentication __and__ authorization is required to secure your CAP application.
 :::
 
-## Authentication {: #authentication}
+## Authentication { #authentication}
 
 User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](architecture#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA](#xsuaa) and [IAS](#ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there’s a built-in [mock user](#mock-users) support.
 
-### Configure XSUAA Authentication {: #xsuaa}
+### Configure XSUAA Authentication { #xsuaa}
 
 Your application is secured by XSUAA-authentication **automatically**, if
 1. Following dependencies are set:
@@ -59,7 +59,7 @@ On SAP BTP Cloud Foundry environment, recommended alternative is to use `cds-sta
 </dependency>
 ```
 
-### Configure IAS Authentication {: #ias}
+### Configure IAS Authentication { #ias}
 
 Your application is secured by IAS-authentication **automatically**, if
 1. Following dependencies are set:
@@ -73,7 +73,7 @@ To enforce IAS authentication, make sure no XSUAA instance is bound to the CAP s
 To allow forwarding to remote services, JWT tokens issued by IAS service do not contain authorization information. In particular, no scopes are included. Closing this gap is up to you in your application.
 :::
 
-### Automatic Spring Boot Security Configuration {: #spring-boot}
+### Automatic Spring Boot Security Configuration { #spring-boot}
 
 Only if **both, the library dependencies and an XSUAA resp. IAS service binding are in place**, the CAP Java SDK activates a Spring security configuration, which enforces authentication for all endpoints **automatically**:
 * Protocol adapter endpoints (managed by CAP such as OData V4/V2 or custom protocol adapters)
@@ -122,7 +122,7 @@ The following properties can be used to switch off automatic security configurat
 | `cds.security.xsuaa.enabled`  | Switches off automatic XSUAA security configuration. | `true`
 | `cds.security.identity.enabled`  | Switches off automatic IAS security configuration. | `true`
 
-#### Setting the Authentication Mode {: #auth-mode}
+#### Setting the Authentication Mode { #auth-mode}
 
 The property `cds.security.authentication.mode` controls the strategy used for authentication of protocol-adapter endpoints. There are four possible values:
 
@@ -139,7 +139,7 @@ For example you can only make an entity public, if the service that contains it 
 Please note that the authentication mode has no impact on the *authorization* behaviour.
 :::
 
-#### Customizing Spring Boot Security Configuration {: #custom-spring-security-config}
+#### Customizing Spring Boot Security Configuration { #custom-spring-security-config}
 
 If you want to explicitly change the automatic security configuration, you can add an _additional_ Spring security configuration on top that overrides the default configuration by CAP. This can be useful, for instance, if an alternative authentication method is required for *specific endpoints* of your application.
 
@@ -196,7 +196,7 @@ public class ActuatorSecurityConfig {
 }
 ```
 
-### Custom Authentication {: #custom-authentication}
+### Custom Authentication { #custom-authentication}
 
 You’re free to configure any authentication method according to your needs. CAP isn’t bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/authorization/#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
 
@@ -237,7 +237,7 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 
 In the example, the `CustomUserInfoProvider` defines an overlay on the default XSUAA-based provider (`defaultProvider`). The overlay redefines the user's name by a combination of email and origin.
 
-### Mock User Authentication with Spring Boot {: #mock-users}
+### Mock User Authentication with Spring Boot { #mock-users}
 
 By default, CAP Java creates a security configuration, which accepts _mock users_ for test purposes.
 #### Preconfigured Mock Users
@@ -339,7 +339,7 @@ cds:
 
 The mock user `Alice` is assigned to the mock tenant `CrazyCars` for which the features `cruise` and `park` are enabled.
 
-## Authorization {: #auth}
+## Authorization { #auth}
 
 CAP Java SDK provides a comprehensive authorization service. By defining authorization rules declaratively via annotations in your CDS model, the runtime enforces authorization of the requests in a generic manner. Two different levels of authorization can be distinguished:
 
@@ -350,13 +350,13 @@ It's recommended to configure authorization declaratively in the CDS model. If n
 
 A precise description of the general authorization capabilities in CAP can be found in the [Authorization](../guides/authorization/) guide.
 
-### Role-Based Authorization {: #role-based-auth}
+### Role-Based Authorization { #role-based-auth}
 
 Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/authorization/#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don’t match the accepted roles.
 More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/authorization/#restrict-annotation) to find details about the possibilities.
 
 
-### Instance-Based Authorization {: #instance-based-auth}
+### Instance-Based Authorization { #instance-based-auth}
 
 Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/authorization/#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/authorization/#domain-driven-authorization) built on more complex model constraints.
 
@@ -373,7 +373,7 @@ CAP Java SDK supports [User Attribute Values](../guides/authorization/#user-attr
 An empty or non-existent attribute list is interpreted as **unrestricted access**, because XSUAA sends an empty attribute list for attributes that are marked as unrestricted by default. There are plans to align this behaviour with the CAP Node.js runtime in future and also treat this as fully restricted with regards to the missing/empty attribute list.
 :::
 
-### Enforcement API & Custom Handlers {: #enforcement-api}
+### Enforcement API & Custom Handlers { #enforcement-api}
 
 The generic authorization handler performs authorization checks driven by the annotations in an early Before handler registered to all application services by default. You may override or add to the generic authorization logic by providing custom handlers. The most important piece of information is the [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) that reflects the authenticated user of the current request. You can retrieve it:
 

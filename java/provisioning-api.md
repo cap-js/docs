@@ -35,7 +35,7 @@ Event handlers that implement the core processing of an event should be register
 Events in CAP can have parameters and - in case they are synchronous - a return value. The CAP Java SDK uses [Event Contexts](#eventcontext) to provide a type-safe way to access parameters and return values.
 In the case of CRUD events the corresponding Event Contexts provide for example access to the CQN statement. Event Contexts can be easily obtained in an event handler.
 
-## Event Phases {: #phases}
+## Event Phases { #phases}
 
 Events are processed in three phases that are executed consecutively: `Before`, `On`, and `After`. When registering an event handler the phase in which the event handler should be called, needs to be specified.
 The CAP Java SDK provides an annotation for each event phase ([`@Before`], [`@On`], and [`@After`]).
@@ -47,7 +47,7 @@ Note, that by default there is no guaranteed order in which the handlers of the 
 
 The following subsections describe the semantics of the three phases in more detail.
 
-### Before {: #before}
+### Before { #before}
 
 The `Before` phase is the first phase of the event processing. This phase is intended for filtering, validation, and other types of preprocessing of the incoming parameters of an event.
 There can be an arbitrary number of `Before` handlers per event.
@@ -58,7 +58,7 @@ The processing of the `Before` phase is completed when one of the following cond
   In this case, any remaining registered `Before` and `On` handlers are skipped and execution continues with the `After` phase.
 - A handler throws an exception. In this case, event processing is terminated immediately.
 
-### On {: #on}
+### On { #on}
 
 The `On` phase is started after the `Before` phase, as long as no return value is yet provided and no exception occurred. It’s meant to implement the core processing of the event.
 There can be an arbitrary number of `On` handlers per event, although as soon as the first `On` handler successfully completes the event processing, all remaining `On` handlers are skipped.
@@ -72,13 +72,13 @@ In case of synchronous events, if after the `On` phase, no handler completed the
 However when registering an `On` handler for an asynchronous event it is not recommended to complete the event processing, as other handlers might not get notified of the event anymore.
 In that case CAP ensures to auto-complete the event, once all `On` handlers have been executed.
 
-### After {: #after}
+### After { #after}
 
 The `After` phase is only started after the `On` phase is completed successfully. Handlers are therefore guaranteed to have access to the result of the event processing.
 This phase is useful for post-processing of the return value of the event or triggering side-effects.
 A handler in this phase can also still abort the event processing by throwing an exception. No further handlers of the `After` phase are called in this case.
 
-## Event Contexts {: #eventcontext}
+## Event Contexts { #eventcontext}
 
 The [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is the central interface, that provides information about the event to the event handler.
 The EventContext interface is a general interface that can be used with every event, it provides:
@@ -130,7 +130,7 @@ Use these event-specific type-safe Event Context interfaces whenever possible.
 
 For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) can automatically generate Event Context objects, which provide type-safe access to the action or function parameters and allow to set the return values.
 
-### Completing the Event Processing {: #eventcompletion}
+### Completing the Event Processing { #eventcompletion}
 
 The Event Context also provides means to indicate the completion of the core processing of the event. This is important to finish the [`On`](#on) phase of a synchronous event.
 In case the synchronous event does not have a return value the `setCompleted()` method should be used to indicate the completion of the core processing of the event.
@@ -145,7 +145,7 @@ In case the synchronous event has a return value the `setResult(...)` method of 
 context.setResult(myResult);
 ```
 
-### Defining Custom EventContext Interfaces {: #customeventcontext}
+### Defining Custom EventContext Interfaces { #customeventcontext}
 
 In certain cases you might want to define your own custom event-specific Event Context interfaces. Simply define an interface, which extends the general `EventContext` interface.
 Use the `@EventName` annotation to indicate for which event this context should be used.
@@ -174,7 +174,7 @@ For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin
 :::
 
 
-## Event Handler Classes {: #handlerclasses}
+## Event Handler Classes { #handlerclasses}
 
 Event handler classes contain one or multiple event handler methods. You can use them to group event handlers, for example for a specific service.
 The class can also define arbitrary methods, which aren’t event handler methods, to provide functionality reused by multiple event handlers.
@@ -216,7 +216,7 @@ The `type` attribute of the `@ServiceName` annotation can be used to register ev
 @ServiceName(value = "*", type = ApplicationService.class)
 ```
 
-## Event Handler Annotations {: #handlerannotations}
+## Event Handler Annotations { #handlerannotations}
 
 Event handler methods need to be annotated with one of the following annotations: [`@Before`], [`@On`], or [`@After`].
 The annotation defines, during which [phase](#phases) of the event processing the event handler is called.
@@ -250,12 +250,12 @@ It is recommended to use these constants with the `event` or `entity` attributes
 @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
 ```
 
-## Event Handler Method Signatures {: #handlersignature}
+## Event Handler Method Signatures { #handlersignature}
 
 The most basic signature of an event handler method is `public void process(EventContext context)`. However event-specific Event Context and entity data arguments and certain return values are supported as well and can be freely combined.
 It is even valid for event handler methods to have no arguments at all. Handler methods don’t necessarily have to be public methods. They can also be methods with protected, private, or package visibility.
 
-### Event Context Arguments {: #contextarguments}
+### Event Context Arguments { #contextarguments}
 
 The [Event Context](#eventcontext) is the central interface that provides information about the event to the event handler.
 An event handler can get access to the general `EventContext` by simply declaring an argument of that type in its method:
@@ -302,7 +302,7 @@ public void changeBooks(EventContext context) {
 
 
 
-### Entity Data Arguments {: #pojoarguments}
+### Entity Data Arguments { #pojoarguments}
 
 When adding business logic to an Application Service event handlers most commonly need to access entity data.
 Entity data can be directly accessed in the event handler method, by using an argument of type `CdsData`:

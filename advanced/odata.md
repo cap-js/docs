@@ -24,7 +24,7 @@ status: released
 
 # Serving OData APIs
 
-## Feature Overview {: #overview}
+## Feature Overview { #overview}
 
 OData is an OASIS standard, which essentially enhances plain REST with standardized query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table.
 
@@ -51,10 +51,10 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 - <sup>(4)</sup> Current limitation: Navigation path identifying the collection can only contain one segment.
 
 
-[Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){:.learn-more}
-[Learn more in the tutorials **Take a Deep Dive into OData**.](https://developers.sap.com/mission.scp-3-odata.html){:.learn-more}
+[Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){.learn-more}
+[Learn more in the tutorials **Take a Deep Dive into OData**.](https://developers.sap.com/mission.scp-3-odata.html){.learn-more}
 
-## Mapping of CDS Types {: #type-mapping}
+## Mapping of CDS Types { #type-mapping}
 
 The table below lists [CDS's built-in types](../cds/types) and their mapping to the OData EDM type system.
 
@@ -89,7 +89,7 @@ OData V2 has the following differences:
 | `Time`       | _Edm.Time_                                      |
 
 
-### Overriding Type Mapping {: #override-type-mapping}
+### Overriding Type Mapping { #override-type-mapping}
 
 Override standard type mappings using the annotation `@odata.Type` first, and then additionally define `@odata {MaxLength, Precision, Scale, SRID}`.
 
@@ -138,7 +138,7 @@ The client can now rightfully expect that float numbers are transmitted but in r
 :::
 
 
-## OData Annotations {: #annotations}
+## OData Annotations { #annotations}
 
 The following sections explain how to add OData annotations to CDS models and how they’re mapped to EDMX outputs.
 
@@ -258,7 +258,7 @@ Primitive annotation values, meaning Strings, Numbers, `true`, `false`, and `nul
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-[Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/main/app/travel_processor/capabilities.cds){:.learn-more}
+[Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/main/app/travel_processor/capabilities.cds){.learn-more}
 
 ### Records
 
@@ -337,7 +337,7 @@ by default automatically chooses `UI.DataField`:
 ```
 To overwrite the default, use an explicit `$Type` like shown previously.
 
-[Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/a7b166b7b9b3d2adb1640b4b68c3f8a26c6961c1/app/travel_processor/value-helps.cds){:.learn-more}
+[Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/a7b166b7b9b3d2adb1640b4b68c3f8a26c6961c1/app/travel_processor/value-helps.cds){.learn-more}
 
 
 ### Collections
@@ -443,7 +443,7 @@ The second example is for a (record type) term in the [Communication vocabulary]
 </Annotation>
 ```
 
-### Annotating Annotations {: #annotating-annotations}
+### Annotating Annotations { #annotating-annotations}
 
 OData can annotate annotations. This often occurs in combination with enums like `UI.Importance` and `UI.TextArrangement`.
 CDS has no corresponding language feature. For OData annotations, nesting can be achieved in the following way:
@@ -504,7 +504,7 @@ In any case, the resulting EDMX is:
 </Annotation>
 ```
 
-### Dynamic Expressions {: #dynamic-expressions}
+### Dynamic Expressions { #dynamic-expressions}
 
 OData supports dynamic expressions in annotations. CDS syntax doesn't allow writing expressions
 in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](http://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
@@ -577,38 +577,38 @@ In contrast to ABAP CDS, we apply a **generic, isomorphic approach** where names
 Last but not least, it also saves us lots of effort as we don't have to write derivatives of all the OData vocabulary specs.
 
 
-## Annotation Vocabularies {: #vocabularies}
+## Annotation Vocabularies { #vocabularies}
 
 
-### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) {: target="_blank"}
+### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) { target="_blank"}
 
 | Vocabulary                                                         | Description                                  |
 | ------------------------------------------------------------------ | -------------------------------------------- |
-| [@Aggregation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Aggregation.V1.md){:target="_blank"}     | for describing aggregatable data             |
-| [@Authorization](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Authorization.V1.md){:target="_blank"} | for authorization requirements               |
-| [@Capabilities](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Capabilities.V1.md){:target="_blank"}   | for restricting capabilities of a service    |
-| [@Core](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Core.V1.md){:target="_blank"}                   | for general purpose annotations              |
-| [@JSON](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.JSON.V1.md){:target="_blank"}                   | for JSON properties                          |
-| [@Measures](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Measures.V1.md){:target="_blank"}           | for monetary amounts and measured quantities |
-| [@Repeatability](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Repeatability.V1.md){:target="_blank"} | for repeatable requests                      |
-| [@Temporal](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Temporal.V1.md){:target="_blank"}           | for temporal annotations                     |
-| [@Validation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Validation.V1.md){:target="_blank"}       | for adding validation rules                  |
+| [@Aggregation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Aggregation.V1.md){target="_blank"}     | for describing aggregatable data             |
+| [@Authorization](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Authorization.V1.md){target="_blank"} | for authorization requirements               |
+| [@Capabilities](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Capabilities.V1.md){target="_blank"}   | for restricting capabilities of a service    |
+| [@Core](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Core.V1.md){target="_blank"}                   | for general purpose annotations              |
+| [@JSON](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.JSON.V1.md){target="_blank"}                   | for JSON properties                          |
+| [@Measures](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Measures.V1.md){target="_blank"}           | for monetary amounts and measured quantities |
+| [@Repeatability](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Repeatability.V1.md){target="_blank"} | for repeatable requests                      |
+| [@Temporal](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Temporal.V1.md){target="_blank"}           | for temporal annotations                     |
+| [@Validation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Validation.V1.md){target="_blank"}       | for adding validation rules                  |
 
-### [SAP Vocabularies](https://github.com/SAP/odata-vocabularies#readme){:target="_blank"}
+### [SAP Vocabularies](https://github.com/SAP/odata-vocabularies#readme){target="_blank"}
 
 | Vocabulary                                                    | Description                                       |
 | ------------------------------------------------------------- | ------------------------------------------------- |
-| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Analytics.md){:target="_blank"}         | for annotating analytical resources               |
-| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/CodeList.md){:target="_blank"}           | for code lists                                    |
-| [@Common](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Common.md){:target="_blank"}               | for all SAP vocabularies                          |
-| [@Communication](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Communication.md){:target="_blank"} | for annotating communication-relevant information |
-| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/DataIntegration.md){:target="_blank"} | for data integration                          |
-| [@PDF](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PDF.md){:target="_blank"}                     | for PDF                                           |
-| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PersonalData.md){:target="_blank"}   | for annotating personal data                      |
-| [@Session](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Session.md){:target="_blank"}             | for sticky sessions for data modification         |
-| [@UI](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/UI.md){:target="_blank"}                       | for presenting data in user interfaces            |
+| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Analytics.md){target="_blank"}         | for annotating analytical resources               |
+| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/CodeList.md){target="_blank"}           | for code lists                                    |
+| [@Common](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Common.md){target="_blank"}               | for all SAP vocabularies                          |
+| [@Communication](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Communication.md){target="_blank"} | for annotating communication-relevant information |
+| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/DataIntegration.md){target="_blank"} | for data integration                          |
+| [@PDF](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PDF.md){target="_blank"}                     | for PDF                                           |
+| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PersonalData.md){target="_blank"}   | for annotating personal data                      |
+| [@Session](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Session.md){target="_blank"}             | for sticky sessions for data modification         |
+| [@UI](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/UI.md){target="_blank"}                       | for presenting data in user interfaces            |
 
-[Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){:.learn-more}
+[Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){.learn-more}
 
 ## Data Aggregation
 
@@ -821,7 +821,7 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
 
-### Enabling OData V2 via Proxy in Node.js Apps {: #odata-v2-proxy-node}
+### Enabling OData V2 via Proxy in Node.js Apps { #odata-v2-proxy-node}
 
 CAP Node.js supports serving the OData V2 protocol through the [_OData V2 proxy protocol adapter_](https://www.npmjs.com/package/@sap/cds-odata-v2-adapter-proxy), which translates between the OData V2 and V4 protocols.
 
@@ -857,7 +857,7 @@ Example: Read service metadata for `CatalogService`:
 - OData V2: `GET http://localhost:4004/v2/browse/$metadata`
 - OData V4: `GET http://localhost:4004/browse/$metadata`
 
-[Find detailed instructions at **@sap/cds-odata-v2-adapter-proxy**.](https://www.npmjs.com/package/@sap/cds-odata-v2-adapter-proxy){:.learn-more}
+[Find detailed instructions at **@sap/cds-odata-v2-adapter-proxy**.](https://www.npmjs.com/package/@sap/cds-odata-v2-adapter-proxy){.learn-more}
 
 ### Using OData V2 in Java Apps
 
@@ -878,7 +878,7 @@ entity Books { ...
 
 Please note that `@cds.api.ignore` is effective on regular elements that are rendered as `Edm.Property` only. The annotation doesn't suppress an `Edm.NavigationProperty` which is rendered for associations or compositions. If a managed association is annotated, the annotations are propagated to the (generated) foreign keys. In the previous example, the foreign keys of the managed association `author` are muted in the API.
 
-### Absolute Context URL {: #absolute-context-url}
+### Absolute Context URL { #absolute-context-url}
 
 In some scenarios, an absolute [context URL](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ContextURL) is needed. In the Node.js runtime, this can be achieved through configuration `cds.odata.contextAbsoluteUrl`.
 

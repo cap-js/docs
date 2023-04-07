@@ -15,4 +15,4 @@ This guide addresses
 
 of CAP applications who need to understand how to develop, deploy and operate CAP applications in a secure way.
 
-{% include _list %}
+% include _list %}

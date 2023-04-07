@@ -10,14 +10,14 @@ impl-variants: true
 
 # Hello World!
 
-Let's create a simple  _Hello World_ OData service using the SAP Cloud Application Programming Model in six lines of code and in under 2 minutes. {:.impl .node}
+Let's create a simple  _Hello World_ OData service using the SAP Cloud Application Programming Model in six lines of code and in under 2 minutes. {.impl .node}
 
-You can also download the [sample from github.com](https://github.com/sap-samples/cloud-cap-samples/tree/main/hello). {:.impl .node}
+You can also download the [sample from github.com](https://github.com/sap-samples/cloud-cap-samples/tree/main/hello). {.impl .node}
 
-Let's create a simple _Hello World_ OData service using the SAP Cloud Application Programming Model with a few lines of code and in under 2 minutes. {:.impl .java}
+Let's create a simple _Hello World_ OData service using the SAP Cloud Application Programming Model with a few lines of code and in under 2 minutes. {.impl .java}
 
-<!--- {% include _toc %} -->
-## Initialize the project {:.impl .java}
+<!--- % include _toc %} -->
+## Initialize the project {.impl .java}
 
 <div class="impl java">
 
@@ -41,9 +41,9 @@ service say {
 
 ## Implement it
 
-... for example, using [Node.js](../node.js/) express.js handlers style. {:.impl .node}
+... for example, using [Node.js](../node.js/) express.js handlers style. {.impl .node}
 
-File _srv/world.js_, content: {:.impl .node}
+File _srv/world.js_, content: {.impl .node}
 
 <div class="impl node">
 
@@ -55,10 +55,10 @@ module.exports = (say)=>{
 
 </div>
 
-... or [Node.js](../node.js/) ES6 classes style. {:.impl .node}
+... or [Node.js](../node.js/) ES6 classes style. {.impl .node}
 
 
-File _srv/world.js_, content: {:.impl .node}
+File _srv/world.js_, content: {.impl .node}
 
 <div class="impl node">
 
@@ -69,7 +69,7 @@ module.exports = class say {
 ```
 </div>
 
-> That has limited flexibility, for example, you can register only one handler per event. {: .impl .node}
+> That has limited flexibility, for example, you can register only one handler per event. { .impl .node}
 
 ... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
 
@@ -122,9 +122,9 @@ mvn cds:watch
 ## Consume it
 ... for example, from your browser:<br>
 
-<http://localhost:4004/say/hello(to='world')>  {: .impl .node}
+<http://localhost:4004/say/hello(to='world')>  { .impl .node}
 
 <!-- <http://localhost:4004/say/hello?to=world> -->
-http://localhost:8080/odata/v4/say/hello(to='world') {: .impl .java}
+http://localhost:8080/odata/v4/say/hello(to='world') { .impl .java}
 
-<!--- {% include links.md %} -->
+<!--- % include links.md %} -->

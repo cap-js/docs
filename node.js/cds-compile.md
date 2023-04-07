@@ -16,18 +16,18 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 {{$frontmatter.synopsis}}
 
 
-<!-- {% include links-for-node.md %}
-{% include _toc levels="2,3" %} -->
+<!-- % include links-for-node.md %}
+% include _toc levels="2,3" %} -->
 
 
-## <span style="color:#800; font-weight:500">cds</span>.compile <i> (models, options) </i>  {: #cds-compile}
+## <span style="color:#800; font-weight:500">cds</span>.compile <i> (models, options) </i>  { #cds-compile}
 
 This is the central function and API facade to parse and compile models.
 It supports different variants based on the type of the `models` argument as outlined in the following subsections.
 
 
-### <i>async</i> <span style="color:#800; font-weight:500">cds</span>.compile <i> ('file:...', options) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> {: #file .first-of-many}
-### <i>async</i> <span style="color:#800; font-weight:500">cds</span>.compile <i> ([files], options) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> {: #files}
+### <i>async</i> <span style="color:#800; font-weight:500">cds</span>.compile <i> ('file:...', options) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> { #file .first-of-many}
+### <i>async</i> <span style="color:#800; font-weight:500">cds</span>.compile <i> ([files], options) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> { #files}
 
 If the first argument is either a string starting with `"file:"`, or an _array_ of filenames, these files are read and compiled to a single CSN asynchronously.
 
@@ -41,7 +41,7 @@ let csn = await cds.compile (['db','srv','app'])
 The given filenames are [resolved to effective absolute filenames using `cds.resolve`](#cds-resolve).
 
 
-### <span style="color:#800; font-weight:500">cds</span>.compile <i> ('[cdl](../cds/cdl)', options) <span style="font-style:normal">&#8594;</span> </i> [csn](../cds/csn) {: #cdl}
+### <span style="color:#800; font-weight:500">cds</span>.compile <i> ('[cdl](../cds/cdl)', options) <span style="font-style:normal">&#8594;</span> </i> [csn](../cds/csn) { #cdl}
 
 If a single CDL string is passed as first argument, that CDL source is compiled to CSN synchroneously.
 Note: `using from` clauses are not resolved in this usage.
@@ -59,7 +59,7 @@ let csn = cds.compile (`
 
 
 
-### <span style="color:#800; font-weight:500">cds</span>.compile <i> ({sources}, options) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> {: #sources}
+### <span style="color:#800; font-weight:500">cds</span>.compile <i> ({sources}, options) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> { #sources}
 
 Allows to synchronously compile multiple named CDL or CSN sources, which allows to also resolve `using from` clauses.
 
@@ -91,9 +91,9 @@ let csn = cds.compile ({
 ### <em> Options </em>
 
 All variants of `cds.compile()` support the following `options`:
-<!-- {% assign o = '<span style="font-weight:400">options</span>' %} -->
+<!-- % assign o = '<span style="font-weight:400">options</span>' %} -->
 
-#### <span style="font-weight:400">options</span>.flavor {:#csn-flavors}
+#### <span style="font-weight:400">options</span>.flavor {#csn-flavors}
 
 <div class='indent' markdown='1'>
 One of:
@@ -114,23 +114,23 @@ Use `cds.env.features.skip_unused` to control how the respective tree shaking me
 
 #### <span style="font-weight:400">options</span>.docs
 
-If `true`, doc comments (`/**...*/`) are preserves in generated CSN {:.indent}
+If `true`, doc comments (`/**...*/`) are preserves in generated CSN {.indent}
 
 #### <span style="font-weight:400">options</span>.locations
 
-If `true`, all `$location` properties are preserved in generated CSN {:.indent}
+If `true`, all `$location` properties are preserved in generated CSN {.indent}
 
 #### <span style="font-weight:400">options</span>.messages
 
-Pass an empty array to collect all compiler messages in it. {:.indent}
+Pass an empty array to collect all compiler messages in it. {.indent}
 
 
 
 ## <span style="color:#800; font-weight:500">cds</span>.compile.for/to<i> ... </i>
 
 These are collection of model processors take a CDS model as input and generate different outputs.
-<!-- {% assign for = '<i>&nbsp;&#8627;&nbsp;.for<span style="font-weight:500; color:darkred">' %}
-{% assign to = '<i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">' %} -->
+<!-- % assign for = '<i>&nbsp;&#8627;&nbsp;.for<span style="font-weight:500; color:darkred">' %}
+% assign to = '<i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">' %} -->
 
 
 ### <em> Static and Fluent API Variants </em>
@@ -155,7 +155,7 @@ While static variants expect a parsed CSN, fluent variants also accept all of th
 
 
 
-### <i>&nbsp;&#8627;&nbsp;.for<span style="font-weight:500; color:darkred">.odata ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> unfolded [csn](../cds/csn) </span> </i> {:#for-odata }
+### <i>&nbsp;&#8627;&nbsp;.for<span style="font-weight:500; color:darkred">.odata ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> unfolded [csn](../cds/csn) </span> </i> {#for-odata }
 
 <div class='indent' markdown='1'>
 
@@ -179,11 +179,11 @@ let o3 = cds.compile(csn).for.odata ('x4') //> shortcut to above
 </div>
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.json/yaml ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> [json](http://json.org) </span> </i> {:#to-json }
-Renders the given model to a formatted JSON  or YAML string. {:.indent}
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.json/yaml ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> [json](http://json.org) </span> </i> {#to-json }
+Renders the given model to a formatted JSON  or YAML string. {.indent}
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.edm/edmx ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> [edm](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) </span> </i> {:#to-edmx }
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.edm/edmx ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> [edm](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) </span> </i> {#to-edmx }
 
 <div class='indent' markdown='1'>
 
@@ -211,7 +211,7 @@ for (let [edm,{name}] of all)  console.log (name,edm)
 
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.hdbtable ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> ... </span> </i> {:#to-hsb .first-of-many }
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.hdbtable ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> ... </span> </i> {#to-hsb .first-of-many }
 
 ### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.hdbcds ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> ... </span> </i>
 
@@ -232,7 +232,7 @@ for (let [src,{file}] of all)
 
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.sql ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> [SQL](https://wikipedia.org/wiki/SQL) DDL </span> </i> {:#to-sql }
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.sql ([csn](../cds/csn), options) <span style="font-style:normal">&#8594;</span> [SQL](https://wikipedia.org/wiki/SQL) DDL </span> </i> {#to-sql }
 
 <div class='indent' markdown='1'>
 
@@ -256,12 +256,12 @@ let script = cds.compile(csn).to.sql({as:'str'})
 
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.cdl ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> [CDL](../cds/cdl.md) </span> </i> {:#to-cdl  .impl.concept}
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.cdl ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> [CDL](../cds/cdl.md) </span> </i> {#to-cdl  .impl.concept}
 
-Reconstructs [CDL](../cds/cdl.md) source code for the given csn model. {:.indent}
+Reconstructs [CDL](../cds/cdl.md) source code for the given csn model. {.indent}
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.asyncapi (file) -> [document] </span> </i> {: #to-asyncapi }
+### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.asyncapi (file) -> [document] </span> </i> { #to-asyncapi }
 
 <div class='indent' markdown='1'>
 
@@ -274,7 +274,7 @@ const doc = cds.compile.to.asyncapi(csn_file)
 </div>
 
 
-## <span style="color:#800; font-weight:500">cds</span>.parse <i> ([cdl](../cds/cdl)) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> {: #cds-parse}
+## <span style="color:#800; font-weight:500">cds</span>.parse <i> ([cdl](../cds/cdl)) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> { #cds-parse}
 
 This is an API facade for a set of functions to parse whole [CDL] models, individual [CQL](../cds/cql) queries, or CQL expressions.
 The three main methods are offered as classic functions, as well as [tagged template string functions](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals).
@@ -282,10 +282,10 @@ The individual methods are:
 <!-- index is inserted here automatically -->
 
 
-<!-- {% assign parse_ = '<span style="color:grey">cds.parse</span>' %} -->
+<!-- % assign parse_ = '<span style="color:grey">cds.parse</span>' %} -->
 
 
-### `CDL`, <span style="color:grey">cds.parse</span>.cdl <i> ([cdl](../cds/cdl)) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> {:#parse-cdl}
+### `CDL`, <span style="color:grey">cds.parse</span>.cdl <i> ([cdl](../cds/cdl)) <span style="font-style:normal">&#8594;</span> [csn](../cds/csn) </i> {#parse-cdl}
 
 Parses a source string in _[CDL][../cds/cdl]_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
 It's essentially a [shortcut to `cds.compile (..., {flavor:'parsed'})`](#cds-compile).
@@ -299,7 +299,7 @@ let csn = cds.parse.cdl (`entity Foo{}`)
 
 
 
-### `CQL`, <span style="color:grey">cds.parse</span>.cql <i> ([cql](../cds/cql.md)) <span style="font-style:normal">&#8594;</span> [cqn](../cds/cqn) </i> {:#parse-cql}
+### `CQL`, <span style="color:grey">cds.parse</span>.cql <i> ([cql](../cds/cql.md)) <span style="font-style:normal">&#8594;</span> [cqn](../cds/cqn) </i> {#parse-cql}
 
 Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_][..cds/cqn].
 
@@ -310,7 +310,7 @@ let cqn = cds.parse.cql (`SELECT * from Foo`)
 ```
 
 
-### `CXL`, <span style="color:grey">cds.parse</span>.expr <i> (cxl) <span style="font-style:normal">&#8594;</span> [cxn](../cds/cxn) </i> {:#parse-cxl}
+### `CXL`, <span style="color:grey">cds.parse</span>.expr <i> (cxl) <span style="font-style:normal">&#8594;</span> [cxn](../cds/cxn) </i> {#parse-cxl}
 
 Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators).
 
@@ -347,7 +347,7 @@ let ref = cds.parse.ref (`foo.bar`)
 
 
 
-## <span style="color:#800; font-weight:500">cds</span>.load <i> (files) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> {:#cds-load}
+## <span style="color:#800; font-weight:500">cds</span>.load <i> (files) <span style="font-style:normal">&#8674;</span> [csn](../cds/csn) </i> {#cds-load}
 
 Loads and parses a model from one or more files into a single effective model.
 It's essentially a [shortcut to `cds.compile (..., {flavor:'inferred'})`](#cds-compile).
@@ -380,7 +380,7 @@ cds.load(__dirname+'/relative-to-this-module')
 
 
 
-## <span style="color:#800; font-weight:500">cds</span>.resolve <i> (paths) <span style="font-style:normal">&#8594;</span> [filenames] </i> {:#cds-resolve }
+## <span style="color:#800; font-weight:500">cds</span>.resolve <i> (paths) <span style="font-style:normal">&#8594;</span> [filenames] </i> {#cds-resolve }
 
 Resolves the given source paths by fetching matching model source files, that is _.cds_ or _.csn_ files, including models for required services.
 In detail it works as follows:
@@ -392,7 +392,7 @@ In detail it works as follows:
 - if _\<each>/index.csn|cds_ exists &rarr; use it
 - if _\<each>_ is a folder &rarr; use all _.csn|cds_ found in there
 
-[Learn more about `cds.env`](cds-env){:.learn-more}
+[Learn more about `cds.env`](cds-env){.learn-more}
 
 In effect it resolves and returns an array with the absolute filenames of the root cds model files to be used to invoke the compiler.
 

@@ -19,11 +19,11 @@ status: released
 
 
 <!-- #### Content -->
-<!--- {% include _toc levels="2,3" %} -->
-<!--- {% include links.md %} -->
+<!--- % include _toc levels="2,3" %} -->
+<!--- % include links.md %} -->
 
 
-## CLI `cds env` Command {:#cli}
+## CLI `cds env` Command {#cli}
 
 Run the `cds env` command in the root folder of your project to see the effective configuration.
 The listed settings include [global defaults](#defaults) as well as [project-specific settings](#project-settings)
@@ -86,7 +86,7 @@ $ cds -r
 
 
 
-## The `cds.env` Module {:#cds-env}
+## The `cds.env` Module {#cds-env}
 
 The `cds env` CLI command and all configuration-related tasks and features in Node.js-based tools and runtimes are backed by the `cds.env` module, which can be accessed through the central `cds` facade. For example, you can use it as follows:
 
@@ -98,7 +98,7 @@ console.log (cds.env.requires.sql)
 
 As depicted in the figure below `cds.env` provides one-stop convenient and transparent access to the effective configuration read from various sources, including global defaults, static, project-specific configuration as well as dynamic settings from process environment and service bindings. Different environments, for example, dev vs prod can be identified and selected by [profiles](#profiles).
 
-!['cds env' in the middle, targeted by arrows coming from project content, service bindings and environment.](./assets/cds.env.drawio.svg){:.adapt}
+!['cds env' in the middle, targeted by arrows coming from project content, service bindings and environment.](./assets/cds.env.drawio.svg){.adapt}
 
 ## Sources for `cds.env`
 
@@ -123,7 +123,7 @@ As depicted in the figure below `cds.env` provides one-stop convenient and trans
 
 ::: warning
 Private files are for you only and should not be checked into your source code management.
-::: 
+:::
 
 The settings are merged into `cds.env` starting from lower to higher order. Meaning that propertiers specified in a source of higher order will overwrite the value from a lower order.
 
@@ -188,7 +188,7 @@ cds.env.requires.sql.credentials = { database:'my.db' }
 > This would change the respective settings in the running program only, without writing back to the sources listed above.
 
 
-## Global Defaults {:#defaults}
+## Global Defaults {#defaults}
 
 
 ### Built-In to `@sap/cds`
@@ -213,7 +213,7 @@ You can also create a _.cdsrc.json_ file in your user's home folder to specify
 settings to be used commonly across several projects.
 
 
-## Project Configuration {:#project-settings}
+## Project Configuration {#project-settings}
 
 Settings, which are essential to your project topology go into static project settings.
 Examples are the `folders` layout of your project, specific `build` tasks, or the list
@@ -222,7 +222,7 @@ under `requires.db`.
 
 ::: tip
 The settings described here are part of your project's static content and delivery. They’re checked in to your git repos and used also in productive deployments. **Don’t** add environment-specific options as static settings but use one of the [dynamic process environment options](#process-env) for that.
-::: 
+:::
 
 ### In _./package.json_
 
@@ -248,14 +248,14 @@ Alternatively, you can put static settings in _.cdsrc.json_ file in your project
 
 ::: tip
 _.cdsrc_ goes without an enclosing  `"cds"` section.
-::: 
+:::
 
-## Private Project Settings {:#private-project-settings}
+## Private Project Settings {#private-project-settings}
 ### In _./.cdsrc-private.json_
 
 Put your private settings for local testing here. The file should not be submitted to your source code management system. The file's structure is the same like for _./.cdsrc.json_.
 
-## Process Environment {:#process-env}
+## Process Environment {#process-env}
 
 
 ### On the Command Line
@@ -294,9 +294,9 @@ cds.requires.db = { "kind": "sql" }
 
 ::: warning
 The dot ("`.`") notation can only be used in `.env` files, because the dot is not a valid environment variable character. You can use it here if your config string contains underscore ("`_`") characters.
-::: 
+:::
 
-### `CDS_CONFIG` env variable {:#env-cds-config}
+### `CDS_CONFIG` env variable {#env-cds-config}
 
 You can use the `CDS_CONFIG` env variable in three different ways to add settings to the CDS environment:
 
@@ -351,7 +351,7 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
     }
     ```
 
-## Required Services {:#services}
+## Required Services {#services}
 
 If your app requires external services (databases, message brokers, ...), you must
 add them to the `cds.requires` section.
@@ -397,7 +397,7 @@ Example:
 ```
 
 
-## Configuration Profiles {:#profiles}
+## Configuration Profiles {#profiles}
 
 Wrap entries into `[<profile-name>]:{ ... }` to provide settings for different environments. For example:
 

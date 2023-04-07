@@ -43,7 +43,7 @@ foo = Foo
 
 > You can define the keys of your properties entries.
 
-[Learn more about annotations in CSN.](../../cds/csn#annotations){: .learn-more}
+[Learn more about annotations in CSN.](../../cds/csn#annotations){ .learn-more}
 
 Then you can translate the texts in localized bundles, each with a language/locale code appended to its name, for example:
 
@@ -80,12 +80,12 @@ The default is:
 
 > These folders are resolved relative to the working directory of the application.
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 
 ## Translating Text Bundles
 
 Use the SAP Translation process as [described here](https://wiki.one.int.sap/wiki/display/HCPCollaboration/Translation).
-{% endif %}
+% endif %}
 
 ## CSV-Based Text Bundles
 
@@ -98,7 +98,7 @@ The format is as follows:
 | Book | Book | Buch | ... |
 | Books | Books | Bücher | ... |
 | ... |
-{: style="width: auto"}
+{ style="width: auto"}
 
 With this CSV source:
 
@@ -154,7 +154,7 @@ For example, assuming that your data model imports from a _foundation_ package, 
 | *foundation/\<private model b\>.cds* |
 | ... |
 
-## Determining User Locales {: #user-locale}
+## Determining User Locales { #user-locale}
 
 Upon incoming requests at runtime, the user's preferred language is determined as follows:
 
@@ -168,7 +168,7 @@ Upon incoming requests at runtime, the user's preferred language is determined a
 CAP also accepts formats following the available standards of POSIX and RFC 1766, and transforms them into normalized locales.
 :::
 
-## Normalized Locales {: #normalized-locales}
+## Normalized Locales { #normalized-locales}
 
 To reduce the number of required translations, most determined locales are normalized by narrowing them to their main language codes only, for example, `en_US`, `en_CA`, `en_AU` &rarr; `en`, except for these preserved language codes:
 
@@ -224,7 +224,7 @@ In effect, this means:
 - We always normalize these to underscores, which is `en_GB`.
 - Always use underscores in filenames, for example, `i18n_en_GB.properties`
 
-## How to Continue {: .impl.internal}
+## How to Continue { .impl.internal}
 
 ### Translation Within SAP
 

@@ -8,25 +8,25 @@ status: released
 
 # Events and Requests
 
-<!--- {% assign ctx = '<span style="color:#800; font-weight:500">ctx</span>' %} -->
-<!--- {% assign eve = '<span style="color:#800; font-weight:500">msg</span>' %} -->
-<!--- {% assign req = '<span style="color:#800; font-weight:500">req</span>' %} -->
+<!--- % assign ctx = '<span style="color:#800; font-weight:500">ctx</span>' %} -->
+<!--- % assign eve = '<span style="color:#800; font-weight:500">msg</span>' %} -->
+<!--- % assign req = '<span style="color:#800; font-weight:500">req</span>' %} -->
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-## Class cds.**EventContext**  {: #cds-event-context}
+## Class cds.**EventContext**  { #cds-event-context}
 
 Class `cds.EventContext` represents the invocation context of incoming request and event messages, mostly `tenant`. It also serves as a base class for `cds.Event` and `cds.Request`.
 
 
 
 
-### ctx.context <i> → cds.EventContext </i> {:#eve-context .impl.concept}
+### ctx.context <i> → cds.EventContext </i> {#eve-context .impl.concept}
 
 The current instance's root context; `this.context === this` if this is a root context.
 
-[Learn more about root contexts in the **Transactions** guide](./cds-context-tx){:.learn-more}
+[Learn more about root contexts in the **Transactions** guide](./cds-context-tx){.learn-more}
 
 ::: danger
 IMPORTANT: this is not a stable API yet.
@@ -34,7 +34,7 @@ IMPORTANT: this is not a stable API yet.
 
 
 
-### ctx.id <i> → string </i> {:#req-id }
+### ctx.id <i> → string </i> {#req-id }
 
 <div class="indent" markdown="1">
 A unique string used for request correlation.
@@ -53,30 +53,30 @@ For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `i
 
 
 
-### ctx.user <i> → [cds.User](authentication#cds-user) </i> {:#user }
+### ctx.user <i> → [cds.User](authentication#cds-user) </i> {#user }
 
 
-The current user as identified and verified by the authentication strategy.{:.indent}s
+The current user as identified and verified by the authentication strategy.{.indent}s
 
-[See reference docs for `cds.User`.](authentication#cds-user){:.learn-more .indent}
-
-
-
-### ctx.tenant <i> → string </i> {:#tenant }
-
-A unique string identifying the current tenant, or `undefined` if not run in multitenancy mode. In case of multitenant operation, this string is used for tenant isolation, for example as keys in the database connection pools.  {:.indent}
+[See reference docs for `cds.User`.](authentication#cds-user){.learn-more .indent}
 
 
 
-### ctx.locale <i> → string </i> {:#locale}
+### ctx.tenant <i> → string </i> {#tenant }
 
-The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n/#normalized-locales) {:.indent}
-
-
+A unique string identifying the current tenant, or `undefined` if not run in multitenancy mode. In case of multitenant operation, this string is used for tenant isolation, for example as keys in the database connection pools.  {.indent}
 
 
 
-### ctx.timestamp <i> → Date </i> {:#req-timestamp }
+### ctx.locale <i> → string </i> {#locale}
+
+The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n/#normalized-locales) {.indent}
+
+
+
+
+
+### ctx.timestamp <i> → Date </i> {#req-timestamp }
 
 <div class="indent" markdown="1">
 Returns a stable timestamp for the current request being processed.
@@ -85,13 +85,13 @@ The first invocation on a request or any nested request calls and returns the re
 
 The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same timestamp value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){:.learn-more}
-[Learn more on `Date` in the MDN docs.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date){:.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){.learn-more}
+[Learn more on `Date` in the MDN docs.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date){.learn-more}
 </div>
 
 
 
-### ctx.on <i> (event, handler) </i> {:#ctx-on }
+### ctx.on <i> (event, handler) </i> {#ctx-on }
 [`req.on`]: #ctx-on
 
 Use this method to register handlers, executed when the whole request is finished.
@@ -140,7 +140,7 @@ Errors thrown by the registered handlers are treated the same as any other error
 Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. Following the atomicity property ("all or nothing"), if at least one of the requests in the changeset fails, all requests fail.
 
 
-## Class cds.**Event**  {: #cds-event}
+## Class cds.**Event**  { #cds-event}
 [`cds.Event`]: #cds-event
 
 Class `cds.Event` represents event messages in [asynchronous messaging](messaging), providing access to the [event name](#req-event), [target](#req-target), [payload data](#req-data), and [headers](#req-headers). It also serves as **the base class for [`cds.Request`](#cds-request)** and hence for all synchronous interaction.
@@ -148,7 +148,7 @@ Class `cds.Event` represents event messages in [asynchronous messaging](messagin
 
 
 
-### <span style="color:#800; font-weight:500">msg</span>.event  <i>  &#8674; string </i> {:#req-event }
+### <span style="color:#800; font-weight:500">msg</span>.event  <i>  &#8674; string </i> {#req-event }
 
 The name of the incoming event, which can be one of:
 
@@ -163,7 +163,7 @@ The name of the incoming event, which can be one of:
 
 
 
-### <span style="color:#800; font-weight:500">msg</span>.data  <i>  &#8674; {...} or [...] </i> {:#req-data }
+### <span style="color:#800; font-weight:500">msg</span>.data  <i>  &#8674; {...} or [...] </i> {#req-data }
 
 Contains the request payload if `CREATE` and `UPDATE` requests, which can either be a single object or an array of objects in case of bulk operations (example: `await CatalogService.create('Books').entries([...])`).
 <br/>
@@ -175,16 +175,16 @@ Contains parameters for functions and payload for actions.
 
 
 
-### <span style="color:#800; font-weight:500">msg</span>.headers  <i>  &#8674; {...} </i> {:#req-headers }
+### <span style="color:#800; font-weight:500">msg</span>.headers  <i>  &#8674; {...} </i> {#req-headers }
 
 Provides access to headers of the event message or request. In case of asynchronous event messages, it’s the headers information sent by the event source. If HTTP requests, it’s the [standard Node.js headers of class IncomingMessage](https://nodejs.org/api/http.html#http_message_headers).
 
 
 <!--- Migrated: @external/node.js/cds.Request/61-cds.Request-.md -> @external/node.js/cds.request/cds.request-.md -->
 
-{:.sub-section}
+{.sub-section}
 
-## Class cds.**Request** {: #cds-request}
+## Class cds.**Request** { #cds-request}
 
 
 Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers], such as the [query](#req-query), additional [request parameters](#req-params), the [authenticated user](#user), and [methods to send responses](#req-msg).
@@ -197,9 +197,9 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 
 
 
-### req._  <i>  &#8674; {...} </i> {:#req_}
+### req._  <i>  &#8674; {...} </i> {#req_}
 
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](http://expressjs.com). {:.indent}
+Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](http://expressjs.com). {.indent}
 
 ::: warning
 Please refrain from using internal properties of that object, i.e. the ones starting with '_'. They might be removed in any future release without notice.
@@ -208,7 +208,7 @@ Please refrain from using internal properties of that object, i.e. the ones star
 
 
 
-### req.method  <i>  &#8674; string </i> {:#req-method }
+### req.method  <i>  &#8674; string </i> {#req-method }
 
 The HTTP method of the incoming request:
 
@@ -219,11 +219,11 @@ The HTTP method of the incoming request:
 | UPDATE      | &rarr; | PATCH        |
 | DELETE      | &rarr; | DELETE       |
 
-{:style="font-style:italic;width:auto;"}
+{style="font-style:italic;width:auto;"}
 
 
 
-### req.target  <i>  &#8674; [def] </i> {:#req-target }
+### req.target  <i>  &#8674; [def] </i> {#req-target }
 
 Refers to the current request's target entity definition, if any; `undefined` for unbound actions/functions and events. The returned definition is a [linked](cds-reflect#cds-reflect) definition as reflected from the [CSN](../cds/csn) model.
 
@@ -236,15 +236,15 @@ For example:
 | Books/201/author  | AdminService.Authors |
 | Books(201)/author | AdminService.Authors |
 
-{:style="font-style:italic;width:80%;"}
+{style="font-style:italic;width:80%;"}
 
-[See also `req.path` to learn how to access full navigation paths.](#req-path){:.learn-more}
-[See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){:.learn-more}
-[Learn more about linked models and definitions.](cds-reflect#cds-reflect){:.learn-more}
+[See also `req.path` to learn how to access full navigation paths.](#req-path){.learn-more}
+[See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){.learn-more}
+[Learn more about linked models and definitions.](cds-reflect#cds-reflect){.learn-more}
 
 
 
-### req.path  <i>  &#8674; string </i> {:#req-path}
+### req.path  <i>  &#8674; string </i> {#req-path}
 
 Captures the full canonicalized path information of incoming requests with navigation.
 If requests without navigation, `req.path` is identical to [`req.target.name`](#req-target) (or [`req.entity`](#req-entity), which is a shortcut for that).
@@ -256,21 +256,21 @@ Examples based on [cap/samples/bookshop AdminService](https://github.com/sap-sam
 | Books             | AdminService.Books        | AdminService.Books   |
 | Books/201/author  | AdminService.Books/author | AdminService.Authors |
 | Books(201)/author | AdminService.Books/author | AdminService.Authors |
-{:style="font-style:italic"}
+{style="font-style:italic"}
 
-[See also `req.target`](#req-target){:.learn-more}
-
-
+[See also `req.target`](#req-target){.learn-more}
 
 
-### req.entity  <i>  &#8674; string </i> {:#req-entity}
+
+
+### req.entity  <i>  &#8674; string </i> {#req-entity}
 
 This is a convenience shortcut to [`msg.target.name`](#req-target).
 
 
 
 
-### req.params  <i>  &#8674; iterable </i> {:#req-params }
+### req.params  <i>  &#8674; iterable </i> {#req-params }
 
 Provides access to parameters in URL paths as an [*iterable*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol) with the contents matching the positional occurrence of parameters in the url path. In case of compound parameters, the respective entry is the key value pairs as given in the URL.
 <!-- If the respective resource has a single key predicate called `ID`, the value is returned directly. -->
@@ -294,7 +294,7 @@ const [ author, book ] = req.params
 
 
 
-### req.query  <i>  &#8674; [cqn](../cds/cqn) </i> {:#req-query }
+### req.query  <i>  &#8674; [cqn](../cds/cqn) </i> {#req-query }
 
 Captures the incoming request as a [CQN](../cds/cqn) query object. For example, an HTTP request like `GET http://.../Books` would be captured as follows:
 ```js
@@ -303,7 +303,7 @@ req.query = {SELECT:{from:{ref:['Books']}}}
 
 If bound custom operations `req.query` contains the query to the entity, on which the bound custom operation is called. For unbound custom operations `req.query` contains an empty object.
 
-### req.subject  <i>  &#8674; [ref](../cds/cxn#references) </i> {:#req-subject }
+### req.subject  <i>  &#8674; [ref](../cds/cxn#references) </i> {#req-subject }
 
 Acts as a pointer to one or more instances targeted by the request.
 It can be used as input for [cds.ql](cds-ql) as follows:
@@ -319,24 +319,24 @@ It's available for CRUD events and bound actions.
 
 
 
-### req.reply  <i>  (results) </i> {:#req-reply }
+### req.reply  <i>  (results) </i> {#req-reply }
 [`req.reply`]: #req-reply
 
 Stores the given `results` in `req.results`, which will then be sent back to the client, rendered in a protocol-specific way.
 
 
 
-### req.reject  <i>  (code?, msg, target?, args?) </i> {:#req-reject }
+### req.reject  <i>  (code?, msg, target?, args?) </i> {#req-reject }
 [`req.reject`]: #req-reject
 
 Rejects the request with the given HTTP response code and single message. Additionally, `req.reject` throws an error based on the passed arguments. Hence, no additional code and handlers will be executed once `req.reject` has been invoked.
 
-[Arguments are the same as for `req.error`](#req-msg){:.learn-more}
+[Arguments are the same as for `req.error`](#req-msg){.learn-more}
 
 
 
 
-### req.error, notify, info, warn  <i>  (code?, message, target?, args?) </i> {:#req-msg }
+### req.error, notify, info, warn  <i>  (code?, message, target?, args?) </i> {#req-msg }
 [`req.info`]: #req-msg
 [`req.error`]: #req-msg
 
@@ -351,7 +351,7 @@ Use these methods to collect messages or errors and return them in the request r
 | `req.warn`   | `req.messages` | Dialog     | 3        |
 | `req.error`  | `req.errors`   | Dialog     | 4        |
 
-{:style="font-style:italic;width:80%;"}
+{style="font-style:italic;width:80%;"}
 
 **Note:** messages with a severity less than 4 are collected and accessible in property `req.messages`, while error messages are collected in property `req.errors`. The latter allows to easily check, whether errors occurred with:
 
@@ -392,9 +392,9 @@ Additionally, the OData protocol specifies which properties an error object may 
 
 
 
-{:.sub-section}
+{.sub-section}
 
-### req.diff  <i>  (data?) </i> {:#req-diff .impl.beta}
+### req.diff  <i>  (data?) </i> {#req-diff .impl.beta}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).

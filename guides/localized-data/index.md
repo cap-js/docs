@@ -31,7 +31,7 @@ entity Books {
 }
 ```
 
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/ea6e27481071a765dfd701ddb239ed89b92bf426/bookshop/db/schema.cds#L4-L7){: .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/ea6e27481071a765dfd701ddb239ed89b92bf426/bookshop/db/schema.cds#L4-L7){ .learn-more}
 
 ::: warning _Restriction_
 If you want to use the `localized` modifier, the entity's keys must not be associations.
@@ -57,7 +57,7 @@ entity Books.texts {
 }
 ```
 
-[See the definition of `sap.common.Locale`.](../../cds/common#locale-type){: .learn-more}
+[See the definition of `sap.common.Locale`.](../../cds/common#locale-type){ .learn-more}
 ::: warning Note:
 The above shows the situation with CDS compiler v2. Former versions of the
 compiler generated an entity `Books_texts`.
@@ -109,7 +109,7 @@ For _H2_, you need to use the property as follows.
 ```
 
 
-### Resolving search over localized texts at runtime {: #resolving-localized-texts-at-runtime}
+### Resolving search over localized texts at runtime { #resolving-localized-texts-at-runtime}
 
 Although the approach with the generated localized views is very convenient, it's limited on SQLite and shows suboptimal performance with large data sets on _SAP HANA_. Especially for search operations the performance penalty is very critical. Therefore, both CAP runtimes have implemented a solution targeted for search operations. If the `localized` association of your entity is present and accessible by the given CQL statement, the runtimes generate SQL statements that resolve the localized texts. This is optimized for the underlying database.
 
@@ -136,7 +136,7 @@ entity ClosedBookView as SELECT from Books {ID, title, descr, localized};
 In contrast to similar strategies, all texts aren’t externalized but the original texts are kept in the source entity. This saves one join when reading localized texts with fallback to the original ones.
 
 
-### Extending *.texts* Entities {: #extending-texts-entities}
+### Extending *.texts* Entities { #extending-texts-entities}
 
 It's possible to collectively extend all generated *.texts* entities by extending
 the aspect `sap.common.TextsAspect`, which is defined in [*common.cds*](../../cds/common#texts-aspects).
@@ -187,7 +187,7 @@ For entities that have an annotation `@fiori.draft.enabled`, the corresponding *
 entities also include the aspect, but the element `locale` isn't marked as a
 key and an element `key ID_texts : UUID` is added.
 
-## Pseudo var `$user.locale` {: #user-locale}
+## Pseudo var `$user.locale` { #user-locale}
 
 [`$user.locale`]: #user-locale
 
@@ -204,7 +204,7 @@ The resulting [normalized locale](../i18n/#normalized-locales) is available prog
 * Node.js: `req.user.locale`
 * Java: `eventContext.getParameterInfo().getLocale()`
 
-### Propagating `$user.locale` to Databases {:#propagating-of-user-locale}
+### Propagating `$user.locale` to Databases {#propagating-of-user-locale}
 [propagation]: #propagating-of-user-locale
 
 Finally, the [normalized locale](../i18n/#normalized-locales) is **propagated** to underlying databases using session variables, that is, `$user.locale` translates to `session_context('locale')` in native SQL of SAP HANA and most databases.
@@ -260,7 +260,7 @@ SELECT ID, texts.locale, texts.title, texts.descr from Books
 
 The generic handlers of the service runtimes automatically serve read requests from `localized` views. Users see all texts in their preferred language or the fallback language.
 
-[See also **Enabling Draft for Localized Data**.](../../advanced/fiori#draft-for-localized-data){: .learn-more}
+[See also **Enabling Draft for Localized Data**.](../../advanced/fiori#draft-for-localized-data){ .learn-more}
 
 For example, given this service definition:
 

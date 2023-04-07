@@ -7,26 +7,26 @@ status: released
 ---
 <!--- Migrated: @external/node.js/remote-services.md -> @external/node.js/remote-services.md -->
 
-# Remote Services {: .concept}
+# Remote Services { .concept}
 
 Class `cds.RemoteService` is a service proxy class to consume remote services via different [protocols](protocols), like OData or plain REST.
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-<!--- {% assign srv = '<span style="color:grey">&#8627; </span>' %} -->
-<!--- {% assign srv = '<span style="color:grey">srv</span>' %} -->
+<!--- % assign srv = '<span style="color:grey">&#8627; </span>' %} -->
+<!--- % assign srv = '<span style="color:grey">srv</span>' %} -->
 
 
-## cds.**RemoteService**  <i>  class </i> {: #cds-remote-service}
+## cds.**RemoteService**  <i>  class </i> { #cds-remote-service}
 
 ### class cds.**RemoteService**  <i>  extends cds.Service </i>
 
-## cds.RemoteService --- Configuration {:#remoteservice-configuration }
+## cds.RemoteService --- Configuration {#remoteservice-configuration }
 [remoteservice configuration]: #remoteservice-configuration
 
 
-<!--- {% assign tx = '<span style="color:grey">srv</span>' %} -->
+<!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
 
 

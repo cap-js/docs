@@ -105,10 +105,10 @@ aspect OrderItems {
         book   : Association to one Books;
 }
 ```
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){: .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){ .learn-more}
 
 In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
-![ent-rel.drawio](./assets/entrel.drawio.svg){:.adapt}
+![ent-rel.drawio](./assets/entrel.drawio.svg){.adapt}
 
 ::: tip
 Use [Managed Compositions of Aspects](../guides/domain-models/#managed-compositions) to model unidirectional one-to-many compositions.
@@ -216,7 +216,7 @@ author.put("books", Arrays.asList(book1, book2));
 
 In CAP Java data is represented in maps. To simplify data access in custom code, CAP Java additionally provides generated [accessor interfaces](#typed-access) which extend [CdsData](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CdsData.html), enhancing the `Map` interface with path access to nested data and build-in serialization to JSON.
 
-![accessor.drawio](./assets/accessor.drawio.svg){:.adapt}
+![accessor.drawio](./assets/accessor.drawio.svg){.adapt}
 
 The `Row`s of a [query result](./query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
@@ -412,7 +412,7 @@ To support _hybrid_ access, like simultaneous typed _and_ generic access, the ac
 The name of the CDS element referred to by a getter or setter, is defined through `@CdsName` annotation. If the annotation is missing, it's determined by removing the get/set from the method name and lowercasing the first character.
 :::
 
-### Generated Accessor Interfaces {:#generated-accessor-interfaces}
+### Generated Accessor Interfaces {#generated-accessor-interfaces}
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
@@ -566,7 +566,7 @@ List<Book> bookList = books.collect(Collectors.toList());
 
 Typed access through custom or generated accessor interfaces eases the [processing of query result](query-execution#typed-result-processing).
 
-## Data Processor {: #cds-data-processor}
+## Data Processor { #cds-data-processor}
 
 The `CdsDataProcessor` allows to process deeply nested maps of CDS data, by executing a sequence of registered actions (_validators_, _converters_, and _generators_).
 
@@ -679,7 +679,7 @@ processor.addGenerator(
    (path, element, isNull) -> isNull ? null : randomUUID()); // generator
 ```
 
-## Media Type Processing {: #mediatypeprocessing}
+## Media Type Processing { #mediatypeprocessing}
 
 The data for [media type entity properties](../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./provisioning-api#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 

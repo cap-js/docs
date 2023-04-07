@@ -16,7 +16,7 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 
 
-## Overview & Design Principles {:#overview}
+## Overview & Design Principles {#overview}
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
@@ -46,7 +46,7 @@ On top of open source technologies, CAP mainly adds:
 
 
 
-### Agnostic Design <wbr/> &rarr; *Safeguarding Investments* {:#agnostic-approach}
+### Agnostic Design <wbr/> &rarr; *Safeguarding Investments* {#agnostic-approach}
 
 Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today’s technologies, which might soon become obsolete. **CAP avoids such lock-ins** through **higher-level concepts and APIs**, which abstract low-level platform features and protocols to a large extent. In particular, this applies to things like:
 
@@ -61,7 +61,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 These abstractions allow us to quickly adapt to new emerging technologies or platforms, without affecting application code, thus **safeguarding your investments**.
 
 
-### CAP is Open _and_ Opinionated <wbr/> &rarr; *Zero Lock-in* {:#open-and-opinionated}
+### CAP is Open _and_ Opinionated <wbr/> &rarr; *Zero Lock-in* {#open-and-opinionated}
 
 That might sound like a contradiction, but isn't: While CAP certainly gives *opinionated* guidance, we do so without sacrificing openness and flexibility.  At the end of the day, **you stay in control** of which tools or technologies to choose, or which architecture patterns to follow as depicted in the table below.
 
@@ -78,7 +78,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 
 The following sections highlight key concepts of CAP, which are based on two major paradigms: A **declarative paradigm** using CDS to capture knowledge about problem domains, and a **service-centric paradigm**, with ubiquitous notions of _Services_, _Events_, and _Queries_.
 
-## Focus on Domain, Powered by CDS {:#domain-modeling}
+## Focus on Domain, Powered by CDS {#domain-modeling}
 <!-- label='Focus on Domain, by CDS' -->
 
 CAP places **primary focus on domain**, by capturing _domain knowledge_ and _intent_ instead of imperative coding — that means, _What, not How_ — thereby promoting:
@@ -120,7 +120,7 @@ Moreover, that fosters [**separation of concerns**](../guides/domain-models/#use
 
 <br>
 
-## Proven Best Practices, Served Out-of-the-Box {:#generic-providers label='Proven Best Practices'}
+## Proven Best Practices, Served Out-of-the-Box {#generic-providers label='Proven Best Practices'}
 
 
 The CAP runtimes in Node.js and Java provide many generic implementations for recurring tasks and best practices, distilled from proven SAP applications.
@@ -154,11 +154,11 @@ Following is an excerpt of generic features provided:
 
 <br>
 
-[See also the Features Overview](./features){:.learn-more}
+[See also the Features Overview](./features){.learn-more}
 
 
 
-## Dynamic Querying & Views {:#querying}
+## Dynamic Querying & Views {#querying}
  <!-- label='Querying & Views' -->
 
 All data access in CAP is through dynamic queries, which allows clients to request the exact information they really need. These powerful intrinsic querying capabilities are key enablers for **serving requests automatically**.
@@ -198,7 +198,7 @@ We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/c
 <br>
 
 
-## Services & Events {:#services}
+## Services & Events {#services}
 
 All behavioral aspects in CAP are based on ubiquitous notions of [Services](#services) and [Events](#events), as expressed in this manifest:
 
@@ -232,12 +232,12 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{:.tip-title}
+::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{.tip-title}
 This protocol-agnostic API allows [mocking remote services](../get-started/grow-as-you-go#with-mocks), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
 
-###### Ubiquitous Events {:#events}
+###### Ubiquitous Events {#events}
 
 <img src="../assets/concepts/events.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
 
@@ -245,12 +245,12 @@ This protocol-agnostic API allows [mocking remote services](../get-started/grow-
 
 We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
-::: tip _Domain-level Eventing_{:.tip-title}
+::: tip _Domain-level Eventing_{.tip-title}
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.
 :::
 
 
-## Jumpstart & Grow-as-you-go {:#grow-as-you-go}
+## Jumpstart & Grow-as-you-go {#grow-as-you-go}
  <!-- label='Grow as You Go' -->
 
 Following the principle of **convention over configuration**, there’s no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
@@ -264,18 +264,18 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 <br>
 
 
-## [Related Concepts](./related) {:.toc-redirect}
+## [Related Concepts](./related) {.toc-redirect}
 
-[Learn more how CAP relates to other concepts.](./related){:.learn-more}
+[Learn more how CAP relates to other concepts.](./related){.learn-more}
 
 ## [Features Overview](./features)
-{:.toc-redirect}
+{.toc-redirect}
 
-[Get an overview of all features.](./features){:.learn-more}
+[Get an overview of all features.](./features){.learn-more}
 
-## [Glossary](./glossary) {:.toc-redirect}
+## [Glossary](./glossary) {.toc-redirect}
 
-[Glossary of common terms and abbreviations.](./glossary){:.learn-more}
+[Glossary of common terms and abbreviations.](./glossary){.learn-more}
 
 
 <br>

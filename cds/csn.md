@@ -171,7 +171,7 @@ Names **must**:
 * Not contain the substring `::` more than once.
 
 
-#### Properties {:#def-properties}
+#### Properties {#def-properties}
 
 * `kind` &ndash; one of `context`, `service`, `entity`, `type`, `action`, `function`, or `annotation`
 * `type` &ndash; an optional base type that this definition is derived from
@@ -185,7 +185,7 @@ Foo2 = { type:"cds.String", kind:"type" }
 ```
 
 
-## Type Definitions {:#type-definitions}
+## Type Definitions {#type-definitions}
 
 [type definitions]: #type-definitions
 
@@ -612,7 +612,7 @@ Services are definitions with _kind =`'service'`_:
 
 
 
-### Actions / Functions {: .h2}
+### Actions / Functions { .h2}
 
 Entity definitions (for _bound_ actions/functions) can have an additional property `actions`.
 The keys of these `actions` are the (local) names of actions/functions.

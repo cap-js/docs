@@ -9,11 +9,11 @@ status: released
 # Minimalistic Logging Facade
 
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
 
-## cds.log  <i>  (id?, options?) </i> {: #cds-log}
+## cds.log  <i>  (id?, options?) </i> { #cds-log}
 
 Returns a logger identified by the given id.
 
@@ -39,7 +39,7 @@ const LOG = cds.log('foo', { level: 'WARN' })
 ```
 
 
-### *Logger `id` — cached & shared loggers* {:#logger-id}
+### *Logger `id` — cached & shared loggers* {#logger-id}
 
 The loggers constructed by `cds.log()` are cached internally, and the same instances are returned on subsequent invocations of `cds.log()` with the same `id`. This allows to use and share the same logger in different modules.
 
@@ -49,7 +49,7 @@ const LOG2 = cds.log('foo')
 console.log (LOG1 === LOG2) //> true
 ```
 
-### *Logger `label` — used to prefix log output* {:#logger-label}
+### *Logger `label` — used to prefix log output* {#logger-label}
 
 By default, each log output is prefixed with `[<id>] -`, for example, as in `[cds] - server listening `. Sometimes you may want to use different ids and labels. Use option `label`  to do so as in this examples:
 
@@ -59,7 +59,7 @@ LOG.info("it's a foo")
 //> [bar] - it's a foo
 ```
 
-### _Logger usage → much like `console`_ {: #logger-api }
+### _Logger usage → much like `console`_ { #logger-api }
 
 Loggers returned by `cds.log()` look and behave very much like [Javascript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
 
@@ -96,7 +96,7 @@ In addition, there is a boolean indicator to check which levels are active throu
 
 
 
-## cds.log.format {: #cds-log-format}
+## cds.log.format { #cds-log-format}
 
 ### _Setting Formats for New Loggers_
 
@@ -137,7 +137,7 @@ const LOG = cds.log('foo') .setFormat ((id, level, ...args) => [
 ```
 
 
-## cds.log.levels {: #log-levels }
+## cds.log.levels { #log-levels }
 
 Constants of supported log levels:
 
@@ -180,9 +180,9 @@ Configure initial log-levels per module through `cds.env.log.levels`, for exampl
 }
 ```
 
-[Learn more about `cds.env`.](cds-env){:.learn-more}
+[Learn more about `cds.env`.](cds-env){.learn-more}
 
-[See pre-defined module names below.](#cds-log-modules){:.learn-more}
+[See pre-defined module names below.](#cds-log-modules){.learn-more}
 
 
 
@@ -218,7 +218,7 @@ You can assign different implementations by exchanging the factory with your own
 - `level`— the log level to enable → *0=off, 1=error, 2=warn, 3=info, 4=debug, 5=trace*
 
 
-### *Using `winston` Loggers* {:#winston}
+### *Using `winston` Loggers* {#winston}
 
 **Prerequisites:** You need to add [winston](https:/www.npmjs.com/package/winston) to your project:
 ```sh
@@ -327,7 +327,7 @@ Configuration for `cds.log()` can be specified through `cds.env.log`, for exampl
 }
 ```
 
-[Learn more about `cds.env`.](cds-env){:.learn-more}
+[Learn more about `cds.env`.](cds-env){.learn-more}
 
 The following configuration options can be applied:
 
@@ -337,7 +337,7 @@ The following configuration options can be applied:
 
 - `sanitize_values`— Specify `false` to deactivate the default behavior of sanitizing payload data in debug logs in production. Default: `true`.
 
-## Common IDs {: #cds-log-modules }
+## Common IDs { #cds-log-modules }
 
 The runtime uses the same logger facade, that is `cds.log()`. For each component, it requires a separate logger. So projects can set different log levels for different components/layers. The following table lists the ids used to set the log levels:
 
@@ -383,10 +383,10 @@ Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alte
 
 The following screenshot shows the log output for the rejection in the previous example with the Kibana-friendly log formatter.
 
-![Kibana-friendly Formatter Output](assets/kibana-formatter-output.png){:adapt}
+![Kibana-friendly Formatter Output](assets/kibana-formatter-output.png){adapt}
 
 
-#### *Including Custom Fields* {: .impl.beta}
+#### *Including Custom Fields* { .impl.beta}
 
 To show additional information (that is, information that is not included in the [list of supported fields](https://help.sap.com/docs/APPLICATION_LOGGING/ee8e8a203e024bbb8c8c2d03fce527dc/48b726c3f7534285b05eb31b5b7dc14d.html) of the SAP Application Logging Service), it needs to be provided in the following form:
 
@@ -438,7 +438,7 @@ custom.string.value0: SELECT IDONTEXIST FROM DUMMY
 
 Without the additional custom field `query` and it's respective value, it would first be necessary to reproduce the issue locally to know what the faulty statement is.
 
-## Request Correlation {: #node-observability-correlation }
+## Request Correlation { #node-observability-correlation }
 
 Unfortunately, there is no standard correlation ID header. `x-correlation-id` and `x-request-id` are the most commonly used, but SAP products often use `x-correlationid` (that is, without the second hyphen) and SAP BTP uses `x-vcap-request-id` when logging incoming requests.
 
@@ -455,5 +455,5 @@ req.headers['x-correlation-id'] = cds.context.id
 
 The following screenshot shows an example for log correlation in Kibana .
 
-![Default Formatter Output](assets/correlation.png){:.adapt}
+![Default Formatter Output](assets/correlation.png){.adapt}
 

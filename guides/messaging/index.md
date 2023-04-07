@@ -21,7 +21,7 @@ status: released
 {{ $frontmatter.synopsis }}
 
 
-## Introduction — Ubiquitous Events in CAP {:#intro}
+## Introduction — Ubiquitous Events in CAP {#intro}
 
 We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#walkthrough-books-reviews-sample).
 
@@ -72,11 +72,11 @@ class Receiver extends cds.Service { async init() {
 
 A *Request* in CAP is actually a specialization of an *Event Message*. The same intrinsic mechanisms of sending and reacting to events are used for asynchronous communication in inverse order. A typical flow:
 
-![sync.drawio](assets/sync.drawio.svg){:.adapt}
+![sync.drawio](assets/sync.drawio.svg){.adapt}
 
 Asynchronous communication looks similar, just with reversed roles:
 
-![async.drawio](assets/async.drawio.svg){:.adapt}
+![async.drawio](assets/async.drawio.svg){.adapt}
 
 ::: tip
 **Event Listeners vs Interceptors** — requests are handled the same ways as events, with one major difference: While `on` handlers for events are *listeners* (all are called), handlers for synchronous requests are *interceptors* (only the topmost is called by the framework). An interceptor then decides whether to pass down control to `next` handlers or not.
@@ -87,7 +87,7 @@ Asynchronous communication looks similar, just with reversed roles:
 To sum up, handling events in CAP is done in the same way as you would handle requests in a service provider. Also, emitting event messages is similar to sending requests. The major difference is that the initiative is inverted: While *Consumers* connect to *Services* in synchronous communications, the *Receivers* connect to _Emitters_ in asynchronous ones;
 _Emitters_ in turn don't know _Receivers_.
 
-![sync-async.drawio](assets/sync-async.drawio.svg){:.adapt}
+![sync-async.drawio](assets/sync-async.drawio.svg){.adapt}
 
 ::: tip
 **Blurring the line between synchronous and asynchronous APIs** — in essence services receive events. The emitting service itself or other services can register handlers for those events in order to implement the logic of how to react to these events.
@@ -116,13 +116,13 @@ The following explanations walk us through a books review example from cap/sampl
 * **[@capire/reviews](https://github.com/sap-samples/cloud-cap-samples/tree/main/reviews)** provides an independent service to manage reviews.
 * **[@capire/bookstore](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore)** combines both into a composite application.
 
-![cap-samples.drawio](assets/cap-samples.drawio.svg){:.adapt}
+![cap-samples.drawio](assets/cap-samples.drawio.svg){.adapt}
 
 ::: tip
 Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples/cloud-cap-samples#readme) for getting the samples and exercising the following steps.
 :::
 
-### Declaring Events in CDS {:.h2}
+### Declaring Events in CDS {.h2}
 
 Package `@capire/reviews` essentially provides a `ReviewsService`, [declared like that](https://github.com/sap-samples/cloud-cap-samples/blob/main/reviews/srv/reviews-service.cds):
 
@@ -144,7 +144,7 @@ service ReviewsService {
 }
 ```
 
-[Learn more about declaring events in CDS.](../../cds/cdl#events){:.learn-more}
+[Learn more about declaring events in CDS.](../../cds/cdl#events){.learn-more}
 
 As you can read from the definitions, the service's synchronous API allows to create, read, update, and delete user `Reviews` for arbitrary review subjects. In addition, the service's asynchronous API declares the `reviewed` event that shall be emitted whenever a subject's average rating changes.
 
@@ -152,7 +152,7 @@ As you can read from the definitions, the service's synchronous API allows to cr
 **Services in CAP** combine **synchronous** *and* **asynchronous** APIs. Events are declared on conceptual level focusing on domain, instead of low-level wire protocols.
 :::
 
-### Emitting Events {:.h2}
+### Emitting Events {.h2}
 
 Find the code to emit events in *[@capire/reviews/srv/reviews-service.js](https://github.com/SAP-samples/cloud-cap-samples/blob/139d9574950d1a5ead475c7b47deb174418500e4/reviews/srv/reviews-service.js#L12-L20)*:
 
@@ -167,8 +167,8 @@ class ReviewsService extends cds.ApplicationService { async init() {
 
 }}
 ```
-[Learn more about `srv.emit()` in Node.js.](../../node.js/services#srv-emit){:.learn-more}
-[Learn more about `srv.emit()` in Java.](../../java/consumption-api#an-event-based-api){:.learn-more}
+[Learn more about `srv.emit()` in Node.js.](../../node.js/services#srv-emit){.learn-more}
+[Learn more about `srv.emit()` in Java.](../../java/consumption-api#an-event-based-api){.learn-more}
 
 Method `srv.emit()` is used to emit event messages. As you can see, emitters usually emit messages to themselves, that is, `this`, to inform potential listeners about certain events. Emitters don't know the receivers of the events they emit. There might be none, there might be local ones in the same process, or remote ones in separate processes.
 
@@ -176,7 +176,7 @@ Method `srv.emit()` is used to emit event messages. As you can see, emitters usu
 **Messaging on Conceptual Level** — simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
 :::
 
-### Receiving Events {:.h2}
+### Receiving Events {.h2}
 
 Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://github.com/SAP-samples/cloud-cap-samples/blob/30764b261b6bf95854df59f54a8818a4ceedd462/bookstore/srv/mashup.js#L39-L47)* (which is the basic bookshop app enhanced by reviews, hence integration with `ReviewsService`):
 
@@ -188,8 +188,8 @@ Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://gi
   })
 ```
 
-[Learn more about registering event handlers in Node.js.](../../node.js/services#srv-on){:.learn-more}
-[Learn more about registering event handlers in Java.](../../java/provisioning-api#introduction-to-event-handlers){:.learn-more}
+[Learn more about registering event handlers in Node.js.](../../node.js/services#srv-on){.learn-more}
+[Learn more about registering event handlers in Java.](../../java/provisioning-api#introduction-to-event-handlers){.learn-more}
 
 The message payload is in the `data` property of the inbound `msg` object.
 
@@ -198,11 +198,11 @@ The message payload is in the `data` property of the inbound `msg` object.
 
 As emitting and handling events is an intrinsic feature of the CAP core runtimes, there's nothing else required when emitters and receivers live in the same process.
 
-![local.drawio](assets/local.drawio.svg){:.adapt}
+![local.drawio](assets/local.drawio.svg){.adapt}
 
 Let's see that in action...
 
-### 1. Start a Single Server Process {:#start-single-server}
+### 1. Start a Single Server Process {#start-single-server}
 
 Run the following command to start a reviews-enhanced bookshop as an all-in-one server process:
 
@@ -216,11 +216,11 @@ It produces a trace output like that:
 
 As apparent from the output, both, the two bookshop services `CatalogService` and `AdminService` as well as our new `ReviewsService`, are served in the same process (mocked, as the `ReviewsService` is configured as required service in _bookstore/package.json_).
 
-### 2. Add or Update Reviews {:#add-or-update-reviews}
+### 2. Add or Update Reviews {#add-or-update-reviews}
 
 Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to display the Vue.js UI that is provided with the reviews service sample:
 
-![image-20211018184259395](assets/image-20211018184259395.png){:.adapt}
+![image-20211018184259395](assets/image-20211018184259395.png){.adapt}
 
 - Choose one of the reviews.
 - Change the 5-star rating with the dropdown.
@@ -237,17 +237,17 @@ Which means the `ReviewsService` emitted a `reviewed` message that was received 
 
 Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the list of books served by `CatalogService` and refresh to see the updated average rating and reviews count:
 
-![image-20211018184900010](assets/image-20211018184900010.png){:.adapt}
+![image-20211018184900010](assets/image-20211018184900010.png){.adapt}
 
 
 ## Using Message Channels
 
 When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic.
 
-![remote.drawio](assets/remote.drawio.svg){:.adapt}
+![remote.drawio](assets/remote.drawio.svg){.adapt}
 
 
-::: tip **Uniform, Agnostic Messaging** {:.tip-title}
+::: tip **Uniform, Agnostic Messaging** {.tip-title}
 CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which stays on conceptual level.
 :::
 
@@ -265,7 +265,7 @@ For quick tests during development, CAP provides a simple file-based messaging s
 }
 ```
 
-[Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){:.learn-more}
+[Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
 In our samples, you find that in [@capire/reviews/package.json](https://github.com/SAP-samples/cloud-cap-samples/blob/main/reviews/package.json) as well as [@capire/bookstore/package.json](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookstore/package.json), which you'll run in the next step as separate processes.
 
@@ -341,13 +341,13 @@ By default CAP uses a single message channel for all messages.
 
 For example: If you consume messages from SAP S/4HANA in an enhanced version of `bookstore`, as well as emit messages a customer could subscribe and react to in a customer extension, the overall topology would look like that:
 
-![composite1.drawio](assets/composite1.drawio.svg){:.adapt}
+![composite1.drawio](assets/composite1.drawio.svg){.adapt}
 
 ### Using Separate Channels
 
 Now, sometimes you want to use separate channels for different emitters or receivers. Let's assume you want to have a dedicated channel for all events from SAP S/4HANA, and yet another separate one for all outgoing events, to which customer extensions can subscribe too. This situation is illustrated in this graphic:
 
-![composite2.drawio](assets/composite2.drawio.svg){:.adapt}
+![composite2.drawio](assets/composite2.drawio.svg){.adapt}
 
 This is possible when using [low-level messaging](#low-level-messaging), but comes at the price of loosing all advantages of conceptual-level messaging as explained in the following.
 
@@ -355,7 +355,7 @@ This is possible when using [low-level messaging](#low-level-messaging), but com
 
 To avoid falling back to low-level messaging, CAP provides the `composite-messaging` implementation, which basically acts like a transparent dispatcher for both, inbound and outbound messages. The resulting topology would look like that:
 
-![composite3.drawio](assets/composite3.drawio.svg){:.adapt}
+![composite3.drawio](assets/composite3.drawio.svg){.adapt}
 
 
 ::: tip
@@ -424,7 +424,7 @@ As with all other CAP services, add an entry to `cds.requires` in your _package.
 }
 ```
 
-[Learn more about `cds.env` and `cds.requires`.](../../node.js/cds-env#services){:.learn-more}
+[Learn more about `cds.env` and `cds.requires`.](../../node.js/cds-env#services){.learn-more}
 
 You're free how you name your messaging service. Could be `messaging` as in the previous example, or any other name you choose. You can also configure multiple messages services with different names.
 
@@ -490,7 +490,7 @@ When looking at the previous code samples, you see that in contrast to conceptua
 
 
 
-## CloudEvents Standard {:#cloudevents}
+## CloudEvents Standard {#cloudevents}
 
 CAP messaging has built-in support for formatting event data compliant to the [CloudEvents](https://cloudevents.io/) standard. Enable this using the `format` config option as follows:
 
@@ -513,7 +513,7 @@ With this setting, all mandatory and some more basic header fields, like `type`,
 
 
 ## [Using SAP Event Mesh](./event-mesh)
-<!-- {:.toc-redirect} -->
+<!-- {.toc-redirect} -->
 
 CAP has out-of-the-box support for SAP Event Mesh. As an
 application developer, all you need to do is configuring CAP to use `enterprise-messaging`,
@@ -532,7 +532,7 @@ usually in combination with `cloudevents` format, as in this excerpt from a _pac
 }
 ```
 
-[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){:.learn-more}
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 
 ::: tip
@@ -543,7 +543,7 @@ Find additional information about deploying SAP Event Mesh on SAP BTP in this gu
 
 
 ## [Events from SAP S/4HANA](./s4)
-<!-- {:.toc-redirect} -->
+<!-- {.toc-redirect} -->
 
 SAP S/4HANA integrates SAP Event Mesh for messaging. That makes it relatively easy
 for CAP-based applications to receive events from SAP S/4HANA systems.
@@ -565,7 +565,7 @@ extend service S4 with {
 }
 ```
 
-[Learn more about importing SAP S/4HANA service APIs.](../using-services/#external-service-api){:.learn-more}
+[Learn more about importing SAP S/4HANA service APIs.](../using-services/#external-service-api){.learn-more}
 
 With that gap filled, we can easily receive events from SAP S/4HANA the same way as from CAP services as explained in this guide, for example:
 

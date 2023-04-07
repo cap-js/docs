@@ -10,7 +10,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
-## General Statement {: #dpp-statement }
+## General Statement { #dpp-statement }
 
 Governments place legal requirements on industry to protect data and privacy.
 
@@ -21,7 +21,7 @@ No guide, including this one, concerning CAP attempts to give any advice on whet
 For general information about data protection and privacy (DPP) on SAP BTP, see the SAP BTP documentation under [Data Protection and Privacy](https://help.sap.com/docs/btp/sap-business-technology-platform/data-protection-and-privacy).
 
 
-## Data Protection & Privacy in CAP {: #dpp-cap }
+## Data Protection & Privacy in CAP { #dpp-cap }
 
 CAP is a framework that provides modeling and runtime features to enable customers to build business applications on top.
 As a framework, in general, CAP doesn't store or manage any personal data on its own with some exceptions:
@@ -44,11 +44,11 @@ Furthermore, it helps applications to provide [higher-level DPP-related function
 :::
 
 Also refer to related guides of most important platform services:
-[SAP Cloud Identity Services - Configuring Privacy Policies](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/ed48466d770f4519aa23bba754851fbd.html){:.learn-more}
-[SAP HANA Cloud - Data Protection and Privacy](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c82f8d6a84c147f8b78bf6416dae7290/ad9588189e844092910103f2f7b1c968.html){:.learn-more}
+[SAP Cloud Identity Services - Configuring Privacy Policies](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/ed48466d770f4519aa23bba754851fbd.html){.learn-more}
+[SAP HANA Cloud - Data Protection and Privacy](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c82f8d6a84c147f8b78bf6416dae7290/ad9588189e844092910103f2f7b1c968.html){.learn-more}
 
 
-## Data Protection & Privacy Supported by CAP {: #dpp-support }
+## Data Protection & Privacy Supported by CAP { #dpp-support }
 <!-- TODO: Duplicate attribute error with: #SEC-255 #SEC-265 #SEC-254 -->
 
 CAP provides several [features](../guides/data-privacy/) to help applications meet DPP-requirements:

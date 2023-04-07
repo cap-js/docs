@@ -6,10 +6,10 @@ status: released
 
 # CAP Service SDK for Node.js
 Reference Documentation
-{: .subtitle}
+{ .subtitle}
 
 
-<!-- {% include links-for-node.md %} -->
+<!-- % include links-for-node.md %} -->
 
 
 ## Introduction
@@ -29,11 +29,11 @@ This especially applies to bootstrapping the [`cds.server`](./cds-serve) and the
 provided through [`cds.ApplicationService`](./app-services).
 
 
-<!-- ## Content {:#toc}
+<!-- ## Content {#toc}
 
 
 <style scoped > ul strong { font-weight: 500 } </style>
-{:#markdown-toc class="sidebar menu"}
+{#markdown-toc class="sidebar menu"}
 - [cds API Facade](cds-facade)
 - [cds.**Service** APIs](services)
 - [cds.**Requests**](events)
@@ -56,8 +56,8 @@ provided through [`cds.ApplicationService`](./app-services).
 - [Remote Services](remote-services)
 - [Transactions](cds-context-tx)
 - [Databases](databases)
-- [Messaging](messaging) {% if jekyll.environment != "external" %}
-- [Audit Logging](platform-services) {% endif %}
+- [Messaging](messaging) % if jekyll.environment != "external" %}
+- [Audit Logging](platform-services) % endif %}
 - [Using Typescript](typescript)
 - [**@sap/cds-dk** APIs](cds-dk) -->
 

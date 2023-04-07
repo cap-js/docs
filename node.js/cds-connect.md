@@ -9,17 +9,17 @@ status: released
 Services frequently consume other services, which could be **local** services served by the same process, or **external** services, for example consumed through OData.
 The latter include **database** services. In all cases use `cds.connect` to connect to such services, for example, from your:
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
-<!--- {% assign c = '<span style="color:grey">&#8627; dbc</span>' %} -->
-
-
+<!--- % assign c = '<span style="color:grey">&#8627; dbc</span>' %} -->
 
 
 
 
-## Connecting to Required Services {: #cds-connect-to }
+
+
+## Connecting to Required Services { #cds-connect-to }
 
 
 ### cds.connect.to  <i>  (name, options?) &#8594; [service](./services) </i>
@@ -72,7 +72,7 @@ cds.connect.to ({kind: 'sqlite', credentials:{database:'my.db'}})
 ```
 
 
-## Configuring Required Services {:#cds-env-requires }
+## Configuring Required Services {#cds-env-requires }
 
 To configure required remote services in Node.js, simply add respective entries to the `cds.requires` sections in your _package.json_ or in _.cdsrc.json_ (omitting the `cds.` prefix). These configurations are constructed as follows:
 
@@ -129,7 +129,7 @@ This is backed by these default configurations:
 
 Given that configuration, `cds.connect.to('db')` would load the generic service implementation.
 
-[Learn more about `cds.env`.](cds-env){:.learn-more}
+[Learn more about `cds.env`.](cds-env){.learn-more}
 
 
 ### cds.requires.<i>\<srv\></i>`.model`
@@ -162,7 +162,7 @@ The example specifies `service: 'BusinessPartnerService'`, which results in a ch
 
 Specify the credentials to connect to the service. Credentials need to be kept secure and should not be part of a configuration file.
 
-## Service Bindings {:#service-bindings}
+## Service Bindings {#service-bindings}
 
 A service binding connects an application with a cloud service. For that, the cloud service's credentials need to be injected in the CDS configuration:
 
@@ -184,7 +184,7 @@ You specify the credentials to be used for a service by using one of the followi
 
 What to use depends on your environment.
 
-###  <i>  In Cloud Foundry </i> {:#bindings-in-cloud-platforms}
+###  <i>  In Cloud Foundry </i> {#bindings-in-cloud-platforms}
 
 Find general information about how to configure service bindings in Cloud Foundry:
 
@@ -194,7 +194,7 @@ Find general information about how to configure service bindings in Cloud Foundr
 
 Cloud Foundry uses auto configuration of service credentials through the `VCAP_SERVICES` environment variable.
 
-####  <i>  Through `VCAP_SERVICES` env var </i> {:#vcap_services}
+####  <i>  Through `VCAP_SERVICES` env var </i> {#vcap_services}
 
 When deploying to Cloud Foundry, service bindings are provided in `VCAP_SERVICES` process environment variables, which is JSON-stringified array containing credentials for multiple services. The entries are matched to the entries in `cds.requires` as follows, in order of precedence:
 
@@ -299,7 +299,7 @@ Here are a few examples:
 </table>
 
 
-###  <i>  In Kubernetes / Kyma </i> {: #in-kubernetes-kyma}
+###  <i>  In Kubernetes / Kyma </i> { #in-kubernetes-kyma}
 
 CAP supports [servicebinding.io](https://servicebinding.io/) service bindings and SAP BTP service bindings created by the [SAP BTP Service Operator](https://github.com/SAP/sap-btp-service-operator).
 
@@ -355,11 +355,11 @@ CAP services receive their credentials from these bindings [as if they were prov
 
 <!-- todo: add link once BTP Service Operator migration is finished and doc is updated:
 
-[Binding Service Instances to Kyma runtime](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d1aa23c492694d669c89a8d214f29147.html){:.learn-more}
+[Binding Service Instances to Kyma runtime](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d1aa23c492694d669c89a8d214f29147.html){.learn-more}
 
 -->
 
-####  <i>  Through environment variables </i> {:#env-service-bindings}
+####  <i>  Through environment variables </i> {#env-service-bindings}
 
 All values of a secret can be added as environment variables to a pod. A prefix can be prepended to each of the environment variables. To inject the values from the secret in the right place of your CDS configuration, you use the configuration path to the `credentials` object of the service as the prefix:
 
@@ -385,7 +385,7 @@ For the _configuration path_, you **must** use the underscore ("`_`") character 
 :::
 
 
-####  <i>  Through the file system </i> {:#file-system-service-bindings}
+####  <i>  Through the file system </i> {#file-system-service-bindings}
 
 CAP can read configuration from a file system by specifying the root path of the configuration in the `CDS_CONFIG` environment variable.
 
@@ -419,7 +419,7 @@ For Kubernetes, you can create a volume with the content of a secret and mount i
           readOnly: true
 ```
 
-####  <i>  Provide Service Bindings (`VCAP_SERVICES`) </i> {:#provide-service-bindings}
+####  <i>  Provide Service Bindings (`VCAP_SERVICES`) </i> {#provide-service-bindings}
 
 If your application runs in a different environment than Cloud Foundry, the `VCAP_SERVICES` env variable is not available. But it may be needed by some libraries, for example the SAP Cloud SDK.
 
@@ -573,7 +573,7 @@ One prominent exception of that, which you would frequently add to your _package
 
 
 
-###  <i>  Basic Mechanism </i> {:#bindings-via-cds-env}
+###  <i>  Basic Mechanism </i> {#bindings-via-cds-env}
 
 
 The CAP Node.js runtime expects to find the service bindings in `cds.env.requires`.
@@ -631,7 +631,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
 Make sure that the _.cdsrc-private.json_ file is not checked into your project.
 :::
 
-###  <i>  Through `process.env` Variables </i> {:#bindings-via-process-env}
+###  <i>  Through `process.env` Variables </i> {#bindings-via-process-env}
 
 You could pass credentials as process environment variables, for example in ad-hoc tests from the command line:
 
@@ -655,7 +655,7 @@ cds.requires.db.credentials.database = sqlite.db
 
 
 
-## Typical Use Cases {:.impl.concept}
+## Typical Use Cases {.impl.concept}
 
 ###  <i>  Service Reuse </i>
 
@@ -663,7 +663,7 @@ cds.requires.db.credentials.database = sqlite.db
 ###  <i>  Framework Services </i>
 
 
-## Best Practices {:.impl.concept}
+## Best Practices {.impl.concept}
 
 ###  <i>  Mocking Remote Services </i>
 

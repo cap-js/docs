@@ -23,8 +23,8 @@ const q = SELECT.from('Foo')      //> using local variable
 
 <br>
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 
 ## Constructing Queries
@@ -33,7 +33,7 @@ You can choose between two primary styles to construct queries: A [SQL-like flue
 
 
 
-###  <em>  Using Fluent APIs with classic method calls </em> {:#fluent-api}
+###  <em>  Using Fluent APIs with classic method calls </em> {#fluent-api}
 
 
 The Fluent API resembles well-known SQL syntax to construct queries like that:
@@ -46,12 +46,12 @@ let q4 = DELETE.from('Books').where({ID:201})
 ```
 
 
-::: tip *Not Locked in to SQL*{:.tip-title}
+::: tip *Not Locked in to SQL*{.tip-title}
 While both, [CQN](../cds/cqn) as well as the [fluent API](#fluent-api) resemble well-known SQL syntax, `cds.ql` isn't locked in to SQL. In fact, queries can be sent to any kind of services, including NoSQL databases or [remote services](remote-services) for execution.
 :::
 
 
-###  <em>  Using Service APIs plus Fluent APIs </em> {:#service-api}
+###  <em>  Using Service APIs plus Fluent APIs </em> {#service-api}
 
 The following uses [the Querying API provided by `cds.Service`](services#srv-run) to construct exactly the same effective queries as the ones constructed with the fluent API above:
 
@@ -73,7 +73,7 @@ let q4 = cds.delete('Books').where({ID:201})
 ```
 
 
-###  <em>  Using Tagged Template String Literals </em> {:#tts}
+###  <em>  Using Tagged Template String Literals </em> {#tts}
 
 Version 5 of `@sap/cds` introduced support for [tagged template string literals](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals) with both API styles, which greatly promotes embedded CQL experience.
 
@@ -96,7 +96,7 @@ let q4 = cds.delete `Books` .where `ID=${201}`
 ```
 
 
-###  <em>  Using Reflected Definitions as Query Targets </em> {:#using-reflected-defs}
+###  <em>  Using Reflected Definitions as Query Targets </em> {#using-reflected-defs}
 
 It is recommended best practice to use entity definitions reflected from a service's model to construct queries.
 Doing so greatly simplifies code as it avoids repeating namespaces all over the place.
@@ -111,7 +111,7 @@ let q3 = UPDATE (Books) .where `ID=${201}` .with `title=${'Sturmhöhe'}`
 let q4 = DELETE.from (Books) .where `ID=${201}`
 ```
 
-[Learn more about using reflected definitions from a service's model](services#srv-entities){:.learn-more}
+[Learn more about using reflected definitions from a service's model](services#srv-entities){.learn-more}
 
 
 ## Executing Queries
@@ -130,7 +130,7 @@ let query = SELECT `ID,title` .from `Books`
 ```js
 let books = await cds.run (query)
 ```
-[Note: `cds` acts as a shortcut to `cds.db` &rarr; see `cds.run` for details](cds-facade#cds-run){:.learn-more}
+[Note: `cds` acts as a shortcut to `cds.db` &rarr; see `cds.run` for details](cds-facade#cds-run){.learn-more}
 
 
 ##### Sending Queries to Other Services
@@ -141,14 +141,14 @@ Instead of a database service, you can also send queries to other services, loca
 const cats = await cds.connect.to ('CatalogService')
 let books = await cats.run (query)
 ```
-[Learn more about connecting to other services](cds-connect){:.learn-more}
+[Learn more about connecting to other services](cds-connect){.learn-more}
 
 `CatalogService` might be a remote service connected via OData. In this case, the query would be translated to an OData request sent via http.
 
 
 
 
-###  <em>  Promise-`await`-ing Queries </em> {:#await-ing-queries}
+###  <em>  Promise-`await`-ing Queries </em> {#await-ing-queries}
 
 Alternatively, you can just `await` a constructed query, which by default passes the query to the [primary database service's](cds-facade#cds-db) `srv.run` method. That is, the following two code samples are equivalent:
 
@@ -286,7 +286,7 @@ A malicious user might enter some SQL code fragment like that:
 ```sql
 0; DELETE from Books; -- gotcha!
 ```
-{:style="margin: 10px 40px"}
+{style="margin: 10px 40px"}
 
 In effect, your generated SQL statements would effectively look like that:
 
@@ -301,7 +301,7 @@ Whenever there's user input involved...
 :::
 
 
-## **SELECT** ... {:#SELECT}
+## **SELECT** ... {#SELECT}
 
 Fluent API to construct [CQN SELECT](../cds/cqn#select) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -332,7 +332,7 @@ This can be used to construct [CQN](../cds/cqn) query objects from statement usi
 
 </div>
 
-### <i>&#8627;</i> .one <i>|</i> .distinct {:#select-one }
+### <i>&#8627;</i> .one <i>|</i> .distinct {#select-one }
 
 <div class='indent' markdown="1">
 
@@ -356,7 +356,7 @@ SELECT.distinct.from (Authors)
 
 </div>
 
-### <i>&#8627;</i>.columns  <i>  (cols) </i> {:#select-columns  .first-of-many}
+### <i>&#8627;</i>.columns  <i>  (cols) </i> {#select-columns  .first-of-many}
 
 <div class="indent" markdown="1">
 
@@ -471,11 +471,11 @@ Projection functions use these mechanisms:
 
 </div>
 
-### <i>&#8627;</i>.excluding  <i>  (...refs) </i> {: .impl.concept }
+### <i>&#8627;</i>.excluding  <i>  (...refs) </i> { .impl.concept }
 
- [Learn more about *excluding* clauses in CQL](../cds/cql#excluding-clause){:.learn-more} {: .indent}
+ [Learn more about *excluding* clauses in CQL](../cds/cql#excluding-clause){.learn-more} { .indent}
 
-### <i>&#8627;</i> .from  <i>  (entity, key?, cols?)  </i> {: #select-from }
+### <i>&#8627;</i> .from  <i>  (entity, key?, cols?)  </i> { #select-from }
 
 <div class='indent' markdown='1'>
 
@@ -528,7 +528,7 @@ SELECT.from (Books,201)
 SELECT.from (Books, {ID:201})
 SELECT.from (Books.texts, {ID:201, locale:'de'})
 ```
-[Learn more about `<entity>.texts` property](cds-reflect#entity-texts){:.learn-more}
+[Learn more about `<entity>.texts` property](cds-reflect#entity-texts){.learn-more}
 
 ##### Argument `cols` is a projection ...
 
@@ -538,7 +538,7 @@ SELECT.from (Books.texts, {ID:201, locale:'de'})
 
 </div>
 
-### <i>&#8627;</i>.alias  <i>  (string) </i> {: #select-alias }
+### <i>&#8627;</i>.alias  <i>  (string) </i> { #select-alias }
 
 Specifies the alias which you can refer to in other functions:
 
@@ -547,7 +547,7 @@ SELECT.from ('Authors').alias('a')
   .where({ exists: SELECT.from('Books').where('author_ID = a.ID')})
 ```
 
-### <i>&#8627;</i>.where  <i>  (expr) </i> {: #where  .first-of-many}
+### <i>&#8627;</i>.where  <i>  (expr) </i> { #where  .first-of-many}
 ### <i>&#8627;</i>.having  <i>  (expr) </i>
 
 <div class='indent' markdown='1'>
@@ -647,7 +647,7 @@ SELECT ... .limit (25,100)  //> fifth page
 </div>
 
 
-### <i>&#8627;</i>.forUpdate  <i>  (options?) ... </i> {:#select-forUpdate }
+### <i>&#8627;</i>.forUpdate  <i>  (options?) ... </i> {#select-forUpdate }
 
 <div class='indent' markdown='1'>
 
@@ -672,7 +672,7 @@ All acquired locks are released when the current transaction is finished, that i
 
 <br><br>
 
-### <i>&#8627;</i>.forShareLock  <i>  () </i> {:#select-forsharelock }
+### <i>&#8627;</i>.forShareLock  <i>  () </i> {#select-forsharelock }
 
 Locks the selected rows in the current transaction, thereby preventing concurrent updates by other parallel
 transactions, until the transaction is committed or rolled back. Using a shared lock allows all transactions to read the locked record.
@@ -680,7 +680,7 @@ transactions, until the transaction is committed or rolled back. Using a shared 
 If a queried record is already exclusively locked by another transaction, the `.forShareLock()` method waits for the lock to be released.
 
 
-## **INSERT** ... {:#INSERT}
+## **INSERT** ... {#INSERT}
 
 Fluent API to construct [CQN INSERT](../cds/cqn#insert) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -702,7 +702,7 @@ INSERT (books) .into (Books)
 
 </div>
 
-### <i>&#8627;</i> .into  <i>  (entity, ...data?) </i> {:#insert-into }
+### <i>&#8627;</i> .into  <i>  (entity, ...data?) </i> {#insert-into }
 
 <div class="indent" markdown="1">
 
@@ -730,7 +730,7 @@ INSERT.into (Books, [
 
 
 
-### <i>&#8627;</i>.entries  <i>  (...data) </i> {:#insert-entries }
+### <i>&#8627;</i>.entries  <i>  (...data) </i> {#insert-entries }
 
 <div class="indent" markdown="1">
 
@@ -752,7 +752,7 @@ The entries can be specified as individual method parameters of type object — 
 </div>
 
 
-### <i>&#8627;</i> .values <i>/</i> rows <i> (...) </i> {:#insert-rows }
+### <i>&#8627;</i> .values <i>/</i> rows <i> (...) </i> {#insert-rows }
 
 <div class="indent" markdown="1">
 
@@ -781,7 +781,7 @@ INSERT.into (Books) .columns (
 ```
 </div>
 
-### <i>&#8627;</i>.as  <i>  ( SELECT... ) </i> {:#insert-as }
+### <i>&#8627;</i>.as  <i>  ( SELECT... ) </i> {#insert-as }
 
 <div class="indent" markdown="1">
 
@@ -794,7 +794,7 @@ INSERT.into('Bar') .as (SELECT.from('Foo'))
 <br><br>
 
 
-## **UPSERT** ... {:#UPSERT}
+## **UPSERT** ... {#UPSERT}
 
 Fluent API to construct [CQN UPSERT](../cds/cqn#upsert) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -816,7 +816,7 @@ UPSERT (books) .into (Books)
 
 </div>
 
-### <i>&#8627;</i> .into  <i>  (entity, ...data?) </i> {:#upsert-into }
+### <i>&#8627;</i> .into  <i>  (entity, ...data?) </i> {#upsert-into }
 
 <div class="indent" markdown="1">
 
@@ -843,7 +843,7 @@ UPSERT.into (Books, [
 </div>
 
 
-### <i>&#8627;</i>.entries  <i>  (...data) </i> {:#upsert-entries }
+### <i>&#8627;</i>.entries  <i>  (...data) </i> {#upsert-entries }
 
 <div class="indent" markdown="1">
 
@@ -865,7 +865,7 @@ The entries can be specified as individual method parameters of type object — 
 </div>
 
 
-## **UPDATE** ... {:#UPDATE}
+## **UPDATE** ... {#UPDATE}
 
 ### UPDATE...
 
@@ -918,7 +918,7 @@ UPDATE (Books, {ID:201}) .with(...)
 UPDATE (Books.texts, {ID:201, locale:'de'}) .with(...)
 ```
 
-[Learn more about `<entity>.texts` property](cds-reflect#entity-texts){:.learn-more}
+[Learn more about `<entity>.texts` property](cds-reflect#entity-texts){.learn-more}
 
 </div>
 
@@ -951,12 +951,12 @@ UPDATE (Books,ID) .with ({
 
 ### <i>&#8627;</i>.where  <i>  (expr) </i>
 
-[As in SELECT.where](#where){:.learn-more}
+[As in SELECT.where](#where){.learn-more}
 
 <br><br>
 
 
-## **DELETE** ... {:#DELETE}
+## **DELETE** ... {#DELETE}
 
 Fluent API to construct [CQN DELETE](../cds/cqn#delete) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -976,18 +976,18 @@ DELETE.from('Books').where ({stock:{'<':1}})
 
 ### <span style="color:grey"><i>&#8627;</i> </span>.where <i> (expr) </i>
 
-[As in SELECT.where](#where){:.learn-more}
+[As in SELECT.where](#where){.learn-more}
 
 <br><br>
 
 
-## Class cds.**Query**  {: #cds-query}
+## Class cds.**Query**  { #cds-query}
 
 Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#fluent-api) to construct queries as highlighted below.
 
 
 
-### .cmd  <i>  &#8674; 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | ... </i> {:#query-cmd}
+### .cmd  <i>  &#8674; 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE' | ... </i> {#query-cmd}
 
 
 The current command, that is one of these strings:
@@ -1002,6 +1002,6 @@ The current command, that is one of these strings:
 This is usefull for generic query processors, such as outbound protocol adapters or database services, which need to translate given queries into target representations.
 
 
-### .then  <i>  &#8594; results </i> {:#query-then}
+### .then  <i>  &#8594; results </i> {#query-then}
 
 All instances of `cds.Query`, that is, all queries constructed with the fluent API functions as documented below, are thenables. `await`ing them executes the query with the target's service, or the primary database service as explained in section [Executing Queries](#await-ing-queries).

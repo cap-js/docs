@@ -34,7 +34,7 @@ This section describes these changes and what is necessary to migrate your appli
 </style>
 
 
-## Things You _Must_ Fix {:#must-fix}
+## Things You _Must_ Fix {#must-fix}
 
 Following are the most likely things you might face when upgrading to compiler v2, and **must** fix.
 
@@ -68,7 +68,7 @@ service S {
 Compiling this would produce this error message in compiler v2 or warning with compiler v1:
 
 Target “F” is exposed in service “S” by multiple projections “S.F1”, “S.F2” - no implicit redirection.
-{:.error.danger}
+{.error.danger}
 <!-- TODO -->
 
 
@@ -139,10 +139,10 @@ entity Bar { b: Foo.a; }
 Compiling this would produce this error with compiler v2 or warning with compiler v1:
 
 Artifact “Foo.a” hasn’t been found
-{:.error.danger}
+{.error.danger}
 <!-- TODO -->
 Replace the dot before "a" by a colon.
-{:.error.warning}
+{.error.warning}
 
 ::: tip
 **Fix:** Rewrite such references from `Foo.a` to `Foo:a`.
@@ -161,7 +161,7 @@ While you should not have to refer to these generated entities at all,
 we saw this did happen in stakeholder models.
 
 Example:
-{:#foo-texts-example}
+{#foo-texts-example}
 
 ```cds
 entity Foo : cuid { /* ...; */ title : localized String; }
@@ -171,7 +171,7 @@ entity FooTexts as projection on Foo_texts; //> error
 Compiling this would produce that error:
 
 No artifact has been found with name “Foo_texts”
-{:.error.danger}
+{.error.danger}
 <!-- TODO -->
 
 ::: tip **Fix:**
@@ -209,10 +209,10 @@ entity "Strange Name, isn't it?" { /*...*/ }
 Compiling this would result in four errors of this form (warning in case of compiler v1):
 
 Deprecated delimited identifier syntax, use ![...]
-{:.error.danger}
+{.error.danger}
 <!-- TODO -->
 Deprecated delimited identifier syntax, use ![...]
-{:.error.warning}
+{.error.warning}
 
 ::: tip **Fix:**
 Correct each to either of:
@@ -257,7 +257,7 @@ entity Foo as select from Bar b // table alias w/o 'as'
 Compiling this would give you one error and two warnings of this kind:
 
 Add the keyword **AS** in front of the alias name
-{:.error.warning}
+{.error.warning}
 
 ::: tip **Fix:**
 Always do as the warning asks you to do
@@ -286,7 +286,7 @@ entity Foo as select from Bar {
 Can fail at runtime with an SAP HANA exception like that:
 
 ... exception 70006930
-{:.error.danger}
+{.error.danger}
 
 ::: tip **Fix:**
 Add explicit SQL `cast` expressions as shown in the following sample.
@@ -318,7 +318,7 @@ entity E { x: SomeAspect; y: SomeEntity; }
 Compiling this produces errors of this form:
 
 A type or an element is expected here.
-{:.error.danger}
+{.error.danger}
 
 ::: tip **Fix:**
 Don't use an `aspect` or an `entity` where only types are allowed.
@@ -335,10 +335,10 @@ service S { action foo() returns ExternalEntity; }
 Compiling this produces errors of this form in compiler v2 or warnings in compiler v1:
 
 A type, an element, or a service entity is expected here
-{:.error.danger}
+{.error.danger}
 
 Entity type must be from the current service ‘S’
-{:.error.warning}
+{.error.warning}
 
 ::: tip **Fix Option 1**<br>
 Add a projection on the entity in the service and use this as _foo_'s return type.
@@ -351,7 +351,7 @@ Define and use an auxiliary type, for example `type T : E {}`.
 You can fix this already with compiler v1 &rarr; just pay attention to the warning.
 
 
-## Things You _Should_ Fix {:#should-fix}
+## Things You _Should_ Fix {#should-fix}
 
 Following are things, which don't break when upgrading to compiler v2, but nevertheless **should**
 be fixed whenever possible, as they might cause nifty follow-up problems.
@@ -383,7 +383,7 @@ Choose a different name.
 Abstract entities are deprecated, the definition of an `abstract entity` now results in this warning:
 
 Abstract entity definitions are deprecated; use aspect definitions instead.
-{:.error.warning}
+{.error.warning}
 
 ::: tip **Fix:**
 Use [aspects](./cdl#aspects) instead of abstract entities.
@@ -636,7 +636,7 @@ CAP Java supports using CDS models that have been compiled with the CDS complier
 
 For every entity that has *localized* elements the CDS compiler [behind the scenes](../guides/localized-data/#behind-the-scenes) generates a corresponding "texts" entity that holds the translated texts. The name of this entity changes with CDS compiler v2.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 With compiler v1 the "texts" entity is generated with the suffix `_texts`, while the compiler v2 uses the suffix `.texts`!
 :::
 
@@ -685,7 +685,7 @@ entity Books.texts {
 
 While this change is taken into account automatically by the OData protocol adapters, it might require attention in your Java custom code.
 
-#### Avoid Using the Fully Qualified "texts" Entity Name {: #texts-entity-name}
+#### Avoid Using the Fully Qualified "texts" Entity Name { #texts-entity-name}
 
 The best way to tackle this change is to avoid to *directly* use the fully qualified name of the "texts" entity. Instead, it is recommended to access it indirectly via the `texts` association:
 
@@ -711,7 +711,7 @@ CAP Java allows to [provide initial data](../guides/databases/#providing-initial
 mv bookshop-Books_texts.csv bookshop-Books.texts.csv
 ```
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 If a CSV file has already been deployed to a productive SAP HANA schema it can't be renamed any longer. To support this situation cds deploy as well as the CSV data loader in CAP Java still suppport CSV files with a `_texts` suffix.
 :::
 
@@ -754,7 +754,7 @@ In this example, the return type of the `cancel` function is automatically expos
 
 With compiler v1 this change was also reflected in the CSN. With compiler v2 this is not the case any longer.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 If types are used in a service that are defined outside of the service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change when upgrading from compiler v1 to v2!
 :::
 
@@ -836,7 +836,7 @@ OData, however, does not support anonymous types. Hence, the compiler will autom
 
 In this example the compiler generated the type `Person_emails` in the OData service `hr`.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 If an inline defined type is used in a service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change (an inner interface is generated) when upgrading from compiler v1 to v2!
 :::
 

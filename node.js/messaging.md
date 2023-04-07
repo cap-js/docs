@@ -11,8 +11,8 @@ status: released
 
 {{$frontmatter.synopsis}}
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 
 ## cds.**MessagingService**  <i>  class </i>
@@ -219,7 +219,7 @@ Example:
 
 ### Topic Manipulations
 
-#### [SAP Message Queuing](../guides/messaging/#sap-message-queuing) {: .impl.internal}
+#### [SAP Message Queuing](../guides/messaging/#sap-message-queuing) { .impl.internal}
 
 Dots are replaced by slashes.
 
@@ -266,7 +266,7 @@ For local environments, use [`cds bind`](../advanced/hybrid-testing#cds-bind-usa
 For local testing use [`kind`: `enterprise-messaging-shared`](#event-mesh-shared) to avoid the complexity of HTTP-based messaging.
 :::
 
-### SAP Event Mesh (Shared) {: #event-mesh-shared}
+### SAP Event Mesh (Shared) { #event-mesh-shared}
 
 `kind`: `enterprise-messaging-shared`
 
@@ -302,7 +302,7 @@ Example:
 }
 ```
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 When using `enterprise-messaging-shared` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
 :::
 
@@ -402,7 +402,7 @@ This will not work in the `dev` plan of SAP Event Mesh.
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
 :::
 
-#### Multitenancy {: .impl.internal}
+#### Multitenancy { .impl.internal}
 
 1. Set the property `instanceType` to `reuse` in the service descriptor of your SAP Event Mesh instance:
 
@@ -490,7 +490,7 @@ If you want to receive messages on your local computer, you need to provide an a
 
 
 
-### SAP Message Queuing {: .impl.internal}
+### SAP Message Queuing { .impl.internal}
 `kind`: `message-queuing`
 
 Use this if you want to communicate using [SAP BTP Message Queuing](https://wiki.one.int.sap/wiki/display/CoCo/Message+Queuing+-+Message+Broker+as+a+Service+@+SAP).
@@ -609,8 +609,8 @@ module.exports = async srv => {
 
 ## Transactional Outbox
 
-Usually the emit of messages {% if jekyll.environment != "external" %}
-(for [cds.MessagingService](messaging) and [cds.AuditLogService](./platform-services#audit-logging)){% endif %}
+Usually the emit of messages % if jekyll.environment != "external" %}
+(for [cds.MessagingService](messaging) and [cds.AuditLogService](./platform-services#audit-logging))% endif %}
 should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
 To solve this problem, an outbox is used internally to defer the emit of messages until the success of the current transaction.
 
@@ -626,7 +626,7 @@ The message is lost if its emit fails, there is no retry mechanism.
 The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 :::
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 If you've globally enabled the persistent outbox, you can enforce a deferrable service to use the in-memory outbox. Set the outbox configuration to kind `in-memory-outbox`:
 
 ```json
@@ -643,7 +643,7 @@ If you've globally enabled the persistent outbox, you can enforce a deferrable s
 ```
 
 
-{% endif %}
+% endif %}
 
 
 ### Persistent Outbox

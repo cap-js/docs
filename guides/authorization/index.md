@@ -27,12 +27,12 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 Authorization means restricting access to data by adding respective declarations to CDS models, which are then enforced in service implementations. By adding such declarations, we essentially revoke all default access and then grant individual privileges.
 
 <!-- #### Content -->
-<!--- {% include _toc levels="2,3" %} -->
-<!--- {% include links.md %} -->
+<!--- % include _toc levels="2,3" %} -->
+<!--- % include links.md %} -->
 
 
 
-## Authentication as Prerequisite {: #prerequisite-authentication}
+## Authentication as Prerequisite { #prerequisite-authentication}
 
 In essence, authentication verifies the user's identity and the presented claims such as granted roles and tenant membership. Briefly, authentication reveals _who_ uses the service. In contrast, authorization controls _how_ the user can interact with the application's resources according to granted privileges. As the access control needs to rely on verified claims, authentication is a prerequisite to authorization.
 
@@ -64,7 +64,7 @@ service InternalService {
 ```
 The `InternalService` service can only receive events sent by in-process handlers.
 
-## User Claims {: #user-claims}
+## User Claims { #user-claims}
 
 CDS authorization is _model-driven_. This basically means that it binds access rules for CDS model elements to user claims. For instance, access to a service or entity is dependent on the role a user has been assigned to. Or you can even restrict access on an instance level, for example, to the user who created the instance.<br>
 The generic CDS authorization is built on a _CAP user concept_, which is an _abstraction_ of a concrete user type determined by the platform's identity service. This design decision makes different authentication strategies pluggable to generic CDS authorization.<br>
@@ -86,7 +86,7 @@ In the CDS model, some of the user properties can be referenced with the `$user`
 > A single user attribute can have several different values. For instance, the `$user.language` attribute can contain `['DE','FR']`.
 
 
-### User Roles {: #roles}
+### User Roles { #roles}
 
 As a basis for access control, you can design conceptual roles that are application specific. Such a role should reflect how a user can interact with the application. For instance, the role `Vendor` could describe users who are allowed to read sales articles and update sales figures. In contrast, a `ProcurementManager` can have full access to sales articles. Users can have several roles, that are assigned by an administrative user in the platform's authorization management solution.
 ::: tip
@@ -94,7 +94,7 @@ CDS-based authorization deliberately refrains from using technical concepts, suc
 :::
 
 
-### Pseudo Roles {: #pseudo-roles}
+### Pseudo Roles { #pseudo-roles}
 
 It’s frequently required to define access rules that aren’t based on an application-specific user role, but rather on the _authentication level_ of the request. For instance, a service could be accessible not only for identified, but also for anonymous (for example, unauthenticated) users. Such roles are called pseudo roles as they aren’t assigned by user administrators, but are added at runtime automatically.
 
@@ -132,7 +132,7 @@ Here a combination of `user_name` and `origin` mapped to `$user` might be a feas
 Be very careful when redefining `$user`. The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
 :::
 
-## Restrictions {: #restrictions}
+## Restrictions { #restrictions}
 
 According to [authentication](#prerequisite-authentication), CAP endpoints are closed to anonymous users. But **by default, CDS services have no access control** which means that authenticated users are not restricted. To protect resources according to your business needs, you can define [restrictions](#restrict-annotation) that make the runtime enforce proper access control. Alternatively, you can add custom authorization logic by means of an [authorization enforcement API](#enforcement).
 
@@ -150,7 +150,7 @@ Beside the scope, restrictions can limit access to resources with regards to *di
 - The [roles](#roles) of the user (who?)
 - [Filter-condition](#instance-based-auth) on instances to operate on (which?)
 
-### Restricting Events with @readonly and @insertonly {: #restricting-events}
+### Restricting Events with @readonly and @insertonly { #restricting-events}
 
 Annotate entities with `@readonly` or `@insertonly` to statically restrict allowed operations for **all** users as demonstrated in the example:
 
@@ -176,7 +176,7 @@ service SomeService {
 }
 ```
 
-#### Events to Auto-Exposed Entities {: #events-and-auto-expose}
+#### Events to Auto-Exposed Entities { #events-and-auto-expose}
 
 In general, entities can be exposed in services in different ways: it can be **explicitly exposed** by the modeler (for example, by a projection), or it can be **auto-exposed** by the CDS compiler due to some reason.
 Access to auto-exposed entities needs to be controlled in a specific way. Consider the following example:
@@ -229,7 +229,7 @@ This results in the following access matrix:
 CodeLists such as `Languages`, `Currencies`, and `Countries` from `sap.common` are annotated with `@cds.autoexpose` and so are explicitly auto-exposed.
 :::
 
-### Restricting Roles with @requires {: #requires}
+### Restricting Roles with @requires { #requires}
 
 You can use the `@requires` annotation to control which (pseudo-)role a user requires to access a resource:
 
@@ -245,7 +245,7 @@ When restricting service access through `@requires`, the service's metadata endp
 :::
 
 
-### Access Control with @restrict {: #restrict-annotation}
+### Access Control with @restrict { #restrict-annotation}
 
 You can use the `@restrict` annotation to define authorizations on a fine-grained level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
 The building block of such a restriction is a single **privilege**, which has the general form:
@@ -345,7 +345,7 @@ service CatalogService {
 ```
 
 
-### Combined Restrictions {: #combined-restrictions}
+### Combined Restrictions { #combined-restrictions}
 
 Restrictions can be defined on different levels in the CDS model hierarchy. Bound actions and functions refer to an entity, which in turn refers to a service. Unbound actions and functions refer directly to a service. As a general rule, **all authorization checks of the hierarchy need to be passed** (logical AND).
 This is illustrated in the following example:
@@ -399,7 +399,7 @@ Basically, the access control for entities in draft mode differs from the [gener
 As a result of the derived authorization rules for draft entities, you don't need to take care of draft events when designing the CDS authorization model.
 :::
 
-### Restrictions of Auto-Exposed and Generated Entities {: #autoexposed-restrictions}
+### Restrictions of Auto-Exposed and Generated Entities { #autoexposed-restrictions}
 
 In general, **a service actually exposes more than the explicitly modeled entities from the CDS service model**. This stems from the fact that the compiler auto-exposes entities for the sake of completeness, for example, by adding composition entities. Another reason is generated entities for localization or draft support that need to appear in the service. Typically, such entities don't have restrictions. The emerging question is, how can requests to these entities be authorized?
 
@@ -473,7 +473,7 @@ We recommend defining restrictions on a database entity level only in exceptiona
 A service level entity can't inherit a restriction with a `where` condition that doesn’t match the projected entity. The restriction has to be overridden in this case.
 :::
 
-## Instance-Based Authorization {: #instance-based-auth }
+## Instance-Based Authorization { #instance-based-auth }
 
 The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*. <br>
 The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies following standard CDS events only<sup>1</sup>:
@@ -505,7 +505,7 @@ Supported features are:
 * [Exists predicate](#exists-predicate) based on subselects.
 
 
-### User Attribute Values {: #user-attrs}
+### User Attribute Values { #user-attrs}
 
 To refer to attribute values from the user claim, prefix the attribute name with '`$user.`' as outlined in [static user claims](#user-claims). For instance, `$user.country` refers to the attribute with the name `country`.
 
@@ -518,7 +518,7 @@ For example, the condition `where: countryCode = $user.country` will grant a use
 
  > <sup>1</sup> The current version of Java runtime treats empty or undefined attributes lists still as unrestricted. See [limitations](../../java/security#current-limitations) for more details.
 
-### Exists Predicate {: #exists-predicate }
+### Exists Predicate { #exists-predicate }
 
 In many cases, the authorization of an entity needs to be derived from entities reachable via association path. See [domain-driven authorization](#domain-driven-authorization) for more details.
 You can leverage the `exists` predicate in `where` conditions to define filters that directly apply to associated entities defined by an association path:
@@ -583,7 +583,7 @@ Be aware that deep paths might introduce a performance bottleneck. Access Contro
 The `exists`- predicate requires CDS compiler V2.
 :::
 
-### Free Subselects {: #free-subselects .impl.concept}
+### Free Subselects { #free-subselects .impl.concept}
 
 You can define `exists` expressions that are based on a nested `select` query (subselect). The predicate evaluates to true, if and only if the select result isn’t empty.<br>
 You need to consider some limitations with subselects in this context:
@@ -602,7 +602,7 @@ Columns are unambiguously defined. For example, the `NAME1` column only exists i
 The `USER` column is unambiguously defined and `$user` refers to the logged in user.
 * `where: 'exists (select 1 from entitycollection.View where USER = $user)'`
 
-### Association Paths {: #association-paths}
+### Association Paths { #association-paths}
 
 The `where`-condition in a restriction can also contain [CQL path expressions](../../cds/cql#path-expressions) that navigate to elements of associated entities:
 
@@ -638,7 +638,7 @@ CAP authorization allows you to control access to your business data on a fine g
 When defining user roles, one of the first options could be to align roles to the available _operations_ on entities, which results in roles such as `SalesOrders.Read`, `SalesOrders.Create`, `SalesOrders.Update`, and `SalesOrders.Delete`, etc. What is the problem with this approach? Think about the resulting number of roles that the user administrator has to handle when assigning them to business users. The administrator would also have to know the domain model precisely and understand the result of combining the roles. Similarly, assigning roles to operations only (`Read`, `Create`, `Update`, ...) typically doesn’t fit your business needs.<br>
 We strongly recommend defining roles that describe **how a business user interacts with the system**. Roles like `Vendor`, `Customer`, or `Accountant` can be appropriate. With this approach, the application developers define the set of accessible resources in the CDS model for each role - and not the user administrator.
 
-### Prefer Single-Purposed, Use-Case Specific Services {: #dedicated-services}
+### Prefer Single-Purposed, Use-Case Specific Services { #dedicated-services}
 
 Have a closer look at this example:
 
@@ -682,7 +682,7 @@ service AccountantService @(requires: 'Accountant') {
 You can tailor the exposed data according to the corresponding role, even on the level of entity elements like in `CatalogService.Books`.
 :::
 
-### Prefer Dedicated Actions for Specific Use-Cases {: #dedicated-actions}
+### Prefer Dedicated Actions for Specific Use-Cases { #dedicated-actions}
 
 In some cases it can be helpful to restrict entity access as much as possible and create actions with dedicated restrictions for specific use cases, like in the following example:
 
@@ -697,10 +697,10 @@ service GitHubRepositoryService @(requires: 'authenticated-user') {
 
 This service allows querying organizations for all authenticated users. In addition, `Admin` users are allowed to rename or delete. Granting `UPDATE` to `Admin` would allow administrators to change organization attributes that aren’t meant to change.
 
-### Think About Domain-Driven Authorization {: #domain-driven-authorization}
+### Think About Domain-Driven Authorization { #domain-driven-authorization}
 
 Static roles often don’t fit into an intuitive authorization model. Instead of making authorization dependent from static properties of the user, it's often more appropriate to derive access rules from the business domain. For instance, all users assigned to a department (in the domain) are allowed to access the data of the organization comprising the department. Relationships in the entity model (for example, a department assignment to organization), influence authorization rules at runtime. In contrast to static user roles, **dynamic roles** are fully domain-driven.<br>
-{% if jekyll.environment != "external" %}Revisit the [ProjectService example](#exists-predicate), which demonstrates how to leverage instance-based authorization to induce dynamic roles. <br> {% endif %}
+% if jekyll.environment != "external" %}Revisit the [ProjectService example](#exists-predicate), which demonstrates how to leverage instance-based authorization to induce dynamic roles. <br> % endif %}
 Advantages of dynamic roles are:
 - The most flexible way to define authorizations
 - Induced authorizations according to business domain
@@ -714,7 +714,7 @@ Drawbacks to be considered are:
 - Dynamic role enforcement can introduce a performance penalty
 
 
-### Control Exposure of Associations and Compositions {: #limitation-deep-authorization}
+### Control Exposure of Associations and Compositions { #limitation-deep-authorization}
 
 Note that exposed associations (and compositions) can disclose unauthorized data. Consider the following scenario:
 
@@ -774,7 +774,7 @@ As shown before, defining an adequate authorization strategy has a deep impact o
 
 Consider using [CDS Aspects](../../cds/cdl#aspects) to separate the actual service definitions from authorization annotations as follows:
 
-<!--- {% include _code sample='services.cds' %} -->
+<!--- % include _code sample='services.cds' %} -->
 ::: code-group
 ```cds [services.cds]
 service ReviewsService {
@@ -788,7 +788,7 @@ service CustomerService {
 ```
 :::
 
-<!--- {% include _code sample='services-auth.cds' %} -->
+<!--- % include _code sample='services-auth.cds' %} -->
 ::: code-group
 ```cds [services-auth.cds]
 service ReviewsService @(requires: 'authenticated-user'){
@@ -810,7 +810,7 @@ service CustomerService @(requires: 'authenticated-user'){
 This keeps your actual service definitions concise and focused on structure only. It also allows you to give authorization models separate ownership and lifecycle.
 
 
-## Programmatic Enforcement {: #enforcement}
+## Programmatic Enforcement { #enforcement}
 
 The service provider frameworks **automatically enforce** restrictions in generic handlers. They evaluate the annotations in the CDS models and, for example:
 
@@ -823,7 +823,7 @@ If generic enforcement doesn’t fit your needs, you can override or adapt it wi
 - [Enforcement API & Custom Handlers in Java](../../java/security#enforcement-api)
 
 
-## Role Assignments with XSUAA {: #xsuaa-configuration}
+## Role Assignments with XSUAA { #xsuaa-configuration}
 
 Information about roles and attributes has to be made available to the UAA platform service. This information enables the respective JWT tokens to be constructed and sent with the requests for authenticated users. In particular, the following happens automatically behind-the-scenes upon build:
 
@@ -838,7 +838,7 @@ cds add xsuaa
 
 This results in:
 
-<!--- {% include _code sample='xs-security.json' %} -->
+<!--- % include _code sample='xs-security.json' %} -->
 ::: code-group
 ```json [xs-security.json]
 {
@@ -879,7 +879,7 @@ cds add mta
 
 This results in:
 
-<!--- {% include _code sample='mta.yml' %} -->
+<!--- % include _code sample='mta.yml' %} -->
 ::: code-group
 ```yaml [mta.yml]
 resources:
@@ -900,7 +900,7 @@ If there are conflicts, the [MTA security configuration](https://help.sap.com/do
 
 Deployment of such an MTA uploads the XSUAA configuration to SAP BTP.
 
-[Learn more about **building and deploying MTA applications**.](../deployment/){: .learn-more}
+[Learn more about **building and deploying MTA applications**.](../deployment/){ .learn-more}
 
 
 #### Manual

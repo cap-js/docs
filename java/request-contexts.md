@@ -28,7 +28,7 @@ Usually, the protocol adapter opens a *single* Request Context that makes the re
 
 How to propagate Request Context instances to several threads is explained in [Passing Request Contexts to Threads](#threading-requestcontext), and [Registering Global Parameter Providers](#global-providers) shows how you can influence or even override the standard way of retrieving the parameters from the request.
 
-## Reading Request Contexts {: #reading-requestcontext}
+## Reading Request Contexts { #reading-requestcontext}
 
 The Request Context provides information about the request's parameters as well as the current user:
 - [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html): Exposes an API to fetch data of the (authenticated) user such as the logon name, id, CAP roles, and the tenant.
@@ -110,7 +110,7 @@ For example, if the request is processed by an HTTP-based protocol adapter, `Par
 [AuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/AuthenticationInfo.html) stores the authentication claims of the authenticated user. For instance, if OAuth2-based authentication is used, this is a JWT token (for example, XSUAA or IAS). You can call `is(Class<? extends AuthenticationInfo>)` to find the concrete `AuthenticationInfo` type.
 [JwtTokenAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/JwtTokenAuthenticationInfo.html) represents a JWT token, whereas [BasicAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/BasicAuthenticationInfo.html) can be observed on requests with basic authentication (e.g. test scenario with mock users). The method `as(Class<? extends AuthenticationInfo>)` helps to perform the downcast to a concrete subtype.
 
-## Defining Request Contexts {: #defining-requestcontext}
+## Defining Request Contexts { #defining-requestcontext}
 
 The CAP Java SDK allows you to create new Request Contexts and define their scope. This helps you to control, which set of parameters is used when events are processed by services.
 To manually add, modify or reset specific attributes within the scope of a new Request Context, you can use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API:
@@ -169,7 +169,7 @@ There's one exception to that rule: When modifying the user's tenant the CDS mod
 When changing the user's tenant it's required to open a new ChangeSet, to ensure that database transactions and connections are directed to the new tenant. In case you miss this step CAP Java SDK detects this error and prevent any database access to avoid leaking information between tenants.
 :::
 
-## Registering Global Providers {: #global-providers}
+## Registering Global Providers { #global-providers}
 
 The CAP Java SDK ensures that each Request Context provides non-null values of the objects stored in it. Hence, if a service is called outside the scope of an existing Request Context, the runtime implicitly creates a Request Context for that service call. To accomplish the initialization of a Request Context, the CAP Java SDK uses provider APIs, such as [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) or [ParameterInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/ParameterInfoProvider.html). The default providers registered with the `CdsRuntime` usually derive the required information from the HTTP request, if available.
 
@@ -229,7 +229,7 @@ public class CustomUserInfoProvider implements UserInfoProvider {
 }
 ```
 
-## Passing Request Contexts to Threads {: #threading-requestcontext}
+## Passing Request Contexts to Threads { #threading-requestcontext}
 
 CAP service calls can be executed in different threads. In most cases the Request Context from the parent thread - typically the worker thread executing the request - needs to be propagated to one or more child threads. Otherwise, required parameter and user information might be missing, for example, when authorizing CRUD events or creating tenant-specific database connections.
 

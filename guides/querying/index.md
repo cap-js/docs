@@ -108,7 +108,7 @@ Typically with ORMs:
 - which requires object identity and caching to perform
 - which conflicts with scalability in clusters
 
-## View and Projections (in CDL) {:#views}
+## View and Projections (in CDL) {#views}
 
 Similar to SQL, CDS allows to declare new entities as views on underlying entities, using queries to capture the respective mappings.
 
@@ -124,20 +124,20 @@ entity LatestBooks as projection on Books {
 } where publication >= $now - 1 year
 ```
 
-[Learn more about Views and Projections in CDL.](../../cds/cdl#views){:.learn-more}
+[Learn more about Views and Projections in CDL.](../../cds/cdl#views){.learn-more}
 
 CDS provides two syntax variants for declaring views:
 
 ### `as select from`
 
 allows full native SQL feature sets of underlying databases → use that only if you are sure you can map to such a database.
-{:.indent}
+{.indent}
 
 
 ### `as projection on`
 
 is restricted to projections and filters → use that if the views might be served from other sources than databases.
-{:.indent}
+{.indent}
 
 Things only supported with `as select from` comprise JOINs, UNIONs, sub selects, aggregations, DB-native features.
 
@@ -174,7 +174,7 @@ JOIN Authors ON Books.author_ID = Authors.ID
 SELECT ID, title, author.name as author from Books
 ```
 
-[Learn more about Path Expressions in CQL.](../../cds/cql#path-expressions){:.learn-more}
+[Learn more about Path Expressions in CQL.](../../cds/cql#path-expressions){.learn-more}
 
 ### Nested Projections
 
@@ -190,7 +190,7 @@ SELECT from Authors {   -- postfix projection
 }
 ```
 
-[Learn more about projections in CQL.](../../cds/cql#postfix-projections){:.learn-more}
+[Learn more about projections in CQL.](../../cds/cql#postfix-projections){.learn-more}
 
 ## Core Query Notation (CQN)
 

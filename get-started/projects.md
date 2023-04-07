@@ -11,7 +11,7 @@ impl-variants: true
 
 {{$frontmatter.synopsis}}
 
-## Start New Projects with `cds init` {:#cds-init}
+## Start New Projects with `cds init` {#cds-init}
 
 Use `cds init` to start new projects.
 
@@ -29,20 +29,20 @@ cds init <project-name> --add-java
 ```
 </div>
 
-Following the ideas of _Convention over Configuration_ and _Grow as you go_ new CAP projects have a minimal setup. Yet as soon as you add models, you can deploy them to databases, and as soon as you add a first service definition, you get a full-fledged OData server up and running, for example using `cds watch`. {:.impl .node}
+Following the ideas of _Convention over Configuration_ and _Grow as you go_ new CAP projects have a minimal setup. Yet as soon as you add models, you can deploy them to databases, and as soon as you add a first service definition, you get a full-fledged OData server up and running, for example using `cds watch`. {.impl .node}
 
-Following the ideas of _Convention over Configuration_ and _Grow as you go_ new CAP projects have a minimal setup. Yet as soon as you add models, you can deploy them to databases, and as soon as you add a first service definition, you get a full-fledged OData server up and running, for example using `mvn cds:watch`. {:.impl .java}
+Following the ideas of _Convention over Configuration_ and _Grow as you go_ new CAP projects have a minimal setup. Yet as soon as you add models, you can deploy them to databases, and as soon as you add a first service definition, you get a full-fledged OData server up and running, for example using `mvn cds:watch`. {.impl .java}
 
-[Learn more in the **Getting Started in a Nutshell** guide.](./in-a-nutshell){:.learn-more}
+[Learn more in the **Getting Started in a Nutshell** guide.](./in-a-nutshell){.learn-more}
 
 
 
 
 ## Default Project Layouts
 
-Projects created with [`cds init`](#cds-init) have this default layout: {:.impl .node}
+Projects created with [`cds init`](#cds-init) have this default layout: {.impl .node}
 
-Projects created with [`cds init --add java`](#cds-init) have this default layout: {:.impl .java}
+Projects created with [`cds init --add java`](#cds-init) have this default layout: {.impl .java}
 
 | Files/Folders               | Description                                                                         |
 |:----------------------------|:------------------------------------------------------------------------------------|
@@ -60,9 +60,9 @@ You could argue that a domain model isn’t necessarily database-related, and if
 
 ## Customizing Layouts
 
-Many `cds` commands work with the above project layout by default. For example, when you run `cds watch`, CDS models will be automatically fetched and loaded from these locations: {:.impl .java}
+Many `cds` commands work with the above project layout by default. For example, when you run `cds watch`, CDS models will be automatically fetched and loaded from these locations: {.impl .java}
 
-Many `cds` and `mvn cds` commands work with the above project layout by default. For example, when you run `mvn cds:watch` or `mvn spring-boot:run`, CDS models will be automatically fetched and loaded from these locations: {:.impl .java}
+Many `cds` and `mvn cds` commands work with the above project layout by default. For example, when you run `mvn cds:watch` or `mvn spring-boot:run`, CDS models will be automatically fetched and loaded from these locations: {.impl .java}
 
 - _db/index.cds_ or _db/*.cds_
 - _srv/index.cds_ or _srv/*.cds_

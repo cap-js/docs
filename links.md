@@ -65,20 +65,20 @@
 [Troubleshooting]: /advanced/troubleshooting
 
 <!--
-{% capture java %}/java{% endcapture %}
-{% capture java-cql %}/java/query-api{% endcapture %}
-{% capture java-reflect %}/java/reflection-api{% endcapture %}
-{% capture java-consumption %}/java/consumption-api{% endcapture %}
-{% capture java-provisioning %}/java/provisioning-api{% endcapture %}
-{% capture java-reflect %}/java/reflection-api{% endcapture %}
+% capture java %}/java% endcapture %}
+% capture java-cql %}/java/query-api% endcapture %}
+% capture java-reflect %}/java/reflection-api% endcapture %}
+% capture java-consumption %}/java/consumption-api% endcapture %}
+% capture java-provisioning %}/java/provisioning-api% endcapture %}
+% capture java-reflect %}/java/reflection-api% endcapture %}
 
-{% capture javadoc-api %}https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services{% endcapture %}
-{% capture javadoc-cds4j %}https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds{% endcapture %}
-{% capture javadoc-cds4j %}https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds{% endcapture %}
-{% capture javabookshop-src %}https://github.wdf.sap.corp/caps/bookshop-java/blob/ng/srv/src/main/java/my/bookshop{% endcapture %}
-{% capture javadoc-badge-cds %}https://javadoc.io/badge2/com.sap.cds{% endcapture %}
-{% capture maven-badges %}https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser{% endcapture %}
-{% capture javadoc-mt %}https://www.javadoc.io/doc/com.sap.cds/cds-feature-mt/latest/com/sap/cds/services{% endcapture %}
+% capture javadoc-api %}https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services% endcapture %}
+% capture javadoc-cds4j %}https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds% endcapture %}
+% capture javadoc-cds4j %}https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds% endcapture %}
+% capture javabookshop-src %}https://github.wdf.sap.corp/caps/bookshop-java/blob/ng/srv/src/main/java/my/bookshop% endcapture %}
+% capture javadoc-badge-cds %}https://javadoc.io/badge2/com.sap.cds% endcapture %}
+% capture maven-badges %}https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser% endcapture %}
+% capture javadoc-mt %}https://www.javadoc.io/doc/com.sap.cds/cds-feature-mt/latest/com/sap/cds/services% endcapture %}
 
 
 [`@Before`]: {{javadoc-api}}/handler/annotations/Before.html
@@ -89,7 +89,7 @@
 [CDS Properties]: /java/development/properties
 
 
-<!-- {% capture node %}/node.js{% endcapture %} -->
+<!-- % capture node %}/node.js% endcapture %} -->
 
 [SAP Business Application Studio]: /tools#bastudio
 [Visual Studio Code]: /tools#vscode
@@ -140,16 +140,16 @@
 
 
 <!--
-{% if jekyll.environment == "external" %}
+% if jekyll.environment == "external" %}
 [chisel]: https://github.com/jpillora/chisel
-{% else %}
+% else %}
 [chisel]: https://github.infra.hana.ondemand.com/cloudfoundry/chisel
 [Okra]: https://github.wdf.sap.corp/pages/xs2/odata-v4/
 [Gateway]: https://wiki.one.int.sap/wiki/display/CoCo/Auto+exposure+of+CDX2+ODatav2++features
-{% endif %}
+% endif %}
 
-{% assign samples="https://github.com/sap-samples/cloud-cap-samples" %}
-{% capture bookshop %}{{samples}}/tree/main/bookshop{% endcapture %}
+% assign samples="https://github.com/sap-samples/cloud-cap-samples" %}
+% capture bookshop %}{{samples}}/tree/main/bookshop% endcapture %}
 [cap/samples]: {{samples}}
 [@capire/bookshop]: {{samples}}/tree/main/bookshop
 [@capire/bookstore]: {{samples}}/tree/main/bookstore
@@ -161,11 +161,11 @@
 
 [samples]: {{samples}}
 
-{% assign java-samples="https://github.com/sap-samples/cloud-cap-samples-java" %}
+% assign java-samples="https://github.com/sap-samples/cloud-cap-samples-java" %}
 [java/samples]: {{java-samples}}
 
-{% if jekyll.environment == "external" %}
-{% capture lint-rules %}/tools/lint-rulelist/rules-released{% endcapture %}
-{% else %}
-{% capture lint-rules %}/tools/lint-rulelist/rules{% endcapture %}
-{% endif %}  -->
+% if jekyll.environment == "external" %}
+% capture lint-rules %}/tools/lint-rulelist/rules-released% endcapture %}
+% else %}
+% capture lint-rules %}/tools/lint-rulelist/rules% endcapture %}
+% endif %}  -->

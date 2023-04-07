@@ -16,11 +16,11 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 <!-- #### Content -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-<!-- ## [CDS Properties](properties/) {:.toc-redirect} -->
+<!-- ## [CDS Properties](properties/) {.toc-redirect} -->
 
-<!-- [Learn more about CDS properties to configure the CAP Java SDK.](properties){:.learn-more} -->
+<!-- [Learn more about CDS properties to configure the CAP Java SDK.](properties){.learn-more} -->
 
 ## Application Configuration
 
@@ -30,7 +30,7 @@ For a first introduction, have a look at our [sample application](https://github
 
 Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
-### Service Bindings on SAP BTP, Kyma Runtime {:#kubernetes-service-bindings}
+### Service Bindings on SAP BTP, Kyma Runtime {#kubernetes-service-bindings}
 
 In the SAP BTP, Kyma Runtime, credentials of service bindings are stored in Kubernetes secrets. Using volumes, you can mount secrets into your application's container. These volumes contain a file for each of the secrets properties.
 
@@ -104,7 +104,7 @@ cds:
 The parameters `plan` and `tags` are optional.
 
 
-## Spring Boot Integration {: #spring-boot-integration}
+## Spring Boot Integration { #spring-boot-integration}
 
 This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn’t supported.
 Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
@@ -156,7 +156,7 @@ None of the listed features will be available out of the box in case you choose 
 :::
 
 
-### Spring Beans Exposed by the Runtime {: #exposed-beans}
+### Spring Beans Exposed by the Runtime { #exposed-beans}
 
 | Bean              | Description                      | Example
 | :---------------------------------------------------- | :----------------------------------------------------- | :----------------------------------------------------- |
@@ -211,11 +211,11 @@ mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-Darchetyp
 ```
 :::
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 ::: tip
 In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` in `-DarchetypeVersion` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
 :::
-{% endif %}
+% endif %}
 
 It supports the following command line options:
 
@@ -242,7 +242,7 @@ The following sections describe additional options you can apply during the buil
 
 If you can't stick to defaults, you can use the _.cdsrc.json_ to add specific configuration to your project. The configuration is used by the build process using `@sap/cds-dk`.
 
-[Learn more about configuration and `cds.env`](../../node.js/cds-env){:.learn-more}
+[Learn more about configuration and `cds.env`](../../node.js/cds-env){.learn-more}
 
 #### Using a specific cds-dk version
 
@@ -317,7 +317,7 @@ The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java ru
 Especially CDS builds result in a lot of changed resources in your project. To have a smooth experience, define a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile) and [use `auto-build` goal](#cds-auto-build) of the CDS Maven plugin started from the command line.
 :::
 
-### CDS Maven Plugin {: #cds-maven-plugin}
+### CDS Maven Plugin { #cds-maven-plugin}
 
 CDS Maven plugin provides several goals to perform CDS-related build steps. It can be used in CAP Java projects to perform the following build tasks:
 
@@ -329,9 +329,9 @@ CDS Maven plugin provides several goals to perform CDS-related build steps. It c
 
 Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. On how to modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
-See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){:target="_blank"} for more details.
+See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} for more details.
 
-### Local Development Support {: #local-development-support}
+### Local Development Support { #local-development-support}
 
 #### CDS Watch
 In addition to the previously mentioned build tasks, the CDS Maven plugin can also support the local development of your CAP Java application. During development, you often have to perform the same steps to test the changes in the CDS model:
@@ -364,11 +364,11 @@ If you want to have the comfort of an automated CDS build like with the `watch` 
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
 :::
 
-#### Local Development for Multitenant Applications {:.impl.beta}
+#### Local Development for Multitenant Applications {.impl.beta}
 
 With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas#local-mtx) for more information.
 
-### Maintaining FOSS Dependencies {: .impl.internal}
+### Maintaining FOSS Dependencies { .impl.internal}
 
 Regular updates of the CAP Java SDK with the most recent Free and Open Source Software (FOSS) dependencies ensure that with each CAP Java release, no known vulnerabilities in FOSS dependencies according to the SAP product standards are shipped. Therefore, applications are required to consume the latest CAP Java SDK regularly. However, a vulnerability could be published in between CAP Java releases and in turn prevent your application from being released due to failing security scans. In this case, applications have the following options:
 
@@ -390,7 +390,7 @@ Regular updates of the CAP Java SDK with the most recent Free and Open Source So
   Make sure that the updated version is compatible. When consuming a new CAP Java version, this extra dependency can be removed again.
 
 
-### xMake Troubleshooting {: #xmake .impl.internal}
+### xMake Troubleshooting { #xmake .impl.internal}
 
 Due to the limitations on xMake, problems with the `cds-maven-plugin` can occur using xMake. Find here common solutions to frequently occurring issues.
 
@@ -411,7 +411,7 @@ Follow this [troubleshooting guide](../../advanced/troubleshooting#xmake) to ove
 
 #### Installation of Node.js Fails
 
-The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../assets/cds-maven-plugin-site/install-node-mojo.html){:target="_blank"} uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo){:target="_blank"} with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
+The `cds-maven-plugin` can also be used to install a Node.js distribution, which is a prerequisite for the `@sap/cds-dk`. By default the goal [install-node](../assets/cds-maven-plugin-site/install-node-mojo.html){target="_blank"} uses the public Node.js [download URL](https://nodejs.org/dist/) to get the distribution, but xMake blocks access to this public URL. Therefore, it's required to [configure the `downloadUrl`](../assets/cds-maven-plugin-site/install-node-mojo){target="_blank"} with `https://int.repositories.cloud.sap/artifactory/proxy-3rd-party-nodejs-dist`
 
 The following sample shows the configuration with the internal download URL by defining a property `node.url`, which points to the correct location. If executed in xMake environment, the property is set to the artifactory location:
 
@@ -460,7 +460,7 @@ On xMake the environment variable `XMAKE_IMPORT_APT_0` points to the internal No
 See [xMake Build Lifecycle](https://github.wdf.sap.corp/pages/xmake-ci/User-Guide/Setting_up_a_Build/About_Build_Properties/xmake_Build_Lifecycle/#default-values-in-environmentcfg-and-environmentjson) for more details about valid URLs on xMake.
 
 
-### Milestones {: #milestones .impl.internal}
+### Milestones { #milestones .impl.internal}
 
 To use a milestone version of the CAP Java SDK, it's required to configure the SAP internal `snapshot` or `milestone` repository:
 - https://int.repositories.cloud.sap/artifactory/build-milestones/

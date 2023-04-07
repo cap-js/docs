@@ -18,8 +18,8 @@ You can plug-in custom logic to the default bootstrapping choreography using a [
 
 
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
 
 
@@ -27,10 +27,10 @@ You can plug-in custom logic to the default bootstrapping choreography using a [
 
 By default, bootstrapping of servers is handled by the framework automatically. So, you only need `cds.serve` if you want to control the bootstrapping yourself, for example, in a custom [express `server.js`](#cds-server).
 
-## cds.server  <i>  &#8674; (options) => {...} </i> {:#cds-server }
+## cds.server  <i>  &#8674; (options) => {...} </i> {#cds-server }
 
-<!--- {% assign on = '<i>&nbsp;&#8627;&nbsp;</i> .on <code>' %} -->
-<!--- {% assign once = '<i>&nbsp;&#8627;&nbsp;</i> .once <code>' %} -->
+<!--- % assign on = '<i>&nbsp;&#8627;&nbsp;</i> .on <code>' %} -->
+<!--- % assign once = '<i>&nbsp;&#8627;&nbsp;</i> .once <code>' %} -->
 
 
 This is essentially a shortcut getter to `require('@sap/cds/server')`, that is, it loads and returns
@@ -40,7 +40,7 @@ You'd mainly use this in [custom `server.js`](#custom-server-js) to delegate to 
 
 
 
-###  <i>  Built-in `server.js` </i> {:#built-in-server-js}
+###  <i>  Built-in `server.js` </i> {#built-in-server-js}
 
 The built-in `server.js` constructs an [express.js app](cds-facade#cds-app), and bootstraps all CAP services using [`cds.connect`](cds-connect) and [`cds.serve`](cds-serve).
 Its implementation essentially is as follows:
@@ -83,7 +83,7 @@ module.exports = async function cds_server (options) {
 ```
 
 
-###  <i>  Custom `server.js` </i> {:#custom-server-js}
+###  <i>  Custom `server.js` </i> {#custom-server-js}
 
 The CLI command `cds serve` optionally bootstraps from project-local `./server.js` or  `./srv/server.js`.
 In there, register own handlers to bootstrap events emitted to [the `cds` facade object](cds-facade) as below:
@@ -171,13 +171,13 @@ cds.on('served', (services)=>{
 
 A one-time event, emitted when the server has been started and is listening to incoming requests.
 
-### cds.once  <i>  ('**shutdown**', ()=>{}) </i> {: .impl.beta}
+### cds.once  <i>  ('**shutdown**', ()=>{}) </i> { .impl.beta}
 
 A one-time event, emitted when the server is closed and/or the process finishes.  Listeners can execute cleanup tasks.
 
 
 
-## cds.serve... <i> &#8594; [service](../cds/cdl#services)\(s\) </i> {:#cds-serve}
+## cds.serve... <i> &#8594; [service](../cds/cdl#services)\(s\) </i> {#cds-serve}
 <!-- [`cds.serve`](cds-serve): #cds-serve -->
 
 Use `cds.serve()` to construct service providers from the service definitions in corresponding CDS models. As stated above, this is usually [done automatically by the built-in `cds.server`](#built-in-server-js).
@@ -192,13 +192,13 @@ Initiates a fluent API chain to construct service providers; use the methods doc
 ```js
 const { CatalogService } = await cds.serve ('my-services')
 ```
-<!-- {:style='padding: 0 33px'} -->
+<!-- {style='padding: 0 33px'} -->
 
 ```js
 const app = require('express')()
 cds.serve('all') .in (app)
 ```
-<!-- {:style='padding: 0 33px'} -->
+<!-- {style='padding: 0 33px'} -->
 
 
 
@@ -259,7 +259,7 @@ If you just want to add some additional middleware, it's recommended to bootstra
 
 
 
-### <i>&#8627;</i>.from <i> (model) </i> {:#from }
+### <i>&#8627;</i>.from <i> (model) </i> {#from }
 
 Allows to determine the CDS models to fetch service definitions from, which can be specified as one of:
 
@@ -279,7 +279,7 @@ cds.serve('all').from(csn)...
 
 
 
-### <i>&#8627;</i>.to <i> (protocol) </i> {:#to }
+### <i>&#8627;</i>.to <i> (protocol) </i> {#to }
 
 Allows to specify the protocol through which to expose the service. Currently supported values are:
 
@@ -291,7 +291,7 @@ Allows to specify the protocol through which to expose the service. Currently su
 
 
 
-### <i>&#8627;</i>.at <i> (path) </i> {:#at }
+### <i>&#8627;</i>.at <i> (path) </i> {#at }
 
 Allows to programmatically specify the mount point for the service.
 
@@ -309,7 +309,7 @@ service CatalogService {...}           //> served at: /catalog
 ```
 
 
-### <i>&#8627;</i>.in <i> ([express app](https://expressjs.com/api.html#app)) </i> {:#in }
+### <i>&#8627;</i>.in <i> ([express app](https://expressjs.com/api.html#app)) </i> {#in }
 
 Adds all service providers as routers to the given [express app](https://expressjs.com/api.html#app).
 
@@ -334,7 +334,7 @@ app.listen()
 --->
 
 
-### <i>&#8627;</i>.with <i> (impl function) </i> {:#with }
+### <i>&#8627;</i>.with <i> (impl function) </i> {#with }
 
 Allows to specify a function that adds [event handlers] to the service provider, either as a function or as a string referring to a separate node module containing the function.
 
@@ -348,8 +348,8 @@ cds.serve('./srv/cat-service') .with (srv => {
 })
 ```
 
-[Learn more about using impl annotations.](services#srv-impl){:.learn-more}
-[Learn more about adding event handlers.](services#event-handlers){:.learn-more}
+[Learn more about using impl annotations.](services#srv-impl){.learn-more}
+[Learn more about adding event handlers.](services#event-handlers){.learn-more}
 
 
 **Note** that this is only possible when constructing single services:

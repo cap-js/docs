@@ -10,10 +10,10 @@ status: released
 
 {{$frontmatter.synopsis}}
 
-<!--- {% assign cds = '<span style="color:#800; font-weight:500">cds</span>' %} -->
+<!--- % assign cds = '<span style="color:#800; font-weight:500">cds</span>' %} -->
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
 
 ## Import `@sap/cds-dk`
@@ -33,7 +33,7 @@ const cds = require('@sap/cds-dk')
 
 
 
-## <span style="color:#800; font-weight:500">cds</span>.import  <i>  (file, options) &#8594; [csn](../cds/csn) </i> {: #import }
+## <span style="color:#800; font-weight:500">cds</span>.import  <i>  (file, options) &#8594; [csn](../cds/csn) </i> { #import }
 
 As an application developer, you have the option to convert OData specification (EDMX / XML), or OpenAPI specification (JSON) files to CSN from JavaScript API as an alternative to the `cds import` command.
 
@@ -50,7 +50,7 @@ const csn = await cds.import(file, options)
 * `file` &mdash; Specify the path to a single input file to be converted for CSN.
 * `options` &mdash; `cds.import()` support the following `options`:
 
-<!--- {% assign o = '<span style="font-weight:400">options</span>' %} -->
+<!--- % assign o = '<span style="font-weight:400">options</span>' %} -->
 
 #### <span style="font-weight:400">options</span>.keepNamespace
 
@@ -72,7 +72,7 @@ It accepts a list of namespaces whose attributes are to be retained in the CSN /
 > For OData V2  EDMX attributes with the namespace "sap" & "m" are captured by default.
 <br>
 
-## <span style="color:#800; font-weight:500">cds</span>.import.from.edmx  <i>  (file, options) &#8594; [csn](../cds/csn) </i> {: #import-from-edmx }
+## <span style="color:#800; font-weight:500">cds</span>.import.from.edmx  <i>  (file, options) &#8594; [csn](../cds/csn) </i> { #import-from-edmx }
 
 This API can be used to convert the OData specification file (EDMX / XML) into CSN.
 The API signature looks like this:
@@ -81,7 +81,7 @@ const csn = await cds.import.from.edmx(ODATA_EDMX_file, options)
 ```
 <br>
 
-## <span style="color:#800; font-weight:500">cds</span>.import.from.openapi  <i>  (file) &#8594; [csn](../cds/csn) </i> {: #import-from-openapi }
+## <span style="color:#800; font-weight:500">cds</span>.import.from.openapi  <i>  (file) &#8594; [csn](../cds/csn) </i> { #import-from-openapi }
 
 This API can be used to convert the OpenAPI specification file (JSON) into CSN.
 The API signature looks like this:

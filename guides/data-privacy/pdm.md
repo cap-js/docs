@@ -105,7 +105,7 @@ To perform a valid search in the SAP Personal Data Manager application, you will
 
 To restrict access to this sensitive data, the `PDMservice` is protected by the `@requires: 'PersonalDataManagerUser'` annotation. Calling the `PDMservice` externally without the corresponding permission is forbidden. The Personal Data Manager service calls the `PDMservice` with the needed role granted. This is configured in the _xs-security.json_ file, which is explained later.
 
-[Learn more about security configuration and the SAP Personal Data Manager.](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/4ee5705b8ded43e68bde610223722971.html#loio8eb6d9f889594a2d98f478bd57412ceb){:.learn-more}
+[Learn more about security configuration and the SAP Personal Data Manager.](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/4ee5705b8ded43e68bde610223722971.html#loio8eb6d9f889594a2d98f478bd57412ceb){.learn-more}
 
 
 ### Activate Access Checks in _xs-security.json_
@@ -139,7 +139,7 @@ To make the authentication work, you have to enable the security strategy by ins
 npm install @sap/xssec
 ```
 
-[Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){:.learn-more}
+[Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){.learn-more}
 
 
 At this point, you are done with your application. Let's set up the SAP Personal Data Manager and try it out.
@@ -176,7 +176,7 @@ For multitenant-specific information, refer to our [Multitenancy Guide](../../gu
 [Subscribe to the service](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/ef10215655a540b6ba1c02a96e118d66.html) from the _Service Marketplace_ in the SAP BTP cockpit.
 
 
-![tile in the cockpit](assets/pdmCockpitCreate.png){:width="300"}
+![tile in the cockpit](assets/pdmCockpitCreate.png){width="300"}
 
 Follow the wizard to create your subscription.
 
@@ -196,7 +196,7 @@ All of these roles have two different _Application Identifiers_.
 Application identifiers with **!b** are needed for the UI, and identifiers with **!t** are needed for executing the Postman collection.
 :::
 
-[Learn more about defining a role collection in SAP BTP cockpit](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/4b20383efab341f181becf0a947a5498.html){:.learn-more}
+[Learn more about defining a role collection in SAP BTP cockpit](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/4b20383efab341f181becf0a947a5498.html){.learn-more}
 
 ### Create a Service Instance
 
@@ -262,8 +262,8 @@ https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2
 
 Open the SAP Personal Data Manager application from the _Instances and Subscriptions_ page in the SAP BTP cockpit.
 
-![tile in the cockpit](assets/pdmCockpit.png){:width="500"}
+![tile in the cockpit](assets/pdmCockpit.png){width="500"}
 
 In the personal data manager application you can search for data subjects with _First Name_, _Last Name_, and _Date of Birth_, or alternatively with their _ID_.
 
-![PDM UI](assets/pdmApplication.png){:width="500"}
+![PDM UI](assets/pdmApplication.png){width="500"}

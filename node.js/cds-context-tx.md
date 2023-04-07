@@ -9,22 +9,22 @@ label: Transactions
 
 Transaction management in CAP deals with (ACID) database transactions, principal / context propagation on service-to-service calls and tenant isolation.
 
-::: tip **In Essence...** <!-- {:  style="font-size:111%" } -->
+::: tip **In Essence...** <!-- {  style="font-size:111%" } -->
 As an application developer, **you don't have to care** about transactions, principal propagation, or tenant isolation at all. CAP runtime manages that for you automatically. Only in rare cases, you need to go beyond that level, and use one or more of the options documented hereinafter.
-::: 
+:::
 
 <br>
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" %} -->
 
-<!--- {% assign tx = '<span style="color:#088; font-weight:500">tx</span>' %} -->
+<!--- % assign tx = '<span style="color:#088; font-weight:500">tx</span>' %} -->
 
 
 
 ## Automatic Transactions
 
-#### Root Transactions {:.h2}
+#### Root Transactions {.h2}
 
 Whenever an instance of `cds.Service` processes requests, the core framework automatically cares for starting and committing or rolling back database transactions, connection pooling, principal propagation and tenant isolation.
 
@@ -48,12 +48,12 @@ COMMIT;
 <br>
 
 ::: tip
-**Service-managed Transactions** — whenever a service operation, like `db.read()` above, is executed, the core framework ensures it will either join an existing transaction, or create a new root transaction. Within event handlers, your service always is in a transaction. 
-::: 
+**Service-managed Transactions** — whenever a service operation, like `db.read()` above, is executed, the core framework ensures it will either join an existing transaction, or create a new root transaction. Within event handlers, your service always is in a transaction.
+:::
 
 
 
-#### Nested Transactions {:.h2}
+#### Nested Transactions {.h2}
 
 Services commonly process requests in event handlers, which in turn send requests to other services, like in this simplistic implementation of a bank transfer operation:
 
@@ -80,14 +80,14 @@ Nested transactions are automatically committed when their root transaction is c
 <br>
 
 ::: warning
-**No Distributed Transactions** — Note that in the previous example, the two nested transactions are *synchronized* with respect to a final commit / rollback, but *not as a distributed atomic transaction*. This means, it still can happen, that the commit of one nested transaction succeeds, while the other fails. 
-::: 
+**No Distributed Transactions** — Note that in the previous example, the two nested transactions are *synchronized* with respect to a final commit / rollback, but *not as a distributed atomic transaction*. This means, it still can happen, that the commit of one nested transaction succeeds, while the other fails.
+:::
 
 
 
 ## Manual Transactions
 
-Use `cds.tx()` to start and commit transactions manually, if you need to ensure two or more queries to run in a single transaction. The easiest way to achive this is shown below: 
+Use `cds.tx()` to start and commit transactions manually, if you need to ensure two or more queries to run in a single transaction. The easiest way to achive this is shown below:
 
 ```js
 cds.tx (async ()=>{
@@ -96,9 +96,9 @@ cds.tx (async ()=>{
 })
 ```
 
-[Learn more about `cds.tx()`](#srv-tx){:.learn-more}
+[Learn more about `cds.tx()`](#srv-tx){.learn-more}
 
-This usage variant, which accepts a function with nested operations ... 
+This usage variant, which accepts a function with nested operations ...
 
 1. creates a new root transaction
 2. executes all nested operations in this transaction
@@ -107,12 +107,12 @@ This usage variant, which accepts a function with nested operations ...
 <br>
 
 ::: tip
-**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, i.e., when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already. 
-::: 
+**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, i.e., when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already.
+:::
 
 ::: warning _❗ Warning_ <!--  -->
-If you're using the database SQLite, it leads to deadlocks when two transactions wait for each other. Parallel transactions are not allowed and a new transaction is not started before the previous one is finished. 
-::: 
+If you're using the database SQLite, it leads to deadlocks when two transactions wait for each other. Parallel transactions are not allowed and a new transaction is not started before the previous one is finished.
+:::
 
 
 ## Background Jobs
@@ -129,33 +129,33 @@ cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, ()=>{
 })
 ```
 
-[Learn more about `cds.spawn()`](#cds-spawn){:.learn-more}
+[Learn more about `cds.spawn()`](#cds-spawn){.learn-more}
 
 
 
 ## Event Contexts
 
-Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound http request object. 
+Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound http request object.
 
-#### Accessing Context Information {:.h2}
+#### Accessing Context Information {.h2}
 
 Access that information anywhere in your code through `cds.context` like that:
 
 ```js
 // Accessing current user
-const { user } = cds.context 
+const { user } = cds.context
 if (user.is('admin')) ...
 ```
 
 ```js
 // Accessing http req, res objects
-const { req, res } = cds.context.http 
+const { req, res } = cds.context.http
 if (!req.is('application/json')) res.send(415)
 ```
 
-[Learn more about available `cds.context` properties](#cds-context){:.learn-more}
+[Learn more about available `cds.context` properties](#cds-context){.learn-more}
 
-#### Setting Contexts {:.h2}
+#### Setting Contexts {.h2}
 
 Setting `cds.context` usually happens in inbound authentication middlewares or in inbound protocol adapters. You can also set it in your code, for example, you might implement a simplistic custom authentication middleware like so:
 
@@ -169,13 +169,13 @@ app.use ((req, res, next) => {
 
 
 
-#### Continuation-local Variable {:.h2}
+#### Continuation-local Variable {.h2}
 
-`cds.context` is implemented as a so-called *continuation-local* variable. 
+`cds.context` is implemented as a so-called *continuation-local* variable.
 
 As JavaScript is single-threaded, we cannot capture request-level invocation contexts such (as current user, tenant, or locale) in what other languages like Java call thread-local variables. But luckily, starting with Node v12, means for so-called *"Continuation-Local Storage (CLS)"* were given to us. Basically, the equivalent of thread-local variables in the asynchronous continuations-based execution model of Node.js.
 
-#### Context Propagation {:.h2}
+#### Context Propagation {.h2}
 
 When creating new root transactions in calls to `cds.tx()`, all properties not specified in the `context` argument are inherited from `cds.context`, if set in the current continuation.
 
@@ -196,7 +196,7 @@ cds.context.user.id === 'u1'          //> true
 
 
 
-## cds.context  <i>  → [cds.EventContext](events#cds-event-context) </i> {:#cds-context}
+## cds.context  <i>  → [cds.EventContext](events#cds-event-context) </i> {#cds-context}
 
 The current continuation's event context. Usually this is set by inbound protocol adaptors or by the top-level service starting to process an event.
 
@@ -220,7 +220,7 @@ cds.context === tx.context  //> true
 
 
 
-## cds.spawn  <i>  (options, fn) </i> {:#cds-spawn}
+## cds.spawn  <i>  (options, fn) </i> {#cds-spawn}
 
 Runs the given function as detached continuation in a specified event context (not inheriting from the current one).
 Options `every` or `after` allow to run the function repeatedly or deferred. For example:
@@ -234,7 +234,7 @@ cds.spawn ({ tenant:'t0', every: 1000 /* ms */ }, async (tx) => {
 ```
 ::: tip
 Even though the callback function is executed as a background job, all asynchronous operations inside the callback function must be awaited. Otherwise, transaction handling does not work properly.
-::: 
+:::
 
 **Arguments:**
 
@@ -271,7 +271,7 @@ Use argument `options` if you want to run the background thread with different u
 
 
 
-## cds/srv.tx  <i>  (...) → tx\<srv\> </i> {:#srv-tx  .h2}
+## cds/srv.tx  <i>  (...) → tx\<srv\> </i> {#srv-tx  .h2}
 
 
 ### srv.tx  <i>  (context?, fn?) → tx\<srv\> </i>
@@ -314,7 +314,7 @@ In effect, `tx` objects ...
 
 **Important:** The caller of `srv.tx()` is responsible to `commit` or `rollback` the transaction, otherwise the transaction would never be finalized and respective physical driver connections never be released / returned to pools.
 
-### srv.tx  <i>  ({ tenant?, user?, ... }) → tx\<srv\> </i> {:#srv-tx-ctx}
+### srv.tx  <i>  ({ tenant?, user?, ... }) → tx\<srv\> </i> {#srv-tx-ctx}
 
 Optionally specify an object with [event context](events#cds-event-context) properties as the *first* argument to execute subsequent operations with different tenant or user context:
 
@@ -330,12 +330,12 @@ The argument is an object with these properties:
 
 The implementation constructs a new instance of [cds.EventContext](events#cds-event-context) from the given properties, which is assigned to [tx.context](#tx-context) of the new transaction.
 
-[Learn more in section **Continuations & Contexts**.](#event-contexts){:.learn-more}
+[Learn more in section **Continuations & Contexts**.](#event-contexts){.learn-more}
 
 
 
 
-### srv.tx  <i>  ((tx)=>{...}) → tx\<srv\> </i> {:#srv-tx-fn}
+### srv.tx  <i>  ((tx)=>{...}) → tx\<srv\> </i> {#srv-tx-fn}
 
 Optionally specify a function as the *last* argument to have `commit` and `rollback` called automatically. For example, the following snippets are equivalent:
 
@@ -359,9 +359,9 @@ try {
 }
 ```
 
-In addition to creating a new tx for the current service, 
+In addition to creating a new tx for the current service,
 
-### srv.tx  <i>  (ctx) → tx\<srv\> </i> {:#srv-tx-context}
+### srv.tx  <i>  (ctx) → tx\<srv\> </i> {#srv-tx-context}
 
 If the argument is an instance of [cds.EventContext](events#cds-event-context) the constructed transaction will use this context as it's `tx.context`.
 If the specified context was constructed for a transaction started with `cds.tx()`, the new transaction will be constructed as a nested transaction. If not, the new transaction will be constructed as a root transaction.
@@ -379,14 +379,14 @@ const tx1 = cds.tx (cds.context)
 ```
 
 
-### _↳_ <span style="color:#088; font-weight:500">tx</span>.context  <i>  → [cds.EventContext](events#cds-event-context) </i> {:#tx-context }
+### _↳_ <span style="color:#088; font-weight:500">tx</span>.context  <i>  → [cds.EventContext](events#cds-event-context) </i> {#tx-context }
 
 Each new transaction created by [cds.tx()](#srv-tx) will get a new instance of [cds.EventContext](events#cds-event-context) constructed and assigned to this property. If there is a `cds.context` set in the current continuation, the newly constructed context object will inherit properties from that.
 
-[Learn more in section **Continuations & Contexts**.](#event-contexts){:.learn-more}
+[Learn more in section **Continuations & Contexts**.](#event-contexts){.learn-more}
 
 
-### _↳_ <span style="color:#088; font-weight:500">tx</span>.commit  <i>  (res?) ⇢ res </i> {:#commit }
+### _↳_ <span style="color:#088; font-weight:500">tx</span>.commit  <i>  (res?) ⇢ res </i> {#commit }
 
 In case of database services, this sends a `COMMIT` (or `ROLLBACK`) command to the database and releases the physical connection, that is returns it to the connection pool. In addition, the commit is propagated to all nested transactions.
 
@@ -398,17 +398,17 @@ tx.run(...) .then (tx.commit, tx.rollback)
 ```
 
 
-###  _↳_ <span style="color:#088; font-weight:500">tx</span>.rollback  <i>  (err?) ⇢ err </i> {:#rollback }
+###  _↳_ <span style="color:#088; font-weight:500">tx</span>.rollback  <i>  (err?) ⇢ err </i> {#rollback }
 
 In case of database services, this sends `ROLLBACK` command to the database and releases the physical connection. In addition, the rollback is propagated to all nested transactions, and if an `err` object is passed, it is rethrown.
 
-[See documentation for `commit` for common details.](#commit){:.learn-more}
+[See documentation for `commit` for common details.](#commit){.learn-more}
 
 <br>
 
 ::: warning
-**Note:** `commit` and `rollback` both release the physical connection. This means subsequent attempts to send queries via this `tx` will fail. 
-::: 
+**Note:** `commit` and `rollback` both release the physical connection. This means subsequent attempts to send queries via this `tx` will fail.
+:::
 
 
 
@@ -416,7 +416,7 @@ In case of database services, this sends `ROLLBACK` command to the database and 
 
 ## DEPRECATED APIs
 
-### srv.tx <i> (req) → tx\<srv\> </i> {:#srv-tx-req}
+### srv.tx <i> (req) → tx\<srv\> </i> {#srv-tx-req}
 
 Prior to release 5, you always had to write application code like that to ensure context propagation and correctly managed transactions:
 

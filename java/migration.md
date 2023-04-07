@@ -16,7 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
 
 ## CAP Java Classic to CAP Java 1.x
@@ -51,11 +51,11 @@ Create a new CAP Java project beside your existing one, which you want to migrat
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 ::: tip
 In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` in `-DarchetypeVersion` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
 :::
-{% endif %}
+% endif %}
 
 Further details about creating a new CAP Java project and the project structure itself can be found in section [Starting a New Project](./getting-started#new-project).
 
@@ -157,7 +157,7 @@ If this Maven build finishes successfully, you can optionally try to deploy your
 cds deploy --to hana
 ```
 
-[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases/#get-hana){:.learn-more}
+[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases/#get-hana){.learn-more}
 
 
 ### Migrate Java Business Logic
@@ -281,7 +281,7 @@ You can also get your entities injected by adding an additional argument with on
 - `java.util.stream.Stream<yourEntityType>`
 - `java.util.List<yourEntityType>`
 
-[See section **Event Handler Method Signatures** for more details.](provisioning-api#handlersignature){:.learn-more}
+[See section **Event Handler Method Signatures** for more details.](provisioning-api#handlersignature){.learn-more}
 
 Also replace the classic handler return types with the corresponding new implementation:
 
@@ -323,15 +323,15 @@ Don't copy any of the following files to the new project:
 
 In the Classic Java Runtime, it was possible to hook into the transaction initialization and end phase by adding the annotations `@InitTransaction` or `@EndTransaction` to a public method. The method annotated with `@InitTransaction` was invoked just after the transaction started and before any operation executed. Usually this hook was used to validate incoming data across an OData batch request.
 
-[See section **InitTransaction Hook** for more details about init transaction hook in classic CAP Java.](./custom-logic/hooks#inittransaction-hook){:.learn-more}
+[See section **InitTransaction Hook** for more details about init transaction hook in classic CAP Java.](./custom-logic/hooks#inittransaction-hook){.learn-more}
 
 The method annotated with `@EndTransaction` was invoked after all the operations in the transaction were completed and before the transaction was committed.
 
-[See section **EndTransaction Hook** for more details about end transactions hook in classic CAP Java.](./custom-logic/hooks#endtransaction-hook){:.learn-more}
+[See section **EndTransaction Hook** for more details about end transactions hook in classic CAP Java.](./custom-logic/hooks#endtransaction-hook){.learn-more}
 
 The new CAP Java SDK doesn't support these annotations anymore. Instead, it supports registering a `ChangeSetListener` at the `ChangeSetContext` supporting hooks for `beforeClose` and `afterClose`.
 
-[See section **Reacting on ChangeSets** for more details.](changeset-contexts#reacting-on-changesets){:.learn-more}
+[See section **Reacting on ChangeSets** for more details.](changeset-contexts#reacting-on-changesets){.learn-more}
 
 To replace the `@InitTransaction` handler, you can use the `beforeClose` method, instead. This method is called at the end of the transaction and can be used, for example, to validate incoming data across multiple requests in an OData batch *before* the transaction is committed. It's possible to cancel the transaction in this phase by throwing an `ServiceException`.
 
@@ -339,7 +339,7 @@ The CAP Java SDK sample application shows how such a validation using the `Chang
 
 Note, that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
-[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){:.learn-more}
+[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){.learn-more}
 
 
 <!--- Migrated: @external/java/900-Migration/04-security.md -> @external/java/migration/security.md -->
@@ -395,7 +395,7 @@ The existing authentication configuration stays unchanged. No autoconfiguration 
 
 #### Enforcement API & Custom Handlers
 
-The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former {% if jekyll.environment == "external" %}Enforcement APIs{% else %}[Enforcement APIs](./custom-logic/authorization){% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
+The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
 
 ```java
 @Autowire
@@ -429,7 +429,7 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 | `getUserAttribute(String attributeName)` | `user.getAttribute(attributeName)`    |
 | `isContainerSecurityEnabled()` | no substitution required            |
 
-[See section **Enforcement API & Custom Handlers in Java** for more details.](./security#enforcement-api){:.learn-more}
+[See section **Enforcement API & Custom Handlers in Java** for more details.](./security#enforcement-api){.learn-more}
 
 
 <!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
@@ -447,7 +447,7 @@ To access an Application Service in custom handler and to execute queries, perfo
 	@Resource(name = "CatalogService")
 	private CqnService catalogService;
 ```
-[See section **Services Accepting CQN Queries** for more details.](consumption-api#cdsservices){:.learn-more}
+[See section **Services Accepting CQN Queries** for more details.](consumption-api#cdsservices){.learn-more}
 
 2) In each custom handler, replace instance of `DataSourceHandler` as well as `CDSDataSourceHandler` with the `CqnService` instance.
 
@@ -467,7 +467,7 @@ CDSQuery cdsQuery = new CDSSelectQueryBuilder("CatalogService.Books")
 cdsHandler.executeQuery(cdsQuery);
 ```
 
-[See section **CDS Data Source** for more details.](./custom-logic/remote-data-source#cds-data-source){:.learn-more}
+[See section **CDS Data Source** for more details.](./custom-logic/remote-data-source#cds-data-source){.learn-more}
 
 The corresponding query and its execution in *New CAP Java SDK* looks as follows:
 
@@ -481,7 +481,7 @@ Select query =  Select.from("CatalogService.Books")
 catalogService.run(query);
 ```
 
-[See section **Query Builder API** for more details.](./query-api){:.learn-more}
+[See section **Query Builder API** for more details.](./query-api){.learn-more}
 
 4) Rewrite and execute the CRUD operations (if any).
 
@@ -494,7 +494,7 @@ catalogService.run(query);
 
 As you can see in *New CAP Java SDK* it’s possible to either directly execute a CQN of the event, or you can construct and execute your own custom query.
 
-[See section **Query Builder API** for more details.](./query-api){:.learn-more}
+[See section **Query Builder API** for more details.](./query-api){.learn-more}
 
 #### Accessing `PersistenceService`
 
@@ -505,7 +505,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./consumption-api#persistenceservice){:.learn-more}
+[See section **Persistence API** for more details.](./consumption-api#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 
@@ -545,7 +545,7 @@ cdsDataStore.execute(query);
 ```
 
 
-### CDS OData V2 Adapter {: #v2adapter}
+### CDS OData V2 Adapter { #v2adapter}
 
 When you generate a new project using the [CAP Java Maven Archetype](./getting-started#new-project), OData V4 is enabled by default.
 
@@ -654,9 +654,9 @@ After rebuilding and restarting your application, your Application Services are 
 
 <!-- TODO: Move this to "Development" section -->
 
-{% if jekyll.environment != "external" %}
+% if jekyll.environment != "external" %}
 
-### Multitenancy {: #mt .impl.internal}
+### Multitenancy { #mt .impl.internal}
 
 This guide won’t explain how to enable multitenancy for your application, but point out the configuration settings that have changed when coming from the classic Java Runtime. If you’re looking for a general introduction how to enable multitenancy for your application, see [Java > Multitenancy](./multitenancy).
 
@@ -743,10 +743,10 @@ The user exits `DependencyExit`, `SubscribeExit`, `UnSubscribeExit`, and `InitDb
 If you need to overwrite the default tenant, you can’t use the class `TenantOverwrite` anymore. Instead, you must use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API as described in section [Request Contexts](./request-contexts).
 
 
-{% endif %}
+% endif %}
 
 
-## CAP Java 1.x to CAP Java 2.x {: #one-to-two .impl.beta}
+## CAP Java 1.x to CAP Java 2.x { #one-to-two .impl.beta}
 
 This section describes the changes in CAP Java between the major versions 1.x and 2.x. It provides also helpful information to migrate a CAP Java application to the new major version 2.x.
 
@@ -780,10 +780,10 @@ Some interfaces, methods, configuration properties and annotations, which had al
 
 The [legacy upsert](query-execution#legacy-upsert-implementation) (cascading delete + deep insert), which can be configured via the global configuration parameter `cds.sql.upsert.strategy: replace` or a hint, has been removed. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
 
-#### Representation of Pagination {:#limit}
+#### Representation of Pagination {#limit}
 The interfaces [CqnLimit](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnLimit.html) and [Limit](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/Limit.html) are removed. Use the methods `limit(top)` and `limit(top, skip)` of the `Select` and `Expand` to specify the pagination settings. Use the methods [top()](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnEntitySelector.html#skip--) and [skip()](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnEntitySelector.html#skip--) of the `CqnEntitySelector` to introspect the pagination settings of a `CqnExpand` and `CqnSelect`.
 
-#### Statement Modification {:#modification}
+#### Statement Modification {#modification}
 
 ##### Removal of Deprecated CqnModifier
 The deprecated [CqnModifier](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnModifier.html), whose default methods make expensive copies of literal values, is removed. Instead, use the [Modifier](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html) as documented in [Modifying CQL Statements](query-api#copying--modifying-cql-statements).
@@ -903,8 +903,8 @@ The following table summarizes the behaviour of associations between different d
 
 #### cds-maven-plugin
 
-The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html){:target="_blank"}.
+The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html){target="_blank"}.
 
 #### cds4j-maven-plugin
 
-The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html){:target="_blank"} which provides the same functionality and more.
+The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} which provides the same functionality and more.

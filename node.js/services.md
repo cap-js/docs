@@ -5,10 +5,10 @@ status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
-# Core Services APIs {: #cds-service}
+# Core Services APIs { #cds-service}
 
 
-<!--- {% include links-for-node.md %} -->
+<!--- % include links-for-node.md %} -->
 
 
 Class `cds.Service` is the base class for all [provided](cds-serve) and [connected](cds-connect) services.
@@ -83,17 +83,17 @@ module.exports = { CatalogService }
 ###### Content
 
 <style scoped > ul strong { font-weight: 500 } </style>
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-## How to Implement Services {:#srv-impls}
+## How to Implement Services {#srv-impls}
 
 Service implementations are essentially collections of [event handlers] registered with service instances to handle incoming requests and event messages.
 The sections below explain where and how to do so.
 
 
-###  <i> **Where** to Implement Services? </i> {:#srv-impl-where}
+###  <i> **Where** to Implement Services? </i> {#srv-impl-where}
 
-###  <i> <i>&#8627;</i> In sibling _.js_ files next to _.cds_ sources </i> {:#srv-impl-in-sibling-js}
+###  <i> <i>&#8627;</i> In sibling _.js_ files next to _.cds_ sources </i> {#srv-impl-in-sibling-js}
 
 The easiest way to add service implementations is to simply place equally named _.js_ files next to the _.cds_ files containing the respective service definitions. In addition to direct siblings you can place them into relative subdirectories `./lib` or `./handlers`, allowing layouts like that:
 
@@ -136,7 +136,7 @@ module.exports = FooService
 ```
 
 
-###  <i> <span style="color:grey"><i>&#8627;</i> </span> In files specified in `@impl` annotations </i> {:#impl-annotation}
+###  <i> <span style="color:grey"><i>&#8627;</i> </span> In files specified in `@impl` annotations </i> {#impl-annotation}
 
 Use the `@impl` annotation to specify alternative files to load implementations from:
 
@@ -146,7 +146,7 @@ Use the `@impl` annotation to specify alternative files to load implementations 
 service FooService @(impl:'./lib/foo-service.js') {}
 service BarService @(impl:'./lib/bar-service.js') {}
 ```
-[Learn more in configuration options on `@impl`.](#srv-impl){:.learn-more}
+[Learn more in configuration options on `@impl`.](#srv-impl){.learn-more}
 
 
 ```js
@@ -188,16 +188,16 @@ module.exports = { FooService, BarService }
 
 
 
-{:.sub-section}
+{.sub-section}
 
 
-###  <i>  **How** to Implement Services? </i> {:#srv-impl-how}
+###  <i>  **How** to Implement Services? </i> {#srv-impl-how}
 
 
 
 
 
-### <i><span style="color:grey"><i>&#8627;</i> </span> As subclasses of `cds.Service` </i> {:#cds-service-subclasses}
+### <i><span style="color:grey"><i>&#8627;</i> </span> As subclasses of `cds.Service` </i> {#cds-service-subclasses}
 
 You can create subclasses of `cds.Service`, or subclasses thereof, from service implementation modules like so:
 
@@ -224,7 +224,7 @@ As also shown in the previous example, you may register own handlers before the 
 You can also overload API methods of `cds.Service`, or subclasses thereof.
 
 
-### <span style="color:grey"><i>&#8627;</i> </span>  <i> As plain functions </i> {:#cds-service-impl}
+### <span style="color:grey"><i>&#8627;</i> </span>  <i> As plain functions </i> {#cds-service-impl}
 
 The simplest way to provide custom event handlers is to return a function that registers event handler with the instance of `cds.Service` as follows:
 
@@ -257,7 +257,7 @@ module.exports = async function(){
 }
 ```
 
-### <span style="color:grey"><i>&#8627;</i> </span>  <i> Wrapped with `cds.service.impl` </i> <!-- TODO duplicated id attribute {:#cds-service-impl}-->
+### <span style="color:grey"><i>&#8627;</i> </span>  <i> Wrapped with `cds.service.impl` </i> <!-- TODO duplicated id attribute {#cds-service-impl}-->
 
 Wrap the impl function into `cds.service.impl(...)`, which simply returns the function but gives you code assists in tools like VSCode:
 
@@ -268,7 +268,7 @@ module.exports = cds.service.impl (function(){ ... })
 
 
 <!--- Migrated: @external/node.js/cds.Services/12-srv-options-.md -> @external/node.js/cds.services/srv-options-.md -->
-## Configuration / Annotations {: #srv-options }
+## Configuration / Annotations { #srv-options }
 
 Following are options used to control the construction of services, as either of:
 
@@ -277,11 +277,11 @@ Following are options used to control the construction of services, as either of
 - Options arguments in calls to [`cds.serve`](cds-serve)
 - Options arguments in calls to [`cds.connect`](cds-connect)
 
-<!--- {% assign o = '<span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>' %} -->
+<!--- % assign o = '<span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>' %} -->
 
 
 
-### @impl <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.impl  <i>  = class | instance | function | module name </i> {:#srv-impl}
+### @impl <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.impl  <i>  = class | instance | function | module name </i> {#srv-impl}
 
 Use the `impl` option specify the implementation used by this service.
 
@@ -332,7 +332,7 @@ const ReviewsService = await cds.connect.to ('reviews-service', {
 
 
 
-### @kind <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.kind  <i>  = cds.requires.\<kind\> </i> {:#srv-kind}
+### @kind <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.kind  <i>  = cds.requires.\<kind\> </i> {#srv-kind}
 
 Use option `kind` to refer to an entry in the [`cds.requires`](cds-connect#cds-env-requires) config options, which in turn contains presets for the other options, in particular for [`impl`](#srv-impl).
 
@@ -356,7 +356,7 @@ The values usually refer to these pre-defined options:
 * `odata`, `rest` &rarr; for _external services_
 * `enterprise-messaging`, `file-based-messaging` &rarr; for _messaging services_
 
-[Run `cds env get requires` to see all default configurations.](cds-env#cli){:.learn-more}
+[Run `cds env get requires` to see all default configurations.](cds-env#cli){.learn-more}
 
 
 ##### For _Provided_ Services
@@ -371,7 +371,7 @@ For services provided by your app, the default is `kind = 'app-service'`, which 
 }
 ```
 
-[Run `cds env get requires.app-service` to see the concrete default config.](cds-env#cli){:.learn-more}
+[Run `cds env get requires.app-service` to see the concrete default config.](cds-env#cli){.learn-more}
 
 
 
@@ -399,13 +399,13 @@ service BarService @(kind:'bar-service') {...} // custom
 
 
 
-### @path <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.path  <i>  = string </i> {:#srv-path}
+### @path <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.path  <i>  = string </i> {#srv-path}
 
 By default `cds.serve` determines the endpoints to serve individual services from the service definition's name, by 'slugifying' camel-case names, and removing `'Service'` suffixes like that:
 
 `SomeBookshopAdminService` &rarr; `some-bookshop-admin`
 
-### @protocol <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.protocol  <i>  = string </i> {:#srv-protocol}
+### @protocol <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.protocol  <i>  = string </i> {#srv-protocol}
 
 With the annotation `@protocol`, you can configure a protocol adapter a service should be served by. By default, a service is served by the `odata-v4` adapter. The supported protocol adapters are `odata` (serve `odata-v4`), `odata-v4`, `rest`, `none` (to disable a service and mark it as internal).
 
@@ -417,18 +417,18 @@ service CatalogService {
 }
 ```
 
-### @endpoints <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.endpoints  <i>  = [...{ path, protocol }] </i> {:#srv-endpoints .impl.concept}
+### @endpoints <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.endpoints  <i>  = [...{ path, protocol }] </i> {#srv-endpoints .impl.concept}
 
 #### <i>&#8627;</i>.path
 #### <i>&#8627;</i>.protocol
 
 
-### @credentials <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.credentials  <i>  = { url, ... } </i> {:#srv-credentials}
+### @credentials <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.credentials  <i>  = { url, ... } </i> {#srv-credentials}
 
 
 Specific options, passed to services. For example, in case of a SQLite database service these are driver-specific options [node-sqlite3](https://github.com/mapbox/node-sqlite3)
 
-### @model <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.model  <i>  = [csn](../cds/csn) </i> <!--{:#srv-model}-->
+### @model <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.model  <i>  = [csn](../cds/csn) </i> <!--{#srv-model}-->
 
 
 The model to use for this connection, either as an already parsed [csn](../cds/csn) or as a filename of a model, which is then loaded with [`cds.load`].
@@ -436,9 +436,9 @@ The model to use for this connection, either as an already parsed [csn](../cds/c
 
 <!--- Migrated: @external/node.js/cds.Services/42-srv-reflect-.md -> @external/node.js/cds.services/srv-reflect-.md -->
 
-{:.sub-section}
+{.sub-section}
 
-## Model Reflection API {:#srv-reflect }
+## Model Reflection API {#srv-reflect }
 
 ### <span style="color:#800; font-weight:500">srv</span>.name  <i>  = string </i>
 
@@ -455,7 +455,7 @@ cds.connect.to ('db')          //> .name = 'db'
 
 
 
-### srv.model  <i>  = [csn](../cds/csn)  </i> {: #srv-model}
+### srv.model  <i>  = [csn](../cds/csn)  </i> { #srv-model}
 
 <div class='indent' markdown="1">
 
@@ -464,16 +464,16 @@ The [linked model](cds-reflect#cds-reflect) from which this service's [definitio
 This is === [`cds.model`](cds-facade#cds-model) by default, that is, unless you created services yourself with [`cds.serve`](./cds-serve.md), specifying alternative models to load and construct new services from.
 </div>
 
-### srv.definition  <i>  &#8674; [def] </i> {: #srv-definition}
+### srv.definition  <i>  &#8674; [def] </i> { #srv-definition}
 
 <div class='indent' markdown="1">
 The [linked](cds-reflect#cds-reflect) [service definition](../cds/csn#services) contained in the [model](#srv-model) which served as the blueprint for the given service instance.
 </div>
 
-### srv.namespace <i> &#8674; string </i> {:.first-of-many}
+### srv.namespace <i> &#8674; string </i> {.first-of-many}
 ### srv.entities <i> (namespace) &#8674; {[defs]} </i>
 ### srv.events <i> (namespace) &#8674; {[defs]} </i>
-### srv.operations <i> (namespace) &#8674; {[defs]} </i> {:#srv-entities}
+### srv.operations <i> (namespace) &#8674; {[defs]} </i> {#srv-entities}
 
 [definitions]: ../cds/csn#definitions
 [defs]: ../cds/csn#definitions
@@ -491,7 +491,7 @@ These methods provide convenient access to the linked [definitions](../cds/csn#d
 const db = await cds.connect.to('db')
 const { Books, Authors } = db.entities('my.bookshop')
 ```
-{:.indent}
+{.indent}
 
 These methods are actually shortcuts to their [counterparts provided by linked models](cds-reflect#exports), with the default namespace being the service definition's name.
 
@@ -518,10 +518,10 @@ const books = await cds.read (Books)
 
 <!--- Migrated: @external/node.js/cds.Services/43-srv-handlers-.md -> @external/node.js/cds.services/srv-handlers-.md -->
 
-{:.sub-section}
+{.sub-section}
 
 
-## Handler Registration API {: #event-handlers }
+## Handler Registration API { #event-handlers }
 [Event handlers]: #event-handlers
 [event handlers]: #event-handlers
 [event handler]: #event-handlers
@@ -530,7 +530,7 @@ const books = await cds.read (Books)
 Register event handlers with instances of [`cds.Service`](services) to add custom logic to serve operations or react to events emitted by these services.
 
 
-### srv.on  <i>  (event, path?, handler) &#8674; this </i> {: #srv-on}
+### srv.on  <i>  (event, path?, handler) &#8674; this </i> { #srv-on}
 [`srv.on`]: #srv-on
 
 Handlers registered with this method are run in sequence, with each handler being able to terminate the sequence (cf. _Outcomes_ below). This termination capability in combination with registering handlers using [`srv.prepend`], lets you register custom handlers to run _instead of_ the generic ones. If you want to defer to the generic handlers, invoke `next` in your custom handler (see _Handling Examples_ below).
@@ -544,7 +544,7 @@ Handlers registered with this method are run in sequence, with each handler bein
 
 A service handler registered by entity name can use a relative or fully qualified name, containing the service namespace. A database handler needs a fully qualified entity name.
 
-[learn more about the `req` argument in handler functions.](events#cds-request){: .learn-more}
+[learn more about the `req` argument in handler functions.](events#cds-request){ .learn-more}
 
 
 **Registration Examples:**
@@ -642,7 +642,7 @@ cds.serve('cat-service') .with (function(){
 
 
 
-#### srv.on  <i>  ('error', (err, req) => {}) </i> {:#srv-on-error}
+#### srv.on  <i>  ('error', (err, req) => {}) </i> {#srv-on-error}
 
 Using the special event name `error`, you can register a custom error handler that is invoked whenever an error will be returned to the client. The handler receives the error object `err` and the respective request object `req`. Only synchroneous modifications of the error object are allowed.
 
@@ -668,7 +668,7 @@ The error is subsequently processed for the client following [OData's Error Resp
 
 
 
-### srv.before  <i>  (event, entity?, handler) &#8674; this </i> {:#srv-before}
+### srv.before  <i>  (event, entity?, handler) &#8674; this </i> {#srv-before}
 
 Registers a handler to run _before_ the ones registered with [`.on()`](#srv-on), that is, before the generic handlers. Commonly used to add custom input validations.
 
@@ -685,7 +685,7 @@ this.before ('CREATE','Order', (req)=>{
 })
 ```
 
-[learn more about the `req` argument in handler functions](events#cds-request){: .learn-more}
+[learn more about the `req` argument in handler functions](events#cds-request){ .learn-more}
 
 You can as well trigger additional operations in before handlers:
 
@@ -711,7 +711,7 @@ Hence: You can terminate requests early by throwing exceptions or through [`req.
 
 
 
-### srv.after  <i>  (event, entity?, handler) &#8674; this </i> {:#srv-after}
+### srv.after  <i>  (event, entity?, handler) &#8674; this </i> {#srv-after}
 
 Registers a handler to run _after_ the generic handler. To be more precise: It runs on the results returned by the generic handler (which is asynchronous to the incoming handlers). Use it to modify the response.
 
@@ -801,7 +801,7 @@ this.reject (['CREATE','UPDATE','DELETE'], ['Books','Authors'])
 ```
 
 
-### srv.prepend  <i>  (function) </i> {:#srv-prepend}
+### srv.prepend  <i>  (function) </i> {#srv-prepend}
 
 Use `srv.prepend` in order to register handlers, which shall be executed before already registered handlers.
 In particular, this can be used to override handlers from reused services as in [cap/samples/bookstore/srv/mashup.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/srv/mashup.js):
@@ -928,10 +928,10 @@ const ReviewsService = await cds.connect.to('ReviewsService')
 ReviewsService.on ('reviewed', (msg) => {...})
 ```
 
-[Learn more about **Messaging API**](#srv-emit){:.learn-more}
+[Learn more about **Messaging API**](#srv-emit){.learn-more}
 
 
-## Messaging API  {: #srv-emit }
+## Messaging API  { #srv-emit }
 [`srv.emit`]: #srv-emit
 
 ### srv.emit  <i>  ({ event, data?, headers? })  </i>
@@ -959,14 +959,14 @@ this.emit ({ event:'reviewed', data:{ subject, rating }, ... })
 this.emit ('reviewed', { subject, rating }) //> see below
 ```
 
-[Learn more about Event Messages.](events#cds-event){:.learn-more}
-[Learn more about Requests.](events#cds-request){:.learn-more}
+[Learn more about Event Messages.](events#cds-event){.learn-more}
+[Learn more about Requests.](events#cds-request){.learn-more}
 
 </div>
 
 _**Returns**_ a _Promise_ resolving to the response of respective event handlers.
 
-[For results of queries, see `srv.run`.](#srv-run){:.learn-more}
+[For results of queries, see `srv.run`.](#srv-run){.learn-more}
 
 
 
@@ -980,7 +980,7 @@ this.emit ('reviewed', { subject, rating })
 ```
 
 
-### srv.on  <i>  (event, handler) &#8674; this </i> {:#srv-on-event}
+### srv.on  <i>  (event, handler) &#8674; this </i> {#srv-on-event}
 
 Subscribe to asynchronous events by registering handlers using the common `srv.on()` method.
 
@@ -999,7 +999,7 @@ ReviewsService.on ('reviewed', (msg) => {...})
 There's one major difference, though: Handlers for synchronous requests execute as **interceptors**, which pass control to subsequent handlers by calling `next()`, handlers for asynchronous events execute as **listeners** with all registered handlers being executed without calling `next()`.
 
 
-## REST-style API {:#srv-send }
+## REST-style API {#srv-send }
 [`srv.send`]: #srv-send
 
 ### <span style="color:#800; font-weight:500">srv</span>.send <i> ({ (method, path) | query | event, data?, headers?, </i>...<i>}) &#8674; results </i>
@@ -1020,8 +1020,8 @@ await srv.send({ method: 'POST', path: 'Authors', data, headers }) //> send HTTP
 srv.send({ event: 'AuthorCreated', data, headers })
 ```
 
-[Learn more about `cds.Requests`.](events#cds-request){:.learn-more}
-[Learn more about Event Messages.](events#cds-event){:.learn-more}
+[Learn more about `cds.Requests`.](events#cds-request){.learn-more}
+[Learn more about Event Messages.](events#cds-event){.learn-more}
 
 Alternatively queries in _[CQN](../cds/cqn)_ notation can be used:
 
@@ -1033,15 +1033,15 @@ const headers = {...}
 const [books, authors] = await srv.send({ query, headers })
 ```
 
-[Learn more about using queries in `srv.run`.](#srvrun--query--results){:.learn-more}
-[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){:.learn-more}
+[Learn more about using queries in `srv.run`.](#srvrun--query--results){.learn-more}
+[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){.learn-more}
 
 </div>
 
 
 _**Returns**_ a _Promise_ resolving to the response of a respective request.
 
-[For results of queries, see `srv.run`.](#srv-run){:.learn-more}
+[For results of queries, see `srv.run`.](#srv-run){.learn-more}
 
 ### <span style="color:#800; font-weight:500">srv</span>.send <i> (method, path, data?, headers?) &#8674; results </i>
 
@@ -1083,7 +1083,7 @@ await srv.post(Books).entries({ID:111, ...})
 await srv.patch(Books,111).with({...})
 await srv.delete(Books,111)
 ```
-{:.indent}
+{.indent}
 
 These are equivalent to:
 
@@ -1093,9 +1093,9 @@ await srv.create(Books).entries({ID:111, ...})
 await srv.update(Books,111).with({...})
 await srv.delete(Books,111)
 ```
-{:.indent}
+{.indent}
 > Note: `UPDATE` translates to `PATCH`, not `PUT`.
-{:.indent}
+{.indent}
 
 
 _**Plain REST Usages:**_
@@ -1109,7 +1109,7 @@ srv.patch('/some/arbitrary/path', {foo:'bar'})
 srv.delete('/some/arbitrary/path/111')
 ```
 
-## Querying API {:#srv-run }
+## Querying API {#srv-run }
 [`cds.run`]: #srv-run
 [`srv.run`]: #srv-run
 
@@ -1127,10 +1127,10 @@ const { Books, Authors } = srv.entities //> reflection
 const books = await srv.run (SELECT.from(Books))
 const [books, authors] = await srv.run ([SELECT.from(Books), SELECT.from(Authors)])
 ```
-{:.indent}
+{.indent}
 
-[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){:.learn-more}
-[Learn more about `srv.run` variant to send native query string.](#srv-run-sql){:.learn-more .indent}
+[Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){.learn-more}
+[Learn more about `srv.run` variant to send native query string.](#srv-run-sql){.learn-more .indent}
 
 ::: tip
 If an array of queries is passed to `srv.run`, queries are run in parallel.
@@ -1161,7 +1161,7 @@ if (affectedRows < 1) req.reject(409,'Sold out, sorry')
 ```
 
 
-### <span style="color:#800; font-weight:500">srv</span>.run  <i>  (string, args?) &#8594; results </i> {: #srv-run-sql}
+### <span style="color:#800; font-weight:500">srv</span>.run  <i>  (string, args?) &#8594; results </i> { #srv-run-sql}
 
 Variant of [`srv.run`](#srv-run) which accepts native query strings, as understood by the receiving service, instead of [CQN](../cds/cqn) queries. For example, a SQL string in case of a connected SQL database.
 
@@ -1206,7 +1206,7 @@ A typical usage is as follows:
 ```js
 const books = await cds.read('Books').orderBy('title')
 ```
-{:.indent}
+{.indent}
 
 
 Essentially, each of these methods simply starts a fluent query construction using their [`cds.ql`](cds-ql) counterparts, which can be continued using the respective tail methods, and sent to the service backend upon invocation of `.then()`. For example, think of the implementation of `cds.read` as follows:
@@ -1257,7 +1257,7 @@ if (bookExists) {
 ```
 
 <!--- Migrated: @external/node.js/cds.Services/44d-srv-actions-.md -> @external/node.js/cds.services/44d-srv-actions-.md -->
-## Actions API {:#srv-action }
+## Actions API {#srv-action }
 
 In case you declared custom actions and functions in the service definition of a [_connected_](cds-connect) or [_provided_](cds-serve) service, the respective instance of `cds.Service` will automatically be equipped with corresponding JavaScript methods, allowing you to write code similar to `srv.create/read/...`.
 
@@ -1305,7 +1305,7 @@ const cats = await cds.connect.to('CatalogService')
 const res3 = await cats.submitOrder ('Books', 251, 1)
 ```
 
-## Streaming API {:#srv-stream }
+## Streaming API {#srv-stream }
 
 ::: warning
 Streaming is currently limited to [database services](databases).
@@ -1344,7 +1344,7 @@ stream.pipe(process.stdout)
 
 
 
-### srv.foreach  <i>  (entity | query, args?, callback) &#8594; Promise </i> {: #srv-foreach}
+### srv.foreach  <i>  (entity | query, args?, callback) &#8594; Promise </i> { #srv-foreach}
 [`srv.foreach`]: #srv-foreach
 
 
@@ -1356,6 +1356,6 @@ _**Common Usages:**_
 cds.foreach (SELECT.from('Foo'), each => console.log(each))
 cds.foreach ('Foo', each => console.log(each))
 ```
-{:.indent}
+{.indent}
 
 > As depicted in the second line, a plain entity name can be used for the `entity` argument in which case it's expanded to a `SELECT * from ...`.

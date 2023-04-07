@@ -36,7 +36,7 @@ const project = __dirname+'/..' // The project's root folder
 const cds = require('@sap/cds/lib')
 cds.test(project)
 ```
-[Learn more about tests in the SFLIGHT app.](https://github.com/SAP-samples/cap-sflight/blob/main/test/odata.test.js){:.learn-more}
+[Learn more about tests in the SFLIGHT app.](https://github.com/SAP-samples/cap-sflight/blob/main/test/odata.test.js){.learn-more}
 
 ##### Behind the Scenes `cds.test()` ...
 
@@ -122,7 +122,7 @@ const {data} = await test.get('/browse/Books', { // [!code focus]
 }})
 ```
 
-[Learn more about the axios APIs.](https://axios-http.com){:.learn-more}
+[Learn more about the axios APIs.](https://axios-http.com){.learn-more}
 
 In addition we provide uppercase bound function variants like `GET` or `POST`, which allow this usage variant:
 
@@ -172,7 +172,7 @@ Run them with `npm run jest` or with `npm run mocha`.
 
 
 
-##### Using Watchers {:.h3}
+##### Using Watchers {.h3}
 
 You can also start the tests in watch mode, for example:
 
@@ -262,7 +262,7 @@ Test {}
 Data can be supplied:
 - Programmatically as part of the test code
 - In CSV files from `db/data` folders
-{% if jekyll.environment != "external" %}- In CSV files from the `test/data` folder [alpha]{% endif %}
+% if jekyll.environment != "external" %}- In CSV files from the `test/data` folder [alpha]% endif %}
 
 This following example shows how data can be inserted into the database using regular [CDS service APIs](services#srv-run) (using [CQL INSERT](cds-ql#INSERT) under the hood):
 
@@ -282,7 +282,7 @@ beforeAll(async () => {
 
 This example also demonstrates the difference of accessing the database or the service layer: inserting data through the latter would fail because `CatalogService.Books` is read-only. In contrast, accessing the database as part of such test fixture code is fine. Just keep in mind that the data is not validated through your custom handler code, and that the database layer, that is, the table layout, is no API for users.
 
-##### Data Reset {:.h3}
+##### Data Reset {.h3}
 
 Using the [cds.test.data](#data) API, you can have all data deleted and redeployed before each test:
 
@@ -303,16 +303,16 @@ or only delete it:
 await data.delete()
 ```
 
-## `cds.test` Reference {: #cds-test}
+## `cds.test` Reference { #cds-test}
 
-### `cds.test (projectDir)` → `Test` {: #run}
+### `cds.test (projectDir)` → `Test` { #run}
 
 Launches a CDS server with an arbitrary port and returns a subclass which also acts as an [Axios]( https://github.com/axios/axios) lookalike, providing methods to send requests.
 Launch a server in the given project folder, using a default command of `cds serve --in-memory?`.
 
 The server is shut down after all tests have been executed.
 
-### `cds.test (command, ...args)` → `Test` {: #run-2}
+### `cds.test (command, ...args)` → `Test` { #run-2}
 
 Launch a server with the given command and arguments.<br>
 Example: `cds.test ('serve', '--in-memory', '--project', <dir>)`
@@ -322,45 +322,45 @@ Example: `cds.test ('serve', '--in-memory', '--project', <dir>)`
 Instances of this class are returned by `cds.test()`. See below for its functions and properties.
 
 
-#### `.GET/PATCH/POST/PUT/DELETE (url, ...)` ⇢ [`response`](https://github.com/axios/axios#response-schema) {: #get}
+#### `.GET/PATCH/POST/PUT/DELETE (url, ...)` ⇢ [`response`](https://github.com/axios/axios#response-schema) { #get}
 
-Aliases for corresponding [`get/patch/...` methods from Axios](https://github.com/axios/axios#instance-methods). For calls w/o additional parameters, a simplified call style is available where the `()` can be omitted. For example, <pre>GET `/foo`</pre>  and <code>GET(`/foo`)</code> are equivalent. {:.indent}
+Aliases for corresponding [`get/patch/...` methods from Axios](https://github.com/axios/axios#instance-methods). For calls w/o additional parameters, a simplified call style is available where the `()` can be omitted. For example, <pre>GET `/foo`</pre>  and <code>GET(`/foo`)</code> are equivalent. {.indent}
 
-#### `.expect` → [`expect`](https://www.chaijs.com/api/bdd/) {: #expect}
+#### `.expect` → [`expect`](https://www.chaijs.com/api/bdd/) { #expect}
 
-Provides the [expect](https://www.chaijs.com/api/bdd/) function from the [chai](#chai) assertion library. {:.indent}
+Provides the [expect](https://www.chaijs.com/api/bdd/) function from the [chai](#chai) assertion library. {.indent}
 
-#### `.chai` → [`chai`](https://www.chaijs.com/api/) {: #chai}
+#### `.chai` → [`chai`](https://www.chaijs.com/api/) { #chai}
 
 Provides the [chai](https://www.chaijs.com/) assertion library.
-It is preconfigured with the [chai-subset](https://www.chaijs.com/plugins/chai-subset/) and [chai-as-promised](https://www.chaijs.com/plugins/chai-as-promised/) plugins. These plugins contribute the `containSubset` and `eventually` APIs, respectively. {:.indent}
+It is preconfigured with the [chai-subset](https://www.chaijs.com/plugins/chai-subset/) and [chai-as-promised](https://www.chaijs.com/plugins/chai-as-promised/) plugins. These plugins contribute the `containSubset` and `eventually` APIs, respectively. {.indent}
 
-#### `.axios` → [`axios`](https://github.com/axios/axios#axios-api) {: #axios}
+#### `.axios` → [`axios`](https://github.com/axios/axios#axios-api) { #axios}
 
 Provides the [Axios](https://github.com/axios/axios) instance that is used as HTTP client.
-It comes preconfigured with the base URL of the running server, that is, `http://localhost:...`.  This way, you only need to specify host-relative URLs in tests, like `/catalog/Books`. {:.indent}
+It comes preconfigured with the base URL of the running server, that is, `http://localhost:...`.  This way, you only need to specify host-relative URLs in tests, like `/catalog/Books`. {.indent}
 
-#### `.data` → `{ }` {: #data}
+#### `.data` → `{ }` { #data}
 
-Provides utilities to manage test data: {:.indent}
+Provides utilities to manage test data: {.indent}
 - `.autoReset (boolean)` enables automatic deletion and redeployment of CSV data before each test. Default is `false`.
 - `.delete ()` deletes data in all database tables
-- `.reset ()` deletes data in all database tables and deploys CSV data again {:.indent}
+- `.reset ()` deletes data in all database tables and deploys CSV data again {.indent}
 
-#### `.in (...paths)` → `Test` {: #in}
+#### `.in (...paths)` → `Test` { #in}
 
 Sets the given path segments as project root.<br>
-Example: `cds.test.in(__dirname, '..').run('serve', '--in-memory')` {:.indent}
+Example: `cds.test.in(__dirname, '..').run('serve', '--in-memory')` {.indent}
 
 
-#### `.verbose (boolean)` → `Test` {: #verbose}
+#### `.verbose (boolean)` → `Test` { #verbose}
 
-Sets verbose mode, so that, for example, server logs are shown. {:.indent}
+Sets verbose mode, so that, for example, server logs are shown. {.indent}
 
 
-## Best Practices {: #best-practices}
+## Best Practices { #best-practices}
 
-### Check Response Data Instead of Status Codes {:.h3}
+### Check Response Data Instead of Status Codes {.h3}
 
 Avoid checking for single status codes. Instead simply check the response data:
 
@@ -374,7 +374,7 @@ This makes a difference in case of an error: with the status code check, your te
 
 Note that by default, Axios yields errors for status codes `< 200` and `>= 300`. This can be [configured](https://github.com/axios/axios#handling-errors), though.
 
-### Be Relaxed When Checking Error Messages {:.h3}
+### Be Relaxed When Checking Error Messages {.h3}
 
 When expecting errors, compare their text in a relaxed fashion. Don't hard-wire the exact error text, as this might change over time, breaking your test unnecessarily.
 

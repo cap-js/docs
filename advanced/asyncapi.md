@@ -10,7 +10,7 @@ status: released
 
 You can convert events in CDS models to the [AsyncAPI specification](https://www.asyncapi.com), a widely adopted standard used to describe and document message-driven asynchronous APIs.
 
-## CDS Type to AsyncAPI Mapping {: #mapping}
+## CDS Type to AsyncAPI Mapping { #mapping}
 
 CDS Type | AsyncAPI Supported Types
 -----|-------------------
@@ -31,7 +31,7 @@ CDS Type | AsyncAPI Supported Types
 `LargeBinary` | { "type": "string" }
 `LargeString` | { "type": "string" }
 
-## Usage from CLI {: #cli}
+## Usage from CLI { #cli}
 
 Use the following command to convert all services in `srv/` and store the generated AsyncAPI documents in the `docs/` folder:
 
@@ -46,9 +46,9 @@ If you want to generate one AsyncAPI document for all the services, you can use 
 cds compile srv --service all -o docs --to asyncapi --asyncapi:merged
 ```
 
-[Learn how to programmatically convert the CSN file into an AsyncAPI Document](../node.js/cds-compile#to-asyncapi){:.learn-more}
+[Learn how to programmatically convert the CSN file into an AsyncAPI Document](../node.js/cds-compile#to-asyncapi){.learn-more}
 
-## Presets {: #presets}
+## Presets { #presets}
 
 Use presets to add configuration for the AsyncAPI export tooling.
 
@@ -77,7 +77,7 @@ Term | Preset Target | AsyncAPI field | Remarks
 `event_source_params` | Event | x-sap-event-source-parameters |
 `event_characteristics` | Event | x-sap-event-characteristics |
 
-## Annotations {: #annotations}
+## Annotations { #annotations}
 
 Use annotations to add configuration for the AsyncAPI export tooling.
 

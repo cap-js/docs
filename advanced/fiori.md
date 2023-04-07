@@ -15,7 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 This guide explains how to add one or more SAP Fiori elements apps to a CAP project, how to add SAP Fiori elements annotations to respective service definitions, and more. In the following sections, when mentioning Fiori, we always mean SAP Fiori elements.
 
-[Learn more about developing SAP Fiori elements and OData V4 (since 1.84.)](https://sapui5.hana.ondemand.com/#/topic/62d3f7c2a9424864921184fd6c7002eb){:.learn-more}
+[Learn more about developing SAP Fiori elements and OData V4 (since 1.84.)](https://sapui5.hana.ondemand.com/#/topic/62d3f7c2a9424864921184fd6c7002eb){.learn-more}
 
 ## SAP Fiori Preview
 
@@ -49,7 +49,7 @@ As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/t
 
 The SAP Fiori tools provide advanced support for adding SAP Fiori apps to existing CAP projects as well as a wealth of productivity tools, for example for adding SAP Fiori annotations, or graphical modeling and editing. They can be used locally in [Visual Studio Code (VS Code)](https://marketplace.visualstudio.com/items?itemName=SAPSE.sap-ux-fiori-tools-extension-pack) or in [SAP Business Application Studio](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/b0110400b44748d7b844bb5977a657fa.html).
 
-[Learn more about **how to install SAP Fiori tools**.](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/2d8b1cb11f6541e5ab16f05461c64201.html){:.learn-more}
+[Learn more about **how to install SAP Fiori tools**.](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/2d8b1cb11f6541e5ab16f05461c64201.html){.learn-more}
 
 <div id="tools-preview" />
 
@@ -66,7 +66,7 @@ For example, you can copy the [SAP Fiori apps from cap/samples](https://github.c
 > This is a sample to create an incident management app with SAP Fiori elements for OData V4.
 
 
-## Adding SAP Fiori Annotations {:#fiori-annotations}
+## Adding SAP Fiori Annotations {#fiori-annotations}
 
 The main content to add is service definitions annotated with information about how to render respective data.
 
@@ -92,8 +92,8 @@ annotate CatalogService.Books with @(
 ```
 
 
-[Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){:.learn-more target="_blank"}
-[Learn more about **OData Annotations in CDS**.][OData Annotations]{:.learn-more}
+[Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more target="_blank"}
+[Learn more about **OData Annotations in CDS**.][OData Annotations]{.learn-more}
 
 
 ### Where to Put Them?
@@ -113,7 +113,7 @@ While CDS in principle allows you to add such annotations everywhere in your mod
 ...
 ```
 
-[See this also in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){:.learn-more}
+[See this also in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more}
 
 **Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-models/#domain-driven-design) and [Separation of Concerns](../guides/domain-models/#separation-of-concerns).
 
@@ -132,7 +132,7 @@ These assisting features are provided for [OData annotations in CDS syntax](../a
 
 The [@sap/ux-cds-odata-language-server-extension](https://www.npmjs.com/package/@sap/ux-cds-odata-language-server-extension) module doesn’t require any manual installation. The latest version is fetched by default from [npmjs.com](https://npmjs.com) as indicated in the user preference setting **CDS > Contributions: Registry**.
 
-[Learn more about the **CDS extension for VS Code**.](https://www.youtube.com/watch?v=eY7BTzch8w0){:.learn-more}
+[Learn more about the **CDS extension for VS Code**.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
 ### Code Completion
 
@@ -274,7 +274,7 @@ You can navigate to the referenced annotation using the [Peek Definition](#peek-
 > If the referenced annotation is defined in another CDS source, you must reference this source with the `using` directive to enable the navigation. See [The `using` Directive](../cds/cdl#using) for more details.
 
 
-#### Peek Definition {: #peek-definition}
+#### Peek Definition { #peek-definition}
 
 Peek Definition lets you preview and update the referenced annotation without switching away from the code that you’re writing. It’s triggered when your cursor is inside the referenced annotation value.
 - Using a keyboard: choose <kbd>Alt</kbd> + <kbd>F12</kbd> (Windows), or <kbd class="space">⌥</kbd> + <kbd>F12</kbd> (macOS)
@@ -282,7 +282,7 @@ Peek Definition lets you preview and update the referenced annotation without sw
 If an annotation is defined in multiple sources, all these sources are listed. You can select which one you want to view or update. Annotation layering isn't considered.
 
 
-#### Go to Definition {: #go-to-definition}
+#### Go to Definition { #go-to-definition}
 
 Go To Definition lets you navigate to the source of the referenced annotation and opens the source file scrolled to the respective place in a new tab. It’s triggered when your cursor is inside the referenced annotation value.
 
@@ -362,13 +362,13 @@ entity Foo @(Capabilities:{
 Similar recommendations apply to `@mandatory` and others &rarr; see [Common Annotations].
 
 
-## Draft-Based Editing {:#draft-support}
+## Draft-Based Editing {#draft-support}
 
 SAP Fiori supports edit sessions with draft states stored on the server, so users can interrupt and continue later on, possibly from different places and devices. CAP, as well as SAP Fiori elements, provide out-of-the-box support for drafts as outlined in the following sections. **We recommend to always use draft** when your application needs data input by end users.
 
-[For details and guidelines, see **SAP Fiori Design Guidelines for Draft**.](https://experience.sap.com/fiori-design-web/draft-handling/){:.learn-more}
+[For details and guidelines, see **SAP Fiori Design Guidelines for Draft**.](https://experience.sap.com/fiori-design-web/draft-handling/){.learn-more}
 
-[Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){:.learn-more}
+[Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){.learn-more}
 
 
 ### Enabling Draft with `@odata.draft.enabled`
@@ -379,14 +379,14 @@ To enable draft for an entity exposed by a service, simply annotate it with `@od
 annotate AdminService.Books with @odata.draft.enabled;
 ```
 
-[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L51){:.learn-more}
+[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L51){.learn-more}
 
 ::: warning
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
 :::
 
 
-### Enabling Draft for [Localized Data](../guides/localized-data/) {:#draft-for-localized-data}
+### Enabling Draft for [Localized Data](../guides/localized-data/) {#draft-for-localized-data}
 
 Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data]:
 
@@ -396,8 +396,8 @@ annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 
 > Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data/#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
 
-![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){:style="margin:0"}
-[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){:.learn-more}
+![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
+[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){.learn-more}
 
 If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen from a drop-down menu as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
 
@@ -445,7 +445,7 @@ To access drafts in code, you can use the [`.drafts` reflection](../node.js/cds-
 SELECT.from(Books.drafts) //returns all drafts of the Books entity
 ```
 
-[Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){:.learn-more}
+[Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
 
 ## Value Help Support
@@ -501,7 +501,7 @@ entity Books { //...
 }
 ```
 
-[Find this also in our **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds){:.learn-more}
+[Find this also in our **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds){.learn-more}
 
 Still, all SAP Fiori UIs, on all services exposing `Books`, will automatically receive Value Help for currencies. You can also benefit from that when [deriving your project-specific code list entities from **sap.common.CodeList**](../cds/common#adding-own-code-lists).
 
@@ -536,7 +536,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services/#actions-and-functions){:.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services/#actions-and-functions){.learn-more}
 
 
 We're going to look at three things.

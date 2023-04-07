@@ -42,7 +42,7 @@ Add the following to your _package.json_ to use SAP Event Mesh:
 }
 ```
 
-[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){:.learn-more}
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 <div class="tip" markdown="1">
 
@@ -98,7 +98,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
     npm add @sap/xb-msg-amqp-v100
     ```
 
-    [Learn more about SAP Event Mesh (Shared).](../../node.js/messaging#event-mesh-shared){:.learn-more}
+    [Learn more about SAP Event Mesh (Shared).](../../node.js/messaging#event-mesh-shared){.learn-more}
 
 3. Create a service key for your Event Mesh instance [→ see help.sap.com](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/4514a14ab6424d9f84f1b8650df609ce.html)
 
@@ -109,7 +109,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
     ```
 
 
-    [Learn more about `cds bind` and hybrid testing.](../../advanced/hybrid-testing){:.learn-more}
+    [Learn more about `cds bind` and hybrid testing.](../../advanced/hybrid-testing){.learn-more}
 
 5. Run your services in separate terminal shells with the `hybrid` profile:
 
@@ -120,7 +120,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
     cds watch bookstore --profile hybrid
     ```
 
-    [Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){:.learn-more}
+    [Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
 6. Test your app [as described in the messaging guide](./#3-add-or-update-reviews).
 
@@ -146,7 +146,7 @@ In case you want to manage queues yourself, use config option `queue.name` as fo
 
 In both cases — automatically chosen queue names or explicitly configured ones — if the queue already exists it's reused, otherwise it's created.
 
-[Learn more about queue configuration options.](../../node.js/messaging#message-brokers){:.learn-more}
+[Learn more about queue configuration options.](../../node.js/messaging#message-brokers){.learn-more}
 
 
 ## Deploy to the Cloud (with MTA)
@@ -173,7 +173,7 @@ resources:
       service-plan: <Event Mesh Service Instance - Plan>
 ```
 
-[Learn more about using MTA.](../deployment/){:.learn-more}
+[Learn more about using MTA.](../deployment/){.learn-more}
 
 ::: warning
 Make sure to use the exact `name` and `service-plan` used at the time creating the service instance you want to use.
@@ -191,10 +191,10 @@ resources:
       path: ./<Event Mesh Service Descriptor JSON file>
 ```
 
-[Learn more about Service Descriptors for SAP Event Mesh.](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/5696828fd5724aa5b26412db09163530.html){:.learn-more}
+[Learn more about Service Descriptors for SAP Event Mesh.](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/5696828fd5724aa5b26412db09163530.html){.learn-more}
 
 
-## Setup for Multitenancy {:#multitenancy .impl.internal}
+## Setup for Multitenancy {#multitenancy .impl.internal}
 
 CAP's support for SAP Event Mesh includes advanced support and optimizations for multitenant usage.
 
@@ -241,7 +241,7 @@ Add the following to your _package.json_ to ensure using the multitenancy-aware 
 }
 ```
 
-[Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){:.learn-more}
+[Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
 
 ### 3. Secure Inbound Access to HTTP Webhooks
@@ -262,7 +262,7 @@ Incoming messages are delivered by SAP Event Mesh to webhook endpoints of the Sa
 }
 ```
 
-[Learn more about **XSUAA configuration**.](../authorization/#xsuaa-configuration){:.learn-more}
+[Learn more about **XSUAA configuration**.](../authorization/#xsuaa-configuration){.learn-more}
 
 In addition, you've to let your SAP Event Mesh instance accept the granted authorities. Add `$ACCEPT_GRANTED_AUTHORITIES` to the `authorities` array in the service descriptor of your SAP Event Mesh instance:
 
@@ -283,7 +283,7 @@ Finally deploy your application for multitenant usage as described in the [Multi
 
 
 
-## Onboarding Tenants {:.impl.internal}
+## Onboarding Tenants {.impl.internal}
 
 CAP's `enterprise-messaging` implementation plugs in to `@sap/cds-mtx` to fully automate tenant onboarding for SAP Event Mesh as follows:
 
@@ -304,11 +304,11 @@ As the creation of the event bus **can take up to several minutes**, it's import
 In case of Java, you additionally need to set `CDS_MULTITENANCY_CALLBACKURL`, as documented [here](../../java/multitenancy#asynchronous-tenant-subscription).
 
 
-## Upgrading Tenants {:.impl.internal}
+## Upgrading Tenants {.impl.internal}
 
 When upgrading deployed applications **new subscriptions are currently not propagated to already onboarded tenants** → as a temporary work-around to compensate for this, a REST API is provided to trigger that manually. Calling this REST API requires the caller to have a role that includes the scope `$XSAPPNAME.emmanagement`.
 
-::: warning _❗ Warning_{:.warning-title}
+::: warning _❗ Warning_{.warning-title}
 As soon as a better integration into the SaaS management processes is found, the provided REST APIs will be deprecated and removed.
 :::
 
@@ -351,7 +351,7 @@ Get the configuration status of a specific, or all tenants:
 GET <APP_URL>/messaging/v1.0/em/[<TENANT_ID>] HTTP/1.1
 ```
 
-## SAP Event Specifications {:.impl.internal}
+## SAP Event Specifications {.impl.internal}
 
 SAP has sophisticated rules for constructing event messages:
 
@@ -407,7 +407,7 @@ Also to comply to [SAP Event Mesh's mapping rules for CloudEvents messages](http
 | `my/own.namespace/-/ce/` | `/my/own.namespace` |
 
 
-## SAP Message Queuing {: .impl.internal}
+## SAP Message Queuing { .impl.internal}
 
 When using SAP Message Queuing as messaging service (only available to SAP-internal stakeholders using `kind: message-queuing`), all dots in the event name are automatically replaced by slashes, as SAP Message Queuing doesn't allow dots to appear in topics.
 

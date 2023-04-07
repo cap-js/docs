@@ -23,8 +23,8 @@ status: released
 # Consuming Services
 {{ $frontmatter.synopsis }}
 
-<!--- {% include _toc levels="2,3" %} -->
-<!--- {% include links.md %} -->
+<!--- % include _toc levels="2,3" %} -->
+<!--- % include links.md %} -->
 
 ## Introduction
 
@@ -79,7 +79,7 @@ You've all your answers and know your scenario, go on reading about [external se
 
 The risk management use case of the previously mentioned [tutorial](https://developers.sap.com/mission.btp-application-cap-e2e.html) shows you one possible scenario:
 
-![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/risk-mgmt.drawio.svg){:.adapt}
+![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/risk-mgmt.drawio.svg){.adapt}
 
 ::: tip _User Story_
 A company wants to ensure that goods are only sourced from suppliers with acceptable risks. There shall be a software system, that allows a clerk to maintain risks for suppliers and their mitigations. The system shall block the supplier used if risks can't be mitigated.
@@ -95,21 +95,21 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## Get and Import an External Service API {: #external-service-api }
+## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
 
 These definitions are usually made available by the service provider. As they aren't defined within your application, but imported from outside, they're called *external* service APIs in CAP. Service APIs can be provided in different formats. Currently, *EDMX* files for OData V2 and V4 are supported.
 
-### Get a Service API from SAP API Business Hub {: #from-api-hub}
+### Get a Service API from SAP API Business Hub { #from-api-hub}
 
 The [SAP API Business Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){:.learn-more}
+[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
 
-### Get a Service API for a Remote CAP Service {: #from-cap-service}
+### Get a Service API for a Remote CAP Service { #from-cap-service}
 
 We recommend using EDMX as exchange format. Export a service API to EDMX:
 
@@ -133,7 +133,7 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 :::
 
 
-[You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){:.learn-more}
+[You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
 ::: warning
@@ -143,7 +143,7 @@ By default, CAP works with OData V4 and the EDMX export is in this protocol vers
 - CAP creates unneeded database tables and views for all entities in the file.<br>
 :::
 
-### Import API Definition {: #import-api}
+### Import API Definition { #import-api}
 
 Import the API to your project using `cds import`.
 
@@ -191,7 +191,7 @@ Now run `cds import <filename>`
 
 The kind `odata-v2` is set when importing EDMX definitions of OData V2 format. When importing OData V4, the kind `odata` is set, which is an alias for kind `odata-v4`.
 
-[Learn more about type mappings from OData to CDS and vice versa.](../../node.js/cds-dk#special-type-mappings){:.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../../node.js/cds-dk#special-type-mappings){.learn-more}
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
 :::
@@ -221,7 +221,7 @@ To work with remote services, add the following dependency to your Maven project
 </dependency>
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities.](../../java/development/properties#cds-remote-services){:.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities.](../../java/development/properties#cds-remote-services){.learn-more}
 
 ## Local Mocking
 
@@ -241,9 +241,9 @@ BusinessPartner;BusinessPartnerFullName;BusinessPartnerIsBlocked
 ```
 :::
 
-[Find this source in the end-to-end Tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){:.learn-more}
+[Find this source in the end-to-end Tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){.learn-more}
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){:.learn-more}
+[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){.learn-more}
 
 ### Run Local with Mocks
 
@@ -439,7 +439,7 @@ _http://localhost:8080/service/risk/Suppliers_
 2021-09-21 15:18:45.519 DEBUG 34645 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
 ```
 
-[Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){:.learn-more}
+[Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
 ## Execute Queries
 
@@ -474,9 +474,9 @@ const result = await bupa.run(SELECT.from(A_BusinessPartner, bp => {
   }).limit(100));
 ```
 
-[Learn more about querying API examples.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/test/odata-examples.js){:.learn-more}
+[Learn more about querying API examples.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/test/odata-examples.js){.learn-more}
 
-[Learn more about supported querying API features.](#querying-api-features){:.learn-more}
+[Learn more about supported querying API features.](#querying-api-features){.learn-more}
 
 ### Execute Queries with Java
 
@@ -495,9 +495,9 @@ CqnSelect select = Select.from(ABusinessPartner_.class).limit(100);
 List<ABusinessPartner> businessPartner = bupa.run(select).listOf(ABusinessPartner.class);
 ```
 
-[Learn more about querying API examples.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/test/odata-examples.js){:.learn-more}
+[Learn more about querying API examples.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/test/odata-examples.js){.learn-more}
 
-[Learn more about supported querying API features.](#querying-api-features){:.learn-more}
+[Learn more about supported querying API features.](#querying-api-features){.learn-more}
 
 ### Model Projections
 
@@ -517,7 +517,7 @@ entity Suppliers as projection on bupa.A_BusinessPartner {
 
 As the example shows, you can use field aliases as well.
 
-[Learn more about supported features for projections.](#supported-projection-features){:.learn-more}
+[Learn more about supported features for projections.](#supported-projection-features){.learn-more}
 
 ### Execute Queries on Projections to a Remote Service
 
@@ -559,15 +559,15 @@ bupa.send({
 })
 ```
 
-[Learn more about the `send` API.](../../node.js/services#srv-send){:.learn-more}
+[Learn more about the `send` API.](../../node.js/services#srv-send){.learn-more}
 
 ### Building Custom Requests with Java
 
 For Java, you can use the `HttpClient` API to implement your custom requests. The API is enhanced by the SAP Cloud SDK to support destinations.
 
-[Learn more about using the HttpClient Accessor.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-http-client){:.learn-more}
+[Learn more about using the HttpClient Accessor.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-http-client){.learn-more}
 
-[Learn more about using destinations.](#use-destinations-with-java){:.learn-more}
+[Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
 ## Integrate and Extend
 
@@ -609,7 +609,7 @@ module.exports = cds.service.impl(async function() {
   });
 });
 ```
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){:.learn-more}
+[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
 
 *Java:*
 
@@ -660,7 +660,7 @@ module.exports = cds.service.impl(async function() {
 });
 ```
 
-[Learn more about queries on projections to remote services.](#execute-queries-on-projections-to-a-remote-service){:.learn-more}
+[Learn more about queries on projections to remote services.](#execute-queries-on-projections-to-a-remote-service){.learn-more}
 
 ### Expose Remote Services with Associations
 
@@ -737,7 +737,7 @@ service RiskService {
 }
 ```
 
-#### Extend a Remote by a Local Service {: #extend-a-remote-by-a-local-service}
+#### Extend a Remote by a Local Service { #extend-a-remote-by-a-local-service}
 
 You can augment a projection with a new association, if the required fields for the on condition are present in the remote service. The use of managed associations isn't possible, because this requires to create new fields in the remote service.
 <!--Does it matter if it's managed or unmanaged? In other section we say, that you shouldn't make it a managed assoc b/c that would lead to runtime errors. -->
@@ -751,7 +751,7 @@ entity Suppliers as projection on bupa.A_BusinessPartner {
 };
 ```
 
-### Handle Mashups with Remote Services {: #building-mashups}
+### Handle Mashups with Remote Services { #building-mashups}
 
 Depending on how the service is accessed, you need to support direct requests, navigation, or expands. CAP resolves those three request types only for service entities that are served from the database. When crossing the boundary between database and remote sourced entities, you need to take care of those requests.
 
@@ -761,7 +761,7 @@ The list of [required implementations for mashups](#required-implementations-for
 
 Expands add data from associated entities to the response. For example, for a risk, you want to display the suppliers name instead of just the technical ID. But this property is part of the (remote) supplier and not part of the (local) risk.
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-consume-ui.html#7d36d433-2b88-407c-a6cc-d6a05dcc8547){:.learn-more}
+[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-consume-ui.html#7d36d433-2b88-407c-a6cc-d6a05dcc8547){.learn-more}
 
 To handle expands, you need to add a handler for the main entity:
 1. Check if a relevant `$expand` column is present.
@@ -790,9 +790,9 @@ Example of a CQN request with an expand:
 }
 ```
 
-[See an example how to handle expands in Node.js.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/srv/risk-service.js){:.learn-more}
+[See an example how to handle expands in Node.js.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/srv/risk-service.js){.learn-more}
 
-[See an example how to handle expands in Java.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/src/main/java/com/sap/cap/riskmanagement/handler/RiskServiceHandler.java){:.learn-more}
+[See an example how to handle expands in Java.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/src/main/java/com/sap/cap/riskmanagement/handler/RiskServiceHandler.java){.learn-more}
 
 
 Expands across local and remote can cause stability and performance issues. For a list of items, you need to collect all IDs and sent it to the database or the remote system. This can become long and may exceed the limits of a URL string in case of OData. Do you really need expands for a list of items?
@@ -849,12 +849,12 @@ If the association's on condition equals the key of the source entity, you can d
 
 Otherwise, you need to select the source item using that `where` block and take the required fields for the associations on condition from that result.
 
-[See an example how to handle navigations in Node.js.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/srv/risk-service.js){:.learn-more}
+[See an example how to handle navigations in Node.js.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui/srv/risk-service.js){.learn-more}
 
-[See an example how to handle navigations in Java.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/src/main/java/com/sap/cap/riskmanagement/handler/RiskServiceHandler.java){:.learn-more}
+[See an example how to handle navigations in Java.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/src/main/java/com/sap/cap/riskmanagement/handler/RiskServiceHandler.java){.learn-more}
 
 ### Limitations and Feature Matrix
-#### Required Implementations for Mashups {: #required-implementations-for-mashups}
+#### Required Implementations for Mashups { #required-implementations-for-mashups}
 
 You need additional logic, if remote entities are in the game. The following table shows what is required. "Local" is a database entity or a projection on a database entity.
 
@@ -901,13 +901,13 @@ The following matrix can help you to find the best approach for your scenario:
 
 
 
-### Using Destinations {: #using-destinations}
+### Using Destinations { #using-destinations}
 
 Destinations contain the necessary information to connect to a remote system. They're basically an advanced URL, that can carry additional metadata like, for example, the authentication information.
 
 You can choose to use [SAP BTP destinations](#btp-destinations) or [application defined destinations](#app-defined-destinations).
 
-#### Use SAP BTP Destinations {: #btp-destinations}
+#### Use SAP BTP Destinations { #btp-destinations}
 
 CAP leverages the destination capabilities of the SAP Cloud SDK.
 
@@ -1001,9 +1001,9 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about configuring destinations for Java.](../../java/remote-services#configuring-the-destination){:.learn-more}
+[Learn more about configuring destinations for Java.](../../java/remote-services#configuring-the-destination){.learn-more}
 
-#### Use Application Defined Destinations {: #app-defined-destinations}
+#### Use Application Defined Destinations { #app-defined-destinations}
 
 If you don't want to use SAP BTP destinations, you can also define destinations, which means the URL, authentication type, and additional configuration properties, in your application configuration or code.
 
@@ -1040,7 +1040,7 @@ This is an example of a destination using basic authentication:
 }
 ```
 
-[Supported destination properties.](#destination-properties){:.learn-more}
+[Supported destination properties.](#destination-properties){.learn-more}
 
 ::: warning
 You shouldn't put any sensitive information here.
@@ -1128,7 +1128,7 @@ cds:
 ```
 :::
 
-[Learn more about supported destination properties.](#destination-properties){:.learn-more}
+[Learn more about supported destination properties.](#destination-properties){.learn-more}
 
 ##### Implement Application Defined Destinations in Java
 
@@ -1143,7 +1143,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about programmatic destination registration.](../../java/remote-services#programmatic-destination-registration){:.learn-more} [See examples for different authentication types.](../../java/remote-services#register-destinations){:.learn-more}
+[Learn more about programmatic destination registration.](../../java/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../../java/remote-services#register-destinations){.learn-more}
 
 
 ### Connect to Remote Services from Local
@@ -1175,7 +1175,7 @@ Your local application needs access to an XSUAA and Destination service instance
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
-    [Learn more about `cds bind`.](../../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){:.learn-more}
+    [Learn more about `cds bind`.](../../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){.learn-more}
 
 #### Run a Node.js Application with a Destination
 
@@ -1233,10 +1233,10 @@ cds bind --exec -- mvn spring-boot:run \
   -Dspring-boot.run.profiles=default,hybrid
 ```
 
-[Learn more about `cds bind --exec`.](../../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){:.learn-more}
+[Learn more about `cds bind --exec`.](../../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
 
 
-### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {:#forward-auth-token}
+### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}
 
 If your application consists of microservices and you use one (or more) as a remote service as described in this guide, you can leverage the same XSUAA instance. In that case, you don't need an SAP BTP destination at all.
 
@@ -1300,8 +1300,8 @@ With Istio, you can further secure the communication [by configuring authenticat
 
 Your micro service needs bindings to the **XSUAA** and **Destination** service to access destinations on SAP BTP. If you want to access an on-premise service using **Cloud Connector**, then you need a binding to the **Connectivity** service as well.
 
-[Learn more about deploying CAP applications.](../deployment/){:.learn-more}
-[Learn more about deploying an application using the end-to-end tutorial.](https://developers.sap.com/group.btp-app-cap-deploy.html){:.learn-more}
+[Learn more about deploying CAP applications.](../deployment/){.learn-more}
+[Learn more about deploying an application using the end-to-end tutorial.](https://developers.sap.com/group.btp-app-cap-deploy.html){.learn-more}
 
 #### Add Required Services to Cloud Foundry Manifest Deployment
 
@@ -1475,7 +1475,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 
 ## Add Qualities
 
-### Authentication and Authorization of Remote Services {:.impl.beta}
+### Authentication and Authorization of Remote Services {.impl.beta}
 #### Principle (User) Propagation
 
 #### Technical User
@@ -1510,7 +1510,7 @@ context.setResult(ResilienceDecorator.executeSupplier(() ->  {
 }));
 ```
 
-[See the full example](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/AdminServiceAddressHandler.java){:.learn-more}
+[See the full example](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/AdminServiceAddressHandler.java){.learn-more}
 
 #### Resilience in Node.js
 
@@ -1524,16 +1524,16 @@ Kyma clusters run an [Istio](https://istio.io/) service mesh. Istio allows to [c
 
 CAP adds headers for request correlation to its outbound requests that allows logging and tracing across micro services.
 
-[Learn more about request correlation in Node.js.](../../node.js/cds-log#node-observability-correlation){:.learn-more} [Learn more about request correlation in Java.](../../java/observability#correlation-ids){:.learn-more}
+[Learn more about request correlation in Node.js.](../../node.js/cds-log#node-observability-correlation){.learn-more} [Learn more about request correlation in Java.](../../java/observability#correlation-ids){.learn-more}
 
-## Automated Testing {:.impl.beta}
+## Automated Testing {.impl.beta}
 
 ### Unit Tests
 
 ### Integration Tests
 
 
-## Replicating Data {:.impl.beta}
+## Replicating Data {.impl.beta}
 
 > TODO: Using the sample in branch `adding-suppliers`, the following is already done
 
@@ -1596,8 +1596,8 @@ extend service S4 with {
 }
 
 ```
-[Learn more about the `using` directive.](../../cds/cdl#using){:.learn-more}
-[Learn more about the `extend` directive.](../../cds/cdl#extend){:.learn-more}
+[Learn more about the `using` directive.](../../cds/cdl#using){.learn-more}
+[Learn more about the `extend` directive.](../../cds/cdl#extend){.learn-more}
 
 This adds the supplier that is based on the business partner definition and maps fields from the API to the terminology I want to use. For example, I want to refer to suppliers by `name` instead of `BusinessPartnerFullName` in my models and rename it here.
 ### Sample Data
@@ -1690,7 +1690,7 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 
 The following properties and authentication types are supported for *[application defined destinations](#app-defined-destinations)*:
 
-#### Properties {: #destination-properties}
+#### Properties { #destination-properties}
 
 These destination properties are fully supported by both, the Java and the Node.js runtime.
 ::: tip
@@ -1707,8 +1707,8 @@ This list specifies the properties for application defined destinations.
 | `queries`                  | Map of URL parameters                     |
 | `forwardAuthToken`         | [Forward auth token](#forward-auth-token) |
 
-[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v2/interfaces/sap_cloud_sdk_connectivity.Destination.html){:.learn-more}
-[HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){:.learn-more}
+[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v2/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more}
+[HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){.learn-more}
 
 #### Authentication Types
 

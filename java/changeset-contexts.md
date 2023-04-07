@@ -26,7 +26,7 @@ The currently active ChangeSet Context can be accessed from the [Event Context](
 context.getChangeSetContext();
 ```
 
-## Defining ChangeSet Contexts {: #defining-changeset-contexts}
+## Defining ChangeSet Contexts { #defining-changeset-contexts}
 
 When [events](../about/#events) are processed on [services](./consumption-api) the CAP Java SDK ensures that a ChangeSet Context is opened.
 If no ChangeSet Context is active the processing of an event ensures to open a new ChangeSet Context. This has the effect, that by default a ChangeSet Context is opened around the outermost event that was triggered on any service.

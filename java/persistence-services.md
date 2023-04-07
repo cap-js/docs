@@ -14,9 +14,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- {% include links.md %} -->
+<!--- % include links.md %} -->
 
-## Database Support {: #database-support}
+## Database Support { #database-support}
 
 The CAP Java SDK has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
@@ -233,12 +233,12 @@ spring:
 Persistence Services are CQN-based database clients. You can think of them as a wrapper around a datasource, which translates CQN to SQL.
 In addition Persistence Services have built-in transaction management. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
 
-[Learn more about ChangeSet Contexts and Transactions.](changeset-contexts){:.learn-more}
+[Learn more about ChangeSet Contexts and Transactions.](changeset-contexts){.learn-more}
 
 A Persistence Service isn't bound to a specific service definition in the CDS model. It's capable of accepting CQN statements targeting any entity or view that is stored in the corresponding database.
 All Persistence Service instances reflect on the same CDS model. It is the responsibility of the developer to decide which artifacts are deployed into which database at deploy time and to access these artifacts with the respective Persistence Service at runtime.
 
-### The Default Persistence Service {: #default-persistence-service}
+### The Default Persistence Service { #default-persistence-service}
 
 The default Persistence Service is used by the generic handlers of Application Services to offer out-of-the-box CRUD functionality.
 The name of the default Persistence Service is stored in the global constant [`PersistenceService.DEFAULT_NAME`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/persistence/PersistenceService.html#DEFAULT_NAME).

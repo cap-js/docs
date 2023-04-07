@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-## Handling CRUD Events {: #crudevents}
+## Handling CRUD Events { #crudevents}
 
 Application Services provide a [CQN query API](consumption-api#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
 The processing of these events is usually extended when adding business logic to the Application Service.
@@ -53,7 +53,7 @@ http(s)://<application_url>/<base_path>/<service_name>
 |`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties] for their default values.       |
 |`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../cds/cdl#service-definitions)).        |
 
-[Learn more about how OData URLs are configured.](application-services#serve-configuration){:.learn-more}
+[Learn more about how OData URLs are configured.](application-services#serve-configuration){.learn-more}
 
 The OData protocol adapters use the CQN query APIs to retrieve a response for the requests they receive.
 They transform OData-specific requests into a CQN query, which is run on the Application Service.
@@ -116,7 +116,7 @@ In case an order item is directly created (for example through a containment nav
 
 `UPDATE` and `DELETE` statements have an optional filter condition (where clause) which determines the entities to be updated/deleted. Handlers _must_ return a `Result` object with the number of entities that match this filter condition and have been updated/deleted. Use the [ResultBuilder](#result-builder) to create the `Result` object.
 
-::: warning _❗ Warning_{:.warning-title}<br>
+::: warning _❗ Warning_{.warning-title}<br>
 If an event handler for an `UPDATE` or `DELETE` event does not specify a result the number of updated/deleted rows is automatically set to 0 and the OData protocol adapter will translate this into an HTTP response with status code `404` (Not Found).
 :::
 
@@ -126,7 +126,7 @@ Event handlers for `INSERT` and `UPSERT` events can return a result representing
 
 A failed insert is indicated by throwing an exception, for example, a `UniqueConstraintException` or a `CdsServiceException` with error status `CONFLICT`.
 
-### Result Builder {: #result-builder}
+### Result Builder { #result-builder}
 
 When implementing custom `@On` handlers for CRUD events, a `Result` object can be constructed with the [ResultBuilder](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ResultBuilder.html).
 
@@ -155,14 +155,14 @@ row.put("title", "Capire");
 Result res = selectedRows(asList(row)).result();
 context.setResult(res);   // CdsReadEventContext
 ```
-{: #result-builder-read}
+{ #result-builder-read}
 
 For query results, the inline count can be set through the `inlineCount` method:
 
 ```java
 Result r = selectedRows(asList(row)).inlineCount(inlineCount).result();
 ```
-{: #result-builder-update}
+{ #result-builder-update}
 
 For update results, use the `updatedRows` method with the update count and the update data:
 
@@ -174,7 +174,7 @@ Map<String, Object> data = new HashMap<>();
 data.put("title", "CAP Java");
 Result r = updatedRows(updateCount, data).result();
 ```
-<!-- TODO {: #result-builder-delete} -->
+<!-- TODO { #result-builder-delete} -->
 For delete results, use the `deletedRows` method and provide the number of deleted rows:
 
 ```java
@@ -184,7 +184,7 @@ int deleteCount = 7;
 Result r = deletedRows(deleteCount).result();
 ```
 
-## Actions and Functions {: #actions}
+## Actions and Functions { #actions}
 
 [Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) enhance the API provided by an Application Service with custom operations. They have well-defined input parameters and a return value, that are modelled in CDS.
 Actions or functions are handled - just like CRUD events - using event handlers. To trigger an action or function on an Application Service an event with the action's or function's name is emitted on it.
@@ -296,7 +296,7 @@ This section summarizes some best practices for implementing event handlers and 
 
 Configure how application services are served. You can define per service which ones are served by which protocol adapters. In addition, you configure on which path they are available. Finally, the combined path an application service is served on, is composed of the base path of a protocol adapter and the relative path of the application service.
 
-### Configure Base Path {: #configure-base-path}
+### Configure Base Path { #configure-base-path}
 
 Each protocol adapter has its own and unique base path.
 
@@ -350,7 +350,7 @@ service InternalService {
 }
 ```
 
-[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve){:.learn-more}
+[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve){.learn-more}
 
 
 ### Configure Endpoints
@@ -381,4 +381,4 @@ cds.application.services.CatalogService.serve.endpoints:
     protocol: 'odata-v2'
 ```
 
-[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve-endpoints){:.learn-more}
+[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve-endpoints){.learn-more}

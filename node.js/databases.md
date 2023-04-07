@@ -10,28 +10,28 @@ status: released
 
 {{$frontmatter.synopsis}}
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _chapters toc="2,3" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _chapters toc="2,3" %} -->
 
-## cds.**DatabaseService**  <i>  class </i> {: #cds-db-service}
+## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 
 ### class cds.**DatabaseService**  <i>  extends cds.Service </i>
 
 
 
 
-### <span style="color:grey">srv</span>.begin <i> () → this </i> {:#db-begin }
+### <span style="color:grey">srv</span>.begin <i> () → this </i> {#db-begin }
 
-In case of database services this actually starts the transaction by acquiring a physical connection from the connection pool, and optionally sends a command to the database like `BEGIN TRANSACTION`. 
+In case of database services this actually starts the transaction by acquiring a physical connection from the connection pool, and optionally sends a command to the database like `BEGIN TRANSACTION`.
 
-This method is called automatically by the framework on the first query, so **you never have to call it** in application coding. There are only very rare cases where you'd want to do so, for example to reuse a `tx` object to start subsequent physical transactions after a former `commit` or `rollback`. But this is not considered good practice. 
+This method is called automatically by the framework on the first query, so **you never have to call it** in application coding. There are only very rare cases where you'd want to do so, for example to reuse a `tx` object to start subsequent physical transactions after a former `commit` or `rollback`. But this is not considered good practice.
 
 
-## cds.DatabaseService --- Consumption {:#databaseservice-consumption }
+## cds.DatabaseService --- Consumption {#databaseservice-consumption }
 [databaseservice consumption]: #databaseservice-consumption
 
 
-<!--- {% assign tx = '<span style="color:grey">srv</span>' %} -->
+<!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
 
 ### `InsertResult` (Beta)
@@ -44,14 +44,14 @@ This method is called automatically by the framework on the first query, so **yo
   - `valueOf()`: returns `affectedRows` such that comparisons like `result > 0` can be used
     ::: tip
     `===` can’t be used as it also compares the type
-    :::  
+    :::
 
 
-## cds.DatabaseService --- Configuration {:#databaseservice-configuration }
+## cds.DatabaseService --- Configuration {#databaseservice-configuration }
 [databaseservice configuration]: #databaseservice-configuration
 
 
-<!--- {% assign tx = '<span style="color:grey">srv</span>' %} -->
+<!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
 
 ### Presets
@@ -170,7 +170,7 @@ The following parameters are provided in the pool configuration:
 - _min_: Minimum number of database connections to keep in pool at any given time.
   ::: warning
   This should be kept at the default 0. Otherwise every eviction run destroys all unused connections older than `idleTimeoutMillis` and afterwards creates new connections until `min` is reached.
-  ::: 
+  :::
 
 - _max_: Maximum number of database connections to keep in pool at any given time.
 - _numTestsPerEvictionRun_: Number of database connections to be checked with one eviction run.
@@ -202,24 +202,24 @@ Pool configuration can be adjusted by setting the `pool` option as shown in the 
 ::: warning _❗ Warning_
 The parameters are very specific to the current technical setup, such as the application environment and database location.
 Even though we provide a default pool configuration, we expect that each application provides its own configuration based on its specific needs.
-::: 
+:::
 
 
 
 
 
-### TCP keepalive with `hdb` {: .impl.beta}
+### TCP keepalive with `hdb` { .impl.beta}
 
 Starting with version `^0.18.3`, the SAP HANA driver `hdb` allows to [configure TCP keepalive behaviour](https://github.com/SAP/node-hdb#tcp-keepalive).
 You can set `tcpKeepAliveIdle` on the connection using the environment variable `HDB_TCP_KEEP_ALIVE_IDLE`.
 Valid values are a positive number or `false`.
 > As the setting must be injected into the credentials that may be received from an external source, for example in the case of multitenancy, the easiest way to do this is via the environment.
 
-## cds.DatabaseService --- UPSERT {:#databaseservice-upsert }
+## cds.DatabaseService --- UPSERT {#databaseservice-upsert }
 [databaseservice upsert]: #databaseservice-upsert
 
 
-<!--- {% assign tx = '<span style="color:grey">srv</span>' %} -->
+<!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
 
 [Upsert](../cds/cqn.md#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
@@ -238,7 +238,7 @@ The main use case of upsert is data replication.
 If upsert data is incomplete only the given values are updated or inserted, which means the `UPSERT` statement has "PATCH semantics".
 ::: warning
 Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
-::: 
+:::
 
 The following actions are *not* performed on upsert:
  * UUID key values are _not generated_.
@@ -249,7 +249,7 @@ The following actions are *not* performed on upsert:
 `UPSERT` statements don't have a where clause. The key values of the entity that is upserted are extracted from the data.
 ::: tip
 The upsert data must contain all key elements of the entity.
-::: 
+:::
 
 ::: warning
 In contrast to the Java runtime, deep upserts and delta payloads are not yet supported.

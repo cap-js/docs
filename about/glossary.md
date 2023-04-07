@@ -7,7 +7,7 @@ status: released
 
 # Glossary
 
-CAP-related Terms and Acronyms {:.subtitle}
+CAP-related Terms and Acronyms {.subtitle}
 
 <!-- {{$frontmatter.synopsis}} -->
 <br>

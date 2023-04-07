@@ -5,7 +5,7 @@ status: released
 ---
 
 
-# The `cds` Facade Object {:#cds}
+# The `cds` Facade Object {#cds}
 
 The `cds` facade object provides access to all Node.js APIs. It’s implemented as a global singleton, with lazy-loading of sub packages to minimize bootstrapping time and memory consumption.
 
@@ -13,13 +13,13 @@ The `cds` facade object provides access to all Node.js APIs. It’s implemented 
 const cds = require('@sap/cds')
 ```
 
-<!--- {% include links-for-node.md %} -->
-<!--- {% include _toc levels="2,3" menu=".only" %} -->
+<!--- % include links-for-node.md %} -->
+<!--- % include _toc levels="2,3" menu=".only" %} -->
 
 
 
 
-### cds.lazified <i> (module | object) </i> {:#cds-lazified }
+### cds.lazified <i> (module | object) </i> {#cds-lazified }
 
 
 To minimize footprint, only the facade module itself is loaded by the import above, while close to all properties and functions provided are getters, which lazy-load respective modules only on demand. For example, you can see this in `cds repl`:
@@ -87,65 +87,65 @@ const o = cds.lazified({
 
 
 
-### cds.version  <i>  &#8674; string </i> {:#cds-version }
+### cds.version  <i>  &#8674; string </i> {#cds-version }
 
 Returns the version of the `@sap/cds` package from which the current instance of the `cds` facade module was loaded.
 
 
 
-### cds.home  <i>  &#8674; string </i> {:#cds-home }
+### cds.home  <i>  &#8674; string </i> {#cds-home }
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
 
 
 
-{:.sub-section}
+{.sub-section}
 
 
 
-### cds.env  <i>  &#8674; { ... } </i> {:#cds-env }
+### cds.env  <i>  &#8674; { ... } </i> {#cds-env }
 
 Provides access to the effective configuration of the current process, transparently from various sources, including the local _package.json_ or _.cdsrc.json_, service bindings and process environments.
 
-[Learn more about `cds.env`](cds-env){:.learn-more}
+[Learn more about `cds.env`](cds-env){.learn-more}
 
-### cds.requires  <i>  &#8674; { ... } </i> {:#cds-requires }
+### cds.requires  <i>  &#8674; { ... } </i> {#cds-requires }
 
 ... is a convenience shortcut to [`cds.env.requires`](#cds-env).
 
 
 
 
-{:.sub-section}
+{.sub-section}
 
 
 
 
 
 
-### cds.app  <i>  = [express.Application](https://expressjs.com/de/4x/api.html#app) </i> {:#cds-app }
+### cds.app  <i>  = [express.Application](https://expressjs.com/de/4x/api.html#app) </i> {#cds-app }
 [express.js app]: #cds-app
 
 The [express.js Application object](https://expressjs.com/de/4x/api.html#app) constructed during bootstrapping.
 
-[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
 
 
 
-### cds.model  <i>  = [csn](../cds/csn) </i> {:#cds-model }
+### cds.model  <i>  = [csn](../cds/csn) </i> {#cds-model }
 
 The effective [CDS model](../cds/csn) loaded during bootstrapping, which contains all service and entity definitions, including required services.
 
-[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
 
-### cds.services  <i>  = { [cds.Services](services) } </i> {:#cds-services }
+### cds.services  <i>  = { [cds.Services](services) } </i> {#cds-services }
 
 A dictionary and cache of all instances of [`cds.Service`](services) constructed through [`cds.serve`](cds-serve),
 or connected to by [`cds.connect`](cds-connect) so far.
@@ -164,16 +164,16 @@ for (let each of cds.services) ...
 
 
 
-### cds.db  <i>  = [cds.Service](services) </i> {:#cds-db }
+### cds.db  <i>  = [cds.Service](services) </i> {#cds-db }
 
 A shortcut to `cds.services.db`, the primary database service connected to during bootstrapping, if any.
 
-[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
 
-### cds.run, ... {:#cds-run}
+### cds.run, ... {#cds-run}
 
 If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` facade provides shortcuts to the database service's methods to run queries, that is:
 
@@ -189,13 +189,13 @@ If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` f
 
 
 
-### cds.context  <i>  &#8674; [cds.Event](events#cds-event) </i> {:#cds-context}
+### cds.context  <i>  &#8674; [cds.Event](events#cds-event) </i> {#cds-context}
 
 Reference to the current root [event](events#cds-event) or [request](events#cds-request), which acts as invocation context, providing access to the current `tenant` and `user` information, and also constitutes the transaction boundary for automatically managed transactions.
 
 
 
-### cds.utils  <i>  &#8674; { ... } </i> {:#cds-utils }
+### cds.utils  <i>  &#8674; { ... } </i> {#cds-utils }
 
 Provides a set of utility functions.
 

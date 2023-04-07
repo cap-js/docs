@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 API to execute [CQL](../cds/cql.md) statements on services accepting CQN queries.
 
-## Query Execution {: #queries}
+## Query Execution { #queries}
 
 [CDS Query Language (CQL)](./query-api) statements can be executed using the `run` method of any [service that accepts CQN queries](consumption-api.md#cdsservices):
 
@@ -92,7 +92,7 @@ The number of batches can be retrieved via the [batchCount()](https://javadoc.io
 The maximum batch size for update and delete can be configured via `cds.sql.max-batch-size` and has a default of 1000.
 
 
-#### Querying Parameterized Views on SAP HANA {: #querying-views}
+#### Querying Parameterized Views on SAP HANA { #querying-views}
 
 To query [views with parameters](../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
 
@@ -117,7 +117,7 @@ Map<String, Object> params = Collections.singletonMap("numOfPages", 200);
 Result result = service.run(query, params);
 ```
 
-#### Adding Query Hints for SAP HANA {: #hana-hints}
+#### Adding Query Hints for SAP HANA { #hana-hints}
 
 To add a hint clause to a statement, use the `hints` method and prefix the [SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) with `hdb.`:
 
@@ -129,7 +129,7 @@ Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and there
 :::
 
 
-### Pessimistic Locking {: #pessimistic-locking}
+### Pessimistic Locking { #pessimistic-locking}
 
 Use database locks to ensure that data returned by a query isn't modified in a concurrent transaction.
 _Exclusive_ locks block concurrent modification and the creation of any other lock. _Shared_ locks, however, only block concurrent modifications and exclusive locks but allow the concurrent creation of other shared locks.
@@ -182,7 +182,7 @@ long updateCount = service.run(update).rowCount();
 
 It’s possible to work with structured data as the insert, update, and delete operations cascade along *compositions*.
 
-#### Cascading over Associations {: #cascading-over-associations}
+#### Cascading over Associations { #cascading-over-associations}
 
 By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-models/#compositions-capture-contained-in-relationships) only. For associations, this can be enabled using the `@cascade` annotation.
 ::: warning
@@ -215,7 +215,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases/#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services/#refs).
 :::
 
-#### Deep Insert / Upsert {: #deep-insert-upsert}
+#### Deep Insert / Upsert { #deep-insert-upsert}
 
 [Insert](./query-api#insert) and [upsert](./query-api#upsert) statements for an entity have to include the keys and (optionally) data for the entity's composition targets. The targets are inserted or upserted along with the root entity.
 
@@ -271,7 +271,7 @@ This configuration option will be removed with the next major release 2.x of CAP
 :::
 
 
-### Resolvable Views and Projections {: #updatable-views}
+### Resolvable Views and Projections { #updatable-views}
 
 The CAP Java SDK aims to resolve statements on non-complex views and projections to their underlying entity. When delegating queries between Application Services and Remote Services, statements are resolved to the entity definitions of the targeted service. Using the Persistence Service, only modifying statements are resolved before executing database queries. This allows to execute [Insert](./query-api#insert), [Upsert](./query-api#upsert), [Update](./query-api#update), and [Delete](./query-api#delete) operations on database views. For [Select](./query-api#select) statements database views are always leveraged, if available.
 
@@ -344,7 +344,7 @@ try (InputStream resource = getResource("IMAGE.PNG")) {
 CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](./advanced#jdbctemplate) for more details.
 
 
-## Query Result Processing {: #result}
+## Query Result Processing { #result}
 
 The result of a query is abstracted by the `Result` interface, which is an iterable of `Row`. A `Row` is a `Map<String, Object>` with additional convenience methods and extends [CdsData](./data#cds-data).
 
@@ -448,7 +448,7 @@ Map<String, String> titleToDescription =
 For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](./advanced#staticmodel).
 
 
-### Using Entity References from Result Rows in CDS QL Statements {:#entity-refs}
+### Using Entity References from Result Rows in CDS QL Statements {#entity-refs}
 
 For result rows that contain all key values of an entity, you get an [entity reference](./query-api#entity-refs) via the `ref()` method. This reference addresses the entity via the key values from the result row.
 

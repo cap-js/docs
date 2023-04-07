@@ -11,7 +11,7 @@ status: released
 
 Protocol Adapters translate inbound requests and messages into instances of [cds.Request](events) and cds.Query.
 
-<!--- {% include links-for-node.md %} -->
+<!--- % include links-for-node.md %} -->
 ## Default Configuration
 
 The protocol adapters are served at `/` and only the service prefix identifies the CDS service.
@@ -26,7 +26,7 @@ If a service is annotated with [@protocol](../node.js/services#srv-protocol), it
 The configuration of protocols must be done programmatically before bootstrapping the CDS services, for example, in a [custom server.js](../node.js/cds-serve#custom-server-js).
 ::: tip
 Remember to enable [the beta feature for orchestration of express middlewares](../node.js/middlewares#configuration).
-::: 
+:::
 
 If an additional protocol is configured, all services without the `@protocol` annotation are served for this protocol by default.
 

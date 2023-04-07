@@ -4,14 +4,14 @@ status: released
 ---
 
 # Getting Started
-<!---  {% include links.md %} -->
+<!---  % include links.md %} -->
 
-<!--- {% include_relative _about-capire.md %} -->
+<!--- % include_relative _about-capire.md %} -->
 
-<!--- {% include_relative _setup.md %} -->
+<!--- % include_relative _setup.md %} -->
 
 
-<!--- {% include _chapters synopsis="1" %} -->
+<!--- % include _chapters synopsis="1" %} -->
 
 <!-- [Sample Projects](https://github.com/sap-samples/cloud-cap-samples)
 : See and try out our prebuilt sample projects on GitHub. -->
@@ -52,7 +52,7 @@ With the first steps below, you can go for a minimal local setup as follows:
 4. For CAP Java projects, install [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) additionally.
 
 
-[Problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){:.learn-more}
+[Problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
 
 ::: tip
 Also use [our tools](../tools/) to improve your development experience.

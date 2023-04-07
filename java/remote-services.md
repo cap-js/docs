@@ -58,7 +58,7 @@ cds:
       type: "odata-v2"
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](https://cap.cloud.sap/docs/java/development/properties#cds-remote-services){:.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](https://cap.cloud.sap/docs/java/development/properties#cds-remote-services){.learn-more}
 
 ### Configuring the CDS Service Definition
 
@@ -92,7 +92,7 @@ To learn more about this, have a look at section [Importing Service Definitions]
 CAP leverages the destination capabilities of the SAP Cloud SDK. Destinations contain the information necessary to connect to a remote system.
 They're basically an advanced URL, that can carry additional metadata like, for example, the authentication information for this URL.
 
-[Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){:.learn-more}
+[Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}
 
 The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name, that is configured in the _Remote Service_'s destination configuration.
 If you're using the SAP BTP Destination Service, this is the name you used when you defined the destination there.
@@ -174,7 +174,7 @@ public class DestinationConfiguration implements EventHandler {
 }
 ```
 
-[Find out how to register destinations for different authentication types](#register-destinations){:.learn-more} [Learn more about using destinations](../guides/using-services/#using-destinations){:.learn-more}
+[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services/#using-destinations){.learn-more}
 
 Note, that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
@@ -204,7 +204,7 @@ If you are also using the CDS Services BOM or the Spring Boot dependencies BOM, 
 </dependencyManagement>
 ```
 
-[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies/){:.learn-more}
+[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies/){.learn-more}
 
 To enable [programmatic destination registration](#programmatic-destination-registration), add this additional dependency to your project:
 
@@ -276,7 +276,7 @@ DefaultHttpDestination
 	.name("my-destination").build();
 ```
 
-#### OAuth2 Client Credentials {: #oauth2-client-credentials}
+#### OAuth2 Client Credentials { #oauth2-client-credentials}
 
 ```java
 DefaultHttpDestination httpDestination = DefaultHttpDestination
@@ -294,7 +294,7 @@ ClientCredentialsHttpDestination clientCredentialsHttpDestination =
     );
 ```
 
-#### User Token Authentication {: #user-token-authentication}
+#### User Token Authentication { #user-token-authentication}
 
 ```java
 DefaultHttpDestination httpDestination = DefaultHttpDestination

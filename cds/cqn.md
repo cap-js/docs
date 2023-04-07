@@ -102,14 +102,14 @@ column_expr    =  expr + { as:string, cast:def, (expand|inline):projection }
 ordering_term  =  expr + { sort: 'asc'|'desc', nulls: 'first'|'last' }
 ```
 
-**Sources** are [references][ref] or [subqueries][SELECT] with an optional: {: #sources}
+**Sources** are [references][ref] or [subqueries][SELECT] with an optional: { #sources}
 
 [source]: #sources
 [sources]: #sources
 
 * `as` – a string specifying a chosen source alias
 
-**Joins** combine two [sources] with these properties: {: #joins}
+**Joins** combine two [sources] with these properties: { #joins}
 
 [joins]: #joins
 [join]: #joins
@@ -118,14 +118,14 @@ ordering_term  =  expr + { sort: 'asc'|'desc', nulls: 'first'|'last' }
 * `args` is an array of two [sources] or [joins]
 * `on` is a [predicate expression][_xpr] capturing the JOIN condition
 
-**Column Expressions** are a plain string `'*'`, or [expressions][expr] with these optional additional properties: {: #columns}
+**Column Expressions** are a plain string `'*'`, or [expressions][expr] with these optional additional properties: { #columns}
 
 * `as` is a string with the chosen name in the result set
 * `cast` is a [CSN type definition](./csn#type-definitions)
 * `inline` \| `expand` are nested [projections][SELECT]
 
 
-**Ordering Terms** are [expressions][expr], usually [references][ref], with one or none of... {: #ordering-terms}
+**Ordering Terms** are [expressions][expr], usually [references][ref], with one or none of... { #ordering-terms}
 
 * `sort` = 'asc' \| 'desc'
 * `nulls` = 'first' \| 'last'
@@ -174,7 +174,7 @@ CQN = {SELECT:{
 ```
 
 
-### Example : \<name\>.* {:.impl.beta}
+### Example : \<name\>.* {.impl.beta}
 
 For example, the following query in CQL:
 
@@ -200,7 +200,7 @@ CQN = {SELECT:{
 ```
 
 
-### Hierarchies {: .impl.concept}
+### Hierarchies { .impl.concept}
 
 For the representation of a hierarchy, the `from` attribute is extended:
 

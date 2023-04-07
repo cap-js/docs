@@ -10,7 +10,7 @@ status: released
 
 You can convert CDS models to the [OpenAPI Specification](https://www.openapis.org), a widely adopted API description standard.
 
-## Usage from CLI {: #cli}
+## Usage from CLI { #cli}
 
 For example, this is how you convert all services in `srv/` and store the API files in the `docs/` folder:
 
@@ -20,7 +20,7 @@ cds compile srv --service all -o docs --to openapi
 
 With the `--openapi:diagram` parameter, you can also include a [yuml](https://yuml.me/) ER diagram of the service entities in the Open API file.
 
-![openapi](assets/openapi-diagram.png){: .adapt }
+![openapi](assets/openapi-diagram.png){ .adapt }
 
 The default value of the server URL is the service base path as declared in the CDS source.
 
@@ -35,7 +35,7 @@ cds compile srv service.cds --to openapi --openapi:servers "\"'[{\\\"url\\\":\\\
 
 _Note:_ `--openapi:url` is ignored when this option is specified.
 
-## Swagger UI {: #swagger-ui}
+## Swagger UI { #swagger-ui}
 
 #### Embedded in Node.js
 
@@ -58,9 +58,9 @@ if (process.env.NODE_ENV !== 'production') {
 ```
 
 Swagger UI is then served at `$api-docs/...`.  Just follow the _Open API preview_ links on the index page:
-![Swagger link](assets/swagger-link.png){:style="margin:5px auto;width:50%" .adapt}
+![Swagger link](assets/swagger-link.png){style="margin:5px auto;width:50%" .adapt}
 
-[Learn more about the `cds-swagger-ui-express`.](https://www.npmjs.com/package/cds-swagger-ui-express){:.learn-more}
+[Learn more about the `cds-swagger-ui-express`.](https://www.npmjs.com/package/cds-swagger-ui-express){.learn-more}
 
 #### Embedded in Java
 
@@ -163,7 +163,7 @@ Term | Annotation Target | OpenAPI field
 `SecuritySchemes` | EntityContainer | `security` of OpenAPI/Swagger Object
 
 
-## Frequently Asked Questions {: #faq label='FAQs'}
+## Frequently Asked Questions { #faq label='FAQs'}
 
 Examples for typical questions on how to fine-tune the generated OpenAPI descriptions.
 

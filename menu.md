@@ -114,7 +114,3 @@
 - [Platform Security](/security/overview)
 - [Security Aspects](/security/aspects)
 - [Data Protection & Privacy](/security/data-protection-privacy)
-
-### [Resources](/resources/)
-
-- [CAP Events Overview](/resources/events/)

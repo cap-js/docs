@@ -15,13 +15,9 @@ impl-variants: true
 Using a minimalistic setup
 { .subtitle}
 
-
-{{$frontmatter.synopsis}} <br>
-
 <!-- EXCLUDE IN NOTEBOOK START -->
 You’ll learn, step by step, how to do the following:
-
-<!--- % include _toc levels="2,3" %} -->
+[[toc]]
 <!-- EXCLUDE IN NOTEBOOK END -->
 
 ## Jumpstarting Projects { #start-a-project}

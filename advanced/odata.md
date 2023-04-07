@@ -47,7 +47,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 - <sup>(1)</sup> Support for nested `$select`, `$expand`, `$filter` and `$orderby` options.
 - <sup>(2)</sup> Support for nested `$select`, `$expand`, `$filter`, `$orderby`, `$top` and `$skip` options.
-- <sup>(3)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
+- <sup>(3)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services/#searching-data).
 - <sup>(4)</sup> Current limitation: Navigation path identifying the collection can only contain one segment.
 
 
@@ -96,7 +96,7 @@ Override standard type mappings using the annotation `@odata.Type` first, and th
 `@odata.Type` is effective on scalar CDS types only and the value must be a valid OData (EDM) primitive type for the specified protocol version. Unknown types and non-matching facets are silently ignored. No further value constraint checks are applied.
 
 They allow, for example, to produce additional OData EDM types which are not available in the standard type mapping. This is done during
-the import of external service APIs, see [Using Services](../guides/using-services#external-service-api).
+the import of external service APIs, see [Using Services](../guides/using-services/#external-service-api).
 
 ```cds
 entity Foo {

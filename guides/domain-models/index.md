@@ -1061,7 +1061,7 @@ aspect managed {
   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
 }
 ```
-> The annotations fuel generic runtime behavior to automatically fill in [_Managed Data_](../providing-services#managed-data).
+> The annotations fuel generic runtime behavior to automatically fill in [_Managed Data_](../providing-services/#managed-data).
 
 Given that, we can simplify the previous extensions as follows:
 

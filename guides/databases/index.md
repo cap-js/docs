@@ -25,7 +25,7 @@ Use `cds.ql` to read and write data based on CDS models. Its features include:
 * Nested transactions
 * Connection pooling
 * Driver plugin architecture
-* Canonical representation for queries (&rarr; [CQN](../cds/cqn))
+* Canonical representation for queries (&rarr; [CQN](../../cds/cqn))
 * Support for SQL as well as NoSQL databases (experimental)
 
 > All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../../get-started/in-a-nutshell#repl).
@@ -347,7 +347,7 @@ If all views expose the [localized](../../guides/localized-data/#resolving-local
 	System.setProperty("supported_locales","en,fr,es,it");
 ```
 
-[locale](../../guides/localized-data/#propagating-of-user-locale)
+[locale](../localized-data/#propagating-of-user-locale)
 
 - **Java** + **Node.js** for **HANA**: full support
 - **Java** for **SQLite**:
@@ -355,12 +355,12 @@ If all views expose the [localized](../../guides/localized-data/#resolving-local
   + fallback: as in case of Node.js described below:
 - **Node.js** for **SQLite**: only for static set of locales (de,en,fr) -> requires statically created SQL views à la localized_..._de
   + on sqlite, an additional view is needed for each locale (`en` texts get written to the original table) -> extra config needed but no limitation
-  + cf. //guides/localized-data#resolving-localized-texts-via-views
+  + cf. [localized views](../localized-data/#resolving-localized-texts-via-views)
 
 
 ### Session variables
 
-The CAP Java SDK has full support for session variables such as `$user.id`, `$user.locale` and `$now` on HANA. On H2, SQLite and PostgreSQL, session variables are not supported in views but only in `where` clauses of [CQL](../cds/cql) queries and `on` conditions of associations.
+The CAP Java SDK has full support for session variables such as `$user.id`, `$user.locale` and `$now` on HANA. On H2, SQLite and PostgreSQL, session variables are not supported in views but only in `where` clauses of [CQL](../../cds/cql) queries and `on` conditions of associations.
 
 - **Node.js** for **HANA**: full support
 - **Node.js** for **SQLite**: single static user configurable via compiler's magic vars

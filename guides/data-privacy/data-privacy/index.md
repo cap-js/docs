@@ -13,7 +13,7 @@ layout: cookbook
 **❗️ Concept Only ❗️**
 This guide currently is just a capire-style concept of the next evolution of CAP's
 support for data privacy compliance & audit logging.
-Please refer to the former [Data Privacy guide](../data-privacy) for what's currently implemented.
+Please refer to the former [Data Privacy guide](../index) for what's currently implemented.
 :::
 <br>
 
@@ -102,7 +102,7 @@ Let's annotate our data model to identify personal data. In essence, in all our 
 
 <img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
-Following the [best practice of separation of concerns](//guides/domain-models/#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
+Following the [best practice of separation of concerns](../../domain-models/#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
 
 
 db/data-privacy.cds
@@ -398,7 +398,7 @@ await audit.log ('SomeEvent', { ... })
 
 
 ::: tip
-The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
+The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../../using-services/) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
 :::
 
 #### Basic Service API
@@ -650,7 +650,7 @@ Currently under construction...
 
 ### Deploy your Application
 
-... for example, as documented in the [Deploy to Cloud Foundry](../deployment/to-cf) guide.
+... for example, as documented in the [Deploy to Cloud Foundry](../../deployment/to-cf) guide.
 
 In essence, for a single-tenant app, run these commands in order:
 

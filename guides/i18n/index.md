@@ -43,7 +43,7 @@ foo = Foo
 
 > You can define the keys of your properties entries.
 
-[Learn more about annotations in CSN.](../../cds/csn/#annotations){: .learn-more}
+[Learn more about annotations in CSN.](../../cds/csn#annotations){: .learn-more}
 
 Then you can translate the texts in localized bundles, each with a language/locale code appended to its name, for example:
 

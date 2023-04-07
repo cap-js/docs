@@ -121,7 +121,7 @@ ordering_term  =  expr + { sort: 'asc'|'desc', nulls: 'first'|'last' }
 **Column Expressions** are a plain string `'*'`, or [expressions][expr] with these optional additional properties: {: #columns}
 
 * `as` is a string with the chosen name in the result set
-* `cast` is a [CSN type definition]({{csn}}#type-definitions)
+* `cast` is a [CSN type definition](./csn#type-definitions)
 * `inline` \| `expand` are nested [projections][SELECT]
 
 

@@ -47,7 +47,7 @@ provided through [`cds.ApplicationService`](./app-services).
 - [cds.serve/r](cds-serve)
 - [cds.test](cds-test)
 - [cds.ql](cds-ql)
-- [{{cds}}.deploy <i> {{_res}} db </i>](cds-deploy)
+- [cds.deploy <i> {{_res}} db </i>](cds-deploy)
 - [Best Practices](best-practices)
 - [Middlewares](middlewares)
 - [Authentication](authentication)

@@ -160,7 +160,7 @@ service Zoo {
 @cds.autoexpose entity SomeCodeList {...}
 ```
 
-[Learn more about Auto-Exposed Entities in the CDS reference docs.](//cds/cdl#auto-expose){:.learn-more}
+[Learn more about Auto-Exposed Entities in the CDS reference docs.](../../cds/cdl#auto-expose){:.learn-more}
 
 
 ### Auto-Redirected Associations
@@ -175,14 +175,14 @@ service AdminService {
 }
 ```
 
-[Learn more about Redirected Associations in the CDS reference docs.](//cds/cdl#auto-redirect){:.learn-more}
+[Learn more about Redirected Associations in the CDS reference docs.](../../cds/cdl#auto-redirect){:.learn-more}
 
 
 
 ## Generic Service Providers
  {:#generic-providers}
 
-The CAP runtimes for [Node.js](//node.js) and [Java](//java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation --- the majority of this guide focuses on these generic features.
+The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation --- the majority of this guide focuses on these generic features.
 
 In effect, a service definition [as introduced above](#defining-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
@@ -190,7 +190,7 @@ In effect, a service definition [as introduced above](#defining-services) is all
 ### Serving CRUD Requests Automatically
  {:#serving-crud}
 
-The CAP runtimes for [Node.js](//node.js) and [Java](//java) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases/).
+The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases/).
 
 This comprises read and write operations like that:
 
@@ -217,7 +217,7 @@ For example, like this in OData:
 GET .../Orders?$expand=header($expand=items)
 ```
 
-same using [`cds.ql` in Node.js](//node.js/cds-ql/):
+same using [`cds.ql` in Node.js](../../node.js/cds-ql):
 
 ```js
 SELECT.from ('Orders', o => o.`*`, o.header (h => h.`*`, h.items('*')))
@@ -380,7 +380,7 @@ By default all elements of type `String` of an entity are searched. Yet, sometim
 entity E { }
 ```
 
-[Learn more about the syntax of annotations.](//cds/cdl/#annotations){:.learn-more}
+[Learn more about the syntax of annotations.](../../cds/cdl#annotations){:.learn-more}
 
 ### Search in Certain Elements Only
 
@@ -475,7 +475,7 @@ The reliable pagination is available with following limitations:
 - Results of functions or arithmetic expressions can't be used in the `$orderby` option (explicit ordering).
 - The elements used in the `$orderby` of the request must be of simple type.
 - All elements used in `$orderby` must also be included in the `$select` option, if it's set.
-- Complex [concatenations](//advanced/odata#concat) of result sets aren't supported.
+- Complex [concatenations](../../advanced/odata#concat) of result sets aren't supported.
 ::: warning
 Don't use reliable pagination if an entity set is sorted by elements that contain sensitive information, the skip token could reveal the values of these elements.
 :::
@@ -489,7 +489,7 @@ You can configure default and maximum limits in the app environment as follows.
 - The **maximum limit** defines the maximum number of items that can get retrieved, regardless of `$top`.
 - The **default limit** defines the number of items that are retrieved if no `$top` was specified.
 
-The two limits can be specified in the `cds` section of your [project configuration](//node.js/cds-env/#project-settings) as follows:
+The two limits can be specified in the `cds` section of your [project configuration](../../node.js/cds-env#project-settings) as follows:
 
 ```json
 "cds": {
@@ -618,11 +618,11 @@ CAP runtimes automatically validate user input, controlled by the following anno
 ### `@readonly` Fields
  {:#readonly}
 
-Elements annotated with `@readonly`, as well as [_calculated elements_](//cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
+Elements annotated with `@readonly`, as well as [_calculated elements_](../../cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
 
-By default [`virtual` elements](//cds/cdl#virtual-elements) are also _calculated_.
+By default [`virtual` elements](../../cds/cdl#virtual-elements) are also _calculated_.
 ::: tip
-The same applies for fields with the [OData Annotations](//advanced/odata#annotations) `@FieldControl.ReadOnly` (static), `@Core.Computed`, or `@Core.Immutable` (the latter only on UPDATEs).
+The same applies for fields with the [OData Annotations](../../advanced/odata#annotations) `@FieldControl.ReadOnly` (static), `@Core.Computed`, or `@Core.Immutable` (the latter only on UPDATEs).
 
  :::
 
@@ -631,7 +631,7 @@ The same applies for fields with the [OData Annotations](//advanced/odata#annota
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
 ::: tip
-The same applies for fields with the [OData Annotation](//advanced/odata#annotations) `@FieldControl.Mandatory`.
+The same applies for fields with the [OData Annotation](../../advanced/odata#annotations) `@FieldControl.Mandatory`.
 
  :::
 
@@ -682,13 +682,13 @@ CREATE TABLE Books ( -- elements ...
 This feature can be switch on/off globally with the configuration `cds.env.features.assert_integrity`.
 :::
 [Learn more about global configuration with `cds.env.features.assert_integrity`.](//releases/mar22/#database-integrity-constraints){:.learn-more}
- [Learn more about database integrity constraints.](//guides/databases#db-constraints){:.learn-more}
+ [Learn more about database integrity constraints.](../databases/#db-constraints){:.learn-more}
 
 
 ### `@assert.target` Constraint for managed to-one Associations
  {:#assert-target}
 
-Annotate a [managed to-one association](//cds/cdl#managed-associations) of a CDS model entity definition with the
+Annotate a [managed to-one association](../../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
 exists. In other words, use this annotation to check whether a non-null foreign key input in a table has a corresponding
 primary key in the associated/referenced target table.
@@ -821,7 +821,7 @@ entity Foo { //...
    modifiedBy : User      @cds.on.insert: $user @cds.on.update: $user;
 }
 ```
-[Learn more about the syntax of annotations.](//cds/cdl/#annotations){:.learn-more}
+[Learn more about the syntax of annotations.](../../cds/cdl#annotations){:.learn-more}
 
 These **rules** apply:
 
@@ -842,13 +842,13 @@ Upon `Upsert` the generic handlers for `@cds.on.update` are executed but the han
 
 ### Using pre-defined aspect `managed`
 
-You can also use the [pre-defined aspect `managed`](//cds/common/#aspect-managed) from [@sap/cds/common](//cds/common) to get the very same as by the definition above:
+You can also use the [pre-defined aspect `managed`](../../cds/common#aspect-managed) from [@sap/cds/common](../../cds/common) to get the very same as by the definition above:
 
 ```cds
 using { managed } from '@sap/cds/common';
 entity Foo : managed { /*...*/ }
 ```
-[Learn more about `@sap/cds/common`](//cds/common){:.learn-more}
+[Learn more about `@sap/cds/common`](../../cds/common){:.learn-more}
 
 
 ### Pseudo Variables `$user` and `$now`
@@ -861,12 +861,12 @@ The pseudo variables used in the annotations are resolved as follows:
   + `$user.<attr>` is replaced by the value of the respective attribute of the current user
 - `$uuid` is replaced by a version 4 UUID
 
-[Learn more about **Authentication** in Node.js.](//node.js/authentication){:.learn-more}
-[Learn more about **Authentication** in Java.](//java/security/#authentication){:.learn-more}
+[Learn more about **Authentication** in Node.js.](../../node.js/authentication){:.learn-more}
+[Learn more about **Authentication** in Java.](../../java/security#authentication){:.learn-more}
 
 ### Differences to `defaults`
 
-Note the differences to [defaults](//cds/cdl/#default-values), for example, given this model:
+Note the differences to [defaults](../../cds/cdl#default-values), for example, given this model:
 
 ```cds
 entity Foo { //...
@@ -902,7 +902,7 @@ annotate Foo with { modifiedAt @odata.etag }
 ```
 
 > The value of an ETag element should uniquely change with each update per row.
-> The `modifiedAt` element from the [pre-defined `managed` aspect](//cds/common/#aspect-managed) is a good candidate, as this is automatically updated.
+> The `modifiedAt` element from the [pre-defined `managed` aspect](../../cds/common#aspect-managed) is a good candidate, as this is automatically updated.
 > You could also use update counters or UUIDs, which are recalculated on each update.
 
 You use ETags when updating, deleting, or invoking the action bound to an entity by using the ETag value in an `If-Match` or `If-None-Match` header.
@@ -958,9 +958,9 @@ Use _shared_ locks if you only need to prevent the entity data to be updated in 
 
 The records are locked until the end of the transaction by commit or rollback statement.
 
-[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](//node.js/cds-ql/#select-forUpdate){:.learn-more}
+[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../../node.js/cds-ql#select-forUpdate){:.learn-more}
 
-[Learn more about using the `Select.lock()` method in the Java runtime.](//java/query-api/#write-lock){:.learn-more}
+[Learn more about using the `Select.lock()` method in the Java runtime.](../../java/query-api#write-lock){:.learn-more}
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
@@ -986,7 +986,7 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 - Triggering follow-up actions, for example calling other services or emitting outbound events in response to inbound events
 - And more... In general, all the things not (yet) covered by generic handlers
 
-The following sections give an overview how to do so, which links to respective deep dives in the reference documentations for [Java](//java) and [Node.js](https://nodejs.org).
+The following sections give an overview how to do so, which links to respective deep dives in the reference documentations for [Java](../../java/) and [Node.js](https://nodejs.org).
 
 ### Providing Custom Implementations
  {:#service-impls}
@@ -1000,7 +1000,7 @@ The following sections give an overview how to do so, which links to respective 
 ...
 ```
 
-[Learn more about providing service implementations in Node.js.](//node.js/services/#srv-impls){:.learn-more}
+[Learn more about providing service implementations in Node.js.](../../node.js/services#srv-impls){:.learn-more}
 
 
 
@@ -1012,7 +1012,7 @@ The following sections give an overview how to do so, which links to respective 
 public class FooServiceImpl implements EventHandler {...}
 ```
 
-[Learn more about Event Handler classes in Java.](//java/provisioning-api#handlerclasses){:.learn-more}
+[Learn more about Event Handler classes in Java.](../../java/provisioning-api#handlerclasses){:.learn-more}
 
 ### Registering Event Handlers
 
@@ -1027,7 +1027,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](//node.js/services/#event-handlers){:.learn-more}
+[Learn more about **adding event handlers in Node.js**.](../../node.js/services#event-handlers){:.learn-more}
 
 ```js
 @Component
@@ -1040,7 +1040,7 @@ public class BookshopServiceImpl implements EventHandler {
 }
 ```
 
-[Learn more about **adding event handlers in Java**.](//java/provisioning-api#handlerclasses){:.learn-more}
+[Learn more about **adding event handlers in Java**.](../../java/provisioning-api#handlerclasses){:.learn-more}
 
 ### Hooks for Event Handlers → `on`, `before`, `after`
 
@@ -1065,13 +1065,13 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 
 - The `event` name --- that is, a CRUD method name, or a custom-defined one
 - The `target` entity, if any
-- The `query` in [CQN](//cds/cqn) format, for CRUD requests
+- The `query` in [CQN](../../cds/cqn) format, for CRUD requests
 - The `data` payload
 - The `user`, if identified/authenticated
 - The `tenant` using your SaaS application, if enabled
 
-[Learn more about **implementing event handlers in Node.js**.](//node.js/events/#cds-request){:.learn-more}
- [Learn more about **implementing event handlers in Java**.](//java/provisioning-api#eventcontext){:.learn-more}
+[Learn more about **implementing event handlers in Node.js**.](../../node.js/events#cds-request){:.learn-more}
+ [Learn more about **implementing event handlers in Java**.](../../java/provisioning-api#eventcontext){:.learn-more}
 
 
 
@@ -1099,7 +1099,7 @@ service Sue {
 }
 ```
 
-[Learn more about modeling actions and functions in CDS.](//cds/cdl#actions){:.learn-more}
+[Learn more about modeling actions and functions in CDS.](../../cds/cdl#actions){:.learn-more}
 
 ### Actions vs Functions
 

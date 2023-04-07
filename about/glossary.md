@@ -5,7 +5,7 @@ redirect_from: glossary
 status: released
 ---
 
-# Glossary 
+# Glossary
 
 CAP-related Terms and Acronyms {:.subtitle}
 
@@ -23,7 +23,7 @@ CAP-related Terms and Acronyms {:.subtitle}
 
 ---
 
-[CDS](../cds) --- Core Data and Services
+[CDS](../cds/) --- Core Data and Services
 : a family of languages, tools and libraries to declare, process and consume conceptual, semantically enriched data models.
 
 [CDL](../cds/cdl) --- CDS Definition Language

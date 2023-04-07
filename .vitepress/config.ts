@@ -34,7 +34,7 @@ export default defineConfig({
   },
   lastUpdated: true,
   cleanUrls: true,
-  ignoreDeadLinks: true,
+  ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
     lineNumbers: true,
     attrs: {

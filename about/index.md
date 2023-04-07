@@ -68,9 +68,9 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services/#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori]** and **[SAP HANA]** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
 
 
 
@@ -114,9 +114,9 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Aspects](../cds/cdl#aspects)_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
 
-This greatly promotes **[adaptability](../guides/extensibility)** in _verticalization_ and _customization_ scenarios, especially in SaaS solutions.
+This greatly promotes **[adaptability](../guides/extensibility/)** in _verticalization_ and _customization_ scenarios, especially in SaaS solutions.
 
-Moreover, that fosters [**separation of concerns**](../guides/domain-models#use-aspects-for-separation-of-concerns-and-verticalization), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
+Moreover, that fosters [**separation of concerns**](../guides/domain-models/#use-aspects-for-separation-of-concerns-and-verticalization), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
 
 <br>
 
@@ -130,27 +130,27 @@ Following is an excerpt of generic features provided:
 
 ###### Automatically Serving Requests
 
-- [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#serving-documents)
-- [Serving Media Data](../guides/media-data)
+- [Serving CRUD Requests](../guides/providing-services/#generic-providers)
+- [Serving Nested Documents](../guides/providing-services/#serving-documents)
+- [Serving Media Data](../guides/media-data/)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
 ###### Handling Recurring Tasks
 
-- [Implicit Pagination](../guides/providing-services#implicit-pagination)
-- [Input Validation](../guides/providing-services#input-validation)
+- [Implicit Pagination](../guides/providing-services/#implicit-pagination)
+- [Input Validation](../guides/providing-services/#input-validation)
 - [Authentication](../node.js/authentication)
-- [Authorization](../guides/authorization)
-- [Localization / i18n](../guides/i18n)
-- [Concurrency Control](../guides/providing-services#concurrency-control)
+- [Authorization](../guides/authorization/)
+- [Localization / i18n](../guides/i18n/)
+- [Concurrency Control](../guides/providing-services/#concurrency-control)
 
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services#managed-data)
-- [Localized Data](../guides/localized-data)
-- [Temporal Data](../guides/temporal-data)
-- [Verticalization & Extensibility](../guides/extensibility)
+- [Managed Data](../guides/providing-services/#managed-data)
+- [Localized Data](../guides/localized-data/)
+- [Temporal Data](../guides/temporal-data/)
+- [Verticalization & Extensibility](../guides/extensibility/)
 
 <br>
 
@@ -232,7 +232,7 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-::: tip _[Late-cut µ services](../guides/providing-services#late-cut-microservices)_{:.tip-title}
+::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{:.tip-title}
 This protocol-agnostic API allows [mocking remote services](../get-started/grow-as-you-go#with-mocks), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
@@ -243,7 +243,7 @@ This protocol-agnostic API allows [mocking remote services](../get-started/grow-
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 
-We add custom logic in [event handlers](../guides/providing-services#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
+We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
 ::: tip _Domain-level Eventing_{:.tip-title}
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.

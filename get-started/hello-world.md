@@ -28,7 +28,7 @@ cd hello-world
 </div>
 
 ## Define a Service
-... using [CDS](../cds).
+... using [CDS](../cds/).
 
 File _srv/world.cds_, content:
 ```cds

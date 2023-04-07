@@ -33,7 +33,7 @@ Following the ideas of _Convention over Configuration_ and _Grow as you go_ new 
 
 Following the ideas of _Convention over Configuration_ and _Grow as you go_ new CAP projects have a minimal setup. Yet as soon as you add models, you can deploy them to databases, and as soon as you add a first service definition, you get a full-fledged OData server up and running, for example using `mvn cds:watch`. {:.impl .java}
 
-[Learn more in the **Getting Started in a Nutshell** guide.](../in-a-nutshell){:.learn-more}
+[Learn more in the **Getting Started in a Nutshell** guide.](./in-a-nutshell){:.learn-more}
 
 
 

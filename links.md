@@ -7,7 +7,7 @@
 [Providing Services]: /guides/providing-services
 [Generic Providers]: /guides/providing-services
 [Generic Handlers]: /guides/providing-services
-[Input Validation]: /guides/providing-services#input-validation
+[Input Validation]: /guides/providing-services/#input-validation
 [Using Databases]: /guides/databases
 [Databases]: /guides/databases
 [consumed]: /guides/using-services

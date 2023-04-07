@@ -148,7 +148,7 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-Filter expressions, [instance-based authorization]({{cap}}/guides/authorization#instance-based-auth) and [search]({{cap}}/guides/providing-services#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/authorization/#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
 {:.danger}
 
 #### Null Values
@@ -173,7 +173,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored]({{cap}}/guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services/#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -198,7 +198,7 @@ Using literals in CDS models is commonly used, for example, to set default value
 | Records   | `{"foo":<literal>, ...}` |
 | Arrays    | `[<literal>, ...]` |
 
-[Learn more about literals and their representation in CSN.]({{cap}}/cds/csn#literals){:.learn-more}
+[Learn more about literals and their representation in CSN.](./csn#literals){:.learn-more}
 
 
 #### Multiline String Literals
@@ -323,8 +323,8 @@ entity Order {
 }
 ```
 
-To enforce your _enum_ values during runtime, use the [`@assert.range` annotation]({{cap}}/guides/providing-services#assert-range).
-For localization of enum values, model them as [code list]({{cap}}/cds/common#adding-own-code-lists).
+To enforce your _enum_ values during runtime, use the [`@assert.range` annotation](../guides/providing-services/#assert-range).
+For localization of enum values, model them as [code list](./common#adding-own-code-lists).
 
 <br>
 
@@ -384,7 +384,7 @@ Over time, we can add additional checks depending on specific outbound protocols
 ### Views with Inferred Signatures
 
 By default views inherit all properties and annotations from their primary underlying base entity.
-Their [`elements`]({{csn}}#structured-types) signature is **inferred** from the projection on base elements.
+Their [`elements`](./csn#structured-types) signature is **inferred** from the projection on base elements.
 Each element inherits all properties from the respective base element, except the `key` property.
 The `key` property is only inherited if all of the following applies:
 - No explicit `key` is set in the query.
@@ -443,7 +443,7 @@ entity SomeView {
 ### Views with Nested Projections
 {: .impl.beta}
 
-Use [CQLs nested expands]({{cql}}#nested-expands) to declare projections on document structures and/or entity graphs. This results in structured document signatures.
+Use [CQLs nested expands](./cql#nested-expands) to declare projections on document structures and/or entity graphs. This results in structured document signatures.
 
 ```cds
 entity MyOrders as select from Orders {
@@ -489,7 +489,7 @@ entity SomeView ( foo: Integer, bar: Boolean )
 as SELECT * from Employees where ID=:foo;
 ```
 [Learn more about how to expose views with parameters in **Services - Exposed Entities**.](#exposed-entities){: .learn-more}
-[Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.]({{cap}}/advanced/hana){: .learn-more}
+[Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.](../advanced/hana){: .learn-more}
 
 
 
@@ -540,7 +540,7 @@ entity Employees {
 This example is equivalent to the [unmanaged example above](#unmanaged-associations), with the foreign
 key element `address_ID` being added automatically upon activation to a SQL database.
 
-> For adding foreign key constraints on database level, see [Database Constraints.]({{cap}}/guides/databases#db-constraints).
+> For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases/#db-constraints).
 
 
 ### To-many Associations
@@ -597,9 +597,9 @@ entity Employees {
 }
 ```
 
-For the first case, [`cds.compile`]({{cap}}/node.js/cds-compile) automatically adds a link table.
+For the first case, [`cds.compile`](../node.js/cds-compile) automatically adds a link table.
 For the second case, it automatically adds a link table with an additional element `kind` (&rarr; an _attributed relationship_).
-For the third case, [`cds.compile`]({{cap}}/node.js/cds-compile) uses the predefined entity `Emp2Addr` that is defined like that (names for `source/target` can be freely chosen):
+For the third case, [`cds.compile`](../node.js/cds-compile) uses the predefined entity `Emp2Addr` that is defined like that (names for `source/target` can be freely chosen):
 
 ```cds
 entity Emp2Addr {
@@ -873,7 +873,7 @@ Values can be literals or references. If no value is given, the default value is
 @anArray: [ /* can contain any kind of value */ ]
 ```
 
-As described in the [CSN spec]({{csn}}#literals), the previously mentioned annotations would compile to CSN as follows:
+As described in the [CSN spec](./csn#literals), the previously mentioned annotations would compile to CSN as follows:
 
 ```
 {
@@ -1189,7 +1189,7 @@ You can apply this to any definition of an entity or a structured type.
 The `:`-based syntax option described before looks very much like (multiple) inheritance and in fact has very much the same effects. Yet, as mentioned in the beginning of this
 section, it isn't based on inheritance but on mixins, which are more powerful and also avoid common problems like the infamous diamond shapes in type derivations.
 
-When combined with persistence mapping there are a few things to note, that goes down to which strategy to choose to map inheritance to, for example, relational models. See [_Aspects vs Inheritance_](../cds/aspects-inheritance) for more details.
+When combined with persistence mapping there are a few things to note, that goes down to which strategy to choose to map inheritance to, for example, relational models. See [_Aspects vs Inheritance_](./aspects-inheritance) for more details.
 
 
 ### Extending Views and Projections
@@ -1391,14 +1391,14 @@ service Sue {
 }
 ```
 
-[Learn more about **CodeLists in `@sap/cds/common`**.]({{cap}}/cds/common#code-lists){:.learn-more}
+[Learn more about **CodeLists in `@sap/cds/common`**.](./common#code-lists){:.learn-more}
 
 ### Custom Actions and Functions
 {:#actions}
 
 Within service definitions, you can additionally specify `actions` and `functions`. Use a comma-separated list of named and typed inbound parameters (optional) and a response type (optional for actions), which can be either a:
 
-- [Predefined Type](types)
+- [Predefined Type](#types)
 - [Reference to a custom-defined type](#types)
 - [Inline definition of an anonymous structured type](#structured-types)
 

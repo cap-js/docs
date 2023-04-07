@@ -175,7 +175,7 @@ Names **must**:
 
 * `kind` &ndash; one of `context`, `service`, `entity`, `type`, `action`, `function`, or `annotation`
 * `type` &ndash; an optional base type that this definition is derived from
-* [`elements`][elements] &ndash; optional dictionary of [_elements_](elements) in case of structured types
+* [`elements`][elements] &ndash; optional dictionary of [_elements_][elements] in case of structured types
 
 Property `kind` is always omitted for [elements] and can be omitted for top-level [type definitions]. These examples are semantically equivalent:
 
@@ -194,9 +194,9 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 | Property   | Used for                                                              |
 |------------|-----------------------------------------------------------------------|
 | `type`     | [Scalar Types](#scalar-types), [Structured Types], and [Associations] |
-| `elements` | [Structured Types](struct)                                            |
-| `items`    | [Arrayed Types](arrays)                                               |
-| `enum`     | [Enumeration Types](enum)                                             |
+| `elements` | [Structured Types](#structured-types)                                 |
+| `items`    | [Arrayed Types](#arrayed-types)                                       |
+| `enum`     | [Enumeration Types](#enumeration-types)                               |
 
 
 #### Example
@@ -217,9 +217,9 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 * `kind` &ndash; omitted or _`"type"`_
 * `type` &ndash; the base type, this definition is derived from
-* [`elements`][elements] &ndash; optional element definitions for [_structured types_](struct).
-* [`items`][arrays] &ndash; optional definition of item types for [_arrayed types_](arrays).
-* [`enum`][enum] &ndash; an optional dictionary of enum members for [_enumeration types_](enum).
+* [`elements`][elements] &ndash; optional element definitions for [_structured types_][struct].
+* [`items`][arrays] &ndash; optional definition of item types for [_arrayed types_][arrays].
+* [`enum`][enum] &ndash; an optional dictionary of enum members for [_enumeration types_][enum].
 * `value` &ndash; a constant [literal value](#literals) or calculation expression
 * `default` &ndash; a default [value or expression](#literals)
 * `localized` _= true_ if this type was declared like _foo : localized String_
@@ -320,7 +320,7 @@ The `enum` property is a dictionary of enum member elements with the name being 
 [entities]: #entity-definitions
 [entity]: #entity-definitions
 
-Entities are [structured types](struct) with **_kind_** =`'entity'`. In addition, one or more elements usually have property `key` set to true, to flag the entity's primary key.
+Entities are [structured types](#structured-types) with **_kind_** =`'entity'`. In addition, one or more elements usually have property `key` set to true, to flag the entity's primary key.
 
 #### Example
 
@@ -407,7 +407,7 @@ Views with parameters have an additional property `params` &ndash; an optional d
 
 ### Projections
 
-Use the `projection` property for views if you don't need the full power of SQL. See `as projection on` in [CDL](./11-CDL.md#as-projection-on) for restrictions.
+Use the `projection` property for views if you don't need the full power of SQL. See `as projection on` in [CDL](./cdl#as-projection-on) for restrictions.
 
 ```js
 ({ definitions: {

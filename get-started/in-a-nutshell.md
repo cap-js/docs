@@ -52,7 +52,7 @@ cds init bookshop --add java
 <!-- TODO: Add a toggle on the new capire to toggle between manual and cloning -->
 Instead of going for a manual step-by-step experience, you can also get the [cap/samples from GitHub](https://github.com/sap-samples/cloud-cap-samples). In this case, skip the previous `cds init bookshop` step. {:.impl .node}
 
-Instead of going for a manual step-by-step experience, you can also get the [cap/samples from GitHub](java-samples). In this case, skip the previous `cds init bookshop --add java` step. {:.impl .java}
+Instead of going for a manual step-by-step experience, you can also get the [cap/samples from GitHub](https://github.com/sap-samples/cloud-cap-samples-java). In this case, skip the previous `cds init bookshop --add java` step. {:.impl .java}
 
 Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide. {:.impl .java}
 
@@ -431,7 +431,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 
 > Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {:.impl .node}
 
-> Use [_authenticated_](../java/security/#mock-users) to query the `admin` service. You don't need to enter a password. {:.impl .java}
+> Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {:.impl .java}
 
 [Learn more about **Generic Providers**.](../guides/providing-services/){:.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){:.learn-more}
@@ -526,7 +526,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){: .learn-more .impl .node target="_blank"}
-[Learn more about providing service implementations **in Node.js**.](../node.js/services/#srv-impls){:.learn-more .impl .node}
+[Learn more about providing service implementations **in Node.js**.](../node.js/services#srv-impls){:.learn-more .impl .node}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){:.learn-more .impl .node}
 
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {:.impl .java}
@@ -571,7 +571,7 @@ module.exports = function (){
 ```
 </div>
 
-[Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/services/#event-handlers){:.learn-more} {:.impl .node}
+[Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/services#event-handlers){:.learn-more} {:.impl .node}
 
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 {:.impl .java}
@@ -653,10 +653,10 @@ public class SubmitOrderHandler implements EventHandler {
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){: .learn-more .impl .node target="_blank"}
 [Find an extended version of this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){: .impl .java .learn-more target="_blank"}
 [Learn more about **connecting to services** using `cds.connect`.](../node.js/cds-connect){: .learn-more .impl .node}
-[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api/){:.learn-more .impl .java}
-[Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql/){: .learn-more .impl .node}
-[Learn more about **reading and writing data** using `cds.ql`.](../java/query-api/){: .learn-more .impl .java}
-[Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/services/#srv-entities){: .learn-more .impl .node}
+[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){:.learn-more .impl .java}
+[Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){: .learn-more .impl .node}
+[Learn more about **reading and writing data** using `cds.ql`.](../java/query-api){: .learn-more .impl .java}
+[Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/services#srv-entities){: .learn-more .impl .node}
 [Learn more about **typed access to data** using the CAP Java SDK.](../java/data#typed-access){: .learn-more .impl .java}
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {:.impl .node}
@@ -668,15 +668,15 @@ Or submit orders until you see the error messages. {:.impl .node}
 ## Summary and Next Steps
 With this getting started guide we introduced many of the basics of CAP, such as:
 
-- [Jump-Starting Projects and Grow-as-you-go](grow-as-you-go) <!-- Airplane Mode is still empty concept -->
+- [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
 - [Domain Modeling](../guides/domain-models/)
 - [Defining Services and APIs](../guides/providing-services/)
 - [Providing Services](../guides/providing-services/)
-- [Consuming Services](../guides/providing-services/)
+- [Consuming Services](../guides/using-services/)
 - [Using Databases](../guides/databases/)
 - [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment).
+[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization/) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment/).
 
-Also **see the reference sections** to find detailed documentation about [**CDS**](../cds), as well as [**Node.js**](../node.js) and [**Java**](../java) Service SDKs and runtimes.
+Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.

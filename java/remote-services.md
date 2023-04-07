@@ -204,7 +204,7 @@ If you are also using the CDS Services BOM or the Spring Boot dependencies BOM, 
 </dependencyManagement>
 ```
 
-[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies){:.learn-more}
+[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies/){:.learn-more}
 
 To enable [programmatic destination registration](#programmatic-destination-registration), add this additional dependency to your project:
 

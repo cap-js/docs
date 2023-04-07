@@ -21,20 +21,20 @@ CDS ships with a prebuilt model _@sap/cds/common_ that provides common types and
 [ISO 3166-3]: https://en.wikipedia.org/wiki/ISO_3166-3
 [ISO 4217]: https://en.wikipedia.org/wiki/ISO_4217
 [ISO/IEC 15897]: https://en.wikipedia.org/wiki/ISO/IEC_15897
-[localized data]: ../guides/localized-data
-[temporal data]: ../guides/temporal-data
+[localized data]: ../guides/localized-data/
+[temporal data]: ../guides/temporal-data/
 
 ## Why Use _@sap/cds/common_?
 
 It’s recommended that all applications use the common types and aspects provided through _@sap/cds/common_ to benefit from these features:
 
-* **Concise** and **comprehensible** models &rarr; see also [Conceptual Modeling](../guides/domain-models#conceptual-modeling)
+* **Concise** and **comprehensible** models &rarr; see also [Conceptual Modeling](../guides/domain-models/#conceptual-modeling)
 * **Foster interoperability** between all applications
 * **Proven best practices** captured from real applications
 * **Streamlined** data models with **minimal entry barriers**
 * **Optimized** implementations and runtime performance
-* **Automatic** support for [localized](../guides/localized-data) code lists and [value helps](../advanced/fiori#pre-defined-types-in-sapcdscommon)
-* **Extensibility** using [Aspects](../guides/domain-models#aspects)
+* **Automatic** support for [localized](../guides/localized-data/) code lists and [value helps](../advanced/fiori#pre-defined-types-in-sapcdscommon)
+* **Extensibility** using [Aspects](../guides/domain-models/#aspects)
 * **Verticalization** through third-party extension packages
 
 For example, usage is as simple as indicated in the following sample:
@@ -81,7 +81,7 @@ entity Foo {
 
 > The service provider runtimes automatically fill in UUID-typed keys like these with auto-generated UUIDs.
 
-[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-models#use-canonic-primary-keys){: .learn-more}
+[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-models/#use-canonic-primary-keys){: .learn-more}
 
 
 ### Aspect `managed`
@@ -108,12 +108,12 @@ entity Foo {
 
 The annotations `@cds.on.insert/update` are handled in generic service providers so to fill in those fields automatically.
 
-[Learn more about **generic service features**.](../guides/providing-services#managed-data){: .learn-more}
+[Learn more about **generic service features**.](../guides/providing-services/#managed-data){: .learn-more}
 
 
 ### Aspect `temporal`
 
-This aspect basically adds two canonical elements, `validFrom` and `validTo` to an entity. It also adds a tag annotation that connects the CDS compiler's and runtime's built-in support for _[Temporal Data](../guides/temporal-data)_. This built-in support covers handling date-effective records and time slices, including time travel. All you've to do is, add the temporal aspect to respective entities as follows:
+This aspect basically adds two canonical elements, `validFrom` and `validTo` to an entity. It also adds a tag annotation that connects the CDS compiler's and runtime's built-in support for _[Temporal Data](../guides/temporal-data/)_. This built-in support covers handling date-effective records and time slices, including time travel. All you've to do is, add the temporal aspect to respective entities as follows:
 
 ```cds
 entity Contract : temporal {...}
@@ -133,7 +133,7 @@ aspect sap.common.TextsAspect {
 }
 ```
 
-[Learn more about **Extending .texts entities**.](../guides/localized-data#extending-texts-entities){: .learn-more}
+[Learn more about **Extending .texts entities**.](../guides/localized-data/#extending-texts-entities){: .learn-more}
 
 
 ## Common Reuse Types {:#code-types}
@@ -221,7 +221,7 @@ aspect sap.common.CodeList {
   descr : localized String(1111);
 }
 ```
-[Learn more about **localized** keyword.](../guides/localized-data){: .learn-more}
+[Learn more about **localized** keyword.](../guides/localized-data/){: .learn-more}
 
 
 ### Entity `sap.common.Countries`
@@ -256,7 +256,7 @@ entity sap.common.Languages : CodeList {
   key code : sap.common.Locale; //> for example, en_GB
 }
 ```
-[Learn more on **normalized locales**.](../guides/i18n#normalized-locales){: .learn-more}
+[Learn more on **normalized locales**.](../guides/i18n/#normalized-locales){: .learn-more}
 
 
 ### SQL Persistence
@@ -343,7 +343,7 @@ US;United States;United States of America (USA)
 EU;European Union;European Union
 ```
 
-[Learn more about the database aspects of **Providing Initial Data**.](../guides/databases#providing-initial-data){: .learn-more}
+[Learn more about the database aspects of **Providing Initial Data**.](../guides/databases/#providing-initial-data){: .learn-more}
 
 
 ### Add Translated Texts
@@ -366,7 +366,7 @@ US;de;Vereinigte Staaten;Vereinigte Staaten von Amerika
 EU;de;Europäische Union;Europäische Union
 ```
 
-[Learn more about **Localization/i18n**.](localization){: .learn-more}
+[Learn more about **Localization/i18n**.](../guides/localized-data/){: .learn-more}
 
 
 ### Using Tools like Excel
@@ -440,7 +440,7 @@ Let's further assume the entires with code `Main` and `Travel` are required by i
 
 #### Generic Solution {:.impl.concept}
 
-One option is to add an [automatic validation](../guides/providing-services#input-validation) based on certain annotations. For example:
+One option is to add an [automatic validation](../guides/providing-services/#input-validation) based on certain annotations. For example:
 
 ```cds
 annotate PaymentMethods {

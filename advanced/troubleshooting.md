@@ -398,7 +398,7 @@ You can disable the database clustering for the update.
 |  | Explanation |
 | --- | ---- |
 | _Root Cause_ | Your configuration isn’t properly set. |
-| _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
+| _Solution_ | Configure your project as described in [Using Databases](../guides/databases/).
 
 #### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
 

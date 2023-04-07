@@ -115,7 +115,7 @@ While CDS in principle allows you to add such annotations everywhere in your mod
 
 [See this also in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){:.learn-more}
 
-**Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-models#domain-driven-design) and [Separation of Concerns](../guides/domain-models#separation-of-concerns).
+**Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-models/#domain-driven-design) and [Separation of Concerns](../guides/domain-models/#separation-of-concerns).
 
 
 ### Maintaining Annotations
@@ -386,7 +386,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 :::
 
 
-### Enabling Draft for [Localized Data](../guides/localized-data) {:#draft-for-localized-data}
+### Enabling Draft for [Localized Data](../guides/localized-data/) {:#draft-for-localized-data}
 
 Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data]:
 
@@ -394,7 +394,7 @@ Annotate the underlying base entity in the base model with `@fiori.draft.enabled
 annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 ```
 
-> Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
+> Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data/#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
 
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){:style="margin:0"}
 [See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){:.learn-more}
@@ -403,7 +403,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services/#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java
@@ -536,7 +536,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services#actions-and-functions){:.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services/#actions-and-functions){:.learn-more}
 
 
 We're going to look at three things.

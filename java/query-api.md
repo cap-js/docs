@@ -77,7 +77,7 @@ The lambda expression `b -> b.year().lt(2000)` defines a predicate that compares
 
 ### Path Expressions
 
-Use path expressions to access elements of [related](//cds/cdl/#associations) entities. The following example selects books with authors starting with 'A'.
+Use path expressions to access elements of [related](../cds/cdl#associations) entities. The following example selects books with authors starting with 'A'.
 
 ```java
 // Java CQL (static)
@@ -91,7 +91,7 @@ Select.from("bookshop.Books")
     .where(b -> b.to("author").get("name").startsWith("A"));
 ```
 
-The CQL query accesses the `name` element of the `Authors` entity, which is reached from `Books` via the `author` [association](//cds/cdl/#associations). In the dynamic CQL builders, you can follow associations and compositions using the `to` method or use `get` with a path using a dot to separate the segments.
+The CQL query accesses the `name` element of the `Authors` entity, which is reached from `Books` via the `author` [association](../cds/cdl#associations). In the dynamic CQL builders, you can follow associations and compositions using the `to` method or use `get` with a path using a dot to separate the segments.
 
 ### Target Entity Sets {:#target-entity-sets}
 
@@ -529,7 +529,7 @@ Both queries are equivalent and have the same result: a _flat_ structure:
 
 #### Managed Associations on the Select List
 
-To select the key elements of a [managed to-one association](//cds/cdl/#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
+To select the key elements of a [managed to-one association](../cds/cdl#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
 
 ```java
 // dynamic
@@ -569,7 +569,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 1. Define searchable elements {:#searchable-elements}
 
-    By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](//guides/providing-services/#searching-data).
+    By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services/#searching-data).
 
     Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
 
@@ -777,7 +777,7 @@ The pagination isn't stateful. If rows are inserted or removed before a subseque
 
 ### Pessimistic Locking {: #write-lock}
 
-Use the `lock()` method to enforce [Pessimistic Locking](//guides/providing-services/#select-for-update).
+Use the `lock()` method to enforce [Pessimistic Locking](../guides/providing-services/#select-for-update).
 
 The following example shows how to build a select query with an _exclusive_ (write) lock. The query tries to acquire a lock for a maximum of 5 seconds, as specified by an optional parameter `timeout`:
 
@@ -973,7 +973,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert {: #deep-upsert}
 
-Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-models/#compositions-capture-contained-in-relationships), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.
@@ -1025,9 +1025,9 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 ### Deep Update {: #deep-update}
 
-Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](//guides/domain-models/#compositions-capture-contained-in-relationships). Linked entities can have compositions to other entities, which become also part of the document structure.
+Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-models/#compositions-capture-contained-in-relationships). Linked entities can have compositions to other entities, which become also part of the document structure.
 
-By default, only target entities of [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
+By default, only target entities of [compositions](../guides/domain-models/#compositions-capture-contained-in-relationships) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 

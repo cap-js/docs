@@ -14,7 +14,7 @@ permalink: advanced/analytics
 ## Aggregation
 
 ::: tip
-_Data Aggregation in OData V4_ is covered in the [OData guide]({{cap}}/advanced/odata#data-aggregation).
+_Data Aggregation in OData V4_ is covered in the [OData guide](./odata#data-aggregation).
 :::
 
 To enable the aggregation capability for your OData V2 service, specify which entities in your service model are aggregate entities (entities for which you can execute aggregation queries). Next, specify which properties within these entities constitute the measures and the corresponding aggregation functions.

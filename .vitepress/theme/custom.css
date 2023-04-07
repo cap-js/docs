@@ -45,6 +45,12 @@ a.learn-more::before {
   margin-right: 5px;
 }
 
+.subtitle {
+  margin: -3.3em 0 2em;
+  font-size: 1.7em;
+  font-weight: 100;
+}
+
 /* inverts image colors in dark mode */
 :root.dark img.adapt {
   filter: brightness(.9) invert(1) hue-rotate(177deg)
@@ -59,10 +65,6 @@ pre.log {
   padding: 20px 25px;
   border-radius: 14px;
   overflow: auto;
-
-  /* @media screen and (max-width: 415px) {
-    font-size: 55%;
-  } */
 }
 
 pre.log em {
@@ -74,9 +76,10 @@ pre.log b {
 pre.log i {
   color: grey;
 }
-
-.subtitle {
-  margin: -3.3em 0 2em;
-  font-size: 1.7em;
-  font-weight: 100;
+/* expand width on big screens */
+@media screen and (min-width: 1600px) {
+  pre.log:hover,
+  pre.log:focus {
+    min-width: fit-content;
+  }
 }

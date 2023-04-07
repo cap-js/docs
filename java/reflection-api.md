@@ -243,7 +243,7 @@ By default all features are deactivated (`FeatureTogglesInfo` represents an empt
 
 #### From Mock User Configuration
 
-If mock users are used, a default [`FeatureToggleProvider`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) is registered, which assigns feature toggles to users based on the [mock user configuration](../security#mock-users). Feature toggles can be configured per user or [per tenant](../security#mock-tenants). The following configuration enables the feature `wobble` for the user `Bob` while for `Alice` the features `cruise` and `parking` are enabled:
+If mock users are used, a default [`FeatureToggleProvider`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) is registered, which assigns feature toggles to users based on the [mock user configuration](./security#mock-users). Feature toggles can be configured per user or [per tenant](./security#mock-tenants). The following configuration enables the feature `wobble` for the user `Bob` while for `Alice` the features `cruise` and `parking` are enabled:
 
 ```yaml
 cds:
@@ -286,7 +286,7 @@ This feature toggles provider is automatically registered and used as Spring bea
 #### Defining Feature Toggles for Internal Service Calls
 
 It is not possible to redefine the feature set within an active request context as this would result in a model change.
-However, if there is no active request context such as in a new thread, you can specify the feature set while [Defining Request Contexts](../request-contexts#defining-requestcontext).
+However, if there is no active request context such as in a new thread, you can specify the feature set while [Defining Request Contexts](./request-contexts#defining-requestcontext).
 
 In the following example, a `Callable` is executed in a new thread resulting in an initial request context. In the definition of the request context the feature toggles are defined that will be used for the statement execution:
 
@@ -314,7 +314,7 @@ Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
 
 ### Using Feature Toggles in Custom Code
 
-Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](../request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](../development/#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
+Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./development/#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
 
 ```java
 @After

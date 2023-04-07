@@ -47,8 +47,8 @@ If the remote system you want to consume requires it, you can enable the new CSR
 }
 ```
 ::: tip
-See [Using Destinations](../guides/using-services#using-destinations) for more details on destination configuration.
-::: 
+See [Using Destinations](../guides/using-services/#using-destinations) for more details on destination configuration.
+:::
 
 ##  <i>  More to Come </i>
 

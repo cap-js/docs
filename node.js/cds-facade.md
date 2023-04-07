@@ -129,7 +129,7 @@ Provides access to the effective configuration of the current process, transpare
 
 The [express.js Application object](https://expressjs.com/de/4x/api.html#app) constructed during bootstrapping.
 
-[Learn more about bootstrapping in `cds.server`.](cds-server){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
 
 
 
@@ -140,7 +140,7 @@ The [express.js Application object](https://expressjs.com/de/4x/api.html#app) co
 
 The effective [CDS model](../cds/csn) loaded during bootstrapping, which contains all service and entity definitions, including required services.
 
-[Learn more about bootstrapping in `cds.server`.](cds-server){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
 
 
 
@@ -150,7 +150,7 @@ The effective [CDS model](../cds/csn) loaded during bootstrapping, which contain
 A dictionary and cache of all instances of [`cds.Service`](services) constructed through [`cds.serve`](cds-serve),
 or connected to by [`cds.connect`](cds-connect) so far.
 
-It’s an iterable object, so you can access individual services by name: 
+It’s an iterable object, so you can access individual services by name:
 ```js
 const { CatalogService, db } = cds.services
 ```
@@ -168,14 +168,14 @@ for (let each of cds.services) ...
 
 A shortcut to `cds.services.db`, the primary database service connected to during bootstrapping, if any.
 
-[Learn more about bootstrapping in `cds.server`.](cds-server){:.learn-more}
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){:.learn-more}
 
 
 
 
 ### cds.run, ... {:#cds-run}
 
-If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` facade provides shortcuts to the database service's methods to run queries, that is: 
+If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` facade provides shortcuts to the database service's methods to run queries, that is:
 
 
 | Method...    | &rarr; | ... is a shortcut for: |
@@ -191,7 +191,7 @@ If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` f
 
 ### cds.context  <i>  &#8674; [cds.Event](events#cds-event) </i> {:#cds-context}
 
-Reference to the current root [event](events#cds-event) or [request](events#cds-request), which acts as invocation context, providing access to the current `tenant` and `user` information, and also constitutes the transaction boundary for automatically managed transactions. 
+Reference to the current root [event](events#cds-event) or [request](events#cds-request), which acts as invocation context, providing access to the current `tenant` and `user` information, and also constitutes the transaction boundary for automatically managed transactions.
 
 
 

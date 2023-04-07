@@ -151,7 +151,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 ### Prerequisites
 
-* You have followed the instructions in [Local Setup](../get-started).
+* You have followed the instructions in [Local Setup](../get-started/).
 * You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
 ## IntelliJ {: .impl.concept}

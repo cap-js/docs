@@ -25,7 +25,7 @@ You can plug-in custom logic to the default bootstrapping choreography using a [
 
 ## cds serve  <i>  command line </i>
 
-By default, bootstrapping of servers is handled by the framework automatically. So, you only need `cds.serve` if you want to control the bootstrapping yourself, for example, in a custom [express `server.js`](cds-server).
+By default, bootstrapping of servers is handled by the framework automatically. So, you only need `cds.serve` if you want to control the bootstrapping yourself, for example, in a custom [express `server.js`](#cds-server).
 
 ## cds.server  <i>  &#8674; (options) => {...} </i> {:#cds-server }
 
@@ -114,11 +114,11 @@ module.exports = (o)=>{
 
 ::: tip
 The `req` object in your express middleware is not the same as `req` in your CDS event handlers.
-::: 
+:::
 
 
-    
-### cds.once  <i>  ('**bootstrap**', ([express.js app](cds-facade#cds-app))=>{}) </i> 
+
+### cds.once  <i>  ('**bootstrap**', ([express.js app](cds-facade#cds-app))=>{}) </i>
 
 A one-time event, emitted immediately after the [express.js app](cds-facade#cds-app)
 has been created and before any middleware or CDS services are added to it.
@@ -135,25 +135,25 @@ cds.on('bootstrap', (app)=>{
 ```
 
 
-### cds.on  <i>  ('**loaded**', ([csn](../cds/csn))=>{}) </i> 
+### cds.on  <i>  ('**loaded**', ([csn](../cds/csn))=>{}) </i>
 
 Emitted whenever a CDS model got loaded using `cds.load()`
-    
 
 
-### cds.on  <i>  ('**connect**', ([service](../cds/cdl#services))=>{}) </i> 
+
+### cds.on  <i>  ('**connect**', ([service](../cds/cdl#services))=>{}) </i>
 
 Emitted for each service constructed through [`cds.connect`](cds-connect).
-    
 
-    
-### cds.on  <i>  ('**serving**', ([service](../cds/cdl#services))=>{}) </i> 
+
+
+### cds.on  <i>  ('**serving**', ([service](../cds/cdl#services))=>{}) </i>
 
 Emitted for each service constructed by [`cds.serve`](cds-serve).
-    
 
 
-### cds.once  <i>  ('**served**', ([services](../guides/providing-services/))=>{}) </i> 
+
+### cds.once  <i>  ('**served**', ([services](../guides/providing-services/))=>{}) </i>
 
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 
@@ -165,9 +165,9 @@ cds.on('served', (services)=>{
   // ...
 })
 ```
-    
 
-### cds.once  <i>  ('**listening**', ({server,url})=>{}) </i> 
+
+### cds.once  <i>  ('**listening**', ({server,url})=>{}) </i>
 
 A one-time event, emitted when the server has been started and is listening to incoming requests.
 
@@ -254,7 +254,7 @@ This uses these defaults for all options:
 
 Alternatively you can construct services individually, also from other models, and also mount them yourself, as document in the subsequent sections on individual fluent API options.
 
-If you just want to add some additional middleware, it's recommended to bootstrap from a [custom `server.js`](cds-server).
+If you just want to add some additional middleware, it's recommended to bootstrap from a [custom `server.js`](#cds-server).
 
 
 

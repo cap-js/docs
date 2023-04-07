@@ -17,7 +17,7 @@ API to introspect [CDS Query Language (CQL)](../cds/cql) statements in Java
 
 ## Introduction
 
-Handlers of [CQN-based services](../consumption-api#cdsservices) often need to understand the incoming CQN statements.
+Handlers of [CQN-based services](./consumption-api#cdsservices) often need to understand the incoming CQN statements.
 
 The statement analysis can be done in two different ways. Depending on the complexity of the statement it can be done using:
 
@@ -75,7 +75,7 @@ Use `CqnVisitor` when element references of the query are:
 
 The [CQL](../cds/cql) introspection API allows to analyze [CQL](../cds/cql) statements and extract values and information on the CDS entities in references.
 
-The [CqnAnalyzer](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnAnalyzer.html) can be constructed from a [CDS model](../reflection-api#the-cds-model):
+The [CqnAnalyzer](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnAnalyzer.html) can be constructed from a [CDS model](./reflection-api#the-cds-model):
 
 ```java
 import com.sap.cds.ql.cqn.CqnAnalyzer;

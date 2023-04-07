@@ -49,7 +49,7 @@ const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.
 ### user.id <i> : string </i> {:#user-id}
 
 A user's unique ID.
-It corresponds to `$user` in [`@restrict` annotations](../../guides/authorization) of your CDS models
+It corresponds to `$user` in [`@restrict` annotations](../guides/authorization/) of your CDS models
 (Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {:.indent}
 
 
@@ -61,13 +61,13 @@ Checks if user has assigned the given role. Example usage:
 if (req.user.is('admin')) ...
 ```
 
-The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../../guides/authorization) in your CDS models.
+The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/authorization/) in your CDS models.
 
 
 ### user.attr<i>.\<x\> : string </i> {:#user-attr}
 
 User-related attributes, for example, from JWT tokens
-These correspond to `$user.<x>` in [`@restrict` annotations](../../guides/authorization) of your CDS models {:.indent}
+These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization/) of your CDS models {:.indent}
 
 
 
@@ -84,7 +84,7 @@ These correspond to `$user.<x>` in [`@restrict` annotations](../../guides/author
 
 ### cds.**User.Privileged** <i> class </i> {: #privileged-user }
 
-In some cases, you might need to bypass authorization checks while [consuming a local service](../services). For this, you can create a transaction with a privileged user as follows:
+In some cases, you might need to bypass authorization checks while [consuming a local service](./services). For this, you can create a transaction with a privileged user as follows:
 
 ```js
 this.before('*', function (req) {
@@ -135,7 +135,7 @@ cds.serve ('CustomerService') .with (function(){
 ## Authentication Strategies {:#strategies}
 
 CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
-You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](../cds-env), for example:
+You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
 ```jsonc
 "cds": { // in package.json
@@ -386,7 +386,7 @@ module.exports = function custom_auth (req, res, next) {
 }
 ```
 
-[If you want to customize the user ID, please also have a look at this example.](../../middlewares#customization-of-requser){:.learn-more}
+[If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-requser){:.learn-more}
 
 ## XSUAA in Hybrid Setup {:#xsuaa-setup}
 
@@ -400,7 +400,7 @@ cf l -a <api-endpoint>
 ```
 If you don’t know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
 
-2. Go to the project you have created in [Getting started in a Nutshell](../../get-started/in-a-nutshell).
+2. Go to the project you have created in [Getting started in a Nutshell](../get-started/in-a-nutshell).
 
 3. Configure your app for XSUAA-based authentication if not done yet:
     ```sh
@@ -534,7 +534,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
     ```
     :::
 
-    [Learn more about `cds bind --exec`.](../../advanced/hybrid-testing#cds-bind-exec){:.learn-more}
+    [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#cds-bind-exec){:.learn-more}
 
     This starts an [approuter](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5001](http://localhost:5001) with the credentials for the XSUAA service that you have bound using `cds bind`.
 

@@ -16,7 +16,7 @@ API to execute [CQL](../cds/cql.md) statements on services accepting CQN queries
 
 ## Query Execution {: #queries}
 
-[CDS Query Language (CQL)](query-api) statements can be executed using the `run` method of any [service that accepts CQN queries](consumption-api.md#cdsservices):
+[CDS Query Language (CQL)](./query-api) statements can be executed using the `run` method of any [service that accepts CQN queries](consumption-api.md#cdsservices):
 
 ```java
 CqnService service = ...
@@ -94,7 +94,7 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA {: #querying-views}
 
-To query [views with parameters](..advanced/hana/#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
 
 Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
 
@@ -140,7 +140,7 @@ To lock data:
 3. Perform the processing and, if an exclusive lock is used, modify the data inside the same transaction.
 4. Commit (or roll back) the transaction, which releases the lock.
 
-To be able to query and lock the data until the transaction is completed, just call a [`lock()`](query-api/#write-lock) method and set an optional parameter `timeout`.
+To be able to query and lock the data until the transaction is completed, just call a [`lock()`](./query-api#write-lock) method and set an optional parameter `timeout`.
 
 In the following example, a book with `ID` 1 is selected and locked until the transaction is finished. Thus, one can avoid situations when other threads or clients are trying to modify the same data in the meantime:
 
@@ -167,7 +167,7 @@ The CQN API allows to manipulate data by executing insert, update, delete, or up
 
 #### Update
 
-The [update](query-api) operation can be executed as follows:
+The [update](./query-api) operation can be executed as follows:
 
 ```java
 Map<String, Object> book = new HashMap<>();
@@ -184,7 +184,7 @@ It’s possible to work with structured data as the insert, update, and delete o
 
 #### Cascading over Associations {: #cascading-over-associations}
 
-By default, *insert*, *update* and *delete* operations cascade over [compositions](..guides/domain-models/#compositions-capture-contained-in-relationships) only. For associations, this can be enabled using the `@cascade` annotation.
+By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-models/#compositions-capture-contained-in-relationships) only. For associations, this can be enabled using the `@cascade` annotation.
 ::: warning
 Cascading operations over associations isn't considered good practice and should be avoided.
 :::
@@ -212,12 +212,12 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by [foreign key constraints on the database](..guides/databases/#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](..guides/providing-services/#refs).
+The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases/#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services/#refs).
 :::
 
 #### Deep Insert / Upsert {: #deep-insert-upsert}
 
-[Insert](query-api/#insert) and [upsert](query-api/#upsert) statements for an entity have to include the keys and (optionally) data for the entity's composition targets. The targets are inserted or upserted along with the root entity.
+[Insert](./query-api#insert) and [upsert](./query-api#upsert) statements for an entity have to include the keys and (optionally) data for the entity's composition targets. The targets are inserted or upserted along with the root entity.
 
 ```java
 Iterable<Map<String, Object>> books;
@@ -232,7 +232,7 @@ Result result = service.run(upsert);
 
 #### Cascading Delete
 
-The [delete](query-api) operation is cascaded along the entity's compositions. All composition targets that are reachable from the (to be deleted) entity are deleted as well.
+The [delete](./query-api) operation is cascaded along the entity's compositions. All composition targets that are reachable from the (to be deleted) entity are deleted as well.
 
 The following example deletes the order with ID *1000* including all its items:
 
@@ -273,7 +273,7 @@ This configuration option will be removed with the next major release 2.x of CAP
 
 ### Resolvable Views and Projections {: #updatable-views}
 
-The CAP Java SDK aims to resolve statements on non-complex views and projections to their underlying entity. When delegating queries between Application Services and Remote Services, statements are resolved to the entity definitions of the targeted service. Using the Persistence Service, only modifying statements are resolved before executing database queries. This allows to execute [Insert](query-api#insert), [Upsert](query-api#upsert), [Update](query-api#update), and [Delete](query-api#delete) operations on database views. For [Select](query-api#select) statements database views are always leveraged, if available.
+The CAP Java SDK aims to resolve statements on non-complex views and projections to their underlying entity. When delegating queries between Application Services and Remote Services, statements are resolved to the entity definitions of the targeted service. Using the Persistence Service, only modifying statements are resolved before executing database queries. This allows to execute [Insert](./query-api#insert), [Upsert](./query-api#upsert), [Update](./query-api#update), and [Delete](./query-api#delete) operations on database views. For [Select](./query-api#select) statements database views are always leveraged, if available.
 
 Views and projections can be resolved if the following conditions are met:
 
@@ -283,7 +283,7 @@ Views and projections can be resolved if the following conditions are met:
 - The projection must not include calculated fields when running queries against a remote OData service.
 - The projection must not include [path expressions](../cds/cql#path-expressions) using to-many associations.
 
-For [Insert](query-api#insert) or [Update](query-api#update) operations, if the projection contains functions or expressions, these values are ignored. Path expressions navigating *to-one* associations, can be used in projections as shown by the `Header` view in the following example. The `Header` view includes the element `country` from the associated entity `Address`.
+For [Insert](./query-api#insert) or [Update](./query-api#update) operations, if the projection contains functions or expressions, these values are ignored. Path expressions navigating *to-one* associations, can be used in projections as shown by the `Header` view in the following example. The `Header` view includes the element `country` from the associated entity `Address`.
 
 ```cds
 // Supported
@@ -307,7 +307,7 @@ entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on O
 
 ### Using I/O Streams in Queries
 
-As described in section [Predefined Types](data/#predefined-types) it’s possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
+As described in section [Predefined Types](./data#predefined-types) it’s possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
 
 Entity `Books` has an additional annotated element `coverImage : LargeBinary`:
 
@@ -341,12 +341,12 @@ try (InputStream resource = getResource("IMAGE.PNG")) {
 
 ### Using Native SQL
 
-CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](advanced/#jdbctemplate) for more details.
+CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](./advanced#jdbctemplate) for more details.
 
 
 ## Query Result Processing {: #result}
 
-The result of a query is abstracted by the `Result` interface, which is an iterable of `Row`. A `Row` is a `Map<String, Object>` with additional convenience methods and extends [CdsData](data/#cds-data).
+The result of a query is abstracted by the `Result` interface, which is an iterable of `Row`. A `Row` is a `Map<String, Object>` with additional convenience methods and extends [CdsData](./data#cds-data).
 
 You can iterate over a `Result`:
 
@@ -445,12 +445,12 @@ Map<String, String> titleToDescription =
   result.streamOf(Book.class).collect(Collectors.toMap(Book::getTitle, Book::getDescription));
 ```
 
-For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](advanced#staticmodel).
+For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](./advanced#staticmodel).
 
 
 ### Using Entity References from Result Rows in CDS QL Statements {:#entity-refs}
 
-For result rows that contain all key values of an entity, you get an [entity reference](query-api#entity-refs) via the `ref()` method. This reference addresses the entity via the key values from the result row.
+For result rows that contain all key values of an entity, you get an [entity reference](./query-api#entity-refs) via the `ref()` method. This reference addresses the entity via the key values from the result row.
 
 ```java
 // SELECT from Author[101]

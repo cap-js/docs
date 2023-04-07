@@ -117,7 +117,7 @@ In order to plug in custom middlewares, you can override the complete list of mi
 Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
 :::
 
-[Learn more about the middlewares Default Order.](../middlewares#default-order){:.learn-more}
+[Learn more about the middlewares Default Order.](#default-order){:.learn-more}
 
 ### Customization of `req.user`
 

@@ -407,12 +407,12 @@ SELECT.from `Foo` .columns (foo => {
 SELECT.from `Foo` .columns `{ a, b as c }`
 ```
 
-3. [CQL column expressions](../cds/cql.md):
+3. [CQL column expressions](../cds/cql):
 ```js
 SELECT.from `Foo` .columns ('a', 'b as c')
 ```
 
-4. [CQN expression objects](../cdl/cqn.md):
+4. [CQN expression objects](../cds/cqn):
 ```js
 SELECT.from `Foo` .columns ({ref:['a']}, {ref:['b'], as:'c'})
 ```
@@ -552,7 +552,7 @@ SELECT.from ('Authors').alias('a')
 
 <div class='indent' markdown='1'>
 
-These methods allow to fill in corresponding  [CQL](../cds/cql.md) clauses with predicate  expressions, which can be specified in different variants:
+These methods allow to fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions, which can be specified in different variants:
 
 1. As tagged template string literals:
 ```sql

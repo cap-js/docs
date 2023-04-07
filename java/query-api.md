@@ -17,7 +17,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../cds/cql.md) statement builders allow to fluently construct [CQL](../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](consumption-api#cdsservices) or the [CDS Data Store](advanced#cdsdatastore).
+The [CDS Query Language (CQL)](../cds/cql) statement builders allow to fluently construct [CQL](../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](consumption-api#cdsservices) or the [CDS Data Store](./advanced#cdsdatastore).
 
 ## Concepts
 
@@ -36,7 +36,7 @@ SELECT from bookshop.Books { title } where ID = 101
 Select.from("bookshop.Books").columns("title").byId(101);
 ```
 
-Instead of using strings to refer to CDS entities and elements, you can also build statements using constants and interfaces [generated](advanced/#staticmodel) from the CDS model:
+Instead of using strings to refer to CDS entities and elements, you can also build statements using constants and interfaces [generated](./advanced#staticmodel) from the CDS model:
 
 ```java
 import static bookshop.Bookshop_.BOOKS;
@@ -555,7 +555,7 @@ integrity constraints on the database.
 {% else %}
 ::: tip
 Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
-[integrity constraints](//guides/databases/#db-constraints) on the database.
+[integrity constraints](../guides/databases/#db-constraints) on the database.
 :::
 
 {% endif %}
@@ -802,7 +802,7 @@ An `Insert` statement is created by the [Insert](https://javadoc.io/doc/com.sap.
 
 The target of the insert is specified by the `into` method.
 
-As in the following example, the target of the insert can be specified by a fully qualified entity name or by a [CdsEntity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsEntity.html) you obtain from the [Reflection API](cds-reflect):
+As in the following example, the target of the insert can be specified by a fully qualified entity name or by a [CdsEntity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsEntity.html) you obtain from the [Reflection API](../node.js/cds-reflect):
 
 ```java
 Map<String, Object> book = new HashMap<>();
@@ -884,7 +884,7 @@ entity OrderItems {
   ...
 }
 ```
-[Find this source also in **cap/samples**.](java-samples/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L24-L36){:.learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L24-L36){:.learn-more}
 
 
 Java:
@@ -973,7 +973,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert {: #deep-upsert}
 
-Upsert can operate on deep [document structures](data/#nested-structures-and-associations) modeled via [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.
@@ -996,7 +996,7 @@ Use the [Update](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds
 
 The target entity set of the update is specified by the [entity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entity-java.lang.String-) method.
 
-In the following example, the update target is an entity of the [static model](advanced#staticmodel). The update data is provided as a map to the [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data-java.util.Map-) method, using [accessor interfaces](data#typed-access) to construct the data in a typed way. The filter condition of the update is constructed from the key values in the update data:
+In the following example, the update target is an entity of the [static model](./advanced#staticmodel). The update data is provided as a map to the [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data-java.util.Map-) method, using [accessor interfaces](./data#typed-access) to construct the data in a typed way. The filter condition of the update is constructed from the key values in the update data:
 
 ```java
 import static bookshop.Bookshop_.BOOKS;
@@ -1027,7 +1027,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](//guides/domain-models/#compositions-capture-contained-in-relationships). Linked entities can have compositions to other entities, which become also part of the document structure.
 
-By default, only target entities of [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](data/#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
+By default, only target entities of [compositions](//guides/domain-models/#compositions-capture-contained-in-relationships) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 
@@ -1059,7 +1059,7 @@ Do a deep update `Update.entity(ORDERS).data(order)` with the following order da
              {"Id":4, "book":{"ID":400}, "quantity":4}]
 }
 ```
-> Constructed using `CdsData`, `CdsList` and the generated [accessor interfaces](data#typed-access).
+> Constructed using `CdsData`, `CdsList` and the generated [accessor interfaces](./data#typed-access).
 
 See the result of the updated *Order*:
 

@@ -26,7 +26,7 @@ Class `cds.EventContext` represents the invocation context of incoming request a
 
 The current instance's root context; `this.context === this` if this is a root context.
 
-[Learn more about root contexts in the **Transactions** guide](transactions){:.learn-more}
+[Learn more about root contexts in the **Transactions** guide](./cds-context-tx){:.learn-more}
 
 ::: danger
 IMPORTANT: this is not a stable API yet.
@@ -85,7 +85,7 @@ The first invocation on a request or any nested request calls and returns the re
 
 The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same timestamp value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){:.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){:.learn-more}
 [Learn more on `Date` in the MDN docs.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date){:.learn-more}
 </div>
 
@@ -132,7 +132,7 @@ db.before('COMMIT', function(req) {
 })
 ```
 
-To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](transactions).
+To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](./cds-context-tx).
 ::: warning
 Errors thrown by the registered handlers are treated the same as any other error thrown during request processing. Hence, if you are doing something that should not result in an error being returned to the client, make sure to either start an asynchronous workflow via `cds.spawn()` or to wrap your code in a `try...catch` block.
 :::
@@ -143,7 +143,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 ## Class cds.**Event**  {: #cds-event}
 [`cds.Event`]: #cds-event
 
-Class `cds.Event` represents event messages in [asynchronous messaging](messaging), providing access to the [event name](#req-event), [target](#req-target), [payload data](#req-data), and [headers](#req-headers). It also serves as **the base class for [`cds.Request`](requests)** and hence for all synchronous interaction.
+Class `cds.Event` represents event messages in [asynchronous messaging](messaging), providing access to the [event name](#req-event), [target](#req-target), [payload data](#req-data), and [headers](#req-headers). It also serves as **the base class for [`cds.Request`](#cds-request)** and hence for all synchronous interaction.
 
 
 

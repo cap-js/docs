@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  Learn details about using messaging services and outbox for asynchronous communications. 
+  Learn details about using messaging services and outbox for asynchronous communications.
 redirect_from: node.js/outbox
 layout: node-js
 status: released
@@ -87,7 +87,7 @@ module.exports = async srv => {
 You can specify topics to modeled events using the `@topic` annotation.
 ::: tip
 If no annotation is provided, the topic will be set to the fully qualified event name.
-::: 
+:::
 
 Example:
 
@@ -128,7 +128,7 @@ this.after(['CREATE', 'UPDATE', 'DELETE'], 'Reviews', async (_, req) => {
 ::: tip
 The messages are sent once the transaction is successful.
 Per default, an in-memory outbox is used.See [Messaging - Outbox](#transactional-outbox) for more information.
-::: 
+:::
 
 ## Receiving Events
 
@@ -219,7 +219,7 @@ Example:
 
 ### Topic Manipulations
 
-#### [SAP Message Queuing](./messaging#sap-message-queuing) {: .impl.internal}
+#### [SAP Message Queuing](../guides/messaging/#sap-message-queuing) {: .impl.internal}
 
 Dots are replaced by slashes.
 
@@ -227,7 +227,7 @@ Example:
 
 `my.custom.topic` is changed to `my/custom/topic`.
 
-#### [SAP Event Mesh](./messaging#sap-event-mesh)
+#### [SAP Event Mesh](../guides/messaging/#sap-event-mesh)
 
 If you specify your format to be `cloudevents`, the following default prefixes are set:
 
@@ -264,7 +264,7 @@ For local environments, use [`cds bind`](../advanced/hybrid-testing#cds-bind-usa
 
 ::: tip
 For local testing use [`kind`: `enterprise-messaging-shared`](#event-mesh-shared) to avoid the complexity of HTTP-based messaging.
-::: 
+:::
 
 ### SAP Event Mesh (Shared) {: #event-mesh-shared}
 
@@ -304,16 +304,16 @@ Example:
 
 ::: warning _❗ Warning_{:.warning-title}
 When using `enterprise-messaging-shared` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
-::: 
+:::
 
 ::: tip
 You need to install the latest version of the NPM package `@sap/xb-msg-amqp-v100`.
-::: 
+:::
 
 ::: tip
 For optimal performance, you should set the correct access type.
 To make sure your server is not flooded with messages, you should set the incoming session window.
-::: 
+:::
 
 ### SAP Event Mesh
 
@@ -400,7 +400,7 @@ This will not work in the `dev` plan of SAP Event Mesh.
 
 ::: warning
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
-::: 
+:::
 
 #### Multitenancy {: .impl.internal}
 
@@ -485,7 +485,7 @@ In environments like Cloud Foundry, it takes some time until the route of the ap
 
 ::: tip
 If you want to receive messages on your local computer, you need to provide an app URI, which is accessible by SAP Event Mesh through the environment variable `VCAP_APPLICATION.application_uris[0]`. You can achieve this by creating a tunnel from the public internet to the respective port of your local machine.
-::: 
+:::
 
 
 
@@ -513,7 +513,7 @@ You need to install the latest version of the NPM package `@sap/xb-msg-amqp-v100
 ### Redis PubSub (beta)
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-::: 
+:::
 
 `kind`: `redis-messaging`
 
@@ -524,7 +524,7 @@ There are no queues:
 - All instances receive the messages independently.
 ::: tip
 You need to install the latest version of the NPM package `redis`.
-::: 
+:::
 
 
 ### File Based
@@ -623,8 +623,8 @@ cds.context.on('succeeded', () => this.emit(msg))
 ```
 ::: warning
 The message is lost if its emit fails, there is no retry mechanism.
-The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](#sap-event-mesh) if the used topic is forbidden. 
-::: 
+The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
+:::
 
 {% if jekyll.environment != "external" %}
 If you've globally enabled the persistent outbox, you can enforce a deferrable service to use the in-memory outbox. Set the outbox configuration to kind `in-memory-outbox`:
@@ -679,10 +679,10 @@ There is only one active message processor per service, tenant and app instance,
 duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the
 message entry.
 ::: tip
-Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](sap-event-mesh) if the used topic is forbidden.
+Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 The respective message is then updated and the `attempts` field is set to `maxAttempts` to prevent further processing.
-[Programming errors](../best-practices#error-types) crash the server instance and must be fixed.
-::: 
+[Programming errors](./best-practices#error-types) crash the server instance and must be fixed.
+:::
 
 
 After adding the `outbox` service to your _package.json_, your database model is automatically extended by the entity `cds.outbox.Messages`, as follows:
@@ -711,7 +711,7 @@ for example to expose it in a service.
 - Make sure to redeploy your model.
 - If the app crashes, another emit for the respective tenant and service is necessary to restart.
 - The user id is stored to recreate the correct context.
-::: 
+:::
 
 To overwrite the outbox configuration for a particular service, you can specify the `outbox` option.
 

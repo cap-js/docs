@@ -35,10 +35,10 @@ After adding the dependency mentioned above, both libraries integrate seamlessly
 CAP ensures to automatically propagate tenant and user information from the _Request Context_ to the Cloud SDK.
 
 CAP's clear recommendation is to use _Remote Services_ over directly leveraging the SAP Cloud SDK.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../guides/providing-services/#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 ::: tip
-To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services).
-::: 
+To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services/).
+:::
 
 ## Configuring Remote Services
 
@@ -84,8 +84,8 @@ cds:
 ```
 ::: tip
 You can use the `cds import` command to generate a CDS service definition from an EDMX API specification.
-To learn more about this, have a look at section [Importing Service Definitions](../guides/using-services#import-api).
-::: 
+To learn more about this, have a look at section [Importing Service Definitions](../guides/using-services/#import-api).
+:::
 
 ### Configuring the Destination
 
@@ -121,9 +121,9 @@ Given that this destination holds the URL `https://s4.sap.com`, the resulting se
 
 The `type` property defines the protocol used by the remote API. The CAP Java SDK currently supports `odata-v4` (default) or `odata-v2`.
 ::: warning
-When using SAP S/4HANA On-Premise via Cloud Connector with a non-default sap-client, you might observe 401 Unauthorized errors. 
+When using SAP S/4HANA On-Premise via Cloud Connector with a non-default sap-client, you might observe 401 Unauthorized errors.
 This is a known issue and can be avoided by adding an additional property `URL.headers.sap-client` with the value of the sap-client to the destination in the SAP BTP Destination Service's configuration.
-::: 
+:::
 
 #### Configuring Destination Strategies
 
@@ -174,7 +174,7 @@ public class DestinationConfiguration implements EventHandler {
 }
 ```
 
-[Find out how to register destinations for different authentication types](#register-destinations){:.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){:.learn-more}
+[Find out how to register destinations for different authentication types](#register-destinations){:.learn-more} [Learn more about using destinations](../guides/using-services/#using-destinations){:.learn-more}
 
 Note, that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
@@ -241,15 +241,15 @@ ABusinessPartnerAddress address = bupa.run(select)
 ```
 ::: tip
 To learn more about how to build and run CQN queries, see sections [Building CQN Queries](query-api) and [Executing CQN Queries](query-execution).
-::: 
+:::
 
 Keep in mind, that _Remote Services_ are simply clients to remote APIs.
 CAP doesn't automatically forward CQN queries to these services. Developers need to explicitly call and use these _Remote Services_ in their code.
 However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](consumption-api#application-services).
 ::: warning
 In case data from _Remote Services_ should be combined with data from the database custom coding is required.
-Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and-extend) for more details.
-::: 
+Refer to the [Integrate and Extend guide](../guides/using-services/#integrate-and-extend) for more details.
+:::
 
 ## Code Examples
 

@@ -15,8 +15,8 @@ status: released
 <!--- {% include links-for-node.md %} -->
 <!--- {% include _toc levels="2,3" %} -->
 
-[def]: /cds/csn#definitions
-[defs]: /cds/csn#definitions
+[def]: ../cds/csn#definitions
+[defs]: ../cds/csn#definitions
 
 
 
@@ -355,18 +355,18 @@ The entity's declared elements as [documented in the CSN Specification](../cds/c
 
 ### <span style="color:grey">entity</span>.keys  <i>  &#8674; {[defs]} </i> {:#entity-keys}
 
-A getter returning a cached object with an entity definition's declared primary keys by name. The returned object adheres to the specification of [CSN Definitions](defs).
+A getter returning a cached object with an entity definition's declared primary keys by name. The returned object adheres to the specification of [CSN Definitions][defs].
 {: .indent}
 
 
 ### <span style="color:grey">entity</span>.associations  <i>  &#8674; {[defs]} </i> {:#entity-associations}
 
-A getter returning a cached object of all Associations from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions](defs).
+A getter returning a cached object of all Associations from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
 {: .indent}
 
 ### <span style="color:grey">entity</span>.compositions  <i>  &#8674; {[defs]} </i> {:#entity-compositions}
 
-A getter returning a cached object of all Compositions from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions](defs).
+A getter returning a cached object of all Compositions from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
 {: .indent}
 
 
@@ -375,7 +375,7 @@ A getter returning a cached object of all Compositions from an entity definition
 Returns the linked definition's fully qualified name + `'.texts'` to easily refer to the texts entity containing translations for `localized` elements, if any.
 {: .indent}
 
-[Learn more about **Localized Data**](../guides/localized-data){:.learn-more}
+[Learn more about **Localized Data**](../guides/localized-data/){:.learn-more}
 {: .indent}
 
 

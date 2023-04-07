@@ -156,7 +156,7 @@ For example, you could do this in a project-level `.npmrc` file that you commit 
 
 To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet) and [`csurf`](https://www.npmjs.com/package/csurf).
 
-However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](../cds-serve#cds-server).
+However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-serve#cds-server).
 
 Example:
 
@@ -214,7 +214,7 @@ There’s no need to program or to configure anything in additional. In case the
 
 #### Using App Router
 
-The _App Router_ is configured to require a _CSRF_ token by default for all protected routes and all HTTP requests methods except _HEAD_ and _GET_. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../../guides/deployment/to-cf#add-app-router), endpoints are CSRF protected.
+The _App Router_ is configured to require a _CSRF_ token by default for all protected routes and all HTTP requests methods except _HEAD_ and _GET_. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), endpoints are CSRF protected.
 
 [Learn more about CSRF protection with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/c19f165084d742e096c5d1625cecd2d4.html?q=csrf#loioc19f165084d742e096c5d1625cecd2d4__section_xj4_pcg_2z){:.learn-more}
 
@@ -272,7 +272,7 @@ CORS should either be configured in the _App Router_ or in the backend, but not 
 
 #### Using App Router
 
-The _App Router_ has full support for CORS. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../../guides/deployment/to-cf#add-app-router), CORS can be configured in the _App Router_ configuration.
+The _App Router_ has full support for CORS. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), CORS can be configured in the _App Router_ configuration.
 
 [Learn more about CORS handling with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/ba527058dc4d423a9e0a69ecc67f4593.html?q=allowedOrigin#loioba527058dc4d423a9e0a69ecc67f4593__section_nt3_t4k_sz){:.learn-more}
 
@@ -393,7 +393,7 @@ Internally the [timestamp](events#req-timestamp) is a Javascript `Date` object, 
 
 ## Custom Streaming (beta)
 
-When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
+When using [Media Data](../guides/media-data/) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
 
 Example:

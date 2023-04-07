@@ -8,7 +8,7 @@ status: released
 
 # Application Service Providers
 
-{{ $frontmatter.synopsis }} 
+{{ $frontmatter.synopsis }}
 
 
 ## cds.**ApplicationService** <i> class </i> {: #cds-app-service}
@@ -19,7 +19,7 @@ status: released
 
 ### Generic Errors
 
-You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren’t model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../../guides/i18n#where-to-place-text-bundles) for more details.
+You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren’t model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../guides/i18n/#where-to-place-text-bundles) for more details.
 
 Example:
 
@@ -39,7 +39,7 @@ MULTIPLE_ERRORS=Es sind mehrere Fehler aufgetreten.
 
 ### Custom Errors
 
-You can define custom texts (incl. placeholders) and use them in the message API [`req.reject/error/info/warn(...)`](../events#cds-request). The respective text key is provided instead of the string message, and optional array of placeholder values are passed as the last parameter. Placeholder values can again be text keys in order to enable translatable text fragments.
+You can define custom texts (incl. placeholders) and use them in the message API [`req.reject/error/info/warn(...)`](./events#cds-request). The respective text key is provided instead of the string message, and optional array of placeholder values are passed as the last parameter. Placeholder values can again be text keys in order to enable translatable text fragments.
 
 Example:
 
@@ -94,13 +94,13 @@ Find the current list of generic runtime texts:
 431=Request Header Fields Too Large
 451=Unavailable For Legal Reasons
 500=Internal Server Error
-501=The server does not support the functionality required to 
+501=The server does not support the functionality required to
 fulfill the request
 502=Bad Gateway
 503=Service Unavailable
 504=Gateway Timeout
 
-MULTIPLE_ERRORS=Multiple errors occurred. See the details 
+MULTIPLE_ERRORS=Multiple errors occurred. See the details
 for more information.
 ```
 

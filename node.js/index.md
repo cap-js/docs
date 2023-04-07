@@ -17,16 +17,16 @@ Reference Documentation
 As an application developer you'd primarily use the Node.js APIs documented herein to implement **domain-specific custom logic** along these lines:
 
 1. Define services in CDS &rarr; see [Cookbook > Providing & Consuming Services](../guides/providing-services/#defining-services)
-2. Add service implementations &rarr; [`cds.Service` > Implementations](services/#srv-impls)
-3. Register custom event handlers in which &rarr; [`srv.on`/`before`/`after`](services/#event-handlers)
-4. Read/write data from other services in which &rarr; [`srv.run`](services/#srv-run) + [`cds.ql`](cds-ql)
-5. ..., i.e. from your primary database &rarr; [`cds.DatabaseService`](databases/)
-5. ..., i.e. from other connected services &rarr; [`cds.RemoteService`](remote-service/)
-6. Emit and handle asynchronous events &rarr; [`cds.MessagingService`](messaging/)
+2. Add service implementations &rarr; [`cds.Service` > Implementations](./services#srv-impls)
+3. Register custom event handlers in which &rarr; [`srv.on`/`before`/`after`](./services#event-handlers)
+4. Read/write data from other services in which &rarr; [`srv.run`](./services#srv-run) + [`cds.ql`](./cds-ql)
+5. ..., i.e. from your primary database &rarr; [`cds.DatabaseService`](./databases)
+5. ..., i.e. from other connected services &rarr; [`cds.RemoteService`](./remote-services)
+6. Emit and handle asynchronous events &rarr; [`cds.MessagingService`](./messaging)
 
 All the rest is largely handled by the CAP runtime framework behind the scenes.
-This especially applies to bootstrapping the [`cds.server`](cds-server) and the generic features
-provided through [`cds.ApplicationService`](app-services).
+This especially applies to bootstrapping the [`cds.server`](./cds-serve) and the generic features
+provided through [`cds.ApplicationService`](./app-services).
 
 
 <!-- ## Content {:#toc}

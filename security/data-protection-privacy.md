@@ -32,7 +32,7 @@ Connect an adequate logging service to meet compliance requirements such as [SAP
 - Messages temporarily written to transaction outbox might contain personal data. The entries are mandatory to operate the system.
 If necessary, applications can process these messages by standard CAP functionality (CDS model `@sap/cds/srv/outbox`).
 
-- Be aware that personal data might be added automatically when using the [managed](../guides/providing-services#managed-data) aspect.
+- Be aware that personal data might be added automatically when using the [managed](../guides/providing-services/#managed-data) aspect.
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 

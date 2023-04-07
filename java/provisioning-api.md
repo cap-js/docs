@@ -23,7 +23,7 @@ Event handlers enable you to add custom business logic to your application by ei
 Event handlers are a powerful means to extend CAP. Did you know, that most of the built-in features provided by CAP are implemented using event handlers?
 :::
 
-Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](services/cqn-based-services#cdsservices).
+Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](./consumption-api#cdsservices).
 These events are most typically triggered, when an HTTP-based protocol adapter (for example OData V4) executes a CQN statement on an Application Service to fulfill the HTTP request.
 The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers]) that handle CRUD operations out-of-the-box and implement the handling of many CDS annotations.
 Applications most commonly use event handlers on CRUD events to _extend_ the event processing by using the [`Before`](#before) and [`After`](#after) phase.
@@ -128,7 +128,7 @@ The `as` method makes use of Java Proxies behind the scenes. Therefore an interf
 Use these event-specific type-safe Event Context interfaces whenever possible.
 :::
 
-For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin](development#cds-maven-plugin) can automatically generate Event Context objects, which provide type-safe access to the action or function parameters and allow to set the return values.
+For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) can automatically generate Event Context objects, which provide type-safe access to the action or function parameters and allow to set the return values.
 
 ### Completing the Event Processing {: #eventcompletion}
 
@@ -170,7 +170,7 @@ public interface MyEventContext extends EventContext {
 ```
 
 ::: tip
-For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin](development#cds-maven-plugin) can automatically generate Event Context objects, which provide type-safe access to the action or function parameters and allow to set the return values.
+For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) can automatically generate Event Context objects, which provide type-safe access to the action or function parameters and allow to set the return values.
 :::
 
 
@@ -313,7 +313,7 @@ public void changeBooks(List<CdsData> data) { }
 ```
 > The `CdsData` interface extends `Map<String, Object>` with some additional JSON serialization capabilities and therefore provides a generic data access capability.
 
-The CAP Java SDK Maven Plugin can generate data accessor interfaces for entities defined in the CDS model. These interfaces allow for a [typed access]({{java}}/data#typed-access) to data and can be used in arguments as well:
+The CAP Java SDK Maven Plugin can generate data accessor interfaces for entities defined in the CDS model. These interfaces allow for a [typed access](./data#typed-access) to data and can be used in arguments as well:
 
 ```java
 @Before(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE }, entity = Books_.CDS_NAME)

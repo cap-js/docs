@@ -58,6 +58,7 @@ pre.log {
   color: #00ffffe0;
   padding: 20px 25px;
   border-radius: 14px;
+  overflow: auto;
 
   /* @media screen and (max-width: 415px) {
     font-size: 55%;

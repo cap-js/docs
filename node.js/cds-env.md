@@ -321,7 +321,7 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
     For each file and folder, a new property is added to the configuration with its name. For a file the property value is the string content of the file. But if a file contains a parsable JSON string starting with `[` or `{` character, it is parsed and added as a substructure.
     For a directory an object is added and the algorithm continues there.
 
-    ```
+    ```yaml
     /etc/secrets/cds/requires/uaa/kind: xsuaa
     /etc/secrets/cds/requires/uaa/credentials/clientid: capapp
     /etc/secrets/cds/requires/uaa/credentials/clientsecret: dlfed4XYZ

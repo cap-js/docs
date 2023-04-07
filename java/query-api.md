@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-API to fluently build [CQL](../../cds/cql) statements in Java
+API to fluently build [CQL](../cds/cql) statements in Java
 
 
 ## Introduction

@@ -146,7 +146,7 @@ Beside the common Spring features such as dependency injection and a sophisticat
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).
 * A various number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in Spring application context such as technical services, the `CdsModel` or the `UserInfo` in current request scope.
-* *Automatic* configuration of XSUAA, IAS and [mock user authentication](../security/#mock-users) by means of Spring security configuration.
+* *Automatic* configuration of XSUAA, IAS and [mock user authentication](../security#mock-users) by means of Spring security configuration.
 * Integration of `cds`-property section into Spring properties. See section [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config) in the Spring Boot documentation for more details.
 * [cds actuator](../observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
 * [DB health check indicator](../observability#spring-health-checks) which also applies to tenant-aware DB connections.

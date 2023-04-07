@@ -20,29 +20,29 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Predefined Types
 
-The [predefined CDS types](../cds/types/) are mapped to Java types and as follows:
+The [predefined CDS types](../cds/types) are mapped to Java types and as follows:
 
-| CDS Type | Java Type | Remark |
-| --- | --- | ---  |
-| `cds.UUID` | `java.lang.String` | |
-| `cds.Boolean` | `java.lang.Boolean` | |
-| `cds.UInt8` | `java.lang.Short` | |
-| `cds.Int16` | `java.lang.Short` | |
-| `cds.Int32` | `java.lang.Integer` | |
-| `cds.Integer` | `java.lang.Integer` | |
-| `cds.Int64` | `java.lang.Long` | |
-| `cds.Integer64` | `java.lang.Long` | |
-| `cds.Decimal` | `java.math.BigDecimal` | |
-| `cds.DecimalFloat` | `java.math.BigDecimal` | deprecated |
-| `cds.Double` | `java.lang.Double` | |
-| `cds.Date` | `java.time.LocalDate` | date without a time-zone (year-month-day) |
-| `cds.Time` | `java.time.LocalTime` | time without a time-zone (hour-minute-second) |
-| `cds.DateTime` | `java.time.Instant` | instant on the time-line with _sec_ precision |
-| `cds.Timestamp` | `java.time.Instant` | instant on the time-line with _µs_ precision |
-| `cds.String` | `java.lang.String` |  |
-| `cds.LargeString` | `java.lang.String` | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType` |
-| `cds.Binary` | `byte[]` |  |
-| `cds.LargeBinary` | `byte[]` | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| CDS Type           | Java Type              | Remark                                                                   |
+|--------------------|------------------------|--------------------------------------------------------------------------|
+| `cds.UUID`         | `java.lang.String`     |                                                                          |
+| `cds.Boolean`      | `java.lang.Boolean`    |                                                                          |
+| `cds.UInt8`        | `java.lang.Short`      |                                                                          |
+| `cds.Int16`        | `java.lang.Short`      |                                                                          |
+| `cds.Int32`        | `java.lang.Integer`    |                                                                          |
+| `cds.Integer`      | `java.lang.Integer`    |                                                                          |
+| `cds.Int64`        | `java.lang.Long`       |                                                                          |
+| `cds.Integer64`    | `java.lang.Long`       |                                                                          |
+| `cds.Decimal`      | `java.math.BigDecimal` |                                                                          |
+| `cds.DecimalFloat` | `java.math.BigDecimal` | deprecated                                                               |
+| `cds.Double`       | `java.lang.Double`     |                                                                          |
+| `cds.Date`         | `java.time.LocalDate`  | date without a time-zone (year-month-day)                                |
+| `cds.Time`         | `java.time.LocalTime`  | time without a time-zone (hour-minute-second)                            |
+| `cds.DateTime`     | `java.time.Instant`    | instant on the time-line with _sec_ precision                            |
+| `cds.Timestamp`    | `java.time.Instant`    | instant on the time-line with _µs_ precision                             |
+| `cds.String`       | `java.lang.String`     |                                                                          |
+| `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
+| `cds.Binary`       | `byte[]`               |                                                                          |
+| `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
 
 ### SAP HANA-Specific Data Types
 
@@ -61,13 +61,13 @@ To facilitate using legacy CDS models, the following [SAP HANA-specific data typ
 | `hana.BINARY` | `byte[]` |  |
 
 
-> <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](../persistence-services/#database-support) for more details on database support and limitations.
+> <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./persistence-services#database-support) for more details on database support and limitations.
 
 ::: warning
 The framework isn't responsible for closing the stream when writing to the database. You decide when the stream is to be closed. If you forget to close the stream, the open stream can lead to a memory leak.
 :::
 
-These types are used for the values of CDS elements with primitive type. In the [Model Reflection API](../reflection-api), they're represented by the enum [CdsBaseType](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsBaseType.html).
+These types are used for the values of CDS elements with primitive type. In the [Model Reflection API](./reflection-api), they're represented by the enum [CdsBaseType](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsBaseType.html).
 
 ## Structured Data
 
@@ -218,7 +218,7 @@ In CAP Java data is represented in maps. To simplify data access in custom code,
 
 ![accessor.drawio](./assets/accessor.drawio.svg){:.adapt}
 
-The `Row`s of a [query result](../query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
+The `Row`s of a [query result](./query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
 ```java
 Map<String, Object> map = new HashMap<>();
@@ -282,7 +282,7 @@ This section shows examples using structured data in [CQL](../cds/cql) statement
 
 ### Deep Inserts through Compositions and Cascading Associations
 
-*Deep Inserts* create new target entities along compositions and associations that [cascade](../query-execution#cascading-over-associations) the insert operation.
+*Deep Inserts* create new target entities along compositions and associations that [cascade](./query-execution#cascading-over-associations) the insert operation.
 In this example an order with a header in status 'open' is created via a deep insert along the `header` composition.
 
 ```java
@@ -334,7 +334,7 @@ Access child entities of a composition using a path expression from the parent e
 
 ### Select Managed Associations
 
-To select the mapping elements of a managed association, simply add the [association](../query-api/#managed-associations-on-the-select-list) to the select list:
+To select the mapping elements of a managed association, simply add the [association](./query-api/#managed-associations-on-the-select-list) to the select list:
 
 ```java
 CqnSelect select = Select.from(BOOKS).byId(123)
@@ -350,7 +350,7 @@ Don't select from and rely on compiler generated foreign key elements of managed
 
 ### Select with Paths in Matching
 
-Paths are also supported in [matching](../query-api/#using-matching), for example, to select all *orders* that are in status *canceled*:
+Paths are also supported in [matching](./query-api/#using-matching), for example, to select all *orders* that are in status *canceled*:
 
 ```java
 Map<String, Object> order = new HashMap<>();
@@ -418,7 +418,7 @@ For all structured types of the CDS model, accessor interfaces can be generated 
 
 #### Renaming Elements in Java
 
-Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](../advanced/#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn’t affected by this annotation.
+Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced/#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn’t affected by this annotation.
 
 See the following example:
 
@@ -443,7 +443,7 @@ interface Equity {
 
 In CDS models it is allowed to extend a definition (for example, of an entity) with one or more named [aspects](../cds/cdl#aspects). The aspect allows to define elements or annotations that are common to all extending definitions in one place.
 
-This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl/#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
+This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
 The `@cds.java.extends` annotation can contain an array of string values, each of which denoting the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
 
 ```cds
@@ -681,7 +681,7 @@ processor.addGenerator(
 
 ## Media Type Processing {: #mediatypeprocessing}
 
-The data for [media type entity properties](../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](../provisioning-api#pojoarguments). See also [Structured Data](data#structured-data) and [Typed Access](data#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](data#predefined-types)).
+The data for [media type entity properties](../guides/media-data/) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./provisioning-api#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

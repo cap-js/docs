@@ -57,7 +57,7 @@ In case you're using the internal [Artifactory repository](https://int.repositor
 :::
 {% endif %}
 
-Further details about creating a new CAP Java project and the project structure itself can be found in section [Starting a New Project](getting-started/#new-project).
+Further details about creating a new CAP Java project and the project structure itself can be found in section [Starting a New Project](./getting-started#new-project).
 
 By default, the Java service module goes to the folder `srv`. If you want to use a different service module folder, you have to adapt it manually.
 Rename the service module folder to your preferred name and adjust also the `<modules>` section in the file `pom.xml` in your projects root folder:
@@ -347,7 +347,7 @@ Note, that to validate incoming data for *single* requests, we recommend to use 
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization/). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 
@@ -547,7 +547,7 @@ cdsDataStore.execute(query);
 
 ### CDS OData V2 Adapter {: #v2adapter}
 
-When you generate a new project using the [CAP Java Maven Archetype](./getting-started/#new-project), OData V4 is enabled by default.
+When you generate a new project using the [CAP Java Maven Archetype](./getting-started#new-project), OData V4 is enabled by default.
 
 To be able to migrate the backend from the *Classic Java Runtime* without making changes in your frontend code, you can activate the *OData V2 Adapter* as follows:
 
@@ -658,11 +658,11 @@ After rebuilding and restarting your application, your Application Services are 
 
 ### Multitenancy {: #mt .impl.internal}
 
-This guide won’t explain how to enable multitenancy for your application, but point out the configuration settings that have changed when coming from the classic Java Runtime. If you’re looking for a general introduction how to enable multitenancy for your application, see [Java > Multitenancy](multitenancy/).
+This guide won’t explain how to enable multitenancy for your application, but point out the configuration settings that have changed when coming from the classic Java Runtime. If you’re looking for a general introduction how to enable multitenancy for your application, see [Java > Multitenancy](./multitenancy).
 
 #### Maven Dependencies
 
-The Maven dependencies are described in section [Multitenancy](multitenancy/).
+The Maven dependencies are described in section [Multitenancy](./multitenancy).
 
 #### REST Endpoints
 
@@ -673,7 +673,7 @@ The REST endpoints that you configure for the `saas-registry` service instance h
 |`/callback/v1.0/dependencies`|`/mt_lib/callback/v1.0/dependencies`|`/mt/v1.0/subscriptions/dependencies`|
 |`/callback/v1.0/tenants/{tenantId}`|`/mt_lib/callback/v1.0/tenants/{tenantId}`|`/mt/v1.0/subscriptions/tenants/{tenantId}`|
 
-It’s also possible to change these URLs through a property as described in section [Multitenancy](multitenancy/).
+It’s also possible to change these URLs through a property as described in section [Multitenancy](./multitenancy).
 
 Also the endpoints to trigger a database deployment have changed:
 
@@ -683,7 +683,7 @@ Also the endpoints to trigger a database deployment have changed:
 |n.a|`/mt_lib/v1.0/init_db_async`|`/mt/v1.0/subscriptions/deploy/async`|
 |n.a|`/mt_lib/v1.0/init_db_async/status/{jobId}`|`/mt/v1.0/subscriptions/deploy/async/status/{jobId}`|
 
-The CAP Java SDK provides a main class that can be used to trigger database deployments. This is also described in section [Multitenancy](multitenancy/).
+The CAP Java SDK provides a main class that can be used to trigger database deployments. This is also described in section [Multitenancy](./multitenancy).
 
 #### Parameters
 
@@ -720,7 +720,7 @@ This parameter is configured through an environment variable in the _mta.yaml_.
 
 #### Scope Names
 
-The scope names can also be configured as described in section [Multitenancy](multitenancy/). The scope names are configured in the UAA service instance. This is either done in the _mta.yaml_ directly or in the security JSON.
+The scope names can also be configured as described in section [Multitenancy](./multitenancy). The scope names are configured in the UAA service instance. This is either done in the _mta.yaml_ directly or in the security JSON.
 
 |Classic Java Runtime|Classic Java Spring Boot|Classic Java Spring BootNew CAP Java SDK|
 |-|-|-|
@@ -740,7 +740,7 @@ The user exits `DependencyExit`, `SubscribeExit`, `UnSubscribeExit`, and `InitDb
 
 #### Tenant Overwrite
 
-If you need to overwrite the default tenant, you can’t use the class `TenantOverwrite` anymore. Instead, you must use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API as described in section [Request Contexts](../request-contexts).
+If you need to overwrite the default tenant, you can’t use the class `TenantOverwrite` anymore. Instead, you must use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API as described in section [Request Contexts](./request-contexts).
 
 
 {% endif %}
@@ -827,7 +827,7 @@ The following deprecated methods are removed:
 | [...services.messages.Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html) | [target(prefix, entity, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html#target-java.lang.String-java.lang.String-java.util.function.Function-) | [target(start, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html#target-java.lang.String-java.util.function.Function-)|
 | [...services.messages.MessageTarget](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html) | [getPrefix()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getPrefix--) | [getParameter()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/MessageTarget.html#getParameter--) |
 | | [getEntity()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getEntity--), [getPath()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getPath--)| [getRef()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/MessageTarget.html#getRef--)  |
-| [...services.persistence.PersistenceService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html) | [getCdsDataStore()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html#getCdsDataStore--) | Use [PersistenceService](javadoc-api-/persistence/PersistenceService.html#getCdsDataStore--) |
+| [...services.persistence.PersistenceService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html) | [getCdsDataStore()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html#getCdsDataStore--) | Use [PersistenceService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html#getCdsDataStore--) |
 |[...services.runtime.CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html) |[runInChangeSetContext(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Consumer-) | [changeSetContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#changeSetContext--).[run(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/ChangeSetContextRunner.html#run-java.util.function.Consumer-) |
 | |[runInChangeSetContext(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Function-) | [changeSetContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#changeSetContext--).[run(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/ChangeSetContextRunner.html#run-java.util.function.Function-) |
 | |[runInRequestContext(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-) | [requestContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#requestContext--).[run(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-) |
@@ -865,7 +865,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Overview of Removed Annotations
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../../guides/providing-services#using-cdssearch-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cdssearch-annotation).
 
 ### Changed behaviour
 
@@ -888,7 +888,7 @@ The following table summarizes the behaviour of associations between different d
 | --- | --- | --- | --- |
 | active<sup>1</sup> | composition | active | same document |
 | inactive<sup>2</sup> | composition | inactive | same document |
-| active | [backlink](../../cds/cdl#to-many-associations) association | active | same document |
+| active | [backlink](../cds/cdl#to-many-associations) association | active | same document |
 | inactive | backlink association | inactive | same document |
 | active | association | active | independent documents |
 | inactive | association | active | independent documents |

@@ -102,7 +102,7 @@ You can localize these strings, by putting them into property files and passing 
 When running your application on Spring, the CAP Java SDK integrates with [Spring's support for handling text resource bundles](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization). This handling by default expects translated texts in a `messages.properties` file under `src/main/resources`.
 
 The texts defined in the resource bundles can be formatted based on the syntax defined by `java.text.MessageFormat`.
-When the message or exception text is sent to the client it’s localized using the client's locale, as described [here](../guides/i18n#user-locale).
+When the message or exception text is sent to the client it’s localized using the client's locale, as described [here](../guides/i18n/#user-locale).
 
 `messages.properties`
 ```
@@ -329,7 +329,7 @@ An [exception](#exceptions) thrown in an event handler will stop the processing 
 
 You can add event handlers using the `@After` phase for the `ERROR_RESPONSE` event to augment or change the error responses:
 - Method `getException()` of [ErrorResponseEventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ErrorResponseEventContext.html) returns the exception that triggered the event.
-- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](../provisioning-api#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
+- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](./provisioning-api#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
 
 You can use the exception and the list of events contexts (with service, entity and event name) to selectively apply your custom error response handling. Some exceptions, however, may not be associated with a context and the list of contexts will be empty for them.
 
@@ -357,7 +357,7 @@ public class SimpleExceptionHandler implements EventHandler {
 }
 ```
 
-The second example shows how to override validation messages triggered by the annotation `@assert.range` for a certain entity. The exception [triggered by CAP](../indicating-errors#throwing-a-serviceexception-from-messages) contains a reference to the event context that can be used to identify the target entity. The target of each message can be used to identify the affected field, but keep in mind that targets are always relative to the root entity of the request. That means in case of deep inserts or updates, you need to match not only the entity that has annotations but also the parent entities.
+The second example shows how to override validation messages triggered by the annotation `@assert.range` for a certain entity. The exception [triggered by CAP](#throwing-a-serviceexception-from-messages) contains a reference to the event context that can be used to identify the target entity. The target of each message can be used to identify the affected field, but keep in mind that targets are always relative to the root entity of the request. That means in case of deep inserts or updates, you need to match not only the entity that has annotations but also the parent entities.
 
 ```java
 @Component

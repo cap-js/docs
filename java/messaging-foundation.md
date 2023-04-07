@@ -77,7 +77,7 @@ As shown in the example, there are two flavors of sending messages with the mess
 In section [CDS-Declared Events](#cds-declared-events), we show how to declare events in CDS models and by this let CAP generate EventContext interfaces especially tailored for the defined payload, that allows type safe access to the payload.
 
 ::: tip
-The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there’s also support for a persistent outbox. See [Java - Outbox](../outbox/) for more information.
+The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there’s also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
 :::
 
 

@@ -43,7 +43,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started#local-setup)*.
+1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/#local-setup)*.
 
 2. Install a Java VM. At least, Java 8 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
@@ -61,7 +61,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     mvn --version
     ```
 ::: tip
-For a preconfigured environment, use [SAP Business Application Studio](../tools#bastudio), which comes with all of the required tools preinstalled.
+For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
 :::
 
 ## Starting a New Project {: #new-project}
@@ -71,7 +71,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 ### Run the CAP Java Maven Archetype
 
-Use the [CAP Java Maven archetype](../java/development/#the-maven-archetype) to bootstrap a new CAP Java project:
+Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```bash
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
@@ -96,7 +96,7 @@ You can call `cds help init` for more information on the available options.
 
 ### Add a Sample CDS Model
 
-You can use the [CDS Maven plugin](../development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
+You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addSample
@@ -104,7 +104,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../get-started/grow-as-you-go/)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
+Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){:target="_blank"} using the following command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
@@ -141,8 +141,8 @@ The generated folders have the following content:
 | *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](../data/#typed-access). |
-| *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](../getting-started/#build-and-run)). |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./data#typed-access). |
+| *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
 <!-- TODO: Where to put this to not distract the Java Developer??
@@ -166,7 +166,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 ### Add an Integration Test Module (Optional)
 
-Optionally, you can use the [CDS Maven plugin](../development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
+Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```bash
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest

@@ -203,7 +203,7 @@ During local development, you might want to stick to the (human-readable) standa
 ```
 
 ::: tip
-For an example on how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](../java/multitenancy#app-log-support).
+For an example on how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](./multitenancy#app-log-support).
 :::
 
 ### Correlation IDs
@@ -213,8 +213,8 @@ In general, a request can be handled by unrelated execution units such as intern
 In case you've configured `cf-java-logging-support` as described in [Logging Service](#logging-service) before, *correlation IDs are handled out-of-the-box by the CAP Java SDK*. In particular, this includes:
 
 - Generation of IDs in non-HTTP contexts
-- Thread propagation through [Request Contexts](../java/request-contexts#threading-requestcontext)
-- Propagation to remote services when called via CloudSDK (for instance [Remote Services](../remote-services) or [MTX sidecar](../multitenancy/#mtx-sidecar-server))
+- Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
+- Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy#mtx-sidecar-server))
 
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
@@ -449,7 +449,7 @@ CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides informa
 - All services registered in the service catalog
 - Security configuration (authentication type etc.)
 - Loaded features such as `cds-feature-xsuaa`
-- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](../persistence-services#datasource-configuration))
+- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](./persistence-services#datasource-configuration))
 
 
 #### Custom Actuators {: #custom-actuators }

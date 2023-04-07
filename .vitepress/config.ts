@@ -37,11 +37,6 @@ export default defineConfig({
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
     lineNumbers: true,
-    attrs: {
-      leftDelimiter: '{:',
-      rightDelimiter: '}',
-      allowedAttributes: []  // empty array = all attributes are allowed
-    },
     languages: [
       {
         id: 'cds',

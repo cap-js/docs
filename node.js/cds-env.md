@@ -83,9 +83,6 @@ $ cds -r
 </pre>
 
 
-
-
-
 ## The `cds.env` Module {#cds-env}
 
 The `cds env` CLI command and all configuration-related tasks and features in Node.js-based tools and runtimes are backed by the `cds.env` module, which can be accessed through the central `cds` facade. For example, you can use it as follows:
@@ -302,27 +299,26 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
 
 1. Using a JSON string
 
-    ```
+    ```sh
     CDS_CONFIG='{"requires":{"db":{"kind":"sqlite"}}}' cds serve
     ```
 
 2. Using a JSON file
 
-    ```
+    ```sh
     CDS_CONFIG=./my-cdsrc.json cds serve
     ```
 
 3. Using a directory
 
-    ```
+    ```sh
     CDS_CONFIG=/etc/secrets/cds cds serve
     ```
 
     For each file and folder, a new property is added to the configuration with its name. For a file the property value is the string content of the file. But if a file contains a parsable JSON string starting with `[` or `{` character, it is parsed and added as a substructure.
     For a directory an object is added and the algorithm continues there.
 
-    ```yaml
-    /etc/secrets/cds/requires/uaa/kind: xsuaa
+    ```yaml    /etc/secrets/cds/requires/uaa/kind: xsuaa
     /etc/secrets/cds/requires/uaa/credentials/clientid: capapp
     /etc/secrets/cds/requires/uaa/credentials/clientsecret: dlfed4XYZ
     /etc/secrets/cds/requires/db:

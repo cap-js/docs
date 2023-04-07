@@ -25,10 +25,10 @@ Use `cds.ql` to read and write data based on CDS models. Its features include:
 * Nested transactions
 * Connection pooling
 * Driver plugin architecture
-* Canonical representation for queries (&rarr; [CQN](../cds/cqn)[])
+* Canonical representation for queries (&rarr; [CQN](../cds/cqn))
 * Support for SQL as well as NoSQL databases (experimental)
 
-> All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../get-started/in-a-nutshell#repl).
+> All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../../get-started/in-a-nutshell#repl).
 
 ## Providing Initial Data {: #providing-initial-data}
 
@@ -88,7 +88,7 @@ The fastest way to let your application run is using a local SQLite database via
 * Drops existing tables and views, and re-creates them according to the CDS model.
 * Deploys [CSV files](#providing-initial-data) with initial data.
 
-[See it in action](../../get-started/in-a-nutshell/#databases){: .learn-more}
+[See it in action](../../get-started/in-a-nutshell#databases){: .learn-more}
 
 ### SAP HANA {: #get-hana}
 
@@ -105,7 +105,7 @@ cds add hana --for hybrid
 
 > This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
 ::: tip
-The profile `hybrid` relates to [the hybrid testing](../../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment) guide.
+The profile `hybrid` relates to [the hybrid testing](../../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](../deployment/) guide.
 :::
 
 ##### For Node.js
@@ -114,7 +114,7 @@ No further configuration is necessary.
 For your information, this is what the previous command changed in _package.json_:
 
 * The [`hdb`](https://www.npmjs.com/package/hdb) driver for SAP HANA is added as a dependency.
-* A datasource of type `hana-cloud` is added in the `cds.requires.[production].db` block. See [Node.js configuration](../../node.js/cds-env/#profiles) for more details.
+* A datasource of type `hana-cloud` is added in the `cds.requires.[production].db` block. See [Node.js configuration](../../node.js/cds-env#profiles) for more details.
 
 ##### For Java
 
@@ -225,7 +225,7 @@ CREATE TABLE Authors (
 )
 ```
 
-Correspondingly, the following CQL queries using [_Path Expressions_](../../cds/cql/#path-expressions) along structs:
+Correspondingly, the following CQL queries using [_Path Expressions_](../../cds/cql#path-expressions) along structs:
 
 ```sql
 SELECT name, address.street from Authors;
@@ -241,7 +241,7 @@ SELECT name, address_town_name from Authors;
 SELECT name, address_street, address_town_name from Authors;
 ```
 
-> See [_Postfix Projections_](../../cds/cql/#postfix-projections) for additional means to query struct elements.
+> See [_Postfix Projections_](../../cds/cql#postfix-projections) for additional means to query struct elements.
 
 ### Associations &rarr; Forward-Declared JOINs {:#associations.impl.beta}
 
@@ -306,9 +306,9 @@ SAP HANA is the primary database of choice for productive use and supports the r
 
 ### Path Expressions
 
-Path expressions including infix filters can be used as described in the [CQL](../../cds/cql/#path-expressions) documentation.
+Path expressions including infix filters can be used as described in the [CQL](../../cds/cql#path-expressions) documentation.
 
-The CAP Java SDK supports [path expressions](../../java/query-api/#path-expressions) on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [path expressions](../../java/query-api#path-expressions) on HANA, H2, SQLite and PostgreSQL.
 
 HANA supports path expressions natively. On other DBs, additional joins are needed, which the Node.js runtime does not yet generate. Hence, path expressions are only supported on HANA. Exception: key properties of association to one, such that base entity has property as foreign key. then, *path-expression-like* constructs can be used on sqlite as well, for example, `GET /Books?$orderby=author/ID` works because Books has `author_ID`
 
@@ -326,7 +326,7 @@ path expressions are used in:
 
 ### Where Exists Predicates
 
-The CAP Java SDK supports [where exists](../../java/query-api/#exists-subquery) subqueries as well as [any/allMatch](../../java/query-api/#any-match) predicates on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [where exists](../../java/query-api#exists-subquery) subqueries as well as [any/allMatch](../../java/query-api#any-match) predicates on HANA, H2, SQLite and PostgreSQL.
 
 - Java supports path expressions including infix filters as documented in TODO also for SQLite
   + Note: no paths within infix filters (PR #2969) -> same limitation in compiler
@@ -393,7 +393,7 @@ The CAP Java SDK supports testing multitenant scenarios with PostgreSQL and H2. 
 
 ### Functions
 
-The CAP Java SDK supports [scalar](../../java/query-api/#scalar-functions) and [predicate](../../java/query-api/#predicate-functions) functions on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [scalar](../../java/query-api#scalar-functions) and [predicate](../../java/query-api#predicate-functions) functions on HANA, H2, SQLite and PostgreSQL.
 
 __TODO: check which odata funcs to take over in cqn__
 
@@ -617,7 +617,7 @@ The option expects an object, where the top-level keys are the "root"-variable n
 }
 ```
 
-For different databases, different replacement values need to be defined. This can be achieved using [profiles](../../node.js/cds-env/#profiles).
+For different databases, different replacement values need to be defined. This can be achieved using [profiles](../../node.js/cds-env#profiles).
 
 #### $user
 

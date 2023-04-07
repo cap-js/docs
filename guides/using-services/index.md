@@ -1711,10 +1711,10 @@ This list specifies the properties for application defined destinations.
 
 #### Authentication Types
 
-| Authentication Types    |                              Java                              |            Node.js             |
-|-------------------------|:--------------------------------------------------------------:|:------------------------------:|
-| NoAuthentication        |                              <Y/>                              |              <Y/>              |
-| BasicAuthentication     |                              <Y/>                              |              <Y/>              |
-| TokenForwarding         |                              <Y/>                              | <X/><br>Use `forwardAuthToken` |
-| OAuth2ClientCredentials | [code only](../java/remote-services#oauth2-client-credentials) |              <X/>              |
-| UserTokenAuthentication | [code only](../java/remote-services#user-token-authentication) |              <X/>              |
+| Authentication Types    |                               Java                                |            Node.js             |
+|-------------------------|:-----------------------------------------------------------------:|:------------------------------:|
+| NoAuthentication        |                               <Y/>                                |              <Y/>              |
+| BasicAuthentication     |                               <Y/>                                |              <Y/>              |
+| TokenForwarding         |                               <Y/>                                | <X/><br>Use `forwardAuthToken` |
+| OAuth2ClientCredentials | [code only](../../java/remote-services#oauth2-client-credentials) |              <X/>              |
+| UserTokenAuthentication | [code only](../../java/remote-services#user-token-authentication) |              <X/>              |

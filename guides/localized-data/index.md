@@ -57,7 +57,7 @@ entity Books.texts {
 }
 ```
 
-[See the definition of `sap.common.Locale`.](../../cds/common/#locale-type){: .learn-more}
+[See the definition of `sap.common.Locale`.](../../cds/common#locale-type){: .learn-more}
 ::: warning Note:
 The above shows the situation with CDS compiler v2. Former versions of the
 compiler generated an entity `Books_texts`.
@@ -139,7 +139,7 @@ In contrast to similar strategies, all texts aren’t externalized but the origi
 ### Extending *.texts* Entities {: #extending-texts-entities}
 
 It's possible to collectively extend all generated *.texts* entities by extending
-the aspect `sap.common.TextsAspect`, which is defined in [*common.cds*](../../cds/common/#texts-aspects).
+the aspect `sap.common.TextsAspect`, which is defined in [*common.cds*](../../cds/common#texts-aspects).
 
 For example, the aspect can be used to add an association to the `Languages` code list entity,
 or to add flags that help you to control the translation process.
@@ -179,7 +179,7 @@ entity Books.texts {
 ```
 
 It isn't allowed to extend `sap.common.TextsAspect` with
-* [Managed Compositions of Aspects](../cds/cdl#managed-compositions)
+* [Managed Compositions of Aspects](../../cds/cdl#managed-compositions)
 * localized elements
 * key elements
 
@@ -195,11 +195,11 @@ As shown in the second step, the pseudo variable `$user.locale` is used to refer
 
 ### Determining `$user.locale` from Inbound Requests
 
-The user's preferred locale is determined from request parameters, user settings, or the _accept-language_ header of inbound requests [as explained in the Localization guide](i18n#user-locale).
+The user's preferred locale is determined from request parameters, user settings, or the _accept-language_ header of inbound requests [as explained in the Localization guide](../i18n/#user-locale).
 
 ### Programmatic Access to `$user.locale`
 
-The resulting [normalized locale](i18n#normalized-locales) is available programmatically, in your event handlers.
+The resulting [normalized locale](../i18n/#normalized-locales) is available programmatically, in your event handlers.
 
 * Node.js: `req.user.locale`
 * Java: `eventContext.getParameterInfo().getLocale()`
@@ -207,7 +207,7 @@ The resulting [normalized locale](i18n#normalized-locales) is available programm
 ### Propagating `$user.locale` to Databases {:#propagating-of-user-locale}
 [propagation]: #propagating-of-user-locale
 
-Finally, the [normalized locale](i18n#normalized-locales) is **propagated** to underlying databases using session variables, that is, `$user.locale` translates to `session_context('locale')` in native SQL of SAP HANA and most databases.
+Finally, the [normalized locale](../i18n/#normalized-locales) is **propagated** to underlying databases using session variables, that is, `$user.locale` translates to `session_context('locale')` in native SQL of SAP HANA and most databases.
 
 Not all databases support session variables. For example, for _SQLite_ we currently would just create stand-in views for selected languages. With that, the APIs are kept stable but have restricted feature support.
 
@@ -365,7 +365,7 @@ DELETE <your_service_url>/Entity(<entity_key>)/texts(ID=<entity_key>,locale='<lo
 
 ## Nested Localized Data
 
-The definition of books has a `currency` element that is effectively an association to the `sap.common.Currencies` code list entity, which in turn has localized texts. Find the respective definitions in the reference docs for `@sap/cds/common`, in the section on [Common Code Lists](../../cds/common/#code-lists).
+The definition of books has a `currency` element that is effectively an association to the `sap.common.Currencies` code list entity, which in turn has localized texts. Find the respective definitions in the reference docs for `@sap/cds/common`, in the section on [Common Code Lists](../../cds/common#code-lists).
 
 Upon unfolding, all associations to other entities with localized texts are automatically redirected as follows:
 

@@ -17,7 +17,7 @@ The following figure illustrates this central role of domain models:
 
 ![domain models](../../assets/domain-models.drawio.svg){:.adapt}
 
-[See also the introduction in the _About_ page](../../about#domain-modeling){:.learn-more}
+[See also the introduction in the _About_ page](../../about/#domain-modeling){:.learn-more}
 
 ## Capture Intent  &rarr; _What, not How_
 
@@ -108,9 +108,9 @@ If you can't rule out SQL databases or alike to serve your data that might **imp
 
 CAP and CDS provide several higher-level language constructs and pre-build modeling elements which help to greatly reduce complexity of models. Such as for:
 
-- [`Localized` Data](../localized-data) &rarr; [see below](#localized-data)
-- [`Temporal` Data](../temporal-data)
-- [`Managed` Data](../providing-services#managed-data)
+- [`Localized` Data](../localized-data/) &rarr; [see below](#localized-data/)
+- [`Temporal` Data](../temporal-data/)
+- [`Managed` Data](../providing-services/#managed-data)
 - [Managed Associations](../../cds/cdl#managed-associations) &rarr; [see below](#managed-associations)
 - [Managed Compositions](../../cds/cdl#managed-compositions) &rarr; [see below](#managed-compositions)
 - etc...
@@ -266,7 +266,7 @@ type Genre : String enum {
 }
 ```
 <!-- TODO revisit -->
-[Find this source also in **cap/samples**.]({{samples}}/blob/f32398ba8dd9b10c7f236282c3e1f89067e64c6f/bookshop/db/schema.cds#L2-L31){: .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/f32398ba8dd9b10c7f236282c3e1f89067e64c6f/bookshop/db/schema.cds#L2-L31){: .learn-more}
 
 We used CDS's basic means for capturing data structures here.
 
@@ -1216,4 +1216,4 @@ The same applies to **verticalization** scenarios in which the prebuilt extensio
 
 Finally, taking that one step further, CAP applies the same techniques when we allow subscribers of a SaaS solution to add extension fields or adjust labels and other annotation-based properties, in order to adapt subscribed SaaS software to their needs. In that case, the **extensions are applied dynamically at runtime** of the SaaS application.
 
-[Learn more on that in the **SaaS Extensibility** guide.](../extensibility){:.learn-more}
+[Learn more on that in the **SaaS Extensibility** guide.](../extensibility/){:.learn-more}

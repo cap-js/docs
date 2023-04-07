@@ -90,14 +90,14 @@ The annotation pair `@cds.valid.from/to` actually triggers the built-in mechanis
 
 ### Using Common Aspect `temporal`
 
-Alternatively, use the predefined aspect [`temporal`](../cds/common#aspect-temporal) to declare temporal entities:
+Alternatively, use the predefined aspect [`temporal`](../../cds/common#aspect-temporal) to declare temporal entities:
 
 ```cds
 using { temporal } from '@sap/cds/common';
 entity WorkAssignments : temporal {/*...*/}
 ```
 
-Aspect [`temporal`](../cds/common#aspect-temporal) is defined in _[@sap/cds/common](../cds/common)_ as follows:
+Aspect [`temporal`](../../cds/common#aspect-temporal) is defined in _[@sap/cds/common](../../cds/common)_ as follows:
 
 ```cds
 aspect temporal {
@@ -145,7 +145,7 @@ service HRService {
 :::
 
 > You can omit composed entities like _WorkAssignments_ from the service, as they would get
-[auto-exposed](providing-services#auto-exposed-entities) automatically.
+[auto-exposed](../providing-services/#auto-exposed-entities) automatically.
 
 ### Adding Temporal Predicates {:.impl.concept}
 

@@ -151,7 +151,7 @@ In both cases — automatically chosen queue names or explicitly configured ones
 
 ## Deploy to the Cloud (with MTA)
 
-A general description of how to deploy CAP applications to SAP BTP's Cloud Foundry, can be found in the [Deploy to Cloud* guide](../deployment). As documented there, MTA is frequently used to deploy to SAP BTP. Follow these steps to ensure binding of your deployed application to the SAP Event Mesh instance.
+A general description of how to deploy CAP applications to SAP BTP's Cloud Foundry, can be found in the [Deploy to Cloud* guide](../deployment/). As documented there, MTA is frequently used to deploy to SAP BTP. Follow these steps to ensure binding of your deployed application to the SAP Event Mesh instance.
 
 
 ### 1. Specify Binding to SAP Event Mesh Instance
@@ -173,7 +173,7 @@ resources:
       service-plan: <Event Mesh Service Instance - Plan>
 ```
 
-[Learn more about using MTA.](../deployment){:.learn-more}
+[Learn more about using MTA.](../deployment/){:.learn-more}
 
 ::: warning
 Make sure to use the exact `name` and `service-plan` used at the time creating the service instance you want to use.
@@ -262,7 +262,7 @@ Incoming messages are delivered by SAP Event Mesh to webhook endpoints of the Sa
 }
 ```
 
-[Learn more about **XSUAA configuration**.](../authorization#xsuaa-configuration){:.learn-more}
+[Learn more about **XSUAA configuration**.](../authorization/#xsuaa-configuration){:.learn-more}
 
 In addition, you've to let your SAP Event Mesh instance accept the granted authorities. Add `$ACCEPT_GRANTED_AUTHORITIES` to the `authorities` array in the service descriptor of your SAP Event Mesh instance:
 
@@ -313,7 +313,7 @@ As soon as a better integration into the SaaS management processes is found, the
 :::
 
 ::: tip
-To create the messaging infrastructure for existing tenants you have to trigger the tenant update by the SaaS provisioning service. The tenant update only updates the messaging-related configuration, such as related queues, topic subscriptions and webhook registrations. 
+To create the messaging infrastructure for existing tenants you have to trigger the tenant update by the SaaS provisioning service. The tenant update only updates the messaging-related configuration, such as related queues, topic subscriptions and webhook registrations.
 :::
 
 ### For Node.js

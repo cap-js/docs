@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 _'Localization'_ is a means to adapting your app to the languages of specific target markets.
 
-This guide focuses on static texts such as labels. See [CDS](../../cds) and [Localized Data](../localized-data) for information about how to manage and serve actual payload data in different translations.
+This guide focuses on static texts such as labels. See [CDS](../../cds/) and [Localized Data](../localized-data/) for information about how to manage and serve actual payload data in different translations.
 
 ## Externalizing Texts Bundles
 
@@ -135,7 +135,7 @@ The _default language_ is usually `en` but can be overridden by configuring `cds
 
 ## Merging Reuse Bundles
 
-If your application is [importing models from a reuse package](../guides/extensibility/composition), that package comes with its own language bundles for localization. These are applied upon import, so they can be overridden in your models as well as in your language bundles and their translations.
+If your application is [importing models from a reuse package](../extensibility/composition), that package comes with its own language bundles for localization. These are applied upon import, so they can be overridden in your models as well as in your language bundles and their translations.
 
 For example, assuming that your data model imports from a _foundation_ package, then the overall stack of overlays would look like this:
 
@@ -234,4 +234,4 @@ See [SAP Translation Enablement Workbench User Guide](https://slsapps.slsna.c.eu
 
 #### Translatable Content for SAP HANA
 
-You can deploy [CSV files with initial database content](../../guides/databases/#providing-initial-data) with translatable texts to SAP HANA through _hdbtabledata_'s `include_filter` feature. See [this example](https://github.wdf.sap.corp/CloudConso/grdc/blob/e27eee9ae9be4aa76d41c6e2992e86e8d156e8a9/db/src/csv/Data.hdbtabledata#L26) for more information.
+You can deploy [CSV files with initial database content](../databases/#providing-initial-data) with translatable texts to SAP HANA through _hdbtabledata_'s `include_filter` feature. See [this example](https://github.wdf.sap.corp/CloudConso/grdc/blob/e27eee9ae9be4aa76d41c6e2992e86e8d156e8a9/db/src/csv/Data.hdbtabledata#L26) for more information.

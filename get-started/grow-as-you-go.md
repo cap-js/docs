@@ -235,7 +235,7 @@ module.exports = cds.service.impl(srv => {
 
 To trigger this error, use the following request:
 
-```url
+```
 http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(BusinessPartner='1003764',AddressID='28238')
 ```
 
@@ -266,7 +266,7 @@ This will delete the data from the database and fill it with the initial data.
 
 Trigger the reset action with the following POST request:
 
-```url
+```
 http://localhost:4004/api-business-partner/reset
 ```
 

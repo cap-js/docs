@@ -34,7 +34,7 @@ service Bookshop {
 :::
 
 ::: code-group
-```prop [_i18n/i18n.properties]
+```properties [_i18n/i18n.properties]
 Book = Book
 Books = Books
 foo = Foo

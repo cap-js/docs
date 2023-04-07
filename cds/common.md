@@ -328,7 +328,8 @@ You can provide initial data for the code lists by placing CSV files in a folder
 The following is an example of a `csv` file to provide data for countries:
 
 <!--- {% include _code sample='db/csv/sap.common-Countries.csv' %} -->
-```csv
+::: code-group
+```csv [db/csv/sap.common-Countries.csv]
 code;name;descr
 AU;Australia;Commonwealth of Australia
 CA;Canada;Canada
@@ -342,6 +343,7 @@ GB;United Kingdom;United Kingdom of Great Britain and Northern Ireland
 US;United States;United States of America (USA)
 EU;European Union;European Union
 ```
+:::
 
 [Learn more about the database aspects of **Providing Initial Data**.](../guides/databases/#providing-initial-data){: .learn-more}
 
@@ -351,7 +353,8 @@ EU;European Union;European Union
 In addition, you can provide translations for the `sap.common.Countries_texts` table as follows:
 
 <!--- {% include _code sample='db/csv/sap.common-Countries_texts.csv' %} -->
-```csv
+::: code-group
+```csv [db/csv/sap.common-Countries_texts.csv]
 code;locale;name;descr
 AU;de;Australien;Commonwealth Australien
 CA;de;Kanada;Canada
@@ -365,6 +368,7 @@ GB;de;Vereinigtes Königreich;Vereinigtes Königreich Großbritannien und Nordir
 US;de;Vereinigte Staaten;Vereinigte Staaten von Amerika
 EU;de;Europäische Union;Europäische Union
 ```
+:::
 
 [Learn more about **Localization/i18n**.](../guides/localized-data/){: .learn-more}
 

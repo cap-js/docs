@@ -46,8 +46,14 @@ export default defineConfig({
       {
         id: 'cds',
         scopeName: 'source.cds',
-        path: join(__dirname, 'cds.tmLanguage.json'),
+        path: join(__dirname, 'syntaxes/cds.tmLanguage.json'), // from https://github.com/SAP/cds-textmate-grammar
         aliases: ['cds']
+      },
+      {
+        id: 'csv',
+        scopeName: 'text.scsv',
+        path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
+        aliases: ['csv', 'csvs']
       }
     ],
     toc: {

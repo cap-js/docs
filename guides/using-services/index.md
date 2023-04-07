@@ -232,12 +232,14 @@ When developing your application, you can mock the remote service.
 As for any other CAP service, you can add mocking data. The CSV file needs to be added to the _srv/external/data_ folder for Node.js.
 For Java, use the _db/data_ folder.
 
-```
+::: code-group
+```csv [API_BUSINESS_PARTNER-A_BusinessPartner.csv]
 BusinessPartner;BusinessPartnerFullName;BusinessPartnerIsBlocked
 1004155;Williams Electric Drives;false
 1004161;Smith Batteries Ltd;false
 1004100;Johnson Automotive Supplies;true
 ```
+:::
 
 [Find this source in the end-to-end Tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){:.learn-more}
 
@@ -1604,9 +1606,8 @@ This adds the supplier that is based on the business partner definition and maps
 
 It always helps to see sample data, when you're trying out new things. To add sample data to the service that is served out of an imported API, you need a _data_ folder next to the API. Create the folder _srv/external/data_ and add the following files:
 
-_API_BUSINESS_PARTNER-A_BusinessPartner.csv_
-
-```csv
+::: code-group
+```csv [API_BUSINESS_PARTNER-A_BusinessPartner.csv]
 BusinessPartner;BusinessPartnerFullName
 ACME;A Company Making Everything
 B4U;Books for You
@@ -1614,20 +1615,20 @@ S&C;Shakespeare & Co.
 WSL;Waterstones
 TLD;Thalia
 PNG;Penguin Books
-
 ```
+:::
 
 > Maybe add that later, when mashup has been made.
 
-_API_BUSINESS_PARTNER-Suppliers.csv_
-
-```csv
+::: code-group
+```csv [API_BUSINESS_PARTNER-Suppliers.csv]
 ID;name
 ACME;A Company Making Everything
 B4U;Books for You
 S&C;Shakespeare & Co.
 WSL;Waterstones
 ```
+:::
 
 > Showcase the effect in a screenshot or so.
 

@@ -10,6 +10,16 @@ status: released
 ---
 <!--- Migrated: @external/guides/22-Using-Services/index.md -> @external/guides/using-services/index.md -->
 
+<script setup>
+  import { h } from 'vue'
+  const Y = () => h('span', { class: 'y',  title: 'Supported' },      ['✓'] )
+  const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✕'] )
+</script>
+<style scoped>
+  .y  { color: var(--vp-c-green); font-weight:900; }
+  .x  { color: var(--vp-c-red);   font-weight:900; }
+</style>
+
 # Consuming Services
 {{ $frontmatter.synopsis }}
 
@@ -813,12 +823,12 @@ The CQN consists of a `from` condition with 2 values for `ref`. The first `ref` 
 {
   "from": {
     "ref": [ {
-        "id": "RiskService.Risks",
-        "where": [
-          { "ref": [ "ID" ] },
-          "=",
-          { "val": "20466922-7d57-4e76-b14c-e53fd97dcb11" }
-        ] },
+      "id": "RiskService.Risks",
+      "where": [
+        { "ref": [ "ID" ] },
+        "=",
+        { "val": "20466922-7d57-4e76-b14c-e53fd97dcb11" }
+      ]},
       "supplier"
     ]
   },
@@ -863,7 +873,7 @@ The _Integrate and Extend_ chapter shows only techniques for transient access.
 The following matrix can help you to find the best approach for your scenario:
 
 | **Feature**                                           | **Transient Access**  | **Replication**                   |
-| ----------------------------------------------------- | --------------------- | --------------------------------- |
+|-------------------------------------------------------|-----------------------|-----------------------------------|
 | Filtering on local **or** remote fields <sup>1</sup>  | Possible              | Possible                          |
 | Filtering on local **and** remote fields <sup>2</sup> | Not possible          | Possible                          |
 | Relationship: Uni-/Bidirectional associations         | Possible              | Possible                          |
@@ -918,12 +928,12 @@ In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks lik
 
 ```json
 "cds": {
-    "requires": {
-        "API_BUSINESS_PARTNER": {
-            "kind": "odata",
-            "model": "srv/external/API_BUSINESS_PARTNER"
-        }
+  "requires": {
+    "API_BUSINESS_PARTNER": {
+      "kind": "odata",
+      "model": "srv/external/API_BUSINESS_PARTNER"
     }
+  }
 }
 ```
 
@@ -935,18 +945,18 @@ Since you don't want to use the destination for local testing, but only for prod
 
 ```json
 "cds": {
-    "requires": {
-        "API_BUSINESS_PARTNER": {
-            "kind": "odata",
-            "model": "srv/external/API_BUSINESS_PARTNER",
-            "[production]": {
-                "credentials": {
-                    "destination": "S4HANA",
-                    "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
-                }
-            }
+  "requires": {
+    "API_BUSINESS_PARTNER": {
+      "kind": "odata",
+      "model": "srv/external/API_BUSINESS_PARTNER",
+      "[production]": {
+        "credentials": {
+          "destination": "S4HANA",
+          "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
         }
+      }
     }
+  }
 }
 ```
 
@@ -954,19 +964,19 @@ Additionally, you can provide destination options [destination options](https://
 
 ```jsonc
 "cds": {
-    "requires": {
-        "API_BUSINESS_PARTNER": {
-            /* ... */
-            "[production]": {
-                "credentials": {
-                    /* ... */
-                },
-                "destinationOptions": {
-                  "selectionStrategy": "alwaysSubscriber"
-                }
-            }
+  "requires": {
+    "API_BUSINESS_PARTNER": {
+      /* ... */
+      "[production]": {
+        "credentials": {
+          /* ... */
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysSubscriber"
         }
+      }
     }
+  }
 }
 ```
 
@@ -1003,28 +1013,28 @@ For **Node.js**, you specify the destination properties in `credentials` instead
 
 This is an example of a destination using basic authentication:
 
-```
+```jsonc
 "cds": {
-    "requires": {
-        "REVIEWS": {
-            "kind": "odata",
-            "model": "srv/external/REVIEWS",
-            "[production]": {
-                "credentials": {
-                    "url": "https://reviews.ondemand.com/reviews",
-                    "authentication": "BasicAuthentication",
-                    "username": "<set from code or env>",
-                    "password": "<set from code or env>",
-                    "headers": {
-                      "my-header": "header value"
-                    },
-                    "queries": {
-                      "my-url-param": "url param value"
-                    }
-                }
-            }
+  "requires": {
+    "REVIEWS": {
+      "kind": "odata",
+      "model": "srv/external/REVIEWS",
+      "[production]": {
+        "credentials": {
+          "url": "https://reviews.ondemand.com/reviews",
+          "authentication": "BasicAuthentication",
+          "username": "<set from code or env>",
+          "password": "<set from code or env>",
+          "headers": {
+            "my-header": "header value"
+          },
+          "queries": {
+            "my-url-param": "url param value"
+          }
         }
+      }
     }
+  }
 }
 ```
 
@@ -1066,8 +1076,8 @@ The same can be done using _mtaext_ file for MTA deployment.
 
 If the URL of the target service is also part of the MTA deployment, you can automatically receive it as shown in this example:
 
-_mta.yaml_:
-```yaml
+::: code-group
+```yaml [mta.yaml]
  - name: reviews
    provides:
     - name: reviews-api
@@ -1080,11 +1090,14 @@ _mta.yaml_:
    properties:
      cds_requires_REVIEWS_credentials_url: ~{reviews-api/reviews-url}
 ```
+:::
 
-_.env_
-```properties
+::: code-group
+```properties [.env]
 cds_requires_REVIEWS_credentials_url=http://localhost:4008/reviews
 ```
+:::
+
 ::: warning
 For the _configuration path_, you **must** use the underscore ("`_`") character as delimiter. CAP supports dot ("`.`") as well, but Cloud Foundry won't recognize variables using dots. Your _service name_ **mustn't** contain underscores.
 :::
@@ -1096,7 +1109,8 @@ There is no API to create a destination in Node.js programmatically. However, yo
 
 Destinations are configured in Spring Boot's _application.yaml_ file.
 
-```yaml
+::: code-group
+```yaml [application.yaml]
 cds:
   remote.services:
     REVIEWS:
@@ -1110,6 +1124,7 @@ cds:
         queries:
           my-url-param: "url param value"
 ```
+:::
 
 [Learn more about supported destination properties.](#destination-properties){:.learn-more}
 
@@ -1292,7 +1307,8 @@ The deployment with Cloud Foundry manifest is described in [the deployment guide
 
 Add **XSUAA**, **Destination**, and **Connectivity** service to your _services-manifest.yml_ file.
 
-```yaml
+::: code-group
+```yaml [services-manifest.yml]
   - name: cpapp-uaa
     broker: xsuaa
     plan: application
@@ -1310,10 +1326,12 @@ Add **XSUAA**, **Destination**, and **Connectivity** service to your _services-m
     plan: lite
     updateService: false
 ```
+:::
 
 Add the services to your microservice's `services` list in the _manifest.yml_ file:
 
-```yaml
+::: code-group
+```yaml [manifest.yml]
 - name: cpapp-srv
   services:
   - ...
@@ -1322,6 +1340,7 @@ Add the services to your microservice's `services` list in the _manifest.yml_ fi
   # Required for on-premise connectivity only
   - cpapp-connectivity
 ```
+:::
 
 [Push](../deployment/to-cf#push-the-application) the application.
 
@@ -1335,7 +1354,8 @@ The MTA-based deployment is described in [the deployment guide](../deployment/).
 
 Add **XSUAA**, **Destination**, and **Connectivity** service to your _mta.yaml_ file:
 
-```yaml
+::: code-group
+```yaml [mta.yml]
 - name: cpapp-uaa
   type: org.cloudfoundry.managed-service
   parameters:
@@ -1356,6 +1376,7 @@ Add **XSUAA**, **Destination**, and **Connectivity** service to your _mta.yaml_ 
     service: connectivity
     service-plan: lite
 ```
+:::
 
 Add the services as requirement for your microservice in your _mta.yaml_ file:
 
@@ -1408,7 +1429,7 @@ Destinations are looked up using the following rules:
 
 
 | Runtime | Rules                                                                                                                                                                                                                             |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Java    | The destination is read from the tenant of the request's JWT (authorization) token.<br>  If no JWT token is present, the destination is read from the tenant of the application's XSUAA binding.                                  |
 | Node.js | The destination is read from the tenant of the request's JWT (authorization) token.<br>  If no JWT token is present *or the destination isn't found*, the destination is read from the tenant of the application's XSUAA binding. |
 
@@ -1422,17 +1443,17 @@ With the value `alwaysProvider` you can ensure that the destination is always re
 
 ```jsonc
 "cds": {
-    "requires": {
-        "SERVICE_FOR_PROVIDER": {
-            /* ... */
-            "credentials": {
-                /* ... */
-            },
-            "destinationOptions": {
-              "selectionStrategy": "alwaysProvider"
-            }
-        }
+  "requires": {
+    "SERVICE_FOR_PROVIDER": {
+      /* ... */
+      "credentials": {
+        /* ... */
+      },
+      "destinationOptions": {
+        "selectionStrategy": "alwaysProvider"
+      }
     }
+  }
 }
 ```
 
@@ -1573,7 +1594,8 @@ extend service S4 with {
 }
 
 ```
-[Learn more about the `using` directive.](../../cds/cdl#using){:.learn-more} [Learn more about the `extend` directive.](../../cds/cdl#extend){:.learn-more}
+[Learn more about the `using` directive.](../../cds/cdl#using){:.learn-more}
+[Learn more about the `extend` directive.](../../cds/cdl#extend){:.learn-more}
 
 This adds the supplier that is based on the business partner definition and maps fields from the API to the terminology I want to use. For example, I want to refer to suppliers by `name` instead of `BusinessPartnerFullName` in my models and rename it here.
 ### Sample Data
@@ -1615,18 +1637,18 @@ WSL;Waterstones
 
 ### Legend
 
-| Tag                                                                                                | Explanation                                       |
-|----------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| &nbsp; &nbsp; <span style='color:#4FB81C' title='Supported'>&#10004;</span> | supported           |
-| &nbsp; &nbsp; <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span>                       | not supported |
+| Tag  | Explanation   |
+|:----:|---------------|
+| <Y/> | supported     |
+| <X/> | not supported |
 
 ### Supported Protocols
 
-| Protocol                                                  | Java          | Node.js       |
-| --------------------------------------------------------- | ------------- | ------------- |
-| odata-v2                                                  | <span style='color:#4FB81C' title='Supported'>&#10004;</span>         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>         |
-| odata-v4                                                  | <span style='color:#4FB81C' title='Supported'>&#10004;</span>         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>         |
-| rest                                                      | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span>         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>         |
+| Protocol | Java | Node.js |
+|----------|:----:|:-------:|
+| odata-v2 | <Y/> |  <Y/>   |
+| odata-v4 | <Y/> |  <Y/>   |
+| rest     | <X/> |  <Y/>   |
 
 ::: tip
 The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
@@ -1634,34 +1656,34 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 
 ### Querying API Features
 
-| Feature                           | Java          | Node.js       |
-| --------------------------------- | ------------- | ------------- |
-| READ                              | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| INSERT/UPDATE/DELETE              | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Actions                           | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `columns`                         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `where`                           | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `orderby`                         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `limit` (top & skip)              | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `$apply` (groupedby, ...)         | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> |
-| `$search` (OData v4)              | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `search` (SAP OData v2 extension) | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
+| Feature                           | Java | Node.js |
+|-----------------------------------|:----:|:-------:|
+| READ                              | <Y/> |  <Y/>   |
+| INSERT/UPDATE/DELETE              | <Y/> |  <Y/>   |
+| Actions                           | <Y/> |  <Y/>   |
+| `columns`                         | <Y/> |  <Y/>   |
+| `where`                           | <Y/> |  <Y/>   |
+| `orderby`                         | <Y/> |  <Y/>   |
+| `limit` (top & skip)              | <Y/> |  <Y/>   |
+| `$apply` (groupedby, ...)         | <X/> |  <X/>   |
+| `$search` (OData v4)              | <Y/> |  <Y/>   |
+| `search` (SAP OData v2 extension) | <Y/> |  <Y/>   |
 
 ### Supported Projection Features
 
-| Feature                                                   | Java          | Node.js       |
-| --------------------------------------------------------- | ------------- | ------------- |
-| Resolve projections to remote services                    | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Resolve multiple levels of projections to remote services | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Aliases for fields                                        | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| `excluding`                                               | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Resolve associations (within the same remote service)     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Redirected associations                                   | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
-| Flatten associations                                      | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> |
-| `where` conditions                                        | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> |
-| `order by`                                                | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> |
-| Infix filter for associations                             | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span> |
-| Model Associations with mixins                            | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>     |
+| Feature                                                   | Java | Node.js |
+|-----------------------------------------------------------|:----:|:-------:|
+| Resolve projections to remote services                    | <Y/> |  <Y/>   |
+| Resolve multiple levels of projections to remote services | <Y/> |  <Y/>   |
+| Aliases for fields                                        | <Y/> |  <Y/>   |
+| `excluding`                                               | <Y/> |  <Y/>   |
+| Resolve associations (within the same remote service)     | <Y/> |  <Y/>   |
+| Redirected associations                                   | <Y/> |  <Y/>   |
+| Flatten associations                                      | <X/> |  <X/>   |
+| `where` conditions                                        | <X/> |  <X/>   |
+| `order by`                                                | <X/> |  <X/>   |
+| Infix filter for associations                             | <X/> |  <X/>   |
+| Model Associations with mixins                            | <Y/> |  <Y/>   |
 
 ### Supported Features for Application Defined Destinations
 
@@ -1689,10 +1711,10 @@ This list specifies the properties for application defined destinations.
 
 #### Authentication Types
 
-| Authentication Types    | Java                                                                 | Node.js                                |
-| ----------------------- | -------------------------------------------------------------------- | -------------------------------------- |
-| NoAuthentication        | <span style='color:#4FB81C' title='Supported'>&#10004;</span>                                                            | <span style='color:#4FB81C' title='Supported'>&#10004;</span>                              |
-| BasicAuthentication     | <span style='color:#4FB81C' title='Supported'>&#10004;</span>                                                            | <span style='color:#4FB81C' title='Supported'>&#10004;</span>                              |
-| TokenForwarding         | <span style='color:#4FB81C' title='Supported'>&#10004;</span>                                                            | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span>&nbsp;&nbsp;(use `forwardAuthToken`) |
-| OAuth2ClientCredentials | [code only](../java/remote-services#oauth2-client-credentials)      | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span>                          |
-| UserTokenAuthentication | [code only](../java/remote-services#user-token-authentication)      | <span style='color:#aaa; font-size:90%' title='Not Supported'>&#10005;</span>                          |
+| Authentication Types    |                              Java                              |            Node.js             |
+|-------------------------|:--------------------------------------------------------------:|:------------------------------:|
+| NoAuthentication        |                              <Y/>                              |              <Y/>              |
+| BasicAuthentication     |                              <Y/>                              |              <Y/>              |
+| TokenForwarding         |                              <Y/>                              | <X/><br>Use `forwardAuthToken` |
+| OAuth2ClientCredentials | [code only](../java/remote-services#oauth2-client-credentials) |              <X/>              |
+| UserTokenAuthentication | [code only](../java/remote-services#user-token-authentication) |              <X/>              |

@@ -106,7 +106,7 @@ CAP doesn't require any specific authentication strategy, but it provides out of
 On configured authentication, *all CAP endpoints are authenticated by default*.
 
 ::: warning
-❗ **CAP applications need to ensure that an appropriate [authentication method](../guides/authorization#prerequisite-authentication) is configured**.
+❗ **CAP applications need to ensure that an appropriate [authentication method](../guides/authorization/#prerequisite-authentication) is configured**.
 It's highly recommended to establish integration tests to safeguard a valid configuration.
 :::
 
@@ -119,8 +119,8 @@ Learn more about user model and identity providers here:
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
-- CAP interacts with platform services such as [Event Mesh](../guides/messaging) or [SaaS Provisioning Service](../guides/deployment/as-saas) on basis of platform-injected service bindings.
-- CAP offers consumption of [Remote Services](../guides/using-services) on basis of [SAP BTP destinations](../guides/using-services#btp-destinations).
+- CAP interacts with platform services such as [Event Mesh](../guides/messaging/) or [SaaS Provisioning Service](../guides/deployment/as-saas) on basis of platform-injected service bindings.
+- CAP offers consumption of [Remote Services](../guides/using-services/) on basis of [SAP BTP destinations](../guides/using-services/#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.
 
@@ -144,7 +144,7 @@ Hence, authentication is still mandatory for CAP microservices.
 <!-- #SEC-309 -->
 
 To run a CAP application that authenticates users and consumes remote services, **it isn't required to manage any secrets such as keys, tokens, or passwords**.
-Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../guides/using-services#btp-destinations).
+Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../guides/using-services/#btp-destinations).
 
 ::: tip
 In case you still need to store any secrets, use a platform service [SAP Credential Store](https://help.sap.com/docs/CREDENTIAL_STORE).
@@ -168,9 +168,9 @@ The set of rules that apply to a user reflects a specific conceptual role that d
 Obviously, the business roles are dependent from the scenarios and hence *need to be defined by the application developers*.
 
 Enforcing authorization rules at runtime is highly security-critical and shouldn't be implemented by the application as this would introduce the risk of security flaws.
-Instead, [CAP authorizations](../guides/authorization) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
+Instead, [CAP authorizations](../guides/authorization/) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
 
-Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](../guides/authorization#restrictions).
+Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](../guides/authorization/#restrictions).
 According to the declarations, server-side authorization enforcement is guaranteed for all requests. It's executed close before accessing the corresponding resources.
 
 ::: warning
@@ -179,12 +179,12 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](https://pages.github.tools.sap/cap/docs/tools/#cds-lint-rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../tools/#cds-lint-rules).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
 
-CAP authorizations can be defined dependently from [user claims](../guides/authorization#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
+CAP authorizations can be defined dependently from [user claims](../guides/authorization/#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
 that are deployed by application developers and granted by the user administrator of the subscriber.
 Hence, CAP provides a seamless integration of central identity service without technical lock-in.
 
@@ -207,11 +207,11 @@ Therefore, business users won't gain information about server host names, any ve
 
 Based on the CDS model and configuration of CDS services, the CAP runtime exposes following endpoints:
 
-| Name | Configuration | URL | Authorization |
-| ---- | ------------- | --- | ------------- |
-| CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup> | `@restrict`/`@requires`<sup>2</sup> |
-|  | OData v2/v4 | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../guides/authorization#requires) |
-| Index page | | `/index.html` | none |
+| Name              | Configuration    | URL                                       | Authorization                                 |
+|-------------------|------------------|-------------------------------------------|-----------------------------------------------|
+| CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
+|                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../guides/authorization/#requires) |
+| Index page        |                  | `/index.html`                             | none                                          |
 
 > <sup>1</sup> See [protocols and paths](../java/application-services#configure-path-and-protocol)
 
@@ -221,18 +221,18 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 <div markdown="1" class="impl java">
 
-| Platform service | URL | Authorization
-| ---------------- | --- | -------------
-| Messaging (Event Mesh, MT) | `/messaging/v1.0/em` | [Technical roles](../guides//messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`, `emmanagement`
-| Multitenancy (SaaS Registry)| `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`
+| Platform service             | URL                         | Authorization                                                                                                           |
+|------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Messaging (Event Mesh, MT)   | `/messaging/v1.0/em`        | [Technical roles](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`, `emmanagement` |
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                                      |
 
 </div>
 <div markdown="1" class="impl node">
 
-| Platform service | URL | Authorization
-| -----------------| --- | -------------
-| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging` | [Technical role](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`,
-|                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`
+| Platform service           | URL                                      | Authorization                                                                                           |
+|----------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging`        | [Technical role](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`, |
+|                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`                                                                            |
 
 </div>
 
@@ -278,7 +278,7 @@ The CAP runtime is designed from scratch to support tenant isolation:
 
 ### Isolated Persistent Data {: #isolated-persistent-data }
 
-Having configured [Multitenancy in CAP](../guides/multitenancy), when serving a business request, CAP automatically targets an isolated HDI container dedicated for the request tenant to execute DB statements.
+Having configured [Multitenancy in CAP](../guides/multitenancy/), when serving a business request, CAP automatically targets an isolated HDI container dedicated for the request tenant to execute DB statements.
 Here, CAP's data query API based on [CQN](../cds/cqn) is orthogonal to multitenancy, that is, custom CAP handlers can be implemented agnostic to MT.
 
 During tenant onboarding process, CAP triggers the HDI container creation via [SAP HANA Cloud Services](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/f70399be7fca4508aa0e33e138dbd84d.html).
@@ -288,7 +288,7 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 ### Isolated Transient Data {: #isolated-transient-data }
 
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
-For instance, filters for [instance-based authorization](../guides/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
+For instance, filters for [instance-based authorization](../guides/authorization/#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
@@ -395,7 +395,7 @@ Moreover, deserialization errors terminate the request and are tracked in the ap
 In general, to achieve perfect injection resistance, applications should have input validation, output validation, and a proper Content-Security-Policy in place.
 
 - CAP provides built-in support for **input validation**.
-Developers can use the [`@assert`](../guides/providing-services#input-validation) annotation to define field-specific input checks.
+Developers can use the [`@assert`](../guides/providing-services/#input-validation) annotation to define field-specific input checks.
 
 ::: warning
 ❗ Applications need to validate or sanitize all input variables according to the business context.
@@ -442,8 +442,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services#using-cdssearch-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services#pagination)
+- [Sorting](../guides/providing-services/#using-cdssearch-annotation)
+- [Pagination (implicit sort order)](../guides/providing-services/#pagination)
 - Filtering
 
 ::: warning
@@ -459,7 +459,7 @@ In addition, CAP runs on a virtual machine with a managed heap that protects fro
 
 CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
 These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../guides/providing-services#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services#etag) and [pessimistic locks](../guides/providing-services#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging) are always in order.
+CAP provides basic means of [concurrency control](../guides/providing-services/#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services/#etag) and [pessimistic locks](../guides/providing-services/#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
 
 ::: tip
 Applications have to ensure a consistent data processing taking concurrency into account.
@@ -488,7 +488,7 @@ Additional size limits and timeouts (request timeout) are established by the rev
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
 :::
 
-Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](https://pages.github.tools.sap/cap/docs/guides/providing-services#configuring-defaults-with-cdsquerylimit)).
+Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services/#configuring-defaults-with-cdsquerylimit)).
 The total number of request of OData batches can be limited by application configuration.
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
@@ -668,7 +668,7 @@ Align the exception handling in your custom coding with the provided exception h
 
 ### Auditlog Service
 
-CAP provides a technical [AuditlogService](../java/auditlog/#auditlog-service) that defines a high-level API to emit security events.
+CAP provides a technical [AuditlogService](../java/auditlog#auditlog-service) that defines a high-level API to emit security events.
 It helps to decouple business logic from the concrete audit log implementation. By default, it writes audit log events to console.
 
 ::: warning

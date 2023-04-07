@@ -51,7 +51,7 @@ Alternatively the AuditLog service can be retrieved from the `ServiceCatalog`:
 ServiceCatalog catalog = context.getServiceCatalog();
 auditLogService = (AuditLogService) catalog.getService(AuditLogService.DEFAULT_NAME);
 ```
-[See section **Using Services** for more details about retrieving services.]({{cap}}/java/consumption-api#using-services){:.learn-more}
+[See section **Using Services** for more details about retrieving services.](./consumption-api#using-services){:.learn-more}
 
 
 #### Emit Personal Data Access Event {: #data-access}

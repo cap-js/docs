@@ -105,7 +105,7 @@ aspect OrderItems {
         book   : Association to one Books;
 }
 ```
-[Find this source also in **cap/samples**.](java-samples/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){: .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){: .learn-more}
 
 In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
 ![ent-rel.drawio](./assets/entrel.drawio.svg){:.adapt}
@@ -334,7 +334,7 @@ Access child entities of a composition using a path expression from the parent e
 
 ### Select Managed Associations
 
-To select the mapping elements of a managed association, simply add the [association](./query-api/#managed-associations-on-the-select-list) to the select list:
+To select the mapping elements of a managed association, simply add the [association](./query-api#managed-associations-on-the-select-list) to the select list:
 
 ```java
 CqnSelect select = Select.from(BOOKS).byId(123)
@@ -350,7 +350,7 @@ Don't select from and rely on compiler generated foreign key elements of managed
 
 ### Select with Paths in Matching
 
-Paths are also supported in [matching](./query-api/#using-matching), for example, to select all *orders* that are in status *canceled*:
+Paths are also supported in [matching](./query-api#using-matching), for example, to select all *orders* that are in status *canceled*:
 
 ```java
 Map<String, Object> order = new HashMap<>();
@@ -414,11 +414,11 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 ### Generated Accessor Interfaces {:#generated-accessor-interfaces}
 
-For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
+For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
 #### Renaming Elements in Java
 
-Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced/#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn’t affected by this annotation.
+Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn’t affected by this annotation.
 
 See the following example:
 

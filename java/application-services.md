@@ -192,7 +192,7 @@ Actions or functions are handled - just like CRUD events - using event handlers.
 Actions and functions are therefore implemented through event handlers. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined,
 which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion).
 
-The [CAP Java SDK Maven Plugin](development#cds-maven-plugin) is capable of generating event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
+The [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
 
 If an action or function is bound to an entity, the entity needs to be specified while registering the event handler.
 For bound actions or functions the Event Context interface provides a [CqnSelect](query-api#select) statement, which targets the entity the action or function was triggered on.
@@ -302,10 +302,10 @@ Each protocol adapter has its own and unique base path.
 
 By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and the base paths of both can be configured with [CDS Properties] in the _application.yaml_:
 
-| Protocol | Default base path | CDS Property |
-| --- | --- | --- |
-| OData V4 | `/odata/v4` | [`cds.odataV4.endpoint.path`](https://cap.cloud.sap/docs/java/development/properties#cds-odataV4-endpoint-path) |
-| OData V2 | `/odata/v2` | [`cds.odataV2.endpoint.path`](https://cap.cloud.sap/docs/java/development/properties#cds-odataV2-endpoint-path) |
+| Protocol | Default base path | CDS Property                                                                      |
+|----------|-------------------|-----------------------------------------------------------------------------------|
+| OData V4 | `/odata/v4`       | [`cds.odataV4.endpoint.path`](./development/properties#cds-odataV4-endpoint-path) |
+| OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](./development/properties#cds-odataV2-endpoint-path) |
 
 The following example shows, how to deviate from the defaults:
 ```yaml

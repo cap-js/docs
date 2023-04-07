@@ -602,7 +602,7 @@ To be able to migrate the backend from the *Classic Java Runtime* without making
 	```
 
 	::: tip
-	In case you're using [multitenancy](./multitenancy/), keep in mind to make the same change in the _.cdsrc.json_ of the _mtx-sidecar_.
+	In case you're using [multitenancy](./multitenancy), keep in mind to make the same change in the _.cdsrc.json_ of the _mtx-sidecar_.
 	:::
 
 After rerunning the Maven build and starting the CAP Java application, Application Services are served as OData V2. By default, the endpoints will be available under `<host:port>/odata/v2/<Service>`. The default response format is `xml`, to request `json` use `$format=json` or `Accept: application/json` header.

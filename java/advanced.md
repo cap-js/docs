@@ -26,9 +26,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
 
-CAP Java automatically creates a `CdsDataStoreConnector` that is configured with the [_primary_ data source](../persistence-services/#default-persistence-service) and used by the [Persistence Service](./persistence-services).
+CAP Java automatically creates a `CdsDataStoreConnector` that is configured with the [_primary_ data source](./persistence-services#default-persistence-service) and used by the [Persistence Service](./persistence-services).
 
-In order to use CDS models and CDS queries with a _secondary_ data source in CAP Java you need to manually create a CDS Data Store connector. For a [supported](./persistence-services/#database-support) JDBC database this is done by the static `CdsDataStoreConnector.createJdbcConnector(...)` method, providing the CDS model, the [transaction manager](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/transaction/TransactionManager.html), and a connection supplier or data source.
+In order to use CDS models and CDS queries with a _secondary_ data source in CAP Java you need to manually create a CDS Data Store connector. For a [supported](./persistence-services#database-support) JDBC database this is done by the static `CdsDataStoreConnector.createJdbcConnector(...)` method, providing the CDS model, the [transaction manager](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/transaction/TransactionManager.html), and a connection supplier or data source.
 
 The transaction manager must reflect the transactional state of the JDBC connections supplied by the connection supplier or data source.
 
@@ -67,7 +67,7 @@ When implementing a CAP application, using the [Persistence Service](./consumpti
 
 ## Execute Native SQL with Spring's JDBC Template {: #jdbctemplate}
 
-The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](./advanced/hana#create-native-sap-hana-object)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.
+The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](../advanced/hana#create-native-sap-hana-object)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.
 
 ```java
 @Autowired
@@ -90,7 +90,7 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 
 ## Using CQL with a Static CDS Model {: #staticmodel}
 
-The static model and accessor interfaces can be generated using the [CDS Maven Plugin](./development#cds-maven-plugin).
+The static model and accessor interfaces can be generated using the [CDS Maven Plugin](./development/#cds-maven-plugin).
 
 ::: warning _❗ Warning_ <!-- {.:warning-title} -->
 Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](./data#renaming-elements-in-java) annotation.

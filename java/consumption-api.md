@@ -115,10 +115,10 @@ Consequently, they only accept CQN statements targeting entities that are define
 
 [Learn more about adding business logic to Application Services.](application-services){:.learn-more}
 
-Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization), [input validation](../guides/providing-services#input-validation), [implicit pagination](../guides/providing-services#implicit-pagination) and many more.
+Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization/), [input validation](../guides/providing-services/#input-validation), [implicit pagination](../guides/providing-services/#implicit-pagination) and many more.
 Their default ON event handler delegates CQN statements to the Persistence Service.
 
-[Learn more about these capabilities in our Cookbooks.](../guides){:.learn-more}
+[Learn more about these capabilities in our Cookbooks.](../guides/){:.learn-more}
 
 The creation of Application Services can be customized through configuration. By default an Application Service is created for every service that is defined in the CDS model.
 Through configuration, it's also possible to create multiple Application Services based on the same model definition.
@@ -128,9 +128,9 @@ Through configuration, it's also possible to create multiple Application Service
 #### Draft Services {: #draftservices}
 
 If an Application Service is created based on a service definition, that contains a draft-enabled entity, it also implements the [DraftService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/draft/DraftService.html) interface.
-This interface provides an API layer around the [draft-specific events](fiori-drafts/#draftevents), and allows to create new draft entities, patch, cancel or save them, and put active entities back into edit mode.
+This interface provides an API layer around the [draft-specific events](./fiori-drafts#draftevents), and allows to create new draft entities, patch, cancel or save them, and put active entities back into edit mode.
 
-[Learn more about Draft Services in section Fiori Drafts.](fiori-drafts){:.learn-more}
+[Learn more about Draft Services in section Fiori Drafts.](./fiori-drafts){:.learn-more}
 
 ### Persistence Services {: #persistenceservice}
 

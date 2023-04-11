@@ -283,7 +283,7 @@ CAP promotes a service-oriented paradigm with single-purposed services, which ca
 
 ## Growing On...
 
-* [Domain Modeling](../guides/domain-models/)
+* [Domain Modeling](../guides/domain-modeling)
 * [Providing](../guides/providing-services/)
 * [Events & Messaging](../guides/messaging/)
 * [Using Generic Providers](../guides/providing-services/#generic-providers)
@@ -316,4 +316,3 @@ CAP applications can be deployed to SAP BTP, Cloud Foundry environment. In the e
 * **Parallelizing** work
 * **Streamlining** dev tasks
 * **Automating and serving** many things out of the box
-

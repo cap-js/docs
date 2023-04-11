@@ -13,7 +13,7 @@
 
 ### [Cookbook](/guides/)
 
-- [Domain Modeling](/guides/domain-models/)
+- [Domain Modeling](guides/domain-modeling)
 - [Providing Services](/guides/providing-services/)
 - [Consuming Services](/guides/using-services/)
 - [Messaging](/guides/messaging/)

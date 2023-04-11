@@ -26,14 +26,14 @@ Following is an index of the features currently covered by CAP, with status and 
 
 #### Legend
 
-| Tag    | Explanation                                       |
-|:------:|---------------------------------------------------|
-| <X/>   | generally and publicly available today            |
-| <Na/>  | not applicable for this combination               |
-| <D/>   | in progress; likely to become available near-term |
-| <O/>   | we might pick that up for development soon        |
-| <C/>   | not scheduled for development by us so far        |
-| <Ac/>  | already active contribution                       |
+|  Tag  | Explanation                                       |
+|:-----:|---------------------------------------------------|
+| <X/>  | generally and publicly available today            |
+| <Na/> | not applicable for this combination               |
+| <D/>  | in progress; likely to become available near-term |
+| <O/>  | we might pick that up for development soon        |
+| <C/>  | not scheduled for development by us so far        |
+| <Ac/> | already active contribution                       |
 
 ### CLI & Tools Support
 
@@ -61,11 +61,11 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Editors/IDE Support      | Application Studio | VSCode | Eclipse |
 |--------------------------|:------------------:|:------:|:-------:|
-| CDS Syntax Highlighting  |       <X/>         | <X/>   |  <X/>   |
-| CDS Code Completion      |       <X/>         | <X/>   |  <X/>   |
-| CDS Prettifier           |       <X/>         | <X/>   |  <X/>   |
-| Advanced Debug/Run Tools |       <X/>         |        |         |
-| Project Explorer         |       <X/>         |        |         |
+| CDS Syntax Highlighting  |        <X/>        |  <X/>  |  <X/>   |
+| CDS Code Completion      |        <X/>        |  <X/>  |  <X/>   |
+| CDS Prettifier           |        <X/>        |  <X/>  |  <X/>   |
+| Advanced Debug/Run Tools |        <X/>        |        |         |
+| Project Explorer         |        <X/>        |        |         |
 | ...                      |                    |        |         |
 
 
@@ -78,7 +78,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Views / Projections ](../cds/cdl#views)                                                                          | <X/> |
 | [Associations & Compositions](../cds/cdl#associations)                                                            | <X/> |
 | [Annotations](../cds/cdl#annotations) &rarr; [Common](../cds/annotations), [OData](../advanced/odata#annotations) | <X/> |
-| [Aspects](../guides/domain-models/#aspects)                                                                        | <X/> |
+| [Aspects](../guides/domain-modeling#aspects)                                                                      | <X/> |
 | [Services...](../cds/cdl#services)                                                                                | <X/> |
 | [&mdash; w/ Redirected Associations](../cds/cdl#auto-redirect)                                                    | <X/> |
 | [&mdash; w/ Auto-exposed Targets](../cds/cdl#auto-expose)                                                         | <X/> |
@@ -99,30 +99,30 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers) | <Na/> |  <X/>   | <X/> |
 | [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents | <X/>  |  <X/>   | <X/> |
 | [Automatic Input Validation](../guides/providing-services/#input-validation)           | <X/>  |  <X/>   | <X/> |
-| [Auto-filled Primary Keys](../guides/domain-models/#use-uuids-for-technical-keys)      | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-modeling/#use-uuids-for-keys)              | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services/#implicit-pagination)                   | <X/>  |  <X/>   | <X/> |
 | [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/authorization/)                                              | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/authorization/)                                             | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/media-data/)                                        | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/media-data/)                                       | <X/>  |  <X/>   | <X/> |
 | [Conflict Detection through _ETags_](../guides/providing-services/#etag)               | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/authorization/#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/authorization/#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/authorization/#prerequisite-authentication)         | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/authorization/#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
-| Enterprise Features                                                                              |  CDS  | Node.js | Java |
-|--------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization/)                                                         | <X/>  |  <X/>   | <X/> |
-| [Analytics in Fiori](../advanced/odata#data-aggregation)                                         | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n/)                                                              | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services/#managed-data)                                       | <X/>  |  <X/>   | <X/> |
-| [Localized Data](../guides/localized-data/)                                                       | <X/>  |  <X/>   | <X/> |
-| [Temporal Data](../guides/temporal-data/)                                                         | <X/>  |  <X/>   | <X/> |
-| [Dynamic Extensibility](../guides/extensibility/)                                                 | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]      | <Na/> |  <X/>   | <X/> |% if jekyll.environment != "external" %}
-| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |%endif%}
+| Enterprise Features                                                                             |  CDS  | Node.js | Java |
+|-------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Authorization](../guides/authorization/)                                                       | <X/>  |  <X/>   | <X/> |
+| [Analytics in Fiori](../advanced/odata#data-aggregation)                                        | <X/>  |  <D/>   | <X/> |
+| [Localization/i18n](../guides/i18n/)                                                            | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services/#managed-data)                                      | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data/)                                                     | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data/)                                                       | <X/>  |  <X/>   | <X/> |
+| [Dynamic Extensibility](../guides/extensibility/)                                               | <X/>  |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]     | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |
 
 
 <br>
@@ -149,12 +149,12 @@ Following is an index of the features currently covered by CAP, with status and 
 ### Consuming Services
 
 | [Service Consumption APIs](../guides/using-services/) | Node.js | Java |
-|------------------------------------------------------|:-------:|:----:|
-| Uniform Consumption APIs → Hexagonal Architecture    |  <X/>   | <X/> |
-| Dynamic Querying                                     |  <X/>   | <X/> |
-| Programmatic Delegation                              |  <X/>   | <X/> |
-| Generic Delegation                                   |  <O/>   | <O/> |
-| Resilience (retry, circuit breaking, ...)            |  <C/>   | <X/> |
+|-------------------------------------------------------|:-------:|:----:|
+| Uniform Consumption APIs → Hexagonal Architecture     |  <X/>   | <X/> |
+| Dynamic Querying                                      |  <X/>   | <X/> |
+| Programmatic Delegation                               |  <X/>   | <X/> |
+| Generic Delegation                                    |  <O/>   | <O/> |
+| Resilience (retry, circuit breaking, ...)             |  <C/>   | <X/> |
 
 
 <br>
@@ -173,31 +173,31 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Events / Messaging
 
-|                                                                                                                                                                               |  CDS  | Node.js |                                             Java                                             |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:--------------------------------------------------------------------------------------------:|
-| [Declared Events in CDS](../cds/cdl#events)                                                                                                                                   | <X/>  |  <X/>   |                                             <X/>                                             |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                             <X/>                                             |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#maven-dependency-for-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                             <X/>                                             |
-| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                             <X/>                                             |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing-1)\|[Java](../java/messaging-foundation#maven-dependency-for-message-queuing-support) | <Na/> |  <X/>   |                                             <X/>                                             |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                             <X/>                                             |
+|                                                                                                                                                                               |  CDS  | Node.js |                                           Java                                            |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:-----------------------------------------------------------------------------------------:|
+| [Declared Events in CDS](../cds/cdl#events)                                                                                                                                   | <X/>  |  <X/>   |                                           <X/>                                            |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                           <X/>                                            |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#maven-dependency-for-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                           <X/>                                            |
+| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                           <X/>                                            |
+| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing-1)\|[Java](../java/messaging-foundation#maven-dependency-for-message-queuing-support) | <Na/> |  <X/>   |                                           <X/>                                            |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                           <X/>                                            |
 | Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | % if jekyll.environment != "external" %}<X/><br><sup>beta</sup> % else %} <O/> % endif %} |
-| Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                              |
-| Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                              |
+| Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                           |
+| Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                           |
 
 
 
 ### Database Support
 
-|                                                | CDS/deploy |      Node.js       | Java |
-|------------------------------------------------|:----------:|:------------------:|:----:|
+|                                                 | CDS/deploy |      Node.js       | Java |
+|-------------------------------------------------|:----------:|:------------------:|:----:|
 | [SAP HANA](../guides/databases/)                |    <X/>    |        <X/>        | <X/> |
 | [SAP HANA Cloud](../guides/databases/#get-hana) |    <X/>    |        <X/>        | <X/> |
 | [PostgreSQL](../guides/databases/)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
 | [SQLite](../guides/databases/) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
 | [MongoDB](../guides/databases/) out of the box  |   <Na/>    |       <Na/>        | <D/> |
-| Pluggable drivers architecture                 |    <D/>    |        <D/>        | <X/> |
-| Out-of-the-box support for other databases?    |    <C/>    |        <C/>        | <C/> |
+| Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
+| Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |
 
 
 > <sup>1</sup> For Node.js, see community project [cds-pg - PostgreSQL adapter for SAP CDS](https://www.npmjs.com/package/cds-pg). <br>
@@ -230,14 +230,14 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Platform Support & Integration
 
-|                                                                               | Node.js | Java |
-|-------------------------------------------------------------------------------|:-------:|:----:|
+|                                                                                | Node.js | Java |
+|--------------------------------------------------------------------------------|:-------:|:----:|
 | [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment/) |  <X/>   | <X/> |
-| Deploy to/run on _Kubernetes_<sup>1</sup>                                     |  <D/>   | <D/> |
-| [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                |  <X/>   | <X/> |
-| [SaaS on-/off-boarding](../guides/deployment/as-saas)                         |  <X/>   | <X/> |
+| Deploy to/run on _Kubernetes_<sup>1</sup>                                      |  <D/>   | <D/> |
+| [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                 |  <X/>   | <X/> |
+| [SaaS on-/off-boarding](../guides/deployment/as-saas)                          |  <X/>   | <X/> |
 | [Multitenancy](../guides/multitenancy/)                                        |  <X/>   | <X/> |
-| Health checks                                                                 |  <O/>   | <X/> |
+| Health checks                                                                  |  <O/>   | <X/> |
 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 
@@ -246,7 +246,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 |                                                                                                  |      |
 |--------------------------------------------------------------------------------------------------|:----:|
-| [Tenant-Specific Extensions](../guides/extensibility/)                                            | <X/> |
+| [Tenant-Specific Extensions](../guides/extensibility/)                                           | <X/> |
 | [Adding Extension Fields](../guides/extensibility/customization#develop-and-activate-extension)  | <X/> |
 | [Adding new Entities](../guides/extensibility/customization#develop-and-activate-extension)      | <X/> |
 | [Adding new Relationships](../guides/extensibility/customization#develop-and-activate-extension) | <X/> |

@@ -32,7 +32,7 @@ CAP supports applications in their obligations to comply to data privacy regulat
 Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
 ::: tip
 The best practice is to do that in separate files. <br>
-See also: [Using Aspects for Separation of Concerns](../../guides/domain-models/#separation-of-concerns).
+See also: [Using Aspects for Separation of Concerns](../../guides/domain-modeling#separation-of-concerns).
 :::
 
 Let's have a look at our [sample](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).

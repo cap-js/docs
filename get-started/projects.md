@@ -47,7 +47,7 @@ Projects created with [`cds init --add java`](#cds-init) have this default layou
 | Files/Folders               | Description                                                                         |
 |:----------------------------|:------------------------------------------------------------------------------------|
 | _app/_                      | UI content goes in here; one or more in subfolders                                  |
-| _db/_                       | [Domain Models](../guides/domain-models/) and database-related content go in here   |
+| _db/_                       | [Domain Models](../guides/domain-modeling) and database-related content go in here   |
 | _srv/_                      | [Service definitions](../guides/providing-services/) and implementations go in here |
 | _package.json_ or _pom.xml_ | your project descriptor                                                             |
 
@@ -119,4 +119,3 @@ Distributed deployment is common and by no means a reason to split everything in
 ###  <span style="color:darkred">Bad</span>: Splitting into Projects per Deployable
 
 In contrast, if you split into separate projects - worst case one per UI app and per each service - this would mean that each module would have an individual lifecycle and would have to be deployed separately. Suppose that you made changes to your service and  corresponding ones to the UI app that uses it. You'd have to synchronize the deployments and if one fails the other one might be unusable.
-

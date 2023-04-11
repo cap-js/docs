@@ -126,7 +126,7 @@ Change to the `srv` folder and use `mvn cds:watch` to start your CAP Java applic
 watching for changed or newly added CDS files. Since your project is still empty the first run will wait at
 the CDS compile phase until the first CDS file is added. Once this is added, your CAP Java application will start as a Spring Boot application. Each change or addition of a CDS or Java resource will trigger a restart. {.impl .java}
 
-## Defining Domain Models { #domain-models}
+## Defining Domain Models { #domain-models }
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -168,7 +168,7 @@ entity Genres : sap.common.CodeList {
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds){ .learn-more .impl .node target="_blank"}
 [Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds){ .learn-more target="_blank" .impl .java}
-[Learn more about **Domain Modeling**.](../guides/domain-models/){ .learn-more}
+[Learn more about **Domain Modeling**.](../guides/domain-modeling){ .learn-more}
 [Learn more about **CDS Modeling Languages**.](../cds/){ .learn-more}
 
 
@@ -665,7 +665,7 @@ Or submit orders until you see the error messages. {.impl .node}
 With this getting started guide we introduced many of the basics of CAP, such as:
 
 - [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
-- [Domain Modeling](../guides/domain-models/)
+- [Domain Modeling](../guides/domain-modeling)
 - [Defining Services and APIs](../guides/providing-services/)
 - [Providing Services](../guides/providing-services/)
 - [Consuming Services](../guides/using-services/)

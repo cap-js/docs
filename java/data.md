@@ -111,7 +111,7 @@ In this model, there is a bidirectional many-to-one association between `Books` 
 ![ent-rel.drawio](./assets/entrel.drawio.svg){.adapt}
 
 ::: tip
-Use [Managed Compositions of Aspects](../guides/domain-models/#managed-compositions) to model unidirectional one-to-many compositions.
+Use [Managed Compositions of Aspects](../guides/domain-modeling#composition-of-aspects) to model unidirectional one-to-many compositions.
 :::
 
 ### Relationships to other entities

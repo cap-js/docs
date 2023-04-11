@@ -116,7 +116,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 This greatly promotes **[adaptability](../guides/extensibility/)** in _verticalization_ and _customization_ scenarios, especially in SaaS solutions.
 
-Moreover, that fosters [**separation of concerns**](../guides/domain-models/#use-aspects-for-separation-of-concerns-and-verticalization), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
+Moreover, that fosters [**separation of concerns**](../guides/domain-modeling#separation-of-concerns), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
 
 <br>
 

@@ -28,13 +28,13 @@ CDS ships with a prebuilt model _@sap/cds/common_ that provides common types and
 
 It’s recommended that all applications use the common types and aspects provided through _@sap/cds/common_ to benefit from these features:
 
-* **Concise** and **comprehensible** models &rarr; see also [Conceptual Modeling](../guides/domain-models/#conceptual-modeling)
+* **Concise** and **comprehensible** models &rarr; see also [Conceptual Modeling](../guides/domain-modeling)
 * **Foster interoperability** between all applications
 * **Proven best practices** captured from real applications
 * **Streamlined** data models with **minimal entry barriers**
 * **Optimized** implementations and runtime performance
 * **Automatic** support for [localized](../guides/localized-data/) code lists and [value helps](../advanced/fiori#pre-defined-types-in-sapcdscommon)
-* **Extensibility** using [Aspects](../guides/domain-models/#aspects)
+* **Extensibility** using [Aspects](../guides/domain-modeling#aspect-oriented-modeling)
 * **Verticalization** through third-party extension packages
 
 For example, usage is as simple as indicated in the following sample:
@@ -81,7 +81,7 @@ entity Foo {
 
 > The service provider runtimes automatically fill in UUID-typed keys like these with auto-generated UUIDs.
 
-[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-models/#use-canonic-primary-keys){ .learn-more}
+[Learn more about **canonical keys** and **UUIDs**.](../guides/domain-modeling#prefer-canonic-keys){ .learn-more}
 
 
 ### Aspect `managed`

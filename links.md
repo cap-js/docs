@@ -1,8 +1,8 @@
 [getting started]: /get-started/in-a-nutshell
 
 [Grow as you go]: /guides/grow-as-you-go
-[Domain Modeling]: /guides/domain-models
-[Domain Models]: /guides/domain-models
+[Domain Modeling]: /guides/domain-modeling
+[Domain Models]: /guides/domain-modeling
 [Services]: /guides/providing-services
 [Providing Services]: /guides/providing-services
 [Generic Providers]: /guides/providing-services

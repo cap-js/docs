@@ -38,7 +38,7 @@ The following built-in types are provided:
 ### Remarks
 
 
-> <sup>(1)</sup> At runtime, UUIDs are treated as opaque values and are, for example, not converted to lower case on input. UUIDs generated in the application are [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant. See [Don't Interpret UUIDs!](../guides/domain-models/#dont-interpret-uuids) for details.
+> <sup>(1)</sup> At runtime, UUIDs are treated as opaque values and are, for example, not converted to lower case on input. UUIDs generated in the application are [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant. See [Don't Interpret UUIDs!](../guides/domain-modeling#don-t-interpret-uuids) for details.
 
 > <sup>(2)</sup> Not supported on PostgreSQL, as there is no `TINYINT`. Not supported on H2, as `TINYINT` is signed on H2. Use `Int16` instead.
 

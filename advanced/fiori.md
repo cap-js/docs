@@ -115,7 +115,7 @@ While CDS in principle allows you to add such annotations everywhere in your mod
 
 [See this also in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more}
 
-**Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-models/#domain-driven-design) and [Separation of Concerns](../guides/domain-models/#separation-of-concerns).
+**Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-modeling#domain-driven-design) and [Separation of Concerns](../guides/domain-modeling#separation-of-concerns).
 
 
 ### Maintaining Annotations

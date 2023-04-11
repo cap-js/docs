@@ -158,18 +158,21 @@ pre.log {
   color: #00ffffe0;
   padding: 20px 25px;
   border-radius: 14px;
-
-  /* @media screen and (max-width: 415px) {
-    font-size: 55%;
-  } */
+  overflow: auto;
+  em {
+    color: #00ff00e0;
+  }
+  b {
+    color: #ee0000e0;
+  }
+  i {
+    color: grey;
+  }
 }
-
-pre.log em {
-  color: #00ff00e0;
-}
-pre.log b {
-  color: #ee0000e0;
-}
-pre.log i {
-  color: grey;
+/* expand width on big screens */
+@media screen and (min-width: 1600px) {
+  pre.log:hover,
+  pre.log:focus {
+    min-width: fit-content;
+  }
 }

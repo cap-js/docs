@@ -15,7 +15,7 @@ The following built-in types are provided:
 
 | CDS Type | Arguments / Remarks | Example Value | SQL <sup>(6)</sup> |
 | --- | --- | ---  | --- |
-| `UUID` | an opaque 36-characters string <sup>(1)</sup> | `'be071623-8699-4106-b6fa-8e3cb04c261e'`| _NVARCHAR(36)_  |
+| `UUID` | an opaque string <sup>(1)</sup> | `'be071623-8699-4106-...'` | _NVARCHAR(36)_  |
 | `Boolean` | | `true` | _BOOLEAN_  |
 | `UInt8` | <sup>(2)</sup> | `133` | _TINYINT_  |
 | `Int16` | | `1337` | _SMALLINT_  |
@@ -23,14 +23,14 @@ The following built-in types are provided:
 | `Integer` | | `1337` | _INTEGER_  |
 | `Int64` | | `1337` | _BIGINT_  |
 | `Integer64` | | `1337` | _BIGINT_  |
-| `Decimal` | ( `precision`, `scale` ) <sup>(3)</sup> | `15.2` | _DECIMAL_  |
+| `Decimal` | (precision, scale) <sup>(3)</sup> | `15.2` | _DECIMAL_  |
 | `Double` | | `15.2` | _DOUBLE_  |
 | `Date` | | `'2021-06-27'` | _DATE_  |
 | `Time` | | `'07:59:59'` | _TIME_  |
 | `DateTime` | _sec_ precision | `'2021-06-27T14:52:23Z'` | _TIMESTAMP_  |
-| `Timestamp` | 0.1 _µs_ precision <sup>(4)</sup> | `'2021-06-27T14:52:23.123Z'` |  _TIMESTAMP_  |
-| `String` | ( `length` ) <sup>(5)</sup> | `'hello world'` | _NVARCHAR_  |
-| `Binary` | ( `length` ) <sup>(5)</sup> | |  _VARBINARY_  |
+| `Timestamp` | _µs_ precision <sup>(4)</sup> | `'2021-06-27T14:52:23.123Z'` |  _TIMESTAMP_  |
+| `String` | (length ) <sup>(5)</sup> | `'hello world'` | _NVARCHAR_  |
+| `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
 | `LargeBinary` |  | | _BLOB_  |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
 

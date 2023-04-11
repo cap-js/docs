@@ -155,7 +155,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 ### Using Namespaces
 
-You can use [namespaces](../../cds/cdl#namespaces) to help getting to unique names without bloating your code with fully qualified names. For example:
+You can use [namespaces](../cds/cdl#namespaces) to help getting to unique names without bloating your code with fully qualified names. For example:
 
 ```cds
 namespace foo.bar;
@@ -350,10 +350,10 @@ On the same note, converting UUID values obtained as strings from the database i
 
 :::
 
-::: details See also: [Mapping UUIDs to OData](../../advanced/odata#override-type-mapping) 
+::: details See also: [Mapping UUIDs to OData](../advanced/odata#override-type-mapping) 
 :::
 
-::: details See also: [Mapping UUIDs to SQL](../../advanced/hana#mapping-uuids-to-sql)
+::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
 :::
 
 ## ④ Add Associations
@@ -492,7 +492,7 @@ Behind the scenes this will add an entity named `Orders.Items` with a backlink a
 
 ## ⑥ Add Secondary Aspects
 
-CDS's [Aspects](../../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. It allows decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
+CDS's [Aspects](../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. It allows decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
 
 The basic mechanism use the `extend` or `annotate` directives to add secondary aspects to a core domain entity like so: 
 

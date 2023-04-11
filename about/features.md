@@ -99,7 +99,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers) | <Na/> |  <X/>   | <X/> |
 | [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents | <X/>  |  <X/>   | <X/> |
 | [Automatic Input Validation](../guides/providing-services/#input-validation)           | <X/>  |  <X/>   | <X/> |
-| [Auto-filled Primary Keys](../guides/domain-modeling/#use-uuids-for-keys)              | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-modeling#use-uuids-for-keys)              | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services/#implicit-pagination)                   | <X/>  |  <X/>   | <X/> |
 | [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
 | [Access Control](../guides/authorization/)                                             | <X/>  |  <X/>   | <X/> |

@@ -52,7 +52,7 @@ export default defineConfig({
       }
     ],
     toc: {
-      level: [2,2]
+      level: [2,3]
     }
   },
   vite: {
@@ -66,4 +66,3 @@ export default defineConfig({
     await sitemap.generate(outDir, siteHostName, links)
   }
 })
-

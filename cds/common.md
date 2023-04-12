@@ -265,7 +265,8 @@ Assumption is that ~80% of all apps don't need more than what is already covered
 
 ## Aspects for Localized Data
 
-Following are types and aspects mostly used behind the scenes for [localized data](../guides/localized-data/index). For example given this effective definition of `sap.common.Countries`:
+Following are types and aspects mostly used behind the scenes for [localized data](../guides/localized-data/index). <br>
+For example given this entity definition:
 
 ```cds
 entity Foo {
@@ -275,23 +276,31 @@ entity Foo {
 }
 ```
 
-When unfolding the `localized` fields, we do so in these steps: 
+When unfolding the `localized` fields, we essentially add `.texts` entities in these steps: 
 
 1. Add a new entity `Foo.texts` which inherits from `TextsAspects`: 
    ```cds
    entity Foo.texts : sap.common.TextsAspects { ... }
    ```
-
-2. Add the primary key of the main entity `Foo`:
+   Which in turn unfolds to:
    ```cds
-   entity Foo.texts : sap.common.TextsAspects {
-     key ID : UUID; // [!code focus]
+   entity Foo.texts {
+     key locale : sap.common.Locale;
    }
    ```
 
+2. Add the primary key of the main entity `Foo`:
+   ```cds
+   entity Foo.texts {
+     key locale : sap.common.Locale;
+     key ID : UUID; // [!code focus]
+   }
+   ```
+   
 3. Add the localized fields:
    ```cds
-   entity Foo.texts : sap.common.TextsAspects {
+   entity Foo.texts {
+     key locale : sap.common.Locale;
      key ID : UUID;
      name   : String; // [!code focus]
      descr  : String; // [!code focus]
@@ -302,7 +311,7 @@ When unfolding the `localized` fields, we do so in these steps:
 
 #### Namespace: `sap.common`
 
-The following definitions are within namespace `sap.common`...
+The following definitions are with namespace `sap.common`...
 
 ### Aspect `TextsAspect` {#texts-aspects}
 

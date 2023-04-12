@@ -183,7 +183,7 @@ As seen in the previous section, the reuse types `Country`, `Currency`, and `Lan
 
 > You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
 
-### Namespace: `sap.common`
+#### Namespace: `sap.common`
 
 The following definitions are within namespace `sap.common`...
 
@@ -300,7 +300,7 @@ When unfolding the `localized` fields, we do so in these steps:
 
 
 
-### Namespace: `sap.common`
+#### Namespace: `sap.common`
 
 The following definitions are within namespace `sap.common`...
 
@@ -324,7 +324,7 @@ type sap.common.Locale : String(14) @title: '{i18n>LanguageCode}';
 
 The reuse type `sap.common.Locale` is used when generating `.texts` entities for the unfolding of *localized* elements.
 
-[Learn more about **localized data**.](localized data){ .learn-more}
+[Learn more about **localized data**.](../guides/localized-data/){ .learn-more}
 
 ### SQL Persistence 
 
@@ -354,7 +354,7 @@ FROM Foo (
 )
 ```
 
-[Learn more about **localized data**.][localized data]{ .learn-more}
+[Learn more about **localized data**.](../guides/localized-data/){ .learn-more}
 
 ## Providing Initial Data
 

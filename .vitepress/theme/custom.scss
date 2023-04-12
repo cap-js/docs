@@ -7,6 +7,12 @@
   // --vp-c-brand: #039;
   // --vp-c-brand-light: #003399dd;
   // --vp-c-brand-dark: #0092d1;
+
+  /* inverts image colors in dark mode */
+  &.dark {
+    img { filter: brightness(.9) invert(1) hue-rotate(177deg) }
+    .VPHome img, img.ignore-dark { filter:none }
+  }
 }
 
 main {
@@ -143,11 +149,6 @@ a.learn-more::before {
   width: 20px;
   display: inline-block;
   margin-right: 5px;
-}
-
-/* inverts image colors in dark mode */
-:root.dark img.adapt {
-  filter: brightness(.9) invert(1) hue-rotate(177deg)
 }
 
 pre.log {

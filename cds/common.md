@@ -1,7 +1,5 @@
 ---
 layout: cds-ref
-synopsis: >
-  Introduces _@sap/cds/common_ a prebuilt CDS model shipped with `@sap/cds` that provides common types and aspects.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -13,7 +11,9 @@ _@sap/cds/common_ {.subtitle}
 
 <br>
 
-CDS ships with a prebuilt model _@sap/cds/common_ that provides common types and aspects.
+CDS ships with a prebuilt model *`@sap/cds/common`* that provides common types and aspects for reuse.
+
+[[toc]]
 
 [ISO 3166]: https://en.wikipedia.org/wiki/ISO_3166
 [ISO 3166-1]: https://en.wikipedia.org/wiki/ISO_3166-1
@@ -122,20 +122,6 @@ entity Contract : temporal {...}
 [Learn more about **temporal data**.][temporal data]{ .learn-more}
 
 
-### Aspect `sap.common.TextsAspect` {#texts-aspects}
-
-This aspect is used when generating `.texts` entities for the unfolding of localized elements.
-It can be extended, which effectively extends all generated `.texts` entities.
-
-```cds
-aspect sap.common.TextsAspect {
-  key locale: sap.common.Locale;
-}
-```
-
-[Learn more about **Extending .texts entities**.](../guides/localized-data/#extending-texts-entities){ .learn-more}
-
-
 ## Common Reuse Types {#code-types}
 
 _@sap/cds/common_ provides predefined easy-to-use types for _Countries_, _Currencies_, and _Languages_. Use these types in all applications to foster interoperability.
@@ -191,27 +177,17 @@ type Language : Association to sap.common.Languages;
 
 [It’s the same as for `Country`.](#type-country){ .learn-more}
 
-
-### Type `sap.common.Locale` {#locale-type}
-
-```cds
-type sap.common.Locale : String(14) @title : '{i18n>LanguageCode}';
-```
-
-The reuse type `sap.common.Locale` is used when generating `.texts` entities for the unfolding of *localized* elements.
-
-[Learn more about **localized data**.](localized data){ .learn-more}
-
-
-
 ## Common Code Lists { #code-lists}
 
 As seen in the previous section, the reuse types `Country`, `Currency`, and `Language` are defined as associations to respective code list entities. They act as code list tables for respective elements in your domain model.
 
 > You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
 
+### Namespace: `sap.common`
 
-### Aspect `sap.common.CodeList`
+The following definitions are within namespace `sap.common`...
+
+### Aspect `CodeList`
 
 This is the base definition for the three code list entities in _@sap/cds/common_. It can also be used for your own code lists.
 
@@ -224,7 +200,7 @@ aspect sap.common.CodeList {
 [Learn more about **localized** keyword.](../guides/localized-data/){ .learn-more}
 
 
-### Entity `sap.common.Countries`
+### Entity `Countries`
 
 The code list entity for countries is meant to be used with **[ISO 3166-1] two-letter alpha codes** as primary keys. For example, `'GB'` for the United Kingdom. Nevertheless, it's defined as `String(3)` to allow you to fill in three-letter codes, if needed.
 
@@ -235,7 +211,7 @@ entity sap.common.Countries : CodeList {
 ```
 
 
-### Entity `sap.common.Currencies`
+### Entity `Currencies`
 
 The code list entity for currencies is meant to be used with **[ISO 4217] three-letter alpha codes** as primary keys, for example, `'USD'` for US Dollar. In addition, it provides an element to hold common currency symbols.
 
@@ -247,7 +223,7 @@ entity sap.common.Currencies : CodeList {
 ```
 
 
-### Entity `sap.common.Languages`
+### Entity `Languages`
 
 The code list entity for countries is meant to be used with POSIX locales as defined in **[ISO/IEC 15897]** as primary keys. For example, `'en_GB'` for British English.
 
@@ -261,9 +237,8 @@ entity sap.common.Languages : CodeList {
 
 ### SQL Persistence
 
-The following table definition represents the resulting SQL persistence of the countries code list:
+The following table definition represents the resulting SQL persistence of the `Countries` code list, with the ones for `Currencies` and `Languages` alike:
 
-<!--- % include _code sample='sap-common-countries.sql' label='none' %} -->
 ```sql
 -- the basic code list table
 CREATE TABLE sap_common_Countries (
@@ -274,40 +249,8 @@ CREATE TABLE sap_common_Countries (
 );
 ```
 
-### SQL Persistence and Localized Texts
 
-In addition, the generic [localized data] support triggered through the `localized` keyword adds these additional tables and views to efficiently deal with translations:
-
-<!--- % include _code sample='sap-common-countries_texts.sql' label='none' %} -->
-```sql
--- _texts table for translations
-CREATE TABLE sap_common_Countries_texts (
-  code NVARCHAR(3),
-  locale NVARCHAR(14),
-  name NVARCHAR(255),
-  descr NVARCHAR(1000),
-  PRIMARY KEY(locale, code)
-);
-```
-
-<!--- % include _code sample='sap-common-countries_localized.sql' label='none' %} -->
-```sql
--- view to easily read localized texts with automatic fallback
-CREATE VIEW localized_sap_common_Countries AS SELECT
-  code,
-  COALESCE (localized.name, name) AS name,
-  COALESCE (localized.descr, descr) AS descr
-FROM ( sap_common_Countries
-  LEFT JOIN sap_common_Countries_texts AS localized
-    ON localized.code= code
-    AND localized.locale = SESSION_CONTEXT('locale')
-);
-```
-
-[Learn more about **localized data**.][localized data]{ .learn-more}
-
-
-### Minimalistic Design by Intent  { #minimalistic-design-by-intend}
+### Minimalistic Design
 
 The models for code lists are intentionally minimalistic to keep the entry barriers as low as possible, focusing on the bare minimum of what all applications generally need: a unique code and localizable fields for name and full name or descriptions.
 
@@ -320,6 +263,98 @@ The models for code lists are intentionally minimalistic to keep the entry barri
 
 Assumption is that ~80% of all apps don't need more than what is already covered in this minimalistic model. Yet, in case you need more, you can easily leverage CDS standard features to adapt and extend these base models to your needs as demonstrated in the section [Adapting to your needs](#adapting-to-your-needs).
 
+## Aspects for Localized Data
+
+Following are types and aspects mostly used behind the scenes for [localized data](../guides/localized-data/index). For example given this effective definition of `sap.common.Countries`:
+
+```cds
+entity Foo {
+  key ID : UUID;
+  name   : localized String;
+  descr  : localized String;
+}
+```
+
+When unfolding the `localized` fields, we do so in these steps: 
+
+1. Add a new entity `Foo.texts` which inherits from `TextsAspects`: 
+   ```cds
+   entity Foo.texts : sap.common.TextsAspects { ... }
+   ```
+
+2. Add the primary key of the main entity `Foo`:
+   ```cds
+   entity Foo.texts : sap.common.TextsAspects {
+     key ID : UUID; // [!code focus]
+   }
+   ```
+
+3. Add the localized fields:
+   ```cds
+   entity Foo.texts : sap.common.TextsAspects {
+     key ID : UUID;
+     name   : String; // [!code focus]
+     descr  : String; // [!code focus]
+   }
+   ```
+
+
+
+### Namespace: `sap.common`
+
+The following definitions are within namespace `sap.common`...
+
+### Aspect `TextsAspect` {#texts-aspects}
+
+This aspect is used when generating `.texts` entities for the unfolding of localized elements. It can be extended, which effectively extends all generated `.texts` entities.
+
+```cds
+aspect sap.common.TextsAspect {
+  key locale: sap.common.Locale;
+}
+```
+
+[Learn more about **Extending .texts entities**.](../guides/localized-data/#extending-texts-entities){ .learn-more}
+
+### Type `Locale` {#locale-type}
+
+```cds
+type sap.common.Locale : String(14) @title: '{i18n>LanguageCode}';
+```
+
+The reuse type `sap.common.Locale` is used when generating `.texts` entities for the unfolding of *localized* elements.
+
+[Learn more about **localized data**.](localized data){ .learn-more}
+
+### SQL Persistence 
+
+In addition, the base entity these additional tables and views are generated behind the scenes to efficiently deal with translations:
+
+```sql
+-- _texts table for translations
+CREATE TABLE Foo_texts (
+  ID NVARCHAR(36),
+  locale NVARCHAR(14),
+  name NVARCHAR(255),
+  descr NVARCHAR(1000),
+  PRIMARY KEY(ID, locale)
+);
+```
+
+```sql
+-- view to easily read localized texts with automatic fallback
+CREATE VIEW localized_Foo AS SELECT
+  code,
+  COALESCE (localized.name, name) AS name,
+  COALESCE (localized.descr, descr) AS descr
+FROM Foo ( 
+  LEFT JOIN Foo_texts AS localized
+    ON localized.code= code
+    AND localized.locale = SESSION_CONTEXT('locale')
+)
+```
+
+[Learn more about **localized data**.][localized data]{ .learn-more}
 
 ## Providing Initial Data
 

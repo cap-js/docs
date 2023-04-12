@@ -1,7 +1,7 @@
 /* https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
 
 :root {
-  --vp-font-family-base: Avenir Next, Helvetica Neue, sans-serif;
+  --vp-font-family-base: Avenir Next, sans-serif;
   --vp-c-brand: darkcyan;
 
   // --vp-c-brand: #039;
@@ -89,7 +89,6 @@ main {
   // Details Blocks
   details.custom-block.details {
     padding: 11px 14px 1px;
-    border: none;
     summary {
       font-weight: 500;
       font-style: italic;

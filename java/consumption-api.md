@@ -27,7 +27,7 @@ The [Event Context](provisioning-api#eventcontext) contains information about th
 The `emit` method takes care of dispatching an Event Context to all event handlers registered on the respective event and is the central API to process asynchronous and synchronous events.
 
 Usually service implementations extend the `Service` interface to provide a custom, user-friendly API layer on top of the `emit()` method. Examples are the [Application Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html), [Persistence Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/persistence/PersistenceService.html), and [Remote Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/RemoteService.html), which offer a common CQN query execution API for their CRUD events.
-However, also technical components are implemented as services, for example the [AuthorizationService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authorization/AuthorizationService.html) or the [MessagingService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messaging/MessagingService.html).
+However, also technical components are implemented as services, for example the [AuthorizationService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authorization.md/authorization.mdService.html) or the [MessagingService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messaging/MessagingService.html).
 
 ### Using Services
 
@@ -115,7 +115,7 @@ Consequently, they only accept CQN statements targeting entities that are define
 
 [Learn more about adding business logic to Application Services.](application-services){.learn-more}
 
-Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization/), [input validation](../guides/providing-services/#input-validation), [implicit pagination](../guides/providing-services/#implicit-pagination) and many more.
+Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization.md), [input validation](../guides/providing-services/#input-validation), [implicit pagination](../guides/providing-services/#implicit-pagination) and many more.
 Their default ON event handler delegates CQN statements to the Persistence Service.
 
 [Learn more about these capabilities in our Cookbooks.](../guides/){.learn-more}

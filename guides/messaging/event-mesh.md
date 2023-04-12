@@ -262,7 +262,7 @@ Incoming messages are delivered by SAP Event Mesh to webhook endpoints of the Sa
 }
 ```
 
-[Learn more about **XSUAA configuration**.](../authorization/#xsuaa-configuration){.learn-more}
+[Learn more about **XSUAA configuration**.](../authorization.md#xsuaa-configuration){.learn-more}
 
 In addition, you've to let your SAP Event Mesh instance accept the granted authorities. Add `$ACCEPT_GRANTED_AUTHORITIES` to the `authorities` array in the service descriptor of your SAP Event Mesh instance:
 

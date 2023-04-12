@@ -347,7 +347,7 @@ Note, that to validate incoming data for *single* requests, we recommend to use 
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization/). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 
@@ -395,7 +395,7 @@ The existing authentication configuration stays unchanged. No autoconfiguration 
 
 #### Enforcement API & Custom Handlers
 
-The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
+The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization.md)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
 
 ```java
 @Autowire

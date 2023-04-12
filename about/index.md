@@ -106,7 +106,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
-**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization/).
+**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization.md.md).
 
 ###### CDS Aspects & Mixins
 
@@ -140,7 +140,7 @@ Following is an excerpt of generic features provided:
 - [Implicit Pagination](../guides/providing-services/#implicit-pagination)
 - [Input Validation](../guides/providing-services/#input-validation)
 - [Authentication](../node.js/authentication)
-- [Authorization](../guides/authorization/)
+- [Authorization](../guides/authorization.md.md)
 - [Localization / i18n](../guides/i18n/)
 - [Concurrency Control](../guides/providing-services/#concurrency-control)
 

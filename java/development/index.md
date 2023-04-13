@@ -232,7 +232,7 @@ It supports the following command line options:
 
 You can build and run your application by means of the following Maven command:
 
-```
+```sh
 mvn spring-boot:run
 ```
 

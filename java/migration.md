@@ -132,7 +132,7 @@ If there’s also a `<CLASSIC-PROJECT-ROOT>/.cdsrc.json` in your classic project
 
 You can validate the final CDS configuration by executing a CDS command in the root folder of the new project:
 
-```
+```sh
 cds env
 ```
 
@@ -147,7 +147,7 @@ After you’ve copied all your CDS files, maintained additional dependencies and
 you can try to build your new CAP Java project the first time.
 Therefore, execute the following Maven command in the root folder of your new CAP Java project:
 
-```
+```sh
 mvn clean install
 ```
 
@@ -347,7 +347,7 @@ Note, that to validate incoming data for *single* requests, we recommend to use 
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization/). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 

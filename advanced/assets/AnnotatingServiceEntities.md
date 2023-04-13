@@ -14,12 +14,11 @@
 #### Sample Code
 
 
- ```
+ ```cds
         annotate Foo.Bar with @UI : { SelectionFields : [
             description, assignedIndividual.lastName|
             ]
          };
-    ```
    ```
 
 5.  Add `, (comma)` after collection brackets **\[\]** and use the code completion again to add another annotation from UI vocabulary, such as `LineItem`. Line item is a collection of DataField records. To add a record, select the record type you need from the completion list.
@@ -47,7 +46,7 @@
 
 #### Sample Code
 
- ```
+ ```cds
         annotate Foo.Bar with @UI : { SelectionFields : [
             description, assignedIndividual.lastName
             ],
@@ -63,7 +62,6 @@
               ]
                };
 
-        ```
     ```
 
 *Note:* To add values pointing to annotations defined in another CDS source, you must reference this source with \`using\` directive.

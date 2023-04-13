@@ -394,7 +394,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 
 2. Deploy HANA data base content:
 
-    > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convinient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
+    > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convenient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
 
     ```
     cds deploy --to hana --bind

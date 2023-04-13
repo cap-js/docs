@@ -2,7 +2,7 @@
 # shorty: Definition Language
 # synopsis: >
 #   A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.
-permalink: /cds/cdl/
+#permalink: /cds/cdl/
 # status: released
 # uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 outline: [1,3]
@@ -46,8 +46,7 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 - [Virtual Elements](#virtual-elements)
 - [Literals](#literals)
 - [Delimited Identifiers](#delimited-identifiers)
-  <span id="calc-fields-link" /><!-- - [Calculated Fields](#calculated-fields) -->
-
+- [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
 - [Type References](#typereferences)
 - [Constraints](#constraints)
@@ -254,6 +253,85 @@ entity ![Entity] {
 >You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
+
+### Calculated Elements (beta) {#calculated-elements}
+
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
+:::
+
+Elements of entities and aspects can be specified with a calculation expression, in which you can
+refer to other elements of the same entity/aspect.
+
+% if jekyll.environment != "external" %
+For calculated elements with a value expression, you can differentiate two variants: "on-read" and "on-write". For those variants, the difference is the point in time when the expression is evaluated.
+In addition, there are calculated elements that evaluate to an association.
+% else %
+Today CAP CDS only supports calculated elements with a value expression
+with "on-read" semantics.
+% endif %
+
+#### On-read (beta)
+
+```swift
+entity Employees {
+  firstName : String;
+  lastName : String;
+  name : String = firstName || ' ' || lastName;
+  name_upper = upper(name);
+  addresses : Association to many Addresses;
+  city = addresses[kind='home'].city;
+}
+```
+
+For a calculated element with "on-read" semantics, the calculation expression is evaluated when reading an entry from the entity.
+The calculated element is read-only, no value must be provided for it in a WRITE operation.
+Using such a calculated element in a query or view definition is equivalent to
+writing the expression directly into the query, both with respect to semantics and to performance.
+In CAP, it is implemented by replacing each occurrence of a calculated element in a query by the respective expression.
+
+Entity using calculated elements:
+```swift
+entity EmployeeView as select from Employees {
+  name,
+  city
+};
+```
+Equivalent entity:
+```swift
+entity EmployeeView as select from Employees {
+  firstName || ' ' || lastName as name : String,
+  addresses[kind='home'].city as city
+};
+```
+
+Calculated elements "on-read" are a pure convenience feature. Instead of having to write
+the same expression several times in queries, you can define a calculated element **once** and then
+simply refer to it.
+
+In the _definition_ of a calculated element "on-read", you can use almost all expressions that are allowed
+in queries. Some restrictions apply:
+
+* Subqueries are not allowed.
+* Nested projections (inline/expand) are not allowed.
+* A calculated element can't be key.
+
+A calculated element can be *used* in every location where an expression can occur, with these
+exceptions:
+
+* A calculated element can't be used in the ON condition of an unmanaged association.
+* A calculated element can't be used as the foreign key of a managed association.
+
+
+There are some temporary restrictions:
+
+* Currently, a calculated element must always be accessed using a view/projection. An OData request or custom code can't access the calculated element in the entity where it is defined.
+* A calculated element can't be used in a query together with nested projections (inline/expand).
+
+<span id="concept-ow" />
+
+<div id="concept-alce" />
 
 ### Default Values
 

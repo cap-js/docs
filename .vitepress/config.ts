@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
-import { sidebar, nav4 } from './sidebar'
+import { sidebar, nav4 } from './menu'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
 

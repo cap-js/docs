@@ -39,9 +39,6 @@ cds init bookshop --add java
 </div>
 
 <!-- EXCLUDE IN NOTEBOOK START -->
-> To copy code snippets, click the <img src="./assets/copy.svg" style="display:initial; margin:0; vertical-align:middle;">
-> icon in the upper-right corner of the code box.
-
 
 ### Download from _cap/samples_ (Optional)
 

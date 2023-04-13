@@ -235,8 +235,8 @@ module.exports = cds.service.impl(srv => {
 
 To trigger this error, use the following request:
 
-```
-http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(BusinessPartner='1003764',AddressID='28238')
+```http
+GET http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(BusinessPartner='1003764',AddressID='28238')
 ```
 
 ###### Reset Mock Data at Runtime
@@ -266,8 +266,8 @@ This will delete the data from the database and fill it with the initial data.
 
 Trigger the reset action with the following POST request:
 
-```
-http://localhost:4004/api-business-partner/reset
+```http
+GET http://localhost:4004/api-business-partner/reset
 ```
 
 

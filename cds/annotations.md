@@ -29,7 +29,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 | `@readonly`   | see [Input Validation](../guides/providing-services/#readonly)    |
 | `@insertonly` | see [Generic Handlers]                                            |
 | `@restrict`   | see [Authorization](../guides/authorization#restrict-annotation) |
-| `@requires`   | see [Authorization](../guides/authorizatio#requires)            |
+| `@requires`   | see [Authorization](../guides/authorization#requires)            |
 
 
 ## Input Validation

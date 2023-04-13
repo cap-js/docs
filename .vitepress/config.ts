@@ -10,7 +10,7 @@ const links: { url:string, lastmod?:number}[] = []
 
 const sideb = sidebar('menu.md')
 //@ts-ignore
-const nav = nav4(sideb).filter(i => ['About', 'Getting Started', 'Cookbook', 'CDS'].includes(i.text))
+const nav = nav4(sideb).filter(i => ['Getting Started', 'Cookbook', 'CDS'].includes(i.text))
 
 export default defineConfig({
   title: 'CAPire',

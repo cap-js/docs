@@ -704,8 +704,8 @@ TODO: Similar to above, I'd like us to say something like:
 
 Open the SAP Personal Data Manager application from the _Instances and Subscriptions_ page in the SAP BTP cockpit.
 
-![tile in the cockpit](./assets/pdmCockpit.png){width="500"}
+![tile in the cockpit](../assets/pdmCockpit.png){width="500"}
 
 In the personal data manager application you can search for data subjects with _First Name_, _Last Name_, and _Date of Birth_, or alternatively with their _ID_.
 
-![PDM UI](./assets/pdmApplication.png){width="500"}
+![PDM UI](../assets/pdmApplication.png){width="500"}

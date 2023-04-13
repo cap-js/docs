@@ -18,10 +18,10 @@ CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:
 
-```cds
+```sql
 SELECT name, address.street from Authors
 ```
-```cds
+```sql
 SELECT from Authors { name, address.street }
 ```
 
@@ -31,7 +31,7 @@ SELECT from Authors { name, address.street }
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:
 
-```cds
+```sql
 SELECT from Authors {
    name, address { street, town { name, country }}
 };
@@ -68,7 +68,7 @@ Nested Expands following _to-many_ associations are not supported.
 As the name of the struct element or association preceding the postfix projection appears in the result set,
 an alias can be provided for it:
 
-```cds
+```sql
 SELECT from Authors {
    name, address as residence { street, town as city { name, country }}
 };
@@ -96,7 +96,7 @@ Nested Expands can contain expressions.
 In addition, it's possible to define new structures that aren't present in the data source. In this case
 an alias is mandatory and is placed *behind* the `{...}`:
 
-```cds
+```sql
 SELECT from Books {
    title,
    author { name, dateOfDeath - dateOfBirth as age },
@@ -127,7 +127,7 @@ results = [
 
 Put a **`"."`** before the opening brace to **inline** the target elements and avoid writing lengthy lists of paths to read several elements from the same target. For example:
 
-```cds
+```sql
 SELECT from Authors {
    name, address.{ street, town.{ name, country }}
 };
@@ -135,7 +135,7 @@ SELECT from Authors {
 
 ... is equivalent to:
 
-```cds
+```sql
 SELECT from Authors {
   name,
   address.street,
@@ -146,7 +146,7 @@ SELECT from Authors {
 
 Nested Inlines can contain expressions:
 
-```cds
+```sql
 SELECT from Books {
    title,
    author.{
@@ -158,7 +158,7 @@ SELECT from Books {
 
 The previous example is equivalent to the following:
 
-```cds
+```sql
 SELECT from Books {
    title,
    author.name,
@@ -175,7 +175,7 @@ Within postfix projections, the `*` operator queries are handled slightly differ
 
 #### Example:
 
-```cds
+```sql
 SELECT from Books { *, author.name as author }
 ```
 
@@ -186,7 +186,7 @@ Queries like in our example, would result in duplicate element effects for `auth
 
 Use the `excluding` clause in combination with `SELECT *` to select all elements except for the ones listed in the exclude list.
 
-```cds
+```sql
 SELECT from Books { * } excluding { author }
 ```
 
@@ -201,7 +201,7 @@ entity Boo as SELECT from Foo { foo, car };
 
 A `SELECT * from Bar` would result into the same as a query of `Boo`:
 
-```cds
+```sql
 SELECT * from Bar --> { foo, car }
 SELECT * from Boo --> { foo, car }
 ```
@@ -214,7 +214,7 @@ extend Foo with { boo : String; }
 
 With that, queries on `Bar` and `Boo` would return different results:
 
-```cds
+```sql
 SELECT * from Bar --> { foo, car, boo }
 SELECT * from Boo --> { foo, car }
 ```
@@ -226,24 +226,24 @@ SELECT * from Boo --> { foo, car }
 If the `*` selector is used following an association, it selects all elements of the association target.
 For example, the following queries are equivalent:
 
-```cds
+```sql
 SELECT from Books { title, author { * } }
 ```
-```cds
+```sql
 SELECT from Books { title, author { ID, name, dateOfBirth, ... } }
 ```
 
 
 A `*` selector following a struct element selects all elements of the structure and thus is equivalent to selecting the struct element itself.
 The following queries are all equivalent:
-```cds
+```sql
 SELECT from Authors { name, struc { * } }
 SELECT from Authors { name, struc { elem1, elem2 } }
 SELECT from Authors { name, struc }
 ```
 
 The `excluding` clause can also be used for Nested Expands:
-```cds
+```sql
 SELECT from Books { title, author { * } excluding { dateOfDeath, placeOfDeath } }
 ```
 
@@ -253,13 +253,13 @@ SELECT from Books { title, author { * } excluding { dateOfDeath, placeOfDeath } 
 
 The expansion of `*` in Nested Inlines is analogous. The following queries are equivalent:
 
-```cds
+```sql
 SELECT from Books { title, author.{ * } }
 SELECT from Books { title, author.{ ID, name, dateOfBirth, ... } }
 ```
 
 The `excluding` clause can also be used for Nested Inlines:
-```cds
+```sql
 SELECT from Books { title, author.{ * } excluding { dateOfDeath, placeOfDeath } }
 ```
 
@@ -270,19 +270,19 @@ SELECT from Books { title, author.{ * } excluding { dateOfDeath, placeOfDeath } 
 Use path expressions to navigate along associations and/or struct elements in any of the SQL clauses as follows:
 
 In `from` clauses:
-```cds
+```sql
 SELECT from Authors[name='Emily Brontë'].books;
 SELECT from Books:authors.towns;
 ```
 
 In `select` clauses:
-```cds
+```sql
 SELECT title, author.name from Books;
 SELECT *, author.address.town.name from Books;
 ```
 
 In `where` clauses:
-```cds
+```sql
 SELECT from Books where author.name='Emily Brontë'
 ```
 
@@ -293,13 +293,13 @@ The same is valid for `group by`, `having`, and `order by`.
 
 Path expressions in from clauses allow to fetch only those entries from a target entity, which are associated to a parent entity. They unfold to _SEMI JOINS_ in plain SQL queries. For example, the previous mentioned queries would unfold to the following plain SQL counterparts:
 
-```cds
+```sql
 SELECT * from Books WHERE EXISTS (
   SELECT 1 from Authors WHERE Authors.ID = Books.author_ID
     AND Authors.name='Emily Brontë'
 );
 ```
-```cds
+```sql
 SELECT * from Towns WHERE EXISTS (
   SELECT 1 from Authors WHERE Authors.town_ID = Towns.ID AND EXISTS (
     SELECT 1 from Books WHERE Books.author_ID = Authors.ID
@@ -338,22 +338,22 @@ All column references get qualified &rarr; in contrast to plain SQL joins there�
 
 Append infix filters to associations in path expressions to narrow the resulting joins. For example:
 
-```cds
+```sql
 SELECT books[genre='Mystery'].title from Authors
  WHERE name='Agatha Christie'
 ```
 
 ... unfolds to:
-```cds
+```sql
 SELECT books.title from Authors
 LEFT JOIN Books books ON ( books.author_ID = Authors.ID )
-  AND ( books.genre = 'Mystery' )  --> from Infix Filter
+  AND ( books.genre = 'Mystery' )  //--> from Infix Filter
 WHERE Authors.name='Agatha Christie';
 ```
 
 If an infix filter effectively reduces the cardinality of a *to-many* association to *one*, make this explicit with:
 
-```cds
+```sql
 SELECT name, books[1: favorite=true].title from Authors
 ```
 
@@ -361,12 +361,12 @@ SELECT name, books[1: favorite=true].title from Authors
 
 Use a filtered path expression to test if any element of the associated collection matches the given filter:
 
-```cds
+```sql
 SELECT FROM Authors {name} WHERE EXISTS books[year = 2000]
 ```
 
 ...unfolds to:
-```cds
+```sql
 SELECT name FROM Authors
 WHERE EXISTS (
         SELECT 1 FROM Books
@@ -376,13 +376,13 @@ WHERE EXISTS (
 ```
 
 Exists predicates can be nested:
-```cds
+```sql
 SELECT FROM Authors { name }
     WHERE EXISTS books[year = 2000 and EXISTS pages[wordcount > 1000]]
 ```
 
 A path with several associations is rewritten as nested exists predicates. The previous query is equivalent to the following query.
-```cds
+```sql
 SELECT FROM Authors { name }
     WHERE EXISTS books[year = 2000].pages[wordcount > 1000]
 ```
@@ -397,7 +397,7 @@ Paths *inside* the filter are not yet supported.
 There are two different constructs commonly called casts.
 SQL casts and CDL casts. The former produces SQL casts when rendered into SQL, whereas the latter does not:
 
-```cds
+```sql
 SELECT cast (foo+1 as Decimal) as bar from Foo;  -- standard SQL
 SELECT from Foo { foo+1 as bar : Decimal };      -- CDL-style
 ```
@@ -418,7 +418,7 @@ You don't need a CDL cast if you already use a SQL cast. The compiler will extra
 
 Use the `mixin...into` clause to logically add unmanaged associations to the source of the query, which you can use and propagate in the query's projection. This is only supported in postfix notation.
 
-```cds
+```sql
 SELECT from Books mixin {
   localized : Association to LocalizedBooks on localized.ID = ID;
 } into {

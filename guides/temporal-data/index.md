@@ -187,11 +187,11 @@ Instances with `null` as their `validTo` are not found with the above where expr
 
 The service runtimes automatically set these session context variables for any READ request based on corresponding query parameters from inbound requests as follows:
 
-| if query option contains | `$at.from` = | `$at.to` = |
-| --- | --- | --- |
-| _$from/to_ | _$from_ | _$to_ |
-| _$at_ | _$at_ | _$at +1ms_ |
-| _else:_ | _systime_ | _systime +1ms_ |
+| if query option contains | `$at.from` = | `$at.to` =     |
+|--------------------------|--------------|----------------|
+| _$from/to_               | _$from_      | _$to_          |
+| _$at_                    | _$at_        | _$at +1ms_     |
+| _else:_                  | _systime_    | _systime +1ms_ |
 
 > If these query parameters aren't yet supported by a concrete OData implementation, respective fallback options are chosen, such as _sap-valid-from/to_ instead of _$from/to_.
 
@@ -218,10 +218,10 @@ $expand=jobs($select=role&$expand=dept($select=name))
 
 The values of `$at`, and so also the respective session variables, would be set to, for example:
 
-|   |   |  |
-| --- | --- | --- |
-| `$at.from` = | _session_context('valid-from')_= |_2019-03-08T22:11:00Z_|
-| `$at.to` = |_session_context('valid-to')_ = | _2019-03-08T22:11:00.001Z_ |
+|              |                                  |                            |
+|--------------|----------------------------------|----------------------------|
+| `$at.from` = | _session_context('valid-from')_= | _2019-03-08T22:11:00Z_     |
+| `$at.to` =   | _session_context('valid-to')_ =  | _2019-03-08T22:11:00.001Z_ |
 
 The result set would be:
 
@@ -248,10 +248,10 @@ $expand=jobs($select=role&$expand=dept($select=name))
 
 The values of `$at` and hence the respective session variables would be set to, for example:
 
-|      |    |     |
-| --- | --- | --- |
-| `$at.from` = | _session_context('valid-from')_= |_2017-01-01T00:00:00Z_|
-| `$at.to` = |_session_context('valid-to')_ = | _2017-01-01T00:00:00.001Z_ |
+|              |                                  |                            |
+|--------------|----------------------------------|----------------------------|
+| `$at.from` = | _session_context('valid-from')_= | _2017-01-01T00:00:00Z_     |
+| `$at.to` =   | _session_context('valid-to')_ =  | _2017-01-01T00:00:00.001Z_ |
 
 The result set would be:
 

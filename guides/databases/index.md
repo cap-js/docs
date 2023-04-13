@@ -911,8 +911,8 @@ The information about foreign key relations contained in the associations of CDS
 
 Switch on generation of foreign key constraints on the database with:
 
-```
-cds.features.assert_integrity: 'db'
+```js
+cds.features.assert_integrity = 'db'
 ```
 ::: warning
 Database constraints are not intended for checking user input. Instead, they protect
@@ -1009,7 +1009,7 @@ CREATE TABLE Genres (
 
 For SAP HANA, the database constraints are generated as separate _.hdbconstraint_ files. To enforce that the constraints are deleted on SAP HANA if they are no longer in the model, ensure that you have a file _db/undeploy.json_ that contains an entry:
 
-```
+```txt
 "src/gen/**/*.hdbconstraint"
 ```
 

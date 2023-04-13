@@ -39,9 +39,6 @@ cds init bookshop --add java
 </div>
 
 <!-- EXCLUDE IN NOTEBOOK START -->
-> To copy code snippets, click the <img src="./assets/copy.svg" style="display:initial; margin:0; vertical-align:middle;">
-> icon in the upper-right corner of the code box.
-
 
 ### Download from _cap/samples_ (Optional)
 
@@ -673,6 +670,6 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization/) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment/).
+[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment/).
 
 Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.

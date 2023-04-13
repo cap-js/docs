@@ -23,7 +23,7 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 <img src="../assets/overview.drawio.svg" style="width:450px; margin: 22px auto 0" class="adapt">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.png" style="height:40px"  class="adapt"/>
+  <img src="../assets/logos/nodejs.svg" style="height:40px"  class="adapt"/>
   <img src="../assets/logos/express.png" style="height:30px"  class="adapt"/>
   <img src="../assets/logos/java.svg" style="height:44px" class="adapt"/>
   <img src="../assets/logos/spring.svg" style="height:25px"  class="adapt"/>
@@ -106,7 +106,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
-**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization/).
+**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
 
 ###### CDS Aspects & Mixins
 
@@ -140,7 +140,7 @@ Following is an excerpt of generic features provided:
 - [Implicit Pagination](../guides/providing-services/#implicit-pagination)
 - [Input Validation](../guides/providing-services/#input-validation)
 - [Authentication](../node.js/authentication)
-- [Authorization](../guides/authorization/)
+- [Authorization](../guides/authorization)
 - [Localization / i18n](../guides/i18n/)
 - [Concurrency Control](../guides/providing-services/#concurrency-control)
 
@@ -202,12 +202,12 @@ We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/c
 
 All behavioral aspects in CAP are based on ubiquitous notions of [Services](#services) and [Events](#events), as expressed in this manifest:
 
-1. _All active things are Services_ — local ones, remote ones, as well as databases
-2. *Services are [declared in CDS](#service-definitions-in-cds)* — reflected and used in generic service providers
-3. *Services [provide uniform APIs](#uniform-consumption)* — consumed by other services or frontends
-4. _Services [react on Events](#events)_ — covering _synchronous_ and _asynchronous_ APIs
-5. *Services [consume other Services](#uniform-consumption)* — in event handler implementations
-6. _All data is passive_ — that is, without its own behavior, adhering to _REST_
+1. _All active things are Services_ --- local ones, remote ones, as well as databases
+2. *Services are [declared in CDS](#service-definitions-in-cds)* --- reflected and used in generic service providers
+3. *Services [provide uniform APIs](#uniform-consumption)* --- consumed by other services or frontends
+4. _Services [react on Events](#events)_ --- covering _synchronous_ and _asynchronous_ APIs
+5. *Services [consume other Services](#uniform-consumption)* --- in event handler implementations
+6. _All data is passive_ --- that is, without its own behavior, adhering to _REST_
 
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
@@ -228,7 +228,7 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 
 <img src="../assets/concepts/service-consumption.png" width="300px" style="float:left; margin: 0px 22px 44px 0;" class="adapt">
 
-**Every active thing in CAP is a service**, including *local* services or *remote* ones — even *databases* are represented as services.
+**Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 

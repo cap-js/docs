@@ -174,8 +174,8 @@ GET: ../Books(201)
 - Binary data in payloads must be a Base64 encoded string.
 - Binary data in URLs must have the format `binary'<url-safe base64 encoded>'`. For example:
 
-```
-$filter=ID eq binary'Q0FQIE5vZGUuanM='
+```http
+GET $filter=ID eq binary'Q0FQIE5vZGUuanM='
 ```
 
 ### Node.js Runtime Conventions and Limitations

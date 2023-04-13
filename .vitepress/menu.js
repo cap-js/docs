@@ -28,7 +28,7 @@ export function sidebar (file = 'menu.md') {
   return sidebar
 }
 
-const _absolute = link => link && ( link[0] === '/' ? link : '/'+link )
+const _absolute = link => link && ( link[0] === '/' ? link : '/'+link ).replace('@external/', '')
 const _item = ({ link, text, ...etc }) => ({
   text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
   ...etc

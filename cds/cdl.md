@@ -26,11 +26,12 @@ outline: [1,3]
 Find here a reference of all CDS concepts and features in the form of compact examples.
 The examples are given in **_CDL_**, a human-readable syntax for defining models, and **_CQL_**, an extension of SQL to write queries.
 
-[[toc]]
+<!-- [[toc]] -->
 
 
 <br>
-Refer also to [_The Nature of Models_](models) and the [_CSN specification_][CSN] to complete your understanding of CDS.
+
+Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./csn) to complete your understanding of CDS.
 
 <br>
 
@@ -77,7 +78,7 @@ define entity Employees {
 {#types}
 
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
-Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations].
+Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
 ```cds
 define type User : String(111);
@@ -147,15 +148,17 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-Filter expressions, [instance-based authorization](../guides/authorization/#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
-{.danger}
+::: danger
+Filter expressions, [instance-based authorization](../guides/#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
+:::
 
 #### Null Values
 
 For arrayed types the `null` and `not null` constraints apply to the _members_ of the collections. The default is `not null` indicating that the collections can't hold `null` values.
 
+::: danger
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
-{.danger}
+:::
 
 In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
 
@@ -236,8 +239,9 @@ entity DocumentedEntity {
 
 Delimited identifiers allow you to use any identifier, even containing special characters or using a keyword.
 
+::: warning
 Special characters in identifiers or keywords as identifiers should be avoided for best interoperability.
-{.warning}
+:::
 
 ```cds
 entity ![Entity] {
@@ -350,8 +354,7 @@ type Complex {
 ```
 
 
-### Type References
-{#typereferences}
+### Type References {#typereferences}
 
 If you want to base an element's type on another element of the same structure, you can use the `type of` operator.
 
@@ -422,8 +425,7 @@ The entity signature is inferred from the projection.
 - [Views with Parameters](#views-with-parameters)
 
 
-### The `as select from` Variant
-{#as-select-from}
+### The `as select from` Variant {#as-select-from}
 
 Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL] query including all query clauses.
 
@@ -440,8 +442,7 @@ order by moo asc;
 ```
 
 
-### The `as projection on` Variant
-{#as-projection-on}
+### The `as projection on` Variant {#as-projection-on}
 
 Use the `as projection on` variant instead of `as select from` to indicate that you don't use the full power of SQL in your query. For example, having a restricted query in an entity allows us to serve such an entity from external OData services.
 
@@ -501,11 +502,11 @@ entity SomeView as SELECT from Employees {
 };
 ```
 
+::: tip
 By using a cast, annotations and other properties are inherited from the provided type and not the base element, see [Annotation Propagation](#annotation-propagation)
-{.tip}
+:::
 
-### Views with Declared Signatures
-{ .impl.concept}
+### Views with Declared Signatures { .impl.concept}
 
 You can optionally declare the expected signature explicitly. This declaration overrides the inferred signature. The implementation can check the inferred signature against the declared one.
 
@@ -518,8 +519,7 @@ entity SomeView {
 ```
 
 
-### Views with Nested Projections
-{ .impl.beta}
+### Views with Nested Projections { .impl.beta}
 
 Use [CQLs nested expands](./cql#nested-expands) to declare projections on document structures and/or entity graphs. This results in structured document signatures.
 
@@ -571,8 +571,7 @@ as SELECT * from Employees where ID=:foo;
 
 
 
-## Associations & Compositions
-{#associations}
+## Associations & Compositions {#associations}
 
 Associations capture relationships between entities. They are like forward-declared joins added to a table definition in SQL.
 
@@ -604,8 +603,7 @@ entity Addresses {
 ```
 
 
-### Managed (To-One) Associations
-{#managed-associations}
+### Managed (To-One) Associations {#managed-associations}
 
 For to-one associations, CDS can automatically resolve and add requisite foreign key elements from the target's primary keys and implicitly add respective join conditions.
 
@@ -660,8 +658,7 @@ entity Emp2Addr {
 
 
 
-### Managed many-to-many Associations
-{ .impl.concept}
+### Managed many-to-many Associations { .impl.concept}
 
 With Managed Many-to-many Associations, CDS can generate requisite link tables automatically. You can use the `via` parameter clause to add elements to link table reflecting attributed relationships or to use a predefined link table instead.
 
@@ -688,8 +685,7 @@ entity Emp2Addr {
 
 
 
-### Associations with Default Filters
-{ .impl.concept}
+### Associations with Default Filters { .impl.concept}
 
 For to-many associations, you can optionally specify a default filter. That filter automatically
 applies to any usage of that association in queries, unless another filter is specified explicitly.
@@ -709,8 +705,7 @@ entity Product$Texts {
 }
 ```
 
-### Associations to Parameterized Views
-{ .impl.concept}
+### Associations to Parameterized Views { .impl.concept}
 
 If the target is a [parameterized view](#views-with-parameters), you can specify
 corresponding arguments in an `Association` definition as follows:
@@ -750,11 +745,10 @@ entity Orders.Items {
 }
 ```
 
-> Essentially, Compositions are the same as _[associations]_, just with the additional information that this association represents a contained-in relationship so the same syntax and rules apply in their base form.
+> Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a contained-in relationship so the same syntax and rules apply in their base form.
 
 
-### Managed Compositions of Aspects
-{#managed-compositions}
+### Managed Compositions of Aspects {#managed-compositions}
 
 Use managed compositions variant to nicely reflect document structures in your domain models, without the need for separate entities, reverse associations, and unmanaged `on` conditions.
 
@@ -798,6 +792,10 @@ aspect OrderItems {
   quantity : Integer;
 }
 ```
+
+#### Default Target Cardinality
+
+If not otherwise specified, a managed composition of an aspect has the default target cardinality *to many*.
 
 #### For Many-to-many Relationships
 
@@ -966,8 +964,9 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
 }
 ```
 
+::: tip
 References (and expressions in general) aren't checked or resolved by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules. For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
-{.tip}
+:::
 
 
 ### Records as Syntax Shortcuts
@@ -991,7 +990,7 @@ For example, the following are equivalent:
 @Common.foo: { bar, car: 'wheels'  }
 ```
 
-and they would show up as follows in a parsed model (&rarr; see [CSN][]):
+and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
 ```
 {
@@ -1000,8 +999,7 @@ and they would show up as follows in a parsed model (&rarr; see [CSN][]):
 }
 ```
 
-### Annotation Propagation
-{#annotation-propagation}
+### Annotation Propagation {#annotation-propagation}
 
 Annotations are inherited from types and base types to derived types, entities, and elements as well as from elements of underlying entities in case of views.
 
@@ -1072,8 +1070,7 @@ Actually, `annotate` is just a shortcut with the default mode being switched to 
 
 
 
-### Extend Array Annotations
-{#extend-array-annotations}
+### Extend Array Annotations {#extend-array-annotations}
 
 Usually, the annotation value provided in an `annotate` directive overwrites an already existing annotation value.
 
@@ -1173,8 +1170,7 @@ They're based on a mixin approach as known from Aspect-oriented Programming meth
 - [Extending Views / Projections](#extend-view)
 
 
-### The `extend` Directive
-{ #extend}
+### The `extend` Directive { #extend}
 
 Use `extend` to add extension fields or to add/override metadata to existing definitions, for example, annotations, as follows:
 
@@ -1189,8 +1185,9 @@ extend Foo with @title:'Foo' {
 extend Bar with @title:'Bar'; // nothing for elements
 ```
 
+::: tip
 Make sure that you prepend the `extend` keyword to nested elements, otherwise this would mean that you want to add a new field with that name:
-{.tip}
+:::
 
 [Learn more about the **annotate** Directive.](#annotate){.learn-more}
 
@@ -1207,8 +1204,7 @@ extend Books:price.value with (precision:12,scale:3);
 The extended type or element directly must have the respective property.
 
 
-### Named Aspects --- `define aspect`
-{#aspect}
+### Named Aspects --- `define aspect` {#aspect}
 
 You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
 
@@ -1231,8 +1227,7 @@ Use keyword `aspect` as shown in the example to declare definitions that are onl
 
 
 
-### Includes -- `:` as Shortcut Syntax
-{#includes}
+### Includes -- `:` as Shortcut Syntax {#includes}
 
 You can use an inheritance-like syntax option to extend a definition with one or more [named aspects](#aspect)
 as follows:
@@ -1270,8 +1265,7 @@ section, it isn't based on inheritance but on mixins, which are more powerful an
 When combined with persistence mapping there are a few things to note, that goes down to which strategy to choose to map inheritance to, for example, relational models. See [_Aspects vs Inheritance_](./aspects-inheritance) for more details.
 
 
-### Extending Views and Projections
-{ #extend-view}
+### Extending Views and Projections { #extend-view}
 
 Use the `extend <entity> with columns` variant to extend the select list of a projection or view entity and do the following:
 
@@ -1287,8 +1281,9 @@ extend Foo with @title:'Foo' columns {
 }
 ```
 
+::: tip
 Enhancing nested structs isn't supported. Note also that you can use the common [`annotate`](#annotate) syntax, to just add/override annotations of a view's elements.
-{.tip}
+:::
 
 <br>
 
@@ -1343,8 +1338,9 @@ service MyOrders {
 }
 ```
 
+::: tip
 You can optionally add annotations such as `@readonly` or `@insertonly` to exposed entities, which, will be enforced by the CAP runtimes in Java and Node.js.
-{.tip}
+:::
 
 Entities can be also exposed as views with parameters:
 
@@ -1368,8 +1364,7 @@ GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
 
-### (Auto-) Redirected Associations
-{#auto-redirect}
+### (Auto-) Redirected Associations {#auto-redirect}
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -1385,8 +1380,9 @@ service AdminService {
 
 Auto-redirection fails if a target can't be resolved unambiguously, that is, when there is more than one projection with the same minimal 'distance' to the source. For example, compiling the following model with two projections on `my.Books` would produce this error:
 
+::: danger
 Target "Books" is exposed in service "AdminService" by multiple projections "AdminService.ListOfBooks", "AdminService.Books" - no implicit redirection.
-{.danger}
+:::
 
 ```cds
 service AdminService {
@@ -1422,8 +1418,7 @@ service AdminService {
 }
 ```
 
-### Auto-Exposed Entities
-{#auto-expose}
+### Auto-Exposed Entities {#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
 
@@ -1471,8 +1466,7 @@ service Sue {
 
 [Learn more about **CodeLists in `@sap/cds/common`**.](./common#code-lists){.learn-more}
 
-### Custom Actions and Functions
-{#actions}
+### Custom Actions and Functions {#actions}
 
 Within service definitions, you can additionally specify `actions` and `functions`. Use a comma-separated list of named and typed inbound parameters (optional) and a response type (optional for actions), which can be either a:
 
@@ -1494,12 +1488,12 @@ service MyOrders {
 }
 ```
 
+::: tip
 The notion of actions and functions in CDS adopts that of [OData](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
-{.tip}
+:::
 
 
-#### Bound Actions and Functions
-{ #bound-actions}
+#### Bound Actions and Functions { #bound-actions}
 
 Actions and functions can also be bound to individual entities of a service, enclosed in an additional `actions` block as the last clause in an entity/view definition.
 
@@ -1514,9 +1508,26 @@ service CatalogService {
 }
 ```
 
+Bound actions and functions have a binding parameter that is usually implicit.
+It can also be modeled explicitly: the first parameter of a bound action or function is treated as binding parameter,
+if it's typed by `[many] $self`. Use Explicit Binding to control the naming of the binding parameter. Use the
+keyword `many` to indicate that the action or function is bound to a collection of instances rather than to a single one.
 
-### Custom-Defined Events
-{#events}
+```cds
+service CatalogService {
+  entity Products as projection on data.Products { ... }
+    actions {
+      // bound actions/functions with explicit binding parameter
+      action A1 (prod: $self, stars: Integer);
+      action A2 (in: many $self);  // bound to collection of Products
+    }
+}
+```
+
+Explicitly modelled binding parameters are ignored for OData V2.
+
+
+### Custom-Defined Events {#events}
 
 Similar to [Actions and Functions][actions] you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
 
@@ -1529,8 +1540,7 @@ service MyOrders { ...
 }
 ```
 
-### Extending Services
-{#extend-service}
+### Extending Services {#extend-service}
 
 You can [extend](#extend) services with additional entities and actions much as you would add new entities to a context:
 
@@ -1552,8 +1562,7 @@ extend entity CatalogService.Products with actions {
 ```
 
 
-### Derived Services
-{ .impl.concept}
+### Derived Services { .impl.concept}
 
 Define abstract services and inherit from it in other service definitions as in this example:
 
@@ -1588,25 +1597,38 @@ service Bookshop : ShoppingService {
 - [Fully Qualified Names](#fully-qualified-names)
 
 
-### The `namespace` Directive
-{#namespace}
+### The `namespace` Directive {#namespace}
 
 To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
 
-% include _code sample='namespaces.cds' %}
+::: code-group
+```cds[namespace.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+entity Bar : Foo {}     //> foo.bar.Bar
+```
+:::
 
 
-### The `context` Directive
-{#context}
+### The `context` Directive {#context}
 
 Use `contexts` for nested namespace sections.
 
-% include _code sample='contexts.cds' %}
+::: code-group
+```cds[contexts.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+context scoped {
+  entity Bar : Foo {}   //> foo.bar.scoped.Bar
+  context nested {
+    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
+  }
+}
+```
+:::
 
 
-
-### Scoped Definitions
-{#scoped-names}
+### Scoped Definitions {#scoped-names}
 
 You can define types and entities with other definitions' names as prefixes:
 
@@ -1622,25 +1644,44 @@ type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
 
 A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN][]:
 
-% include _code sample='contexts.json' %}
-
+::: code-group
+```json [contexts.json]
+{"definitions":{
+  "foo.bar.Foo": { "kind": "entity" },
+  "foo.bar.scoped": { "kind": "context" },
+  "foo.bar.scoped.Bar": { "kind": "entity",
+    "includes": [ "foo.bar.Foo" ]
+  },
+  "foo.bar.scoped.nested": { "kind": "context" },
+  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
+}}
+```
+:::
 
 <br>
 
-## Import Directives
-{#imports}
+## Import Directives {#imports}
 
   - [The `using` Directive](#using) % if jekyll.environment != "external" %}
   - [The `import` Directive](#import)% endif %}
   - [Model Resolution](#model-resolution)
 
 
-### The `using` Directive
-{#using}
+### The `using` Directive {#using}
 
 Using directives allows to import definitions from other CDS models. As shown in line three below you can specify aliases to be used subsequently. You can import single definitions as well as several ones with a common namespace prefix. Optional: Choose a local alias.
 
-% include _code sample='using-from.cds' %}
+::: code-group
+```cds [using-from.cds]
+using foo.bar.scoped.Bar from './contexts';
+using foo.bar.scoped.nested from './contexts';
+using foo.bar.scoped.nested as specified from './contexts';
+
+entity Car : Bar {}            //> : foo.bar.scoped.Bar
+entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
+entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
+```
+:::
 
 Multiple named imports through ES6-like deconstructors:
 
@@ -1657,7 +1698,7 @@ entity Car : Bar { /*...*/ }
 
 ### Model Resolution
 
-Imports in `cds` work very much like `require` in [node][] and `imports` in [ES6][].
+Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
@@ -1668,21 +1709,20 @@ Hence, the same rules apply:
   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
 
+::: tip
 To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
-{.tip}
+:::
 
 
 
-## Comments
-{#comments}
+## Comments {#comments}
 
   - [Single-Line Comments](#single-comment)
   - [Multi-Line Comments](#multi-comment)
   - [Doc comments](#doc-comment)
 
 
-### Single-Line Comments --- `//`
-{#single-comment}
+### Single-Line Comments --- `//` {#single-comment}
 
 Any text between `//` and the end of the line is ignored:
 
@@ -1693,8 +1733,7 @@ entity Employees {
 }
 ```
 
-### Multi-Line Comments --- `/*  */`
-{#multi-comment}
+### Multi-Line Comments --- `/*  */` {#multi-comment}
 
 Any text between `/*` and `*/` is ignored:
 

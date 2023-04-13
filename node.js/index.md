@@ -69,9 +69,9 @@ We use the following notations in method signatures:
 
 Read them as follows:
 
-* `param?` --- appended question marks denote optional parameters
-* &#8674; `result` --- solid line arrows: **returns** the given result
-* &#8594; `result` --- dashed arrows: **returns a _[Promise]_ resolving to** the given result
-* `...` --- denotes a fluent API, eventually returning/resolving to given result
-* _<i>&#8627;</i>_ --- denotes subsequent methods to add options in a fluent API
+* `param?` — appended question marks denote optional parameters
+* &#8674; `result` — solid line arrows: **returns** the given result
+* &#8594; `result` — dashed arrows: **returns a _[Promise]_ resolving to** the given result
+* `...` — denotes a fluent API, eventually returning/resolving to given result
+* _<i>&#8627;</i>_ — denotes subsequent methods to add options in a fluent API
 

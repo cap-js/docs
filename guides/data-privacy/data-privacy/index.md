@@ -193,9 +193,8 @@ Identifies fields to (potentially) contain personal data. For example, this will
 Identifies fields to (potentially) contain sensitive data. For example, this will be used to audit-log all read access operations including such elements in data subjects, data subject details, or related data objects.
 {.indent}
 
-::: warning _Warning_ <!--  -->
-Read access logs for sensitive data happen for each and every _Read_ access. --- Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en).
---- Try to avoid reading sensitive data at all, for example, by obscuring credit card numbers as `**** **** **** 1234`.
+::: warning _Warning_
+Read access logs for sensitive data happen for each and every _Read_ access. Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en). Try to avoid reading sensitive data at all, for example, by obscuring credit card numbers as `**** **** **** 1234`.
 :::
 
 

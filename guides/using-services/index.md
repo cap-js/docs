@@ -431,12 +431,12 @@ For example:
 _http://localhost:8080/service/risk/Suppliers_
 
 ```
-2021-09-21 15:18:44.870 DEBUG 34645 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
+2021-09-21 15:18:44.870 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
 ...
-2021-09-21 15:18:45.292 DEBUG 34645 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName,BusinessPartnerIsBlocked&$top=1000&$skip=0&$orderby=BusinessPartner%20asc&sap-language=de&sap-valid-at=2021-09-21T13:18:45.211722Z", parameters={masked}
+2021-09-21 15:18:45.292 DEBUG 34645 — [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName,BusinessPartnerIsBlocked&$top=1000&$skip=0&$orderby=BusinessPartner%20asc&sap-language=de&sap-valid-at=2021-09-21T13:18:45.211722Z", parameters={masked}
 ...
-2021-09-21 15:18:45.474 DEBUG 34645 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2021-09-21 15:18:45.519 DEBUG 34645 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2021-09-21 15:18:45.474 DEBUG 34645 — [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2021-09-21 15:18:45.519 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
 ```
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}

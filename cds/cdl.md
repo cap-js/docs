@@ -38,8 +38,8 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 
 ## Entity and Type Definitions
 
-- [Entity Definitions](#entities) --- `define entity`
-- [Type Definitions](#types) --- `define type`
+- [Entity Definitions](#entities) — `define entity`
+- [Type Definitions](#types) — `define type`
 - [Predefined Types](#predefined-types)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
@@ -55,7 +55,7 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 
 
 
-### Entity Definitions --- `define entity`
+### Entity Definitions — `define entity`
 {#entities}
 
 Entities are structured types with named and typed elements,
@@ -74,7 +74,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions --- `define type`
+### Type Definitions — `define type`
 {#types}
 
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
@@ -1020,7 +1020,7 @@ entity BooksList as SELECT from Books {
 
 The rules are:
 
-1. Entity-level properties and annotations are inherited from the **primary** underlying source entity --- here `Books`.
+1. Entity-level properties and annotations are inherited from the **primary** underlying source entity — here `Books`.
 
 2. Each element that can **unambiguously** be traced back to a single source element, inherits that element's properties.
 
@@ -1164,7 +1164,7 @@ CDS's aspects allow to flexibly extend definitions by new elements as well as ov
 They're based on a mixin approach as known from Aspect-oriented Programming methods.
 
 - [The `extend` Directive](#extend)
-- [Named Aspects](#aspect) --- `define aspect`
+- [Named Aspects](#aspect) — `define aspect`
 - [Shortcut Syntax `:`](#includes)
 - [Looks Like Inheritance](#looks-like-inheritance)
 - [Extending Views / Projections](#extend-view)
@@ -1204,7 +1204,7 @@ extend Books:price.value with (precision:12,scale:3);
 The extended type or element directly must have the respective property.
 
 
-### Named Aspects --- `define aspect` {#aspect}
+### Named Aspects — `define aspect` {#aspect}
 
 You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
 
@@ -1722,7 +1722,7 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
   - [Doc comments](#doc-comment)
 
 
-### Single-Line Comments --- `//` {#single-comment}
+### Single-Line Comments — `//` {#single-comment}
 
 Any text between `//` and the end of the line is ignored:
 
@@ -1733,7 +1733,7 @@ entity Employees {
 }
 ```
 
-### Multi-Line Comments --- `/*  */` {#multi-comment}
+### Multi-Line Comments — `/*  */` {#multi-comment}
 
 Any text between `/*` and `*/` is ignored:
 
@@ -1749,7 +1749,7 @@ entity Employees {
 
 unless it is a doc comment.
 
-### Doc Comments --- `/**  */`
+### Doc Comments — `/**  */`
 {#doc-comment}
 
 A multi-line comment of the form `/**  */` at an [annotation position](#annotation-targets) is considered a *doc comment*:

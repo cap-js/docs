@@ -27,7 +27,7 @@ In case of database services this actually starts the transaction by acquiring a
 This method is called automatically by the framework on the first query, so **you never have to call it** in application coding. There are only very rare cases where you'd want to do so, for example to reuse a `tx` object to start subsequent physical transactions after a former `commit` or `rollback`. But this is not considered good practice.
 
 
-## cds.DatabaseService --- Consumption {#databaseservice-consumption }
+## cds.DatabaseService — Consumption {#databaseservice-consumption }
 [databaseservice consumption]: #databaseservice-consumption
 
 
@@ -47,7 +47,7 @@ This method is called automatically by the framework on the first query, so **yo
     :::
 
 
-## cds.DatabaseService --- Configuration {#databaseservice-configuration }
+## cds.DatabaseService — Configuration {#databaseservice-configuration }
 [databaseservice configuration]: #databaseservice-configuration
 
 
@@ -215,7 +215,7 @@ You can set `tcpKeepAliveIdle` on the connection using the environment variable 
 Valid values are a positive number or `false`.
 > As the setting must be injected into the credentials that may be received from an external source, for example in the case of multitenancy, the easiest way to do this is via the environment.
 
-## cds.DatabaseService --- UPSERT {#databaseservice-upsert }
+## cds.DatabaseService — UPSERT {#databaseservice-upsert }
 [databaseservice upsert]: #databaseservice-upsert
 
 

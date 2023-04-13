@@ -291,7 +291,7 @@ CAP promotes a service-oriented paradigm with single-purposed services, which ca
 * [Localization (i18n)](../guides/i18n/)
 * [Adding Localized Data](../guides/localized-data/)
 * [Adding Temporal Data](../guides/temporal-data/)
-* [Adding Authorization](../guides/authorization.md)
+* [Adding Authorization](../guides/authorization)
 * [Adding Data Privacy](../guides/data-privacy/)
 * [Using Multitenancy](../guides/deployment/as-saas)
 * [Reuse & Compose](../guides/extensibility/composition)

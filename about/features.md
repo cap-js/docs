@@ -102,19 +102,19 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Auto-filled Primary Keys](../guides/domain-modeling#use-uuids-for-keys)              | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services/#implicit-pagination)                   | <X/>  |  <X/>   | <X/> |
 | [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/authorization.md)                                             | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/authorization)                                             | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
 | [Streaming & Media Types](../guides/media-data/)                                       | <X/>  |  <X/>   | <X/> |
 | [Conflict Detection through _ETags_](../guides/providing-services/#etag)               | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/authorization.md#prerequisite-authentication)         | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/authorization.md#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/authorization#prerequisite-authentication)         | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
 | Enterprise Features                                                                             |  CDS  | Node.js | Java |
 |-------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization.md)                                                       | <X/>  |  <X/>   | <X/> |
+| [Authorization](../guides/authorization)                                                       | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                        | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n/)                                                            | <X/>  |  <X/>   | <X/> |
 | [Managed Data](../guides/providing-services/#managed-data)                                      | <X/>  |  <X/>   | <X/> |

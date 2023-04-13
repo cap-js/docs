@@ -395,7 +395,7 @@ The existing authentication configuration stays unchanged. No autoconfiguration 
 
 #### Enforcement API & Custom Handlers
 
-The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization.md)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
+The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
 
 ```java
 @Autowire

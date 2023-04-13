@@ -49,7 +49,7 @@ const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.
 ### user.id <i> : string </i> {#user-id}
 
 A user's unique ID.
-It corresponds to `$user` in [`@restrict` annotations](../guides/authorization.md) of your CDS models
+It corresponds to `$user` in [`@restrict` annotations](../guides/authorization) of your CDS models
 (Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {.indent}
 
 
@@ -61,13 +61,13 @@ Checks if user has assigned the given role. Example usage:
 if (req.user.is('admin')) ...
 ```
 
-The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/authorization.md) in your CDS models.
+The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/authorization) in your CDS models.
 
 
 ### user.attr<i>.\<x\> : string </i> {#user-attr}
 
 User-related attributes, for example, from JWT tokens
-These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization.md) of your CDS models {.indent}
+These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
 
 
 

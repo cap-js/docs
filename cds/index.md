@@ -13,7 +13,7 @@ CDS is the backbone of the SAP Cloud Application Programming Model (CAP). It pro
 
 <!-- % capture assets %}{{site.baseurl}}/{{page.path}}/../assets% endcapture %} -->
 
-<img src="./assets/csn.png" style="width:444px" class="adapt"/>
+<img src="./assets/csn.drawio.svg" class="adapt"/>
 
 CDS models are plain JavaScript objects complying to the _[Core Schema Notation (CSN)][CSN]_, an open specification derived from [JSON Schema]. You can easily create or interpret these models, which foster extensions by 3rd-party contributions. Models are processed dynamically at runtime and can also be created dynamically. % if jekyll.environment != "external" %}See [The Nature of Models](models) for more details.% endif %}
 

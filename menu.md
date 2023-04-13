@@ -19,7 +19,7 @@
 - [Messaging](/guides/messaging/)
 - [Querying](/guides/querying/)
 - [Databases](/guides/databases/)
-- [Authorization](/guides/authorization/)
+- [Authorization](/guides/authorization)
 - [Localization, i18n](/guides/i18n/)
 - [Localized Data](/guides/localized-data/)
 - [Temporal Data](/guides/temporal-data/)

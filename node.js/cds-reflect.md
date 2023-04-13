@@ -165,9 +165,9 @@ for (let any of m.each('service'))  return any
 
 Calls the visitor for each definition matching the given filter. `foreach` iterates through the passed in defs only, `forall` in addition walks through all nested element definitions hierarchically.
 
-* `x` --- the filter to match definitions [&rarr; see _.each(x)_](#each)
-* `visitor` --- the callback function
-* `defs` --- the definitions to fetch in, default: `this.definitions`
+* `x` — the filter to match definitions [&rarr; see _.each(x)_](#each)
+* `visitor` — the callback function
+* `defs` — the definitions to fetch in, default: `this.definitions`
 
 Examples:
 

@@ -22,7 +22,7 @@ Class `cds.RemoteService` is a service proxy class to consume remote services vi
 
 ### class cds.**RemoteService**  <i>  extends cds.Service </i>
 
-## cds.RemoteService --- Configuration {#remoteservice-configuration }
+## cds.RemoteService — Configuration {#remoteservice-configuration }
 [remoteservice configuration]: #remoteservice-configuration
 
 

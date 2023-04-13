@@ -149,7 +149,7 @@ service HRService {
 
 ### Adding Temporal Predicates {.impl.concept}
 
-When temporal entities are exposed through services --- such as _WorkAssignments_ in the previous sample --- their queries are **automatically enhanced** with a predicate that narrows results based on propagated validity as follows:
+When temporal entities are exposed through services — such as _WorkAssignments_ in the previous sample — their queries are **automatically enhanced** with a predicate that narrows results based on propagated validity as follows:
 
 <!--- % include _code sample='service-w-temporal-entities.cds' %} -->
 
@@ -369,7 +369,7 @@ entity Departments : temporal {/*...*/}
 
 ## Primary Keys of Time Slices
 
-While timeless entities are uniquely identified by the declared primary `key` --- we call that the _conceptual_ key in CDS --- time slices are uniquely identified by _the conceptual `key` **+** `validFrom`_.
+While timeless entities are uniquely identified by the declared primary `key` — we call that the _conceptual_ key in CDS — time slices are uniquely identified by _the conceptual `key` **+** `validFrom`_.
 
 In effect the SQL DDL statement for the _WorkAssignments_ would look like this:
 

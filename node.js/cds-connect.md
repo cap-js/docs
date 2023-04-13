@@ -482,13 +482,13 @@ The `VCAP_SERVICES` variable is generated like this:
 
 The generated value can be displayed using the command:
 
-```
+```sh
 cds env get VCAP_SERVICES --process-env
 ```
 
 A list of all services with a preconfigured `vcap.label` property can be displayed with this command:
 
-```
+```sh
 cds env | grep vcap.label
 ```
 

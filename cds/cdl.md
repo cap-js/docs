@@ -1620,7 +1620,7 @@ entity Car : Bar { /*...*/ }
 
 ### Model Resolution
 
-Imports in `cds` work very much like `require` in [node](https://nodejs.org) and `imports` in [ES6](https://git.io/es6features).
+Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 

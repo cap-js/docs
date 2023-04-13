@@ -28,19 +28,116 @@ npm i -g @sap/cds-dk
 
 ### `cds version`
 
-* Use `cds version` to get information about your installed package version
+Use `cds version` to get information about your installed package version
 
-![image-20211004184521146](assets/image-20211004184521146.png "Command line output of the 'cds version' and 'cds version --markdown' command.")
+<pre class="log">
+<i>$</i> cds version
+<em>@capire/samples:</em> 2.0.0
+<em>@sap/cds:</em> 6.7.0
+<em>@sap/cds-compiler:</em> 3.8.2
+<em>@sap/cds-dk:</em> 6.7.0
+<em>@sap/cds-dk (global):</em> 6.7.0
+<em>@sap/cds-mtxs:</em> 1.7.1
+<em>@sap/eslint-plugin-cds:</em> 2.6.3
+<em>Node.js:</em> v18.13.0
+<em>home:</em> .../node_modules/@sap/cds
+
+<i>$</i> cds version --markdown
+
+| @capire/samples | https://github.com/sap-samples/cloud-cap-samples.git |
+|:------------------ | ----------- |
+| Node.js            | v18.13.0    |
+| @sap/cds           | 6.7.0       |
+| @sap/cds-compiler  | 3.8.2       |
+| @sap/cds-dk        | 6.7.0       |
+| @sap/eslint-plugin | 2.6.3       |
+</pre>
 
 ### `cds help`
 
-- Use `cds help` to see an overview of all commands
+Use `cds help` to see an overview of all commands
 
-![image-20211005034348521](assets/image-20211005034348521.png "Command line output of the 'cds help' command.")
+<pre class="log">
+<i>$</i> cds help
 
-- Use `cds help <command>` or `cds <command> ?` to get specific help
+USAGE
 
-![image-20211004184849442](assets/image-20211004184849442.png "Command line output of the 'cds watch --help' command.")
+    <em>cds</em> &lt;command&gt; [&lt;args&gt;]
+    <em>cds</em> &lt;src&gt;  =  cds compile &lt;src&gt;
+    <em>cds</em>        =  cds help
+
+COMMANDS
+
+    <em>i | init</em>       jump-start cds-based projects
+    <em>a | add</em>        add a feature to an existing project
+    <em>y | bind</em>       bind application to remote services
+    <em>m | import</em>     add models from external sources
+    <em>c | compile</em>    compile cds models to different outputs
+    <em>p | parse</em>      parses given cds models
+    <em>s | serve</em>      run your services in local server
+    <em>w | watch</em>      run and restart on file changes
+    <em>r | repl</em>       read-eval-event loop
+    <em>e | env</em>        inspect effective configuration
+    <em>b | build</em>      prepare for deployment
+    <em>d | deploy</em>     deploy to databases or cloud
+    <em>l | login</em>      login to extendable SaaS application
+    <em>t | lint</em>       [beta] run linter for env or model checks
+    <em>v | version</em>    get detailed version information
+    <em>? | help</em>       get detailed usage information
+    <em>  | pull</em>       pull the base model for your SaaS app extension.
+    <em>  | push</em>       push your extension to the SaaS app in order to enable or update it
+    <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
+    <em>  | mock</em>       call cds serve with mocked service
+
+  Learn more about each command using:
+  <em>cds help</em> &lt;command&gt; or
+  <em>cds</em> &lt;command&gt; <em>--help</em>
+</pre>
+
+
+Use `cds help <command>` or `cds <command> ?` to get specific help
+
+<pre class="log">
+<i>$</i> cds watch --help
+
+<em>SYNOPSIS</em>
+
+  <em>cds watch</em> [&lt;project&gt;]
+
+  Tells cds to watch for relevant things to come or change in the specified
+  project or the current work directory. Compiles and (re-)runs the server
+  on every change detected.
+
+  Actually, cds watch is just a convenient shortcut for:
+  <em>cds serve all --with-mocks --in-memory?</em>
+
+OPTIONS
+
+  <em>--port</em> &lt;number&gt;
+
+    Specify the port on which the launched server listens.
+    If you specify '0', the server picks a random free port.
+    Alternatively, specify the port using env variable PORT.
+
+  <em>--ext</em> &lt;extensions&gt;
+
+    Specify file extensions to watch for in a comma-separated list.
+    Example: cds w --ext cds,json,js.
+
+  <em>--livereload</em> &lt;port | false&gt;
+
+    Specify the port for the livereload server. Defaults to '35729'.
+    Disable it with value false.
+
+  <em>--open</em> &lt;url&gt;
+
+    Open the given URL (suffix) in the browser after starting.
+    If none is given, the default application URL will be opened.
+
+SEE ALSO
+
+  <em>cds serve --help</em> for the different start options.
+</pre>
 
 ### `cds init`/`add`
 
@@ -49,15 +146,38 @@ npm i -g @sap/cds-dk
 
 ### `cds env`
 
-* Use `cds env` to inspect currently effective config settings
+Use `cds env` to inspect currently effective config settings
 
-![image-20211004185132218](assets/image-20211004185132218.png "Command line output of the 'cds env' command.")
+<pre class="log">
+<i>bookshop $</i> cds env get requires.db
+{
+  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
+  credentials: { url: <em>':memory:'</em> },
+  kind: <em>'sqlite'</em>
+}
+</pre>
+
 
 ### `cds repl`
 
-* Use `cds repl` to live-interact with Node.js APIs
+Use `cds repl` to live-interact with Node.js APIs
 
-![image-20211004185442466](assets/image-20211004185442466.png "Command line output using 'cds repl', for example, printing out the effective config settings.")
+<pre class="log">
+<i>bookshop $</i> cds repl
+<em>Welcome to cds repl v6.7.0</em>
+> SELECT.from(Foo)
+Query {
+  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
+}
+
+> cds.requires.db
+{
+  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
+  credentials: { url: <em>':memory:'</em> },
+  use: [Getter],
+  kind: <em>'sqlite'</em>
+}
+</pre>
 
 ### Debugging with `cds watch`
 
@@ -79,7 +199,7 @@ For example:
 1. Install [_Visual Studio Code_](https://code.visualstudio.com) and launch it.
 2. Only for macOS: Install the `code` shell command.
 
-![Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'](assets/vscode/setup.png "Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'"){ style="box-shadow: 1px 1px 5px #888888; width:450px;"}
+![Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'](assets/vscode/setup.png "Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'"){ style="box-shadow: 1px 1px 5px #888888; width:450px;" .ignore-dark}
 
 
 ### Add CDS Editor
@@ -103,7 +223,7 @@ To run services, just open the Integrated Terminal in VS Code and use one of the
 Alternatively, you can use the preconfigured tasks or launch configurations you get when creating a project with `cds init`.
 For example, in the _Debug_ view launch _cds run_ with the green arrow button:
 
-![The explorer view highlighting the debug icon and the debug view with the run button.](assets/vscode/run.png "The explorer view highlighting the debug icon and the debug view with the run button."){ style="box-shadow: 1px 1px 5px #888888; width:250px;"}
+![The explorer view highlighting the debug icon and the debug view with the run button.](assets/vscode/run.png "The explorer view highlighting the debug icon and the debug view with the run button."){ style="box-shadow: 1px 1px 5px #888888; width:250px;" .ignore-dark}
 
 
 
@@ -111,7 +231,7 @@ For example, in the _Debug_ view launch _cds run_ with the green arrow button:
 
 You can add and stop at breakpoints in your service implementations. For example, add one to line 10 of our _srv/cat-service.js_ by clicking in the gutter as shown here:
 
-![A breakpoint on line 10 in 'cat-service.js'.](assets/vscode/debug.png "A breakpoint on line 10 in 'cat-service.js'."){ style="box-shadow: 1px 1px 5px #888888; width:250px;" .adapt}
+![A breakpoint on line 10 in 'cat-service.js'.](assets/vscode/debug.png "A breakpoint on line 10 in 'cat-service.js'."){ style="box-shadow: 1px 1px 5px #888888; width:250px;"}
 
 ... then send the _[.../Books](http://localhost:4004/browse/Books)_ request again to stop there.
 
@@ -121,7 +241,7 @@ You can add and stop at breakpoints in your service implementations. For example
 
 Restart the server when you did changes to your code using the *Debug* views restart button:
 
-![The green restart button from the debug bar.](assets/vscode/restart.png "The green restart button from the debug bar."){ style="box-shadow: 1px 1px 5px #888888; width:250px;"}
+![The green restart button from the debug bar.](assets/vscode/restart.png "The green restart button from the debug bar."){ style="box-shadow: 1px 1px 5px #888888; width:250px;" .ignore-dark}
 
 
 ### Run a CAP Notebook { #cap-vscode-notebook}

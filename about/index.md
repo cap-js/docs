@@ -23,7 +23,7 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 <img src="../assets/overview.drawio.svg" style="width:450px; margin: 22px auto 0" class="adapt">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.png" style="height:40px"  class="adapt"/>
+  <img src="../assets/logos/nodejs.svg" style="height:40px"  class="adapt"/>
   <img src="../assets/logos/express.png" style="height:30px"  class="adapt"/>
   <img src="../assets/logos/java.svg" style="height:44px" class="adapt"/>
   <img src="../assets/logos/spring.svg" style="height:25px"  class="adapt"/>

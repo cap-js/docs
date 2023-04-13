@@ -214,7 +214,7 @@ settings to be used commonly across several projects.
 
 Settings, which are essential to your project topology go into static project settings.
 Examples are the `folders` layout of your project, specific `build` tasks, or the list
-of required services in `requires` --- most frequently your primary database configured
+of required services in `requires` — most frequently your primary database configured
 under `requires.db`.
 
 ::: tip

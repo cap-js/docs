@@ -394,9 +394,9 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 
 2. Deploy HANA data base content:
 
-    > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convinient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
+    > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convenient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
 
-    ```
+    ```sh
     cds deploy --to hana --bind
     ```
 
@@ -406,7 +406,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 
 3. Run your CAP service with HANA data base:
 
-    ```
+    ```sh
     cds watch --profile hybrid
     ```
 
@@ -434,7 +434,7 @@ This example assumes that XSUAA is used for authentication. However, this will r
 
 Bind to XSUAA and Service Manager:
 
-```
+```sh
 cds bind -2 cpapp-xsuaa,cpapp-service-manager
 ```
 
@@ -446,13 +446,13 @@ cds bind --exec -- mvn spring-boot:run -Dmtx.url=http://localhost:4004
 
 If MTX is setup as an sub project with an own _package.json_, you need to run it using `cds bind --exec` to use the bindings from the main project:
 
-```
+```sh
 cds bind --exec cds watch mtx
 ```
 
 Run approuter with cloud service bindings:
 
-```
+```sh
 cds bind --exec -- "npm start --prefix approuter"
 ```
 

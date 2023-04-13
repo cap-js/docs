@@ -538,9 +538,9 @@ Handlers registered with this method are run in sequence, with each handler bein
 
 **Arguments:**
 
-* `event` --- name of a single event or an array of multiple such
-* `path` --- entity CSN object, name of an exposed entity, a path, or an array of multiple such
-* `handler(req, next)` --- the handler function
+* `event` — name of a single event or an array of multiple such
+* `path` — entity CSN object, name of an exposed entity, a path, or an array of multiple such
+* `handler(req, next)` — the handler function
 
 A service handler registered by entity name can use a relative or fully qualified name, containing the service namespace. A database handler needs a fully qualified entity name.
 
@@ -790,8 +790,8 @@ Registers a generic handler that automatically rejects incoming request with a s
 
 **Arguments:**
 
-* `event` --- name of a single event or an array of multiple such
-* `entity` --- name of an exposed entity or an array of multiple such
+* `event` — name of a single event or an array of multiple such
+* `entity` — name of an exposed entity or an array of multiple such
 
 **Examples:**
 
@@ -1181,8 +1181,8 @@ _**Passing Arguments:**_
 
 Argument `args` is an optional array or object of binding parameters bound to respective placeholders in the query using one of these placeholders:
 
-* `:name` --- named parameters bound to respective entries in an `args` object
-* `?` --- positional parameters bound to entries of `args` in order of occurrence
+* `:name` — named parameters bound to respective entries in an `args` object
+* `?` — positional parameters bound to entries of `args` in order of occurrence
 
 ```js
 cds.run ('SELECT * from Authors where name like ?',['%Poe%'])

@@ -22,7 +22,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 <!--- % include links.md %} -->
 
 
-## Introduction --- Core Concepts
+## Introduction — Core Concepts
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -182,7 +182,7 @@ service AdminService {
 ## Generic Service Providers
  {#generic-providers}
 
-The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation --- the majority of this guide focuses on these generic features.
+The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
 In effect, a service definition [as introduced above](#defining-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
@@ -281,7 +281,7 @@ Depending on existing data, child entities will be created, updated, or deleted 
 - entries existing on the database, and in the payload are updated → for example, `ID:3`
 - entries not existing on the database are created → for example, `ID:5`
 
-**`PUT` vs `PATCH`** --- Omitted fields get reset to `default` values or `null` in case of `PUT` requests; they are left untouched for `PATCH` requests.
+**`PUT` vs `PATCH`** — Omitted fields get reset to `default` values or `null` in case of `PUT` requests; they are left untouched for `PATCH` requests.
 
 Omitted compositions have no effect, whether during `PATCH` or during `PUT`. That is, to delete all children, the payload must specify `null` or `[]`, respectively, for the to-one or to-many composition.
 
@@ -1063,7 +1063,7 @@ CAP allows to plug in event handlers to these different hooks, that is phases du
 
 Event handlers all get a uniform _Request_/_Event Message_ context object as their primary argument, which, among others, provides access to the following:
 
-- The `event` name --- that is, a CRUD method name, or a custom-defined one
+- The `event` name — that is, a CRUD method name, or a custom-defined one
 - The `target` entity, if any
 - The `query` in [CQN](../../cds/cqn) format, for CRUD requests
 - The `data` payload

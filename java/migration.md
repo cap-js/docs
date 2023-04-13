@@ -132,7 +132,7 @@ If there’s also a `<CLASSIC-PROJECT-ROOT>/.cdsrc.json` in your classic project
 
 You can validate the final CDS configuration by executing a CDS command in the root folder of the new project:
 
-```
+```sh
 cds env
 ```
 
@@ -147,7 +147,7 @@ After you’ve copied all your CDS files, maintained additional dependencies and
 you can try to build your new CAP Java project the first time.
 Therefore, execute the following Maven command in the root folder of your new CAP Java project:
 
-```
+```sh
 mvn clean install
 ```
 

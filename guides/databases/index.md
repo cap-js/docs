@@ -2,7 +2,7 @@
 index: 31
 label: Databases
 synopsis: >
-  This guide will help you to learn about defining, providing, implementing, deploying, and publishing services --- so it's about _Service Providers_ in general.
+  This guide will help you to learn about defining, providing, implementing, deploying, and publishing services — so it's about _Service Providers_ in general.
 layout: cookbook
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -911,8 +911,8 @@ The information about foreign key relations contained in the associations of CDS
 
 Switch on generation of foreign key constraints on the database with:
 
-```
-cds.features.assert_integrity: 'db'
+```js
+cds.features.assert_integrity = 'db'
 ```
 ::: warning
 Database constraints are not intended for checking user input. Instead, they protect
@@ -1009,7 +1009,7 @@ CREATE TABLE Genres (
 
 For SAP HANA, the database constraints are generated as separate _.hdbconstraint_ files. To enforce that the constraints are deleted on SAP HANA if they are no longer in the model, ensure that you have a file _db/undeploy.json_ that contains an entry:
 
-```
+```txt
 "src/gen/**/*.hdbconstraint"
 ```
 

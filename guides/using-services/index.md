@@ -147,7 +147,7 @@ By default, CAP works with OData V4 and the EDMX export is in this protocol vers
 
 Import the API to your project using `cds import`.
 
-```
+```sh
 cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace --as cds
 ```
 
@@ -251,13 +251,13 @@ Start your project with the imported service definition.
 
 *Node.js:*
 
-```
+```sh
 cds watch
 ```
 
 *Java:*
 
-```
+```sh
 mvn spring-boot:run
 ```
 
@@ -431,12 +431,12 @@ For example:
 _http://localhost:8080/service/risk/Suppliers_
 
 ```
-2021-09-21 15:18:44.870 DEBUG 34645 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
+2021-09-21 15:18:44.870 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
 ...
-2021-09-21 15:18:45.292 DEBUG 34645 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName,BusinessPartnerIsBlocked&$top=1000&$skip=0&$orderby=BusinessPartner%20asc&sap-language=de&sap-valid-at=2021-09-21T13:18:45.211722Z", parameters={masked}
+2021-09-21 15:18:45.292 DEBUG 34645 — [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName,BusinessPartnerIsBlocked&$top=1000&$skip=0&$orderby=BusinessPartner%20asc&sap-language=de&sap-valid-at=2021-09-21T13:18:45.211722Z", parameters={masked}
 ...
-2021-09-21 15:18:45.474 DEBUG 34645 --- [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2021-09-21 15:18:45.519 DEBUG 34645 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2021-09-21 15:18:45.474 DEBUG 34645 — [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2021-09-21 15:18:45.519 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
 ```
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
@@ -797,14 +797,14 @@ Example of a CQN request with an expand:
 
 Expands across local and remote can cause stability and performance issues. For a list of items, you need to collect all IDs and sent it to the database or the remote system. This can become long and may exceed the limits of a URL string in case of OData. Do you really need expands for a list of items?
 
-```
-/service/risk/Risks?$expand=supplier
+```http
+GET /service/risk/Risks?$expand=supplier
 ```
 
 Or is it sufficient for single items?
 
-```
-/service/risk/Risks(545A3CF9-84CF-46C8-93DC-E29F0F2BC6BE)/?$expand=supplier
+```http
+GET /service/risk/Risks(545A3CF9-84CF-46C8-93DC-E29F0F2BC6BE)/?$expand=supplier
 ```
 ::: tip
 Consider to reject expands if it's requested on a list of items.
@@ -814,8 +814,8 @@ Consider to reject expands if it's requested on a list of items.
 
 Navigations allow to address items via an association from a different entity:
 
-```
-/service/risks/Risks(20466922-7d57-4e76-b14c-e53fd97dcb11)/supplier
+```http
+GET /service/risks/Risks(20466922-7d57-4e76-b14c-e53fd97dcb11)/supplier
 ```
 <!-- I Thought we remove all Notes examples?-->
 
@@ -1157,21 +1157,21 @@ Your local application needs access to an XSUAA and Destination service instance
 1. Login to your Cloud Foundry org and space
 2. Create an XSUAA service instance and service key:
 
-    ```
+    ```sh
     cf create-service xsuaa application cpapp-xsuaa
     cf create-service-key cpapp-xsuaa cpapp-xsuaa-key
     ```
 
 3. Create a Destination service instance and service key:
 
-    ```
+    ```sh
     cf create-service destination lite cpapp-destination
     cf create-service-key cpapp-destination cpapp-destination-key
     ```
 
 4. Bind to XSUAA and Destination service:
 
-    ```
+    ```sh
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
@@ -1204,7 +1204,7 @@ Add the destination for the remote service to the `hybrid` profile in the _.cdsr
 
 Run your application with the Destination service:
 
-```
+```sh
 cds watch --profile hybrid
 ```
 

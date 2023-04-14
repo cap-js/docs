@@ -19,7 +19,7 @@ entity Books : cuid, managed {
 }
 ```
 
-In that model we used the [pre-defined aspects](../cds/common.md) `cuid` and `managed`, as well as the [qualifier `localized`](./localized-data#declaring-localized-data) to capture generic aspects. We also used [managed associations](#managed-vs-unmanaged-associations).
+In that model we used the [pre-defined aspects](../cds/common.md) `cuid` and `managed`, as well as the [qualifier `localized`](./localized-data#declaring-localized-data) to capture generic aspects. We also used [managed associations](#associations).
 
 In all these cases, we focus on capturing our intent, while leaving it to generic implementations to provide best-possible implementations.
 
@@ -95,7 +95,7 @@ Even though domain models should abstract from technical implementations, don’
 
 ### Aspect-oriented Modeling
 
-CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Add Secondary Aspects](#_6-add-secondary-aspects) below.
+CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Add Secondary Aspects](#aspects) below.
 
 
 
@@ -151,7 +151,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 - Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
 - Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
-- Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#use-canonic-primary-keys)
+- Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
 ### Using Namespaces
 
@@ -260,7 +260,7 @@ type BookName : String;
 type BookDescr : String;
 ```
 
-## ③ Add Primary Keys
+## ③ Add Primary Keys {#primary-key}
 
 Use the keyword `key` to signify one or more elements that form an entity's primary key:
 
@@ -284,7 +284,7 @@ entity Books {
 ::: warning
 
 - Don't use binary data as keys!
-- [Don't interpret UUIDs!](#dont-interpret-uuids)
+- [Don't interpret UUIDs!](#don-t-interpret-uuids)
 
 :::
 
@@ -356,7 +356,7 @@ On the same note, converting UUID values obtained as strings from the database i
 ::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
 :::
 
-## ④ Add Associations
+## ④ Add Associations {#associations}
 
 Use _Associations_ to capture relationships between entities.
 
@@ -486,11 +486,11 @@ entity Orders { ...
 }
 ```
 
-[Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions-of-aspects){ .learn-more}
+[Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions){ .learn-more}
 
 Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above.
 
-## ⑥ Add Secondary Aspects
+## ⑥ Add Secondary Aspects {#aspects}
 
 CDS's [Aspects](../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. It allows decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
 

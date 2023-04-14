@@ -50,17 +50,17 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Services / APIs
 
-| Annotation           | Description                                                                      |
-|----------------------|----------------------------------------------------------------------------------|
-| `@path`              | see [Services](./cdl#service-definitions)                                        |
-| `@impl`              | see [Reuse & Compose](../guides/extensibility/composition#reuse-code)            |
-| `@odata.etag`        | see [Providing Services](../guides/providing-services/#etag)                     |
-| `@cds.autoexpose`    | see [Providing Services](../guides/providing-services/#auto-exposed-entities)    |
-| `@cds.api.ignore`    | see [OData](../advanced/odata#omitting-elements-from-apis)                       |
-| `@cds.query.limit`   | see [Providing Services](../guides/providing-services/#annotation-cdsquerylimit) |
-| `@cds.localized`     | see [Localized Data](../guides/localized-data#read-operations)                  |
-| `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data#using-annotations-cdsvalidfromto)   |
-| `@cds.search`        | see [Search Capabilities](../guides/providing-services/#searching-data)          |
+| Annotation           | Description                                                                        |
+|----------------------|------------------------------------------------------------------------------------|
+| `@path`              | see [Services](./cdl#service-definitions)                                          |
+| `@impl`              | see [Reuse & Compose](../guides/extensibility/composition#reuse-code)              |
+| `@odata.etag`        | see [Providing Services](../guides/providing-services/#etag)                       |
+| `@cds.autoexpose`    | see [Providing Services](../guides/providing-services/#auto-exposed-entities)      |
+| `@cds.api.ignore`    | see [OData](../advanced/odata#omitting-elements-from-apis)                         |
+| `@cds.query.limit`   | see [Providing Services](../guides/providing-services/#annotation-cds-query-limit) |
+| `@cds.localized`     | see [Localized Data](../guides/localized-data#read-operations)                     |
+| `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data#using-annotations-cds-valid-from-to)   |
+| `@cds.search`        | see [Search Capabilities](../guides/providing-services/#searching-data)            |
 
 ## Persistence
 

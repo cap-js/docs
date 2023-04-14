@@ -782,7 +782,7 @@ The interfaces [CqnLimit](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.
 #### Statement Modification {#modification}
 
 ##### Removal of Deprecated CqnModifier
-The deprecated [CqnModifier](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnModifier.html), whose default methods make expensive copies of literal values, is removed. Instead, use the [Modifier](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html) as documented in [Modifying CQL Statements](query-api#copying--modifying-cql-statements).
+The deprecated [CqnModifier](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnModifier.html), whose default methods make expensive copies of literal values, is removed. Instead, use the [Modifier](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html) as documented in [Modifying CQL Statements](query-api#copying-modifying-cql-statements).
 
 If your modifier overrides one or more of the `CqnModifier:literal` methods that take `value` and `cdsType` as arguments, override `Modifier:literal(CqnLiteral<?> literal)` instead. You can create new values using `CQL.val(value).type(cdsType);`.
 
@@ -861,7 +861,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Overview of Removed Annotations
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cdssearch-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cds-search-annotation).
 
 ### Changed behaviour
 

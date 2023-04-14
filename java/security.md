@@ -162,7 +162,7 @@ public class AppSecurityConfig {
 ```
 Due to the custom configuration, all URLs matching `/public/**` are opened for public access.
 ::: tip
-The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/aug22#minimum-spring-boot-version-27x) or later. Older versions need to use the deprecated `WebSecurityConfigurerAdapter`.
+The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/archive/aug22#minimum-spring-boot-version-2-7-x) or later. Older versions need to use the deprecated `WebSecurityConfigurerAdapter`.
 :::
 
 ::: warning _❗ Warning_ <!--  -->

@@ -17,7 +17,7 @@ Using a minimalistic setup
 
 <!-- EXCLUDE IN NOTEBOOK START -->
 
-This guide is a step-by-step walkthrough to build a CAP application, using a minimalistic setup with Node.js and SQLite. 
+This guide is a step-by-step walkthrough to build a CAP application, using a minimalistic setup with Node.js and SQLite.
 
 [[toc]]
 
@@ -25,7 +25,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 ## ⓪ Preliminaries
 
-1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Local Setup guide](./#local-setup). 
+1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Local Setup guide](./#local-setup).
 
 2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
 
@@ -45,7 +45,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 :::
 
-> Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide. 
+> Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide.
 
 
 
@@ -446,7 +446,7 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## ⑤ Adding/Serving UIs
+## ⑤ Adding/Serving UIs {#adding-serving-uis}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -454,7 +454,7 @@ Simply add an _index.html_ file into the _app/_ folder, to replace the generic i
 
 ### Vue.js UIs {#vue .impl .node}
 
-For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#cat-service). {.impl .node}
+For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#defining-services). {.impl .node}
 
 ![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
 

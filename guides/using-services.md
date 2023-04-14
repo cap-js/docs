@@ -157,7 +157,7 @@ cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace --as cds
 | `--as cds`         | The import creates a CDS file (for example _API_BUSINESS_PARTNER.cds_) instead of a CSN file.                                                                                                                     |
 
 
-This adds the API in CSN format to the _srv/external_ folder and also copies the EDMX file into that folder. Additionally, for **Node.js** it adds the API as an external OData service to your _package.json_. You use this declaration later to connect to the remote service [using a destination](#use-destinations-with-nodejs).
+This adds the API in CSN format to the _srv/external_ folder and also copies the EDMX file into that folder. Additionally, for **Node.js** it adds the API as an external OData service to your _package.json_. You use this declaration later to connect to the remote service [using a destination](#use-destinations-with-node-js).
 
 ```json
 "cds": {
@@ -221,7 +221,7 @@ To work with remote services, add the following dependency to your Maven project
 </dependency>
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities.](../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-remote-services){.learn-more}
 
 ## Local Mocking
 
@@ -1439,7 +1439,7 @@ Destinations are looked up using the following rules:
 Using the tenant of the request's JWT token means reading from the **subscriber subaccount** for a multitenant application. The tenant of the application's XSUAA binding points to the destination of the **provider subaccount**, the account where the application is deployed to.
 :::
 
-For Node.js you can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-nodejs).
+For Node.js you can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
 
 With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
 

@@ -292,7 +292,7 @@ This time the trace output is different to [when you started all in a single ser
 
 ![image-20211019163645145](assets/image-20211019163645145.png)
 
-### 3. Add or Update Reviews
+### 3. Add or Update Reviews {#add-or-update-reviews-2}
 
 Similar to before, open [http://localhost:4005/vue/index.html](http://localhost:4005/vue/index.html) to add or update reviews.
 
@@ -512,8 +512,7 @@ With this setting, all mandatory and some more basic header fields, like `type`,
 
 
 
-## [Using SAP Event Mesh](./event-mesh)
-<!-- {.toc-redirect} -->
+## [Using SAP Event Mesh](./event-mesh) {#sap-event-mesh}
 
 CAP has out-of-the-box support for SAP Event Mesh. As an
 application developer, all you need to do is configuring CAP to use `enterprise-messaging`,

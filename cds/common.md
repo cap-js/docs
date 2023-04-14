@@ -33,7 +33,7 @@ It’s recommended that all applications use the common types and aspects provid
 * **Proven best practices** captured from real applications
 * **Streamlined** data models with **minimal entry barriers**
 * **Optimized** implementations and runtime performance
-* **Automatic** support for [localized](../guides/localized-data) code lists and [value helps](../advanced/fiori#pre-defined-types-in-sapcdscommon)
+* **Automatic** support for [localized](../guides/localized-data) code lists and [value helps](../advanced/fiori#pre-defined-types-in-sap-cds-common)
 * **Extensibility** using [Aspects](../guides/domain-modeling#aspect-oriented-modeling)
 * **Verticalization** through third-party extension packages
 

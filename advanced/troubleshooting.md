@@ -183,7 +183,7 @@ module.exports = cds.server
 |  | Explanation |
 | --- | ---- |
 | _Root Cause_ | Most probably, the service name in the `requires` section does not match the served service definition.
-| _Solution_ | Set the `.service` property in the respective `requires` entry. See [cds.connect()](../node.js/cds-connect#cdsrequiressrvservice) for more details.
+| _Solution_ | Set the `.service` property in the respective `requires` entry. See [cds.connect()](../node.js/cds-connect#cds-requires-srv-service) for more details.
 
 ### Why is the destination of a remote service not correctly retrieved by SAP Cloud SDK and returns a status code 404?
 

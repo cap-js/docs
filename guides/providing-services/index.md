@@ -681,7 +681,7 @@ CREATE TABLE Books ( -- elements ...
 ::: tip
 This feature can be switch on/off globally with the configuration `cds.env.features.assert_integrity`.
 :::
-[Learn more about global configuration with `cds.env.features.assert_integrity`.](//releases/mar22/#database-integrity-constraints){.learn-more}
+[Learn more about global configuration with `cds.env.features.assert_integrity`.](../../releases/archive/mar22#database-integrity-constraints){.learn-more}
  [Learn more about database integrity constraints.](../databases#db-constraints){.learn-more}
 
 

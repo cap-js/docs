@@ -37,22 +37,22 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### CLI & Tools Support
 
-| CLI commands                                                                  |                        |
-|-------------------------------------------------------------------------------|------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project) | `cds init <project>`   |
-| Add a feature to an existing project                                          | `cds add <facets>`     |
-| [Add models from external sources](../get-started/grow-as-you-go#with-mocks)  | `cds import <api>`     |
-| [Compile cds models to different outputs](../node.js/cds-compile)             | `cds compile <models>` |
-| [Run your services in local server](../node.js/cds-serve)                     | `cds serve <services>` |
-| [Run and restart on file changes](../get-started/in-a-nutshell#run)           | `cds watch`            |
-| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                 | `cds repl`             |
-| Inspect effective configuration                                               | `cds env`              |
-| Prepare for deployment                                                        | `cds build`            |
-| Deploy to databases or cloud                                                  | `cds deploy`           |
-| Create an extension project                                                   | `cds extend <app-url>` |
-| Activate an extension project                                                 | `cds activate `        |
-| Login to extendable SaaS application                                          | `cds login <app-url>`  |
-| Logout from extendable SaaS application                                       | `cds logout `          |
+| CLI commands                                                                    |                        |
+|---------------------------------------------------------------------------------|------------------------|
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`   |
+| Add a feature to an existing project                                            | `cds add <facets>`     |
+| [Add models from external sources](../get-started/grow-as-you-go#with-mocks)    | `cds import <api>`     |
+| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>` |
+| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>` |
+| [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`            |
+| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`             |
+| Inspect effective configuration                                                 | `cds env`              |
+| Prepare for deployment                                                          | `cds build`            |
+| Deploy to databases or cloud                                                    | `cds deploy`           |
+| Create an extension project                                                     | `cds extend <app-url>` |
+| Activate an extension project                                                   | `cds activate `        |
+| Login to extendable SaaS application                                            | `cds login <app-url>`  |
+| Logout from extendable SaaS application                                         | `cds logout `          |
 
 
 > Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases) for CAP.
@@ -94,20 +94,20 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Providing Services
 
-| Core Framework Features                                                                |  CDS  | Node.js | Java |
-|----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers) | <Na/> |  <X/>   | <X/> |
+| Core Framework Features                                                                 |  CDS  | Node.js | Java |
+|-----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers)  | <Na/> |  <X/>   | <X/> |
 | [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents) | <X/>  |  <X/>   | <X/> |
-| [Automatic Input Validation](../guides/providing-services/#input-validation)           | <X/>  |  <X/>   | <X/> |
-| [Auto-filled Primary Keys](../guides/domain-modeling#use-uuids-for-keys)              | <X/>  |  <X/>   | <X/> |
-| [Implicit Paging](../guides/providing-services/#implicit-pagination)                   | <X/>  |  <X/>   | <X/> |
-| [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/authorization)                                             | <X/>  |  <X/>   | <X/> |
-| [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/media-data)                                       | <X/>  |  <X/>   | <X/> |
-| [Conflict Detection through _ETags_](../guides/providing-services/#etag)               | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/authorization#prerequisite-authentication)         | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services/#input-validation)            | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)             | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services/#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services/#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/authorization)                                               | <X/>  |  <X/>   | <X/> |
+| [Arrayed Elements](../cds/cdl#arrayed-types)                                            | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/media-data)                                         | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services/#etag)                | <X/>  |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/authorization#prerequisite-authentication)             | <Na/> |  <X/>   | <X/> |
 
 
 <br>
@@ -177,9 +177,9 @@ Following is an index of the features currently covered by CAP, with status and 
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:-----------------------------------------------------------------------------------------:|
 | [Declared Events in CDS](../cds/cdl#events)                                                                                                                                   | <X/>  |  <X/>   |                                           <X/>                                            |
 | Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                           <X/>                                            |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#maven-dependency-for-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                           <X/>                                            |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                           <X/>                                            |
 | [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                           <X/>                                            |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing-1)\|[Java](../java/messaging-foundation#maven-dependency-for-message-queuing-support) | <Na/> |  <X/>   |                                           <X/>                                            |
+| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging-foundation#configuring-message-queuing-support) | <Na/> |  <X/>   |                                           <X/>                                            |
 | Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                           <X/>                                            |
 | Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | % if jekyll.environment != "external" %}<X/><br><sup>beta</sup> % else %} <O/> % endif %} |
 | Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                           |
@@ -247,13 +247,13 @@ Following is an index of the features currently covered by CAP, with status and 
 |                                                                                                  |      |
 |--------------------------------------------------------------------------------------------------|:----:|
 | [Tenant-Specific Extensions](../guides/extensibility/)                                           | <X/> |
-| [Adding Extension Fields](../guides/extensibility/customization#develop-and-activate-extension)  | <X/> |
-| [Adding new Entities](../guides/extensibility/customization#develop-and-activate-extension)      | <X/> |
-| [Adding new Relationships](../guides/extensibility/customization#develop-and-activate-extension) | <X/> |
+| [Adding Extension Fields](../guides/extensibility/customization#about-extension-models)          | <X/> |
+| [Adding new Entities](../guides/extensibility/customization#about-extension-models)              | <X/> |
+| [Adding new Relationships](../guides/extensibility/customization#about-extension-models)         | <X/> |
 | [Adding/Overriding Annotations](../guides/extensibility/customization)                           | <X/> |
 | Adding Events                                                                                    | <O/> |
 | [Extension Namespaces](../guides/extensibility/customization)                                    | <X/> |
-| [Extension Templates](../guides/extensibility/customization#extension-templates)                 | <X/> |
+| [Extension Templates](../guides/extensibility/customization#templates)                           | <X/> |
 | Custom Governance Checks                                                                         | <D/> |
 | [Generic Input Validations](../guides/providing-services/#input-validation)                      | <X/> |
 | Declarative Constraints                                                                          | <O/> |

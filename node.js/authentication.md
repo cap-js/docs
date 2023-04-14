@@ -386,7 +386,7 @@ module.exports = function custom_auth (req, res, next) {
 }
 ```
 
-[If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-requser){.learn-more}
+[If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}
 

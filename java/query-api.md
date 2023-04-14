@@ -973,7 +973,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert { #deep-upsert}
 
-Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#_5_-add-compositions), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#_5-add-compositions), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.

@@ -219,7 +219,7 @@ Example:
 
 ### Topic Manipulations
 
-#### [SAP Message Queuing](../guides/messaging/#sap-message-queuing) { .impl.internal}
+#### [SAP Message Queuing](../guides/messaging/event-mesh#sap-message-queuing) { .impl.internal}
 
 Dots are replaced by slashes.
 

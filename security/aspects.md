@@ -223,7 +223,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 | Platform service             | URL                         | Authorization                                                                                                           |
 |------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT)   | `/messaging/v1.0/em`        | [Technical roles](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`, `emmanagement` |
+| Messaging (Event Mesh, MT)   | `/messaging/v1.0/em`        | [Technical roles](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, `emmanagement` |
 | Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                                      |
 
 </div>
@@ -231,7 +231,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 | Platform service           | URL                                      | Authorization                                                                                           |
 |----------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging`        | [Technical role](../guides/messaging/event-mesh#3-secure-inbound-access-to-http-webhooks) `emcallback`, |
+| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging`        | [Technical role](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, |
 |                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`                                                                            |
 
 </div>
@@ -296,7 +296,7 @@ Likewise, data is stored in tenant-maps that are transitively referenced by the 
 { .impl .node }
 
 To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../node.js/cds-facade#cds-model).
-Request-related data is propagated down the call stack (for instance [cds.context](../node.js/middlewares#cdscontext)).
+Request-related data is propagated down the call stack (for instance [cds.context](../node.js/middlewares#cds-context)).
 { .impl .java }
 
 ::: tip
@@ -442,7 +442,7 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services/#using-cdssearch-annotation)
+- [Sorting](../guides/providing-services/#using-cds-search-annotation)
 - [Pagination (implicit sort order)](../guides/providing-services/#pagination)
 - Filtering
 
@@ -488,7 +488,7 @@ Additional size limits and timeouts (request timeout) are established by the rev
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
 :::
 
-Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services/#configuring-defaults-with-cdsquerylimit)).
+Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services/#configuring-defaults-with-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
@@ -551,7 +551,7 @@ It has the advantage that the requests can be controlled centrally before touchi
 In addition, the number of instances need to be **scaled horizontally** according to current load requirements.
 This can be achieved automatically by consuming [Application Autoscaler](https://help.sap.com/docs/Application_Autoscaler).
 
-<div id="#security-secure-storage" />
+<div id="security-secure-storage" />
 
 ### Separation of Tenant Data { #storage-separation }
 
@@ -664,7 +664,7 @@ In contrast, **errors stop the overall microservice** to ensure that security me
 Align the exception handling in your custom coding with the provided exception handling capabilities of the CAP runtime.
 :::
 
-<div id="#security-secure-auditlogging" />
+<div id="security-secure-auditlogging" />
 
 ### Auditlog Service
 

@@ -480,12 +480,12 @@ The [linked](cds-reflect#cds-reflect) [service definition](../cds/csn#services) 
 [def]: ../cds/csn#definitions
 [events]: ../cds/csn#definitions
 [entities]: ../cds/csn#entity-definitions
-[operations]: ../cds/csn#actions--functions
+[operations]: ../cds/csn#actions-functions
 
 
 <div class='indent' markdown="1">
 
-These methods provide convenient access to the linked [definitions](../cds/csn#definitions) of all [entities](../cds/csn#entity-definitions), [events](../cds/csn#definitions), as well as [actions and functions](../cds/csn#actions--functions) provided by this service.
+These methods provide convenient access to the linked [definitions](../cds/csn#definitions) of all [entities](../cds/csn#entity-definitions), [events](../cds/csn#definitions), as well as [actions and functions](../cds/csn#actions-functions) provided by this service.
 
 ```js
 const db = await cds.connect.to('db')
@@ -1033,7 +1033,7 @@ const headers = {...}
 const [books, authors] = await srv.send({ query, headers })
 ```
 
-[Learn more about using queries in `srv.run`.](#srvrun--query--results){.learn-more}
+[Learn more about using queries in `srv.run`.](#srv-run-query){.learn-more}
 [Learn more about service-related **reflection** using `srv.entities`.](#srv-entities){.learn-more}
 
 </div>
@@ -1054,7 +1054,7 @@ const data = { ID: 222, title: 'The Adventures of Tom Sawyer', author: { ID: twa
 await srv.send('POST', 'Books', data, headers)
 ```
 
-### srv.send <i> (method, data?, headers?) &#8674; results </i>
+### srv.send <i> (method, data?, headers?) &#8674; results </i> {#srvsend-method-data-headers}
 
 A variant of [`srv.send`](#srv-send) which, allows to specify the primary properties for [sending requests](events#cds-request) targeting unbound actions or functions:
 
@@ -1114,7 +1114,7 @@ srv.delete('/some/arbitrary/path/111')
 [`srv.run`]: #srv-run
 
 
-### <span style="color:#800; font-weight:500">srv</span>.run  <i>  ([query](../cds/cqn)) &#8594; results </i>
+### <span style="color:#800; font-weight:500">srv</span>.run  <i>  ([query](../cds/cqn)) &#8594; results </i> {#srv-run-query}
 
 This is the central function to run queries. It expects a query or an array of queries in _[CQN](../cds/cqn)_ notation,
 and returns a _Promise_ resolving to the queries' results.

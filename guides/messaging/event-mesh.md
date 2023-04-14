@@ -122,7 +122,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
 
     [Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
-6. Test your app [as described in the messaging guide](./#3-add-or-update-reviews).
+6. Test your app [as described in the messaging guide](./#add-or-update-reviews).
 
 
 ### CAP Automatically Creates Queues and Subscriptions
@@ -244,7 +244,7 @@ Add the following to your _package.json_ to ensure using the multitenancy-aware 
 [Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
 
-### 3. Secure Inbound Access to HTTP Webhooks
+### 3. Secure Inbound Access to HTTP Webhooks {#inbound-access-webhooks}
 
 Incoming messages are delivered by SAP Event Mesh to webhook endpoints of the SaaS application. To make this endpoint accessible for SAP Event Mesh, you need to grant the respective authority, for example like this in the XSUAA service descriptor _xs-security.json_:
 

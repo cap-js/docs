@@ -62,7 +62,7 @@ let q3 = cds.update('Books',201,{title:'Sturmhöhe'})
 let q4 = cds.delete('Books',201)
 ```
 
-[As documented in the `cds.Services` API](services#-convenient-shortcuts-1) docs, these methods are actually just shortcuts to the respective Fluent API methods above, and can be continued with calls to fluent API function, thus blurring the lines. For example, also these lines are equivalent to both variants above:
+[As documented in the `cds.Services` API](services#convenient-shortcuts) docs, these methods are actually just shortcuts to the respective Fluent API methods above, and can be continued with calls to fluent API function, thus blurring the lines. For example, also these lines are equivalent to both variants above:
 
 
 ```js

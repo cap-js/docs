@@ -141,18 +141,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 **Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to NPM.  Unlike _package-lock.json_, it _does_ get packaged and published to NPM registries.  See the [NPM documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
 
 
-% if jekyll.environment != "external" %}
-**Working with prerelease snapshots or milestones** — sometimes you need the latest features or fixes, even though they haven’t been released yet. Don't modify your dependencies in _package.json_ to do so, but simply change your registry temporarily for the respective pages to artifactory snapshots or milestones.
-
-Example:
-
-```ini
-@sap:registry=https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm
-```
-
-For example, you could do this in a project-level `.npmrc` file that you commit to your GitHub repository in a respective branch.
-% endif %}
-
+<div id="prerelease-sap" />
 
 ## Securing Your Application
 

@@ -49,11 +49,9 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.5.0 is required).
 
-% if jekyll.environment != "external" %}
-1. Configure Maven for the SAP build landscape by [downloading `settings.xml`](https://int.repositories.cloud.sap/artifactory/build-releases/settings.xml) and save it to `<USER_HOME>/.m2/settings.xml`.
-% endif %}
+<span id="maven-sap" />
 
-5. Execute the following commands on the command line to check whether the installed tools are set up correctly:
+4. Execute the following commands on the command line to check whether the installed tools are set up correctly:
 
     ```bash
     cds --version
@@ -76,11 +74,8 @@ Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootst
 ```bash
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
 ```
-% if jekyll.environment != "external" %}
-::: tip
-In case you're using the internal [Artifactory repository](https://int.repositories.cloud.sap/) you need to explicitly exchange `RELEASE` with the [latest released version of `com.sap.cds:cds-services-bom`](https://javadoc.io/doc/com.sap.cds). Using `RELEASE`, the above command will install the internally available milestones of the next major release.
-:::
-% endif %}
+
+<div id="release-sap" />
 
 When prompted, specify the group ID and artifact ID of your application. The artifact ID also specifies the name of your projects root folder that is generated in your current working directory. For other values prompted, it's enough to simply confirm the default values.
 

@@ -555,7 +555,7 @@ integrity constraints on the database.
 % else %}
 ::: tip
 Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
-[integrity constraints](../guides/databases/#db-constraints) on the database.
+[integrity constraints](../guides/databases#db-constraints) on the database.
 :::
 
 % endif %}

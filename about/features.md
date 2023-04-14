@@ -191,11 +191,11 @@ Following is an index of the features currently covered by CAP, with status and 
 
 |                                                 | CDS/deploy |      Node.js       | Java |
 |-------------------------------------------------|:----------:|:------------------:|:----:|
-| [SAP HANA](../guides/databases/)                |    <X/>    |        <X/>        | <X/> |
-| [SAP HANA Cloud](../guides/databases/#get-hana) |    <X/>    |        <X/>        | <X/> |
-| [PostgreSQL](../guides/databases/)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
-| [SQLite](../guides/databases/) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
-| [MongoDB](../guides/databases/) out of the box  |   <Na/>    |       <Na/>        | <D/> |
+| [SAP HANA](../guides/databases)                |    <X/>    |        <X/>        | <X/> |
+| [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
+| [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
+| [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |
 
@@ -205,8 +205,8 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 
-<!--| [Migration to SAP HANA Cloud](../guides/databases/)            |   <D/>    | <Na/>  | <Na/> |
-| [Streamlined Schema Evolution](../guides/databases/)       |   <D/>    | <Na/>  | <Na/> |
+<!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
+| [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |
 | &mdash; using Liquibase                                        |   <C/>    | <Na/>  | <Na/> |
 | &mdash; using Flyway                                           |   <C/>    | <Na/>  | <Na/> |-->
 

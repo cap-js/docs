@@ -18,7 +18,7 @@
 - [Consuming Services](/guides/using-services)
 - [Messaging](/guides/messaging/)
 - [Querying](/guides/querying)
-- [Databases](/guides/databases/)
+- [Databases](/guides/databases)
 - [Authorization](/guides/authorization)
 - [Localization, i18n](/guides/i18n/)
 - [Localized Data](/guides/localized-data/)

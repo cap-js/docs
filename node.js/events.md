@@ -70,7 +70,7 @@ A unique string identifying the current tenant, or `undefined` if not run in mul
 
 ### ctx.locale <i> → string </i> {#locale}
 
-The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n/#normalized-locales) {.indent}
+The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n#normalized-locales) {.indent}
 
 
 

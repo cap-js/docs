@@ -20,7 +20,7 @@
 - [Querying](/guides/querying)
 - [Databases](/guides/databases)
 - [Authorization](/guides/authorization)
-- [Localization, i18n](/guides/i18n/)
+- [Localization, i18n](/guides/i18n)
 - [Localized Data](/guides/localized-data/)
 - [Temporal Data](/guides/temporal-data)
 - [Media Data](/guides/media-data/)

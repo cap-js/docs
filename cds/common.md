@@ -232,7 +232,7 @@ entity sap.common.Languages : CodeList {
   key code : sap.common.Locale; //> for example, en_GB
 }
 ```
-[Learn more on **normalized locales**.](../guides/i18n/#normalized-locales){ .learn-more}
+[Learn more on **normalized locales**.](../guides/i18n#normalized-locales){ .learn-more}
 
 
 ### SQL Persistence

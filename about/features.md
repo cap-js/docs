@@ -116,7 +116,7 @@ Following is an index of the features currently covered by CAP, with status and 
 |-------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Authorization](../guides/authorization)                                                       | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                        | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n/)                                                            | <X/>  |  <X/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                            | <X/>  |  <X/>   | <X/> |
 | [Managed Data](../guides/providing-services/#managed-data)                                      | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data/)                                                     | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data)                                                       | <X/>  |  <X/>   | <X/> |

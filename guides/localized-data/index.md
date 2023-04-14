@@ -195,11 +195,11 @@ As shown in the second step, the pseudo variable `$user.locale` is used to refer
 
 ### Determining `$user.locale` from Inbound Requests
 
-The user's preferred locale is determined from request parameters, user settings, or the _accept-language_ header of inbound requests [as explained in the Localization guide](../i18n/#user-locale).
+The user's preferred locale is determined from request parameters, user settings, or the _accept-language_ header of inbound requests [as explained in the Localization guide](../i18n#user-locale).
 
 ### Programmatic Access to `$user.locale`
 
-The resulting [normalized locale](../i18n/#normalized-locales) is available programmatically, in your event handlers.
+The resulting [normalized locale](../i18n#normalized-locales) is available programmatically, in your event handlers.
 
 * Node.js: `req.user.locale`
 * Java: `eventContext.getParameterInfo().getLocale()`
@@ -207,7 +207,7 @@ The resulting [normalized locale](../i18n/#normalized-locales) is available prog
 ### Propagating `$user.locale` to Databases {#propagating-of-user-locale}
 [propagation]: #propagating-of-user-locale
 
-Finally, the [normalized locale](../i18n/#normalized-locales) is **propagated** to underlying databases using session variables, that is, `$user.locale` translates to `session_context('locale')` in native SQL of SAP HANA and most databases.
+Finally, the [normalized locale](../i18n#normalized-locales) is **propagated** to underlying databases using session variables, that is, `$user.locale` translates to `session_context('locale')` in native SQL of SAP HANA and most databases.
 
 Not all databases support session variables. For example, for _SQLite_ we currently would just create stand-in views for selected languages. With that, the APIs are kept stable but have restricted feature support.
 

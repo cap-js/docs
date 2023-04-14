@@ -141,7 +141,7 @@ Following is an excerpt of generic features provided:
 - [Input Validation](../guides/providing-services/#input-validation)
 - [Authentication](../node.js/authentication)
 - [Authorization](../guides/authorization)
-- [Localization / i18n](../guides/i18n/)
+- [Localization / i18n](../guides/i18n)
 - [Concurrency Control](../guides/providing-services/#concurrency-control)
 
 ###### Enterprise Best Practices

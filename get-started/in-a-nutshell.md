@@ -16,114 +16,101 @@ Using a minimalistic setup
 { .subtitle}
 
 <!-- EXCLUDE IN NOTEBOOK START -->
-You’ll learn, step by step, how to do the following:
+
+This guide is a step-by-step walkthrough to build a CAP application, using a minimalistic setup with Node.js and SQLite. 
+
 [[toc]]
+
 <!-- EXCLUDE IN NOTEBOOK END -->
 
-## Jumpstarting Projects { #start-a-project}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
-[After installing `@sap/cds-dk` globally](./#local-setup), create a project with minimal defaults as follows:
+## ⓪ Preliminaries
 
-<div class="impl node">
+1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Local Setup guide](./#local-setup). 
 
-```sh
-cds init bookshop
-```
-</div>
+2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
 
-<div class="impl java">
+3. **Option: Download from GitHub** – Instead of going for this hand-on step-by-step experience, you can get the final sample content from GitHub. If you choose to do so clone the repo as follows:
 
-```sh
-cds init bookshop --add java
-```
-</div>
+::: code-group
 
-<!-- EXCLUDE IN NOTEBOOK START -->
-
-### Download from _cap/samples_ (Optional)
-
-<!-- TODO: Add a toggle on the new capire to toggle between manual and cloning -->
-Instead of going for a manual step-by-step experience, you can also get the [cap/samples from GitHub](https://github.com/sap-samples/cloud-cap-samples). In this case, skip the previous `cds init bookshop` step. {.impl .node}
-
-Instead of going for a manual step-by-step experience, you can also get the [cap/samples from GitHub](https://github.com/sap-samples/cloud-cap-samples-java). In this case, skip the previous `cds init bookshop --add java` step. {.impl .java}
-
-Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide. {.impl .java}
-
-<div class ="impl node">
-
-```sh
+```sh [Node.js]
 git clone https://github.com/sap-samples/cloud-cap-samples samples
 cd samples
 npm install
 ```
-</div>
 
-<div class ="impl java">
-
-```sh
+```sh [Java]
 git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 ```
-</div>
 
-<div class ="impl node">
-
-::: tip
-Don't forget to execute `npm install`, as the sample repository has multiple parts that require each other.
 :::
-</div>
+
+> Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide. 
 
 
-<!-- EXCLUDE IN NOTEBOOK END -->
 
-### Go to the _bookshop_ folder
+## ① Jumpstart a Project { #start-a-project}
+<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-In the following, we assume that you're in the _bookshop_ folder unless told otherwise.
+1. Create a new project using `cds init`
+
+::: code-group
+```sh [Node.js]
+cds init bookshop
+```
+```sh [Java]
+cds init bookshop --add java
+```
+:::
+
+2. Open the project in VSCode
 
 ```sh
-cd bookshop
+code bookshop
 ```
 
-### Launch `cds watch` {#run}
+::: details **Note:** VSCode CLI on macOS needs extra setup
 
-For an automated jumpstart, you can just tell `cds` to watch out for things to arrive:
-<!-- also here .. we either mention mvn or have it wrapped by cds watch --mode java or sth alike -->
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Read VSCode's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
 
-<div class="impl node">
+:::
 
-```sh
+3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+
+::: code-group
+
+```sh [Node.js]
 cds watch
 ```
-</div>
 
-<!--
-at the moment you need to switch to srv folder in order to get mvn cds:watch
-working. not nice.. maybe we want to improve this
--->
-
-<div class="impl java">
-
-```sh
+```sh [Java]
 cd srv && mvn cds:watch
 ```
-</div>
 
-Use `cds watch` to start a cds server, even in a newly created and yet empty project. Whenever you feed your project with new content, for example, by adding or modifying _.cds_, _.json_, or _.js_ files, the server automatically restarts to serve the new content. Because there isn't any content in your project yet, it just keeps waiting with a message like this: {.impl .node}
+:::
+
+::: details `cds watch` is waiting for things to come...
+
+```sh
+[dev] cds w
+
+cds serve all --with-mocks --in-memory?
+live reload enabled for browsers
+
+      ___________________________
+
+   No models found in db/,srv/,app/,schema,services. // [!code focus]
+   Waiting for some to arrive... // [!code focus]
+
+```
+
+So, let's go on adding some CDS model as follows...
+
+:::
 
 
-<pre class="log impl node">
-<span style="color:#fc0">[cds](cds) - running nodemon...
---ext cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml
-</span>
-    No models found at db/,srv/,app/,schema,services,.
-    Waiting for some to arrive...
 
-</pre>
-
-Change to the `srv` folder and use `mvn cds:watch` to start your CAP Java application along with a CDS compiler,
-watching for changed or newly added CDS files. Since your project is still empty the first run will wait at
-the CDS compile phase until the first CDS file is added. Once this is added, your CAP Java application will start as a Spring Boot application. Each change or addition of a CDS or Java resource will trigger a restart. {.impl .java}
-
-## Defining Domain Models { #domain-models }
+## ② Capture Domain Models { #domain-models }
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -132,9 +119,9 @@ Let's feed our project by adding a simple domain model. Start by creating a file
 
 ```cds [db/schema.cds]
 using { Currency, managed, sap } from '@sap/cds/common';
-namespace sap.capire.bookshop;
+namespace sap.capire.bookshop; // [!code focus]
 
-entity Books : managed {
+entity Books : managed { // [!code focus]
   key ID : Integer;
   title  : localized String(111);
   descr  : localized String(1111);
@@ -145,14 +132,14 @@ entity Books : managed {
   currency : Currency;
 }
 
-entity Authors : managed {
+entity Authors : managed { // [!code focus]
   key ID : Integer;
   name   : String(111);
   books  : Association to many Books on books.author = $self;
 }
 
 /** Hierarchically organized Code List for Genres */
-entity Genres : sap.common.CodeList {
+entity Genres : sap.common.CodeList { // [!code focus]
   key ID   : Integer;
   parent   : Association to Genres;
   children : Composition of many Genres on children.parent = $self;
@@ -208,45 +195,37 @@ cds db/schema.cds -2 sql
 [Learn more about the command line interface by executing `cds --help`.](#cli){.learn-more}
 <!-- EXCLUDE IN NOTEBOOK END -->
 
-## Defining Services { #defining-services}
+
+
+## ③ Providing Services { #defining-services}
+
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 After the recent changes, `cds watch` also prints this message: {.impl .node}
 
-<pre class="log impl node">
-    No service definitions found in loaded models.
-    Waiting for some to be added...
-</pre>
+```sh
+No service definitions found in loaded models.
+Waiting for some to be added...
+```
 
-After the recent changes, the running CAP Java application is still not
-exposing any service endpoints. {.impl .java}
+So, let's go on feeding it with two service definitions for different use cases:
 
-So, let's go on feeding it with service definitions.
-Following the [best practice of single-purposed services](../guides/providing-services/#single-purposed-services), we’ll define two services for different use cases.
+- An *AdminService* for administrators to maintain _Books_ and _Authors_
+- A *CatalogService* for end users to browse and order *Books*
 
-
-### One for Admins to Maintain _Books_ and _Authors_
+Create the following two files in folder `./srv` and fill them wih this content:
 
 ::: code-group
 ```cds [srv/admin-service.cds]
 using { sap.capire.bookshop as my } from '../db/schema';
-service AdminService @(requires:'authenticated-user') {
+service AdminService @(requires:'authenticated-user') { // [!code focus]
   entity Books as projection on my.Books;
   entity Authors as projection on my.Authors;
 }
 ```
-:::
-
-<!--- % include _code from='bookshop:srv/cat-service.cds' %} -->
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/admin-service.cds){.learn-more .impl .node target="_blank"}
-[Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/admin-service.cds){.learn-more .impl .java target="_blank"}
-
-### And One for End Users to Browse and Order _Books_ {#cat-service}
-
-::: code-group
 ```cds [srv/cat-service.cds]
 using { sap.capire.bookshop as my } from '../db/schema';
-service CatalogService @(path:'/browse') {
+service CatalogService @(path:'/browse') { // [!code focus]
 
   @readonly entity Books as SELECT from my.Books {*,
     author.name as author
@@ -258,8 +237,8 @@ service CatalogService @(path:'/browse') {
 ```
 :::
 
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.cds){ .learn-more .impl .node target="_blank"}
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.cds){ .learn-more .impl .java target="_blank"}
+<!--- % include _code from='bookshop:srv/cat-service.cds' %} -->
+*Find this sources also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
 [Learn more about **Defining Services**.](../guides/providing-services/){ .learn-more}
 
 
@@ -267,21 +246,21 @@ service CatalogService @(path:'/browse') {
 
 This time `cds watch` reacted with additional output like this: {.impl .node}
 
+```js
+[cds] - serving AdminService { at: '/admin' }
+[cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
 
-<pre class="log impl node">
-[cds](cds) - serving AdminService { at: <em>'/admin'</em> }
-[cds](cds) - serving CatalogService { at: <em>'/browse'</em>, impl: <em>'bookshop/srv/cat-service.js'</em> }
-[cds](cds) - launched in: 744.291ms
-[cds](cds) - server listening on { url: <em>'http://localhost:4004'</em> }
-</pre>
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - [ terminate with ^C ]
+```
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this: {.impl .java}
 
-<pre class="log impl java">
-c.s.c.services.impl.ServiceCatalogImpl   : Registered service AdminService
-...
-c.s.c.services.impl.ServiceCatalogImpl   : Registered service CatalogService
-</pre>
+```java
+c.s.c.services.impl.ServiceCatalogImpl : Registered service AdminService
+c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
+```
+{.impl .java}
 
 
 As you can see in the log output, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.{.impl .node}
@@ -335,7 +314,7 @@ Essentially, using a CLI, this invokes what happened automatically behind the sc
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 <!-- EXCLUDE IN NOTEBOOK END -->
 
-## Using Databases {#databases}
+## ④ Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 
@@ -467,7 +446,7 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## Adding/Serving UIs
+## ⑤ Adding/Serving UIs
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -497,7 +476,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
 
 
-## Adding Custom Logic {#adding-custom-logic}
+## ⑥ Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 While the generic providers serve most CRUD requests out-of-the-box, you can add custom code to deal with the specific domain logic of your application.

@@ -418,7 +418,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 ### Destinations
 
 Learn how to [connect to remote services from local
-](../guides/using-services/#connect-to-remote-services-from-local) using SAP BTP destinations.
+](../guides/using-services#connect-to-remote-services-from-local) using SAP BTP destinations.
 
 ### Authentication and Authorization using XSUAA
 

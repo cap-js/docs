@@ -148,7 +148,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Consuming Services
 
-| [Service Consumption APIs](../guides/using-services/) | Node.js | Java |
+| [Service Consumption APIs](../guides/using-services) | Node.js | Java |
 |-------------------------------------------------------|:-------:|:----:|
 | Uniform Consumption APIs → Hexagonal Architecture     |  <X/>   | <X/> |
 | Dynamic Querying                                      |  <X/>   | <X/> |
@@ -169,7 +169,7 @@ Following is an index of the features currently covered by CAP, with status and 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>
 
-[Learn more about supported features for consuming services.](../guides/using-services/){.learn-more}
+[Learn more about supported features for consuming services.](../guides/using-services){.learn-more}
 
 ### Events / Messaging
 

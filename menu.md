@@ -15,7 +15,7 @@
 
 - [Domain Modeling](/guides/domain-modeling)
 - [Providing Services](/guides/providing-services/)
-- [Consuming Services](/guides/using-services/)
+- [Consuming Services](/guides/using-services)
 - [Messaging](/guides/messaging/)
 - [Querying](/guides/querying/)
 - [Databases](/guides/databases/)

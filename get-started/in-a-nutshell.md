@@ -665,7 +665,7 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Domain Modeling](../guides/domain-modeling)
 - [Defining Services and APIs](../guides/providing-services/)
 - [Providing Services](../guides/providing-services/)
-- [Consuming Services](../guides/using-services/)
+- [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases/)
 - [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)

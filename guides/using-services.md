@@ -79,7 +79,7 @@ You've all your answers and know your scenario, go on reading about [external se
 
 The risk management use case of the previously mentioned [tutorial](https://developers.sap.com/mission.btp-application-cap-e2e.html) shows you one possible scenario:
 
-![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/risk-mgmt.drawio.svg){.adapt}
+![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){.adapt}
 
 ::: tip _User Story_
 A company wants to ensure that goods are only sourced from suppliers with acceptable risks. There shall be a software system, that allows a clerk to maintain risks for suppliers and their mitigations. The system shall block the supplier used if risks can't be mitigated.
@@ -191,7 +191,7 @@ Now run `cds import <filename>`
 
 The kind `odata-v2` is set when importing EDMX definitions of OData V2 format. When importing OData V4, the kind `odata` is set, which is an alias for kind `odata-v4`.
 
-[Learn more about type mappings from OData to CDS and vice versa.](../../node.js/cds-dk#special-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#special-type-mappings){.learn-more}
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
 :::
@@ -221,7 +221,7 @@ To work with remote services, add the following dependency to your Maven project
 </dependency>
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities.](../../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities.](../java/development/properties#cds-remote-services){.learn-more}
 
 ## Local Mocking
 
@@ -453,7 +453,7 @@ Connect to the service before sending a request, as usual in CAP:
 const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 ```
 
-Then execute your queries using the [Querying API](../../node.js/services#srv-run):
+Then execute your queries using the [Querying API](../node.js/services#srv-run):
 
 ```javascript
 const { A_BusinessPartner } = bupa.entities;
@@ -488,7 +488,7 @@ You can use dependency injection to get access to the remote service:
 CqnService bupa;
 ```
 
-Then execute your queries using the [Querying API](../../java/query-execution):
+Then execute your queries using the [Querying API](../java/query-execution):
 
 ```java
 CqnSelect select = Select.from(ABusinessPartner_.class).limit(100);
@@ -559,7 +559,7 @@ bupa.send({
 })
 ```
 
-[Learn more about the `send` API.](../../node.js/services#srv-send){.learn-more}
+[Learn more about the `send` API.](../node.js/services#srv-send){.learn-more}
 
 ### Building Custom Requests with Java
 
@@ -1001,7 +1001,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about configuring destinations for Java.](../../java/remote-services#configuring-the-destination){.learn-more}
+[Learn more about configuring destinations for Java.](../java/remote-services#configuring-the-destination){.learn-more}
 
 #### Use Application Defined Destinations { #app-defined-destinations}
 
@@ -1143,12 +1143,12 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about programmatic destination registration.](../../java/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../../java/remote-services#register-destinations){.learn-more}
+[Learn more about programmatic destination registration.](../java/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/remote-services#register-destinations){.learn-more}
 
 
 ### Connect to Remote Services from Local
 
-If you use SAP BTP destinations, you can access them locally using [CAP's hybrid testing capabilities](../../advanced/hybrid-testing) with the following procedure:
+If you use SAP BTP destinations, you can access them locally using [CAP's hybrid testing capabilities](../advanced/hybrid-testing) with the following procedure:
 
 #### Bind to Remote Destinations
 
@@ -1175,7 +1175,7 @@ Your local application needs access to an XSUAA and Destination service instance
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
-    [Learn more about `cds bind`.](../../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){.learn-more}
+    [Learn more about `cds bind`.](../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){.learn-more}
 
 #### Run a Node.js Application with a Destination
 
@@ -1233,7 +1233,7 @@ cds bind --exec -- mvn spring-boot:run \
   -Dspring-boot.run.profiles=default,hybrid
 ```
 
-[Learn more about `cds bind --exec`.](../../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
+[Learn more about `cds bind --exec`.](../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
 
 
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}
@@ -1300,12 +1300,12 @@ With Istio, you can further secure the communication [by configuring authenticat
 
 Your micro service needs bindings to the **XSUAA** and **Destination** service to access destinations on SAP BTP. If you want to access an on-premise service using **Cloud Connector**, then you need a binding to the **Connectivity** service as well.
 
-[Learn more about deploying CAP applications.](../deployment/){.learn-more}
+[Learn more about deploying CAP applications.](deployment/){.learn-more}
 [Learn more about deploying an application using the end-to-end tutorial.](https://developers.sap.com/group.btp-app-cap-deploy.html){.learn-more}
 
 #### Add Required Services to Cloud Foundry Manifest Deployment
 
-The deployment with Cloud Foundry manifest is described in [the deployment guide](../deployment/to-cf). You can follow this guide and make some additional adjustments to the [generated _services-manifest.yml_ and the _services.yml_](../deployment/to-cf#add-manifest) files.
+The deployment with Cloud Foundry manifest is described in [the deployment guide](deployment/to-cf). You can follow this guide and make some additional adjustments to the [generated _services-manifest.yml_ and the _services.yml_](deployment/to-cf#add-manifest) files.
 
 Add **XSUAA**, **Destination**, and **Connectivity** service to your _services-manifest.yml_ file.
 
@@ -1344,7 +1344,7 @@ Add the services to your microservice's `services` list in the _manifest.yml_ fi
 ```
 :::
 
-[Push](../deployment/to-cf#push-the-application) the application.
+[Push](deployment/to-cf#push-the-application) the application.
 
 ```bash
 cf create-service-push  # or `cf cspush` in short from 1.3.2 onwards
@@ -1352,7 +1352,7 @@ cf create-service-push  # or `cf cspush` in short from 1.3.2 onwards
 
 #### Add Required Services to MTA Deployments
 
-The MTA-based deployment is described in [the deployment guide](../deployment/). You can follow this guide and make some additional adjustments to the [generated _mta.yml_](../deployment/to-cf#add-mta-yaml) file.
+The MTA-based deployment is described in [the deployment guide](deployment/). You can follow this guide and make some additional adjustments to the [generated _mta.yml_](deployment/to-cf#add-mta-yaml) file.
 
 Add **XSUAA**, **Destination**, and **Connectivity** service to your _mta.yaml_ file:
 
@@ -1524,7 +1524,7 @@ Kyma clusters run an [Istio](https://istio.io/) service mesh. Istio allows to [c
 
 CAP adds headers for request correlation to its outbound requests that allows logging and tracing across micro services.
 
-[Learn more about request correlation in Node.js.](../../node.js/cds-log#node-observability-correlation){.learn-more} [Learn more about request correlation in Java.](../../java/observability#correlation-ids){.learn-more}
+[Learn more about request correlation in Node.js.](../node.js/cds-log#node-observability-correlation){.learn-more} [Learn more about request correlation in Java.](../java/observability#correlation-ids){.learn-more}
 
 ## Automated Testing {.impl.beta}
 
@@ -1596,8 +1596,8 @@ extend service S4 with {
 }
 
 ```
-[Learn more about the `using` directive.](../../cds/cdl#using){.learn-more}
-[Learn more about the `extend` directive.](../../cds/cdl#extend){.learn-more}
+[Learn more about the `using` directive.](../cds/cdl#using){.learn-more}
+[Learn more about the `extend` directive.](../cds/cdl#extend){.learn-more}
 
 This adds the supplier that is based on the business partner definition and maps fields from the API to the terminology I want to use. For example, I want to refer to suppliers by `name` instead of `BusinessPartnerFullName` in my models and rename it here.
 ### Sample Data
@@ -1717,5 +1717,5 @@ This list specifies the properties for application defined destinations.
 | NoAuthentication        |                               <Y/>                                |              <Y/>              |
 | BasicAuthentication     |                               <Y/>                                |              <Y/>              |
 | TokenForwarding         |                               <Y/>                                | <X/><br>Use `forwardAuthToken` |
-| OAuth2ClientCredentials | [code only](../../java/remote-services#oauth2-client-credentials) |              <X/>              |
-| UserTokenAuthentication | [code only](../../java/remote-services#user-token-authentication) |              <X/>              |
+| OAuth2ClientCredentials | [code only](../java/remote-services#oauth2-client-credentials) |              <X/>              |
+| UserTokenAuthentication | [code only](../java/remote-services#user-token-authentication) |              <X/>              |

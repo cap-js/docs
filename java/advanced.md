@@ -92,7 +92,7 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 
 The static model and accessor interfaces can be generated using the [CDS Maven Plugin](./development/#cds-maven-plugin).
 
-::: warning _❗ Warning_ <!-- {.:warning-title} -->
+::: warning _❗ Warning_
 Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](./data#renaming-elements-in-java) annotation.
 :::
 

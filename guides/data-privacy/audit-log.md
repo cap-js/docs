@@ -27,7 +27,7 @@ Related to the security standards (SAP internal links):
 
 In CAP, audit logging can be handled mostly automatically by adding certain annotations to your business entity definitions and adding some configuration to your project.
 
-::: warning _❗ Data Subject and Data Object_{:.warning-title}<br>
+::: warning _❗ Data Subject and Data Object_<br>
 For each audit log on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
 The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like
 `Customer @PersonalData.FieldSemantics : 'DataSubjectID';` - is never broken. Thus, semantically correct audit logs can only be written on top of a semantically correct built application.

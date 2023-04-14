@@ -1,0 +1,227 @@
+---
+index: 51
+layout: cookbook
+synopsis: >
+  Guides you through the steps to internationalize your application to provide localized versions with respect to both Localized Models as well as Localized Data.
+status: released
+uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
+---
+
+# Localization, i18n
+
+{{ $frontmatter.synopsis }}
+
+_'Localization'_ is a means to adapting your app to the languages of specific target markets.
+
+This guide focuses on static texts such as labels. See [CDS](../../cds/) and [Localized Data](../localized-data/) for information about how to manage and serve actual payload data in different translations.
+
+## Externalizing Texts Bundles
+
+All you have to do to internationalize your models is to externalize all of your literal texts to text bundles and refer to the respective keys from your models as annotation values. Here is a sample of a model and the corresponding bundle.
+
+::: code-group
+```cds [srv/my-service.1.cds]
+service Bookshop {
+  entity Books @(
+    UI.HeaderInfo: {
+      Title.Label: '{i18n>Book}',
+      TypeName: '{i18n>Book}',
+      TypeNamePlural: '{i18n>Books}',
+    },
+  ){/*...*/}
+}
+```
+:::
+
+::: code-group
+```properties [_i18n/i18n.properties]
+Book = Book
+Books = Books
+foo = Foo
+```
+:::
+
+> You can define the keys of your properties entries.
+
+[Learn more about annotations in CSN.](../../cds/csn#annotations){ .learn-more}
+
+Then you can translate the texts in localized bundles, each with a language/locale code appended to its name, for example:
+
+```sh
+_i18n/
+  i18n.properties           # dev main --› 'default fallback'
+  i18n_en.properties        # English    --› 'default language'
+  i18n_de.properties        # German
+  i18n_zh_TW.properties     # Traditional Chinese
+  ...
+```
+
+## Where to Place Text Bundles?
+
+By default, text bundles can be placed in, and are fetched from, folders named *_i18n*, *i18n*, or *assets/i18n*. These folders are placed next to the model files or in a parent folder as follows:
+
+```sh
+srv/
+   my-service.cds          # the model file
+   _i18n/i18n.properties   # next to the model file
+_i18n/i18n.properties      # in a parent folder
+```
+::: tip
+You can configure the folder names where `cds` searches for property bundles by setting `cds.i18n.folders` in your project's _package.json_.
+:::
+
+The default is:
+
+```json
+"cds":{"i18n":{
+  "folders": [ "_i18n", "i18n", "assets/i18n" ]
+}}
+```
+
+> These folders are resolved relative to the working directory of the application.
+
+% if jekyll.environment != "external" %}
+
+## Translating Text Bundles
+
+Use the SAP Translation process as [described here](https://wiki.one.int.sap/wiki/display/HCPCollaboration/Translation).
+% endif %}
+
+## CSV-Based Text Bundles
+
+For smaller projects you can use CSV files instead of _.properties_ files, which you can easily edit in _Excel_, _Numbers_, etc.
+
+The format is as follows:
+
+| key | en | de | zh_CN | ... |
+| --- | --- | --- | --- | --- |
+| Book | Book | Buch | ... |
+| Books | Books | Bücher | ... |
+| ... |
+{ style="width: auto"}
+
+With this CSV source:
+
+```csv
+key;en;de;zh_CN;...
+Book;Book;Buch;...
+Books;Books;Bücher;...
+...
+```
+
+## Merging Algorithm
+
+Each localized model is constructed by applying:
+
+1. The _default fallback_ bundle (that is, *i18n.properties*), then ...
+2. The _default language_ bundle (usually *i18n_en.properties*), then ...
+3. The requested bundle (for example, *i18n_de.properties*)
+
+In that order.
+
+So, the complete stack of overlaid models for the given example would look like this (higher ones override lower ones):
+
+| Source | Content |
+|:--- |:--- |
+| *_i18n/i18n_de.properties* | specific language bundle |
+| *_i18n/i18n_en.properties* | default language bundle |
+| *_i18n/i18n.properties* | default fallback bundle |
+| *srv/my-service.cds* | service definition |
+| *db/data-model.cds* | underlying data model |
+
+::: tip _Note_ <!--  -->
+The _default language_ is usually `en` but can be overridden by configuring `cds.i18n.default_language` in your project's _package.json_.
+:::
+
+## Merging Reuse Bundles
+
+If your application is [importing models from a reuse package](../extensibility/composition), that package comes with its own language bundles for localization. These are applied upon import, so they can be overridden in your models as well as in your language bundles and their translations.
+
+For example, assuming that your data model imports from a _foundation_ package, then the overall stack of overlays would look like this:
+
+| Source |
+|:--- |
+| *./_i18n/i18n_de.properties* |
+| *./_i18n/i18n_en.properties* |
+| *./_i18n/i18n.properties* |
+| *./srv/my-service.cds* |
+| *./db/data-model.cds* |
+| *foundation/_i18n/i18n_de.properties* |
+| *foundation/_i18n/i18n_en.properties* |
+| *foundation/_i18n/i18n.properties* |
+| *foundation/index.cds* |
+| *foundation/\<private model a\>.cds* |
+| *foundation/\<private model b\>.cds* |
+| ... |
+
+## Determining User Locales { #user-locale}
+
+Upon incoming requests at runtime, the user's preferred language is determined as follows:
+
+1. Read the preferred language from the first of:
+   1. The value of the `sap-locale` URL parameter, if present.
+   2. The value of the `sap-language` URL parameter, but only if it's `1Q`, `2Q` or `3Q` as described below.
+   3. The first entry from the request's `Accept-Language` header.
+   4. The `default_language` configured on the app level.
+2. Narrow to normalized locales as described below.
+::: tip
+CAP also accepts formats following the available standards of POSIX and RFC 1766, and transforms them into normalized locales.
+:::
+
+## Normalized Locales { #normalized-locales}
+
+To reduce the number of required translations, most determined locales are normalized by narrowing them to their main language codes only, for example, `en_US`, `en_CA`, `en_AU` &rarr; `en`, except for these preserved language codes:
+
+| Locale | Language |
+| --- | --- |
+| zh_CN | Chinese - China  |
+| zh_HK | Chinese - Hong Kong, China |
+| zh_TW | Chinese traditional - Taiwan, China |
+| en_GB | English - English |
+| fr_CA | French - Canada |
+| pt_PT | Portuguese - Portugal |
+| es_CO | Spanish - Colombia |
+| es_MX | Spanish - Mexico |
+| en_US_x_saptrc | SAP tracing translations w/ `sap-language=1Q` |
+| en_US_x_sappsd | SAP pseudo translations w/ `sap-language=2Q` |
+| en_US_x_saprigi | Rigi language w/ `sap-language=3Q` |
+
+#### Configuring Normalized Locales
+
+For CAP Node.js, the list of preserved locales is configurable, for example in the _package.json_ file, using the configuration option `cds.i18n.preserve_locales`as follows:
+
+```jsonc
+{"cds":{
+  "i18n": {
+    "preserved_locales": [
+      "en_GB",
+      "fr_CA",
+      "pt_PT",
+      "pt_BR",
+      "zh_CN",
+      "zh_HK",
+      "zh_TW"
+    ]
+  }
+}}
+```
+
+In this example we removed `es_CO` and `es_MX` from the list, and added `pt_BR`.
+
+In CAP Java the preserved locales can be configured via the `cds.locales.normalization.includeList` [property](https://cap.cloud.sap/docs/java/development/properties#cds-locales-normalization)<!--({{java}}/development/properties#cds-locales-normalization) need to check with Christian, why linking is not possible -->.
+
+::: warning *Note:* <!--  -->
+However this list is configured, ensure to have translations for the listed locales, as the fallback language will otherwise be `en`.
+:::
+
+#### Use Hyphens in File Names
+
+Due to the ambiguity regarding  standards, for example, the usage of hyphens (`-`) in contrast to underscores (`_`), CAP follows the approach of the [SAP Translation Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-translation-hub). Using that approach, CAP normalizes locales to **underscores** as our de facto standard.
+
+In effect, this means:
+
+- We support incoming locales with both hyphens or underscores, for example `en_GB` and `en-GB`.
+- We always normalize these to underscores, which is `en_GB`.
+- Always use underscores in filenames, for example, `i18n_en_GB.properties`
+
+<div id="translation-sap" />

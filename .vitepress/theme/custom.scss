@@ -1,0 +1,182 @@
+/* https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
+
+:root {
+  --vp-font-family-base: Avenir Next, sans-serif;
+  --vp-c-brand: darkcyan;
+
+  // --vp-c-brand: #039;
+  // --vp-c-brand-light: #003399dd;
+  // --vp-c-brand-dark: #0092d1;
+
+  /* inverts image colors in dark mode */
+  &.dark {
+    img { filter: brightness(.9) invert(1) hue-rotate(177deg) }
+    .VPHome img, img.ignore-dark { filter:none }
+  }
+}
+
+main {
+
+  // Headings
+  .vp-doc {
+    h1, .h1 { font-size: 48px; margin: 1em 0 1em; font-weight: 300; line-height: 1.2em }
+    h2, .h2 { font-size: 24px; margin: 4em 0 2em; padding-top: 12px; }
+    h3, .h3 { font-size: 20px; margin: 3em 0 1em; }
+    h4, .h4 { font-size: 17px; margin: 2em 0 1em; }
+    h1 + .subtitle {
+      margin: -40px 0 48px;
+      font-size: 1.7em;
+      font-weight: 100;
+    }
+    p + h1 {
+      margin-top: 3em
+    }
+  }
+
+  // Table of Contents
+  nav.table-of-contents {
+    line-height: 150%;
+    margin: 44px;
+    &::before {
+      content: 'Table of Contents';
+      font-size: 111%;
+      font-weight: 500;
+    }
+    ul ul {
+      padding: 7px 22px;
+      li {
+        list-style-type: circle;
+        font-size: 95%;
+        line-height: 120%;
+        font-weight: 200 !important;
+      }
+    }
+  }
+
+  // Tip Blocks
+  .custom-block {
+    font-size: 95%;
+    border-width: 0 0 0 7px;
+    border-radius: 14px;
+    &.tip {
+      border-color: #096;
+      background-color: #dfe; color: #041;
+      .dark & {
+        background-color: #021; color: #ced;
+      }
+    }
+    &.warning {
+      border-color: #ea0;
+      background-color: #fff7f0; color: #960;
+      .dark & {
+        background-color: #210; color: #ea0;
+      }
+    }
+    &.danger {
+      border-color: #900;
+      background-color: #fee; color: #600;
+      .dark & {
+        background-color: #300; color: #fcc;
+      }
+    }
+    a {
+      font-weight: inherit !important;
+      text-decoration-style: dotted;
+      text-decoration: underline;
+    }
+  }
+
+  // Details Blocks
+  details.custom-block.details {
+    padding: 11px 14px 1px;
+    summary {
+      font-weight: 500;
+      font-style: italic;
+      a { color: darkcyan }
+    }
+  }
+
+  img.center {
+    margin: auto;
+    display: block;
+  }
+
+  .good { color:teal }
+  .bad { color:darkred }
+}
+
+// "On this page" Outlines
+div.aside nav {
+  ul {
+    font-size: 15px !important;
+    ul.nested {
+      font-size: 95% !important;
+      padding: 7px 0 7px 20px;
+      li a {
+        line-height: 2em !important;
+      }
+    }
+  }
+}
+
+
+kbd {
+  font-size: 13px;
+  display: inline-block;
+  padding: 5px;
+  line-height: 11px;
+  vertical-align: middle;
+  border: 1px solid var(--vp-button-alt-border);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 var(--vp-button-alt-border);
+  position: relative;
+  top: -1px;
+}
+
+a.learn-more {
+  color: var(--vp-c-gray);
+  font-style: italic;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+a.learn-more::before {
+  content: url('/images/learn-more.svg');
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+pre.log {
+  background: black;
+  font-style: italic;
+  font-size: smaller;
+  line-height: 1.3em;
+  color: #00ffffe0;
+  padding: 20px 25px;
+  border-radius: 14px;
+  overflow: auto;
+  em {
+    color: #00ff00e0;
+  }
+  b {
+    color: #ee0000e0;
+  }
+  i {
+    color: grey;
+  }
+}
+/* expand width on big screens */
+@media screen and (min-width: 1600px) {
+  table:hover,
+  table:focus,
+  div[class^='language-']:hover,
+  div[class^='language-']:focus,
+  pre.log:hover,
+  pre.log:focus {
+    min-width: fit-content;
+  }
+}

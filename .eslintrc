@@ -1,0 +1,21 @@
+{
+  "ignorePatterns": ["**/webapp/**", "assets/**"],
+  "extends": ["eslint:recommended", "plugin:vue/vue3-recommended"],
+  "env": {
+    "es2022": true,
+    "node": true,
+    "jest": true,
+    "mocha": true
+  },
+  "globals": {
+    "SELECT": true,
+    "INSERT": true,
+    "UPDATE": true,
+    "DELETE": true,
+    "CREATE": true,
+    "DROP": true,
+    "CDL": true,
+    "CQL": true,
+    "CXL": true
+  }
+}

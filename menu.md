@@ -17,7 +17,7 @@
 - [Providing Services](/guides/providing-services/)
 - [Consuming Services](/guides/using-services)
 - [Messaging](/guides/messaging/)
-- [Querying](/guides/querying/)
+- [Querying](/guides/querying)
 - [Databases](/guides/databases/)
 - [Authorization](/guides/authorization)
 - [Localization, i18n](/guides/i18n/)

@@ -349,7 +349,7 @@ Attackers can send malicious input data in a regular request to make the server 
 <!-- #SEC-100 #SEC-283 #SEC-228  -->
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection).
-[CQL statements](../guides/querying/) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
+[CQL statements](../guides/querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
 
 ::: warning
 Be careful in custom code when modifying or creating CQL queries. Refrain from building the query structure (target entity, columns) directly on basis of request input.

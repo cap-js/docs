@@ -157,7 +157,7 @@ If this Maven build finishes successfully, you can optionally try to deploy your
 cds deploy --to hana
 ```
 
-[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases/#get-hana){.learn-more}
+[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases#get-hana){.learn-more}
 
 
 ### Migrate Java Business Logic

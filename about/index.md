@@ -132,7 +132,7 @@ Following is an excerpt of generic features provided:
 
 - [Serving CRUD Requests](../guides/providing-services/#generic-providers)
 - [Serving Nested Documents](../guides/providing-services/#serving-documents)
-- [Serving Media Data](../guides/media-data/)
+- [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
 ###### Handling Recurring Tasks
@@ -141,15 +141,15 @@ Following is an excerpt of generic features provided:
 - [Input Validation](../guides/providing-services/#input-validation)
 - [Authentication](../node.js/authentication)
 - [Authorization](../guides/authorization)
-- [Localization / i18n](../guides/i18n/)
+- [Localization / i18n](../guides/i18n)
 - [Concurrency Control](../guides/providing-services/#concurrency-control)
 
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
 - [Managed Data](../guides/providing-services/#managed-data)
-- [Localized Data](../guides/localized-data/)
-- [Temporal Data](../guides/temporal-data/)
+- [Localized Data](../guides/localized-data)
+- [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
 
 <br>

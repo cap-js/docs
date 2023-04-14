@@ -120,7 +120,7 @@ Learn more about user model and identity providers here:
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
 - CAP interacts with platform services such as [Event Mesh](../guides/messaging/) or [SaaS Provisioning Service](../guides/deployment/as-saas) on basis of platform-injected service bindings.
-- CAP offers consumption of [Remote Services](../guides/using-services/) on basis of [SAP BTP destinations](../guides/using-services/#btp-destinations).
+- CAP offers consumption of [Remote Services](../guides/using-services) on basis of [SAP BTP destinations](../guides/using-services#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.
 
@@ -144,7 +144,7 @@ Hence, authentication is still mandatory for CAP microservices.
 <!-- #SEC-309 -->
 
 To run a CAP application that authenticates users and consumes remote services, **it isn't required to manage any secrets such as keys, tokens, or passwords**.
-Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../guides/using-services/#btp-destinations).
+Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../guides/using-services#btp-destinations).
 
 ::: tip
 In case you still need to store any secrets, use a platform service [SAP Credential Store](https://help.sap.com/docs/CREDENTIAL_STORE).
@@ -349,7 +349,7 @@ Attackers can send malicious input data in a regular request to make the server 
 <!-- #SEC-100 #SEC-283 #SEC-228  -->
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection).
-[CQL statements](../guides/querying/) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
+[CQL statements](../guides/querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
 
 ::: warning
 Be careful in custom code when modifying or creating CQL queries. Refrain from building the query structure (target entity, columns) directly on basis of request input.

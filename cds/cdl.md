@@ -616,7 +616,7 @@ entity Employees {
 This example is equivalent to the [unmanaged example above](#unmanaged-associations), with the foreign
 key element `address_ID` being added automatically upon activation to a SQL database.
 
-> For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases/#db-constraints).
+> For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
 
 
 ### To-many Associations

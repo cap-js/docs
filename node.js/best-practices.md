@@ -395,7 +395,7 @@ Internally the [timestamp](events#req-timestamp) is a Javascript `Date` object, 
 
 ## Custom Streaming (beta)
 
-When using [Media Data](../guides/media-data/) the Node.js runtime offers a possibility to
+When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
 
 Example:

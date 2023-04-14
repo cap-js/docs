@@ -104,7 +104,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Implicit Sorting](../guides/providing-services/#implicit-sorting)                     | <X/>  |  <X/>   | <X/> |
 | [Access Control](../guides/authorization)                                             | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/media-data/)                                       | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/media-data)                                       | <X/>  |  <X/>   | <X/> |
 | [Conflict Detection through _ETags_](../guides/providing-services/#etag)               | <X/>  |  <X/>   | <X/> |
 | [Authentication via JWT](../guides/authorization#prerequisite-authentication)         | <Na/> |  <X/>   | <X/> |
 | [Basic Authentication](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
@@ -116,10 +116,10 @@ Following is an index of the features currently covered by CAP, with status and 
 |-------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Authorization](../guides/authorization)                                                       | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                        | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n/)                                                            | <X/>  |  <X/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                            | <X/>  |  <X/>   | <X/> |
 | [Managed Data](../guides/providing-services/#managed-data)                                      | <X/>  |  <X/>   | <X/> |
-| [Localized Data](../guides/localized-data/)                                                     | <X/>  |  <X/>   | <X/> |
-| [Temporal Data](../guides/temporal-data/)                                                       | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data)                                                     | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data)                                                       | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                               | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]     | <Na/> |  <X/>   | <X/> |
 | Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |
@@ -148,7 +148,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Consuming Services
 
-| [Service Consumption APIs](../guides/using-services/) | Node.js | Java |
+| [Service Consumption APIs](../guides/using-services) | Node.js | Java |
 |-------------------------------------------------------|:-------:|:----:|
 | Uniform Consumption APIs → Hexagonal Architecture     |  <X/>   | <X/> |
 | Dynamic Querying                                      |  <X/>   | <X/> |
@@ -169,7 +169,7 @@ Following is an index of the features currently covered by CAP, with status and 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>
 
-[Learn more about supported features for consuming services.](../guides/using-services/){.learn-more}
+[Learn more about supported features for consuming services.](../guides/using-services){.learn-more}
 
 ### Events / Messaging
 
@@ -191,11 +191,11 @@ Following is an index of the features currently covered by CAP, with status and 
 
 |                                                 | CDS/deploy |      Node.js       | Java |
 |-------------------------------------------------|:----------:|:------------------:|:----:|
-| [SAP HANA](../guides/databases/)                |    <X/>    |        <X/>        | <X/> |
-| [SAP HANA Cloud](../guides/databases/#get-hana) |    <X/>    |        <X/>        | <X/> |
-| [PostgreSQL](../guides/databases/)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
-| [SQLite](../guides/databases/) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
-| [MongoDB](../guides/databases/) out of the box  |   <Na/>    |       <Na/>        | <D/> |
+| [SAP HANA](../guides/databases)                |    <X/>    |        <X/>        | <X/> |
+| [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
+| [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
+| [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |
 
@@ -205,8 +205,8 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 
-<!--| [Migration to SAP HANA Cloud](../guides/databases/)            |   <D/>    | <Na/>  | <Na/> |
-| [Streamlined Schema Evolution](../guides/databases/)       |   <D/>    | <Na/>  | <Na/> |
+<!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
+| [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |
 | &mdash; using Liquibase                                        |   <C/>    | <Na/>  | <Na/> |
 | &mdash; using Flyway                                           |   <C/>    | <Na/>  | <Na/> |-->
 

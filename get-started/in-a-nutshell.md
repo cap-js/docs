@@ -406,7 +406,7 @@ After you’ve added these files, `mvn cds:watch` restarts the server with outpu
  c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
 </pre>
 
-[Learn more about **Using Databases**.](../guides/databases/){.learn-more}
+[Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
 ### Querying Through OData out-of-the-box
@@ -464,7 +464,7 @@ cds deploy --to hana
 </div>
 
 
-[Learn more about deploying to SAP HANA.](../guides/databases/){.learn-more .impl .node}
+[Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
 ## Adding/Serving UIs
@@ -665,8 +665,8 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Domain Modeling](../guides/domain-modeling)
 - [Defining Services and APIs](../guides/providing-services/)
 - [Providing Services](../guides/providing-services/)
-- [Consuming Services](../guides/using-services/)
-- [Using Databases](../guides/databases/)
+- [Consuming Services](../guides/using-services)
+- [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
 

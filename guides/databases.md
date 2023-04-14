@@ -25,14 +25,14 @@ Use `cds.ql` to read and write data based on CDS models. Its features include:
 * Nested transactions
 * Connection pooling
 * Driver plugin architecture
-* Canonical representation for queries (&rarr; [CQN](../../cds/cqn))
+* Canonical representation for queries (&rarr; [CQN](../cds/cqn))
 * Support for SQL as well as NoSQL databases (experimental)
 
-> All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../../get-started/in-a-nutshell#repl).
+> All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../get-started/in-a-nutshell#repl).
 
 ## Providing Initial Data { #providing-initial-data}
 
-CSV files in your project are picked up by deployments for both SQLite and SAP HANA. If you've accidentally deployed such data to a productive database, see this [troubleshooting](../../advanced/troubleshooting#hana-csv) entry on how to recover from this situation.
+CSV files in your project are picked up by deployments for both SQLite and SAP HANA. If you've accidentally deployed such data to a productive database, see this [troubleshooting](../advanced/troubleshooting#hana-csv) entry on how to recover from this situation.
 
 The locations of CSV files are determined based on the location of CDS model files. CSV files can be defined in any _csv_ or _data_ subfolder, including _db/data_ and _db/csv_. Initial data is only fetched, if the corresponding entity is contained in your compiled model. This also includes CSV files of *reuse modules*. `cds build` will copy these files into the application's deployment folder.
 
@@ -88,12 +88,12 @@ The fastest way to let your application run is using a local SQLite database via
 * Drops existing tables and views, and re-creates them according to the CDS model.
 * Deploys [CSV files](#providing-initial-data) with initial data.
 
-[See it in action](../../get-started/in-a-nutshell#databases){ .learn-more}
+[See it in action](../get-started/in-a-nutshell#databases){ .learn-more}
 
 ### SAP HANA { #get-hana}
 
-When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](../../guides/deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
-If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../../advanced/troubleshooting#get-hana) to learn about your options.
+When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
+If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
 
 #### Enhance Project Configuration for SAP HANA Cloud { #configure-hana}
 
@@ -105,7 +105,7 @@ cds add hana --for hybrid
 
 > This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
 ::: tip
-The profile `hybrid` relates to [the hybrid testing](../../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](../deployment/) guide.
+The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.
 :::
 
 ##### For Node.js
@@ -114,7 +114,7 @@ No further configuration is necessary.
 For your information, this is what the previous command changed in _package.json_:
 
 * The [`hdb`](https://www.npmjs.com/package/hdb) driver for SAP HANA is added as a dependency.
-* A datasource of type `hana-cloud` is added in the `cds.requires.[production].db` block. See [Node.js configuration](../../node.js/cds-env#profiles) for more details.
+* A datasource of type `hana-cloud` is added in the `cds.requires.[production].db` block. See [Node.js configuration](../node.js/cds-env#profiles) for more details.
 
 ##### For Java
 
@@ -124,7 +124,7 @@ See the [Use SAP HANA as the Database for a CAP Java Application](https://develo
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](../../guides/deployment/to-cf#deploy).
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy).
 Then in the project root folder, just execute:
 
 ```sh
@@ -141,13 +141,13 @@ Behind the scenes, `cds deploy` does the following:
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
 [Learn more about the deployment using HDI](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
-[Learn more about hybrid testing using service bindings to Cloud services.](../../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
+[Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
 
-If you run into issues, see the [Troubleshooting](../../advanced/troubleshooting#hana) guide.
+If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#hana) guide.
 
 #### Deploy Using `cf deploy` or `cf push`
 
-See the [Deploying to Cloud Foundry](../../guides/deployment/) guide for information about how to deploy the complete application to SAP BTP.
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP.
 
 ## Mapping CDS to SQL
 
@@ -160,11 +160,11 @@ By default, when deploying data models to SQL databases, all entities become SQL
 * Use `@cds.persistence.exists` to indicate that an object shouldn’t be created in the database,
   because the database object already exists. The names of the existing object and its columns must exactly
   match the names that would have been generated based on the entity definition.
-  One of the common scenarios where this annotation comes in handy is [Using Native SAP HANA Artifacts](../../advanced/hana)
+  One of the common scenarios where this annotation comes in handy is [Using Native SAP HANA Artifacts](../advanced/hana)
   in a CAP application.
 
 * If the entity in the model annotated with `@cds.persistence.exists` represents a user-defined function or a
-  calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../../advanced/hana#calculated-views-and-user-defined-functions) for more details.
+  calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
 #### Skipping Entities {.impl.beta}
 * Use `@cds.persistence.skip` to indicate that an object shouldn’t be created in the database,
@@ -182,7 +182,7 @@ By default, when deploying data models to SQL databases, all entities become SQL
 #### Inserting SQL Snippets
 
 * Use `@sql.prepend` and `@sql.append` to insert SQL snippets into the SQL statements generated by the compiler.
-See [Native Database Clauses](../../guides/databases/#native-db-clauses) for more details.
+See [Native Database Clauses](#native-db-clauses) for more details.
 
 ### Qualified Names &rarr; Underscored Names
 
@@ -225,7 +225,7 @@ CREATE TABLE Authors (
 )
 ```
 
-Correspondingly, the following CQL queries using [_Path Expressions_](../../cds/cql#path-expressions) along structs:
+Correspondingly, the following CQL queries using [_Path Expressions_](../cds/cql#path-expressions) along structs:
 
 ```sql
 SELECT name, address.street from Authors;
@@ -241,7 +241,7 @@ SELECT name, address_town_name from Authors;
 SELECT name, address_street, address_town_name from Authors;
 ```
 
-> See [_Postfix Projections_](../../cds/cql#postfix-projections) for additional means to query struct elements.
+> See [_Postfix Projections_](../cds/cql#postfix-projections) for additional means to query struct elements.
 
 ### Associations &rarr; Forward-Declared JOINs {#associations.impl.beta}
 
@@ -306,15 +306,15 @@ SAP HANA is the primary database of choice for productive use and supports the r
 
 ### Path Expressions
 
-Path expressions including infix filters can be used as described in the [CQL](../../cds/cql#path-expressions) documentation.
+Path expressions including infix filters can be used as described in the [CQL](../cds/cql#path-expressions) documentation.
 
-The CAP Java SDK supports [path expressions](../../java/query-api#path-expressions) on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [path expressions](../java/query-api#path-expressions) on HANA, H2, SQLite and PostgreSQL.
 
 HANA supports path expressions natively. On other DBs, additional joins are needed, which the Node.js runtime does not yet generate. Hence, path expressions are only supported on HANA. Exception: key properties of association to one, such that base entity has property as foreign key. then, *path-expression-like* constructs can be used on sqlite as well, for example, `GET /Books?$orderby=author/ID` works because Books has `author_ID`
 
 
 path expressions are used in:
-- ql where/ order by/ etc. -> as documented in [CQL guide](../../cds/cql)
+- ql where/ order by/ etc. -> as documented in [CQL guide](../cds/cql)
 - odata/ "sap-style rest" query options like $filter, et al.
 
 #### HANA
@@ -326,7 +326,7 @@ path expressions are used in:
 
 ### Where Exists Predicates
 
-The CAP Java SDK supports [where exists](../../java/query-api#exists-subquery) subqueries as well as [any/allMatch](../../java/query-api#any-match) predicates on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [where exists](../java/query-api#exists-subquery) subqueries as well as [any/allMatch](../java/query-api#any-match) predicates on HANA, H2, SQLite and PostgreSQL.
 
 - Java supports path expressions including infix filters as documented in TODO also for SQLite
   + Note: no paths within infix filters (PR #2969) -> same limitation in compiler
@@ -339,15 +339,15 @@ The CAP Java SDK supports [where exists](../../java/query-api#exists-subquery) s
 
 ### Locale
 
-The CAP Java SDK supports [localized elements](../../guides/localized-data/) on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [localized elements](localized-data) on HANA, H2, SQLite and PostgreSQL.
 
-If all views expose the [localized](../../guides/localized-data/#resolving-localized-texts-at-runtime) association, there are no restrictions on H2, SQLite and PostgreSQL. In case localized is not exposed, a system property `supported_locales` with the supported language codes has to be set:
+If all views expose the [localized](localized-data#resolving-localized-texts-at-runtime) association, there are no restrictions on H2, SQLite and PostgreSQL. In case localized is not exposed, a system property `supported_locales` with the supported language codes has to be set:
 
 ```java
 	System.setProperty("supported_locales","en,fr,es,it");
 ```
 
-[locale](../localized-data/#propagating-of-user-locale)
+[locale](localized-data#propagating-of-user-locale)
 
 - **Java** + **Node.js** for **HANA**: full support
 - **Java** for **SQLite**:
@@ -355,12 +355,12 @@ If all views expose the [localized](../../guides/localized-data/#resolving-local
   + fallback: as in case of Node.js described below:
 - **Node.js** for **SQLite**: only for static set of locales (de,en,fr) -> requires statically created SQL views à la localized_..._de
   + on sqlite, an additional view is needed for each locale (`en` texts get written to the original table) -> extra config needed but no limitation
-  + cf. [localized views](../localized-data/#resolving-localized-texts-via-views)
+  + cf. [localized views](localized-data#resolving-localized-texts-via-views)
 
 
 ### Session variables
 
-The CAP Java SDK has full support for session variables such as `$user.id`, `$user.locale` and `$now` on HANA. On H2, SQLite and PostgreSQL, session variables are not supported in views but only in `where` clauses of [CQL](../../cds/cql) queries and `on` conditions of associations.
+The CAP Java SDK has full support for session variables such as `$user.id`, `$user.locale` and `$now` on HANA. On H2, SQLite and PostgreSQL, session variables are not supported in views but only in `where` clauses of [CQL](../cds/cql) queries and `on` conditions of associations.
 
 - **Node.js** for **HANA**: full support
 - **Node.js** for **SQLite**: single static user configurable via compiler's magic vars
@@ -368,13 +368,13 @@ The CAP Java SDK has full support for session variables such as `$user.id`, `$us
 
 ### Temporal Data
 
-On databases other than HANA, only [as-of-now-queries](../../guides/temporal-data/#as-of-now-queries) are supported.
+On databases other than HANA, only [as-of-now-queries](temporal-data#as-of-now-queries) are supported.
 
 - **Node.js**: temporal data impl requires session contexts, which are not available on sqlite. in the future, the runtimes will most likely use special where clauses, which would make temporal data available on any db. currently, SQLite is always "as of now".
 
 ### Multiuser
 
-The CAP Java SDK supports connection pooling and pessimistic locking via [select for update](../../java/query-execution#pessimistic-locking)
+The CAP Java SDK supports connection pooling and pessimistic locking via [select for update](../java/query-execution#pessimistic-locking)
 for HANA, H2 and PostgreSQL.
 
 Although connection pooling can be configured for SQLite, we recommend to set the `maximum-pool-size` to 1, due to the limited concurrency support in SQLite.
@@ -383,7 +383,7 @@ Although connection pooling can be configured for SQLite, we recommend to set th
 - **Node.js** for **HANA**: full support
 - **Node.js** for **SQLite**: no support
   + sqlite feature that would allow concurrency: https://www.sqlite.org/cgi/src/doc/begin-concurrent/doc/begin_concurrent.md -> once that is delivered, we can implement
-  + [select for update](../../guides/providing-services/#select-for-update) simply executes a select
+  + [select for update](providing-services/#select-for-update) simply executes a select
 
 
 ### Multitenancy
@@ -393,7 +393,7 @@ The CAP Java SDK supports testing multitenant scenarios with PostgreSQL and H2. 
 
 ### Functions
 
-The CAP Java SDK supports [scalar](../../java/query-api#scalar-functions) and [predicate](../../java/query-api#predicate-functions) functions on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [scalar](../java/query-api#scalar-functions) and [predicate](../java/query-api#predicate-functions) functions on HANA, H2, SQLite and PostgreSQL.
 
 __TODO: check which odata funcs to take over in cqn__
 
@@ -495,7 +495,7 @@ first_value(name order by price desc)
 ```
 Restriction: `COLLATE` is not supported.
 
-For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../../advanced/hana) for more details.
+For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../advanced/hana) for more details.
 
 
 #### SAP HANA Spatial grid generator functions
@@ -568,10 +568,10 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 a potential name mapping yourself, for example, for structured elements.
 * If you want to provide clauses for different databases, use separate annotation files with
 respective `annotate` statements and control them via build configurations, like explained previously for
-[Using SQLite and SAP HANA Functions](../../guides/databases/#sqlite-and-hana-functions).
+[Using SQLite and SAP HANA Functions](#sqlite-and-hana-functions).
 * The annotations `@sql.prepend` and `@sql.append` are not allowed in a SaaS extension project.
 
-If you use native database clauses in entities where schema evolution has been enabled using annotation `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](../../guides/databases/#schema-evolution-native-db-clauses).
+If you use native database clauses in entities where schema evolution has been enabled using annotation `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](#schema-evolution-native-db-clauses).
 
 ::: warning
 The compiler doesn’t check or process the provided SQL snippets in any way. You are responsible to ensure that the resulting statement is valid and doesn’t negatively impact your database or your application. We don’t provide support for problems caused by using this feature.
@@ -617,7 +617,7 @@ The option expects an object, where the top-level keys are the "root"-variable n
 }
 ```
 
-For different databases, different replacement values need to be defined. This can be achieved using [profiles](../../node.js/cds-env#profiles).
+For different databases, different replacement values need to be defined. This can be achieved using [profiles](../node.js/cds-env#profiles).
 
 #### $user
 
@@ -708,7 +708,7 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
-[Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](../../guides/databases/#configure-hana){.learn-more}
+[Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](#configure-hana){.learn-more}
 During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which may not include any migration steps.
 :::
 
@@ -774,7 +774,7 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
 ### Native Database Clauses {#schema-evolution-native-db-clauses}
-Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](../../guides/databases/#native-db-clauses). In this section we are focusing on schema evolution specific details.
+Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](#native-db-clauses). In this section we are focusing on schema evolution specific details.
 
 Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
 Please note that the compiler does not evaluate or process these SQL snippets. Any snippet will be taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment will fail in case of syntax errors.
@@ -849,7 +849,7 @@ This hasn't been finalized yet.
 
 The `"enable-drop"` option determines whether incompatible model changes are rendered as is (`true`) or manual resolution is required (`false`). The default value is `false`.
 
-The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) or `ALTER TABLE ... DROP` (`"drop"`) statements are rendered for data type related changes. To ensure that any kind of model change can be successfully deployed to the database, you can switch the `"change-mode"` to `"drop"`, keeping in mind that any existing data will be deleted for the corresponding column. See [hdbmigrationtable Generation](../../guides/databases/#enabling-hdbmigrationtable-generation) for more details. The default value is `"alter"`.
+The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) or `ALTER TABLE ... DROP` (`"drop"`) statements are rendered for data type related changes. To ensure that any kind of model change can be successfully deployed to the database, you can switch the `"change-mode"` to `"drop"`, keeping in mind that any existing data will be deleted for the corresponding column. See [hdbmigrationtable Generation](#enabling-hdbmigrationtable-generation) for more details. The default value is `"alter"`.
 
 
 ### Schema Evolution for SQLite (beta) {#schevo-sqlite}
@@ -1035,7 +1035,7 @@ But for other databases this is not the case. Find here a collection of resource
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
 % if jekyll.environment != "external" %}
-[There also reserved words related to SAP Fiori.](../../advanced/fiori#reserved-words){.learn-more}
+[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 % endif %}
 
 ## Auto-Generating Primary Keys { .impl.concept}

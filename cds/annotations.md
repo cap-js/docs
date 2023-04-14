@@ -58,8 +58,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 | `@cds.autoexpose`    | see [Providing Services](../guides/providing-services/#auto-exposed-entities)    |
 | `@cds.api.ignore`    | see [OData](../advanced/odata#omitting-elements-from-apis)                       |
 | `@cds.query.limit`   | see [Providing Services](../guides/providing-services/#annotation-cdsquerylimit) |
-| `@cds.localized`     | see [Localized Data](../guides/localized-data/#read-operations)                  |
-| `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data/#using-annotations-cdsvalidfromto)   |
+| `@cds.localized`     | see [Localized Data](../guides/localized-data#read-operations)                  |
+| `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data#using-annotations-cdsvalidfromto)   |
 | `@cds.search`        | see [Search Capabilities](../guides/providing-services/#searching-data)          |
 
 ## Persistence
@@ -95,8 +95,8 @@ Intrinsically supported OData Annotations:
 |------------------------|------------------------------------------------------------------|
 | `@Core.Computed`       | see [Providing Services](../guides/providing-services/#readonly) |
 | `@Core.Immutable`      | see [Providing Services](../guides/providing-services/#readonly) |
-| `@Core.MediaType`      | see [Media Data](../guides/media-data/)                          |
-| `@Core.IsMediaType`    | see [Media Data](../guides/media-data/)                          |
-| `@Core.IsUrl`          | see [Media Data](../guides/media-data/)                          |
+| `@Core.MediaType`      | see [Media Data](../guides/media-data)                          |
+| `@Core.IsMediaType`    | see [Media Data](../guides/media-data)                          |
+| `@Core.IsUrl`          | see [Media Data](../guides/media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
 | `@Common.FieldControl` | see [Input Validation]                                           |

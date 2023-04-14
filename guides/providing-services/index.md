@@ -190,7 +190,7 @@ In effect, a service definition [as introduced above](#defining-services) is all
 ### Serving CRUD Requests Automatically
  {#serving-crud}
 
-The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases/).
+The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases).
 
 This comprises read and write operations like that:
 
@@ -682,7 +682,7 @@ CREATE TABLE Books ( -- elements ...
 This feature can be switch on/off globally with the configuration `cds.env.features.assert_integrity`.
 :::
 [Learn more about global configuration with `cds.env.features.assert_integrity`.](//releases/mar22/#database-integrity-constraints){.learn-more}
- [Learn more about database integrity constraints.](../databases/#db-constraints){.learn-more}
+ [Learn more about database integrity constraints.](../databases#db-constraints){.learn-more}
 
 
 ### `@assert.target` Constraint for managed to-one Associations

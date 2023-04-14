@@ -124,7 +124,7 @@ entity LatestBooks as projection on Books {
 } where publication >= $now - 1 year
 ```
 
-[Learn more about Views and Projections in CDL.](../../cds/cdl#views){.learn-more}
+[Learn more about Views and Projections in CDL.](../cds/cdl#views){.learn-more}
 
 CDS provides two syntax variants for declaring views:
 
@@ -174,7 +174,7 @@ JOIN Authors ON Books.author_ID = Authors.ID
 SELECT ID, title, author.name as author from Books
 ```
 
-[Learn more about Path Expressions in CQL.](../../cds/cql#path-expressions){.learn-more}
+[Learn more about Path Expressions in CQL.](../cds/cql#path-expressions){.learn-more}
 
 ### Nested Projections
 
@@ -190,7 +190,7 @@ SELECT from Authors {   -- postfix projection
 }
 ```
 
-[Learn more about projections in CQL.](../../cds/cql#postfix-projections){.learn-more}
+[Learn more about projections in CQL.](../cds/cql#postfix-projections){.learn-more}
 
 ## Core Query Notation (CQN)
 

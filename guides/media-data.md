@@ -81,7 +81,7 @@ entity Authors { //...
 }
 ```
 
-[Learn more about the syntax of annotations.](../../cds/cdl#annotations){.learn-more}
+[Learn more about the syntax of annotations.](../cds/cdl#annotations){.learn-more}
 
 ::: warning
 In case you rename the properties holding the media type or content disposition information in a projection, you need to update the annotation's value as well.

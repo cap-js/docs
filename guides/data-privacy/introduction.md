@@ -91,6 +91,13 @@ Annotation            | Description
 `DataSubjectDetails`  | The entities of this set contain details of a data subject (an identified or identifiable natural person) but do not by themselves identify/describe a data subject, for example, CustomerPostalAddress.
 `Other`             | Entities containing personal data or references to data subjects, but not representing data subjects or data subject details by themselves. For example, customer quote, customer order, or purchase order with involved business partners. These entities are relevant for audit logging. There are no restrictions on their structure. The properties should be annotated suitably with `FieldSemantics`.
 
+::: warning _❗ Data Subject and Data Object_<br>
+For each specific personal data operation on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
+The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like
+`Customer @PersonalData.FieldSemantics : 'DataSubjectID';` - is never broken. Thus, semantically correct personal data operation logs can only be written on top of a semantical correctly built application.
+
+Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
+:::
 
 ### Key-Level Annotations
 

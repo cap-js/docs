@@ -289,7 +289,7 @@ CAP promotes a service-oriented paradigm with single-purposed services, which ca
 * [Using Generic Providers](../guides/providing-services/#generic-providers)
 * [Using Databases](../guides/databases)
 * [Localization (i18n)](../guides/i18n)
-* [Adding Localized Data](../guides/localized-data/)
+* [Adding Localized Data](../guides/localized-data)
 * [Adding Temporal Data](../guides/temporal-data)
 * [Adding Authorization](../guides/authorization)
 * [Adding Data Privacy](../guides/data-privacy/)

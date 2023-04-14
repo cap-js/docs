@@ -375,7 +375,7 @@ A getter returning a cached object of all Compositions from an entity definition
 Returns the linked definition's fully qualified name + `'.texts'` to easily refer to the texts entity containing translations for `localized` elements, if any.
 { .indent}
 
-[Learn more about **Localized Data**](../guides/localized-data/){.learn-more}
+[Learn more about **Localized Data**](../guides/localized-data){.learn-more}
 { .indent}
 
 

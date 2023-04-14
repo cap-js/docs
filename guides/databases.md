@@ -339,15 +339,15 @@ The CAP Java SDK supports [where exists](../java/query-api#exists-subquery) subq
 
 ### Locale
 
-The CAP Java SDK supports [localized elements](localized-data/) on HANA, H2, SQLite and PostgreSQL.
+The CAP Java SDK supports [localized elements](localized-data) on HANA, H2, SQLite and PostgreSQL.
 
-If all views expose the [localized](localized-data/#resolving-localized-texts-at-runtime) association, there are no restrictions on H2, SQLite and PostgreSQL. In case localized is not exposed, a system property `supported_locales` with the supported language codes has to be set:
+If all views expose the [localized](localized-data#resolving-localized-texts-at-runtime) association, there are no restrictions on H2, SQLite and PostgreSQL. In case localized is not exposed, a system property `supported_locales` with the supported language codes has to be set:
 
 ```java
 	System.setProperty("supported_locales","en,fr,es,it");
 ```
 
-[locale](localized-data/#propagating-of-user-locale)
+[locale](localized-data#propagating-of-user-locale)
 
 - **Java** + **Node.js** for **HANA**: full support
 - **Java** for **SQLite**:
@@ -355,7 +355,7 @@ If all views expose the [localized](localized-data/#resolving-localized-texts-at
   + fallback: as in case of Node.js described below:
 - **Node.js** for **SQLite**: only for static set of locales (de,en,fr) -> requires statically created SQL views à la localized_..._de
   + on sqlite, an additional view is needed for each locale (`en` texts get written to the original table) -> extra config needed but no limitation
-  + cf. [localized views](localized-data/#resolving-localized-texts-via-views)
+  + cf. [localized views](localized-data#resolving-localized-texts-via-views)
 
 
 ### Session variables

@@ -58,7 +58,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 | `@cds.autoexpose`    | see [Providing Services](../guides/providing-services/#auto-exposed-entities)    |
 | `@cds.api.ignore`    | see [OData](../advanced/odata#omitting-elements-from-apis)                       |
 | `@cds.query.limit`   | see [Providing Services](../guides/providing-services/#annotation-cdsquerylimit) |
-| `@cds.localized`     | see [Localized Data](../guides/localized-data/#read-operations)                  |
+| `@cds.localized`     | see [Localized Data](../guides/localized-data#read-operations)                  |
 | `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data#using-annotations-cdsvalidfromto)   |
 | `@cds.search`        | see [Search Capabilities](../guides/providing-services/#searching-data)          |
 

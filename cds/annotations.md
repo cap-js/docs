@@ -95,8 +95,8 @@ Intrinsically supported OData Annotations:
 |------------------------|------------------------------------------------------------------|
 | `@Core.Computed`       | see [Providing Services](../guides/providing-services/#readonly) |
 | `@Core.Immutable`      | see [Providing Services](../guides/providing-services/#readonly) |
-| `@Core.MediaType`      | see [Media Data](../guides/media-data/)                          |
-| `@Core.IsMediaType`    | see [Media Data](../guides/media-data/)                          |
-| `@Core.IsUrl`          | see [Media Data](../guides/media-data/)                          |
+| `@Core.MediaType`      | see [Media Data](../guides/media-data)                          |
+| `@Core.IsMediaType`    | see [Media Data](../guides/media-data)                          |
+| `@Core.IsUrl`          | see [Media Data](../guides/media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
 | `@Common.FieldControl` | see [Input Validation]                                           |

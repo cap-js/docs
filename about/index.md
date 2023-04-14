@@ -132,7 +132,7 @@ Following is an excerpt of generic features provided:
 
 - [Serving CRUD Requests](../guides/providing-services/#generic-providers)
 - [Serving Nested Documents](../guides/providing-services/#serving-documents)
-- [Serving Media Data](../guides/media-data/)
+- [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
 ###### Handling Recurring Tasks

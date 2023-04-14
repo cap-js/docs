@@ -23,7 +23,7 @@
 - [Localization, i18n](/guides/i18n)
 - [Localized Data](/guides/localized-data)
 - [Temporal Data](/guides/temporal-data)
-- [Media Data](/guides/media-data/)
+- [Media Data](/guides/media-data)
 - [Data Privacy](/guides/data-privacy/)
   - [Basics](/guides/data-privacy/introduction)
   - [Personal Data Management](/guides/data-privacy/pdm)

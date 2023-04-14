@@ -368,7 +368,7 @@ The CAP Java SDK has full support for session variables such as `$user.id`, `$us
 
 ### Temporal Data
 
-On databases other than HANA, only [as-of-now-queries](../../guides/temporal-data/#as-of-now-queries) are supported.
+On databases other than HANA, only [as-of-now-queries](../../guides/temporal-data#as-of-now-queries) are supported.
 
 - **Node.js**: temporal data impl requires session contexts, which are not available on sqlite. in the future, the runtimes will most likely use special where clauses, which would make temporal data available on any db. currently, SQLite is always "as of now".
 

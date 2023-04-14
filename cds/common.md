@@ -22,7 +22,7 @@ CDS ships with a prebuilt model *`@sap/cds/common`* that provides common types a
 [ISO 4217]: https://en.wikipedia.org/wiki/ISO_4217
 [ISO/IEC 15897]: https://en.wikipedia.org/wiki/ISO/IEC_15897
 [localized data]: ../guides/localized-data/
-[temporal data]: ../guides/temporal-data/
+[temporal data]: ../guides/temporal-data
 
 ## Why Use _@sap/cds/common_?
 
@@ -113,7 +113,7 @@ The annotations `@cds.on.insert/update` are handled in generic service providers
 
 ### Aspect `temporal`
 
-This aspect basically adds two canonical elements, `validFrom` and `validTo` to an entity. It also adds a tag annotation that connects the CDS compiler's and runtime's built-in support for _[Temporal Data](../guides/temporal-data/)_. This built-in support covers handling date-effective records and time slices, including time travel. All you've to do is, add the temporal aspect to respective entities as follows:
+This aspect basically adds two canonical elements, `validFrom` and `validTo` to an entity. It also adds a tag annotation that connects the CDS compiler's and runtime's built-in support for _[Temporal Data](../guides/temporal-data)_. This built-in support covers handling date-effective records and time slices, including time travel. All you've to do is, add the temporal aspect to respective entities as follows:
 
 ```cds
 entity Contract : temporal {...}
@@ -276,9 +276,9 @@ entity Foo {
 }
 ```
 
-When unfolding the `localized` fields, we essentially add `.texts` entities in these steps: 
+When unfolding the `localized` fields, we essentially add `.texts` entities in these steps:
 
-1. Add a new entity `Foo.texts` which inherits from `TextsAspects`: 
+1. Add a new entity `Foo.texts` which inherits from `TextsAspects`:
    ```cds
    entity Foo.texts : sap.common.TextsAspects { ... }
    ```
@@ -296,7 +296,7 @@ When unfolding the `localized` fields, we essentially add `.texts` entities in t
      key ID : UUID; // [!code focus]
    }
    ```
-   
+
 3. Add the localized fields:
    ```cds
    entity Foo.texts {
@@ -335,7 +335,7 @@ The reuse type `sap.common.Locale` is used when generating `.texts` entities for
 
 [Learn more about **localized data**.](../guides/localized-data/){ .learn-more}
 
-### SQL Persistence 
+### SQL Persistence
 
 In addition, the base entity these additional tables and views are generated behind the scenes to efficiently deal with translations:
 
@@ -356,7 +356,7 @@ CREATE VIEW localized_Foo AS SELECT
   code,
   COALESCE (localized.name, name) AS name,
   COALESCE (localized.descr, descr) AS descr
-FROM Foo ( 
+FROM Foo (
   LEFT JOIN Foo_texts AS localized
     ON localized.code= code
     AND localized.locale = SESSION_CONTEXT('locale')

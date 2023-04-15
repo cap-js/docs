@@ -45,7 +45,7 @@ The OData V4 adapter turns all exceptions into an OData error response to indica
 
 ## Messages
 
-The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn’t affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](https://cap.cloud.sap/docs/java/development/properties#cds-errors-combined) to `false`.
+The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn’t affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../java/development/properties#cds-errors-combined) to `false`.
 
 The `Messages` interface provides a logger-like API to collect these messages. Additional optional details can be added to the [Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Message.html) using a builder API.
 You can access the `Messages` API from the Event Context:
@@ -82,7 +82,7 @@ messages.throwIfError();
 If there are any collected error messages, this method creates a [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) from _one_ of these error messages.
 The OData V4 adapter turns this exception into an OData error response to indicate the error to the client. The remaining error messages are written into the `details` section of the error response.
 
-If the CDS property [`cds.errors.combined`](https://cap.cloud.sap/docs/java/development/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
+If the CDS property [`cds.errors.combined`](../java/development/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
 
 
 ## Formatting and Localization

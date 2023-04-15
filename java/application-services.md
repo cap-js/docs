@@ -304,8 +304,8 @@ By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and 
 
 | Protocol | Default base path | CDS Property                                                                      |
 |----------|-------------------|-----------------------------------------------------------------------------------|
-| OData V4 | `/odata/v4`       | [`cds.odataV4.endpoint.path`](https://cap.cloud.sap/docs/development/properties#cds-odataV4-endpoint-path) |
-| OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](https://cap.cloud.sap/docs/development/properties#cds-odataV2-endpoint-path) |
+| OData V4 | `/odata/v4`       | [`cds.odataV4.endpoint.path`](./development/properties#cds-odataV4-endpoint-path) |
+| OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](./development/properties#cds-odataV2-endpoint-path) |
 
 The following example shows, how to deviate from the defaults:
 ```yaml
@@ -350,7 +350,7 @@ service InternalService {
 }
 ```
 
-[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](../java/development/properties#cds-application-services-<key>-serve){.learn-more}
 
 
 ### Configure Endpoints
@@ -381,4 +381,4 @@ cds.application.services.CatalogService.serve.endpoints:
     protocol: 'odata-v2'
 ```
 
-[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](https://cap.cloud.sap/docs/java/development/properties#cds-application-services-<key>-serve-endpoints){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](../java/development/properties#cds-application-services-<key>-serve-endpoints){.learn-more}

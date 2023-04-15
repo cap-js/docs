@@ -1,7 +1,4 @@
 ---
-synopsis: >
-  This section describes how to register event handlers on services. In CAP everything that happens at runtime is an <a href="../about/#events">event</a> that is sent to a <a href="../about/#services">service</a>.
-  With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 redirect_from: java/srv-impl
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -14,7 +11,8 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
   }
 </style>
 
-<div v-html="$frontmatter.synopsis" />
+This section describes how to register event handlers on services. In CAP everything that happens at runtime is an [event](../about/#events) that is sent to a [service](../about/#services).
+  With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 
 ## Introduction to Event Handlers
 

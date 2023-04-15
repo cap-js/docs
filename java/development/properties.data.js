@@ -1,32 +1,25 @@
-
 import { defineLoader } from 'vitepress'
-import { parse } from 'csv-parse'
-import fs from 'node:fs'
-import path from 'node:path'
+import { properties } from './properties.json'
 
-async function getProperties() {
+export default defineLoader({
+  async load() { return getProperties() }
+})
 
-  return new Promise((resolve, reject) => {
-    const records = [];
-    fs.createReadStream(path.resolve(__dirname, 'properties.csv'))
-      .pipe(parse({ delimiter: ';', relax_quotes: true}))
-      .on('data', ([property, type, description, , isGroup, defaultValue]) => {
-        if (property === 'cds')  return
-        isGroup = isGroup === 'true'
-        records.push({
-          property,
-          type: isGroup ? '': type,
-          description,
-          defaultValue: isGroup ? '': defaultValue,
-          isGroup,
-          anchor: property.replaceAll('.', '-')
-        })
-      })
-      .on('end', () => resolve(records))
-      .on('error', reject)
+function getProperties() {
+  return properties.map(({ name, header, type, default:defaultValue, doc }) => {
+    return {
+      name: name.replaceAll(/<(index|key)>/g, '<i>&lt;$1&gt;</i>'),  // decorate special <key> and <index> names
+      type,
+      description: md2Html(doc),
+      defaultValue,
+      header,
+      anchor: name.replaceAll('.', '-')
+    }
   })
 }
 
-export default defineLoader({
-  async load() { return await getProperties() }
-})
+function md2Html(string) {
+  return string
+    .replaceAll(/`(.*?)`/g, '<code>$1</code>')
+    .replaceAll(/(https?:\/\/.*?)(\s)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>$2')
+}

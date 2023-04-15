@@ -11,10 +11,18 @@ import { data } from './properties.data.js'
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
+
   tr:hover .header-anchor, tr .header-anchor:focus { opacity: 1; }
-  th.anchor, td.anchor { border-right:none; }
   td.group { font-weight:500; }
-  th.prop , td.prop { border-left:none; padding-left:0px;}
+  th.anchor, td.anchor { border-right:none; }
+  th.prop,   td.prop { border-left:none; padding-left:0px;}
+
+  /* expand this extra wide table on big screens */
+  @media screen and (min-width: 1600px) {
+    table {
+      min-width: fit-content;
+    }
+  }
 </style>
 
 <!--- Migrated: @external/java/400-Development/01-properties/properties.md -> @external/java/development/properties.md -->
@@ -31,16 +39,16 @@ In property files `<index>` should be replaced with a number and `<key>` with an
     <tr>
       <th class="anchor"></th>
       <th class="prop">Property</th>
-      <th class='type'>Type</th>
-      <th class='default'>Default Value</th>
-      <th class='descr'>Description</th>
+      <th class="type">Type</th>
+      <th class="default">Default Value</th>
+      <th class="descr">Description</th>
     </tr>
   </thead>
-  <tr v-for="r in data" :key="r.property" :id="r.anchor">
+  <tr v-for="r in data" :key="r.name" :id="r.anchor">
     <td class="anchor"><a :href="'#'+r.anchor" class="header-anchor"></a></td>
-    <td class="prop" :class="{ group: r.isGroup }">{{ r.property }}</td>
+    <td class="prop" :class="{ group: r.header }" v-html="r.name"></td>
     <td class="type">{{ r.type }}</td>
     <td class="default">{{ r.defaultValue }}</td>
-    <td class="descr">{{ r.description }}</td>
+    <td class="descr" v-html="r.description"></td>
   </tr>
 </table>

@@ -8,7 +8,7 @@ export function sidebar (file = 'menu.md') {
   const source = file
   const markdown = fs.readFileSync(source,'utf8')
   const sidebar = []
-  let section, item
+  let section, item, subitem
 
   for ( let line of markdown.split('\n').filter(l=>l)) {
     let [, text, link ] = /^###\s*\[(.*)\]\((.*)\)/.exec(line) || /^###\s*(.*)/.exec(line) || []
@@ -19,8 +19,15 @@ export function sidebar (file = 'menu.md') {
       else {
         let [, text, link ] = /^  -\s*\[(.*)\]\((.*)\)/.exec(line) || /^  -\s*(.*)/.exec(line) || []
         if (text) {
-          (item.items ??= []).push (_item({ link, text }))
+          (item.items ??= []).push (subitem = _item({ link, text }))
           item.collapsed = true
+        }
+        else {
+          let [, text, link ] = /^    -\s*\[(.*)\]\((.*)\)/.exec(line) || /^    -\s*(.*)/.exec(line) || []
+          if (text) {
+            (subitem.items ??= []).push (_item({ link, text }))
+            subitem.collapsed = true
+          }
         }
       }
     }

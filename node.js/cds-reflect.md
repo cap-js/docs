@@ -28,7 +28,7 @@ status: released
 
 Method `cds.linked` (or `cds.reflect` which is an alias to the same method) turn given parsed models, into instances of [class `LinkedCSN`](#linked-csn), thus adding the reflection methods documented in the following section.
 
-In addition they turn all definitions, and all elements thereof, to _linked_ definitions by prototype-chaining them to their base definitions up to one of [`cds.builtin.types`]. This in turn makes all definitions instances of the respective [`cds.builtin.classes`], and allows to use the methods [as documented below](#cds-builtin-classes) on them.
+In addition they turn all definitions, and all elements thereof, to _linked_ definitions by prototype-chaining them to their base definitions up to one of [`cds.builtin.types`]. This in turn makes all definitions instances of the respective [`cds.builtin.classes`](#cds-builtin-classes), and allows to use the methods [as documented below](#cds-builtin-classes) on them.
 
 For example this usage of `cds.linked`:
 
@@ -207,9 +207,9 @@ TODO:
 
 
 ## cds.builtin.**classes** {#cds-builtin-classes}
-[`cds.builtin.classes`]: #cds-builtin-classes
+<!-- [`cds.builtin.classes`]: #cds-builtin-classes
 [built-in classes]: #cds-builtin-classes
-[built-in class]: #cds-builtin-classes
+[built-in class]: #cds-builtin-classes -->
 
 This property gives you access to the very roots of `cds`'s type system. When a model is passed through [`cds.linked`] all definitions effectively become instances of one of these classes.
 In essence they are defined as follows:
@@ -302,7 +302,7 @@ All [`cds.linked`] definitions are instances of this class, or subclasses thereo
 
 ### <span style="color:grey">any</span> instanceof  <i>  [built-in class] &#8674; true|false </i> {#any-instanceof}
 
-You can use JavaScript's standard `instanceof` in combination with the [built-in classes] to check a [linked](#cds-reflect) definition's type: { .indent}
+You can use JavaScript's standard `instanceof` in combination with the [built-in classes](#cds-builtin-classes) to check a [linked](#cds-reflect) definition's type: { .indent}
 
 ```js
 let m = cds.linked(csn)

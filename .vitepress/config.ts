@@ -19,6 +19,9 @@ export default defineConfig({
   themeConfig: {
     logo: '/images/cap.svg',
     nav,
+    search: {
+      provider: 'local'
+    },
     sidebar: sideb,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',

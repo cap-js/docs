@@ -19,3 +19,10 @@ Reference Documentation { .subtitle}
 Still on the classic CAP Java runtime? &rarr; Migrate to the CAP Java SDK now.<br>
 Have a look at our [Migration guide](./migration) for more information and migration steps.
 :::
+
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
+<br>
+<IndexList :pages='pages' />

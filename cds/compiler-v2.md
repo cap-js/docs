@@ -3,7 +3,7 @@ title: Upgrade to Compiler v2
 shorty: Compiler v2
 synopsis: >
   CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
-  All projects are recommended to **upgrade as soon as possible**, as the former version will only receive critical fixes after cv2 is
+  All projects are recommended to upgrade as soon as possible, as the former version will only receive critical fixes after cv2 is
   released.
 layout: cds-ref
 # redirect_from: releases/compiler-v2

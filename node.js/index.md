@@ -29,37 +29,15 @@ This especially applies to bootstrapping the [`cds.server`](./cds-serve) and the
 provided through [`cds.ApplicationService`](./app-services).
 
 
-<!-- ## Content {#toc}
+## Content
 
+<!-- <IndexList base='/node.js/' list='true' /> -->
 
-<style scoped > ul strong { font-weight: 500 } </style>
-{#markdown-toc class="sidebar menu"}
-- [cds API Facade](cds-facade)
-- [cds.**Service** APIs](services)
-- [cds.**Requests**](events)
-- [cds.**Events**](events)
-- [cds.compile](cds-compile)
-- [cds.connect](cds-connect)
-- [cds.context/tx](cds-context-tx)
-- [cds.env](cds-env)
-- [cds.log](cds-log)
-- [cds.reflect](cds-reflect)
-- [cds.serve/r](cds-serve)
-- [cds.test](cds-test)
-- [cds.ql](cds-ql)
-- [cds.deploy <i> {{_res}} db </i>](cds-deploy)
-- [Best Practices](best-practices)
-- [Middlewares](middlewares)
-- [Authentication](authentication)
-- [Inbound Protocols](protocols)
-- [Application Services](app-services)
-- [Remote Services](remote-services)
-- [Transactions](cds-context-tx)
-- [Databases](databases)
-- [Messaging](messaging) % if jekyll.environment != "external" %}
-- [Audit Logging](platform-services) % endif %}
-- [Using Typescript](typescript)
-- [**@sap/cds-dk** APIs](cds-dk) -->
+<!--
+<style scoped>
+ul strong { font-weight: 500 }
+</style>
+-->
 
 
 ## Conventions

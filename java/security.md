@@ -50,14 +50,8 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 :::
 
 The individual dependencies can be explicitly added in the `pom.xml` file of your service.
-On SAP BTP Cloud Foundry environment, recommended alternative is to use `cds-starter-cloudfoundry` bundle which covers all required dependencies for XSUAA-authentication:
 
-```xml
-<dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-starter-cloudfoundry</artifactId>
-</dependency>
-```
+Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies for XSUAA-authentication.
 
 ### Configure IAS Authentication { #ias}
 

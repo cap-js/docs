@@ -11,7 +11,7 @@ function getProperties() {
       name: name.replaceAll(/<(index|key)>/g, '<i>&lt;$1&gt;</i>'),  // decorate special <key> and <index> names
       type,
       description: md2Html(doc),
-      defaultValue,
+      defaultValue: defaultValue ? `<code>${defaultValue}</code>` : '',
       header,
       anchor: name.replaceAll('.', '-')
     }

@@ -16,8 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-<!--- % include _chapters toc="2,3" %} -->
-
+[[toc]]
 
 ## CAP Java Classic to CAP Java 1.x
 

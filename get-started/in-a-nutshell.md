@@ -170,8 +170,6 @@ This means that `cds watch` detected the changes in _db/schema.cds_ and automati
 As soon as you save your CDS file, the still running `mvn cds:watch` command reacts immediately with a CDS
 compilation and reload of the CAP Java application. The embedded database of the started application will reflect the schema defined in your CDS file. {.impl .java}
 
-[Learn more about using databases.](#databases){.learn-more}
-
 
 
 <!-- EXCLUDE IN NOTEBOOK START -->

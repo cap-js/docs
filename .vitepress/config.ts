@@ -1,16 +1,21 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
-import { sidebar, nav4 } from './menu'
+import { sidebar as sideb, nav4 } from './menu'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
-
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const links: { url:string, lastmod?:number}[] = []
 
-const sideb = sidebar('menu.md')
-//@ts-ignore
-const nav = nav4(sideb).filter(i => ['Getting Started', 'Cookbook', 'CDS'].includes(i.text))
+const sidebar = sideb('menu.md')
+const nav = [
+  ...nav4(sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
+  { text: 'Reference', items: [
+    { text: 'CDS',       link: 'cds/' },
+    { text: 'Node.js',   link: 'node.js/' },
+    { text: 'Java',      link: 'java/' },
+  ] },
+]
 
 export default defineConfig({
   title: 'CAPire',
@@ -19,11 +24,11 @@ export default defineConfig({
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
     logo: '/images/cap.svg',
+    sidebar,
     nav,
     search: {
       provider: 'local'
     },
-    sidebar: sideb,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`

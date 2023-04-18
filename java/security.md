@@ -67,6 +67,18 @@ To enforce IAS authentication, make sure no XSUAA instance is bound to the CAP s
 To allow forwarding to remote services, JWT tokens issued by IAS service do not contain authorization information. In particular, no scopes are included. Closing this gap is up to you in your application.
 :::
 
+### Configure IAS and XSUAA Authentication (Hybrid) { #hybrid}
+
+It is possible to support IAS-authentication and XSUAA-authentication at the same time (hybrid). In this case, the CAP application will accept tokens issued by IAS and XSUAA.
+
+Your application is secured by the hybrid mode **automatically**, if
+1. You enabled IAS-authentication as described in [Configure IAS Authentication](#ias)
+2. The application is additionally bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+
+::: tip
+In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as descibed in [Configure XSUAA Authentication](#xsuaa)
+:::
+
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 
 Only if **both, the library dependencies and an XSUAA resp. IAS service binding are in place**, the CAP Java SDK activates a Spring security configuration, which enforces authentication for all endpoints **automatically**:

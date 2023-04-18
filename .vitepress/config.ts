@@ -62,7 +62,7 @@ export default defineConfig({
   vite: {
     plugins: [],
     build: {
-      chunkSizeWarningLimit: 600 // chunk for 'java/query-api.md' is slightly larger than 500k
+      chunkSizeWarningLimit: 3000 // chunk for local search index dominates w/ 2.7M
     }
   },
   transformHtml(code, id, ctx) {

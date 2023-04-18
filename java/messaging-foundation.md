@@ -271,22 +271,7 @@ cds:
     kind: "enterprise-messaging"
 ```
 
-#### Configuring Message Queuing Support: { .impl.internal #configuring-message-queuing-support}
-
-```xml
-<dependency>
-  <groupId>com.sap.cds</groupId>
-  <artifactId>cds-feature-message-queuing</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-
-```yaml
-cds:
-  messaging.services:
-  - name: "messaging"
-    kind: "message-queuing"
-```
+<span id="beforeredispubsub" />
 
 #### Configuring Redis PubSub Support (beta): { #configuring-redis-pubsub-support-beta}
 
@@ -313,50 +298,7 @@ cds:
 In contrast to SAP Event Mesh the Redis feature is a PubSub service which means that the Redis events are broadcasted and delivered to all subscribed clients simultaneously. That means, each instance of your application receives the same event send by the Redis service. And it's not guaranteed that really all events are delivered by the infrastructure, for example: If an application instance is not connected to the Redis service, the emitted events are going to be lost.
 :::
 
-#### Configuring Apache Kafka Support: { .impl.beta .impl.internal #configuring-apache-kafka-support}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-:::
-
-This feature provides out-of-the-box messaging with CDS-defined events using [Apache Kafka](https://kafka.apache.org/) as a message broker.
-It leverages Apache Kafka's advanced features for high horizontal scalability and reliability. Per default, all CAP events are sent to predefined topic `cds.default`.
-
-You can either configure the corre
-
-<div class="sample-label">
-
-::: code-group
-```yaml [application.yaml]
-cds:
-  messaging:
-    services:
-      kafka-messaging:
-        kind: kafka-channel-messaging
-```
-:::
-</div>
-
-Or you integrate with a Kafka message broker:
-1. Bind your CAP application to an appropriate platform service, for example of type `kafka`,
-1. Add the following feature in your _pom.xml_: {.ol-item-indent}
-
-<div class="sample-label ol-item-indent">
-
-::: code-group
-```xml [pom.xml]
-<dependency>
-  <groupId>com.sap.cds</groupId>
-  <artifactId>cds-feature-kafka</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-:::
-</div>
-
-::: tip
-If a binding to an Apache Kafka service exists, the configuration in your _application.yaml_ is optional.
-:::
+<span id="beforeinjecting" />
 
 #### Injecting Messaging Services
 
@@ -483,19 +425,7 @@ VCAP_SERVICES = {
 }
 ```
 
-
-#### VCAP_SERVICES Template for Message Queuing { .impl.internal}
-
-```bash
-VCAP_SERVICES = {
-  "message-queuing": [{
-    "label": "message-queuing",
-    "credentials": {
-      ... Insert content of service key here! ...
-    }
-  }]
-}
-```
+<span id="beforecomposite" />
 
 ## Composite Messaging Service
 
@@ -835,9 +765,4 @@ When using a CAP messaging service directly to emit the raw message payload as a
 [Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
 
-## Multitenancy { .impl.internal}
-
-SAP-internal stakeholders are allowed to use SAP Event Mesh as a message broker in a multitenancy mode.
-
-[Learn more about **Multitenancy**.](../guides/messaging/event-mesh#multitenancy){.learn-more}
-
+<span id="aftercloudevents" />

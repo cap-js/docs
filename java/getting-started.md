@@ -181,27 +181,7 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 | -- | -- |
 | *integration-tests/src/test/java* | Contains integration test classes. |
 
-### Add SAP Cloud SDK Pipeline Support (Optional) { .impl.internal}
-
-Use the following CDS command to enable building your CAP Java project by the [SAP Cloud SDK Pipeline](https://github.com/SAP/cloud-s4-sdk-pipeline):
-
-```bash
-cds add pipeline
-```
-
-This command adds the following files to your project:
-
-```
-<PROJECT-ROOT>/
-|-- pipeline_config.yml
-`-- Jenkinsfile
-```
-
-| File | Description |
-| -- | -- |
-| *pipeline_config.yml* | Contains an SAP Cloud SDK Pipeline default configuration. Adapt it to fit your additional requirements. |
-| *Jenkinsfile* | Bootstraps the SAP Cloud SDK Pipeline and may not be changed. |
-
+<span id="beforebuildnrun" />
 
 ### Build and Run
 

@@ -15,7 +15,7 @@
   /* inverts image colors in dark mode */
   &.dark {
     img { filter: brightness(.9) invert(1) hue-rotate(177deg) }
-    .VPHome img, img.ignore-dark { filter:none }
+    .VPHome img, .avatar img, img.ignore-dark { filter:none }
   }
 }
 

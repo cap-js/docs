@@ -52,6 +52,13 @@ As platform services and other applications deployed to BTP are only accessible 
 Consequently, technical clients have to [validate the server certificate](#inbound) for proper server authentication.
 Also here CAP application developers don't need to deal with HTTPS/TLS connection setup provided the client code is build on CAP offerings such as HANA Cloud Service or CloudSDK integration.
 
+::: warning
+The **CAP application needs to ensure adequate protection of secrets** that are injected into CAP microservices, e.g.
+- [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platfrom services.
+- Ensure that [service bindings and keys](https://help.sap.com/docs/btp/sap-business-technology-platform/using-services-in-cloud-foundry-environment) aren't compromised (rotate regularly).
+- SAP BTP Connectivity services are maintained [securely](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-security).
+:::
+
 #### Internal Communication (Client and Server) { #internal }
 
 Depending on the target platform, closely coupled microservices of the application zone might also communicate via trusted network channels instead of using [outbound connections](#outbound).
@@ -64,6 +71,7 @@ CAP allows to use alternative communication channels, but application operators 
 ::: tip
 CAP applications don't have to deal with TLS, communication encryption, or certificates, for inbound as well as outbound connections.
 :::
+
 
 ### Filtering Internet Traffic { #filtering }
 <!-- #SEC-331 -->

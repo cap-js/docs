@@ -31,7 +31,11 @@ provided through [`cds.ApplicationService`](./app-services).
 
 ## Content
 
-<!-- <IndexList base='/node.js/' list='true' /> -->
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
+<IndexList :pages='pages' list='true' />
 
 <!--
 <style scoped>
@@ -52,4 +56,3 @@ Read them as follows:
 * &#8594; `result` — dashed arrows: **returns a _[Promise]_ resolving to** the given result
 * `...` — denotes a fluent API, eventually returning/resolving to given result
 * _<i>&#8627;</i>_ — denotes subsequent methods to add options in a fluent API
-

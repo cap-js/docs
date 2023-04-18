@@ -113,6 +113,9 @@ This commands adds the following dependency to the pom.xml:
 	<artifactId>cds-starter-cloudfoundry</artifactId>
 </dependency>
 ```
+::: tip
+CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./architecture#starter-bundles) for more details.
+:::
 
 ### Project Layout
 

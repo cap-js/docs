@@ -4,19 +4,11 @@ status: released
 ---
 
 # Getting Started
-<!---  % include links.md %} -->
-
-<!--- % include_relative _about-capire.md %} -->
-
-<!--- % include_relative _setup.md %} -->
-
-
-<!--- % include _chapters synopsis="1" %} -->
 
 <!-- [Sample Projects](https://github.com/sap-samples/cloud-cap-samples)
 : See and try out our prebuilt sample projects on GitHub. -->
 
-###### About "Capire"
+#### About "Capire"
 
 "Capire" (Italian for ‘understand’) is the name of our CAP documentation you're looking at right now. It's organized as follows:
 
@@ -30,13 +22,11 @@ status: released
 - [*Resources*](../resources/) — links to other sources of information
 
 
-###### Local Setup
+#### Local Setup
 
 ::: tip
 Keep in mind that CAP supports both stacks: Node.js and Java. You can switch between them with the links at the beginning of the following pages.
 :::
-
-<div markdown="1" style="margin-left:20px">
 
 With the first steps below, you can go for a minimal local setup as follows:
 
@@ -58,6 +48,10 @@ With the first steps below, you can go for a minimal local setup as follows:
 Also use [our tools](../tools/) to improve your development experience.
 :::
 
-</div>
- <br>
 
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
+<br>
+<IndexList :pages='pages' />

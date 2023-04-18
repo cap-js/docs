@@ -16,6 +16,7 @@ export default defineConfig({
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base: process.env.GH_BASE || '/docs/',
+  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
     logo: '/images/cap.svg',
     nav,

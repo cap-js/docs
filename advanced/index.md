@@ -6,4 +6,9 @@ status: released
 
 # Advanced Topics and Concepts
 
-% include _chapters synopsis=1 %}
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
+<br>
+<IndexList :pages='pages' />

@@ -16,10 +16,10 @@ status: released
 
 The following guides give detailed information to each of these options...
 
-<!-- <script setup>
+<script setup>
 import { data as pages } from './index.data.js'
 </script>
 
 <br>
-<IndexList :pages='pages' /> -->
+<IndexList :pages='pages' />
 

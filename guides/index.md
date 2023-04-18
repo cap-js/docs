@@ -11,3 +11,10 @@ Guides and Recipes for Common Tasks
 The following figure illustrates a walkthrough of the most prominent tasks within CAP's universe of discourse (aka scope). The guides contained in this section provide details and instructions about each.
 
 ![cookbook-overview.drawio](assets/cookbook-overview.drawio.svg)
+
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
+<br>
+<IndexList :pages='pages' />

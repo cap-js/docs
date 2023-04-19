@@ -118,8 +118,8 @@ Standard literals are represented as in JSON:
 | Numbers<sup>1</sup>   | `11` or  `2.4`           |
 | Strings               | `"foo"`                  |
 | Dates<sup>2</sup>     | `"2016-11-24"`           |
-| Times<sup>2</sup>     | `"16:11"`                |
-| DateTimes<sup>2</sup> | `"2016-11-24T16:11"`     |
+| Times<sup>2</sup>     | `"16:11Z"`                |
+| DateTimes<sup>2</sup> | `"2016-11-24T16:11Z"`     |
 | Records               | `{"foo":<literal>, ...}` |
 | Arrays                | `[<literal>, ...]`       |
 

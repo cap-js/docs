@@ -15,7 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 <!--- % include _toc levels="2,3,6" %} -->
 <!--- % include _chapters %} -->

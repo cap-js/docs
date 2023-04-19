@@ -9,7 +9,7 @@ status: released
 
 # Serving Media Data
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 
 ## Annotating Media Elements

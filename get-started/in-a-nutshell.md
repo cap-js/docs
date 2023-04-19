@@ -150,8 +150,7 @@ entity Genres : sap.common.CodeList { // [!code focus]
 
 <!--- % include _code from='bookshop:db/schema.cds' %} -->
 
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds){ .learn-more .impl .node target="_blank"}
-[Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds){ .learn-more target="_blank" .impl .java}
+_Find this source also in `cap/samples` [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds)_{ .learn-more}
 [Learn more about **Domain Modeling**.](../guides/domain-modeling){ .learn-more}
 [Learn more about **CDS Modeling Languages**.](../cds/){ .learn-more}
 
@@ -161,7 +160,7 @@ entity Genres : sap.common.CodeList { // [!code focus]
 As soon as you save your file, the still running `cds watch` reacts immediately with new output like this: {.impl .node}
 
 <pre class="log impl node">
-[cds](cds) - connect to db { database: <em>':memory:'</em> }
+[cds] - connect to db { database: <em>':memory:'</em> }
 /> successfully deployed to sqlite in-memory db
 </pre>
 
@@ -364,7 +363,7 @@ ID;name
 After you’ve added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content been loaded into the database automatically: {.impl .node}
 
 <pre class="log impl node">
-[cds](cds) - connect to db { database: <em>':memory:'</em> }
+[cds] - connect to db { database: <em>':memory:'</em> }
  > filling sap.capire.bookshop.Authors from bookshop/db/data/sap.capire.bookshop-Authors.csv
  > filling sap.capire.bookshop.Books from bookshop/db/data/sap.capire.bookshop-Books.csv<!-- EXCLUDE IN NOTEBOOK START -->
  > filling sap.capire.bookshop.Books_texts from bookshop/db/data/sap.capire.bookshop-Books_texts.csv

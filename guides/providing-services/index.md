@@ -464,7 +464,6 @@ Per OData specification for [Server Side Paging](http://docs.oasis-open.org/odat
 :::
 
 ### Reliable Pagination
- {.impl.beta}
 
 > Note: This feature is available only for OData V4 endpoints.
 

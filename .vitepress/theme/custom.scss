@@ -181,3 +181,15 @@ pre.log {
     min-width: fit-content;
   }
 }
+
+@font-face {
+  font-family: 'SAP-icons';
+  src: url('.SAP-icons.ttf') format('truetype');
+  src: url('SAP-icons.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+};
+
+.sap-icons {
+  font-family: 'SAP-icons' !important;
+}

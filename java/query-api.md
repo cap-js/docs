@@ -1,4 +1,6 @@
 ---
+synopsis: >
+  API to fluently build <a href="../cds/cql">CQL</a> statements in Java
 redirect_from: java/cds-ql
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -12,8 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-API to fluently build [CQL](../cds/cql) statements in Java
-
+<div v-html="$frontmatter.synopsis" />
 
 ## Introduction
 

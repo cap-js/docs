@@ -16,7 +16,7 @@ status: released
 
 ## Jump-Starting Projects {#jumpstart}
 
-Assuming that you’ve installed [_@sap/cds-dk_](jumpstart/#setup), jump-starting a project in CAP is as simple as this:
+Assuming that you’ve installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
 
 ```sh
 mkdir demo && cd demo  # create a new project folder

@@ -589,9 +589,7 @@ module.exports = async srv => {
 
 ## Transactional Outbox
 
-Usually the emit of messages % if jekyll.environment != "external" %}
-(for [cds.MessagingService](messaging) and [cds.AuditLogService](./platform-services#audit-logging))% endif %}
-should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
+Usually the emit of messages should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
 To solve this problem, an outbox is used internally to defer the emit of messages until the success of the current transaction.
 
 ### In-Memory Outbox (Default)
@@ -606,24 +604,8 @@ The message is lost if its emit fails, there is no retry mechanism.
 The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 :::
 
-% if jekyll.environment != "external" %}
-If you've globally enabled the persistent outbox, you can enforce a deferrable service to use the in-memory outbox. Set the outbox configuration to kind `in-memory-outbox`:
 
-```json
-{
-  "requires": {
-    "messaging": {
-      "kind": "enterprise-messaging",
-      "outbox": {
-        "kind": "in-memory-outbox"
-      }
-    }
-  }
-}
-```
-
-
-% endif %}
+<span id="ininmemoryoutbox" />
 
 
 ### Persistent Outbox

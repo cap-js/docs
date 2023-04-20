@@ -1034,9 +1034,7 @@ But for other databases this is not the case. Find here a collection of resource
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-% if jekyll.environment != "external" %}
-[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
-% endif %}
+<span id="beforeautogenkeylearn" />
 
 ## Auto-Generating Primary Keys { .impl.concept}
 

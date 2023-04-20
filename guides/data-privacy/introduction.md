@@ -23,7 +23,9 @@ Data protection is associated with numerous legal requirements and privacy conce
 
 SAP provides specific features and functions to support compliance regarding the relevant legal requirements, including data protection. SAP does not give any advice on whether these features and functions are the best method to support company, industry, regional, or country-specific requirements. Furthermore, this information should not be taken as advice or a recommendation regarding additional features that would be required in specific IT environments. Decisions related to data protection must be made on a case-by-case basis, considering the given system landscape and the applicable legal requirements.
 
-CAP supports applications in their obligations to comply to data privacy regulations, by automating tedious tasks as much as possible based on annotated models. Using annotations and configurations, CAP supports you using SAP BTP services, which enable you to fulfill specific data privacy requirements in your application. This % if jekyll.environment != "external" %}includes generic audit logging, for example, audit logging of read access and/or change access, based on respectively annotated models, and personal data management% else %}, means at first, personal data management% endif %}, with the help of annotations and configurations and the SAP Personal Data Manager service.
+CAP supports applications in their obligations to comply to data privacy regulations, by automating tedious tasks as much as possible based on annotated models. Using annotations and configurations, CAP supports you using SAP BTP services, which enable you to fulfill specific data privacy requirements in your application. This means at first, personal data management, with the help of annotations and configurations and the SAP Personal Data Manager service.
+
+<span id="inintroduction" />
 
 <span id="sdfgew343244" />
 

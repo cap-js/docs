@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import DefaultTheme from 'vitepress/theme'
 import ShortcutsList from './components/ShortcutsList.vue'
-import ImplVariants from './components/ImplVariants.vue'
+import ImplVariants from './components/implvariants/ImplVariants.vue'
 
 const { Layout } = DefaultTheme
 </script>

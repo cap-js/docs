@@ -263,7 +263,7 @@ By default, the build is configured to download a Node.js runtime and the `@sap/
 This step makes the build self-contained, but the build also takes more time. You can omit these steps and speed up the Maven build, using the Maven profile `cdsdk-global`.
 
 Prerequisites:
-* `@sap/cds-dk` is [globally installed](../../get-started/#local-setup).
+* `@sap/cds-dk` is [globally installed](../../get-started/jumpstart#setup).
 * Node.js installation is available in current *PATH* environment.
 
 If these prerequisites are met, you can use the profile `cdsdk-global` by executing:

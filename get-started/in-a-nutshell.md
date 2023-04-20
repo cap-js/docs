@@ -340,23 +340,23 @@ Now, let's fill your database with initial data by adding a few plain CSV files 
 ::: code-group
 
 ```csv [db/data/sap.capire.bookshop-Books.csv]
-ID;title;author_ID;stock
-201;Wuthering Heights;101;12
-207;Jane Eyre;107;11
-251;The Raven;150;333
-252;Eleonora;150;555
-271;Catweazle;170;22
+ID,title,author_ID,stock
+201,Wuthering Heights,101,12
+207,Jane Eyre,107,11
+251,The Raven,150,333
+252,Eleonora,150,555
+271,Catweazle,170,22
 ```
 :::
 
 ::: code-group
 
 ```csv [db/data/sap.capire.bookshop-Authors.csv]
-ID;name
-101;Emily Brontë
-107;Charlotte Brontë
-150;Edgar Allen Poe
-170;Richard Carpenter
+ID,name
+101,Emily Brontë
+107,Charlotte Brontë
+150,Edgar Allen Poe
+170,Richard Carpenter
 ```
 :::
 

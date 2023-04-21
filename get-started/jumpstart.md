@@ -17,10 +17,13 @@ CAP promotes getting started with **minimal upfront setup**, based on **conventi
 
 
 
+## Setup for Local Development {#setup}
 
-## Setup for Local Development
+Follow the steps below to setup a local development environment. If you are a developer, then you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VSCode, and you only need to install `cds-dk` as described in step 2 below. 
 
-### **1. Install Node.js** 
+
+
+### 1. Install Node.js
 
 #### ... from [nodejs.org](https://nodejs.org) 
 
@@ -31,19 +34,37 @@ Choose the **LTS** version, via the feft-hand side button:
 
 
 
-### **2. Install CAP's cds-dk** 
+### 2. Install CAP's cds-dk
 
 ... by running this in a terminal:
 
 ```sh
 npm add -g @sap/cds-dk
 ```
+[Running into problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
 
 
+### 3. Install Git 
 
-### **3. Install Visual Studio Code** 
+Run this in a terminal to check, whether you already have git installed:
+```sh
+git version
+```
+If not, download and run the appropriate installer from [git-scm.com](https://git-scm.com/downloads).
 
-#### ... from [code.visualstudio.com](https://code.visualstudio.com).
+
+### 4. Install SQLite
+
+- **On Windows only:** Download and run the appropriate installer from [sqlite.org](https://sqlite.org/download.html) 
+
+### 5. Install Java & Maven
+
+- **If you want to go for CAP Java projects**, ensure you have installed [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) additionally.
+
+
+### 6. Install Visual Studio Code
+
+#### ... from [code.visualstudio.com](https://code.visualstudio.com)
 
 Choose your preferred editor or IDE for developing CAP applications. <br>
 We recommend Visual Studio Code. 
@@ -58,15 +79,6 @@ In addition we recommend installing these VSCode Extensions:
 
 
 
-### 4. Install Git 
-
-Run this in a terminal to check, whether you already have git installed:
-
-```sh
-git version
-```
-
-If not, download and run the appropriate installer from [git-scm.com](https://git-scm.com/downloads).
 
 
 
@@ -114,9 +126,9 @@ bookshop/        # Your project's root folder
 
 
 
-### Convention over Configuration
+### Minimal Configuration
 
-CAP has defaults for many things that you’d have to configure in other frameworks. The goal is things should just work out of the box with zero configuration as much as possible. You can override these default by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is things should just work out of the box with zero configuration as much as possible. You can override these default by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that: 
 
@@ -136,9 +148,9 @@ For example you could override the defaults for the project structure like that:
 
 :::
 
-::: tip 
+::: tip Convention over Configuration
 
-We recommend to **stay with CAP's conventions** to benefit from things just working out-of-the-box. Only add configurations or overrride the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out-of-the-box. Only add configurations or overrride the defaults if you really need to do so.
 
 :::
 
@@ -219,7 +231,7 @@ For example, assumed we want to integrate Business Partners from S/4, we do so b
 A step by step example for this can be found [here](https://github.com/SAP-samples/teched2022-AD265)
 :::
 
-### Speed up Your Pipelines
+## Speed up Your Pipelines
 
 We strongly recommend to use the mocked services setup not only in development but also for functional tests in your test pipelines to speed them up by magnitudes.
 
@@ -230,111 +242,3 @@ Not only are inner-loop pipeline test much faster, they also mean there's less c
 helps speeding up your test runs by magnitudes, makes them more robust, and not the least: helps to minimize costs. Make use of that as much as possible and only use the full monty for *real* integration tests.
 
 :::
-
-
-
-## Grow as You Go...
-
-As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of grow as you go is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development. 
-
-Later on you can easily add configurations, **only when you realy need that**. 
-
-::: tip Intrinsic Cloud Qualities
-
-As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the neccessary things, e.g. for tenant isolation, behind the scenes. Similar, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer need to do to enable this. 
-
-:::
-
-### Prepare for Production
-
-While we used SQLite in-memory databases and mocked authentication during development, we would use HANA Cloud and a combination of App Router, IAS and/or XSUAA in production. We can quickly do so as follows:
-
-```sh
-cds add hana,approuter,xsuaa --for production
-```
-
-This adds respective packages and configuration to your project. The content of your project, i.e., models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the could. Locally you continue to develop in airplane mode. 
-
-
-
-### Deploy to Cloud
-
-After we are prepared for production we can deploy to the cloud. In case of BTP CloudFoundry, this is commonly done using MTA tooling. The required `mta.yaml` can be added and fully generated with:
-
-```sh
-cds add mta
-```
-
-
-
-### Add Multitenancy 
-
-If you are creating a SaaS application you need to additionally add support for tenant subscriptions and tenant upgrades. When a tenant subscribes, new database containers have to be bootstraped along with other resources, like message channels. CAP provides the so-called MTX services which do that automatically in a sidecar micro service. You can add all requisite packages and configurations by:
-
-```sh
-cds add multitenancy
-```
-
-
-
-### Add Extensibility
-
-Extensibility is required to allow customers to adapt SaaS applications to their needs, for example, by adding extension fields and entities. CAP provides powerful intrinsic extensibility: Nothing needs to be changed or added to your content for that. You again just need to switch it on by:
-
-```sh
-cds add extensibility
-```
-
-
-
-### Add CI/CD Pipelines
-
-Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. We can have a headstart by: 
-
-```sh
-cds add pipelines
-```
-
-
-
-## Late-Cut Micro Services
-
-Micro services are deployment units, with main motivations being: separate scaling, different technologies, separate delivery cycles. 
-
-Compared to *micro* services, CAP services are ***nano***: They constitute active functional entities of your application. Given their uniform, protocol-agnostic programmatic APIs, all services can be placed into one single procces (that is, a monolith), or distributed accross different micro services. Here's a simple example:
-
-::: code-group
-```js [ServiceA]
-class ServiceA extends cds.Service { init(){
-   const b = cds.connect.to('ServiceB')
-   this.on ('foo', ()=> b.send('bar'))
-}}
-```
-```js [ServiceB]
-class ServiceB extends cds.Service { init(){
-   this.on ('*', console.log)
-}}
-```
-:::
-
-If nothing else is configured, both services would be served in the same process. 
-We can move them to separate ones, seperate micro services by simply adding this config to the one hosting `ServiceA`:
-
-```json
-{"cds":{
-  "requires": {
-    "ServiceB": "rest"
-  }
-}}
-```
-
-::: details Kind `rest` declares the service to be remote, consumed via REST protocol.
-:::
-
-This flexibility allows you to, again, focus on your domain, and avoid the efforts and costs of premature microservice design and overhead, especially in the early phases of development. 
-
-::: tip Avoid Premature Micro-Services Design
-
-Experience shows that initial cuts of applications into micro services, quite frequently turn out to be problematic later on. Refrain from that and rather delay the cuts until you learned more about you application during development.
-
-::: 

@@ -51,7 +51,7 @@ service CatalogService {
   type Author {}
 }
 ```
-Allowing the following payloads:
+Following payload for `Book` is allowed:
 
 `{"guid": 1, "author": {"id": 2, "name": "Mark Twain"}}`
 

@@ -154,8 +154,8 @@ See the [Deploying to Cloud Foundry](deployment/) guide for information about ho
 
 By default, when deploying data models to SQL databases, all entities become SQL tables and all views become SQL views.
 
-CAP doesn't perform SQL specific semantic checks or checks related to database system specific limitations.
-Thus the deployment can fail with respective error messages coming from the database even for a valid CDS model.
+CAP doesn't perform SQL-specific semantic checks or checks specific limitations related to the database system.
+That means, even for a valid CDS model, the deployment can fail with respective error messages coming from the database.
 
 ### Influencing Persistence Mapping
 

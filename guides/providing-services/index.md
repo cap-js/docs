@@ -692,10 +692,10 @@ Annotate a [managed to-one association](../../cds/cdl#managed-associations) of a
 exists. In other words, use this annotation to check whether a non-null foreign key input in a table has a corresponding
 primary key in the associated/referenced target table.
 
-You can check whether multiple targets exist in the same transaction. For example, in the `Authors` entity, you could
+You can check whether multiple targets exist in the same transaction. For example, in the `Books` entity, you could
 annotate one or more managed to-one associations with the `@assert.target` annotation. However, it is assumed that
-dependent values were inserted before the current transaction. For example, in a deep create scenario, when creating an
-author, checking whether an associated book exists that was created as part of the same deep create transaction isn't
+dependent values were inserted before the current transaction. For example, in a deep create scenario, when creating a
+book, checking whether an associated author exists that was created as part of the same deep create transaction isn't
 supported, in this case, you will get an error.
 
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
@@ -711,30 +711,31 @@ content adheres to the standard OData specification for an error
 #### Example
  {#assert-target-example}
 
-Given the following service definition:
+Add `@assert.target` annotation to the service definition as previously mentioned:
 
 ```cds
 entity Books {
-  key ID : UUID;
-  title : String;
-}
+    key ID : UUID;
+    title  : String;
+    author : Association to Authors @assert.target;
+  }
 
-entity Authors {
-  key ID : Integer;
-  book : Association to Books @assert.target;
-  name : String;
-}
+  entity Authors {
+    key ID : UUID;
+    name   : String;
+    books  : Association to many Books on books.author = $self;
+  }
 ```
 
-**HTTP Request** — *assume that a book with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*
+**HTTP Request** — *assume that an author with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*
 
 ```http
-POST Authors HTTP/1.1
+POST Books HTTP/1.1
 Accept: application/json;odata.metadata=minimal
 Prefer: return=minimal
 Content-Type: application/json;charset=UTF-8
 
-{"book_ID": "796e274a-c3de-4584-9de2-3ffd7d42d646"}
+{"author_ID": "796e274a-c3de-4584-9de2-3ffd7d42d646"}
 ```
 
 **HTTP Response**
@@ -748,7 +749,7 @@ content-type: application/json;odata.metadata=minimal
   "@Common.numericSeverity": 4,
   "code": "400",
   "message": "Value doesn't exist",
-  "target": "book_ID"
+  "target": "author_ID"
 }}
 ```
 ::: tip

@@ -711,7 +711,7 @@ content adheres to the standard OData specification for an error
 #### Example
  {#assert-target-example}
 
-Add `@assert.target` annotation to the service definition mentioned above:
+Add `@assert.target` annotation to the service definition as previously mentioned:
 
 ```cds
 entity Books {

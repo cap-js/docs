@@ -9,7 +9,7 @@ impl-variants: true
 
 # Security Aspects
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 ## Secure Communications { #secure-communications }
 

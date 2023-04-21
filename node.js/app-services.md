@@ -8,7 +8,7 @@ status: released
 
 # Application Service Providers
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 
 ## cds.**ApplicationService** <i> class </i> { #cds-app-service}

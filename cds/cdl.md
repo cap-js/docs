@@ -194,9 +194,9 @@ Using literals in CDS models is commonly used, for example, to set default value
 | Numbers   | `11`, `2.4`, or `1.34e10` |
 | Strings   | `'foo'` or `` `foo` `` or ```` ```foo``` ```` |
 | Dates     | `date'2016-11-24'` |
-| Times     | `time'16:11:32'` |
-| Timestamp | `timestamp'2016-11-24 16:11:32.4209753'` |
-| DateTime  | `'2016-11-24T16:11'` |
+| Times     | `time'16:11:32Z'` |
+| Timestamp | `timestamp'2016-11-24T16:11:32.4209753Z'` |
+| DateTime  | `'2016-11-24T16:11Z'` |
 | Records   | `{"foo":<literal>, ...}` |
 | Arrays    | `[<literal>, ...]` |
 

@@ -21,7 +21,7 @@ status: released
 </style>
 
 # Consuming Services
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 <!--- % include _toc levels="2,3" %} -->
 <!--- % include links.md %} -->

@@ -15,7 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 <!--- % include _toc levels="2,3,6" %} -->
 <!--- % include _chapters %} -->
@@ -464,7 +464,6 @@ Per OData specification for [Server Side Paging](http://docs.oasis-open.org/odat
 :::
 
 ### Reliable Pagination
- {.impl.beta}
 
 > Note: This feature is available only for OData V4 endpoints.
 

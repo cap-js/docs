@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 [[toc]]
 
@@ -650,5 +650,8 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 After rebuilding and restarting your application, your Application Services are exposed as OData V2 and OData V4 in parallel. This way, you can migrate your frontend code iteratively to OData V4.
 
 <!-- TODO: Move this to "Development" section -->
+
+<span id="afterenablingodata" />
+
 
 <span id="endofmigration" />

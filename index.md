@@ -10,10 +10,10 @@ hero:
   actions:
   - theme: brand
     text: Get Started
-    link: /get-started/in-a-nutshell.md
+    link: /get-started/in-a-nutshell
   - theme: alt
     text: See Samples
-    link: https://github.com/sap-samples/cloud-cap-samples
+    link: /resources/#public-resources
 
 features:
 - title: Jumpstart & Grow as You Go

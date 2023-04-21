@@ -48,6 +48,9 @@ cds.parse.expr(`'a string'`)  == {val:'a string'}
 cds.parse.expr(`11`)  == {val:11}
 cds.parse.expr(`true`)  == {val:true}
 cds.parse.expr(`null`)  == {val:null}
+cds.parse.expr(`date'2023-04-15'`)  == {val: '2023-04-15', literal: 'date'}
+cds.parse.expr(`time'13:05:23Z'`)  == {val: '13:05:23Z', literal: 'time'}
+cds.parse.expr(`timestamp'2023-04-15T13:05:23Z'`)  == {val: '2023-04-15T13:05:23Z', literal: 'timestamp'}
 ```
 
 

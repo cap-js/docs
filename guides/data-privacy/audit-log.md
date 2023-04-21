@@ -13,7 +13,7 @@ status: released
 
 # Audit Logging with CAP
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 ## Introduction
 

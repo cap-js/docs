@@ -10,7 +10,7 @@ status: released
 
 # Performance Modeling
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 ## Avoid UNION
 Using the UNION statement to merge data from different sources should be avoided. Especially, if other activities like SORTING or FILTERING are performed after the UNION statement.

@@ -17,5 +17,9 @@ CDS models are plain JavaScript objects complying to the _[Core Schema Notation 
 
 [See the Nature of Models for more details](models){.learn-more}
 
+<script setup>
+import { data as pages } from './index.data.js'
+</script>
+
 <br>
-<!-- <IndexList base='/cds/' /> -->
+<IndexList :pages='pages' />

@@ -17,7 +17,7 @@ status: released
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 <!--- % include links.md %} -->
 
 ## Introduction
@@ -43,7 +43,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/#local-setup)*.
+1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
 2. Install a Java VM. At least, Java 8 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
@@ -113,6 +113,9 @@ This commands adds the following dependency to the pom.xml:
 	<artifactId>cds-starter-cloudfoundry</artifactId>
 </dependency>
 ```
+::: tip
+CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./architecture#starter-bundles) for more details.
+:::
 
 ### Project Layout
 
@@ -178,27 +181,7 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 | -- | -- |
 | *integration-tests/src/test/java* | Contains integration test classes. |
 
-### Add SAP Cloud SDK Pipeline Support (Optional) { .impl.internal}
-
-Use the following CDS command to enable building your CAP Java project by the [SAP Cloud SDK Pipeline](https://github.com/SAP/cloud-s4-sdk-pipeline):
-
-```bash
-cds add pipeline
-```
-
-This command adds the following files to your project:
-
-```
-<PROJECT-ROOT>/
-|-- pipeline_config.yml
-`-- Jenkinsfile
-```
-
-| File | Description |
-| -- | -- |
-| *pipeline_config.yml* | Contains an SAP Cloud SDK Pipeline default configuration. Adapt it to fit your additional requirements. |
-| *Jenkinsfile* | Bootstraps the SAP Cloud SDK Pipeline and may not be changed. |
-
+<span id="beforebuildnrun" />
 
 ### Build and Run
 

@@ -219,13 +219,7 @@ Example:
 
 ### Topic Manipulations
 
-#### [SAP Message Queuing](../guides/messaging/event-mesh#sap-message-queuing) { .impl.internal}
-
-Dots are replaced by slashes.
-
-Example:
-
-`my.custom.topic` is changed to `my/custom/topic`.
+<span id="beforeeventmesh" />
 
 #### [SAP Event Mesh](../guides/messaging/#sap-event-mesh)
 
@@ -402,91 +396,7 @@ This will not work in the `dev` plan of SAP Event Mesh.
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
 :::
 
-#### Multitenancy { .impl.internal}
-
-1. Set the property `instanceType` to `reuse` in the service descriptor of your SAP Event Mesh instance:
-
-    ```js
-    {
-      ...,
-      "instanceType": "reuse"
-    }
-    ```
-
-2. Enable [@sap/cds-mtx](../guides/deployment/as-saas). If you listen to topics, SAP Event Mesh is automatically added to the subscription dependencies.
-When a tenant subscribes, the needed artifacts are automatically deployed to the tenant's event bus and undeployed if the tenant unsubscribes.
-
-Since it can take up to 10 minutes to start an event bus, you must tell the SaaS provisioning service to perform an asynchronous subscription call:
-
-```json
-{
-  "xsappname": "[...]",
-  "appUrls": {
-    "getDependencies": "https://[...]/mtx/v1/provisioning/dependencies",
-    "onSubscription": "https://[...]/mtx/v1/provisioning/tenant/{tenantId}",
-    "onSubscriptionAsync": true,
-    "callbackTimeoutMillis": 600000
-  }
-}
-```
-
-To allow manual deployments of messaging artifacts across all subscribed tenants, you can use the scope `$XSAPPNAME.emmanagement`. Adding it to the `authorities` section will allow you to run a deployment task on Cloud Foundry.
-
-In _xs-security.json_:
-
-```js
-{
-  ...,
-  "scopes": [
-    ...,
-    {
-      "name": "$XSAPPNAME.emmanagement",
-      "description": "Event Mesh Management Access"
-    }
-  ],
-  "role-templates": [
-    {
-      "name": "emmanagement",
-      "description": "Event Mesh Management Access",
-      "scope-references": ["$XSAPPNAME.emmanagement"],
-      "attribute-references": []
-    }
-  ],
-  "authorities": [
-    "$XSAPPNAME.emmanagement"
-  ]
-}
-
-```
-
-<!-- TODO: Discuss where the script should be -->
-<!-- The command to deploy all messaging artifacts to all tenants is: -->
-
-```bash
-cf run-task <YOUR_APP> "node node_modules/@sap/cds/tasks/enterprise-messaging-deploy.js"
-```
-
-If you assign the role `emmanagement` to your user, you can trigger the deployment endpoint manually:
-
-```http
-POST <APP_URL>/messaging/enterprise-messaging/deploy HTTP/1.1
-Content-Type: application/json
-
-{
-  "tenants": ["<TENANT_ID_1>", ...], // or ["all"] (default: ["all"])
-  "queues": ["<QUEUE_NAME_1>", ...] // or ["all"] (default: ["all"])
-}
-```
-
-
-::: tip
-In environments like Cloud Foundry, it takes some time until the route of the application is accessible from outside. If a webhook is created too early, its handshake-request will not reach the application, therefore make sure that `webhook.waitingPeriod` is high enough.
-:::
-
-::: tip
-If you want to receive messages on your local computer, you need to provide an app URI, which is accessible by SAP Event Mesh through the environment variable `VCAP_APPLICATION.application_uris[0]`. You can achieve this by creating a tunnel from the public internet to the respective port of your local machine.
-:::
-
+<span id="aftereventmesh" />
 
 <div id="queuing-sap" />
 
@@ -750,7 +660,7 @@ Add the model path accordingly:
 }
 ```
 
-Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/projects#default-project-layouts) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
+Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/jumpstart#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
 
 ### Immediate Emit
 

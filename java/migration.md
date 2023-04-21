@@ -14,10 +14,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
-<!--- % include _chapters toc="2,3" %} -->
-
+[[toc]]
 
 ## CAP Java Classic to CAP Java 1.x
 
@@ -650,97 +649,7 @@ After rebuilding and restarting your application, your Application Services are 
 
 <!-- TODO: Move this to "Development" section -->
 
-% if jekyll.environment != "external" %}
-
-### Multitenancy { #mt .impl.internal}
-
-This guide won’t explain how to enable multitenancy for your application, but point out the configuration settings that have changed when coming from the classic Java Runtime. If you’re looking for a general introduction how to enable multitenancy for your application, see [Java > Multitenancy](./multitenancy).
-
-#### Maven Dependencies
-
-The Maven dependencies are described in section [Multitenancy](./multitenancy).
-
-#### REST Endpoints
-
-The REST endpoints that you configure for the `saas-registry` service instance have changed:
-
-|Classic Java Runtime|Classic Java Spring Boot|New CAP Java SDK|
-|-|-|-|
-|`/callback/v1.0/dependencies`|`/mt_lib/callback/v1.0/dependencies`|`/mt/v1.0/subscriptions/dependencies`|
-|`/callback/v1.0/tenants/{tenantId}`|`/mt_lib/callback/v1.0/tenants/{tenantId}`|`/mt/v1.0/subscriptions/tenants/{tenantId}`|
-
-It’s also possible to change these URLs through a property as described in section [Multitenancy](./multitenancy).
-
-Also the endpoints to trigger a database deployment have changed:
-
-|Classic Java Runtime|Classic Java Spring Boot|New CAP Java SDK|
-|-|-|-|
-|`/init_db`|`/mt_lib/v1.0/init_db`|`/mt/v1.0/subscriptions/deploy`|
-|n.a|`/mt_lib/v1.0/init_db_async`|`/mt/v1.0/subscriptions/deploy/async`|
-|n.a|`/mt_lib/v1.0/init_db_async/status/{jobId}`|`/mt/v1.0/subscriptions/deploy/async/status/{jobId}`|
-
-The CAP Java SDK provides a main class that can be used to trigger database deployments. This is also described in section [Multitenancy](./multitenancy).
-
-#### Parameters
-
-General:
-
-|Classic Java Spring Boot|New CAP Java SDK|
-|-|-|
-|`com.sap.mt.poolProvider`|`cds.multitenancy.datasource.pool`|
-|`com.sap.mt.baseUiUrl`|`cds.multitenancy.app-ui.url`|
-|`com.sap.mt.urlSeparator`|`cds.multitenancy.app-ui.tenant-separator`|
-|`com.sap.mt.subscribeScope`|`cds.multitenancy.security.subscription-scope`|
-|`com.sap.mt.initDbScope`|`cds.multitenancy.security.deployment-scope`|
-|`com.sap.mt.healthCheckIntervalMillis`|`cds.multitenancy.health-check.interval-millis`|
-|`com.sap.mt.securityCheckOff`|Not possible anymore. You can use mock users for local testing.|
-|`com.sap.mt.enabled`|MT is enabled depending on the environment and configuration, for example, service bindings|
-
-Dynamic HDI Deployer:
-
-These parameters are configured through environment variables in the _mta.yaml_.
-
-|Classic Java Spring Boot|New CAP Java SDK|
-|-|-|
-|`com.sap.mt.dynamicDbDeploymentUrl`|`cds.multitenancy.deployer.url`|
-|`com.sap.mt.dynamicDbDeploymentUser`|`cds.multitenancy.deployer.user`|
-|`com.sap.mt.dynamicDbDeploymentPassword`|`cds.multitenancy.deployer.password`|
-
-Sidecar:
-
-This parameter is configured through an environment variable in the _mta.yaml_.
-
-|Classic Java Runtime|New CAP Java SDK|
-|-|-|
-|`com.sap.mt.sidecarUrl`|`cds.multitenancy.sidecar.url`|
-
-#### Scope Names
-
-The scope names can also be configured as described in section [Multitenancy](./multitenancy). The scope names are configured in the UAA service instance. This is either done in the _mta.yaml_ directly or in the security JSON.
-
-|Classic Java Runtime|Classic Java Spring Boot|Classic Java Spring BootNew CAP Java SDK|
-|-|-|-|
-|`Callback`|`callback`|`mtcallback`|
-|n.a.|`initdb`|`mtdeployment`|
-
-#### User Exits
-
-The user exits `DependencyExit`, `SubscribeExit`, `UnSubscribeExit`, and `InitDbExit` can’t be used anymore. The functionality you implemented in these classes needs to be moved into `@Before` or `@After` handlers of the events.
-
-- `EVENT_GET_DEPENDENCIES`
-- `EVENT_SUBSCRIBE`
-- `EVENT_UNSUBSCRIBE`
-- `EVENT_DEPLOY`
-- `EVENT_ASYNC_DEPLOY`
-- `EVENT_ASYNC_DEPLOY_STATUS`
-
-#### Tenant Overwrite
-
-If you need to overwrite the default tenant, you can’t use the class `TenantOverwrite` anymore. Instead, you must use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API as described in section [Request Contexts](./request-contexts).
-
-
-% endif %}
-
+<span id="afterenablingodata" />
 
 ## CAP Java 1.x to CAP Java 2.x { #one-to-two .impl.beta}
 

@@ -12,7 +12,7 @@ status: released
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 
 <!-- #### Content -->

@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Using Databases
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 <!--- % include links.md %} -->
 
 ## Reading and Writing Data { .impl.beta}

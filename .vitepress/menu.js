@@ -4,7 +4,7 @@ import fs  from 'node:fs'
 /**
  * Construct sidebar from markdown
 */
-export function sidebar (file = 'menu.md') {
+export function sidebar (file = 'menu.md', filter=(_)=>true) {
   const source = file
   const markdown = fs.readFileSync(source,'utf8')
   const sidebar = []
@@ -12,19 +12,19 @@ export function sidebar (file = 'menu.md') {
 
   for ( let line of markdown.split('\n').filter(l=>l)) {
     let [, text, link ] = /^###\s*\[(.*)\]\((.*)\)/.exec(line) || /^###\s*(.*)/.exec(line) || []
-    if (text) sidebar.push (section = _item({ link, text, items:[], collapsed: true }))
+    if (text && filter(link)) sidebar.push (section = _item({ link, text, items:[], collapsed: true }))
     else {
       let [, text, link ] = /^-\s*\[(.*)\]\((.*)\)/.exec(line) || /^-\s*(.*)/.exec(line) || []
-      if (text) section.items.push (item = _item({ link, text }))
+      if (text && filter(link)) section.items.push (item = _item({ link, text }))
       else {
         let [, text, link ] = /^  -\s*\[(.*)\]\((.*)\)/.exec(line) || /^  -\s*(.*)/.exec(line) || []
-        if (text) {
+        if (text && filter(link)) {
           (item.items ??= []).push (subitem = _item({ link, text }))
           item.collapsed = true
         }
         else {
           let [, text, link ] = /^    -\s*\[(.*)\]\((.*)\)/.exec(line) || /^    -\s*(.*)/.exec(line) || []
-          if (text) {
+          if (text && filter(link)) {
             (subitem.items ??= []).push (_item({ link, text }))
             subitem.collapsed = true
           }

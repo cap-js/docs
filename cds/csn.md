@@ -2,7 +2,7 @@
 layout: cds-ref
 shorty: Schema Notation
 synopsis: >
-  Specification of CSN, CDS' canonical format for representing CDS models as plain JavaScript objects, similar to [JSON Schema](http:/json-schema.org).
+  Specification of CSN, CDS' canonical format for representing CDS models as plain JavaScript objects, similar to <a href="https://json-schema.org" target="_blank" rel="noopener noreferrer">JSON Schema</a>.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -118,8 +118,8 @@ Standard literals are represented as in JSON:
 | Numbers<sup>1</sup>   | `11` or  `2.4`           |
 | Strings               | `"foo"`                  |
 | Dates<sup>2</sup>     | `"2016-11-24"`           |
-| Times<sup>2</sup>     | `"16:11"`                |
-| DateTimes<sup>2</sup> | `"2016-11-24T16:11"`     |
+| Times<sup>2</sup>     | `"16:11Z"`                |
+| DateTimes<sup>2</sup> | `"2016-11-24T16:11Z"`     |
 | Records               | `{"foo":<literal>, ...}` |
 | Arrays                | `[<literal>, ...]`       |
 

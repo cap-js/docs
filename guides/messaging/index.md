@@ -18,7 +18,7 @@ status: released
   <a impl-variant="java" class="impl-variant" title="Content for Java">Java</a>
 </div> -->
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 
 ## Introduction — Ubiquitous Events in CAP {#intro}

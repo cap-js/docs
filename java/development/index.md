@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 
 <!-- #### Content -->
@@ -263,7 +263,7 @@ By default, the build is configured to download a Node.js runtime and the `@sap/
 This step makes the build self-contained, but the build also takes more time. You can omit these steps and speed up the Maven build, using the Maven profile `cdsdk-global`.
 
 Prerequisites:
-* `@sap/cds-dk` is [globally installed](../../get-started/#local-setup).
+* `@sap/cds-dk` is [globally installed](../../get-started/jumpstart#setup).
 * Node.js installation is available in current *PATH* environment.
 
 If these prerequisites are met, you can use the profile `cdsdk-global` by executing:
@@ -364,27 +364,7 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas#local-mtx) for more information.
 
-### Maintaining FOSS Dependencies { .impl.internal}
-
-Regular updates of the CAP Java SDK with the most recent Free and Open Source Software (FOSS) dependencies ensure that with each CAP Java release, no known vulnerabilities in FOSS dependencies according to the SAP product standards are shipped. Therefore, applications are required to consume the latest CAP Java SDK regularly. However, a vulnerability could be published in between CAP Java releases and in turn prevent your application from being released due to failing security scans. In this case, applications have the following options:
-
-- Wait for the next monthly CAP Java release with fixed dependencies.
-- Specify a secure version of the vulnerable dependency explicitly at the beginning of the `dependencyManagement` section of the top-level *pom.xml* file of your application:
-
-  ```xml
-  <dependencyManagement>
-      ...
-      <dependency>
-          <groupId>...</groupId>
-          <artifactId>...</artifactId>
-          <version>...</version>
-      </dependency>
-      ...
-  </dependencyManagement>
-  ```
-
-  Make sure that the updated version is compatible. When consuming a new CAP Java version, this extra dependency can be removed again.
-
+<span id="afterlocaldev" />
 
 <div id="troubleshooting-sap-make" />
 
@@ -633,6 +613,3 @@ public class CatalogServiceITest {
 ::: tip
 Check out the version in our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/test/java/my/bookshop/CatalogServiceITest.java) for additional examples of integration testing.
 :::
-
-
-

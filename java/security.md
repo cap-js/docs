@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter.synopsis" />
 
 { #security}
 
@@ -50,14 +50,8 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 :::
 
 The individual dependencies can be explicitly added in the `pom.xml` file of your service.
-On SAP BTP Cloud Foundry environment, recommended alternative is to use `cds-starter-cloudfoundry` bundle which covers all required dependencies for XSUAA-authentication:
 
-```xml
-<dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-starter-cloudfoundry</artifactId>
-</dependency>
-```
+Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies for XSUAA-authentication.
 
 ### Configure IAS Authentication { #ias}
 
@@ -71,6 +65,18 @@ To enforce IAS authentication, make sure no XSUAA instance is bound to the CAP s
 :::
 ::: tip
 To allow forwarding to remote services, JWT tokens issued by IAS service do not contain authorization information. In particular, no scopes are included. Closing this gap is up to you in your application.
+:::
+
+### Configure IAS and XSUAA Authentication (Hybrid) { #hybrid}
+
+It is possible to support IAS-authentication and XSUAA-authentication at the same time (hybrid). In this case, the CAP application will accept tokens issued by IAS and XSUAA.
+
+Your application is secured by the hybrid mode **automatically**, if
+1. You enabled IAS-authentication as described in [Configure IAS Authentication](#ias)
+2. The application is additionally bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+
+::: tip
+In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as descibed in [Configure XSUAA Authentication](#xsuaa)
 :::
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}

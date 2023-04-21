@@ -198,6 +198,7 @@ To simplify the configuration on basis of Maven dependencies, the CAP Java SDK c
 
 * `cds-starter-spring-odata`: Bundles all dependencies necessary to set up an application exposing OData V4 endpoints on Spring Boot.
 * `cds-starter-cloudfoundry`: Bundles features to make your application production-ready for SAP BTP, Cloud Foundry environment. It comprises XSUAA authentication, SAP HANA persistence, Cloud Foundry environment for SAP BTP, and multitenancy support.
+* `cds-starter-k8s`: Bundles features to make your application production-ready for SAP BTP, Kyma/K8s environment. It comprises XSUAA authentication, SAP HANA persistence, Kyma/K8s environment for SAP BTP, and multitenancy support.
 
-Both starter bundles can be combined.
+Starter bundle `cds-starter-spring-odata` can be combined with one of the other bundles.
 

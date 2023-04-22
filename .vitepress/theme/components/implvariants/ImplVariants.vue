@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, computed, ref, watchEffect } from 'vue'
 import { useData } from 'vitepress'
-import VPSwitch from './VPSwitch.vue'
+import VPSwitch from '../VPSwitch.vue'
 import IconNode from './IconNode.vue'
 import IconJava from './IconJava.vue'
 
@@ -21,11 +21,13 @@ onMounted(() => {
 function setClass(check) {
   checked.value = check
   if (typeof document !== 'undefined') {
-    const swtch = document.getElementsByClassName('SwitchImplVariant')[0]
-    swtch.classList[check ? 'add' : 'remove']('checked')
 
-    const container = document.getElementsByClassName('SwitchImplVariantContainer')[0]
-    container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
+    for (let swtch of document.getElementsByClassName('SwitchImplVariant')) {
+      swtch.classList[check ? 'add' : 'remove']('checked')
+    }
+    for (let container of document.getElementsByClassName('SwitchImplVariantContainer')) {
+      container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
+    }
 
     markStatus()
     toggleContent(check ? 'java' : 'node')
@@ -130,22 +132,17 @@ function markClasses(el, classes) {
 
 <label title="Toggle Node/Java" class="SwitchImplVariantContainer" v-if="supportsVariants">
   <VPSwitch
-    class="SwitchImplVariant"
-    :aria-checked="checked"
-    @click="toggle"
-  >
+      class="SwitchImplVariant"
+      :aria-checked="checked"
+      @click="toggle">
     <IconNode class="icon-node" />
     <IconJava class="icon-java" />
-    </VPSwitch>
+  </VPSwitch>
 </label>
 
 </template>
 
 <style scoped>
-
-.SwitchImplVariantContainer {
-  padding-left: 32px
-}
 
 .icon-node {
   opacity: 1;

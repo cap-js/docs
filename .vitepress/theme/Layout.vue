@@ -2,6 +2,7 @@
 import DefaultTheme from 'vitepress/theme'
 import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
+import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
 
 const { Layout } = DefaultTheme
 </script>
@@ -10,10 +11,29 @@ const { Layout } = DefaultTheme
 
   <Layout>
     <template #nav-bar-content-before>
-      <ImplVariants/>
+      <div class="ImplVariantsInNavbar">
+        <ImplVariants/>
+      </div>
+    </template>
+    <template #nav-screen-content-after>
+      <NavScreenMenuItem/>
     </template>
   </Layout>
 
   <ShortcutsList />
 
 </template>
+
+<style scoped>
+
+.ImplVariantsInNavbar {
+  padding-left: 32px
+}
+
+@media (max-width: 768px) {
+  .ImplVariantsInNavbar {
+    display: none;
+  }
+}
+
+</style>

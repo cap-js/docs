@@ -24,9 +24,10 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
-<div class="impl java">
 
-## Initialize the project
+## Initialize the project { .impl .java}
+
+<div class="impl java">
 
 ```sh
 cds init hello-world --add java,samples

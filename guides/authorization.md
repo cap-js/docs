@@ -513,7 +513,7 @@ In general, `$user.<attribute>` contains a **list of attribute values** that are
 * A predicate in the `where` clause evaluates to `true` if one of the attribute values from the list matches the condition.
 * An empty (or not defined) list means that the user is fully restricted with regards to this attribute (that means that the predicate evaluates to `false`).
 
-For example, the condition `where: $user.country = countryCode` will grant a user with attribute values `country = ['DE', 'FR']` access to entity instances that have `countryCode = DE` _or_ `countryCode = FR`. In contrast, an empty value list `country = []` or attribute `country` not defined at all restricts access to any of the instances.
+For example, the condition `where: $user.country = countryCode` will grant a user with attribute values `country = ['DE', 'FR']` access to entity instances that have `countryCode = DE` _or_ `countryCode = FR`. In contrast, the user has no access to any entity instances if the value list of country is empty or the attribute is not available at all.
 
 #### Unrestricted XSUAA Attributes
 

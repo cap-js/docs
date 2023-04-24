@@ -487,19 +487,7 @@ entity PaymentMethods : sap.common.CodeList {
 
 Let's further assume the entires with code `Main` and `Travel` are required by implementations and hence must not be changed or removed. Have a look at a couple of solutions.
 
-
-#### Generic Solution {.impl.concept}
-
-One option is to add an [automatic validation](../guides/providing-services/#input-validation) based on certain annotations. For example:
-
-```cds
-annotate PaymentMethods {
-  code @assert.nottouched: ['Main','Travel'];
-}
-```
-
-However, the generic logic behind this validation isn’t trivial and an implementation is pending.
-
+<div="beforeprogrammatic" />
 
 #### Programmatic Solution
 

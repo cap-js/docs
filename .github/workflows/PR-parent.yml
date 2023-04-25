@@ -38,6 +38,8 @@ jobs:
         working-directory: docs
       - run: npm run docs:build
         working-directory: docs
+        env:
+          NODE_OPTIONS: "--max-old-space-size=6144"
       - name: Find broken anchor links
         working-directory: docs
         run: |

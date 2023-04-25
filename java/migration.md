@@ -390,7 +390,7 @@ The existing authentication configuration stays unchanged. No autoconfiguration 
 
 #### Enforcement API & Custom Handlers
 
-The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former % if jekyll.environment == "external" %}Enforcement APIs% else %}[Enforcement APIs](./custom-logic/authorization)% endif %}. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
+The new CAP Java SDK offers a technical service called `AuthorizationService`, which serves as a replacement for the former Enforcement APIs. Obtain a reference to this service just like for all other services, either explicitly through a `ServiceCatalog` lookup or per dependency injection in Spring:
 
 ```java
 @Autowire
@@ -425,6 +425,8 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 | `isContainerSecurityEnabled()` | no substitution required            |
 
 [See section **Enforcement API & Custom Handlers in Java** for more details.](./security#enforcement-api){.learn-more}
+
+<span id="moreenforcement" />
 
 
 <!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
@@ -651,165 +653,5 @@ After rebuilding and restarting your application, your Application Services are 
 
 <span id="afterenablingodata" />
 
-## CAP Java 1.x to CAP Java 2.x { #one-to-two .impl.beta}
 
-This section describes the changes in CAP Java between the major versions 1.x and 2.x. It provides also helpful information to migrate a CAP Java application to the new major version 2.x.
-
-::: warning
-This migration guide is published as a preview. It may be subject to change before the relase of CAP Java 2.0.
-:::
-
-### Spring Boot 3
-
-CAP Java 2 uses Spring Boot 3 as underlying framework. Please consult the [Spring Boot 3.0 Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide) for changes between Spring Boot 2.7 and Spring Boot 3.0. A CAP Java application is typically only affected by Spring Boot 3 incompatibilities if it uses native Spring APIs.
-
-#### Java 17
-
-Spring Boot 3 requires Java 17 as minimum version.
-Maven dependencies, which are not managed by CAP Java, need to be updated to Java 17 compatible versions.
-
-#### Jakarta EE 10
-
-Spring Boot 3 requires Jakarta EE 10. This includes a switch in package names from `javax` to `jakarta`. For example all Servlet-related classes are moved from package `javax.servlet` to `jakarta.servlet`.
-Maven dependencies, which are not managed by CAP Java or Spring Boot, need to be updated to Jakarta EE 10 compatible versions.
-
-#### Spring Security
-
-Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring Security 5.7. Spring Boot 3 uses Spring Security 6. In case you defined custom security configurations you need to follow the guides, which describe the [migration from 5.7 to 5.8](https://docs.spring.io/spring-security/reference/5.8/migration/index.html) and the [migration from 5.8 to 6.0](https://docs.spring.io/spring-security/reference/6.0/migration/index.html).
-
-### API Cleanup
-
-Some interfaces, methods, configuration properties and annotations, which had already been deprecated in 1.x, are now removed in version 2.x.
-
-#### Legacy Upsert
-
-The [legacy upsert](query-execution#legacy-upsert-implementation) (cascading delete + deep insert), which can be configured via the global configuration parameter `cds.sql.upsert.strategy: replace` or a hint, has been removed. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
-
-#### Representation of Pagination {#limit}
-The interfaces [CqnLimit](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnLimit.html) and [Limit](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/Limit.html) are removed. Use the methods `limit(top)` and `limit(top, skip)` of the `Select` and `Expand` to specify the pagination settings. Use the methods [top()](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnEntitySelector.html#skip--) and [skip()](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnEntitySelector.html#skip--) of the `CqnEntitySelector` to introspect the pagination settings of a `CqnExpand` and `CqnSelect`.
-
-#### Statement Modification {#modification}
-
-##### Removal of Deprecated CqnModifier
-The deprecated [CqnModifier](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnModifier.html), whose default methods make expensive copies of literal values, is removed. Instead, use the [Modifier](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html) as documented in [Modifying CQL Statements](query-api#copying-modifying-cql-statements).
-
-If your modifier overrides one or more of the `CqnModifier:literal` methods that take `value` and `cdsType` as arguments, override `Modifier:literal(CqnLiteral<?> literal)` instead. You can create new values using `CQL.val(value).type(cdsType);`.
-
-##### Removal of Deprecated Methods in Modifier
-The deprecated methods `ref(ElementRef<?>)` and `ref(StructuredTypeRef ref)` are removed, instead override `ref(CqnElementRef)` and `ref(CqnStructuredTypeRef)`. To create a modifiable copy of the ref, use `CQL.copy(ref)`.
-
-#### Overview of Removed Interfaces
-
-##### Interface `com.sap.cds.services.cds.CdsService`
-The interface [CdsService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/cds/CdsService.html) is removed and replaced with the equivalent interface [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html).
-
-##### Interface `com.sap.cds.services.environment.ServiceBinding`
-The interface [`com.sap.cds.services.environment.ServiceBinding`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/environment/ServiceBinding.html) is deprecated and replaced with interface [`com.sap.cloud.environment.servicebinding.api.ServiceBinding`](https://github.com/SAP/btp-environment-variable-access/blob/main/api-parent/core-api/src/main/java/com/sap/cloud/environment/servicebinding/api/ServiceBinding.java). For convience the adapter class `com.sap.cds.services.utils.environment.ServiceBindingAdapter` is provided, which maps the deprecated interface to the new one.
-
-#### Interface `com.sap.cds.services.handler.EventPredicate`
-The interface `com.sap.cds.services.handler.EventPredicate` is removed. Consequently, all methods at interface [`com.sap.cds.services.Service`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html) containing this interface as argument are removed. All removed method were marked as deprecated in prior releases.
-
-#### Method `CdsRuntime.runInRequestContext(Request, Function|Consumer)`
-The interface [`com.sap.cds.services.runtime.Request`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/Request.html) and its used interfaces [`com.sap.cds.services.runtime.RequestParameters`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/RequestParameters.html) and [`com.sap.cds.services.runtime.RequestUser`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/RequestUser.html) are removed. They were still used in the method [`CdsRuntime.runInRequestContext(Request, Function|Consumer)`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-), which was also deprecated and should be replaced by [`CdsRuntime.requestContext()`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#requestContext--)[`.run(Function)`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-)
-
-#### Overview of Removed Methods
-
-The following deprecated methods are removed:
-
-| Class / Interface (com.sap.cds...) | Method / Field | Replacement |
-| --- | --- | --- |
-| [...ql.cqn.CqnReference.Segment](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnReference.Segment.html) | [accept(visitor)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnReference.Segment.html#accept-com.sap.cds.ql.cqn.CqnVisitor-) | [CqnReference.accept(visitor)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnReference.html#accept-com.sap.cds.ql.cqn.CqnVisitor-) |
-| [...ql.cqn.CqnVisitor](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnVisitor.html) | [visit(CqnReference.Segment seg)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnReference.Segment-) | [visit(CqnElementRef)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnElementRef-), [visit(CqnStructuredTypeRef)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnStructuredTypeRef-)|
-| [...ql.cqn.Modifier](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/Modifier.html) | [expand(ref, items, orderBy, limit)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/Modifier.html#expand-com.sap.cds.ql.StructuredTypeRef-java.util.List-java.util.List-com.sap.cds.ql.cqn.CqnLimit-) |  [expand(expand)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html#expand-com.sap.cds.ql.Expand-) |
-| | [in(value, list)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/Modifier.html#in-com.sap.cds.ql.Value-java.util.Collection-) | [in(value, valueSet)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html#in-com.sap.cds.ql.Value-com.sap.cds.ql.cqn.CqnValue-)|
-| | [limit(limit)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/Modifier.html#limit-com.sap.cds.ql.Limit-) | [skip(skip)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html#skip-long-), [top(top)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html#top-long-)|
-| | [selectListItem(value, alias)](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/1.36.0/com/sap/cds/ql/cqn/Modifier.html#selectListItem-com.sap.cds.ql.Value-java.lang.String-) | [selectListValue(value, alias)](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Modifier.html#selectListValue-com.sap.cds.ql.Value-java.lang.String-) |
-| [...services.ErrorStatus](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/ErrorStatus.html) | [getCode()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/ErrorStatus.html#getCode--) | [getCodeString()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ErrorStatus.html#getCodeString--)|
-| [...services.ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/ServiceException.html) | [messageTarget(prefix, entity, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/ServiceException.html#messageTarget-java.lang.String-java.lang.String-java.util.function.Function-) |[messageTarget(parameter, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html#messageTarget-java.lang.String-java.util.function.Function-) |
-| [...services.request.ParameterInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/request/ParameterInfo.html) | [getQueryParameters()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/request/ParameterInfo.html#getQueryParameters--) | [getQueryParams()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/ParameterInfo.html#getQueryParams--) |
-| [...services.request.UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/request/UserInfo.html) | [getAttribute(String)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/request/UserInfo.html#getAttribute-java.lang.String-) | [getAttributeValues(String)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/request/UserInfo.html#getAttributeValues-java.lang.String-) |
-| [...services.runtime.CdsModelProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsModelProvider.html) | [get(tenantId)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsModelProvider.html#get-java.lang.String-)  | [get(userInfo, features)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsModelProvider.html#get-com.sap.cds.services.request.UserInfo-com.sap.cds.services.request.FeatureTogglesInfo-)|
-| [...services.messages.Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html) | [target(prefix, entity, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html#target-java.lang.String-java.lang.String-java.util.function.Function-) | [target(start, path)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/Message.html#target-java.lang.String-java.util.function.Function-)|
-| [...services.messages.MessageTarget](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html) | [getPrefix()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getPrefix--) | [getParameter()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/MessageTarget.html#getParameter--) |
-| | [getEntity()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getEntity--), [getPath()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/messages/MessageTarget.html#getPath--)| [getRef()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/MessageTarget.html#getRef--)  |
-| [...services.persistence.PersistenceService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html) | [getCdsDataStore()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html#getCdsDataStore--) | Use [PersistenceService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/persistence/PersistenceService.html#getCdsDataStore--) |
-|[...services.runtime.CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html) |[runInChangeSetContext(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Consumer-) | [changeSetContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#changeSetContext--).[run(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/ChangeSetContextRunner.html#run-java.util.function.Consumer-) |
-| |[runInChangeSetContext(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Function-) | [changeSetContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#changeSetContext--).[run(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/ChangeSetContextRunner.html#run-java.util.function.Function-) |
-| |[runInRequestContext(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-) | [requestContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#requestContext--).[run(Consumer)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-) |
-| |[runInRequestContext(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Function-) | [requestContext()](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html#requestContext--).[run(Function)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html#run-java.util.function.Function-) |
-| [...services.utils.CdsErrorStatuses]() | `CONSTRAINT_VIOLATED` |`UNIQUE_CONSTRAINT_VIOLATED` and `VALUE_REQUIRED` |
-
-
-#### Overview of Removed CDS Properties
-
-Some CdsProperties were already marked as deprected in CAP Java 1.x and are now removed in 2.x.
-
-| removed | replacement |
-| --- | --- |
-| [cds.dataSource.serviceName](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.DataSource.html) | `cds.dataSource.binding` |
-| cds.drafts.associationsToInactiveEntities | see [Lean Draft](#lean-draft) |
-| [cds.locales.normalization.whiteList](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Locales.Normalization.html) | `cds.locales.normalization.includeList` |
-| [cds.messaging.services.\<key\>.queue.maxFailedAttempts](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Messaging.MessagingServiceConfig.Queue.html) | Use custom error handling |
-| [cds.messaging.services.\<key\>.topicNamespace](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Messaging.MessagingServiceConfig.html) | `cds.messaging.services.<key>.subscribePrefix` |
-| [cds.multiTenancy.instanceManager](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.MultiTenancy.html) | `cds.multiTenancy.serviceManager` |
-| [cds.multiTenancy.dataSource.hanaDatabaseIds](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.MultiTenancy.Sidecar.DataSource.html) | obsolete, information is automatically retrieved from bindings |
-| [cds.odataV4.indexPage](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.ODataV4.html) | `cds.indexPage` |
-| [cds.security.authenticateUnknownEndpoints](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#isAuthenticateUnknownEndpoints--) | `cds.security.authentication.authenticateUnknownEndpoints` |
-| [cds.security.authorizeAutoExposedEntities](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#getAuthorizeAutoExposedEntities--) | if disabled, add auto-exposed entities explicitly into your service definition |
-| [cds.security.authorization.autoExposedEntities](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.Authorization.html#getAutoExposedEntities--) | if disabled, add auto-exposed entities explicitly into your service definition |
-| [cds.security.defaultRestrictionLevel](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#getDefaultRestrictionLevel--) | `cds.security.authentication.mode` |
-| [cds.security.draftProtection](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#getDraftProtection--) | `cds.security.authorization.draftProtection` |
-| [cds.security.instanceBasedAuthorization](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#getInstanceBasedAuthorization--) | if disabled, remove `@requires` / `@restrict` annotations |
-| [cds.security.authorization.instanceBasedAuthorization](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.Authorization.html#getInstanceBasedAuthorization--) | remove `@requires` / `@restrict` annotations |
-| [cds.security.openMetadataEndpoints](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#isOpenMetadataEndpoints--) | `cds.security.authentication.authenticateMetadataEndpoints` |
-| [cds.security.openUnrestrictedEndpoints](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.html#getOpenUnrestrictedEndpoints--) | `cds.security.authentication.mode` |
-| [cds.security.xsuaa.serviceName](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.Xsuaa.html) | `cds.security.xsuaa.binding` |
-| [cds.security.xsuaa.normalizeUserNames](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Security.Xsuaa.html) | obsolete, effectively hard-coded to `false` |
-| [cds.services](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.html) | cds.application.services |
-| [cds.sql.upsert](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/1.32.0/com/sap/cds/services/environment/CdsProperties.Sql.Upsert.html) | See [Legacy Upsert](#legacy-upsert) |
-
-### Overview of Removed Annotations
-
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cds-search-annotation).
-
-### Changed behaviour
-
-#### Null values in CDS QL query results
-
-With CAP Java `2.x`, `null` values are not removed from the result of CDS QL queries anymore, this needs to be considered when using methods that operate on the key set of `Row`, such as `Row:containsKey`, `Row:keySet` and `Row:entrySet`.
-
-#### Provider Tenant Normalization
-
-The default value of CDS Property `cds.security.authentication.normalizeProviderTenant` is changed to `true`. With this change, the provider tenant is normalized and set to `null` in the UserInfo by default.
-
-### Lean Draft
-
-The property `cds.drafts.associationsToInactiveEntities` has been removed. It enabled a feature, which caused associations to other draft documents to combine active and inactive versions of the association target. This mixing of inactive and active data is no longer supported.
-In cases where it is still required to connect two independent draft documents through an association you can annotate this association with `@odata.draft.enclosed`. Note that this will ensure, that the active version points to an active target, while the inactive version points to an inactive target. It will not mix active and inactive data into the same association.
-
-The following table summarizes the behaviour of associations between different draft-enabled entities:
-
-| Source Entity | Association Type | Target Entity | Draft Document Boundaries |
-| --- | --- | --- | --- |
-| active<sup>1</sup> | composition | active | same document |
-| inactive<sup>2</sup> | composition | inactive | same document |
-| active | [backlink](../cds/cdl#to-many-associations) association | active | same document |
-| inactive | backlink association | inactive | same document |
-| active | association | active | independent documents |
-| inactive | association | active | independent documents |
-| active | association with `@odata.draft.enclosed` | active | independent documents |
-| inactive | association with `@odata.draft.enclosed` | inactive | independent documents |
-
-<sup>1</sup> `IsActiveEntity = true`
-<br>
-<sup>2</sup> `IsActiveEntity = false`
-
-### Changes to Maven Plugins
-
-#### cds-maven-plugin
-
-The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html){target="_blank"}.
-
-#### cds4j-maven-plugin
-
-The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} which provides the same functionality and more.
+<span id="endofmigration" />

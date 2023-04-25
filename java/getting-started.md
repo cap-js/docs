@@ -33,7 +33,9 @@ If you use Spring Boot, you find yourself directly at home when using the CAP Ja
 
 The CAP Java SDK comes with an OData V4 protocol adapter, but it's openly designed. You can add more protocol adapters in the future or provide even custom protocol adapters by the application.
 
-It supports SAP BTP features like authentication and authorization based on XSUAA tokens% if jekyll.environment != "external" %} or multitenancy% endif %}. But you aren't locked in to SAP BTP using a CAP Java application.
+It supports SAP BTP features like authentication and authorization based on XSUAA tokens. But you aren't locked in to SAP BTP using a CAP Java application.
+
+<span id="inintro" />
 
 Excited? The following sections describe how to set up a development environment to get you started.
 
@@ -222,15 +224,12 @@ Install the Eclipse plugin called _SAP Cloud Business Application Tools for Ecli
 <div id="eclipse-sap" />
 
 ### Import the Project
-% if jekyll.environment != "external" %}
-1. Select *File > Import... > SAP Cloud Business Application*.
 
-2. Select the `pom.xml` file in your project and click *Finish*.
-% else %}
 1. Select *File > Import... > Existing Maven Projects*.
 
 2. Select your `PROJECT-ROOT` folder and click *Go*. Finally, select the project that was found.
-% endif %}
+
+<span id="inimportproject" />
 
 > To not be distracted by CDS tools-specific folders in Eclipse, you can define resource filters. Open the context menu on the project's root folder and select "Properties". Go to **Resource > Resource Filters** and exclude folders with the name `node_modules`.
 

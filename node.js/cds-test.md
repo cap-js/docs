@@ -262,7 +262,8 @@ Test {}
 Data can be supplied:
 - Programmatically as part of the test code
 - In CSV files from `db/data` folders
-% if jekyll.environment != "external" %}- In CSV files from the `test/data` folder [alpha]% endif %}
+
+<span id="intestdata" />
 
 This following example shows how data can be inserted into the database using regular [CDS service APIs](services#srv-run) (using [CQL INSERT](cds-ql#INSERT) under the hood):
 

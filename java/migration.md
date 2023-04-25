@@ -190,7 +190,7 @@ The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer availa
 
 ## Classic MTX to Streamlined MTX
 
-How to migrate from classic MTX to streamlined MTX version is described [here](../guides/multitenancy/old-mtx-migration).
+How to migrate from [classic MTX](./multitenancy) to [streamlined MTX](../guides/multitenancy/) is described [here](../guides/multitenancy/old-mtx-migration).
 
 
 ## CAP Java Classic to CAP Java 1.x

@@ -19,7 +19,7 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 Make sure that you don't have old registry entries anymore for `@sap:registry` in your _.npmrc_. Just execute:
 
-```shell
+```sh
 npm config delete "@sap:registry"
 ```
 
@@ -31,7 +31,7 @@ Type `npm config list` to check the configuration, which is stored in a file _.n
 
 Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `16`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
-```shell
+```sh
 node -v
 ```
 
@@ -45,7 +45,7 @@ For [Cloud Foundry](https://docs.cloudfoundry.org/buildpacks/node/index.html#run
 
 In case you get error messages like `Error: EACCES: permission denied, mkdir '/usr/local/...'` when installing a global module like `@sap/cds-dk`, configure `npm` to use a different directory for global modules:
 
-```shell
+```sh
 mkdir ~/.npm-global ; npm set prefix '~/.npm-global'
 export PATH=~/.npm-global/bin:$PATH
 ```
@@ -58,7 +58,7 @@ Also add the last line to your user profile, for example, `~/.profile`, so that 
 
 Global NPM installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
 
-```shell
+```sh
 C:\Users\<your-username>\AppData\Roaming\npm
 ```
 
@@ -263,7 +263,7 @@ In recent versions of the JVM (starting with Java 11), the container resource us
 
 * Use the command _sqlite3_ to connect to the in-memory database:
 
-```shell
+```sh
 C:\sqlite>sqlite3
 SQLite version ...
 Enter ".help" for instructions
@@ -490,7 +490,7 @@ modules:
 
 Now you can build the archive with:
 
-```shell
+```sh
 mbt build -t gen --mtar mta.tar -e less.mtaext
 ```
 
@@ -546,7 +546,7 @@ Depending on, whether the container host is reachable and whether there's a prox
 
     Use it like this:
 
-    ```shell
+    ```sh
     cf ssh <app> -L localhost:<LocalPort>:<RemoteIP>:<RemotePort>
     ```
     where `<app>` has to be a running application that is bound to the service.
@@ -555,7 +555,7 @@ Depending on, whether the container host is reachable and whether there's a prox
 
     Connect to a SAP HANA service running on remote host 10.10.10.10, port 30010.
 
-    ```shell
+    ```sh
     cf ssh <app> -L localhost:30010:10.10.10.10:30010
     ```
 
@@ -569,7 +569,7 @@ Depending on, whether the container host is reachable and whether there's a prox
 
     Find [step-by-step instructions here](https://github.com/jpillora/chisel). For example, to connect to an SAP HANA service running on remote host 10.10.10.10, port 30010:
 
-    ```shell
+    ```sh
     bin/chisel_... client --auth secrets https://<url_to_chisel_server_app> localhost:30010:10.10.10.10:30010
     ```
     From then on, use `localhost:30010` instead of the remote address.
@@ -588,7 +588,7 @@ Use `cf create-service-push --push-as-subprocess` to execute `cf push` in a sub-
 
 The SAP BTP cockpit is not meant to analyze a huge amount of logs. You should use the Cloud Foundry CLI.
 
-```shell
+```sh
 cf logs <appname> --recent
 ```
 
@@ -664,7 +664,7 @@ See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project 
    - `source` reflects the URL path to be used for the login and extending the SaaS app.
      Based on the previous example, it would be:
 
-     ```shell
+     ```sh
      cds login … <AppRouter URL>/extend
      ```
 
@@ -682,7 +682,7 @@ See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project 
 
 3. When logging in, specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
 
-   ```shell
+   ```sh
    cds login … -s <subdomain>
    ```
 

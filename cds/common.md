@@ -431,7 +431,7 @@ Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-
 
 Add it your project:
 
-```shell
+```sh
 npm add @sap/cds-common-content --save
 ```
 

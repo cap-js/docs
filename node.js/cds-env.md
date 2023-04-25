@@ -31,7 +31,7 @@ and [process environment settings](#process-env).
 
 Here's a brief intro how to use it:
 
-```shell
+```sh
 cds env               #> shortcut to `cds env ls`
 cds env ls            #> lists all settings in properties format
 cds env ls folders    #> lists the `requires.sql` settings
@@ -260,7 +260,7 @@ Put your private settings for local testing here. The file should not be submitt
 On UNIX-based systems (Mac, Linux) you can specify individual process env variables as prefixes to the command to start your server.
 For example:
 
-```shell
+```sh
 CDS_REQUIRES_DB_KIND=sql cds run
 ```
 
@@ -299,19 +299,19 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
 
 1. Using a JSON string
 
-    ```shell
+    ```sh
     CDS_CONFIG='{"requires":{"db":{"kind":"sqlite"}}}' cds serve
     ```
 
 2. Using a JSON file
 
-    ```shell
+    ```sh
     CDS_CONFIG=./my-cdsrc.json cds serve
     ```
 
 3. Using a directory
 
-    ```shell
+    ```sh
     CDS_CONFIG=/etc/secrets/cds cds serve
     ```
 
@@ -421,14 +421,14 @@ If the profile is not set to `production`, the `development` profile is automati
 
 You can also introduce own custom profile names and use them as follows:
 
-```shell
+```sh
 cds run --profile my-custom-profile
 ```
 
 or
 
 ::: code-group
-```shell
+```sh
 CDS_ENV=my-custom-profile cds run
 ```
 ```cmd

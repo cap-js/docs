@@ -14,7 +14,7 @@ Follow these steps to add TypeScript support:
 
 1. Install typescript packages globally:
 
-    ```shell
+    ```sh
     npm i -g typescript ts-node
     ```
 
@@ -29,11 +29,11 @@ Follow these steps to add TypeScript support:
 
 Use the `cds-ts` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 
-```shell
+```sh
 cds-ts serve world.cds
 ```
 
-```shell
+```sh
 cds-ts watch
 ```
 
@@ -60,7 +60,7 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 1. Install `ts-jest` locally:
 
-    ```shell
+    ```sh
     npm add ts-jest
     ```
 
@@ -88,7 +88,7 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 4. Run your tests as usual:
 
-    ```shell
+    ```sh
     jest
     ```
 

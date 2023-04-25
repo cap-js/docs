@@ -832,7 +832,7 @@ Information about roles and attributes has to be made available to the UAA platf
 
 Derive scopes, attributes, and role templates out of the CDS model:
 
-```shell
+```sh
 cds add xsuaa
 ```
 
@@ -873,7 +873,7 @@ Depending on whether MTA deployment is used, choose one approach:
 
 Merges any inline configuration from the _mta.yaml_ (see the `config` block) and the _xs-security.json_ file:
 
-```shell
+```sh
 cds add mta
 ```
 
@@ -919,13 +919,13 @@ Add the following two properties to the `xs-security.json` file:
 
 To create a new XSUAA service with this XSUAA configuration, use:
 
-```shell
+```sh
 cf create-service xsuaa application <servicename> -c xs-security.json
 ```
 
 To update an existing service, use:
 
-```shell
+```sh
 cf update-service <servicename> -c xs-security.json
 ```
 

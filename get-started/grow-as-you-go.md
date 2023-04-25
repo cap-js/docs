@@ -14,7 +14,7 @@ As we see below, we can add qualities like multitenancy or extensibility late in
 
 While we used SQLite in-memory databases and mocked authentication during development, we would use HANA Cloud and a combination of App Router, IAS and/or XSUAA in production. We can quickly do so as follows:
 
-```shell
+```sh
 cds add hana,approuter,xsuaa --for production
 ```
 
@@ -26,7 +26,7 @@ This adds respective packages and configuration to your project. The content of 
 
 After we are prepared for production we can deploy to the cloud. In case of BTP CloudFoundry, this is commonly done using MTA tooling. The required `mta.yaml` can be added and fully generated with:
 
-```shell
+```sh
 cds add mta
 ```
 
@@ -36,7 +36,7 @@ cds add mta
 
 If you are creating a SaaS application you need to additionally add support for tenant subscriptions and tenant upgrades. When a tenant subscribes, new database containers have to be bootstraped along with other resources, like message channels. CAP provides the so-called MTX services which do that automatically in a sidecar micro service. You can add all requisite packages and configurations by:
 
-```shell
+```sh
 cds add multitenancy
 ```
 
@@ -46,7 +46,7 @@ cds add multitenancy
 
 Extensibility is required to allow customers to adapt SaaS applications to their needs, for example, by adding extension fields and entities. CAP provides powerful intrinsic extensibility: Nothing needs to be changed or added to your content for that. You again just need to switch it on by:
 
-```shell
+```sh
 cds add extensibility
 ```
 
@@ -56,7 +56,7 @@ cds add extensibility
 
 Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. We can have a headstart by:
 
-```shell
+```sh
 cds add pipelines
 ```
 

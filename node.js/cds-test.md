@@ -18,7 +18,7 @@ For more details how to test Java applications, see the [Java documentation](../
 
 Add optional dependencies required by `cds.test`:
 
-```shell
+```sh
 npm add -D axios chai chai-as-promised chai-subset jest
 ```
 
@@ -76,7 +76,7 @@ Or by setting process env variable `CDS_TEST_VERBOSE`, for example like that fro
 
 ::: code-group
 
-```shell [Mac/Linux]
+```sh [Mac/Linux]
 CDS_TEST_VERBOSE=y mocha
 ```
 
@@ -176,7 +176,7 @@ Run them with `npm run jest` or with `npm run mocha`.
 
 You can also start the tests in watch mode, for example:
 
-```shell
+```sh
 jest --watchAll
 ```
 
@@ -207,7 +207,7 @@ Similarly, you can use other test watchers like `mocha -w`.
 
 You can use `cds.test` in REPL, for example, by running this from your command line:
 
-```shell
+```sh
 [samples](https://github.com/sap-samples/cloud-cap-samples) cds repl
 Welcome to cds repl v5.5.0
 ```
@@ -215,7 +215,7 @@ Welcome to cds repl v5.5.0
 > cds.test('@capire/bookshop')
 Test {}
 ```
-```shell
+```sh
 [cds](cds) - model loaded from 6 file(s):
 
   ./bookshop/db/schema.cds

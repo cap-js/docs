@@ -364,7 +364,7 @@ cds.serve('all') .with (srv=>{...})  //> error
 service MyService @(impl:'cat-service.js'){...}
 ```
 
-```shell
+```sh
 srv/cat-service.cds  #> CDS model with service definition
 srv/cat-service.js   #> service implementation used by default
 ```

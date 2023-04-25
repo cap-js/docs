@@ -22,7 +22,7 @@ status: released
 ### Installed with `@sap/cds-dk`
 
 To use `cds` from your command line install `@sap/cds-dk` globally:
-```shell
+```sh
 npm i -g @sap/cds-dk
 ```
 
@@ -307,7 +307,7 @@ RUN npm i -g @sap/cds-dk
 ```
 
 Build your first image:
-```shell
+```sh
 docker build -t cds .
 ```
 
@@ -315,24 +315,24 @@ docker build -t cds .
 ### Run a Service in a Container
 
 1. Run a container that is based on the image:
-```shell
+```sh
 docker run --publish 4004:4004 -it cds sh
 ```
 > You see a `$ ` command prompt from _inside_ the container.
 
 1. Move to the home directory:
-```shell
+```sh
 cd
 ```
 
 1. Write a simple cds file:
-```shell
+```sh
 echo 'service CatalogService { entity Books { key ID: UUID; } }' \
     > services.cds
 ```
 
 1. Run the service:
-```shell
+```sh
 cds run
 ```
 
@@ -629,7 +629,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 In your project's root folder, execute:
 
-```shell
+```sh
 cds lint .
 ```
 
@@ -641,7 +641,7 @@ If there are no lint errors, there is no output. Otherwise, a standard ESLint er
 
 2. Configure our <a href="#cds-lint-rules">recommended rules</a> for CDS model files in your project:
 
-   ```shell
+   ```sh
    cds add lint
    ```
 
@@ -684,7 +684,7 @@ Linting:
 
 To include your own custom rules, prepare your project configuration once with:
 
-```shell
+```sh
 cds add lint
 ```
 
@@ -696,7 +696,7 @@ This configures your project to use the `@sap/eslint-plugin-cds` locally and cre
 
 Add a sample custom rule:
 
-```shell
+```sh
 cds add lint:dev
 ```
 
@@ -721,7 +721,7 @@ Ideally, if you are using an editor together with an ESLint extension, you will 
 
 To quickly unit-test a custom rule, you can find a sample _no-entity-moo.test.js_ in _.eslint/tests_. To run the test:
 
-```shell
+```sh
 mocha .eslint/tests/no-entity-moo
 ```
 

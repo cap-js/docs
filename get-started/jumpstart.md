@@ -38,7 +38,7 @@ Choose the **LTS** version, via the feft-hand side button:
 
 ... by running this in a terminal:
 
-```shell
+```sh
 npm add -g @sap/cds-dk
 ```
 [Running into problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
@@ -47,7 +47,7 @@ npm add -g @sap/cds-dk
 ### 3. Install Git
 
 Run this in a terminal to check, whether you already have git installed:
-```shell
+```sh
 git version
 ```
 If not, download and run the appropriate installer from [git-scm.com](https://git-scm.com/downloads).
@@ -88,10 +88,10 @@ Assumed we want to create a project named *bookshop*, we'd do so like this:
 
 ::: code-group
 
-```shell [Node.js]
+```sh [Node.js]
 cds init bookshop
 ```
-```shell [Java]
+```sh [Java]
 cds init bookshop --add java
 ```
 
@@ -99,7 +99,7 @@ cds init bookshop --add java
 
 Then open it in Visual Studio Code:
 
-```shell
+```sh
 code bookshop
 ```
 
@@ -115,7 +115,7 @@ Users on macOS must first run a command (*Shell Command: Install 'code' command 
 
 The default project structure of CAP projects is as follows:
 
-```shell
+```sh
 bookshop/        # Your project's root folder
 ├─ app /         # UI-related content goes here
 ├─ srv/          # Service-related content goes here
@@ -162,11 +162,11 @@ After having created a project we can immediately start a life server by running
 
 ::: code-group
 
-```shell [Node.js]
+```sh [Node.js]
 cds watch
 ```
 
-```shell [Java]
+```sh [Java]
 cd srv && mvn cds:watch
 ```
 
@@ -174,7 +174,7 @@ cd srv && mvn cds:watch
 
 ::: details From the log output we see  `cds watch` is waiting for things to come...
 
-```shell
+```sh
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?

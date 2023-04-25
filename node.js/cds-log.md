@@ -221,7 +221,7 @@ You can assign different implementations by exchanging the factory with your own
 ### *Using `winston` Loggers* {#winston}
 
 **Prerequisites:** You need to add [winston](https:/www.npmjs.com/package/winston) to your project:
-```shell
+```sh
 npm add winston
 ```
 
@@ -285,7 +285,7 @@ Actually, the above is essentially the implementation of `cds.log.winstonLogger(
 
 Use env variable `DEBUG` to quickly switch on debug output from command line like that:
 
-```shell
+```sh
 DEBUG=app,sql cds watch
 DEBUG=all cds watch
 ```

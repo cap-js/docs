@@ -135,7 +135,7 @@ Here you define that your personal data manager service instance, called `pdm`, 
 
 To make the authentication work, you have to enable the security strategy by installing the `@sap/xssec` package:
 
-```shell
+```sh
 npm install @sap/xssec
 ```
 
@@ -158,13 +158,13 @@ The general deployment is described in detail in [Deploy Using Manifest Files](.
 
 Make a production build:
 
-```shell
+```sh
 cds build --production
 ```
 
 Deploy your application:
 
-```shell
+```sh
 cf create-service-push
 ```
 
@@ -217,7 +217,7 @@ You need a configuration file, like the following, to create a service instance 
 
 Create a service instance using the SAP BTP cockpit or execute the following command:
 
-```shell
+```sh
 cf create-service personal-data-manager-service standard pdm -c ./.pdm/pdm-instance-config.json
 ```
 
@@ -250,7 +250,7 @@ Here the `applicationURL`, the `fullyQualifiedModuleName`, and the `serviceURI` 
 
 Bind the service instance using the SAP BTP cockpit or execute the following command:
 
-```shell
+```sh
 cf bind-service gdpr-srv pdm -c ./.pdm/pdm-config.json
 ```
 

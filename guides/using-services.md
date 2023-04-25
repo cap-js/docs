@@ -119,7 +119,7 @@ The export-import cycle is the way to go for now. It is under investigation to i
 
 ::: code-group
 
-```shell [Mac/Linux]
+```sh [Mac/Linux]
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
@@ -147,7 +147,7 @@ By default, CAP works with OData V4 and the EDMX export is in this protocol vers
 
 Import the API to your project using `cds import`.
 
-```shell
+```sh
 cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace --as cds
 ```
 
@@ -251,13 +251,13 @@ Start your project with the imported service definition.
 
 *Node.js:*
 
-```shell
+```sh
 cds watch
 ```
 
 *Java:*
 
-```shell
+```sh
 mvn spring-boot:run
 ```
 
@@ -318,7 +318,7 @@ entity API_BUSINESS_PARTNER.A_BusinessPartnerAddress {
 To mock an association, you've to modify [the imported file](#import-api). Before doing any modifications, create a local copy and add it to your source code management system.
 
 
-```shell
+```sh
 cp srv/external/API_BUSINESS_PARTNER.cds srv/external/API_BUSINESS_PARTNER-orig.cds
 git add srv/external/API_BUSINESS_PARTNER-orig.cds
 ...
@@ -326,7 +326,7 @@ git add srv/external/API_BUSINESS_PARTNER-orig.cds
 
 Import the CDS file again, just using a different name:
 
-```shell
+```sh
 cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
     --as cds --out srv/external/API_BUSINESS_PARTNER-new.cds
 ```
@@ -345,7 +345,7 @@ Don't add any keys or remove empty keys, which would change it to a managed asso
 
 Use a 3-way merge tool to takeover your modifications, check it and overwrite the previous unmodified file with the newly imported file:
 
-```shell
+```sh
 git merge-file API_BUSINESS_PARTNER.cds \
                API_BUSINESS_PARTNER-orig.cds \
                API_BUSINESS_PARTNER-new.cds
@@ -360,19 +360,19 @@ As shown previously you can run one process including a mocked external service.
 
 First install the required packages:
 
-```shell
+```sh
 npm add @sap-cloud-sdk/http-client@2.x @sap-cloud-sdk/util@2.x
 ```
 
 Then start the CAP application with the mocked remote service only:
 
-```shell
+```sh
 cds mock API_BUSINESS_PARTNER
 ```
 
 If the startup is completed, run `cds watch` in the same project from a **different** terminal:
 
-```shell
+```sh
 cds watch
 ```
 
@@ -420,7 +420,7 @@ void applicationReady(ApplicationReadyEvent ready) {
 
 Now, you just need to run the application with the new profile:
 
-```shell
+```sh
 mvn spring-boot:run -Dspring-boot.run.profiles=default,mocked
 ```
 
@@ -1070,7 +1070,7 @@ applications:
     cds_requires_REVIEWS_credentials_url: ((reviews_url))
 ```
 
-```shell
+```sh
 cf push --var reviews_url=https://reviews.ondemand.com/reviews
 ```
 
@@ -1157,21 +1157,21 @@ Your local application needs access to an XSUAA and Destination service instance
 1. Login to your Cloud Foundry org and space
 2. Create an XSUAA service instance and service key:
 
-    ```shell
+    ```sh
     cf create-service xsuaa application cpapp-xsuaa
     cf create-service-key cpapp-xsuaa cpapp-xsuaa-key
     ```
 
 3. Create a Destination service instance and service key:
 
-    ```shell
+    ```sh
     cf create-service destination lite cpapp-destination
     cf create-service-key cpapp-destination cpapp-destination-key
     ```
 
 4. Bind to XSUAA and Destination service:
 
-    ```shell
+    ```sh
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
@@ -1204,7 +1204,7 @@ Add the destination for the remote service to the `hybrid` profile in the _.cdsr
 
 Run your application with the Destination service:
 
-```shell
+```sh
 cds watch --profile hybrid
 ```
 
@@ -1346,7 +1346,7 @@ Add the services to your microservice's `services` list in the _manifest.yml_ fi
 
 [Push](deployment/to-cf#push-the-application) the application.
 
-```shell
+```sh
 cf create-service-push  # or `cf cspush` in short from 1.3.2 onwards
 ```
 
@@ -1395,7 +1395,7 @@ Add the services as requirement for your microservice in your _mta.yaml_ file:
 
 Build and deploy your application:
 
-```shell
+```sh
 # build .mtar
 mbt build -t ./
 

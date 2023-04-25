@@ -18,7 +18,7 @@ status: released
 
 Assuming that you’ve installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
 
-```shell
+```sh
 mkdir demo && cd demo  # create a new project folder
 cds watch              # ask cds to watch for things to come
 ```

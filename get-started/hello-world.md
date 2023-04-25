@@ -29,7 +29,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 <div class="impl java">
 
-```shell
+```sh
 cds init hello-world --add java,samples
 cd hello-world
 ```
@@ -119,7 +119,7 @@ public class HelloHandler implements EventHandler {
 
 <div class="impl node">
 
-```shell
+```sh
 cds watch
 ```
 
@@ -127,7 +127,7 @@ cds watch
 
 <div class="impl java">
 
-```shell
+```sh
 cd srv
 mvn cds:watch
 ```

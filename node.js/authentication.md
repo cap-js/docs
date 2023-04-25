@@ -279,12 +279,12 @@ In contrast to [mocked authentication](#mocked), no default users are automatica
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['user account and authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
 **Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
-```shell
+```sh
 npm add passport
 ```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
-```shell
+```sh
 npm add @sap/xssec
 ```
 
@@ -307,7 +307,7 @@ Authentication kind *xsuaa* is a logical extension of kind [*jwt*](#jwt) that ad
 
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
-```shell
+```sh
 npm add @sap/xssec
 ```
 
@@ -335,12 +335,12 @@ This is an additional authentication strategy using the [Identity Authentication
 To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
 
 **Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
-```shell
+```sh
 npm add passport
 ```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
-```shell
+```sh
 npm add @sap/xssec
 ```
 
@@ -395,7 +395,7 @@ module.exports = function custom_auth (req, res, next) {
 The following steps assume you've set up the [**Cloud Foundry Command Line Interface**](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/856119883b8c4c97b6a766cc6a09b48c.html).
 
 1. Log in to Cloud Foundry:
-```shell
+```sh
 cf l -a <api-endpoint>
 ```
 If you don’t know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
@@ -403,7 +403,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 2. Go to the project you have created in [Getting started in a Nutshell](../get-started/in-a-nutshell).
 
 3. Configure your app for XSUAA-based authentication if not done yet:
-    ```shell
+    ```sh
     cds add xsuaa --for hybrid
     ```
   This command creates the XSUAA configuration file `xs-security.json` and adds the service and required dependencies to your `package.json` file.
@@ -431,7 +431,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 
 6. Create an XSUAA service instance with this configuration:
 
-    ```shell
+    ```sh
     cf create-service xsuaa application bookshop-uaa -c xs-security.json
     ```
 
@@ -445,7 +445,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 
 1. Create a service key:
 
-    ```shell
+    ```sh
     cf create-service-key bookshop-uaa bookshop-uaa-key
     ```
 
@@ -454,7 +454,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 
 2. Bind to the new service key:
 
-    ```shell
+    ```sh
     cds bind -2 bookshop-uaa
     ```
 
@@ -510,20 +510,20 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
 1. Add approuter in the `app` folder of your project:
 
-    ```shell
+    ```sh
     cds add approuter
     ```
 
 2. Install `npm` packages for approuter:
 
-    ```shell
+    ```sh
     npm install --prefix app
     ```
 
 3. In your project folder run:
 
     ::: code-group
-    ```shell
+    ```sh
     cds bind --exec -- npm start --prefix app
     ```
     ```cmd
@@ -544,7 +544,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
 4. Make sure that your CAP application is running as well with the `hybrid` profile:
 
-    ```shell
+    ```sh
     cds watch --profile hybrid
     ```
 
@@ -589,7 +589,7 @@ The login fails pointing to the correct OAuth configuration URL that is expected
 
 2. Update the XSUAA service:
 
-    ```shell
+    ```sh
     cf update-service bookshop-uaa -c xs-security.json
     ```
 

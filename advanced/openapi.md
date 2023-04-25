@@ -14,7 +14,7 @@ You can convert CDS models to the [OpenAPI Specification](https://www.openapis.o
 
 For example, this is how you convert all services in `srv/` and store the API files in the `docs/` folder:
 
-```shell
+```sh
 cds compile srv --service all -o docs --to openapi
 ```
 
@@ -29,7 +29,7 @@ If you have a **single server** and you want to set the server URL, use `--opena
 If you want to configure **multiple servers**, you can use `--openapi:servers <JSON_Object_defining_servers>` which accepts stringified JSON of the server object.
 Here, you can pass multiple server objects by passing the stringified JSON objects as an array.
 
-```shell
+```sh
 cds compile srv service.cds --to openapi --openapi:servers "\"'[{\\\"url\\\":\\\"api.sandbox.com\\\",\\\"description\\\":\\\"Test URL\\\"},{\\\"url\\\":\\\"api.prod.com\\\",\\\"description\\\":\\\"Production URL\\\"}]'\""
 ```
 
@@ -41,7 +41,7 @@ _Note:_ `--openapi:url` is ignored when this option is specified.
 
 In Node.js apps, the standard Swagger UI can be served with the help of the [`cds-swagger-ui-express`](https://www.npmjs.com/package/cds-swagger-ui-express) package:
 
-```shell
+```sh
 npm add --save-dev cds-swagger-ui-express
 ```
 

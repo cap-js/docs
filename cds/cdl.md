@@ -1781,7 +1781,7 @@ CREATE TABLE Employees (
 
 Doc comments need to be switched on when calling the compiler:
 
-```shell
+```sh
 # in CLI:
 cds compile foo.cds --docs
 ```

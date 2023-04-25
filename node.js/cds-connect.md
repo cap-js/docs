@@ -482,13 +482,13 @@ The `VCAP_SERVICES` variable is generated like this:
 
 The generated value can be displayed using the command:
 
-```shell
+```sh
 cds env get VCAP_SERVICES --process-env
 ```
 
 A list of all services with a preconfigured `vcap.label` property can be displayed with this command:
 
-```shell
+```sh
 cds env | grep vcap.label
 ```
 
@@ -635,7 +635,7 @@ Make sure that the _.cdsrc-private.json_ file is not checked into your project.
 
 You could pass credentials as process environment variables, for example in ad-hoc tests from the command line:
 
-```shell
+```sh
 export cds_requires_ReviewsService_credentials_url=http://localhost:4005/reviews
 export cds_requires_db_credentials_database=sqlite.db
 cds watch fiori

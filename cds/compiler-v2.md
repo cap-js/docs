@@ -707,7 +707,7 @@ Select.from("bookshop.Books", b -> b.matching(id).to("texts"));
 
 CAP Java allows to [provide initial data](../guides/databases#providing-initial-data) to your application using CSV files. The name of the CSV file should adhere to the pattern `<namespace>-<entity>.csv` (`<qualified-entity-name>.csv`). Renaming the CSV file is recommended.
 
-```shell
+```sh
 mv bookshop-Books_texts.csv bookshop-Books.texts.csv
 ```
 

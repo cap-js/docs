@@ -21,7 +21,7 @@ status: released
 The design-time APIs are provided with package `@sap/cds-dk` and can be used as follows:
 
 1. Install it locally:
-```shell
+```sh
 npm add @sap/cds-dk
 ```
 

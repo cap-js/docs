@@ -33,13 +33,13 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 ::: code-group
 
-```shell [Node.js]
+```sh [Node.js]
 git clone https://github.com/sap-samples/cloud-cap-samples samples
 cd samples
 npm install
 ```
 
-```shell [Java]
+```sh [Java]
 git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 ```
 
@@ -55,17 +55,17 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 1. Create a new project using `cds init`
 
 ::: code-group
-```shell [Node.js]
+```sh [Node.js]
 cds init bookshop
 ```
-```shell [Java]
+```sh [Java]
 cds init bookshop --add java
 ```
 :::
 
 2. Open the project in VSCode
 
-```shell
+```sh
 code bookshop
 ```
 
@@ -79,11 +79,11 @@ Users on macOS must first run a command (*Shell Command: Install 'code' command 
 
 ::: code-group
 
-```shell [Node.js]
+```sh [Node.js]
 cds watch
 ```
 
-```shell [Java]
+```sh [Java]
 cd srv && mvn cds:watch
 ```
 
@@ -91,7 +91,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```shell
+```sh
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -176,14 +176,14 @@ compilation and reload of the CAP Java application. The embedded database of the
 
 We can also test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
 
-```shell
+```sh
 cds db/schema.cds
 ```
 
 This dumps the compiled CSN model as a plain JavaScript object to stdout. <br>
 Add `--to <target>` (shortcut `-2`) to produce other outputs, for example:
 
-```shell
+```sh
 cds db/schema.cds -2 json
 cds db/schema.cds -2 yml
 cds db/schema.cds -2 sql
@@ -202,7 +202,7 @@ cds db/schema.cds -2 sql
 
 After the recent changes, `cds watch` also prints this message:
 
-```shell
+```sh
 No service definitions found in loaded models.
 Waiting for some to be added...
 ```
@@ -311,7 +311,7 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 
 You can also compile service definitions explicitly, for example to an [OData model](http:/docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
 
-```shell
+```sh
 cds srv/cat-service.cds -2 edmx
 ```
 
@@ -426,7 +426,7 @@ Instead of using in-memory, we can also use persistent databases. For example, s
 
 <div class="impl node">
 
-```shell
+```sh
 npm add sqlite3 -D
 cds deploy --to sqlite:my.db
 ```
@@ -438,7 +438,7 @@ To see what that did, use the _sqlite3_ CLI with the newly created database: {.i
 
 <div class="impl node">
 
-```shell
+```sh
 sqlite3 my.db .dump
 sqlite3 my.db .tables
 ```
@@ -448,7 +448,7 @@ You could also deploy to a provisioned SAP HANA database using this variant: {.i
 
 <div class="impl node">
 
-```shell
+```sh
 cds deploy --to hana
 ```
 </div>
@@ -501,7 +501,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div style="margin: 0 44px">
 
-```shell
+```sh
 ./srv
   - cat-service.cds  # service definitions
   - cat-service.js   # service implementation

@@ -95,7 +95,7 @@ With Spring Boot, there are different convenient ways to configure log levels in
 
 The log levels can be configured in _application.yaml_ file:
 
-```shell
+```sh
 # Set new default level
 logging.level.root: WARN
 
@@ -112,7 +112,7 @@ Note that loggers are organized in packages, for instance `org.springframework` 
 
 You can overrule the given logging configuration with a corresponding environment variable, for instance to set loggers in package `my.loggers.order` to `DEBUG` level, add the following environment variable:
 
-```shell
+```sh
 LOGGING_LEVEL_MY_LOGGERS_ORDER = DEBUG
 ```
 
@@ -129,7 +129,7 @@ On SAP BTP, Cloud Foundry environment, you can add the environment variable with
 
 If configured, you can use [Spring actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html) to view and adjust logging configuration. Disregarding security aspects and provided that the `loggers` actuator is configured as HTTP endpoint on path `/actuator/loggers`, following example HTTP requests show how to accomplish this:
 
-```shell
+```sh
 # retrieve state of all loggers:
 curl http://<app-url>/actuator/loggers
 
@@ -265,13 +265,13 @@ It's even more convenient to interact with the JVM with a frontend client runnin
 
 Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the property:
 
-```shell
+```sh
 spring.jmx.enabled: true
 ```
 
 to your application configuration. In addition, to enable remote access add the following JVM parameters to open JMX on a specific port (for example, 5000) in the local container:
 
-```shell
+```sh
 -Djava.rmi.server.hostname=localhost
 -Dcom.sun.management.jmxremote
 -Dcom.sun.management.jmxremote.port=<port>
@@ -286,7 +286,7 @@ Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
 
 To establish a connection with a remote JMX client, first open an ssh tunnel to the application via `cf` CLI as operator user:
 
-```shell
+```sh
 cf ssh -N -T -L <local-port>:localhost:<port> <app-name>
 ```
 

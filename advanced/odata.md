@@ -829,7 +829,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
 
 1. Add the proxy package to your project:
 
-    ```shell
+    ```sh
     npm add @sap/cds-odata-v2-adapter-proxy
     ```
 

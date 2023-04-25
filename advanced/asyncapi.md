@@ -35,14 +35,14 @@ CDS Type | AsyncAPI Supported Types
 
 Use the following command to convert all services in `srv/` and store the generated AsyncAPI documents in the `docs/` folder:
 
-```shell
+```sh
 cds compile srv --service all -o docs --to asyncapi
 ```
 
 For each service that is available in the `srv/` files, an AsyncAPI document with the service name is generated in the output folder.
 If you want to generate one AsyncAPI document for all the services, you can use `--asyncapi:merged` flag:
 
-```shell
+```sh
 cds compile srv --service all -o docs --to asyncapi --asyncapi:merged
 ```
 

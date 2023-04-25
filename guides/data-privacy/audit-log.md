@@ -183,7 +183,7 @@ Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delet
 
 ### Add `@sap/audit-logging` Package
 
-```shell
+```sh
 npm add @sap/audit-logging
 ```
 
@@ -210,7 +210,7 @@ npm add @sap/audit-logging
 
 ### Test-Run Locally
 
-```shell
+```sh
 cds watch
 ```
 

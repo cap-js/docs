@@ -154,6 +154,9 @@ See the [Deploying to Cloud Foundry](deployment/) guide for information about ho
 
 By default, when deploying data models to SQL databases, all entities become SQL tables and all views become SQL views.
 
+CAP doesn't perform SQL-specific semantic checks or checks specific limitations related to the database system.
+That means, even for a valid CDS model, the deployment can fail with respective error messages coming from the database.
+
 ### Influencing Persistence Mapping
 
 #### Using Already Existing Entities {.impl.beta}
@@ -1034,9 +1037,7 @@ But for other databases this is not the case. Find here a collection of resource
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-% if jekyll.environment != "external" %}
-[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
-% endif %}
+<span id="beforeautogenkeylearn" />
 
 ## Auto-Generating Primary Keys { .impl.concept}
 

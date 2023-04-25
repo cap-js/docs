@@ -737,8 +737,10 @@ This service allows querying organizations for all authenticated users. In addit
 
 ### Think About Domain-Driven Authorization { #domain-driven-authorization}
 
-Static roles often don’t fit into an intuitive authorization model. Instead of making authorization dependent from static properties of the user, it's often more appropriate to derive access rules from the business domain. For instance, all users assigned to a department (in the domain) are allowed to access the data of the organization comprising the department. Relationships in the entity model (for example, a department assignment to organization), influence authorization rules at runtime. In contrast to static user roles, **dynamic roles** are fully domain-driven.<br>
-% if jekyll.environment != "external" %}Revisit the [ProjectService example](#exists-predicate), which demonstrates how to leverage instance-based authorization to induce dynamic roles. <br> % endif %}
+Static roles often don't fit into an intuitive authorization model. Instead of making authorization dependent from static properties of the user, it's often more appropriate to derive access rules from the business domain. For instance, all users assigned to a department (in the domain) are allowed to access the data of the organization comprising the department. Relationships in the entity model (for example, a department assignment to organization), influence authorization rules at runtime. In contrast to static user roles, **dynamic roles** are fully domain-driven.
+
+Revisit the [ProjectService example](#exists-predicate), which demonstrates how to leverage instance-based authorization to induce dynamic roles.
+
 Advantages of dynamic roles are:
 - The most flexible way to define authorizations
 - Induced authorizations according to business domain
@@ -992,4 +994,3 @@ req.user.is ("my.app.admin")
 > See the following sections for more details:
 - [Developing Security Artifacts in SAP BTP](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html)
 - [Maintaining Application Security in XS Advanced](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/35d910ee7c7a445a950b6aad989a5a26.html)
-

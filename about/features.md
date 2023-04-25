@@ -179,13 +179,13 @@ Following is an index of the features currently covered by CAP, with status and 
 | Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                           <X/>                                            |
 | SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                           <X/>                                            |
 | [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                           <X/>                                            |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging-foundation#configuring-message-queuing-support) | <Na/> |  <X/>   |                                           <X/>                                            |
+| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging-foundation#configuring-message-queuing-support)] | <Na/> |  <X/>   |                                           <X/>                                            |
 | Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                           <X/>                                            |
-| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   | % if jekyll.environment != "external" %}<X/><br><sup>beta</sup> % else %} <O/> % endif %} |
+| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   |  <O/>  |
 | Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                           |
 | Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                           |
 
-
+<span id="info" />
 
 ### Database Support
 

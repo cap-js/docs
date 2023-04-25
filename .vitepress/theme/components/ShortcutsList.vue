@@ -23,7 +23,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { knownImplVariants, toggleImplVariant } from './ImplVariants.vue'
 
 onMounted(()   => document.addEventListener('keydown', onKeyDown))
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
@@ -33,14 +32,7 @@ const commands = ref([
   clickCommand('Edit on Github', ['e'], 'div.edit-link > a'),
   clickCommand('Search', ['/'], querySelectorSearchInput),
   clickCommand('Toggle dark/light mode', ['.'], 'VPSwitchAppearance'),
-  {
-    name:'Toggle Node.js or Java', keys:['v'],
-    run: () => {
-      let currentIndex = knownImplVariants.indexOf(localStorage['impl-variant']||knownImplVariants[0])
-      const next = knownImplVariants[++currentIndex % knownImplVariants.length]
-      toggleImplVariant(next)
-    }
-  },
+  clickCommand('Toggle Node.js or Java', ['v'], 'SwitchImplVariant'),
   { name:'Show keyboard shortcuts', keys:['?'], run: () => { visible.value = !visible.value } },
   { name:'Close dialog', keys:['Escape'], hidden:true, run: () => visible.value = false },
 ])

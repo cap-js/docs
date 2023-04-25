@@ -210,9 +210,7 @@ For example:
 
 [Learn more about the **CDS Editor**.](#cds-editor){.learn-more}
 
-% if jekyll.environment != "external" %}
-[Find SAP-internal releases.](https://github.tools.sap/cap/npm-extension-updater){.learn-more}
-% endif %}
+<span id="invscodeeditor" />
 
 
 
@@ -616,7 +614,6 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
   <tr style="border: none;">
     <td style="border: none;">
       To catch issues with CDS models and the CDS environment early, CAP provides an <a href="https://eslint.org/">ESLint plugin</a> with a set of <a href="#cds-lint-rules">recommended rules</a>.
-      <!-- % if jekyll.environment != "external" %}, on top of which you can apply your <a href="#lint-custom-rules">own application-specific rules</a>.% else %}.% endif %} -->
       Together with the <code>lint</code> client of the <a href="https://www.npmjs.com/package/@sap/cds-dk"><code>@sap/cds-dk</code></a>, this comprises <b>CDS Lint</b>.
     </td>
     <td style="width:30%; padding:0; border: none;">
@@ -764,4 +761,3 @@ To learn about the features specific to CAP development in the studio, see the g
 + [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
 
 + Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
-

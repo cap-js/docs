@@ -99,11 +99,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
 
 As you can see in the example, the event context not only provides access to the raw message, but also to a unique message ID.
 
-% if jekyll.environment != "external" %}
-::: tip
-Note: When using SAP Event Mesh in multitenant mode, no unique message ID will be available via `getMessageId`, as SAP Event Mesh does not provide it when delivering messages via WebHook subscriptions that are used in this mode. If the payload itself contains a unique message ID (for example when using [CloudEvents](#cloudevents) format for messages), consider using this ID instead.
- :::
-% endif %}
+<span id="inreceiving" />
 
 ::: tip
 For messaging services, the `@On` handlers don't need to be completed by the `context.setCompleted()` method. The reason for that is because CAP wants to support the parallel handling of the messaging events and completes the context automatically. There could be numerous use cases where different components of the CAP application want to be notified by messaging events. Even more, you should not complete the context in the handler manually. Otherwise, not all registered handlers can be notified.
@@ -619,12 +615,7 @@ cds:
 
 In this example, the `first-messaging` service uses the default connection and the `second-messaging` service uses a new, separate connection.
 
-% if jekyll.environment != "external" %}
-::: tip
-When using SAP Event Mesh in multitenant mode, no dedicated connections are used to connect to queues. CAP is using WebHook subscriptions in this mode, so that SAP Event Mesh will deliver new incoming messages via HTTP calls to the CAP service. In this mode, the described setting does not apply.
-:::
-% endif %}
-
+<span id="indedicatedconnections" />
 
 ### Error Handling
 
@@ -667,8 +658,9 @@ Not all messaging brokers provide the acknowledgement support. This means, the r
 |-----------------------------------------------------------------------------|:---------:|:------------:|
 | [File Base Messaging](#local-testing)                                       | <!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} --> &nbsp; <i style='color:#aaa; font-size:90%'>n/a</i> | |
 | [Event Mesh](#configuring-sap-event-mesh-support)                  | <!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} --> &nbsp; <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
-| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |% if jekyll.environment != "external" %}
-| [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>n/a</i> | |% endif %}
+| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
+| [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>beta</i> | |
+
 
 ::: tip
 If a broker supports the message acknowledgement and a message is not acknowledged by the application, it will be redelivered.
@@ -764,5 +756,5 @@ When using a CAP messaging service directly to emit the raw message payload as a
 
 [Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
-
 <span id="aftercloudevents" />
+

@@ -471,9 +471,7 @@ Projection functions use these mechanisms:
 
 </div>
 
-### <i>&#8627;</i>.excluding  <i>  (...refs) </i> { .impl.concept }
-
- [Learn more about *excluding* clauses in CQL](../cds/cql#excluding-clause){.learn-more} { .indent}
+<div id="beforefrom" />
 
 ### <i>&#8627;</i> .from  <i>  (entity, key?, cols?)  </i> { #select-from }
 

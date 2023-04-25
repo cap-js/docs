@@ -1037,19 +1037,6 @@ But for other databases this is not the case. Find here a collection of resource
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-<span id="beforeautogenkeylearn" />
+<span id="afterreservedwords" />
 
-## Auto-Generating Primary Keys { .impl.concept}
-
-TODO:
-
-* Using UUID &rarr; filled in by CAP framework
-* Using custom event handlers
-* Using native DB mechanisms like SQLite's rowid, SAP HANA's generated always as, ...
-* Using DB triggers
-* ...
-
-
-## Integrating Other Databases { .impl.concept}
-
-For CAP Java persistence support, see [here].
+<div id="endofdatabases" />

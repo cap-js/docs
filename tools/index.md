@@ -272,15 +272,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 * You have followed the instructions in [Local Setup](../get-started/).
 * You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
-## IntelliJ { .impl.concept}
-
-There's a single plugin JAR, which must be installed from disk. It includes all necessary parts (except Node.js, which is automatically detected and whose location can be reconfigured if needed).
-It already supports many features like syntax highlighting, error messages, code completion, code formatting and more.
-There are some glitches as the PSI API from IntelliJ isn't made for asynchronous calls.
-
-You can try it out in the [internal repository.](https://github.tools.sap/cap/intellij-cds).
-
-[Report issues and provide feedback](https://github.tools.sap/cap/intellij-cds/issues).
+<div id="beforedocker" />
 
 ## Docker
 

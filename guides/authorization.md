@@ -583,24 +583,7 @@ Be aware that deep paths might introduce a performance bottleneck. Access Contro
 The `exists`- predicate requires CDS compiler V2.
 :::
 
-### Free Subselects { #free-subselects .impl.concept}
-
-You can define `exists` expressions that are based on a nested `select` query (subselect). The predicate evaluates to true, if and only if the select result isn’t empty.<br>
-You need to consider some limitations with subselects in this context:
-- Only one level of subselects is supported. For nested subselects or complex subselects, for example, using joins or unions, a separate view should be created and used in a subselect.
-- The columns used in a subselect's WHERE-condition must either refer to the table/view from the subselect or to the original entity.
-- Each column used in a subselect's WHERE-condition must either unambiguously belong to one of the used tables/views or be prefixed with the table/view name including the namespace.
-
-The following example subselects are supported in `where`-clauses:
-
-Column names are prefixed with view names, including the namespace.
-* `where: 'exists (select 1 from entitycollection.View where entitycollection.View.ID = entitycollection.Entity.ID)'`
-
-Columns are unambiguously defined. For example, the `NAME1` column only exists in the original entity, whereas the `NAME2` column only exists in the table/view from the subselect.
-* `where: 'exists (select 1 from entitycollection.View where NAME1 = NAME2)'`
-
-The `USER` column is unambiguously defined and `$user` refers to the logged in user.
-* `where: 'exists (select 1 from entitycollection.View where USER = $user)'`
+<div id="beforeassociationpaths" />
 
 ### Association Paths { #association-paths}
 

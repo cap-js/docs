@@ -119,7 +119,7 @@ The export-import cycle is the way to go for now. It is under investigation to i
 
 ::: code-group
 
-```bash [Mac/Linux]
+```sh [Mac/Linux]
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
@@ -318,7 +318,7 @@ entity API_BUSINESS_PARTNER.A_BusinessPartnerAddress {
 To mock an association, you've to modify [the imported file](#import-api). Before doing any modifications, create a local copy and add it to your source code management system.
 
 
-```bash
+```sh
 cp srv/external/API_BUSINESS_PARTNER.cds srv/external/API_BUSINESS_PARTNER-orig.cds
 git add srv/external/API_BUSINESS_PARTNER-orig.cds
 ...
@@ -326,7 +326,7 @@ git add srv/external/API_BUSINESS_PARTNER-orig.cds
 
 Import the CDS file again, just using a different name:
 
-```bash
+```sh
 cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
     --as cds --out srv/external/API_BUSINESS_PARTNER-new.cds
 ```
@@ -345,7 +345,7 @@ Don't add any keys or remove empty keys, which would change it to a managed asso
 
 Use a 3-way merge tool to takeover your modifications, check it and overwrite the previous unmodified file with the newly imported file:
 
-```bash
+```sh
 git merge-file API_BUSINESS_PARTNER.cds \
                API_BUSINESS_PARTNER-orig.cds \
                API_BUSINESS_PARTNER-new.cds
@@ -360,19 +360,19 @@ As shown previously you can run one process including a mocked external service.
 
 First install the required packages:
 
-```bash
+```sh
 npm add @sap-cloud-sdk/http-client@2.x @sap-cloud-sdk/util@2.x
 ```
 
 Then start the CAP application with the mocked remote service only:
 
-```bash
+```sh
 cds mock API_BUSINESS_PARTNER
 ```
 
 If the startup is completed, run `cds watch` in the same project from a **different** terminal:
 
-```bash
+```sh
 cds watch
 ```
 
@@ -420,7 +420,7 @@ void applicationReady(ApplicationReadyEvent ready) {
 
 Now, you just need to run the application with the new profile:
 
-```bash
+```sh
 mvn spring-boot:run -Dspring-boot.run.profiles=default,mocked
 ```
 
@@ -1070,7 +1070,7 @@ applications:
     cds_requires_REVIEWS_credentials_url: ((reviews_url))
 ```
 
-```bash
+```sh
 cf push --var reviews_url=https://reviews.ondemand.com/reviews
 ```
 
@@ -1346,7 +1346,7 @@ Add the services to your microservice's `services` list in the _manifest.yml_ fi
 
 [Push](deployment/to-cf#push-the-application) the application.
 
-```bash
+```sh
 cf create-service-push  # or `cf cspush` in short from 1.3.2 onwards
 ```
 
@@ -1395,7 +1395,7 @@ Add the services as requirement for your microservice in your _mta.yaml_ file:
 
 Build and deploy your application:
 
-```bash
+```sh
 # build .mtar
 mbt build -t ./
 

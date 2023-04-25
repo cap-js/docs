@@ -264,13 +264,11 @@ For more information, see [Important Disclaimers and Legal Information](https://
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
 
-% if jekyll.environment != "external" %
-For calculated elements with a value expression, you can differentiate two variants: "on-read" and "on-write". For those variants, the difference is the point in time when the expression is evaluated.
-In addition, there are calculated elements that evaluate to an association.
-% else %
 Today CAP CDS only supports calculated elements with a value expression
 with "on-read" semantics.
-% endif %
+
+
+<span id="beforeonread" />
 
 #### On-read (beta)
 
@@ -419,9 +417,10 @@ The entity signature is inferred from the projection.
 
 - [The `as select from` Variant](#as-select-from)
 - [The `as projection on` Variant](#as-projection-on)
-- [Views with Inferred Signatures](#views-with-inferred-signatures) % if jekyll.environment != "external" %}
-- [Views with Declared Signatures](#views-with-declared-signatures)
-- [Views with Nested Projections](#views-with-nested-projections) % endif %}
+- [Views with Inferred Signatures](#views-with-inferred-signatures)
+
+<div id="linkintoc" />
+
 - [Views with Parameters](#views-with-parameters)
 
 
@@ -530,10 +529,10 @@ Associations capture relationships between entities. They are like forward-decla
 - [Unmanaged Associations](#unmanaged-associations)
 - [Managed Associations](#managed-associations)
 - [To-many Associations](#to-many-associations)
-- [Many-to-many Associations](#many-to-many-associations) % if jekyll.environment != "external" %}
-- [Managed many-to-many Associations](#managed-many-to-many-associations)
-- [Associations with Default Filters](#associations-with-default-filters)
-- [Associations to Parameterized Views](#associations-to-parameterized-views) % endif %}
+- [Many-to-many Associations](#many-to-many-associations)
+
+<span id="linkinassoctoc" />
+
 - [Compositions](#compositions)
 - [Managed Compositions](#managed-compositions)
 
@@ -1185,8 +1184,8 @@ Enhancing nested structs isn't supported. Note also that you can use the common 
 - [Auto-exposed Targets](#auto-expose)
 - [Custom Actions/Functions](#actions)
 - [Custom-defined Events](#events)
-- [Extending Services](#extend-service) % if jekyll.environment != "external" %}
-- [Derived Services](#derived-services)% endif %}
+- [Extending Services](#extend-service)
+<span id="tocservices" />
 
 
 ### Service Definitions
@@ -1525,9 +1524,11 @@ A model ultimately is a collection of definitions with unique, fully qualified n
 
 ## Import Directives {#imports}
 
-  - [The `using` Directive](#using) % if jekyll.environment != "external" %}
-  - [The `import` Directive](#import)% endif %}
-  - [Model Resolution](#model-resolution)
+- [The `using` Directive](#using)
+
+<span id="tocimport" />
+
+- [Model Resolution](#model-resolution)
 
 
 ### The `using` Directive {#using}

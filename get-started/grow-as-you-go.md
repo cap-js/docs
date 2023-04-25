@@ -1,12 +1,12 @@
 # Grow As You Go...
 
-As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of grow as you go is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development. 
+As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of grow as you go is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development.
 
-Later on you can easily add configurations, **only when you realy need that**. 
+Later on you can easily add configurations, **only when you realy need that**.
 
 ::: tip Intrinsic Cloud Qualities
 
-As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the neccessary things, e.g. for tenant isolation, behind the scenes. Similar, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer need to do to enable this. 
+As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the neccessary things, e.g. for tenant isolation, behind the scenes. Similar, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer need to do to enable this.
 
 :::
 
@@ -18,7 +18,7 @@ While we used SQLite in-memory databases and mocked authentication during develo
 cds add hana,approuter,xsuaa --for production
 ```
 
-This adds respective packages and configuration to your project. The content of your project, i.e., models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the could. Locally you continue to develop in airplane mode. 
+This adds respective packages and configuration to your project. The content of your project, i.e., models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the could. Locally you continue to develop in airplane mode.
 
 
 
@@ -32,7 +32,7 @@ cds add mta
 
 
 
-## Add Multitenancy 
+## Add Multitenancy
 
 If you are creating a SaaS application you need to additionally add support for tenant subscriptions and tenant upgrades. When a tenant subscribes, new database containers have to be bootstraped along with other resources, like message channels. CAP provides the so-called MTX services which do that automatically in a sidecar micro service. You can add all requisite packages and configurations by:
 
@@ -54,7 +54,7 @@ cds add extensibility
 
 ## Add CI/CD Pipelines
 
-Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. We can have a headstart by: 
+Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. We can have a headstart by:
 
 ```sh
 cds add pipelines
@@ -64,7 +64,7 @@ cds add pipelines
 
 ## Late-Cut Micro Services
 
-Micro services are deployment units, with main motivations being: separate scaling, different technologies, separate delivery cycles. 
+Micro services are deployment units, with main motivations being: separate scaling, different technologies, separate delivery cycles.
 
 Compared to *micro* services, CAP services are ***nano***: They constitute active functional entities of your application. Given their uniform, protocol-agnostic programmatic APIs, all services can be placed into one single procces (that is, a monolith), or distributed accross different micro services. Here's a simple example:
 
@@ -85,7 +85,7 @@ class ServiceB extends cds.Service { init(){
 
 :::
 
-If nothing else is configured, both services would be served in the same process. 
+If nothing else is configured, both services would be served in the same process.
 We can move them to separate ones, seperate micro services by simply adding this config to the one hosting `ServiceA`:
 
 ```json
@@ -99,10 +99,10 @@ We can move them to separate ones, seperate micro services by simply adding this
 ::: details Kind `rest` declares the service to be remote, consumed via REST protocol.
 :::
 
-This flexibility allows you to, again, focus on your domain, and avoid the efforts and costs of premature microservice design and overhead, especially in the early phases of development. 
+This flexibility allows you to, again, focus on your domain, and avoid the efforts and costs of premature microservice design and overhead, especially in the early phases of development.
 
 ::: tip Avoid Premature Micro-Services Design
 
 Experience shows that initial cuts of applications into micro services, quite frequently turn out to be problematic later on. Refrain from that and rather delay the cuts until you learned more about you application during development.
 
-::: 
+:::

@@ -456,4 +456,3 @@ req.headers['x-correlation-id'] = cds.context.id
 The following screenshot shows an example for log correlation in Kibana .
 
 ![Default Formatter Output](assets/correlation.png){.adapt}
-

@@ -129,4 +129,3 @@ The following mapping is used during the import of an external service API, see 
 | _Edm.DateTime<br>Precision : Second_ <sup>1</sup>      | `cds.DateTime` + `@odata.Type:'Edm.DateTime'` + `@odata.Precision:0`         |
 
 <sup>1</sup> only OData V2
-

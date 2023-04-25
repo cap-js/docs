@@ -21,10 +21,6 @@ Reference Documentation { .subtitle}
 
 </span>
 
-:::tip Still on the classic CAP Java runtime?
-Migrate to the CAP Java SDK now. Have a look at our [migration guide](./migration) for more information and migration steps.
-:::
-
 <script setup>
 import { data as pages } from './index.data.js'
 </script>

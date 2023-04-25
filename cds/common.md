@@ -487,7 +487,7 @@ entity PaymentMethods : sap.common.CodeList {
 
 Let's further assume the entires with code `Main` and `Travel` are required by implementations and hence must not be changed or removed. Have a look at a couple of solutions.
 
-<div="beforeprogrammatic" />
+<div id="beforeprogrammatic" />
 
 #### Programmatic Solution
 

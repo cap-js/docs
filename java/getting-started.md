@@ -55,7 +55,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 4. Execute the following commands on the command line to check whether the installed tools are set up correctly:
 
-    ```bash
+    ```sh
     cds --version
     java --version
     mvn --version
@@ -73,7 +73,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
-```bash
+```sh
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
 ```
 
@@ -83,7 +83,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java
 ```
 ::: tip
@@ -95,7 +95,7 @@ You can call `cds help init` for more information on the available options.
 
 You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addSample
 ```
 
@@ -103,7 +103,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){target="_blank"} using the following command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
 ```
 
@@ -151,13 +151,13 @@ The generated folders have the following content:
 
 For a quick start, you can use `cds init` to bootstrap a CAP Java application based on Spring Boot. Run the following command:
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java
 ```
 
 You can also specify the package name through parameter `--java:package`. Default for the package name is: `org.<PROJECT-ROOT>`.
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java --java:package <java package name>
 ```
 
@@ -168,7 +168,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
@@ -189,7 +189,7 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 
 To build and run the generated project from the command line, execute:
 
-```bash
+```sh
 cd <PROJECT-ROOT>
 mvn spring-boot:run
 ```

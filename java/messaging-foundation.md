@@ -381,7 +381,7 @@ For a local development scenario, it would be annoying to deploy the application
 
 In `VCAP_APPLICATION` environment variable, you need to set `application_id` and `application_name` as this information will be used when automatically generating queue names in case no names have been configured explicitly. You can set these values to arbitrary values for testing, for example, as shown here:
 
-```bash
+```sh
 VCAP_APPLICATION = {
   "application_id" : "any unique id",
   "application_name" : "any name"
@@ -410,7 +410,7 @@ Example:
 
 #### VCAP_SERVICES Template for SAP Event Mesh
 
-```bash
+```sh
 VCAP_SERVICES = {
   "enterprise-messaging": [{
     "label": "enterprise-messaging",

@@ -395,7 +395,7 @@ module.exports = function custom_auth (req, res, next) {
 The following steps assume you've set up the [**Cloud Foundry Command Line Interface**](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/856119883b8c4c97b6a766cc6a09b48c.html).
 
 1. Log in to Cloud Foundry:
-```bash
+```sh
 cf l -a <api-endpoint>
 ```
 If you don’t know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
@@ -454,7 +454,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
 
 2. Bind to the new service key:
 
-    ```bash
+    ```sh
     cds bind -2 bookshop-uaa
     ```
 
@@ -510,20 +510,20 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
 1. Add approuter in the `app` folder of your project:
 
-    ```bash
+    ```sh
     cds add approuter
     ```
 
 2. Install `npm` packages for approuter:
 
-    ```bash
+    ```sh
     npm install --prefix app
     ```
 
 3. In your project folder run:
 
     ::: code-group
-    ```bash
+    ```sh
     cds bind --exec -- npm start --prefix app
     ```
     ```cmd
@@ -544,7 +544,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
 4. Make sure that your CAP application is running as well with the `hybrid` profile:
 
-    ```bash
+    ```sh
     cds watch --profile hybrid
     ```
 
@@ -589,7 +589,7 @@ The login fails pointing to the correct OAuth configuration URL that is expected
 
 2. Update the XSUAA service:
 
-    ```bash
+    ```sh
     cf update-service bookshop-uaa -c xs-security.json
     ```
 

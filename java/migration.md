@@ -46,7 +46,7 @@ By default, the CAP Java Runtime comes with protocol adapters for OData V4 and [
 
 Create a new CAP Java project beside your existing one, which you want to migrate. You can use the CAP Java Maven archetype to create a new CAP Java project:
 
-```bash
+```sh
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
@@ -148,7 +148,7 @@ mvn clean install
 
 If this Maven build finishes successfully, you can optionally try to deploy your CDS model to an SAP HANA database by executing the following CDS command:
 
-```bash
+```sh
 cds deploy --to hana
 ```
 

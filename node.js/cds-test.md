@@ -76,7 +76,7 @@ Or by setting process env variable `CDS_TEST_VERBOSE`, for example like that fro
 
 ::: code-group
 
-```bash [Mac/Linux]
+```sh [Mac/Linux]
 CDS_TEST_VERBOSE=y mocha
 ```
 

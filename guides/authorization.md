@@ -832,7 +832,7 @@ Information about roles and attributes has to be made available to the UAA platf
 
 Derive scopes, attributes, and role templates out of the CDS model:
 
-```sh
+```shell
 cds add xsuaa
 ```
 
@@ -873,7 +873,7 @@ Depending on whether MTA deployment is used, choose one approach:
 
 Merges any inline configuration from the _mta.yaml_ (see the `config` block) and the _xs-security.json_ file:
 
-```sh
+```shell
 cds add mta
 ```
 
@@ -919,13 +919,13 @@ Add the following two properties to the `xs-security.json` file:
 
 To create a new XSUAA service with this XSUAA configuration, use:
 
-```sh
+```shell
 cf create-service xsuaa application <servicename> -c xs-security.json
 ```
 
 To update an existing service, use:
 
-```sh
+```shell
 cf update-service <servicename> -c xs-security.json
 ```
 
@@ -954,4 +954,3 @@ req.user.is ("my.app.admin")
 > See the following sections for more details:
 - [Developing Security Artifacts in SAP BTP](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html)
 - [Maintaining Application Security in XS Advanced](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/35d910ee7c7a445a950b6aad989a5a26.html)
-

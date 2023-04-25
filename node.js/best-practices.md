@@ -84,7 +84,7 @@ When releasing a service or an application to end consumers, use `npm install` o
 
 Overall, the process for your release should include these steps:
 
-```sh
+```shell
 npm config set package-lock true  # enables package-lock.json
 npm update   # update it with latest versions
 git add package-lock.json # add it to version control

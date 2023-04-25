@@ -221,7 +221,7 @@ You can assign different implementations by exchanging the factory with your own
 ### *Using `winston` Loggers* {#winston}
 
 **Prerequisites:** You need to add [winston](https:/www.npmjs.com/package/winston) to your project:
-```sh
+```shell
 npm add winston
 ```
 
@@ -285,7 +285,7 @@ Actually, the above is essentially the implementation of `cds.log.winstonLogger(
 
 Use env variable `DEBUG` to quickly switch on debug output from command line like that:
 
-```sh
+```shell
 DEBUG=app,sql cds watch
 DEBUG=all cds watch
 ```
@@ -456,4 +456,3 @@ req.headers['x-correlation-id'] = cds.context.id
 The following screenshot shows an example for log correlation in Kibana .
 
 ![Default Formatter Output](assets/correlation.png){.adapt}
-

@@ -21,7 +21,7 @@ status: released
 The design-time APIs are provided with package `@sap/cds-dk` and can be used as follows:
 
 1. Install it locally:
-```sh
+```shell
 npm add @sap/cds-dk
 ```
 
@@ -129,4 +129,3 @@ The following mapping is used during the import of an external service API, see 
 | _Edm.DateTime<br>Precision : Second_ <sup>1</sup>      | `cds.DateTime` + `@odata.Type:'Edm.DateTime'` + `@odata.Precision:0`         |
 
 <sup>1</sup> only OData V2
-

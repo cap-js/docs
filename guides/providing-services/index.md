@@ -993,7 +993,7 @@ The following sections give an overview how to do so, which links to respective 
 
 **In Node.js**, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file:
 
-```sh
+```shell
 ./srv
   - cat-service.cds  # service definitions
   - cat-service.js   # service implementation

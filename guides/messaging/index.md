@@ -206,7 +206,7 @@ Let's see that in action...
 
 Run the following command to start a reviews-enhanced bookshop as an all-in-one server process:
 
-```sh
+```shell
 cds watch bookstore
 ```
 
@@ -274,7 +274,7 @@ In our samples, you find that in [@capire/reviews/package.json](https://github.c
 
 First start the `reviews` service separately:
 
-```sh
+```shell
 cds watch reviews
 ```
 
@@ -284,7 +284,7 @@ The trace output should contain these lines, confirming that you're using `file-
 
 Then, in a separate terminal start the `bookstore` server as before:
 
-```sh
+```shell
 cds watch bookstore
 ```
 

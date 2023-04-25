@@ -21,7 +21,7 @@ Use the `cds bind` command to connect your application to services on the cloud.
 
 ### Bind a Local Application to Services on Cloud Foundry
 
-```sh
+```shell
 cds bind -2 my-hana:my-hana-key
 ```
 
@@ -85,7 +85,7 @@ Note that no credentials are saved. Only the information about **where the crede
 
 #### Bind a Local Application to User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
-```sh
+```shell
 cds bind my-ups -2 my-user-provided-service
 ```
 
@@ -108,7 +108,7 @@ Output:
 
 You can bind to **Service Bindings** of Open Service Broker service instances, such as SAP BTP services, on your Kubernetes cluster and to plain Kubernetes **Secrets** by adding the `--on k8s` option to the `cds bind` command:
 
-```sh
+```shell
 cds bind -2 <service binding or secret> --on k8s
 ```
 
@@ -125,7 +125,7 @@ cpapp-xsuaa-binding   cpapp-xsuaa           cpapp-xsuaa-secret    Ready    11s
 
 Use the service binding name for the `-2` option:
 
-```sh
+```shell
 cds bind -2 cpapp-xsuaa-binding --on k8s
 ```
 
@@ -181,7 +181,7 @@ Use the secret name for the `-2` option.
 
 You need to provide either the service argument or the `--kind` option as well, because secrets have no service metadata.
 
-```sh
+```shell
 cds bind -2 cap-hdi-container --on k8s --kind hana
 ```
 
@@ -205,7 +205,7 @@ If a service binding with the same name exists, `cds bind` will connect to the s
 
 Now, you can run your CAP service locally using the cloud service bindings:
 
-```sh
+```shell
 cds watch --profile hybrid
 ```
 
@@ -215,7 +215,7 @@ It will resolve the cloud bindings in your configuration:
 
 You can also resolve and display credentials using the `cds env` command:
 
-```sh
+```shell
 cds env get requires.db.credentials --profile hybrid --resolve-bindings
 ```
 
@@ -249,7 +249,7 @@ With `cds bind` you avoid storing credentials on your hard disk. If you need to 
 For example, you can run the approuter from the `approuter` child directory:
 
 ::: code-group
-```bash
+```shell
 cds bind --exec -- npm start --prefix approuter
 ```
 ```cmd
@@ -263,7 +263,7 @@ cds bind --exec '--' npm start --prefix approuter
 This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
 
 ::: code-group
-```bash
+```shell
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
 ```cmd
@@ -280,7 +280,7 @@ Start your CAP Java application with the [`cds bind --exec` command](#cds-bind-e
 
 For example:
 
-```sh
+```shell
 cds bind --exec mvn spring-boot:run
 ```
 
@@ -296,7 +296,7 @@ But you need to have (1) your application deployed, and (2) be logged in to your
 
 For example, you can use the following syntax with `bash` or similar shells:
 
-```sh
+```shell
 VCAP_SERVICES=$(cf env <CF-APP-NAME> | perl -0pe '/VCAP_SERVICES:(.*?)VCAP_APPLICATION:/smg; $_=$1') cds watch --profile hybrid
 ```
 
@@ -308,7 +308,7 @@ Your profile should have the `kind` settings to use the bound services, for exam
 
 The shortest way to use `cds bind` is to specify only the Cloud Foundry service instance name:
 
-```sh
+```shell
 cds bind -2 my-hana
 ```
 
@@ -316,7 +316,7 @@ This implies that a service key exists with the suffix `-key`. In this example: 
 
 You can specify a different key after a colon ("`:`"):
 
-```sh
+```shell
 cds bind -2 my-hana:my-different-key
 ```
 
@@ -324,7 +324,7 @@ cds bind -2 my-hana:my-different-key
 
 If `kind` or CDS `service` cannot be determined automatically by `cds bind`, you need to specify it:
 
-```sh
+```shell
 cds bind credstore -2 my-credstore --kind credstore
 ```
 
@@ -334,7 +334,7 @@ You are informed with an error message if this is required.
 
 There is a handy shortcut to bind multiple services with one command:
 
-```sh
+```shell
 cds bind -2 my-hana,my-destination,my-xsuaa
 ```
 
@@ -354,7 +354,7 @@ You can start arbitrary command line programs with your bindings.
 
 The service bindings are [resolved from the cloud](#node) and [provided in the `VCAP_SERVICES` env variable](../node.js/cds-connect#provide-service-bindings) to the application. So it works with every application that can consume Cloud Foundry credentials.
 
-```sh
+```shell
 cds bind --exec [--] <command> <args ...>
 ```
 
@@ -368,7 +368,7 @@ cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 
 Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
 
-```sh
+```shell
 cds bind --exec --profile <profile> [--] <command> <args ...>
 ```
 
@@ -396,7 +396,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 
     > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convenient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
 
-    ```sh
+    ```shell
     cds deploy --to hana --bind
     ```
 
@@ -406,7 +406,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 
 3. Run your CAP service with HANA data base:
 
-    ```sh
+    ```shell
     cds watch --profile hybrid
     ```
 
@@ -434,25 +434,25 @@ This example assumes that XSUAA is used for authentication. However, this will r
 
 Bind to XSUAA and Service Manager:
 
-```sh
+```shell
 cds bind -2 cpapp-xsuaa,cpapp-service-manager
 ```
 
 Run Java CAP service with cloud service bindings:
 
-```sh
+```shell
 cds bind --exec -- mvn spring-boot:run -Dmtx.url=http://localhost:4004
 ```
 
 If MTX is setup as an sub project with an own _package.json_, you need to run it using `cds bind --exec` to use the bindings from the main project:
 
-```sh
+```shell
 cds bind --exec cds watch mtx
 ```
 
 Run approuter with cloud service bindings:
 
-```sh
+```shell
 cds bind --exec -- "npm start --prefix approuter"
 ```
 
@@ -464,7 +464,7 @@ cds bind --exec -- "npm start --prefix approuter"
 
 Configure your required bindings for testing and save them to your project's _package.json_ file for your tests' profile:
 
-```sh
+```shell
 cds bind -2 integration-test-hana -o package.json -p integration-test
 ```
 
@@ -472,7 +472,7 @@ No credentials are saved!
 
 In your CI/CD pipeline you can resolve the bindings and inject them into the test commands:
 
-```sh
+```shell
 # Install DK for "cds env"
 npm i @sap/cds-dk --no-save
 

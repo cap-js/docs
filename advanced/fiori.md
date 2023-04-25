@@ -100,7 +100,7 @@ annotate CatalogService.Books with @(
 
 While CDS in principle allows you to add such annotations everywhere in your models, we recommend putting them in separate _.cds_ files placed in your _./app/*_ folders, for example, as follows.
 
-```sh
+```shell
 ./app  #> all your Fiori annotations should go here, for example:
    ./admin
       fiori-service.cds #> annotating ../srv/admin-service.cds

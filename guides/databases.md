@@ -99,7 +99,7 @@ If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud In
 
 To prepare the project, execute:
 
-```sh
+```shell
 cds add hana --for hybrid
 ```
 
@@ -127,7 +127,7 @@ See the [Use SAP HANA as the Database for a CAP Java Application](https://develo
 Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy).
 Then in the project root folder, just execute:
 
-```sh
+```shell
 cds deploy --to hana --profile hybrid
 ```
 > To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid`.

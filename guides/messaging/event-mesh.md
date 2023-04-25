@@ -94,7 +94,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
 
 2. Add `@sap/xb-msg-amqp-v100` as dependency to `reviews` and `bookstore`:
 
-    ```sh
+    ```shell
     npm add @sap/xb-msg-amqp-v100
     ```
 
@@ -104,7 +104,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
 
 4. Bind to your Event Mesh instance's service key from `reviews` and `bookstore`:
 
-    ```sh
+    ```shell
     cds bind -2 <instance>:<service-key>
     ```
 
@@ -113,10 +113,10 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
 
 5. Run your services in separate terminal shells with the `hybrid` profile:
 
-    ```sh
+    ```shell
     cds watch reviews --profile hybrid
     ```
-    ```sh
+    ```shell
     cds watch bookstore --profile hybrid
     ```
 

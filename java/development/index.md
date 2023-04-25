@@ -198,7 +198,7 @@ This section describes various options to create a CAP Java project from scratch
 Use the following command line to create a project from scratch with the CDS Maven archetype:
 
 ::: code-group
-```bash
+```shell
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
@@ -228,7 +228,7 @@ It supports the following command line options:
 
 You can build and run your application by means of the following Maven command:
 
-```sh
+```shell
 mvn spring-boot:run
 ```
 
@@ -268,7 +268,7 @@ Prerequisites:
 
 If these prerequisites are met, you can use the profile `cdsdk-global` by executing:
 
-```bash
+```shell
 mvn spring-boot:run -P cdsdk-global
 ```
 
@@ -279,7 +279,7 @@ By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the install
 1. Specify a newer version of `@sap/cds-dk` in your *pom.xml* file.
 1. Execute `mvn spring-boot:run` with an additional property `-Dcds.install-cdsdk.force=true`, to force the installation of a **`@sap/cds-dk`** in the configured version.
 
-    ```bash
+    ```shell
     mvn spring-boot:run -Dcds.install-cdsdk.force=true
     ```
 
@@ -338,7 +338,7 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 
 To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, that can be executed from the command line in the service module folder by using Maven:
 
-```bash
+```shell
 cd srv
 mvn cds:watch
 ```

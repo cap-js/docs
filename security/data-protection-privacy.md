@@ -38,7 +38,7 @@ If necessary, applications can process these messages by standard CAP functional
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 
-CAP provides a [rich set of tools](../security/aspects) to protect from unauthorized access to business data, including personal data.
+CAP provides a [rich set of tools](../security/aspects) to protect the application from unauthorized access to business data, including personal data.
 Furthermore, it helps applications to provide [higher-level DPP-related functions](#dpp-support) such as data retrieval.
 
 ::: warning

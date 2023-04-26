@@ -361,7 +361,7 @@ As shown previously you can run one process including a mocked external service.
 First install the required packages:
 
 ```sh
-npm add @sap-cloud-sdk/http-client@2.x @sap-cloud-sdk/util@2.x
+npm add @sap-cloud-sdk/http-client@2.x @sap-cloud-sdk/util@2.x @sap-cloud-sdk/connectivity@2.x
 ```
 
 Then start the CAP application with the mocked remote service only:

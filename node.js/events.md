@@ -19,20 +19,7 @@ status: released
 
 Class `cds.EventContext` represents the invocation context of incoming request and event messages, mostly `tenant`. It also serves as a base class for `cds.Event` and `cds.Request`.
 
-
-
-
-### ctx.context <i> → cds.EventContext </i> {#eve-context .impl.concept}
-
-The current instance's root context; `this.context === this` if this is a root context.
-
-[Learn more about root contexts in the **Transactions** guide](./cds-context-tx){.learn-more}
-
-::: danger
-IMPORTANT: this is not a stable API yet.
-:::
-
-
+<div id="beforestring" />
 
 ### ctx.id <i> → string </i> {#req-id }
 
@@ -403,4 +390,3 @@ Use this asynchronous method to calculate the difference between the data on the
 ```js
 const diff = await req.diff()
 ```
-

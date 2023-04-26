@@ -421,14 +421,14 @@ If the profile is not set to `production`, the `development` profile is automati
 
 You can also introduce own custom profile names and use them as follows:
 
-```bash
+```sh
 cds run --profile my-custom-profile
 ```
 
 or
 
 ::: code-group
-```bash
+```sh
 CDS_ENV=my-custom-profile cds run
 ```
 ```cmd
@@ -456,4 +456,3 @@ And access them from your app as follows:
 ```js
 const conf = cds.env('my-app')
 ```
-

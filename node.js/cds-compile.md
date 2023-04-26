@@ -256,10 +256,7 @@ let script = cds.compile(csn).to.sql({as:'str'})
 
 
 
-### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.cdl ([csn](../cds/csn)) <span style="font-style:normal">&#8594;</span> [CDL](../cds/cdl.md) </span> </i> {#to-cdl  .impl.concept}
-
-Reconstructs [CDL](../cds/cdl.md) source code for the given csn model. {.indent}
-
+<dic id="beforeasyncapi" />
 
 ### <i>&nbsp;&#8627;&nbsp;.to<span style="font-weight:500; color:darkred">.asyncapi (file) -> [document] </span> </i> { #to-asyncapi }
 

@@ -117,4 +117,3 @@ service CatalogService {
   event SampleEntity.Changed.v1 : projection on CatalogService.SampleEntity;
 }
 ```
-

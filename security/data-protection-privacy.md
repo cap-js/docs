@@ -29,6 +29,8 @@ As a framework, in general, CAP doesn't store or manage any personal data on its
 - Application logging on detailed level written by CAP runtime might contain personal data such as user names and IP addresses. The logs are mandatory to operate the system.
 Connect an adequate logging service to meet compliance requirements such as [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment).
 
+- A draft-enabled service `Foo` has an entity `Foo.DraftAdministrativeData` with fields `CreatedByUser`, `InProcessByUser` and `LastChangedByUser` containing personal data for all draft entity instances in edit mode.
+
 - Messages temporarily written to transaction outbox might contain personal data. The entries are mandatory to operate the system.
 If necessary, applications can process these messages by standard CAP functionality (CDS model `@sap/cds/srv/outbox`).
 
@@ -36,7 +38,7 @@ If necessary, applications can process these messages by standard CAP functional
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 
-CAP provides a [rich set of tools](../security/aspects) to protect from unauthorized access to personal data.
+CAP provides a [rich set of tools](../security/aspects) to protect the application from unauthorized access to business data, including personal data.
 Furthermore, it helps applications to provide [higher-level DPP-related functions](#dpp-support) such as data retrieval.
 
 ::: warning

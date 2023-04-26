@@ -19,11 +19,7 @@ status: released
 
 This section deals with Audit Logging for reading sensitive data and changes to personal data. As a prerequisite, you have [indicated entities and elements in your domain model, which will contain personal data](introduction#indicate-privacy).
 
-% if jekyll.environment != "external" %}
-Related to the security standards (SAP internal links):
-- [SEC-265: Log changes to personal data](https://wiki.one.int.sap/wiki/x/nICvTw)
-- [SEC-254: Log read access to sensitive personal data](https://wiki.one.int.sap/wiki/x/tqHgMg)
-% endif %}
+<span id="inintroduction" />
 
 In CAP, audit logging can be handled mostly automatically by adding certain annotations to your business entity definitions and adding some configuration to your project.
 
@@ -179,41 +175,6 @@ annotate bookshop.Orders with @AuditLog.Operation : {
 
 Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
 
-## Add Audit-Log Configuration {.impl.concept }
-
-### Add `@sap/audit-logging` Package
-
-```sh
-npm add @sap/audit-logging
-```
-
-### Add CDS Configuration
-
-```json
-"cds": {
-  "requires": {
-    "[production]": {
-      "audit-log": true
-    },
-    "[development]": {
-      "audit-log": {
-        "kind": "audit-log-to-console",
-        "outbox": false
-      },
-    }
-  }
-  "features": {
-    "audit_personal_data": true
-  }
-}
-```
-
-### Test-Run Locally
-
-```sh
-cds watch
-```
-
-
+<div id="ddkkkeuz32188fjj" />
 
 <span id="sdfgew343224" />

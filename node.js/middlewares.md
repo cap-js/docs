@@ -72,19 +72,7 @@ _ctx_model_ requires that _cds.context_ middleware has run before.
 _ctx_auth_ requires that _authentication_ has run before.
 :::
 
-{.impl.concept}
-### After Middlewares
-```js
-exports.after = [
-  // usually error middlewares
-  errors(),
-]
-```
-::: warning
-As of now, the protocol adapters terminate the request itself.
-In the future, they will provide an error object to the error middleware which terminates the request.
-:::
-
+<div id="beforecustomization" />
 
 ## Customization
 

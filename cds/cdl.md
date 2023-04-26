@@ -264,13 +264,11 @@ For more information, see [Important Disclaimers and Legal Information](https://
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
 
-% if jekyll.environment != "external" %
-For calculated elements with a value expression, you can differentiate two variants: "on-read" and "on-write". For those variants, the difference is the point in time when the expression is evaluated.
-In addition, there are calculated elements that evaluate to an association.
-% else %
 Today CAP CDS only supports calculated elements with a value expression
 with "on-read" semantics.
-% endif %
+
+
+<span id="beforeonread" />
 
 #### On-read (beta)
 
@@ -419,9 +417,10 @@ The entity signature is inferred from the projection.
 
 - [The `as select from` Variant](#as-select-from)
 - [The `as projection on` Variant](#as-projection-on)
-- [Views with Inferred Signatures](#views-with-inferred-signatures) % if jekyll.environment != "external" %}
-- [Views with Declared Signatures](#views-with-declared-signatures)
-- [Views with Nested Projections](#views-with-nested-projections) % endif %}
+- [Views with Inferred Signatures](#views-with-inferred-signatures)
+
+<div id="linkintoc" />
+
 - [Views with Parameters](#views-with-parameters)
 
 
@@ -506,57 +505,9 @@ entity SomeView as SELECT from Employees {
 By using a cast, annotations and other properties are inherited from the provided type and not the base element, see [Annotation Propagation](#annotation-propagation)
 :::
 
-### Views with Declared Signatures { .impl.concept}
+<div id="afterinferredsig" />
 
-You can optionally declare the expected signature explicitly. This declaration overrides the inferred signature. The implementation can check the inferred signature against the declared one.
-
-```cds
-entity SomeView {
-  ID: Integer; name: String; jobTitle: String;
-} as SELECT from Employees {
-  ID, name, job.title as jobTitle
-};
-```
-
-
-### Views with Nested Projections { .impl.beta}
-
-Use [CQLs nested expands](./cql#nested-expands) to declare projections on document structures and/or entity graphs. This results in structured document signatures.
-
-```cds
-entity MyOrders as select from Orders {
-  ID, buyer {
-    ID, name
-  },
-  Items {
-    pos, quantity, product {
-      ID, title
-    }
-  }
-};
-```
-
-This projection would result in an inferred signature like that:
-
-
-```cds
-entity MyOrders {
-  ID : UUID;
-  buyer : {
-    ID : UUID;
-    name : String;
-  };
-  Items : array of {
-    pos : Integer;
-    quantity : Integer;
-    product : {
-      ID : UUID;
-      title : String;
-    }
-  }
-};
-```
-
+<div id="beforeviewwithparam" />
 
 ### Views with Parameters
 
@@ -578,10 +529,10 @@ Associations capture relationships between entities. They are like forward-decla
 - [Unmanaged Associations](#unmanaged-associations)
 - [Managed Associations](#managed-associations)
 - [To-many Associations](#to-many-associations)
-- [Many-to-many Associations](#many-to-many-associations) % if jekyll.environment != "external" %}
-- [Managed many-to-many Associations](#managed-many-to-many-associations)
-- [Associations with Default Filters](#associations-with-default-filters)
-- [Associations to Parameterized Views](#associations-to-parameterized-views) % endif %}
+- [Many-to-many Associations](#many-to-many-associations)
+
+<span id="linkinassoctoc" />
+
 - [Compositions](#compositions)
 - [Managed Compositions](#managed-compositions)
 
@@ -657,74 +608,11 @@ entity Emp2Addr {
 [Learn more about **Managed Compositions for Many-to-many Relationships**.](#for-many-to-many-relationships){.learn-more}
 
 
+<div id="aftermanytomany" />
 
-### Managed many-to-many Associations { .impl.concept}
+<div id="inbetweenthings" />
 
-With Managed Many-to-many Associations, CDS can generate requisite link tables automatically. You can use the `via` parameter clause to add elements to link table reflecting attributed relationships or to use a predefined link table instead.
-
-```cds
-entity Employees {
-  addresses1 : Association to many Addresses;
-  addresses2 : Association to many Addresses via {
-    kind: String(11);
-  };
-  addresses3 : Association to many Addresses via Emp2Addr;
-}
-```
-
-For the first case, [`cds.compile`](../node.js/cds-compile) automatically adds a link table.
-For the second case, it automatically adds a link table with an additional element `kind` (&rarr; an _attributed relationship_).
-For the third case, [`cds.compile`](../node.js/cds-compile) uses the predefined entity `Emp2Addr` that is defined like that (names for `source/target` can be freely chosen):
-
-```cds
-entity Emp2Addr {
-  key emp : Association to Employees;
-  key adr : Association to Addresses;
-}
-```
-
-
-
-### Associations with Default Filters { .impl.concept}
-
-For to-many associations, you can optionally specify a default filter. That filter automatically
-applies to any usage of that association in queries, unless another filter is specified explicitly.
-
-```cds
-entity Products {
-  localized : Association to many Product$Texts
-    with default filter lang=$env.user.lang;
-}
-```
-```cds
-entity Product$Texts {
-  key product : Association to Products;
-  key lang : String(3);
-  title : String(44);
-  descr : String(444);
-}
-```
-
-### Associations to Parameterized Views { .impl.concept}
-
-If the target is a [parameterized view](#views-with-parameters), you can specify
-corresponding arguments in an `Association` definition as follows:
-
-```cds
-entity Products {
-  assoc : Association to SomeParameterizedView (
-    param1: 4711,
-    param2: foo
-  );
-  foo : String;
-}
-```
-
-> The argument values for parameters are literals or expressions in which references are resolved within the current entity's elements.
-
-
-
-<br>
+<div id="beforecompo" />
 
 
 ### Compositions
@@ -1296,8 +1184,8 @@ Enhancing nested structs isn't supported. Note also that you can use the common 
 - [Auto-exposed Targets](#auto-expose)
 - [Custom Actions/Functions](#actions)
 - [Custom-defined Events](#events)
-- [Extending Services](#extend-service) % if jekyll.environment != "external" %}
-- [Derived Services](#derived-services)% endif %}
+- [Extending Services](#extend-service)
+<span id="tocservices" />
 
 
 ### Service Definitions
@@ -1561,33 +1449,7 @@ extend entity CatalogService.Products with actions {
 }
 ```
 
-
-### Derived Services { .impl.concept}
-
-Define abstract services and inherit from it in other service definitions as in this example:
-
-```cds
-abstract service ShoppingService {
-  abstract entity Articles {...}
-  entity Suppliers {...}
-  entity ShoppingCart {} actions {
-    action submitOrder();
-  }
-}
-```
-
-```cds
-service Bookshop : ShoppingService {
-  entity Books : ShoppingService.Articles {
-    author : Association to Authors;
-  }
-  entity Authors {...}
-}
-```
-
-
-
-<br>
+<div id="beforenamespaces" />
 
 ## Namespaces
 
@@ -1662,9 +1524,11 @@ A model ultimately is a collection of definitions with unique, fully qualified n
 
 ## Import Directives {#imports}
 
-  - [The `using` Directive](#using) % if jekyll.environment != "external" %}
-  - [The `import` Directive](#import)% endif %}
-  - [Model Resolution](#model-resolution)
+- [The `using` Directive](#using)
+
+<span id="tocimport" />
+
+- [Model Resolution](#model-resolution)
 
 
 ### The `using` Directive {#using}

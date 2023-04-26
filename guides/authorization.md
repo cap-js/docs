@@ -518,8 +518,11 @@ For example, the condition `where: $user.country = countryCode` will grant a use
 #### Unrestricted XSUAA Attributes
 
 By default, all attributes defined in [XSUAA instances](#xsuaa-configuration) require a value (`valueRequired:true`) which is well-aligned with the CAP runtime that enforces restrictions on empty attributes.
-If you explicitly want to offer unrestricted attributes to customers (`valueRequired:false`), you need to adjust the filter-condition accordingly, for instance `where: $user.country = countryCode or $user.country is null`.
-In case `$user.country` is undefined or empty, the overall expression evaluates to `true` reflecting the unrestricted attribute.
+If you explicitly want to offer unrestricted attributes to customers, you need to do the following:
+
+1. Switch your XSUAA configuration to `valueRequired:false`
+2. Adjust the filter-condition accordingly, for example: `where: $user.country = countryCode or $user.country is null`.
+  > If `$user.country` is undefined or empty, the overall expression evaluates to `true` reflecting the unrestricted attribute.
 
 ::: warning
 Refreign from unrestricted XSUAA attributes as they need to be designed very carefully as shown in the following example.

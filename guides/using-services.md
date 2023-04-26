@@ -241,6 +241,8 @@ BusinessPartner;BusinessPartnerFullName;BusinessPartnerIsBlocked
 ```
 :::
 
+For Java make sure to add the `--with-mocks` option to the `cds deploy` command used to generate the `schema.sql` in `srv/pom.xml`. This ensures that tables for the mocked remote entities are created in the database.
+
 [Find this source in the end-to-end Tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){.learn-more}
 
 [Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){.learn-more}

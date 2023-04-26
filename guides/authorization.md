@@ -549,7 +549,7 @@ service SalesService @(requires: ['SalesAdmin', 'SalesManager']) {
   entity SalesOrgs @(restrict: [
      { grant: '*',
        to: 'SalesManager',
-       where: '$user.country = countryCode },
+       where: '$user.country = countryCode' },
      { grant: '*',
        to: 'SalesAdmin' } ]) {
      countryCode: String; /*...*/

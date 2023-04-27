@@ -57,6 +57,8 @@ Following payload for `Order` is allowed:
 
 Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
 
+Also note, that the dynamic properties are not persisted in the underlying data-source automatically.
+
 ### Java Type Mapping
 
 #### Simple Types

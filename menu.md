@@ -24,7 +24,6 @@
 - [Localized Data](/guides/localized-data)
 - [Temporal Data](/guides/temporal-data)
 - [Media Data](/guides/media-data)
-- [Open Type](/guides/open-type)
 - [Data Privacy](/guides/data-privacy/)
   - [Basics](/guides/data-privacy/introduction)
   - [Personal Data Management](/guides/data-privacy/pdm)

@@ -135,7 +135,7 @@ table, td { border: none; }
   background-color: var(--vp-c-bg);
   margin: 10% auto;
   padding: 0;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-divider);
   width: 450px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: fadeIn;
@@ -158,7 +158,7 @@ table, td { border: none; }
 
 /* The Close Button */
 .modal-close {
-  color: var(--vp-button-brand-hover-bg);
+  color: gray;
   float: right;
   font-size: 20px;
   font-weight: bold;

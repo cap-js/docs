@@ -762,12 +762,12 @@ A custom aggregate for a currency code or unit of measure should be also exposed
 
 ## Open Type
 
-An entity type or a complex type may be decalred as open, allowing clients to add properties dynamically to instances of the type by specifying uniquely named property values in the payload used to insert or update an instance of the type. To indicate that the entity or complex type is open, the corresponding type must be annotated with `@open`:
+An entity type or a complex type may be declared as _open_, allowing clients to add properties dynamically to instances of the type by specifying uniquely named property values in the payload used to insert or update an instance of the type. To indicate that the entity or complex type is open, the corresponding type must be annotated with `@open`:
 
 
 ```cds
 service CatalogService {
-  @open
+  @open // [!code focus]
   entity Book {
     key id : Integer;
   }
@@ -777,7 +777,7 @@ service CatalogService {
 The cds build for OData v4 will render the entity type `Book` in `edmx` with the [`OpenType` attribute](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_OpenEntityType) set to `true`:
 
 ```xml
-<EntityType Name="Book" OpenType="true">
+<EntityType Name="Book" OpenType="true"> // [!code focus]
   <Key>
     <PropertyRef Name="id"/>
   </Key>
@@ -794,7 +794,7 @@ or
 
 ```json
 {"title": "Tow Sawyer", 
- "author": {"id": 2, "name": "Mark Twain"}}
+ "author": { "name": "Mark Twain", "age": 74 } }
 ```
 
 Open types can also be referenced in non-open types and entities. This, however, doesn't make the referencing entity or type open.
@@ -816,7 +816,9 @@ Following payload for `Order` is allowed:
 
 Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
 
-Also important to note, that the dynamic properties are not persisted in the underlying data source automatically and must be handled completly by custom code.
+::: warning
+Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
+:::
 
 ### Java Type Mapping
 
@@ -844,7 +846,7 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 
 ::: warning
 The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-Node.js Runtime supports the feature only in REST Adapter for actions and functions.
+The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
 :::
 
 <div id="mass-data" />

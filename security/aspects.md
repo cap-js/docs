@@ -54,7 +54,7 @@ Also here CAP application developers don't need to deal with HTTPS/TLS connectio
 
 ::: warning
 The **CAP application needs to ensure adequate protection of secrets** that are injected into CAP microservices, e.g.
-- [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platfrom services.
+- [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platform services.
 - Ensure that [service bindings and keys](https://help.sap.com/docs/btp/sap-business-technology-platform/using-services-in-cloud-foundry-environment) aren't compromised (rotate regularly).
 - SAP BTP Connectivity services are maintained [securely](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-security).
 :::

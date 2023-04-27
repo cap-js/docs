@@ -824,15 +824,15 @@ Dynamic properties are not persisted in the underlying data source automatically
 
 #### Simple Types
 
-The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number`, `BigDecimal` or simply an `Object` for `null` values.
+The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number` or simply an `Object` for `null` values.
 
-|JSON                     | Java Type of the `value`|
-|-------------------------|-------------------------|
-|`{"value": "Tom Sawyer"}`| `java.lang.String`      |
-|`{"value": true}`        | `java.lang.Boolean`     |
-|`{"value": 1}`           | `java.lang.Number`      |
-|`{"value": 36.6}`        | `java.lang.BigDecimal`  |
-|`{"value": null}`        | `java.lang.Object`      |
+|JSON                     | Java Type of the `value`       |
+|-------------------------|--------------------------------|
+|`{"value": "Tom Sawyer"}`| `java.lang.String`             |
+|`{"value": true}`        | `java.lang.Boolean`            |
+|`{"value": 42}`           | `java.lang.Number` (Integer)  |
+|`{"value": 36.6}`        | `java.lang.Number` (BigDecimal)|
+|`{"value": null}`        | `java.lang.Object`             |
 
 #### Structured Types
 

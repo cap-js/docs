@@ -774,6 +774,17 @@ service CatalogService {
 }
 ```
 
+The cds build for OData v4 will render the entity type `Book` in `edmx` with the [`OpenType` attribute](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_OpenEntityType) set to `true`:
+
+```xml
+<EntityType Name="Book" OpenType="true">
+  <Key>
+    <PropertyRef Name="id"/>
+  </Key>
+  <Property Name="id" Type="Edm.Integer" Nullable="false"/>
+</EntityType>
+```
+
 The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.: 
 
 ```json
@@ -805,7 +816,7 @@ Following payload for `Order` is allowed:
 
 Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
 
-Also important to note, that the dynamic properties are not persisted in the underlying data-source automatically.
+Also important to note, that the dynamic properties are not persisted in the underlying data source automatically and must be handled completly by custom code.
 
 ### Java Type Mapping
 

@@ -479,7 +479,9 @@ The reliable pagination is available with following limitations:
 Don't use reliable pagination if an entity set is sorted by elements that contain sensitive information, the skip token could reveal the values of these elements.
 :::
 
-The feature can be enabled with configuration option `cds.query.limit.reliablePaging.enabled` (Java) respectively `cds.query.limit.reliablePaging` (Node.js) set to `true`.
+The feature can be enabled with the following [configuration options](../../node.js/cds-env#project-settings) set to `true`:
+- Java: `cds.query.limit.reliablePaging.enabled`
+- Node.js: `cds.query.limit.reliablePaging`
 
 ### Configuring Defaults with `cds.query.limit`
 

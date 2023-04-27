@@ -1349,7 +1349,7 @@ Add the services to your microservice's `services` list in the _manifest.yml_ fi
 
 [Push](deployment/to-cf#push-the-application) the application.
 
-```bash
+```sh
 cf create-service-push  # or `cf cspush` in short from 1.3.2 onwards
 ```
 

@@ -346,16 +346,7 @@ The path expression `b.author().name()` is automatically evaluated at runtime. F
 
 Use `expand` to read deeply structured documents and entity graphs into a structured result.
 
-% if jekyll.environment != "external" %}
-See, how this [CQL](../cds/cql#nested-expands) query is constructed using the `Select` builder:
-
-```sql
--- CQL example
--- using expand
-SELECT from Authors { name as author, books { title, year } }
-```
-
-% endif %}
+<span id="indeepread" />
 
 ```java
 // Java example
@@ -480,18 +471,7 @@ and make sure the parent entity has all key elements exposed.
 To flatten deeply structured documents or include elements of associated entities into a flat result,
 you can use `inline` as a short notation for using multiple paths.
 
-% if jekyll.environment != "external" %}
-See, how the following [CQL](../cds/cql#nested-inlines) queries are constructed using the `Select` builder:
-
-```sql
--- CQL example
--- using multiple path expressions
-SELECT from Authors { name, books.title as book, books.isbn, books.year }
-
--- using inline
-SELECT from Authors { name, books.{ title as book, year } }
-```
-% endif %}
+<span id="inflattenedresults" />
 
 ```java
 // Java example
@@ -547,19 +527,9 @@ Row book = dataStore.execute(q).single();
 Object authorId = book.get("author.Id"); // path access
 ```
 
-% if jekyll.environment == "external" %}
 ::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
-integrity constraints on the database.
+Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../guides/databases#db-constraints) on the database.
 :::
-
-% else %}
-::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable
-[integrity constraints](../guides/databases#db-constraints) on the database.
-:::
-
-% endif %}
 
 
 ### Filtering and Searching { #filtering}
@@ -570,92 +540,70 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 1. Define searchable elements {#searchable-elements}
 
-    By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services/#searching-data).
+By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services/#searching-data).
 
-    Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
+Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
 
-    ```cds
-    entity Book {
-      key ID : Integer;
-      name   : String;
-      title  : String;
-    }
-    ```
-    In the following example, element `title` is included in `@cds.search`. Only this particular element is searchable then.
+```cds
+entity Book {
+  key ID : Integer;
+  name   : String;
+  title  : String;
+}
+```
+In the following example, element `title` is included in `@cds.search`. Only this particular element is searchable then.
 
-    ```cds
-    @cds.search: {title}
-    entity Book {
-      key ID : Integer;
-      name   : String;
-      title  : String;
-    }
-    ```
+```cds
+@cds.search: {title}
+entity Book {
+  key ID : Integer;
+  name   : String;
+  title  : String;
+}
+```
 
-    % if jekyll.environment != "external" %}
-    In addition to a shallow search (where the search is done on the `target entity set`) you can also perform search over associated entities.
-
-    Let's consider a CDS model that is more complex. It consists of 2 entities and an association between them:
-
-    ```cds
-    @cds.search: {author}
-    entity Book {
-      key ID : Integer;
-      name   : String;
-      title  : String;
-      author : Association to Author;
-    }
-
-    entity Author {
-      key ID : Integer;
-      name   : String;
-    }
-    ```
-
-    Referring to the association `author` in `@cds.search` declares that the search is to be extended. Therefore, all elements of the `Author` entities that are reached through the association `author` are searchable.
-    % endif %}
+<div id="infilteringandsearching" />
 
 
-1. Construct queries with `search`
+2. Construct queries with `search`
 
-    Let's consider the following Book entity once again:
+Let's consider the following Book entity once again:
 
-    ```cds
-    entity Book {
-      key ID : Integer;
-      name   : String;
-      title  : String;
-    }
-    ```
+```cds
+entity Book {
+  key ID : Integer;
+  name   : String;
+  title  : String;
+}
+```
 
 * Use search terms {#search-term}
 
-    The following Select statement shows how to search for an entity containing the single _search term_ "Allen".
+The following Select statement shows how to search for an entity containing the single _search term_ "Allen".
 
-    ```java
-    // Book record - (ID, title, name) VALUES (1, "The greatest works of James Allen", "Unwin")
+```java
+// Book record - (ID, title, name) VALUES (1, "The greatest works of James Allen", "Unwin")
 
-    Select.from("bookshop.Books")
-            .columns("id", "name")
-            .search("Allen");
-    ```
+Select.from("bookshop.Books")
+        .columns("id", "name")
+        .search("Allen");
+```
 
-    > The element `title` is [searchable](#searchable-elements), even though `title` isn’t selected.
+> The element `title` is [searchable](#searchable-elements), even though `title` isn’t selected.
 
-* Use search expressions
-    {#search-expression}
+* Use search expressions {#search-expression}
 
-    It's also possible to create a more complex _search expression_ using `AND`, `OR`, and `NOT` operators. Following examples show how you can search for entities containing either term "Allen" or "Heights".
+It's also possible to create a more complex _search expression_ using `AND`, `OR`, and `NOT` operators. Following examples show how you can search for entities containing either term "Allen" or "Heights".
 
-    ```java
-    // Book records -
-    // (ID, title, name) VALUES (1, "The greatest works of James Allen", "Unwin")
-    // (ID, title, name) VALUES (2, "The greatest works of Emily Bronte", "Wuthering Heights")
+```java
+// Book records -
+// (ID, title, name) VALUES (1, "The greatest works of James Allen", "Unwin")
+// (ID, title, name) VALUES (2, "The greatest works of Emily Bronte", "Wuthering Heights")
 
-    Select.from("bookshop.Books")
-            .columns("id", "name")
-            .search(term -> term.has("Allen").or(term.has("Heights")));
-    ```
+Select.from("bookshop.Books")
+        .columns("id", "name")
+        .search(term -> term.has("Allen").or(term.has("Heights")));
+```
 
 
 #### Using `where` Clause {#where-clause}

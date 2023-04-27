@@ -147,61 +147,7 @@ service HRService {
 > You can omit composed entities like _WorkAssignments_ from the service, as they would get
 [auto-exposed](providing-services/#auto-exposed-entities) automatically.
 
-### Adding Temporal Predicates {.impl.concept}
-
-When temporal entities are exposed through services — such as _WorkAssignments_ in the previous sample — their queries are **automatically enhanced** with a predicate that narrows results based on propagated validity as follows:
-
-<!--- % include _code sample='service-w-temporal-entities.cds' %} -->
-
-::: code-group
-```cds [service-w-temporal-entities.cds]
-using { com.acme.hr, sap } from './temporal-model';
-service HRService { //...
-  entity WorkAssignments as select from hr.WorkAssignments
-  where validFrom < $at.to and $at.from < validTo;
-  //> automatically added temporal predicate
-}
-
-```
-:::
-
-::: tip
-These predicates are always active, that is, for direct requests as well as indirect access through associations and navigation.
-:::
-
-### Pseudo Variables `$at.from/to` {.impl.concept}
-
-The pseudo variables `$at.from/to` used in the temporal predicates as shown in the previous sample, translate to a database-specific session context variable. For example, in SAP HANA the predicate translates to:
-
-```cds
-... where (
-  validFrom < session_context('valid-to') and
-  validTo > session_context('valid-from')
-);
-```
-::: warning
-Instances with `null` as their `validTo` are not found with the above where expression. Hence, please ensure that all `validTo` are set.
-:::
-
-### Propagating `$at.from/to` {.impl.concept}
-
-The service runtimes automatically set these session context variables for any READ request based on corresponding query parameters from inbound requests as follows:
-
-| if query option contains | `$at.from` = | `$at.to` =     |
-|--------------------------|--------------|----------------|
-| _$from/to_               | _$from_      | _$to_          |
-| _$at_                    | _$at_        | _$at +1ms_     |
-| _else:_                  | _systime_    | _systime +1ms_ |
-
-> If these query parameters aren't yet supported by a concrete OData implementation, respective fallback options are chosen, such as _sap-valid-from/to_ instead of _$from/to_.
-
-In effect, `$at` can represent one of:
-
-* The current point in time, that is, system time &rarr; [_As-of-now Queries_](#as-of-now-queries)
-* A user-chosen future or past point in time &rarr;[_Time-travel Queries_](#time-travel-queries)
-* A user-chosen period of time &rarr; [_Time-period Queries_](#time-period-queries)
-
-In all cases, `$at` is canonicalized to a closed-open time period interval to streamline data processing.
+<div id="beforereadingtempdata" />
 
 ## Reading Temporal Data
 
@@ -409,59 +355,4 @@ entity SomeSnapshotEntity {
 }
 ```
 
-### Adding Time Slice IDs {.impl.concept}
-
-As an alternative to using enhanced keys, you can introduce a new element to uniquely identify time slices and use that in references:
-
-```cds
-entity WorkAssignments : temporal { //...
-  key ID : UUID;                // logical record ID
-  slID : UUID @cds.valid.key;   // time slice ID
-}
-```
-
-The annotation `@cds.valid.key` has precedence over standard keys with respect to the generation of SQL and OData output:
-
-```sql
-CREATE TABLE com_acme_hr_WorkAssignments (
-    ...
-    PRIMARY KEY ( slID )
-    UNIQUE ( ID, validFrom )
-)
-```
-
-OData EDMX:
-
-```xml
-<EntityType Name="WorkAssignments">
-  <Key>
-    <PropertyRef Name="slID"/>
-  </Key>
-  ...
-</EntityType>
-```
-
-In addition, we would add the `ID` + `validFrom` combination as alternate keys to the OData model:
-
-```xml
-<Annotations Target="wbs.WorkAssignments">
-  <Annotation Term="Core.AlternateKeys">
-    <Collection>
-      <Record Type="Core.AlternateKey">
-        <PropertyValue Property="Key">
-          <Collection>
-            <Record Type="Core.PropertyRef">
-              <PropertyValue Property="Name" PropertyPath="ID" />
-              <PropertyValue Property="Alias" String="ID" />
-            </Record>
-            <Record Type="Core.PropertyRef">
-              <PropertyValue Property="Name" PropertyPath="validFrom" />
-              <PropertyValue Property="Alias" String="validFrom" />
-            </Record>
-          </Collection>
-        </PropertyValue>
-      </Record>
-    </Collection>
-  </Annotation>
-</Annotations>
-```
+<div id="afterprimarykeyof" />

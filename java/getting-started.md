@@ -33,7 +33,9 @@ If you use Spring Boot, you find yourself directly at home when using the CAP Ja
 
 The CAP Java SDK comes with an OData V4 protocol adapter, but it's openly designed. You can add more protocol adapters in the future or provide even custom protocol adapters by the application.
 
-It supports SAP BTP features like authentication and authorization based on XSUAA tokens% if jekyll.environment != "external" %} or multitenancy% endif %}. But you aren't locked in to SAP BTP using a CAP Java application.
+It supports SAP BTP features like authentication and authorization based on XSUAA tokens. But you aren't locked in to SAP BTP using a CAP Java application.
+
+<span id="inintro" />
 
 Excited? The following sections describe how to set up a development environment to get you started.
 
@@ -53,7 +55,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 4. Execute the following commands on the command line to check whether the installed tools are set up correctly:
 
-    ```bash
+    ```sh
     cds --version
     java --version
     mvn --version
@@ -71,7 +73,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
-```bash
+```sh
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
 ```
 
@@ -81,7 +83,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java
 ```
 ::: tip
@@ -93,7 +95,7 @@ You can call `cds help init` for more information on the available options.
 
 You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addSample
 ```
 
@@ -101,7 +103,7 @@ mvn com.sap.cds:cds-maven-plugin:addSample
 
 Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](../assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){target="_blank"} using the following command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
 ```
 
@@ -149,13 +151,13 @@ The generated folders have the following content:
 
 For a quick start, you can use `cds init` to bootstrap a CAP Java application based on Spring Boot. Run the following command:
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java
 ```
 
 You can also specify the package name through parameter `--java:package`. Default for the package name is: `org.<PROJECT-ROOT>`.
 
-```bash
+```sh
 cds init <PROJECT-ROOT> --add java --java:package <java package name>
 ```
 
@@ -166,7 +168,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
-```bash
+```sh
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
@@ -187,7 +189,7 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 
 To build and run the generated project from the command line, execute:
 
-```bash
+```sh
 cd <PROJECT-ROOT>
 mvn spring-boot:run
 ```
@@ -222,15 +224,12 @@ Install the Eclipse plugin called _SAP Cloud Business Application Tools for Ecli
 <div id="eclipse-sap" />
 
 ### Import the Project
-% if jekyll.environment != "external" %}
-1. Select *File > Import... > SAP Cloud Business Application*.
 
-2. Select the `pom.xml` file in your project and click *Finish*.
-% else %}
 1. Select *File > Import... > Existing Maven Projects*.
 
 2. Select your `PROJECT-ROOT` folder and click *Go*. Finally, select the project that was found.
-% endif %}
+
+<span id="inimportproject" />
 
 > To not be distracted by CDS tools-specific folders in Eclipse, you can define resource filters. Open the context menu on the project's root folder and select "Properties". Go to **Resource > Resource Filters** and exclude folders with the name `node_modules`.
 

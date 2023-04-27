@@ -965,10 +965,7 @@ The records are locked until the end of the transaction by commit or rollback st
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
 
-### Persistent Locks
- {.impl.concept}
-
-
+<div id=" beforeaddingcustom" />
 
 ## Adding Custom Logic
 

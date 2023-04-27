@@ -199,71 +199,7 @@ CQN = {SELECT:{
 }}
 ```
 
-
-### Hierarchies { .impl.concept}
-
-For the representation of a hierarchy, the `from` attribute is extended:
-
-```js
-from: ... | hierarchy
-hierarchy = {hierarchy:{
-  source: ref,
-  parent: ref,
-  levels: [...ref],
-  orderBy: [...ordering_term],
-  start: _xpr,
-  nodetype: ref,
-  directory: { association: ref, where: _xpr},
-  period: { from: ref, to: ref},
-  valid: { from: ref, to: ref}
-}}
-```
-
-| Property    | Description                                                   |                                                                                                   |
-|-------------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| `source`    | primary [source]                                              |                                                                                                   |
-| `parent`    | association [reference][ref]                                  | _A reference to an association that defines the to-parent relation for parent-child hierarchies._ |
-| `levels`    | array of field [references][ref] for leveled hierarchies      | _Field references that define a leveled hierarchy._                                               |
-| `orderBy`   | array of [ordering terms](#ordering-terms)                    | _Defines the ordering of siblings._                                                               |
-| `start`     | [predicate expression][_xpr]                                  | _References the element that defines the condition identifying the root nodes._                   |
-| `nodetype`  | field [reference][ref]                                        | _Node type of a hierarchy node in a heterogeneous hierarchy._                                     |
-| `directory` | association [reference][ref] and [predicate expression][_xpr] | _References an association that points to the directory entity._                                  |
-| `period`    | contains field [references][ref]                              | _Identifies the columns that define the time period for a temporal hierarchy._                    |
-| `valid`     | contains field [references][ref]                              | _Identifies the columns that determine whether a record in the temporal hierarchy is valid._      |
-
-
-#### Example
-
-For example, the following query in CQL:
-
-```sql
-SELECT from hierarchy (
-  source CostCenter
-  child to parent association parentCostCenter
-  siblings order by parentCostCenter.id
-){
-  ID, name, ...
-}
-```
-
-is represented in CQN as:
-
-```js
-CQN = {SELECT:{
-  from: {
-    hierarchy: {
-      source: {ref: ["CostCenter"]},
-      parent: {ref: ["parentCostCenter"]},
-      orderBy: [{ref: ["parentCostCenter", "id"]}]
-    }
-  }
-  columns: [
-    {ref:["ID"]},
-    {ref:["name"]},
-    ...
-  ]
-}
-```
+<div id="beforeupsert" />
 
 ## UPSERT
 
@@ -406,4 +342,3 @@ CQN = {DROP:{
   entity: { ref: ['Books'] }
 }}
 ```
-

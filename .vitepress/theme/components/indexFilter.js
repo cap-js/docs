@@ -30,7 +30,7 @@ export default (pages, basePath) => {
 }
 
 function findInItems(url, items=[]) {
-  let res = items.find(item => item.link.includes(url))
+  let res = items.find(item => item.link?.includes(url))
   if (res)  return res.items
   for (const item of items) {
     res = findInItems(url, item.items)

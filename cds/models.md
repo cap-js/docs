@@ -114,30 +114,7 @@ const cds = require('@sap/cds')
 cds.get('./some.json') .then (cds.compile.to.yaml) .then (console.log)
 ```
 
-### From _.yaml_ Files
-{ .impl.concept }
-
-```yaml
-definitions:
-    Products:
-        kind: entity
-        elements:
-            ID: {type: cds.Integer, key: true}
-            title: {type: cds.String, localized: true, length: 11}
-            description: {type: cds.String, localized: true}
-    Orders:
-        kind: entity
-        elements:
-            product: type: cds.Association target: Products
-            quantity: {type: cds.Integer}
-```
-```js
-const cds = require('@sap/cds')
-cds.get('./some.yaml') .then (cds.compile.to.yaml) .then (console.log)
-```
-
-> _To parse yaml, `cds` requires [yamljs](http://npmjs.com/yamljs). Install it through `npm install yamljs`_.
-
+<div id="beforefrontends" />
 
 ### From Other Frontends
 

@@ -417,11 +417,7 @@ service CatalogService {
 }
 ```
 
-### @endpoints <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.endpoints  <i>  = [...{ path, protocol }] </i> {#srv-endpoints .impl.concept}
-
-#### <i>&#8627;</i>.path
-#### <i>&#8627;</i>.protocol
-
+<div id="beforecredentials" />
 
 ### @credentials <span style="color:grey; font-weight:normal"> &nbsp;|&nbsp; o</span>.credentials  <i>  = { url, ... } </i> {#srv-credentials}
 

@@ -2,8 +2,12 @@
 
 :root {
   --vp-font-family-base: Avenir Next, sans-serif;
-  --vp-c-brand: darkcyan;
   --vp-c-brand: #db8b0b;
+  --vp-button-brand-border: #efbc6b;
+  --vp-button-brand-hover-bg: #c37d0b;
+  --vp-button-brand-hover-border: #f3b655;
+  --vp-button-brand-active-bg: #9f660a;
+  --vp-button-brand-active-border: #f3b655;
 
   // --vp-c-brand: #039;
   // --vp-c-brand-light: #003399dd;
@@ -128,14 +132,14 @@ div.aside nav {
 
 
 kbd {
-  font-size: 13px;
+  font-size: 12px;
   display: inline-block;
   padding: 5px;
-  line-height: 11px;
+  line-height: 10px;
   vertical-align: middle;
-  border: 1px solid var(--vp-button-alt-border);
+  border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
-  box-shadow: inset 0 -1px 0 var(--vp-button-alt-border);
+  box-shadow: inset 0 -1px 0 var(--vp-c-divider);
   position: relative;
   top: -1px;
 }

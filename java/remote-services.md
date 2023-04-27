@@ -166,7 +166,7 @@ public class DestinationConfiguration implements EventHandler {
                 .header("APIKey", apiKey)
                 .name("s4-business-partner-api").build();
 
-            DestinationAccessor.appendDestinationLoader(
+            DestinationAccessor.prependDestinationLoader(
                 new DefaultDestinationLoader().registerDestination(httpDestination));
         }
     }

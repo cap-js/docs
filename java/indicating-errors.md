@@ -127,7 +127,7 @@ As of CAP Java 1.10.0, you can extract the available default messages as a resou
 
 1. [Download](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) the artifact or get it from the local Maven repository in `~/.m2/repository/com/sap/cds/cds-services-utils/<VERSION>/cds-services-utils-<VERSION>.jar`.
 1. Extract the file.
-    ```bash
+    ```sh
     jar -f cds-services-utils-<VERSION>.jar -x cds-messages-template.properties
     ```
     ::: tip

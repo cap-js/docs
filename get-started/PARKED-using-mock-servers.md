@@ -73,19 +73,7 @@ Instead of following a bottom-up approach, starting from the data model, then pu
 
 This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** results in much better service interfaces than the one you'd get by using the bottom-up approach.
 
-{.impl.concept}
-## Parallelize Your Work
-
-- TODO
-
-###### Frontend and Backend Development
-
-- TODO
-
-###### Development and Plumbing
-
-- TODO
-
+<div id="beforerunningootb" />
 
 ## Running Out-of-the-Box
 
@@ -118,27 +106,7 @@ What we see here are the effects of [Generic Providers](../guides/providing-serv
 
 [Learn more about generic providers.](../guides/providing-services/){.learn-more}
 
-{.impl.concept}
-## Using Airplane Mode {#airplane-mode}
-
-CAP provides mock ups for common cloud services and features. In particular, database, authentication, security contexts, message brokers, and more. This allows you to develop with **minimized setup complexity**, where you test functional correctness with **fast turn-around times** before running in close-to-productive setups for integration tests.
-
-###### SQLite in-memory
-
-- TODO
-
-###### Authentication
-
-- TODO
-
-###### Authorization
-
-- TODO
-
-###### Messaging
-
-- TODO
-
+<div id="beforemockingappserv" />
 
 ## Mocking App Services {#with-mocks}
 
@@ -270,16 +238,8 @@ Trigger the reset action with the following POST request:
 GET http://localhost:4004/api-business-partner/reset
 ```
 
+<div id="beforegrowingon" />
 
-
-## Late-Cut Micro Services {.impl.concept}
-
-CAP promotes a service-oriented paradigm with single-purposed services, which can later be deployed and run as separate micro services. However, you can always decide to run them embedded in a single-server process, avoiding the efforts and costs for actual micro service DevOps, at least in the early phases.
-
-### Single-Purposed Services
-
-###### Run Embedded Services
-###### Run Separate Services {.impl.concept}
 
 ## Growing On...
 
@@ -309,10 +269,4 @@ CAP promotes a service-oriented paradigm with single-purposed services, which ca
 CAP applications can be deployed to SAP BTP, Cloud Foundry environment. In the end, it's about deploying regular Node.js and/or Java applications, and about creating and binding appropriate service instances (see the [Cloud Foundry Developer Guide](https://docs.cloudfoundry.org/devguide/)). For more details, see [Deploying to the Cloud](../guides/deployment/).
 
 
-## Summary {.impl.concept}
-
-* **TODO:** Illustrate and highlight how we change classical waterfall flows by...
-* **Jumpstarting** development
-* **Parallelizing** work
-* **Streamlining** dev tasks
-* **Automating and serving** many things out of the box
+<div id="endofmockserver" />

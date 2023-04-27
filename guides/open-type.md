@@ -61,7 +61,7 @@ Note, that type `Order` itself is not open thus doesn't allow dynamic properties
 
 #### Simple Types
 
-The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number`, `BigDecimal`.
+The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number`, `BigDecimal` or simply an `Object` for `null` values.
 
 |JSON                     | Java Type of the `value`|
 |-------------------------|-------------------------|
@@ -69,6 +69,7 @@ The simple values of deserialized JSON payload can be of type: `String`, `Boolea
 |`{"value": true}`        | `java.lang.Boolean`     |
 |`{"value": 1}`           | `java.lang.Number`      |
 |`{"value": 36.6}`        | `java.lang.BigDecimal`  |
+|`{"value": null}`        | `java.lang.Object`      |
 
 #### Structured Types
 

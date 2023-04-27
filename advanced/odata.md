@@ -830,7 +830,7 @@ The simple values of deserialized JSON payload can be of type: `String`, `Boolea
 |-------------------------|--------------------------------|
 |`{"value": "Tom Sawyer"}`| `java.lang.String`             |
 |`{"value": true}`        | `java.lang.Boolean`            |
-|`{"value": 42}`           | `java.lang.Number` (Integer)  |
+|`{"value": 42}`          | `java.lang.Number` (Integer)   |
 |`{"value": 36.6}`        | `java.lang.Number` (BigDecimal)|
 |`{"value": null}`        | `java.lang.Object`             |
 

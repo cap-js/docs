@@ -35,7 +35,7 @@ const cds = require('@sap/cds-dk')
 
 ## <span style="color:#800; font-weight:500">cds</span>.import  <i>  (file, options) &#8594; [csn](../cds/csn) </i> { #import }
 
-As an application developer, you have the option to convert OData specification (EDMX / XML), or OpenAPI specification (JSON) files to CSN from JavaScript API as an alternative to the `cds import` command.
+As an application developer, you have the option to convert OData specification (EDMX / XML), OpenAPI specification (JSON) or AsyncAPI specification (JSON) files to CSN from JavaScript API as an alternative to the `cds import` command.
 
 > `cds.import` is available in the CDS development tool kit *version 4.3.1* onwards .
 
@@ -90,6 +90,15 @@ const csn = await cds.import.from.openapi(OpenAPI_JSON_file)
 ```
 <br>
 
+## <span style="color:#800; font-weight:500">cds</span>.import.from.asyncapi  <i>  (file) &#8594; [csn](../cds/csn) </i> { #import-from-asyncapi }
+
+This API can be used to convert the AsyncAPI specification file (JSON) into CSN.
+The API signature looks like this:
+```js
+const csn = await cds.import.from.asyncapi(AsyncAPI_JSON_file)
+```
+<br>
+
 Example:
 
 ```js
@@ -100,10 +109,14 @@ module.exports = async (srv) => {
     cds.import('./odata_sample.edmx', { includeNamespaces: 'sap,c4c', keepNamespace: true }),
     // for openapi
     cds.import('./openapi_sample.json'),
+    // for asyncapi
+    cds.import('./asyncapi_sample.json'),
     // for odata
     cds.import.from.edmx('./odata_sample.xml', { includeNamespaces: '*', keepNamespace: false }),
     // for openapi
     cds.import.from.openapi('./openapi_sample.json')
+    // for asyncapi
+    cds.import.from.asyncapi('./asyncapi_sample.json')
   ]);
 
   for (let i = 0; i < csns.length; i++) {
@@ -129,3 +142,4 @@ The following mapping is used during the import of an external service API, see 
 | _Edm.DateTime<br>Precision : Second_ <sup>1</sup>      | `cds.DateTime` + `@odata.Type:'Edm.DateTime'` + `@odata.Precision:0`         |
 
 <sup>1</sup> only OData V2
+

@@ -512,23 +512,23 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 ```xml
 <Annotations Target="AdminService.Books/currency_code">
-   <Annotation Term="Common.ValueList">
-      <Record Type="Common.ValueListType">
-         <PropertyValue Property="CollectionPath" String="Currencies"/>
-         <PropertyValue Property="Label" String="Currency"/>
-         <PropertyValue Property="Parameters">
-            <Collection>
-               <Record Type="Common.ValueListParameterInOut">
-                  <PropertyValue Property="ValueListProperty" String="code"/>
-                  <PropertyValue Property="LocalDataProperty" PropertyPath="currency_code"/>
-               </Record>
-               <Record Type="Common.ValueListParameterDisplayOnly">
-                  <PropertyValue Property="ValueListProperty" String="name"/>
-               </Record>
-            </Collection>
-         </PropertyValue>
-      </Record>
-   </Annotation>
+  <Annotation Term="Common.ValueList">
+    <Record Type="Common.ValueListType">
+      <PropertyValue Property="CollectionPath" String="Currencies"/>
+      <PropertyValue Property="Label" String="Currency"/>
+      <PropertyValue Property="Parameters">
+        <Collection>
+          <Record Type="Common.ValueListParameterInOut">
+            <PropertyValue Property="ValueListProperty" String="code"/>
+            <PropertyValue Property="LocalDataProperty" PropertyPath="currency_code"/>
+          </Record>
+          <Record Type="Common.ValueListParameterDisplayOnly">
+            <PropertyValue Property="ValueListProperty" String="name"/>
+          </Record>
+        </Collection>
+      </PropertyValue>
+    </Record>
+  </Annotation>
 </Annotation>
 ```
 

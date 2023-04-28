@@ -11,7 +11,7 @@
             <tr v-for="cmd in enabledCommands()" :key="cmd.name">
               <td>{{ cmd.name }}</td>
               <td v-for="key in cmd.keys" :key="key" class="keybinding">
-                <kbd>{{ key }}</kbd>
+                <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
               </td>
             </tr>
           </table>
@@ -23,18 +23,27 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useData } from 'vitepress'
 
-onMounted(()   => document.addEventListener('keydown', onKeyDown))
+const { site, theme } = useData()
+const metaKey = ref('Meta')
+
+onMounted(() => {
+  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? `⌘` : `Ctrl`
+  document.addEventListener('keydown', onKeyDown)
+})
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 
+const keyStrokeSearch = [metaKey, ref('K')]
 const querySelectorSearchInput = 'input[class=search-input]'
 const commands = ref([
-  clickCommand('Edit on Github', ['e'], 'div.edit-link > a'),
-  clickCommand('Search', ['/'], querySelectorSearchInput),
-  clickCommand('Toggle dark/light mode', ['.'], 'VPSwitchAppearance'),
-  clickCommand('Toggle Node.js or Java', ['v'], 'SwitchImplVariant'),
-  { name:'Show keyboard shortcuts', keys:['?'], run: () => { visible.value = !visible.value } },
-  { name:'Close dialog', keys:['Escape'], hidden:true, run: () => visible.value = false },
+  { name:'Search', keys:[keyStrokeSearch] }, // VP search has the actual logic
+  DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
+  DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
+  DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
+  ...commandsFromConfig(),
+  { name:'Show keyboard shortcuts', keys:[ref('?')], run: () => { visible.value = !visible.value } },
+  { name:'Close dialog', keys:[ref('Escape')], hidden:true, run: () => visible.value = false },
 ])
 
 const visible = ref(false)
@@ -54,7 +63,7 @@ function enabledCommands() {
 function onKeyDown(event) {
   if (document.activeElement === document.querySelectorAll(querySelectorSearchInput)[0])  return // search is active
   if (event.altKey || event.ctrlKey || event.metaKey)  return // only simple keys for now
-  const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k === event.key))
+  const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k.value === event.key))
   const enabled = cmd && cmd.run && ('enabled' in cmd ? cmd.enabled() : true)
   if (enabled)  {
     event.preventDefault()
@@ -62,7 +71,7 @@ function onKeyDown(event) {
   }
 }
 
-function clickCommand(name, keys, idQuerySel) {
+function DOMCommand(name, idQuerySel, ...keys) {
   const enabled = () => {
     let element = document.getElementById(idQuerySel)
     if (element)  return element
@@ -71,13 +80,30 @@ function clickCommand(name, keys, idQuerySel) {
     const sel = document.querySelectorAll(idQuerySel)
     if (sel.length)  return sel[0]
   }
-  return {name, keys, enabled, run: () => {
+  return {name, keys: keys.map(k => k.value ? k : ref(k)), enabled, run: () => {
     let element = enabled()
     if (element) {
       element.hash = window.location.hash
       element.click()
     }
   }}
+}
+
+function commandsFromConfig() {
+  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key).map(link => {
+    const url = new URL(link.link)
+    return {
+      name: `Go to ${link.name || url.hostname}`,
+      enabled: () => window.location.hostname !== url.hostname,
+      run: () => {
+        // remove base path, as it may be different on the target site
+        const path = window.location.pathname.slice(site.value.base.length)
+        window.open(url + path + window.location.search, '_blank');
+      },
+      keys: [ref(link.key)],
+      hidden: !!link.hidden
+    }
+  })
 }
 
 </script>
@@ -109,7 +135,7 @@ table, td { border: none; }
   background-color: var(--vp-c-bg);
   margin: 10% auto;
   padding: 0;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-divider);
   width: 450px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: fadeIn;
@@ -132,7 +158,7 @@ table, td { border: none; }
 
 /* The Close Button */
 .modal-close {
-  color: var(--vp-button-brand-hover-bg);
+  color: gray;
   float: right;
   font-size: 20px;
   font-weight: bold;

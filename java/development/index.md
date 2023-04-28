@@ -177,6 +177,8 @@ None of the listed features will be available out of the box in case you choose 
 
 The CAP Java SDK uses various dependencies that are also used by the applications themselves. If the applications decide to manage versions of these dependencies it is helpful to know the minimum versions of these dependencies that the CAP Java SDK requires. The following table lists these minimum versions for various common dependencies, based on the latest release.
 
+### Maintenance Version 1.34.x
+
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
 | Java | 8 | 17 |
@@ -186,8 +188,19 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | XSUAA | 2.13 | latest |
 | SAP Cloud SDK | 4.10 | latest |
 
-<sup>1</sup> Support for Spring Boot 3.0 is planned for a future release.
+<sup>1</sup> Spring Boot 3.0 is supported in `2.x` feature version only.
 
+### Feature Version 2.x { #dependencies-version-2 }
+
+| Dependency | Minimum Version | Recommended Version |
+| --- | --- | --- |
+| Java | 17 | 17 |
+| @sap/cds-dk | 4 | latest |
+| @sap/cds-compiler | 2 | latest |
+| Spring Boot | 3.0 | 3.0 |
+| XSUAA | 3.0 | latest |
+| SAP Cloud SDK | 4.13 | latest |
+| Java Logging | 3.7 | latest |
 
 ## Building CAP Java Applications
 

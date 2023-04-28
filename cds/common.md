@@ -215,12 +215,13 @@ entity sap.common.Countries : CodeList {
 
 ### Entity `Currencies`
 
-The code list entity for currencies is meant to be used with **[ISO 4217] three-letter alpha codes** as primary keys, for example, `'USD'` for US Dollar. In addition, it provides an element to hold common currency symbols.
+The code list entity for currencies is meant to be used with **[ISO 4217] three-letter alpha codes** as primary keys, for example, `'USD'` for US Dollar. In addition, it provides an element to hold the minor unit fractions and for common currency symbols.
 
 ```cds
 entity sap.common.Currencies : CodeList {
-  key code : String(3); //> ISO 4217 alpha-3 codes
-  symbol : String(5); //> for example, $, €, £, ₪, ...
+  key code  : String(3); //> ISO 4217 alpha-3 codes
+  symbol    : String(5); //> for example, $, €, £, ₪, ...
+  minorUnit : Int16;     //> for example, 0 or 2
 }
 ```
 
@@ -487,19 +488,7 @@ entity PaymentMethods : sap.common.CodeList {
 
 Let's further assume the entires with code `Main` and `Travel` are required by implementations and hence must not be changed or removed. Have a look at a couple of solutions.
 
-
-#### Generic Solution {.impl.concept}
-
-One option is to add an [automatic validation](../guides/providing-services/#input-validation) based on certain annotations. For example:
-
-```cds
-annotate PaymentMethods {
-  code @assert.nottouched: ['Main','Travel'];
-}
-```
-
-However, the generic logic behind this validation isn’t trivial and an implementation is pending.
-
+<div id="beforeprogrammatic" />
 
 #### Programmatic Solution
 

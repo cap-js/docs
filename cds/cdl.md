@@ -505,57 +505,9 @@ entity SomeView as SELECT from Employees {
 By using a cast, annotations and other properties are inherited from the provided type and not the base element, see [Annotation Propagation](#annotation-propagation)
 :::
 
-### Views with Declared Signatures { .impl.concept}
+<div id="afterinferredsig" />
 
-You can optionally declare the expected signature explicitly. This declaration overrides the inferred signature. The implementation can check the inferred signature against the declared one.
-
-```cds
-entity SomeView {
-  ID: Integer; name: String; jobTitle: String;
-} as SELECT from Employees {
-  ID, name, job.title as jobTitle
-};
-```
-
-
-### Views with Nested Projections { .impl.beta}
-
-Use [CQLs nested expands](./cql#nested-expands) to declare projections on document structures and/or entity graphs. This results in structured document signatures.
-
-```cds
-entity MyOrders as select from Orders {
-  ID, buyer {
-    ID, name
-  },
-  Items {
-    pos, quantity, product {
-      ID, title
-    }
-  }
-};
-```
-
-This projection would result in an inferred signature like that:
-
-
-```cds
-entity MyOrders {
-  ID : UUID;
-  buyer : {
-    ID : UUID;
-    name : String;
-  };
-  Items : array of {
-    pos : Integer;
-    quantity : Integer;
-    product : {
-      ID : UUID;
-      title : String;
-    }
-  }
-};
-```
-
+<div id="beforeviewwithparam" />
 
 ### Views with Parameters
 
@@ -656,74 +608,11 @@ entity Emp2Addr {
 [Learn more about **Managed Compositions for Many-to-many Relationships**.](#for-many-to-many-relationships){.learn-more}
 
 
+<div id="aftermanytomany" />
 
-### Managed many-to-many Associations { .impl.concept}
+<div id="inbetweenthings" />
 
-With Managed Many-to-many Associations, CDS can generate requisite link tables automatically. You can use the `via` parameter clause to add elements to link table reflecting attributed relationships or to use a predefined link table instead.
-
-```cds
-entity Employees {
-  addresses1 : Association to many Addresses;
-  addresses2 : Association to many Addresses via {
-    kind: String(11);
-  };
-  addresses3 : Association to many Addresses via Emp2Addr;
-}
-```
-
-For the first case, [`cds.compile`](../node.js/cds-compile) automatically adds a link table.
-For the second case, it automatically adds a link table with an additional element `kind` (&rarr; an _attributed relationship_).
-For the third case, [`cds.compile`](../node.js/cds-compile) uses the predefined entity `Emp2Addr` that is defined like that (names for `source/target` can be freely chosen):
-
-```cds
-entity Emp2Addr {
-  key emp : Association to Employees;
-  key adr : Association to Addresses;
-}
-```
-
-
-
-### Associations with Default Filters { .impl.concept}
-
-For to-many associations, you can optionally specify a default filter. That filter automatically
-applies to any usage of that association in queries, unless another filter is specified explicitly.
-
-```cds
-entity Products {
-  localized : Association to many Product$Texts
-    with default filter lang=$env.user.lang;
-}
-```
-```cds
-entity Product$Texts {
-  key product : Association to Products;
-  key lang : String(3);
-  title : String(44);
-  descr : String(444);
-}
-```
-
-### Associations to Parameterized Views { .impl.concept}
-
-If the target is a [parameterized view](#views-with-parameters), you can specify
-corresponding arguments in an `Association` definition as follows:
-
-```cds
-entity Products {
-  assoc : Association to SomeParameterizedView (
-    param1: 4711,
-    param2: foo
-  );
-  foo : String;
-}
-```
-
-> The argument values for parameters are literals or expressions in which references are resolved within the current entity's elements.
-
-
-
-<br>
+<div id="beforecompo" />
 
 
 ### Compositions
@@ -1560,33 +1449,7 @@ extend entity CatalogService.Products with actions {
 }
 ```
 
-
-### Derived Services { .impl.concept}
-
-Define abstract services and inherit from it in other service definitions as in this example:
-
-```cds
-abstract service ShoppingService {
-  abstract entity Articles {...}
-  entity Suppliers {...}
-  entity ShoppingCart {} actions {
-    action submitOrder();
-  }
-}
-```
-
-```cds
-service Bookshop : ShoppingService {
-  entity Books : ShoppingService.Articles {
-    author : Association to Authors;
-  }
-  entity Authors {...}
-}
-```
-
-
-
-<br>
+<div id="beforenamespaces" />
 
 ## Namespaces
 

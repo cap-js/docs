@@ -375,9 +375,6 @@ The CAP Java SDK translates the `where`-condition in the `@restrict` annotation 
 As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
 
 CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note, that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
-::: warning
-An empty or non-existent attribute list is interpreted as **unrestricted access**, because XSUAA sends an empty attribute list for attributes that are marked as unrestricted by default. There are plans to align this behaviour with the CAP Node.js runtime in future and also treat this as fully restricted with regards to the missing/empty attribute list.
-:::
 
 ### Enforcement API & Custom Handlers { #enforcement-api}
 

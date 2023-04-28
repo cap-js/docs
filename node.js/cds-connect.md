@@ -651,21 +651,4 @@ cds.requires.db.credentials.database = sqlite.db
 ```
 > Never check in or deploy such _.env_ files!
 
-
-
-
-
-## Typical Use Cases {.impl.concept}
-
-###  <i>  Service Reuse </i>
-
-###  <i>  Service Integration </i>
-###  <i>  Framework Services </i>
-
-
-## Best Practices {.impl.concept}
-
-###  <i>  Mocking Remote Services </i>
-
-###  <i>  Local Integration Tests </i>
-###  <i>  Late-Cut Micro Services </i>
+<div id="endofconnect" />

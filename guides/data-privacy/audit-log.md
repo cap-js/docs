@@ -175,41 +175,6 @@ annotate bookshop.Orders with @AuditLog.Operation : {
 
 Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
 
-## Add Audit-Log Configuration {.impl.concept }
-
-### Add `@sap/audit-logging` Package
-
-```sh
-npm add @sap/audit-logging
-```
-
-### Add CDS Configuration
-
-```json
-"cds": {
-  "requires": {
-    "[production]": {
-      "audit-log": true
-    },
-    "[development]": {
-      "audit-log": {
-        "kind": "audit-log-to-console",
-        "outbox": false
-      },
-    }
-  }
-  "features": {
-    "audit_personal_data": true
-  }
-}
-```
-
-### Test-Run Locally
-
-```sh
-cds watch
-```
-
-
+<div id="ddkkkeuz32188fjj" />
 
 <span id="sdfgew343224" />

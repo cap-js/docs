@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  Guides for the migration from CAP Java Classic to the current CAP Java as well as for the migration from CAP Java 1.x to CAP Java 2.x.
+  This chapter contains comprehensive guides that help you to work through migrations such as from CAP Java 1.x to CAP Java 2.x.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -17,6 +17,15 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 <div v-html="$frontmatter.synopsis" />
 
 [[toc]]
+
+
+<span id="endofmigration" />
+
+
+## Classic MTX to Streamlined MTX
+
+How to migrate from [classic MTX](./multitenancy) to [streamlined MTX](../guides/multitenancy/) is described [here](../guides/multitenancy/old-mtx-migration).
+
 
 ## CAP Java Classic to CAP Java 1.x
 
@@ -652,6 +661,3 @@ After rebuilding and restarting your application, your Application Services are 
 <!-- TODO: Move this to "Development" section -->
 
 <span id="afterenablingodata" />
-
-
-<span id="endofmigration" />

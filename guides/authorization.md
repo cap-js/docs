@@ -509,14 +509,55 @@ Supported features are:
 
 To refer to attribute values from the user claim, prefix the attribute name with '`$user.`' as outlined in [static user claims](#user-claims). For instance, `$user.country` refers to the attribute with the name `country`.
 
-In general, `$user.<attribute-name>` contains a **list of attribute values** that are assigned to the user. The following rules apply:
+In general, `$user.<attribute>` contains a **list of attribute values** that are assigned to the user. The following rules apply:
 * A predicate in the `where` clause evaluates to `true` if one of the attribute values from the list matches the condition.
-* An empty (or not defined) list means that the user is fully restricted with regards to this attribute (that means that the predicate evaluates to `false`)<sup>1</sup>.
-* The special value `$UNRESTRICTED` in the list signals unrestricted access (that means that the predicate evaluates to `true`).
+* An empty (or not defined) list means that the user is fully restricted with regards to this attribute (that means that the predicate evaluates to `false`).
 
-For example, the condition `where: countryCode = $user.country` will grant a user with attribute values `country = ['DE', 'FR']` access to entity instances that have `countryCode = DE` _or_ `countryCode = FR`. A user with `country = ['$UNRESTRICTED']` is authorized to access all instances, whereas `country = []` (or `country` not defined at all) doesn’t allow access to any of the instances.
+For example, the condition `where: $user.country = countryCode` will grant a user with attribute values `country = ['DE', 'FR']` access to entity instances that have `countryCode = DE` _or_ `countryCode = FR`. In contrast, the user has no access to any entity instances if the value list of country is empty or the attribute is not available at all.
 
- > <sup>1</sup> The current version of Java runtime treats empty or undefined attributes lists still as unrestricted. See [limitations](../java/security#current-limitations) for more details.
+#### Unrestricted XSUAA Attributes
+
+By default, all attributes defined in [XSUAA instances](#xsuaa-configuration) require a value (`valueRequired:true`) which is well-aligned with the CAP runtime that enforces restrictions on empty attributes.
+If you explicitly want to offer unrestricted attributes to customers, you need to do the following:
+
+1. Switch your XSUAA configuration to `valueRequired:false`
+2. Adjust the filter-condition accordingly, for example: `where: $user.country = countryCode or $user.country is null`.
+  > If `$user.country` is undefined or empty, the overall expression evaluates to `true` reflecting the unrestricted attribute.
+
+::: warning
+Refreign from unrestricted XSUAA attributes as they need to be designed very carefully as shown in the following example.
+:::
+
+Consider this bad example with *unrestricted* attribute `country` (assuming `valueRequired:false` in XSUAA configuration):
+
+```swift
+service SalesService @(requires: ['SalesAdmin', 'SalesManager']) {
+  entity SalesOrgs @(restrict: [
+     { grant: '*',
+       to: ['SalesAdmin', 'SalesManager'],
+       where: '$user.country = countryCode or $user.country is null' } ]) {
+     countryCode: String; /*...*/
+  }
+}
+```
+Let's assume a customer creates XSUAA roles `SalesManagerEMEA` with dedicated values (`['DE', 'FR', ...]`) and 'SalesAdmin' with *unrestricted* values.
+As expected, a user assigned only to 'SalesAdmin' has access to all `SalesOrgs`. But when role `SalesManagerEMEA` is added, *only* EMEA orgs are accessible suddenly!
+
+The preferred way is to model with restricted attribute `country` (`valueRequired:true`) and an additional grant:
+```swift
+service SalesService @(requires: ['SalesAdmin', 'SalesManager']) {
+  entity SalesOrgs @(restrict: [
+     { grant: '*',
+       to: 'SalesManager',
+       where: '$user.country = countryCode' },
+     { grant: '*',
+       to: 'SalesAdmin' } ]) {
+     countryCode: String; /*...*/
+  }
+}
+```
+
+
 
 ### Exists Predicate { #exists-predicate }
 
@@ -583,24 +624,7 @@ Be aware that deep paths might introduce a performance bottleneck. Access Contro
 The `exists`- predicate requires CDS compiler V2.
 :::
 
-### Free Subselects { #free-subselects .impl.concept}
-
-You can define `exists` expressions that are based on a nested `select` query (subselect). The predicate evaluates to true, if and only if the select result isn’t empty.<br>
-You need to consider some limitations with subselects in this context:
-- Only one level of subselects is supported. For nested subselects or complex subselects, for example, using joins or unions, a separate view should be created and used in a subselect.
-- The columns used in a subselect's WHERE-condition must either refer to the table/view from the subselect or to the original entity.
-- Each column used in a subselect's WHERE-condition must either unambiguously belong to one of the used tables/views or be prefixed with the table/view name including the namespace.
-
-The following example subselects are supported in `where`-clauses:
-
-Column names are prefixed with view names, including the namespace.
-* `where: 'exists (select 1 from entitycollection.View where entitycollection.View.ID = entitycollection.Entity.ID)'`
-
-Columns are unambiguously defined. For example, the `NAME1` column only exists in the original entity, whereas the `NAME2` column only exists in the table/view from the subselect.
-* `where: 'exists (select 1 from entitycollection.View where NAME1 = NAME2)'`
-
-The `USER` column is unambiguously defined and `$user` refers to the logged in user.
-* `where: 'exists (select 1 from entitycollection.View where USER = $user)'`
+<div id="beforeassociationpaths" />
 
 ### Association Paths { #association-paths}
 

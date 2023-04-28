@@ -141,12 +141,12 @@ The CDS OData Language Server provides a list of context-sensitive suggestions b
 
 #### Using Code Completion
 
-To trigger code completion, choose <kbd>Ctrl</kbd><kbd class="space">⎵</kbd> (Windows), or <kbd>⌘</kbd><kbd class="space">⎵</kbd> (MacOS). The list of suggested values is displayed.
+To trigger code completion, choose <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> (other platforms). The list of suggested values is displayed.
 
 > You can filter the list of suggested values by typing more characters.
 
 Navigate to the desired value using the up or down arrows or your mouse. Accept the highlighted value by pressing <kbd>Enter</kbd> or by clicking the mouse.
-Use code completion to add and change individual values (word-based completion) and to add small code blocks containing annotation structures along with mandatory properties (micro-snippets). In an active code snippet, you can use the <kbd>Tab</kbd> key to quickly move to the next tab stop.
+Use code completion to add and change individual values (word-based completion) and to add small code blocks containing annotation structures along with mandatory properties (micro-snippets). In an active code snippet, you can use the <kbd>&#x21e5;</kbd> (tab) key to quickly move to the next tab stop.
 
 
 ##### Example: Annotating Service Entities
@@ -159,7 +159,7 @@ Use code completion to add and change individual values (word-based completion) 
 
 3.  Use code completion again to add an annotation term from the UI vocabulary, in this example `SelectionFields`. The micro snippet for this annotation is added and the cursor is placed directly after the term name letting you define a qualifier: `annotate Foo.Bar with @UI : {SelectionFields | : []};`
 
-4.  Press the <kbd>Tab</kbd> key to move the cursor to the next tab stop and use code completion again to add values. Because the `UI.SelectionFields` annotation is a collection of entity elements \(entity properties\), all elements of the annotated entity are suggested.
+4.  Press the <kbd>&#x21e5;</kbd> (tab) key to move the cursor to the next tab stop and use code completion again to add values. Because the `UI.SelectionFields` annotation is a collection of entity elements \(entity properties\), all elements of the annotated entity are suggested.
 
     ::: tip
     To choose an element of an associated entity, first select the corresponding association from the list and type *. \(period\)*. Elements of associated entity are suggested.
@@ -245,7 +245,7 @@ Use code completion to add and change individual values (word-based completion) 
   };
   ```
 
-4.  Press the <kbd>Tab</kbd> key to move the cursor to the next tab stop and use code completion again to add the value. Because the `UI.Hidden` annotation is of Boolean type, the values true and false are suggested:
+4.  Press the <kbd>&#x21e5;</kbd> (tab) key to move the cursor to the next tab stop and use code completion again to add the value. Because the `UI.Hidden` annotation is of Boolean type, the values true and false are suggested:
 
 
   ```cds
@@ -277,7 +277,7 @@ You can navigate to the referenced annotation using the [Peek Definition](#peek-
 #### Peek Definition { #peek-definition}
 
 Peek Definition lets you preview and update the referenced annotation without switching away from the code that you’re writing. It’s triggered when your cursor is inside the referenced annotation value.
-- Using a keyboard: choose <kbd>Alt</kbd> + <kbd>F12</kbd> (Windows), or <kbd class="space">⌥</kbd> + <kbd>F12</kbd> (macOS)
+- Using a keyboard: choose <kbd class="space">⌥</kbd> + <kbd>F12</kbd> (macOS) or <kbd>Alt</kbd> + <kbd>F12</kbd> (other platforms)
 - Using a mouse: right-click and select **Peek Definition**
 If an annotation is defined in multiple sources, all these sources are listed. You can select which one you want to view or update. Annotation layering isn't considered.
 
@@ -290,7 +290,7 @@ Place your cursor inside the path referencing the annotation term segment or tra
 
 -   Using a keyboard: choose <kbd>F12</kbd> in VS Code, or <kbd>Ctrl</kbd> + <kbd>F12</kbd> in SAP Business Application Studio
 -   Using a mouse: right-click and select **Go To Definition**
--   Using a keyboard and mouse: <kbd>Ctrl</kbd> + mouse click (Windows), or <kbd>⌘</kbd> + mouse click (macOS)
+-   Using a keyboard and mouse: <kbd>⌘</kbd> + mouse click (macOS) or <kbd>Ctrl</kbd> + mouse click (other platforms)
 
 If an annotation is defined in multiple sources, a Peek definition listing these sources will be shown instead. Annotation layering isn't considered.
 
@@ -308,7 +308,7 @@ The annotation language server provides quick information for annotation terms, 
 
 To view the quick info for an annotation term, record type, or property used in the annotation file, hover your mouse over it. The accompanying documentation is displayed in a hover window, if provided in the respective OData vocabularies.
 
-To view the quick info for each suggestion in the code completion list, either pressing <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> (Windows), or <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> (MacOS), or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list. You can close this by pressing <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> / <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> again or by clicking on the close icon.
+To view the quick info for each suggestion in the code completion list, either pressing <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> (other platforms), or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list. You can close this by pressing <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> / <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> again or by clicking on the close icon.
 
 
 #### Internationalization Support
@@ -512,23 +512,23 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 ```xml
 <Annotations Target="AdminService.Books/currency_code">
-   <Annotation Term="Common.ValueList">
-      <Record Type="Common.ValueListType">
-         <PropertyValue Property="CollectionPath" String="Currencies"/>
-         <PropertyValue Property="Label" String="Currency"/>
-         <PropertyValue Property="Parameters">
-            <Collection>
-               <Record Type="Common.ValueListParameterInOut">
-                  <PropertyValue Property="ValueListProperty" String="code"/>
-                  <PropertyValue Property="LocalDataProperty" PropertyPath="currency_code"/>
-               </Record>
-               <Record Type="Common.ValueListParameterDisplayOnly">
-                  <PropertyValue Property="ValueListProperty" String="name"/>
-               </Record>
-            </Collection>
-         </PropertyValue>
-      </Record>
-   </Annotation>
+  <Annotation Term="Common.ValueList">
+    <Record Type="Common.ValueListType">
+      <PropertyValue Property="CollectionPath" String="Currencies"/>
+      <PropertyValue Property="Label" String="Currency"/>
+      <PropertyValue Property="Parameters">
+        <Collection>
+          <Record Type="Common.ValueListParameterInOut">
+            <PropertyValue Property="ValueListProperty" String="code"/>
+            <PropertyValue Property="LocalDataProperty" PropertyPath="currency_code"/>
+          </Record>
+          <Record Type="Common.ValueListParameterDisplayOnly">
+            <PropertyValue Property="ValueListProperty" String="name"/>
+          </Record>
+        </Collection>
+      </PropertyValue>
+    </Record>
+  </Annotation>
 </Annotation>
 ```
 

@@ -141,7 +141,8 @@ The client can now rightfully expect that float numbers are transmitted but in r
 ## OData Annotations { #annotations}
 
 The following sections explain how to add OData annotations to CDS models and how they’re mapped to EDMX outputs.
-
+Only annotations defined in the vocabularies mentioned in section [Annotation Vocabularies](#vocabularies) are
+considered in the translation.
 
 ### Terms and Properties
 
@@ -579,6 +580,9 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 ## Annotation Vocabularies { #vocabularies}
 
+When translating a CDS model to an OData API, by default only those annotations
+are considered that are part of the standard OASIS or SAP vocabularies listed below.
+You can add further vocabularies to the translation process via a configuration.
 
 ### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) { target="_blank"}
 
@@ -609,6 +613,70 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 | [@UI](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/UI.md){target="_blank"}                       | for presenting data in user interfaces            |
 
 [Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){.learn-more}
+
+
+### Additional Vocabularies
+
+Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the following configuration option:
+
+::: code-group
+```json [package.json]
+{
+  "cds": {
+    "cdsc": {
+      "odataVocabularies": {
+        "MyVocabulary": {
+          "Alias": "MyVocabulary",
+          "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
+          "Uri": "<link to vocabulary document>"
+        }
+      }
+    }
+  }
+}
+```
+
+```json [.cdsrc.json]
+{
+  "cdsc": {
+    "odataVocabularies": {
+      "MyVocabulary": {
+        "Alias": "MyVocabulary",
+        "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
+        "Uri": "<link to vocabulary document>"
+      }
+    }
+  }
+}
+```
+:::
+
+With this configuration, all annotations prefixed with `MyVocabulary` are considered in the translation.
+
+```cds
+service S {
+  @MyVocabulary.MyAnno: 'test'
+  entity E { /*...*/ };
+};
+```
+
+The annotation is added to the OData API, as well as the mandatory reference to the vocabulary definition:
+
+```xml
+<edmx:Reference Uri="link to vocabulary document">
+  <edmx:Include Alias="MyVocabulary" Namespace="com.MyCompany.vocabularies.MyVocabulary.v1"/>
+</edmx:Reference>
+...
+<Annotations Target="S.E">
+  <Annotation Term="MyVocabulary.MyAnno" String="My new Annotation"/>
+</Annotations>
+```
+
+The compiler neither evaluates the annotation values nor the URI.
+It is your responsibility to make the URI accessible if required.
+Unlike for the standard vocabularies listed above, the compiler has no access to the content of
+the vocabulary, so the values are translated completely generically.
+
 
 ## Data Aggregation
 

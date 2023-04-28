@@ -15,7 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 <!--- % include _toc levels="2,3,6" %} -->
 <!--- % include _chapters %} -->
@@ -479,7 +479,9 @@ The reliable pagination is available with following limitations:
 Don't use reliable pagination if an entity set is sorted by elements that contain sensitive information, the skip token could reveal the values of these elements.
 :::
 
-The feature can be enabled with configuration option `cds.query.limit.reliablePaging.enabled` set to `true`.
+The feature can be enabled with the following [configuration options](../../node.js/cds-env#project-settings) set to `true`:
+- Java: `cds.query.limit.reliablePaging.enabled`
+- Node.js: `cds.query.limit.reliablePaging`
 
 ### Configuring Defaults with `cds.query.limit`
 
@@ -680,7 +682,7 @@ CREATE TABLE Books ( -- elements ...
 ::: tip
 This feature can be switch on/off globally with the configuration `cds.env.features.assert_integrity`.
 :::
-[Learn more about global configuration with `cds.env.features.assert_integrity`.](../../releases/archive/mar22#database-integrity-constraints){.learn-more}
+[Learn more about global configuration with `cds.env.features.assert_integrity`.](../../releases/archive/2022/mar22#database-integrity-constraints){.learn-more}
  [Learn more about database integrity constraints.](../databases#db-constraints){.learn-more}
 
 

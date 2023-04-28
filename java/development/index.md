@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 
 <!-- #### Content -->
@@ -256,7 +256,7 @@ If you can't stick to defaults, you can use the _.cdsrc.json_ to add specific co
 #### Using a specific cds-dk version
 
 By default, the build is configured to download a Node.js runtime and the `@sap/cds-dk` tools and install them locally within the project.
-The `install-cdsdk` goal requires a version of `@sap/cds-dk` which [needs to be provided explicitly](../../releases/oct22#important-changes-in-java) in the configuration. With this you can ensure that the build is fully reproducible.
+The `install-cdsdk` goal requires a version of `@sap/cds-dk` which [needs to be provided explicitly](../../releases/archive/2022/oct22#important-changes-in-java) in the configuration. With this you can ensure that the build is fully reproducible.
 You can provide this version by adding the following property to the `properties` section in your `pom.xml`:
 
 ```xml

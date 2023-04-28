@@ -17,7 +17,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 <!--- % include links.md %} -->
 
 ## Introduction

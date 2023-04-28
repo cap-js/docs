@@ -9,7 +9,7 @@ permalink: advanced/analytics
 
 # Analytics in OData V2
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Aggregation
 

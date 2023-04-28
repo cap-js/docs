@@ -15,6 +15,9 @@ hero:
   - theme: alt
     text: See Samples
     link: /resources/#public-resources
+  - theme: alt
+    text: See Release News
+    link: /releases/latest
 
 features:
 - title: Jumpstart & Grow as You Go

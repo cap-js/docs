@@ -1269,7 +1269,7 @@ import static com.sap.cds.ql.CQL.val;
 
 ...
 
-CqnListValue props = list(get("year"), get("quater"));
+CqnListValue props = list(get("year"), get("quarter"));
 CqnListValue vals  = list(val(2012), val(2));
 CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
 ```

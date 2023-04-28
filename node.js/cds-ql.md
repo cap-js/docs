@@ -9,7 +9,7 @@ status: released
 
 # Embedded CQL with `cds.ql`
 
-{{$frontmatter.synopsis}} In combination with [tagged template strings](#tts) this creates a sweeping embedded CQL experience. The API can be used via global constants or through `cds.ql`:
+{{$frontmatter?.synopsis}} In combination with [tagged template strings](#tts) this creates a sweeping embedded CQL experience. The API can be used via global constants or through `cds.ql`:
 
 ```js
 const cds = require('@sap/cds')   //> adds global constants

@@ -9,7 +9,7 @@ status: released
 
 # Grow As You Go...
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % include _toc levels="2,3,6" %} -->
 <!--- % include links.md %} -->

@@ -55,7 +55,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Logout from extendable SaaS application                                         | `cds logout `          |
 
 
-> Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases) for CAP.
+> Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
 
 <br>
 

@@ -10,9 +10,9 @@ layout: cds-ref
 status: released
 ---
 
-# {{ $frontmatter.title }}
+# {{ $frontmatter?.title }}
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 Changes mostly affect internal implementations of the compiler and nonpublic parts of the artifacts produced by the compiler (CSN, EDMX, ...), hence are unlikely to be observed by users of CDS.
 

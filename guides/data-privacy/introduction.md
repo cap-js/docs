@@ -13,7 +13,7 @@ status: released
 
 # Basics of Data Privacy with CAP
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 
 ## Introduction

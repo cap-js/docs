@@ -9,7 +9,7 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 # Troubleshooting
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## General { #cds}
 

@@ -233,7 +233,7 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
 ::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{.tip-title}
-This protocol-agnostic API allows [mocking remote services](../get-started/grow-as-you-go#with-mocks), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
+This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
 

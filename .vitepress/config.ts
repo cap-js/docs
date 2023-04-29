@@ -5,7 +5,8 @@ import * as sitemap from './sitemap'
 import * as redirects from './redirects'
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
-const links: { url:string, lastmod?:number}[] = []
+const sitemapLinks: { url:string, lastmod?:number}[] = []
+const redirectLinks: Record<string, string> = {}
 
 const sidebar = sideb('menu.md')
 const nav = [
@@ -65,16 +66,19 @@ export default defineConfig({
     }
   },
   vite: {
-    plugins: [],
+    plugins: [
+      redirects.devPlugin()
+    ],
     build: {
       chunkSizeWarningLimit: 3000 // chunk for local search index dominates w/ 2.7M
     }
   },
   transformHtml(code, id, ctx) {
-    redirects.generate(id, ctx)
-    sitemap.collect(id, ctx, links)
+    redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
+    sitemap.collect(id, ctx, sitemapLinks)
   },
   buildEnd: async ({ outDir }) => {
-    await sitemap.generate(outDir, siteHostName, links)
+    await redirects.generateJson(outDir, redirectLinks)
+    await sitemap.generate(outDir, siteHostName, sitemapLinks)
   }
 })

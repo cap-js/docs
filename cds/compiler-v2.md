@@ -6,7 +6,7 @@ synopsis: >
   All projects are recommended to upgrade as soon as possible, as the former version will only receive critical fixes after cv2 is
   released.
 layout: cds-ref
-# redirect_from: releases/compiler-v2
+redirect_from: releases/compiler-v2
 status: released
 ---
 

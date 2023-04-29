@@ -21,10 +21,9 @@
 
 <script setup>
 
-import { useRoute, useRouter, useData, withBase } from 'vitepress'
+import { useRoute, useData, withBase } from 'vitepress'
 import { onMounted, ref } from 'vue'
 const { frontmatter, site } = useData()
-const router = useRouter()
 const route = useRoute()
 
 const base = site.value.base
@@ -38,7 +37,9 @@ onMounted(async () => {
   newPath.value = redirectTo[path]
   if (newPath.value) {
     newPath.value = withBase(newPath.value)
-    router.go(newPath.value)
+    const newURL = new URL(window.location.toString())
+    newURL.pathname = newPath.value
+    window.location.replace(newURL) // avoids this temp. page in history
   }
 })
 

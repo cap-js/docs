@@ -612,7 +612,9 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 ## Data Aggregation
 
-Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect. For data aggregation in OData V2, see [Aggregation](../advanced/analytics#aggregation).
+Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect.
+
+<div id="data-aggregation-v2" />
 
 ### Example
 

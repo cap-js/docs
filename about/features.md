@@ -4,7 +4,7 @@ status: released
 
 <script setup>
   import { h } from 'vue'
-  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✔']   )
   const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
   const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
   const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
@@ -12,7 +12,7 @@ status: released
   const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); font-weight:900;}
+  .ga   { color: var(--vp-c-green-dark);}
   .na   { color: #aaa; font-size:90%; }
   .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
   .plan { color: #089; font-size:90% }

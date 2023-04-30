@@ -11,7 +11,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 <script setup>
   import { h } from 'vue'
-  const Y  =  () => h('span', { class: 'y',   title: 'Available' },      ['✓']   )
+  const Y  =  () => h('span', { class: 'y',   title: 'Available' },      ['✔']   )
   const X  =  () => h('span', { class: 'x',   title: 'Available' },      ['✕']   )
   const Na =  () => h('span', { class: 'na',  title: 'Not available' },  ['n/a']   )
 </script>

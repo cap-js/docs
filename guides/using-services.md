@@ -12,7 +12,7 @@ status: released
 
 <script setup>
   import { h } from 'vue'
-  const Y = () => h('span', { class: 'y',  title: 'Supported' },      ['✓'] )
+  const Y = () => h('span', { class: 'y',  title: 'Supported' },      ['✔'] )
   const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✕'] )
 </script>
 <style scoped>

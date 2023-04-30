@@ -30,7 +30,6 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
 |----------------|-------------------------------------------|------------|---------|
-| [Patch Collection](#odata-patch-collection) | Update collection of entities with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 | `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
 | `$value`       | Retrieves single rows/values              | <X/>      | <X/>  |
 | `$top`,`$skip` | Requests paginated results                | <X/>      | <X/>   |

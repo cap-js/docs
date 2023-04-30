@@ -112,17 +112,17 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Enterprise Features                                                                                     |  CDS  | Node.js | Java |
-|---------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization)                                                                | <X/>  |  <X/>   | <X/> |
-| [Analytics in Fiori](../advanced/odata#data-aggregation)                                                | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n)                                                                     | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services/#managed-data)                                              | <X/>  |  <X/>   | <X/> |
-| [Localized Data](../guides/localized-data)                                                              | <X/>  |  <X/>   | <X/> |
-| [Temporal Data](../guides/temporal-data)                                                                | <X/>  |  <X/>   | <X/> |
-| [Dynamic Extensibility](../guides/extensibility/)                                                       | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]             | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../guides/data-privacy/data-privacy/#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |
+| Enterprise Features                                                                         |  CDS  | Node.js | Java |
+|---------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
+| [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services/#managed-data)                                  | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
+| [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-log)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
 
 
 <br>

@@ -658,7 +658,7 @@ Not all messaging brokers provide the acknowledgement support. This means, the r
 |-----------------------------------------------------------------------------|:---------:|:------------:|
 | [File Base Messaging](#local-testing)                                       | <!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} --> &nbsp; <i style='color:#aaa; font-size:90%'>n/a</i> | |
 | [Event Mesh](#configuring-sap-event-mesh-support)                  | <!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} --> &nbsp; <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
-| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
+| [Message Queuing](#configuring-sap-event-mesh-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
 | [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>beta</i> | |
 
 

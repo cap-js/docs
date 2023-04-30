@@ -523,7 +523,7 @@ The app will crash if the error is identified as unrecoverable, for example in [
 Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
 as for other operations, therefore transactional consistency is guaranteed.
 
-To enable the persistent outbox globally for all deferrable services (that means [cds.MessagingService](messaging) and [cds.AuditLogService](./platform-services#audit-logging)), you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section.
+To enable the persistent outbox globally for all deferrable services (that means [cds.MessagingService](messaging) and `cds.AuditLogService`), you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section.
 
 ```json
 {

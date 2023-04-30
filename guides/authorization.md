@@ -618,7 +618,8 @@ service ProductsService @(requires: 'authenticated-user') {
 Here, the authorization of `Products` is derived from `Divisions` by leveraging the _n:m relationship_ via entity `ProducingDivisions`. Note, that the path `producers.division` in the `exist` predicate points to target entity `Divisions`, where the filter with the user-dependent attribute `$user.division` is applied.
 
 ::: warning _Warning_ <!--  -->
-Be aware that deep paths might introduce a performance bottleneck. Access Control List (ACL) tables, managed by the application, allow efficient queries (for example, with free [subselects](#free-subselects)) and might be the better option in this case.  :::
+Be aware that deep paths might introduce a performance bottleneck. Access Control List (ACL) tables, managed by the application, allow efficient queries and might be the better option in this case. <span id="tip-efficient-queries" />
+:::
 
 ::: tip
 The `exists`- predicate requires CDS compiler V2.

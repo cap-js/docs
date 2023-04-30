@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
+import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
@@ -80,5 +81,9 @@ export default defineConfig({
   buildEnd: async ({ outDir }) => {
     await redirects.generateJson(outDir, redirectLinks)
     await sitemap.generate(outDir, siteHostName, sitemapLinks)
+
+    // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
+    const hanaAsset = 'advanced/assets/native-hana-samples.zip'
+    await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
 })

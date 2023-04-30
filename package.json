@@ -20,6 +20,6 @@
     "gray-matter": "^4.0.3",
     "sass": "^1.62.1",
     "sitemap": "^7.1.1",
-    "vitepress": "^1.0.0-alpha.64"
+    "vitepress": "^1.0.0-alpha.75"
   }
 }

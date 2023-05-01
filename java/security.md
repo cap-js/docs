@@ -6,6 +6,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 <!--- Migrated: @external/java/security.md -> @external/java/security.md -->
 
+<script setup>
+  import { h } from 'vue'
+  const X  =  () => h('span', { class: 'x',   title: 'Available' }, ['✓'] )
+  const Na =  () => h('span', { class: 'na',  title: 'Not available' }, ['✗'] )
+</script>
+<style scoped>
+  .x   { color: var(--vp-c-green); }
+  .na  { color: var(--vp-c-red); }
+</style>
+
 # Security
 <style scoped>
   h1:before {
@@ -16,10 +26,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 <div v-html="$frontmatter?.synopsis" />
 
 { #security}
-
-<!--- % assign y="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- % assign n="<i style='color:#aaa; font-size:90%'>x</i>" %} -->
-<!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} -->
 
 ## Overview
 
@@ -99,13 +105,13 @@ service BooksService @(requires: 'any') {
 }
 ```
 
-| Path                                  | Authenticated ?
-| :------------------------------------ | :--------
-| `/BooksService`  | <i style='color:#aaa; font-size:90%'>x</i>
-| `/BooksService/$metadata`  | <i style='color:#aaa; font-size:90%'>x</i>
-| `/BooksService/Books`  | <i style='color:#aaa; font-size:90%'>x</i>
-| `/BooksService/Reviews`  | <span style='color:#4FB81C' title='Available'>&#10004;</span><sup>1</sup>
-| `/BooksService/Orders`  | <span style='color:#4FB81C' title='Available'>&#10004;</span>
+| Path                      | Authenticated ?  |
+|:--------------------------|:----------------:|
+| `/BooksService`           |      <Na/>       |
+| `/BooksService/$metadata` |      <Na/>       |
+| `/BooksService/Books`     |      <Na/>       |
+| `/BooksService/Reviews`   | <X/><sup>1</sup> |
+| `/BooksService/Orders`    |       <X/>       |
 
 
 > <sup>1</sup> Since version 1.25.0

@@ -9,6 +9,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 <!--- Migrated: @external/guides/31-Databases/index.md -> @external/guides/databases/index.md -->
 
+<script setup>
+  import { h } from 'vue'
+  const X  =  () => h('span', { class: 'x',   title: 'Available' }, ['✓'] )
+  const Na =  () => h('span', { class: 'na',  title: 'Not available' }, ['✗'] )
+</script>
+<style scoped>
+  .x   { color: var(--vp-c-green); }
+  .na  { color: var(--vp-c-red); }
+</style>
+
 # Using Databases
 
 <div v-html="$frontmatter?.synopsis" />
@@ -660,23 +670,21 @@ The `$at` variable is used in the context of temporal data, but it can also be u
 | `sqlite` | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') |
 | `plain` | current_timestamp | current_timestamp |
 
-<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
 
 ## Schema Evolution {#schema-evolution}
 
 CAP supports database schema updates by detecting changes to the CDS model when executing the CDS build. If the underlying database offers built-in schema migration techniques, compatible changes can be applied to the database without any data loss or the need for additional migration logic. Incompatible changes like deletions are also detected, but require manual resolution, as they would lead to data loss.
 
-| Change                              | Detected Automatically         |
-|-------------------------------------|:------------------------------:|
-| Adding   fields                     |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Deleting fields                     |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Renaming fields                     |         <i style='color:#eb3434; font-size:90%'>X</i> <sup>1</sup>    |
-| Changing datatype of fields         |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Changing type parameters            |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Changing associations/compositions  |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Renaming associations/compositions  |         <i style='color:#eb3434; font-size:90%'>X</i> <sup>1</sup>    |
-| Renaming entities                   |         <i style='color:#eb3434; font-size:90%'>X</i>                 |
+| Change                             | Detected Automatically |
+|------------------------------------|:----------------------:|
+| Adding   fields                    |          <X/>          |
+| Deleting fields                    |          <X/>          |
+| Renaming fields                    |   <Na/> <sup>1</sup>   |
+| Changing datatype of fields        |          <X/>          |
+| Changing type parameters           |          <X/>          |
+| Changing associations/compositions |          <X/>          |
+| Renaming associations/compositions |   <Na/> <sup>1</sup>   |
+| Renaming entities                  |         <Na/>          |
 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
 
@@ -705,9 +713,9 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 | Current format    | hdbcds | hdbtable | hdbmigrationtable |
 |-------------------|:------:|:--------:|:-----------------:|
-| hdbcds            |        |   <span style='color:#4FB81C' title='Available'>&#10004;</span>  |       <i style='color:#eb3434; font-size:90%'>X</i>      |
-| hdbtable          | <i style='color:#eb3434; font-size:90%'>X</i> |          |       <span style='color:#4FB81C' title='Available'>&#10004;</span>       |
-| hdbmigrationtable | <i style='color:#eb3434; font-size:90%'>X</i> |   <span style='color:#4FB81C' title='Available'>&#10004;</span>  |                   |
+| hdbcds            |        |   <X/>  |       <Na/>      |
+| hdbtable          | <Na/> |          |       <X/>       |
+| hdbmigrationtable | <Na/> |   <X/>  |                   |
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
@@ -904,8 +912,8 @@ Not supported:
 
 Unsupported changes lead to an error during deployment. To bring such changes to the database, switch off automatic schema evolution.
 
-<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
+<!--- % assign x="<X/>" %} -->
+<!--- % assign na="<Na/>" %} -->
 
 
 ## Database Constraints {#db-constraints}

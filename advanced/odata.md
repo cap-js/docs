@@ -10,7 +10,7 @@ status: released
 
 <script setup>
   import { h } from 'vue'
-  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✔']   )
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
   const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
   const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
   const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )

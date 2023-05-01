@@ -8,7 +8,7 @@ status: released
 
 # Using Native SAP HANA Artifacts
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Introduction
 

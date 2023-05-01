@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # Grow As You Go...
 
 As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of grow as you go is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development.

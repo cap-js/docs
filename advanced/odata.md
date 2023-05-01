@@ -30,20 +30,19 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
 |----------------|-------------------------------------------|------------|---------|
+| `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
 | `$value`       | Retrieves single rows/values              | <X/>      | <X/>  |
-| `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
 | `$top`,`$skip` | Requests paginated results                | <X/>      | <X/>   |
+| `$filter`      | Like SQL where clause                     | <X/>      | <X/>   |
 | `$select`      | Like SQL select clause                    | <X/>      | <X/>   |
 | `$orderby`     | Like SQL order by clause                  | <X/>      | <X/>   |
-| `$filter`      | Like SQL where clause                     | <X/>      | <X/>   |
-| `$expand`      | Deep-read associated entities             | <X/> <sup>(1)</sup>     | <X/> <sup>(2)</sup>  |
-| `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
-| `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
-| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(4)</sup> |
+| `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
 | [Delta Payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in deep update | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update collection of entities with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
+| `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
+| `$expand`      | Deep-read associated entities             | <X/> <sup>(1)</sup>     | <X/> <sup>(2)</sup>  |
+| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(4)</sup> |
 
-<span id="patch-collection" />
+<span id="features" />
 
 - <sup>(1)</sup> Support for nested `$select`, `$expand`, `$filter` and `$orderby` options.
 - <sup>(2)</sup> Support for nested `$select`, `$expand`, `$filter`, `$orderby`, `$top` and `$skip` options.
@@ -612,7 +611,9 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 ## Data Aggregation
 
-Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect. For data aggregation in OData V2, see [Aggregation](../advanced/analytics#aggregation).
+Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect.
+
+<div id="data-aggregation-v2" />
 
 ### Example
 

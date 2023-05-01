@@ -215,12 +215,13 @@ entity sap.common.Countries : CodeList {
 
 ### Entity `Currencies`
 
-The code list entity for currencies is meant to be used with **[ISO 4217] three-letter alpha codes** as primary keys, for example, `'USD'` for US Dollar. In addition, it provides an element to hold common currency symbols.
+The code list entity for currencies is meant to be used with **[ISO 4217] three-letter alpha codes** as primary keys, for example, `'USD'` for US Dollar. In addition, it provides an element to hold the minor unit fractions and for common currency symbols.
 
 ```cds
 entity sap.common.Currencies : CodeList {
-  key code : String(3); //> ISO 4217 alpha-3 codes
-  symbol : String(5); //> for example, $, €, £, ₪, ...
+  key code  : String(3); //> ISO 4217 alpha-3 codes
+  symbol    : String(5); //> for example, $, €, £, ₪, ...
+  minorUnit : Int16;     //> for example, 0 or 2
 }
 ```
 

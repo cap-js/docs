@@ -2,10 +2,10 @@
 synopsis: >
   Find here an overview of advanced concepts.
 status: released
-# redirect_from:
-# - java/cds4j/static-model
-# - java/cds4j/typed-access
-# - java/cds4j/datastore
+redirect_from:
+- java/cds4j/static-model
+- java/cds4j/typed-access
+- java/cds4j/datastore
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -16,7 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 
 <!-- #### Content -->

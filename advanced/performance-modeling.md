@@ -3,14 +3,13 @@ index: 84
 synopsis: >
   Here are some considerations and advice for CDS modeling.
 permalink: advanced/performance-modeling
-# redirect_from:
 status: released
 # uacp: Used as link target from Help Portal at
 ---
 
 # Performance Modeling
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Avoid UNION
 Using the UNION statement to merge data from different sources should be avoided. Especially, if other activities like SORTING or FILTERING are performed after the UNION statement.

@@ -14,7 +14,7 @@ breadcrumbs:
 
 # Querying and View Building
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Overview — Why Querying?
 

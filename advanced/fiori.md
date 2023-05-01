@@ -4,14 +4,14 @@ synopsis: >
   CAP provides out-of-the-box support for SAP Fiori elements front ends.
 permalink: advanced/fiori
 # trailing slash fixes issue w/ Github not serving fiori/ and nested fiori/annotations, see jekyll/jekyll#6459
-# redirect_from: guides/fiori
+redirect_from: guides/fiori
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
 
 # Serving Fiori UIs
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 This guide explains how to add one or more SAP Fiori elements apps to a CAP project, how to add SAP Fiori elements annotations to respective service definitions, and more. In the following sections, when mentioning Fiori, we always mean SAP Fiori elements.
 

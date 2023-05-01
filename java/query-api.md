@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Introduction
 
@@ -1255,6 +1255,25 @@ Select.from(EMPLOYEE)
 Use `CQL.constant` if the literal value shall be treated as [constant](#constant-and-non-constant-literal-values).
 
 ---
+
+#### List Values
+
+Combine multiple values with `CQL.list` to a list value (row value), which you can use in comparisons. 
+
+For example, the following query returns all sales after Q2/2012:
+
+```java
+import static com.sap.cds.ql.CQL.list;
+import static com.sap.cds.ql.CQL.get;
+import static com.sap.cds.ql.CQL.val;
+import static com.sap.cds.ql.CQL.comparison;
+
+...
+
+CqnListValue props = list(get("year"), get("quarter"));
+CqnListValue vals  = list(val(2012), val(2));
+CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
+```
 
 #### Parameters {#expr-param}
 

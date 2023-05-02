@@ -15,6 +15,9 @@ hero:
   - theme: alt
     text: See Samples
     link: /resources/#public-resources
+  - theme: alt
+    text: See Release News
+    link: /releases/latest
 
 features:
 - title: Jumpstart & Grow as You Go
@@ -37,3 +40,15 @@ features:
   details:
     All this + CDS to capture intent instead of imperative coding, greatly reduces boilerplate, and fosters close collaboration of developers and domain experts.
 ---
+
+<style>
+
+/* make hero text a bit wider to avoid unlucky wrapping */
+@media (min-width: 960px) {
+  .VPHero.has-image .main,
+  .VPHero .text {
+    max-width: 620px !important;
+  }
+}
+
+</style>

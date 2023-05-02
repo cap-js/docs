@@ -11,7 +11,7 @@ status: released
 # Managing Data Privacy
 
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 
 The following guides give detailed information to each of these options...

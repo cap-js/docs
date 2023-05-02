@@ -8,7 +8,7 @@ status: released
 
 # CDS Design Time APIs
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % assign cds = '<span style="color:#800; font-weight:500">cds</span>' %} -->
 

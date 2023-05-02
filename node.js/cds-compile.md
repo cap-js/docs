@@ -13,7 +13,7 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 # Parsing and Compiling Models
 
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 
 <!-- % include links-for-node.md %}

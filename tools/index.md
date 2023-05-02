@@ -9,7 +9,7 @@ status: released
 <!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % include links.md %} -->
 <!--- % include _toc levels="2,3" %} -->

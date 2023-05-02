@@ -3,6 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
+import NotFound from './components/NotFound.vue'
 
 const { Layout } = DefaultTheme
 </script>
@@ -10,6 +11,9 @@ const { Layout } = DefaultTheme
 <template>
 
   <Layout>
+    <template #not-found>
+      <NotFound />
+    </template>
     <template #nav-bar-content-before>
       <slot name="nav-bar-content-before" />
       <div class="ImplVariantsInNavbar">

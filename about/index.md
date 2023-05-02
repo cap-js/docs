@@ -242,7 +242,9 @@ orders = await SELECT.from (Orders, o=>{
     oi.book.title, oi.quantity
   })
 })
+```
 
+```http
 // Via OData
 GET .../Orders?$select=ID,descr
 $expand=Items(
@@ -257,7 +259,7 @@ to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
-<br><br><br><br>
+<br><br><br><br><br>
 
 
 ###### Projections at Design Time

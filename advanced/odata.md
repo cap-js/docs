@@ -829,6 +829,95 @@ A custom aggregate for a currency code or unit of measure should be also exposed
 | paginate result set with `$top`/`$skip` | <X/>   | <X/>  |
 
 
+## Open Type
+
+An entity type or a complex type may be declared as _open_, allowing clients to add properties dynamically to instances of the type by specifying uniquely named property values in the payload used to insert or update an instance of the type. To indicate that the entity or complex type is open, the corresponding type must be annotated with `@open`:
+
+
+```cds
+service CatalogService {
+  @open // [!code focus]
+  entity Book {
+    key id : Integer;
+  }
+}
+```
+
+The cds build for OData v4 will render the entity type `Book` in `edmx` with the [`OpenType` attribute](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_OpenEntityType) set to `true`:
+
+```xml
+<EntityType Name="Book" OpenType="true"> // [!code focus]
+  <Key>
+    <PropertyRef Name="id"/>
+  </Key>
+  <Property Name="id" Type="Edm.Integer" Nullable="false"/>
+</EntityType>
+```
+
+The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.: 
+
+```json
+{"id": 1, "title": "Tow Sawyer"}
+``` 
+or
+
+```json
+{"title": "Tow Sawyer", 
+ "author": { "name": "Mark Twain", "age": 74 } }
+```
+
+Open types can also be referenced in non-open types and entities. This, however, doesn't make the referencing entity or type open.
+
+```cds
+service CatalogService {
+  type Order {
+    guid: Integer;
+    book: Book;
+  }
+
+  @open
+  type Book {}
+}
+```
+Following payload for `Order` is allowed:
+
+`{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
+
+Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
+
+::: warning
+Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
+:::
+
+### Java Type Mapping
+
+#### Simple Types
+
+The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number` or simply an `Object` for `null` values.
+
+|JSON                     | Java Type of the `value`       |
+|-------------------------|--------------------------------|
+|`{"value": "Tom Sawyer"}`| `java.lang.String`             |
+|`{"value": true}`        | `java.lang.Boolean`            |
+|`{"value": 42}`          | `java.lang.Number` (Integer)   |
+|`{"value": 36.6}`        | `java.lang.Number` (BigDecimal)|
+|`{"value": null}`        | `java.lang.Object`             |
+
+#### Structured Types
+
+The complex and structured types are deserialized to `java.util.Map`, whereas collections are deserialized to `java.util.List`.
+
+|JSON                                                               | Java Type of the `value`             |
+|-------------------------------------------------------------------|--------------------------------------|
+|`{"value": {"name": "Mark Twain"}}`                                | `java.util.Map<String, Object>`      |
+|`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
+
+
+::: warning
+The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
+The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
+:::
+
 <div id="mass-data" />
 
 ## Singletons

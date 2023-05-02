@@ -1,7 +1,7 @@
 ---
 label: Configuration
 synopsis: >
-  Learn here about using `cds.env` to specify and access configuration options for the Node.js runtimes as well as the `@sap/cds-dk` CLI commands.
+  Learn here about using <code>cds.env</code> to specify and access configuration options for the Node.js runtimes as well as the `@sap/cds-dk` CLI commands.
 status: released
 ---
 <!--- Migrated: @external/node.js/cds-env.md -> @external/node.js/cds-env.md -->
@@ -9,18 +9,13 @@ status: released
 
 # Project-Specific Configurations
 
-<style scoped>
+<!-- <style scoped>
   h1:before {
     content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
-</style>
+</style> -->
 
-<div v-html="$frontmatter.synopsis" />
-
-
-<!-- #### Content -->
-<!--- % include _toc levels="2,3" %} -->
-<!--- % include links.md %} -->
+<div v-html="$frontmatter?.synopsis" />
 
 
 ## CLI `cds env` Command {#cli}

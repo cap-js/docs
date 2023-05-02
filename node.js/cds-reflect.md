@@ -9,7 +9,7 @@ status: released
 
 # Reflecting CDS Models
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % assign m = '<span style="color:grey"> m</span>' %} -->
 <!--- % include links-for-node.md %} -->

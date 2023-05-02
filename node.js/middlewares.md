@@ -9,7 +9,7 @@ status: released
 
 # Middlewares
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 ::: warning
 Customization is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).

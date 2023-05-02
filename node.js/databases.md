@@ -1,17 +1,14 @@
 ---
 label: Databases
 synopsis: >
-  Class `cds.DatabaseService` and subclasses thereof are technical services representing persistent storage.
+  Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
 layout: node-js
 status: released
 ---
 
 # Databases
 
-{{$frontmatter.synopsis}}
-
-<!--- % include links-for-node.md %} -->
-<!--- % include _chapters toc="2,3" %} -->
+<div v-html="$frontmatter?.synopsis" />
 
 ## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 

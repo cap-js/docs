@@ -3,13 +3,13 @@ shorty: Grow As You Go
 synopsis: >
   This section contains **best practices for speeding up development** by jump-starting projects
   with zero setup, eliminating boilerplate code, and parallelizing work.
-status: released
+# status: released
 ---
 <!--- Migrated: @external/get-started/07-grow-as-you-go.md -> @external/get-started/grow-as-you-go.md -->
 
 # Grow As You Go...
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % include _toc levels="2,3,6" %} -->
 <!--- % include links.md %} -->

@@ -13,7 +13,7 @@ status: released
 <script setup>
   import { h } from 'vue'
   const Y = () => h('span', { class: 'y',  title: 'Supported' },      ['✓'] )
-  const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✕'] )
+  const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✗'] )
 </script>
 <style scoped>
   .y  { color: var(--vp-c-green); font-weight:900; }
@@ -21,7 +21,7 @@ status: released
 </style>
 
 # Consuming Services
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 <!--- % include _toc levels="2,3" %} -->
 <!--- % include links.md %} -->

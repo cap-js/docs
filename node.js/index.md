@@ -29,13 +29,13 @@ This especially applies to bootstrapping the [`cds.server`](./cds-serve) and the
 provided through [`cds.ApplicationService`](./app-services).
 
 
-## Content
+<!-- ## Content -->
 
-<script setup>
+<!-- <script setup>
 import { data as pages } from './index.data.js'
 </script>
 
-<IndexList :pages='pages' list='true' />
+<IndexList :pages='pages' list='true' /> -->
 
 <!--
 <style scoped>

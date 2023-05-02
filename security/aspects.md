@@ -9,7 +9,7 @@ impl-variants: true
 
 # Security Aspects
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Secure Communications { #secure-communications }
 
@@ -54,7 +54,7 @@ Also here CAP application developers don't need to deal with HTTPS/TLS connectio
 
 ::: warning
 The **CAP application needs to ensure adequate protection of secrets** that are injected into CAP microservices, e.g.
-- [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platfrom services.
+- [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platform services.
 - Ensure that [service bindings and keys](https://help.sap.com/docs/btp/sap-business-technology-platform/using-services-in-cloud-foundry-environment) aren't compromised (rotate regularly).
 - SAP BTP Connectivity services are maintained [securely](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-security).
 :::
@@ -227,22 +227,23 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 
 Based on configured features, the CAP runtime exposes additional callback endpoints for specific platform service:
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
-| Platform service             | URL                         | Authorization                                                                                                           |
-|------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT)   | `/messaging/v1.0/em`        | [Technical roles](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, `emmanagement` |
-| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                                      |
-
-</div>
-<div markdown="1" class="impl node">
-
-| Platform service           | URL                                      | Authorization                                                                                           |
-|----------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging`        | [Technical role](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, |
-|                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`                                                                            |
+| Platform service             | URL                         | Authorization                                                                                          |
+|------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
 
 </div>
+
+<div class="impl node">
+
+| Platform service             | URL                     | Authorization |
+|------------------------------|-------------------------|---------------|
+| Multitenancy (SaaS Registry) | none so far for Node.js |               |
+
+</div>
+
+<div id="auth-callback-endpoints-more" />
 
 Moreover, technical [MTXs CAP services](../guides/multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 
@@ -447,7 +448,7 @@ SAPUI5 provides [protection mechanisms](https://sapui5.hana.ondemand.com/sdk/#/t
 There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
 Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
 The adapters also transform the HTTP requests into a corresponding CQN statement.
-Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided.
+Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
 - [Sorting](../guides/providing-services/#using-cds-search-annotation)

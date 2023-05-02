@@ -6,8 +6,6 @@ status: released
 
 # About CAP
 
-<!--@include: ../links.md-->
-
 The _SAP Cloud Application Programming Model_ (CAP) is a framework of **languages**, **libraries**, and **tools** for building enterprise-grade services and applications. It guides developers along a 'golden path' of proven [**best practices**](#enterprise-best-practices) and a great wealth of [**out-of-the-box solutions**](#generic-providers) to recurring tasks.
 
 CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)**. Instead of delving into overly technical disciplines, we focus on **[accelerated development](#grow-as-you-go)** and **[safeguarding investments](#agnostic-approach)** in a world of rapidly changing cloud technologies.
@@ -63,6 +61,9 @@ These abstractions allow us to quickly adapt to new emerging technologies or pla
 
 ### CAP is Open _and_ Opinionated <wbr/> &rarr; *Zero Lock-in* {#open-and-opinionated}
 
+[SAP Fiori]: https://developers.sap.com/topics/ui-development.html
+[SAP HANA]: https://developers.sap.com/topics/hana.html
+
 That might sound like a contradiction, but isn't: While CAP certainly gives *opinionated* guidance, we do so without sacrificing openness and flexibility.  At the end of the day, **you stay in control** of which tools or technologies to choose, or which architecture patterns to follow as depicted in the table below.
 
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
@@ -71,7 +72,6 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services/#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori]** and **[SAP HANA]** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
-
 
 
 ### Key Concepts & Paradigms
@@ -94,6 +94,8 @@ The figure below illustrates the prevalent use of CDS models (in the left column
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
 
+<br>
+
 ###### Core Data Services (CDS)
 
 [CDS](../cds/) is our universal modeling language to capture static, as well as behavioral aspects of problem domains in **conceptual**, **concise**, and **comprehensible** ways, and hence serves as the very backbone of CAP.
@@ -108,6 +110,8 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
 
+<br>
+
 ###### CDS Aspects & Mixins
 
 <img src="../assets/concepts/aspects.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
@@ -118,7 +122,7 @@ This greatly promotes **[adaptability](../guides/extensibility/)** in _verticali
 
 Moreover, that fosters [**separation of concerns**](../guides/domain-modeling#separation-of-concerns), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
 
-<br>
+<br><br>
 
 ## Proven Best Practices, Served Out-of-the-Box {#generic-providers label='Proven Best Practices'}
 
@@ -189,6 +193,8 @@ to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
+<br><br>
+
 ###### Projections at Design Time
 
 <img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
@@ -196,7 +202,6 @@ or to **database** services, which translate them to native database queries for
 We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/cdl#views) on the underlying domain model, such as in tailored service APIs.
 
 <br>
-
 
 ## Services & Events {#services}
 
@@ -216,6 +221,7 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
+<br>
 
 ###### Service Definitions in CDS
 
@@ -223,6 +229,7 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
 
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
 
+<br>
 
 ###### Uniform Consumption
 
@@ -232,10 +239,13 @@ Services are declared in CDS models, used to [serve requests automatically](#gen
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
+<br>
+
 ::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{.tip-title}
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
+<br>
 
 ###### Ubiquitous Events {#events}
 
@@ -261,26 +271,22 @@ Over time, you **add things gradually**, only when they’re needed. For example
 
 Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
 
-<br>
 
-
-## [Related Concepts](./related) {.toc-redirect}
+## Related Concepts
 
 [Learn more how CAP relates to other concepts.](./related){.learn-more}
 
-## [Features Overview](./features)
-{.toc-redirect}
+## Features Overview
 
 [Get an overview of all features.](./features){.learn-more}
 
-## [Glossary](./glossary) {.toc-redirect}
+## Glossary
 
 [Glossary of common terms and abbreviations.](./glossary){.learn-more}
 
 
-<br>
-
 ---
+
 <div markdown="1" style="font-size:90%; color:#666">
 <sup>1</sup> *GraphQL* and *Kafka* aren’t supported out-of-the-box today, but might be added in future.
 </div>

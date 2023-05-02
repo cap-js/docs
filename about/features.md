@@ -12,11 +12,11 @@ status: released
   const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); font-weight:900;}
-  .na   { color: #aaa; font-size:90%; }
+  .ga   { color: var(--vp-c-green-dark);}
+  .na   { color: gray; font-size:90%; }
   .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
-  .plan { color: #089; font-size:90% }
-  .contrib { color: #999; font-size:90% }
+  .plan { color: var(--vp-c-gray-dark); font-size:90% }
+  .contrib { color: gray; font-size:90% }
 </style>
 
 # Features Overview
@@ -41,7 +41,7 @@ Following is an index of the features currently covered by CAP, with status and 
 |---------------------------------------------------------------------------------|------------------------|
 | [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`   |
 | Add a feature to an existing project                                            | `cds add <facets>`     |
-| [Add models from external sources](../get-started/grow-as-you-go#with-mocks)    | `cds import <api>`     |
+| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`     |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>` |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>` |
 | [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`            |
@@ -112,17 +112,17 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Enterprise Features                                                                             |  CDS  | Node.js | Java |
-|-------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization)                                                       | <X/>  |  <X/>   | <X/> |
-| [Analytics in Fiori](../advanced/odata#data-aggregation)                                        | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n)                                                            | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services/#managed-data)                                      | <X/>  |  <X/>   | <X/> |
-| [Localized Data](../guides/localized-data)                                                     | <X/>  |  <X/>   | <X/> |
-| [Temporal Data](../guides/temporal-data)                                                       | <X/>  |  <X/>   | <X/> |
-| [Dynamic Extensibility](../guides/extensibility/)                                               | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)]     | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../node.js/platform-services#audit-logging)\|[Java](../java/auditlog)] | <Na/> |  <X/>   | <X/> |
+| Enterprise Features                                                                         |  CDS  | Node.js | Java |
+|---------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
+| [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services/#managed-data)                                  | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
+| [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-log)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
 
 
 <br>
@@ -173,19 +173,16 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Events / Messaging
 
-|                                                                                                                                                                               |  CDS  | Node.js |                                           Java                                            |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:-----------------------------------------------------------------------------------------:|
-| [Declared Events in CDS](../cds/cdl#events)                                                                                                                                   | <X/>  |  <X/>   |                                           <X/>                                            |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                          | <Na/> |  <X/>   |                                           <X/>                                            |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]          | <Na/> |  <X/>   |                                           <X/>                                            |
-| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                                                  | <Na/> |  <X/>   |                                           <X/>                                            |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging-foundation#configuring-message-queuing-support)] | <Na/> |  <X/>   |                                           <X/>                                            |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)]        | <Na/> |  <X/>   |                                           <X/>                                            |
-| Event Logs (Kafka)                                                                                                                                                            | <Na/> |  <O/>   |  <O/>  |
-| Import AsyncAPI                                                                                                                                                               | <O/>  |         |                                                                                           |
-| Export AsyncAPI                                                                                                                                                               | <X/>  |         |                                                                                           |
+|                                                                                                                                                                        |  CDS  | Node.js | Java |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
+| Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
+| Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
 
-<span id="info" />
+<span id="events-messaging-more" />
 
 ### Database Support
 

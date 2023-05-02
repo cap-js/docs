@@ -227,22 +227,23 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 
 Based on configured features, the CAP runtime exposes additional callback endpoints for specific platform service:
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
-| Platform service             | URL                         | Authorization                                                                                                           |
-|------------------------------|-----------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT)   | `/messaging/v1.0/em`        | [Technical roles](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, `emmanagement` |
-| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                                      |
-
-</div>
-<div markdown="1" class="impl node">
-
-| Platform service           | URL                                      | Authorization                                                                                           |
-|----------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| Messaging (Event Mesh, MT) | `/messaging/enterprise-messaging`        | [Technical role](../guides/messaging/event-mesh#inbound-access-webhooks) `emcallback`, |
-|                            | `/messaging/enterprise-messaging/deploy` | Technical role`emmanagement`                                                                            |
+| Platform service             | URL                         | Authorization                                                                                          |
+|------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
 
 </div>
+
+<div class="impl node">
+
+| Platform service             | URL                     | Authorization |
+|------------------------------|-------------------------|---------------|
+| Multitenancy (SaaS Registry) | none so far for Node.js |               |
+
+</div>
+
+<div id="auth-callback-endpoints-more" />
 
 Moreover, technical [MTXs CAP services](../guides/multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 

@@ -1,7 +1,7 @@
 ---
 outline: [1,3]
+status: released
 ---
-
 
 
 # Jumpstart & Grow as You Go

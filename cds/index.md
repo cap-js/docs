@@ -2,7 +2,7 @@
 section: CDS
 # shorty: CDS
 permalink: /cds/
-# status: released
+status: released
 ---
 
 # Core Data Services (CDS)

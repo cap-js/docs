@@ -7,6 +7,18 @@ status: released
 ---
 <!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
 
+<script setup>
+  import { h } from 'vue'
+  const X    = () => h('span', { class: 'ga',      title: 'Available' },     ['✓']   )
+  const Na   = () => h('i',    { class: 'na',      title: 'Not available' }, ['n/a'] )
+  const Beta = () => h('i',    { class: 'beta'                            }, ['beta'] )
+</script>
+<style scoped>
+  .ga   { color: var(--vp-c-green-dark); }
+  .na   { color: #fff; font-size:90%; }
+  .beta { color: #aaa; font-size:90%; }
+</style>
+
 # Messaging
 
 <style scoped>
@@ -652,14 +664,15 @@ The way how unsuccessfully delivered messages are treated, fully depends on the 
 
 
 #### Acknowledgement Support
+
 Not all messaging brokers provide the acknowledgement support. This means, the result of the error handler has no effect for the messaging broker.
 
-| Messaging Broker                                                            |  Support  |     Cause    |
-|-----------------------------------------------------------------------------|:---------:|:------------:|
-| [File Base Messaging](#local-testing)                                       | <!--- % assign na="<i style='color:#aaa; font-size:90%'>n/a</i>" %} --> &nbsp; <i style='color:#aaa; font-size:90%'>n/a</i> | |
-| [Event Mesh](#configuring-sap-event-mesh-support)                  | <!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} --> &nbsp; <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
-| [Message Queuing](#configuring-message-queuing-support)            | <span style='color:#4FB81C' title='Available'>&#10004;</span> | removed from the queue |
-| [Redis PubSub](#configuring-redis-pubsub-support-beta)   | <i style='color:#aaa; font-size:90%'>beta</i> | |
+| Messaging Broker                                       | Support |         Cause          |
+|--------------------------------------------------------|:-------:|:----------------------:|
+| [File Base Messaging](#local-testing)                  |  <Na/>  |                        |
+| [Event Mesh](#configuring-sap-event-mesh-support)      |  <X/>   | removed from the queue |
+| [Message Queuing](#configuring-sap-event-mesh-support) |  <X/>   | removed from the queue |
+| [Redis PubSub](#configuring-redis-pubsub-support-beta) | <Beta/> |                        |
 
 
 ::: tip

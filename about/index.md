@@ -3,6 +3,12 @@ section: About
 status: released
 ---
 
+<style scoped>
+h6 + p,
+h6 + div {
+  margin-left: 2em !important;
+}
+</style>
 
 # About CAP
 
@@ -38,10 +44,6 @@ On top of open source technologies, CAP mainly adds:
 
 
 - **Service SDKs and runtimes** for Node.js and Java, offering libraries to implement and consume services as well as generic provider implementations serving many requests automatically.
-
-
-
-
 
 
 ### Agnostic Design <wbr/> &rarr; *Safeguarding Investments* {#agnostic-approach}
@@ -94,15 +96,34 @@ The figure below illustrates the prevalent use of CDS models (in the left column
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
 
-<br>
+<br><br>
 
 ###### Core Data Services (CDS)
 
 [CDS](../cds/) is our universal modeling language to capture static, as well as behavioral aspects of problem domains in **conceptual**, **concise**, and **comprehensible** ways, and hence serves as the very backbone of CAP.
 
+<br>
+
 ###### Domain Models in CDS
 
-<img src="../assets/concepts/domain-modeling.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt" >
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```cds
+entity Books : cuid {
+  title  : localized String;
+  author : Association to Authors;
+}
+
+entity Orders : cuid, managed {
+  descr : String;
+  Items : Composition of many {
+    book : Association to Books;
+    quantity : Integer;
+  }
+}
+```
+
+</div>
 
 Domain Models capture static aspects of problem domains as well-known _entity-relationship models_.
 
@@ -110,11 +131,30 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
 
-<br>
+<br><br><br>
 
 ###### CDS Aspects & Mixins
 
-<img src="../assets/concepts/aspects.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```cds
+// Separation of Concerns
+extend Books with @restrict[
+    { grant:'WRITE', to:'admin' }
+];
+
+// Verticalization
+extend Books with {
+    ISBN : String
+};
+
+// Customization
+extend Orders with {
+    customer_specific : String
+};
+```
+
+</div>
 
 **_[Aspects](../cds/cdl#aspects)_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
 
@@ -169,8 +209,11 @@ All data access in CAP is through dynamic queries, which allows clients to reque
 
 > The querying-based approach to process data is in strong contrast to Object-Relational Mapping (→ see also *[Related Concepts: CAP != ORM](related#orm)*)
 
+<br>
 
 ###### Core Query Language (CQL)
+
+<div>
 
 **[CQL](../cds/cql)** is CDS’s advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
 
@@ -184,24 +227,58 @@ SELECT Employees.ID, Countries.name FROM Employees
  LEFT JOIN Countries AS Countries ON Addresses.country_ID = Countries.ID
 ```
 
+</div>
+
+<br>
+
 ###### Queries as first-order Objects (CQN)
 
-<img src="../assets/concepts/querying.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```js
+// In JavaScript code
+orders = await SELECT.from (Orders, o=>{
+  o.ID, o.descr, o.Items (oi=>{
+    oi.book.title, oi.quantity
+  })
+})
+
+// Via OData
+GET .../Orders?$select=ID,descr
+$expand=Items(
+  $select=book/title,quantity
+)
+```
+
+</div>
 
 **Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
-<br><br>
+<br><br><br><br>
+
 
 ###### Projections at Design Time
 
-<img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```cds
+// Projections in CDS
+service OrdersService {
+  define entity OrderDetails
+  as select from Orders {
+     ID, descr, Items
+  }
+}
+```
+
+</div>
 
 We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/cdl#views) on the underlying domain model, such as in tailored service APIs.
 
-<br>
+<br><br><br>
 
 ## Services & Events {#services}
 
@@ -221,25 +298,53 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
-<br>
+<br><br>
 
 ###### Service Definitions in CDS
 
-<img src="../assets/concepts/service-definitions.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```cds
+// Service Definition in CDS
+service OrdersService {
+  entity Orders as projection on my.Orders;
+  action cancelOrder (ID:Orders.ID);
+  event orderCanceled : { ID:Orders.ID }
+}
+```
+
+</div>
 
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
 
-<br>
+<br><br>
 
 ###### Uniform Consumption
 
-<img src="../assets/concepts/service-consumption.png" width="300px" style="float:left; margin: 0px 22px 44px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```js
+// Consumption in JavaScript
+let srv = cds.connect.to('OrdersService')
+let { Orders } = srv.entities
+order = await SELECT.one.from (Orders)
+  .where({ ID:4711 })
+srv.cancelOrder (order.ID)
+```
+
+```http
+// Consumption via REST APIs
+GET /orders/Orders/4711
+POST /orders/cancelOrder/4711
+```
+
+</div>
 
 **Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-<br>
+<br><br>
 
 ::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
@@ -249,13 +354,37 @@ This protocol-agnostic API allows [mocking remote services](../guides/using-serv
 
 ###### Ubiquitous Events {#events}
 
-<img src="../assets/concepts/events.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
+<div style="float:left; margin: 0px 22px 11px 0;">
+
+```js
+// Service Implementation
+cds.service.impl (function(){
+  this.on ('UPDATE','Orders', (req)=>{})
+  this.on ('cancelOrder', (req)=>{})
+})
+
+
+// Emitting Events
+// e.g. in this.on ('cancelOrder', ...)
+let { ID } = req.data
+this.emit ('orderCancelled', {ID})
+
+
+// Subscribing to Events
+let srv = cds.connect.to('OrdersService')
+srv.on ('orderCancelled', (msg)=>{})
+```
+
+</div>
+
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 
 We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
-::: tip _Domain-level Eventing_{.tip-title}
+<br><br>
+
+::: tip _Domain-level Eventing_
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.
 :::
 

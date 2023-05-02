@@ -115,7 +115,7 @@ Users on macOS must first run a command (*Shell Command: Install 'code' command 
 
 The default project structure of CAP projects is as follows:
 
-```sh
+```zsh
 bookshop/        # Your project's root folder
 ├─ app /         # UI-related content goes here
 ├─ srv/          # Service-related content goes here

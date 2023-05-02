@@ -6,7 +6,7 @@ status: released
 
 # Monitoring
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Dynatrace
 

@@ -341,27 +341,24 @@ The following configuration options can be applied:
 
 The runtime uses the same logger facade, that is `cds.log()`. For each component, it requires a separate logger. So projects can set different log levels for different components/layers. The following table lists the ids used to set the log levels:
 
-| Component                                                    | Logger IDs(s)   |
-| ------------------------------------------------------------ | --------------- |
-| Server and common output                                     | `cds`           |
-| CLI output                                                   | `cli`           |
-| CDS build output                                             | `build`         |
-| [Application Service](./app-services)                 | `app`           |
-| [SQLite Database](databases)                        | `db\|sql\|sqlite` |
-| [SAP HANA Database](databases)                      | `db\|sql\|hana`   |
-| [SAP HANA Database Pool](databases#pool)            | `db\|pool`       |
-| [Messaging Service](messaging)                      | `messaging`     |
-| [Remote Service](remote-services)                   | `remote`        |
-| [AuditLog Service](platform-services#audit-logging) | `audit-log`     |
-| OData Protocol Adapter                                       | `odata`         |
-| REST Protocol Adapter                                        | `rest`          |
-| GraphQL Protocol Adapter                                     | `graphql`       |
-| [Authentication](./authentication)                    | `auth`          |
-| Database Deployment                                          | `deploy`        |
-| Multitenancy and Extensibility                               | `mtx`           |
-
->
-
+| Component                                | Logger IDs(s)     |
+|------------------------------------------|-------------------|
+| Server and common output                 | `cds`             |
+| CLI output                               | `cli`             |
+| CDS build output                         | `build`           |
+| [Application Service](./app-services)    | `app`             |
+| [SQLite Database](databases)             | `db\|sql\|sqlite` |
+| [SAP HANA Database](databases)           | `db\|sql\|hana`   |
+| [SAP HANA Database Pool](databases#pool) | `db\|pool`        |
+| [Messaging Service](messaging)           | `messaging`       |
+| [Remote Service](remote-services)        | `remote`          |
+| AuditLog Service                         | `audit-log`       |
+| OData Protocol Adapter                   | `odata`           |
+| REST Protocol Adapter                    | `rest`            |
+| GraphQL Protocol Adapter                 | `graphql`         |
+| [Authentication](./authentication)       | `auth`            |
+| Database Deployment                      | `deploy`          |
+| Multitenancy and Extensibility           | `mtx`             |
 
 
 ## Logging in Development

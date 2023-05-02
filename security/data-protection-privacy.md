@@ -8,7 +8,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 # Data Protection & Privacy
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## General Statement { #dpp-statement }
 

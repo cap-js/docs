@@ -23,7 +23,9 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useData } from 'vitepress'
 
+const { site, theme } = useData()
 const metaKey = ref('Meta')
 
 onMounted(() => {
@@ -35,10 +37,11 @@ onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 const keyStrokeSearch = [metaKey, ref('K')]
 const querySelectorSearchInput = 'input[class=search-input]'
 const commands = ref([
-  { name:'Search', keys:[keyStrokeSearch], enabled: ()=>true }, // VP search has the actual logic
-  DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
+  { name:'Search', keys:[keyStrokeSearch] }, // VP search has the actual logic
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
+  DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
+  ...commandsFromConfig(),
   { name:'Show keyboard shortcuts', keys:[ref('?')], run: () => { visible.value = !visible.value } },
   { name:'Close dialog', keys:[ref('Escape')], hidden:true, run: () => visible.value = false },
 ])
@@ -86,6 +89,23 @@ function DOMCommand(name, idQuerySel, ...keys) {
   }}
 }
 
+function commandsFromConfig() {
+  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key).map(link => {
+    const url = new URL(link.link)
+    return {
+      name: `Go to ${link.name || url.hostname}`,
+      enabled: () => window.location.hostname !== url.hostname,
+      run: () => {
+        // remove base path, as it may be different on the target site
+        const path = window.location.pathname.slice(site.value.base.length)
+        window.open(url + path + window.location.search, '_blank');
+      },
+      keys: [ref(link.key)],
+      hidden: !!link.hidden
+    }
+  })
+}
+
 </script>
 
 <style scoped>
@@ -115,7 +135,7 @@ table, td { border: none; }
   background-color: var(--vp-c-bg);
   margin: 10% auto;
   padding: 0;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-divider);
   width: 450px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: fadeIn;
@@ -138,7 +158,7 @@ table, td { border: none; }
 
 /* The Close Button */
 .modal-close {
-  color: var(--vp-button-brand-hover-bg);
+  color: gray;
   float: right;
   font-size: 20px;
   font-weight: bold;

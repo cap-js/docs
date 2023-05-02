@@ -1,7 +1,7 @@
 ---
 label: Application Services
 synopsis: >
-  Class `cds.ApplicationService` is the default service provider implementation, adding generic handlers as introduced in the Cookbook guides on [Providing Services], [Localized Data] and [Temporal Data].
+  Class <code>cds.ApplicationService</code> is the default service provider implementation, adding generic handlers as introduced in the Cookbook guides on <a href="../guides/providing-services/">Providing Services</a>, <a href="../guides/localized-data">Localized Data</a> and <a href="../guides/temporal-data">Temporal Data</a>.
 layout: node-js
 status: released
 ---

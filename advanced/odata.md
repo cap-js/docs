@@ -582,7 +582,7 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 When translating a CDS model to an OData API, by default only those annotations
 are considered that are part of the standard OASIS or SAP vocabularies listed below.
-You can add further vocabularies to the translation process via a configuration.
+You can add further vocabularies to the translation process [using configuration.](#additional-vocabularies)
 
 ### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) { target="_blank"}
 

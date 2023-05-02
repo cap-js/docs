@@ -536,7 +536,7 @@ class BooksService extends cds.ApplicationService {
 
 ::: tip Best Practices
 
-Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
+Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#cds-tx-ctx-fn) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
 
 :::
 
@@ -702,7 +702,7 @@ function srv.on (event, handler: (
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
+Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
 
 1. They are usually registered 'from the outside', not as part of a service's implementation.
 2. They receive only a single argument: `msg`, an instance of [`cds.Event`](./events.md#cds-request); no `next`.
@@ -800,7 +800,7 @@ await srv.send('GET','/Books/201')
 await srv.send('submitOrder',{...})
 ```
 
-These requests would be processed by respective [event handlers](#on-before-after) registered like that:
+These requests would be processed by respective [event handlers](#srv-on-before-after) registered like that:
 
 ```js
 srv.on('CREATE','Books', req => {...})
@@ -808,7 +808,7 @@ srv.on('READ','Books', req => {...})
 srv.on('submitOrder', req => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
+The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
 
 ```js
 let req = new cds.Request (
@@ -841,13 +841,13 @@ await srv.emit ({ event: 'SomeEvent', data: { foo: 'bar' }})
 await srv.emit ('SomeEvent', { foo:'bar' })
 ```
 
-Consumers would subscribe to such events through [event handlers](#on-before-after) like that:
+Consumers would subscribe to such events through [event handlers](#srv-on-before-after) like that:
 
 ```js
 Emitter.on('SomeEvent', msg => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Event`](./events.md#cds-event) like so:
+The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Event`](./events.md#cds-event) like so:
 
 ```js
 let msg = new cds.Event (
@@ -897,14 +897,14 @@ await srv.run([
 ])
 ```
 
-These queries would be processed by respective [event handlers](#on-before-after) registered like that:
+These queries would be processed by respective [event handlers](#srv-on-before-after) registered like that:
 
 ```js
 srv.on('CREATE',Books, req => {...})
 srv.on('READ',Books, req => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
+The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
 
 ```js
 let req = new cds.Request({query})
@@ -978,7 +978,7 @@ Basically, methods  `srv.dispatch()` and `.handle()` are designed as a pair, wit
 
 ::: tip
 
-When looking for overriding central event processing, rather choose  [`srv.handle()`](#handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](#srv-tx).
+When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-context-tx#srv-tx).
 
 :::
 
@@ -994,7 +994,7 @@ async function srv.handle (
 return : result of executed .on handlers
 ```
 
-This is the internal method called by [`this.dispatch()`](#dispatch-event) to actually process requests or events by executing registered event handlers. Argument `event` is expected to be an instance of [`cds.Event`](./events.md#cds-event) or [`cds.Request`](./events.md#cds-request).
+This is the internal method called by [`this.dispatch()`](#srv-dispatch-event) to actually process requests or events by executing registered event handlers. Argument `event` is expected to be an instance of [`cds.Event`](./events.md#cds-event) or [`cds.Request`](./events.md#cds-request).
 
 The implementation basically works like that:
 
@@ -1074,7 +1074,7 @@ await srv.delete(Books,201)
 
 ## CRUD-style API
 
-As an alternative to [`srv.run(query)`](#run-query) you can use these convenience methods:
+As an alternative to [`srv.run(query)`](#srv-run-query) you can use these convenience methods:
 
 - srv. **read** (entity, ...) {.method}
 - srv. **create** (entity, ...) {.method}

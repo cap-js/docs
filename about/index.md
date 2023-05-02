@@ -93,6 +93,7 @@ The figure below illustrates the prevalent use of CDS models (in the left column
   <img src="../assets/core-concepts.drawio.svg" width="650px"  class="adapt">
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
+<br >
 
 ###### Core Data Services (CDS)
 
@@ -107,6 +108,8 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
 **_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
+
+<br>
 
 ###### CDS Aspects & Mixins
 
@@ -189,6 +192,9 @@ to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
+<br>
+<br>
+
 ###### Projections at Design Time
 
 <img src="../assets/concepts/views.png" width="300px" style="float:left; margin: 0px 22px 11px 0;" class="adapt">
@@ -215,24 +221,25 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
   <img src="../assets/agnostic-services.drawio.svg" width="333px" class="adapt">
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
-
+<br>
 
 ###### Service Definitions in CDS
 
 <img src="../assets/concepts/service-definitions.png" width="300px" style="float:left; margin: 0px 22px 22px 0;" class="adapt">
 
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
+<br>
 
+#### Uniform Consumption
 
-###### Uniform Consumption
-
+<br>
 <img src="../assets/concepts/service-consumption.png" width="300px" style="float:left; margin: 0px 22px 44px 0;" class="adapt">
 
 **Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_{.tip-title}
+::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../get-started/grow-as-you-go#with-mocks), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 

@@ -139,7 +139,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 ```cds
 // Separation of Concerns
-extend Books with @restrict[
+extend Books with @restrict: [
     { grant:'WRITE', to:'admin' }
 ];
 

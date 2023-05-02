@@ -302,7 +302,7 @@ service CatalogService {
   entity BooksDetails as projection on Books;
 }
 ```
-For entities annotated with `@cds.localized: false` and requests with an `$expand` query option, the expanded properties are not translated.
+For requests with an `$expand` query option on entities annotated with `@cds.localized: false`, the expanded properties are not translated.
 
 ```http
 GET /BooksDetails?$expand=authors //> all fields from authors are non-localized defaults, if BooksDetails is annotated with `@cds.localized: false`

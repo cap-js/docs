@@ -32,7 +32,7 @@ service CatalogService {
   entity Books {
     key ID : UUID;
     title  : String;
-    descr  : String
+    descr  : String;
     author : Association to my.Authors;
   }
   action submitOrder ( book: UUID, quantity: Integer );

@@ -76,13 +76,12 @@ We need to configure required services with `cds.requires.<...>` config options.
 
 ```json [package.json]
 {"cds":{
-  "requires":{
+  "requires": {
     "ReviewsService": { "kind": "odata", "model": "@capire/reviews" },
     "db": { "kind": "sqlite", "credentials": { "url":"db.sqlite" }},
   }
 }}
 ```
-
 :::
 
 *Learn more about [configuring required services](cds-connect#cds-env-requires) and [service bindings](cds-connect#service-bindings)* {.learn-more}
@@ -120,10 +119,10 @@ The easiest way to add custom service implementations is to simply place an equa
 ```zsh
 bookshop/ 
 ├─ srv/ 
-│ ├─ admin-service.cds // [!code focus]
-│ ├─ admin-service.js // [!code focus]
-│ ├─ cat-service.cds 
-│ └─ cat-service.js 
+│ ├─ admin-service.cds 
+│ ├─ admin-service.js 
+│ ├─ cat-service.cds // [!code focus]
+│ └─ cat-service.js // [!code focus]
 └─ ...
 ```
 
@@ -148,25 +147,34 @@ bookshop/
 
 #### Specified by `@impl` Annotation, or `impl` Configuration
 
-You can explicitly specify sources for service implementations using the `@impl` annotation for provided services, and the `impl` configuration property for required services, respectively, 
+You can explicitly specify sources for service implementations using...
 
-Examples:
+The `@impl` annotation in CDS definitions for [provided services](#provided-services):
 
-```cds
-service ReviewsService @(
-  impl: './reviews-service.js'
-) { ... }
+::: code-group
+
+```cds [srv/cat-service.cds]
+@impl: 'srv/cat-service.js' // [!code focus]
+service CatalogService { ... }
 ```
 
-```json
+:::
+
+The `impl` configuration property for [required services](#required-services):
+
+::: code-group
+
+```json [package.json]
 { "cds": { 
   "requires": {
     "ReviewsService": {
-      "impl": "srv/reviews-services.js"
+      "impl": "srv/reviews-services.js" // [!code focus]
     }
   }
 }}
 ```
+
+:::
 
 
 
@@ -189,7 +197,7 @@ class BooksService extends cds.ApplicationService {
 module.exports = BooksService
 ```
 
-[Learn more about `cds.ApplicationService`](app-services) {.learn-more}
+[Learn more about `cds.ApplicationService`](app-service) {.learn-more}
 
 ::: details Alternatively using old-style `cds.service.impl` functions...
 
@@ -920,10 +928,10 @@ Use this method to ensure operations in the given functions are executed in a pr
 ```js
 const db = await cds.connect.to('db')
 await db.run (tx => {
-  let [ Emily, Charlotte ] = await db.create (Authors, [{
+  let [ Emily, Charlotte ] = await db.create (Authors, [
     { name: 'Emily Brontë' },
     { name: 'Charlotte Brontë' },
-  }])
+  ])
   await db.create (Books, [
     { title: 'Wuthering Heights', author: Emily },
     { title: 'Jane Eyre', author: Charlotte },
@@ -931,7 +939,7 @@ await db.run (tx => {
 })
 ```
 
-> Without the enclosing  `db.run(()=>{...})` the two INSERTs would be executed within two transactions. 
+> Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already. 
 
 This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation. 
 

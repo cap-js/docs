@@ -189,7 +189,7 @@ class BooksService extends cds.ApplicationService {
 module.exports = BooksService
 ```
 
-[Learn more about `cds.ApplicationService`](app-service) {.learn-more}
+[Learn more about `cds.ApplicationService`](app-services) {.learn-more}
 
 ::: details Alternatively using old-style `cds.service.impl` functions...
 

@@ -47,38 +47,30 @@ Its implementation essentially is as follows:
 
 ```js
 const cds = require('@sap/cds')
-const express = require('express')
-module.exports = async function cds_server (options) {
+cds.server = module.exports = async function (options) {
+  
+  const app = cds.app = o.app || require('express')()
+  cds.emit ('bootstrap', app)
 
-  const _in_prod = process.env.NODE_ENV === 'production'
-  const o = { ...options, __proto__:defaults }
-
-  const app = cds.app = o.app || express()
-  app.serve = _app_serve                          //> app.serve allows delegating to sub modules
-  cds.emit ('bootstrap',app)                      //> hook for project-local server.js
-
-  // mount static resources and logger middleware
-  if (o.cors)      !_in_prod && app.use (o.cors)        //> CORS
-  if (o.static)    app.use (express_static (o.static))  //> defaults to ./app
-  if (o.favicon)   app.use ('/favicon.ico', o.favicon)  //> if none in ./app
-  if (o.index)     app.get ('/',o.index)                //> if none in ./app
-  if (o.correlate) app.use (o.correlate)                //> request correlation
-
-  // load specified models or all in project
-  const csn = await cds.load(o.from||'*',o) .then (cds.minify) //> separate csn for _init_db
+  // load model from all sources
+  const csn = await cds.load('*') 
   cds.model = cds.compile.for.nodejs(csn)
+  cds.emit ('loaded', cds.model)
 
-  // connect to essential framework services if required
-  if (cds.requires.db)    cds.db = await cds.connect.to ('db') .then (_init)
-  if (cds.requires.messaging)      await cds.connect.to ('messaging')
+  // connect to prominent required services
+  if (cds.requires.db)  cds.db = await cds.connect.to ('db')
+  if (cds.requires.messaging)    await cds.connect.to ('messaging')
 
-  // serve all services declared in models
-  await cds.serve (o.service,o) .in (app)
-  await cds.emit ('served', cds.services) //> hook for listeners
+  // serve own services as declared in model
+  await cds.serve ('all') .from(csn) .in (app)
+  await cds.emit ('served', cds.services) 
 
-  // start http server
-  const port = (o.port !== undefined) ? o.port : (process.env.PORT || cds.env.server?.port || 4004)
-  return app.listen (port)
+  // launch http server
+  cds .emit ('launching', app)
+  const port = o.port ?? process.env.PORT || 4004
+  const server = app.server = app.listen(port) .once ('listening', ()=> 
+    cds.emit('listening', { server, url: `http://localhost:${port}` })
+  )
 }
 ```
 
@@ -181,6 +173,37 @@ A one-time event, emitted when the server is closed and/or the process finishes.
 <!-- [`cds.serve`](cds-serve): #cds-serve -->
 
 Use `cds.serve()` to construct service providers from the service definitions in corresponding CDS models. As stated above, this is usually [done automatically by the built-in `cds.server`](#built-in-server-js).
+
+Declaration:
+
+```ts:no-line-numbers
+async function cds.serve (
+  service        : 'all' | string | cds.Service | typeof cds.Service, 
+  options        : { service = 'all', ... }
+) .from ( model  : string | CSN )         // default: cds.model
+  .to ( protocol : string | 'rest' | 'odata' | 'odata-v2' | 'odata-v4' | ... )
+  .at ( path     : string )
+  .in ( app      : express.Application )  // default: cds.app
+.with ( impl     : string | function | cds.Service | typeof cds.Service )
+```
+
+### cds. services {.property}
+
+All service instances constructed by `cds.connect()` or by `cds.serve()`are registered in the `cds.services` dictionary. After the bootstrapping phase you can safely refer to entries in there:
+
+```js
+const { CatalogService } = cds.services
+```
+
+Use this if you are not sure whether a service is already constructed:
+
+```js
+const CatalogService = await cds.connect.to('CatalogService')
+```
+
+
+
+
 
 ### cds.serve <i> (service, options) &#8674; fluent api... </i>
 

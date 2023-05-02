@@ -220,54 +220,83 @@ cds.context === tx.context  //> true
 
 
 
-## cds.spawn  <i>  (options, fn) </i> {#cds-spawn}
+## cds. tx ( ctx, fn ) {.method}
 
-Runs the given function as detached continuation in a specified event context (not inheriting from the current one).
-Options `every` or `after` allow to run the function repeatedly or deferred. For example:
+```tsx
+function srv.tx ( ctx?, fn? : tx<srv> => {...} ) => Promise
+function srv.tx ( ctx? ) => tx<srv>
+var ctx : { tenant, user, locale } 
+```
+
+Use this method to run the given function `fn` and all nested operations in a new *root* transaction. 
+For example: 
 
 ```js
-cds.spawn ({ tenant:'t0', every: 1000 /* ms */ }, async (tx) => {
-  const mails = await SELECT.from('Outbox')
-  await MailServer.send(mails)
-  await DELETE.from('Outbox').where (`ID in ${mails.map(m => m.ID)}`)
+await srv.tx (tx => {
+  let exists = tx.run ( SELECT(1).from(Books,201).forUpdate() )
+  if (exists) tx.update (Books,201).with(data)
+  else tx.create (Books,{ ID:201,...data })
 })
 ```
-::: tip
-Even though the callback function is executed as a background job, all asynchronous operations inside the callback function must be awaited. Otherwise, transaction handling does not work properly.
+
+::: details Transaction objects  `tx<srv>` 
+
+The `tx` object created by `srv.tx()` and passed to the function `fn` is a derivate of the service instance, constructed like that: 
+
+```js
+tx = { __proto__:srv, 
+  context: { tenant, user, locale }, // defaults from cds.context 
+  model: cds.model, // could be a tenant-extended variant instead
+  commit(){...}, 
+  rollback(){...},
+}
+```
+
 :::
 
-**Arguments:**
 
-* `options` is the same as the `context` argument for `cds.tx()`, plus:
-  * `every: <n>` number of milliseconds to use in `setInterval(fn,n)`
-  * `after: <n>` number of milliseconds to use in `setTimeout(fn,n)`
-  * if non of both is given `setImmediate(fn)` is used to run the job
-* `fn` is a function representing the background task
 
-**Returns:**
+The new root transaction is also active for all nested operations run from fn, including other services, most important database services. In particular, the following would work as well as expected (this time using `cds.tx` as shortcut `cds.db.tx`): 
 
-- An event emitter which allows to register handlers on `succeeded`, `failed`, and `done` events.
 ```js
-let job = cds.spawn(...)
-job.on('succeeded', ()=>console.log('succeeded'))
+await cds.tx (() => {
+  let exists = SELECT(1).from(Books,201).forUpdate()
+  if (exists) UPDATE (Books,201).with(data)
+  else INSERT.into (Books,{ ID:201,...data })
+})
 ```
 
-- In addition, property `job.timer` returns the response of `setTimeout` in case option `after` was used, or `setInterval` in case of option `every`. For example, this allows to stop a regular running job like that:
+**Optional argument `ctx`** allows to override values for nested contexts, which are otherwise inherited from `cds.context`, for example:
+
 ```js
-let job = cds.spawn({ every:111 }, ...)
-await sleep (11111)
-clearInterval (job.timer) // stops the background job loop
+await cds.tx ({ tenant:t0, user: privileged }, ()=>{
+  // following + nested will now run with specified tenant and user...
+  let exists = SELECT(1).from(Books,201).forUpdate()
+  ...
+})
 ```
 
-The implementation guarantees decoupled execution from request-handling threads/continuations, by...
+**If argument `fn` is omitted**, the constructed `tx` would be returned and can be used to manage the transaction in a fully manual fashion:
 
-- constructing a new root transaction `tx` per run using `cds.tx()`
-- setting that as the background run's continuation's `cds.context`
-- invokes `fn` passing `tx` as argument to it.
+```js
+const tx = srv.tx() // [!code focus]
+try { // [!code focus]
+  let exists = tx.run ( SELECT(1).from(Books,201).forUpdate() )
+  if (exists) tx.update (Books,201).with(data)
+  else tx.create (Books,{ ID:201,...data })
+  tx.commit() // [!code focus]
+} catch(e) {
+  tc.rollback(e) // will rethrow e // [!code focus]
+} // [!code focus]
+```
 
-Think of it as if each run happens in an own thread with own context, with automatic transaction management.
+::: warning
 
-Use argument `options` if you want to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
+Note though, that with this usage we've **not** started a new async context, and all nested calls to other services, like db, will **not** happen within the confines of the constructed `tx`.  
+
+:::
+
+
 
 
 
@@ -411,6 +440,58 @@ In case of database services, this sends `ROLLBACK` command to the database and 
 :::
 
 
+
+## cds.spawn  <i>  (options, fn) </i> {#cds-spawn}
+
+Runs the given function as detached continuation in a specified event context (not inheriting from the current one).
+Options `every` or `after` allow to run the function repeatedly or deferred. For example:
+
+```js
+cds.spawn ({ tenant:'t0', every: 1000 /* ms */ }, async (tx) => {
+  const mails = await SELECT.from('Outbox')
+  await MailServer.send(mails)
+  await DELETE.from('Outbox').where (`ID in ${mails.map(m => m.ID)}`)
+})
+```
+
+::: tip
+Even though the callback function is executed as a background job, all asynchronous operations inside the callback function must be awaited. Otherwise, transaction handling does not work properly.
+:::
+
+**Arguments:**
+
+* `options` is the same as the `context` argument for `cds.tx()`, plus:
+  * `every: <n>` number of milliseconds to use in `setInterval(fn,n)`
+  * `after: <n>` number of milliseconds to use in `setTimeout(fn,n)`
+  * if non of both is given `setImmediate(fn)` is used to run the job
+* `fn` is a function representing the background task
+
+**Returns:**
+
+- An event emitter which allows to register handlers on `succeeded`, `failed`, and `done` events.
+
+```js
+let job = cds.spawn(...)
+job.on('succeeded', ()=>console.log('succeeded'))
+```
+
+- In addition, property `job.timer` returns the response of `setTimeout` in case option `after` was used, or `setInterval` in case of option `every`. For example, this allows to stop a regular running job like that:
+
+```js
+let job = cds.spawn({ every:111 }, ...)
+await sleep (11111)
+clearInterval (job.timer) // stops the background job loop
+```
+
+The implementation guarantees decoupled execution from request-handling threads/continuations, by...
+
+- constructing a new root transaction `tx` per run using `cds.tx()`
+- setting that as the background run's continuation's `cds.context`
+- invokes `fn` passing `tx` as argument to it.
+
+Think of it as if each run happens in an own thread with own context, with automatic transaction management.
+
+Use argument `options` if you want to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
 
 
 

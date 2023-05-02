@@ -3,13 +3,13 @@ label: Analytics
 synopsis: >
   Aggregations and their limitations in OData V2.
 permalink: advanced/analytics
-# redirect_from: guides/analytics
+redirect_from: guides/analytics
 ---
 
 
 # Analytics in OData V2
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## Aggregation
 

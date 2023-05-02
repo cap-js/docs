@@ -30,20 +30,19 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
 |----------------|-------------------------------------------|------------|---------|
+| `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
 | `$value`       | Retrieves single rows/values              | <X/>      | <X/>  |
-| `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
 | `$top`,`$skip` | Requests paginated results                | <X/>      | <X/>   |
+| `$filter`      | Like SQL where clause                     | <X/>      | <X/>   |
 | `$select`      | Like SQL select clause                    | <X/>      | <X/>   |
 | `$orderby`     | Like SQL order by clause                  | <X/>      | <X/>   |
-| `$filter`      | Like SQL where clause                     | <X/>      | <X/>   |
-| `$expand`      | Deep-read associated entities             | <X/> <sup>(1)</sup>     | <X/> <sup>(2)</sup>  |
-| `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
-| `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
-| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(4)</sup> |
+| `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
 | [Delta Payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in deep update | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update collection of entities with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
+| `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
+| `$expand`      | Deep-read associated entities             | <X/> <sup>(1)</sup>     | <X/> <sup>(2)</sup>  |
+| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(4)</sup> |
 
-<span id="patch-collection" />
+<span id="features" />
 
 - <sup>(1)</sup> Support for nested `$select`, `$expand`, `$filter` and `$orderby` options.
 - <sup>(2)</sup> Support for nested `$select`, `$expand`, `$filter`, `$orderby`, `$top` and `$skip` options.
@@ -141,7 +140,8 @@ The client can now rightfully expect that float numbers are transmitted but in r
 ## OData Annotations { #annotations}
 
 The following sections explain how to add OData annotations to CDS models and how they’re mapped to EDMX outputs.
-
+Only annotations defined in the vocabularies mentioned in section [Annotation Vocabularies](#vocabularies) are
+considered in the translation.
 
 ### Terms and Properties
 
@@ -579,6 +579,9 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 ## Annotation Vocabularies { #vocabularies}
 
+When translating a CDS model to an OData API, by default only those annotations
+are considered that are part of the standard OASIS or SAP vocabularies listed below.
+You can add further vocabularies to the translation process [using configuration.](#additional-vocabularies)
 
 ### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) { target="_blank"}
 
@@ -610,9 +613,75 @@ Last but not least, it also saves us lots of effort as we don't have to write de
 
 [Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){.learn-more}
 
+
+### Additional Vocabularies
+
+Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the following configuration option:
+
+::: code-group
+```json [package.json]
+{
+  "cds": {
+    "cdsc": {
+      "odataVocabularies": {
+        "MyVocabulary": {
+          "Alias": "MyVocabulary",
+          "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
+          "Uri": "<link to vocabulary document>"
+        }
+      }
+    }
+  }
+}
+```
+
+```json [.cdsrc.json]
+{
+  "cdsc": {
+    "odataVocabularies": {
+      "MyVocabulary": {
+        "Alias": "MyVocabulary",
+        "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
+        "Uri": "<link to vocabulary document>"
+      }
+    }
+  }
+}
+```
+:::
+
+With this configuration, all annotations prefixed with `MyVocabulary` are considered in the translation.
+
+```cds
+service S {
+  @MyVocabulary.MyAnno: 'test'
+  entity E { /*...*/ };
+};
+```
+
+The annotation is added to the OData API, as well as the mandatory reference to the vocabulary definition:
+
+```xml
+<edmx:Reference Uri="link to vocabulary document">
+  <edmx:Include Alias="MyVocabulary" Namespace="com.MyCompany.vocabularies.MyVocabulary.v1"/>
+</edmx:Reference>
+...
+<Annotations Target="S.E">
+  <Annotation Term="MyVocabulary.MyAnno" String="My new Annotation"/>
+</Annotations>
+```
+
+The compiler neither evaluates the annotation values nor the URI.
+It is your responsibility to make the URI accessible if required.
+Unlike for the standard vocabularies listed above, the compiler has no access to the content of
+the vocabulary, so the values are translated completely generically.
+
+
 ## Data Aggregation
 
-Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect. For data aggregation in OData V2, see [Aggregation](../advanced/analytics#aggregation).
+Data aggregation in OData V4 is leveraged by the `$apply` system query option, which defines a pipeline of transformations that is applied to the _input set_ specified by the URI. On the _result set_ of the pipeline, the standard system query options come into effect.
+
+<div id="data-aggregation-v2" />
 
 ### Example
 
@@ -759,6 +828,95 @@ A custom aggregate for a currency code or unit of measure should be also exposed
 | sort result set with `$orderby`         | <X/>   | <X/>  |
 | paginate result set with `$top`/`$skip` | <X/>   | <X/>  |
 
+
+## Open Type
+
+An entity type or a complex type may be declared as _open_, allowing clients to add properties dynamically to instances of the type by specifying uniquely named property values in the payload used to insert or update an instance of the type. To indicate that the entity or complex type is open, the corresponding type must be annotated with `@open`:
+
+
+```cds
+service CatalogService {
+  @open // [!code focus]
+  entity Book {
+    key id : Integer;
+  }
+}
+```
+
+The cds build for OData v4 will render the entity type `Book` in `edmx` with the [`OpenType` attribute](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_OpenEntityType) set to `true`:
+
+```xml
+<EntityType Name="Book" OpenType="true"> // [!code focus]
+  <Key>
+    <PropertyRef Name="id"/>
+  </Key>
+  <Property Name="id" Type="Edm.Integer" Nullable="false"/>
+</EntityType>
+```
+
+The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.: 
+
+```json
+{"id": 1, "title": "Tow Sawyer"}
+``` 
+or
+
+```json
+{"title": "Tow Sawyer", 
+ "author": { "name": "Mark Twain", "age": 74 } }
+```
+
+Open types can also be referenced in non-open types and entities. This, however, doesn't make the referencing entity or type open.
+
+```cds
+service CatalogService {
+  type Order {
+    guid: Integer;
+    book: Book;
+  }
+
+  @open
+  type Book {}
+}
+```
+Following payload for `Order` is allowed:
+
+`{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
+
+Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
+
+::: warning
+Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
+:::
+
+### Java Type Mapping
+
+#### Simple Types
+
+The simple values of deserialized JSON payload can be of type: `String`, `Boolean`, `Number` or simply an `Object` for `null` values.
+
+|JSON                     | Java Type of the `value`       |
+|-------------------------|--------------------------------|
+|`{"value": "Tom Sawyer"}`| `java.lang.String`             |
+|`{"value": true}`        | `java.lang.Boolean`            |
+|`{"value": 42}`          | `java.lang.Number` (Integer)   |
+|`{"value": 36.6}`        | `java.lang.Number` (BigDecimal)|
+|`{"value": null}`        | `java.lang.Object`             |
+
+#### Structured Types
+
+The complex and structured types are deserialized to `java.util.Map`, whereas collections are deserialized to `java.util.List`.
+
+|JSON                                                               | Java Type of the `value`             |
+|-------------------------------------------------------------------|--------------------------------------|
+|`{"value": {"name": "Mark Twain"}}`                                | `java.util.Map<String, Object>`      |
+|`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
+
+
+::: warning
+The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
+The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
+:::
 
 <div id="mass-data" />
 

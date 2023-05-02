@@ -2,14 +2,14 @@
 synopsis: >
   Find here common solutions to frequently occurring issues.
 permalink: advanced/troubleshooting
-# redirect_from: resources/troubleshooting
+redirect_from: resources/troubleshooting
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d2ee648522044ea19d3b5126c29692b5.html
 ---
 
 # Troubleshooting
 
-<div v-html="$frontmatter.synopsis" />
+<div v-html="$frontmatter?.synopsis" />
 
 ## General { #cds}
 

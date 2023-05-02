@@ -8,7 +8,7 @@ status: released
 
 # Databases
 
-{{$frontmatter.synopsis}}
+{{$frontmatter?.synopsis}}
 
 <!--- % include links-for-node.md %} -->
 <!--- % include _chapters toc="2,3" %} -->

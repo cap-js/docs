@@ -9,7 +9,7 @@ status: released
 
 CAP-related Terms and Acronyms {.subtitle}
 
-<!-- {{$frontmatter.synopsis}} -->
+<!-- {{$frontmatter?.synopsis}} -->
 <br>
 
 [CAP]() — shorthand for "SAP Cloud Application Programming Model"

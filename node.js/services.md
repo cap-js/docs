@@ -463,6 +463,7 @@ This is === [`cds.model`](cds-facade#cds-model) by default, that is, unless you 
 ### srv.definition  <i>  &#8674; [def] </i> { #srv-definition}
 
 <div class='indent' markdown="1">
+
 The [linked](cds-reflect#cds-reflect) [service definition](../cds/csn#services) contained in the [model](#srv-model) which served as the blueprint for the given service instance.
 </div>
 
@@ -939,6 +940,7 @@ The implementation constructs an instance of [`cds.Event`], which is then dispat
 _**Common Usages:**_
 
 <div class="indent" markdown="1">
+
 You can use `srv.emit` as a basic and flexible alternative to [`srv.run`](#svr-run), for example to send queries plus additional request `headers` to remote services:
 
 ```js

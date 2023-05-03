@@ -1,22 +1,23 @@
 ---
-outline: [2,3]
-layout: node-js
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
-# Core Services
+# Core Services 
 
-::: warning
-This is an overhauled documentation for `cds.Services`.
-Find the old one [here](services.md).
+
+
+::: tip
+This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
 :::
+
+
 
 [[toc]]
 
 
 
-## Provided Services
+## Provided Services 
 
 A CAP application mainly consists of the services it provides to clients. Such *provided services* are commonly declared through service definitions in CDS, and served automatically during bootstrapping as follows...
 
@@ -29,11 +30,11 @@ For example, a simplified all-in-one variant of [*cap/samples/bookshop/srv/cat-s
 ```cds
 using { User, sap.capire.bookshop as my } from '../db/schema';
 service CatalogService {
-  entity Books {
-    key ID : UUID;
-    title  : String;
+  entity Books { 
+    key ID : UUID; 
+    title  : String; 
     descr  : String;
-    author : Association to my.Authors;
+    author : Association to my.Authors; 
   }
   action submitOrder ( book: UUID, quantity: Integer );
   event OrderedBook: { book: UUID; quantity: Integer; buyer: User }
@@ -46,7 +47,7 @@ service CatalogService {
 
 #### Serving Provided Services →  `cds.serve`
 
-When starting a server with `cds watch` or `cds run` this uses `cds.serve` to automatically create instances of `cds.Service` for all such service definitions found in our models, and serve them to respective endpoints via corresponding protocols.
+When starting a server with `cds watch` or `cds run` this uses `cds.serve` to automatically create instances of `cds.Service` for all such service definitions found in our models, and serve them to respective endpoints via corresponding protocols. 
 
 In essence, the built-in bootstrapping logic works like that:
 
@@ -64,7 +65,7 @@ cds.services = await cds.serve('all').from(cds.model).in(cds.app)
 
 ## Required Services
 
-In addition to provided services, your applications commonly need to consume *required services*. Most prominent example for that is the primary database `cds.db`. Others could be application services provided by other enterprise applications or micro services, or other platform services, such as secondary databases or message brokers.
+In addition to provided services, your applications commonly need to consume *required services*. Most prominent example for that is the primary database `cds.db`. Others could be application services provided by other enterprise applications or micro services, or other platform services, such as secondary databases or message brokers. 
 
 
 
@@ -117,10 +118,10 @@ By default `cds.serve` creates instances of `cds.ApplicationService` for each fo
 The easiest way to add custom service implementations is to simply place an equally named `.js` file next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
 
 ```zsh
-bookshop/
-├─ srv/
-│ ├─ admin-service.cds
-│ ├─ admin-service.js
+bookshop/ 
+├─ srv/ 
+│ ├─ admin-service.cds 
+│ ├─ admin-service.js 
 │ ├─ cat-service.cds // [!code focus]
 │ └─ cat-service.js // [!code focus]
 └─ ...
@@ -131,13 +132,13 @@ bookshop/
  In addition to direct neighbourhood you can place your impl files also in nested subfolders `lib/` or `handlers/` like that:
 
 ```zsh
-bookshop/
-├─ srv/
+bookshop/ 
+├─ srv/ 
 │ └─ lib/ # or handlers/ // [!code focus]
-│ │ ├─ admin-service.js
-│ │ └─ cat-service.js
-│ ├─ admin-service.cds
-│ └─ cat-service.cds
+│ │ ├─ admin-service.js 
+│ │ └─ cat-service.js 
+│ ├─ admin-service.cds 
+│ └─ cat-service.cds 
 └─ ...
 ```
 
@@ -165,7 +166,7 @@ The `impl` configuration property for [required services](#required-services):
 ::: code-group
 
 ```json [package.json]
-{ "cds": {
+{ "cds": { 
   "requires": {
     "ReviewsService": {
       "impl": "srv/reviews-services.js" // [!code focus]
@@ -186,7 +187,7 @@ Implement your custom logic as a subclass of `cds.Service`, or more commonly of 
 
 ```js
 class BooksService extends cds.ApplicationService {
-  init() {
+  init() { 
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
     this.after ('READ', Books, req => {...})
@@ -208,7 +209,7 @@ const cds = require('@sap/cds')
 module.exports = cds.service.impl (function(){ ... }) // [!code focus]
 ```
 
-> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VSCode](https://code.visualstudio.com/docs/editor/intellisense).
+> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VSCode](https://code.visualstudio.com/docs/editor/intellisense). 
 
 This will be translated behind the scenes to the equivalent of this:
 
@@ -254,7 +255,7 @@ The exports' names must **match the servce definitions' fully-qualified names**.
 Given access to a service instance — for example, through `cds.connect` — we can send requests, queries or asynchronously processed event messages to it:
 
 ```js
-const srv = await cds.connect.to ('BooksService')
+const srv = await cds.connect.to ('BooksService')	
 ```
 
 [Using REST-style APIs](#rest-style-api):
@@ -296,15 +297,15 @@ await srv.emit ('SomeEvent', {foo:'bar'})
 ```
 
 ```js
-await srv.emit ({ event: 'OrderedBooks', data: {
-  book: 206, quantity: 1,
-  buyer: 'alice@wonderland.com'
+await srv.emit ({ event: 'OrderedBooks', data: { 
+  book: 206, quantity: 1, 
+  buyer: 'alice@wonderland.com' 
 }})
 ```
 ```js
-await srv.emit ('OrderedBooks', {
-  book: 206, quantity: 1,
-  buyer: 'alice@wonderland.com'
+await srv.emit ('OrderedBooks', { 
+  book: 206, quantity: 1, 
+  buyer: 'alice@wonderland.com' 
 })
 ```
 
@@ -312,7 +313,7 @@ await srv.emit ('OrderedBooks', {
 
 ::: tip Prefer Platform-Agnostic APIs
 
-REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extend. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
+REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extend. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases. 
 
 :::
 
@@ -322,7 +323,7 @@ REST-style APIs using `srv.send()` tend to become protocol-specific, for example
 
 
 
-Every active thing in CAP is a service, and class `cds.Service` is the base class for all of which.
+Every active thing in CAP is a service, and class `cds.Service` is the base class for all of which. 
 
 Services react to events through execution of registered event handlers. So, the following code snippets show the essence of how you'd use services.
 
@@ -354,7 +355,7 @@ await srv.emit('bar')         //> bar
 
 ```tsx
 function constructor (
-  name    : string,
+  name    : string, 
   model   : CSN,
   options : { kind: string, ... }
 )
@@ -374,7 +375,7 @@ The service's name as passed to the constructor, and under which it is found in 
 - If constructed by [`cds.connect()`](cds-connect) it's the lookup name:
 
 ```js
-const srv = await cds.connect.to('audit-log')
+const srv = await cds.connect.to('audit-log') 
 srv.name //> 'audit-log'
 ```
 
@@ -386,8 +387,8 @@ srv.name //> 'audit-log'
 var srv.model      : LinkedCSN
 var srv.definition : LinkedCSN service definition
 ```
-- `model`, a [`LinkedCSN`](cds-reflect#linked-csn), is the CDS model from which this service was constructed
-- `definiton`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed
+- `model`, a [`LinkedCSN`](cds-reflect#linked-csn), is the CDS model from which this service was constructed 
+- `definiton`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed 
 
 
 
@@ -396,8 +397,8 @@ var srv.definition : LinkedCSN service definition
 ```tsx
 var srv.options : { //> from cds.requires config
   service : string, // the definition's name if different from srv.name
-  kind    : string,
-  impl    : string,
+  kind    : string, 
+  impl    : string, 
 }
 ```
 
@@ -415,9 +416,9 @@ var srv.entities/events/operations : Iterable <{
 }>
 ```
 
-These properties provide convenient access to the CSN definitions of the *entities*, *events* and operations — that is *actions* and *functions* — exposed by this service.
+These properties provide convenient access to the CSN definitions of the *entities*, *events* and operations — that is *actions* and *functions* — exposed by this service. 
 
-They are *iterable* objects, which means you can use them in all of these ways:
+They are *iterable* objects, which means you can use them in all of these ways: 
 
 ```js
 // Assumed `this` is an instance of cds.Service
@@ -441,7 +442,7 @@ Override this method in subclasses to register custom event handlers. As shown i
 
 ```js
 class BooksService extends cds.ApplicationService {
-  init(){
+  init(){ 
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
     this.after ('READ', Books, req => {...})
@@ -451,7 +452,7 @@ class BooksService extends cds.ApplicationService {
 }
 ```
 
-Ensure to call `super.init()` to allow subclassses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
+Ensure to call `super.init()` to allow subclassses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours. 
 
 
 
@@ -492,7 +493,7 @@ Use these methods to register event handlers with a service, usually in your ser
 
 ```js
 class BooksService extends cds.ApplicationService {
-  init(){
+  init(){ 
     const { Books, Authors } = this.entities
     this.on ('READ',[Books,Authors], req => {...})
     this.after ('READ',Books, books => {...})
@@ -514,7 +515,7 @@ class BooksService extends cds.ApplicationService {
 - **`.before`** handlers run before the `.on` handlers, frequently for validating inbound data
 - **`.after`** handlers run before the `.on` handlers, frequently to enrich outbound data
 
-**Argument `event`** can be one of:
+**Argument `event`** can be one of: 
 
 - `'CREATE'`, `'READ'`, `'UPDATE'`, `'UPSERT'`,`'DELETE'`
 -  `'INSERT'`,`'SELECT'` → as aliases for: `'CREATE'`,`'READ'`
@@ -536,13 +537,13 @@ class BooksService extends cds.ApplicationService {
 
 ::: tip Best Practices
 
-Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#cds-tx-ctx-fn) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
+Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance. 
 
 :::
 
 ::: tip Custom domain logic mostly goes into `.before` or `.after` handlers
 
-Your services are mostly constructed by [`cds.serve()`](./cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](./app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions.
+Your services are mostly constructed by [`cds.serve()`](./cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](./app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions. 
 
 :::
 
@@ -551,8 +552,8 @@ Your services are mostly constructed by [`cds.serve()`](./cds-serve) based on se
 ### srv. before (request) {.method}
 
 ```tsx
-function srv.before (event, entity?, handler: (
-  req : cds.Request
+function srv.before (event, entity?, handler: ( 
+  req : cds.Request 
 )))
 ```
 
@@ -576,14 +577,14 @@ this.before ('submitOrder', req => {
 You can as well run additional operations in before handlers, of course:
 
 ```js
-this.before ('submitOrder', async req => {
+this.before ('submitOrder', async req => { 
   await UPDATE(Books).set ('stock -=', req.data.quantity)
 })
 ```
 
 ::: details Collecting input errors with `req.error()`...
 
-The input validation handlers above collect input errors with [`req.error()`](./events#req-msg) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client.
+The input validation handlers above collect input errors with [`req.error()`](./events#req-msg) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client. 
 
 :::
 
@@ -594,24 +595,24 @@ The input validation handlers above collect input errors with [`req.error()`](./
 ### srv. after (request) {.method}
 
 ```tsx
-function srv.after (event, entity?, handler: (
-  results : object[] | any,
-  req     : cds.Request
+function srv.after (event, entity?, handler: ( 
+  results : object[] | any, 
+  req     : cds.Request 
 )))
 ```
 
 *Find details on `event` and `entity` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Use this method to register handlers to run *after* the `.on` handlers, frequently used to enrich outbound data. The handlers receive two arguments:
+Use this method to register handlers to run *after* the `.on` handlers, frequently used to enrich outbound data. The handlers receive two arguments: 
 
 - `results` — the outcomes of the `.on` handler which ran before
-- `req` — an instance of [`cds.Request`](./events.md#cds-request)
+- `req` — an instance of [`cds.Request`](./events.md#cds-request) 
 
 Examples:
 
 ```js
-this.after ('READ', Books, books => {
-  for (let b of books) if (b.stock > 111) b.discount = '11%'
+this.after ('READ', Books, books => { 
+  for (let b of books) if (b.stock > 111) b.discount = '11%' 
 })
 ```
 
@@ -622,9 +623,9 @@ this.after ('READ', Books, books => {
 ### srv. on (request) {.method}
 
 ```tsx
-function srv.on (event, entity?, handler: (
-  req  : cds.Request,
-  next : function
+function srv.on (event, entity?, handler: ( 
+  req  : cds.Request, 
+  next : function 
 )))
 ```
 
@@ -632,10 +633,10 @@ function srv.on (event, entity?, handler: (
 
 Use this method to register handlers meant to actually fulfill requests, e.g. by reading/writing data from/to databases. The handlers receive two arguments:
 
-- `req` — an instance of [`cds.Request`](./events.md#cds-request) providing access to all request data
+- `req` — an instance of [`cds.Request`](./events.md#cds-request) providing access to all request data 
 - `next` — a function which allows handlers to pass control down the [interceptor stack](#interceptor-stack-with-next)
 
-Examples:
+Examples: 
 
 ```js
 const { Books, Authors } = this.entities
@@ -657,7 +658,7 @@ Authors.data = {
 Books.data = {
   211: { ID:211, title:'Wuthering Heights', author: Authors.data[111], stock:11 },
   212: { ID:212, title:'Eleonora', author: Authors.data[112], stock:14 },
-  214: { ID:214, title:'Catweazle', author: Authors.data[114], stock:114 },
+  214: { ID:214, title:'Catweazle', author: Authors.data[114], stock:114 },  
 }
 ```
 
@@ -665,7 +666,7 @@ Books.data = {
 
 ::: details Noteworthy in these examples...
 
-- The `READ` handler is using the [`req.target`](./events.md#req-target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above.
+- The `READ` handler is using the [`req.target`](./events.md#req-target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above. 
 
 - The `UPDATE` handler is using the [`req.params`](./events.md#req-params) property which provides access to passed in entity keys.
 
@@ -686,7 +687,7 @@ this.on ('READ',[Books,Authors], req => req.target.data)
 ...
 ```
 
-> Alternatively, such authorization checks could also be placed in *.before* handlers.
+> Alternatively, such authorization checks could also be placed in *.before* handlers. 
 
 [Learn more about how requests are processed by `srv.handle(req)`](#srv-handle-event) {.learn-more}
 
@@ -695,16 +696,16 @@ this.on ('READ',[Books,Authors], req => req.target.data)
 ### srv. on (event) {.method}
 
 ```tsx
-function srv.on (event, handler: (
-  msg : cds.Event
+function srv.on (event, handler: ( 
+  msg : cds.Event 
 )))
 ```
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
+Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
 
-1. They are usually registered 'from the outside', not as part of a service's implementation.
+1. They are usually registered 'from the outside', not as part of a service's implementation. 
 2. They receive only a single argument: `msg`, an instance of [`cds.Event`](./events.md#cds-request); no `next`.
 3. *All* of them get executed *concurrently*, not first-come-first-serve thru `next()`.
 
@@ -724,26 +725,26 @@ const BooksService = await cds.connect.to('BooksService')
 const OrdersService = await cds.connect.to('OrdersService')
 BooksService.on ('BooksOrdered', async msg => { // [!code focus]
   const { buyer, books } = msg.data
-  await OrdersService.create ('Orders', {
-    customer: buyer,
-    items: books
+  await OrdersService.create ('Orders', { 
+    customer: buyer, 
+    items: books 
   })
 })
 ```
 
-Moreover, `.on(event)` handlers are *listeners*, not *interceptors*: **all** registered handlers are **executed concurrently **, not just the ones called thru `next()` chains — actually there is no argument `next`. So, if we had another consumer like that:
+Moreover, `.on(event)` handlers are *listeners*, not *interceptors*: **all** registered handlers are **executed concurrently **, not just the ones called thru `next()` chains — actually there is no argument `next`. So, if we had another consumer like that: 
 
 ```js
 const audit = await cds.connect.to('audit-log')
 BooksService.on ('BooksOrdered', msg => audit.log ({ // [!code focus]
-  timestamp: msg.timestamp,
-  user: msg.data.buyer,
-  event: msg.event,
+  timestamp: msg.timestamp, 
+  user: msg.data.buyer, 
+  event: msg.event, 
   details: msg.data
 }))
 ```
 
-All these registered handlers would get executed concurrently, and independently.
+All these registered handlers would get executed concurrently, and independently. 
 
 [Learn more about how requests are processed by `srv.handle(event)`](#srv-handle-event) {.learn-more}
 
@@ -768,7 +769,7 @@ this.on ('error', (err, req) => {
 })
 ```
 
-Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, i.e., **not `async`**, not returning Promises.
+Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, i.e., **not `async`**, not returning Promises. 
 
 
 
@@ -782,11 +783,11 @@ async function srv.send (
   path?    : string,
   data?    : object | any,
   headers? : object
-)
+) 
 return : result of this.dispatch(req)
 ```
 
-Use this method to send synchronous requests to a service for execution.
+Use this method to send synchronous requests to a service for execution. 
 
 -  `method` can be a HTTP method, or a name of a custom action or function
 -  `path` can be an arbitrary URL, starting with a leading `'/'`
@@ -800,19 +801,19 @@ await srv.send('GET','/Books/201')
 await srv.send('submitOrder',{...})
 ```
 
-These requests would be processed by respective [event handlers](#srv-on-before-after) registered like that:
+These requests would be processed by respective [event handlers](#on-before-after) registered like that:
 
 ```js
-srv.on('CREATE','Books', req => {...})
+srv.on('CREATE','Books', req => {...}) 
 srv.on('READ','Books', req => {...})
 srv.on('submitOrder', req => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
+The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
 
 ```js
 let req = new cds.Request (
-  (method is object) ? method
+  (method is object) ? method 
   : (path is object) ? { method, data:path, headers:data }
   : { method, path, data, headers }
 )
@@ -830,7 +831,7 @@ async function srv.emit (
   event    : string | { event, data?, headers? },
   data?    : object | any,
   headers? : object
-)
+) 
 return : nothing
 ```
 
@@ -841,13 +842,13 @@ await srv.emit ({ event: 'SomeEvent', data: { foo: 'bar' }})
 await srv.emit ('SomeEvent', { foo:'bar' })
 ```
 
-Consumers would subscribe to such events through [event handlers](#srv-on-before-after) like that:
+Consumers would subscribe to such events through [event handlers](#on-before-after) like that:
 
 ```js
 Emitter.on('SomeEvent', msg => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Event`](./events.md#cds-event) like so:
+The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Event`](./events.md#cds-event) like so:
 
 ```js
 let msg = new cds.Event (
@@ -862,13 +863,13 @@ return this.dispatch(msg)
 
 All *cds.Services* are intrinsically events & messaging-enabled. The core implementation provides local in-process messaging, while [*cds.MessagingService*](messaging) plugs in to that to extend it to cross-process messaging via common message brokers.
 
-[**⇨ Read the Messaging Guide**](../guides/messaging/index) for the complete story.
+[**⇨ Read the Messaging Guide**](../guides/messaging/index) for the complete story. 
 
 :::
 
 ::: danger **PLEASE NOTE**
 
-Even though emitters never wait for consumers to receive and process event messages, keep in mind that `srv.emit()` is an *`async`* method, and that it is of **utter importance** to properly handle the returned *Promises* with `await`. Not doing so ends up  in unhandled promises, and likely invalid transaction states and deadlocks.
+Even though emitters never wait for consumers to receive and process event messages, keep in mind that `srv.emit()` is an *`async`* method, and that it is of **utter importance** to properly handle the returned *Promises* with `await`. Not doing so ends up  in unhandled promises, and likely invalid transaction states and deadlocks. 
 
 :::
 
@@ -881,7 +882,7 @@ Even though emitters never wait for consumers to receive and process event messa
 ```ts
 async function srv.run (
   query : CQN | CQN[]
-)
+) 
 return : result of this.dispatch(req)
 ```
 
@@ -891,20 +892,20 @@ It accepts single [`CQN`](../cds/cqn) query objects, or arrays of which:
 ```js
 await srv.run( INSERT.into(Books,{ title: 'Catweazle' }) )
 await srv.run( SELECT.from(Books,201) )
-await srv.run([
+await srv.run([ 
   SELECT.from(Authors),
-  SELECT.from(Books)
+  SELECT.from(Books) 
 ])
 ```
 
-These queries would be processed by respective [event handlers](#srv-on-before-after) registered like that:
+These queries would be processed by respective [event handlers](#on-before-after) registered like that:
 
 ```js
-srv.on('CREATE',Books, req => {...})
+srv.on('CREATE',Books, req => {...}) 
 srv.on('READ',Books, req => {...})
 ```
 
-The implementation essentially constructs and [dispatches](#srv-dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
+The implementation essentially constructs and [dispatches](#dispatch-event) instances of [`cds.Request`](./events.md#cds-request) like so:
 
 ```js
 let req = new cds.Request({query})
@@ -939,9 +940,9 @@ await db.run (tx => {
 })
 ```
 
-> Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
+> Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already. 
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation. 
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-context-tx) {.learn-more}
 
@@ -955,7 +956,7 @@ This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure si
 async function srv.dispatch (
   this  : srv | Transactional <srv>,
   event : cds.Event | cds.Request | cds.Event[] | cds.Request[]
-)
+) 
 return : result of this.handle(event)
 ```
 
@@ -968,17 +969,17 @@ The implementation basically works like that:
 if (!this.context) return this.run (tx => tx.dispatch(req))
 // Handle batches of queries
 if (req.query is array) return Promise.all (req.query.map(this.dispatch))
-// Ensure req.target is properly determined
+// Ensure req.target is properly determined 
 if (!req.target) req.target = _infer_target (req)
-// Actually handle the request
+// Actually handle the request 
 return this.handle(req)
 ```
 
-Basically, methods  `srv.dispatch()` and `.handle()` are designed as a pair, with the former caring for all preparatory work, and the latter actually processing the request by executing matching event handlers.
+Basically, methods  `srv.dispatch()` and `.handle()` are designed as a pair, with the former caring for all preparatory work, and the latter actually processing the request by executing matching event handlers. 
 
-::: tip
+::: tip 
 
-When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-context-tx#srv-tx).
+When looking for overriding central event processing, rather choose  [`srv.handle()`](#handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](#srv-tx).
 
 :::
 
@@ -990,11 +991,11 @@ When looking for overriding central event processing, rather choose  [`srv.handl
 async function srv.handle (
   this  : Transactional <srv>,
   event : cds.Event | cds.Request
-)
+) 
 return : result of executed .on handlers
 ```
 
-This is the internal method called by [`this.dispatch()`](#srv-dispatch-event) to actually process requests or events by executing registered event handlers. Argument `event` is expected to be an instance of [`cds.Event`](./events.md#cds-event) or [`cds.Request`](./events.md#cds-request).
+This is the internal method called by [`this.dispatch()`](#dispatch-event) to actually process requests or events by executing registered event handlers. Argument `event` is expected to be an instance of [`cds.Event`](./events.md#cds-event) or [`cds.Request`](./events.md#cds-request).
 
 The implementation basically works like that:
 
@@ -1020,7 +1021,7 @@ return req.results
 With `Promise.seq()` defined like this:
 
 ```js
-Promise.seq = handlers => async function next(){
+Promise.seq = handlers => async function next(){ 
   req.results = await handlers.shift()?.(req, next)
 }()
 ```
@@ -1029,13 +1030,13 @@ All matching `before`, `on`, and `after` handlers are executed in corresponding 
 
 - **`before`** handlers are always executed *concurrently*
 - **`on`** handlers are executed...
-  -  ***sequentially*** for instances of `cds.Requests`
-  -  ***concurrently*** for instances of `cds.Event`
+  -  ***sequentially*** for instances of `cds.Requests` 
+  -  ***concurrently*** for instances of `cds.Event` 
 - **`after`** handlers are always executed *concurrently*
 
-In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
+In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example. 
 
-
+ 
 
 
 
@@ -1074,7 +1075,7 @@ await srv.delete(Books,201)
 
 ## CRUD-style API
 
-As an alternative to [`srv.run(query)`](#srv-run-query) you can use these convenience methods:
+As an alternative to [`srv.run(query)`](#run-query) you can use these convenience methods: 
 
 - srv. **read** (entity, ...) {.method}
 - srv. **create** (entity, ...) {.method}

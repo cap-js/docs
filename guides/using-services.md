@@ -148,16 +148,15 @@ By default, CAP works with OData V4 and the EDMX export is in this protocol vers
 Import the API to your project using `cds import`.
 
 ```sh
-cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace --as cds
+cds import <input_file> --as cds
 ```
 
 | Option             | Description                                                                                                                                                                                                       |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--keep-namespace` | Keep the namespace of the existing service. Otherwise, the namespace is changed to the file's base name when converting the file to CSN.<br> **Note:** In this example, it would be still `API_BUSINESS_PARTNER`. |
 | `--as cds`         | The import creates a CDS file (for example _API_BUSINESS_PARTNER.cds_) instead of a CSN file.                                                                                                                     |
 
 
-This adds the API in CSN format to the _srv/external_ folder and also copies the EDMX file into that folder. Additionally, for **Node.js** it adds the API as an external OData service to your _package.json_. You use this declaration later to connect to the remote service [using a destination](#use-destinations-with-node-js).
+This adds the API in CDS format to the _srv/external_ folder and also copies the input file into that folder. Additionally, for **Node.js** it adds the API as an external service to your _package.json_. You use this declaration later to connect to the remote service [using a destination](#use-destinations-with-node-js).
 
 ```json
 "cds": {
@@ -189,9 +188,17 @@ Now run `cds import <filename>`
 - `--force` is applicable only in combination with `--as` option. By default the `--force` flag is set to false.
   > If set to true, existing CSN/CDS files from previous imports are overwritten.
 
-The kind `odata-v2` is set when importing EDMX definitions of OData V2 format. When importing OData V4, the kind `odata` is set, which is an alias for kind `odata-v4`.
+When importing definitions, the `kind` is set according to the following mapping:
+
+|Imported Format  | Used `kind`  |
+|---------|---------|
+| OData V2     | `odata-v2`        |
+| OData V4     |  `odata` (alias for `odata-v4`)       |
+| OpenAPI     |  `rest`       |
+| AsyncAPI     |  `odata`       |
 
 [Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#special-type-mappings){.learn-more}
+
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
 :::

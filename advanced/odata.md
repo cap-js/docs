@@ -988,17 +988,30 @@ For Node.js projects, add the proxy as express.js middleware as follows:
 1. Add the adapter package to your project:
 
     ```sh
-    nnpm add @cap-js-community/odata-v2-adapter
+    npm add @cap-js-community/odata-v2-adapter
     ```
 
-2. Add this to a project-local `./srv/server.js`:
+2. Add this as a plugin to your project:
 
-    ```js
-    const cds = require("@sap/cds");
-    const cov2ap = require("@cap-js-community/odata-v2-adapter");
-    cds.on("bootstrap", (app) => app.use(cov2ap()));
-    module.exports = cds.server;
+    ::: code-group 
+    ```json [package.json]
+    {...
+    "cds" {
+      "cov2ap" : {
+        "plugin" : true
+        }
+      }
+    }
     ```
+    
+    ```json [.cdsrc.json]
+    {
+    "cov2ap" : {
+      "plugin" : true
+      }
+    }
+    ```
+    :::
 
 3. Access OData V2 services at [http://localhost:4004/v2/${path}](http://localhost:4004/v2).
 4. Access OData V4 services at [http://localhost:4004/${path}](http://localhost:4004) (as before).

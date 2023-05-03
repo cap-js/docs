@@ -39,14 +39,14 @@ cds env ?             #> get help
 For example:
 
 <pre class="log">
-$ cds env ls requires.sql
+<i>$</i> cds env ls requires.sql
 requires.sql.credentials.database = :memory:
 requires.sql.impl = @sap/cds/lib/db/sql-service
 requires.sql.kind = sqlite
 </pre>
 
 <pre class="log">
-$ cds env get requires.sql
+<i>$</i> cds env get requires.sql
 {
   credentials: { database: <em>':memory:'</em> },
   impl: <em>'@sap/cds/lib/db/sql-service'</em>,
@@ -58,7 +58,7 @@ $ cds env get requires.sql
 Alternatively, you can also use the `cds eval` or `cds repl` CLI commands to access the `cds.env` property, which provides programmatic access to the effective settings:
 
 <pre class="log">
-$ cds -e .env.requires.sql
+<i>$</i> cds -e .env.requires.sql
 {
   credentials: { database: <em>':memory:'</em> },
   impl: <em>'@sap/cds/lib/db/sql-service'</em>,
@@ -67,7 +67,7 @@ $ cds -e .env.requires.sql
 </pre>
 
 <pre class="log">
-$ cds -r
+<i>$</i> cds -r
 <em>Welcome to cds repl v4.0.1</em>
 > cds.env.requires.sql
 {
@@ -121,8 +121,8 @@ The settings are merged into `cds.env` starting from lower to higher order. Mean
 
 For example, given the following sources:
 
-```jsonc
-// cdsrc.json
+::: code-group
+```jsonc [cdsrc.json]
 {
   "requires": {
     "db": {
@@ -133,9 +133,10 @@ For example, given the following sources:
   }
 }
 ```
+:::
 
-```jsonc
-// package.json
+::: code-group
+```jsonc [package.json]
 {
   "cds": {
     "requires": {
@@ -146,11 +147,13 @@ For example, given the following sources:
   }
 }
 ```
+:::
 
-```properties
-# env.properties
+::: code-group
+```properties [env.properties]
 cds.requires.db.credentials.database = my.db
 ```
+:::
 
 This would result in the following effective configuration:
 ```js
@@ -357,7 +360,9 @@ You can use the `kind` property to reference other services for prototype chaini
 > CDS provides default service configurations for all supported services (`hana`, `enterprise-messaging`, ...).
 
 Example:
-```json
+
+::: code-group
+```json [package.json]
 {
   "cds": {
     "requires": {
@@ -374,6 +379,7 @@ Example:
   }
 }
 ```
+:::
 
 `serviceA` will have the following properties:
 
@@ -392,7 +398,8 @@ Example:
 
 Wrap entries into `[<profile-name>]:{ ... }` to provide settings for different environments. For example:
 
-```json
+::: code-group
+```json [package.json]
 {
   "cds": {
     "requires": {
@@ -404,6 +411,7 @@ Wrap entries into `[<profile-name>]:{ ... }` to provide settings for different e
   }
 }
 ```
+:::
 
 The profile is determined at bootstrap time as follows:
 

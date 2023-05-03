@@ -442,12 +442,14 @@ cds run
 You can use the same machinery as documented above for app-specific configuration options:
 
 ```json
-"cds": { ... },
-"my-app": { ... }
+"cds": {
+  ...,
+  "my-app": { ... }
+}
 ```
 
 And access them from your app as follows:
 
 ```js
-const conf = cds.env('my-app')
+const conf = cds.env.get('my-app')
 ```

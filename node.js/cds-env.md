@@ -453,6 +453,5 @@ You can use the same machinery as documented above for app-specific configuratio
 And access them from your app as follows:
 
 ```js
-const conf = cds.env.for('my-app')
-const { myoption } = conf.myoption
+const { myoption } = cds.env.for('my-app')
 ```

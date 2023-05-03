@@ -47,7 +47,7 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    lineNumbers: true,
+    // lineNumbers: true,
     languages: [
       {
         id: 'cds',

@@ -1477,10 +1477,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 
 ## Add Qualities
 
-### Authentication and Authorization of Remote Services {.impl.beta}
-#### Principle (User) Propagation
-
-#### Technical User
+<div id="inaddqualities" />
 
 ### Resilience
 
@@ -1528,113 +1525,7 @@ CAP adds headers for request correlation to its outbound requests that allows lo
 
 [Learn more about request correlation in Node.js.](../node.js/cds-log#node-observability-correlation){.learn-more} [Learn more about request correlation in Java.](../java/observability#correlation-ids){.learn-more}
 
-## Automated Testing {.impl.beta}
-
-### Unit Tests
-
-### Integration Tests
-
-
-## Replicating Data {.impl.beta}
-
-> TODO: Using the sample in branch `adding-suppliers`, the following is already done
-
-1. Use the [mashup.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/adding-suppliers/suppliers/srv/mashup.cds) to define the persistence.
-
-### Define Persistence
-
-You don't want to call the external API for every request, because this has performance implications. It's good practice to replicate the data.
-
-```cds
-/*
-  Optionally add a local persistence to keep replicas of external
-  entities to have data in fast access locally; much like a cache.
- */
-annotate S4.Suppliers with @cds.persistence : {
-  table,
-  skip : false
-};
-
-/**
- * Having locally cached replicas also allows us to display
- * supplier data in lists of books, which otherwise would
- * generate unwanted traffic on S4 backends.
- */
-extend projection CatalogService.ListOfBooks with {
-  supplier
-}
-```
-
-By default, services in CAP are compiled to views on database tables. In this case you want to create a table, so let's add the `@cds.persistence.table` annotation. And normally CAP would skip the compilation of an external service, so add `skip: false` to the annotation.
-### Custom Handler
-
-- Show effect in DB / or via UI
-
-### Add `Supplier` Entity Using `extend`
-
-> needs to be changed
-
-The BuPa API comes with many fields, fields you not necessarily need. The next challenge is to use the fields according to your needs, which include limiting the fields to a subset of those that are available.
-
-Go into your _srv/mashup.cds_ file and add a new entity based on the business partner API.
-
-<!-- Do we want to keep the commented out sections? It's rather internal why it is not working.-->
-
-```cds
-using {API_BUSINESS_PARTNER as S4} from './external/API_BUSINESS_PARTNER';
-
-extend service S4 with {
-  entity Suppliers as projection on S4.A_BusinessPartner {
-    key BusinessPartner as ID, BusinessPartnerFullName as name,
-  // REVISIT: following is not supported so far in cds compiler...
-  // to_BusinessPartnerAddress as city {
-  //    CityCode as code,
-  //    CityName as name
-  // }
-  // REVISIT: following is not supported so far in cqn2odata...
-  // to_BusinessPartnerAddress.CityCode as city,
-  // to_BusinessPartnerAddress.CityName as city_name,
-  }
-}
-
-```
-[Learn more about the `using` directive.](../cds/cdl#using){.learn-more}
-[Learn more about the `extend` directive.](../cds/cdl#extend){.learn-more}
-
-This adds the supplier that is based on the business partner definition and maps fields from the API to the terminology I want to use. For example, I want to refer to suppliers by `name` instead of `BusinessPartnerFullName` in my models and rename it here.
-### Sample Data
-
-> Using the sample in branch `adding-suppliers`, the following is already done
-
-It always helps to see sample data, when you're trying out new things. To add sample data to the service that is served out of an imported API, you need a _data_ folder next to the API. Create the folder _srv/external/data_ and add the following files:
-
-::: code-group
-```csv [API_BUSINESS_PARTNER-A_BusinessPartner.csv]
-BusinessPartner;BusinessPartnerFullName
-ACME;A Company Making Everything
-B4U;Books for You
-S&C;Shakespeare & Co.
-WSL;Waterstones
-TLD;Thalia
-PNG;Penguin Books
-```
-:::
-
-> Maybe add that later, when mashup has been made.
-
-::: code-group
-```csv [API_BUSINESS_PARTNER-Suppliers.csv]
-ID;name
-ACME;A Company Making Everything
-B4U;Books for You
-S&C;Shakespeare & Co.
-WSL;Waterstones
-```
-:::
-
-> Showcase the effect in a screenshot or so.
-
-1. Add sample data, see the [_srv/external/data_ folder](https://github.com/SAP-samples/cloud-cap-samples/tree/adding-suppliers/suppliers/srv/external/data).
+<div id="aftertracing" />
 
 ## Feature Details
 

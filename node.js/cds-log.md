@@ -382,58 +382,7 @@ The following screenshot shows the log output for the rejection in the previous 
 
 ![Kibana-friendly Formatter Output](assets/kibana-formatter-output.png){adapt}
 
-
-#### *Including Custom Fields* { .impl.beta}
-
-To show additional information (that is, information that is not included in the [list of supported fields](https://help.sap.com/docs/APPLICATION_LOGGING/ee8e8a203e024bbb8c8c2d03fce527dc/48b726c3f7534285b05eb31b5b7dc14d.html) of the SAP Application Logging Service), it needs to be provided in the following form:
-
-```js
-{
-  [...],
-  '#cf': {
-    strings: [
-      { k: '<key>', v: '<value>', i: <index> },
-      [...]
-    ]
-  }
-}
-```
-
-The information is rendered as follows:
-
-```
-custom.string.key0: <key>
-custom.string.value0: <value>
-```
-
-Up to 20 custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. The drawback, next to it being cumbersome, is that the indexes should be kept stable.
-
-By default, the Kibana-friendly formatter uses the following custom fields configuration (configurable via [cds.env](cds-env)):
-
-```js
-{
-  log: {
-    kibana_custom_fields: { // > <key>: <index>
-      // sql
-      query: 0,
-      // generic validations
-      target: 1,
-      details: 2
-    }
-  }
-}
-```
-
-With the default settings and in a more practical example, the log would look something like this:
-
-```
-msg: SQL Error: Unknown column "IDONTEXIST" in table "DUMMY"
-[...]
-custom.string.key0: query
-custom.string.value0: SELECT IDONTEXIST FROM DUMMY
-```
-
-Without the additional custom field `query` and it's respective value, it would first be necessary to reproduce the issue locally to know what the faulty statement is.
+<div  id="beforerequestcorrel" />
 
 ## Request Correlation { #node-observability-correlation }
 

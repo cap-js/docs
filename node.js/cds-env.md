@@ -441,13 +441,18 @@ cds run
 
 You can use the same machinery as documented above for app-specific configuration options:
 
-```json
+::: code-group
+
+```json [package.json]
 "cds": { ... },
-"my-app": { ... }
+"my-app": { "myoption": "value" }
 ```
+
+:::
 
 And access them from your app as follows:
 
 ```js
 const conf = cds.env.for('my-app')
+const { myoption } = conf.myoption
 ```

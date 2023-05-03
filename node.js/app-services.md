@@ -48,22 +48,24 @@ module.exports = class AdminService extends cds.ApplicationService {
 
 ## Generic Handlers in `srv.init()`
 
-Generic handlers are registered by via respective instance methods documented below in `cds.ApplicationService.prototype.init()` like so:
+Generic handlers are registered by via respective class methods documented below in `cds.ApplicationService.prototype.init()` like so:
 
 ```tsx
 class cds.ApplicationService extends cds.Service {
   init() {
-    this.authz()
-    this.etags()
-    this.validations()
-    this.localized()
-    this.temporal()
-    this.managed()
-    this.paging()
-    this.fiori()
-    this.crud()
+    const generics = Reflect.ownKeys(ApplicationService).filter(p => p.startsWith('handle_'))
+    for (let each of generics) each.call(this)
     return super.init()
   }
+  static handle_authorization(){}
+  static handle_etags(){}
+  static handle_validations(){}
+  static handle_temporal_data(){}
+  static handle_localized_data(){}
+  static handle_managed_data(){}
+  static handle_paging(){}
+  static handle_fiori(){}
+  static handle_crud(){}
 }
 ```
 
@@ -71,55 +73,52 @@ You can override some of these methods in subclasses, for example to skip certai
 
 
 
-## srv. authz() {.method}
+## _static_ handle_authorization() {.method}
 
 This method is adding request handlers for initial authorization checks, as documented in the [Authorization guide](../guides/authorization.md).
 
 
 
-## srv. etags() {.method}
+## _static_ handle_etags() {.method}
 
 This method is adding request handlers for out-of-the-box concurrency control using ETags, as documented in the [Providing Services guide](../guides/providing-services/index.md#concurrency-control).
 
 
 
-## srv. validations() {.method}
+## _static_ handle_validations() {.method}
 
 This method is adding request handlers for input validation based in `@assert` annotations, and other, as documented in the [Providing Services guide](../guides/providing-services/index.md#input-validation).
 
 
-
-## srv. localized() {.method}
-
-This method is adding request handlers for handling localized data, as documented in the [Localized Data guide](../guides/localized-data.md).
-
-
-
-## srv. temporal() {.method}
+## _static_ handle_temporal_data() {.method}
 
 This method is adding request handlers for handling temporal data, as documented in the [Temporal Data guide](../guides/temporal-data.md).
 
 
+## _static_ handle_localized_data() {.method}
 
-## srv. managed() {.method}
+This method is adding request handlers for handling localized data, as documented in the [Localized Data guide](../guides/localized-data.md).
+
+
+## _static_ handle_managed_data() {.method}
 
 This method is adding request handlers for handling managed data, as documented in the [Providing Services guide](../guides/providing-services/index.md#managed-data).
 
 
 
-## srv. paging() {.method}
+## _static_ handle_paging() {.method}
 
 This method is adding request handlers for paging & implicit sorting, as documented in the [Providing Services guide](../guides/providing-services/index.md#pagination-sorting).
 
 
 
-## srv. fiori() {.method}
+## _static_ handle_fiori() {.method}
 
 This method is adding request handlers for handling Fiori Drafts and other Fiori-specifics, as documented in the [Serving Fiori guide](../advanced/fiori.md).
 
 
 
-## srv. crud() {.method}
+## _static_ handle_crud() {.method}
 
 This method is adding request handlers for all CRUD operations including *deep* CRUD, as documented in the [Providing Services guide](../guides/providing-services/index.md#generic-providers).
 
@@ -127,14 +126,11 @@ This method is adding request handlers for all CRUD operations including *deep* 
 
 ## Adding Custom Handlers
 
-You can add own generic handlers to all instances of `cds.ApplicationService`, and subclasses thereof, by monkey-patching the `init()` method like so:
+You can add own generic handlers to all instances of `cds.ApplicationService`, and subclasses thereof, by simply adding a new class method prefixed with `handle_` like so:
 
 ```js
 const cds = require('@sap/cds')
-const $init = cds.ApplicationService.prototype.init
-cds.ApplicationService.prototype.init = cds.service.impl (function(){
+cds.ApplicationService.handle_log_events = cds.service.impl (function(){
   this.on('*', req => console.log(req.event))
-  return $init.call(this)
 })
-
 ```

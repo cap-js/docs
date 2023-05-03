@@ -981,23 +981,23 @@ While CAP defaults to OData V4, the latest protocol version, some projects need 
 
 ### Enabling OData V2 via Proxy in Node.js Apps { #odata-v2-proxy-node}
 
-CAP Node.js supports serving the OData V2 protocol through the [_OData V2 proxy protocol adapter_](https://www.npmjs.com/package/@sap/cds-odata-v2-adapter-proxy), which translates between the OData V2 and V4 protocols.
+CAP Node.js supports serving the OData V2 protocol through the [_OData V2 adapter for CDS_](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter), which translates between the OData V2 and V4 protocols.
 
 For Node.js projects, add the proxy as express.js middleware as follows:
 
-1. Add the proxy package to your project:
+1. Add the adapter package to your project:
 
     ```sh
-    npm add @sap/cds-odata-v2-adapter-proxy
+    nnpm add @cap-js-community/odata-v2-adapter
     ```
 
 2. Add this to a project-local `./srv/server.js`:
 
     ```js
-    const proxy = require('@sap/cds-odata-v2-adapter-proxy')
-    const cds = require('@sap/cds')
-    cds.on('bootstrap', app => app.use(proxy()))
-    module.exports = cds.server
+    const cds = require("@sap/cds");
+    const cov2ap = require("@cap-js-community/odata-v2-adapter");
+    cds.on("bootstrap", (app) => app.use(cov2ap()));
+    module.exports = cds.server;
     ```
 
 3. Access OData V2 services at [http://localhost:4004/v2/${path}](http://localhost:4004/v2).
@@ -1015,7 +1015,7 @@ Example: Read service metadata for `CatalogService`:
 - OData V2: `GET http://localhost:4004/v2/browse/$metadata`
 - OData V4: `GET http://localhost:4004/browse/$metadata`
 
-[Find detailed instructions at **@sap/cds-odata-v2-adapter-proxy**.](https://www.npmjs.com/package/@sap/cds-odata-v2-adapter-proxy){.learn-more}
+[Find detailed instructions at **@cap-js-community/odata-v2-adapter**.](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter){.learn-more}
 
 ### Using OData V2 in Java Apps
 

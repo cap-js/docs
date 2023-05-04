@@ -151,6 +151,8 @@ Import the API to your project using `cds import`.
 cds import <input_file> --as cds
 ```
 
+**Note:** <input_file> supported can be one of EDMX (OData V2, OData V4), OpenAPI or AsyncAPI file.
+
 | Option             | Description                                                                                                                                                                                                       |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--as cds`         | The import creates a CDS file (for example _API_BUSINESS_PARTNER.cds_) instead of a CSN file.                                                                                                                     |
@@ -188,7 +190,7 @@ Now run `cds import <filename>`
 - `--force` is applicable only in combination with `--as` option. By default the `--force` flag is set to false.
   > If set to true, existing CSN/CDS files from previous imports are overwritten.
 
-When importing definitions, the `kind` is set according to the following mapping:
+When importing the specification files, the `kind` is set according to the following mapping:
 
 |Imported Format  | Used `kind`  |
 |---------|---------|
@@ -201,9 +203,6 @@ When importing definitions, the `kind` is set according to the following mapping
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
-:::
-::: tip
-If you want to import operations in the OpenAPI document, you can use the following command: `cds import <filename> --from openapi` <br> This command imports operations as functions and actions. Custom development is required for consumption in the CAP project.
 :::
 
 For **Java** you need to configure remote services in Spring Boot's _application.yaml_:

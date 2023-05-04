@@ -95,6 +95,7 @@ The figure below illustrates the prevalent use of CDS models (in the left column
   <img src="../assets/core-concepts.drawio.svg" width="650px"  class="adapt">
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
+<br >
 
 <br><br>
 
@@ -302,6 +303,7 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
 
 <br><br>
 
+
 ###### Service Definitions in CDS
 
 <div style="float:left; margin: 0px 22px 11px 0;">
@@ -320,6 +322,9 @@ service OrdersService {
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
 
 <br><br>
+
+
+<br>
 
 ###### Uniform Consumption
 
@@ -342,11 +347,12 @@ POST /orders/cancelOrder/4711
 
 </div>
 
+
 **Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-<br><br>
+<br><br><br><br>
 
 ::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
@@ -384,7 +390,7 @@ srv.on ('orderCancelled', (msg)=>{})
 
 We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
-<br><br>
+<br><br><br>
 
 ::: tip _Domain-level Eventing_
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.

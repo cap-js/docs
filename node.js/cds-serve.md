@@ -163,11 +163,7 @@ cds.on('served', (services)=>{
 
 A one-time event, emitted when the server has been started and is listening to incoming requests.
 
-### cds.once  <i>  ('**shutdown**', ()=>{}) </i> { .impl.beta}
-
-A one-time event, emitted when the server is closed and/or the process finishes.  Listeners can execute cleanup tasks.
-
-
+<div id="afteroncelistening" />
 
 ## cds.serve... <i> &#8594; [service](../cds/cdl#services)\(s\) </i> {#cds-serve}
 <!-- [`cds.serve`](cds-serve): #cds-serve -->

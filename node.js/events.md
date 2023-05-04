@@ -381,12 +381,4 @@ Additionally, the OData protocol specifies which properties an error object may 
 
 {.sub-section}
 
-### req.diff  <i>  (data?) </i> {#req-diff .impl.beta}
-[`req.diff`]: #req-diff
-
-Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).
-> This will trigger database requests.
-
-```js
-const diff = await req.diff()
-```
+<div id="endofevents" />

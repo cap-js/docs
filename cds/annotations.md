@@ -24,10 +24,10 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Access Control
 
-| Annotation    | Description                                                       |
-|---------------|-------------------------------------------------------------------|
-| `@readonly`   | see [Input Validation](../guides/providing-services/#readonly)    |
-| `@insertonly` | see [Generic Handlers]                                            |
+| Annotation    | Description                                                      |
+|---------------|------------------------------------------------------------------|
+| `@readonly`   | see [Input Validation](../guides/providing-services/#readonly)   |
+| `@insertonly` | see [Generic Handlers](../guides/providing-services/)            |
 | `@restrict`   | see [Authorization](../guides/authorization#restrict-annotation) |
 | `@requires`   | see [Authorization](../guides/authorization#requires)            |
 
@@ -70,8 +70,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 | `@cds.persistence.table`  | tells `compile.to.sql` to create a table, not a view               |
 | `@cds.persistence.skip`   | tells the compiler, this entity shall not exist in database at all |
 | `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                |
-| `@cds.on.insert`          | see [Providing Services]                                           |
-| `@cds.on.update`          | see [Providing Services]                                           |
+| `@cds.on.insert`          | see [Providing Services](../guides/providing-services/)            |
+| `@cds.on.update`          | see [Providing Services](../guides/providing-services/)            |
 
 
 ## OData

@@ -941,7 +941,7 @@ _**Common Usages:**_
 
 <div class="indent" markdown="1">
 
-You can use `srv.emit` as a basic and flexible alternative to [`srv.run`](#svr-run), for example to send queries plus additional request `headers` to remote services:
+You can use `srv.emit` as a basic and flexible alternative to [`srv.run`](#srv-run), for example to send queries plus additional request `headers` to remote services:
 
 ```js
 const query = SELECT.from(Foo), tx = srv.tx(req)

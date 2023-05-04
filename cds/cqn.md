@@ -173,31 +173,7 @@ CQN = {SELECT:{
 }}
 ```
 
-
-### Example : \<name\>.* {.impl.beta}
-
-For example, the following query in CQL:
-
-```sql
-SELECT from samples.bookshop.Books {
-  author.*,
-  author.{*},
-  author as a3 { *, name }
-}
-```
-
-is represented in CQN as:
-
-```js
-CQN = {SELECT:{
-  from: {ref:["samples.bookshop.Books"]},
-  columns: [
-    {ref:['author'], inline:['*']},
-    {ref:['author'], inline:['*']},
-    {ref:['author'], expand:['*', {ref:['name']} ], as:'a3'}
-  ]
-}}
-```
+<div id="afterexample" />
 
 <div id="beforeupsert" />
 

@@ -1931,7 +1931,7 @@ Select.from("bookshop.Books").columns(
       .type(CdsBaseType.TIMESTAMP).as("addedSeconds"));
 ```
 
-## Copying & Modifying CDS QL Statements
+## Copying & Modifying CDS QL Statements {#copying-modifying-cql-statements}
 
 Use [`CQL::copy`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#copy-S-com.sap.cds.ql.cqn.Modifier-) and a modifier to copy and modify CDS QL statements and their components such as values and predicates:
 

@@ -1,16 +1,17 @@
 ---
-outline: [2,3]
-layout: node-js
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
 # Core Services
 
-::: warning
-This is an overhauled documentation for `cds.Services`.
-Find the old one [here](services.md).
+
+
+::: tip
+This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
 :::
+
+
 
 [[toc]]
 
@@ -536,7 +537,7 @@ class BooksService extends cds.ApplicationService {
 
 ::: tip Best Practices
 
-Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#cds-tx-ctx-fn) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
+Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
 
 :::
 

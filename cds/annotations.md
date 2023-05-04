@@ -82,7 +82,7 @@ Shortcuts:
 
 | Annotation          | Description                                          |
 |---------------------|------------------------------------------------------|
-| `@ValueList.entity` | see [Domain Modeling]                                |
+| `@ValueList.entity` | see [Domain Modeling](../guides/domain-modeling)     |
 | `@odata.Type`       | see [OData](../advanced/odata#override-type-mapping) |
 | `@odata.MaxLength`  | see [OData](../advanced/odata#override-type-mapping) |
 | `@odata.Precision`  | see [OData](../advanced/odata#override-type-mapping) |
@@ -99,4 +99,4 @@ Intrinsically supported OData Annotations:
 | `@Core.IsMediaType`    | see [Media Data](../guides/media-data)                          |
 | `@Core.IsUrl`          | see [Media Data](../guides/media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
-| `@Common.FieldControl` | see [Input Validation]                                           |
+| `@Common.FieldControl` | see [Input Validation](../guides/providing-services/#input-validation)) |

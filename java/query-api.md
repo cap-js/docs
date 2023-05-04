@@ -1933,7 +1933,7 @@ Select.from("bookshop.Books").columns(
 
 ## Copying & Modifying CDS QL Statements
 
-CDS QL statements and predicates can be copied and modified using [`CQL::copy`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#copy-S-com.sap.cds.ql.cqn.Modifier-) and a `modifier`:
+Use [`CQL::copy`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#copy-S-com.sap.cds.ql.cqn.Modifier-) and a modifier to copy and modify CDS QL statements and their components such as values and predicates:
 
 ```java
 import com.sap.cds.ql.CQL;

@@ -18,8 +18,63 @@ The latter include **database** services. In all cases use `cds.connect` to conn
 
 
 
-
 ## Connecting to Required Services { #cds-connect-to }
+
+
+
+### cds. connect.to () {.method}
+
+Declaration:
+
+```ts:no-line-numbers
+async function cds.connect.to (
+  name : string,  // reference to an entry in `cds.requires` config
+  options : {
+    kind : string // reference to a preset in `cds.requires.kinds` config
+    impl : string // module name of the implementation 
+  }
+)
+```
+
+Use `cds.connect.to()` to connect to services configured in a project's `cds.requires` configuration. Usually such services are remote services, which in turn can be mocked locally. Here's an example: 
+
+::: code-group
+
+```json [package.json]
+{"cds":{
+  "requires":{
+    "db": { "kind": "sqlite", "credentials": { "url":"db.sqlite" }},
+    "ReviewsService": { "kind": "odata-v4" }
+  }
+}}
+```
+
+:::
+
+```js
+const ReviewsService = cds.connect.to('ReviewsService')
+const db = cds.connect.to('db')
+```
+
+Argument `options` allows to pass options programmatically, and thus create services without configurations, for example: 
+
+```js
+const db2 = cds.connect.to ({
+  kind: 'sqlite', credentials: { url: 'db2.sqlite' }
+})
+```
+
+In essence, `cds.connect.to()` works like that: 
+
+```js
+let o = { ...cds.requires[name], ...options }
+let csn = o.model ? await cds.load(o.model) : cds.model
+let Service = require (o.impl) //> a subclass of cds.Service
+let srv = new Service (name, csn, o)
+return srv.init() ?? srv
+```
+
+
 
 
 ### cds.connect.to  <i>  (name, options?) &#8594; [service](./services) </i>

@@ -42,6 +42,24 @@ main {
     p + h1 {
       margin-top: 3em
     }
+    p {
+      line-height: 1.5em
+    }
+    ul {
+      padding-left: 2.2em;
+    }
+    div.language-zsh pre code {
+        line-height: 1.4em
+    }
+    :not(pre) > code {
+      font-style: italic;
+      font-size: 90%;
+    }
+
+    .custom-block code {
+      font-weight: 600; // default is 700 which looks too fat
+    }
+
   }
 
   // Table of Contents
@@ -64,7 +82,7 @@ main {
     }
   }
 
-  // Tip Blocks
+  // Custom Blocks
   .custom-block {
     font-size: 95%;
     border-width: 0 0 0 7px;
@@ -100,6 +118,9 @@ main {
   // Details Blocks
   details.custom-block.details {
     padding: 11px 14px 1px;
+    .dark & {
+      background-color: #222;
+    }
     summary {
       font-weight: 500;
       font-style: italic;
@@ -114,6 +135,20 @@ main {
 
   .good { color:teal }
   .bad { color:darkred }
+  .constructor::before { content: 'Constructor: '; color: grey }
+  .property::before { content: 'Property: '; color: grey }
+  .method::before { content: 'Method: '; color: grey }
+  .async-method::before { content: 'Method: async '; color: grey }
+  h3.method, h3.async-method {
+    margin-top: 5em;
+    // font-size: 22px;
+  }
+  h3.method + h3.method {
+    margin-top: 0
+  }
+  h3.property + h3.property {
+    margin-top: 0;
+  }
 }
 
 // "On this page" Outlines

@@ -1,17 +1,14 @@
 ---
 label: Databases
 synopsis: >
-  Class `cds.DatabaseService` and subclasses thereof are technical services representing persistent storage.
+  Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
 layout: node-js
 status: released
 ---
 
 # Databases
 
-{{$frontmatter?.synopsis}}
-
-<!--- % include links-for-node.md %} -->
-<!--- % include _chapters toc="2,3" %} -->
+<div v-html="$frontmatter?.synopsis" />
 
 ## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 
@@ -206,14 +203,8 @@ Even though we provide a default pool configuration, we expect that each applica
 
 
 
+<div id="afterpool" />
 
-
-### TCP keepalive with `hdb` { .impl.beta}
-
-Starting with version `^0.18.3`, the SAP HANA driver `hdb` allows to [configure TCP keepalive behaviour](https://github.com/SAP/node-hdb#tcp-keepalive).
-You can set `tcpKeepAliveIdle` on the connection using the environment variable `HDB_TCP_KEEP_ALIVE_IDLE`.
-Valid values are a positive number or `false`.
-> As the setting must be injected into the credentials that may be received from an external source, for example in the case of multitenancy, the easiest way to do this is via the environment.
 
 ## cds.DatabaseService — UPSERT {#databaseservice-upsert }
 [databaseservice upsert]: #databaseservice-upsert

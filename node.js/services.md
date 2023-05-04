@@ -463,6 +463,7 @@ This is === [`cds.model`](cds-facade#cds-model) by default, that is, unless you 
 ### srv.definition  <i>  &#8674; [def] </i> { #srv-definition}
 
 <div class='indent' markdown="1">
+
 The [linked](cds-reflect#cds-reflect) [service definition](../cds/csn#services) contained in the [model](#srv-model) which served as the blueprint for the given service instance.
 </div>
 
@@ -853,7 +854,7 @@ For AdminService at `/admin` endpoint
 | `DELETE` _/Books_ | `DELETE` _Books_ |
 
 > In addition, CAP provides built-in support for **Fiori Draft**, which add additional CRUD events, like `NEW`, `EDIT`, `PATCH`, and `SAVE`.
-> [&rarr; Learn more about Fiori Drafts](app-services#draft)
+> [&rarr; Learn more about Fiori Drafts](fiori#draft-support)
 
 For each of which you can add custom handlers, either by specifying the CRUD operation or by specifying the corresponding REST method as follows:
 
@@ -939,7 +940,8 @@ The implementation constructs an instance of [`cds.Event`], which is then dispat
 _**Common Usages:**_
 
 <div class="indent" markdown="1">
-You can use `srv.emit` as a basic and flexible alternative to [`srv.run`](#svr-run), for example to send queries plus additional request `headers` to remote services:
+
+You can use `srv.emit` as a basic and flexible alternative to [`srv.run`](#srv-run), for example to send queries plus additional request `headers` to remote services:
 
 ```js
 const query = SELECT.from(Foo), tx = srv.tx(req)

@@ -889,8 +889,7 @@ Use _optimistic locking_ to _detect_ concurrent modification of data _across req
 
 Use _pessimistic locking_ to _protect_ data from concurrent modification by concurrent _transactions_. CAP leverages database locks for [pessimistic locking](#select-for-update).
 
-### Conflict Detection Using ETags
- {#etag}
+### Conflict Detection Using ETags {#etag}
 
 The CAP runtimes support optimistic concurrency control and caching techniques using ETags.
 An ETag identifies a specific version of a resource found at a URL.

@@ -829,7 +829,7 @@ A custom aggregate for a currency code or unit of measure should be also exposed
 | paginate result set with `$top`/`$skip` | <X/>   | <X/>  |
 
 
-## Open Type
+## Open Types
 
 An entity type or a complex type may be declared as _open_, allowing clients to add properties dynamically to instances of the type by specifying uniquely named property values in the payload used to insert or update an instance of the type. To indicate that the entity or complex type is open, the corresponding type must be annotated with `@open`:
 
@@ -837,9 +837,9 @@ An entity type or a complex type may be declared as _open_, allowing clients to 
 ```cds
 service CatalogService {
   @open // [!code focus]
-  entity Book {
-    key id : Integer;
-  }
+  entity Book { // [!code focus]
+    key id : Integer; // [!code focus]
+  } // [!code focus]
 }
 ```
 
@@ -875,8 +875,8 @@ service CatalogService {
     book: Book;
   }
 
-  @open
-  type Book {}
+  @open // [!code focus]
+  type Book {} // [!code focus]
 }
 ```
 Following payload for `Order` is allowed:

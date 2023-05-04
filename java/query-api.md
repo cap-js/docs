@@ -1949,7 +1949,7 @@ The following sections show some common examples of statement modifications, for
 
 ### Replacing Predicates {#modify-where}
 
-The following modifier replaces the `where` clause of the copy with a new predicate that connects the `where` clause of the query with `or title = 'CAP Java'`.
+The following modifier replaces the `where` clause of the copy with a new predicate that connects the `where` clause of the query with `or` to `title = 'CAP Java'`.
 
 ```java
 import com.sap.cds.ql.CQL;
@@ -1984,9 +1984,9 @@ CqnSelect copy = CQL.copy(query, new Modifier() {
 
 ### Replacing References {#modify-ref}
 
-References to elements and structured types are immutable. You can replace them by overriding the `Modifier::ref` methods.
+References to elements and structured types are _immutable_. You can replace them by overriding the `Modifier::ref` methods.
 
-The following modifier replaces the ref to the `Books` entity *(1)* in the copy of the query with a new ref that has a filter `year > 2000` and replaces the `title` ref *(2)* with a new ref with "book" as alias.
+The following modifier replaces the ref to the `Books` entity (1) in the copy of the query with a new ref that has a filter `year > 2000` and replaces the `title` ref (2) with a new ref with "book" as alias.
 
 ```java
 // query: SELECT from Books { title }
@@ -1995,10 +1995,9 @@ The following modifier replaces the ref to the `Books` entity *(1)* in the copy 
 CqnSelect copy = CQL.copy(query, new Modifier() {
    @Override // (1)
    public CqnStructuredTypeRef ref(CqnStructuredTypeRef ref) {
-      CqnPredicate filter = CQL.get("year").gt(2000);
-      List<Segment> segments = new ArrayList<>(ref.segments());
-      segments.set(0, CQL.refSegment(ref.firstSegment(), filter));
-      return CQL.to(segments).asRef();
+      return CQL.to(ref.firstSegment())
+            .filter(CQL.get("year").gt(2000))
+            .asRef();
    }
 
    @Override // (2)

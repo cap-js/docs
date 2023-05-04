@@ -50,7 +50,7 @@ http(s)://<application_url>/<base_path>/<service_name>
 
 |Parameter | Description
 | --- | --- |
-|`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties] for their default values.       |
+|`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties](development/properties) for their default values.       |
 |`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../cds/cdl#service-definitions)).        |
 
 [Learn more about how OData URLs are configured.](application-services#serve-configuration){.learn-more}

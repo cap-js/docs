@@ -505,7 +505,7 @@ Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` s
 
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
-Also the maximum amount of requests per `$batch` request need to be configured.
+Also the maximum amount of requests per `$batch` request need to be configured (property `cds.odata.batch_limit` in Node.js, `cds.odataV4.batch.maxRequests` in Java).
 :::
 
 ::: tip

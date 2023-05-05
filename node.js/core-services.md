@@ -209,7 +209,7 @@ const cds = require('@sap/cds')
 module.exports = cds.service.impl (function(){ ... }) // [!code focus]
 ```
 
-> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VSCode](https://code.visualstudio.com/docs/editor/intellisense).
+> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VS Code](https://code.visualstudio.com/docs/editor/intellisense).
 
 This will be translated behind the scenes to the equivalent of this:
 
@@ -543,7 +543,7 @@ Use named functions as event handlers instead of anonymous ones as that will imp
 
 ::: tip Custom domain logic mostly goes into `.before` or `.after` handlers
 
-Your services are mostly constructed by [`cds.serve()`](cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions. 
+Your services are mostly constructed by [`cds.serve()`](cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions.
 
 :::
 

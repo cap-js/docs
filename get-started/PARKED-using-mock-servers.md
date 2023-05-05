@@ -123,7 +123,7 @@ Use `cds run --in-memory` to quickly start a lightweight Node.js server with *sq
 ###### Create a Project for the Mock Server
 
 1. Create an empty project for the mock server by executing `cds init mockserver` in the terminal.
-2. Execute `code mockserver` to open the newly created project in VSCode.
+2. Execute `code mockserver` to open the newly created project in VS Code.
 3. Open the package.json file and add `"@sap/cds-dk": "^1.0.0"` as a dependency. Execute `npm i` to install all dependencies.
 
 ###### Add Service API Definition

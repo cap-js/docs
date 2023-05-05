@@ -854,7 +854,7 @@ For AdminService at `/admin` endpoint
 | `DELETE` _/Books_ | `DELETE` _Books_ |
 
 > In addition, CAP provides built-in support for **Fiori Draft**, which add additional CRUD events, like `NEW`, `EDIT`, `PATCH`, and `SAVE`.
-> [&rarr; Learn more about Fiori Drafts](fiori#draft-support)
+> [&rarr; Learn more about Fiori Drafts](../advanced/fiori#draft-support)
 
 For each of which you can add custom handlers, either by specifying the CRUD operation or by specifying the corresponding REST method as follows:
 

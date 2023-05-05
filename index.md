@@ -7,7 +7,7 @@ hero:
   text: The Cloud Application Programming Model
   tagline:
     Building Cloud-native Applications with Maximized Productivity at Minimized Costs, based on Proven Best Practices Served Out of the Box.
-  image: /images/cap.svg
+  image: /logos/cap.svg
   actions:
   - theme: brand
     text: Get Started

@@ -25,7 +25,7 @@ export default defineConfig({
   base: process.env.GH_BASE || '/docs/',
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
-    logo: '/images/cap.svg',
+    logo: '/logos/cap.svg',
     sidebar,
     nav,
     search: {

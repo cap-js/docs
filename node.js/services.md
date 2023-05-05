@@ -870,7 +870,6 @@ module.exports = cds.service.impl (function(){
 ```
 
 
-
 ###  <i> For _Custom_ Events, i.e., _Actions_ and _Functions_ </i>
 
 

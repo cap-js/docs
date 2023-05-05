@@ -63,15 +63,15 @@ cds init bookshop --add java
 ```
 :::
 
-2. Open the project in VSCode
+2. Open the project in VS Code
 
 ```sh
 code bookshop
 ```
 
-::: details **Note:** VSCode CLI on macOS needs extra setup
+::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Read VSCode's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
 
 :::
 

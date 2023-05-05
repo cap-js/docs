@@ -259,7 +259,7 @@ module.exports = async function(){
 
 ### <span style="color:grey"><i>&#8627;</i> </span>  <i> Wrapped with `cds.service.impl` </i> <!-- TODO duplicated id attribute {#cds-service-impl}-->
 
-Wrap the impl function into `cds.service.impl(...)`, which simply returns the function but gives you code assists in tools like VSCode:
+Wrap the impl function into `cds.service.impl(...)`, which simply returns the function but gives you code assists in tools like VS Code:
 
 ```js
 const cds = require('@sap/cds')

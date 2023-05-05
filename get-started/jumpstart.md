@@ -19,7 +19,7 @@ CAP promotes getting started with **minimal upfront setup**, based on **conventi
 
 ## Setup for Local Development {#setup}
 
-Follow the steps below to setup a local development environment. If you are a developer, then you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VSCode, and you only need to install `cds-dk` as described in step 2 below.
+Follow the steps below to setup a local development environment. If you are a developer, then you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VS Code, and you only need to install `cds-dk` as described in step 2 below.
 
 
 
@@ -69,7 +69,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 Choose your preferred editor or IDE for developing CAP applications. <br>
 We recommend Visual Studio Code.
 
-In addition we recommend installing these VSCode Extensions:
+In addition we recommend installing these VS Code Extensions:
 
    - [**SAP CDS Language Support**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds)
    - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -103,9 +103,9 @@ Then open it in Visual Studio Code:
 code bookshop
 ```
 
-::: details **Note:** VSCode CLI on macOS needs extra setup
+::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Find detailed instructions on this in [VSCode's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Find detailed instructions on this in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 
 :::
 

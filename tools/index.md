@@ -567,7 +567,7 @@ A new shell command `format-cds` is available.
 Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
 each formatting option.
 
-It is recommended to generate once for each project a settings file (_.cdsprettier.json_) with all default formatting options available. Execute `format-cds --init` in the project root. An existing file would not be overwritten. To adapt your settings to your preferred style, open the _.cdsprettier.json_ file in VSCode. You get code completion and help for each option. There is also a settings UI in [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds),
+It is recommended to generate once for each project a settings file (_.cdsprettier.json_) with all default formatting options available. Execute `format-cds --init` in the project root. An existing file would not be overwritten. To adapt your settings to your preferred style, open the _.cdsprettier.json_ file in VS Code. You get code completion and help for each option. There is also a settings UI in [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds),
 reachable via command `CDS: Show Formatting Options Configuration`. This allows to see the effects of each formatting option
 on an editable sample source. Commit the _.cdsprettier.json_ file into your version control system.
 

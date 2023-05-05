@@ -59,7 +59,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Editors/IDE Support      | Application Studio | VSCode | Eclipse |
+| Editors/IDE Support      | Application Studio | VS Code | Eclipse |
 |--------------------------|:------------------:|:------:|:-------:|
 | CDS Syntax Highlighting  |        <X/>        |  <X/>  |  <X/>   |
 | CDS Code Completion      |        <X/>        |  <X/>  |  <X/>   |

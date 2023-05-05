@@ -998,7 +998,7 @@ The following sections give an overview how to do so, which links to respective 
 ...
 ```
 
-[Learn more about providing service implementations in Node.js.](../../node.js/services#srv-impls){.learn-more}
+[Learn more about providing service implementations in Node.js.](../../node.js/core-services#implementing-services){.learn-more}
 
 
 
@@ -1025,7 +1025,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](../../node.js/services#event-handlers){.learn-more}
+[Learn more about **adding event handlers in Node.js**.](../../node.js/core-services#srv-on-before-after){.learn-more}
 
 ```js
 @Component

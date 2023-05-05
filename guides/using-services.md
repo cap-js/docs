@@ -461,7 +461,7 @@ Connect to the service before sending a request, as usual in CAP:
 const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 ```
 
-Then execute your queries using the [Querying API](../node.js/services#srv-run):
+Then execute your queries using the [Querying API](../node.js/core-services#srv-run-query):
 
 ```javascript
 const { A_BusinessPartner } = bupa.entities;
@@ -567,7 +567,7 @@ bupa.send({
 })
 ```
 
-[Learn more about the `send` API.](../node.js/services#srv-send){.learn-more}
+[Learn more about the `send` API.](../node.js/core-services#srv-send-request){.learn-more}
 
 ### Building Custom Requests with Java
 

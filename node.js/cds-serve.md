@@ -320,7 +320,7 @@ cds.serve('CatalogService').at('/cat')
 cds.serve('all').at('/cat') //> error
 ```
 
-**If omitted**, the mount point is determined from [annotation `@path`](services#srv-path), if present, or from the service's lowercase name, excluding trailing _Service_.
+**If omitted**, the mount point is determined from annotation `@path`, if present, or from the service's lowercase name, excluding trailing _Service_.
 
 ```cds
 service MyService @(path:'/cat'){...}  //> served at: /cat
@@ -367,8 +367,8 @@ cds.serve('./srv/cat-service') .with (srv => {
 })
 ```
 
-[Learn more about using impl annotations.](services#srv-impl){.learn-more}
-[Learn more about adding event handlers.](services#event-handlers){.learn-more}
+[Learn more about using impl annotations.](core-services#implementing-services){.learn-more}
+[Learn more about adding event handlers.](core-services#srv-on-before-after){.learn-more}
 
 
 **Note** that this is only possible when constructing single services:

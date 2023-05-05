@@ -39,7 +39,7 @@ let query = SELECT.from('Foo')
 let query = {SELECT:{from:[{ref:['Foo']}]}}
 ```
 
-That object can be [executed with `cds.run`](../node.js/services#srv-run):
+That object can be [executed with `cds.run`](../node.js/core-services#srv-run-query):
 
 ```js
 cds.run (query)
@@ -173,31 +173,7 @@ CQN = {SELECT:{
 }}
 ```
 
-
-### Example : \<name\>.* {.impl.beta}
-
-For example, the following query in CQL:
-
-```sql
-SELECT from samples.bookshop.Books {
-  author.*,
-  author.{*},
-  author as a3 { *, name }
-}
-```
-
-is represented in CQN as:
-
-```js
-CQN = {SELECT:{
-  from: {ref:["samples.bookshop.Books"]},
-  columns: [
-    {ref:['author'], inline:['*']},
-    {ref:['author'], inline:['*']},
-    {ref:['author'], expand:['*', {ref:['name']} ], as:'a3'}
-  ]
-}}
-```
+<div id="afterexample" />
 
 <div id="beforeupsert" />
 

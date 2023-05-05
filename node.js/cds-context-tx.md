@@ -338,7 +338,7 @@ tx = Object.create (srv, Object.getOwnPropertyDescriptors({
 In effect, `tx` objects ...
 
 * are concrete context-specific — i.e. tenant-specific — incarnations of `srv`es
-* support all the [Service API](services) methods like `run`, `create` and `read`
+* support all the [Service API](core-services) methods like `run`, `create` and `read`
 * support methods `tx.commit` and `tx.rollback` as documented below.
 
 **Important:** The caller of `srv.tx()` is responsible to `commit` or `rollback` the transaction, otherwise the transaction would never be finalized and respective physical driver connections never be released / returned to pools.
@@ -509,4 +509,3 @@ this.on('READ','Books', req => {
 ```
 
 This still works but is not required **nor recommended** anymore.
-

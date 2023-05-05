@@ -89,7 +89,9 @@ export default defineConfig({
     await sitemap.generate(outDir, siteHostName, sitemapLinks)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
-    const hanaAsset = 'advanced/assets/native-hana-samples.zip'
+    const hanaAssetDir = 'advanced/assets'
+    const hanaAsset = join(hanaAssetDir, 'native-hana-samples.zip')
+    await fs.mkdir(join(outDir, hanaAssetDir), {recursive: true})
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
 })

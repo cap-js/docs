@@ -272,7 +272,7 @@ with "on-read" semantics.
 
 #### On-read (beta)
 
-```swift
+```cds
 entity Employees {
   firstName : String;
   lastName : String;
@@ -290,14 +290,14 @@ writing the expression directly into the query, both with respect to semantics a
 In CAP, it is implemented by replacing each occurrence of a calculated element in a query by the respective expression.
 
 Entity using calculated elements:
-```swift
+```cds
 entity EmployeeView as select from Employees {
   name,
   city
 };
 ```
 Equivalent entity:
-```swift
+```cds
 entity EmployeeView as select from Employees {
   firstName || ' ' || lastName as name : String,
   addresses[kind='home'].city as city

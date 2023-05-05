@@ -194,16 +194,7 @@ m.forall (d => {
 })
 ```
 
-
-
-### <span style="color:grey"> m</span>.minified  <i>  (level) </i> {#minified  .impl.beta}
-
-Minimizes a loaded model ...
-TODO:
-- explain how it works
-- explain when it is applied
-
-
+<div id="afterforeach" />
 
 
 ## cds.builtin.**classes** {#cds-builtin-classes}
@@ -480,4 +471,3 @@ const roots = module.exports = {definitions:{
 }}
 ```
 > Indentation indicates inheritance.
-

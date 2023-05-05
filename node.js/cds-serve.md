@@ -163,11 +163,7 @@ cds.on('served', (services)=>{
 
 A one-time event, emitted when the server has been started and is listening to incoming requests.
 
-### cds.once  <i>  ('**shutdown**', ()=>{}) </i> { .impl.beta}
-
-A one-time event, emitted when the server is closed and/or the process finishes.  Listeners can execute cleanup tasks.
-
-
+<div id="afteroncelistening" />
 
 ## cds.serve... <i> &#8594; [service](../cds/cdl#services)\(s\) </i> {#cds-serve}
 <!-- [`cds.serve`](cds-serve): #cds-serve -->
@@ -324,7 +320,7 @@ cds.serve('CatalogService').at('/cat')
 cds.serve('all').at('/cat') //> error
 ```
 
-**If omitted**, the mount point is determined from [annotation `@path`](services#srv-path), if present, or from the service's lowercase name, excluding trailing _Service_.
+**If omitted**, the mount point is determined from annotation `@path`, if present, or from the service's lowercase name, excluding trailing _Service_.
 
 ```cds
 service MyService @(path:'/cat'){...}  //> served at: /cat
@@ -371,8 +367,8 @@ cds.serve('./srv/cat-service') .with (srv => {
 })
 ```
 
-[Learn more about using impl annotations.](services#srv-impl){.learn-more}
-[Learn more about adding event handlers.](services#event-handlers){.learn-more}
+[Learn more about using impl annotations.](core-services#implementing-services){.learn-more}
+[Learn more about adding event handlers.](core-services#srv-on-before-after){.learn-more}
 
 
 **Note** that this is only possible when constructing single services:

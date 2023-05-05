@@ -19,7 +19,7 @@ The service prefix is either defined by [`@path`](../cds/cdl#service-definitions
 
 ## Protocol Annotations
 
-If a service is annotated with [@protocol](../node.js/services#srv-protocol), it's only served at this protocol.
+If a service is annotated with `@protocol`, it's only served at this protocol.
 
 ## Customization
 

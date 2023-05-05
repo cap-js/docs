@@ -43,19 +43,21 @@ export function generate(outDir: string, base: string, links: Record<string, str
 
 function generateReleaseLatest(outDir: string, base: string, links: Record<string, string>) {
   let latestTo = links['releases/latest']
-  latestTo = join(base, latestTo)
-  const html =`<!DOCTYPE html>
+  if (latestTo) {
+    latestTo = join(base, latestTo)
+    const html =`<!DOCTYPE html>
 <html>
   <head><meta http-equiv="refresh" content="0; url=${latestTo}" /></head>
   <body><p>Please follow <a href="${latestTo}">this link</a>.</p></body>
 </html>`
-  const htmlFile = join(outDir, 'releases/latest.html')
-  mkdirSync(dirname(outDir), {recursive:true})
-  writeFileSync(htmlFile, html)
+    const htmlFile = join(outDir, 'releases/latest.html')
+    mkdirSync(dirname(outDir), {recursive:true})
+    writeFileSync(htmlFile, html)
 
-  // add a new entry instead, which is used e.g. from home page
-  links['releases/current'] = links['releases/latest']
-  delete links['releases/latest']
+    // add a new entry instead, which is used e.g. from home page
+    links['releases/current'] = links['releases/latest']
+    delete links['releases/latest']
+  }
 }
 
 function sortObject (o:Record<string, any>): Record<string, any> {

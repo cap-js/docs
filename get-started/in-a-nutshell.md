@@ -255,7 +255,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 This time `cds watch` reacted with additional output like this:
 
-```js
+```sh
 [cds] - serving AdminService { at: '/admin' }
 [cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
 

@@ -105,7 +105,7 @@ srv.before('CREATE', Order, function(req) {
 A request has `succeeded` or `failed` only once the respective transaction was finally committed or rolled back. Hence, `succeeded` handlers can't veto the commit anymore. Even more, as the final `commit` or `rollback` already happened, they run outside framework-managed transaction boundaries.
 :::
 
-To veto requests, either use the `req.before('commit')` hook described above, or [service-level event handlers](core-services#srv-on-event-after) as shown in the following example:
+To veto requests, either use the `req.before('commit')` hook described above, or [service-level event handlers](core-services#srv-after-request) as shown in the following example:
 
 ```js
 const srv = await cds.connect.to('AdminService')

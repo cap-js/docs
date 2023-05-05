@@ -46,7 +46,7 @@ function generateReleaseLatest(outDir: string, base: string, links: Record<strin
   latestTo = join(base, latestTo)
   const html =`<!DOCTYPE html>
 <html>
-  <head><meta http-equiv="refresh" content="0; url='${latestTo}'" /></head>
+  <head><meta http-equiv="refresh" content="0; url=${latestTo}" /></head>
   <body><p>Please follow <a href="${latestTo}">this link</a>.</p></body>
 </html>`
   const htmlFile = join(outDir, 'releases/latest.html')

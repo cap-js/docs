@@ -9,7 +9,7 @@ status: released
 
 <script setup>
   import { h } from 'vue'
-  const X    = () => h('span', { class: 'ga',      title: 'Available' },     ['✔']   )
+  const X    = () => h('span', { class: 'ga',      title: 'Available' },     ['✓']   )
   const Na   = () => h('i',    { class: 'na',      title: 'Not available' }, ['n/a'] )
   const Beta = () => h('i',    { class: 'beta'                            }, ['beta'] )
 </script>

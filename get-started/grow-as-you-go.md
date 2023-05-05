@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # Grow As You Go...
 
 As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of grow as you go is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development.
@@ -6,25 +10,25 @@ Later on you can easily add configurations, **only when you realy need that**.
 
 ::: tip Intrinsic Cloud Qualities
 
-As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the neccessary things, e.g. for tenant isolation, behind the scenes. Similar, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer need to do to enable this.
+As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the necessary things, for example for tenant isolation, behind the scenes. Similar, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer need to do to enable this.
 
 :::
 
 ## Prepare for Production
 
-While we used SQLite in-memory databases and mocked authentication during development, we would use HANA Cloud and a combination of App Router, IAS and/or XSUAA in production. We can quickly do so as follows:
+While we used SQLite in-memory databases and mocked authentication during development, we would use SAP HANA Cloud and a combination of App Router, IAS and/or XSUAA in production. We can quickly do so as follows:
 
 ```sh
 cds add hana,approuter,xsuaa --for production
 ```
 
-This adds respective packages and configuration to your project. The content of your project, i.e., models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the could. Locally you continue to develop in airplane mode.
+This adds respective packages and configuration to your project. The content of your project, that is, models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the cloud. Locally you continue to develop in airplane mode.
 
 
 
 ## Deploy to Cloud
 
-After we are prepared for production we can deploy to the cloud. In case of BTP CloudFoundry, this is commonly done using MTA tooling. The required `mta.yaml` can be added and fully generated with:
+After we are prepared for production we can deploy to the cloud. In case of the SAP BTP, Cloud Foundry environment, this is commonly done using MTA tooling. The required `mta.yaml` can be added and fully generated with:
 
 ```sh
 cds add mta
@@ -44,7 +48,7 @@ cds add multitenancy
 
 ## Add Extensibility
 
-Extensibility is required to allow customers to adapt SaaS applications to their needs, for example, by adding extension fields and entities. CAP provides powerful intrinsic extensibility: Nothing needs to be changed or added to your content for that. You again just need to switch it on by:
+Extensibility is required to allow customers to adapt SaaS applications to their needs, for example, by adding extension fields and entities. CAP provides powerful intrinsic extensibility. Nothing needs to be changed or added to your content for that. Again, you just need to switch it on by:
 
 ```sh
 cds add extensibility
@@ -54,7 +58,7 @@ cds add extensibility
 
 ## Add CI/CD Pipelines
 
-Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. We can have a headstart by:
+Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. You can have a headstart by:
 
 ```sh
 cds add pipelines
@@ -66,7 +70,7 @@ cds add pipelines
 
 Micro services are deployment units, with main motivations being: separate scaling, different technologies, separate delivery cycles.
 
-Compared to *micro* services, CAP services are ***nano***: They constitute active functional entities of your application. Given their uniform, protocol-agnostic programmatic APIs, all services can be placed into one single procces (that is, a monolith), or distributed accross different micro services. Here's a simple example:
+Compared to *micro* services, CAP services are ***nano***: They constitute active functional entities of your application. Given their uniform, protocol-agnostic programmatic APIs, all services can be placed into one single process (that is, a monolith), or distributed across different micro services. Here's a simple example:
 
 ::: code-group
 

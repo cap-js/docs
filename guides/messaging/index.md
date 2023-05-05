@@ -167,7 +167,7 @@ class ReviewsService extends cds.ApplicationService { async init() {
 
 }}
 ```
-[Learn more about `srv.emit()` in Node.js.](../../node.js/services#srv-emit){.learn-more}
+[Learn more about `srv.emit()` in Node.js.](../../node.js/core-services#srv-emit-event){.learn-more}
 [Learn more about `srv.emit()` in Java.](../../java/consumption-api#an-event-based-api){.learn-more}
 
 Method `srv.emit()` is used to emit event messages. As you can see, emitters usually emit messages to themselves, that is, `this`, to inform potential listeners about certain events. Emitters don't know the receivers of the events they emit. There might be none, there might be local ones in the same process, or remote ones in separate processes.
@@ -188,7 +188,7 @@ Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://gi
   })
 ```
 
-[Learn more about registering event handlers in Node.js.](../../node.js/services#srv-on){.learn-more}
+[Learn more about registering event handlers in Node.js.](../../node.js/core-services#srv-on-before-after){.learn-more}
 [Learn more about registering event handlers in Java.](../../java/provisioning-api#introduction-to-event-handlers){.learn-more}
 
 The message payload is in the `data` property of the inbound `msg` object.

@@ -29,7 +29,7 @@ const q = SELECT.from('Foo')      //> using local variable
 
 ## Constructing Queries
 
-You can choose between two primary styles to construct queries: A [SQL-like fluent API](#fluent-api) style provided by `cds.ql` or a call-level [Querying API provided by `cds.Service`](services#srv-run). The lines between both blur, as the latter is actually just a shortcut to the former. This is especially true when combining both with the use of [tagged template string literals](#tts).
+You can choose between two primary styles to construct queries: A [SQL-like fluent API](#fluent-api) style provided by `cds.ql` or a call-level [Querying API provided by `cds.Service`](core-services#srv-run-query). The lines between both blur, as the latter is actually just a shortcut to the former. This is especially true when combining both with the use of [tagged template string literals](#tts).
 
 
 
@@ -53,7 +53,7 @@ While both, [CQN](../cds/cqn) as well as the [fluent API](#fluent-api) resemble 
 
 ###  <em>  Using Service APIs plus Fluent APIs </em> {#service-api}
 
-The following uses [the Querying API provided by `cds.Service`](services#srv-run) to construct exactly the same effective queries as the ones constructed with the fluent API above:
+The following uses [the Querying API provided by `cds.Service`](core-services#srv-run-query) to construct exactly the same effective queries as the ones constructed with the fluent API above:
 
 ```js
 let q1 = cds.read('Books',201)
@@ -62,7 +62,7 @@ let q3 = cds.update('Books',201,{title:'Sturmhöhe'})
 let q4 = cds.delete('Books',201)
 ```
 
-[As documented in the `cds.Services` API](services#convenient-shortcuts) docs, these methods are actually just shortcuts to the respective Fluent API methods above, and can be continued with calls to fluent API function, thus blurring the lines. For example, also these lines are equivalent to both variants above:
+[As documented in the `cds.Services` API](core-services#crud-style-api) docs, these methods are actually just shortcuts to the respective Fluent API methods above, and can be continued with calls to fluent API function, thus blurring the lines. For example, also these lines are equivalent to both variants above:
 
 
 ```js
@@ -111,17 +111,17 @@ let q3 = UPDATE (Books) .where `ID=${201}` .with `title=${'Sturmhöhe'}`
 let q4 = DELETE.from (Books) .where `ID=${201}`
 ```
 
-[Learn more about using reflected definitions from a service's model](services#srv-entities){.learn-more}
+[Learn more about using reflected definitions from a service's model](core-services#entities){.learn-more}
 
 
 ## Executing Queries
 
-Essentially queries are executed by passing them to a service's [`srv.run`](services#srv-run) method. Most frequently, you can also just use `await` on a query to do so.
+Essentially queries are executed by passing them to a service's [`srv.run`](core-services#srv-run-query) method. Most frequently, you can also just use `await` on a query to do so.
 
 
 ###  <em>  Passing Queries to `srv.run(...)` </em>
 
-The basic mechanism to execute a query is to pass it to a [`srv.run`](services#srv-run) method.
+The basic mechanism to execute a query is to pass it to a [`srv.run`](core-services#srv-run-query) method.
 For example, using the primary database service `cds.db`:
 
 ```sql
@@ -181,7 +181,7 @@ let books = await cats.run (SELECT `ID,title` .from (Books))
 
 ###  <em>  With Bound Queries from `srv.<crud>` </em>
 
-Finally, when using the [CRUD-style Service Querying APIs](services#srv-run), the constructed queries returned by the respective methods are bound to the originating service, and will be sent to that service's `srv.run()` method upon `await`. Hence these samples are equivalent:
+Finally, when using the [CRUD-style Service Querying APIs](core-services#srv-run-query), the constructed queries returned by the respective methods are bound to the originating service, and will be sent to that service's `srv.run()` method upon `await`. Hence these samples are equivalent:
 
 ```js
 let books = await srv.read `ID,title` .from `Books`

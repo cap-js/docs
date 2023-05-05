@@ -7,11 +7,11 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 ---
 
 # Best Practices
-<style scoped>
+<!-- <style scoped>
   h1:before {
     content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
-</style>
+</style> -->
 
 From generic Node.js best practices like dependency management and error handling to CAP-specific topics like transaction handling and testing, this [video](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s) provides some tips and tricks to improve the developer experience and avoid common pitfalls, based on common customer issues. In the following section we explain these best practices.
 

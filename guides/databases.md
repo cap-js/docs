@@ -9,26 +9,22 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 <!--- Migrated: @external/guides/31-Databases/index.md -> @external/guides/databases/index.md -->
 
+<script setup>
+  import { h } from 'vue'
+  const X  =  () => h('span', { class: 'x',   title: 'Available' }, ['✓'] )
+  const Na =  () => h('span', { class: 'na',  title: 'Not available' }, ['✗'] )
+</script>
+<style scoped>
+  .x   { color: var(--vp-c-green); }
+  .na  { color: var(--vp-c-red); }
+</style>
+
 # Using Databases
 
 <div v-html="$frontmatter?.synopsis" />
 <!--- % include links.md %} -->
 
-## Reading and Writing Data { .impl.beta}
-
-Use `cds.ql` to read and write data based on CDS models. Its features include:
-
-* Fluent, embedded cql-like language binding, and APIs
-* Statements based on cds models
-* Parallel and serialized execution
-* Automatic parameter binding
-* Nested transactions
-* Connection pooling
-* Driver plugin architecture
-* Canonical representation for queries (&rarr; [CQN](../cds/cqn))
-* Support for SQL as well as NoSQL databases (experimental)
-
-> All the examples in this guide can be executed without further development. For example, run `cds` from your cmd line and just copy and paste the snippets from here to the [REPL](../get-started/in-a-nutshell#repl).
+<div id="beforeprovidingdata" />
 
 ## Providing Initial Data { #providing-initial-data}
 
@@ -159,28 +155,7 @@ That means, even for a valid CDS model, the deployment can fail with respective 
 
 ### Influencing Persistence Mapping
 
-#### Using Already Existing Entities {.impl.beta}
-* Use `@cds.persistence.exists` to indicate that an object shouldn’t be created in the database,
-  because the database object already exists. The names of the existing object and its columns must exactly
-  match the names that would have been generated based on the entity definition.
-  One of the common scenarios where this annotation comes in handy is [Using Native SAP HANA Artifacts](../advanced/hana)
-  in a CAP application.
-
-* If the entity in the model annotated with `@cds.persistence.exists` represents a user-defined function or a
-  calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
-
-#### Skipping Entities {.impl.beta}
-* Use `@cds.persistence.skip` to indicate that an object shouldn’t be created in the database,
-  because it’s implemented in the service layer.
-
-#### Views as Tables {.impl.beta}
-* Use `@cds.persistence.table` to create a table with the effective signature of a view definition instead of an SQL view.
-  All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
-  A common use case for this annotation is in conjunction with the `@cds.persistence.skip` annotation. The  `@cds.persistence.skip` annotation is applied automatically
-  on all entities imported from third-party services. For example, when an EDMX file from an S/4 system is imported in your
-  CAP application, all the entities get the `@cds.persistence.skip` annotation. In order to have the remote entity as a local entity
-  in your CAP application and, for example, to cache some data, you would declare a view on
-  the imported entity and annotate it with `@cds.persistence: { skip: false, table }`.
+<div id="ininfluencingpersistence" />
 
 #### Inserting SQL Snippets
 
@@ -207,229 +182,7 @@ CREATE TABLE foo_bar_Car_Wheel (
 )
 ```
 
-### Structured Elements &rarr; Flattened Columns {.impl.beta}
-Structured elements in an entity definition are equivalent to a flattened definition of individual columns. For example, the following definition:
-
-```cds
-entity Authors { name: String;
-  address { street: String;
-    town { name: String; }
-  }
-}
-```
-
-unfolds to the following DDL statement:
-
-```sql
-CREATE TABLE Authors (
-  name NVARCHAR(5000),
-  address_street NVARCHAR(5000),
-  address_town_name NVARCHAR(5000)
-)
-```
-
-Correspondingly, the following CQL queries using [_Path Expressions_](../cds/cql#path-expressions) along structs:
-
-```sql
-SELECT name, address.street from Authors;
-SELECT name, address.town.name from Authors;
-SELECT name, address.* from Authors;
-```
-
-map to these plain SQL `SELECT` statements:
-
-```sql
-SELECT name, address_street from Authors;
-SELECT name, address_town_name from Authors;
-SELECT name, address_street, address_town_name from Authors;
-```
-
-> See [_Postfix Projections_](../cds/cql#postfix-projections) for additional means to query struct elements.
-
-### Associations &rarr; Forward-Declared JOINs {#associations.impl.beta}
-
-Associations introduce forward-declared Joins. Their names act like corresponding table aliases in queries. In addition, managed associations automatically add foreign keys. For example:
-
-```cds
-entity Books {
-  title : String;
-  author : Association to Authors;
-}
-entity Authors {
-  key ID : UUID;
-  name : String;
-  address : Association to Addresses;
-  books : Association to many Books;
-}
-entity Addresses {
-  key ID : UUID;
-  town : Association to Towns;
-}
-entity Towns {
-  key ID : UUID;
-  name : String;
-}
-```
-
-unfolds to the following SQL DDL statements with native support for associations (as referenced in the SAP HANA SQL Reference Guide with the release of SAP HANA Platform 2.0 SPS 00):
-
-```sql
-CREATE TABLE Books (
-  title varchar(111),
-  author_ID varchar(36)  -- foreign key for managed assoc
-) WITH ASSOCIATIONS (
-  JOIN Authors as author ON author.ID = author_ID  -- to-one
-);
-
-CREATE TABLE Authors (
-  ID varchar(36),
-  name varchar(111),
-  address_ID varchar(36)  -- foreign key for managed assoc
-) WITH ASSOCIATIONS (
-  JOIN Addresses as address ON address.ID = address_ID,
-  JOIN Books as books ON books.author_ID = ID      -- to-many
-);
-
-CREATE TABLE Addresses (
-  ID varchar(36),
-  town_ID varchar(36)  -- foreign key for managed assoc
-) WITH ASSOCIATIONS (
-  JOIN Towns as town ON town.ID = town_ID
-);
-
-CREATE TABLE Towns (
-  ID varchar(36),
-  name varchar(111)
-);
-```
-
-## Feature Comparison { .impl.beta}
-
-SAP HANA is the primary database of choice for productive use and supports the richer feature set. However, we aim for a close to equally rich feature set on other databases to support lightweight local development. The following sections detail known gaps and limitations.
-
-### Path Expressions
-
-Path expressions including infix filters can be used as described in the [CQL](../cds/cql#path-expressions) documentation.
-
-The CAP Java SDK supports [path expressions](../java/query-api#path-expressions) on HANA, H2, SQLite and PostgreSQL.
-
-HANA supports path expressions natively. On other DBs, additional joins are needed, which the Node.js runtime does not yet generate. Hence, path expressions are only supported on HANA. Exception: key properties of association to one, such that base entity has property as foreign key. then, *path-expression-like* constructs can be used on sqlite as well, for example, `GET /Books?$orderby=author/ID` works because Books has `author_ID`
-
-
-path expressions are used in:
-- ql where/ order by/ etc. -> as documented in [CQL guide](../cds/cql)
-- odata/ "sap-style rest" query options like $filter, et al.
-
-#### HANA
-
-- **Java** + **Node.js**: full support
-
-#### SQLite
-
-
-### Where Exists Predicates
-
-The CAP Java SDK supports [where exists](../java/query-api#exists-subquery) subqueries as well as [any/allMatch](../java/query-api#any-match) predicates on HANA, H2, SQLite and PostgreSQL.
-
-- Java supports path expressions including infix filters as documented in TODO also for SQLite
-  + Note: no paths within infix filters (PR #2969) -> same limitation in compiler
-- Node.js allows one-level path expressions referring to target primary keys of managed associations -> are handled like structs
-  + example: `GET /Books?$orderby=author/ID`
-
--> intro with link to CQL doc section
--> to be checked: same and all supported wrt HANA, SQLite, Java, Node.js
--> the restrictions, if any, re Path Expressions apply
-
-### Locale
-
-The CAP Java SDK supports [localized elements](localized-data) on HANA, H2, SQLite and PostgreSQL.
-
-If all views expose the [localized](localized-data#resolving-localized-texts-at-runtime) association, there are no restrictions on H2, SQLite and PostgreSQL. In case localized is not exposed, a system property `supported_locales` with the supported language codes has to be set:
-
-```java
-	System.setProperty("supported_locales","en,fr,es,it");
-```
-
-[locale](localized-data#propagating-of-user-locale)
-
-- **Java** + **Node.js** for **HANA**: full support
-- **Java** for **SQLite**:
-  + if localized assoc is available (i.e. propagated in view) CAP Java SDK sets locales dynamically (by-passing SQL views generated by compiler)
-  + fallback: as in case of Node.js described below:
-- **Node.js** for **SQLite**: only for static set of locales (de,en,fr) -> requires statically created SQL views à la localized_..._de
-  + on sqlite, an additional view is needed for each locale (`en` texts get written to the original table) -> extra config needed but no limitation
-  + cf. [localized views](localized-data#resolving-localized-texts-via-views)
-
-
-### Session variables
-
-The CAP Java SDK has full support for session variables such as `$user.id`, `$user.locale` and `$now` on HANA. On H2, SQLite and PostgreSQL, session variables are not supported in views but only in `where` clauses of [CQL](../cds/cql) queries and `on` conditions of associations.
-
-- **Node.js** for **HANA**: full support
-- **Node.js** for **SQLite**: single static user configurable via compiler's magic vars
-
-
-### Temporal Data
-
-On databases other than HANA, only [as-of-now-queries](temporal-data#as-of-now-queries) are supported.
-
-- **Node.js**: temporal data impl requires session contexts, which are not available on sqlite. in the future, the runtimes will most likely use special where clauses, which would make temporal data available on any db. currently, SQLite is always "as of now".
-
-### Multiuser
-
-The CAP Java SDK supports connection pooling and pessimistic locking via [select for update](../java/query-execution#pessimistic-locking)
-for HANA, H2 and PostgreSQL.
-
-Although connection pooling can be configured for SQLite, we recommend to set the `maximum-pool-size` to 1, due to the limited concurrency support in SQLite.
-
-
-- **Node.js** for **HANA**: full support
-- **Node.js** for **SQLite**: no support
-  + sqlite feature that would allow concurrency: https://www.sqlite.org/cgi/src/doc/begin-concurrent/doc/begin_concurrent.md -> once that is delivered, we can implement
-  + [select for update](providing-services/#select-for-update) simply executes a select
-
-
-### Multitenancy
-
-The CAP Java SDK supports testing multitenant scenarios with PostgreSQL and H2. // with Aug release -> MT lib Frank
-
-
-### Functions
-
-The CAP Java SDK supports [scalar](../java/query-api#scalar-functions) and [predicate](../java/query-api#predicate-functions) functions on HANA, H2, SQLite and PostgreSQL.
-
-__TODO: check which odata funcs to take over in cqn__
-
-__TODO: Java?__
-
-
-- **Node.js** for **HANA**: `ceiling`, `floor`, `round`
-- **Node.js** for **SQLite**: `round` only
-
-### locale-dependent sorting
-
-- for **HANA**: via `WITH PARAMETERS ('LOCALE' = '<locale>')`
-- for **SQLite**: via `COLLATE NOCASE` - As [SQLite collation](https://www.sqlite.org/datatype3.html#collation) doesn't support locale-specific sorting, case insensitive sorting is applied.
-
-
-### Views with parameters
-
-Views with parameters are supported on HANA only.
-
-
-
-### HANA-only features in Node.js
-
-- Multitenancy
-- views with parameters
-- fuzzy search
-- stored procedures
-- data type binary as key property
-
-### SQLite-only features in Node.js
-
-- db-generated keys
-- boolean operators (cf. [generic-filter.test.js](https://github.tools.sap/cap/cds/blob/ff7cd1b26a902a81cbd84ebcf8f250d8ef647372/tests/_runtime/odata/__tests__/integration/generic-filter.test.js#L303))
+<div id="afterqualifiednames" />
 
 ## Native Features
 
@@ -660,23 +413,21 @@ The `$at` variable is used in the context of temporal data, but it can also be u
 | `sqlite` | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') | strftime('%Y-%m-%dT%H:%M:%S.000Z', 'now') |
 | `plain` | current_timestamp | current_timestamp |
 
-<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
 
 ## Schema Evolution {#schema-evolution}
 
 CAP supports database schema updates by detecting changes to the CDS model when executing the CDS build. If the underlying database offers built-in schema migration techniques, compatible changes can be applied to the database without any data loss or the need for additional migration logic. Incompatible changes like deletions are also detected, but require manual resolution, as they would lead to data loss.
 
-| Change                              | Detected Automatically         |
-|-------------------------------------|:------------------------------:|
-| Adding   fields                     |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Deleting fields                     |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Renaming fields                     |         <i style='color:#eb3434; font-size:90%'>X</i> <sup>1</sup>    |
-| Changing datatype of fields         |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Changing type parameters            |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Changing associations/compositions  |         <span style='color:#4FB81C' title='Available'>&#10004;</span>                  |
-| Renaming associations/compositions  |         <i style='color:#eb3434; font-size:90%'>X</i> <sup>1</sup>    |
-| Renaming entities                   |         <i style='color:#eb3434; font-size:90%'>X</i>                 |
+| Change                             | Detected Automatically |
+|------------------------------------|:----------------------:|
+| Adding   fields                    |          <X/>          |
+| Deleting fields                    |          <X/>          |
+| Renaming fields                    |   <Na/> <sup>1</sup>   |
+| Changing datatype of fields        |          <X/>          |
+| Changing type parameters           |          <X/>          |
+| Changing associations/compositions |          <X/>          |
+| Renaming associations/compositions |   <Na/> <sup>1</sup>   |
+| Renaming entities                  |         <Na/>          |
 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
 
@@ -705,9 +456,9 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 | Current format    | hdbcds | hdbtable | hdbmigrationtable |
 |-------------------|:------:|:--------:|:-----------------:|
-| hdbcds            |        |   <span style='color:#4FB81C' title='Available'>&#10004;</span>  |       <i style='color:#eb3434; font-size:90%'>X</i>      |
-| hdbtable          | <i style='color:#eb3434; font-size:90%'>X</i> |          |       <span style='color:#4FB81C' title='Available'>&#10004;</span>       |
-| hdbmigrationtable | <i style='color:#eb3434; font-size:90%'>X</i> |   <span style='color:#4FB81C' title='Available'>&#10004;</span>  |                   |
+| hdbcds            |        |   <X/>  |       <Na/>      |
+| hdbtable          | <Na/> |          |       <X/>       |
+| hdbmigrationtable | <Na/> |   <X/>  |                   |
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
@@ -904,8 +655,8 @@ Not supported:
 
 Unsupported changes lead to an error during deployment. To bring such changes to the database, switch off automatic schema evolution.
 
-<!--- % assign x="<span style='color:#4FB81C' title='Available'>&#10004;</span>" %} -->
-<!--- % assign na="<i style='color:#eb3434; font-size:90%'>X</i>" %} -->
+<!--- % assign x="<X/>" %} -->
+<!--- % assign na="<Na/>" %} -->
 
 
 ## Database Constraints {#db-constraints}

@@ -373,15 +373,7 @@ If you want to have the comfort of an automated CDS build like with the `watch` 
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
 :::
 
-#### Local Development for Multitenant Applications {.impl.beta}
-
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas#local-mtx) for more information.
-
-<span id="afterlocaldev" />
-
-<div id="troubleshooting-sap-make" />
-
-<div id="milestones" />
+<div id="afterautobuild" />
 
 ## Testing CAP Java Applications
 

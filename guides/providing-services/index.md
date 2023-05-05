@@ -889,8 +889,7 @@ Use _optimistic locking_ to _detect_ concurrent modification of data _across req
 
 Use _pessimistic locking_ to _protect_ data from concurrent modification by concurrent _transactions_. CAP leverages database locks for [pessimistic locking](#select-for-update).
 
-### Conflict Detection Using ETags
- {#etag}
+### Conflict Detection Using ETags {#etag}
 
 The CAP runtimes support optimistic concurrency control and caching techniques using ETags.
 An ETag identifies a specific version of a resource found at a URL.
@@ -999,7 +998,7 @@ The following sections give an overview how to do so, which links to respective 
 ...
 ```
 
-[Learn more about providing service implementations in Node.js.](../../node.js/services#srv-impls){.learn-more}
+[Learn more about providing service implementations in Node.js.](../../node.js/core-services#implementing-services){.learn-more}
 
 
 
@@ -1026,7 +1025,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](../../node.js/services#event-handlers){.learn-more}
+[Learn more about **adding event handlers in Node.js**.](../../node.js/core-services#srv-on-before-after){.learn-more}
 
 ```js
 @Component

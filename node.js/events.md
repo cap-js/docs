@@ -105,7 +105,7 @@ srv.before('CREATE', Order, function(req) {
 A request has `succeeded` or `failed` only once the respective transaction was finally committed or rolled back. Hence, `succeeded` handlers can't veto the commit anymore. Even more, as the final `commit` or `rollback` already happened, they run outside framework-managed transaction boundaries.
 :::
 
-To veto requests, either use the `req.before('commit')` hook described above, or [service-level event handlers](services#event-handlers) as shown in the following example:
+To veto requests, either use the `req.before('commit')` hook described above, or [service-level event handlers](core-services#srv-after-request) as shown in the following example:
 
 ```js
 const srv = await cds.connect.to('AdminService')
@@ -352,7 +352,7 @@ if (req.errors) //> get out somehow...
 - `code` _Number (Optional)_ - Represents the error code associated with the message. If the number is in the range of HTTP status codes and the error has a severity of 4, this argument sets the HTTP response status code.
 - `message` _String \| Object \| Error_ - See below for details on the non-string version.
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
-- `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](app-services#i18n) for details.
+- `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
 ####  <i>  Using an Object as Argument </i>
 
@@ -367,7 +367,7 @@ req.error ({
 })
 ```
 
-Additional properties can be added as well, for example to be used in [custom error handlers](services#srv-on-error).
+Additional properties can be added as well, for example to be used in [custom error handlers](core-services#srv-on-error).
 
 > In OData responses, notifications get collected and put into HTTP response header `sap-messages` as a stringified array, while the others are collected in the respective response body properties (&rarr; see [OData Error Responses](http://docs.oasis-open.org/odata/odata-json-format/v4.0/os/odata-json-format-v4.0-os.html#_Toc372793091)).
 
@@ -381,12 +381,4 @@ Additionally, the OData protocol specifies which properties an error object may 
 
 {.sub-section}
 
-### req.diff  <i>  (data?) </i> {#req-diff .impl.beta}
-[`req.diff`]: #req-diff
-
-Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).
-> This will trigger database requests.
-
-```js
-const diff = await req.diff()
-```
+<div id="endofevents" />

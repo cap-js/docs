@@ -87,7 +87,7 @@
 ### [Node.js](/node.js/)
 
 - [cds Facade](/node.js/cds-facade)
-- [cds.Service APIs](/node.js/services)
+- [cds.Service APIs](/node.js/core-services)
 - [cds.Events](/node.js/events)
 - [cds.compile](/node.js/cds-compile)
 - [cds.connect](/node.js/cds-connect)

@@ -97,7 +97,7 @@ To get a completely clutter-free log, check out the test runners for such a feat
 
 ## Testing Service APIs
 
-As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js APIs](services).
+As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js APIs](core-services).
 Here is an example for that taken from [cap/samples](https://github.com/SAP-samples/cloud-cap-samples/blob/a8345122ea5e32f4316fe8faef9448b53bd097d4/test/consuming-services.test.js#L2):
 
 ```js
@@ -265,7 +265,7 @@ Data can be supplied:
 
 <span id="intestdata" />
 
-This following example shows how data can be inserted into the database using regular [CDS service APIs](services#srv-run) (using [CQL INSERT](cds-ql#INSERT) under the hood):
+This following example shows how data can be inserted into the database using regular [CDS service APIs](core-services#srv-run-query) (using [CQL INSERT](cds-ql#INSERT) under the hood):
 
 ```js
 beforeAll(async () => {

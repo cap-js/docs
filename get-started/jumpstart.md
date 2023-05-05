@@ -27,7 +27,7 @@ Follow the steps below to setup a local development environment. If you are a de
 
 #### ... from [nodejs.org](https://nodejs.org)
 
-Choose the **LTS** version, via the feft-hand side button:
+Choose the **LTS** version, via the left-hand side button:
 
 <img src="./assets/jumpstart/image-20230310202845639.png" alt="image-20230310202845639" style="zoom: 33%;" />
 
@@ -115,7 +115,7 @@ Users on macOS must first run a command (*Shell Command: Install 'code' command 
 
 The default project structure of CAP projects is as follows:
 
-```sh
+```zsh
 bookshop/        # Your project's root folder
 ├─ app /         # UI-related content goes here
 ├─ srv/          # Service-related content goes here
@@ -128,7 +128,7 @@ bookshop/        # Your project's root folder
 
 ### Minimal Configuration
 
-Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is things should just work out of the box with zero configuration as much as possible. You can override these default by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, as much as possible. You can override these defaults by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that:
 
@@ -150,7 +150,7 @@ For example you could override the defaults for the project structure like that:
 
 ::: tip Convention over Configuration
 
-We recommend to stay with CAP's conventions to benefit from things just working out-of-the-box. Only add configurations or overrride the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out-of-the-box. Only add configurations or override the defaults if you really need to do so.
 
 :::
 
@@ -196,7 +196,7 @@ We'd go on by adding CDS domain models and service definitions, as well as custo
 
 ::: tip Served out of the box...
 
-Whenever we add content, `cds watch` would react immediately, e.g. by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically, without need for time-consuming builds and deployments.
+Whenever we add content, `cds watch` would react immediately, for example, by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically, without need for time-consuming builds and deployments.
 
 :::
 
@@ -208,7 +208,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 | Production             | Development                      |
 | ---------------------- | -------------------------------- |
-| HANA Cloud             | SQLite (in-memory or persistent) |
+| SAP HANA Cloud         | SQLite (in-memory or persistent) |
 | IAS, XSUAA             | Mocked Authentication Strategy   |
 | Message Brokers, Kafka | File-based Messaging             |
 | Audit Log Service      | Console-based Logger             |
@@ -225,7 +225,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 A CDS service definition is all CAP needs to serve fully-functional OData services, with extensive database access included out of the box. This also allows us to mock remote services in service integration scenarios.
 
-For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, e.g., the [edmx from SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
+For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
 
 :::details Try it yourself
 A step by step example for this can be found [here](https://github.com/SAP-samples/teched2022-AD265)

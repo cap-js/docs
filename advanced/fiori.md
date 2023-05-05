@@ -359,7 +359,7 @@ entity Foo @(Capabilities:{
 }
 ```
 
-Similar recommendations apply to `@mandatory` and others &rarr; see [Common Annotations].
+Similar recommendations apply to `@mandatory` and others &rarr; see [Common Annotations](../cds/annotations#common-annotations).
 
 
 ## Draft-Based Editing {#draft-support}

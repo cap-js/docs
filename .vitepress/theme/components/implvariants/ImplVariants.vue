@@ -13,30 +13,38 @@ const knownImplVariants = ['node', 'java']
 
 onMounted(() => {
   if (!supportsVariants.value)  return
-  let check = localStorage.getItem('impl-variant') === 'java'
-  checked.value = check
+  let check = currentCheckState()
   setClass(check)
+  // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query.
+  const variantNew = check ? 'java' : 'node'
+  localStorage.setItem('impl-variant', variantNew)
 })
+
+function currentCheckState() {
+  const url = new URL(window.location)
+  let variant = url.searchParams.get('impl-variant')
+  if (url.searchParams.has('impl-variant'))
+    return url.searchParams.get('impl-variant') === 'java'
+  return localStorage.getItem('impl-variant') === 'java'
+}
 
 function setClass(check) {
   checked.value = check
-  if (typeof document !== 'undefined') {
 
-    for (let swtch of document.getElementsByClassName('SwitchImplVariant')) {
-      swtch.classList[check ? 'add' : 'remove']('checked')
-    }
-    for (let container of document.getElementsByClassName('SwitchImplVariantContainer')) {
-      container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
-    }
-
-    markStatus()
-    toggleContent(check ? 'java' : 'node')
+  for (let swtch of document.getElementsByClassName('SwitchImplVariant')) {
+    swtch.classList[check ? 'add' : 'remove']('checked')
   }
+  for (let container of document.getElementsByClassName('SwitchImplVariantContainer')) {
+    container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
+  }
+
+  markStatus()
+  toggleContent(check ? 'java' : 'node')
 }
 
 function useVariant() {
   function toggle() {
-    let check = localStorage.getItem('impl-variant') === 'java'
+    let check = currentCheckState()
     setClass((check = !check))
     const variantNew = check ? 'java' : 'node'
     localStorage.setItem('impl-variant', variantNew)
@@ -50,34 +58,32 @@ function useVariant() {
 
 function animationsOff(cb) {
   let css
-  if (typeof document !== 'undefined') {
-    css = document.createElement('style')
-    css.appendChild(
-      document.createTextNode(
-      `:not(.VPSwitchAppearance):not(.VPSwitchAppearance *) {
-  -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -o-transition: none !important;
-  -ms-transition: none !important;
-  transition: none !important;
+  css = document.createElement('style')
+  css.appendChild(
+    document.createTextNode(
+    `:not(.VPSwitchAppearance):not(.VPSwitchAppearance *) {
+-webkit-transition: none !important;
+-moz-transition: none !important;
+-o-transition: none !important;
+-ms-transition: none !important;
+transition: none !important;
 }`
-    ))
-    document.head.appendChild(css)
-  }
+  ))
+  document.head.appendChild(css)
 
   cb()
 
-  if (typeof document !== 'undefined') {
-    // @ts-expect-error keep unused declaration, used to force the browser to redraw
-    const _ = window.getComputedStyle(css).opacity
-    document.head.removeChild(css)
-  }
+  // @ts-expect-error keep unused declaration, used to force the browser to redraw
+  const _ = window.getComputedStyle(css).opacity
+  document.head.removeChild(css)
 }
 
 watchEffect(() => {
   if (!supportsVariants.value)  return
   setTimeout(() => { // otherwise DOM is not ready
-    animationsOff(() => setClass(checked.value))
+    if (typeof document !== 'undefined') {
+      animationsOff(() => setClass(currentCheckState()) )
+    }
   }, 20)
 })
 

@@ -47,7 +47,7 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    lineNumbers: true,
+    // lineNumbers: true,
     languages: [
       {
         id: 'cds',
@@ -56,10 +56,16 @@ export default defineConfig({
         aliases: ['cds']
       },
       {
-        id: 'csv',
+        id: 'csvs',
         scopeName: 'text.scsv',
-        path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
+        path: join(__dirname, 'syntaxes/scsv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
         aliases: ['csv', 'csvs']
+      },
+      {
+        id: 'csvc',
+        scopeName: 'text.csv',
+        path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
+        aliases: ['csvc']
       }
     ],
     toc: {
@@ -83,7 +89,9 @@ export default defineConfig({
     await sitemap.generate(outDir, siteHostName, sitemapLinks)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
-    const hanaAsset = 'advanced/assets/native-hana-samples.zip'
+    const hanaAssetDir = 'advanced/assets'
+    const hanaAsset = join(hanaAssetDir, 'native-hana-samples.zip')
+    await fs.mkdir(join(outDir, hanaAssetDir), {recursive: true})
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
 })

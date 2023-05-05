@@ -339,7 +339,7 @@ Now, let's fill your database with initial data by adding a few plain CSV files 
 
 ::: code-group
 
-```csv [db/data/sap.capire.bookshop-Books.csv]
+```csvc [db/data/sap.capire.bookshop-Books.csv]
 ID,title,author_ID,stock
 201,Wuthering Heights,101,12
 207,Jane Eyre,107,11
@@ -351,7 +351,7 @@ ID,title,author_ID,stock
 
 ::: code-group
 
-```csv [db/data/sap.capire.bookshop-Authors.csv]
+```csvc [db/data/sap.capire.bookshop-Authors.csv]
 ID,name
 101,Emily Brontë
 107,Charlotte Brontë
@@ -511,7 +511,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 </div>
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){ .learn-more target="_blank"}
-[Learn more about providing service implementations **in Node.js**.](../node.js/services#srv-impls){.learn-more}
+[Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more}
 
 </div>
@@ -556,7 +556,7 @@ module.exports = function (){
 }
 ```
 
-[Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/services#event-handlers){.learn-more}
+[Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 
 </div>
 
@@ -644,7 +644,7 @@ public class SubmitOrderHandler implements EventHandler {
 [Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){.learn-more .impl .java}
 [Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){ .learn-more .impl .node}
 [Learn more about **reading and writing data** using `cds.ql`.](../java/query-api){ .learn-more .impl .java}
-[Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/services#srv-entities){ .learn-more .impl .node}
+[Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/core-services#entities){ .learn-more .impl .node}
 [Learn more about **typed access to data** using the CAP Java SDK.](../java/data#typed-access){ .learn-more .impl .java}
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}

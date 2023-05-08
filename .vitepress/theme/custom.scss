@@ -169,6 +169,7 @@ div.aside nav {
   }
 }
 
+// Hide empty table headers
 tr:has(> th:empty:first-child:last-child),
 tr:has(> th:empty:first-child:not(:last-child) + th:empty:last-child) {
   display: none;

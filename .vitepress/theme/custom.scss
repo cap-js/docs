@@ -221,14 +221,27 @@ kbd {
 }
 
 pre.log {
-  background: black;
-  font-style: italic;
-  font-size: smaller;
-  line-height: 1.3em;
-  color: #00ffffe0;
-  padding: 20px 25px;
-  border-radius: 14px;
+  background: var(--vp-code-block-bg);
+  font-size: var(--vp-code-font-size);
+  line-height: var(--vp-code-line-height);
+  color: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
   overflow: auto;
+  span {
+    &.cmd {
+      color: #FFCB6B;
+    }
+    &.flags {
+      color: #C3E88D;
+    }
+    &.cwd {
+      color: #777;
+    }
+    &.livereload {
+      color: #FDEC87
+    }
+  }
   em {
     color: #00ff00e0;
   }

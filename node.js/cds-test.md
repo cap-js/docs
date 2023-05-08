@@ -265,7 +265,7 @@ Data can be supplied:
 
 <span id="intestdata" />
 
-This following example shows how data can be inserted into the database using regular [CDS service APIs](core-services#srv-run-query) (using [CQL INSERT](cds-ql#INSERT) under the hood):
+This following example shows how data can be inserted into the database using regular [CDS service APIs](core-services#srv-run-query) (using [CQL INSERT](cds-ql#insert) under the hood):
 
 ```js
 beforeAll(async () => {

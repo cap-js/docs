@@ -40,7 +40,7 @@ let tx = cds.context = cds.tx({ ... })
 cds.context === tx.context  //> true
 ```
 
-::: tip 
+::: tip
 
 Prefer local  `req`  objects in your handlers for accessing event context properties, as each access to `cds.context` happens through [`AsyncLocalStorage.getStore()`](https://nodejs.org/api/async_context.html#asynclocalstoragegetstore), which induces some minor overhead.
 
@@ -168,7 +168,7 @@ The name of the incoming event, which can be one of:
 
 ### . data {.property}
 
-Contains the event data. For example, the http body for CREATE or UPDATE requests, or the payload of an asynchronous event message. 
+Contains the event data. For example, the http body for CREATE or UPDATE requests, or the payload of an asynchronous event message.
 
 
 
@@ -188,7 +188,7 @@ Provides access to headers of the event message or request. In case of asynchron
 
 ### eve. on 'done' {.event}
 
-Register handlers to these events on a per event / request basis. The event are executed when the whole top-level request handling is finished 
+Register handlers to these events on a per event / request basis. The event are executed when the whole top-level request handling is finished
 
 Use this method to register handlers, executed when the whole request is finished.
 
@@ -200,7 +200,7 @@ req.on('done', () => {...}) // request succeeded/failed, after all
 ```
 
 ::: danger
-The events `succeeded` , `failed` and `done` are emitted *after* the current transaction ended. Hence, they **run outside framework-managed transactions**, and handlers can't veto the commit anymore. 
+The events `succeeded` , `failed` and `done` are emitted *after* the current transaction ended. Hence, they **run outside framework-managed transactions**, and handlers can't veto the commit anymore.
 :::
 
 
@@ -221,7 +221,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 
 
 
-Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers], such as the [query](#req-query), additional [request parameters](#req-params), the [authenticated user](#user), and [methods to send responses](#req-msg).
+Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers], such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply).
 
 
 [Router]: http://expressjs.com/en/4x/api.html#router
@@ -272,7 +272,7 @@ For example:
 
 {style="font-style:italic;width:80%;"}
 
-[See also `req.path` to learn how to access full navigation paths.](#req-path){.learn-more}
+[See also `req.path` to learn how to access full navigation paths.](#path){.learn-more}
 [See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){.learn-more}
 [Learn more about linked models and definitions.](cds-reflect#cds-reflect){.learn-more}
 
@@ -281,7 +281,7 @@ For example:
 ### . path {.property}
 
 Captures the full canonicalized path information of incoming requests with navigation.
-If requests without navigation, `req.path` is identical to [`req.target.name`](#req-target) (or [`req.entity`](#req-entity), which is a shortcut for that).
+If requests without navigation, `req.path` is identical to [`req.target.name`](#target) (or [`req.entity`](#entity), which is a shortcut for that).
 
 Examples based on [cap/samples/bookshop AdminService](https://github.com/sap-samples/cloud-cap-samples/tree/master/bookshop/srv/admin-service.cds):
 
@@ -292,14 +292,14 @@ Examples based on [cap/samples/bookshop AdminService](https://github.com/sap-sam
 | Books(201)/author | AdminService.Books/author | AdminService.Authors |
 {style="font-style:italic"}
 
-[See also `req.target`](#req-target){.learn-more}
+[See also `req.target`](#target){.learn-more}
 
 
 
 
 ### . entity {.property}
 
-This is a convenience shortcut to [`msg.target.name`](#req-target).
+This is a convenience shortcut to [`msg.target.name`](#target).
 
 
 
@@ -365,15 +365,15 @@ Stores the given `results` in `req.results`, which will then be sent back to the
 
 Rejects the request with the given HTTP response code and single message. Additionally, `req.reject` throws an error based on the passed arguments. Hence, no additional code and handlers will be executed once `req.reject` has been invoked.
 
-[Arguments are the same as for `req.error`](#req-msg){.learn-more}
+[Arguments are the same as for `req.error`](#req-error){.learn-more}
 
 
 
 
 ### req. error() {.method}
 ### req. notify(), ... {.method}
-[`req.info`]: #req-msg
-[`req.error`]: #req-msg
+[`req.info`]: #req-notify
+[`req.error`]: #req-error
 
 Use these methods to collect messages or errors and return them in the request response to the caller. The method variants reflect different severity levels, use them as follows:
 

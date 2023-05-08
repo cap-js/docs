@@ -15,7 +15,7 @@ const cds = require('@sap/cds')
 let csn = cds.compile(`entity Foo {}`)
 ```
 
-::: tip 
+::: tip
 
 Use `cds repl` to try out things, for example like this to :
 
@@ -33,7 +33,7 @@ Welcome to cds repl v6.8.0
 
 ## Refs to Submodules
 
-Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents. 
+Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents.
 
 - [cds. models]() {.property}
   - [cds. resolve()]() {.method}
@@ -60,7 +60,7 @@ Many properties of cds are references to submodules, which are lazy-loaded on fi
 
 
 
-## Builtin Types & Classes 
+## Builtin Types & Classes
 
 Following properties provide access to the classes and prototypes of [linked CSNs](cds-reflect).
 
@@ -68,12 +68,12 @@ Following properties provide access to the classes and prototypes of [linked CSN
 ### [cds. builtin .classes](cds-reflect#cds-builtin-classes) {.property}
 
   - [cds. Association](cds-reflect#cds-Association) {.property}
-  - [cds. Composition](cds-reflect#cds-Composition) {.property}
+  - [cds. Composition](cds-reflect#cds-Association) {.property}
   - [cds. entity](cds-reflect#cds-entity) {.property}
-  - [cds. event](cds-reflect#cds-event) {.property}
-  - [cds. type](cds-reflect#cds-type) {.property}
-  - [cds. array](cds-reflect#cds-array) {.property}
-  - [cds. struct](cds-reflect#cds-struct) {.property}
+  - [cds. event](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. type](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. array](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. struct](cds-reflect#cds-builtin-classes) {.property}
 
 
 
@@ -90,14 +90,14 @@ Following properties provide access to the classes and prototypes of [linked CSN
 ### [cds.EventContext](events#cds-event-context) {.class}
 ### [cds.Event](events#cds-event) {.class}
 ### [cds.Request](events#cds-request) {.class}
-### [cds.User](authentication#class-cds-user) {.class}
+### [cds.User](authentication#cds-user) {.class}
 
 
 
 
 ## Properties
 
-Following are properties which are not references to submodules. 
+Following are properties which are not references to submodules.
 
 
 
@@ -126,9 +126,9 @@ Returns the pathname of the `@sap/cds` installation folder from which the curren
 
 ### cds. root {.property}
 
-Returns the project root that is used by all CAP runtime file access as the root directory. 
+Returns the project root that is used by all CAP runtime file access as the root directory.
 By default tihs is `process.cwd()`, but can be set to a different root folder.
-It's guaranteed to be an absolute folder name.  
+It's guaranteed to be an absolute folder name.
 
 ```js
 // Print current project's package name
@@ -144,17 +144,17 @@ console.log ({ name, description })
 Provides access to the parsed effective `cds` cli command and arguments. Example: If you would add log respective output in a project-local `server.js`, and start your server with `cds watch`, you'd see an output like this:
 
 ```js
-Trace : { 
-  command: 'serve', 
-  argv: [ 'all' ], 
-  options: { 
-    'with-mocks': true, 
-    'in-memory?': true 
+Trace : {
+  command: 'serve',
+  argv: [ 'all' ],
+  options: {
+    'with-mocks': true,
+    'in-memory?': true
   }
 }
 ```
 
-For example, [`cds-plugins`](cds-serve) can use that to plugin to different parts of the framework for different commands being executed. 
+For example, [`cds-plugins`](cds-serve) can use that to plugin to different parts of the framework for different commands being executed.
 
 
 
@@ -175,9 +175,9 @@ Provides access to the effective configuration of the current process, transpare
     // ...,
     '*': true
   },
-  tenants: { 
-    t1: { features: [ 'isbn' ] }, 
-    t2: { features: '*' } 
+  tenants: {
+    t1: { features: [ 'isbn' ] },
+    t2: { features: '*' }
   }
 }
 ```
@@ -195,7 +195,7 @@ Provides access to the effective configuration of the current process, transpare
 > cds.requires.auth // [!code focus]
 {
   kind: 'basic-auth',
-  // ... as above 
+  // ... as above
 }
 ```
 
@@ -219,7 +219,7 @@ for (let s of cds.services) //... s is an instance of cds.Service
 
 ### cds. context {.property}
 
-Provides access to common event context properties like `tenant`, `user`, `locale` as well as the current root transaction for automatically managed transactions. 
+Provides access to common event context properties like `tenant`, `user`, `locale` as well as the current root transaction for automatically managed transactions.
 
 [Learn more about that in reference docs for `cds.tx`.](./cds-tx){.learn-more}
 
@@ -253,7 +253,7 @@ cds.app = require('express')()
 
 ### cds. db {.property}
 
-A shortcut to [`cds.services.db`](#cds-services), the primary database connected to during bootstrapping. Many framework operations use that to address and interact with the primary database. In particular that applies to the global [`cds.ql`](cds-ql) statement objects. For example: 
+A shortcut to [`cds.services.db`](#cds-services), the primary database connected to during bootstrapping. Many framework operations use that to address and interact with the primary database. In particular that applies to the global [`cds.ql`](cds-ql) statement objects. For example:
 
 ```js
 let books = await SELECT.from(Books) // is a shortcut for:
@@ -306,13 +306,13 @@ let e = foo || cds.error `Expected 'foo' to be truthy, but got: ${foo}`
 
 > In contrast to basic template strings, passed in objects are added using Node's  `util.format()` instead of `toString()`.
 
-Method `cds.error.expected` allows to conveniently construct error messages as above: 
+Method `cds.error.expected` allows to conveniently construct error messages as above:
 
 ```js
 let e = foo || cds.error.expected `${{foo}} to be truthy`
 ```
 
-Optional argument `caller` can be a calling function to truncate the error stack. Default is `cds.error` itself, so it will never show up in the stacks. 
+Optional argument `caller` can be a calling function to truncate the error stack. Default is `cds.error` itself, so it will never show up in the stacks.
 
 
 

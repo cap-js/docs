@@ -584,7 +584,7 @@ this.before ('submitOrder', async req => {
 
 ::: details Collecting input errors with `req.error()`...
 
-The input validation handlers above collect input errors with [`req.error()`](./events#req-msg) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client.
+The input validation handlers above collect input errors with [`req.error()`](./events#req-error) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client.
 
 :::
 
@@ -666,9 +666,9 @@ Books.data = {
 
 ::: details Noteworthy in these examples...
 
-- The `READ` handler is using the [`req.target`](./events.md#req-target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above.
+- The `READ` handler is using the [`req.target`](./events.md#target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above.
 
-- The `UPDATE` handler is using the [`req.params`](./events.md#req-params) property which provides access to passed in entity keys.
+- The `UPDATE` handler is using the [`req.params`](./events.md#params) property which provides access to passed in entity keys.
 
 :::
 

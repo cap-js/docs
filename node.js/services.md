@@ -63,7 +63,7 @@ module.exports = { CatalogService }
 <br> [Querying](#srv-run)
 <br> [Messaging](#srv-emit)
 <br> [Using `req.reply`](events#req-reply)
-<br> [Using `req.error`](events#req-msg)
+<br> [Using `req.error`](events#req-error)
 <br>
 <br>
 <br> [Handler Registration](#srv-on)
@@ -1007,7 +1007,7 @@ _**Common Usages:**_
 
 <div class="indent" markdown="1">
 
-`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#req-method) and additional request `headers` if neccessary:
+`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if neccessary:
 
 ```js
 const srv = await cds.connect.to('SomeService')
@@ -1190,10 +1190,10 @@ Prefer that over concatenating values into query strings to avoid SQL injection.
 
 
 ###  <i>  Convenient Shortcuts: </i>
-### <span style="color:#800; font-weight:500">srv</span>.read <i> (entity, key?, projection?) </i>...<i> &#8674; [`SELECT` query](cds-ql#SELECT) </i>
-### <span style="color:#800; font-weight:500">srv</span>.create <i> (entity, key?) </i>...<i> &#8674; [`INSERT` query](cds-ql#INSERT) </i>
-### <span style="color:#800; font-weight:500">srv</span>.update <i> (entity, key?) </i>...<i> &#8674; [`UPDATE` query](cds-ql#UPDATE) </i>
-### <span style="color:#800; font-weight:500">srv</span>.delete <i> (entity, key?) </i>...<i> &#8674; [`DELETE` query](cds-ql#DELETE) </i>
+### <span style="color:#800; font-weight:500">srv</span>.read <i> (entity, key?, projection?) </i>...<i> &#8674; [`SELECT` query](cds-ql#select) </i>
+### <span style="color:#800; font-weight:500">srv</span>.create <i> (entity, key?) </i>...<i> &#8674; [`INSERT` query](cds-ql#insert) </i>
+### <span style="color:#800; font-weight:500">srv</span>.update <i> (entity, key?) </i>...<i> &#8674; [`UPDATE` query](cds-ql#update) </i>
+### <span style="color:#800; font-weight:500">srv</span>.delete <i> (entity, key?) </i>...<i> &#8674; [`DELETE` query](cds-ql#delete) </i>
 
 These methods construct queries in a _fluent method-call style_ instead of the _Embedded QL_ style provided by [`cds.ql`](cds-ql).
 The returned queries can be executed with `await`.
@@ -1225,7 +1225,7 @@ const books3 = await SELECT.from(Books).where({ID:111})
 ```
 
 
-### <span style="color:#800; font-weight:500">srv</span>.insert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`INSERT` query](cds-ql#INSERT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.insert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`INSERT` query](cds-ql#insert) </i>
 
 Method `srv.insert` is a SQL-reminiscent variant of `srv.create` with the following being equivalent:
 
@@ -1234,7 +1234,7 @@ srv.insert(data) .into (entity)
 srv.create(entity) .entries (data)
 ```
 
-### <span style="color:#800; font-weight:500">srv</span>.upsert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`UPSERT` query](cds-ql#UPSERT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.upsert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`UPSERT` query](cds-ql#upsert) </i>
 
 Method `srv.upsert` inserts an entity or updates it if it doesn't exist.
 
@@ -1242,7 +1242,7 @@ Method `srv.upsert` inserts an entity or updates it if it doesn't exist.
 srv.upsert(data) .into (entity)
 ```
 
-### <span style="color:#800; font-weight:500">srv</span>.exists <i> (entity) </i>.where<i>(keys) </i>...<i> &#8594; [`SELECT` query](cds-ql#SELECT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.exists <i> (entity) </i>.where<i>(keys) </i>...<i> &#8594; [`SELECT` query](cds-ql#select) </i>
 
 Method `srv.exists` returns a truthy value if the entity exists. It returns a falsy value otherwise:
 

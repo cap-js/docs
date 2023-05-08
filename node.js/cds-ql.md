@@ -40,7 +40,7 @@ const { SELECT, INSERT, UPDATE, DELETE } = cds.ql
 
 The API is also available through [`cds.Service`'s CRUD-style Convenience API](core-services#crud-style-api) {.learn-more}
 
-::: details Using Reflected Definitions 
+::: details Using Reflected Definitions
 
 It is recommended best practice to use entity definitions reflected from a service's model to construct queries.
 Doing so greatly simplifies code as it avoids repeating namespaces all over the place.
@@ -192,9 +192,9 @@ Whenever there's user input involved...
 
 
 
-## Class `cds.ql.Query` 
+## Class `cds.ql.Query`
 
-Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#fluent-api) to construct queries as highlighted below.
+Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#constructing-queries) to construct queries as highlighted below.
 
 
 
@@ -228,7 +228,7 @@ await cds.db.run( SELECT.from(Books) )
 
 ### q. bind (srv) {.method}
 
-Binds a query for execution with the given `srv` . 
+Binds a query for execution with the given `srv` .
 
 ```js
 let srv = new cds.Service
@@ -303,7 +303,7 @@ function SELECT.colums ( columns[] : CQL expr string | CQN expr object )
 function SELECT.colums ( ...columns[] : CQL expr string | CQN expr object )
 ```
 
-Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select). 
+Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select).
 
 ```sql
 SELECT.from `Books` .columns (b => { b.title, b.author.name.as('author') })
@@ -357,17 +357,17 @@ Projection functions use these mechanisms:
 
 
 
-### .from() {.method}
+### .from() {.method #select-from}
 
 ```tsx
-function SELECT.from ( 
+function SELECT.from (
    entity : string | CSN definition | tagged template string,
    key?   : string | number | object,
    cols?  : array  | projection
 )
 ```
 
-Fills in [CQN `from` clauses](../cds/cqn.md#select), optionally adding a primary key, and a projection. 
+Fills in [CQN `from` clauses](../cds/cqn.md#select), optionally adding a primary key, and a projection.
 The latter are alternatives for using separate `.one`, `.where` and  `.columns` clauses. <br/>
 For example, these queries:
 
@@ -384,7 +384,7 @@ SELECT.one.from (Books) .where ({ID:201})
 .columns (b => { b.ID, b.title })
 ```
 
-> NOTE: Specifying a `key` argument automatically [enables `SELECT.one`](#select-one).
+> NOTE: Specifying a `key` argument automatically [enables `SELECT.one`](#one).
 
 
 
@@ -396,7 +396,7 @@ SELECT.from (Books, {ID:201})
 SELECT.from (Books.texts, {ID:201, locale:'de'})
 ```
 
-Argument `cols` is a projection [as accepted by `.columns (cols)`](#select-columns)
+Argument `cols` is a projection [as accepted by `.columns (cols)`](#columns)
 
 
 
@@ -405,7 +405,7 @@ Argument `cols` is a projection [as accepted by `.columns (cols)`](#select-colum
 Specifies the alias which you can refer to in other functions:
 
 ```js
-SELECT.from ('Authors').alias('a').where({ 
+SELECT.from ('Authors').alias('a').where({
    exists: SELECT.from('Books').where('author_ID = a.ID')
 })
 ```
@@ -581,7 +581,7 @@ INSERT.into (Books, [
 
 
 
-### .entries() {.method}
+### .entries() {.method #insert-entries}
 
 
 Allows inserting multiple rows with one statement where each row
@@ -657,7 +657,7 @@ const books = [
 UPSERT (books) .into (Books)
 ```
 
-### .into() {.method}
+### .into() {.method #upsert-entries}
 
 ```tsx
 function UPSERT.into (
@@ -708,7 +708,7 @@ The entries can be specified as individual method parameters of type object — 
 
 
 
-## UPDATE ... 
+## UPDATE ...
 
 Fluent API to construct [CQN UPDATE](../cds/cqn#update) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -723,13 +723,13 @@ UPDATE.entity `Books` .set `stock = stock - ${quantity}`
 ### .entity() {.method}
 
 ```tsx
-function UPDATE.entity ( 
+function UPDATE.entity (
    entity : string | CSN definition | tagged template string,
    key?   : string | number | object,
 )
 ```
 
-Specifies the target of the update operation, optionally followed by a primary key, and a projection. 
+Specifies the target of the update operation, optionally followed by a primary key, and a projection.
 The latter provides an alternative for using separate  `.where` clauses. <br/>
 For example, these queries are equivalent:
 
@@ -783,7 +783,7 @@ UPDATE (Books,ID) .with ({
 
 
 
-## DELETE ... 
+## DELETE ...
 
 Fluent API to construct [CQN DELETE](../cds/cqn#delete) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -793,16 +793,16 @@ DELETE.from('Books').where ({stock:{'<':1}})
 
 
 
-### .from() {.method}
+### .from() {.method #delete-from}
 
 ```tsx
-function SELECT.from ( 
+function SELECT.from (
    entity : string | CSN definition | tagged template string,
    key?   : string | number | object
 )
 ```
 
-[As in SELECT.from](#from) {.learn-more}
+[As in SELECT.from](#select-from) {.learn-more}
 
 
 

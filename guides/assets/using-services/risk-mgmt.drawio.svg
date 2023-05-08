@@ -8,13 +8,13 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 48px; margin-left: 208px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #232F3E; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #232F3E; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
                                 User
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="208" y="60" fill="#232F3E" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="208" y="60" fill="#232F3E" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     User
                 </text>
             </switch>
@@ -26,7 +26,7 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 268px; margin-left: 210px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
                                 navigate to risks associated
                                 <br/>
                                 with supplier
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="210" y="268" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                <text x="210" y="268" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">
                     navigate to ris...
                 </text>
             </switch>
@@ -45,7 +45,7 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 206px; margin-left: 370px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
                                 Suppliers
                                 <br/>
                                 &lt;&lt;remote&gt;&gt;
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="370" y="210" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="370" y="210" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Suppliers...
                 </text>
             </switch>
@@ -64,7 +64,7 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 206px; margin-left: 50px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
                                 Risks
                                 <br/>
                                 &lt;&lt;local&gt;&gt;
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="50" y="210" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="50" y="210" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Risks...
                 </text>
             </switch>
@@ -84,7 +84,7 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 168px; margin-left: 210px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
                                 show supplier information
                                 <br/>
                                 for a risk
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="210" y="168" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                <text x="210" y="168" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">
                     show supplier i...
                 </text>
             </switch>
@@ -104,7 +104,7 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 92px; margin-left: 302px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
                                 show suppliers /
                                 <br/>
                                 pick supplier for risk
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="302" y="95" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                <text x="302" y="95" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">
                     show suppliers /...
                 </text>
             </switch>
@@ -124,13 +124,13 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 98px; margin-left: 130px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
                                 show risks
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="130" y="98" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                <text x="130" y="98" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">
                     show risks
                 </text>
             </switch>
@@ -142,13 +142,13 @@
                 <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 328px; margin-left: 210px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                            <div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">
                                 block / unblock supplier
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="210" y="328" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                <text x="210" y="328" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">
                     block / unblock supplier
                 </text>
             </switch>

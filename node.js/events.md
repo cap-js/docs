@@ -109,7 +109,7 @@ For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `i
 
 
 
-### eve. locale {.property}
+### . locale {.property}
 
 The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n#normalized-locales).
 

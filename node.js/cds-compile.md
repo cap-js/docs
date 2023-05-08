@@ -380,7 +380,7 @@ cds.load(__dirname+'/relative-to-this-module')
 ## <span style="color:#800; font-weight:500">cds</span>.resolve <i> (paths) <span style="font-style:normal">&#8594;</span> [filenames] </i> {#cds-resolve }
 
 Resolves the given source paths by fetching matching model source files, that is _.cds_ or _.csn_ files, including models for required services.
-In detail it works as follows:
+In detail, it works as follows:
 
 1. If `paths` is `'*'`: `paths` = [ ...`cds.env.roots`, ...`cds.requires.<srv>.model` ]
 2. If `paths` is a single string: `paths` = [ `paths` ]
@@ -391,7 +391,7 @@ In detail it works as follows:
 
 [Learn more about `cds.env`](cds-env){.learn-more}
 
-In effect it resolves and returns an array with the absolute filenames of the root cds model files to be used to invoke the compiler.
+In effect, it resolves and returns an array with the absolute filenames of the root cds model files to be used to invoke the compiler.
 
 If no files are found, `undefined` is returned.
 
@@ -402,7 +402,7 @@ cds.env.folders           // = folders db, srv, app by default
 cds.env.roots             // + schema and services in cwd
 cds.resolve('*',false)    // + models in cds.env.requires
 cds.resolve('*')          // > the resolved existing files
-cds.resolve('db'])        // > the resolved existing files
+cds.resolve(['db'])       // > the resolved existing files
 cds.resolve(['db','srv']) // > the resolved existing files
 cds.resolve('none')       // > undefined
 ```

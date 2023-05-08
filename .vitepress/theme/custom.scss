@@ -142,16 +142,36 @@ main {
   .constructor::before { content: 'Constructor: '; color: grey }
   .property::before { content: 'Property: '; color: grey }
   .method::before { content: 'Method: '; color: grey }
+  .event::before { content: 'Event: '; color: grey }
+  .class::before { content: 'Class: '; color: grey }
   .async-method::before { content: 'Method: async '; color: grey }
-  h3.method, h3.async-method {
+  h3.event, h3.method, h3.async-method {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.property + h4.property,
+  h4.event + h4.event,
+  h4.method + h4.method,
+  h3.property + h3.property,
+  h3.event + h3.event,
+  h3.class + h3.class,
   h3.method + h3.method {
     margin-top: 0
   }
-  h3.property + h3.property {
-    margin-top: 0;
+}
+
+// Menu Sidebar
+aside.VPSidebar {
+  .group { padding-top: 5px !important;
+    .VPSidebarItem.level-0 {
+      padding-bottom: 5px;
+      .collapsed {
+        padding-bottom: 5px;
+      }
+      .VPSidebarItem.level-1 {
+        padding-bottom: 0;
+      }
+    }
   }
 }
 

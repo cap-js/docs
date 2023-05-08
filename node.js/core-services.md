@@ -537,7 +537,7 @@ class BooksService extends cds.ApplicationService {
 
 ::: tip Best Practices
 
-Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
+Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-tx#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
 
 :::
 
@@ -944,7 +944,7 @@ await db.run (tx => {
 
 This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
-[Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-context-tx) {.learn-more}
+[Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
 
 
@@ -979,7 +979,7 @@ Basically, methods  `srv.dispatch()` and `.handle()` are designed as a pair, wit
 
 ::: tip
 
-When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-context-tx#srv-tx).
+When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-tx#srv-tx).
 
 :::
 
@@ -1117,4 +1117,13 @@ await srv.run( INSERT.into(Books).entries({title:'Catweazle'}) )
 await srv.run( UPDATE(Books).set({discount:'10%'}).where({stock:{'>':111}}) )
 await srv.run( UPDATE(Books,201).with({stock:111}) )
 await srv.run( DELETE.from(Books,201) )
+```
+
+We can also use tagged template strings as provided by `cds.ql`:
+
+```js
+await srv.read `Books` .where `ID=${201}`
+await srv.create `Books` .entries ({title:'Wuthering Heights'})
+await srv.update `Books` .where `ID=${201}` .with `title=${'Sturmhöhe'}`
+await srv.delete `Books` .where `ID=${201}`
 ```

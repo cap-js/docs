@@ -32,7 +32,7 @@ This configuration becomes the default with one of our upcoming releases.
 
 #### cds.context
 
-This middleware initializes [cds.context](cds-context-tx#cds-context) and starts the continuation. It's required for every application.
+This middleware initializes [cds.context](events#cds-context) and starts the continuation. It's required for every application.
 
 #### Tracing
 

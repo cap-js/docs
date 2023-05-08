@@ -1,204 +1,351 @@
 ---
-shorty: <code>cds</code> Facade
-layout: node-js
 status: released
 ---
 
 
-# The `cds` Facade Object {#cds}
 
-The `cds` facade object provides access to all Node.js APIs. It’s implemented as a global singleton, with lazy-loading of sub packages to minimize bootstrapping time and memory consumption.
+# The *cds* Façade Object {#title}
 
-```js
+
+
+The `cds` facade object provides access to all CAP Node.js APIs. Use it like that:
+
+```sh
 const cds = require('@sap/cds')
+let csn = cds.compile(`entity Foo {}`)
 ```
 
-<!--- % include links-for-node.md %} -->
-<!--- % include _toc levels="2,3" menu=".only" %} -->
+::: tip 
+
+Use `cds repl` to try out things, for example like this to :
+
+```sh
+[dev] cds repl
+Welcome to cds repl v6.8.0
+> cds.compile(`entity Foo { key ID : UUID }`)
+{ definitions: {
+  Foo: { kind: 'entity', elements: { ID: { key: true, type: 'cds.UUID' } } }
+}}
+```
+:::
+
+
+
+## Refs to Submodules
+
+Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents. 
+
+- [cds. models](cds-models) {.property}
+  - [cds. resolve()](cds-resolve) {.method}
+  - [cds. load()](cds-load) {.method}
+  - [cds. parse()](cds-parse) {.method}
+  - [cds. compile](cds-compile) {.method}
+  - [cds. linked()](cds-reflect) {.method}
+  - [cds. deploy()](cds-deploy) {.method}
+- [cds. server](cds-server) {.property}
+- [cds. serve()](cds-serve) {.method}
+  - cds. services {.property}
+  - cds. middlewares {.property}
+  - cds. protocols {.property}
+  - cds. auth {.property}
+- [cds. connect](cds-connect) {.property}
+- [cds. ql](cds-ql) {.property}
+- [cds. tx()](cds-tx) {.method}
+- [cds. log()](cds-log) {.method}
+- [cds. env](cds-env) {.property}
+- [cds. auth](cds-auth) {.property}
+- [cds. i18n](cds-i18n) {.property}
+- [cds. test](cds-test) {.property}
+- [cds. utils](cds-utils) {.property}
+
+
+
+## Builtin Types & Classes 
+
+Following properties provide access to the classes and prototypes of [linked CSNs](cds-reflect).
+
+### [cds. builtin .types](cds-reflect#cds-builtin-types) {.property}
+### [cds. builtin .classes](cds-reflect#cds-builtin-classes) {.property}
+
+  - [cds. Association](cds-reflect#cds-Association) {.property}
+  - [cds. Composition](cds-reflect#cds-Composition) {.property}
+  - [cds. entity](cds-reflect#cds-entity) {.property}
+  - [cds. event](cds-reflect#cds-event) {.property}
+  - [cds. type](cds-reflect#cds-type) {.property}
+  - [cds. array](cds-reflect#cds-array) {.property}
+  - [cds. struct](cds-reflect#cds-struct) {.property}
+
+
+
+## Core Classes
+
+### [cds.Service](core-services#core-services) {.class}
+
+- [cds.ApplicationService](app-services) {.class}
+- [cds.RemoteService](remote-services) {.class}
+- [cds.MessagingService](messaging) {.class}
+- [cds.DatabaseService](databases) {.class}
+- [cds.SQLService](databases) {.class}
+
+### [cds.EventContext](events#cds-event-context) {.class}
+### [cds.Event](events#cds-event) {.class}
+### [cds.Request](events#cds-request) {.class}
+### [cds.User](cds-auth#class-cds-user) {.class}
 
 
 
 
-### cds.lazified <i> (module | object) </i> {#cds-lazified }
+## Properties
+
+Following are properties which are not references to submodules. 
 
 
-To minimize footprint, only the facade module itself is loaded by the import above, while close to all properties and functions provided are getters, which lazy-load respective modules only on demand. For example, you can see this in `cds repl`:
 
-<pre class='log'>
-[capire] cds repl
-<em>Welcome to cds repl v4.1.6</em>
-<b>></b> cds
-cds {
-  <i>... excerpt...</i>
-  builtin: [Getter/Setter],
-  resolve: [Getter/Setter],
-  load: [Getter/Setter],
-  parse: [Getter/Setter],
-  compile: [Getter/Setter],
-  connect: [Getter/Setter],
-  serve: [Getter/Setter],
-  server: [Getter/Setter],
-  deploy: [Getter/Setter],
-  version: '4.1.6',
-  home: [Getter/Setter]
-}
-</pre>
+### cds. version {.property}
 
-> Still in repl, enter `cds.builtin`, and then `cds` again to see the effects of lazy-loading.
-
-
-This is internally done using the `cds.lazified` methods, which turn selected properties of a given object or module into lazy getters.
-
-
-#### cds.lazified <i> (module) &#8674; `require` </i>
-
-Variant `cds.lazified(<module>)` takes a node module as an argument and returns a derived `require` function,
-which turns all requires into lazy requires upon subsequent assignment to `module.exports`. For example:
+Returns the version of the `@sap/cds` package from which the current instance of the `cds` facade module was loaded. For example, use that to write version specific code:
 
 ```js
-require = cds.lazified(module)
-module.exports = {
-  aStaticProperty : module.require('foo'),
-  aLazyProperty : require('bar'),
-}
-```
-
-
-#### cds.lazified  <i>  (object) &#8674; object </i>
-
-Variant `cds.lazified(<object>)` turns all arrow functions with an argument named `lazy` into getters, as follows:
-```js
-const o = cds.lazified({
-  aStaticProperty : require('foo'),
-  aLazyProperty : lazy => require('bar'),
-})
-```
-The lazy property will essentially be replaced as follows:
-```js
-const o = cds.lazified({
-  aStaticProperty : require('foo'),
-  get aLazyProperty() {
-    let value = require('bar')
-    Object.defineProperty(this,'aLazyProperty',{value,enumerable:true,writable:true})
-    return value
-  }
-})
+if (cds.version[0] < 6) // code for pre cds6 usage
 ```
 
 
 
-### cds.version  <i>  &#8674; string </i> {#cds-version }
 
-Returns the version of the `@sap/cds` package from which the current instance of the `cds` facade module was loaded.
-
-
-
-### cds.home  <i>  &#8674; string </i> {#cds-home }
+### cds. home {.property}
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
+```sh
+[dev] cds repl
+> cds.home // [!code focus]
+~/.npm/lib/node_modules/@sap/cds
+```
 
 
 
-{.sub-section}
+### cds. root {.property}
+
+Returns the project root that is used by all CAP runtime file access as the root directory. 
+By default tihs is `process.cwd()`, but can be set to a different root folder.
+It's guaranteed to be an absolute folder name.  
+
+```js
+// Print current project's package name
+let package_json = path.join (cds.root,'package.json') // [!code focus]
+let { name, description } = require(package_json)
+console.log ({ name, description })
+```
 
 
 
-### cds.env  <i>  &#8674; { ... } </i> {#cds-env }
+### cds. cli {.property}
+
+Provides access to the parsed effective `cds` cli command and arguments. Example: If you would add log respective output in a project-local `server.js`, and start your server with `cds watch`, you'd see an output like this:
+
+```js
+Trace : { 
+  command: 'serve', 
+  argv: [ 'all' ], 
+  options: { 
+    'with-mocks': true, 
+    'in-memory?': true 
+  }
+}
+```
+
+For example, [`cds-plugins`](cds-serve) can use that to plugin to different parts of the framework for different commands being executed. 
+
+
+
+
+### cds. env {.property}
 
 Provides access to the effective configuration of the current process, transparently from various sources, including the local _package.json_ or _.cdsrc.json_, service bindings and process environments.
 
+```js
+[dev] cds repl
+> cds.env.requires.auth // [!code focus]
+{
+  kind: 'basic-auth',
+  strategy: 'mock',
+  users: {
+    alice: { tenant: 't1', roles: [ 'cds.Subscriber', 'admin' ] },
+    bob: { tenant: 't1', roles: [ 'cds.ExtensionDeveloper' ] },
+    // ...,
+    '*': true
+  },
+  tenants: { 
+    t1: { features: [ 'isbn' ] }, 
+    t2: { features: '*' } 
+  }
+}
+```
+
 [Learn more about `cds.env`](cds-env){.learn-more}
 
-### cds.requires  <i>  &#8674; { ... } </i> {#cds-requires }
+
+
+### cds. requires {.property}
 
 ... is a convenience shortcut to [`cds.env.requires`](#cds-env).
 
+```js
+[dev] cds repl
+> cds.requires.auth // [!code focus]
+{
+  kind: 'basic-auth',
+  // ... as above 
+}
+```
 
 
 
-{.sub-section}
+### cds. services {.property}
 
-
-
-
-
-
-### cds.app  <i>  = [express.Application](https://expressjs.com/de/4x/api.html#app) </i> {#cds-app }
-[express.js app]: #cds-app
-
-The [express.js Application object](https://expressjs.com/de/4x/api.html#app) constructed during bootstrapping.
-
-[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
-
-
-
-
-
-
-### cds.model  <i>  = [csn](../cds/csn) </i> {#cds-model }
-
-The effective [CDS model](../cds/csn) loaded during bootstrapping, which contains all service and entity definitions, including required services.
-
-[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
-
-
-
-
-### cds.services  <i>  = { [cds.Services](services) } </i> {#cds-services }
-
-A dictionary and cache of all instances of [`cds.Service`](services) constructed through [`cds.serve`](cds-serve),
+A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve`](cds-serve),
 or connected to by [`cds.connect`](cds-connect) so far.
 
-It’s an iterable object, so you can access individual services by name:
+It’s an *iterable* object, so can be accessed in the following ways:
+
 ```js
-const { CatalogService, db } = cds.services
+let { CatalogService, db } = cds.services
+let all_services = [ ... cds.services ]
+for (let k in cds.services) //... k is a services's name
+for (let s of cds.services) //... s is an instance of cds.Service
 ```
 
-... as well as iterate through all services:
+
+
+### cds. context {.property}
+
+Provides access to common event context properties like `tenant`, `user`, `locale` as well as the current root transaction for automatically managed transactions. 
+
+[Learn more about that in reference docs for `cds.tx`.](./cds-tx){.learn-more}
+
+
+
+### cds. model {.property}
+
+The effective [CDS model](../cds/csn) loaded during bootstrapping, which contains all service and entity definitions, including required services. Many framework operations use that as a default where models are required. It is loaded in built-in `server.js` like so:
+
 ```js
-for (let each of cds.services) ...
+cds.model = await cds.load('*')
 ```
-
-
-
-
-
-### cds.db  <i>  = [cds.Service](services) </i> {#cds-db }
-
-A shortcut to `cds.services.db`, the primary database service connected to during bootstrapping, if any.
 
 [Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
 
-### cds.run, ... {#cds-run}
+### cds. app {.property}
 
-If a primary database is connected (&rarr; [see `cds.db`](#cds-db)), the `cds` facade provides shortcuts to the database service's methods to run queries, that is:
+The [express.js Application object](https://expressjs.com/de/4x/api.html#app) constructed during bootstrapping. Several framework operations use that to add express handlers or middlewares. It is initialised in built-in `server.js` like so:
 
+```js
+cds.app = require('express')()
+```
 
-| Method...    | &rarr; | ... is a shortcut for: |
-|--------------|--------|------------------------|
-| `cds.run`    | &rarr; | `cds.db.run`           |
-| `cds.read`   | &rarr; | `cds.db.read`          |
-| `cds.create` | &rarr; | `cds.db.create`        |
-| `cds.update` | &rarr; | `cds.db.update`        |
-| `cds.delete` | &rarr; | `cds.db.delete`        |
-| `cds.insert` | &rarr; | `cds.db.insert`        |
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
-### cds.context  <i>  &#8674; [cds.Event](events#cds-event) </i> {#cds-context}
 
-Reference to the current root [event](events#cds-event) or [request](events#cds-request), which acts as invocation context, providing access to the current `tenant` and `user` information, and also constitutes the transaction boundary for automatically managed transactions.
+### cds. db {.property}
+
+A shortcut to [`cds.services.db`](#cds-services), the primary database connected to during bootstrapping. Many framework operations use that to address and interact with the primary database. In particular that applies to the global [`cds.ql`](cds-ql) statement objects. For example: 
+
+```js
+let books = await SELECT.from(Books) // is a shortcut for:
+let books = await cds.db.run ( SELECT.from(Books) )
+```
+
+It is initialized in built-in `server.js` like so:
+
+```js
+cds.db = await cds.connect.to('db')
+```
+
+[Learn more about bootstrapping in `cds.server`.](./cds-serve){.learn-more}
 
 
 
-### cds.utils  <i>  &#8674; { ... } </i> {#cds-utils }
+## Methods
 
-Provides a set of utility functions.
 
-| Function...  | &rarr; | ...provides utility
-| ------------ | ------ | ----------------------- |
-| `uuid`       | &rarr; | generates a new v4 UUID |
+
+### cds. error() {.method}
+
+```ts
+function cds.error (
+  message  : string | object,
+  details? : object
+  caller?  : function
+)
+```
+
+This is a helper to construct new errors in various ways:
+
+```js
+let e = new cds.error ('message')
+let e = new cds.error ('message', { code, ... })
+let e = new cds.error ({ message, code, ... })
+```
+
+If called without `new`  the error is thrown immediately allowing code like that:
+
+```js
+let e = foo || cds.error (`Expected 'foo' to be truthy, but got: ${foo}`)
+```
+
+You can also use `cds.error` with tagged template strings:
+
+```js
+let e = foo || cds.error `Expected 'foo' to be truthy, but got: ${foo}`
+```
+
+> In contrast to basic template strings, passed in objects are added using Node's  `util.format()` instead of `toString()`.
+
+Method `cds.error.expected` allows to conveniently construct error messages as above: 
+
+```js
+let e = foo || cds.error.expected `${{foo}} to be truthy`
+```
+
+Optional argument `caller` can be a calling function to truncate the error stack. Default is `cds.error` itself, so it will never show up in the stacks. 
+
+
+
+
+
+### cds. exit() {.method}
+
+Provides a graceful shutdown for running servers, by first emitting `cds.emit('shutdown')` with handlers allowed to be `async` functions. If not running in a server, it calls `process.exit()`
+
+```js
+cds.on('shutdown', async()=> fs.promises.rm('some-file.json'))
+cds.on('shutdown', ()=> console.log('shutdown'))
+cds.exit() //> will rune above handlers before stopping the server
+```
+
+
+
+
+
+## Lifecycle Events
+
+
+
+#### cds. once '*bootstrap*' {.event}
+
+#### cds. on '*loaded*' {.event}
+
+#### cds. on '*connect*' {.event}
+
+#### cds. on '*serving*' {.event}
+
+#### cds. once '*served*' {.event}
+
+#### cds. once '*listening*' {.event}
+
+#### cds. once '*shutdown*' {.event}

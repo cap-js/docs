@@ -657,7 +657,7 @@ cds.serve('cat-service') .with (function(){
 ```
 
 ::: warning
-Note: Depending on when the error occurs, the request's [continuation](cds-context-tx#event-contexts) (that is, `cds.context`) may be `undefined` or incomplete (for example, missing user information).
+Note: Depending on when the error occurs, the request's [continuation](cds-tx#event-contexts) (that is, `cds.context`) may be `undefined` or incomplete (for example, missing user information).
 :::
 
 The error is subsequently processed for the client following [OData's Error Response Body format](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ErrorResponseBody). Hence, if you want to add custom properties, they must be prefixed with `@` in order to not be purged.

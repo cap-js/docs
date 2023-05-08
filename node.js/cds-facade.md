@@ -35,14 +35,14 @@ Welcome to cds repl v6.8.0
 
 Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents. 
 
-- [cds. models](cds-models) {.property}
-  - [cds. resolve()](cds-resolve) {.method}
-  - [cds. load()](cds-load) {.method}
-  - [cds. parse()](cds-parse) {.method}
+- [cds. models]() {.property}
+  - [cds. resolve()]() {.method}
+  - [cds. load()]() {.method}
+  - [cds. parse()]() {.method}
   - [cds. compile](cds-compile) {.method}
   - [cds. linked()](cds-reflect) {.method}
-  - [cds. deploy()](cds-deploy) {.method}
-- [cds. server](cds-server) {.property}
+  - [cds. deploy()]() {.method}
+- [cds. server](cds-serve) {.property}
 - [cds. serve()](cds-serve) {.method}
   - cds. services {.property}
   - cds. middlewares {.property}
@@ -53,7 +53,7 @@ Many properties of cds are references to submodules, which are lazy-loaded on fi
 - [cds. tx()](cds-tx) {.method}
 - [cds. log()](cds-log) {.method}
 - [cds. env](cds-env) {.property}
-- [cds. auth](cds-auth) {.property}
+- [cds. auth](authentication) {.property}
 - [cds. i18n](cds-i18n) {.property}
 - [cds. test](cds-test) {.property}
 - [cds. utils](cds-utils) {.property}
@@ -90,7 +90,7 @@ Following properties provide access to the classes and prototypes of [linked CSN
 ### [cds.EventContext](events#cds-event-context) {.class}
 ### [cds.Event](events#cds-event) {.class}
 ### [cds.Request](events#cds-request) {.class}
-### [cds.User](cds-auth#class-cds-user) {.class}
+### [cds.User](authentication#class-cds-user) {.class}
 
 
 

@@ -488,8 +488,8 @@ public class CatalogServiceHandlerTest {
         CatalogServiceHandler handler = new CatalogServiceHandler(db);
         handler.discountBooks(Stream.of(book1, book2));
 
-        assertEquals("Book 1", book1.getTitle(), "Book 1 was discounted");
-        assertEquals("Book 2 -- 11% discount", book2.getTitle(), "Book 2 was not discounted");
+        Assertions.assertEquals("Book 1", book1.getTitle(), "Book 1 was discounted");
+        Assertions.assertEquals("Book 2 -- 11% discount", book2.getTitle(), "Book 2 was not discounted");
     }
 }
 ```
@@ -522,7 +522,7 @@ public class CatalogServiceTest {
         // book with title "The Raven" and a stock quantity of > 111
         Books book = result.single(Books.class);
 
-        assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");
+        Assertions.assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");
     }
 }
 ```
@@ -548,7 +548,7 @@ public class CatalogServiceTest {
         context.setQuantity(2);
         catalogService.emit(context);
 
-        assertEquals(22 - context.getQuantity(), context.getResult().getStock());
+        Assertions.assertEquals(22 - context.getQuantity(), context.getResult().getStock());
     }
 }
 ```
@@ -572,7 +572,7 @@ public class CatalogServiceTest {
         context.setQuantity(30);
         catalogService.emit(context);
 
-        assertThrows(ServiceException.class, () -> catalogService.emit(context), context.getQuantity() + " exceeds stock for book");
+        Assertions.assertThrows(ServiceException.class, () -> catalogService.emit(context), context.getQuantity() + " exceeds stock for book");
     }
 }
 ```
@@ -601,16 +601,16 @@ public class CatalogServiceITest {
 
     @Test
     public void discountApplied() throws Exception {
-        mockMvc.perform(get(booksURI + "?$filter=stock gt 200&top=1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.value[0].title").value(containsString("11% discount")));
+        mockMvc.perform(MockMvcRequestBuilders.get(booksURI + "?$filter=stock gt 200&top=1"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.value[0].title").value(Matchers.containsString("11% discount")));
     }
 
     @Test
     public void discountNotApplied() throws Exception {
-        mockMvc.perform(get(booksURI + "?$filter=stock lt 100&top=1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.value[0].title").value(not(containsString("11% discount"))));
+        mockMvc.perform(MockMvcRequestBuilders.get(booksURI + "?$filter=stock lt 100&top=1"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.value[0].title").value(Assertions.not(Matchers.containsString("11% discount"))));
     }
 }
 ```

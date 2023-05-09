@@ -490,7 +490,7 @@ const { Books, Authors } = db.entities('my.bookshop')
 ```
 {.indent}
 
-These methods are actually shortcuts to their [counterparts provided by linked models](cds-reflect#exports), with the default namespace being the service definition's name.
+These methods are actually shortcuts to their [counterparts provided by linked models](cds-reflect#linked-csn), with the default namespace being the service definition's name.
 
 
 ##### Using Fully Qualified Names:

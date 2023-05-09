@@ -245,7 +245,7 @@ if (author.is2many) ...
 
 ### instanceof
 
-You can use JavaScript's standard `instanceof` in combination with the built-in classes to check a linked definition's type: 
+You can use JavaScript's standard `instanceof` in combination with the built-in classes to check a linked definition's type:
 
 ```js
 let m = cds.linked(csn)
@@ -312,14 +312,14 @@ The linked definition's fully qualified name as a non-enumerable property.
 #### . kind {.property}
 
 The linked definition's resolved kind as a non-enumerable property.
-One of `context`, `service`, `entity`, `type`, `aspect`, `event`, `element`, or `annotation` as documented in the [CSN specification](../cds/csn#definitions). 
+One of `context`, `service`, `entity`, `type`, `aspect`, `event`, `element`, or `annotation` as documented in the [CSN specification](../cds/csn#definitions).
 
 
 
 
 #### any. is (kind)  {.method}
 
-Checks if a linked definition is of certain kind. Besides the [specified `kinds`](#any-kind), the argument may also be `struct`, `array`, or `view`. 
+Checks if a linked definition is of certain kind. Besides the [specified `kinds`](#kind), the argument may also be `struct`, `array`, or `view`.
 
 
 
@@ -406,7 +406,7 @@ class cds.type extends any {...}
 class cds.entity extends cds.type {...}
 ```
 
-This is the base class of a  struct elements, types, aspects, and entities. 
+This is the base class of a  struct elements, types, aspects, and entities.
 
 #### . elements {.property}
 

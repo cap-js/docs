@@ -530,7 +530,7 @@ Refreign from unrestricted XSUAA attributes as they need to be designed very car
 
 Consider this bad example with *unrestricted* attribute `country` (assuming `valueRequired:false` in XSUAA configuration):
 
-```swift
+```cds
 service SalesService @(requires: ['SalesAdmin', 'SalesManager']) {
   entity SalesOrgs @(restrict: [
      { grant: '*',
@@ -544,7 +544,7 @@ Let's assume a customer creates XSUAA roles `SalesManagerEMEA` with dedicated va
 As expected, a user assigned only to 'SalesAdmin' has access to all `SalesOrgs`. But when role `SalesManagerEMEA` is added, *only* EMEA orgs are accessible suddenly!
 
 The preferred way is to model with restricted attribute `country` (`valueRequired:true`) and an additional grant:
-```swift
+```cds
 service SalesService @(requires: ['SalesAdmin', 'SalesManager']) {
   entity SalesOrgs @(restrict: [
      { grant: '*',

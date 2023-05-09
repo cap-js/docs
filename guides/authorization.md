@@ -578,7 +578,7 @@ service ProjectService @(requires: 'authenticated-user') {
 }
 ```
 
-In the `ProjectService` example, only projects for which the current user is a member with role `Editor` are readable and editable. Note, that with exception of the user ID (`$user`) **all authorization information originates from the business data**.
+In the `ProjectService` example, only projects for which the current user is a member with role `Editor` are readable and editable. Note that with exception of the user ID (`$user`) **all authorization information originates from the business data**.
 
 Supported features of `exists` predicate:
 * Combine with other predicates in the `where` condition (`where: 'exists a1[...] or exists a2[...]`).
@@ -589,7 +589,7 @@ Supported features of `exists` predicate:
 Paths *inside* the filter (`where: 'exists a1[b1.c = ...]`) are not yet supported.
 :::
 
-<!--  * Note, that in the Node.js stack, variant `a1[b1.c = ...]` only works on SAP HANA (as `b1.c` is a path expression).  -->
+<!--  * Note that in the Node.js stack, variant `a1[b1.c = ...]` only works on SAP HANA (as `b1.c` is a path expression).  -->
 
 
 The following example demonstrates the last two features:
@@ -615,7 +615,7 @@ service ProductsService @(requires: 'authenticated-user') {
 }
 ```
 
-Here, the authorization of `Products` is derived from `Divisions` by leveraging the _n:m relationship_ via entity `ProducingDivisions`. Note, that the path `producers.division` in the `exist` predicate points to target entity `Divisions`, where the filter with the user-dependent attribute `$user.division` is applied.
+Here, the authorization of `Products` is derived from `Divisions` by leveraging the _n:m relationship_ via entity `ProducingDivisions`. Note that the path `producers.division` in the `exist` predicate points to target entity `Divisions`, where the filter with the user-dependent attribute `$user.division` is applied.
 
 ::: warning _Warning_ <!--  -->
 Be aware that deep paths might introduce a performance bottleneck. Access Control List (ACL) tables, managed by the application, allow efficient queries and might be the better option in this case. <span id="tip-efficient-queries" />

@@ -226,10 +226,10 @@ kbd {
 }
 
 pre.log {
-  background: var(--vp-code-block-bg);
+  background: #f8f8f8; // matches to light theme
+  color: #032F62; // matches to light theme
   font-size: var(--vp-code-font-size);
   line-height: var(--vp-code-line-height);
-  color: #fafafa;
   padding: 20px;
   border-radius: 8px;
   overflow: auto;
@@ -248,13 +248,17 @@ pre.log {
     }
   }
   em {
-    color: #00ff00e0;
+    color: #db8b0b;
   }
   b {
     color: #ee0000e0;
   }
   i {
     color: grey;
+  }
+  :root.dark & {
+    background: var(--vp-code-block-bg);
+    color: #fafafa;
   }
 }
 /* expand width on big screens */

@@ -351,7 +351,7 @@ Convenient shortcut to check whether an association definition is to-one or to-m
 
 ### cds. entity {.class }
 
-```txs
+```tsx
 class cds.entity extends cds.struct {...}
 ```
 
@@ -388,21 +388,21 @@ If draft is enabled, a definition to easily refer to draft data for the current 
 
 ### cds. event {.class}
 
-```txs
+```tsx
 class cds.entity extends cds.struct {...}
 ```
 
 
 ### cds. type {.class}
 
-```txs
+```tsx
 class cds.type extends any {...}
 ```
 
 
 ### cds. struct {.class }
 
-```txs
+```tsx
 class cds.entity extends cds.type {...}
 ```
 
@@ -416,7 +416,7 @@ The entity's declared elements as [documented in the CSN Specification](../cds/c
 
 ### cds. service {.class}
 
-```txs
+```tsx
 class cds.type extends any {...}
 ```
 

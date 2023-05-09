@@ -83,10 +83,10 @@ let [ CatalogService, AdminService ] = m.services
 ```
 
 
-### . entities (namespace) {.method}
-### . events (namespace) {.method}
+### . entities() {.method}
+### . events() {.method}
 
-### . operations (namespace) {.method}
+### . operations() {.method}
 
 These properties / methods provide convenient and cached access to a model's definitions within a given namespace.
 If no namespace is specified, the model's declared namespace is used, if any.

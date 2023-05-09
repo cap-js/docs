@@ -70,10 +70,11 @@ Following properties provide access to the classes and prototypes of [linked CSN
   - [cds. Association](cds-reflect#cds-Association) {.property}
   - [cds. Composition](cds-reflect#cds-Association) {.property}
   - [cds. entity](cds-reflect#cds-entity) {.property}
-  - [cds. event](cds-reflect#cds-builtin-classes) {.property}
-  - [cds. type](cds-reflect#cds-builtin-classes) {.property}
-  - [cds. array](cds-reflect#cds-builtin-classes) {.property}
-  - [cds. struct](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. event](cds-reflect#cds-event) {.property}
+  - [cds. type](cds-reflect#cds-type) {.property}
+  - [cds. array](cds-reflect#cds-array) {.property}
+  - [cds. struct](cds-reflect#cds-struct) {.property}
+  - [cds. service](cds-reflect#cds-struct) {.property}
 
 
 

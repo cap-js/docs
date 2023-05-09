@@ -371,20 +371,23 @@ Rejects the request with the given HTTP response code and single message. Additi
 
 
 ### req. error() {.method}
-### req. notify(), ... {.method}
-[`req.info`]: #req-notify
-[`req.error`]: #req-error
+### req. warn() {.method}
+### req. info() {.method}
+### req. notify() {.method}
+
+[`req.info`]: #req-msg
+[`req.error`]: #req-msg
 
 Use these methods to collect messages or errors and return them in the request response to the caller. The method variants reflect different severity levels, use them as follows:
 
 ####  <i>  Variants </i>
 
-| Method       | Collected in   | Typical UI | Severity |
-|--------------|----------------|------------|:--------:|
-| `req.notify` | `req.messages` | Toasters   | 1        |
-| `req.info`   | `req.messages` | Dialog     | 2        |
-| `req.warn`   | `req.messages` | Dialog     | 3        |
-| `req.error`  | `req.errors`   | Dialog     | 4        |
+| Method         | Collected in   | Typical UI | Severity |
+| -------------- | -------------- | ---------- | :------: |
+| `req.notify()` | `req.messages` | Toasters   |    1     |
+| `req.info()`   | `req.messages` | Dialog     |    2     |
+| `req.warn`     | `req.messages` | Dialog     |    3     |
+| `req.error()`  | `req.errors`   | Dialog     |    4     |
 
 {style="font-style:italic;width:80%;"}
 

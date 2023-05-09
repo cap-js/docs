@@ -19,13 +19,13 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 ```tsx
 function cds.compile (
-  model : 
+  model :
   	'*', 'file:<filename>' | filenames[] |  // source files
     CDL string | { CDL strings }           // sources in memory
   ,
   options : CSN_flavor | {
     flavor?    : CSN_flavor,
-    min?       : boolean, 
+    min?       : boolean,
     docs?      : boolean,
     locations? : boolean,
     messages?  : []
@@ -36,10 +36,10 @@ type CSN_flavor = 'parsed' | 'inferred'
 
 
 
-This is the central function to compile models from files or in-memory sources to [CSN](../cds/csn). 
-It supports different variants based on the type of the first argument `model` as outlined below. 
+This is the central function to compile models from files or in-memory sources to [CSN](../cds/csn).
+It supports different variants based on the type of the first argument `model` as outlined below.
 
-Depending on the variants, the method returns a Promise or a sync value. 
+Depending on the variants, the method returns a Promise or a sync value.
 
 
 
@@ -127,7 +127,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 
 ## cds. compile (...) .to.xyz() {.method}
 
-This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-to-xyz-csn). 
+This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-to-xyz).
 
 For example:
 
@@ -161,22 +161,22 @@ Following are a collection of model processors which take a CSN as input and com
 ### .to .json() {.method}
 
 ```tsx
-function cds.compile.to.json ( options: { 
+function cds.compile.to.json ( options: {
   indents : integer
 })
 ```
 
-Renders the given model to a formatted JSON string. 
+Renders the given model to a formatted JSON string.
 
 Option `indents` is the indent as passed to `JSON.stringify`.
 
- 
+
 
 
 
 ### .to .yaml() {.method}
 
-Renders the given model to a formatted JSON  or YAML string. 
+Renders the given model to a formatted JSON  or YAML string.
 
 
 
@@ -376,7 +376,7 @@ let ref = cds.parse.ref (`foo.bar`)
 
 ## cds. minify() {.method}
 
-Minifies a given CSN model by removing all unused<sup>1</sup> types and aspects, as well all entities tagged with `@cds.persistence.skip:'if-unused'`. Use it like that: 
+Minifies a given CSN model by removing all unused<sup>1</sup> types and aspects, as well all entities tagged with `@cds.persistence.skip:'if-unused'`. Use it like that:
 
 ```js
 let csn = await cds.load('*').then(cds.minify)
@@ -401,7 +401,7 @@ Using `cds.minify()` is particularly relevant, when reuse models are in the game
 [minify] - skipping entity sap.common.Countries.texts
 ```
 
-<sup>1</sup> Unused in that context means, not reachable from roots services and — non-skipped — entities in the model. 
+<sup>1</sup> Unused in that context means, not reachable from roots services and — non-skipped — entities in the model.
 
 
 

@@ -142,16 +142,36 @@ main {
   .constructor::before { content: 'Constructor: '; color: grey }
   .property::before { content: 'Property: '; color: grey }
   .method::before { content: 'Method: '; color: grey }
+  .event::before { content: 'Event: '; color: grey }
+  .class::before { content: 'Class: '; color: grey }
   .async-method::before { content: 'Method: async '; color: grey }
-  h3.method, h3.async-method {
+  h3.event, h3.method, h3.async-method {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.property + h4.property,
+  h4.event + h4.event,
+  h4.method + h4.method,
+  h3.property + h3.property,
+  h3.event + h3.event,
+  h3.class + h3.class,
   h3.method + h3.method {
     margin-top: 0
   }
-  h3.property + h3.property {
-    margin-top: 0;
+}
+
+// Menu Sidebar
+aside.VPSidebar {
+  .group { padding-top: 5px !important;
+    .VPSidebarItem.level-0 {
+      padding-bottom: 5px;
+      .collapsed {
+        padding-bottom: 5px;
+      }
+      .VPSidebarItem.level-1 {
+        padding-bottom: 0;
+      }
+    }
   }
 }
 
@@ -169,6 +189,11 @@ div.aside nav {
   }
 }
 
+// Hide empty table headers
+tr:has(> th:empty:first-child:last-child),
+tr:has(> th:empty:first-child:not(:last-child) + th:empty:last-child) {
+  display: none;
+}
 
 kbd {
   font-size: 12px;
@@ -201,22 +226,39 @@ kbd {
 }
 
 pre.log {
-  background: black;
-  font-style: italic;
-  font-size: smaller;
-  line-height: 1.3em;
-  color: #00ffffe0;
-  padding: 20px 25px;
-  border-radius: 14px;
+  background: #f8f8f8; // matches to light theme
+  color: #032F62; // matches to light theme
+  font-size: var(--vp-code-font-size);
+  line-height: var(--vp-code-line-height);
+  padding: 20px;
+  border-radius: 8px;
   overflow: auto;
+  span {
+    &.cmd {
+      color: #FFCB6B;
+    }
+    &.flags {
+      color: #C3E88D;
+    }
+    &.cwd {
+      color: #777;
+    }
+    &.livereload {
+      color: #FDEC87
+    }
+  }
   em {
-    color: #00ff00e0;
+    color: #db8b0b;
   }
   b {
     color: #ee0000e0;
   }
   i {
     color: grey;
+  }
+  :root.dark & {
+    background: var(--vp-code-block-bg);
+    color: #fafafa;
   }
 }
 /* expand width on big screens */

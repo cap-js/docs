@@ -25,7 +25,7 @@ export default defineConfig({
   base: process.env.GH_BASE || '/docs/',
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
-    logo: '/logos/cap.svg',
+    logo: '/assets/logos/cap.svg',
     sidebar,
     nav,
     search: {
@@ -47,6 +47,10 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark'
+    },
     // lineNumbers: true,
     languages: [
       {
@@ -83,7 +87,6 @@ export default defineConfig({
   transformHtml(code, id, ctx) {
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
     sitemap.collect(id, ctx, sitemapLinks)
-    // return code.replace('<main ', '<!-- CONTENT START --><main ').replace('</main>', '</main><!-- CONTENT END -->')
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)

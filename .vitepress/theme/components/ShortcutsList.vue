@@ -49,10 +49,19 @@ const commands = ref([
 const visible = ref(false)
 const dialog = ref(null) // must match to ref="dialog" from template
 
-watch(visible, (isVisible) => isVisible
-  ? dialog.value.showModal()
-  : dialog.value.close()
-)
+// Close when the user clicks anywhere outside of the dialog.
+// This is not a true 'modal' behavior, but still more convenient than not.
+const onClickOutside = event => { if (event.target === dialog.value)  visible.value = false }
+
+watch(visible, isVisible => {
+  if (isVisible) {
+    window.addEventListener('click', onClickOutside)
+    dialog.value.showModal()
+  } else {
+    window.removeEventListener('click', onClickOutside)
+    dialog.value.close()
+  }
+})
 
 function enabledCommands() {
   return commands.value.filter(cmd => !cmd.hidden && ('enabled' in cmd ? cmd.enabled() : true))

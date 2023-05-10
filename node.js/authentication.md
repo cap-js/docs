@@ -84,7 +84,7 @@ These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authoriza
 
 ### cds.**User.Privileged** <i> class </i> { #privileged-user }
 
-In some cases, you might need to bypass authorization checks while [consuming a local service](./services). For this, you can create a transaction with a privileged user as follows:
+In some cases, you might need to bypass authorization checks while [consuming a local service](./core-services). For this, you can create a transaction with a privileged user as follows:
 
 ```js
 this.before('*', function (req) {

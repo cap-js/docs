@@ -4,10 +4,23 @@ status: released
 ---
 
 <style scoped>
-h6 + p,
-h6 + div {
-  margin-left: 2em !important;
+.cols-2 {
+  display: flex;
+  flex-wrap: wrap;
 }
+.cols-2 > * {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .cols-2 {
+    gap: 1em;
+  }
+  .cols-2 > * {
+    flex: 1;
+    width: calc(100% / 2);
+  }
+}
+
 </style>
 
 # About CAP
@@ -24,7 +37,7 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: 22px auto 0" class="adapt">
+<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" class="adapt">
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px"  class="adapt"/>
@@ -107,7 +120,9 @@ The figure below illustrates the prevalent use of CDS models (in the left column
 
 ###### Domain Models in CDS
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```cds
 entity Books : cuid {
@@ -126,36 +141,44 @@ entity Orders : cuid, managed {
 
 </div>
 
+<div>
+
 Domain Models capture static aspects of problem domains as well-known _entity-relationship models_.
 
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
 **_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
 
-<br><br><br>
+</div>
+
+</div>
 
 ###### CDS Aspects & Mixins
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```cds
 // Separation of Concerns
 extend Books with @restrict: [
-    { grant:'WRITE', to:'admin' }
+  { grant:'WRITE', to:'admin' }
 ];
 
 // Verticalization
 extend Books with {
-    ISBN : String
+  ISBN : String
 };
 
 // Customization
 extend Orders with {
-    customer_specific : String
+  customer_specific : String
 };
 ```
 
 </div>
+
+<div>
 
 **_[Aspects](../cds/cdl#aspects)_** allow to flexibly **extend** models in same or separate modules, packages, or projects; at design time or dynamically at runtime.
 
@@ -163,7 +186,9 @@ This greatly promotes **[adaptability](../guides/extensibility/)** in _verticali
 
 Moreover, that fosters [**separation of concerns**](../guides/domain-modeling#separation-of-concerns), for example to keep domain models clean and comprehensible, by factoring out technical concerns.
 
-<br><br>
+</div>
+
+</div>
 
 ## Proven Best Practices, Served Out-of-the-Box {#generic-providers label='Proven Best Practices'}
 
@@ -234,7 +259,9 @@ SELECT Employees.ID, Countries.name FROM Employees
 
 ###### Queries as first-order Objects (CQN)
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```js
 // In JavaScript code
@@ -255,17 +282,22 @@ $expand=Items(
 
 </div>
 
+<div>
+
 **Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
 to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
-<br><br><br><br><br>
+</div>
 
+</div>
 
 ###### Projections at Design Time
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```cds
 // Projections in CDS
@@ -279,9 +311,13 @@ service OrdersService {
 
 </div>
 
+<div>
+
 We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/cdl#views) on the underlying domain model, such as in tailored service APIs.
 
-<br><br><br>
+</div>
+
+</div>
 
 ## Services & Events {#services}
 
@@ -306,7 +342,9 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
 
 ###### Service Definitions in CDS
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```cds
 // Service Definition in CDS
@@ -319,16 +357,19 @@ service OrdersService {
 
 </div>
 
+<div>
+
 Services are declared in CDS models, used to [serve requests automatically](#generic-providers). They embody the behavioral aspects of a domain in terms of exposed **entities**, **actions**, and **events**.
 
-<br><br>
+</div>
 
-
-<br>
+</div>
 
 ###### Uniform Consumption
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```js
 // Consumption in JavaScript
@@ -347,12 +388,15 @@ POST /orders/cancelOrder/4711
 
 </div>
 
+<div>
 
 **Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
-<br><br><br><br>
+</div>
+
+</div>
 
 ::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
@@ -362,7 +406,9 @@ This protocol-agnostic API allows [mocking remote services](../guides/using-serv
 
 ###### Ubiquitous Events {#events}
 
-<div style="float:left; margin: 0px 22px 11px 0;">
+<div class="cols-2">
+
+<div>
 
 ```js
 // Service Implementation
@@ -385,12 +431,15 @@ srv.on ('orderCancelled', (msg)=>{})
 
 </div>
 
+<div>
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 
 We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
-<br><br><br>
+</div>
+
+</div>
 
 ::: tip _Domain-level Eventing_
 Instead of talking to message brokers, services in CAP simply emit events on themselves, and consumers subscribe to events from services. Everything else is handled behind the scenes.

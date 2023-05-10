@@ -25,7 +25,7 @@ export default defineConfig({
   base: process.env.GH_BASE || '/docs/',
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
-    logo: '/images/cap.svg',
+    logo: '/assets/logos/cap.svg',
     sidebar,
     nav,
     search: {
@@ -47,6 +47,10 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark'
+    },
     // lineNumbers: true,
     languages: [
       {
@@ -84,8 +88,8 @@ export default defineConfig({
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
     sitemap.collect(id, ctx, sitemapLinks)
   },
-  buildEnd: async ({ outDir }) => {
-    await redirects.generateJson(outDir, redirectLinks)
+  buildEnd: async ({ outDir, site }) => {
+    await redirects.generate(outDir, site.base, redirectLinks)
     await sitemap.generate(outDir, siteHostName, sitemapLinks)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either

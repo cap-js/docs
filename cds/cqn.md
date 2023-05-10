@@ -39,7 +39,7 @@ let query = SELECT.from('Foo')
 let query = {SELECT:{from:[{ref:['Foo']}]}}
 ```
 
-That object can be [executed with `cds.run`](../node.js/services#srv-run):
+That object can be [executed with `cds.run`](../node.js/core-services#srv-run-query):
 
 ```js
 cds.run (query)

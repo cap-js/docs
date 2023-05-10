@@ -505,7 +505,9 @@ Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` s
 
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
-Also the maximum amount of requests per `$batch` request need to be configured.
+Also the maximum amount of requests per `$batch` request need to be configured as follows:
+- Node.js: `cds.odata.batch_limit = <max_requests>` 
+- Java: `cds.odataV4.batch.maxRequests = <max_requests>`
 :::
 
 ::: tip
@@ -533,10 +535,16 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 
 ::: tip
 <div markdown="1" class="impl java">
+
 In case the default setting doesn't fit, <a href="../java/multitenancy#data-source-pooling-configuration">connection pool properties</a> and <a href="../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
+
 </div>
+
 <div markdown="1" class="impl node">
-In case the default setting doesn't fit, <a href="../node.js/databases#pool">connection pool properties</a> and <a href="../node.js/databases#tcp-keepalive-with-hdb">driver settings</a> can be customized, respectively.
+
+In case the default setting doesn't fit, <a href="../node.js/databases#pool">connection pool properties</a> and driver settings can be customized, respectively.
+<!-- todo add link in fragment -->
+
 </div>
 :::
 

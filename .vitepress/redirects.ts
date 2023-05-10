@@ -1,6 +1,6 @@
 import { SiteConfig } from 'vitepress'
-import { join, relative, resolve } from 'node:path'
-import { existsSync, writeFileSync } from 'node:fs'
+import { dirname, join, relative, resolve } from 'node:path'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { type Plugin as VitePlugin } from 'vite'
 import matter from 'gray-matter'
 
@@ -8,14 +8,26 @@ declare global {
   var VITEPRESS_CONFIG: SiteConfig
 }
 
-export function collect(id:string, frontmatter:Record<string, any>, siteConfig:SiteConfig, links: Record<string, string>) {
-  let redirects:string[] = frontmatter['redirect_from']
-  if (!redirects)  return
-  redirects = (typeof redirects === 'string') ? [redirects] : redirects
+export function collect(file:string, frontmatter:Record<string, any>, siteConfig:SiteConfig, links: Record<string, string>) {
+  const urlPath = fileToUrlPath(file, siteConfig)
 
+  let tos:string[] = frontmatter['redirect_to']
+  if (tos) {
+    tos = (typeof tos === 'string') ? [tos] : tos
+    tos.forEach(to => links[urlPath] = to)
+  }
+
+  let froms:string[] = frontmatter['redirect_from']
+  if (froms) {
+    froms = (typeof froms === 'string') ? [froms] : froms
+    froms.forEach(from => links[from] = urlPath)
+  }
+}
+
+function fileToUrlPath(file: string, siteConfig:SiteConfig):string {
   const base = siteConfig.site.base
   const {outDir, rewrites, srcDir} = siteConfig
-  let to = id
+  let path = file
     .replace(/\\/g, '/')
     .replace(outDir, '')
     .replace(srcDir, '') // dev only
@@ -23,18 +35,40 @@ export function collect(id:string, frontmatter:Record<string, any>, siteConfig:S
     .replace(/^\//, '') // remove leading slash
     .replace(/(\.html)$/, '')
 
-  if (rewrites.map[to])  to = rewrites.map[to] as string  // dev only
-  to = to
+  if (rewrites.map[path])  path = rewrites.map[path] as string // dev only
+  path = path
     .replace(/(\.md)$/, '') // dev only
     .replace('/index', '/')
-
-  redirects.forEach(redirect => links[redirect] = to)
+  return path
 }
-export function generateJson(outDir: string, links: Record<string, string>) {
+
+export function generate(outDir: string, base: string, links: Record<string, string>) {
+  // create a classic html page w/ redirect for welcome page of VSCode plugin
+  generateReleaseLatest(outDir, base, links)
+
   links = sortObject(links)
   const file = resolve(outDir, 'redirects.json')
   console.log(`⤳ redirects: saving index to ${relative(process.cwd(), file)} (${Object.keys(links).length} entries)`)
   writeFileSync(file, JSON.stringify(links))
+}
+
+function generateReleaseLatest(outDir: string, base: string, links: Record<string, string>) {
+  let latestTo = links['releases/latest']
+  if (latestTo) {
+    latestTo = join(base, latestTo)
+    const html =`<!DOCTYPE html>
+<html>
+  <head><meta http-equiv="refresh" content="0; url=${latestTo}" /></head>
+  <body><p>Please follow <a href="${latestTo}">this link</a>.</p></body>
+</html>`
+    const htmlFile = join(outDir, 'releases/latest.html')
+    mkdirSync(dirname(outDir), {recursive:true})
+    writeFileSync(htmlFile, html)
+
+    // add a new entry instead, which is used e.g. from home page
+    links['releases/current'] = links['releases/latest']
+    delete links['releases/latest']
+  }
 }
 
 function sortObject (o:Record<string, any>): Record<string, any> {

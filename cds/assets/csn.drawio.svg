@@ -8,13 +8,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 123px; margin-left: 180px;">
                         <div data-drawio-colors="color: #303030; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(48, 48, 48); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(48, 48, 48); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
                                 parse
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="180" y="123" fill="#303030" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="180" y="123" fill="#303030" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     parse
                 </text>
             </switch>
@@ -26,13 +26,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 45px; margin-left: 24px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 CDS
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="65" y="49" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="65" y="49" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     CDS
                 </text>
             </switch>
@@ -43,13 +43,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 115px; margin-left: 24px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 YAML
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="65" y="119" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="65" y="119" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     YAML
                 </text>
             </switch>
@@ -60,13 +60,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 80px; margin-left: 24px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 JSON
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="65" y="84" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="65" y="84" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     JSON
                 </text>
             </switch>
@@ -77,13 +77,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 150px; margin-left: 24px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Code
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="65" y="154" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="65" y="154" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Code
                 </text>
             </switch>
@@ -94,13 +94,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 128px; height: 1px; padding-top: 15px; margin-left: 1px;">
                         <div data-drawio-colors="color: #575757; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(87, 87, 87); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(87, 87, 87); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Source Languages
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="65" y="19" fill="#575757" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="65" y="19" fill="#575757" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Source Languages
                 </text>
             </switch>
@@ -112,13 +112,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-end; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 122px; margin-left: 371px;">
                         <div data-drawio-colors="color: #303030; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(48, 48, 48); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(48, 48, 48); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
                                 compile
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="371" y="122" fill="#303030" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="371" y="122" fill="#303030" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     compile
                 </text>
             </switch>
@@ -129,13 +129,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 125px; margin-left: 229px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 { CSN }
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="270" y="129" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="270" y="129" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     { CSN }
                 </text>
             </switch>
@@ -147,13 +147,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 45px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 OData
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="49" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="49" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     OData
                 </text>
             </switch>
@@ -164,13 +164,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 115px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Async API
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="119" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="119" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Async API
                 </text>
             </switch>
@@ -181,13 +181,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 80px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Open API
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="84" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="84" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Open API
                 </text>
             </switch>
@@ -198,13 +198,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 150px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 JSON, YAML
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="154" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="154" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     JSON, YAML
                 </text>
             </switch>
@@ -215,13 +215,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 128px; height: 1px; padding-top: 15px; margin-left: 421px;">
                         <div data-drawio-colors="color: #575757; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(87, 87, 87); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(87, 87, 87); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Target Languages
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="19" fill="#575757" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                <text x="485" y="19" fill="#575757" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     Target Languages
                 </text>
             </switch>
@@ -232,13 +232,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 185px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 SQL DDL
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="189" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="189" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     SQL DDL
                 </text>
             </switch>
@@ -249,13 +249,13 @@
                 <foreignObject pointer-events="none" width="101%" height="101%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 82px; height: 1px; padding-top: 220px; margin-left: 444px;">
                         <div data-drawio-colors="color: #F0F0F0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
-                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next Medium&quot;, Verdana, sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                            <div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: rgb(240, 240, 240); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 HANA DDL
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="485" y="224" fill="#F0F0F0" font-family="Avenir Next Medium, Verdana, sans-serif" font-size="12px" text-anchor="middle">
+                <text x="485" y="224" fill="#F0F0F0" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">
                     HANA DDL
                 </text>
             </switch>

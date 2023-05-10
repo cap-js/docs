@@ -209,7 +209,7 @@ const cds = require('@sap/cds')
 module.exports = cds.service.impl (function(){ ... }) // [!code focus]
 ```
 
-> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VSCode](https://code.visualstudio.com/docs/editor/intellisense).
+> Note: `cds.service.impl()` is just a noop wrapper that enables [IntelliSense in VS Code](https://code.visualstudio.com/docs/editor/intellisense).
 
 This will be translated behind the scenes to the equivalent of this:
 
@@ -537,13 +537,13 @@ class BooksService extends cds.ApplicationService {
 
 ::: tip Best Practices
 
-Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-context-tx#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
+Use named functions as event handlers instead of anonymous ones as that will improve both, code comprehensibility as well as debugging experiences. Moreover `this` in named functions are the [transactional derivates](cds-tx#srv-tx) of your service, with access to transaction and tenant-specific information, while for arrow functions it is the base instance.
 
 :::
 
 ::: tip Custom domain logic mostly goes into `.before` or `.after` handlers
 
-Your services are mostly constructed by [`cds.serve()`](./cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](./app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions.
+Your services are mostly constructed by [`cds.serve()`](cds-serve) based on service definitions in CDS models. And these are mostly instances of [`cds.ApplicationService`](app-services), which provide generic handlers for a broad range of CRUD requests. So, the need to provide own `.on` handlers reduces to custom actions and functions.
 
 :::
 
@@ -584,7 +584,7 @@ this.before ('submitOrder', async req => {
 
 ::: details Collecting input errors with `req.error()`...
 
-The input validation handlers above collect input errors with [`req.error()`](./events#req-msg) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client.
+The input validation handlers above collect input errors with [`req.error()`](./events#req-error) . This method collects all failures in property `req.errors`, allowing to display them on UIs all at once. If there are `req.errors` after the before phase, request processing is aborted with a corresponding error response returned to the client.
 
 :::
 
@@ -666,9 +666,9 @@ Books.data = {
 
 ::: details Noteworthy in these examples...
 
-- The `READ` handler is using the [`req.target`](./events.md#req-target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above.
+- The `READ` handler is using the [`req.target`](./events.md#target) property which points to the CSN definition of the entity addressed by the incoming request → matching one of `Books` or `Authors` we obtained from [`this.entities`](#entities) above.
 
-- The `UPDATE` handler is using the [`req.params`](./events.md#req-params) property which provides access to passed in entity keys.
+- The `UPDATE` handler is using the [`req.params`](./events.md#params) property which provides access to passed in entity keys.
 
 :::
 
@@ -944,7 +944,7 @@ await db.run (tx => {
 
 This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
-[Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-context-tx) {.learn-more}
+[Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
 
 
@@ -979,7 +979,7 @@ Basically, methods  `srv.dispatch()` and `.handle()` are designed as a pair, wit
 
 ::: tip
 
-When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-context-tx#srv-tx).
+When looking for overriding central event processing, rather choose  [`srv.handle()`](#srv-handle-event) as that doesn't have to deal with all such input variants, and is guaranteed to be in [*tx* mode](cds-tx#srv-tx).
 
 :::
 
@@ -1117,4 +1117,13 @@ await srv.run( INSERT.into(Books).entries({title:'Catweazle'}) )
 await srv.run( UPDATE(Books).set({discount:'10%'}).where({stock:{'>':111}}) )
 await srv.run( UPDATE(Books,201).with({stock:111}) )
 await srv.run( DELETE.from(Books,201) )
+```
+
+We can also use tagged template strings as provided by `cds.ql`:
+
+```js
+await srv.read `Books` .where `ID=${201}`
+await srv.create `Books` .entries ({title:'Wuthering Heights'})
+await srv.update `Books` .where `ID=${201}` .with `title=${'Sturmhöhe'}`
+await srv.delete `Books` .where `ID=${201}`
 ```

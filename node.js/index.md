@@ -14,9 +14,9 @@ Reference Documentation
 As an application developer you'd primarily use the Node.js APIs documented herein to implement **domain-specific custom logic** along these lines:
 
 1. Define services in CDS &rarr; see [Cookbook > Providing & Consuming Services](../guides/providing-services/#defining-services)
-2. Add service implementations &rarr; [`cds.Service` > Implementations](./services#srv-impls)
-3. Register custom event handlers in which &rarr; [`srv.on`/`before`/`after`](./services#event-handlers)
-4. Read/write data from other services in which &rarr; [`srv.run`](./services#srv-run) + [`cds.ql`](./cds-ql)
+2. Add service implementations &rarr; [`cds.Service` > Implementations](./core-services#implementing-services)
+3. Register custom event handlers in which &rarr; [`srv.on`/`before`/`after`](./core-services#srv-on-before-after)
+4. Read/write data from other services in which &rarr; [`srv.run`](./core-services#srv-run-query) + [`cds.ql`](./cds-ql)
 5. ..., i.e. from your primary database &rarr; [`cds.DatabaseService`](./databases)
 5. ..., i.e. from other connected services &rarr; [`cds.RemoteService`](./remote-services)
 6. Emit and handle asynchronous events &rarr; [`cds.MessagingService`](./messaging)

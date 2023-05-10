@@ -959,7 +959,7 @@ Use _shared_ locks if you only need to prevent the entity data to be updated in 
 
 The records are locked until the end of the transaction by commit or rollback statement.
 
-[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../../node.js/cds-ql#select-forUpdate){.learn-more}
+[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../../node.js/cds-ql#forupdate){.learn-more}
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../../java/query-api#write-lock){.learn-more}
 ::: warning
@@ -998,7 +998,7 @@ The following sections give an overview how to do so, which links to respective 
 ...
 ```
 
-[Learn more about providing service implementations in Node.js.](../../node.js/services#srv-impls){.learn-more}
+[Learn more about providing service implementations in Node.js.](../../node.js/core-services#implementing-services){.learn-more}
 
 
 
@@ -1025,7 +1025,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](../../node.js/services#event-handlers){.learn-more}
+[Learn more about **adding event handlers in Node.js**.](../../node.js/core-services#srv-on-before-after){.learn-more}
 
 ```js
 @Component

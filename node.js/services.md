@@ -63,7 +63,7 @@ module.exports = { CatalogService }
 <br> [Querying](#srv-run)
 <br> [Messaging](#srv-emit)
 <br> [Using `req.reply`](events#req-reply)
-<br> [Using `req.error`](events#req-msg)
+<br> [Using `req.error`](events#req-error)
 <br>
 <br>
 <br> [Handler Registration](#srv-on)
@@ -259,7 +259,7 @@ module.exports = async function(){
 
 ### <span style="color:grey"><i>&#8627;</i> </span>  <i> Wrapped with `cds.service.impl` </i> <!-- TODO duplicated id attribute {#cds-service-impl}-->
 
-Wrap the impl function into `cds.service.impl(...)`, which simply returns the function but gives you code assists in tools like VSCode:
+Wrap the impl function into `cds.service.impl(...)`, which simply returns the function but gives you code assists in tools like VS Code:
 
 ```js
 const cds = require('@sap/cds')
@@ -490,7 +490,7 @@ const { Books, Authors } = db.entities('my.bookshop')
 ```
 {.indent}
 
-These methods are actually shortcuts to their [counterparts provided by linked models](cds-reflect#exports), with the default namespace being the service definition's name.
+These methods are actually shortcuts to their [counterparts provided by linked models](cds-reflect#linked-csn), with the default namespace being the service definition's name.
 
 
 ##### Using Fully Qualified Names:
@@ -657,7 +657,7 @@ cds.serve('cat-service') .with (function(){
 ```
 
 ::: warning
-Note: Depending on when the error occurs, the request's [continuation](cds-context-tx#event-contexts) (that is, `cds.context`) may be `undefined` or incomplete (for example, missing user information).
+Note: Depending on when the error occurs, the request's [continuation](cds-tx#event-contexts) (that is, `cds.context`) may be `undefined` or incomplete (for example, missing user information).
 :::
 
 The error is subsequently processed for the client following [OData's Error Response Body format](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ErrorResponseBody). Hence, if you want to add custom properties, they must be prefixed with `@` in order to not be purged.
@@ -854,7 +854,7 @@ For AdminService at `/admin` endpoint
 | `DELETE` _/Books_ | `DELETE` _Books_ |
 
 > In addition, CAP provides built-in support for **Fiori Draft**, which add additional CRUD events, like `NEW`, `EDIT`, `PATCH`, and `SAVE`.
-> [&rarr; Learn more about Fiori Drafts](fiori#draft-support)
+> [&rarr; Learn more about Fiori Drafts](../advanced/fiori#draft-support)
 
 For each of which you can add custom handlers, either by specifying the CRUD operation or by specifying the corresponding REST method as follows:
 
@@ -868,7 +868,6 @@ module.exports = cds.service.impl (function(){
   //...
 })
 ```
-
 
 
 ###  <i> For _Custom_ Events, i.e., _Actions_ and _Functions_ </i>
@@ -1008,7 +1007,7 @@ _**Common Usages:**_
 
 <div class="indent" markdown="1">
 
-`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#req-method) and additional request `headers` if neccessary:
+`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if neccessary:
 
 ```js
 const srv = await cds.connect.to('SomeService')
@@ -1191,10 +1190,10 @@ Prefer that over concatenating values into query strings to avoid SQL injection.
 
 
 ###  <i>  Convenient Shortcuts: </i>
-### <span style="color:#800; font-weight:500">srv</span>.read <i> (entity, key?, projection?) </i>...<i> &#8674; [`SELECT` query](cds-ql#SELECT) </i>
-### <span style="color:#800; font-weight:500">srv</span>.create <i> (entity, key?) </i>...<i> &#8674; [`INSERT` query](cds-ql#INSERT) </i>
-### <span style="color:#800; font-weight:500">srv</span>.update <i> (entity, key?) </i>...<i> &#8674; [`UPDATE` query](cds-ql#UPDATE) </i>
-### <span style="color:#800; font-weight:500">srv</span>.delete <i> (entity, key?) </i>...<i> &#8674; [`DELETE` query](cds-ql#DELETE) </i>
+### <span style="color:#800; font-weight:500">srv</span>.read <i> (entity, key?, projection?) </i>...<i> &#8674; [`SELECT` query](cds-ql#select) </i>
+### <span style="color:#800; font-weight:500">srv</span>.create <i> (entity, key?) </i>...<i> &#8674; [`INSERT` query](cds-ql#insert) </i>
+### <span style="color:#800; font-weight:500">srv</span>.update <i> (entity, key?) </i>...<i> &#8674; [`UPDATE` query](cds-ql#update) </i>
+### <span style="color:#800; font-weight:500">srv</span>.delete <i> (entity, key?) </i>...<i> &#8674; [`DELETE` query](cds-ql#delete) </i>
 
 These methods construct queries in a _fluent method-call style_ instead of the _Embedded QL_ style provided by [`cds.ql`](cds-ql).
 The returned queries can be executed with `await`.
@@ -1226,7 +1225,7 @@ const books3 = await SELECT.from(Books).where({ID:111})
 ```
 
 
-### <span style="color:#800; font-weight:500">srv</span>.insert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`INSERT` query](cds-ql#INSERT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.insert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`INSERT` query](cds-ql#insert) </i>
 
 Method `srv.insert` is a SQL-reminiscent variant of `srv.create` with the following being equivalent:
 
@@ -1235,7 +1234,7 @@ srv.insert(data) .into (entity)
 srv.create(entity) .entries (data)
 ```
 
-### <span style="color:#800; font-weight:500">srv</span>.upsert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`UPSERT` query](cds-ql#UPSERT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.upsert <i> (data) </i> .into <i> (entity) </i>...<i> &#8674; [`UPSERT` query](cds-ql#upsert) </i>
 
 Method `srv.upsert` inserts an entity or updates it if it doesn't exist.
 
@@ -1243,7 +1242,7 @@ Method `srv.upsert` inserts an entity or updates it if it doesn't exist.
 srv.upsert(data) .into (entity)
 ```
 
-### <span style="color:#800; font-weight:500">srv</span>.exists <i> (entity) </i>.where<i>(keys) </i>...<i> &#8594; [`SELECT` query](cds-ql#SELECT) </i>
+### <span style="color:#800; font-weight:500">srv</span>.exists <i> (entity) </i>.where<i>(keys) </i>...<i> &#8594; [`SELECT` query](cds-ql#select) </i>
 
 Method `srv.exists` returns a truthy value if the entity exists. It returns a falsy value otherwise:
 

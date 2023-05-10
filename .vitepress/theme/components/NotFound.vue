@@ -34,12 +34,22 @@ const root = ref('/')
 onMounted(async () => {
   const redirects = await fetch(withBase('redirects.json'))
   const redirectTo = await redirects.json()
-  newPath.value = redirectTo[path]
+  newPath.value = target(path)
   if (newPath.value) {
-    newPath.value = withBase(newPath.value)
-    const newURL = new URL(window.location.toString())
-    newURL.pathname = newPath.value
+    let newURL
+    if (newPath.value.startsWith('http')) {
+      newURL = new URL(newPath.value)
+    } else {
+      newPath.value = withBase(newPath.value)
+      newURL = new URL(window.location.toString())
+      newURL.pathname = newPath.value
+    }
     window.location.replace(newURL) // avoids this temp. page in history
+  }
+  function target(from) {
+    const to = redirectTo[from]
+    if (to) return target(to)  // resolve direct chains
+    return from
   }
 })
 

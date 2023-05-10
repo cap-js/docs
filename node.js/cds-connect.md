@@ -9,10 +9,104 @@ status: released
 Services frequently consume other services, which could be **local** services served by the same process, or **external** services, for example consumed through OData.
 The latter include **database** services. In all cases use `cds.connect` to connect to such services, for example, from your:
 
-<!--- % include links-for-node.md %} -->
-<!--- % include _toc levels="2,3" %} -->
 
-<!--- % assign c = '<span style="color:grey">&#8627; dbc</span>' %} -->
+
+
+
+
+
+## Configuring Required Services {#cds-env-requires }
+
+To configure required remote services in Node.js, simply add respective entries to the `cds.requires` sections in your _package.json_ or in _.cdsrc.json_ (omitting the `cds.` prefix). These configurations are constructed as follows:
+
+```json
+"cds": {
+  "requires": {
+    "ReviewsService": {
+      "kind": "odata", "model": "@capire/reviews"
+    },
+    "OrdersService": {
+      "kind": "odata", "model": "@capire/orders"
+    },
+  }
+}
+```
+
+Entries in this section tell the service loader to not serve that service as part of your application, but expects a service binding at runtime in order to connect to the external service provider. The options are as follows:
+
+
+### cds.requires.<i>\<srv\></i>`.impl`
+
+Service implementations are ultimately configured in `cds.requires` like that:
+
+```json
+"cds": { "requires": {
+  "some-service": { "impl": "some/node/module/path" },
+  "another-service": { "impl": "./local/module/path" }
+}}
+```
+
+Given that configuration, `cds.connect.to('some-service')` would load the specific service implementation from `some/node/module/path`.
+Prefix the module path in `impl` with `./` to refer to a file relative to your project root.
+
+
+### cds.requires.<i>\<srv\></i>`.kind`
+
+As service configurations inherit from each other along `kind` chains, we can refer to default configurations shipped with `@sap/cds`, as you commonly see that in our [_cap/samples_](https://github.com/sap-samples/cloud-cap-samples), like so:
+
+```json
+"cds": { "requires": {
+  "db": { "kind": "sqlite" },
+  "remote-service": { "kind": "odata" }
+}}
+```
+
+This is backed by these default configurations:
+
+```json
+"cds": { "requires": {
+  "sqlite": { "impl": "[...]/sqlite/service" },
+  "odata": { "impl": "[...]/odata/service" },
+}}
+```
+
+> Run `cds env get requires` to see all default configurations.
+> Run `cds env get requires.db.impl` to see the impl used for your database.
+
+Given that configuration, `cds.connect.to('db')` would load the generic service implementation.
+
+[Learn more about `cds.env`.](cds-env){.learn-more}
+
+
+### cds.requires.<i>\<srv\></i>`.model`
+
+Specify (imported) models for remote services in this property. This allows the service runtime to reflect on the external API and add generic features. The value can be either a single string referring to a CDS model source, resolved as absolute node module, or relative to the project root, or an array of such.
+
+```json
+"cds": { "requires": {
+  "remote-service": { "kind": "odata", "model":"some/imported/model" }
+}}
+```
+
+Upon [bootstrapping](./cds-serve), all these required models will be loaded and compiled into the effective [`cds.model`](cds-facade#cds-model) as well.
+
+
+### cds.requires.<i>\<srv\></i>`.service`
+
+If you specify a model, then a service definition for your required service must be included in that model. By default, the name of the service that is checked for is the name of the required service. This can be overwritten by setting `service` inside the required service configuration.
+
+```json
+"cds": { "requires": {
+  "remote-service": { "kind": "odata", "model":"some/imported/model", "service": "BusinessPartnerService" }
+}}
+```
+
+The example specifies `service: 'BusinessPartnerService'`, which results in a check for a service called `BusinessPartnerService` instead of `remote-service` in the model loaded from `some/imported/model`.
+
+
+### cds.requires.<i>\<srv\></i>`.credentials`
+
+Specify the credentials to connect to the service. Credentials need to be kept secure and should not be part of a configuration file.
 
 
 
@@ -77,7 +171,7 @@ return srv.init() ?? srv
 
 
 
-### cds.connect.to  <i>  (name, options?) &#8594; [service](./services) </i>
+### cds.connect.to  <i>  (name, options?) &#8594; service </i>
 
 Connects to a required service and returns a _Promise_ resolving to a corresponding _[Service]_ instance.
 Subsequent invocations with the same service name all return the same instance.
@@ -101,7 +195,7 @@ Service instances are cached in [`cds.services`](cds-facade#cds-services), thus 
 
 
 
-### cds.connect.to  <i>  (options) &#8594; [service](./services) </i>
+### cds.connect.to  <i>  (options) &#8594; service </i>
 
 Ad-hoc connection (&rarr; only for tests):
 
@@ -111,7 +205,7 @@ cds.connect.to ({ kind:'sqlite', credentials:{database:'my.db'} })
 
 
 
-### cds.connect.to  <i>  ('\<kind\>:\<url\>') &#8594; [service](./services) </i>
+### cds.connect.to  <i>  ('\<kind\>:\<url\>') &#8594; service </i>
 
 This is a shortcut for ad-hoc connections.
 
@@ -127,95 +221,6 @@ cds.connect.to ({kind: 'sqlite', credentials:{database:'my.db'}})
 ```
 
 
-## Configuring Required Services {#cds-env-requires }
-
-To configure required remote services in Node.js, simply add respective entries to the `cds.requires` sections in your _package.json_ or in _.cdsrc.json_ (omitting the `cds.` prefix). These configurations are constructed as follows:
-
-```json
-"cds": {
-  "requires": {
-    "ReviewsService": {
-      "kind": "odata", "model": "@capire/reviews"
-    },
-    "OrdersService": {
-      "kind": "odata", "model": "@capire/orders"
-    },
-  }
-}
-```
-
-Entries in this section tell the service loader to not serve that service as part of your application, but expects a service binding at runtime in order to connect to the external service provider. The options are as follows:
-
-
-### cds.requires.<i>\<srv\></i>`.impl`
-
-Service implementations are ultimately configured in `cds.requires` like that:
-
-```json
-"cds": { "requires": {
-  "some-service": { "impl": "some/node/module/path" },
-  "another-service": { "impl": "./local/module/path" }
-}}
-```
-
-Given that configuration, `cds.connect.to('some-service')` would load the specific service implementation from `some/node/module/path`.
-Prefix the module path in `impl` with `./` to refer to a file relative to your project root.
-
-
-### cds.requires.<i>\<srv\></i>`.kind`
-
-As service configurations inherit from each other along `kind` chains, we can refer to default configurations shipped with `@sap/cds`, as you commonly see that in our [_cap/samples_](https://github.com/sap-samples/cloud-cap-samples), like so:
-```json
-"cds": { "requires": {
-  "db": { "kind": "sqlite" },
-  "remote-service": { "kind": "odata" }
-}}
-```
-
-This is backed by these default configurations:
-```json
-"cds": { "requires": {
-  "sqlite": { "impl": "[...]/sqlite/service" },
-  "odata": { "impl": "[...]/odata/service" },
-}}
-```
-> Run `cds env get requires` to see all default configurations.
-> Run `cds env get requires.db.impl` to see the impl used for your database.
-
-Given that configuration, `cds.connect.to('db')` would load the generic service implementation.
-
-[Learn more about `cds.env`.](cds-env){.learn-more}
-
-
-### cds.requires.<i>\<srv\></i>`.model`
-
-Specify (imported) models for remote services in this property. This allows the service runtime to reflect on the external API and add generic features. The value can be either a single string referring to a CDS model source, resolved as absolute node module, or relative to the project root, or an array of such.
-
-```json
-"cds": { "requires": {
-  "remote-service": { "kind": "odata", "model":"some/imported/model" }
-}}
-```
-
-Upon [bootstrapping](./cds-serve), all these required models will be loaded and compiled into the effective [`cds.model`](cds-facade#cds-model) as well.
-
-
-### cds.requires.<i>\<srv\></i>`.service`
-
-If you specify a model, then a service definition for your required service must be included in that model. By default, the name of the service that is checked for is the name of the required service. This can be overwritten by setting `service` inside the required service configuration.
-
-```json
-"cds": { "requires": {
-  "remote-service": { "kind": "odata", "model":"some/imported/model", "service": "BusinessPartnerService" }
-}}
-```
-
-The example specifies `service: 'BusinessPartnerService'`, which results in a check for a service called `BusinessPartnerService` instead of `remote-service` in the model loaded from `some/imported/model`.
-
-
-### cds.requires.<i>\<srv\></i>`.credentials`
-
-Specify the credentials to connect to the service. Credentials need to be kept secure and should not be part of a configuration file.
 
 ## Service Bindings {#service-bindings}
 
@@ -707,3 +712,11 @@ cds.requires.db.credentials.database = sqlite.db
 > Never check in or deploy such _.env_ files!
 
 <div id="endofconnect" />
+
+
+
+## Importing Service APIs
+
+
+
+## Mocking Required Services

@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <div id="shortcuts" ref="shortcuts" class="modal-dialog" v-if="visible">
-      <div class="modal-content">
+    <dialog id="shortcuts" ref="dialog" class="modal-dialog" v-show="visible">
+      <div class="modal-content" v-if="visible">
         <div class="modal-header">
           <span class="modal-close" title="Close dialog" @click="visible = false">&times;</span>
           <h5 class="no-anchor">Keyboard Shortcuts</h5>
@@ -17,7 +17,7 @@
           </table>
         </div>
       </div>
-    </div>
+    </dialog>
   </Teleport>
 </template>
 
@@ -47,13 +47,11 @@ const commands = ref([
 ])
 
 const visible = ref(false)
-const shortcuts = ref(null) // must match to ref="shortcuts" from template
+const dialog = ref(null) // must match to ref="dialog" from template
 
-// close when the user clicks anywhere outside of the modal
-const onClickOutside = event => { if (event.target === shortcuts.value)  visible.value = false }
 watch(visible, (isVisible) => isVisible
-  ? window.addEventListener('click', onClickOutside)
-  : window.removeEventListener('click', onClickOutside)
+  ? dialog.value.showModal()
+  : dialog.value.close()
 )
 
 function enabledCommands() {
@@ -120,14 +118,11 @@ table, td { border: none; }
 
 /* Modal Dialog */
 .modal-dialog {
-  position: fixed; /* Stay in place */
-  z-index: 5000; /* Sit on top */
-  left: 0;
-  top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
+  max-width: unset;
+  max-height: unset;
+  border-style: unset;
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 

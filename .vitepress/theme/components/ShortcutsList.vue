@@ -90,15 +90,17 @@ function DOMCommand(name, idQuerySel, ...keys) {
 }
 
 function commandsFromConfig() {
-  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key).map(link => {
-    const url = new URL(link.link)
+  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key || !!link.href).map(link => {
+    const { hostname } = new URL(link.href)
     return {
-      name: `Go to ${link.name || url.hostname}`,
-      enabled: () => window.location.hostname !== url.hostname,
+      name: `Go to ${link.name || hostname}`,
+      enabled: () => window.location.hostname !== hostname,
       run: () => {
-        // remove base path, as it may be different on the target site
-        const path = window.location.pathname.slice(site.value.base.length)
-        window.open(url + path + window.location.search, '_blank');
+        const url = new URL(link.href)
+        url.pathname += window.location.pathname.slice(site.value.base.length) // base path may be different on the target site
+        url.search = window.location.search
+        url.hash = window.location.hash
+        window.open(url, '_blank');
       },
       keys: [ref(link.key)],
       hidden: !!link.hidden

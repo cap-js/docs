@@ -63,7 +63,7 @@ class cds.ApplicationService extends cds.Service {
   static handle_temporal_data() {...}
   static handle_localized_data() {...}
   static handle_managed_data() {...}
-  static handle_paging() {...}
+  static handle_pagination() {...}
   static handle_fiori() {...}
   static handle_crud() {...}
 }

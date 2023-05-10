@@ -35,7 +35,7 @@ These events get triggered during the draft edit session whenever the user tabs 
 ### Event: `'NEW'`
 
 ```tsx
-function srv.on ('NEW', <entity>.draft, req => {...})
+function srv.on ('NEW', <entity>.drafts, req => {...})
 ```
 
 Starts a draft session with an empty draft entity.
@@ -55,7 +55,7 @@ Starts a draft session with a draft entity copied from an existing active entity
 ### Event: `'PATCH'`
 
 ```tsx
-function srv.on ('PATCH', <entity>.draft, req => {...})
+function srv.on ('PATCH', <entity>.drafts, req => {...})
 function srv.on ('PATCH', <entity>, req => {...})
 ```
 
@@ -68,7 +68,7 @@ Same event can go to active entities, bypassing draft mechanism, but respecting 
 ### Event: `'SAVE'`
 
 ```tsx
-function srv.on ('SAVE', <entity>.draft, req => {...})
+function srv.on ('SAVE', <entity>.drafts, req => {...})
 ```
 
 Ends a draft session by UPDATEing the active entity with draft entity data. 
@@ -78,7 +78,7 @@ Ends a draft session by UPDATEing the active entity with draft entity data.
 ### Event: `'CANCEL'`
 
 ```tsx
-function srv.on ('CANCEL', <entity>.draft, req => {...})
+function srv.on ('CANCEL', <entity>.drafts, req => {...})
 ```
 
 Ends a draft session by canceling, i.e., deleting the draft entity. 

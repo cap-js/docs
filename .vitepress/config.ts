@@ -81,7 +81,7 @@ export default defineConfig({
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 3000 // chunk for local search index dominates w/ 2.7M
+      chunkSizeWarningLimit: 4000 // chunk for local search index dominates
     }
   },
   transformHtml(code, id, ctx) {

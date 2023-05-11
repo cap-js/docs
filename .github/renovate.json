@@ -5,20 +5,20 @@
   ],
   "includePaths": [
     ".vitepress/config.ts",
-    ".github/"
+    ".github/workflows/"
   ],
   "packageRules": [
     {
       "matchPackageNames": [ "com.sap.cds:cds-services-api" ],
       "rangeStrategy": "bump",
-      "groupName": "cds-services-api"
+      "groupName": "CAP Java SDK"
     }
   ],
   "regexManagers": [
     {
       "fileMatch": [ ".vitepress/config.ts" ],
       "matchStrings": [
-        "javaVersion = '(?<currentValue>.*?)'"
+        "java\\s*:\\s*'(?<currentValue>.*?)'"
       ],
       "depNameTemplate": "com.sap.cds:cds-services-api",
       "datasourceTemplate": "maven",

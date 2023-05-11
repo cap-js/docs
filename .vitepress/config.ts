@@ -10,7 +10,7 @@ const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java: '1.34.0'
+  java: '1.34.1'
 }
 
 const sidebar = sideb('menu.md')

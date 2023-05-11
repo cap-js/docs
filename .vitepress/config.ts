@@ -90,7 +90,7 @@ export default defineConfig({
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await sitemap.generate(outDir, siteHostName, sitemapLinks)
+    await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
     const hanaAssetDir = 'advanced/assets'

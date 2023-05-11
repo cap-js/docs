@@ -264,9 +264,9 @@ For more information, see [Important Disclaimers and Legal Information](https://
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
 
-Today CAP CDS only supports calculated elements with a value expression
-with "on-read" semantics.
-
+Today CAP CDS only supports calculated elements with a value expression.
+For these, you can differentiate two variants: "on-read" and "on-write".
+The difference between them is the point in time when the expression is evaluated.
 
 <span id="beforeonread" />
 
@@ -327,6 +327,40 @@ There are some temporary restrictions:
 * Currently, a calculated element must always be accessed using a view/projection. An OData request or custom code can't access the calculated element in the entity where it is defined.
 * A calculated element can't be used in a query together with nested projections (inline/expand).
 
+
+#### On-write (beta)
+
+Calculated elements "on-write" are defined by adding the keyword `stored`.
+They are also referred to as "stored" calculated elements. A type specification is mandatory.
+```swift
+entity Employees {
+  firstName : String;
+  lastName : String;
+  name : String = (firstName || ' ' || lastName) stored;
+}
+```
+For a calculated element "on-write", the expression is already evaluated when an entry is written into
+the entity (the calculated element itself is read-only, so no value must be provided for it).
+The resulting value is then stored/persisted like for a regular field. When reading from the entity,
+the calculated element behaves like a regular field. Using a stored calculated element can improve performance,
+in particular when it is used for ordering or filtering. This is paid for by higher memory consumption.
+While calculated elements "on-read" are handled in the CAP layer, the "on-write" variant is implemented by using
+the corresponding database feature for tables.
+The entity definition above results in the following table definition:
+```sql
+-- SAP HANA syntax --
+CREATE TABLE Employees (
+  firstName NVARCHAR,
+  lastName NVARCHAR,
+  name NVARCHAR ALWAYS GENERATED AS (firstName || ' ' || lastName)
+)
+```
+There are restrictions on such calculated fields, which depend on the particular database used. But all databases
+currently supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
+table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
+
+
+TODO: remove from internal repo
 <span id="concept-ow" />
 
 <div id="concept-alce" />

@@ -359,10 +359,6 @@ There are restrictions on such calculated fields, which depend on the particular
 currently supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
 table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
-
-TODO: remove from internal repo
-<span id="concept-ow" />
-
 <div id="concept-alce" />
 
 ### Default Values

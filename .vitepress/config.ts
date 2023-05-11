@@ -9,6 +9,8 @@ const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
+const javaVersion = '1.34.1'
+
 const sidebar = sideb('menu.md')
 const nav = [
   ...nav4(sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
@@ -41,7 +43,11 @@ export default defineConfig({
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],
-    outline: [1,3]
+    outline: [1,3],
+      //@ts-ignore
+    capire: {
+      versions: { java: javaVersion }
+    }
   },
   lastUpdated: true,
   cleanUrls: true,

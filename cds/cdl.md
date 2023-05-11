@@ -320,6 +320,7 @@ exceptions:
 
 * A calculated element can't be used in the ON condition of an unmanaged association.
 * A calculated element can't be used as the foreign key of a managed association.
+* A calculated element can't reference localized elements.
 
 
 There are some temporary restrictions:

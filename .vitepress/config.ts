@@ -81,13 +81,12 @@ export default defineConfig({
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 3000 // chunk for local search index dominates w/ 2.7M
+      chunkSizeWarningLimit: 4000 // chunk for local search index dominates
     }
   },
   transformHtml(code, id, ctx) {
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
     sitemap.collect(id, ctx, sitemapLinks)
-    // return code.replace('<main ', '<!-- CONTENT START --><main ').replace('</main>', '</main><!-- CONTENT END -->')
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)

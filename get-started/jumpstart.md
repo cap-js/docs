@@ -59,7 +59,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 5. Install Java & Maven
 
-- **If you want to go for CAP Java projects**, ensure you have installed [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) additionally.
+- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed.
 
 
 ### 6. Install Visual Studio Code
@@ -158,7 +158,7 @@ We recommend to stay with CAP's conventions to benefit from things just working 
 
 ## Rapid Development
 
-After having created a project we can immediately start a life server by running this in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics) in Visual Studio Code:
+After having created a project we can immediately start a live server by running this in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics) in Visual Studio Code:
 
 ::: code-group
 
@@ -217,7 +217,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 ::: tip Stay in Inner Loop Development
 
-... as much as possible to benefit from **accellerated development** at **minimized costs**. Use the full near-production setup only when you need it, for example for integration tests before releases.
+... as much as possible to benefit from **accelerated development** at **minimized costs**. Use the full near-production setup only when you need it, for example for integration tests before releases.
 
 :::
 
@@ -235,7 +235,7 @@ A step by step example for this can be found [here](https://github.com/SAP-sampl
 
 We strongly recommend to use the mocked services setup not only in development but also for functional tests in your test pipelines to speed them up by magnitudes.
 
-Not only are inner-loop pipeline test much faster, they also mean there's less complex setups, less dependency on high availability, and no risks your tests are considered denial of service attacks by used services.
+Not only are inner-loop pipeline tests much faster, they also mean there's less complex setups, less dependency on high availability, and no risks your tests are considered denial of service attacks by used services.
 
 ::: tip Overall, using inner-loop tests...
 

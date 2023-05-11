@@ -127,7 +127,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 
 ## cds. compile (...) .to.xyz() {.method}
 
-This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-to-xyz).
+This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-1). 
 
 For example:
 
@@ -145,8 +145,8 @@ let sql = await cds.compile('*').to.sql()
 As model argument can also be a CSN, we can also use it as a plain fluent API alternative, so these usages are equivalent:
 
 ```js
-let sql = cds.compile.to.sql(csn)
-let sql = cds.compile(csn).to.sql()
+let sql = cds.compile.to.sql(csn,{dialect:'sqlite'})
+let sql = cds.compile(csn).to.sql({dialect:'sqlite'})
 ```
 
 

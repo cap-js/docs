@@ -61,12 +61,12 @@ Add the `cds-feature-k8s` feature in the _pom.xml_ file of your CAP application 
 
 ```xml
 <dependencies>
-	<!-- Features -->
-	<dependency>
-		<groupId>com.sap.cds</groupId>
-		<artifactId>cds-feature-k8s</artifactId>
-		<scope>runtime</scope>
-	</dependency>
+    <!-- Features -->
+    <dependency>
+        <groupId>com.sap.cds</groupId>
+        <artifactId>cds-feature-k8s</artifactId>
+        <scope>runtime</scope>
+    </dependency>
 </dependencies>
 ```
 
@@ -122,10 +122,10 @@ In addition, for activating the Spring integration of CAP Java SDK, the followin
 
 ```xml
 <dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-framework-spring-boot</artifactId>
-	<version>${revision}</version>
-	<scope>runtime</scope>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-framework-spring-boot</artifactId>
+    <version>${revision}</version>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -133,9 +133,9 @@ It might be more convenient to make use of CDS starter bundle `cds-starter-sprin
 
 ```xml
 <dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-starter-spring-boot-odata</artifactId>
-	<version>${revision}</version>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-spring-boot-odata</artifactId>
+    <version>${revision}</version>
 </dependency>
 ```
 
@@ -506,14 +506,13 @@ Whenever possible, mocking dependencies and just testing the pure processing log
 
 To verify the proper discount application in our example, we can run a `Select` statement against the `CatalogService` and assert the result as follows, using a well-known dataset:
 
-```java{24-31}
+```java{25-32}
 import cds.gen.catalogservice.Books;
 import cds.gen.catalogservice.Books_;
 import cds.gen.catalogservice.CatalogService_;
 import com.sap.cds.Result;
 import com.sap.cds.ql.Select;
 import com.sap.cds.services.cds.CqnService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -521,23 +520,25 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class CatalogServiceTest {
 
-	@Autowired
-	@Qualifier(CatalogService_.CDS_NAME)
-	private CqnService catalogService;
+    @Autowired
+    @Qualifier(CatalogService_.CDS_NAME)
+    private CqnService catalogService;
 
-	@Test
-	void discountApplied() {// [!code focus]
-		Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));// [!code focus]
+    @Test
+    void discountApplied() {// [!code focus]
+        Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));// [!code focus]
 
-		// book with title "The Raven" and a stock quantity of > 111// [!code focus]
-		Books book = result.single(Books.class);// [!code focus]
+        // book with title "The Raven" and a stock quantity of > 111// [!code focus]
+        Books book = result.single(Books.class);// [!code focus]
 
-		Assertions.assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");// [!code focus]
-	}//[!code focus]
+        assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");// [!code focus]
+    }//[!code focus]
 }
 ```
 

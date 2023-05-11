@@ -506,24 +506,38 @@ Whenever possible, mocking dependencies and just testing the pure processing log
 
 To verify the proper discount application in our example, we can run a `Select` statement against the `CatalogService` and assert the result as follows, using a well-known dataset:
 
-```java
+```java{24-31}
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+import com.sap.cds.Result;
+import com.sap.cds.ql.Select;
+import com.sap.cds.services.cds.CqnService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class CatalogServiceTest {
+class CatalogServiceTest {
 
-    @Autowired
-    @Qualifier(CatalogService_.CDS_NAME)
-    private CqnService catalogService;
+	@Autowired
+	@Qualifier(CatalogService_.CDS_NAME)
+	private CqnService catalogService;
 
-    @Test
-    public void discountApplied() {
-        Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));
+	@Test
+	void discountApplied() {// [!code focus]
+		Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));// [!code focus]
 
-        // book with title "The Raven" and a stock quantity of > 111
-        Books book = result.single(Books.class);
+		// book with title "The Raven" and a stock quantity of > 111// [!code focus]
+		Books book = result.single(Books.class);// [!code focus]
 
-        Assertions.assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");
-    }
+		Assertions.assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");// [!code focus]
+	}//[!code focus]
 }
 ```
 

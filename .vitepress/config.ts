@@ -9,7 +9,7 @@ const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
-const javaVersion = '1.34.1'
+const javaVersion = '1.34.0'
 
 const sidebar = sideb('menu.md')
 const nav = [

@@ -941,7 +941,7 @@ You can also directly annotate a single element:
 annotate Foo:nestedStructField.existingField @title:'Nested Field';
 ```
 
-Actions and functions and even their parameters can be annotated:
+Actions and functions and even their parameters and `returns` can be annotated:
 
 ```cds
 service SomeService {
@@ -953,10 +953,10 @@ service SomeService {
 };
 
 annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P)
-                                        returns @label: 'Returns parameter';
+                                        returns @label: 'Returns a string';
 annotate SomeService.SomeEntity with actions {
      @label: 'Action label'
-     boundAction(@label: 'firstParameter' P) returns @label: 'Returns parameter';
+     boundAction(@label: 'firstParameter' P) returns @label: 'Returns a string';
 }
 ```
 

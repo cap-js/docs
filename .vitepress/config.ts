@@ -4,6 +4,7 @@ import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
 import * as sitemap from './sitemap'
 import * as redirects from './redirects'
+import * as cdsMavenSite from './cds-maven-site'
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
@@ -97,6 +98,7 @@ export default defineConfig({
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
     await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
+    await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
     const hanaAssetDir = 'advanced/assets'

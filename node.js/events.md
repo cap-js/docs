@@ -386,7 +386,7 @@ Use these methods to collect messages or errors and return them in the request r
 | -------------- | -------------- | ---------- | :------: |
 | `req.notify()` | `req.messages` | Toasters   |    1     |
 | `req.info()`   | `req.messages` | Dialog     |    2     |
-| `req.warn`     | `req.messages` | Dialog     |    3     |
+| `req.warn()`   | `req.messages` | Dialog     |    3     |
 | `req.error()`  | `req.errors`   | Dialog     |    4     |
 
 {style="font-style:italic;width:80%;"}

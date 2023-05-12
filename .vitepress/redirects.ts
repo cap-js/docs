@@ -8,14 +8,26 @@ declare global {
   var VITEPRESS_CONFIG: SiteConfig
 }
 
-export function collect(id:string, frontmatter:Record<string, any>, siteConfig:SiteConfig, links: Record<string, string>) {
-  let redirects:string[] = frontmatter['redirect_from']
-  if (!redirects)  return
-  redirects = (typeof redirects === 'string') ? [redirects] : redirects
+export function collect(file:string, frontmatter:Record<string, any>, siteConfig:SiteConfig, links: Record<string, string>) {
+  const urlPath = fileToUrlPath(file, siteConfig)
 
+  let tos:string[] = frontmatter['redirect_to']
+  if (tos) {
+    tos = (typeof tos === 'string') ? [tos] : tos
+    tos.forEach(to => links[urlPath] = to)
+  }
+
+  let froms:string[] = frontmatter['redirect_from']
+  if (froms) {
+    froms = (typeof froms === 'string') ? [froms] : froms
+    froms.forEach(from => links[from] = urlPath)
+  }
+}
+
+function fileToUrlPath(file: string, siteConfig:SiteConfig):string {
   const base = siteConfig.site.base
   const {outDir, rewrites, srcDir} = siteConfig
-  let to = id
+  let path = file
     .replace(/\\/g, '/')
     .replace(outDir, '')
     .replace(srcDir, '') // dev only
@@ -23,12 +35,11 @@ export function collect(id:string, frontmatter:Record<string, any>, siteConfig:S
     .replace(/^\//, '') // remove leading slash
     .replace(/(\.html)$/, '')
 
-  if (rewrites.map[to])  to = rewrites.map[to] as string  // dev only
-  to = to
+  if (rewrites.map[path])  path = rewrites.map[path] as string // dev only
+  path = path
     .replace(/(\.md)$/, '') // dev only
     .replace('/index', '/')
-
-  redirects.forEach(redirect => links[redirect] = to)
+  return path
 }
 
 export function generate(outDir: string, base: string, links: Record<string, string>) {
@@ -37,7 +48,7 @@ export function generate(outDir: string, base: string, links: Record<string, str
 
   links = sortObject(links)
   const file = resolve(outDir, 'redirects.json')
-  console.log(`⤳ redirects: saving index to ${relative(process.cwd(), file)} (${Object.keys(links).length} entries)`)
+  console.log(`✓ redirects: saving index to ${relative(process.cwd(), file)} (${Object.keys(links).length} entries)`)
   writeFileSync(file, JSON.stringify(links))
 }
 
@@ -84,7 +95,7 @@ export function devPlugin (): VitePlugin {
                 const fm = matter.read(file).data
                 collect(file, fm, vpConfig, redirects!)
             })
-            console.log('⤳ redirects: indexing done')
+            console.log('✓ redirects: indexing done')
           }
           res.statusCode = 200
           res.setHeader('Content-Type', 'application/json')

@@ -9,6 +9,10 @@ const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
+const latestVersions = {
+  java: '1.34.1'
+}
+
 const sidebar = sideb('menu.md')
 const nav = [
   ...nav4(sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
@@ -41,7 +45,9 @@ export default defineConfig({
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],
-    outline: [1,3]
+    outline: [1,3],
+      //@ts-ignore
+    capire: { versions: latestVersions }
   },
   lastUpdated: true,
   cleanUrls: true,
@@ -81,17 +87,16 @@ export default defineConfig({
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 3000 // chunk for local search index dominates w/ 2.7M
+      chunkSizeWarningLimit: 4000 // chunk for local search index dominates
     }
   },
   transformHtml(code, id, ctx) {
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
     sitemap.collect(id, ctx, sitemapLinks)
-    // return code.replace('<main ', '<!-- CONTENT START --><main ').replace('</main>', '</main><!-- CONTENT END -->')
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await sitemap.generate(outDir, siteHostName, sitemapLinks)
+    await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
     const hanaAssetDir = 'advanced/assets'

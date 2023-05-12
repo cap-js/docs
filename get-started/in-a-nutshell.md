@@ -25,7 +25,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 ## ⓪ Preliminaries
 
-1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Local Setup guide](jumpstart#setup).
+1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Setup section of the Jumpstart guide](jumpstart#setup).
 
 2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
 
@@ -291,8 +291,8 @@ Both services defined above contain security annotations that restrict access to
 
 ```xml
 <dependency>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-security</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
 ```
 

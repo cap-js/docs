@@ -1,8 +1,6 @@
 ---
 section: Java
 status: released
-versions:
-  java: 1.34.1
 ---
 
 <style scoped>
@@ -25,8 +23,8 @@ Reference Documentation { .subtitle}
 
 <script setup>
 import { useData } from 'vitepress'
-const { frontmatter } = useData()
-const { versions } = frontmatter.value
+const { theme } = useData()
+const { versions } = theme.value.capire
 
 import { data as pages } from './index.data.js'
 </script>

@@ -61,7 +61,7 @@ cds add extensibility
 Continuous Integration and Continuous Delivery is accomplished through test and deploy pipelines based on technologies like Jenkins, Travis, or GitHub Actions. You can have a headstart by:
 
 ```sh
-cds add pipelines
+cds add pipeline
 ```
 
 

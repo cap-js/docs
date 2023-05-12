@@ -48,7 +48,7 @@ export function generate(outDir: string, base: string, links: Record<string, str
 
   links = sortObject(links)
   const file = resolve(outDir, 'redirects.json')
-  console.log(`⤳ redirects: saving index to ${relative(process.cwd(), file)} (${Object.keys(links).length} entries)`)
+  console.log(`✓ redirects: saving index to ${relative(process.cwd(), file)} (${Object.keys(links).length} entries)`)
   writeFileSync(file, JSON.stringify(links))
 }
 
@@ -95,7 +95,7 @@ export function devPlugin (): VitePlugin {
                 const fm = matter.read(file).data
                 collect(file, fm, vpConfig, redirects!)
             })
-            console.log('⤳ redirects: indexing done')
+            console.log('✓ redirects: indexing done')
           }
           res.statusCode = 200
           res.setHeader('Content-Type', 'application/json')

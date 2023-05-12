@@ -2,9 +2,9 @@ import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
-import * as sitemap from './sitemap'
-import * as redirects from './redirects'
-import * as cdsMavenSite from './cds-maven-site'
+import * as sitemap from './lib/sitemap'
+import * as redirects from './lib/redirects'
+import * as cdsMavenSite from './lib/cds-maven-site'
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []

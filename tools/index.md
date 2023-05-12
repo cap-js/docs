@@ -591,7 +591,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 ## CDS Lint & ESlint {#cds-lint}
 
-<style scoped>
+<style lang="scss" scoped>
   .emoji {
     display: inline !important;
     margin: 0px !important;
@@ -600,19 +600,39 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
     padding-left: 0;
     padding-right: 0;
   }
+  .cols-2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 640px) {
+    .cols-2 {
+      gap: 2em;
+    }
+    .cols-2 > * {
+      &:first-child {
+        flex: 1;
+      }
+    }
+  }
 </style>
 
-<table style="border: none;">
-  <tr style="border: none;">
-    <td style="border: none;">
-      To catch issues with CDS models and the CDS environment early, CAP provides an <a href="https://eslint.org/">ESLint plugin</a> with a set of <a href="#cds-lint-rules">recommended rules</a>.
-      Together with the <code>lint</code> client of the <a href="https://www.npmjs.com/package/@sap/cds-dk"><code>@sap/cds-dk</code></a>, this comprises <b>CDS Lint</b>.
-    </td>
-    <td style="width:30%; padding:0; border: none;">
-      <img src="./assets/cdslint.svg" style="margin-top:0; margin-right: -30%">
-    </td>
-  </tr>
-</table>
+<div class="cols-2">
+
+<div>
+
+To catch issues with CDS models and the CDS environment early, CAP provides an [ESLint plugin](https://eslint.org/) with a set of [recommended rules](#cds-lint-rules).
+Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package/@sap/cds-dk), this comprises **CDS Lint**.
+
+</div>
+
+<div>
+
+<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+
+</div>
+
+</div>
 
 ### Usage via `cds` CLI
 

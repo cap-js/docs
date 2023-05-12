@@ -344,9 +344,9 @@ entity Employees {
 
 For a calculated element "on-write", the expression is already evaluated when an entry is written into
 the entity (the calculated element itself is read-only, so no value must be provided for it).
-The resulting value is then stored/persisted like a regular field. When reading from the entity,
-the calculated element behaves like a regular field. Using a stored calculated element can improve performance,
-in particular when it is used for ordering or filtering. This is paid for by higher memory consumption.
+The resulting value is then stored/persisted like a regular field and when reading from the entity,
+the it behaves like a regular field as well. Using a stored calculated element can improve performance,
+in particular when it is used for sorting or filtering. This is paid for by higher memory consumption.
 While calculated elements "on-read" are handled in the CAP layer, the "on-write" variant is implemented by using
 the corresponding database feature for tables.
 The entity definition above results in the following table definition:

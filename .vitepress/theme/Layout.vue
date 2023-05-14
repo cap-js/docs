@@ -11,6 +11,9 @@ const { Layout } = DefaultTheme
 <template>
 
   <Layout>
+    <template #layout-top>
+      <slot name="layout-top" />
+    </template>
     <template #not-found>
       <NotFound />
     </template>

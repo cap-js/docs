@@ -29,7 +29,7 @@ features:
 - title: Intrinsic Cloud Qualities
   icon: ⛅️
   details:
-    Multitenancy, Extensibiliry, Security, Scalability, Resilience, Messaging, Observability, ...
+    Multitenancy, Extensibility, Security, Scalability, Resilience, Messaging, Observability, ...
     CAP facilitates these to great extents in <b>platform-agnostic</b> ways.
 - title: Enterprise Best Practices
   icon: 📂

@@ -95,6 +95,7 @@ export function devPlugin (): VitePlugin {
                 const fm = matter.read(file).data
                 collect(file, fm, vpConfig, redirects!)
             })
+            redirects['releases/current'] = 'releases/latest'
             console.log('⤳ redirects: indexing done')
           }
           res.statusCode = 200

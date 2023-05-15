@@ -160,14 +160,14 @@ For arrayed types the `null` and `not null` constraints apply to the _members_ o
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
 :::
 
-In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
+In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `emails` must not be `null`!
 
 ```cds
 entity Bar {
     emails      : many {
         kind    : String null;
         address : String not null;
-    } null;
+    } null; // <- so the example shall show that this is ignored?!
 }
 ```
 

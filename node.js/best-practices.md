@@ -99,7 +99,7 @@ This ensures that the deployed tool/service/app doesn't receive new vulnerabilit
 :::tip
 
 We recommend running `npm update` regularly and frequently during development to ensure that you receive the latest fixes.<br>
-Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automatize this process.
+Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automate this process.
 
 <div id="renovate-sap" />
 

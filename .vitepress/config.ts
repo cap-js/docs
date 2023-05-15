@@ -54,10 +54,10 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    },
+    // theme: {
+    //   light: 'github-light',
+    //   dark: 'github-dark'
+    // },
     // lineNumbers: true,
     languages: [
       {

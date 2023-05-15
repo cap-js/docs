@@ -189,7 +189,7 @@ module.exports = cds.service.impl (srv => {
 
 ###### Mock Error Cases
 
-To create error cases, explicitly return errors in a custom handler by using the [`req.error`](../node.js/events#req-msg) or [`req.reject`](../node.js/events#req-reject) functions. For example, add the following code in the `API_BUSINESS_PARTNER.js` file:
+To create error cases, explicitly return errors in a custom handler by using the [`req.error`](../node.js/events#req-error) or [`req.reject`](../node.js/events#req-reject) functions. For example, add the following code in the `API_BUSINESS_PARTNER.js` file:
 
 ```js
 module.exports = cds.service.impl(srv => {

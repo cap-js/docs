@@ -440,7 +440,7 @@ srv.before ('EDIT','Books', (req)=>{...}) // run during creation of a draft for 
 
 ### Query Drafts Programmatically
 
-To access drafts in code, you can use the [`.drafts` reflection](../node.js/cds-reflect#entity-drafts).
+To access drafts in code, you can use the [`.drafts` reflection](../node.js/cds-reflect#drafts).
 ```js
 SELECT.from(Books.drafts) //returns all drafts of the Books entity
 ```

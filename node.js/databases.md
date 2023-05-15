@@ -214,7 +214,7 @@ Even though we provide a default pool configuration, we expect that each applica
 
 
 [Upsert](../cds/cqn.md#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
-`UPSERT` statements can be created with the [UPSERT](cds-ql#UPSERT) query API:
+`UPSERT` statements can be created with the [UPSERT](cds-ql#upsert) query API:
 
 ```js
 UPSERT.into('db.Books')

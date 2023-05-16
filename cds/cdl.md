@@ -343,7 +343,7 @@ entity Employees {
 ```
 
 For a calculated element "on-write", the expression is already evaluated when an entry is written into
-the entity (the calculated element itself is read-only, so no value must be provided for it).
+the database.  The calculated element is read-only, so no value must be provided for it.
 The resulting value is then stored/persisted like a regular field and when reading from the entity,
 it behaves like a regular field as well. Using a stored calculated element can improve performance,
 in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.

@@ -58,8 +58,7 @@ cds.parse.expr(`timestamp'2023-04-15T13:05:23Z'`)  == {val: '2023-04-15T13:05:23
 
 [ref]: #references
 
-A reference is represented as `{ ref: … }` with property `ref` holding an array of reference segments as plain identifier strings,
-or in case of infix filters and/or arguments an object `{ id: 'identifier', … }` (all properties except _id_ are optional) as follows:
+A reference is represented as `{ ref: … }` with property `ref`. This property holds an array of reference segments as plain identifier strings.  Only in case of infix filters and/or arguments, the property holds an object `{ id: 'identifier', … }` and all properties except `id` are optional, as shown in the following snippet:
 
 ```js
 ref = {ref:[..._segment]}

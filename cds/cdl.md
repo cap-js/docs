@@ -345,11 +345,11 @@ entity Employees {
 For a calculated element "on-write", the expression is already evaluated when an entry is written into
 the entity (the calculated element itself is read-only, so no value must be provided for it).
 The resulting value is then stored/persisted like a regular field and when reading from the entity,
-the it behaves like a regular field as well. Using a stored calculated element can improve performance,
-in particular when it is used for sorting or filtering. This is paid for by higher memory consumption.
+it behaves like a regular field as well. Using a stored calculated element can improve performance,
+in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.
 While calculated elements "on-read" are handled in the CAP layer, the "on-write" variant is implemented by using
 the corresponding database feature for tables.
-The entity definition above results in the following table definition:
+The previous entity definition results in the following table definition:
 ```sql
 -- SAP HANA syntax --
 CREATE TABLE Employees (
@@ -358,8 +358,8 @@ CREATE TABLE Employees (
   name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
 );
 ```
-There are restrictions on such calculated fields, which depend on the particular database used. But all databases
-currently supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
+There are restrictions on calculated fields, which depend on the particular database. Currently all databases
+supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
 table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
 <div id="concept-alce" />

@@ -822,7 +822,7 @@ Actions/functions including their parameters and result:
 Or in case of a structured result:
 
 ```cds
-... returns @before {
+… returns @before {
   @before resultElem @inner : String @after;
 };
 ```

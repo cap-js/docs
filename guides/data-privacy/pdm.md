@@ -176,7 +176,7 @@ For multitenant-specific information, refer to our [Multitenancy Guide](../../gu
 [Subscribe to the service](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/ef10215655a540b6ba1c02a96e118d66.html) from the _Service Marketplace_ in the SAP BTP cockpit.
 
 
-![tile in the cockpit](assets/pdmCockpitCreate.png){width="300"}
+![A screenshot of the tile in the cockpit for the SAP Personal Data Manager service.](assets/pdmCockpitCreate.png){width="300"}
 
 Follow the wizard to create your subscription.
 
@@ -262,8 +262,8 @@ https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2
 
 Open the SAP Personal Data Manager application from the _Instances and Subscriptions_ page in the SAP BTP cockpit.
 
-![tile in the cockpit](assets/pdmCockpit.png){width="500"}
+![To open the application, open the three dot menu and select "Go to Application".](assets/pdmCockpit.png){width="500"}
 
 In the personal data manager application you can search for data subjects with _First Name_, _Last Name_, and _Date of Birth_, or alternatively with their _ID_.
 
-![PDM UI](assets/pdmApplication.png){width="500"}
+![A screenshot of the SAP Personal Data Manager application.](assets/pdmApplication.png){width="500"}

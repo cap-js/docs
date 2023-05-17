@@ -1,5 +1,4 @@
 ---
-title: Upgrade to Compiler v2
 shorty: Compiler v2
 synopsis: >
   CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
@@ -10,7 +9,7 @@ redirect_from: releases/compiler-v2
 status: released
 ---
 
-# {{ $frontmatter?.title }}
+# Upgrade to Compiler v2
 
 <div v-html="$frontmatter?.synopsis" />
 

@@ -254,6 +254,16 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 * If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "CAP Notebook button" on the *right-hand-side* of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
+::: tip
+Notebook code cells work just like your native environments.
+However, predefined *Magic commands* exist to make notebook workflows even simpler.
+They all start with <code>%</code> or <code>%%</code> for line or cell magic commands. Type <code>%quickref</code> in any cell for a full list.
+:::
+
+::: warning
+The cell types <i>Shell Script</i> and <i>Terminal</i> are executed in your native shell environment. Check the code <b>before</b> running the cell.
+:::
+
    <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" class="adapt">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*

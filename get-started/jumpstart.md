@@ -29,7 +29,7 @@ Follow the steps below to setup a local development environment. If you are a de
 
 Choose the **LTS** version, via the left-hand side button:
 
-<img src="./assets/jumpstart/image-20230310202845639.png" alt="image-20230310202845639" style="zoom: 33%;" />
+<img src="./assets/jumpstart/image-20230310202845639.png" alt="Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button." style="zoom: 33%;" />
 
 
 

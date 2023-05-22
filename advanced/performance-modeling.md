@@ -338,8 +338,8 @@ entity OrdersItemsView as projection on OrdersItems {
     *,
     itemCategory as category
 };
-``
-:::`
+```
+:::
 
 ## Compositions vs Associations
 From the performance perspective there are some cases, where you have to check out carefully if the general semantic rules of compositions vs associations should be applied.

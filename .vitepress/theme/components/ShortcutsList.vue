@@ -10,8 +10,11 @@
           <table>
             <tr v-for="cmd in enabledCommands()" :key="cmd.name">
               <td>{{ cmd.name }}</td>
-              <td v-for="key in cmd.keys" :key="key" class="keybinding">
-                <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
+              <td class="keybinding">
+                <template v-for="(key, i) in cmd.keys" :key="key">
+                  <span v-if="i > 0"> or </span>
+                  <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
+                </template>
               </td>
             </tr>
           </table>
@@ -34,10 +37,10 @@ onMounted(() => {
 })
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 
-const keyStrokeSearch = [metaKey, ref('K')]
+const keyStrokesSearch = [[metaKey, ref('K')], ref('/')]
 const querySelectorSearchInput = 'input[class=search-input]'
 const commands = ref([
-  { name:'Search', keys:[keyStrokeSearch] }, // VP search has the actual logic
+  { name:'Search', keys:keyStrokesSearch }, // VP search has the actual logic
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
   DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),

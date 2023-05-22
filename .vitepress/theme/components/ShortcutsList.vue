@@ -123,10 +123,12 @@ function commandsFromConfig() {
 <style scoped>
 table {
   width: 100%;
-  display: table;
-  margin: 0px;
+  border-style: hidden !important;
 }
-table, td { border: none; }
+td, th {
+  border: 1px solid var(--vp-c-divider);
+  border-left: hidden !important;
+}
 
 /* Modal Dialog */
 .modal-dialog {
@@ -141,6 +143,8 @@ table, td { border: none; }
 /* Modal Content */
 .modal-content {
   position: relative;
+  overflow: hidden;
+  resize: both;
   background-color: var(--vp-c-bg);
   margin: 10% auto;
   padding: 0;
@@ -162,7 +166,7 @@ table, td { border: none; }
 /* Modal Body */
 .modal-body {
   padding: 2px 16px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* The Close Button */

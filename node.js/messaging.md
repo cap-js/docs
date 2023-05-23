@@ -313,7 +313,7 @@ To make sure your server is not flooded with messages, you should set the incomi
 
 `kind`: `enterprise-messaging`
 
-This is the same as `enterprise-messaging-shared` except that messages are transferred through HTTP. For incoming messages, a webhook is used. Since no permanent AMQP connection is required, this allows for multitenant scenarios.
+This is the same as `enterprise-messaging-shared` except that messages are transferred through HTTP. For incoming messages, a webhook is used.
 
 Compared to `enterprise-messaging-shared` you have the additional configuration option:
 - `webhook`: An object containing the `waitingPeriod` property as the time in milliseconds until a webhook is created after the application is listening to incoming HTTP requests (default: 5000). Additional properties are described in the `Subscription` object in [SAP Event Mesh - REST APIs Messaging](https://help.sap.com/doc/3dfdf81b17b744ea921ce7ad464d1bd7/Cloud/en-US/messagingrest-api-spec.html).

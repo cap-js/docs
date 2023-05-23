@@ -681,9 +681,9 @@ CREATE TABLE Books ( -- elements ...
 ```
 ::: tip
 This feature can be switch on/off globally with the configuration `cds.env.features.assert_integrity`.
+By default integrity constraints are switched off.
 :::
-[Learn more about global configuration with `cds.env.features.assert_integrity`.](../../releases/archive/2022/mar22#database-integrity-constraints){.learn-more}
- [Learn more about database integrity constraints.](../databases#db-constraints){.learn-more}
+[Learn more about database integrity constraints.](../databases#db-constraints){.learn-more}
 
 
 ### `@assert.target` Constraint for managed to-one Associations

@@ -424,7 +424,7 @@ EU;de;Europäische Union;Europäische Union
 
 You can use Excel or similar tools to maintain these files. For example, the following screenshot shows how we maintained the above two files in Numbers on a Mac:
 
-![csv in numbers](./assets/csv-numbers.png){.adapt}
+![This screenshot is explained in the accompanying text.](./assets/csv-numbers.png){.adapt}
 
 ### Using Prebuilt Content Package {#prebuilt-data}
 

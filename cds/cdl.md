@@ -844,13 +844,19 @@ Parameters in view definitions:
 ) ...
 ```
 
-Actions/functions including their parameters and result elements:
+Actions/functions including their parameters and result:
 
 ```java
 @before action doSomething @inner (
   @before param @inner : String @after
-) returns {
-  @before result @inner : String @after;
+) returns @before resultType;
+```
+
+Or in case of a structured result:
+
+```cds
+… returns @before {
+  @before resultElem @inner : String @after;
 };
 ```
 
@@ -968,21 +974,22 @@ You can also directly annotate a single element:
 annotate Foo:nestedStructField.existingField @title:'Nested Field';
 ```
 
-Actions and functions and even their parameters can be annotated:
+Actions, functions, their parameters and `returns` can be annotated:
 
 ```cds
 service SomeService {
   entity SomeEntity { key id: Integer } actions
   {
-    action boundAction(P: Integer);
+    action boundAction(P: Integer) returns String;
   };
-  action unboundAction(P: Integer);
+  action unboundAction(P: Integer) returns String;
 };
 
-annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P);
+annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P)
+                                        returns @label: 'Returns a string';
 annotate SomeService.SomeEntity with actions {
      @label: 'Action label'
-     boundAction(@label: 'firstParameter' P);
+     boundAction(@label: 'firstParameter' P) returns @label: 'Returns a string';
 }
 ```
 

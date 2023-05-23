@@ -13,8 +13,9 @@ status: released
 - [*Getting Started*](#) — a few guides to get you started quickly
 - [*Cookbook*](../guides/) — task-oriented guides from an app developer's point of view
 - [*Advanced*](../advanced/) — additional guides re peripheries and deep dives
-- [*Tools*](../tools/) - choose your preferred tools
+- [*Tools*](../tools/) — choose your preferred tools
 - *Reference docs* → for [*CDS*](../cds/), [*Java*](../java/), [*Node.js*](../node.js/)
-- [*Releases*](../releases/) - information about what is new and what has changed
+- [*Releases*](../releases/) — information about what is new and what has changed
+- [*Security*](../security/) — all things security with CAP
 - [*Resources*](../resources/) — links to other sources of information
 

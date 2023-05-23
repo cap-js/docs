@@ -264,9 +264,9 @@ For more information, see [Important Disclaimers and Legal Information](https://
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
 
-Today CAP CDS only supports calculated elements with a value expression
-with "on-read" semantics.
-
+Today CAP CDS only supports calculated elements with a value expression.
+For these, you can differentiate two variants: "on-read" and "on-write".
+The difference between them is the point in time when the expression is evaluated.
 
 <span id="beforeonread" />
 
@@ -320,6 +320,7 @@ exceptions:
 
 * A calculated element can't be used in the ON condition of an unmanaged association.
 * A calculated element can't be used as the foreign key of a managed association.
+* A calculated element can't reference localized elements.
 
 
 There are some temporary restrictions:
@@ -327,7 +328,39 @@ There are some temporary restrictions:
 * Currently, a calculated element must always be accessed using a view/projection. An OData request or custom code can't access the calculated element in the entity where it is defined.
 * A calculated element can't be used in a query together with nested projections (inline/expand).
 
-<span id="concept-ow" />
+
+#### On-write (beta)
+
+Calculated elements "on-write" are defined by adding the keyword `stored`.
+They are also referred to as "stored" calculated elements. A type specification is mandatory.
+
+```cds
+entity Employees {
+  firstName : String;
+  lastName : String;
+  name : String = (firstName || ' ' || lastName) stored;
+}
+```
+
+For a calculated element "on-write", the expression is already evaluated when an entry is written into
+the database.  The calculated element is read-only, so no value must be provided for it.
+The resulting value is then stored/persisted like a regular field and when reading from the entity,
+it behaves like a regular field as well. Using a stored calculated element can improve performance,
+in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.
+While calculated elements "on-read" are handled by CAP, the "on-write" variant is implemented by using
+the corresponding database feature for tables.
+The previous entity definition results in the following table definition:
+```sql
+-- SAP HANA syntax --
+CREATE TABLE Employees (
+  firstName NVARCHAR,
+  lastName NVARCHAR,
+  name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
+);
+```
+There are restrictions on calculated fields, which depend on the particular database. Currently all databases
+supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
+table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
 <div id="concept-alce" />
 

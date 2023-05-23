@@ -192,6 +192,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
 | [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
 | [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [H2](../java/persistence-services#h2) <sup>2</sup>         |    <X/>    |        <Na/>       | <X/> |
 | [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |

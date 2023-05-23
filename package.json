@@ -15,12 +15,13 @@
   "repository": "cap-js/docs",
   "homepage": "https://cap.cloud.sap/",
   "devDependencies": {
+    "@types/adm-zip": "^0.5.0",
     "adm-zip": "^0.5.10",
     "eslint": "^8.39.0",
     "eslint-plugin-vue": "^9.11.0",
     "gray-matter": "^4.0.3",
     "sass": "^1.62.1",
     "sitemap": "^7.1.1",
-    "vitepress": "^1.0.0-alpha.75"
+    "vitepress": "^1.0.0-beta.1"
   }
 }

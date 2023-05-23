@@ -46,10 +46,14 @@ onMounted(async () => {
     }
     window.location.replace(newURL) // avoids this temp. page in history
   }
+  // resolve redirect chains
   function target(from) {
-    const to = redirectTo[from]
-    if (to) return target(to)  // resolve direct chains
-    return from
+    let to
+    while (redirectTo[from]) {
+      to = redirectTo[from]
+      from = to
+    }
+    return to
   }
 })
 

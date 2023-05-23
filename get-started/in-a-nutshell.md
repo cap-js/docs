@@ -202,10 +202,10 @@ cds db/schema.cds -2 sql
 
 After the recent changes, `cds watch` also prints this message:
 
-```sh
+<pre class="log">
 No service definitions found in loaded models.
 Waiting for some to be added...
-```
+</pre>
 
 </div>
 
@@ -373,14 +373,14 @@ ID,name
 After you’ve added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content been loaded into the database automatically:
 
 <pre class="log">
-[cds] - connect to db { database: <em>':memory:'</em> }
+[cds] - connect to db { database: <em>':memory:'</em> }<i>
  > filling sap.capire.bookshop.Authors from bookshop/db/data/sap.capire.bookshop-Authors.csv
  > filling sap.capire.bookshop.Books from bookshop/db/data/sap.capire.bookshop-Books.csv<!-- EXCLUDE IN NOTEBOOK START -->
  > filling sap.capire.bookshop.Books_texts from bookshop/db/data/sap.capire.bookshop-Books_texts.csv
  > filling sap.capire.bookshop.Genres from bookshop/db/data/sap.capire.bookshop-Genres.csv
  > filling sap.common.Currencies from common/data/sap.common-Currencies.csv
  > filling sap.common.Currencies_texts from common/data/sap.common-Currencies_texts.csv<!-- EXCLUDE IN NOTEBOOK END -->
-/> successfully deployed to sqlite in-memory db
+</i>/> successfully deployed to sqlite in-memory db
 </pre>
 
 > This is the output when you're using the [samples](https://github.com/sap-samples/cloud-cap-samples). It's less if you've followed the manual steps here.

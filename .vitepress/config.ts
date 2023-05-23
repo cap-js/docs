@@ -2,8 +2,9 @@ import { defineConfig } from 'vitepress'
 import { join } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
-import * as sitemap from './sitemap'
-import * as redirects from './redirects'
+import * as sitemap from './lib/sitemap'
+import * as redirects from './lib/redirects'
+import * as cdsMavenSite from './lib/cds-maven-site'
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
@@ -53,10 +54,10 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    },
+    // theme: {
+    //   light: 'github-light',
+    //   dark: 'github-dark'
+    // },
     // lineNumbers: true,
     languages: [
       {
@@ -97,6 +98,7 @@ export default defineConfig({
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
     await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
+    await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
     const hanaAssetDir = 'advanced/assets'

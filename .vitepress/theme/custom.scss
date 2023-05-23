@@ -226,8 +226,6 @@ kbd {
 }
 
 pre.log {
-  background: #f8f8f8; // matches to light theme
-  color: #032F62; // matches to light theme
   font-size: var(--vp-code-font-size);
   line-height: var(--vp-code-line-height);
   padding: 20px;
@@ -248,7 +246,7 @@ pre.log {
     }
   }
   em {
-    color: #db8b0b;
+    color: #00ff00e0;
   }
   b {
     color: #ee0000e0;
@@ -256,11 +254,24 @@ pre.log {
   i {
     color: grey;
   }
-  :root.dark & {
-    background: var(--vp-code-block-bg);
-    color: #fafafa;
-  }
+
+  background: var(--vp-code-block-bg);
+  color: #fafafa;
 }
+
+// enable for light code theme
+// pre.log {
+//   background: #f8f8f8; // matches to light theme
+//   color: #032F62; // matches to light theme
+//   em {
+//     color: #db8b0b;
+//   }
+//   :root.dark & {
+//     background: var(--vp-code-block-bg);
+//     color: #fafafa;
+//   }
+// }
+
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
   table:hover,

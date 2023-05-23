@@ -347,7 +347,7 @@ the database.  The calculated element is read-only, so no value must be provided
 The resulting value is then stored/persisted like a regular field and when reading from the entity,
 it behaves like a regular field as well. Using a stored calculated element can improve performance,
 in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.
-While calculated elements "on-read" are handled in the CAP layer, the "on-write" variant is implemented by using
+While calculated elements "on-read" are handled by CAP, the "on-write" variant is implemented by using
 the corresponding database feature for tables.
 The previous entity definition results in the following table definition:
 ```sql

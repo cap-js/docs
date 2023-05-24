@@ -846,21 +846,22 @@ Parameters in view definitions:
 <!-- cds-mode: ignore, because it shows only partial CDS -->
 ```cds
 … with parameters (
-  @before param @inner : String @after
+  @before param @(inner) : String @after
 ) …
 ```
 
 Actions/functions including their parameters and result:
 
+<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 @before action doSomething @inner (
-  @before param @inner : String @after
+  @before param @(inner) : String @after
 ) returns @before resultType;
 ```
 
 Or in case of a structured result:
 
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 action doSomething returns @before {
   @before resultElem @inner : String @after;
@@ -983,6 +984,8 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 
 Actions, functions, their parameters and `returns` can be annotated:
 
+
+<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 service SomeService {
   entity SomeEntity { key id: Integer } actions

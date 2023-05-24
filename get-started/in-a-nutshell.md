@@ -159,10 +159,10 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 
 As soon as you save your file, the still running `cds watch` reacts immediately with new output like this: {.impl .node}
 
-<pre class="log impl node">
-[cds] - connect to db { database: <em>':memory:'</em> }
+```log
+[cds] - connect to db { database: ':memory:' }
 /> successfully deployed to sqlite in-memory db
-</pre>
+```
 
 This means that `cds watch` detected the changes in _db/schema.cds_ and automatically bootstrapped an in-memory _SQLite_ database when restarting the server process. {.impl .node}
 
@@ -202,10 +202,10 @@ cds db/schema.cds -2 sql
 
 After the recent changes, `cds watch` also prints this message:
 
-<pre class="log">
+```log
 No service definitions found in loaded models.
 Waiting for some to be added...
-</pre>
+```
 
 </div>
 
@@ -255,7 +255,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 This time `cds watch` reacted with additional output like this:
 
-```js
+```log
 [cds] - serving AdminService { at: '/admin' }
 [cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
 
@@ -391,10 +391,10 @@ After you’ve added these files, `cds watch` restarts the server with output, t
 
 After you’ve added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content been loaded into the database automatically: {.impl .java}
 
-<pre class="log">
- c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Authors.csv
- c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
-</pre>
+```log
+c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Authors.csv
+c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
+```
 
 </div>
 

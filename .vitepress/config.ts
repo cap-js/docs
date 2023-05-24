@@ -77,6 +77,12 @@ export default defineConfig({
         scopeName: 'text.csv',
         path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
         aliases: ['csvc']
+      },
+      {
+        id: 'log',
+        scopeName: 'text.log',
+        path: join(__dirname, 'syntaxes/log.tmLanguage.json'),
+        aliases: ['log', 'logs']
       }
     ],
     toc: {

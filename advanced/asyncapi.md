@@ -6,30 +6,44 @@ permalink: advanced/asyncapi
 status: released
 ---
 
+<style scoped>
+  /* remove transparency in the odd rows (when it scrolls over outline) */
+  tr:nth-child(odd) { background-color: var(--vp-c-bg); }
+
+  /* expand this extra wide table on big screens */
+  @media screen and (min-width: 1600px) {
+    table {
+      min-width: fit-content;
+      width: max-content;
+    }
+  }
+</style>
+
+
 # Publishing to AsyncAPI
 
 You can convert events in CDS models to the [AsyncAPI specification](https://www.asyncapi.com), a widely adopted standard used to describe and document message-driven asynchronous APIs.
 
 ## CDS Type to AsyncAPI Mapping { #mapping}
 
-CDS Type | AsyncAPI Supported Types
------|-------------------
-`UUID` | { "type": "string", "format": "uuid" }
-`Boolean` | { "type": "boolean" }
-`Integer` | { "type": "integer" }
-`Integer64` | { "type": "string", "format": "int64" }
-`Decimal`, `{precision, scale}` | { "type": "string", "format": "decimal", "formatPrecision": \<precision\>, "formatScale": \<scale\> }
-`Decimal`, without scale | { "type": "string", "format": "decimal", "formatPrecision": \<precision\> }
-`Decimal`, without precision and scale | { "type": "string", "format": "decimal" }
-`Double` | { "type": "number" }
-`Date` | { "type": "string", "format": "date" }
-`Time` | 	{ "type": "string", "format": "partial-time" }
-`DateTime` | { "type": "string", "format": "date-time" }
-`Timestamp` | { "type": "string", "format": "date-time" }
-`String` | { "type": "string", "maxLength": length }
-`Binary` | { "type": "string", "maxLength": length }
-`LargeBinary` | { "type": "string" }
-`LargeString` | { "type": "string" }
+| CDS Type                               | AsyncAPI Supported Types                                                                            |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `UUID`                                 | `{ "type": "string", "format": "uuid" }`                                                            |
+| `Boolean`                              | `{ "type": "boolean" }`                                                                             |
+| `Integer`                              | `{ "type": "integer" }`                                                                             |
+| `Integer64`                            | `{ "type": "string", "format": "int64" }`                                                           |
+| `Decimal`, `{precision, scale}`        | `{ "type": "string", "format": "decimal", "formatPrecision": <precision>, "formatScale": <scale> }` |
+| `Decimal`, without scale               | `{ "type": "string", "format": "decimal", "formatPrecision": <precision> }`                         |
+| `Decimal`, without precision and scale | `{ "type": "string", "format": "decimal" }`                                                         |
+| `Double`                               | `{ "type": "number" }`                                                                              |
+| `Date`                                 | `{ "type": "string", "format": "date" }`                                                            |
+| `Time`                                 | `{ "type": "string", "format": "partial-time" }`                                                    |
+| `DateTime`                             | `{ "type": "string", "format": "date-time" }`                                                       |
+| `Timestamp`                            | `{ "type": "string", "format": "date-time" }`                                                       |
+| `String`                               | `{ "type": "string", "maxLength": length }`                                                         |
+| `Binary`                               | `{ "type": "string", "maxLength": length }`                                                         |
+| `LargeBinary`                          | `{ "type": "string" }`                                                                              |
+| `LargeString`                          | `{ "type": "string" }`                                                                              |
 
 ## Usage from CLI { #cli}
 

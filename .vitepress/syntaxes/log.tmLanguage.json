@@ -1,0 +1,39 @@
+{
+  "name": "log syntax",
+  "scopeName": "text.log",
+  "fileTypes": ["log"],
+  "patterns": [
+    {
+      "name": "comment.indented",
+      "match": "^\\s+(.*)"
+    },
+    {
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        {
+          "name": "string.quoted.single",
+          "match": "('.*?')"
+        },
+        {
+          "name": "constant.numeric",
+          "match": "\\b(\\d+)\\b"
+        },
+        {
+          "name": "constant.boolean",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "main": {
+      "patterns": [
+        { "include": "#comment.indented" },
+        { "include": "#string.quoted.single" },
+        { "include": "#constant.numeric" },
+        { "include": "#constant.boolean" }
+      ]
+    }
+  }
+}

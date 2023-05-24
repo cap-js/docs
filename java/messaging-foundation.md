@@ -175,7 +175,7 @@ public class ReviewServiceHandler implements EventHandler {
 }
 ```
 
-Note, that the `ReviewService` itself emits the event context. The `ReviewService` does not explicitly need to use a technical messaging service. If no messaging service has been bound to your application, then the event will be dispatched purely within the runtime of this service. As soon as a messaging service has been bound, the event message will also be sent via the respective message broker, to allow other, external consumers to subscribe to this event message.
+Note that the `ReviewService` itself emits the event context. The `ReviewService` does not explicitly need to use a technical messaging service. If no messaging service has been bound to your application, then the event will be dispatched purely within the runtime of this service. As soon as a messaging service has been bound, the event message will also be sent via the respective message broker, to allow other, external consumers to subscribe to this event message.
 
 When sending the event message, CAP chooses the fully qualified name (FQN) of the event according to the CDS model as the default topic name to use. In the case of the example this would be `ReviewService.reviewed`. If you want to manually override the automatically derived topic name, you can use the `@topic` annotation in the CDS model.
 

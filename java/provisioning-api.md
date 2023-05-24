@@ -45,7 +45,7 @@ These [annotations](#handlerannotations) can be used on event handler methods to
 
 It’s possible to register multiple event handlers for each event phase. Handlers within the same event phase are never executed concurrently.
 In case concurrency is desired, it needs to be explicitly implemented within an event handler.
-Note, that by default there is no guaranteed order in which the handlers of the same phase are called.
+Note that by default there is no guaranteed order in which the handlers of the same phase are called.
 
 The following subsections describe the semantics of the three phases in more detail.
 

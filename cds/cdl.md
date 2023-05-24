@@ -799,20 +799,23 @@ You can basically annotate any named thing in a CDS model, such as:
 
 Contexts and services:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] (context|service) Foo @inner { ... }
 ```
 
 Definitions and elements with simple types:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] type Foo @inner : String @after;
 @before [key] anElement @inner : String @after;
 ```
 
 Entities, aspects, and other struct types and elements thereof:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] (entity|type|aspect|annotation) Foo @inner {
   @before simple @inner : String @after;
   @before struct @inner { ...elements... };
@@ -821,32 +824,35 @@ Entities, aspects, and other struct types and elements thereof:
 
 Enums:
 
-```java
-... status : String @inner enum {
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… status : String @inner enum {
   fulfilled @after;
 }
 ```
 
 Columns in a view definition's query:
 
-```java
-... as SELECT from Foo {
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… as SELECT from Foo {
   @before expr as alias @inner : String,
-  ...
+  …
 }
 ```
 
 Parameters in view definitions:
 
-```java
-... with parameters (
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… with parameters (
   @before param @inner : String @after
-) ...
+) …
 ```
 
 Actions/functions including their parameters and result:
 
-```java
+```cds
 @before action doSomething @inner (
   @before param @inner : String @after
 ) returns @before resultType;
@@ -856,7 +862,7 @@ Or in case of a structured result:
 
 <!-- cds-mode: ignore -->
 ```cds
-… returns @before {
+action doSomething returns @before {
   @before resultElem @inner : String @after;
 };
 ```
@@ -866,7 +872,7 @@ Or in case of a structured result:
 
 Values can be literals or references. If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-```java
+```cds
 @aFlag //= true, if no value is given
 @aBoolean: false
 @aString: 'foo'
@@ -879,7 +885,7 @@ Values can be literals or references. If no value is given, the default value is
 
 As described in the [CSN spec](./csn#literals), the previously mentioned annotations would compile to CSN as follows:
 
-```
+```jsonc
 {
   "@aFlag": true,
   "@aBoolean": false,
@@ -888,7 +894,7 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
   "@aDecimal": 11.1,
   "@aSymbol": {"#":"foo"},
   "@aReference": {"=":"foo.bar"},
-  "@anArray": [ ... ]
+  "@anArray": [ /* … */ ]
 }
 ```
 
@@ -903,27 +909,27 @@ Annotations in CDS are flat lists of key-value pairs assigned to a target.
 The record syntax - that is, `{key:<value>, ...}` - is a shortcut notation that applies a common prefix to nested annotations.
 For example, the following are equivalent:
 
-```java
+```cds
 @Common.foo.bar
 @Common.foo.car: 'wheels'
 ```
-```java
+```cds
 @Common: { foo.bar, foo.car: 'wheels' }
 ```
-```java
+```cds
 @Common.foo: { bar }
 @Common.foo.car: 'wheels'
 ```
-```java
-@Common.foo: { bar, car: 'wheels'  }
+```cds
+@Common.foo: { bar, car: 'wheels' }
 ```
 
 and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
-```
+```json
 {
   "@Common.foo.bar": true,
-  "@Common.foo.car": "wheels",
+  "@Common.foo.car": "wheels"
 }
 ```
 
@@ -1226,7 +1232,7 @@ Enhancing nested structs isn't supported. Note also that you can use the common 
 - [Custom Actions/Functions](#actions)
 - [Custom-defined Events](#events)
 - [Extending Services](#extend-service)
-<span id="tocservices" />
+  <span id="tocservices" />
 
 
 ### Service Definitions
@@ -1611,8 +1617,8 @@ Hence, the same rules apply:
   Names starting with `./` or `../` are resolved relative to the current model.
 - Resolving absolute references
   They're fetched for in `node_modules` folders:
-  - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-  - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
 
 ::: tip
 To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
@@ -1622,9 +1628,9 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
 
 ## Comments {#comments}
 
-  - [Single-Line Comments](#single-comment)
-  - [Multi-Line Comments](#multi-comment)
-  - [Doc comments](#doc-comment)
+- [Single-Line Comments](#single-comment)
+- [Multi-Line Comments](#multi-comment)
+- [Doc comments](#doc-comment)
 
 
 ### Single-Line Comments — `//` {#single-comment}

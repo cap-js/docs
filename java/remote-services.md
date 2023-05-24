@@ -176,7 +176,7 @@ public class DestinationConfiguration implements EventHandler {
 
 [Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){.learn-more}
 
-Note, that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
+Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
 

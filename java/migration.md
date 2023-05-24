@@ -341,7 +341,7 @@ To replace the `@InitTransaction` handler, you can use the `beforeClose` method,
 
 The CAP Java SDK sample application shows how such a validation using the `ChangeSetListener` approach can be implemented. See [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/cross-validation/srv/src/main/java/my/bookshop/handlers/ChapterServiceHandler.java) for the example code.
 
-Note, that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
+Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
 [See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){.learn-more}
 

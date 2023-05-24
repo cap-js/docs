@@ -776,7 +776,7 @@ This proxy is then used to wrap the original `InputStream`. This works for both 
 
 For uploads, you can either use a custom `Before` or `On` handler to wrap the proxy implementation around the original stream before passing it to its final destination.
 
-Using a custom `Before` handler makes sense if the stream's final destination is the persistence layer of the CAP Java SDK, which writes the content to the database. Note, that the pre-processing logic in this example is implemented in the `read()` methods of the `FilterInputStream` and is only called when the data is streamed, during the `On` phase of the request:
+Using a custom `Before` handler makes sense if the stream's final destination is the persistence layer of the CAP Java SDK, which writes the content to the database. Note that the pre-processing logic in this example is implemented in the `read()` methods of the `FilterInputStream` and is only called when the data is streamed, during the `On` phase of the request:
 
 ```java
 @Before(event = CdsService.EVENT_UPDATE)

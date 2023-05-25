@@ -1616,12 +1616,14 @@ Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/a
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
-- Relative path resolution
+- Relative path resolution  
   Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references
-  They're fetched for in `node_modules` folders:
-    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+- Resolving absolute references  
+  Names starting with `/` are resolved absolute to the file system.
+- Resolving module references  
+  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
+   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
 
 ::: tip
 To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.

@@ -7,9 +7,6 @@ status: released
 ---
 
 <style scoped>
-  /* remove transparency in the odd rows (when it scrolls over outline) */
-  tr:nth-child(odd) { background-color: var(--vp-c-bg); }
-
   /* expand this extra wide table on big screens */
   @media screen and (min-width: 1600px) {
     table {

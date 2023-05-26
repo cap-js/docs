@@ -18,6 +18,10 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+      - run: |
+          cd .github/cds-snippet-checker
+          npm install
+          npm run check
       - run: npm ci
       - run: npm test
       - run: npm run docs:build

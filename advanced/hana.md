@@ -381,11 +381,11 @@ view WeUseAddressUDF as select from AddressUDF;
 
 ::: code-group
 ```sql [mapping-calc-view.hdbview]
-CREATE VIEW WeUseAddressCalcView AS SELECT
+VIEW WeUseAddressCalcView AS SELECT
   AddressCalcView_0.id
 FROM AddressCalcView(PLACEHOLDER."$$USERID$$" => 4711) AS AddressCalcView_0;
 
-CREATE VIEW WeUseAddressUDF AS SELECT
+VIEW WeUseAddressUDF AS SELECT
   AddressUDF_0.id
 FROM AddressUDF() AS AddressUDF_0;
 ```

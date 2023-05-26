@@ -138,7 +138,7 @@ main {
   }
 
   .good { color:teal }
-  .bad { color:darkred }; .dark & { .bad { color:#d02626 } }
+  .bad, .important { color:darkred }; .dark & { .bad, .important { color:#d02626 } }
   .constructor::before { content: 'Constructor: '; color: grey }
   .property::before { content: 'Property: '; color: grey }
   .method::before { content: 'Method: '; color: grey }

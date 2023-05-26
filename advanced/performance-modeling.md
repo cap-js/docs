@@ -33,7 +33,7 @@ UNIONs in views come with a performance penalty and complex modelling.
 
 Polymorphy might be the root cause for severe performance issues due to the usage of UNIONs, CASEs and complex JOINs. Here are some good and bad examples.
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Modeling many semantically related entities:
 
@@ -131,7 +131,7 @@ where vendor.description = 'TopFruitCompany';
 ```
 You have less associations to be built and no UNIONs in your queries.
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Using many semantically related entities:
 
@@ -169,7 +169,7 @@ entity OrdersItems   {
 
 ### View Building
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Add a static view, using a JOIN.
 
@@ -213,7 +213,7 @@ from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
 order by OrdersItems.title;
 ```
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Sort on the right table after a JOIN. For example:
 
@@ -245,7 +245,7 @@ from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
 where OrdersItems.price > 100;
 ```
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 ```cds
 view FilteredOrdersJoin as select
@@ -291,7 +291,7 @@ They are expensive, since they can't leverage indices and require explicit mater
 In addition, sorting or filtering forces a full table scan and expression materialization.
 If re-modelling to avoid case statements isn't possible, the best optimization is to pre-calculate on write (once) instead on read (many times).
 
-**Bad**{style="color:darkred"} &rarr; Explicit case statement:
+**Bad**{.bad} &rarr; Explicit case statement:
 
 ::: code-group
 ```cds [service.cds]

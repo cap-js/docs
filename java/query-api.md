@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  API to fluently build <a href="../cds/cql">CQL</a> statements in Java
+  API to fluently build <a href="../cds/cql">CQL</a> statements in Java.
 redirect_from: java/cds-ql
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -1258,7 +1258,7 @@ Use `CQL.constant` if the literal value shall be treated as [constant](#constant
 
 #### List Values
 
-Combine multiple values with `CQL.list` to a list value (row value), which you can use in comparisons. 
+Combine multiple values with `CQL.list` to a list value (row value), which you can use in comparisons.
 
 For example, the following query returns all sales after Q2/2012:
 

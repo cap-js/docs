@@ -90,7 +90,7 @@ class ServiceB extends cds.Service { init(){
 :::
 
 If nothing else is configured, both services would be served in the same process.
-We can move them to separate ones, seperate micro services by simply adding this config to the one hosting `ServiceA`:
+We can move them to separate ones, separate micro services by simply adding this config to the one hosting `ServiceA`:
 
 ```json
 {"cds":{
@@ -100,8 +100,7 @@ We can move them to separate ones, seperate micro services by simply adding this
 }}
 ```
 
-::: details Kind `rest` declares the service to be remote, consumed via REST protocol.
-:::
+> Kind `rest` declares the service to be remote, consumed via REST protocol.
 
 This flexibility allows you to, again, focus on your domain, and avoid the efforts and costs of premature microservice design and overhead, especially in the early phases of development.
 

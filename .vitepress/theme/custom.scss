@@ -34,14 +34,14 @@ main {
 
   // Headings
   .vp-doc {
-    h1, .h1 { font-size: 48px; margin: 1em 0 1em; font-weight: 300; line-height: 1.2em }
+    h1, .h1 { font-size: 48px; margin: 1em 0 1em; font-weight: 400; line-height: 1.2em }
     h2, .h2 { font-size: 24px; margin: 4em 0 2em; padding-top: 12px; }
     h3, .h3 { font-size: 20px; margin: 3em 0 1em; }
     h4, .h4 { font-size: 17px; margin: 2em 0 1em; }
     h1 + .subtitle {
       margin: -40px 0 48px;
       font-size: 1.7em;
-      font-weight: 100;
+      font-weight: 400;
     }
     p + h1 {
       margin-top: 3em

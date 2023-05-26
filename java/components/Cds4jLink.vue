@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="`https://www.javadoc.io/doc/com.sap.cds/cds4j-api/${version}/${link}`"
+    :href="`https://www.javadoc.io/doc/com.sap.cds/cds4j-api/${version}/com/sap/cds/${link}`"
     target="_blank"
     rel="noopener noreferrer"
   >

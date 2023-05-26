@@ -259,6 +259,12 @@ pre.log {
   color: #fafafa;
 }
 
+/* remove transparency in the odd rows (when it scrolls over outline) */
+tr:nth-child(odd) {
+  background-color: var(--vp-c-bg);
+}
+
+
 // enable for light code theme
 // pre.log {
 //   background: #f8f8f8; // matches to light theme

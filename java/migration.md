@@ -6,6 +6,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 <!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
+<script setup>
+  import Cds4j from './components/Cds4jLink.vue'
+  import CdsSrv from './components/CdsServicesLink.vue'
+</script>
+
+
 # Migration Guides
 
 <style scoped>

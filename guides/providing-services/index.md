@@ -1209,7 +1209,7 @@ We strongly recommend designing your services for single use cases.
 Services in CAP are cheap, so there's no need to save on them.
 
 
-### **DON'T:**{style="color:darkred"} Single Services Exposing All Entities 1:1
+### **DON'T:**{.bad} Single Services Exposing All Entities 1:1
 
 The anti-pattern to that are single services exposing all underlying entities in your app in a 1:1 fashion. While that may save you some thoughts in the beginning, it's likely that it will result in lots of headaches in the long run:
 

@@ -62,7 +62,7 @@ function generateReleaseLatest(outDir: string, base: string, links: Record<strin
   <body><p>Please follow <a href="${latestTo}">this link</a>.</p></body>
 </html>`
     const htmlFile = join(outDir, 'releases/latest.html')
-    mkdirSync(dirname(outDir), {recursive:true})
+    mkdirSync(dirname(htmlFile), {recursive:true})
     writeFileSync(htmlFile, html)
 
     // add a new entry instead, which is used e.g. from home page

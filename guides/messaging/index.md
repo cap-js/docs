@@ -254,7 +254,7 @@ Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the
 
 ## Using Message Channels
 
-When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic.
+When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic:
 
 ![remote.drawio](assets/remote.drawio.svg)
 

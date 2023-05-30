@@ -158,14 +158,6 @@ main {
   h3.method + h3.method {
     margin-top: 0
   }
-
-  a[target="_blank"] {
-    white-space: nowrap;
-    &::after {
-      font-size: 0.8em;
-      content: " \2197";
-    }
-  }
 }
 
 // Menu Sidebar

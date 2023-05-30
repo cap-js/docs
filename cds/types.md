@@ -46,7 +46,7 @@ The following built-in types are provided:
 
 > <sup>(4)</sup> Up to 7 digits of fractional seconds; if a data is given with higher precision truncation may occur
 
-> <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. If not set, the global default length 5000 is used for SQL backends.
+> <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. If not set, the global default length 255 is used for SQL backends.
 
 > <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
 

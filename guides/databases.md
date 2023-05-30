@@ -763,7 +763,7 @@ CREATE TABLE Genres (
 
 For SAP HANA, the database constraints are generated as separate _.hdbconstraint_ files. To enforce that the constraints are deleted on SAP HANA if they are no longer in the model, ensure that you have a file _db/undeploy.json_ that contains an entry:
 
-```txt
+```json
 "src/gen/**/*.hdbconstraint"
 ```
 

@@ -39,7 +39,7 @@ In essence, authentication verifies the user's identity and the presented claims
 From perspective of CAP, the authentication method is freely customizable. For convenience, a set of authentication methods is supported out of the box to cover most common scenarios:
 
 - [XS User and Authentication and Authorization service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (XSUAA) is a full-fleged [OAuth 2.0](https://oauth.net/2/) authorization server which allows to protect your endpoints in productive environments. JWT tokens issued by the server not only contain information about the user for authentication, but also assigned scopes and attributes for authorization.
-- [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)(IAS) is an [OpenId Connect](https://openid.net/connect/) compliant service for next-generation identity and access management. As of today, CAP provides IAS authentication for incoming requests only. Authorization has to be explicitly managed by the application.
+- [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) is an [OpenId Connect](https://openid.net/connect/) compliant service for next-generation identity and access management. As of today, CAP provides IAS authentication for incoming requests only. Authorization has to be explicitly managed by the application.
 - For _local development_ and _test_ scenario mock user authentication is provided as built-in feature.
 
 Find detailed instructions for setting up authentication in these runtime-specific guides:

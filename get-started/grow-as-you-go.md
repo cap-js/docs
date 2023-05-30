@@ -90,6 +90,7 @@ class ServiceB extends cds.Service { init(){
 :::
 
 If nothing else is configured, both services would be served in the same process.
+
 We can move them to separate ones by simply adding this config to the one hosting `ServiceA`:
 
 ```json

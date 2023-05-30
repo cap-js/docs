@@ -160,10 +160,10 @@ main {
     margin-top: 0
   }
 
-  a[target="_blank"] {
+  a[target="_blank"]:not(.no-ext-link) {
     white-space: nowrap;
     &::after {
-      font-size: 0.8em;
+      font-size: 0.7em;
       content: " \2197";
     }
   }

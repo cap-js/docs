@@ -40,9 +40,9 @@ For example:
 
 <pre class="log">
 <i>$</i> cds env ls requires.sql
-requires.sql.credentials.database = :memory:
-requires.sql.impl = @sap/cds/lib/db/sql-service
-requires.sql.kind = sqlite
+requires.sql.credentials.database = <em>:memory:</em>
+requires.sql.impl = <em>@sap/cds/lib/db/sql-service</em>
+requires.sql.kind = <em>sqlite</em>
 </pre>
 
 <pre class="log">
@@ -68,7 +68,7 @@ Alternatively, you can also use the `cds eval` or `cds repl` CLI commands to acc
 
 <pre class="log">
 <i>$</i> cds -r
-<em>Welcome to cds repl v4.0.1</em>
+<em>Welcome to cds repl ...</em>
 > cds.env.requires.sql
 {
   credentials: { database: <em>':memory:'</em> },

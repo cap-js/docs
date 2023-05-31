@@ -47,6 +47,9 @@ const config =  defineConfig({
       //@ts-ignore
     capire: { versions: latestVersions }
   },
+  head: [
+    ['meta', { name: 'theme-color', content: '#db8b0b' }],
+  ],
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content

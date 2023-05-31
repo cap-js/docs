@@ -11,7 +11,8 @@ const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java: '1.34.1'
+  java_services: '1.34.1',
+  java_cds4j: '1.34.1'
 }
 
 const config =  defineConfig({

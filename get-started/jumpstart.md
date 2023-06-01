@@ -227,9 +227,7 @@ A CDS service definition is all CAP needs to serve fully-functional OData servic
 
 For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
 
-:::details Try it yourself
-A step by step example for this can be found [here](https://github.com/SAP-samples/teched2022-AD265)
-:::
+A step-by-step walkthrough can be found in our [TechEd sample](https://github.com/SAP-samples/teched2022-AD265).{.learn-more}
 
 ## Speed up Your Pipelines
 

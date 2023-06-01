@@ -11,7 +11,8 @@ const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java: '1.34.1'
+  java_services: '1.34.1',
+  java_cds4j: '1.34.1'
 }
 
 const config =  defineConfig({
@@ -47,6 +48,9 @@ const config =  defineConfig({
       //@ts-ignore
     capire: { versions: latestVersions }
   },
+  head: [
+    ['meta', { name: 'theme-color', content: '#db8b0b' }],
+  ],
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content

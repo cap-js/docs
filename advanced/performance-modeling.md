@@ -63,7 +63,7 @@ entity Mangos : cuid, managed {
 }
 ```
 
-#### **Good - normalized**{style="color:teal"}
+#### **Good - normalized**{.good}
 
 Try to summarize semantically:
 
@@ -91,7 +91,7 @@ view Banana as select from Fruit
     where type = 'banana';
 ```
 
-#### **Good - de-normalized**{style="color:teal"}
+#### **Good - de-normalized**{.good}
 
 As an alternative you can also use a completely de-normalized version:
 
@@ -119,7 +119,7 @@ This results in a single, sparsely populated DB table, which is not an issue usi
 
 Polymorphy done right, also results in simplified view building. Assume you want to provide a list of all products of a certain vendor.
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 Using the (de-) normalized version:
 
@@ -187,7 +187,7 @@ view OrdersItemsViewJoin as select
 from OrdersHeaders JOIN OrdersItems on OrdersHeaders.ID = OrdersItems.Header.ID;
 ```
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 Use a dynamic entity, where you can query each fields individually, including following the association to OrderItems on demand.
 
@@ -203,7 +203,7 @@ GET http://localhost/odata/OrderItemsViewAssoc?$expand=Items&$select=OrderNo,Ite
 
 ### Sorting
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 First sort on the `OrdersItems` and then join back to the `OrdersHeaders` with the help of an association:
 
@@ -237,7 +237,7 @@ This can lead to performance issues.
 ### Filtering
 
 Basically, what is true for [Sorting](#sorting) is also valid for filtering.
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 ```cds
 view FilteredOrdersAssoc as select
@@ -306,7 +306,7 @@ entity OrdersItemsView as projection on OrdersItems {
 ```
 :::
 
-**Good**{style="color:teal"} &rarr; Redundant attribute filled at write:
+**Good**{.good} &rarr; Redundant attribute filled at write:
 
 ::: code-group
 ```cds [schema.cds]

@@ -796,9 +796,6 @@ public void handleMyEvent(EventContext context) {
 Handling of CDS-defined events is independent of value of the `structured` property.
 :::
 
-<span id="afterenhancedmessagesrepresentation" />
-
-
 
 ### CloudEvents
 

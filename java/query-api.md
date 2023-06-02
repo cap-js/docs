@@ -878,7 +878,7 @@ The following actions are *not* performed on Upsert:
 `Upsert` statements don't have a where clause. Just as with bulk [Updates](#bulk-update) and
 [Inserts](#single-insert), the key values of the entity that is upserted are extracted from the data.
 ::: tip
-The upsert data must contain all key elements of the entity.
+The upsert data must contain values for all keys and `not null` elements of the entity.
 :::
 
 

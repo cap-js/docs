@@ -357,11 +357,9 @@ On the same note, converting UUID values obtained as strings from the database i
 
 :::
 
-::: details See also: [Mapping UUIDs to OData](../advanced/odata#override-type-mapping)
-:::
+[See also: Mapping UUIDs to OData](../advanced/odata#override-type-mapping) {.learn-more}
 
-::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
-:::
+[See also: Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql) {.learn-more}
 
 ## ④ Add Associations {#associations}
 

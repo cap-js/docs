@@ -612,12 +612,10 @@ For Node.js, the cds configuration needs to contain the parameters as described 
   "cds.xt.DeploymentService": {
     "hdi": {
       "create": {
-        "provisioning_parameters": {
-          "dataEncryption": {
-            "mode": "MANAGED_KEY"
-          },
-          "enableTenant": true
-        }
+        "dataEncryption": {
+          "mode": "MANAGED_KEY"
+        },
+        "enableTenant": true
       }
     }
   }

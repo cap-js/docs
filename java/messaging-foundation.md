@@ -763,6 +763,27 @@ messagingService.emit(topic, Map.of("firstname", "John", "lastname", "Doe"), Map
 
 The semantics of the method `MessagingService.emit(String topic, String message)` has been changed depending on the structured flag: If the service is not configured with the structured flag (default), the message is sent to the specified topic of this message broker as is. If the service is configured with the structured flag, the message string is converted into a map following the rule: `{message: message}`. The map is then interpreted as data map and passed to `MessagingService.emit(String topic, Map<String, Object> dataMap)`. Usually this results in a final message like: `{data: {message: message}}`.
 
+Example:
+
+```java
+String topic;
+MessagingService messagingService;
+
+messagingService.emit(topic, "hello world");
+```
+
+If the service is not configured with the structured flag, the message is sent as is:
+
+```json
+hello world
+```
+
+If the service configured with the structured flag, the message is converted to a map:
+
+```json
+{"message": "hello world"}
+```
+
 #### Handling events
 
 The structured flag of the consumer determines how the event payload is provided by the event context.

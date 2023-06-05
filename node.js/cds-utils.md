@@ -65,7 +65,7 @@ let uri = decodeURI(input)
 
 Returns a relative representation of `filename` to the original `process.cwd()`. 
 
-We commonly use that in CAP imlementations to print filenames to stdout that you can click to open, for example in VSCode terminal output, regardless from where you started your server. 
+We commonly use that in CAP imlementations to print filenames to stdout that you can click to open, for example in VS Code terminal output, regardless from where you started your server.
 
 For example, if we run bookshop from the parent folder, filenames are correctly printed with a `bookshop/` prefix:
 

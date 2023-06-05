@@ -6,7 +6,7 @@ status: released
 
 # Jumpstart & Grow as You Go
 
-CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started...
+CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
 > Looking for other ways to setup and start projects?
 > See the Get Started menu in the left-hand-side sidebar.
@@ -19,13 +19,13 @@ CAP promotes getting started with **minimal upfront setup**, based on **conventi
 
 ## Setup for Local Development {#setup}
 
-Follow the steps below to setup a local development environment. If you are a developer, then you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VS Code, and you only need to install `cds-dk` as described in step 2 below.
+Follow the steps below to set up a local development environment. If you are a developer, you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VS Code, and you only need to install `cds-dk` as described in step 2 below.
 
 
 
 ### 1. Install Node.js
 
-#### ... from [nodejs.org](https://nodejs.org)
+#### … from [nodejs.org](https://nodejs.org)
 
 Choose the **LTS** version, via the left-hand side button:
 
@@ -36,7 +36,7 @@ Choose the **LTS** version, via the left-hand side button:
 
 ### 2. Install CAP's cds-dk
 
-... by running this in a terminal:
+… by running this in a terminal:
 
 ```sh
 npm add -g @sap/cds-dk
@@ -46,7 +46,7 @@ npm add -g @sap/cds-dk
 
 ### 3. Install Git
 
-Run this in a terminal to check, whether you already have git installed:
+Run this in a terminal to check whether you already have Git installed:
 ```sh
 git version
 ```
@@ -64,7 +64,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 6. Install Visual Studio Code
 
-#### ... from [code.visualstudio.com](https://code.visualstudio.com)
+#### … from [code.visualstudio.com](https://code.visualstudio.com)
 
 Choose your preferred editor or IDE for developing CAP applications. <br>
 We recommend Visual Studio Code.
@@ -105,7 +105,7 @@ code bookshop
 
 ::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Find detailed instructions on this in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Find detailed instructions in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 
 :::
 
@@ -128,7 +128,7 @@ bookshop/        # Your project's root folder
 
 ### Minimal Configuration
 
-Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, as much as possible. You can override these defaults by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that:
 
@@ -150,7 +150,7 @@ For example you could override the defaults for the project structure like that:
 
 ::: tip Convention over Configuration
 
-We recommend to stay with CAP's conventions to benefit from things just working out-of-the-box. Only add configurations or override the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configurations or override the defaults if you really need to do so.
 
 :::
 

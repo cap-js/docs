@@ -81,7 +81,7 @@ The risk management use case of the previously mentioned [tutorial](https://deve
 
 ![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){.adapt}
 
-::: tip _User Story_
+::: info _User Story_
 A company wants to ensure that goods are only sourced from suppliers with acceptable risks. There shall be a software system, that allows a clerk to maintain risks for suppliers and their mitigations. The system shall block the supplier used if risks can't be mitigated.
 :::
 
@@ -436,7 +436,7 @@ When sending a request to your CAP application, for example the `Suppliers` enti
 
 For example:
 
-_http://localhost:8080/service/risk/Suppliers_
+[http://localhost:8080/service/risk/Suppliers](http://localhost:8080/service/risk/Suppliers)
 
 ```log
 2021-09-21 15:18:44.870 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
@@ -814,7 +814,7 @@ Or is it sufficient for single items?
 ```http
 GET /service/risk/Risks(545A3CF9-84CF-46C8-93DC-E29F0F2BC6BE)/?$expand=supplier
 ```
-::: tip
+::: warning Keep performance in mind
 Consider to reject expands if it's requested on a list of items.
 :::
 
@@ -876,6 +876,7 @@ You need additional logic, if remote entities are in the game. The following tab
 | Remote: Navigate to local                                             | `/service/Suppliers(...)/risks`          | Implement navigation, delegate query for target to local service  |
 
 #### Transient Access vs. Replication
+
 ::: tip
 The _Integrate and Extend_ chapter shows only techniques for transient access.
 :::

@@ -501,6 +501,7 @@ Each element inherits all properties from the respective base element, except th
 The `key` property is only inherited if all of the following applies:
 - No explicit `key` is set in the query.
 - All key elements of the primary base entity are selected (for example, by using `*`).
+- No path expression with a to-many association is used.
 - No `union`, `join` or similar query construct is used.
 
 For example, the following definition:
@@ -522,6 +523,8 @@ entity SomeView {
   jobTitle: String;
 };
 ```
+
+Note: CAP does **not** enforce uniqueness for key elements of a view or projection.
 
 Use a CDL cast to set an element's type, if one of the following conditions apply:
 + You don't want to use the inferred type.

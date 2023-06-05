@@ -30,7 +30,7 @@ These events are most typically triggered, when an HTTP-based protocol adapter (
 The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers]) that handle CRUD operations out-of-the-box and implement the handling of many CDS annotations.
 Applications most commonly use event handlers on CRUD events to _extend_ the event processing by using the [`Before`](#before) and [`After`](#after) phase.
 
-[Actions] and [Functions] that are defined by an Application Service in its model definition are mapped to events as well.
+[Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) that are defined by an Application Service in its model definition are mapped to events as well.
 Therefore, to implement the business logic of an action or function, you need to register event handlers as well.
 Event handlers that implement the core processing of an event should be registered using the [`On`](#on) phase.
 

@@ -96,7 +96,7 @@ The CQL query accesses the `name` element of the `Authors` entity, which is reac
 
 ### Target Entity Sets {#target-entity-sets}
 
-All [CDS Query Language (CQL)] statements operate on a _target entity set_, which is specified via the `from`, `into`, and `entity` methods of `Select`/`Delete`, `Insert`/`Upsert`, and `Update` statements.
+All [CDS Query Language (CQL)](/cds/cql) statements operate on a _target entity set_, which is specified via the `from`, `into`, and `entity` methods of `Select`/`Delete`, `Insert`/`Upsert`, and `Update` statements.
 
 In the simplest case, the target entity set identifies a complete CDS entity set:
 
@@ -128,7 +128,7 @@ Select.from(ORDERS, o -> o.filter(o.id().eq(3)).items())
 
 The _target entity set_ in the query is defined by the entity reference in the from clause. The reference targets the `items` of the `Order` with ID 3 via an _infix filter_. From this target entity set (of type `OrderItems`), the query selects the `quantity` and the `title` of the `book`. Infix filters can be defined on any path segment using the `filter` method, which overwrites any existing filter on the path segment. Defining an infix filter on the last path segment is equivalent to adding the filter via the statement's `where` method. However, inside infix filters, path expressions are not supported.
 
-In the [CDS Query Language (CQL)] builder, the lambda expression `o -> o.filter(o.id().eq(3)).items()` is evaluated relative to the root entity `Orders` (o). All lambda expressions that occur in the other clauses of the query are relative to the target entity set `OrderItems`, for example, `i -> i.quantity()` accesses the element `quantity` of `OrderItems`.
+In the [CDS Query Language (CQL)](/cds/cql) builder, the lambda expression `o -> o.filter(o.id().eq(3)).items()` is evaluated relative to the root entity `Orders` (o). All lambda expressions that occur in the other clauses of the query are relative to the target entity set `OrderItems`, for example, `i -> i.quantity()` accesses the element `quantity` of `OrderItems`.
 ::: tip
 To target components of a structured document, we recommend using path expressions with infix filters.
 :::
@@ -608,7 +608,7 @@ Select.from("bookshop.Books")
 
 #### Using `where` Clause {#where-clause}
 
-In a where clause, leverage the full power of [CDS Query Language (CQL)] [expressions](#expressions) to compose the query's filter:
+In a where clause, leverage the full power of [CDS Query Language (CQL)](/cds/cql) [expressions](#expressions) to compose the query's filter:
 
 ```java
 Select.from("bookshop.Books")

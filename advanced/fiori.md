@@ -93,7 +93,7 @@ annotate CatalogService.Books with @(
 
 
 [Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more target="_blank"}
-[Learn more about **OData Annotations in CDS**.][OData Annotations]{.learn-more}
+[Learn more about **OData Annotations in CDS**.](./odata#annotations){.learn-more}
 
 
 ### Where to Put Them?
@@ -318,7 +318,7 @@ When you open an annotation file, all language-dependent string values are check
 
 ### Prefer `@title` and `@description`
 
-Influenced by the [JSON Schema], CDS supports the [common annotations] `@title` and `@description`, which are mapped to corresponding [OData annotations] as follows:
+Influenced by the [JSON Schema], CDS supports the [common annotations](../cds/annotations#common-annotations) `@title` and `@description`, which are mapped to corresponding [OData annotations](./odata#annotations) as follows:
 
 | CDS            | JSON Schema   | OData               |
 |----------------|---------------|---------------------|
@@ -337,7 +337,7 @@ annotate my.Books with { //...
 
 ### Prefer `@readonly`, `@mandatory`, ...
 
-CDS supports `@readonly` as a common annotation, which translates to respective [OData annotations] from the `@Capabilities` vocabulary. We recommend using the former for reasons of conciseness and comprehensibility as shown in this example:
+CDS supports `@readonly` as a common annotation, which translates to respective [OData annotations](./odata#annotations) from the `@Capabilities` vocabulary. We recommend using the former for reasons of conciseness and comprehensibility as shown in this example:
 
 ```cds
 @readonly entity Foo {   // entity-level
@@ -388,7 +388,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
-Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data]:
+Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data](../guides/localized-data):
 
 ```cds
 annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
@@ -450,7 +450,7 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 
 ## Value Help Support
 
-In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies], CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
+In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies](odata#annotations), CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
 
 
 ### Convenience Option `@cds.odata.valuelist`

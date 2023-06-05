@@ -730,9 +730,9 @@ Besides these kinds of topic manipulations, additional topic manipulations might
 
 ### Enhanced Messages Representation
 
-The configuration property `structured` determines whether plain string shall be transformed into a structured representation. The default is `false`.
+The configuration property `structured` determines if messages are represented as a plain String (`false`) or always structured as two separate maps, representing data and headers (`true`). Setting this property enables handling of message headers, like `cloudevents` headers, separately from the message itself. This works for all messaging brokers supported by CAP. If using a message broker that supports native headers, e.g. Kafka, the headers are separated from the business data. On incoming messages the flag determines the internal representation of the message either as a plain string or two maps of message data and message headers. Having header data separated, avoids adding extra information or metadata as part of the business data when sending them to the message broker. Additionally the header data is clearly separated on the consumer side, because they provided by different data and headers maps.
 
-Note that this might have an effect on the representation of the message in the broker. In addition, setting this property enables handling of message headers, like `cloudevents` headers, separately from the message itself. This works on service brokers that have a native representation for headers, for example Kafka. On incoming messages the flag determines the internal representation of the message either as a plain string or two maps of message data and message headers.
+The default value for the configuration property `structured` is `false`.
 
 Configuration example:
 

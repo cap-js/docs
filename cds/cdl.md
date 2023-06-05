@@ -271,8 +271,6 @@ When reading a calculated element, the result of the expression is returned.
 Calculated elements with a value expression come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
-<span id="beforeonread" />
-
 #### On-read (beta)
 
 ```cds
@@ -318,17 +316,16 @@ in queries. Some restrictions apply:
 * Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
-A calculated element can be *used* in every location where an expression can occur, with these
-exceptions: A calculated element can't be used ...
+A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
-* in the ON condition of an unmanaged association.
-* as the foreign key of a managed association.
-* in a query together with nested projections (inline/expand).
+* in the ON condition of an unmanaged association
+* as the foreign key of a managed association
+* in a query together with nested projections (inline/expand)
 
 There is a temporary restriction in the Node.js runtime:
-currently, an OData request or a custom query can't directly access
+Currently, an OData request or a custom query can't directly access
 a calculated element in the entity where it is defined. It must always be accessed
-via a view/projection.
+using a view/projection.
 
 #### On-write (beta)
 
@@ -361,8 +358,8 @@ CREATE TABLE Employees (
 ```
 For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
 In addition, there are restrictions that depend on the particular database. Currently all databases
-supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
-table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
+supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
+table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
 No restrictons apply for reading a calculated element on-write.
 
@@ -1471,7 +1468,7 @@ Explicitly modelled binding parameters are ignored for OData V2.
 
 ### Custom-Defined Events {#events}
 
-Similar to [Actions and Functions][actions] you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
+Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
 
 ```cds
 service MyOrders { ...
@@ -1620,11 +1617,11 @@ Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/a
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
-- Relative path resolution  
+- Relative path resolution
   Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references  
+- Resolving absolute references
   Names starting with `/` are resolved absolute to the file system.
-- Resolving module references  
+- Resolving module references
   Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.

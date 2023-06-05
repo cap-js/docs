@@ -410,12 +410,12 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[browse/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
-- _[admin/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
-- _[admin/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
-- _[browse/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
-- _[admin/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
-- _[admin/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
+- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
+- _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
 > Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
@@ -507,6 +507,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 ```
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){ .learn-more target="_blank"}
+
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more}
 
@@ -635,7 +636,7 @@ public class SubmitOrderHandler implements EventHandler {
 </div>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
-[Find an extended version of this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
+[Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
 [Learn more about **connecting to services** using `cds.connect`.](../node.js/cds-connect){ .learn-more .impl .node}
 [Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){.learn-more .impl .java}
 [Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){ .learn-more .impl .node}

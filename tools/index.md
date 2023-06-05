@@ -84,8 +84,8 @@ COMMANDS
     <em>t | lint</em>       [beta] run linter for env or model checks
     <em>v | version</em>    get detailed version information
     <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull the base model for your SaaS app extension.
-    <em>  | push</em>       push your extension to the SaaS app in order to enable or update it
+    <em>  | pull</em>       pull base model for a SaaS app extension
+    <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
     <em>  | mock</em>       call cds serve with mocked service
 

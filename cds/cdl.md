@@ -523,7 +523,7 @@ entity SomeView {
 };
 ```
 
-Note: CAP does **not** enforce enforce uniqueness for key elements of a view or projection.
+Note: CAP does **not** enforce uniqueness for key elements of a view or projection.
 
 Use a CDL cast to set an element's type, if one of the following conditions apply:
 + You don't want to use the inferred type.

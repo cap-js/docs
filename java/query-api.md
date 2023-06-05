@@ -859,14 +859,14 @@ On SQL data stores the execution order of the generated insert statements is par
 
 ## Upsert { #upsert}
 
-[Upsert](../cds/cqn#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
+[Upsert](../cds/cqn#upsert) updates existing entities or inserts new ones if they don't exist in the database.
 `Upsert` statements are created with the [Upsert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Upsert.html) builder and are translated into DB native upsert statements by the CAP runtime whenever possible.
 
 The main use case of upsert is data replication.
 
 If upsert data is incomplete only the given values are updated or inserted, which means the `Upsert` statement has "PATCH semantics".
 ::: warning
-Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
+Upsert is **not** equivalent to Insert, even if an entity doesn't exist in the database.
 :::
 
 The following actions are *not* performed on Upsert:
@@ -878,7 +878,7 @@ The following actions are *not* performed on Upsert:
 `Upsert` statements don't have a where clause. Just as with bulk [Updates](#bulk-update) and
 [Inserts](#single-insert), the key values of the entity that is upserted are extracted from the data.
 ::: tip
-The upsert data must contain values for all keys and `not null` elements of the entity.
+The upsert data must contain values for all mandatory elements, including the entity keys.
 :::
 
 

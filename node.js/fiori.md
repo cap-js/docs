@@ -145,7 +145,7 @@ srv.on('READ', 'MyEntity.drafts', (req, next) => {
 ```
 
 ::: details **Note:** In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
-The individual results are then combined behind the scenes. Draft entries are always positioned on top of active instances.
+The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
 :::
 
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities.

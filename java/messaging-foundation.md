@@ -772,13 +772,13 @@ MessagingService messagingService;
 messagingService.emit(topic, "hello world");
 ```
 
-If the service is not configured with the structured flag, the message is sent as is:
+If the service is not configured with the structured flag, the message is sent as is and on the the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
 hello world
 ```
 
-If the service configured with the structured flag, the message is converted to a map:
+If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
 {"message": "hello world"}

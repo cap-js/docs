@@ -19,15 +19,35 @@ This guide explains how to add one or more SAP Fiori elements apps to a CAP proj
 
 ## SAP Fiori Preview
 
-When starting your application, for example, using `cds watch`, there is an SAP Fiori preview for development purposes. You can use this to see the effect of annotations in a quick roundtrip. Be aware that this is just a preview. There can be differences between the preview and an implemented SAP Fiori application.
+For Node.js applications there is a _Fiori preview_ link on the index page.  It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
 
-The preview is only active with the [development profile](../node.js/cds-env#profiles).
+::: details Be aware that this is **not meant for production**.
 
-::: tip
-To also enable this preview for the production profile, add the following configuration to your project's _package.json_: `cds.features.fiori_preview:true`
-If you add this to your _cdsrc.json_ omit the `cds` section.
+The preview not meant as a replacement for a proper SAP Fiori Elements (UI5) application.
+It is only active locally where the [development profile](../node.js/cds-env#profiles) is enabled.
+
+To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "features": {
+      "fiori_preview": true
+    }
+  }
+}
+```
+```json [.cdsrc.json]
+{
+  "features": {
+    "fiori_preview": true
+  }
+}
+```
+
 :::
-
 
 ## Adding SAP Fiori Apps to CAP Projects
 

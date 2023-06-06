@@ -109,7 +109,7 @@ Add this to your `cds` configuration:
 }
 ```
 
-### Differences
+### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:
 
@@ -118,6 +118,21 @@ const { MyEntity } = srv.entities
 MyEntity.drafts // points to model.definitions['MyEntity.drafts']
 ```
 
+- Handlers must be registered for the correct entity, the following variants are allowed:
+
+```js
+srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
+srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
+srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
+srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
+srv.on('NEW', 'MyEntity.drafts', /*...*/)
+srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
+srv.on('EDIT', 'MyEntity', /*...*/)
+srv.on('SAVE', 'MyEntity', /*...*/)
+```
+
+::: details **Note:** For compatibility to the previous variants, you can set `cds.fiori.draft_compat` to `true`.
+:::
 
 - Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
 - The target is resolved before the handler execution and points to either the active or draft entity:
@@ -129,5 +144,10 @@ srv.on('READ', 'MyEntity.drafts', (req, next) => {
 })
 ```
 
-::: details **Note:** In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active and draft entity.
-The individual results are then combined behind the scenes.
+::: details **Note:** In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
+The individual results are then combined behind the scenes. Draft entries are always positioned on top of active instances.
+:::
+
+- Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities.
+- Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
+

@@ -610,8 +610,4 @@ This annotation uses [dynamic expressions](../advanced/odata#dynamic-expressions
 
 <div id="fiori-compat" />
 
-##### Locked by Another User
-
-The scenario [Locked by Another User](https://wiki.one.int.sap/wiki/pages/viewpage.action?spaceKey=odata&title=Draft+Choreography#DraftChoreography-ListEditingStatus:LockedbyAnotherUser) of the draft choreography has been adjusted since SAP Fiori elements v1.91. The new implementation can only be served by backend versions `cds^5` (Node.js) and 1.12.0 (Java), respectively.
-
 <div id="reserved-words" />

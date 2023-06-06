@@ -472,6 +472,8 @@ service BookshopService {
 
 ### Pre-Defined Types in `@sap/cds/common`
 
+[@sap/cds/common]: ../cds/common
+
 The reuse types in [@sap/cds/common] already have this added to base types and entities, so all uses automatically benefit from this. This is an effective excerpt of respective definitions in `@sap/cds/common`:
 
 ```cds

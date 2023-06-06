@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  Describes authentication and authorization in CAP Java
+  Describes authentication and authorization in CAP Java.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -380,7 +380,7 @@ The CAP Java SDK translates the `where`-condition in the `@restrict` annotation 
 * `UPDATE` and `DELETE` requests that address instances that aren’t covered by the condition (for example, which aren't visible) aren’t rejected, but work on the limited set of instances as expected.
 As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
 
-CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note, that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
+CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
 
 ### Enforcement API & Custom Handlers { #enforcement-api}
 

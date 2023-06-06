@@ -6,6 +6,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 <!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
+<script setup>
+  import Cds4j from './components/Cds4jLink.vue'
+  import CdsSrv from './components/CdsServicesLink.vue'
+</script>
+
+
 # Migration Guides
 
 <style scoped>
@@ -341,7 +347,7 @@ To replace the `@InitTransaction` handler, you can use the `beforeClose` method,
 
 The CAP Java SDK sample application shows how such a validation using the `ChangeSetListener` approach can be implemented. See [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/cross-validation/srv/src/main/java/my/bookshop/handlers/ChapterServiceHandler.java) for the example code.
 
-Note, that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
+Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
 [See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){.learn-more}
 

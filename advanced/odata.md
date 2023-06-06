@@ -883,7 +883,7 @@ Following payload for `Order` is allowed:
 
 `{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
 
-Note, that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
+Note that type `Order` itself is not open thus doesn't allow dynamic properties, in contrast to type `Book`.
 
 ::: warning
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.

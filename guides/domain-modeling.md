@@ -66,7 +66,7 @@ type Genre : String enum {
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
-![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg){.center}
+![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg)
 
 The more we succeeded in capturing intent over imperative implementations, the more we can provide optimized generic implementations.
 
@@ -357,11 +357,9 @@ On the same note, converting UUID values obtained as strings from the database i
 
 :::
 
-::: details See also: [Mapping UUIDs to OData](../advanced/odata#override-type-mapping)
-:::
+[See also: Mapping UUIDs to OData](../advanced/odata#override-type-mapping) {.learn-more}
 
-::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
-:::
+[See also: Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql) {.learn-more}
 
 ## ④ Add Associations {#associations}
 

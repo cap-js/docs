@@ -193,7 +193,7 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 | Property   | Used for                                                              |
 |------------|-----------------------------------------------------------------------|
-| `type`     | [Scalar Types](#scalar-types), [Structured Types], and [Associations] |
+| `type`     | [Scalar Types](#scalar-types), [Structured Types](#structured-types), and [Associations](#associations) |
 | `elements` | [Structured Types](#structured-types)                                 |
 | `items`    | [Arrayed Types](#arrayed-types)                                       |
 | `enum`     | [Enumeration Types](#enumeration-types)                               |
@@ -686,4 +686,3 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 ```
 
 This data must be written and handled by the application, there’s no out-of-the-box support for this by CAP.
-

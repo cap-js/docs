@@ -37,22 +37,24 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### CLI & Tools Support
 
-| CLI commands                                                                    |                        |
-|---------------------------------------------------------------------------------|------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`   |
-| Add a feature to an existing project                                            | `cds add <facets>`     |
-| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`     |
-| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>` |
-| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>` |
-| [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`            |
-| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`             |
-| Inspect effective configuration                                                 | `cds env`              |
-| Prepare for deployment                                                          | `cds build`            |
-| Deploy to databases or cloud                                                    | `cds deploy`           |
-| Create an extension project                                                     | `cds extend <app-url>` |
-| Activate an extension project                                                   | `cds activate `        |
-| Login to extendable SaaS application                                            | `cds login <app-url>`  |
-| Logout from extendable SaaS application                                         | `cds logout `          |
+| CLI commands                                                                    |                            |
+|---------------------------------------------------------------------------------|----------------------------|
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`       |
+| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
+| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
+| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
+| [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`                |
+| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
+| Inspect effective configuration                                                 | `cds env`                  |
+| Prepare for deployment                                                          | `cds build`                |
+| Deploy to databases or cloud                                                    | `cds deploy`               |
+| Login to multitenant SaaS application                                           | `cds login <app-url>`      |
+| Logout from multitenant SaaS application                                        | `cds logout`               |
+| Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
+| Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
+| Pull the base model for a SaaS extension                                        | `cds pull <app-url>`       |
+| Push a SaaS extension                                                           | `cds push`                 |
 
 
 > Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
@@ -192,6 +194,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
 | [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
 | [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [H2](../java/persistence-services#h2) <sup>2</sup>         |    <X/>    |        <Na/>       | <X/> |
 | [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |

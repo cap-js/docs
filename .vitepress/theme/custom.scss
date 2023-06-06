@@ -54,7 +54,10 @@ main {
       padding-left: 2.2em;
     }
     div.language-zsh pre code {
-        line-height: 1.4em
+      line-height: 1.4em
+    }
+    pre {
+      padding: 16px 0 !important;
     }
     :not(pre) > code {
       font-style: italic;

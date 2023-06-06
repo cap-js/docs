@@ -728,6 +728,96 @@ When using SAP Event Mesh, the placeholder `$namespace` can be used to dynamical
 Besides these kinds of topic manipulations, additional topic manipulations might occur, depending on the used message broker or the chosen format of the event message.
 
 
+### Enhanced Messages Representation
+
+The configuration property `structured` determines if messages are represented as a plain String (`false`) or always structured as two separate maps, representing data and headers (`true`). Setting this property enables handling of message headers, like `cloudevents` headers, separately from the message itself. This works for all messaging brokers supported by CAP. If using a message broker that supports native headers, e.g. Kafka, the headers are separated from the business data. On incoming messages the flag determines the internal representation of the message either as a plain string or two maps of message data and message headers. Having header data separated, avoids adding extra information or metadata as part of the business data when sending them to the message broker. Additionally the header data is clearly separated on the consumer side, because they provided by different data and headers maps.
+
+The default value for the configuration property `structured` is `false`.
+
+Configuration example:
+
+```yaml
+cds:
+  messaging.services:
+  - name: "messaging"
+    kind: "enterprise-messaging"
+    structured: true
+```
+
+#### Emitting Events
+
+The interface `MessagingService` provides a new method for emitting events with a data map and a headers map:
+
+```java
+void emit(String topic, Map<String, Object> data, Map<String, Object> headers);
+```
+
+This method takes a (`cloudevents`) message, separated into data and headers and sends it to the specified topic of this message broker. It produces the same final message, regardless of the structured flag. Usually data and headers are combined into a final JSON string message following the rule: `{...headers, data: data}`. Brokers that natively support headers, for example Kafka, are able to separate headers from data, when using this method.
+
+```java
+String topic;
+MessagingService messagingService;
+
+messagingService.emit(topic, Map.of("firstname", "John", "lastname", "Doe"), Map.of("timestamp", Instant.now()));
+```
+
+The semantics of the method `MessagingService.emit(String topic, String message)` has been changed depending on the structured flag: If the service is not configured with the structured flag (default), the message is sent to the specified topic of this message broker as is. If the service is configured with the structured flag, the message string is converted into a map following the rule: `{message: message}`. The map is then interpreted as data map and passed to `MessagingService.emit(String topic, Map<String, Object> dataMap)`. Usually this results in a final message like: `{data: {message: message}}`.
+
+Example:
+
+```java
+String topic;
+MessagingService messagingService;
+
+messagingService.emit(topic, "hello world");
+```
+
+If the service is not configured with the structured flag, the message is sent as is and on the the consumer side `TopicMessageEventContext.getData()` returns:
+
+```json
+hello world
+```
+
+If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
+
+```json
+{"message": "hello world"}
+```
+
+#### Handling events
+
+The structured flag of the consumer determines how the event payload is provided by the event context.
+
+If set to `false`, the event payload can be accessed using `getData()` as a string; `getDataMap()` and `getHeadersMap()` return `null`:
+
+```java
+@On(event = "myEvent")
+public void handleMyEvent(EventContext context) {
+  TopicMessageEventContext ctx = context.as(TopicMessageEventContext.class);
+  String data = ctx.getData();
+
+  // ...
+}
+```
+
+If set to `true`, the event payload can be accessed using `getDataMap()` and `getHeadersMap()`; `getData()` returns null:
+
+```java
+@On(event = "myEvent")
+public void handleMyEvent(EventContext context) {
+  TopicMessageEventContext ctx = context.as(TopicMessageEventContext.class);
+  Map<String, Object> data = ctx.getDataMap();
+  Map<String, Object> headers = ctx.getHeadersMap();
+
+  // ...
+}
+```
+
+::: tip
+Handling of CDS-defined events is independent of value of the `structured` property.
+:::
+
+
 ### CloudEvents
 
 CAP is able to produce event messages compatible with the [CloudEvents](https://cloudevents.io/) standard in JSON format. To enable this feature, set the configuration parameter `format` of the messaging service to `cloudevents`, for example, like:

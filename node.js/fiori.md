@@ -93,3 +93,41 @@ Ends a draft session by canceling, i.e., deleting the draft entity.
 
 ## Lean Draft 
 
+Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code.
+
+### Enablement
+
+Add this to your `cds` configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "lean_draft": true
+    }
+  }
+}
+```
+
+### Differences
+
+- Draft-enabled entities have corresponding CSN entities for drafts:
+
+```js
+const { MyEntity } = srv.entities
+MyEntity.drafts // points to model.definitions['MyEntity.drafts']
+```
+
+
+- Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
+- The target is resolved before the handler execution and points to either the active or draft entity:
+
+```js
+srv.on('READ', 'MyEntity.drafts', (req, next) => {
+  assert.equal(req.target.name, 'MyEntity.drafts')
+  return next()
+})
+```
+
+::: details **Note:** In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active and draft entity.
+The individual results are then combined behind the scenes.

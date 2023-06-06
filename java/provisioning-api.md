@@ -40,7 +40,7 @@ In the case of CRUD events the corresponding Event Contexts provide for example 
 ## Event Phases { #phases}
 
 Events are processed in three phases that are executed consecutively: `Before`, `On`, and `After`. When registering an event handler the phase in which the event handler should be called, needs to be specified.
-The CAP Java SDK provides an annotation for each event phase ([`@Before`], [`@On`], and [`@After`]).
+The CAP Java SDK provides an annotation for each event phase ([`@Before`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/Before.html), [`@On`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/On.html), and [`@After`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/After)).
 These [annotations](#handlerannotations) can be used on event handler methods to indicate which phase of the event processing the method handles.
 
 It’s possible to register multiple event handlers for each event phase. Handlers within the same event phase are never executed concurrently.
@@ -222,7 +222,7 @@ The `type` attribute of the `@ServiceName` annotation can be used to register ev
 
 ## Event Handler Annotations { #handlerannotations}
 
-Event handler methods need to be annotated with one of the following annotations: [`@Before`], [`@On`], or [`@After`].
+Event handler methods need to be annotated with one of the following annotations: [`@Before`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/Before.html), [`@On`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/On.html), or [`@After`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/After).
 The annotation defines, during which [phase](#phases) of the event processing the event handler is called.
 
 Each of these annotations can define the following attributes:

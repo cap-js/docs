@@ -74,7 +74,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```sh
-mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
+mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE" -DinteractiveMode=true
 ```
 
 <div id="release-sap" />

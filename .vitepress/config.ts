@@ -11,28 +11,26 @@ const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java: '1.34.1'
+  java_services: '1.34.1',
+  java_cds4j: '1.38.1'
 }
 
-const sidebar = sideb('menu.md')
-const nav = [
-  ...nav4(sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
-  { text: 'Reference', items: [
-    { text: 'CDS',       link: 'cds/' },
-    { text: 'Node.js',   link: 'node.js/' },
-    { text: 'Java',      link: 'java/' },
-  ] },
-]
-
-export default defineConfig({
+const config =  defineConfig({
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base: process.env.GH_BASE || '/docs/',
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
-    sidebar,
-    nav,
+    get sidebar() { return sideb('menu.md') },
+    get nav() { return [
+      ...nav4(config.themeConfig!.sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
+      { text: 'Reference', items: [
+        { text: 'CDS',       link: 'cds/' },
+        { text: 'Node.js',   link: 'node.js/' },
+        { text: 'Java',      link: 'java/' },
+      ] },
+    ]},
     search: {
       provider: 'local'
     },
@@ -50,6 +48,9 @@ export default defineConfig({
       //@ts-ignore
     capire: { versions: latestVersions }
   },
+  head: [
+    ['meta', { name: 'theme-color', content: '#db8b0b' }],
+  ],
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
@@ -113,3 +114,5 @@ export default defineConfig({
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
 })
+
+export default config

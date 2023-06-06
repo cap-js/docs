@@ -265,10 +265,11 @@ Elements of entities and aspects can be specified with a calculation expression,
 refer to other elements of the same entity/aspect.
 
 Today CAP CDS only supports calculated elements with a value expression.
-For these, you can differentiate two variants: "on-read" and "on-write".
-The difference between them is the point in time when the expression is evaluated.
+They are read-only, no value must be provided for them in a WRITE operation.
+When reading a calculated element, the result of the expression is returned.
 
-<span id="beforeonread" />
+Calculated elements with a value expression come in two variants: "on-read" and "on-write".
+The difference between them is the point in time when the expression is evaluated.
 
 #### On-read (beta)
 
@@ -284,7 +285,6 @@ entity Employees {
 ```
 
 For a calculated element with "on-read" semantics, the calculation expression is evaluated when reading an entry from the entity.
-The calculated element is read-only, no value must be provided for it in a WRITE operation.
 Using such a calculated element in a query or view definition is equivalent to
 writing the expression directly into the query, both with respect to semantics and to performance.
 In CAP, it is implemented by replacing each occurrence of a calculated element in a query by the respective expression.
@@ -313,26 +313,24 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
+* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
-A calculated element can be *used* in every location where an expression can occur, with these
-exceptions:
+A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
-* A calculated element can't be used in the ON condition of an unmanaged association.
-* A calculated element can't be used as the foreign key of a managed association.
-* A calculated element can't reference localized elements.
+* in the ON condition of an unmanaged association
+* as the foreign key of a managed association
+* in a query together with nested projections (inline/expand)
 
-
-There are some temporary restrictions:
-
-* Currently, a calculated element must always be accessed using a view/projection. An OData request or custom code can't access the calculated element in the entity where it is defined.
-* A calculated element can't be used in a query together with nested projections (inline/expand).
-
+There is a temporary restriction in the Node.js runtime:
+Currently, an OData request or a custom query can't directly access
+a calculated element in the entity where it is defined. It must always be accessed
+using a view/projection.
 
 #### On-write (beta)
 
-Calculated elements "on-write" are defined by adding the keyword `stored`.
-They are also referred to as "stored" calculated elements. A type specification is mandatory.
+Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
+by adding the keyword `stored`. A type specification is mandatory.
 
 ```cds
 entity Employees {
@@ -343,12 +341,12 @@ entity Employees {
 ```
 
 For a calculated element "on-write", the expression is already evaluated when an entry is written into
-the database.  The calculated element is read-only, so no value must be provided for it.
-The resulting value is then stored/persisted like a regular field and when reading from the entity,
+the database. The resulting value is then stored/persisted like a regular field, and when reading from the entity,
 it behaves like a regular field as well. Using a stored calculated element can improve performance,
 in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.
-While calculated elements "on-read" are handled by CAP, the "on-write" variant is implemented by using
-the corresponding database feature for tables.
+
+While calculated elements "on-read" are handled entirely by CAP, the "on-write" variant is implemented by using
+the corresponding feature for database tables.
 The previous entity definition results in the following table definition:
 ```sql
 -- SAP HANA syntax --
@@ -358,9 +356,12 @@ CREATE TABLE Employees (
   name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
 );
 ```
-There are restrictions on calculated fields, which depend on the particular database. Currently all databases
-supported by CAP have a common restriction: the calculation expression may only refer to fields of the same
-table row. Thus such an expression must not contain subqueries, aggregate functions, or paths with associations.
+For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+In addition, there are restrictions that depend on the particular database. Currently all databases
+supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
+table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
+
+No restrictons apply for reading a calculated element on-write.
 
 <div id="concept-alce" />
 
@@ -459,7 +460,7 @@ The entity signature is inferred from the projection.
 
 ### The `as select from` Variant {#as-select-from}
 
-Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL] query including all query clauses.
+Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL](./cql) query including all query clauses.
 
 ```cds
 entity Foo1 as SELECT from Bar; //> implicit {*}
@@ -500,6 +501,7 @@ Each element inherits all properties from the respective base element, except th
 The `key` property is only inherited if all of the following applies:
 - No explicit `key` is set in the query.
 - All key elements of the primary base entity are selected (for example, by using `*`).
+- No path expression with a to-many association is used.
 - No `union`, `join` or similar query construct is used.
 
 For example, the following definition:
@@ -521,6 +523,8 @@ entity SomeView {
   jobTitle: String;
 };
 ```
+
+Note: CAP does **not** enforce uniqueness for key elements of a view or projection.
 
 Use a CDL cast to set an element's type, if one of the following conditions apply:
 + You don't want to use the inferred type.
@@ -755,7 +759,7 @@ to get all users of all teams.
 
 ## Annotations
 
-This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations] guide.
+This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.
 
 - [Annotation Syntax](#annotation-syntax)
 - [Annotation Targets](#annotation-targets)
@@ -1467,7 +1471,7 @@ Explicitly modelled binding parameters are ignored for OData V2.
 
 ### Custom-Defined Events {#events}
 
-Similar to [Actions and Functions][actions] you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
+Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
 
 ```cds
 service MyOrders { ...
@@ -1554,7 +1558,7 @@ type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
 
 ### Fully Qualified Names
 
-A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN][]:
+A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
 
 ::: code-group
 ```json [contexts.json]
@@ -1619,9 +1623,11 @@ Hence, the same rules apply:
 - Relative path resolution
   Names starting with `./` or `../` are resolved relative to the current model.
 - Resolving absolute references
-  They're fetched for in `node_modules` folders:
-    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+  Names starting with `/` are resolved absolute to the file system.
+- Resolving module references
+  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
+   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
 
 ::: tip
 To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.

@@ -73,7 +73,7 @@ service OwnService {
 
 In _srv/own.js_:
 
-```javascript
+```js
 module.exports = async srv => {
   const externalService = await cds.connect.to('ExternalService')
   externalService.on('ExternalEvent', async msg => {
@@ -225,7 +225,7 @@ Example:
 
 If you specify your format to be `cloudevents`, the following default prefixes are set:
 
-```javascript
+```js
 {
   publishPrefix: '$namespace/ce/',
   subscribePrefix: '+/+/+/ce/'

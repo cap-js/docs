@@ -99,7 +99,6 @@ Check, if the usage of upsert in your code is compatible with the new implementa
 The global configuration parameter `cds.sql.upsert.strategy`, as well as the upsert hint to switch back to the legacy upsert behavior are not supported anymore with 2.0. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
 :::
 
-
 #### Representation of Pagination {#limit}
 The interfaces <Cds4j link="ql/cqn/CqnLimit.html">CqnLimit</Cds4j> and <Cds4j link="ql/Limit.html">Limit</Cds4j> are removed. Use the methods `limit(top)` and `limit(top, skip)` of the `Select` and `Expand` to specify the pagination settings. Use the methods <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">top()</Cds4j> and <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">skip()</Cds4j> of the `CqnEntitySelector` to introspect the pagination settings of a `CqnExpand` and `CqnSelect`.
 

@@ -95,7 +95,7 @@ Check, if the usage of upsert in your code is compatible with the new implementa
 * Ensure that you don't rely on ID generation.
 * Check if insert is maybe more appropriate.
 
-:::qq warning
+::: warning
 The global configuration parameter `cds.sql.upsert.strategy`, as well as the upsert hint to switch back to the legacy upsert behavior are not supported anymore with 2.0. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
 :::
 

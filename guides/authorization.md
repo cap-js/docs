@@ -150,7 +150,7 @@ Beside the scope, restrictions can limit access to resources with regards to *di
 - The [roles](#roles) of the user (who?)
 - [Filter-condition](#instance-based-auth) on instances to operate on (which?)
 
-### Restricting Events with @readonly and @insertonly { #restricting-events}
+### @readonly and @insertonly { #restricting-events}
 
 Annotate entities with `@readonly` or `@insertonly` to statically restrict allowed operations for **all** users as demonstrated in the example:
 
@@ -229,7 +229,7 @@ This results in the following access matrix:
 CodeLists such as `Languages`, `Currencies`, and `Countries` from `sap.common` are annotated with `@cds.autoexpose` and so are explicitly auto-exposed.
 :::
 
-### Restricting Roles with @requires { #requires}
+### @requires { #requires}
 
 You can use the `@requires` annotation to control which (pseudo-)role a user requires to access a resource:
 
@@ -245,7 +245,7 @@ When restricting service access through `@requires`, the service's metadata endp
 :::
 
 
-### Access Control with @restrict { #restrict-annotation}
+### @restrict { #restrict-annotation}
 
 You can use the `@restrict` annotation to define authorizations on a fine-grained level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
 The building block of such a restriction is a single **privilege**, which has the general form:
@@ -386,7 +386,7 @@ The resulting authorizations are illustrated in the following access matrix:
 The example models access rules for different roles in the same service. In general, this is _not recommended_ due to the high complexity. See [best practices](#dedicated-services) for information about how to avoid this.
 
 
-### Restrictions and Draft Mode
+### Draft Mode
 
 Basically, the access control for entities in draft mode differs from the [general restriction rules](#restrict-annotation) that apply to (active) entities. A user, who has created a draft, should also be able to edit (`UPDATE`) or cancel the draft (`DELETE`). The following rules apply:
 
@@ -399,7 +399,7 @@ Basically, the access control for entities in draft mode differs from the [gener
 As a result of the derived authorization rules for draft entities, you don't need to take care of draft events when designing the CDS authorization model.
 :::
 
-### Restrictions of Auto-Exposed and Generated Entities { #autoexposed-restrictions}
+### Auto-Exposed and Generated Entities { #autoexposed-restrictions}
 
 In general, **a service actually exposes more than the explicitly modeled entities from the CDS service model**. This stems from the fact that the compiler auto-exposes entities for the sake of completeness, for example, by adding composition entities. Another reason is generated entities for localization or draft support that need to appear in the service. Typically, such entities don't have restrictions. The emerging question is, how can requests to these entities be authorized?
 

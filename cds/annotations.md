@@ -76,7 +76,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## OData
 
-[Learn more about **OData Annotations in CDS**.][OData Annotations]{.learn-more}
+[Learn more about **OData Annotations in CDS**.](../advanced/odata#annotations){.learn-more}
 
 Shortcuts:
 

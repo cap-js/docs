@@ -322,10 +322,10 @@ A calculated element can be *used* in every location where an expression can occ
 * as the foreign key of a managed association
 * in a query together with nested projections (inline/expand)
 
-There is a temporary restriction in the Node.js runtime:
-Currently, an OData request or a custom query can't directly access
-a calculated element in the entity where it is defined. It must always be accessed
-using a view/projection.
+::: warning Temporary Restriction in the Node.js Runtime
+Currently, an OData request or a custom query can't directly access a calculated element in the entity
+where it is defined. It must always be accessed using a view/projection.
+:::
 
 #### On-write (beta)
 
@@ -460,7 +460,7 @@ The entity signature is inferred from the projection.
 
 ### The `as select from` Variant {#as-select-from}
 
-Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL] query including all query clauses.
+Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL](./cql) query including all query clauses.
 
 ```cds
 entity Foo1 as SELECT from Bar; //> implicit {*}
@@ -759,7 +759,7 @@ to get all users of all teams.
 
 ## Annotations
 
-This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations] guide.
+This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.
 
 - [Annotation Syntax](#annotation-syntax)
 - [Annotation Targets](#annotation-targets)
@@ -1558,7 +1558,7 @@ type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
 
 ### Fully Qualified Names
 
-A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN][]:
+A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
 
 ::: code-group
 ```json [contexts.json]

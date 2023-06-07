@@ -91,9 +91,8 @@ Since version 1.28 the upsert is implemented as a deep _update_ that creates dat
 Application developers upgrading from cds-services <= 1.27 need to be aware of these changes.
 Check, if the usage of upsert in your code is compatible with the new implementation, especially:
 
-* Ensure that ID values are contained in the data.
-* Ensure that you don't rely on ID generation.
-* Check if insert is maybe more appropriate.
+* Ensure that all key values are contained in the data and you don't rely on UUID key generation.
+* Check if insert is more appropriate.
 
 ::: warning
 The global configuration parameter `cds.sql.upsert.strategy`, as well as the upsert hint to switch back to the legacy upsert behavior are not supported anymore with 2.0. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.

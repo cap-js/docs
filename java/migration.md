@@ -172,22 +172,9 @@ CqnStatement copy = CQL.copy(statement, modifier);
 
 #### com.sap.cds.services.cds
 
-
 |Class/Interface  | Method  | Replacement  |
 |---------|---------| -----|
 |<CdsSrv link="services/cds/CdsService.html">CdsService</CdsSrv>   |  | <CdsSrv latest link="services/cds/CqnService.html">CqnService</CdsSrv>        |
-|handler.EventPredicate     |
-
-::: details
-
-##### Interface `com.sap.cds.services.cds.CdsService`
-The interface <CdsSrv link="services/cds/CdsService.html">CdsService</CdsSrv> is removed and replaced with the equivalent interface <CdsSrv latest link="services/cds/CqnService.html">CqnService</CdsSrv>.
-
-
-#### Interface `com.sap.cds.services.handler.EventPredicate`
-The interface `com.sap.cds.services.handler.EventPredicate` is removed. Consequently, all methods at interface <CdsSrv latest link="services/Service.html">`com.sap.cds.services.Service`</CdsSrv> containing this interface as argument are removed. All removed method were marked as deprecated in prior releases.
-
-:::
 
 #### com.sap.cds.services.environment
 
@@ -197,12 +184,23 @@ The interface `com.sap.cds.services.handler.EventPredicate` is removed. Conseque
 
 ::: details
 
-##### Interface `com.sap.cds.services.environment.ServiceBinding`
+##### Interface `ServiceBinding`
 The interface <CdsSrv latest link="services/environment/ServiceBinding.html">`com.sap.cds.services.environment.ServiceBinding`</CdsSrv> is deprecated and replaced with interface [`com.sap.cloud.environment.servicebinding.api.ServiceBinding`](https://github.com/SAP/btp-environment-variable-access/blob/main/api-parent/core-api/src/main/java/com/sap/cloud/environment/servicebinding/api/ServiceBinding.java). For convenience the adapter class `com.sap.cds.services.utils.environment.ServiceBindingAdapter` is provided, which maps the deprecated interface to the new one.
-
 
 :::
 
+#### com.sap.cds.services.handler
+
+|Class/Interface  | Method  | Replacement  |
+|---------|---------| -----|
+|<CdsSrv link="services/handler/EventPredicate.html">EventPredicate</CdsSrv>   |  | n/a |
+
+::: details
+
+#### Interface `EventPredicate`
+The interface `com.sap.cds.services.handler.EventPredicate` is removed. Consequently, all methods at interface <CdsSrv latest link="services/Service.html">`com.sap.cds.services.Service`</CdsSrv> containing this interface as argument are removed. All removed method were marked as deprecated in prior releases.
+
+:::
 
 #### com.sap.cds.services.messages
 
@@ -243,7 +241,7 @@ The interface <CdsSrv latest link="services/environment/ServiceBinding.html">`co
 ::: details
 
 #### Method `CdsRuntime.runInRequestContext(Request, Function|Consumer)`
-The interface <CdsSrv link="services/runtime/Request.html">`com.sap.cds.services.runtime.Request`</CdsSrv> and its used interfaces <CdsSrv link="services/runtime/RequestParameters.html">`com.sap.cds.services.runtime.RequestParameters`</CdsSrv> and <CdsSrv link="services/runtime/RequestUser.html">`com.sap.cds.services.runtime.RequestUser`</CdsSrv> are removed. They were still used in the method <CdsSrv link="services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-">`CdsRuntime.runInRequestContext(Request, Function|Consumer)`</CdsSrv>, which was also deprecated and should be replaced by <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">`CdsRuntime.requestContext()`</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">`.run(Function)`</CdsSrv>
+The interface <CdsSrv link="services/runtime/Request.html">`Request`</CdsSrv> and its used interfaces <CdsSrv link="services/runtime/RequestParameters.html">`RequestParameters`</CdsSrv> and <CdsSrv link="services/runtime/RequestUser.html">`RequestUser`</CdsSrv> are removed. They were still used in the method <CdsSrv link="services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-">`CdsRuntime.runInRequestContext(Request, Function|Consumer)`</CdsSrv>, which was also deprecated and should be replaced by <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">`CdsRuntime.requestContext()`</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">`.run(Function)`</CdsSrv>
 
 :::
 

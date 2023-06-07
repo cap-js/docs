@@ -97,7 +97,7 @@ Find more about platform and business users:
 [SAP BTP User and Member Management](https://help.sap.com/docs/btp/sap-business-technology-platform/user-and-member-management){.learn-more}
 
 
-### Authentication of Server Requests { #authenticate-requests }
+### Server Requests { #authenticate-requests }
 <!-- #SEC-230 #SEC-231 #SEC-232  -->
 
 SAP BTP offers central identity services [SAP Cloud Identity Services - Identity Authentication](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) resp. [SAP Authorization and Trust Management Service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG)
@@ -122,7 +122,7 @@ Learn more about user model and identity providers here:
 [SAP BTP Security](https://help.sap.com/docs/btp/sap-business-technology-platform/btp-security){.learn-more}
 
 
-### Authentication for Remote Services { #authenticate-remote }
+### Remote Services { #authenticate-remote }
 <!-- #SEC-374 -->
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
@@ -165,7 +165,7 @@ According to segregation of duties paradigm, user administrators need to control
 Critical combinations of authorizations must be avoided. Basically, access rules for [business users](#business-authz) are different from [platform users](#platform-authz).
 
 
-### Authorization of Business Users { #business-authz }
+### Business Users { #business-authz }
 <!-- #SEC-376 #SEC-250 -->
 
 To align with the principle of least privilege, applications need to enforce fine-grained access control for business users from the subscriber tenants.
@@ -263,7 +263,7 @@ Authentication for a CAP sidecar needs to be configured just like any other CAP 
 ❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **never are included in business roles**.
 :::
 
-### Authorization of Platform Users { #platform-authz }
+### Platform Users { #platform-authz }
 <!-- #SEC-250 -->
 
 Similar to [business consumption](#business-authz), different scenarios apply on operator level that need to be separated by dedicated access rules: deployment resp. configuration, monitoring, support, audit logs etc.
@@ -350,7 +350,7 @@ Last but not least you need to implement a **scaling strategy** to meet increasi
 
 Without protection mechanism in place, a malicious user could misuse a valid (that is, authenticated) session with the server and attack valuable business assets.
 
-### Protection Against Injection Attacks { #injection-attacks }
+### Injection Attacks { #injection-attacks }
 
 Attackers can send malicious input data in a regular request to make the server perform unintended actions that can lead to serious data exploits.
 
@@ -423,7 +423,7 @@ SAPUI5 is [CSP-compliant](https://sapui5.hana.ondemand.com/sdk/#/topic/fe1a6dba9
 ❗ Applications have to **configure Content Security Policy** to meet basic compliance.
 :::
 
-### Protection Against Service Misuse Attacks { #misues-attacks }
+### Service Misuse Attacks { #misues-attacks }
 <!-- #SEC-375 #SEC-223 #SEC-264 #SEC-278 -->
 
 - [Server Side Request Forgery (SSRF)](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery) abuses server functionality to read or update resources from a secondary system.
@@ -441,41 +441,7 @@ SAPUI5 provides [protection mechanisms](https://sapui5.hana.ondemand.com/sdk/#/t
 ❗ To protect against clickjacking, SAPUI5 applications need to configure `frame options`.
 :::
 
-
-### Additional Protection Mechanisms { #additional-attacks }
-<!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
-
-There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
-Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
-The adapters also transform the HTTP requests into a corresponding CQN statement.
-Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
-
-The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services/#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services/#pagination)
-- Filtering
-
-::: warning
-Applications need to ensure by means of CDS modeling that fields reflecting sensitive data are excluded and don't appear in URLs.
-:::
-
-::: tip
-It's recommended to serve all application endpoints via CAP adapters.
-Securing custom endpoints is left to the application.
-:::
-
-In addition, CAP runs on a virtual machine with a managed heap that protects from common memory corruption vulnerabilities such as buffer overflow or range overflows.
-
-CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
-These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../guides/providing-services/#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services/#etag) and [pessimistic locks](../guides/providing-services/#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
-
-::: tip
-Applications have to ensure a consistent data processing taking concurrency into account.
-:::
-
-
-### Protection Against Denial-of-Service Attacks { #dos-attacks }
+### Denial-of-Service Attacks { #dos-attacks }
 <!-- #SEC-237 -->
 
 [Denial-of-service (DoS)](https://owasp.org/www-community/attacks/Denial_of_Service) attacks attempt to reduce service availability for legitimate users.
@@ -506,7 +472,7 @@ Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` s
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
 Also the maximum amount of requests per `$batch` request need to be configured as follows:
-- Node.js: `cds.odata.batch_limit = <max_requests>` 
+- Node.js: `cds.odata.batch_limit = <max_requests>`
 - Java: `cds.odataV4.batch.maxRequests = <max_requests>`
 :::
 
@@ -567,6 +533,42 @@ It has the advantage that the requests can be controlled centrally before touchi
 
 In addition, the number of instances need to be **scaled horizontally** according to current load requirements.
 This can be achieved automatically by consuming [Application Autoscaler](https://help.sap.com/docs/Application_Autoscaler).
+
+
+### Additional Protection Mechanisms { #additional-attacks }
+<!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
+
+There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
+Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
+The adapters also transform the HTTP requests into a corresponding CQN statement.
+Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
+
+The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
+- [Sorting](../guides/providing-services/#using-cds-search-annotation)
+- [Pagination (implicit sort order)](../guides/providing-services/#pagination)
+- Filtering
+
+::: warning
+Applications need to ensure by means of CDS modeling that fields reflecting sensitive data are excluded and don't appear in URLs.
+:::
+
+::: tip
+It's recommended to serve all application endpoints via CAP adapters.
+Securing custom endpoints is left to the application.
+:::
+
+In addition, CAP runs on a virtual machine with a managed heap that protects from common memory corruption vulnerabilities such as buffer overflow or range overflows.
+
+CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
+These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
+CAP provides basic means of [concurrency control](../guides/providing-services/#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services/#etag) and [pessimistic locks](../guides/providing-services/#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
+
+::: tip
+Applications have to ensure a consistent data processing taking concurrency into account.
+:::
+
+## Secure Storage { #secure-storage }
+<!-- #SEC-373 -->
 
 <div id="security-secure-storage" />
 
@@ -678,6 +680,10 @@ In contrast, **errors stop the overall microservice** to ensure that security me
 ::: tip
 Align the exception handling in your custom coding with the provided exception handling capabilities of the CAP runtime.
 :::
+
+
+## Secure Audit Logging { #secure-auditlogging }
+<!-- #SEC-215 -->
 
 <div id="security-secure-auditlogging" />
 

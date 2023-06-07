@@ -72,7 +72,7 @@ CAP Java 2.0 itself requires updated [dependency versions](./development/#depend
 
 ### API Cleanup
 
-Some interfaces, methods, configuration properties and annotations, which had already been deprecated in 1.x, are now removed in version 2.0. Please strictly fix all usage of [deprecated APIs](#overview-of-removed-methods) by using the recommended replacement.
+Some interfaces, methods, configuration properties and annotations, which had already been deprecated in 1.x, are now removed in version 2.0. Please strictly fix all usage of [deprecated APIs](#overview-of-removed-interfaces-and-methods) by using the recommended replacement.
 
 ::: tip
 In your IDE, enable the compiler warning "Signal overwriting or implementing deprecated method".

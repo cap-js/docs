@@ -57,7 +57,7 @@ Most snippets in this guide are from the [Build an Application End-to-End using 
 
 | Example                                                                                                                            | Description                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP API Business Hub |
+| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP Business Accelerator Hub |
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
@@ -73,7 +73,7 @@ Before you start your implementation, you should define your scenario. Answering
 + How do they interact?
 + What needs to be displayed on the UI?
 
-You've all your answers and know your scenario, go on reading about [external service APIs](#external-service-api), getting an API definition from [the SAP API Business Hub](#from-api-hub) or [from a CAP project](#from-cap-service), and [importing an API definition](#import-api) to your project.
+You've all your answers and know your scenario, go on reading about [external service APIs](#external-service-api), getting an API definition from [the SAP Business Accelerator Hub](#from-api-hub) or [from a CAP project](#from-cap-service), and [importing an API definition](#import-api) to your project.
 
 #### Sample Scenario from End-to-End Tutorial
 
@@ -101,15 +101,15 @@ To communicate to remote services, CAP needs to know their definitions. Having t
 
 These definitions are usually made available by the service provider. As they aren't defined within your application, but imported from outside, they're called *external* service APIs in CAP. Service APIs can be provided in different formats. Currently, *EDMX* files for OData V2 and V4 are supported.
 
-### Get a Service API from SAP API Business Hub { #from-api-hub}
+### From SAP Business Accelerator Hub { #from-api-hub}
 
-The [SAP API Business Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
+The [SAP Business Accelerator Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
 
 [Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
 
-### Get a Service API for a Remote CAP Service { #from-cap-service}
+### For a Remote CAP Service { #from-cap-service}
 
 We recommend using EDMX as exchange format. Export a service API to EDMX:
 
@@ -950,7 +950,7 @@ In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks lik
 
 If you've imported the external service definition using `cds import`, an entry for the service in the _package.json_ has been created already. Here you specify the name of the destination in the `credentials` block.
 
-In many cases, you also need to specify the `path` prefix to the service, which is added to the destination's URL. For services listed on the SAP API Business Hub, you can find the path in the linked service documentation.
+In many cases, you also need to specify the `path` prefix to the service, which is added to the destination's URL. For services listed on the SAP Business Accelerator Hub, you can find the path in the linked service documentation.
 
 Since you don't want to use the destination for local testing, but only for production, you can profile it by wrapping it into a `[production]` block:
 

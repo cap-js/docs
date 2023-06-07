@@ -128,7 +128,7 @@ Use `cds run --in-memory` to quickly start a lightweight Node.js server with *sq
 
 ###### Add Service API Definition
 
-1. Download the service API definition from the [SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER/overview) in EDMX format.
+1. Download the service API definition from the [SAP Business Accelerator Hub](https://api.sap.com/api/API_BUSINESS_PARTNER/overview) in EDMX format.
 2. Import the downloaded API definition by running `cds import ~/Downloads/API_BUSINESS_PARTNER.edmx`.
 This converts the EDMX service API definition to a Core Schema Notation (CSN) definition and places it into a local subfolder `srv/external`.
 

@@ -27,10 +27,10 @@ Event handlers are a powerful means to extend CAP. Did you know, that most of th
 
 Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](./consumption-api#cdsservices).
 These events are most typically triggered, when an HTTP-based protocol adapter (for example OData V4) executes a CQN statement on an Application Service to fulfill the HTTP request.
-The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers]) that handle CRUD operations out-of-the-box and implement the handling of many CDS annotations.
+The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers](../guides/providing-services/)) that handle CRUD operations out-of-the-box and implement the handling of many CDS annotations.
 Applications most commonly use event handlers on CRUD events to _extend_ the event processing by using the [`Before`](#before) and [`After`](#after) phase.
 
-[Actions] and [Functions] that are defined by an Application Service in its model definition are mapped to events as well.
+[Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) that are defined by an Application Service in its model definition are mapped to events as well.
 Therefore, to implement the business logic of an action or function, you need to register event handlers as well.
 Event handlers that implement the core processing of an event should be registered using the [`On`](#on) phase.
 
@@ -40,7 +40,7 @@ In the case of CRUD events the corresponding Event Contexts provide for example 
 ## Event Phases { #phases}
 
 Events are processed in three phases that are executed consecutively: `Before`, `On`, and `After`. When registering an event handler the phase in which the event handler should be called, needs to be specified.
-The CAP Java SDK provides an annotation for each event phase ([`@Before`], [`@On`], and [`@After`]).
+The CAP Java SDK provides an annotation for each event phase ([`@Before`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/Before.html), [`@On`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/On.html), and [`@After`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/After)).
 These [annotations](#handlerannotations) can be used on event handler methods to indicate which phase of the event processing the method handles.
 
 It’s possible to register multiple event handlers for each event phase. Handlers within the same event phase are never executed concurrently.
@@ -222,7 +222,7 @@ The `type` attribute of the `@ServiceName` annotation can be used to register ev
 
 ## Event Handler Annotations { #handlerannotations}
 
-Event handler methods need to be annotated with one of the following annotations: [`@Before`], [`@On`], or [`@After`].
+Event handler methods need to be annotated with one of the following annotations: [`@Before`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/Before.html), [`@On`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/On.html), or [`@After`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/After).
 The annotation defines, during which [phase](#phases) of the event processing the event handler is called.
 
 Each of these annotations can define the following attributes:

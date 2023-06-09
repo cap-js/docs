@@ -1,10 +1,6 @@
 ---
-layout: cookbook
+# layout: cookbook
 shorty: SAP Event Mesh
-breadcrumbs:
-  - Cookbook
-  - Messaging
-  - SAP Event Mesh
 status: released
 ---
 

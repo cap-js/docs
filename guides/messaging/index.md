@@ -254,7 +254,7 @@ Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the
 
 ## Using Message Channels
 
-When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic.
+When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic:
 
 ![remote.drawio](assets/remote.drawio.svg)
 
@@ -592,7 +592,7 @@ So, the effort on the CAP side is to fill this gap.
 You can achieve it like that, for example, for an already imported SAP S/4HANA BusinessPartner API:
 
 ```cds
-// filling in missing events as found on SAP API Business Hub
+// filling in missing events as found on SAP Business Accelerator Hub
 using { API_BUSINESS_PARTNER as S4 } from './API_BUSINESS_PARTNER';
 extend service S4 with {
   event BusinessPartner.Created @(topic:'sap.s4.beh.businesspartner.v1.BusinessPartner.Created.v1') {

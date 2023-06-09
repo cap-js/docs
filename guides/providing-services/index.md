@@ -30,44 +30,26 @@ The following sections give a brief overview of CAP's core concepts.
 
 A CAP application commonly provides services defined in CDS models and served by the CAP runtimes. Every active thing in CAP is a service. They embody the behavioral aspects of a domain in terms of exposed entities, actions, and events.
 
-
-
-![service-centric-paradigm.drawio](assets/service-centric-paradigm.drawio.svg){.adapt}
-
-
+![service-centric-paradigm.drawio](assets/service-centric-paradigm.drawio.svg)
 
 ### Ubiquitous Events
 
 At runtime, everything happening is in response to events. CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, blurring the line between both worlds.
 
-
-
-![services-events.drawio](assets/services-events.drawio.svg){.adapt}
-
-
+![services-events.drawio](assets/services-events.drawio.svg)
 
 ### Event Handlers
 
 Service providers basically react on events in event handlers, plugged in to respective hooks provided by the core service runtimes.
-{.indent}
 
-
-### Generic Providers
- {#generic-providers-intro}
+### Generic Providers {#generic-providers-intro}
 
 The CAP runtimes provide sets of event handlers for common tasks as documented hereinafter.
-{.indent}
+
+## Modeling Services in CDS {#defining-services}
 
 
-
-
-
-## Modeling Services in CDS
- {#defining-services}
-
-
-### Services Provide APIs to Consumers
- {#all-in-one-definitions}
+### Services Provide APIs to Consumers {#all-in-one-definitions}
 
 In its most basic form, a service definition simply declares the data entities and operations it serves. For example:
 
@@ -97,8 +79,7 @@ This definition effectively defines the API served by `BookshopService`.
 
 Simple service definitions like that are all we need to run full-fledged servers out-of-the-box, served by CAP's generic runtimes, without any implementation coding required.
 
-### Services Act as Facades
- {#services-as-facades}
+### Services Act as Facades {#services-as-facades}
 
 In contrast to the all-in-one definition above, services usually expose views, aka projections, on underlying domain model entities:
 
@@ -113,8 +94,7 @@ service BookshopService {
 
 This way, services become facades to encapsulated domain data, exposing different aspects tailored to respective use cases.
 
-![service-as-facades.drawio](assets/service-as-facades.drawio.svg){.adapt}
-
+![service-as-facades.drawio](assets/service-as-facades.drawio.svg)
 
 
 ### Serving Denormalized Views
@@ -179,16 +159,14 @@ service AdminService {
 
 
 
-## Generic Service Providers
- {#generic-providers}
+## Generic Service Providers {#generic-providers}
 
 The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
 In effect, a service definition [as introduced above](#defining-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
 
-### Serving CRUD Requests Automatically
- {#serving-crud}
+### Serving CRUD Requests Automatically {#serving-crud}
 
 The CAP runtimes for [Node.js](../../node.js/) and [Java](../../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases).
 
@@ -203,8 +181,7 @@ This comprises read and write operations like that:
 <br>
 
 
-### Serving Structured Document Data
- {#serving-documents }
+### Serving Structured Document Data {#serving-documents}
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data. The runtimes provide generic handlers for serving deeply nested document structures and graphs out of the box as follows...
 
@@ -350,8 +327,7 @@ CAP runtimes will automatically fill in `Orders.ID` with a new uuid, as well as 
 
 
 
-## Searching Textual Data
- {#searching-data}
+## Searching Textual Data {#searching-data}
 
 ### Introduction & General Usage
 
@@ -1209,7 +1185,7 @@ We strongly recommend designing your services for single use cases.
 Services in CAP are cheap, so there's no need to save on them.
 
 
-### **DON'T:**{style="color:darkred"} Single Services Exposing All Entities 1:1
+### **DON'T:**{.bad} Single Services Exposing All Entities 1:1
 
 The anti-pattern to that are single services exposing all underlying entities in your app in a 1:1 fashion. While that may save you some thoughts in the beginning, it's likely that it will result in lots of headaches in the long run:
 
@@ -1219,7 +1195,7 @@ The anti-pattern to that are single services exposing all underlying entities in
 * Which have to reflect on the actual use cases in complex and expensive evaluations
 
 
-### **DO:**{style="color:teal"} One Service Per Use Case
+### **DO:**{.good} One Service Per Use Case
 
 For example, let's assume that we have a domain model defining *Books* and *Authors* more or less as above, and then we add *Orders*. We could define the following services:
 
@@ -1262,8 +1238,7 @@ These services serve different use cases and are tailored for each.
 Note, for example, that we intentionally don't expose the `Authors` entity
 to end users.
 
-## Late-Cut Microservices
- {#late-cut-microservices}
+## Late-Cut Microservices {#late-cut-microservices}
 
 Compared to Microservices, CAP services are 'Nano'. As shown in the previous sections, you should design your application as a set of loosely coupled, single-purposed services, which can all be served embedded in a single-server process at first (that is, a monolith).
 

@@ -33,7 +33,7 @@ UNIONs in views come with a performance penalty and complex modelling.
 
 Polymorphy might be the root cause for severe performance issues due to the usage of UNIONs, CASEs and complex JOINs. Here are some good and bad examples.
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Modeling many semantically related entities:
 
@@ -63,7 +63,7 @@ entity Mangos : cuid, managed {
 }
 ```
 
-#### **Good - normalized**{style="color:teal"}
+#### **Good - normalized**{.good}
 
 Try to summarize semantically:
 
@@ -91,7 +91,7 @@ view Banana as select from Fruit
     where type = 'banana';
 ```
 
-#### **Good - de-normalized**{style="color:teal"}
+#### **Good - de-normalized**{.good}
 
 As an alternative you can also use a completely de-normalized version:
 
@@ -119,7 +119,7 @@ This results in a single, sparsely populated DB table, which is not an issue usi
 
 Polymorphy done right, also results in simplified view building. Assume you want to provide a list of all products of a certain vendor.
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 Using the (de-) normalized version:
 
@@ -131,7 +131,7 @@ where vendor.description = 'TopFruitCompany';
 ```
 You have less associations to be built and no UNIONs in your queries.
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Using many semantically related entities:
 
@@ -169,7 +169,7 @@ entity OrdersItems   {
 
 ### View Building
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Add a static view, using a JOIN.
 
@@ -187,7 +187,7 @@ view OrdersItemsViewJoin as select
 from OrdersHeaders JOIN OrdersItems on OrdersHeaders.ID = OrdersItems.Header.ID;
 ```
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 Use a dynamic entity, where you can query each fields individually, including following the association to OrderItems on demand.
 
@@ -203,7 +203,7 @@ GET http://localhost/odata/OrderItemsViewAssoc?$expand=Items&$select=OrderNo,Ite
 
 ### Sorting
 
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 First sort on the `OrdersItems` and then join back to the `OrdersHeaders` with the help of an association:
 
@@ -213,7 +213,7 @@ from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
 order by OrdersItems.title;
 ```
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 Sort on the right table after a JOIN. For example:
 
@@ -237,7 +237,7 @@ This can lead to performance issues.
 ### Filtering
 
 Basically, what is true for [Sorting](#sorting) is also valid for filtering.
-#### **Good**{style="color:teal"}
+#### **Good**{.good}
 
 ```cds
 view FilteredOrdersAssoc as select
@@ -245,7 +245,7 @@ from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
 where OrdersItems.price > 100;
 ```
 
-#### **Bad**{style="color:darkred"}
+#### **Bad**{.bad}
 
 ```cds
 view FilteredOrdersJoin as select
@@ -291,7 +291,7 @@ They are expensive, since they can't leverage indices and require explicit mater
 In addition, sorting or filtering forces a full table scan and expression materialization.
 If re-modelling to avoid case statements isn't possible, the best optimization is to pre-calculate on write (once) instead on read (many times).
 
-**Bad**{style="color:darkred"} &rarr; Explicit case statement:
+**Bad**{.bad} &rarr; Explicit case statement:
 
 ::: code-group
 ```cds [service.cds]
@@ -306,7 +306,7 @@ entity OrdersItemsView as projection on OrdersItems {
 ```
 :::
 
-**Good**{style="color:teal"} &rarr; Redundant attribute filled at write:
+**Good**{.good} &rarr; Redundant attribute filled at write:
 
 ::: code-group
 ```cds [schema.cds]

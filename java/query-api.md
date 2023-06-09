@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  API to fluently build <a href="../cds/cql">CQL</a> statements in Java
+  API to fluently build <a href="../cds/cql">CQL</a> statements in Java.
 redirect_from: java/cds-ql
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -96,7 +96,7 @@ The CQL query accesses the `name` element of the `Authors` entity, which is reac
 
 ### Target Entity Sets {#target-entity-sets}
 
-All [CDS Query Language (CQL)] statements operate on a _target entity set_, which is specified via the `from`, `into`, and `entity` methods of `Select`/`Delete`, `Insert`/`Upsert`, and `Update` statements.
+All [CDS Query Language (CQL)](/cds/cql) statements operate on a _target entity set_, which is specified via the `from`, `into`, and `entity` methods of `Select`/`Delete`, `Insert`/`Upsert`, and `Update` statements.
 
 In the simplest case, the target entity set identifies a complete CDS entity set:
 
@@ -128,7 +128,7 @@ Select.from(ORDERS, o -> o.filter(o.id().eq(3)).items())
 
 The _target entity set_ in the query is defined by the entity reference in the from clause. The reference targets the `items` of the `Order` with ID 3 via an _infix filter_. From this target entity set (of type `OrderItems`), the query selects the `quantity` and the `title` of the `book`. Infix filters can be defined on any path segment using the `filter` method, which overwrites any existing filter on the path segment. Defining an infix filter on the last path segment is equivalent to adding the filter via the statement's `where` method. However, inside infix filters, path expressions are not supported.
 
-In the [CDS Query Language (CQL)] builder, the lambda expression `o -> o.filter(o.id().eq(3)).items()` is evaluated relative to the root entity `Orders` (o). All lambda expressions that occur in the other clauses of the query are relative to the target entity set `OrderItems`, for example, `i -> i.quantity()` accesses the element `quantity` of `OrderItems`.
+In the [CDS Query Language (CQL)](/cds/cql) builder, the lambda expression `o -> o.filter(o.id().eq(3)).items()` is evaluated relative to the root entity `Orders` (o). All lambda expressions that occur in the other clauses of the query are relative to the target entity set `OrderItems`, for example, `i -> i.quantity()` accesses the element `quantity` of `OrderItems`.
 ::: tip
 To target components of a structured document, we recommend using path expressions with infix filters.
 :::
@@ -608,7 +608,7 @@ Select.from("bookshop.Books")
 
 #### Using `where` Clause {#where-clause}
 
-In a where clause, leverage the full power of [CDS Query Language (CQL)] [expressions](#expressions) to compose the query's filter:
+In a where clause, leverage the full power of [CDS Query Language (CQL)](/cds/cql) [expressions](#expressions) to compose the query's filter:
 
 ```java
 Select.from("bookshop.Books")
@@ -859,14 +859,14 @@ On SQL data stores the execution order of the generated insert statements is par
 
 ## Upsert { #upsert}
 
-[Upsert](../cds/cqn#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
+[Upsert](../cds/cqn#upsert) updates existing entities or inserts new ones if they don't exist in the database.
 `Upsert` statements are created with the [Upsert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Upsert.html) builder and are translated into DB native upsert statements by the CAP runtime whenever possible.
 
 The main use case of upsert is data replication.
 
 If upsert data is incomplete only the given values are updated or inserted, which means the `Upsert` statement has "PATCH semantics".
 ::: warning
-Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
+Upsert is **not** equivalent to Insert, even if an entity doesn't exist in the database.
 :::
 
 The following actions are *not* performed on Upsert:
@@ -878,7 +878,7 @@ The following actions are *not* performed on Upsert:
 `Upsert` statements don't have a where clause. Just as with bulk [Updates](#bulk-update) and
 [Inserts](#single-insert), the key values of the entity that is upserted are extracted from the data.
 ::: tip
-The upsert data must contain all key elements of the entity.
+The upsert data must contain values for all mandatory and key elements.
 :::
 
 
@@ -1258,7 +1258,7 @@ Use `CQL.constant` if the literal value shall be treated as [constant](#constant
 
 #### List Values
 
-Combine multiple values with `CQL.list` to a list value (row value), which you can use in comparisons. 
+Combine multiple values with `CQL.list` to a list value (row value), which you can use in comparisons.
 
 For example, the following query returns all sales after Q2/2012:
 

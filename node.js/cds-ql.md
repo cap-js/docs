@@ -706,9 +706,7 @@ UPSERT.into (Books) .entries (
 
 The entries can be specified as individual method parameters of type object — as shown above —, or as a single array of which.
 
-::: warning
-Be aware of [limitations](databases#databaseservice-upsert) when using it with databases.
-:::
+[Learn more about limitations when using it with databases.](databases#databaseservice-upsert){.learn-more}
 
 ## UPDATE ...
 

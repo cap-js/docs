@@ -386,7 +386,7 @@ The resulting authorizations are illustrated in the following access matrix:
 The example models access rules for different roles in the same service. In general, this is _not recommended_ due to the high complexity. See [best practices](#dedicated-services) for information about how to avoid this.
 
 
-### Draft Mode
+### Draft Mode {#restrictions-and-draft-mode}
 
 Basically, the access control for entities in draft mode differs from the [general restriction rules](#restrict-annotation) that apply to (active) entities. A user, who has created a draft, should also be able to edit (`UPDATE`) or cancel the draft (`DELETE`). The following rules apply:
 

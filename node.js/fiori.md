@@ -107,6 +107,7 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
     }
   }
 }
+```
 
 ### Differences to Previous Version
 
@@ -117,7 +118,7 @@ const { MyEntity } = srv.entities
 MyEntity.drafts // points to model.definitions['MyEntity.drafts']
 ```
 
-- Handlers must be registered for the correct entity, the following variants are allowed:
+#### Handlers must be registered for the correct entity, the following variants are allowed:
 
 ```js
 srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
@@ -133,8 +134,8 @@ srv.on('SAVE', 'MyEntity', /*...*/)
 ::: details **Note:** For compatibility to the previous variants, you can set `cds.fiori.draft_compat` to `true`.
 :::
 
-- Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
-- The target is resolved before the handler execution and points to either the active or draft entity:
+#### Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
+#### The target is resolved before the handler execution and points to either the active or draft entity:
 
 ```js
 srv.on('READ', 'MyEntity.drafts', (req, next) => {
@@ -147,6 +148,6 @@ srv.on('READ', 'MyEntity.drafts', (req, next) => {
 The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
 :::
 
-- Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
-- Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
+#### Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
+#### Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 

@@ -235,8 +235,9 @@ kbd {
   margin-right: 5px;
 }
 
-.vp-doc [class*='language-'] > button.copy{
-  top: 8px;
+// Fix for copy button position
+.vp-doc [class*='language-'] > button.copy {
+  top: 7px;
 }
 
 pre.log {

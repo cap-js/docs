@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # Use HANA for Production
 
 Run this to use HANA Cloud for production:

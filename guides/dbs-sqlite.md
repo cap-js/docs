@@ -1,5 +1,8 @@
-# Use SQLite for Development {#sqlite}
+---
+status: released
+---
 
+# Use SQLite for Development {#sqlite}
 
 
 Run this to use SQLite during development:
@@ -10,7 +13,7 @@ npm add @cap-js/sqlite -D
 
 ::: details Using the legacy SQLite service...
 
-The above refers to the New SQLite Service, available since cds7, which has several advantages over the former one, such as full support for path expressions, and using [`better-sqlite3`](https://www.npmjs.com/package/better-sqlite3). Yet, in case you need to stick to the old implementation, just **don't** install `@cap-js/sqlite` but keep your existing setup instead. 
+The above refers to the New SQLite Service, available since cds7, which has several advantages over the former one, such as full support for path expressions, and using [`better-sqlite3`](https://www.npmjs.com/package/better-sqlite3). Yet, in case you need to stick to the old implementation, just **don't** install `@cap-js/sqlite` but keep your existing setup instead.
 
 :::
 
@@ -34,7 +37,7 @@ Installing `@cap-js/sqlite` as described above automatically configures your app
 
 
 
-You can inspect the effective configuration using `cds env`: 
+You can inspect the effective configuration using `cds env`:
 
 ```sh
 cds env requires.db
@@ -58,7 +61,7 @@ cds env requires.db
 
 
 
-You can also use persistent SQLite databases. Follow these steps to do so: 
+You can also use persistent SQLite databases. Follow these steps to do so:
 
 1. Specify a db filename in your `db` configuration as follows:
 
@@ -92,9 +95,9 @@ With that in place, when you start your server, it will use this prepared databa
 ...
 ```
 
-::: warning 
+::: warning
 
-Remember to always re-deploy your database whenever you made changes to your models or your data. Just run `cds deploy` again, without any parameters to do so. 
+Remember to always re-deploy your database whenever you made changes to your models or your data. Just run `cds deploy` again, without any parameters to do so.
 
 :::
 
@@ -131,7 +134,7 @@ This will:
 1. Read a CSN of a former deployment from table `cds_model`
 2. Calculate the delta to current model
 3. Generate and run SQL DDL statements with:
-   - `CREATE TABLE` statements for new entities 
+   - `CREATE TABLE` statements for new entities
    - `CREATE VIEW` statements for new views
    - `ALTER TABLE` statements for entities with new or changed elements
    - `DROP & CREATE VIEW` statements for views on changed entities
@@ -155,7 +158,7 @@ Automatic schema evolution only allows changes without potential data loss.
 - All other type changes
 :::
 
-For example the following type changes are allowed: 
+For example the following type changes are allowed:
 
 ```cds
 entity Foo {

@@ -31,7 +31,9 @@ The application has to clarify that this link between data object and data subje
 Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
 :::
 
-##  Audited Object is Data Subject
+## About the Audited Object
+
+### Data Subject
 
 In our case `Customers` is the main master data entity with the semantics of 'Data Subject'.
 
@@ -88,7 +90,7 @@ The `@PersonalData.IsPotentiallySensitive` annotation induces an audit log for e
 :::
 
 
-##  Audited Object is Data Subject Details
+###  Data Subject Details
 
 In the first example, the audited object was identical to the data subject, but this is not always the case.
 
@@ -135,7 +137,7 @@ annotate bookshop.CustomerPostalAddress with @AuditLog.Operation : {
 Very similarly to the section on 'Data Subject' this entity is as well annotated in four levels.
 More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
 
-##  Audited Object is Transactional Data
+###  Transactional Data
 
 In the section on 'Data Subject' and 'Data Subject Details' we have seen, how to annotate the master data entities carrying the semantical information of the 'Data Subject'.
 

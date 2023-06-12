@@ -26,8 +26,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 | Annotation    | Description                                                      |
 |---------------|------------------------------------------------------------------|
-| `@readonly`   | see [Input Validation](../guides/providing-services/#readonly)   |
-| `@insertonly` | see [Generic Handlers](../guides/providing-services/)            |
+| `@readonly`   | see [Input Validation](../guides/providing-services#readonly)   |
+| `@insertonly` | see [Generic Handlers](../guides/providing-services)            |
 | `@restrict`   | see [Authorization](../guides/authorization#restrict-annotation) |
 | `@requires`   | see [Authorization](../guides/authorization#requires)            |
 
@@ -36,14 +36,14 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 | Annotation          | Description                                                          |
 |---------------------|----------------------------------------------------------------------|
-| `@readonly `        | see [Input Validation](../guides/providing-services/#readonly)       |
-| `@mandatory`        | see [Input Validation](../guides/providing-services/#mandatory)      |
-| `@assert.unique`    | see [Input Validation](../guides/providing-services/#unique)         |
-| `@assert.integrity` | see [Input Validation](../guides/providing-services/#refs)           |
-| `@assert.target`    | see [Input Validation](../guides/providing-services/#assert-target)  |
-| `@assert.format`    | see [Input Validation](../guides/providing-services/#assert-format)  |
-| `@assert.range`     | see [Input Validation](../guides/providing-services/#assert-range)   |
-| `@assert.notNull`   | see [Input Validation](../guides/providing-services/#assert-notNull) |
+| `@readonly `        | see [Input Validation](../guides/providing-services#readonly)       |
+| `@mandatory`        | see [Input Validation](../guides/providing-services#mandatory)      |
+| `@assert.unique`    | see [Input Validation](../guides/providing-services#unique)         |
+| `@assert.integrity` | see [Input Validation](../guides/databases#db-constraints)           |
+| `@assert.target`    | see [Input Validation](../guides/providing-services#assert-target)  |
+| `@assert.format`    | see [Input Validation](../guides/providing-services#assert-format)  |
+| `@assert.range`     | see [Input Validation](../guides/providing-services#assert-range)   |
+| `@assert.notNull`   | see [Input Validation](../guides/providing-services#assert-notNull) |
 
 
 
@@ -54,13 +54,13 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 |----------------------|------------------------------------------------------------------------------------|
 | `@path`              | see [Services](./cdl#service-definitions)                                          |
 | `@impl`              | see [Reuse & Compose](../guides/extensibility/composition#reuse-code)              |
-| `@odata.etag`        | see [Providing Services](../guides/providing-services/#etag)                       |
-| `@cds.autoexpose`    | see [Providing Services](../guides/providing-services/#auto-exposed-entities)      |
+| `@odata.etag`        | see [Providing Services](../guides/providing-services#etag)                       |
+| `@cds.autoexpose`    | see [Providing Services](../guides/providing-services#auto-exposed-entities)      |
 | `@cds.api.ignore`    | see [OData](../advanced/odata#omitting-elements-from-apis)                         |
-| `@cds.query.limit`   | see [Providing Services](../guides/providing-services/#annotation-cds-query-limit) |
+| `@cds.query.limit`   | see [Providing Services](../guides/providing-services#annotation-cds-query-limit) |
 | `@cds.localized`     | see [Localized Data](../guides/localized-data#read-operations)                     |
 | `@cds.valid.from/to` | see [Temporal Data](../guides/temporal-data#using-annotations-cds-valid-from-to)   |
-| `@cds.search`        | see [Search Capabilities](../guides/providing-services/#searching-data)            |
+| `@cds.search`        | see [Search Capabilities](../guides/providing-services#searching-data)            |
 
 ## Persistence
 
@@ -70,8 +70,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 | `@cds.persistence.table`  | tells `compile.to.sql` to create a table, not a view               |
 | `@cds.persistence.skip`   | tells the compiler, this entity shall not exist in database at all |
 | `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                |
-| `@cds.on.insert`          | see [Providing Services](../guides/providing-services/)            |
-| `@cds.on.update`          | see [Providing Services](../guides/providing-services/)            |
+| `@cds.on.insert`          | see [Providing Services](../guides/providing-services)            |
+| `@cds.on.update`          | see [Providing Services](../guides/providing-services)            |
 
 
 ## OData
@@ -93,10 +93,10 @@ Intrinsically supported OData Annotations:
 
 | Annotation             | Description                                                      |
 |------------------------|------------------------------------------------------------------|
-| `@Core.Computed`       | see [Providing Services](../guides/providing-services/#readonly) |
-| `@Core.Immutable`      | see [Providing Services](../guides/providing-services/#readonly) |
+| `@Core.Computed`       | see [Providing Services](../guides/providing-services#readonly) |
+| `@Core.Immutable`      | see [Providing Services](../guides/providing-services#readonly) |
 | `@Core.MediaType`      | see [Media Data](../guides/media-data)                          |
 | `@Core.IsMediaType`    | see [Media Data](../guides/media-data)                          |
 | `@Core.IsUrl`          | see [Media Data](../guides/media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
-| `@Common.FieldControl` | see [Input Validation](../guides/providing-services/#input-validation)) |
+| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#input-validation)) |

@@ -7,7 +7,7 @@ status: released
 
 # Domain Modeling
 
-Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services/)*.
+Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services)*.
 
 [[toc]]
 
@@ -318,7 +318,7 @@ entity Books : cuid { ... }
 entity Authors : cuid { ... }
 ```
 
-This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.Prefer Simple, Technical Keys
+This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.
 
 ### Prefer UUIDs for Keys
 

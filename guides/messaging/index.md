@@ -1,13 +1,7 @@
 ---
-index: 24
-label: Messaging
 synopsis: >
   CAP provides intrinsic support for emitting and receiving events.
   This is complemented by Messaging Services connecting to message brokers to exchange event messages across remote services.
-layout: cookbook
-breadcrumbs:
-  - Cookbook
-  - Messaging
 status: released
 ---
 
@@ -20,15 +14,18 @@ status: released
 
 <div v-html="$frontmatter?.synopsis" />
 
+[[toc]]
+
+
 
 ## Introduction — Ubiquitous Events in CAP {#intro}
 
-We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#walkthrough-books-reviews-sample).
+We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#books-reviews-sample).
 
 
 ### Intrinsic Eventing in CAP Core
 
-As introduced in [About CAP](../../about/#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services/#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
+As introduced in [About CAP](../../about/#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
 
 ```js
 let srv = new cds.Service
@@ -108,7 +105,7 @@ Emitters of event messages are decoupled from the receivers and don't need to kn
 
 
 
-## Walkthrough: Books Reviews Sample
+## Books Reviews Sample
 
 The following explanations walk us through a books review example from cap/samples:
 
@@ -446,11 +443,11 @@ You can also refer to events declared in CDS models, by using their fully qualif
 
 In the previous sections it's documented how CAP promotes messaging on conceptual levels, staying agnostic to topologies and message brokers. While CAP strongly recommends staying on that level, CAP also offers lower-level messaging, which loses some of the advantages but still stays independent from specific message brokers.
 
-### Messaging as Just Another CAP Service
-
+::: tip Messaging as Just Another CAP Service
 All messaging implementations are provided through class `cds.MessagingService` and broker-specific subclasses of that. This class is in turn a standard CAP service, derived from `cds.Service`, hence it's consumed as any other CAP service, and can also be extended by adding event handlers as usual.
+:::
 
-### Configure Messaging Services
+#### Configure Messaging Services
 
 As with all other CAP services, add an entry to `cds.requires` in your _package.json_ or _.cdsrc.json_ like that:
 
@@ -468,7 +465,7 @@ As with all other CAP services, add an entry to `cds.requires` in your _package.
 
 You're free how you name your messaging service. Could be `messaging` as in the previous example, or any other name you choose. You can also configure multiple messages services with different names.
 
-### Connect to the Messaging Service
+#### Connect to the Messaging Service
 
 Instead of connecting to an emitter service, connect to the messaging service:
 
@@ -476,7 +473,7 @@ Instead of connecting to an emitter service, connect to the messaging service:
 const messaging = await cds.connect.to('messaging')
 ```
 
-### Emit Events to Messaging Service
+#### Emit Events to Messaging Service
 
 Instead of emitter services emitting to themselves, emit to the messaging service:
 
@@ -484,7 +481,7 @@ Instead of emitter services emitting to themselves, emit to the messaging servic
 await messaging.emit ('ReviewsService.reviewed', { ... })
 ```
 
-### Receive Events from Messaging Service
+#### Receive Events from Messaging Service
 
 Instead of registering event handlers with a concrete emitter service, register handlers on the messaging service:
 
@@ -494,7 +491,7 @@ messaging.on ('ReviewsService.reviewed', msg => console.log(msg))
 
 <br>
 
-### Declared Events and `@topic` Names
+#### Declared Events and `@topic` Names
 
 When declaring events in CDS models, be aware that the fully qualified name of the event is used as topic names when emitting to message brokers. Based on the following model, the resulting topic name is `my.namespace.SomeEventEmitter.SomeEvent`.
 
@@ -515,7 +512,7 @@ event SomeEvent { ... }
 
 
 
-### Conceptual vs. Low-Level Messaging
+#### Conceptual vs. Low-Level Messaging
 
 When looking at the previous code samples, you see that in contrast to conceptual messaging you need to provide fully qualified event names now. This is just one of the advantages you lose. Have a look at the following list of advantages you have using conceptual messaging and lose with low-level messaging.
 
@@ -592,7 +589,7 @@ So, the effort on the CAP side is to fill this gap.
 You can achieve it like that, for example, for an already imported SAP S/4HANA BusinessPartner API:
 
 ```cds
-// filling in missing events as found on SAP API Business Hub
+// filling in missing events as found on SAP Business Accelerator Hub
 using { API_BUSINESS_PARTNER as S4 } from './API_BUSINESS_PARTNER';
 extend service S4 with {
   event BusinessPartner.Created @(topic:'sap.s4.beh.businesspartner.v1.BusinessPartner.Created.v1') {

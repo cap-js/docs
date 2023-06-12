@@ -35,7 +35,7 @@ After adding the dependency mentioned above, both libraries integrate seamlessly
 CAP ensures to automatically propagate tenant and user information from the _Request Context_ to the Cloud SDK.
 
 CAP's clear recommendation is to use _Remote Services_ over directly leveraging the SAP Cloud SDK.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services/#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 ::: tip
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services).
 :::
@@ -312,4 +312,3 @@ ClientCredentialsHttpDestination clientCredentialsHttpDestination =
         new XsuaaService()
     );
 ```
-

@@ -404,7 +404,7 @@ Moreover, deserialization errors terminate the request and are tracked in the ap
 In general, to achieve perfect injection resistance, applications should have input validation, output validation, and a proper Content-Security-Policy in place.
 
 - CAP provides built-in support for **input validation**.
-Developers can use the [`@assert`](../guides/providing-services/#input-validation) annotation to define field-specific input checks.
+Developers can use the [`@assert`](../guides/providing-services#input-validation) annotation to define field-specific input checks.
 
 ::: warning
 ❗ Applications need to validate or sanitize all input variables according to the business context.
@@ -463,7 +463,7 @@ Additional size limits and timeouts (request timeout) are established by the rev
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
 :::
 
-Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services/#configuring-defaults-with-cds-query-limit)).
+Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.

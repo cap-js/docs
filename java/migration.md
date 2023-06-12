@@ -80,7 +80,23 @@ In your IDE, enable the compiler warning "Signal overwriting or implementing dep
 
 #### Legacy Upsert
 
-The [legacy upsert](query-execution#legacy-upsert-implementation) (cascading delete + deep insert), which can be configured via the global configuration parameter `cds.sql.upsert.strategy: replace` or a hint, has been removed. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
+Up to cds-services 1.27, upsert always completely _replaced_ pre-existing data with the given data: it was implemented as
+cascading delete followed by a deep _insert_. In the insert phase, for all elements that were absent in the data,
+the initializations were performed: UUID generation, `@cds.on.insert` handlers, and initialization with default values.
+Consequently, in the old implementation, an upsert with partial data would have reset absent elements to their initial values!
+To avoid a reset with the old upsert, data always had to be complete.
+
+Since version 1.28 the upsert is implemented as a deep _update_ that creates data if not existing.  An upsert with partial data now leaves the absent elements untouched. In particular, UUID values are _not generated_ with the new upsert implementation.
+
+Application developers upgrading from cds-services <= 1.27 need to be aware of these changes.
+Check, if the usage of upsert in your code is compatible with the new implementation, especially:
+
+* Ensure that all key values are contained in the data and you don't rely on UUID key generation.
+* Check if insert is more appropriate.
+
+::: warning
+The global configuration parameter `cds.sql.upsert.strategy`, as well as the upsert hint to switch back to the legacy upsert behavior are not supported anymore with 2.0. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
+:::
 
 #### Representation of Pagination {#limit}
 The interfaces <Cds4j link="ql/cqn/CqnLimit.html">CqnLimit</Cds4j> and <Cds4j link="ql/Limit.html">Limit</Cds4j> are removed. Use the methods `limit(top)` and `limit(top, skip)` of the `Select` and `Expand` to specify the pagination settings. Use the methods <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">top()</Cds4j> and <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">skip()</Cds4j> of the `CqnEntitySelector` to introspect the pagination settings of a `CqnExpand` and `CqnSelect`.
@@ -275,7 +291,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Overview of Removed Annotations
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cds-search-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
 
 ### Changed Behavior
 
@@ -520,7 +536,7 @@ If this Maven build finishes successfully, you can optionally try to deploy your
 cds deploy --to hana
 ```
 
-[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases#get-hana){.learn-more}
+[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases-hana){.learn-more}
 
 
 ### Migrate Java Business Logic

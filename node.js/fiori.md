@@ -134,6 +134,9 @@ srv.on('SAVE', 'MyEntity', /*...*/)
 ::: details **Note:** For compatibility to the previous variants, you can set `cds.fiori.draft_compat` to `true`.
 :::
 
+::: details **Note:** You can use the array variant to register handler for both, e.g. `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
+:::
+
 #### Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
 #### The target is resolved before the handler execution and points to either the active or draft entity:
 

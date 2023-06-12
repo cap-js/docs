@@ -1,5 +1,6 @@
 ---
 status: released
+synopsis: Grow your project gradually and learn the next steps.
 ---
 
 # Grow As You Go...

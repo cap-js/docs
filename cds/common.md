@@ -110,7 +110,7 @@ entity Foo {
 
 The annotations `@cds.on.insert/update` are handled in generic service providers so to fill in those fields automatically.
 
-[Learn more about **generic service features**.](../guides/providing-services/#managed-data){ .learn-more}
+[Learn more about **generic service features**.](../guides/providing-services#managed-data){ .learn-more}
 
 
 ### Aspect `temporal`

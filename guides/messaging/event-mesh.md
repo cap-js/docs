@@ -1,10 +1,6 @@
 ---
-layout: cookbook
+# layout: cookbook
 shorty: SAP Event Mesh
-breadcrumbs:
-  - Cookbook
-  - Messaging
-  - SAP Event Mesh
 status: released
 ---
 
@@ -15,6 +11,8 @@ status: released
 ::: warning
 The following guide is based on a productive (paid) account on SAP BTP. It's not supported to use the trial offering of SAP Event Mesh.
 :::
+
+[[toc]]
 
 
 

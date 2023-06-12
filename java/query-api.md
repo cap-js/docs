@@ -540,7 +540,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 1. Define searchable elements {#searchable-elements}
 
-By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services/#searching-data).
+By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services#searching-data).
 
 Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
 
@@ -726,7 +726,7 @@ The pagination isn't stateful. If rows are inserted or removed before a subseque
 
 ### Pessimistic Locking { #write-lock}
 
-Use the `lock()` method to enforce [Pessimistic Locking](../guides/providing-services/#select-for-update).
+Use the `lock()` method to enforce [Pessimistic Locking](../guides/providing-services#select-for-update).
 
 The following example shows how to build a select query with an _exclusive_ (write) lock. The query tries to acquire a lock for a maximum of 5 seconds, as specified by an optional parameter `timeout`:
 
@@ -859,14 +859,14 @@ On SQL data stores the execution order of the generated insert statements is par
 
 ## Upsert { #upsert}
 
-[Upsert](../cds/cqn#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
+[Upsert](../cds/cqn#upsert) updates existing entities or inserts new ones if they don't exist in the database.
 `Upsert` statements are created with the [Upsert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Upsert.html) builder and are translated into DB native upsert statements by the CAP runtime whenever possible.
 
 The main use case of upsert is data replication.
 
 If upsert data is incomplete only the given values are updated or inserted, which means the `Upsert` statement has "PATCH semantics".
 ::: warning
-Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
+Upsert is **not** equivalent to Insert, even if an entity doesn't exist in the database.
 :::
 
 The following actions are *not* performed on Upsert:
@@ -878,7 +878,7 @@ The following actions are *not* performed on Upsert:
 `Upsert` statements don't have a where clause. Just as with bulk [Updates](#bulk-update) and
 [Inserts](#single-insert), the key values of the entity that is upserted are extracted from the data.
 ::: tip
-The upsert data must contain all key elements of the entity.
+The upsert data must contain values for all mandatory and key elements.
 :::
 
 

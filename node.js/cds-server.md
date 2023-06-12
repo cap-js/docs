@@ -115,7 +115,7 @@ Emitted for each service constructed by [`cds.serve`](cds-serve).
 
 
 
-### cds.once  <i>  ('**served**', ([services](../guides/providing-services/))=>{}) </i>
+### cds.once  <i>  ('**served**', ([services](../guides/providing-services))=>{}) </i>
 
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 

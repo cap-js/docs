@@ -25,7 +25,376 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-<span id="endofmigration" />
+## CAP Java 1.34 to CAP Java 2.0 { #one-to-two}
+
+This section describes the changes in CAP Java between the major versions 1.34 and 2.0. It provides also helpful information how to migrate a CAP Java application to the new major version 2.0.
+
+As preparation, we strongly recommend to firstly upgrade to 1.34.x and then follow this guide to upgrade to 2.0.x.
+
+### Spring Boot 3
+
+CAP Java 2 uses Spring Boot 3 as underlying framework. Consult the [Spring Boot 3.0 Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide) for changes between Spring Boot 2.7 and Spring Boot 3.0. A CAP Java application is typically only affected by Spring Boot 3 incompatibilities if it uses native Spring APIs.
+
+#### Java 17
+
+Spring Boot 3 requires Java 17 as minimum version.
+Maven dependencies, which are not managed by CAP Java, need to be updated to Java 17 compatible versions.
+
+#### Jakarta EE 10
+
+Spring Boot 3 requires Jakarta EE 10. This includes a switch in package names from `javax` to `jakarta`. For example all Servlet-related classes are moved from package `javax.servlet` to `jakarta.servlet`.
+
+For instance, replace
+```java
+import javax.servlet.http.HttpServletResponse;
+```
+with
+```java
+import jakarta.servlet.http.HttpServletResponse;
+```
+
+Maven dependencies, which are not managed by CAP Java or Spring Boot, need to be updated to Jakarta EE 10 compatible versions.
+
+#### Spring Security
+
+Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring Security 5.7. Spring Boot 3 uses Spring Security 6. In case you defined custom security configurations you need to follow the guides, which describe the [migration from 5.7 to 5.8](https://docs.spring.io/spring-security/reference/5.8/migration/index.html) and the [migration from 5.8 to 6.0](https://docs.spring.io/spring-security/reference/6.0/migration/index.html).
+
+### Minimum Dependency Versions
+
+Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
+
+CAP Java 2.0 itself requires updated [dependency versions](./development/#dependencies-version-2) of:
+- `@sap/cds-dk`
+- `@sap/cds-compiler`
+- XSUAA library
+- SAP Cloud SDK
+- Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
+
+### API Cleanup
+
+Some interfaces, methods, configuration properties and annotations, which had already been deprecated in 1.x, are now removed in version 2.0. Please strictly fix all usage of [deprecated APIs](#overview-of-removed-interfaces-and-methods) by using the recommended replacement.
+
+::: tip
+In your IDE, enable the compiler warning "Signal overwriting or implementing deprecated method".
+:::
+
+#### Legacy Upsert
+
+Up to cds-services 1.27, upsert always completely _replaced_ pre-existing data with the given data: it was implemented as
+cascading delete followed by a deep _insert_. In the insert phase, for all elements that were absent in the data,
+the initializations were performed: UUID generation, `@cds.on.insert` handlers, and initialization with default values.
+Consequently, in the old implementation, an upsert with partial data would have reset absent elements to their initial values!
+To avoid a reset with the old upsert, data always had to be complete.
+
+Since version 1.28 the upsert is implemented as a deep _update_ that creates data if not existing.  An upsert with partial data now leaves the absent elements untouched. In particular, UUID values are _not generated_ with the new upsert implementation.
+
+Application developers upgrading from cds-services <= 1.27 need to be aware of these changes.
+Check, if the usage of upsert in your code is compatible with the new implementation, especially:
+
+* Ensure that all key values are contained in the data and you don't rely on UUID key generation.
+* Check if insert is more appropriate.
+
+::: warning
+The global configuration parameter `cds.sql.upsert.strategy`, as well as the upsert hint to switch back to the legacy upsert behavior are not supported anymore with 2.0. If you rely on the replace behavior of the legacy upsert, use a cascading delete followed by a deep insert.
+:::
+
+#### Representation of Pagination {#limit}
+The interfaces <Cds4j link="ql/cqn/CqnLimit.html">CqnLimit</Cds4j> and <Cds4j link="ql/Limit.html">Limit</Cds4j> are removed. Use the methods `limit(top)` and `limit(top, skip)` of the `Select` and `Expand` to specify the pagination settings. Use the methods <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">top()</Cds4j> and <Cds4j link="ql/cqn/CqnEntitySelector.html#skip--">skip()</Cds4j> of the `CqnEntitySelector` to introspect the pagination settings of a `CqnExpand` and `CqnSelect`.
+
+#### Statement Modification {#modification}
+
+##### Removal of Deprecated CqnModifier
+The deprecated <Cds4j link="ql/cqn/CqnModifier.html">CqnModifier</Cds4j>, whose default methods make expensive copies of literal values, is removed. Instead, use the <Cds4j latest link="ql/cqn/Modifier.html">Modifier</Cds4j> as documented in [Modifying CQL Statements](query-api#copying-modifying-cql-statements).
+
+If your modifier overrides one or more of the `CqnModifier:literal` methods that take `value` and `cdsType` as arguments, override `Modifier:literal(CqnLiteral<?> literal)` instead. You can create new values using `CQL.val(value).type(cdsType);`.
+
+##### Removal of Deprecated Methods in Modifier {#modifier}
+The deprecated methods `ref(StructuredTypeRef)` and `ref(ElementRef<?>)` are removed, instead implement the new methods `ref(CqnStructuredTypeRef)` and `ref(CqnElementRef)`. Use `CQL.copy(ref)` if you require a modifiable copy of the ref.
+
+```java
+Modifier modifier = new Modifier() {
+	@Override
+	public CqnStructuredTypeRef ref(CqnStructuredTypeRef ref) {
+		RefBuilder<StructuredTypeRef> copy = CQL.copy(ref); // try to avoid copy
+		copy.targetSegment().filter(newFilter);
+		return copy.build();
+	}
+
+	@Override
+	public CqnValue ref(CqnElementRef ref) {
+		List<Segment> segments = new ArrayList<>(ref.segments());
+		segments.add(0, CQL.refSegment(segments.get(0).id(), filter));
+		return CQL.get(segments).as(alias);
+	}
+}
+CqnStatement copy = CQL.copy(statement, modifier);
+```
+
+### Overview of Removed Interfaces and Methods
+
+
+#### com.sap.cds
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <Cds4j link="ConstraintViolationException.html">ConstraintViolationException</Cds4j> | | <Cds4j latest link="UniqueConstraintException.html">UniqueConstraintException</Cds4j> |
+| <Cds4j link="ResultBuilder.html">ResultBuilder</Cds4j> | <Cds4j link="ResultBuilder.html#updatedRows-int:A-java.util.List-">updatedRows</Cds4j> | see <Cds4j latest link="ResultBuilder.html#updatedRows-int:A-java.util.List-">javadoc</Cds4j> |
+
+#### com.sap.cds.ql
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <Cds4j link="ql/CQL.html">CQL</Cds4j> | <Cds4j link="ql/CQL.html#literal-T-">literal</Cds4j> | <Cds4j latest link="ql/CQL.html#val-T-">val</Cds4j> or <Cds4j latest link="ql/CQL.html#constant-T-">constant</Cds4j> |
+| <Cds4j link="ql/Select.html">Select</Cds4j> | <Cds4j link="ql/Select.html#groupBy-java.util.Collection-">groupBy</Cds4j> | <Cds4j latest link="ql/Select.html#groupBy-java.util.List-">groupBy</Cds4j> |
+
+#### com.sap.cds.ql.cqn
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <Cds4j link="ql/cqn/CqnParameter.html">CqnParameter</Cds4j> | <Cds4j link="ql/cqn/CqnParameter.html#getName--">getName</Cds4j> | <Cds4j link="ql/cqn/CqnParameter.html#name--">name</Cds4j> |
+| <Cds4j link="ql/cqn/CqnReference.Segment.html">CqnReference.Segment</Cds4j> | <Cds4j link="ql/cqn/CqnReference.Segment.html#accept-com.sap.cds.ql.cqn.CqnVisitor-">accept(visitor)</Cds4j> | <Cds4j latest link="ql/cqn/CqnReference.html#accept-com.sap.cds.ql.cqn.CqnVisitor-">CqnReference.accept(visitor)</Cds4j> |
+| <Cds4j link="ql/cqn/CqnSelectList.html">CqnSelectList</Cds4j> | <Cds4j link="ql/cqn/CqnSelectList.html#prefix--">prefix</Cds4j> | <Cds4j latest link="ql/cqn/CqnSelectList.html#ref--">ref</Cds4j> |
+| <Cds4j link="ql/cqn/CqnSelectListItem.html">CqnSelectListItem</Cds4j> | <Cds4j link="ql/cqn/CqnSelectListItem.html#displayName--">displayName</Cds4j> | <Cds4j latest link="ql/cqn/CqnSelectListItem.html#asValue--">asValue</Cds4j> + <Cds4j latest link="ql/cqn/CqnSelectListValue.html#displayName--">displayName</Cds4j> |
+| | <Cds4j link="ql/cqn/CqnSelectListItem.html#alias--">alias</Cds4j> | <Cds4j latest link="ql/cqn/CqnSelectListItem.html#asValue--">asValue</Cds4j> + <Cds4j latest link="ql/cqn/CqnSelectListValue.html#alias--">alias</Cds4j> |
+| <Cds4j link="ql/cqn/CqnSortSpecification.html">CqnSortSpecification</Cds4j> | <Cds4j link="ql/cqn/CqnSortSpecification.html#item--">item</Cds4j> | <Cds4j latest link="ql/cqn/CqnSortSpecification.html#value--">value</Cds4j> |
+| <Cds4j link="ql/cqn/CqnSource.html">CqnSource</Cds4j> | <Cds4j link="ql/cqn/CqnSource.html#isQuery--">isQuery</Cds4j> | <Cds4j latest link="ql/cqn/CqnSource.html#isSelect--">isSelect</Cds4j> |
+| | <Cds4j link="ql/cqn/CqnSource.html#asQuery--">asQuery</Cds4j> | <Cds4j latest link="ql/cqn/CqnSource.html#asSelect--">asSelect</Cds4j> |
+| <Cds4j link="ql/cqn/CqnVisitor.html">CqnVisitor</Cds4j> | <Cds4j link="ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnReference.Segment-">visit(CqnReference.Segment seg)</Cds4j> | <Cds4j latest link="ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnElementRef-">visit(CqnElementRef)</Cds4j>, <Cds4j latest link="ql/cqn/CqnVisitor.html#visit-com.sap.cds.ql.cqn.CqnStructuredTypeRef-">visit(CqnStructuredTypeRef)</Cds4j>|
+| <Cds4j link="ql/cqn/CqnXsert.html">CqnXsert</Cds4j> | <Cds4j link="ql/cqn/CqnXsert.html#getKind--">getKind</Cds4j> | <Cds4j latest link="ql/cqn/CqnStatement.html#isInsert--">isInsert</Cds4j>, <Cds4j latest link="ql/cqn/CqnStatement.html#isUpsert--">isUpsert</Cds4j> |
+| <Cds4j link="ql/cqn/Modifier.html">Modifier</Cds4j> | <Cds4j link="ql/cqn/CompatibilityDefaults.html#ref-com.sap.cds.ql.StructuredTypeRef-">ref(StructuredTypeRef ref)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#ref-com.sap.cds.ql.cqn.CqnStructuredTypeRef-">ref(CqnStructuredTypeRef ref)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#ref-com.sap.cds.ql.ElementRef-">ref(ElementRef<?> ref)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#ref-com.sap.cds.ql.cqn.CqnElementRef-">ref(CqnElementRef ref)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#in-com.sap.cds.ql.Value-java.util.Collection-">in(Value, Collection)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#in-com.sap.cds.ql.Value-com.sap.cds.ql.cqn.CqnValue-">in(Value, CqnValue)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#match-com.sap.cds.ql.StructuredTypeRef-com.sap.cds.ql.Predicate-com.sap.cds.ql.cqn.CqnMatchPredicate.Quantifier-">match(ref, pred, quantifier)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#match-com.sap.cds.ql.cqn.CqnMatchPredicate-">match(CqnMatchPredicate match)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#selectListItem-com.sap.cds.ql.Value-java.lang.String-">selectListItem(value, alias)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#selectListValue-com.sap.cds.ql.Value-java.lang.String-">selectListValue(value, alias)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#inline-com.sap.cds.ql.StructuredTypeRef-java.util.List-">inline(ref, items)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#inline-com.sap.cds.ql.cqn.CqnInline-">inline(CqnInline inline)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#expand-com.sap.cds.ql.StructuredTypeRef-java.util.List-java.util.List-com.sap.cds.ql.cqn.CqnLimit-">expand(ref, items, orderBy, limit)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#expand-com.sap.cds.ql.cqn.CqnExpand-">expand(CqnExpand expand)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#expand-com.sap.cds.ql.Expand-">expand(Expand<?> expand)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#expand-com.sap.cds.ql.cqn.CqnExpand-">expand(CqnExpand expand)</Cds4j> |
+| | <Cds4j link="ql/cqn/CompatibilityDefaults.html#limit-com.sap.cds.ql.Limit-">limit(Limit limit)</Cds4j> | <Cds4j link="ql/cqn/Modifier.html#top-long-">top(long top)</Cds4j> and <Cds4j link="ql/cqn/Modifier.html#skip-long-">skip(long skip)</Cds4j> |
+
+#### com.sap.cds.reflect
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <Cds4j link="reflect/CdsAssociationType.html">CdsAssociationType</Cds4j> | <Cds4j link="reflect/CdsAssociationType.html#keys--">keys</Cds4j> | <Cds4j latest link="reflect/CdsAssociationType.html#refs--">refs</Cds4j> |
+| <Cds4j link="reflect/CdsStructuredType.html">CdsStructuredType</Cds4j> | <Cds4j link="reflect/CdsStructuredType.html#isInlineDefined--">isInlineDefined</Cds4j> | <Cds4j latest link="reflect/CdsStructuredType.html#isAnonymous--">isAnonymous</Cds4j> |
+
+
+#### com.sap.cds.services
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+|<CdsSrv link="services/ErrorStatus.html">ErrorStatus</CdsSrv> | <CdsSrv link="services/ErrorStatus.html#getCode--">getCode()</CdsSrv> | <CdsSrv latest link="services/ErrorStatus.html#getCodeString--">getCodeString()</CdsSrv>|
+| <CdsSrv link="services/ServiceException.html">ServiceException</CdsSrv> | <CdsSrv link="services/ServiceException.html#messageTarget-java.lang.String-java.lang.String-java.util.function.Function-">messageTarget(prefix, entity, path)</CdsSrv> |<CdsSrv latest link="services/ServiceException.html#messageTarget-java.lang.String-java.util.function.Function-">messageTarget(parameter, path)</CdsSrv> |
+
+#### com.sap.cds.services.cds
+
+|Class/Interface  | Method  | Replacement  |
+|---------|---------| -----|
+|<CdsSrv link="services/cds/CdsService.html">CdsService</CdsSrv>   |  | <CdsSrv latest link="services/cds/CqnService.html">CqnService</CdsSrv>        |
+
+#### com.sap.cds.services.environment
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+|<CdsSrv latest link="services/environment/ServiceBinding.html">ServiceBinding</CdsSrv>  |   |   [com.sap.cloud.environment.<br>`servicebinding.api.ServiceBinding`](https://github.com/SAP/btp-environment-variable-access/blob/main/api-parent/core-api/src/main/java/com/sap/cloud/environment/servicebinding/api/ServiceBinding.java)      |
+
+::: details
+
+##### Interface `ServiceBinding`
+The interface <CdsSrv latest link="services/environment/ServiceBinding.html">`com.sap.cds.services.environment.ServiceBinding`</CdsSrv> is deprecated and replaced with interface [`com.sap.cloud.environment.servicebinding.api.ServiceBinding`](https://github.com/SAP/btp-environment-variable-access/blob/main/api-parent/core-api/src/main/java/com/sap/cloud/environment/servicebinding/api/ServiceBinding.java). For convenience the adapter class `com.sap.cds.services.utils.environment.ServiceBindingAdapter` is provided, which maps the deprecated interface to the new one.
+
+:::
+
+#### com.sap.cds.services.handler
+
+|Class/Interface  | Method  | Replacement  |
+|---------|---------| -----|
+|<CdsSrv link="services/handler/EventPredicate.html">EventPredicate</CdsSrv>   |  | n/a |
+
+::: details
+
+#### Interface `EventPredicate`
+The interface `com.sap.cds.services.handler.EventPredicate` is removed. Consequently, all methods at interface <CdsSrv latest link="services/Service.html">`com.sap.cds.services.Service`</CdsSrv> containing this interface as argument are removed. All removed method were marked as deprecated in prior releases.
+
+:::
+
+#### com.sap.cds.services.messages
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <CdsSrv link="services/messages/Message.html">Message</CdsSrv> | <CdsSrv link="services/messages/Message.html#target-java.lang.String-java.lang.String-java.util.function.Function-">target(prefix, entity, path)</CdsSrv> | <CdsSrv link="services/messages/Message.html#target-java.lang.String-java.util.function.Function-">target(start, path)</CdsSrv>|
+| <CdsSrv link="services/messages/MessageTarget.html">MessageTarget</CdsSrv> | <CdsSrv link="services/messages/MessageTarget.html#getPrefix--">getPrefix()</CdsSrv> | <CdsSrv latest link="services/messages/MessageTarget.html#getParameter--">getParameter()</CdsSrv> |
+| | <CdsSrv link="services/messages/MessageTarget.html#getEntity--">getEntity()</CdsSrv>, <CdsSrv link="services/messages/MessageTarget.html#getPath--">getPath()</CdsSrv>| <CdsSrv latest link="services/messages/MessageTarget.html#getRef--">getRef()</CdsSrv>  |
+
+#### com.sap.cds.services.persistence
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <CdsSrv link="services/persistence/PersistenceService.html">PersistenceService</CdsSrv> | <CdsSrv link="services/persistence/PersistenceService.html#getCdsDataStore--">getCdsDataStore()</CdsSrv> | Use <CdsSrv link="services/persistence/PersistenceService.html#getCdsDataStore--">PersistenceService</CdsSrv> |
+
+#### com.sap.cds.services.request
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+|<CdsSrv link="services/request/ParameterInfo.html">ParameterInfo</CdsSrv> | <CdsSrv link="services/request/ParameterInfo.html#getQueryParameters--">getQueryParameters()</CdsSrv> | <CdsSrv latest link="services/request/ParameterInfo.html#getQueryParams--">getQueryParams()</CdsSrv> |
+| <CdsSrv link="services/request/UserInfo.html">UserInfo</CdsSrv> | <CdsSrv link="services/request/UserInfo.html#getAttribute-java.lang.String-">getAttribute(String)</CdsSrv> | <CdsSrv link="services/request/UserInfo.html#getAttributeValues-java.lang.String-">getAttributeValues(String)</CdsSrv> |
+
+
+
+#### com.sap.cds.services.runtime
+
+| Class / Interface | Method / Field | Replacement |
+| --- | --- | --- |
+| <CdsSrv link="services/runtime/CdsModelProvider.html">CdsModelProvider</CdsSrv> | <CdsSrv link="services/runtime/CdsModelProvider.html#get-java.lang.String-">get(tenantId)</CdsSrv>  | <CdsSrv latest link="services/runtime/CdsModelProvider.html#get-com.sap.cds.services.request.UserInfo-com.sap.cds.services.request.FeatureTogglesInfo-">get(userInfo, features)</CdsSrv>|
+| <CdsSrv link="services/runtime/CdsRuntime.html">CdsRuntime</CdsSrv> |<CdsSrv link="services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Consumer-">runInChangeSetContext(Consumer)</CdsSrv> | <CdsSrv latest link="services/runtime/CdsRuntime.html#changeSetContext--">changeSetContext()</CdsSrv>.<CdsSrv latest link="services/runtime/ChangeSetContextRunner.html#run-java.util.function.Consumer-">run(Consumer)</CdsSrv> |
+| |<CdsSrv link="services/runtime/CdsRuntime.html#runInChangeSetContext-java.util.function.Function-">runInChangeSetContext(Function)</CdsSrv> | <CdsSrv latest link="services/runtime/CdsRuntime.html#changeSetContext--">changeSetContext()</CdsSrv>.<CdsSrv latest link="services/runtime/ChangeSetContextRunner.html#run-java.util.function.Function-">run(Function)</CdsSrv> |
+| |<CdsSrv link="services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-">runInRequestContext(Consumer)</CdsSrv> | <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">requestContext()</CdsSrv>.<CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">run(Consumer)</CdsSrv> |
+| |<CdsSrv link="services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Function-">runInRequestContext(Function)</CdsSrv> | <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">requestContext()</CdsSrv>.<CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Function-">run(Function)</CdsSrv> |
+| <CdsSrv link="services/runtime/Request.html">Request</CdsSrv> | CdsRuntime.runInRequestContext(Request, Function\|Consumer) | <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">CdsRuntime.requestContext()</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">.run(Function)</CdsSrv> |
+| <CdsSrv link="services/runtime/RequestParameters.html">RequestParameters</CdsSrv> | CdsRuntime.runInRequestContext(Request, Function\|Consumer) | <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">CdsRuntime.requestContext()</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">.run(Function)</CdsSrv> |
+| <CdsSrv link="services/runtime/RequestUser.html">RequestUser</CdsSrv> | CdsRuntime.runInRequestContext(Request, Function\|Consumer) | <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">CdsRuntime.requestContext()</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">.run(Function)</CdsSrv> |
+
+::: details
+
+#### Method `CdsRuntime.runInRequestContext(Request, Function|Consumer)`
+The interface <CdsSrv link="services/runtime/Request.html">`Request`</CdsSrv> and its used interfaces <CdsSrv link="services/runtime/RequestParameters.html">`RequestParameters`</CdsSrv> and <CdsSrv link="services/runtime/RequestUser.html">`RequestUser`</CdsSrv> are removed. They were still used in the method <CdsSrv link="services/runtime/CdsRuntime.html#runInRequestContext-com.sap.cds.services.runtime.Request-java.util.function.Consumer-">`CdsRuntime.runInRequestContext(Request, Function|Consumer)`</CdsSrv>, which was also deprecated and should be replaced by <CdsSrv latest link="services/runtime/CdsRuntime.html#requestContext--">`CdsRuntime.requestContext()`</CdsSrv><CdsSrv latest link="services/runtime/RequestContextRunner.html#run-java.util.function.Consumer-">`.run(Function)`</CdsSrv>
+
+:::
+
+#### Overview of Removed CDS Properties
+
+Some CdsProperties were already marked as deprected in CAP Java 1.x and are now removed in 2.x.
+
+| removed | replacement |
+| --- | --- |
+| <CdsSrv link="services/environment/CdsProperties.DataSource.html">cds.dataSource.serviceName</CdsSrv> | `cds.dataSource.binding` |
+| cds.drafts.associationsToInactiveEntities | see [Lean Draft](#lean-draft) |
+| <CdsSrv link="services/environment/CdsProperties.Locales.Normalization.html">cds.locales.normalization.whiteList</CdsSrv> | `cds.locales.normalization.includeList` |
+| <CdsSrv link="services/environment/CdsProperties.Messaging.MessagingServiceConfig.Queue.html">cds.messaging.services.\<key\>.queue.maxFailedAttempts</CdsSrv> | Use custom error handling |
+| <CdsSrv link="services/environment/CdsProperties.Messaging.MessagingServiceConfig.html">cds.messaging.services.\<key\>.topicNamespace</CdsSrv> | `cds.messaging.services.<key>.subscribePrefix` |
+| <CdsSrv link="services/environment/CdsProperties.MultiTenancy.html">cds.multiTenancy.instanceManager</CdsSrv> | `cds.multiTenancy.serviceManager` |
+| <CdsSrv link="services/environment/CdsProperties.MultiTenancy.Sidecar.DataSource.html">cds.multiTenancy.dataSource.hanaDatabaseIds</CdsSrv> | obsolete, information is automatically retrieved from bindings |
+| <CdsSrv link="services/environment/CdsProperties.ODataV4.html">cds.odataV4.indexPage</CdsSrv> | `cds.indexPage` |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#isAuthenticateUnknownEndpoints--">cds.security.authenticateUnknownEndpoints</CdsSrv> | `cds.security.authentication.authenticateUnknownEndpoints` |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#getAuthorizeAutoExposedEntities--">cds.security.authorizeAutoExposedEntities</CdsSrv> | if disabled, add auto-exposed entities explicitly into your service definition |
+| <CdsSrv link="services/environment/CdsProperties.Security.Authorization.html#getAutoExposedEntities--">cds.security.authorization.autoExposedEntities</CdsSrv> | if disabled, add auto-exposed entities explicitly into your service definition |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#getDefaultRestrictionLevel--">cds.security.defaultRestrictionLevel</CdsSrv> | `cds.security.authentication.mode` |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#getDraftProtection--">cds.security.draftProtection</CdsSrv> | `cds.security.authorization.draftProtection` |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#getInstanceBasedAuthorization--">cds.security.instanceBasedAuthorization</CdsSrv> | if disabled, remove `@requires` / `@restrict` annotations |
+| <CdsSrv link="services/environment/CdsProperties.Security.Authorization.html#getInstanceBasedAuthorization--">cds.security.authorization.instanceBasedAuthorization</CdsSrv> | remove `@requires` / `@restrict` annotations |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#isOpenMetadataEndpoints--">cds.security.openMetadataEndpoints</CdsSrv> | `cds.security.authentication.authenticateMetadataEndpoints` |
+| <CdsSrv link="services/environment/CdsProperties.Security.html#getOpenUnrestrictedEndpoints--">cds.security.openUnrestrictedEndpoints</CdsSrv> | `cds.security.authentication.mode` |
+| <CdsSrv link="services/environment/CdsProperties.Security.Xsuaa.html">cds.security.xsuaa.serviceName</CdsSrv> | `cds.security.xsuaa.binding` |
+| <CdsSrv link="services/environment/CdsProperties.Security.Xsuaa.html">cds.security.xsuaa.normalizeUserNames</CdsSrv> | obsolete, effectively hard-coded to `false` |
+| <CdsSrv link="services/environment/CdsProperties.html">cds.services</CdsSrv> | cds.application.services |
+| <CdsSrv link="services/environment/CdsProperties.Sql.Upsert.html">cds.sql.upsert</CdsSrv> | See [Legacy Upsert](#legacy-upsert) |
+
+### Overview of Removed Annotations
+
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
+
+### Changed Behavior
+
+#### Immutable Values
+
+The implementations of `Value` are now immutable, which makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
+
+Changing the type of a value via `Value::type` now returns a new (immutable) value or throws an exception if the type change is not supported:
+
+```Java
+Literal<Number> number = CQL.val(100);
+Value<String>   string = number.type(CdsBaseType.STRING); // number is unchanged
+```
+
+#### Immutable References
+
+In CDS QL, a [reference](../cds/cxn#references) (_ref_) identifies an entity set or element of a structured type. References can have multiple segments and ref segments can have filter conditions.
+
+The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
+
+##### - Set alias or type
+
+`CQL:entity:asRef`, `CQL:to:asRef` and `CQL:get` create immutable refs. Modifying the ref is not supported. Methods `as(alias)` and `type(cdsType)` now return a *new* (immutable) ref:
+
+```java
+ElementRef<?> authorName = CQL.get("name").as("Author");
+ElementRef<?> nombre = authorName.as("nombre");         // authorName is unchanged
+ElementRef<?> string = authorName.type("cds.String");   // authorName is unchanged
+```
+
+##### - Modify ref segments
+
+Also the segments of an immutable ref can't be modified in-place any longer. To create an immutable ref segment with filter, use
+
+```java
+Segment seg = CQL.refSegment("title", predicate);
+```
+
+The deprecated `RefSegment:id` and `RefSegment:filter` methods now throw an `UnsupportedOperationException`. For in-place modification of ref segments use `CQL.copy(ref)` to create a `RefBuilder`, which is a modifiable copy of the original ref. The `RefBuilder` allows to modify the segments in-place to change the segment id or set a filter. Finally call the `build` method to create an immutable ref.
+
+To manipulate a ref in a [Modifier](#modifier), implementations need to override the new `ref(CqnStructuredTypeRef ref)` and `ref(CqnElementRef ref)` methods.
+
+#### Null Values in CDS QL Query Results
+
+With CAP Java `2.0`, `null` values are not removed from the result of CDS QL queries anymore, this needs to be considered when using methods that operate on the key set of `Row`, such as `Row:containsKey`, `Row:keySet` and `Row:entrySet`.
+
+#### Result of Updates Without Matching Entity
+
+The `Result` rows of CDS QL Updates are not cleared anymore if no entity was updated. To find out if the entity has been updated, check the [update count](./query-api#update):
+
+```Java
+CqnUpdate update = Update.entity(BOOKS).entry(book); // w/ book: {ID: 0, stock: 3}
+Result result = service.run(update);
+
+long updateCount = result.rowCount(); // 0 matches with ID 0
+```
+
+For batch updates use `Result::rowCount` with the [batch index](./query-execution#batch-execution):
+
+```Java
+// books: [{ID: 251, stock: 11}, {ID: 252, stock: 7}, {ID: 0, stock: 3}]
+CqnUpdate update = Update.entity(BOOKS).entries(books);
+Result result = service.run(update);
+
+result.batchCount(); // number of batches (3)
+result.rowCount(2);  // 0 matches with ID 0
+```
+
+#### Provider Tenant Normalization
+
+The default value of CDS Property `cds.security.authentication.normalizeProviderTenant` is changed to `true`. With this change, the provider tenant is normalized and set to `null` in the UserInfo by default. If you have subscribed the provider tenant to your application you need to disable this feature.
+
+### Lean Draft
+
+The property `cds.drafts.associationsToInactiveEntities` has been removed. It enabled a feature, which caused associations to other draft documents to combine active and inactive versions of the association target. This mixing of inactive and active data is no longer supported.
+In cases where it is still required to connect two independent draft documents through an association you can annotate this association with `@odata.draft.enclosed`. Note that this will ensure, that the active version points to an active target, while the inactive version points to an inactive target. It will not mix active and inactive data into the same association.
+
+The following table summarizes the behaviour of associations between different draft-enabled entities:
+
+| Source Entity | Association Type | Target Entity | Draft Document Boundaries |
+| --- | --- | --- | --- |
+| active<sup>1</sup> | composition | active | same document |
+| inactive<sup>2</sup> | composition | inactive | same document |
+| active | [backlink](../cds/cdl#to-many-associations) association | active | same document |
+| inactive | backlink association | inactive | same document |
+| active | association | active | independent documents |
+| inactive | association | active | independent documents |
+| active | association with `@odata.draft.enclosed` | active | independent documents |
+| inactive | association with `@odata.draft.enclosed` | inactive | independent documents |
+
+<sup>1</sup> `IsActiveEntity = true`
+<br>
+<sup>2</sup> `IsActiveEntity = false`
+
+### Changes to Maven Plugins
+
+#### cds-maven-plugin
+
+The deprecated parameters `generateMode` and `parserMode` are removed from the [goal generate](./assets/cds-maven-plugin-site/generate-mojo.html){target="_blank"}.
+
+#### cds4j-maven-plugin
+
+The deprecated Maven plugin `cds4j-maven-plugin` is removed and no longer available. It's replaced by the [`cds-maven-plugin`](./assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} which provides the same functionality and more.
 
 
 ## Classic MTX to Streamlined MTX

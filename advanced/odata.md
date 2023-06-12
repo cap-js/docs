@@ -46,7 +46,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 - <sup>(1)</sup> Support for nested `$select`, `$expand`, `$filter` and `$orderby` options.
 - <sup>(2)</sup> Support for nested `$select`, `$expand`, `$filter`, `$orderby`, `$top` and `$skip` options.
-- <sup>(3)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services/#searching-data).
+- <sup>(3)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
 - <sup>(4)</sup> Current limitation: Navigation path identifying the collection can only contain one segment.
 
 

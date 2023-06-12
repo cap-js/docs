@@ -25,7 +25,8 @@
 
   /* inverts image colors in dark mode */
   &.dark {
-    img { filter: brightness(.9) invert(1) hue-rotate(177deg) }
+    /* brightness fine-tuned to turn #fff into --vp-c-bg */
+    img { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
     img.mute-dark { filter:brightness(0.6) }
   }
@@ -54,7 +55,10 @@ main {
       padding-left: 2.2em;
     }
     div.language-zsh pre code {
-        line-height: 1.4em
+      line-height: 1.4em
+    }
+    pre {
+      padding: 16px 0 !important;
     }
     :not(pre) > code {
       font-style: italic;
@@ -138,7 +142,7 @@ main {
   }
 
   .good { color:teal }
-  .bad, .important { color:darkred }; .dark & { .bad, .important { color:#d02626 } }
+  .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
   .constructor::before { content: 'Constructor: '; color: grey }
   .property::before { content: 'Property: '; color: grey }
   .method::before { content: 'Method: '; color: grey }

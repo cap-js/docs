@@ -212,7 +212,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services/#refs).
+The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services#refs).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}
@@ -240,36 +240,6 @@ The following example deletes the order with ID *1000* including all its items:
 CqnDelete delete = Delete.from("bookshop.Orders").matching(singletonMap("OrderNo", 1000));
 long deleteCount = service.run(delete).rowCount();
 ```
-
-
-#### Legacy Upsert Implementation
-
-Up to cds-services 1.27, upsert always completely _replaced_ pre-existing data with the given data: it was implemented as
-cascading delete followed by a deep _insert_. In the insert phase, for all elements that were absent in the data,
-the initializations were performed: UUID generation, `@cds.on.insert` handlers, and initialization with default values.
-Consequently, in the old implementation, an upsert with partial data would have reset absent elements to their initial values!
-To avoid a reset with the old upsert, data always had to be complete.
-
-As of version 1.28 the upsert is implemented as a deep _update_ that creates data if not existing.  An upsert with partial data now leaves the absent elements untouched. In particular, UUID values are _not generated_ with the new upsert implementation.
-
-Application developers upgrading from cds-services <= 1.27 need to be aware of these changes.
-Check, if the usage of upsert in your code is compatible with the new implementation, especially:
-
-* Ensure that ID values are contained in the data.
-* Ensure that you don't rely on ID generation.
-* Check if insert is maybe more appropriate.
-
-To switch back to the old upsert behavior (cascading delete plus deep insert), add a hint to the statement:
-
-```java
- Upsert.into(BOOKS).entry(data).hint("cds.sql.upsert.strategy", "replace");
-```
-
-Or set the global configuration parameter `cds.sql.upsert.strategy` to `replace`.
-::: warning
-This configuration option will be removed with the next major release 2.x of CAP Java.
-:::
-
 
 ### Resolvable Views and Projections { #updatable-views}
 

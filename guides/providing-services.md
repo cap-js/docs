@@ -149,7 +149,7 @@ service BookshopService {
 
 This definition effectively defines the API served by `BookshopService`.
 
-![service-apis.drawio](assets/providing-servicesservice-apis.drawio.svg){.adapt}
+![service-apis.drawio](assets/providing-services/service-apis.drawio.svg){.adapt}
 
 Simple service definitions like that are all we need to run full-fledged servers out-of-the-box, served by CAP's generic runtimes, without any implementation coding required.
 
@@ -168,7 +168,7 @@ service BookshopService {
 
 This way, services become facades to encapsulated domain data, exposing different aspects tailored to respective use cases.
 
-![service-as-facades.drawio](assets/providing-servicesservice-as-facades.drawio.svg)
+![service-as-facades.drawio](assets/providing-services/service-as-facades.drawio.svg)
 
 
 ### Serving Denormalized Views

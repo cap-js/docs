@@ -242,7 +242,7 @@ In effect, a service definition [as introduced above](#defining-services) is all
 
 ### Serving CRUD Requests {#serving-crud}
 
-The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](../databases).
+The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](databases).
 
 This comprises read and write operations like that:
 
@@ -1011,7 +1011,7 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 
 - Domain-specific programmatic [Validations](#input-validation)
 - Augmenting result sets, for example to add computed fields for frontends
-- Programmatic [Authorization Enforcements](../authorization#enforcement)
+- Programmatic [Authorization Enforcements](authorization#enforcement)
 - Triggering follow-up actions, for example calling other services or emitting outbound events in response to inbound events
 - And more... In general, all the things not (yet) covered by generic handlers
 

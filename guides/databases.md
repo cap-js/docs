@@ -582,7 +582,7 @@ The `OVER` clause for SQL Window Functions is supported, too:
 entity RankedBooks as select from Books {
   name, author,
   rank() over (partition by author order by price) as rank
-}
+};
 ```
 
 

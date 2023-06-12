@@ -11,6 +11,9 @@ status: released
 
 <div v-html="$frontmatter?.synopsis" />
 
+[[toc]]
+
+
 
 ## Annotating Media Elements
 

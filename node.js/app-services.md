@@ -10,7 +10,7 @@ status: released
 
 ## Class `cds.ApplicationService`
 
-Class `cds.ApplicationService` is the default service provider implementation, adding generic handlers as introduced in the Cookbook guides on [Providing Services](../guides/providing-services/index.md), [Localized Data](../guides/localized-data.md) and [Temporal Data](../guides/temporal-data.md).
+Class `cds.ApplicationService` is the default service provider implementation, adding generic handlers as introduced in the Cookbook guides on [Providing Services](../guides/providing-services), [Localized Data](../guides/localized-data.md) and [Temporal Data](../guides/temporal-data.md).
 
 For example, given a service definition like that, without an :
 
@@ -69,7 +69,7 @@ class cds.ApplicationService extends cds.Service {
 }
 ```
 
-> The reason we used `static` methods was to **(a)** give you an easy way of overriding and adding new generic handlers / features, and **(b)** without getting into conflicts with instance methods of subclasses. 
+> The reason we used `static` methods was to **(a)** give you an easy way of overriding and adding new generic handlers / features, and **(b)** without getting into conflicts with instance methods of subclasses.
 
 
 
@@ -81,13 +81,13 @@ This method is adding request handlers for initial authorization checks, as docu
 
 ### _static_ handle_etags() {.method}
 
-This method is adding request handlers for out-of-the-box concurrency control using ETags, as documented in the [Providing Services guide](../guides/providing-services/index.md#concurrency-control).
+This method is adding request handlers for out-of-the-box concurrency control using ETags, as documented in the [Providing Services guide](../guides/providing-services#concurrency-control).
 
 
 
 ### _static_ handle_validations() {.method}
 
-This method is adding request handlers for input validation based in `@assert` annotations, and other, as documented in the [Providing Services guide](../guides/providing-services/index.md#input-validation).
+This method is adding request handlers for input validation based in `@assert` annotations, and other, as documented in the [Providing Services guide](../guides/providing-services#input-validation).
 
 
 
@@ -108,13 +108,13 @@ This method is adding request handlers for handling localized data, as documente
 
 ### _static_ handle_managed_data() {.method}
 
-This method is adding request handlers for handling managed data, as documented in the [Providing Services guide](../guides/providing-services/index.md#managed-data).
+This method is adding request handlers for handling managed data, as documented in the [Providing Services guide](../guides/providing-services#managed-data).
 
 
 
 ### _static_ handle_paging() {.method}
 
-This method is adding request handlers for paging & implicit sorting, as documented in the [Providing Services guide](../guides/providing-services/index.md#pagination-sorting).
+This method is adding request handlers for paging & implicit sorting, as documented in the [Providing Services guide](../guides/providing-services#pagination-sorting).
 
 
 
@@ -126,7 +126,7 @@ This method is adding request handlers for handling Fiori Drafts and other Fiori
 
 ### _static_ handle_crud() {.method}
 
-This method is adding request handlers for all CRUD operations including *deep* CRUD, as documented in the [Providing Services guide](../guides/providing-services/index.md#generic-providers).
+This method is adding request handlers for all CRUD operations including *deep* CRUD, as documented in the [Providing Services guide](../guides/providing-services#generic-providers).
 
 
 
@@ -144,7 +144,7 @@ class YourService extends cds.ApplicationService {
 }
 ```
 
-> 
+>
 
 ## Adding Generic Handlers
 

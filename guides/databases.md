@@ -561,7 +561,7 @@ entity Genres {
 Database constraints are not intended for checking user input. Instead, they protect
 the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
-→ Use [`@assert.target`](providing-services#assert-target) for input corresponding validations.
+→ Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
 
 ## Using Native Features  { #native-db-functions}

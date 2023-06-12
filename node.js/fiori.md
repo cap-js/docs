@@ -110,7 +110,7 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 
 ### Differences to Previous Version
 
-- Draft-enabled entities have corresponding CSN entities for drafts:
+#### Draft-enabled entities have corresponding CSN entities for drafts:
 
 ```js
 const { MyEntity } = srv.entities

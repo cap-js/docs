@@ -16,7 +16,7 @@
 - [Domain Modeling](guides/domain-modeling)
 - [Providing Services](guides/providing-services)
   - [Introduction](guides/providing-services#introduction)
-  - [Modeling Services](guides/providing-services#modeling-service)
+  - [Modeling Services](guides/providing-services#defining-services)
   - [Generic Providers](guides/providing-services#generic-providers)
   - [Pagination & Sorting](guides/providing-services#pagination-sorting)
   - [Input Validation](guides/providing-services#input-validation)

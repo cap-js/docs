@@ -16,6 +16,8 @@ Localized data refers to the maintenance of different translations of textual da
 
 > Find a **working sample** at <https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop>.
 
+[[toc]]
+
 
 ## Declaring Localized Data
 

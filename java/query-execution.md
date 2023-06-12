@@ -212,7 +212,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services/#refs).
+The @cascade annotation is not respected by [foreign key constraints on the database](../guides/databases#for-compositions). To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/providing-services#refs).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}

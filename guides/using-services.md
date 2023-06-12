@@ -1185,7 +1185,7 @@ Your local application needs access to an XSUAA and Destination service instance
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
-    [Learn more about `cds bind`.](../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){.learn-more}
+    [Learn more about `cds bind`.](../advanced/hybrid-testing#services-on-cloud-foundry){.learn-more}
 
 #### Run a Node.js Application with a Destination
 

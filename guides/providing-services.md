@@ -237,7 +237,7 @@ service AdminService {
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
-In effect, a service definition [as introduced above](#defining-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
+In effect, a service definition [as introduced above](#modeling-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
 
 ### Serving CRUD Requests {#serving-crud}
@@ -414,7 +414,7 @@ GET .../Books?$search=Heights
 
 That would basically search for occurrences of `"Heights"` in all text fields of Books, that is, in `title` and `descr` using database-specific `contains` operations (for example, using `like '%Heights%'` in standard SQL).
 
-#### Using the `@cds.search` Annotation
+#### Using the `@cds.search` Annotation {#using-cds-search-annotation}
 
 By default all elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
@@ -478,8 +478,7 @@ Searches only in the element `name` of the associated `Authors` entity.
 Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
 :::
 
-## Pagination & Sorting
- {#pagination}
+## Pagination & Sorting {#pagination-sorting}
 
 
 ### Implicit Pagination
@@ -553,7 +552,7 @@ You can configure default and maximum page size limits in your [project configur
 - The **default limit** defines the number of items that are retrieved if no `$top` was specified.
 
 
-#### Annotation `@cds.query.limit`
+#### Annotation `@cds.query.limit` {#annotation-cds-query-limit}
 
 You can override the defaults by applying the `@cds.query.limit` annotation on the service or entity level, as follows:
 
@@ -666,8 +665,7 @@ SELECT ... from my_Books ORDER BY
 CAP runtimes automatically validate user input, controlled by the following annotations.
 
 
-### `@readonly`
- {#readonly}
+### `@readonly` {#readonly}
 
 Elements annotated with `@readonly`, as well as [_calculated elements_](../cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
 
@@ -677,8 +675,7 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 
  :::
 
-### `@mandatory`
- {#mandatory}
+### `@mandatory` {#mandatory}
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
 ::: tip
@@ -686,8 +683,7 @@ The same applies for fields with the [OData Annotation](../advanced/odata#annota
 
  :::
 
-### `@assert.unique`
- {#unique}
+### `@assert.unique` {#unique}
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
 
@@ -716,8 +712,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target`
- {#assert-target}
+### `@assert.target` {#assert-target}
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -733,15 +728,14 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](#refs) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's
 content adheres to the standard OData specification for an error
 [response body](https://docs.oasis-open.org/odata/odata-json-format/v4.01/cs01/odata-json-format-v4.01-cs01.html#sec_ErrorResponse).
 
-#### Example
- {#assert-target-example}
+#### Example {#assert-target-example}
 
 Add `@assert.target` annotation to the service definition as previously mentioned:
 
@@ -795,8 +789,7 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert.format`
- {#assert-format}
+### `@assert.format` {#assert-format}
 
 Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
@@ -806,8 +799,7 @@ entity Foo {
 }
 ```
 
-### `@assert.range`
- {#assert-range}
+### `@assert.range` {#assert-range}
 
 Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
 
@@ -823,8 +815,7 @@ entity Foo {
 Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
 :::
 
-### `@assert.notNull`
- {#assert-notNull}
+### `@assert.notNull` {#assert-notNull}
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 
@@ -978,8 +969,7 @@ If-Match: "2000-02-02T02:20:20.200Z"
 
 If the ETag validation detects a conflict, the request typically needs to be retried by the client. Hence, optimistic concurrency should be used if conflicts occur rarely.
 
-### Pessimistic Locking
- {#select-for-update}
+### Pessimistic Locking {#select-for-update}
 
 _Pessimistic locking_ allows you to lock the selected records so that other transactions are blocked from changing the records in any way.
 
@@ -1087,8 +1077,7 @@ CAP allows to plug in event handlers to these different hooks, that is phases du
 
 `before` and `after` handlers are *listeners*: all registered listeners are invoked in parallel. If one vetoes / throws an error the request fails.
 
-### Within Event Handlers
- {#handler-impls}
+### Within Event Handlers {#handler-impls}
 
 Event handlers all get a uniform _Request_/_Event Message_ context object as their primary argument, which, among others, provides access to the following:
 
@@ -1104,8 +1093,7 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 
 
 
-## Custom Actions & Functions
- {#actions-and-functions }
+## Custom Actions & Functions {#custom-actions-functions }
 
 In addition to common CRUD operations, you can declare domain-specific custom operations as shown below. These custom operations always need custom implementations in corresponding events handlers.
 

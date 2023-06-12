@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  This guide provides instructions on how to use databases with CAP applications. 
+  This guide provides instructions on how to use databases with CAP applications.
   Out of the box-support is provided for HANA, SQLite, H2, and PostgreSQL.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -33,7 +33,7 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 
 > Follow the links above to find specific information for each.
 
-In general, all you need to do is to install one of the database packages, like so: 
+In general, all you need to do is to install one of the database packages, like so:
 
 ```sh
 npm add @sap/cds-hana
@@ -43,7 +43,7 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration
 
-The afore-mentioned packages use `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example if you added sqlite and hana, this will effectively result in this auto-wired configuration: 
+The afore-mentioned packages use `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example if you added sqlite and hana, this will effectively result in this auto-wired configuration:
 
 ```json
 {"cds":{
@@ -59,7 +59,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 ::: details In contrast to former — that is pre cds7 — setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
-2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages. 
+2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
 
 :::
 
@@ -69,7 +69,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 The above setups auto-wire things through configuration presets automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or to override individual properties as follows:
 
-1. Install a database driver package, e.g. 
+1. Install a database driver package, e.g.
    ```sh
    npm add @cap-js/sqlite
    ```
@@ -81,13 +81,13 @@ The above setups auto-wire things through configuration presets automatically en
    ```json
    {"cds":{
      "requires": {
-       "db": { 
-         "kind": "sqlite", 
-         "impl": "@cap-js/sqlite", 
+       "db": {
+         "kind": "sqlite",
+         "impl": "@cap-js/sqlite",
          "credentials": {
            "url": "db.sqlite"
          }
-       }      
+       }
      }
    }}
    ```
@@ -95,14 +95,14 @@ The above setups auto-wire things through configuration presets automatically en
 The config options are as follows:
 
 - `kind` — a name of a preset, like `sql`, `sqlite`, or `hana`
-- `impl` — the module name of a package providing a CAP database service implementation 
-- `credentials` — an object with db-specific configurations, most commonly `url` 
+- `impl` — the module name of a package providing a CAP database service implementation
+- `credentials` — an object with db-specific configurations, most commonly `url`
 
-::: warning 
+::: warning
 
-Credentials like `username` and  `password` should **not** be added here but provided through service bindings. 
+Credentials like `username` and  `password` should **not** be added here but provided through service bindings.
 
-[TODO: Learn more about service bindings](...){.learn-more}
+[TODO: Learn more about service bindings](#){.learn-more}
 
 :::
 
@@ -116,10 +116,10 @@ cds env cds.requires.db
 → prints:
 
 ```sh
-{ 
-  kind: 'sqlite', 
-  impl: '@cap-js/sqlite', 
-  credentials: { url: ':db.sqlite:' } 
+{
+  kind: 'sqlite',
+  impl: '@cap-js/sqlite',
+  credentials: { url: ':db.sqlite:' }
 }
 ````
 
@@ -147,7 +147,7 @@ bookshop/
 └─ ...
 ```
 
-The **filenames** are expected to match fully-qualified names of respective entitiy definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons. 
+The **filenames** are expected to match fully-qualified names of respective entitiy definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
 
 ### Using `.csv` Files
 
@@ -170,8 +170,8 @@ ID,title,author_ID,stock
 
 If your content contains ...
 
-- commas or line breaks → enclose it in double quotes `"..."` 
-- double quotes → escape them with doubled double quotes: `""` 
+- commas or line breaks → enclose it in double quotes `"..."`
+- double quotes → escape them with doubled double quotes: `""`
 
 ```csv
 ID,title,descr
@@ -196,7 +196,7 @@ cds add data
 
 ### Sample Data
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places: 
+Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -213,7 +213,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 
 
-Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries. 
+Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
 
 
 
@@ -226,7 +226,7 @@ SELECT.from (Authors, a => {
   a.ID, a.name, a.books (b => {
     b.ID, b.title
   })
-}) 
+})
 .where ({name:{like:'A%'}})
 .orderBy ('name')
 ```
@@ -251,7 +251,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`. 
+When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -344,8 +344,8 @@ CREATE VIEW CatalogService_ListOfBooks AS SELECT
   author.name AS author,
   Books.price_amount,
   Books.price_currency_code
-FROM sap_capire_bookshop_Books AS Books 
-LEFT JOIN sap_capire_bookshop_Authors AS author 
+FROM sap_capire_bookshop_Books AS Books
+LEFT JOIN sap_capire_bookshop_Authors AS author
 ON Books.author_ID = author.ID;
 
 --- some more technical views skipped ...
@@ -360,7 +360,7 @@ ON Books.author_ID = author.ID;
 A few observations on the generated SQL DDL output:
 
 1. **Tables / Views** — declared entities become tables, projected entities become views
-2. **Type Mapping** — [CDS types are mapped to database-specifc SQL types](../cds/types) 
+2. **Type Mapping** — [CDS types are mapped to database-specifc SQL types](../cds/types)
 3. **Slugified FQNs** — dots in fullly qualified CDS names become underscores in SQL names
 4. **Flattened Structs** — structured elements like `Books:price` are flattened with underscores
 5. **Generated Foreign Keys** — for managed to-one Associations, foreign key columns are created. For example, this applies to `Books:author`.
@@ -375,10 +375,10 @@ In addition, you can use the following annotations to fine-tune generated SQL.
 
 ### @cds.persistence.skip
 
-Add  `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it: 
+Add  `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
 
 ```cds
-@cds.persistence.skip 
+@cds.persistence.skip
 entity Foo {...}                 //> No SQL table will be generated
 entity Bar as select from Foo;   //> No SQL view will be generated
 ```
@@ -390,7 +390,7 @@ entity Bar as select from Foo;   //> No SQL view will be generated
 Add  `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
 
 ```cds
-@cds.persistence.exists 
+@cds.persistence.exists
 entity Foo {...}                 //> No SQL table will be generated
 entity Bar as select from Foo;   //> The SQL view will be generated
 ```
@@ -408,7 +408,7 @@ If the respective entity is user-defined function or a calculation view, one of 
 Annotate an entity with `@cds.persistence.table` to create a table with the effective signature of the view definition instead of a SQL view.
 
 ```cds
-@cds.persistence.table 
+@cds.persistence.table
 entity Foo as projection on Bar {...}
 ```
 
@@ -454,7 +454,7 @@ The following rules apply:
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
-- Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements. 
+- Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
 - For HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
@@ -487,13 +487,13 @@ Find here a collection of resources on selected databases and their reference do
 
 
 
-## Schema Evolution 
+## Schema Evolution
 
 
 
 ## Database Constraints {#db-constraints}
 
-The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. 
+The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables.
 
 Enable generation of foreign key constraints on the database with:
 
@@ -537,7 +537,7 @@ CREATE TABLE Books (
 ```
 
 No constraints are generated for...
-* Unmanaged associations or compositions 
+* Unmanaged associations or compositions
 * To-many associations or compositions
 * Associations annotated with `@assert.integrity: false`
 * Associations which's source or target entity is annotated with `@cds.persistence.exists` or `@cds.persistence.skip`

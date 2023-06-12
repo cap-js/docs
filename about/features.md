@@ -98,16 +98,16 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Core Framework Features                                                                 |  CDS  | Node.js | Java |
 |-----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers)  | <Na/> |  <X/>   | <X/> |
-| [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents) | <X/>  |  <X/>   | <X/> |
-| [Automatic Input Validation](../guides/providing-services/#input-validation)            | <X/>  |  <X/>   | <X/> |
+| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)  | <Na/> |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services#serving-documents) | <X/>  |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services#input-validation)            | <X/>  |  <X/>   | <X/> |
 | [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)             | <X/>  |  <X/>   | <X/> |
-| [Implicit Paging](../guides/providing-services/#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
-| [Implicit Sorting](../guides/providing-services/#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
 | [Access Control](../guides/authorization)                                               | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                            | <X/>  |  <X/>   | <X/> |
 | [Streaming & Media Types](../guides/media-data)                                         | <X/>  |  <X/>   | <X/> |
-| [Conflict Detection through _ETags_](../guides/providing-services/#etag)                | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
 | [Authentication via JWT](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
 | [Basic Authentication](../guides/authorization#prerequisite-authentication)             | <Na/> |  <X/>   | <X/> |
 
@@ -119,7 +119,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services/#managed-data)                                  | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services#managed-data)                                  | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
@@ -255,7 +255,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Extension Namespaces](../guides/extensibility/customization)                                    | <X/> |
 | [Extension Templates](../guides/extensibility/customization#templates)                           | <X/> |
 | Custom Governance Checks                                                                         | <D/> |
-| [Generic Input Validations](../guides/providing-services/#input-validation)                      | <X/> |
+| [Generic Input Validations](../guides/providing-services#input-validation)                      | <X/> |
 | Declarative Constraints                                                                          | <O/> |
 | Execute Sandboxed Code                                                                           | <O/> |
 | Runtime API for In-App Extensibility                                                             | <D/> |

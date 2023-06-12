@@ -23,8 +23,9 @@ status: released
 # Consuming Services
 <div v-html="$frontmatter?.synopsis" />
 
-<!--- % include _toc levels="2,3" %} -->
-<!--- % include links.md %} -->
+
+[[toc]]
+
 
 ## Introduction
 

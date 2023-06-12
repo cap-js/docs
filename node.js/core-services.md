@@ -41,7 +41,7 @@ service CatalogService {
 }
 ```
 
-[Learn more about defining services using CDS](../guides/providing-services/) {.learn-more}
+[Learn more about defining services using CDS](../guides/providing-services) {.learn-more}
 
 
 
@@ -266,7 +266,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services/#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })

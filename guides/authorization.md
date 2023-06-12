@@ -26,9 +26,8 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 Authorization means restricting access to data by adding respective declarations to CDS models, which are then enforced in service implementations. By adding such declarations, we essentially revoke all default access and then grant individual privileges.
 
-<!-- #### Content -->
-<!--- % include _toc levels="2,3" %} -->
-<!--- % include links.md %} -->
+[[toc]]
+
 
 
 
@@ -161,7 +160,7 @@ service BookshopService {
 }
 ```
 
-Note that both annotations introduce access control on an entity level. In contrast, for the sake of [input validation](providing-services/#input-validation), you can also use `@readonly` on a property level.
+Note that both annotations introduce access control on an entity level. In contrast, for the sake of [input validation](providing-services#input-validation), you can also use `@readonly` on a property level.
 
 In addition, annotation `@Capabilities` from standard OData vocabulary is enforced by the runtimes analogously:
 
@@ -213,7 +212,7 @@ In general, **implicitly auto-exposed entities cannot be accessed directly**, th
 
 In contrast, **explicitly auto-exposed entities can be accessed directly, but only as `@readonly`**. The rationale behind that is that entities representing value lists need to be readable at the service level, for instance to support value help lists.
 
-See details about `@cds.autoexpose` in [Auto-Exposed Entities](./providing-services/#auto-exposed-entities).
+See details about `@cds.autoexpose` in [Auto-Exposed Entities](./providing-services#auto-exposed-entities).
 
 This results in the following access matrix:
 

@@ -149,7 +149,7 @@ When deployed to SQL databases, such fields are mapped to [LargeString](types) c
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 ::: danger
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values
@@ -175,7 +175,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services/#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -436,7 +436,7 @@ entity Order {
 }
 ```
 
-To enforce your _enum_ values during runtime, use the [`@assert.range` annotation](../guides/providing-services/#assert-range).
+To enforce your _enum_ values during runtime, use the [`@assert.range` annotation](../guides/providing-services#assert-range).
 For localization of enum values, model them as [code list](./common#adding-own-code-lists).
 
 <br>

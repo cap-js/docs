@@ -120,7 +120,7 @@ This flexibility allows you to, again, focus on solving your domain problem firs
 
 
 
-## Modeling Services in CDS {#defining-services}
+## Modeling Services in CDS {#modeling-services}
 
 
 ### Services Provide APIs to Consumers {#all-in-one-definitions}

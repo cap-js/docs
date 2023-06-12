@@ -167,7 +167,7 @@ Term | Annotation Target | OpenAPI field
 
 Examples for typical questions on how to fine-tune the generated OpenAPI descriptions.
 
-### How do I suppress GET (list and by-key) on an entity set?
+### Suppress GET (list and by-key) on an entity set?
 
 To suppress both types of GET requests to an entity set, annotate it with
 
@@ -177,7 +177,7 @@ To suppress both types of GET requests to an entity set, annotate it with
 }
 ```
 
-### How do I suppress GET (list) on an entity set?
+### Suppress GET (list) on an entity set?
 
 To suppress only GET list requests to an entity set and still allow GET by-key, annotate it with
 
@@ -191,7 +191,7 @@ To suppress only GET list requests to an entity set and still allow GET by-key, 
 ```
 
 
-### How do I suppress GET (by-key) on an entity set?
+### Suppress GET (by-key) on an entity set?
 
 To suppress only GET by-key requests to an entity set and still allow GET list, annotate it with
 

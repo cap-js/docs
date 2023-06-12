@@ -147,6 +147,6 @@ srv.on('READ', 'MyEntity.drafts', (req, next) => {
 The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
 :::
 
-- Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities.
+- Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 

@@ -97,17 +97,16 @@ Lean draft is a new approach which makes it easier to differentiate between draf
 
 ### Enablement
 
-Add this to your `cds` configuration:
+Lean draft is enabled by default. Add this to your `cds` configuration to disable the feature:
 
 ```json
 {
   "cds": {
     "fiori": {
-      "lean_draft": true
+      "lean_draft": false
     }
   }
 }
-```
 
 ### Differences to Previous Version
 

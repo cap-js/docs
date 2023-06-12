@@ -25,18 +25,19 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 Following are cds-plugin packages for CAP Node.js runtime that provide support for respective databases:
 
-| Database       | Package                                                      | Remarks                            |
-| -------------- | ------------------------------------------------------------ | ---------------------------------- |
-| **SQLite**     | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
-| **HANA Cloud** | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
-| **PostgreSQL** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
+| Database                       | Package                                                      | Remarks                            |
+| ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
+| **[SQLite](dbs-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
+| **[HANA Cloud](dbs-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
+| **[PostgreSQL](dbs-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
 > Follow the links above to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, like so:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/sqlite -D #> for development
+npm add @sap/cds-hana #> for production
 ```
 
 
@@ -121,7 +122,7 @@ cds env cds.requires.db
   impl: '@cap-js/sqlite',
   credentials: { url: ':db.sqlite:' }
 }
-````
+```
 
 :::
 

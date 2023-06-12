@@ -558,7 +558,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services#actions-and-functions){.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services#custom-actions-functions){.learn-more}
 
 
 We're going to look at three things.

@@ -452,7 +452,7 @@ Access control is performed on basis of CQN level according to the CDS model and
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
 - [Sorting](../guides/providing-services#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services#pagination)
+- [Pagination (implicit sort order)](../guides/providing-services#pagination-sorting)
 - Filtering
 
 ::: warning
@@ -506,7 +506,7 @@ Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` s
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
 Also the maximum amount of requests per `$batch` request need to be configured as follows:
-- Node.js: `cds.odata.batch_limit = <max_requests>` 
+- Node.js: `cds.odata.batch_limit = <max_requests>`
 - Java: `cds.odataV4.batch.maxRequests = <max_requests>`
 :::
 

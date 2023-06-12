@@ -478,7 +478,7 @@ Searches only in the element `name` of the associated `Authors` entity.
 Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
 :::
 
-## Pagination & Sorting {#pagination}
+## Pagination & Sorting {#pagination-sorting}
 
 
 ### Implicit Pagination
@@ -1093,7 +1093,7 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 
 
 
-## Custom Actions & Functions {#actions-and-functions }
+## Custom Actions & Functions {#custom-actions-functions }
 
 In addition to common CRUD operations, you can declare domain-specific custom operations as shown below. These custom operations always need custom implementations in corresponding events handlers.
 

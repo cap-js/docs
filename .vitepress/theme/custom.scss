@@ -235,12 +235,16 @@ kbd {
   margin-right: 5px;
 }
 
+.vp-doc [class*='language-'] > button.copy{
+  top: 8px;
+}
+
 pre.log {
   font-size: var(--vp-code-font-size);
   line-height: var(--vp-code-line-height);
   padding: 20px;
   border-radius: 8px;
-  overflow: auto;
+  overflow: hidden;
   span {
     &.cmd {
       color: #FFCB6B;
@@ -297,5 +301,9 @@ tr:nth-child(odd) {
   pre.log:hover,
   pre.log:focus {
     min-width: fit-content;
+    padding-right: 40px;
+  }
+  [class*='language-'] pre {
+    overflow: hidden !important;
   }
 }

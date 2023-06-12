@@ -567,67 +567,10 @@ CAP provides basic means of [concurrency control](../guides/providing-services/#
 Applications have to ensure a consistent data processing taking concurrency into account.
 :::
 
-## Secure Storage { #secure-storage }
-<!-- #SEC-373 -->
 
 <div id="security-secure-storage" />
 
-### Separation of Tenant Data { #storage-separation }
 
-Prerequisite to a tenant-specific encryption is that the business data of subscriber tenants as well as the provider tenant is strictly separated.
-CAP leverages [HDI containers](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebf0aa26958443f58f86b862056862d4.html) to provide a [strong data isolation](#isolated-persistent-data) out of the box.
-
-During tenant onboarding process, CAP delegates HDI container creation to Service Manager:
-<img src="./assets/cap-hana-secure-storage.png" width="400px" class="adapt">
-
-By default, HDI containers are strictly isolated at the database level and don't allow cross-container access.
-
-::: tip
-Applications can also create HDI containers at deployment time that are suitable for the provider tenant.
-:::
-
-
-### Encryption of Tenant Data { #storage-encryption }
-<!-- #SEC-272 -->
-
-SAP HANA Cloud (HC) offers strong server-side storage encryption that is transparent for applications.
-This holds for all business data permanently stored to file system, including redo-log entries.
-
-An HC service instance, which is not MT-enabled, uses a dedicated encryption key for all DB artifacts.
-In contrast, a [MT-enabled HC instance](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/172f93968dfe45f09bf8c14b2ca9582d.html?state=DRAFT) enforces encryption of HDI containers with different keys managed in [SAP Data Custodian](https://help.sap.com/docs/SAP_DATA_CUSTODIAN):
-
-<img src="./assets/hana-keys.png" width="600px" class="adapt">
-
-In `Customer-Specific Encryption Key (CSEK)` mode, the tenant-specific key is managed by SAP,
-but in `Customer-Controlled Encryption Key (CCEK)` mode the customer (that is, SaaS subscriber) defines and controls the key.
-
-Customer-specific keys need to be explicitly activated in the application configuration.
-
-For Java, the application property `cds.multitenancy.datasource.hanaEncryptionMode` supports all encryption modes as described in the HC [documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/1c69829fd68941dfa699cbaae5417a8d.html?state=DRAFT).<!--{ .impl .java }-->
-
-For Node.js, the cds configuration needs to contain the parameters as described in the HC [documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/5db69f41f207422a98669500adc0181f/1c69829fd68941dfa699cbaae5417a8d.html?state=DRAFT) in the Deployment Service configuration.
-<!--{ .impl .node }-->
-
-```json
-"requires": {
-  ...
-  "cds.xt.DeploymentService": {
-    "hdi": {
-      "create": {
-        "dataEncryption": {
-          "mode": "MANAGED_KEY"
-        },
-        "enableTenant": true
-      }
-    }
-  }
-}
-```
-<!-- { .impl .node } -->
-
-::: tip
-Currently, Customer Encryption Key mode is only activated for new HDI containers created for business tenants.
-:::
 
 <div id="hana-cmk-guide" />
 
@@ -682,22 +625,4 @@ Align the exception handling in your custom coding with the provided exception h
 :::
 
 
-## Secure Audit Logging { #secure-auditlogging }
-<!-- #SEC-215 -->
-
 <div id="security-secure-auditlogging" />
-
-### Auditlog Service
-
-CAP provides a technical [AuditlogService](../java/auditlog#auditlog-service) that defines a high-level API to emit security events.
-It helps to decouple business logic from the concrete audit log implementation. By default, it writes audit log events to console.
-
-::: warning
-Currently, CAP doesn't automatically trigger audit log for security-related events.
-Custom handlers need to call the Auditlog Service API explicitly.
-:::
-
-### Auditlog
-
-CAP integrates with SAP BTP Audit Log Service (version 2) in a resilient way.
-Tenant logs are automatically separated.

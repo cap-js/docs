@@ -30,13 +30,13 @@ The following sections give a brief overview of CAP's core concepts.
 
 A CAP application commonly provides services defined in CDS models and served by the CAP runtimes. Every active thing in CAP is a service. They embody the behavioral aspects of a domain in terms of exposed entities, actions, and events.
 
-![service-centric-paradigm.drawio](assets/providing-servicesservice-centric-paradigm.drawio.svg)
+![service-centric-paradigm.drawio](assets/providing-services/service-centric-paradigm.drawio.svg)
 
 ### Ubiquitous Events
 
 At runtime, everything happening is in response to events. CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, blurring the line between both worlds.
 
-![services-events.drawio](assets/providing-servicesservices-events.drawio.svg)
+![services-events.drawio](assets/providing-services/services-events.drawio.svg)
 
 ### Event Handlers
 

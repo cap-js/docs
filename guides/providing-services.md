@@ -414,7 +414,7 @@ GET .../Books?$search=Heights
 
 That would basically search for occurrences of `"Heights"` in all text fields of Books, that is, in `title` and `descr` using database-specific `contains` operations (for example, using `like '%Heights%'` in standard SQL).
 
-#### Using the `@cds.search` Annotation
+#### Using the `@cds.search` Annotation {#using-cds-search-annotation}
 
 By default all elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
@@ -552,7 +552,7 @@ You can configure default and maximum page size limits in your [project configur
 - The **default limit** defines the number of items that are retrieved if no `$top` was specified.
 
 
-#### Annotation `@cds.query.limit`
+#### Annotation `@cds.query.limit` {#annotation-cds-query-limit}
 
 You can override the defaults by applying the `@cds.query.limit` annotation on the service or entity level, as follows:
 

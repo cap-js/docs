@@ -1,7 +1,3 @@
----
-status: released
----
-
 # Use HANA for Production
 
 
@@ -21,6 +17,10 @@ npm add @sap/cds-hana
 Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which will take precedence over the default driver.
 
 :::
+
+### Prefer `cds add`
+
+TODO...
 
 
 
@@ -127,66 +127,7 @@ For SAP HANA, the database constraints are generated as separate _.hdbconstraint
 
 
 
-
-## Geospatial Functions
-
-CDS also supports the special syntax for HANA geospatial functions:
-
-```cds
-entity Geo as select from Foo {
-  geoColumn.ST_Area() as area : Decimal,
-  new ST_Point(2.25, 3.41).ST_X() as x : Decimal
-};
-```
-
-*Learn more in the [SAP HANA Spatial Reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/bc9e455fe75541b8a248b4c09b086cf5/7a2d11d7787c1014ac3a8663250814c2.html).*{.learn-more}
-
-
-
-#### SAP HANA functions with non-standard syntax
-
-SAP HANA defines some more functions that are called without parentheses (`current_connection`, `current_schema`, `current_transaction_isolation_level`, `current_utcdate`, `current_utctime`, `current_utctimestamp`, `sysuuid`). In CDS, you have to call them with the standard syntax *with* parentheses, like `current_connection()`.
-
-CDS supports SAP HANA Regex functions (`locate_regexpr`, `occurrences_regexpr`, `replace_regexpr`, and `substring_regexpr`),
-and SAP HANA aggregate functions with an additional `order by` clause in the argument list. Example:
-
-```sql
-locate_regexpr(pattern in name from 5)
-first_value(name order by price desc)
-```
-
-Restriction: `COLLATE` is not supported.
-
-For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../advanced/hana) for more details.
-
-
-#### SAP HANA Spatial grid generator functions
-
-SAP HANA Spatial has some built-in [grid generator table functions](https://help.sap.com/docs/HANA_CLOUD_DATABASE/bc9e455fe75541b8a248b4c09b086cf5/2ead478dc6e14c429037efcdb5a75a6e.html). To use them in a CDS model, first
-define corresponding facade entities in CDS.
-
-Example for function ST_SquareGrid:
-
-```cds
-@cds.persistence.exists
-entity ST_SquareGrid(size: Double, geometry: hana.ST_GEOMETRY) {
-  geom: hana.ST_GEOMETRY;
-  i: Integer;
-  j: Integer;
-}
-```
-
-Then the function can be called, parameters have to be passed by name:
-
-```cds
-entity V as select
-  from ST_SquareGrid(size: 1.0, geometry: ST_GeomFromWkt('Point(1.5 -2.5)'))
-{ geom, i, j };
-```
-
-
-
-### Deploying to HANA
+## Deploying to HANA
 
 When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
 If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
@@ -245,6 +186,67 @@ If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#ha
 #### Deploy Using `cf deploy` or `cf push`
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP.
+
+
+
+## Using Native HANA Features
+
+### Geospatial Functions
+
+CDS also supports the special syntax for HANA geospatial functions:
+
+```cds
+entity Geo as select from Foo {
+  geoColumn.ST_Area() as area : Decimal,
+  new ST_Point(2.25, 3.41).ST_X() as x : Decimal
+};
+```
+
+*Learn more in the [SAP HANA Spatial Reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/bc9e455fe75541b8a248b4c09b086cf5/7a2d11d7787c1014ac3a8663250814c2.html).*{.learn-more}
+
+
+
+#### SAP HANA functions with non-standard syntax
+
+SAP HANA defines some more functions that are called without parentheses (`current_connection`, `current_schema`, `current_transaction_isolation_level`, `current_utcdate`, `current_utctime`, `current_utctimestamp`, `sysuuid`). In CDS, you have to call them with the standard syntax *with* parentheses, like `current_connection()`.
+
+CDS supports SAP HANA Regex functions (`locate_regexpr`, `occurrences_regexpr`, `replace_regexpr`, and `substring_regexpr`),
+and SAP HANA aggregate functions with an additional `order by` clause in the argument list. Example:
+
+```sql
+locate_regexpr(pattern in name from 5)
+first_value(name order by price desc)
+```
+
+Restriction: `COLLATE` is not supported.
+
+For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../advanced/hana) for more details.
+
+
+#### SAP HANA Spatial grid generator functions
+
+SAP HANA Spatial has some built-in [grid generator table functions](https://help.sap.com/docs/HANA_CLOUD_DATABASE/bc9e455fe75541b8a248b4c09b086cf5/2ead478dc6e14c429037efcdb5a75a6e.html). To use them in a CDS model, first
+define corresponding facade entities in CDS.
+
+Example for function ST_SquareGrid:
+
+```cds
+@cds.persistence.exists
+entity ST_SquareGrid(size: Double, geometry: hana.ST_GEOMETRY) {
+  geom: hana.ST_GEOMETRY;
+  i: Integer;
+  j: Integer;
+}
+```
+
+Then the function can be called, parameters have to be passed by name:
+
+```cds
+entity V as select
+  from ST_SquareGrid(size: 1.0, geometry: ST_GeomFromWkt('Point(1.5 -2.5)'))
+{ geom, i, j };
+```
+
 
 
 

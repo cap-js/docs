@@ -209,7 +209,7 @@ GET http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(Business
 
 ###### Reset Mock Data at Runtime
 
-To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#actions-and-functions).
+To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#custom-actions-functions).
 
 > When using `cds watch`, executing `rs` in the terminal with the running watch command will restart the mock server and reset the mock data without the need of an unbound action.
 

@@ -12,7 +12,7 @@ const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
   java_services: '1.34.1',
-  java_cds4j: '1.38.1'
+  java_cds4j: '2.0.0'
 }
 
 const config =  defineConfig({

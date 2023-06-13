@@ -5,8 +5,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
-<!--- Migrated: @external/guides/31-Databases/index.md -> @external/guides/databases/index.md -->
-
 
 
 # Using Databases
@@ -27,20 +25,31 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SQLite](dbs-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
-| **[HANA Cloud](dbs-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
-| **[PostgreSQL](dbs-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
+| **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
+| **[HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
+| **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
 > Follow the links above to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, like so:
 
+Using SQLite for development:
+
 ```sh
-npm add @cap-js/sqlite -D #> for development
-npm add @sap/cds-hana #> for production
+npm add @cap-js/sqlite -D
 ```
 
+Using HANA for production:
 
+```sh
+npm add @sap/cds-hana
+```
+
+::: details Prefer `cds add hana` ...
+
+... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
+
+:::
 
 ### Auto-Wired Configuration
 
@@ -96,14 +105,12 @@ The above setups auto-wire things through configuration presets automatically en
 The config options are as follows:
 
 - `kind` — a name of a preset, like `sql`, `sqlite`, or `hana`
-- `impl` — the module name of a package providing a CAP database service implementation
+- `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 
 ::: warning
 
-Credentials like `username` and  `password` should **not** be added here but provided through service bindings.
-
-[TODO: Learn more about service bindings](#){.learn-more}
+Credentials like `username` and  `password` should **not** be added here but provided through service bindings, for example, via `cds bind`.
 
 :::
 
@@ -460,7 +467,7 @@ The following rules apply:
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
-If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](#schema-evolution-native-db-clauses).
+If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
 
 
@@ -480,15 +487,6 @@ Find here a collection of resources on selected databases and their reference do
 [There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 
 
-
-
-
-
-
-
-
-
-## Schema Evolution
 
 
 
@@ -561,7 +559,7 @@ entity Genres {
 Database constraints are not intended for checking user input. Instead, they protect
 the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
-→ Use [`@assert.target`](providing-services#assert-target) for input corresponding validations.
+→ Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
 
 ## Using Native Features  { #native-db-functions}
@@ -582,7 +580,7 @@ The `OVER` clause for SQL Window Functions is supported, too:
 entity RankedBooks as select from Books {
   name, author,
   rank() over (partition by author order by price) as rank
-}
+};
 ```
 
 
@@ -623,4 +621,5 @@ In case of conflicts, follow these steps to provide different models for differe
    }}}
    ```
 
-CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). There is also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for it.
+CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
+There is also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.

@@ -47,7 +47,7 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 0 11px 11px; }
+  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
 </style>
 
 On top of open source technologies, CAP mainly adds:

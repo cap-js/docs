@@ -20,7 +20,7 @@ status: released
 
 ## Introduction — Ubiquitous Events in CAP {#intro}
 
-We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#walkthrough-books-reviews-sample).
+We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#books-reviews-sample).
 
 
 ### Intrinsic Eventing in CAP Core

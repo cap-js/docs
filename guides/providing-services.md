@@ -237,7 +237,7 @@ service AdminService {
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
-In effect, a service definition [as introduced above](#defining-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
+In effect, a service definition [as introduced above](#modeling-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
 
 ### Serving CRUD Requests {#serving-crud}
@@ -728,7 +728,7 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](#refs) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's

@@ -545,7 +545,7 @@ Access control is performed on basis of CQN level according to the CDS model and
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
 - [Sorting](../guides/providing-services#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services#pagination)
+- [Pagination (implicit sort order)](../guides/providing-services#pagination-sorting)
 - Filtering
 
 ::: warning

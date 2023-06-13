@@ -69,6 +69,44 @@ main {
       font-weight: 600; // default is 700 which looks too fat
     }
 
+    // Fix for copy button position
+    [class*='language-'] > button.copy {
+      top: 7px;
+    }
+
+    pre.log {
+      font-size: var(--vp-code-font-size);
+      line-height: var(--vp-code-line-height);
+      padding: 20px !important;
+      border-radius: 8px;
+      overflow: hidden;
+      span {
+        &.cmd {
+          color: #FFCB6B;
+        }
+        &.flags {
+          color: #C3E88D;
+        }
+        &.cwd {
+          color: #777;
+        }
+        &.livereload {
+          color: #FDEC87
+        }
+      }
+      em {
+        color: #00ff00e0;
+      }
+      b {
+        color: #ee0000e0;
+      }
+      i {
+        color: grey;
+      }
+
+      background: var(--vp-code-block-bg);
+      color: #fafafa;
+    }
   }
 
   // Table of Contents
@@ -234,45 +272,6 @@ kbd {
   width: 20px;
   display: inline-block;
   margin-right: 5px;
-}
-
-// Fix for copy button position
-.vp-doc [class*='language-'] > button.copy {
-  top: 7px;
-}
-
-pre.log {
-  font-size: var(--vp-code-font-size);
-  line-height: var(--vp-code-line-height);
-  padding: 20px;
-  border-radius: 8px;
-  overflow: hidden;
-  span {
-    &.cmd {
-      color: #FFCB6B;
-    }
-    &.flags {
-      color: #C3E88D;
-    }
-    &.cwd {
-      color: #777;
-    }
-    &.livereload {
-      color: #FDEC87
-    }
-  }
-  em {
-    color: #00ff00e0;
-  }
-  b {
-    color: #ee0000e0;
-  }
-  i {
-    color: grey;
-  }
-
-  background: var(--vp-code-block-bg);
-  color: #fafafa;
 }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */

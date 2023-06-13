@@ -1,4 +1,4 @@
-# Use HANA for Production
+# Using HANA for Production
 
 
 
@@ -18,15 +18,17 @@ Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driv
 
 :::
 
-### Prefer `cds add`
+::: tip Prefer `cds add`
 
-TODO...
+... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+
+:::
 
 
 
 ## Running `cds build`
 
-Deployment to HANA is done via the [HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop):
+Deployment to HANA is done via the [HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop): 
 
 ```sh
 cds deploy --for hana
@@ -129,10 +131,13 @@ For SAP HANA, the database constraints are generated as separate _.hdbconstraint
 
 ## Deploying to HANA
 
-When you're moving from the development phase to the production phase, use SAP HANA Cloud as your database. There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com).
-If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
+When moving from the development to production phase, use SAP HANA Cloud as your database. 
 
-#### Enhance Project Configuration for SAP HANA Cloud { #configure-hana}
+There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts. 
+
+To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
+
+### Prepare for Production { #configure-hana}
 
 To prepare the project, execute:
 
@@ -140,24 +145,15 @@ To prepare the project, execute:
 cds add hana --for hybrid
 ```
 
-> This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
-> ::: tip
-> The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.
-> :::
+This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
 
-##### For Node.js
+::: tip
+The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.
+:::
 
-No further configuration is necessary.
-For your information, this is what the previous command changed in _package.json_:
+No further configuration is necessary for Node.js. For Java see the [Use SAP HANA as the Database for a CAP Java Application](https://developers.sap.com/tutorials/cp-cap-java-hana-db.html#880cf07a-1788-4fda-b6dd-b5a6e5259625) tutorial for the rest of the configuration.
 
-* The [`hdb`](https://www.npmjs.com/package/hdb) driver for SAP HANA is added as a dependency.
-* A datasource of type `hana-cloud` is added in the `cds.requires.[production].db` block. See [Node.js configuration](../node.js/cds-env#profiles) for more details.
-
-##### For Java
-
-See the [Use SAP HANA as the Database for a CAP Java Application](https://developers.sap.com/tutorials/cp-cap-java-hana-db.html#880cf07a-1788-4fda-b6dd-b5a6e5259625) tutorial for the rest of the configuration.
-
-#### Deploy using `cds deploy` { #cds-deploy-hana}
+### Using `cds deploy` { #cds-deploy-hana}
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
@@ -173,7 +169,7 @@ cds deploy --to hana --profile hybrid
 Behind the scenes, `cds deploy` does the following:
 
 * Compiles the CDS model to SAP HANA files (usually in _gen/db_, or _db/gen_)
-* Generates _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ files for the [CSV files](databases#providing-initial-data) in the project. If an _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ file is already present next to the CSV files, no new file is generated.
+* Generates _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ files for the [CSV files](#providing-initial-data) in the project. If an _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ file is already present next to the CSV files, no new file is generated.
 * Creates a Cloud Foundry service of type `hdi-shared`, which creates an HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
 * Starts `@sap/hdi-deploy` locally. Should you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
@@ -183,9 +179,9 @@ Behind the scenes, `cds deploy` does the following:
 
 If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#hana) guide.
 
-#### Deploy Using `cf deploy` or `cf push`
+### Using `cf deploy` or `cf push`
 
-See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP.
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP, including a dedicated deployer application for the HANA database.
 
 
 
@@ -365,7 +361,7 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
 ### Native Database Clauses {#schema-evolution-native-db-clauses}
-Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](databases-hana#schema-evolution-native-db-clauses). In this section we are focusing on schema evolution specific details.
+Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](#native-db-clauses). In this section we are focusing on schema evolution specific details.
 
 Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
 Please note that the compiler does not evaluate or process these SQL snippets. Any snippet will be taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment will fail in case of syntax errors.

@@ -138,7 +138,7 @@ CqnStatement copy = CQL.copy(statement, modifier);
 | Class / Interface | Method / Field | Replacement |
 | --- | --- | --- |
 | <Cds4j link="ConstraintViolationException.html">ConstraintViolationException</Cds4j> | | <Cds4j latest link="UniqueConstraintException.html">UniqueConstraintException</Cds4j> |
-| <Cds4j link="ResultBuilder.html">ResultBuilder</Cds4j> | <Cds4j link="ResultBuilder.html#updatedRows-int:A-java.util.List-">updatedRows</Cds4j> | see <Cds4j latest link="ResultBuilder.html#updatedRows-int:A-java.util.List-">javadoc</Cds4j> |
+| <Cds4j link="ResultBuilder.html">ResultBuilder</Cds4j> | <Cds4j link="ResultBuilder.html#updatedRows-int:A-java.util.List-">updatedRows</Cds4j> | see <Cds4j link="ResultBuilder.html#updatedRows-int:A-java.util.List-">javadoc</Cds4j> |
 
 #### com.sap.cds.ql
 

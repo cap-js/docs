@@ -92,17 +92,17 @@ In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\
 
 By default, Node.js apps started with `cds run` or `cds watch` use port 4004, which might be occupied if other app instances are still running. In this case, `cds watch` now asks you if it should pick a different port.
 
-<pre class="log">
+```log{5}
 $ cds watch
 ...
 [cds] - serving CatalogService ...
 
-<em>EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)</em>
+EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)
 > y
 restart
 ...
-[cds] - server listening on { url: 'http://localhost:<em>4005</em>' }
-</pre>
+[cds] - server listening on { url: 'http://localhost:4005' }
+```
 
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 

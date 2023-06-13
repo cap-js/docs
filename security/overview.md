@@ -120,7 +120,7 @@ It provides a way to establish a secure communication channel between remote end
 
 Note the security [guide](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/cb50b6191615478aa11d2050dada467d.html).
 
-## Security Architecture and Platform Requirements
+## Architecture and Platform Requirements
 
 As [pointed out](#platform-compliance), CAP cloud applications run in a specific context that has a major impact on the security [architecture](#architecture-overview).
 CAP requires a dedicated [platform environment](#platform-environment) to integrate with in order to ensure end-to-end security.

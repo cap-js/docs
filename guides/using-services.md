@@ -972,7 +972,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide destination options [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {

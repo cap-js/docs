@@ -69,7 +69,7 @@ We commonly use that in CAP implementations to print filenames to stdout that yo
 
 For example, if we run bookshop from the parent folder, filenames are correctly printed with a `bookshop/` prefix:
 
-```sh
+```console
 [samples] cds run bookshop
 [cds] - loaded model from 5 file(s):
 
@@ -77,13 +77,12 @@ For example, if we run bookshop from the parent folder, filenames are correctly 
   bookshop/srv/cat-service.cds
   bookshop/srv/admin-service.cds
   bookshop/db/schema.cds
-
 ...
 ```
 
 If we run it from within the *bookshop* folder, no prefixes show up:
 
-```sh
+```console
 [bookshop] cds run
 [cds] - loaded model from 5 file(s):
 
@@ -91,7 +90,6 @@ If we run it from within the *bookshop* folder, no prefixes show up:
   srv/cat-service.cds
   srv/admin-service.cds
   db/schema.cds
-
 ...
 ```
 

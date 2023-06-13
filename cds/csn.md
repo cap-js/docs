@@ -448,7 +448,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### Associations with specified `cardinality`
+### With Specified `cardinality`
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -468,7 +468,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### Associations with specified `on` Condition
+### With Specified `on` Condition
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -484,7 +484,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### Associations with specified `keys`
+### With Specified `keys`
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 

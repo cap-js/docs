@@ -423,7 +423,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services/#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java
@@ -558,7 +558,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services/#actions-and-functions){.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services#custom-actions-functions){.learn-more}
 
 
 We're going to look at three things.

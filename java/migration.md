@@ -291,7 +291,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Overview of Removed Annotations
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services/#using-cds-search-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
 
 ### Changed Behavior
 
@@ -536,7 +536,7 @@ If this Maven build finishes successfully, you can optionally try to deploy your
 cds deploy --to hana
 ```
 
-[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases#get-hana){.learn-more}
+[See section **SAP HANA Cloud** for more details about deploying to SAP HANA.](../guides/databases-hana){.learn-more}
 
 
 ### Migrate Java Business Logic

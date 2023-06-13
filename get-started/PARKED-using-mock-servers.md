@@ -102,9 +102,9 @@ Let's do some **ad hoc tests**:
 
 ###### Served by Generic Providers
 
-What we see here are the effects of [Generic Providers](../guides/providing-services/), which handle many things out of the box, such as compiling the CDS models into [OData](../advanced/odata) `$metadata` documents on the fly, as well automatically serving all CRUD requests, thereby handling all the OData protocol features such as `$batch`, up to complex choreographies such as [Fiori Draft](../advanced/fiori#draft-support). This saves us lots of work at this point and allows us to immediately go on with the next steps instead of implementing all of this in boilerplate code.
+What we see here are the effects of [Generic Providers](../guides/providing-services), which handle many things out of the box, such as compiling the CDS models into [OData](../advanced/odata) `$metadata` documents on the fly, as well automatically serving all CRUD requests, thereby handling all the OData protocol features such as `$batch`, up to complex choreographies such as [Fiori Draft](../advanced/fiori#draft-support). This saves us lots of work at this point and allows us to immediately go on with the next steps instead of implementing all of this in boilerplate code.
 
-[Learn more about generic providers.](../guides/providing-services/){.learn-more}
+[Learn more about generic providers.](../guides/providing-services){.learn-more}
 
 <div id="beforemockingappserv" />
 
@@ -179,7 +179,7 @@ module.exports = (db)=>{
 
 ###### Mock Custom Responses
 
-To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services/#adding-custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
+To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#adding-custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
 
 ```js
 module.exports = cds.service.impl (srv => {
@@ -209,7 +209,7 @@ GET http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(Business
 
 ###### Reset Mock Data at Runtime
 
-To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services/#actions-and-functions).
+To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#custom-actions-functions).
 
 > When using `cds watch`, executing `rs` in the terminal with the running watch command will restart the mock server and reset the mock data without the need of an unbound action.
 
@@ -244,9 +244,9 @@ GET http://localhost:4004/api-business-partner/reset
 ## Growing On...
 
 * [Domain Modeling](../guides/domain-modeling)
-* [Providing](../guides/providing-services/)
+* [Providing](../guides/providing-services)
 * [Events & Messaging](../guides/messaging/)
-* [Using Generic Providers](../guides/providing-services/#generic-providers)
+* [Using Generic Providers](../guides/providing-services#generic-providers)
 * [Using Databases](../guides/databases)
 * [Localization (i18n)](../guides/i18n)
 * [Adding Localized Data](../guides/localized-data)

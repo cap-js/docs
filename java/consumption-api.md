@@ -115,7 +115,7 @@ Consequently, they only accept CQN statements targeting entities that are define
 
 [Learn more about adding business logic to Application Services.](application-services){.learn-more}
 
-Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization), [input validation](../guides/providing-services/#input-validation), [implicit pagination](../guides/providing-services/#implicit-pagination) and many more.
+Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization), [input validation](../guides/providing-services#input-validation), [implicit pagination](../guides/providing-services#implicit-pagination) and many more.
 Their default ON event handler delegates CQN statements to the Persistence Service.
 
 [Learn more about these capabilities in our Cookbooks.](../guides/){.learn-more}
@@ -144,7 +144,7 @@ A Persistence Service isn't bound to a specific service definition in the CDS mo
 
 Transaction management is built in to Persistence Services. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
 
-Some generic providers are registered on Persistence Services instead of on Application Services, like the ones for [managed data](../guides/providing-services/#managed-data).
+Some generic providers are registered on Persistence Services instead of on Application Services, like the ones for [managed data](../guides/providing-services#managed-data).
 This ensures that the functionality is also triggered, when directly interacting with a Persistence Service.
 
 The Persistence Service is used when implementing event handlers for Application Services, for example when additional data needs to be read when performing custom validations.

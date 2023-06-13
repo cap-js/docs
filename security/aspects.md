@@ -404,7 +404,7 @@ Moreover, deserialization errors terminate the request and are tracked in the ap
 In general, to achieve perfect injection resistance, applications should have input validation, output validation, and a proper Content-Security-Policy in place.
 
 - CAP provides built-in support for **input validation**.
-Developers can use the [`@assert`](../guides/providing-services/#input-validation) annotation to define field-specific input checks.
+Developers can use the [`@assert`](../guides/providing-services#input-validation) annotation to define field-specific input checks.
 
 ::: warning
 ❗ Applications need to validate or sanitize all input variables according to the business context.
@@ -451,8 +451,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services/#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services/#pagination)
+- [Sorting](../guides/providing-services#using-cds-search-annotation)
+- [Pagination (implicit sort order)](../guides/providing-services#pagination-sorting)
 - Filtering
 
 ::: warning
@@ -468,7 +468,7 @@ In addition, CAP runs on a virtual machine with a managed heap that protects fro
 
 CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
 These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../guides/providing-services/#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services/#etag) and [pessimistic locks](../guides/providing-services/#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
+CAP provides basic means of [concurrency control](../guides/providing-services#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services#etag) and [pessimistic locks](../guides/providing-services#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
 
 ::: tip
 Applications have to ensure a consistent data processing taking concurrency into account.
@@ -497,7 +497,7 @@ Additional size limits and timeouts (request timeout) are established by the rev
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
 :::
 
-Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services/#configuring-defaults-with-cds-query-limit)).
+Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
@@ -506,7 +506,7 @@ Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` s
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
 Also the maximum amount of requests per `$batch` request need to be configured as follows:
-- Node.js: `cds.odata.batch_limit = <max_requests>` 
+- Node.js: `cds.odata.batch_limit = <max_requests>`
 - Java: `cds.odataV4.batch.maxRequests = <max_requests>`
 :::
 

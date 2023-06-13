@@ -47,7 +47,7 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 0 11px 11px; }
+  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
 </style>
 
 On top of open source technologies, CAP mainly adds:
@@ -84,7 +84,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services/#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
 
@@ -147,7 +147,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
-**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
+**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services#input-validation), [Input Validation](../guides/providing-services#input-validation) or [Authorization](../guides/authorization).
 
 </div>
 
@@ -200,24 +200,24 @@ Following is an excerpt of generic features provided:
 
 ###### Automatically Serving Requests
 
-- [Serving CRUD Requests](../guides/providing-services/#generic-providers)
-- [Serving Nested Documents](../guides/providing-services/#serving-documents)
+- [Serving CRUD Requests](../guides/providing-services#generic-providers)
+- [Serving Nested Documents](../guides/providing-services#serving-documents)
 - [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
 ###### Handling Recurring Tasks
 
-- [Implicit Pagination](../guides/providing-services/#implicit-pagination)
-- [Input Validation](../guides/providing-services/#input-validation)
+- [Implicit Pagination](../guides/providing-services#implicit-pagination)
+- [Input Validation](../guides/providing-services#input-validation)
 - [Authentication](../node.js/authentication)
 - [Authorization](../guides/authorization)
 - [Localization / i18n](../guides/i18n)
-- [Concurrency Control](../guides/providing-services/#concurrency-control)
+- [Concurrency Control](../guides/providing-services#concurrency-control)
 
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services/#managed-data)
+- [Managed Data](../guides/providing-services#managed-data)
 - [Localized Data](../guides/localized-data)
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
@@ -398,7 +398,7 @@ All services provide a **uniform** API for programmatic consumption. Thus, appli
 
 </div>
 
-::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
+::: tip _[Late-cut µ services](../guides/providing-services#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
@@ -435,7 +435,7 @@ srv.on ('orderCancelled', (msg)=>{})
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 
-We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
+We add custom logic in [event handlers](../guides/providing-services#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
 </div>
 

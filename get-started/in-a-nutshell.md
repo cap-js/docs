@@ -91,7 +91,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```sh
+```console
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -499,7 +499,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl node">
 
-```sh
+```console
 ./srv
   - cat-service.cds  # service definitions
   - cat-service.js   # service implementation

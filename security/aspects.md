@@ -544,8 +544,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services/#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services/#pagination)
+- [Sorting](../guides/providing-services#using-cds-search-annotation)
+- [Pagination (implicit sort order)](../guides/providing-services#pagination)
 - Filtering
 
 ::: warning
@@ -561,7 +561,7 @@ In addition, CAP runs on a virtual machine with a managed heap that protects fro
 
 CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
 These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../guides/providing-services/#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services/#etag) and [pessimistic locks](../guides/providing-services/#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
+CAP provides basic means of [concurrency control](../guides/providing-services#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services#etag) and [pessimistic locks](../guides/providing-services#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
 
 ::: tip
 Applications have to ensure a consistent data processing taking concurrency into account.

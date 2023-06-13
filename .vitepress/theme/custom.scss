@@ -69,12 +69,17 @@ main {
       font-weight: 600; // default is 700 which looks too fat
     }
 
+    // Fix for copy button position
+    [class*='language-'] > button.copy {
+      top: 7px;
+    }
+
     pre.log {
       font-size: var(--vp-code-font-size);
       line-height: var(--vp-code-line-height);
       padding: 20px !important;
       border-radius: 8px;
-      overflow: auto;
+      overflow: hidden;
       span {
         &.cmd {
           color: #FFCB6B;
@@ -297,5 +302,9 @@ tr:nth-child(odd) {
   pre.log:hover,
   pre.log:focus {
     min-width: fit-content;
+    padding-right: 40px;
+  }
+  [class*='language-'] pre {
+    overflow: hidden !important;
   }
 }

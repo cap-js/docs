@@ -4,6 +4,7 @@
   "description": "Capire on VitePress",
   "type": "module",
   "scripts": {
+    "setup": "npm ci",
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build .",
     "docs:preview": "vitepress preview .",

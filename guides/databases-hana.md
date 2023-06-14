@@ -311,7 +311,7 @@ CAP supports database schema updates by detecting changes to the CDS model when 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
 
 ::: warning
-Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
+Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes and renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
 :::
 
 ### Schema Evolution and Multitenancy/Extensibility

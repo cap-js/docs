@@ -408,7 +408,7 @@ entity Bar as select from Foo;   //> The SQL view will be generated
 
 ::: details On HANA ...
 
-If the respective entity is user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
+If the respective entity is a user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
 :::
 

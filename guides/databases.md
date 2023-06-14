@@ -25,8 +25,8 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
+| **[SAP HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
-| **[HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
 > Follow the links above to find specific information for each.
@@ -186,7 +186,10 @@ ID,title,descr
 252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
 ```
 
-
+::: danger
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.<br>
+See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+:::
 
 
 

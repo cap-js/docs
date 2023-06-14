@@ -234,7 +234,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## ② Local Mocking
+## ② Local Mocking {#local-mocking}
 
 When developing your application, you can mock the remote service.
 
@@ -467,7 +467,7 @@ For example:
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
-## ③ Execute Queries
+## ③ Execute Queries {#execute-queries}
 
 You can send requests to remote services using CAP's powerful querying API.
 
@@ -594,7 +594,7 @@ For Java, you can use the `HttpClient` API to implement your custom requests. Th
 
 [Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
-## ④ Integrate and Extend
+## ④ Integrate and Extend {#integrate-and-extend}
 
 By creating projections on remote service entities and using associations, you can create services that combine data from your local service and remote services.
 
@@ -923,7 +923,7 @@ The following matrix can help you to find the best approach for your scenario:
 > <sup>4</sup> Depends on the connectivity and performance of the remote system. <br>
 
 
-## ⑤ Connect and Deploy
+## ⑤ Connect and Deploy {#integrate-and-extend}
 
 <!--
 ### Connect to Business Services on SAP BTP

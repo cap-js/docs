@@ -28,7 +28,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 
-const { site, theme } = useData()
+const { site, theme, page } = useData()
 const metaKey = ref('Meta')
 
 onMounted(() => {
@@ -107,9 +107,13 @@ function commandsFromConfig() {
       enabled: () => window.location.hostname !== hostname,
       run: () => {
         const url = new URL(link.href)
-        url.pathname += window.location.pathname.slice(site.value.base.length) // base path may be different on the target site
-        url.search = window.location.search
-        url.hash = window.location.hash
+        if (url.href.startsWith('http')) {
+          url.pathname += window.location.pathname.slice(site.value.base.length) // base path may be different on the target site
+          url.search = window.location.search
+          url.hash = window.location.hash
+        } else { // local URLs
+          url.href = url.href.replace('${filePath}', page.value.filePath)
+        }
         window.open(url, '_blank');
       },
       keys: [ref(link.key)],

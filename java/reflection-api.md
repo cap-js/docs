@@ -211,7 +211,7 @@ Features are modeled in CDS by dividing up CDS code concerning separate features
         `-- ...
 ```
 
-In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note, that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
+In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
 
 The database schema resulting from CDS build at design time contains *all* features. This is required to serve the base model and all combinations of features at runtime.
 

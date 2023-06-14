@@ -7,7 +7,7 @@ status: released
 
 # Domain Modeling
 
-Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services/)*.
+Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services)*.
 
 [[toc]]
 
@@ -66,7 +66,7 @@ type Genre : String enum {
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
-![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg){.center}
+![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg)
 
 The more we succeeded in capturing intent over imperative implementations, the more we can provide optimized generic implementations.
 
@@ -318,7 +318,7 @@ entity Books : cuid { ... }
 entity Authors : cuid { ... }
 ```
 
-This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.Prefer Simple, Technical Keys
+This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.
 
 ### Prefer UUIDs for Keys
 
@@ -357,11 +357,9 @@ On the same note, converting UUID values obtained as strings from the database i
 
 :::
 
-::: details See also: [Mapping UUIDs to OData](../advanced/odata#override-type-mapping)
-:::
+[See also: Mapping UUIDs to OData](../advanced/odata#override-type-mapping) {.learn-more}
 
-::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
-:::
+[See also: Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql) {.learn-more}
 
 ## ④ Add Associations {#associations}
 

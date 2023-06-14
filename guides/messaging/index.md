@@ -1,13 +1,7 @@
 ---
-index: 24
-label: Messaging
 synopsis: >
   CAP provides intrinsic support for emitting and receiving events.
   This is complemented by Messaging Services connecting to message brokers to exchange event messages across remote services.
-layout: cookbook
-breadcrumbs:
-  - Cookbook
-  - Messaging
 status: released
 ---
 
@@ -20,15 +14,18 @@ status: released
 
 <div v-html="$frontmatter?.synopsis" />
 
+[[toc]]
+
+
 
 ## Introduction — Ubiquitous Events in CAP {#intro}
 
-We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#walkthrough-books-reviews-sample).
+We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#books-reviews-sample).
 
 
 ### Intrinsic Eventing in CAP Core
 
-As introduced in [About CAP](../../about/#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services/#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
+As introduced in [About CAP](../../about/#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
 
 ```js
 let srv = new cds.Service
@@ -39,8 +36,8 @@ srv.on ('some event', msg => console.log('2nd listener received:', msg))
 await srv.emit ('some event', { foo:11, bar:'12' })
 ```
 
-::: tip
-**Intrinsic support for events** — the core of CAP's processing model<br> All services are event emitters. Events can be sent to them, emitted by them, and event handlers register with them to react to such events.
+::: tip Intrinsic support for events
+The core of CAP's processing model: all services are event emitters. Events can be sent to them, emitted by them, and event handlers register with them to react to such events.
 :::
 
 ### Typical Emitter and Receiver Roles
@@ -78,8 +75,8 @@ Asynchronous communication looks similar, just with reversed roles:
 
 ![async.drawio](assets/async.drawio.svg){.adapt}
 
-::: tip
-**Event Listeners vs Interceptors** — requests are handled the same ways as events, with one major difference: While `on` handlers for events are *listeners* (all are called), handlers for synchronous requests are *interceptors* (only the topmost is called by the framework). An interceptor then decides whether to pass down control to `next` handlers or not.
+::: tip Event Listeners vs Interceptors
+Requests are handled the same ways as events, with one major difference: While `on` handlers for events are *listeners* (all are called), handlers for synchronous requests are *interceptors* (only the topmost is called by the framework). An interceptor then decides whether to pass down control to `next` handlers or not.
 :::
 
 ### Asynchronous & Synchronous APIs
@@ -89,8 +86,8 @@ _Emitters_ in turn don't know _Receivers_.
 
 ![sync-async.drawio](assets/sync-async.drawio.svg){.adapt}
 
-::: tip
-**Blurring the line between synchronous and asynchronous APIs** — in essence services receive events. The emitting service itself or other services can register handlers for those events in order to implement the logic of how to react to these events.
+::: tip Blurring the line between synchronous and asynchronous API
+In essence, services receive events. The emitting service itself or other services can register handlers for those events in order to implement the logic of how to react to these events.
 :::
 
 
@@ -98,17 +95,17 @@ _Emitters_ in turn don't know _Receivers_.
 
 Using messaging has two major advantages:
 
-::: tip
-**Resilience** — If a receiving service goes offline for a while, event messages are safely stored, and guaranteed to be delivered to the receiver as soon as it goes online again.
+::: tip Resilience
+If a receiving service goes offline for a while, event messages are safely stored, and guaranteed to be delivered to the receiver as soon as it goes online again.
 :::
 
-::: tip
-**Decoupling** — Emitters of event messages are decoupled from the receivers and don't need to know them at the time of sending. This way a service is able to emit events that other services can register on in the future, for example, to implement **extension** points.
+::: tip Decoupling
+Emitters of event messages are decoupled from the receivers and don't need to know them at the time of sending. This way a service is able to emit events that other services can register on in the future, for example, to implement **extension** points.
 :::
 
 
 
-## Walkthrough: Books Reviews Sample
+## Books Reviews Sample
 
 The following explanations walk us through a books review example from cap/samples:
 
@@ -172,8 +169,8 @@ class ReviewsService extends cds.ApplicationService { async init() {
 
 Method `srv.emit()` is used to emit event messages. As you can see, emitters usually emit messages to themselves, that is, `this`, to inform potential listeners about certain events. Emitters don't know the receivers of the events they emit. There might be none, there might be local ones in the same process, or remote ones in separate processes.
 
-::: tip
-**Messaging on Conceptual Level** — simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
+::: tip Messaging on Conceptual Level
+Simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
 :::
 
 ### Receiving Events {.h2}
@@ -212,7 +209,15 @@ cds watch bookstore
 
 It produces a trace output like that:
 
-![image-20211019161406214](assets/image-20211019161406214.png)
+```log
+[cds] - mocking ReviewsService { path: '/reviews', impl: '../reviews/srv/reviews-service.js' }
+[cds] - mocking OrdersService { path: '/orders', impl: '../orders/srv/orders-service.js' }
+[cds] - serving CatalogService { path: '/browse', impl: '../bookshop/srv/cat-service.js' }
+[cds] - serving AdminService { path: '/admin', impl: '../bookshop/srv/admin-service.js' }
+
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - launched at 5/25/2023, 4:53:46 PM, version: 7.0.0, in: 991.573ms
+```
 
 As apparent from the output, both, the two bookshop services `CatalogService` and `AdminService` as well as our new `ReviewsService`, are served in the same process (mocked, as the `ReviewsService` is configured as required service in _bookstore/package.json_).
 
@@ -220,7 +225,7 @@ As apparent from the output, both, the two bookshop services `CatalogService` an
 
 Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to display the Vue.js UI that is provided with the reviews service sample:
 
-![image-20211018184259395](assets/image-20211018184259395.png){.adapt}
+![capire-reviews](assets/capire-reviews.png)
 
 - Choose one of the reviews.
 - Change the 5-star rating with the dropdown.
@@ -229,7 +234,11 @@ Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to disp
 
 → In the terminal window you should see a server reaction like this:
 
-<img src="./assets/image-20211018184509053.png" alt="image-20211018184509053" style="zoom:50%;"/>
+```log
+[cds] - PATCH /reviews/Reviews/148ddf2b-c16a-4d52-b8aa-7d581460b431
+< emitting: reviewed { subject: '201', count: 2, rating: 4.5 }
+> received: reviewed { subject: '201', count: 2, rating: 4.5 }
+```
 
 Which means the `ReviewsService` emitted a `reviewed` message that was received by the enhanced `CatalogService`.
 
@@ -237,17 +246,17 @@ Which means the `ReviewsService` emitted a `reviewed` message that was received 
 
 Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the list of books served by `CatalogService` and refresh to see the updated average rating and reviews count:
 
-![image-20211018184900010](assets/image-20211018184900010.png){.adapt}
+![capire-books](assets/capire-books.png)
 
 
 ## Using Message Channels
 
-When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic.
+When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic:
 
-![remote.drawio](assets/remote.drawio.svg){.adapt}
+![remote.drawio](assets/remote.drawio.svg)
 
 
-::: tip **Uniform, Agnostic Messaging** {.tip-title}
+::: tip Uniform, Agnostic Messaging
 CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which stays on conceptual level.
 :::
 
@@ -280,7 +289,13 @@ cds watch reviews
 
 The trace output should contain these lines, confirming that you're using `file-based-messaging`, and that the `ReviewsService` is served by that process at port 4005:
 
-![image-20211019163410072](assets/image-20211019163410072.png)
+```log
+[cds] - connect to messaging > file-based-messaging { file: '~/.cds-msg-box' }
+[cds] - serving ReviewsService { path: '/reviews', impl: '../reviews/srv/reviews-service.js' }
+
+[cds] - server listening on { url: 'http://localhost:4005' }
+[cds] - launched at 5/25/2023, 4:53:46 PM, version: 7.0.0, in: 593.274ms
+```
 
 Then, in a separate terminal start the `bookstore` server as before:
 
@@ -290,7 +305,16 @@ cds watch bookstore
 
 This time the trace output is different to [when you started all in a single server](#start-single-server). The output confirms that you're using `file-based-messaging`, and that you now *connected* to the separately started `ReviewsService` at port 4005:
 
-![image-20211019163645145](assets/image-20211019163645145.png)
+```log
+[cds] - connect to messaging > file-based-messaging { file: '~/.cds-msg-box' }
+[cds] - mocking OrdersService { path: '/orders', impl: '../orders/srv/orders-service.js' }
+[cds] - serving CatalogService { path: '/browse', impl: '../reviews/srv/cat-service.js' }
+[cds] - serving AdminService { path: '/admin', impl: '../reviews/srv/admin-service.js' }
+[cds] - connect to ReviewsService > odata { url: 'http://localhost:4005/reviews' }
+
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - launched at 5/25/2023, 4:55:46 PM, version: 7.0.0, in: 1.053s
+```
 
 ### 3. Add or Update Reviews {#add-or-update-reviews-2}
 
@@ -298,14 +322,19 @@ Similar to before, open [http://localhost:4005/vue/index.html](http://localhost:
 
 → In the terminal window for the `reviews` server you should see this:
 
-![image-20211019164342913](assets/image-20211019164342913.png)
+```log
+[cds] - PATCH /reviews/Reviews/74191a20-f197-4829-bd47-c4676710e04a
+< emitting: reviewed { subject: '251', count: 1, rating: 3 }
+```
 
 → In the terminal window for the `bookstore` server you should see this:
 
-![image-20211019164416462](assets/image-20211019164416462.png)
+```log
+> received: reviewed { subject: '251', count: 1, rating: 3 }
+```
 
-::: tip
-**Agnostic Messaging APIs** — without touching any code the event emitted from the `ReviewsService` got transported via `file-based-messaging` channel behind the scenes and was received in the `bookstore` as before, when you used in-process eventing → which was to be shown (*QED*).
+::: tip **Agnostic Messaging APIs**
+Without touching any code the event emitted from the `ReviewsService` got transported via `file-based-messaging` channel behind the scenes and was received in the `bookstore` as before, when you used in-process eventing → which was to be shown (*QED*).
 :::
 
 ### 4. Shut Down and Restart Receiver → Resilience by Design
@@ -318,10 +347,18 @@ You can simulate a server outage to demonstrate the value of messaging for resil
 
 → You should see some trace output like that:
 
-<img src="./assets/image-20211019200708529.png" alt="image-20211019200708529" style="zoom:50%;" />
+```log
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - launched at 5/25/2023, 10:45:42 PM, version: 7.0.0, in: 1.023s
+[cds] - [ terminate with ^C ]
 
-::: tip
-**Resilience by design** — All messages emitted while the receiver was down stayed in the messaging queue and are delivered when the server is back.
+> received: reviewed { subject: '207', count: 1, rating: 2 }
+> received: reviewed { subject: '207', count: 1, rating: 2 }
+> received: reviewed { subject: '207', count: 1, rating: 2 }
+```
+
+::: tip **Resilience by Design**
+All messages emitted while the receiver was down stayed in the messaging queue and are delivered when the server is back.
 :::
 
 
@@ -358,8 +395,8 @@ To avoid falling back to low-level messaging, CAP provides the `composite-messag
 ![composite3.drawio](assets/composite3.drawio.svg){.adapt}
 
 
-::: tip
-**Transparent Topologies** — The `composite-messaging` implementation allows to flexibly change topologies of message channels at deployment time, without touching source code or models.
+::: tip **Transparent Topologies**
+The `composite-messaging` implementation allows to flexibly change topologies of message channels at deployment time, without touching source code or models.
 :::
 
 ### Configuring Individual Channels and Routes
@@ -406,11 +443,11 @@ You can also refer to events declared in CDS models, by using their fully qualif
 
 In the previous sections it's documented how CAP promotes messaging on conceptual levels, staying agnostic to topologies and message brokers. While CAP strongly recommends staying on that level, CAP also offers lower-level messaging, which loses some of the advantages but still stays independent from specific message brokers.
 
-### Messaging as Just Another CAP Service
-
+::: tip Messaging as Just Another CAP Service
 All messaging implementations are provided through class `cds.MessagingService` and broker-specific subclasses of that. This class is in turn a standard CAP service, derived from `cds.Service`, hence it's consumed as any other CAP service, and can also be extended by adding event handlers as usual.
+:::
 
-### Configure Messaging Services
+#### Configure Messaging Services
 
 As with all other CAP services, add an entry to `cds.requires` in your _package.json_ or _.cdsrc.json_ like that:
 
@@ -428,7 +465,7 @@ As with all other CAP services, add an entry to `cds.requires` in your _package.
 
 You're free how you name your messaging service. Could be `messaging` as in the previous example, or any other name you choose. You can also configure multiple messages services with different names.
 
-### Connect to the Messaging Service
+#### Connect to the Messaging Service
 
 Instead of connecting to an emitter service, connect to the messaging service:
 
@@ -436,7 +473,7 @@ Instead of connecting to an emitter service, connect to the messaging service:
 const messaging = await cds.connect.to('messaging')
 ```
 
-### Emit Events to Messaging Service
+#### Emit Events to Messaging Service
 
 Instead of emitter services emitting to themselves, emit to the messaging service:
 
@@ -444,7 +481,7 @@ Instead of emitter services emitting to themselves, emit to the messaging servic
 await messaging.emit ('ReviewsService.reviewed', { ... })
 ```
 
-### Receive Events from Messaging Service
+#### Receive Events from Messaging Service
 
 Instead of registering event handlers with a concrete emitter service, register handlers on the messaging service:
 
@@ -454,7 +491,7 @@ messaging.on ('ReviewsService.reviewed', msg => console.log(msg))
 
 <br>
 
-### Declared Events and `@topic` Names
+#### Declared Events and `@topic` Names
 
 When declaring events in CDS models, be aware that the fully qualified name of the event is used as topic names when emitting to message brokers. Based on the following model, the resulting topic name is `my.namespace.SomeEventEmitter.SomeEvent`.
 
@@ -475,7 +512,7 @@ event SomeEvent { ... }
 
 
 
-### Conceptual vs. Low-Level Messaging
+#### Conceptual vs. Low-Level Messaging
 
 When looking at the previous code samples, you see that in contrast to conceptual messaging you need to provide fully qualified event names now. This is just one of the advantages you lose. Have a look at the following list of advantages you have using conceptual messaging and lose with low-level messaging.
 
@@ -484,8 +521,8 @@ When looking at the previous code samples, you see that in contrast to conceptua
 - Generated typed API classes for declared events
 - Run in-process without any messaging service
 
-::: tip
-**Always prefer conceptual-level API over low-level API** variants. Besides the things listed above, this allows you to flexibly change topologies, such as starting with co-located services in a single process, and moving single services out to separate micro services later on.
+::: tip Always prefer conceptual-level API over low-level API variants.
+Besides the things listed above, this allows you to flexibly change topologies, such as starting with co-located services in a single process, and moving single services out to separate micro services later on.
 :::
 
 
@@ -506,8 +543,8 @@ CAP messaging has built-in support for formatting event data compliant to the [C
 
 With this setting, all mandatory and some more basic header fields, like `type`, `source`, `id`, `datacontenttype`, `specversion`, `time` are filled in automatically. The event name is used as `type`. The message payload is in the `data` property anyways.
 
-::: tip
-**CloudEvents is a wire protocol specification.** Application developers shouldn't have to care for such technical details. CAP ensures that for you, by filling in the respective fields behind the scenes.
+::: tip CloudEvents is a wire protocol specification.
+Application developers shouldn't have to care for such technical details. CAP ensures that for you, by filling in the respective fields behind the scenes.
 :::
 
 
@@ -552,7 +589,7 @@ So, the effort on the CAP side is to fill this gap.
 You can achieve it like that, for example, for an already imported SAP S/4HANA BusinessPartner API:
 
 ```cds
-// filling in missing events as found on SAP API Business Hub
+// filling in missing events as found on SAP Business Accelerator Hub
 using { API_BUSINESS_PARTNER as S4 } from './API_BUSINESS_PARTNER';
 extend service S4 with {
   event BusinessPartner.Created @(topic:'sap.s4.beh.businesspartner.v1.BusinessPartner.Created.v1') {

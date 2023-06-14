@@ -1,12 +1,13 @@
 ---
 outline: [1,3]
 status: released
+synopsis: Start with a minimal setup and a grow-as-you-go approach.
 ---
 
 
 # Jumpstart & Grow as You Go
 
-CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started...
+CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
 > Looking for other ways to setup and start projects?
 > See the Get Started menu in the left-hand-side sidebar.
@@ -19,24 +20,24 @@ CAP promotes getting started with **minimal upfront setup**, based on **conventi
 
 ## Setup for Local Development {#setup}
 
-Follow the steps below to setup a local development environment. If you are a developer, then you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VS Code, and you only need to install `cds-dk` as described in step 2 below.
+Follow the steps below to set up a local development environment. If you are a developer, you might already have most things installed, such as Node.js, Git, SQLite, Java, Maven, VS Code, and you only need to install `cds-dk` as described in step 2 below.
 
 
 
 ### 1. Install Node.js
 
-#### ... from [nodejs.org](https://nodejs.org)
+#### … from [nodejs.org](https://nodejs.org)
 
 Choose the **LTS** version, via the left-hand side button:
 
-<img src="./assets/jumpstart/image-20230310202845639.png" alt="image-20230310202845639" style="zoom: 33%;" />
+<img src="./assets/jumpstart/image-20230310202845639.png" alt="Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button." style="zoom: 33%;" />
 
 
 
 
 ### 2. Install CAP's cds-dk
 
-... by running this in a terminal:
+… by running this in a terminal:
 
 ```sh
 npm add -g @sap/cds-dk
@@ -46,7 +47,7 @@ npm add -g @sap/cds-dk
 
 ### 3. Install Git
 
-Run this in a terminal to check, whether you already have git installed:
+Run this in a terminal to check whether you already have Git installed:
 ```sh
 git version
 ```
@@ -64,7 +65,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 6. Install Visual Studio Code
 
-#### ... from [code.visualstudio.com](https://code.visualstudio.com)
+#### … from [code.visualstudio.com](https://code.visualstudio.com)
 
 Choose your preferred editor or IDE for developing CAP applications. <br>
 We recommend Visual Studio Code.
@@ -105,7 +106,7 @@ code bookshop
 
 ::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Find detailed instructions on this in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Find detailed instructions in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 
 :::
 
@@ -128,7 +129,7 @@ bookshop/        # Your project's root folder
 
 ### Minimal Configuration
 
-Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, as much as possible. You can override these defaults by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that:
 
@@ -150,7 +151,7 @@ For example you could override the defaults for the project structure like that:
 
 ::: tip Convention over Configuration
 
-We recommend to stay with CAP's conventions to benefit from things just working out-of-the-box. Only add configurations or override the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configurations or override the defaults if you really need to do so.
 
 :::
 
@@ -174,7 +175,7 @@ cd srv && mvn cds:watch
 
 ::: details From the log output we see  `cds watch` is waiting for things to come...
 
-```sh
+```console
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -225,11 +226,9 @@ Following are the defaults used automatically in *production*, or *development* 
 
 A CDS service definition is all CAP needs to serve fully-functional OData services, with extensive database access included out of the box. This also allows us to mock remote services in service integration scenarios.
 
-For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
+For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP Business Accelerator Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
 
-:::details Try it yourself
-A step by step example for this can be found [here](https://github.com/SAP-samples/teched2022-AD265)
-:::
+A step-by-step walkthrough can be found in our [TechEd 2022 sample](https://github.com/SAP-samples/teched2022-AD265).{.learn-more}
 
 ## Speed up Your Pipelines
 

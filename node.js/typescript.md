@@ -1,6 +1,7 @@
 ---
 layout: node-js
 status: released
+redirect_from: get-started/using-typescript
 ---
 
 # Using TypeScript

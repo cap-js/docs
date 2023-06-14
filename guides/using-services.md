@@ -23,8 +23,9 @@ status: released
 # Consuming Services
 <div v-html="$frontmatter?.synopsis" />
 
-<!--- % include _toc levels="2,3" %} -->
-<!--- % include links.md %} -->
+
+[[toc]]
+
 
 ## Introduction
 
@@ -57,7 +58,7 @@ Most snippets in this guide are from the [Build an Application End-to-End using 
 
 | Example                                                                                                                            | Description                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP API Business Hub |
+| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP Business Accelerator Hub |
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
@@ -73,7 +74,7 @@ Before you start your implementation, you should define your scenario. Answering
 + How do they interact?
 + What needs to be displayed on the UI?
 
-You've all your answers and know your scenario, go on reading about [external service APIs](#external-service-api), getting an API definition from [the SAP API Business Hub](#from-api-hub) or [from a CAP project](#from-cap-service), and [importing an API definition](#import-api) to your project.
+You've all your answers and know your scenario, go on reading about [external service APIs](#external-service-api), getting an API definition from [the SAP Business Accelerator Hub](#from-api-hub) or [from a CAP project](#from-cap-service), and [importing an API definition](#import-api) to your project.
 
 #### Sample Scenario from End-to-End Tutorial
 
@@ -81,7 +82,7 @@ The risk management use case of the previously mentioned [tutorial](https://deve
 
 ![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){.adapt}
 
-::: tip _User Story_
+::: info _User Story_
 A company wants to ensure that goods are only sourced from suppliers with acceptable risks. There shall be a software system, that allows a clerk to maintain risks for suppliers and their mitigations. The system shall block the supplier used if risks can't be mitigated.
 :::
 
@@ -101,15 +102,15 @@ To communicate to remote services, CAP needs to know their definitions. Having t
 
 These definitions are usually made available by the service provider. As they aren't defined within your application, but imported from outside, they're called *external* service APIs in CAP. Service APIs can be provided in different formats. Currently, *EDMX* files for OData V2 and V4 are supported.
 
-### Get a Service API from SAP API Business Hub { #from-api-hub}
+### From SAP Business Accelerator Hub { #from-api-hub}
 
-The [SAP API Business Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
+The [SAP Business Accelerator Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
 
 [Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
 
-### Get a Service API for a Remote CAP Service { #from-cap-service}
+### For a Remote CAP Service { #from-cap-service}
 
 We recommend using EDMX as exchange format. Export a service API to EDMX:
 
@@ -273,29 +274,29 @@ The service is automatically mocked, as you can see in the log output on server 
 
 *Example output for Node.js:*
 
-<pre class="log">
+```log
 ...
 
-[cds](cds) - model loaded from 8 file(s):
+[cds] - model loaded from 8 file(s):
 
   ...
   ./srv/external/API_BUSINESS_PARTNER.cds
   ...
 
-[cds](cds) - connect using bindings from: { registry: <em>'~/.cds-services.json'</em> }
-[cds](cds) - connect to db > sqlite { database: <em>':memory:'</em> }
+[cds] - connect using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { database: ':memory:' }
  > filling sap.ui.riskmanagement.Mitigations from ./db/data/sap.ui.riskmanagement-Mitigations.csv
  > filling sap.ui.riskmanagement.Risks from ./db/data/sap.ui.riskmanagement-Risks.csv
  > filling API_BUSINESS_PARTNER.A_BusinessPartner from ./srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
 /> successfully deployed to sqlite in-memory db
 
-[cds](cds) - serving RiskService { at:<em> '/service/risk'</em>, impl:<em> './srv/risk-service.js' </em>}
-[cds](cds) - mocking API_BUSINESS_PARTNER { at:<em> '/api-business-partner' </em>}
+[cds] - serving RiskService { at: '/service/risk', impl: './srv/risk-service.js' }
+[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }
 
-[cds](cds) - launched in: 1.104s
-[cds](cds) - server listening on { url:<em> 'http://localhost:4004'</em> }
+[cds] - launched in: 1.104s
+[cds] - server listening on { url: 'http://localhost:4004' }
 [ terminate with ^C ]
-</pre>
+```
 
 ### Mock Associations
 
@@ -369,7 +370,7 @@ As shown previously you can run one process including a mocked external service.
 First install the required packages:
 
 ```sh
-npm add @sap-cloud-sdk/http-client@2.x @sap-cloud-sdk/util@2.x @sap-cloud-sdk/connectivity@2.x
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/util@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
 ```
 
 Then start the CAP application with the mocked remote service only:
@@ -436,9 +437,9 @@ When sending a request to your CAP application, for example the `Suppliers` enti
 
 For example:
 
-_http://localhost:8080/service/risk/Suppliers_
+[http://localhost:8080/service/risk/Suppliers](http://localhost:8080/service/risk/Suppliers)
 
-```
+```log
 2021-09-21 15:18:44.870 DEBUG 34645 — [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/service/risk/Suppliers", parameters={}
 ...
 2021-09-21 15:18:45.292 DEBUG 34645 — [nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName,BusinessPartnerIsBlocked&$top=1000&$skip=0&$orderby=BusinessPartner%20asc&sap-language=de&sap-valid-at=2021-09-21T13:18:45.211722Z", parameters={masked}
@@ -457,13 +458,13 @@ You can send requests to remote services using CAP's powerful querying API.
 
 Connect to the service before sending a request, as usual in CAP:
 
-```javascript
+```js
 const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 ```
 
 Then execute your queries using the [Querying API](../node.js/core-services#srv-run-query):
 
-```javascript
+```js
 const { A_BusinessPartner } = bupa.entities;
 const result = await bupa.run(SELECT(A_BusinessPartner).limit(100));
 ```
@@ -472,7 +473,7 @@ We recommend limiting the result set and avoid the download of large data sets i
 
 Many features of the querying API are supported for OData services. For example, you can resolve associations like this:
 
-```javascript
+```js
 const { A_BusinessPartner } = bupa.entities;
 const result = await bupa.run(SELECT.from(A_BusinessPartner, bp => {
     bp('BusinessPartner'),
@@ -533,13 +534,13 @@ Here it's shown with **Node.js**.
 
 Connect to the service before sending a request, as usual in CAP:
 
-```javascript
+```js
 const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 ```
 
 Then execute your queries:
 
-```javascript
+```js
 const suppliers = await bupa.run(SELECT(Suppliers).where({ID}));
 ```
 
@@ -556,7 +557,7 @@ This makes it convenient to work with external services.
 
 If you can't use the querying API, you can craft your own HTTP requests using `send`:
 
-```javascript
+```js
 bupa.send({
   method: 'PATCH',
   path: A_BusinessPartner,
@@ -608,7 +609,7 @@ To avoid this error, you need to handle projections. Write a handler function to
 
 *Node.js:*
 
-```javascript
+```js
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 
@@ -658,7 +659,7 @@ extend service RiskService with {
 }
 ```
 
-```javascript
+```js
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 
@@ -697,7 +698,7 @@ extend service RiskService with {
 
 As long as the association is only resolved using expands (for example `.../risk/Suppliers?$expand=addresses`), a handler for the __source entity__ is sufficient:
 
-```javascript
+```js
 this.on('READ', 'Suppliers', req => {
     return bupa.run(req.query);
 });
@@ -705,7 +706,7 @@ this.on('READ', 'Suppliers', req => {
 
 If you need to resolve the association using navigation or request it independently from the source entity, add a handler for the __target entity__ as well:
 
-```javascript
+```js
 this.on('READ', 'SupplierAddresses', req => {
     return bupa.run(req.query);
 });
@@ -713,7 +714,7 @@ this.on('READ', 'SupplierAddresses', req => {
 
 As usual, you can put two handlers into one handler matching both entities:
 
-```javascript
+```js
 this.on('READ', ['Suppliers', 'SupplierAddresses'], req => {
     return bupa.run(req.query);
 });
@@ -814,7 +815,7 @@ Or is it sufficient for single items?
 ```http
 GET /service/risk/Risks(545A3CF9-84CF-46C8-93DC-E29F0F2BC6BE)/?$expand=supplier
 ```
-::: tip
+::: warning Keep performance in mind
 Consider to reject expands if it's requested on a list of items.
 :::
 
@@ -876,6 +877,7 @@ You need additional logic, if remote entities are in the game. The following tab
 | Remote: Navigate to local                                             | `/service/Suppliers(...)/risks`          | Implement navigation, delegate query for target to local service  |
 
 #### Transient Access vs. Replication
+
 ::: tip
 The _Integrate and Extend_ chapter shows only techniques for transient access.
 :::
@@ -949,7 +951,7 @@ In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks lik
 
 If you've imported the external service definition using `cds import`, an entry for the service in the _package.json_ has been created already. Here you specify the name of the destination in the `credentials` block.
 
-In many cases, you also need to specify the `path` prefix to the service, which is added to the destination's URL. For services listed on the SAP API Business Hub, you can find the path in the linked service documentation.
+In many cases, you also need to specify the `path` prefix to the service, which is added to the destination's URL. For services listed on the SAP Business Accelerator Hub, you can find the path in the linked service documentation.
 
 Since you don't want to use the destination for local testing, but only for production, you can profile it by wrapping it into a `[production]` block:
 
@@ -970,7 +972,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide destination options [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {
@@ -1183,7 +1185,7 @@ Your local application needs access to an XSUAA and Destination service instance
     cds bind -2 cpapp-xsuaa,cpapp-destination
     ```
 
-    [Learn more about `cds bind`.](../advanced/hybrid-testing#bind-a-local-application-to-services-on-cloud-foundry){.learn-more}
+    [Learn more about `cds bind`.](../advanced/hybrid-testing#services-on-cloud-foundry){.learn-more}
 
 #### Run a Node.js Application with a Destination
 

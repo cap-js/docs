@@ -14,9 +14,9 @@ status: released
 
 To monitor performance-relevant metrics with Dynatrace, you need to create a user-provided service in Cloud Foundry and bind it to your service as described in the [Dynatrace documentation](https://www.dynatrace.com/support/help/setup-and-configuration/setup-on-container-platforms/cloud-foundry/deploy-oneagent-on-sap-cloud-platform-for-application-only-monitoring).
 
-![Dynatrace](./assets/service.png){.adapt}
+![Screenshot of the Dynatrace UI showing properties, tags and dynamic web requests.](./assets/service.png){.adapt}
 
-![Dynatrace Database Statements](./assets/database-statements.png){.adapt}
+![A Screenshot of Dynatrace database statements and their performance.](./assets/database-statements.png){.adapt}
 
 ::: tip
 To track database requests for the Node.js runtime, you need to add the `@dynatrace/oneagent-sdk` dependency to your project. The functionality was verified with version `1.2` of the SDK.

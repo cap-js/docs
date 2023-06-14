@@ -35,7 +35,7 @@ After adding the dependency mentioned above, both libraries integrate seamlessly
 CAP ensures to automatically propagate tenant and user information from the _Request Context_ to the Cloud SDK.
 
 CAP's clear recommendation is to use _Remote Services_ over directly leveraging the SAP Cloud SDK.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services/#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 ::: tip
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services).
 :::
@@ -176,7 +176,7 @@ public class DestinationConfiguration implements EventHandler {
 
 [Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){.learn-more}
 
-Note, that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
+Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
 
@@ -312,4 +312,3 @@ ClientCredentialsHttpDestination clientCredentialsHttpDestination =
         new XsuaaService()
     );
 ```
-

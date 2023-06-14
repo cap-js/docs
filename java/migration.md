@@ -130,7 +130,7 @@ Modifier modifier = new Modifier() {
 CqnStatement copy = CQL.copy(statement, modifier);
 ```
 
-### Overview of Removed Interfaces and Methods
+### Removed Interfaces and Methods Overview
 
 
 #### com.sap.cds
@@ -289,7 +289,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 | <CdsSrv link="services/environment/CdsProperties.html">cds.services</CdsSrv> | cds.application.services |
 | <CdsSrv link="services/environment/CdsProperties.Sql.Upsert.html">cds.sql.upsert</CdsSrv> | See [Legacy Upsert](#legacy-upsert) |
 
-### Overview of Removed Annotations
+### Removed Annotations Overview
 
 - `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
 

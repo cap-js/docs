@@ -386,7 +386,7 @@ In addition, you can use the following annotations to fine-tune generated SQL.
 
 ### @cds.persistence.skip
 
-Add  `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
+Add `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
 
 ```cds
 @cds.persistence.skip

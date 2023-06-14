@@ -1,6 +1,5 @@
 ---
 status: released
-outline: [0,3]
 ---
 
 # Using SQLite for Development {#sqlite}

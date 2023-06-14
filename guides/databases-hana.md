@@ -162,7 +162,7 @@ No further configuration is necessary for Node.js. For Java see the [Use SAP HAN
 
 ### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana}
 
-`cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
+`cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
 Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy).
 Then in the project root folder, just execute:

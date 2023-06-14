@@ -478,7 +478,7 @@ If you use native database clauses in combination with `@cds.persistence.journal
 
 ### Reserved Words
 
-The CDS compiler and CAP runtimes provide smart quiting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
+The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
 
 Find here a collection of resources on selected databases and their reference documentation:
 

@@ -129,7 +129,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-   
+
    ```
 
 
@@ -409,7 +409,7 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
 ### Native Database Clauses {#schema-evolution-native-db-clauses}
-Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](databases#native-db-clauses). In this section we are focusing on schema evolution specific details.
+Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations [`@sql.prepend` and `@sql.append`](databases#sql-prepend-append). In this section we are focusing on schema evolution specific details.
 
 Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
 Please note that the compiler does not evaluate or process these SQL snippets. Any snippet will be taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment will fail in case of syntax errors.

@@ -1,7 +1,7 @@
 ---
 synopsis: >
   This section provides an overview about the security architecture of CAP applications on different platforms.
-permalink: security/overview
+redirect_from: security/overview
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---

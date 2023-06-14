@@ -465,7 +465,7 @@ The following rules apply:
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
-- Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
+- Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
 - For HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.

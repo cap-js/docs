@@ -181,14 +181,14 @@ If your content contains ...
 - commas or line breaks → enclose it in double quotes `"..."`
 - double quotes → escape them with doubled double quotes: `""`
 
-```csv
+```csvc
 ID,title,descr
 252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.<br>
-See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users. 
+→ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
 
@@ -262,7 +262,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -427,7 +427,7 @@ entity Foo as projection on Bar {...}
 
 
 
-### @sql.prepend / append {#native-db-clauses}
+### @sql.prepend / append
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 

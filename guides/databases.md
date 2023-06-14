@@ -195,7 +195,7 @@ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-
 
 ### Use `cds add data`
 
-Run this to generate an initial set of .csv files where the column header lines are already inserted:
+Run this to generate an initial set of .csv files with header lines based on your CDS model:
 
 ```sh
 cds add data

@@ -490,7 +490,7 @@ New STREAM event, ...
 
 As mentioned [above](#using-lean-draft), we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. 
 
-When using the new service the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori_draft_compat` in case you run into problems. 
+When using the new service the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori.draft_compat` in case you run into problems. 
 
 More detailed documentation for that will follow soon. 
 

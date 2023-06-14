@@ -92,7 +92,7 @@ This will:
 2. Create the tables and views according to your CDS model
 3. Fill in initial data from provided `.csv` files
 
-With that in place, when starting the server it will use this prepared database instead of bootstrapping and in-memory one:
+With that in place, when starting the server it will use this prepared database instead of bootstrapping an in-memory one:
 
 ```sh
 ...

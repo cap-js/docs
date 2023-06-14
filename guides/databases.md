@@ -427,7 +427,7 @@ entity Foo as projection on Bar {...}
 
 
 
-### @sql.prepend / append
+### @sql.prepend / append {#native-db-clauses}
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 

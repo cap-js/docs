@@ -508,7 +508,7 @@ In case the default setting doesn't fit, <a href="../../java/multitenancy#data-s
 
 <div markdown="1" class="impl node">
 
-In case the default setting doesn't fit, <a href="../node.js/databases#pool">connection pool properties</a> and driver settings can be customized, respectively.
+In case the default setting doesn't fit, <a href="../../node.js/databases#pool">connection pool properties</a> and driver settings can be customized, respectively.
 <!-- todo add link in fragment -->
 
 </div>

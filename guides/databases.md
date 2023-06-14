@@ -1,9 +1,10 @@
 ---
 synopsis: >
   This guide provides instructions on how to use databases with CAP applications.
-  Out of the box-support is provided for HANA, SQLite, H2, and PostgreSQL.
+  Out of the box-support is provided for HANA, SQLite, H2 (Java only), and PostgreSQL.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
+impl-variants: true
 ---
 
 
@@ -11,13 +12,23 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 <div v-html="$frontmatter?.synopsis" />
 
+<div markdown="1" class="impl node">
+
 [[toc]]
+
+</div>
+
+<div markdown="1" class="impl java">
+
+[[toc]]
+
+</div>
 
 
 
 ## Setup & Configuration
 
-
+<div markdown="1" class="impl node">
 
 ### Adding Database Packages
 
@@ -133,15 +144,34 @@ cds env cds.requires.db
 
 :::
 
+</div>
 
+
+<div markdown="1" class="impl java">
+
+CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+
+Database support is enabled by adding a dependency to the features `cds-feature-hana` or `cds-feature-jdbc`, resp..
+
+| Database                       | Feature                                                      | Remarks                            |
+| ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
+| **[SAP HANA Cloud](databases-hana)**     | `cds-feature-hana` | recommended for productive use         |
+| **[H2](databases-sqlite)**       | `cds-feature-jdbc` | recommended for development and CI     |
+| **[SQLite](databases-sqlite)**       | `cds-feature-jdbc` | supported for development and CI, recommened for local MTX |
+| **[PostgreSQL](databases-postgres)** | `cds-feature-jdbc` | supported for productive use |
+
+
+
+</div>
 
 
 
 ## Providing Initial Data
 
+Put CSV files into `db/data` to fill your database with initial data.
 
-
-Put CSV files into `db/data` to fill your database with initial data. For example in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
+<div markdown="1" class="impl node">
+For example, in our [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -154,12 +184,31 @@ bookshop/
 │ └─ schema.cds
 └─ ...
 ```
+</div>
+
+<div markdown="1" class="impl java">
+For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors* and *Genres* as follows:
+
+```zsh
+bookshop/
+├─ db/
+│ └─ data/ #> place your .csv files here
+│ │ ├─ my.bookshop-Authors.csv
+│ │ ├─ my.bookshop-Books.csv
+│ │ ├─ my.bookshop-Books.texts.csv
+│ │ └─ my.bookshop-Genres.csv
+│ └─ index.cds
+└─ ...
+```
+</div>
+
 
 The **filenames** are expected to match fully-qualified names of respective entitiy definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
 
 ### Using `.csv` Files
 
-The **content** of these files are standard CSV content with the column titles corresponding to decraled element names like that:
+<div markdown="1" class="impl node">
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names like that:
 
 ::: code-group
 
@@ -174,7 +223,30 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association  `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+
+</div>
+
+<div markdown="1" class="impl node">
+The **content** of these files are standard CSV content with the column titles corresponding to _column_ names:
+
+::: code-group
+
+```csvc [db/data/my.bookshop-Books.csv]
+ID,TITLE,AUTHOR_ID,STOCK
+201,Wuthering Heights,101,12
+207,Jane Eyre,107,11
+251,The Raven,150,333
+252,Eleonora,150,555
+271,Catweazle,170,22
+```
+
+:::
+
+> Note: `AUTHOR_ID` is the generated foreign key for the managed Association `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+
+</div>
+
 
 If your content contains ...
 
@@ -191,30 +263,43 @@ On SAP HANA, only use CSV files for _configuration data_ that can’t be changed
 See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
-
-
 ### Use `cds add data`
 
-Run this to generate an initial set of .csv files with column titles fillled in based on your CDS models:
+Run this to generate an initial set of empty `.csv` files with column titles filled in based on your CDS models:
 
 ```sh
 cds add data
 ```
 
-
-
-
-
-### Sample Data
+### Location of CSV files
 
 Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
+
+<div markdown="1" class="impl node">
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
 | `db/data`   | always               | initial data for configurations, code lists, and similar |
 | `test/data` | if not in production | sample data for tests and demos                          |
 
+</div>
 
+<div markdown="1" class="impl java">
+
+Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles):
+
+::: code-group
+
+```yaml [srv/src/main/resources/application.yaml]
+---
+spring:
+  config.activate.on-profile: test
+cds
+  dataSource.csv.paths: test/data/**
+```
+
+:::
+</div>
 
 
 
@@ -224,13 +309,15 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 
 
-Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
+Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#serving-crud), so quite frequently there's nothing to do. The following is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
 
 
 
 ### DB-Agnostic Queries
 
-At runtime we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example queries like this are supported for all databases:
+<div markdown="1" class="impl node">
+
+At runtime, we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example queries like this are supported for all databases:
 
 ```js
 SELECT.from (Authors, a => {
@@ -242,29 +329,66 @@ SELECT.from (Authors, a => {
 .orderBy ('name')
 ```
 
+</div>
+
+<div markdown="1" class="impl java">
+
+At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example queries like this are supported for all databases:
+
+```java
+Select.from(AUTHOR)
+      .columns(a -> a.id(), a -> a.name(),
+               a -> a.books().expand(b -> b.id(), b.title()))
+      .where(a -> a.name().startWith("A"))
+      .orderBy(a -> a.name());
+```
+
+</div>
+
 
 
 ### Native DB Queries
 
-If required you can also use native DB features by passing native SQL queries:
+If required you can also use native DB features by executing native SQL queries:
+
+<div markdown="1" class="impl node">
 
 ```js
 cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 ```
+</div>
 
+<div markdown="1" class="impl java">
 
+Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native data base features](../java/advanced#jdbctemplate), e.g.:
 
-
-
-
+```java
+@Autowired
+JdbcTemplate db;
+...
+db.queryForList("SELECT from sqlite_schema where name like ?", name);
+```
+</div>
 
 ## Generating SQL DDL
 
+<div markdown="1" class="impl node">
 
-
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+
+</div>
+
+<div markdown="1" class="impl java">
+
+When you have created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build will invoke the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+
+</div>
+
+You can also do this manually with the CLI command `cds compile --to <dialect>`.
+
+For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 ::: code-group
 
@@ -302,19 +426,19 @@ service CatalogService {
 ```
 :::
 
-### Using `cds compile -2 sql`
+### Using `cds compile -2 <dialect>`
 
-We can generate a SQL DDL script by running this in the root directory containing both *.cds* files:
+We can generate a SQL DDL script for SQLite by running this in the root directory containing both *.cds* files:
 
 ```sh
-cds compile srv/cat-service --to sql > ddl.sql
+cds compile srv/cat-service --to sqlite > schema.sql
 ```
 
 Which would generate this output:
 
 ::: code-group
 
-```sql [ddl.sql]
+```sql [schema.sql]
 CREATE TABLE sap_capire_bookshop_Books (
   ID NVARCHAR(36) NOT NULL,
   title NVARCHAR(5000),
@@ -362,6 +486,10 @@ ON Books.author_ID = author.ID;
 --- some more technical views skipped ...
 ```
 
+:::
+
+::: tip
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
 :::
 
 

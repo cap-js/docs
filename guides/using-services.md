@@ -84,7 +84,7 @@ The application is an extension for SAP S/4HANA. It deals with _risks_ and _miti
 
 ##### Integrate
 
-The user picks a supplier from the list. That list is coming [from the remote system and exposed by the CAP application](#expose-remote-services). Then the user does a risk assessment. Additional supplier data, like name and blocked status, should be displayed on the UI as well, by [integrating the remote supplier service into the local risk service](#integrate-remote-into-local-services).
+The user picks a supplier from the list. That list is coming [from the remote system and is exposed by the CAP application](#expose-remote-services). Then the user does a risk assessment. Additional supplier data, like name and blocked status, should be displayed on the UI as well, by [integrating the remote supplier service into the local risk service](#integrate-remote-into-local-services).
 
 ##### Extend
 
@@ -109,9 +109,9 @@ To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.
 We recommend using EDMX as exchange format. Export a service API to EDMX:
 
 <!-- TODO: Should we mention this here? -->
-::: warning
+<!-- ::: warning
 The export-import cycle is the way to go for now. It is under investigation to improve this procedure.
-:::
+::: -->
 
 ::: code-group
 
@@ -173,7 +173,7 @@ Further, it adds the API as an external service to your _package.json_. You use 
 
 </div>
 
-Alternatively, you can set the options and flags for `cds import` in the _.cdsrc.json_ file in your project root:
+Alternatively, you can set the options and flags for `cds import` in your _.cdsrc.json_:
 
 ```json
 {
@@ -182,6 +182,7 @@ Alternatively, you can set the options and flags for `cds import` in the _.cdsrc
         "force": true,
         "include_namespaces": "sap,c4c"
     }
+}
 ```
 
 Now run `cds import <filename>`
@@ -312,7 +313,8 @@ You can't get data from associations of a mocked service out of the box.
 
 The associations of imported services lack information how to look up the associated records. This missing relation is expressed with an empty key definition at the end of the association declaration in the CDS model (`{ }`).
 
-```cds
+::: code-group
+```cds{9} [srv/external/API_BUSINESS_PARTNER.cds]
 entity API_BUSINESS_PARTNER.A_BusinessPartner {
   key BusinessPartner : LargeString;
   BusinessPartnerFullName : LargeString;
@@ -331,10 +333,11 @@ entity API_BUSINESS_PARTNER.A_BusinessPartnerAddress {
   ...
 };
 ```
+:::
 
-To mock an association, you've to modify [the imported file](#import-api). Before doing any modifications, create a local copy and add it to your source code management system.
+To mock an association, you have to modify [the imported file](#import-api). Before doing any modifications, create a local copy and add it to your source code management system.
 
-
+<!-- TODO: Ellipsis not ideal here, not copiable -->
 ```sh
 cp srv/external/API_BUSINESS_PARTNER.cds srv/external/API_BUSINESS_PARTNER-orig.cds
 git add srv/external/API_BUSINESS_PARTNER-orig.cds
@@ -348,19 +351,24 @@ cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
     --as cds --out srv/external/API_BUSINESS_PARTNER-new.cds
 ```
 
-Add an `on` condition in _API_BUSINESS_PARTNER-new.cds_ to express the relation:
+Add an `on` condition to express the relation:
 
 <!-- cds-mode: ignore -->
-```cds
+::: code-group
+```cds [srv/external/API_BUSINESS_PARTNER-new.cds]
+entity API_BUSINESS_PARTNER.A_BusinessPartner {
+  ...
   to_BusinessPartnerAddress :
-    Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress
-    on to_BusinessPartnerAddress.BusinessPartner = BusinessPartner;
+      Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress
+      on to_BusinessPartnerAddress.BusinessPartner = BusinessPartner;
+};
 ```
+:::
 
 Don't add any keys or remove empty keys, which would change it to a managed association. Added fields aren't known in the service and lead to runtime errors.
 
 
-Use a 3-way merge tool to takeover your modifications, check it and overwrite the previous unmodified file with the newly imported file:
+Use a 3-way merge tool to take over your modifications, check it and overwrite the previous unmodified file with the newly imported file:
 
 ```sh
 git merge-file API_BUSINESS_PARTNER.cds \
@@ -371,12 +379,13 @@ mv API_BUSINESS_PARTNER-new.cds API_BUSINESS_PARTNER-orig.cds
 
 To prevent accidental loss of modifications, the `cds import --as cds` command refuses to overwrite modified files based on a "checksum" that is included in the file.
 
-### Mock Remote Service as OData Service{.impl .node}
+### Mock Remote Service as OData Service {.impl .node}
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
 
 First install the required packages:
 
+<!-- TODO: No fixed major version numbers? -->
 ```sh
 npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/util@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
 ```
@@ -393,11 +402,11 @@ If the startup is completed, run `cds watch` in the same project from a **differ
 cds watch
 ```
 
-CAP tracks locally running services. The service `API_BUSINESS_PARTNER`, which you started as mocked, is registered in file _~/.cds-services.json_. `cds watch` searches for running services in that file and connects to them.
+CAP tracks locally running services. The mocked service `API_BUSINESS_PARTNER` is registered in file _~/.cds-services.json_. `cds watch` searches for running services in that file and connects to them.
 
-Node.js only supports *OData V4* protocol and so does the mocked service. There might be still some differences to the real remote service if it uses a different protocol, but it's much closer to it than using only one instance. In the console output, you can also easily see how the communication between the two processes happens.
+Node.js only supports *OData V4* protocol and so does the mocked service. There might still be some differences to the real remote service if it uses a different protocol, but it's much closer to it than using only one instance. In the console output, you can also easily see how the communication between the two processes happens.
 
-### Mock Remote Service as OData Service{.impl .java}
+### Mock Remote Service as OData Service {.impl .java}
 
 You configure CAP to do OData and HTTP requests for a mocked service instead of doing it in-process. Configure a new Spring Boot profile (for example `mocked`):
 
@@ -563,12 +572,13 @@ This makes it convenient to work with external services.
 
 If you can't use the querying API, you can craft your own HTTP requests using `send`:
 
+<!-- TODO: What is 'A_BusinessPartner' here? -->
 ```js
 bupa.send({
   method: 'PATCH',
   path: A_BusinessPartner,
   data: {
-    BusinessPartner: 1004155
+    BusinessPartner: 1004155,
     BusinessPartnerIsBlocked: true
   }
 })
@@ -648,7 +658,7 @@ public class RiskServiceHandler implements EventHandler {
 </div>
 
 ::: warning
-If you receive `404` errors, check if the request contains fields that don't exist in the service and start with the name of an association. `cds import` adds now an empty keys declaration (`{ }`) to each association. Without this declaration, foreign keys for associations are generated in the runtime model, that don't exist in the real service. To solve this problem, you need to reimport the external service definition using `cds import`.
+If you receive `404` errors, check if the request contains fields that don't exist in the service and start with the name of an association. `cds import` adds an empty keys declaration (`{ }`) to each association. Without this declaration, foreign keys for associations are generated in the runtime model, that don't exist in the real service. To solve this problem, you need to reimport the external service definition using `cds import`.
 :::
 
 This works when accessing the entity directly. Additional work is required to support [navigation](#handle-navigations-across-local-and-remote-entities) and [expands](#handle-expands-across-local-and-remote-entities) from or to a remote entity.
@@ -659,7 +669,7 @@ CAP does the magic that maps the incoming query, according to your projections, 
 :::
 
 ```cds
-using {  API_BUSINESS_PARTNER as bupa } from '../srv/external/API_BUSINESS_PARTNER';
+using { API_BUSINESS_PARTNER as bupa } from '../srv/external/API_BUSINESS_PARTNER';
 
 extend service RiskService with {
   entity Suppliers as projection on bupa.A_BusinessPartner {
@@ -687,7 +697,7 @@ module.exports = cds.service.impl(async function() {
 It's possible to expose associations of a remote service entity. You can adjust the [projection for the association target](#model-projections) and change the name of the association:
 
 ```cds
-using {  API_BUSINESS_PARTNER as bupa } from '../srv/external/API_BUSINESS_PARTNER';
+using { API_BUSINESS_PARTNER as bupa } from '../srv/external/API_BUSINESS_PARTNER';
 
 extend service RiskService with {
   entity Suppliers as projection on bupa.A_BusinessPartner {
@@ -815,7 +825,7 @@ Example of a CQN request with an expand:
 [See an example how to handle expands in Java.](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/src/main/java/com/sap/cap/riskmanagement/handler/RiskServiceHandler.java){.impl .java .learn-more}
 
 
-Expands across local and remote can cause stability and performance issues. For a list of items, you need to collect all IDs and sent it to the database or the remote system. This can become long and may exceed the limits of a URL string in case of OData. Do you really need expands for a list of items?
+Expands across local and remote can cause stability and performance issues. For a list of items, you need to collect all IDs and send it to the database or the remote system. This can become long and may exceed the limits of a URL string in case of OData. Do you really need expands for a list of items?
 
 ```http
 GET /service/risk/Risks?$expand=supplier
@@ -1167,7 +1177,7 @@ cds:
 [Learn more about programmatic destination registration.](../java/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/remote-services#register-destinations){.learn-more}
 
 
-### Connect to Remote Services from Local
+### Connect to Remote Services Locally
 
 If you use SAP BTP destinations, you can access them locally using [CAP's hybrid testing capabilities](../advanced/hybrid-testing) with the following procedure:
 
@@ -1452,13 +1462,9 @@ The subscriber needs to create a destination with that name in their subscriber 
 
 #### Destination Resolution
 
-Destinations are looked up using the following rules:
+The destination is read from the tenant of the request's JWT (authorization) token. If no JWT token is present, the destination is read from the tenant of the application's XSUAA binding.{.impl .java}
 
-
-| Runtime | Rules                                                                                                                                                                                                                             |
-|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Java    | The destination is read from the tenant of the request's JWT (authorization) token.<br>  If no JWT token is present, the destination is read from the tenant of the application's XSUAA binding.                                  |
-| Node.js | The destination is read from the tenant of the request's JWT (authorization) token.<br>  If no JWT token is present *or the destination isn't found*, the destination is read from the tenant of the application's XSUAA binding. |
+The destination is read from the tenant of the request's JWT (authorization) token. If no JWT token is present *or the destination isn't found*, the destination is read from the tenant of the application's XSUAA binding.{.impl .node}
 
 ::: warning JWT token vs. XSUAA binding
 Using the tenant of the request's JWT token means reading from the **subscriber subaccount** for a multitenant application. The tenant of the application's XSUAA binding points to the destination of the **provider subaccount**, the account where the application is deployed to.
@@ -1466,7 +1472,7 @@ Using the tenant of the request's JWT token means reading from the **subscriber 
 
 <div class="impl node">
 
-For Node.js you can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
+You can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
 
 With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
 

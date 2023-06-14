@@ -254,11 +254,11 @@ Some of which are well-known standard functions like `current_timestamp` in the 
 
 - `current_connection`
 - `current_schema`
--  `current_transaction_isolation_level`
--  `current_utcdate`
--  `current_utctime`
--  `current_utctimestamp`
--  `sysuuid`
+- `current_transaction_isolation_level`
+- `current_utcdate`
+- `current_utctime`
+- `current_utctimestamp`
+- `sysuuid`
 
 To use these in CDS models you have to add the parentheses so that CDS generic support for using native features can kick in:
 

@@ -130,7 +130,7 @@ Modifier modifier = new Modifier() {
 CqnStatement copy = CQL.copy(statement, modifier);
 ```
 
-### Removed Interfaces and Methods Overview
+### Removed Interfaces and Methods Overview {#overview-of-removed-interfaces-and-methods}
 
 
 #### com.sap.cds

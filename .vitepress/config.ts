@@ -8,7 +8,7 @@ import * as cdsMavenSite from './lib/cds-maven-site'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
-    versions: [key: string],
+    versions: { [key: string]: string },
     gotoLinks: { href:string, key:string, name?:string }[]
   }
 }
@@ -52,7 +52,6 @@ const config:UserConfig<CapireThemeConfig> = {
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],
     outline: [1,3],
-      //@ts-ignore
     capire: { versions: latestVersions, gotoLinks: [] }
   },
   head: [

@@ -1,7 +1,7 @@
 ---
 synopsis: >
   This section describes how you can make your CAP application compliant with data protection and privacy requirements.
-permalink: security/data-protection-privacy
+redirect_from: security/data-protection-privacy
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---

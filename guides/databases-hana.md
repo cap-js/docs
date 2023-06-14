@@ -99,7 +99,7 @@ Which should display this log output:
 
 ### Generated HDI Artifacts
 
-As we see from the log output `cds build` generates these deployment artefacts as expected by HDI, based on CDS models and .csv files provided in your projects:
+As we see from the log output `cds build` generates these deployment artifacts as expected by HDI, based on CDS models and .csv files provided in your projects:
 
 - `.hdbtable` files for entities
 - `.hdbview` files for view / projections

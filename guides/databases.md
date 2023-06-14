@@ -9,6 +9,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Using Databases
 
+<!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 <div v-html="$frontmatter?.synopsis" />
 
 [[toc]]
@@ -29,6 +30,7 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
+<!-- Do we really need to say that? -->
 > Follow the links above to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, like so:
@@ -45,6 +47,7 @@ Using HANA for production:
 npm add @sap/cds-hana
 ```
 
+<!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
 ... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
@@ -53,8 +56,9 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration
 
-The afore-mentioned packages use `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example if you added sqlite and hana, this will effectively result in this auto-wired configuration:
+The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and HANA, this will effectively result in this auto-wired configuration:
 
+<!-- REVISIT: hdbtable is now default, should we mention it anyway? -->
 ```json
 {"cds":{
   "requires": {
@@ -66,7 +70,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 }}
 ```
 
-::: details In contrast to former — that is pre cds7 — setups this means...
+::: details In contrast to pre CDS 7 setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
 2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
@@ -108,15 +112,15 @@ The config options are as follows:
 - `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 
-::: warning
+::: warning Don't configure credentials
 
 Credentials like `username` and  `password` should **not** be added here but provided through service bindings, for example, via `cds bind`.
 
 :::
 
-::: tip
+::: tip Use `cds env` to inspect effective configuration
 
-You can always inspect the effective configuration using the `cds env` CLI command like that:
+For example, running this command:
 
 ```sh
 cds env cds.requires.db
@@ -141,7 +145,7 @@ cds env cds.requires.db
 
 
 
-Put CSV files into `db/data` to fill your database with initial data. For example in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
+Put CSV files into `db/data` to fill your database with initial data. For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -159,7 +163,7 @@ The **filenames** are expected to match fully-qualified names of respective enti
 
 ### Using `.csv` Files
 
-The **content** of these files are standard CSV content with the column titles corresponding to decraled element names like that:
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names:
 
 ::: code-group
 
@@ -174,7 +178,7 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association  `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> `author_ID` is the generated foreign key for the managed Association  `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
 
 If your content contains ...
 
@@ -183,11 +187,11 @@ If your content contains ...
 
 ```csvc
 ID,title,descr
-252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
+252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift."
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users. 
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
 → See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
@@ -224,13 +228,13 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 
 
-Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
+Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The following is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
 
 
 
 ### DB-Agnostic Queries
 
-At runtime we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example queries like this are supported for all databases:
+At runtime we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```js
 SELECT.from (Authors, a => {
@@ -264,7 +268,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
 
-For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 ::: code-group
 
@@ -558,9 +562,8 @@ entity Genres {
 
 
 
-::: warning
-Database constraints are not intended for checking user input. Instead, they protect
-the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
+::: warning Database constraints are not intended for checking user input
+Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::

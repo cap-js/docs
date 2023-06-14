@@ -262,7 +262,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -427,7 +427,7 @@ entity Foo as projection on Bar {...}
 
 
 
-### @sql.prepend / append
+### @sql.prepend / append {#native-db-clauses}
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 

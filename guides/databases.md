@@ -77,7 +77,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 ### Custom Configuration
 
-The above setups auto-wire things through configuration presets automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or to override individual properties as follows:
+The setups above auto-wire things through configuration presets which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or to override individual properties as follows:
 
 1. Install a database driver package, e.g.
    ```sh

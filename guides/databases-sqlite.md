@@ -252,7 +252,7 @@ entity Foo {
 
 As stated in the beginning, SQLite is mostly intended to speed up development, not for production. This is not because of limited warranties or lack of support, it's only because of suitability. A major criterion is this: 
 
-Cloud applications usually are served by server clusters, each server in which is connected to a shared database. SQLite could only be used in such setups with the persistend database file accessed through a network file system; but this is rarely available and slow. Hence an enterprise client-server database is the better choice for that. 
+Cloud applications usually are served by server clusters, in which each server is connected to a shared database. SQLite could only be used in such setups with the persisted database file accessed through a network file system; but this is rarely available and slow. Hence an enterprise client-server database is the better choice for that.
 
 Having said this, there can indeed be scenarios where SQLite might be used also in production, such as using SQLite as in-memory caches. → [Find a detailed list of criteria on the sqlite.org website](https://www.sqlite.org/whentouse.html).
 

@@ -1,10 +1,17 @@
-import { defineConfig } from 'vitepress'
+import { UserConfig, DefaultTheme } from 'vitepress'
 import { join } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
 import * as sitemap from './lib/sitemap'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
+
+export type CapireThemeConfig = DefaultTheme.Config & {
+  capire: {
+    versions: { [key: string]: string },
+    gotoLinks: { href:string, key:string, name?:string }[]
+  }
+}
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const sitemapLinks: { url:string, lastmod?:number}[] = []
@@ -15,7 +22,7 @@ const latestVersions = {
   java_cds4j: '2.0.0'
 }
 
-const config =  defineConfig({
+const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base: process.env.GH_BASE || '/docs/',
@@ -45,8 +52,7 @@ const config =  defineConfig({
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],
     outline: [1,3],
-      //@ts-ignore
-    capire: { versions: latestVersions }
+    capire: { versions: latestVersions, gotoLinks: [] }
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
@@ -113,6 +119,6 @@ const config =  defineConfig({
     await fs.mkdir(join(outDir, hanaAssetDir), {recursive: true})
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
-})
+}
 
 export default config

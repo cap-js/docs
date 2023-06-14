@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "docs:dev",
+      "problemMatcher": [
+        "$vite"
+      ],
+      "label": "npm: docs:dev",
+      "detail": "vitepress dev .",
+      "isBackground": true
+    },
+    {
+      "type": "npm",
+      "script": "docs:build",
+      "group": "build",
+      "problemMatcher": [
+        "$vite"
+      ],
+      "label": "npm: docs:build",
+      "detail": "vitepress build ."
+    },
+    {
+      "type": "npm",
+      "script": "docs:preview",
+      "problemMatcher": [],
+      "label": "npm: docs:preview",
+      "detail": "vitepress preview ."
+    }
+  ]
+}

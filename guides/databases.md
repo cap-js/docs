@@ -398,7 +398,7 @@ entity Bar as select from Foo;   //> No SQL view will be generated
 
 ### @cds.persistence.exists
 
-Add  `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
+Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
 
 ```cds
 @cds.persistence.exists

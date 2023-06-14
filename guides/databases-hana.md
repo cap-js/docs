@@ -129,7 +129,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-
+   
    ```
 
 
@@ -297,18 +297,20 @@ For other functions, where the syntax isn't supported by the compiler (for examp
 
 CAP supports database schema updates by detecting changes to the CDS model when executing the CDS build. If the underlying database offers built-in schema migration techniques, compatible changes can be applied to the database without any data loss or the need for additional migration logic. Incompatible changes like deletions are also detected, but require manual resolution, as they would lead to data loss.
 
-| Change                             | Detected Automatically |
-|------------------------------------|:----------------------:|
-| Adding   fields                    |          <X/>          |
-| Deleting fields                    |          <X/>          |
-| Renaming fields                    |   <Na/> <sup>1</sup>   |
-| Changing datatype of fields        |          <X/>          |
-| Changing type parameters           |          <X/>          |
-| Changing associations/compositions |          <X/>          |
-| Renaming associations/compositions |   <Na/> <sup>1</sup>   |
-| Renaming entities                  |         <Na/>          |
+| Change                             | Detected Automatically | Applied Automatically |
+| ---------------------------------- | :--------------------: | :-------------------: |
+| Adding  fields                     |        **Yes**         |        **Yes**        |
+| Deleting fields                    |        **Yes**         |          No           |
+| Renaming fields                    |    n/a <sup>1</sup>    |          No           |
+| Changing datatype of fields        |        **Yes**         |          No           |
+| Changing type parameters           |        **Yes**         |        **Yes**        |
+| Changing associations/compositions |        **Yes**         |    No <sup>2</sup>    |
+| Renaming associations/compositions |    n/a <sup>1</sup>    |          No           |
+| Renaming entities                  |          n/a           |          No           |
 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
+>
+> <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (eg. "ID").
 
 ::: warning
 Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.

@@ -266,4 +266,4 @@ The above refers to the New SQLite Service [@cap-js/sqlite](https://www.npmjs.co
 - using the new database services architecture
 - using [`better-sqlite3`](https://www.npmjs.com/package/better-sqlite3) driver. 
 
-Yet, in case you need to stick to the old implementation, just **don't** install `@cap-js/sqlite` but keep your existing setup instead, and dependency to [sqlite3](https://www.npmjs.com/package/sqlite3) driver instead.
+Yet, in case you need to stick to the old implementation, just **don't** install `@cap-js/sqlite` but keep your existing setup and dependency to [sqlite3](https://www.npmjs.com/package/sqlite3) driver instead.

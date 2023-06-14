@@ -379,7 +379,7 @@ mv API_BUSINESS_PARTNER-new.cds API_BUSINESS_PARTNER-orig.cds
 
 To prevent accidental loss of modifications, the `cds import --as cds` command refuses to overwrite modified files based on a "checksum" that is included in the file.
 
-### Mock Remote Service as OData Service {.impl .node}
+### Mock Remote Service as OData Service (Node.js) {.impl .node}
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
 
@@ -406,7 +406,7 @@ CAP tracks locally running services. The mocked service `API_BUSINESS_PARTNER` i
 
 Node.js only supports *OData V4* protocol and so does the mocked service. There might still be some differences to the real remote service if it uses a different protocol, but it's much closer to it than using only one instance. In the console output, you can also easily see how the communication between the two processes happens.
 
-### Mock Remote Service as OData Service {.impl .java}
+### Mock Remote Service as OData Service (Java) {.impl .java}
 
 You configure CAP to do OData and HTTP requests for a mocked service instead of doing it in-process. Configure a new Spring Boot profile (for example `mocked`):
 

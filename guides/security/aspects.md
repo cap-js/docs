@@ -114,7 +114,7 @@ CAP doesn't require any specific authentication strategy, but it provides out of
 On configured authentication, *all CAP endpoints are authenticated by default*.
 
 ::: warning
-❗ **CAP applications need to ensure that an appropriate [authentication method](../guides/authorization#prerequisite-authentication) is configured**.
+❗ **CAP applications need to ensure that an appropriate [authentication method](../authorization#prerequisite-authentication) is configured**.
 It's highly recommended to establish integration tests to safeguard a valid configuration.
 :::
 
@@ -127,8 +127,8 @@ Learn more about user model and identity providers here:
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
-- CAP interacts with platform services such as [Event Mesh](../guides/messaging/) or [SaaS Provisioning Service](../guides/deployment/as-saas) on basis of platform-injected service bindings.
-- CAP offers consumption of [Remote Services](../guides/using-services) on basis of [SAP BTP destinations](../guides/using-services#btp-destinations).
+- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/as-saas) on basis of platform-injected service bindings.
+- CAP offers consumption of [Remote Services](../using-services) on basis of [SAP BTP destinations](../using-services#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.
 
@@ -152,7 +152,7 @@ Hence, authentication is still mandatory for CAP microservices.
 <!-- #SEC-309 -->
 
 To run a CAP application that authenticates users and consumes remote services, **it isn't required to manage any secrets such as keys, tokens, or passwords**.
-Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../guides/using-services#btp-destinations).
+Also CAP doesn't store any of them, but relies on platform [injection mechanisms](./overview#platform-environment) or [destinations](../using-services#btp-destinations).
 
 ::: tip
 In case you still need to store any secrets, use a platform service [SAP Credential Store](https://help.sap.com/docs/CREDENTIAL_STORE).
@@ -176,9 +176,9 @@ The set of rules that apply to a user reflects a specific conceptual role that d
 Obviously, the business roles are dependent from the scenarios and hence *need to be defined by the application developers*.
 
 Enforcing authorization rules at runtime is highly security-critical and shouldn't be implemented by the application as this would introduce the risk of security flaws.
-Instead, [CAP authorizations](../guides/authorization) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
+Instead, [CAP authorizations](../authorization) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
 
-Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](../guides/authorization#restrictions).
+Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](../authorization#restrictions).
 According to the declarations, server-side authorization enforcement is guaranteed for all requests. It's executed close before accessing the corresponding resources.
 
 ::: warning
@@ -187,12 +187,12 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../tools/#cds-lint-rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/#cds-lint-rules).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
 
-CAP authorizations can be defined dependently from [user claims](../guides/authorization#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
+CAP authorizations can be defined dependently from [user claims](../authorization#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
 that are deployed by application developers and granted by the user administrator of the subscriber.
 Hence, CAP provides a seamless integration of central identity service without technical lock-in.
 
@@ -218,10 +218,10 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 | Name              | Configuration    | URL                                       | Authorization                                 |
 |-------------------|------------------|-------------------------------------------|-----------------------------------------------|
 | CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
-|                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../guides/authorization#requires) |
+|                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../authorization#requires) |
 | Index page        |                  | `/index.html`                             | none                                          |
 
-> <sup>1</sup> See [protocols and paths](../java/application-services#configure-path-and-protocol)
+> <sup>1</sup> See [protocols and paths](../../java/application-services#configure-path-and-protocol)
 
 > <sup>2</sup> No authorization by default
 
@@ -231,7 +231,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 | Platform service             | URL                         | Authorization                                                                                          |
 |------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|
-| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../guides/deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
 
 </div>
 
@@ -245,14 +245,14 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 <div id="auth-callback-endpoints-more" />
 
-Moreover, technical [MTXs CAP services](../guides/multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
+Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 
 | CAP service | URL | Authorization
 | ----------- | --- | -------------
-| [cds.xt.ModelProviderService](../guides/multitenancy/mtxs#modelproviderservice) | `/-/cds/model-provider/**` | Internal, technical user<sup>1</sup>
-| [cds.xt.DeploymentService](../guides/multitenancy/mtxs#deploymentservice) | `/-/cds/deployment/**` | | Internal, technical user<sup>1</sup>, or technical role `cds.Subscriber`
-| [cds.xt.SaasProvisioningService](../guides/multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
-| [cds.xt.ExtensibilityService](../guides/multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
+| [cds.xt.ModelProviderService](../multitenancy/mtxs#modelproviderservice) | `/-/cds/model-provider/**` | Internal, technical user<sup>1</sup>
+| [cds.xt.DeploymentService](../multitenancy/mtxs#deploymentservice) | `/-/cds/deployment/**` | | Internal, technical user<sup>1</sup>, or technical role `cds.Subscriber`
+| [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
+| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
 
 > <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone))
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
@@ -287,8 +287,8 @@ The CAP runtime is designed from scratch to support tenant isolation:
 
 ### Isolated Persistent Data { #isolated-persistent-data }
 
-Having configured [Multitenancy in CAP](../guides/multitenancy/), when serving a business request, CAP automatically targets an isolated HDI container dedicated for the request tenant to execute DB statements.
-Here, CAP's data query API based on [CQN](../cds/cqn) is orthogonal to multitenancy, that is, custom CAP handlers can be implemented agnostic to MT.
+Having configured [Multitenancy in CAP](../multitenancy/), when serving a business request, CAP automatically targets an isolated HDI container dedicated for the request tenant to execute DB statements.
+Here, CAP's data query API based on [CQN](../../cds/cqn) is orthogonal to multitenancy, that is, custom CAP handlers can be implemented agnostic to MT.
 
 During tenant onboarding process, CAP triggers the HDI container creation via [SAP HANA Cloud Services](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/f70399be7fca4508aa0e33e138dbd84d.html).
 The containers have separated DB schemas and dedicated technical DB users for access.
@@ -297,15 +297,15 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 ### Isolated Transient Data { #isolated-transient-data }
 
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
-For instance, filters for [instance-based authorization](../guides/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
+For instance, filters for [instance-based authorization](../authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
 { .impl .node }
 
-To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../node.js/cds-facade#cds-model).
-Request-related data is propagated down the call stack (for instance [cds.context](../node.js/middlewares#cds-context)).
+To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../../node.js/cds-facade#cds-model).
+Request-related data is propagated down the call stack (for instance [cds.context](../../node.js/middlewares#cds-context)).
 { .impl .java }
 
 ::: tip
@@ -358,7 +358,7 @@ Attackers can send malicious input data in a regular request to make the server 
 <!-- #SEC-100 #SEC-283 #SEC-228  -->
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection).
-[CQL statements](../guides/querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
+[CQL statements](../querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
 
 ::: warning
 Be careful in custom code when modifying or creating CQL queries. Refrain from building the query structure (target entity, columns) directly on basis of request input.
@@ -383,7 +383,7 @@ Apart from that the used web server frameworks such as Spring or Express already
 
 - [CLRF injections](https://owasp.org/www-community/vulnerabilities/CRLF_Injection) or [log injections](https://owasp.org/www-community/attacks/Log_Injection) can occur when untrusted user input is written to log output.
 
-CAP Node.js offers a CLRF-safe [logging API](../node.js/cds-log#logging-in-production) that should be used for application logs.
+CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
 { .impl .node }
 
 ::: warning
@@ -404,7 +404,7 @@ Moreover, deserialization errors terminate the request and are tracked in the ap
 In general, to achieve perfect injection resistance, applications should have input validation, output validation, and a proper Content-Security-Policy in place.
 
 - CAP provides built-in support for **input validation**.
-Developers can use the [`@assert`](../guides/providing-services#input-validation) annotation to define field-specific input checks.
+Developers can use the [`@assert`](../providing-services#input-validation) annotation to define field-specific input checks.
 
 ::: warning
 ❗ Applications need to validate or sanitize all input variables according to the business context.
@@ -463,7 +463,7 @@ Additional size limits and timeouts (request timeout) are established by the rev
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
 :::
 
-Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../guides/providing-services#annotation-cds-query-limit)).
+Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
@@ -483,7 +483,7 @@ Design your CDS services exposed to web adapters on need-to-know basis. Be espec
 #### CAP Service Runtime
 
 Open transactions are expensive as they bind many resources such as a database connection as well as memory buffers.
-To minimize the amount of time a transaction must be kept open, the CAP runtime offers an [Outbox Service](../java/outbox) that allows to schedule asynchronous remote calls in the business transaction.
+To minimize the amount of time a transaction must be kept open, the CAP runtime offers an [Outbox Service](../../java/outbox) that allows to schedule asynchronous remote calls in the business transaction.
 Hence, the request time to process a business query, which requires a remote call (such as to an audit log server or messaging broker), is minimized and independent from the response time of the remote service.
 
 ::: tip
@@ -502,7 +502,7 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 ::: tip
 <div markdown="1" class="impl java">
 
-In case the default setting doesn't fit, <a href="../java/multitenancy#data-source-pooling-configuration">connection pool properties</a> and <a href="../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
+In case the default setting doesn't fit, <a href="../../java/multitenancy#data-source-pooling-configuration">connection pool properties</a> and <a href="../../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 
@@ -539,13 +539,13 @@ This can be achieved automatically by consuming [Application Autoscaler](https:/
 <!-- #SEC-278 #SEC-238 #SEC-235 #SEC-282 -->
 
 There are additional attack vectors to consider. For instance, naive URL handling in the server endpoints frequently introduces security gaps.
-Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
+Luckily, CAP applications don't have to implement HTTP/URL processing on their own as CAP offers sophisticated [protocol adapters](../../about/features#consuming-services) such as OData V2/V4 that have the necessary security validations in place.
 The adapters also transform the HTTP requests into a corresponding CQN statement.
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../guides/providing-services#using-cds-search-annotation)
-- [Pagination (implicit sort order)](../guides/providing-services#pagination-sorting)
+- [Sorting](../providing-services#using-cds-search-annotation)
+- [Pagination (implicit sort order)](../providing-services#pagination-sorting)
 - Filtering
 
 ::: warning
@@ -561,7 +561,7 @@ In addition, CAP runs on a virtual machine with a managed heap that protects fro
 
 CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
 These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../guides/providing-services#concurrency-control) on different layers, e.g. [ETags](../guides/providing-services#etag) and [pessimistic locks](../guides/providing-services#select-for-update). Moreover, Messages received from the [message queue](../guides/messaging/) are always in order.
+CAP provides basic means of [concurrency control](../providing-services#concurrency-control) on different layers, e.g. [ETags](../providing-services#etag) and [pessimistic locks](../providing-services#select-for-update). Moreover, Messages received from the [message queue](../messaging/) are always in order.
 
 ::: tip
 Applications have to ensure a consistent data processing taking concurrency into account.
@@ -590,7 +590,7 @@ Developers have to explicitly configure public endpoints if necessary.
 
 - Application logging has `INFO` level to avoid potential information disclosures.
 
-- CAP also has first-class citizen support for [Fiori UI](../advanced/fiori) framework that brings a lot secure by default features in the UI client.
+- CAP also has first-class citizen support for [Fiori UI](../../advanced/fiori) framework that brings a lot secure by default features in the UI client.
 
 Of course, several security aspects need application-specific configuration.
 For instance, this is true for [authorizations](#secure-authorization) or application [sizing](#dos-attacks).

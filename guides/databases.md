@@ -159,7 +159,7 @@ The **filenames** are expected to match fully-qualified names of respective enti
 
 ### Using `.csv` Files
 
-The **content** of these files are standard CSV content with the column titles corresponding to decraled element names like that:
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names like that:
 
 ::: code-group
 

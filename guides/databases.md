@@ -224,7 +224,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 
 
-Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
+Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The following is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
 
 
 

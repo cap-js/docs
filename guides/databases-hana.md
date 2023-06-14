@@ -337,9 +337,9 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 | Current format    | hdbcds | hdbtable | hdbmigrationtable |
 |-------------------|:------:|:--------:|:-----------------:|
-| hdbcds            |        |   <X/>  |       <Na/>      |
-| hdbtable          | <Na/> |          |       <X/>       |
-| hdbmigrationtable | <Na/> |   <X/>  |                   |
+| hdbcds            |        |  yes  |      n/a      |
+| hdbtable          | n/a |          |       yes       |
+| hdbmigrationtable | n/a |  Yes  |                   |
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.

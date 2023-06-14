@@ -32,9 +32,7 @@ npm add @cap-js/sqlite -D
 
 [See also the general information on installing database packages.](databases#setup-configuration){.learn-more}
 
-::: details Migrating from old SQLite service
 
-:::
 
 
 

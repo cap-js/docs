@@ -102,7 +102,7 @@ Which should display this log output:
 As we see from the log output `cds build` generates these deployment artifacts as expected by HDI, based on CDS models and .csv files provided in your projects:
 
 - `.hdbtable` files for entities
-- `.hdbview` files for view / projections
+- `.hdbview` files for views / projections
 - `.hdbconstraint` files for database constraints
 - `.hdbtabledata` files for CSV content
 - a few technical files required by HDI, such as `.hdinamespace` and `.hdiconfig`

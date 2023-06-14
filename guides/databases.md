@@ -207,7 +207,7 @@ cds add data
 
 ### Sample Data
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
+Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial data in two places:
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |

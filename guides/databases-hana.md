@@ -150,7 +150,7 @@ To prepare the project, execute:
 cds add hana --for hybrid
 ```
 
-This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
+This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats. The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
 
 ::: tip
 The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.

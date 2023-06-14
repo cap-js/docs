@@ -174,7 +174,7 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association  `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association  `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
 
 If your content contains ...
 

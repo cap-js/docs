@@ -487,7 +487,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
+[There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 
 
 

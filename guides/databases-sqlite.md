@@ -10,7 +10,7 @@ CAP provides extensive support for SQLite, which allows projects to speed up dev
 
 ::: tip New SQLite Service
 
-This guide focuses on the new SQLite Service provided though *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)* which has many advantages over the former one as documented in section [Features Overview](#features-overview) below. Find details and instructions for [Migrating from Old Service](#migrating-from-old-service).
+This guide focuses on the new SQLite Service provided though *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one as documented in the [*Features*](#features) section below. Find also instructions for [*Migration*](#migration)  from old service below.
 
 :::
 
@@ -229,7 +229,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
    :::
 
-   > **Note:** ALTER TYPE commands are neither neccessary nor supported by SQLite, as SQLite is essentially typeless.
+   > **Note:** ALTER TYPE commands are neither necessary nor supported by SQLite, as SQLite is essentially typeless.
 
 
 
@@ -260,9 +260,11 @@ entity Foo {
 
 
 
-## Features Overview
+## Features
 
-Following is an overview of advanced features supported by the new database service.
+Following is an overview of advanced features supported by the new database service(s).
+
+> These apply to all new database services, SQLiteService, HANAService, and PostgresService. 
 
 
 
@@ -272,8 +274,7 @@ The new database service provides **full support** for all kinds of [path expres
 
 ```sh
 cds repl --profile better-sqlite
-var { server } = await cds.test('bookshop')
-var { Books, Authors } = cds.entities
+var { server } = await cds.test('bookshop'), { Books, Authors } = cds.entities
 await INSERT.into (Books) .entries ({ title: 'Unwritten Book' })
 await INSERT.into (Authors) .entries ({ name: 'Upcoming Author' })
 await SELECT `from ${Books} { title as book, author.name as author, genre.name as genre }`
@@ -336,23 +337,49 @@ SELECT.from.localized(Books)
 SELECT.one.localized(Books)
 ```
 
-> **Note:** Queries executed through generic application service handlers continue to serve localized data as before. 
-
 
 
 ### Standard Functions
 
 A specified set of standard functions is now supported in a **database-agnostic** way and translated to database-specific variants. These functions are by and large the same as specified in OData: 
 
-* `concat`, `indexof`, `length`
-* `contains`, `startswith`, `endswith`, `substring`, `matchesPattern`
-* `tolower`, `toupper`
-* `ceiling`
-* `year`, `month`, `day`, `hour`, `minute`, `second`
+* `concat(x,y,...)` — concatenates the given strings 
+* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy 
+* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
+* `startswith(x,y)` — checks whether `y` starts with `x`
+* `endswith(x,y)` — checks whether `y` starts with `x`
+* `matchesPattern(x,y)` — checks whether `x` matches regex `y`
+* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n`
+* `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
+* `length(x)` — returns the length of string `x`
+* `tolower(x)` — returns all-lowercased `x`
+* `toupper(x)` — returns all-uppercased `x`
+* `ceiling(x)` — returns ceiled `x`
+* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime 
 
 The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries. 
 
-> **Note** that usage is **case-sensitive**, which means you have to write these functions exactly as given above; all-uppercase usages are not supported. 
+For example, this CQL query:
+
+```sql
+SELECT from Books where search((title,descr),'y')
+```
+
+gets translated to this native SQLite query:
+
+```sql
+SELECT * from sap_capire_bookshop_Books 
+ WHERE ifnull(instr(lower(title),lower('y')),0) 
+    OR ifnull(instr(lower(descr),lower('y')),0) 
+```
+
+> Note: only single values are supported for the second argument `y`.
+
+::: warning 
+
+**Note** that usage is **case-sensitive**, which means you have to write these functions exactly as given above; all-uppercase usages are not supported. 
+
+:::
 
 
 
@@ -401,24 +428,28 @@ The combination of the above-mentioned improvements commonly leads to significan
 
 
 
-## Migrating from Old Service
+## Migration
 
-To migrate projects from old to new service please consider and follow the instructions below. 
+
+
+While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the new implementation. While not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case find instructions about how to resolve this in the following sections. 
+
+> These apply to all new database services, SQLiteService, HANAService, and PostgresService. 
 
 
 
 ### Use Old and New in Parallel
 
-During migration you may want to run and test your app with both, the old and new SQLite service. Do so as follows...
+During migration you may want to occasionally run and test your app with both, the new SQLite service and the old one. Do so as follows...
 
 1. Add the new service with `--no-save`
    ```sh
    npm add @cap-js/sqlite --no-save
    ```
 
-   > This way the *cds-plugin* mechanism, which works through package dependencies is bypassed.
+   > This bypasses the *cds-plugin* mechanism, which works through package dependencies.
 
-2. Occasionally run or test your apps with the `better-sqlite` profile using one of these options:
+2. Run or test your app with the `better-sqlite` profile using one of these options:
 
    ```sh
    cds watch bookshop --profile better-sqlite
@@ -432,63 +463,135 @@ During migration you may want to run and test your app with both, the old and ne
    CDS_ENV=better-sqlite jest --silent
    ```
 
+3. Run or test your app with the old SQLite service as before:
+   ```sh
+   cds watch bookshop
+   ```
+   ```sh
+   jest --silent
+   ```
+
+   
+
+
+
+### Avoid UNIONs and JOINs
+
+Many advanced features supported by the new database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding UNIONs and JOINs to the equation — at least the effort and overhead is hardly matched by generated value. Therefore we dropped support of UNIONs and JOINs in CQN queries. 
+
+For example, this means queries like that are deprecated / not supported any longer:
+
+```js
+SELECT.from(Books).join(Authors,...)
+```
+
+Mitigations: 
+
+1. Use [path expressions](#path-expressions-filters) instead of joins — actually the former lack of support for path expressions was the most common reason for having to use joins at all. 
+
+2. Use plain SQL queries like that:
+
+   ```js
+   await db.run(`SELECT from ${Books} join ${Authors} ...`)
+   ```
+
+3. Use helper views modelled in CDS, which still supports all complex UNIONs and JOINs, then use this view via `cds.ql`.
 
 
 
 
-### Adapt to Changes & Fixes
 
-While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the new implementation. So, while not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case find instructions about how to resolve this in the following sections. 
+### Fixed Localized Data
 
-#### Localized Data On Demand
+Formerly, when reading data using cds.ql, it *always* returned localized data. For example: 
 
-`SELECT.from(...)` queries on database level don't return localized data anymore → use `SELECT.localized(...)`
+```js
+SELECT.from(Books)       // always read from localized.Books instead
+```
 
-#### Restricted support for JOINs 
+This was not only wrong, but also expensive. Localized data is an application layer concept. Database services should return, what was asked for, nothing else. → Use [*Localized Queries*](#localized-queries) if you really want to read localized data from the database:
 
-JOINs and UNIONs by CQN are no longer supported → use plain SQL instead.
+```js
+SELECT.localized(Books)  // reads localized data
+SELECT.from(Books)       // reads plain data
+```
 
-#### Removed support for UNIONs 
+::: details No changes to app services behaviour
 
-JOINs and UNIONs by CQN are no longer supported → use plain SQL instead.
+Generic application service handlers use *SELECT.localized* to request localized data from the database. Hence, CAP services automatically serve localized data as before. 
 
-#### Required Table Aliases 
+:::
 
-CQNs with subqueries require table aliases to refer to elements of outer queries.
 
-#### Well-formed CQNs
 
-CQNs with an empty columns array now throws an error.
 
-#### Search Expressions
 
-Search: only single values are allowed as search expression.
-
-#### Column Names in CSV
-
-CSV input: column names like `author.ID` are disallowed → use  `author_ID` instead.
-
-#### Virtuals with Defaults
-
-No `default` values are returned anymore for `virtual` elements.
-
-#### Case-sensitive Functions
-
-Standard functions in CQN are case-sensitive → don't uppercase them.
-
-#### Simplified Pseudo Variables 
-
-For `@cds.on.insert/update` annotations only `$now` and `$user.id` are supported.
-
-#### New Streaming API
+### New Streaming API
 
 New STREAM event, ...
 
 
 
-### Switch to Lean Draft
+### Skipped BLOBs 
 
-As mentioned [above](#using-lean-draft), we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. 
+Formerly `LargeBinary` elements, aka BLOBs, always got served as any other column. Now they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them. 
+
+For example:
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT('image').from(Books) //> [{ image }]
+```
+
+BLOBs hold potentially large amounts of data, so they should rather be streamed than read like that. Another reason to refrain from using the explicit read is that some databases don't support that.
+
+
+
+### Skipped Virtuals
+
+In contrast to former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error. 
+
+::: details Reasoning...
+
+Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values, for virtual elements. This behavior was removed, as it provides little value, if at all.
+
+:::
+
+For example given that definition:
+
+```cds
+entity Foo { 
+  virtual foo : Integer;
+  bar : Integer;
+}
+```
+
+Behavior changed like that:
+
+```js
+SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
+SELECT.from('Foo')         //> [{ foo:1 }, ...] 
+SELECT('bar').from('Foo')  //> ERROR: no columns to read 
+```
+
+### Miscellaneous
+
+- Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
+- CQNs with subqueries require table aliases to refer to elements of outer queries.
+- CQNs with an empty columns array now throws an error.
+- Column names in CSVs must map to physical column names:
+
+```csvc
+ID;title;author_ID;currency_code // [!code ++] 
+ID;title;author.ID;currency.code // [!code --] 
+```
+
+
+
+### Adopt Lean Draft
+
+As mentioned [above](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*. 
 
 When using the new service the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori.draft_compat` in case you run into problems. 
 
@@ -518,6 +621,6 @@ npm add @cap-js/sqlite --save
 
 As stated in the beginning, SQLite is mostly intended to speed up development, not for production. This is not because of limited warranties or lack of support, it's only because of suitability. A major criterion is this: 
 
-Cloud applications usually are served by server clusters, each server in which is connected to a shared database. SQLite could only be used in such setups with the persistend database file accessed through a network file system; but this is rarely available and slow. Hence an enterprise client-server database is the better choice for that. 
+Cloud applications usually are served by server clusters, each server in which is connected to a shared database. SQLite could only be used in such setups with the persistent database file accessed through a network file system; but this is rarely available and slow. Hence an enterprise client-server database is the better choice for that. 
 
 Having said this, there can indeed be scenarios where SQLite might be used also in production, such as using SQLite as in-memory caches. → [Find a detailed list of criteria on the sqlite.org website](https://www.sqlite.org/whentouse.html).

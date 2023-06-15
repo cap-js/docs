@@ -77,7 +77,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 ### Custom Configuration
 
-The above setups auto-wire things through configuration presets automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or to override individual properties as follows:
+The setups above auto-wire things through configuration presets which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
 1. Install a database driver package, e.g.
    ```sh
@@ -127,7 +127,7 @@ cds env cds.requires.db
 {
   kind: 'sqlite',
   impl: '@cap-js/sqlite',
-  credentials: { url: ':db.sqlite:' }
+  credentials: { url: 'db.sqlite' }
 }
 ```
 
@@ -181,21 +181,21 @@ If your content contains ...
 - commas or line breaks → enclose it in double quotes `"..."`
 - double quotes → escape them with doubled double quotes: `""`
 
-```csv
+```csvc
 ID,title,descr
 252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.<br>
-See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users. 
+→ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
 
 
 ### Use `cds add data`
 
-Run this to generate an initial set of .csv files with column titles filled in based on your CDS models:
+Run this to generate an initial set of .csv files with header lines based on your CDS model:
 
 ```sh
 cds add data
@@ -207,7 +207,7 @@ cds add data
 
 ### Sample Data
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial data in two places:
+Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -264,7 +264,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
-For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 ::: code-group
 
@@ -425,9 +425,11 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
+One use case for this annotation is to use projections on imported APIs as replica cache tables.
 
 
-### @sql.prepend / append {#native-db-clauses}
+
+### @sql.prepend / append
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 
@@ -564,6 +566,8 @@ the integrity of your data in the database layer against programming errors. If 
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+
 
 ## Using Native Features  { #native-db-functions}
 

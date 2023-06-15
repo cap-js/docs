@@ -127,7 +127,7 @@ cds env cds.requires.db
 {
   kind: 'sqlite',
   impl: '@cap-js/sqlite',
-  credentials: { url: ':db.sqlite:' }
+  credentials: { url: 'db.sqlite' }
 }
 ```
 
@@ -425,6 +425,8 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
+One use case for this annotation is to use projections on imported APIs as replica cache tables.
+
 
 
 ### @sql.prepend / append
@@ -564,6 +566,8 @@ the integrity of your data in the database layer against programming errors. If 
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+
 
 ## Using Native Features  { #native-db-functions}
 

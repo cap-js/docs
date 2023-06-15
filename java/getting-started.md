@@ -1,9 +1,7 @@
 ---
 synopsis: >
   How to start a new CAP Java project and how to run it locally.
-notebook: true
-notebooklanguages: java
-notebooktitle: Getting Started
+#notebook: true
 redirect_from: java/overview
 status: released
 ---

@@ -1,6 +1,7 @@
 ---
 outline: [1,3]
 status: released
+synopsis: Start with a minimal setup and a grow-as-you-go approach.
 ---
 
 
@@ -174,7 +175,7 @@ cd srv && mvn cds:watch
 
 ::: details From the log output we see  `cds watch` is waiting for things to come...
 
-```sh
+```console
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -225,7 +226,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 A CDS service definition is all CAP needs to serve fully-functional OData services, with extensive database access included out of the box. This also allows us to mock remote services in service integration scenarios.
 
-For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP API Business Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
+For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP Business Accelerator Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
 
 A step-by-step walkthrough can be found in our [TechEd 2022 sample](https://github.com/SAP-samples/teched2022-AD265).{.learn-more}
 

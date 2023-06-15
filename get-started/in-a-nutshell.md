@@ -91,7 +91,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```sh
+```console
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -252,7 +252,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 <!--- % include _code from='bookshop:srv/cat-service.cds' %} -->
 *Find this sources also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
-[Learn more about **Defining Services**.](../guides/providing-services/){ .learn-more}
+[Learn more about **Defining Services**.](../guides/providing-services){ .learn-more}
 
 
 ### Served to OData out of the box
@@ -421,7 +421,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 
 > Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
-[Learn more about **Generic Providers**.](../guides/providing-services/){.learn-more}
+[Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 <!-- EXCLUDE IN NOTEBOOK START -->
@@ -499,7 +499,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl node">
 
-```sh
+```console
 ./srv
   - cat-service.cds  # service definitions
   - cat-service.js   # service implementation
@@ -655,12 +655,12 @@ With this getting started guide we introduced many of the basics of CAP, such as
 
 - [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
 - [Domain Modeling](../guides/domain-modeling)
-- [Defining Services and APIs](../guides/providing-services/)
-- [Providing Services](../guides/providing-services/)
+- [Defining Services and APIs](../guides/providing-services)
+- [Providing Services](../guides/providing-services)
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
+- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
 
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 

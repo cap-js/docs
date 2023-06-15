@@ -18,6 +18,8 @@ Built-in support for temporal data follows the general principle of CDS to captu
 > For an introduction to this topic, see [Temporal database](https://en.wikipedia.org/w/index.php?title=Temporal_database&oldid=911558203) (Wikipedia) and [Temporal features in SQL:2011](https://files.ifi.uzh.ch/dbtg/ndbs/HS17/SQL2011.pdf).
 <!-- and [Temporal features in SQL:2011](https://cs.ulb.ac.be/public/_media/teaching/infoh415/tempfeaturessql2011.pdf).-->
 
+[[toc]]
+
 
 ## Starting with 'Timeless' Models {#timeless-model}
 
@@ -145,7 +147,7 @@ service HRService {
 :::
 
 > You can omit composed entities like _WorkAssignments_ from the service, as they would get
-[auto-exposed](providing-services/#auto-exposed-entities) automatically.
+[auto-exposed](providing-services#auto-exposed-entities) automatically.
 
 <div id="beforereadingtempdata" />
 

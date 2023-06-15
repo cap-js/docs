@@ -1,7 +1,7 @@
 ---
 synopsis: >
   This section provides an overview about the security architecture of CAP applications on different platforms.
-permalink: security/overview
+redirect_from: security/overview
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -64,7 +64,7 @@ But there are still a few things to consider because exploited vulnerabilities c
 
 - Make sure that locally started HTTP endpoints are bound to `localhost`.
 - In case you run your service in hybrid mode with bindings to cloud service instances,
-use [cds bind](../advanced/hybrid-testing) instead of copying bindings manually to `default-env.json` file.
+use [cds bind](../../advanced/hybrid-testing) instead of copying bindings manually to `default-env.json` file.
 `cds bind` avoids materialization of secrets to local disc, which is inherently dangerous.
 - Don't write sensitive data to application logs, also not via debug logging.
 - Don't test with real business data, for example, copied from a productive system.
@@ -120,7 +120,7 @@ It provides a way to establish a secure communication channel between remote end
 
 Note the security [guide](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/cb50b6191615478aa11d2050dada467d.html).
 
-## Security Architecture and Platform Requirements
+## Architecture and Platform Requirements
 
 As [pointed out](#platform-compliance), CAP cloud applications run in a specific context that has a major impact on the security [architecture](#architecture-overview).
 CAP requires a dedicated [platform environment](#platform-environment) to integrate with in order to ensure end-to-end security.

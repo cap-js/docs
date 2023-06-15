@@ -150,13 +150,13 @@ To prepare the project, execute:
 cds add hana --for hybrid
 ```
 
-This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats.  The default format of _hdbcds_ isn't available on SAP HANA Cloud. The configuration is added to a `[hybrid]` profile in your _package.json_.
+This configures deployment for SAP HANA to use the _hdbtable_ and _hdbview_ formats. The configuration is added to a `[hybrid]` profile in your _package.json_.
 
-::: tip
-The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario. If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.
+::: tip The profile `hybrid` relates to [the hybrid testing](../advanced/hybrid-testing) scenario
+If you want to prepare your project for production and use the profile `production`, read the [Deploy to Cloud Foundry](deployment/) guide.
 :::
 
-No further configuration is necessary for Node.js. For Java see the [Use SAP HANA as the Database for a CAP Java Application](https://developers.sap.com/tutorials/cp-cap-java-hana-db.html#880cf07a-1788-4fda-b6dd-b5a6e5259625) tutorial for the rest of the configuration.
+No further configuration is necessary for Node.js. For Java, see the [Use SAP HANA as the Database for a CAP Java Application](https://developers.sap.com/tutorials/cp-cap-java-hana-db.html#880cf07a-1788-4fda-b6dd-b5a6e5259625) tutorial for the rest of the configuration.
 
 
 
@@ -218,7 +218,7 @@ entity Geo as select from Foo {
 SAP HANA Spatial has some built-in [grid generator table functions](https://help.sap.com/docs/HANA_CLOUD_DATABASE/bc9e455fe75541b8a248b4c09b086cf5/2ead478dc6e14c429037efcdb5a75a6e.html). To use them in a CDS model, first
 define corresponding facade entities in CDS.
 
-Example for function ST_SquareGrid:
+Example for function `ST_SquareGrid`:
 
 ```cds
 @cds.persistence.exists
@@ -312,7 +312,7 @@ CAP supports database schema updates by detecting changes to the CDS model when 
 >
 > <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (eg. "ID").
 
-::: warning
+::: warning No support for incompatible schema changes
 Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
 :::
 
@@ -320,18 +320,16 @@ Currently there's no framework support for incompatible schema changes that requ
 
 There's full support for schema evolution when the _cds-mtxs_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
 
-::: warning
-Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet. Right now you can't activate extensions on entities annotated with `@cds.persistence.journal`.
+::: warning 
+Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet
+Right now, you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::
 
 ### Schema Updates with SAP HANA {#schema-updates-with-sap-hana}
 
-All schema updates in SAP HANA are applied using SAP HANA Deployment Infrastructure (HDI) design-time artifacts, which are auto-generated during CDS build execution. For backward compatibility, the default artifact type is still _.hdbcds_.
-::: warning
-This will be changed to _.hdbtable_/_.hdbview_ artifact generation, as the support of _.hdbcds_ has been discontinued in [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD_DATABASE/3c53bc7b58934a9795b6dd8c7e28cf05/eeffc091d9704d5bae57b6943f1d31d6.html).
-:::
+All schema updates in SAP HANA are applied using SAP HANA Deployment Infrastructure (HDI) design-time artifacts, which are auto-generated during CDS build execution.
 
-Schema updates using _.hdbtable_ deployments are a challenge for tables with large data volume compared to _.hdbcds_. Schema changes with _.hdbtable_ are applied using temporary table generation to preserve the data. As this could lead to long deployment times, the support for _.hdbmigrationtable_ artifact generation has been added. The [Migration Table artifact type](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/52d1f5acfa754a7887e21226641eb261.html) uses explicit versioning and migration tasks. Modifications of the database table are explicitly specified in the design-time file and carried out on the database table exactly as specified. This saves the cost of an internal table-copy operation. When a new version of an already existing table is deployed, HDI performs the migration steps that haven't been applied.
+Schema updates using _.hdbtable_ deployments are a challenge for tables with large data volume. Schema changes with _.hdbtable_ are applied using temporary table generation to preserve the data. As this could lead to long deployment times, the support for _.hdbmigrationtable_ artifact generation has been added. The [Migration Table artifact type](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/52d1f5acfa754a7887e21226641eb261.html) uses explicit versioning and migration tasks. Modifications of the database table are explicitly specified in the design-time file and carried out on the database table exactly as specified. This saves the cost of an internal table-copy operation. When a new version of an already existing table is deployed, HDI performs the migration steps that haven't been applied.
 
 #### Deploy Artifact Transitions as Supported by HDI {#deploy-artifact-transitions}
 
@@ -343,16 +341,18 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
+
 [Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](#configure-hana){.learn-more}
+
 During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which may not include any migration steps.
 :::
 
-HDI supports the _hdbcds > hdbtable > hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
+HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
 For all transitions you want to execute in HDI, you need to specify an undeploy allowlist as described in [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html) in the SAP HANA documentation.
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
-If you are migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you have to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions)
+If you are migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you have to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions).
 
 By default, all entities are still compiled to _.hdbtable_ and you only selectively choose the entities for which you want to build _.hdbmigrationtable_ by annotating them with `@cds.persistence.journal`.
 
@@ -370,9 +370,8 @@ namespace data.model;
 ```
 
 CDS build generates _.hdbmigrationtable_ source files for annotated entities as well as a _last-dev/csn.json_ source file representing the CDS model state of the last build.
-::: tip
-These source files have to be checked into the version control system.
-:::
+
+> These source files have to be checked into the version control system.
 
 Subsequent model changes are applied automatically as respective migration versions including the required schema update statements to accomplish the new target state.
 There are cases where you have to resolve or refactor the generated statements, like for reducing field lengths. As they can't be executed without data loss (for example, `String(100)` -> `String(50)`), the required migration steps are only added as comments for you to process explicitly.
@@ -465,7 +464,9 @@ You can use `@sql.append` to partition your table initially, but you cannot subs
 :::
 
 ### Advanced Options
+
 The following CDS configuration options are supported to manage _.hdbmigrationtable_ generation.
+<!-- REVISIT: This warning has been in here for 2+ years -->
 ::: warning
 This hasn't been finalized yet.
 :::

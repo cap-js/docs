@@ -368,7 +368,7 @@ You can disable the database clustering for the update.
 | _Root Cause_ | An error like `Version incompatibility for the ... build plugin: "2.0.x" (installed) is incompatible with "2.0.y" (requested)` indicates that your project demands a higher version of SAP HANA than what is available in your org/space on SAP BTP, Cloud Foundry environment. The error might not occur on other landscapes for the same project.
 | _Solution_ | Lower the version in file `db/src/.hdiconfig` to the one given in the error message. If you're the owner of the SAP HANA installation, ask for an upgrade of the SAP HANA instance.
 
-#### Deployment fails — _Cannot create certificate store_
+#### Deployment fails — _Cannot create certificate store_ {#cannot-create-certificate-store}
 
 |  | Explanation |
 | --- | ---- |

@@ -25,8 +25,8 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
+| **[SAP HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
-| **[HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
 > Follow the links above to find specific information for each.
@@ -77,7 +77,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 ### Custom Configuration
 
-The above setups auto-wire things through configuration presets automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or to override individual properties as follows:
+The setups above auto-wire things through configuration presets which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
 1. Install a database driver package, e.g.
    ```sh
@@ -127,7 +127,7 @@ cds env cds.requires.db
 {
   kind: 'sqlite',
   impl: '@cap-js/sqlite',
-  credentials: { url: ':db.sqlite:' }
+  credentials: { url: 'db.sqlite' }
 }
 ```
 
@@ -159,7 +159,7 @@ The **filenames** are expected to match fully-qualified names of respective enti
 
 ### Using `.csv` Files
 
-The **content** of these files are standard CSV content with the column titles corresponding to decraled element names like that:
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names like that:
 
 ::: code-group
 
@@ -181,18 +181,21 @@ If your content contains ...
 - commas or line breaks → enclose it in double quotes `"..."`
 - double quotes → escape them with doubled double quotes: `""`
 
-```csv
+```csvc
 ID,title,descr
 252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
 ```
 
-
+::: danger
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users. 
+→ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+:::
 
 
 
 ### Use `cds add data`
 
-Run this to generate an initial set of .csv files with column titles fillled in based on your CDS models:
+Run this to generate an initial set of .csv files with header lines based on your CDS model:
 
 ```sh
 cds add data
@@ -204,7 +207,7 @@ cds add data
 
 ### Sample Data
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
+Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -221,7 +224,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 
 
-Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The folloing is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
+Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#generic-providers), so quite frequently there's nothing to do. The following is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
 
 
 
@@ -259,9 +262,9 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
-For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 ::: code-group
 
@@ -405,7 +408,7 @@ entity Bar as select from Foo;   //> The SQL view will be generated
 
 ::: details On HANA ...
 
-If the respective entity is user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
+If the respective entity is a user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
 :::
 
@@ -421,6 +424,8 @@ entity Foo as projection on Bar {...}
 ```
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
+
+One use case for this annotation is to use projections on imported APIs as replica cache tables.
 
 
 
@@ -561,6 +566,8 @@ the integrity of your data in the database layer against programming errors. If 
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+
 
 ## Using Native Features  { #native-db-functions}
 

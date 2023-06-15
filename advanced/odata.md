@@ -587,29 +587,29 @@ You can add further vocabularies to the translation process [using configuration
 
 | Vocabulary                                                         | Description                                  |
 | ------------------------------------------------------------------ | -------------------------------------------- |
-| [@Aggregation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Aggregation.V1.md){target="_blank"}     | for describing aggregatable data             |
-| [@Authorization](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Authorization.V1.md){target="_blank"} | for authorization requirements               |
-| [@Capabilities](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Capabilities.V1.md){target="_blank"}   | for restricting capabilities of a service    |
-| [@Core](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Core.V1.md){target="_blank"}                   | for general purpose annotations              |
-| [@JSON](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.JSON.V1.md){target="_blank"}                   | for JSON properties                          |
-| [@Measures](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Measures.V1.md){target="_blank"}           | for monetary amounts and measured quantities |
-| [@Repeatability](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Repeatability.V1.md){target="_blank"} | for repeatable requests                      |
-| [@Temporal](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Temporal.V1.md){target="_blank"}           | for temporal annotations                     |
-| [@Validation](https://github.com/oasis-tcs/odata-vocabularies/tree/master/vocabularies/Org.OData.Validation.V1.md){target="_blank"}       | for adding validation rules                  |
+| [@Aggregation](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Aggregation.V1.md){target="_blank"}     | for describing aggregatable data             |
+| [@Authorization](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Authorization.V1.md){target="_blank"} | for authorization requirements               |
+| [@Capabilities](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Capabilities.V1.md){target="_blank"}   | for restricting capabilities of a service    |
+| [@Core](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Core.V1.md){target="_blank"}                   | for general purpose annotations              |
+| [@JSON](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.JSON.V1.md){target="_blank"}                   | for JSON properties                          |
+| [@Measures](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Measures.V1.md){target="_blank"}           | for monetary amounts and measured quantities |
+| [@Repeatability](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Repeatability.V1.md){target="_blank"} | for repeatable requests                      |
+| [@Temporal](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Temporal.V1.md){target="_blank"}           | for temporal annotations                     |
+| [@Validation](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Validation.V1.md){target="_blank"}       | for adding validation rules                  |
 
 ### [SAP Vocabularies](https://github.com/SAP/odata-vocabularies#readme){target="_blank"}
 
 | Vocabulary                                                    | Description                                       |
 | ------------------------------------------------------------- | ------------------------------------------------- |
-| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Analytics.md){target="_blank"}         | for annotating analytical resources               |
-| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/CodeList.md){target="_blank"}           | for code lists                                    |
-| [@Common](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Common.md){target="_blank"}               | for all SAP vocabularies                          |
-| [@Communication](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Communication.md){target="_blank"} | for annotating communication-relevant information |
-| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/DataIntegration.md){target="_blank"} | for data integration                          |
-| [@PDF](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PDF.md){target="_blank"}                     | for PDF                                           |
-| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/PersonalData.md){target="_blank"}   | for annotating personal data                      |
-| [@Session](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/Session.md){target="_blank"}             | for sticky sessions for data modification         |
-| [@UI](https://github.com/SAP/odata-vocabularies/tree/master/vocabularies/UI.md){target="_blank"}                       | for presenting data in user interfaces            |
+| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Analytics.md){target="_blank"}         | for annotating analytical resources               |
+| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/CodeList.md){target="_blank"}           | for code lists                                    |
+| [@Common](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Common.md){target="_blank"}               | for all SAP vocabularies                          |
+| [@Communication](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Communication.md){target="_blank"} | for annotating communication-relevant information |
+| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/DataIntegration.md){target="_blank"} | for data integration                          |
+| [@PDF](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PDF.md){target="_blank"}                     | for PDF                                           |
+| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PersonalData.md){target="_blank"}   | for annotating personal data                      |
+| [@Session](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Session.md){target="_blank"}             | for sticky sessions for data modification         |
+| [@UI](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/UI.md){target="_blank"}                       | for presenting data in user interfaces            |
 
 [Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){.learn-more}
 

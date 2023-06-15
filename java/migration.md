@@ -130,7 +130,7 @@ Modifier modifier = new Modifier() {
 CqnStatement copy = CQL.copy(statement, modifier);
 ```
 
-### Overview of Removed Interfaces and Methods
+### Removed Interfaces and Methods Overview {#overview-of-removed-interfaces-and-methods}
 
 
 #### com.sap.cds
@@ -289,7 +289,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 | <CdsSrv link="services/environment/CdsProperties.html">cds.services</CdsSrv> | cds.application.services |
 | <CdsSrv link="services/environment/CdsProperties.Sql.Upsert.html">cds.sql.upsert</CdsSrv> | See [Legacy Upsert](#legacy-upsert) |
 
-### Overview of Removed Annotations
+### Removed Annotations Overview
 
 - `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
 
@@ -297,7 +297,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 #### Immutable Values
 
-The implementations of `Value` are now immutable, which makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
+The implementations of `Value` are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
 
 Changing the type of a value via `Value::type` now returns a new (immutable) value or throws an exception if the type change is not supported:
 
@@ -310,7 +310,7 @@ Value<String>   string = number.type(CdsBaseType.STRING); // number is unchanged
 
 In CDS QL, a [reference](../cds/cxn#references) (_ref_) identifies an entity set or element of a structured type. References can have multiple segments and ref segments can have filter conditions.
 
-The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
+The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
 
 ##### - Set alias or type
 
@@ -324,19 +324,19 @@ ElementRef<?> string = authorName.type("cds.String");   // authorName is unchang
 
 ##### - Modify ref segments
 
-Also the segments of an immutable ref can't be modified in-place any longer. To create an immutable ref segment with filter, use
+Also the segments of an immutable ref can't be modified in-place any longer. Create an immutable ref segment with filter as follows:
 
 ```java
 Segment seg = CQL.refSegment("title", predicate);
 ```
 
-The deprecated `RefSegment:id` and `RefSegment:filter` methods now throw an `UnsupportedOperationException`. For in-place modification of ref segments use `CQL.copy(ref)` to create a `RefBuilder`, which is a modifiable copy of the original ref. The `RefBuilder` allows to modify the segments in-place to change the segment id or set a filter. Finally call the `build` method to create an immutable ref.
+The deprecated `RefSegment:id` and `RefSegment:filter` methods now throw an `UnsupportedOperationException`. For in-place modification of ref segments use `CQL.copy(ref)` to create a `RefBuilder`, which is a modifiable copy of the original ref. The `RefBuilder` allows to modify the segments in-place to change the segment ID or set a filter. Finally call the `build` method to create an immutable ref.
 
 To manipulate a ref in a [Modifier](#modifier), implementations need to override the new `ref(CqnStructuredTypeRef ref)` and `ref(CqnElementRef ref)` methods.
 
 #### Null Values in CDS QL Query Results
 
-With CAP Java `2.0`, `null` values are not removed from the result of CDS QL queries anymore, this needs to be considered when using methods that operate on the key set of `Row`, such as `Row:containsKey`, `Row:keySet` and `Row:entrySet`.
+With CAP Java 2.0, `null` values are not removed from the result of CDS QL queries anymore, this needs to be considered when using methods that operate on the key set of `Row`, such as `Row:containsKey`, `Row:keySet` and `Row:entrySet`.
 
 #### Result of Updates Without Matching Entity
 
@@ -367,7 +367,7 @@ The default value of CDS Property `cds.security.authentication.normalizeProvider
 ### Lean Draft
 
 The property `cds.drafts.associationsToInactiveEntities` has been removed. It enabled a feature, which caused associations to other draft documents to combine active and inactive versions of the association target. This mixing of inactive and active data is no longer supported.
-In cases where it is still required to connect two independent draft documents through an association you can annotate this association with `@odata.draft.enclosed`. Note that this will ensure, that the active version points to an active target, while the inactive version points to an inactive target. It will not mix active and inactive data into the same association.
+In cases where it is still required to connect two independent draft documents through an association, you can annotate this association with `@odata.draft.enclosed`. Note: This ensures that the active version points to an active target, while the inactive version points to an inactive target. It will not mix active and inactive data into the same association.
 
 The following table summarizes the behaviour of associations between different draft-enabled entities:
 

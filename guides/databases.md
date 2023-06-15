@@ -128,7 +128,7 @@ cds env cds.requires.db
 {
   kind: 'sqlite',
   impl: '@cap-js/sqlite',
-  credentials: { url: ':db.sqlite:' }
+  credentials: { url: 'db.sqlite' }
 }
 ```
 
@@ -267,7 +267,7 @@ cds add data
 
 ### Location of CSV files
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
+Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 <div markdown="1" class="impl node">
 
@@ -303,7 +303,9 @@ cds
 
 
 
+
 Most queries to databases are constructed and executed from [generic event handlers of CRUD requests](providing-services#serving-crud), so quite frequently there's nothing to do. The following is for the remaining cases where you have to provide custom logic, and as part of it execute database queries.
+
 
 
 
@@ -380,6 +382,7 @@ For example, given these CDS models (derivated from [*cap/samples/bookshop*](htt
 When you have created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build will invoke the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 </div>
+
 
 You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
@@ -548,6 +551,8 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
+One use case for this annotation is to use projections on imported APIs as replica cache tables.
+
 
 
 ### @sql.prepend / append
@@ -687,6 +692,8 @@ the integrity of your data in the database layer against programming errors. If 
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+
 
 ## Using Native Features  { #native-db-functions}
 

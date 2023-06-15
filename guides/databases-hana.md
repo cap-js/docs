@@ -138,7 +138,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 
 ## Deploying to HANA
 
-There are 2 ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts.
+There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts.
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
 
@@ -164,7 +164,7 @@ No further configuration is necessary for Node.js. For Java see the [Use SAP HAN
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy).
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, i.e., org and space.
 Then in the project root folder, just execute:
 
 ```sh
@@ -188,7 +188,7 @@ If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#ha
 
 ### Using `cf deploy` or `cf push`
 
-See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP, including a dedicated deployer application for the HANA database.
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the HANA database.
 
 
 
@@ -318,10 +318,10 @@ Currently there's no framework support for incompatible schema changes that requ
 
 ### Schema Evolution and Multitenancy/Extensibility
 
-There's full support for schema evolution when the _cds-mtx_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
+There's full support for schema evolution when the _cds-mtxs_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
 
 ::: warning
-Tenant-specific extensibility using the _cds-mtx_ library isn't supported yet. Right now you can't activate extensions on entities annotated with `@cds.persistence.journal`.
+Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet. Right now you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::
 
 ### Schema Updates with SAP HANA {#schema-updates-with-sap-hana}

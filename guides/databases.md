@@ -32,7 +32,7 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 
 > Follow the links above to find specific information for each.
 
-In general, all you need to do is to install one of the database packages, like so:
+In general, all you need to do is to install one of the database packages, as follows:
 
 Using SQLite for development:
 
@@ -40,7 +40,7 @@ Using SQLite for development:
 npm add @cap-js/sqlite -D
 ```
 
-Using HANA for production:
+Using SAP HANA for production:
 
 ```sh
 npm add @sap/cds-hana
@@ -54,7 +54,7 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration  {.impl .node}
 
-The afore-mentioned packages use `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example if you added sqlite and hana, this will effectively result in this auto-wired configuration:
+The afore-mentioned packages use the `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example, if you added `sqlite` and `hana`, this will effectively result in this auto-wired configuration:
 
 ```json
 {"cds":{
@@ -78,7 +78,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 ### Custom Configuration  {.impl .node}
 
-The setups above auto-wire things through configuration presets which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
+The previous setups auto-wire things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
 1. Install a database driver package, e.g.
    ```sh
@@ -253,7 +253,7 @@ ID,title,descr
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
+On SAP HANA, only use CSV files for _configuration data_ that can't be changed by application users.
 → See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
@@ -345,7 +345,7 @@ Select.from(AUTHOR)
 
 ### Native DB Queries
 
-If required you can also use native DB features by executing native SQL queries:
+If required you can also use native database features by executing native SQL queries:
 
 <div markdown="1" class="impl node">
 
@@ -373,7 +373,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
-For example, given these CDS models (derivated from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 </div>
 
@@ -426,7 +426,7 @@ service CatalogService {
 
 ### Using `cds compile -2 <dialect>`
 
-We can generate a SQL DDL script for SQLite by running this in the root directory containing both *.cds* files:
+We can generate an SQL DDL script for SQLite by running this in the root directory containing both *.cds* files:
 
 ```sh
 cds compile srv/cat-service --to sqlite > schema.sql
@@ -532,7 +532,7 @@ entity Foo {...}                 //> No SQL table will be generated
 entity Bar as select from Foo;   //> The SQL view will be generated
 ```
 
-::: details On HANA ...
+::: details On SAP HANA ...
 
 If the respective entity is a user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
@@ -542,7 +542,7 @@ If the respective entity is a user-defined function or a calculation view, one o
 
 ### @cds.persistence.table
 
-Annotate an entity with `@cds.persistence.table` to create a table with the effective signature of the view definition instead of a SQL view.
+Annotate an entity with `@cds.persistence.table` to create a table with the effective signature of the view definition instead of an SQL view.
 
 ```cds
 @cds.persistence.table
@@ -588,13 +588,13 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 
 The following rules apply:
 
-- The compiler doesn’t check or process the provided SQL snippets in any way. You are responsible to ensure that the resulting statement is valid and doesn’t negatively impact your database or your application. We don’t provide support for problems caused by using this feature.
+- The compiler doesn't check or process the provided SQL snippets in any way. You are responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
 
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
@@ -722,7 +722,7 @@ entity RankedBooks as select from Books {
 
 In case of conflicts, follow these steps to provide different models for different databases:
 
-1. Add db-specific schema extensions in db-specific subfolders of `./db`:
+1. Add database-specific schema extensions in specific subfolders of `./db`:
 
    ::: code-group
 
@@ -742,7 +742,7 @@ In case of conflicts, follow these steps to provide different models for differe
 
    :::
 
-2. Add profile-specific configuration to your *package.json* to use these db-specific extensions:
+2. Add configuration in specific profiles to your *package.json*, to use these database-specific extensions:
 
    ```json
    { "cds": { "requires": {

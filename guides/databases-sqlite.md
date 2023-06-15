@@ -6,12 +6,10 @@ status: released
 
 
 
-CAP provides extensive support for SQLite, which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible. 
+CAP provides extensive support for SQLite, which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
 
 ::: tip New SQLite Service
-
-This guide focuses on the new SQLite Service provided though *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one as documented in the [*Features*](#features) section below. Find also instructions for [*Migration*](#migration)  from old service below.
-
+This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one as documented in the [*Features*](#features) section below. Find also instructions for [*Migration*](#migration) from old service below.
 :::
 
 
@@ -42,7 +40,7 @@ npm add @cap-js/sqlite -D
 
 Installing `@cap-js/sqlite` as described above automatically configures your application to use an in-memory SQLite database. For example, you can see this in the log output when starting your application, with `cds watch`:
 
-```sh
+```log
 ...
 [cds] - connect to db > sqlite { url: ':memory:' } //[!code focus]
   > init from db/init.js
@@ -56,7 +54,7 @@ Installing `@cap-js/sqlite` as described above automatically configures your app
 
 
 
-You can inspect the effective configuration using `cds env`: 
+You can inspect the effective configuration using `cds env`:
 
 ```sh
 cds env requires.db
@@ -64,7 +62,7 @@ cds env requires.db
 
 → should display this output:
 
-```sh
+```js
 {
   impl: '@cap-js/sqlite',
   credentials: { url: ':memory:' },
@@ -79,8 +77,11 @@ cds env requires.db
 ## Persistent Databases
 
 
-
-You can also use persistent SQLite databases. Follow these steps to do so: 
+<!--
+TODO: A plain cds.requires.db = 'sqlite' also behaves this way.
+If possible, all common scenarios should be covered by shortcuts only.
+-->
+You can also use persistent SQLite databases. Follow these steps to do so:
 
 1. Specify a db filename in your `db` configuration as follows:
 
@@ -108,15 +109,15 @@ This will:
 
 With that in place, when starting the server it will use this prepared database instead of bootstrapping an in-memory one:
 
-```sh
+```log
 ...
 [cds] - connect to db > sqlite { url: 'db.sqlite' }
 ...
 ```
 
-::: tip
+::: tip Re-deploy on changes
 
-Remember to always re-deploy your database whenever you made changes to your models or your data. Just run `cds deploy` again to do so. 
+Remember to always re-deploy your database whenever you made changes to your models or your data. Just run `cds deploy` again to do so.
 
 :::
 
@@ -336,7 +337,6 @@ SELECT.localized(Books)
 SELECT.from.localized(Books)
 SELECT.one.localized(Books)
 ```
-
 
 
 ### Standard Functions

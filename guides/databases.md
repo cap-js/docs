@@ -131,7 +131,7 @@ cds env cds.requires.db
 {
   kind: 'sqlite',
   impl: '@cap-js/sqlite',
-  credentials: { url: ':db.sqlite:' }
+  credentials: { url: 'db.sqlite' }
 }
 ```
 
@@ -211,7 +211,7 @@ cds add data
 
 ### Sample Data
 
-Quite frequently you need to distinguish between sample data and real initial data, and CAP supports that by allowing you to provide initial in two places:
+Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -266,7 +266,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models automatically. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -429,6 +429,8 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
+One use case for this annotation is to use projections on imported APIs as replica cache tables.
+
 
 
 ### @sql.prepend / append
@@ -567,6 +569,8 @@ Instead, they protect the integrity of your data in the database layer against p
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+
 
 ## Using Native Features  { #native-db-functions}
 

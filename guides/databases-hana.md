@@ -164,7 +164,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy).
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, i.e., org and space.
 Then in the project root folder, just execute:
 
 ```sh
@@ -188,7 +188,7 @@ If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#ha
 
 ### Using `cf deploy` or `cf push`
 
-See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP BTP, including a dedicated deployer application for the HANA database.
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the HANA database.
 
 
 
@@ -320,7 +320,8 @@ Currently there's no framework support for incompatible schema changes that requ
 
 There's full support for schema evolution when the _cds-mtxs_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
 
-::: warning Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet
+::: warning 
+Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet
 Right now, you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::
 

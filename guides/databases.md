@@ -178,7 +178,7 @@ ID,title,author_ID,stock
 
 :::
 
-> `author_ID` is the generated foreign key for the managed Association  `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association  `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
 
 If your content contains ...
 
@@ -266,7 +266,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 
 
-When you run your server with `cds watch`  during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
+When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -390,7 +390,7 @@ In addition, you can use the following annotations to fine-tune generated SQL.
 
 ### @cds.persistence.skip
 
-Add  `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
+Add `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
 
 ```cds
 @cds.persistence.skip
@@ -402,7 +402,7 @@ entity Bar as select from Foo;   //> No SQL view will be generated
 
 ### @cds.persistence.exists
 
-Add  `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
+Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
 
 ```cds
 @cds.persistence.exists
@@ -471,8 +471,8 @@ The following rules apply:
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
-- Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
+- Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
+- For HANA tables there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
@@ -484,7 +484,7 @@ If you use native database clauses in combination with `@cds.persistence.journal
 
 ### Reserved Words
 
-The CDS compiler and CAP runtimes provide smart quiting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
+The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
 
 Find here a collection of resources on selected databases and their reference documentation:
 
@@ -493,7 +493,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
+[There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 
 
 

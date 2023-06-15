@@ -99,10 +99,10 @@ Which should display this log output:
 
 ### Generated HDI Artifacts
 
-As we see from the log output `cds build` generates these deployment artefacts as expected by HDI, based on CDS models and .csv files provided in your projects:
+As we see from the log output `cds build` generates these deployment artifacts as expected by HDI, based on CDS models and .csv files provided in your projects:
 
 - `.hdbtable` files for entities
-- `.hdbview` files for view / projections
+- `.hdbview` files for views / projections
 - `.hdbconstraint` files for database constraints
 - `.hdbtabledata` files for CSV content
 - a few technical files required by HDI, such as `.hdinamespace` and `.hdiconfig`
@@ -162,7 +162,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 ### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana}
 
-`cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance.  The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
+`cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
 Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, i.e., org and space.
 Then in the project root folder, just execute:
@@ -175,13 +175,13 @@ cds deploy --to hana --profile hybrid
 
 Behind the scenes, `cds deploy` does the following:
 
-* Compiles the CDS model to SAP HANA files (usually in _gen/db_, or _db/gen_)
-* Generates _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ files for the [CSV files](databases#providing-initial-data) in the project. If an _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ file is already present next to the CSV files, no new file is generated.
-* Creates a Cloud Foundry service of type `hdi-shared`, which creates an HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
+* Compiles the CDS model to SAP HANA files (usually in _gen/db_, or _db/src/gen_)
+* Generates _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ files for the [CSV files](databases#providing-initial-data) in the project. If a _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ file is already present next to the CSV files, no new file is generated.
+* Creates a Cloud Foundry service of type `hdi-shared`, which creates a HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
 * Starts `@sap/hdi-deploy` locally. Should you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
-[Learn more about the deployment using HDI](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
+[Learn more about the deployment using HDI.](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
 [Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
 
 If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#hana) guide.
@@ -254,11 +254,11 @@ Some of which are well-known standard functions like `current_timestamp` in the 
 
 - `current_connection`
 - `current_schema`
--  `current_transaction_isolation_level`
--  `current_utcdate`
--  `current_utctime`
--  `current_utctimestamp`
--  `sysuuid`
+- `current_transaction_isolation_level`
+- `current_utcdate`
+- `current_utctime`
+- `current_utctimestamp`
+- `sysuuid`
 
 To use these in CDS models you have to add the parentheses so that CDS generic support for using native features can kick in:
 
@@ -313,7 +313,7 @@ CAP supports database schema updates by detecting changes to the CDS model when 
 > <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (eg. "ID").
 
 ::: warning No support for incompatible schema changes
-Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
+Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes and renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
 :::
 
 ### Schema Evolution and Multitenancy/Extensibility
@@ -344,7 +344,7 @@ Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. 
 
 [Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](#configure-hana){.learn-more}
 
-During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which may not include any migration steps.
+During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which must not include any migration steps.
 :::
 
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
@@ -507,9 +507,9 @@ Yet, if you need to support initial data with user changes, you can use the `inc
 
 
 
-### Undeploying Artefacts
+### Undeploying Artifacts
 
-As documented in [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), an HDI deployment by default never deletes artefacts. So if you remove an entity, or csv files, the respective tables and content will remain in the database.
+As documented in [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or csv files, the respective tables and content will remain in the database.
 
 Add an `undeploy.json` file in folder `db/src` with content like this:
 

@@ -297,18 +297,20 @@ For other functions, where the syntax isn't supported by the compiler (for examp
 
 CAP supports database schema updates by detecting changes to the CDS model when executing the CDS build. If the underlying database offers built-in schema migration techniques, compatible changes can be applied to the database without any data loss or the need for additional migration logic. Incompatible changes like deletions are also detected, but require manual resolution, as they would lead to data loss.
 
-| Change                             | Detected Automatically |
-|------------------------------------|:----------------------:|
-| Adding   fields                    |          <X/>          |
-| Deleting fields                    |          <X/>          |
-| Renaming fields                    |   <Na/> <sup>1</sup>   |
-| Changing datatype of fields        |          <X/>          |
-| Changing type parameters           |          <X/>          |
-| Changing associations/compositions |          <X/>          |
-| Renaming associations/compositions |   <Na/> <sup>1</sup>   |
-| Renaming entities                  |         <Na/>          |
+| Change                             | Detected Automatically | Applied Automatically |
+| ---------------------------------- | :--------------------: | :-------------------: |
+| Adding  fields                     |        **Yes**         |        **Yes**        |
+| Deleting fields                    |        **Yes**         |          No           |
+| Renaming fields                    |    n/a <sup>1</sup>    |          No           |
+| Changing datatype of fields        |        **Yes**         |          No           |
+| Changing type parameters           |        **Yes**         |        **Yes**        |
+| Changing associations/compositions |        **Yes**         |    No <sup>2</sup>    |
+| Renaming associations/compositions |    n/a <sup>1</sup>    |          No           |
+| Renaming entities                  |          n/a           |          No           |
 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
+>
+> <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (eg. "ID").
 
 ::: warning
 Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
@@ -335,9 +337,9 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 
 | Current format    | hdbcds | hdbtable | hdbmigrationtable |
 |-------------------|:------:|:--------:|:-----------------:|
-| hdbcds            |        |   <X/>  |       <Na/>      |
-| hdbtable          | <Na/> |          |       <X/>       |
-| hdbmigrationtable | <Na/> |   <X/>  |                   |
+| hdbcds            |        |  yes  |      n/a      |
+| hdbtable          | n/a |          |       yes       |
+| hdbmigrationtable | n/a |  Yes  |                   |
 
 ::: warning
 Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
@@ -407,7 +409,7 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
 ### Native Database Clauses {#schema-evolution-native-db-clauses}
-Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations `@sql.prepend` and `@sql.append` as described in [Native Database Features](databases#native-db-clauses). In this section we are focusing on schema evolution specific details.
+Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations [`@sql.prepend` and `@sql.append`](databases#sql-prepend-append). In this section we are focusing on schema evolution specific details.
 
 Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
 Please note that the compiler does not evaluate or process these SQL snippets. Any snippet will be taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment will fail in case of syntax errors.

@@ -1,7 +1,7 @@
 ---
 synopsis: >
   This guide provides instructions on how to use databases with CAP applications.
-  Out of the box-support is provided for HANA, SQLite, H2 (Java only), and PostgreSQL.
+  Out of the box-support is provided for SAP HANA, SQLite, H2 (Java only), and PostgreSQL.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 impl-variants: true
@@ -12,25 +12,15 @@ impl-variants: true
 
 <div v-html="$frontmatter?.synopsis" />
 
-<div markdown="1" class="impl node">
 
 [[toc]]
-
-</div>
-
-<div markdown="1" class="impl java">
-
-[[toc]]
-
-</div>
-
 
 
 ## Setup & Configuration
 
 <div markdown="1" class="impl node">
 
-### Adding Database Packages
+### Adding Database Packages  {.impl .node}
 
 Following are cds-plugin packages for CAP Node.js runtime that provide support for respective databases:
 
@@ -62,7 +52,7 @@ npm add @sap/cds-hana
 
 :::
 
-### Auto-Wired Configuration
+### Auto-Wired Configuration  {.impl .node}
 
 The afore-mentioned packages use `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example if you added sqlite and hana, this will effectively result in this auto-wired configuration:
 
@@ -86,7 +76,7 @@ The afore-mentioned packages use `cds-plugin` technique to automatically configu
 
 
 
-### Custom Configuration
+### Custom Configuration  {.impl .node}
 
 The setups above auto-wire things through configuration presets which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
@@ -151,14 +141,14 @@ cds env cds.requires.db
 
 CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-Database support is enabled by adding a dependency to the features `cds-feature-hana` or `cds-feature-jdbc`, resp..
+Database support is enabled by adding a dependency to the corresponding feature, as shown in the following table:
 
 | Database                       | Feature                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SAP HANA Cloud](databases-hana)**     | `cds-feature-hana` | recommended for productive use         |
-| **[H2](databases-sqlite)**       | `cds-feature-jdbc` | recommended for development and CI     |
-| **[SQLite](databases-sqlite)**       | `cds-feature-jdbc` | supported for development and CI, recommened for local MTX |
-| **[PostgreSQL](databases-postgres)** | `cds-feature-jdbc` | supported for productive use |
+| **[SAP HANA Cloud](databases-hana)**     | `cds-feature-hana` | Recommended for productive use         |
+| **[H2](databases-sqlite)**       | `cds-feature-jdbc` | Recommended for development and CI     |
+| **[SQLite](databases-sqlite)**       | `cds-feature-jdbc` | Supported for development and CI <br> Recommended for local MTX |
+| **[PostgreSQL](databases-postgres)** | `cds-feature-jdbc` | Supported for productive use |
 
 
 
@@ -171,6 +161,7 @@ Database support is enabled by adding a dependency to the features `cds-feature-
 Put CSV files into `db/data` to fill your database with initial data.
 
 <div markdown="1" class="impl node">
+
 For example, in our [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
@@ -187,6 +178,7 @@ bookshop/
 </div>
 
 <div markdown="1" class="impl java">
+
 For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
@@ -203,11 +195,12 @@ bookshop/
 </div>
 
 
-The **filenames** are expected to match fully-qualified names of respective entitiy definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
+The **filenames** are expected to match fully-qualified names of respective entity definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
 
 ### Using `.csv` Files
 
 <div markdown="1" class="impl node">
+
 The **content** of these files are standard CSV content with the column titles corresponding to declared element names like that:
 
 ::: code-group
@@ -223,11 +216,12 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
 
 </div>
 
-<div markdown="1" class="impl node">
+<div markdown="1" class="impl java">
+
 The **content** of these files are standard CSV content with the column titles corresponding to _column_ names:
 
 ::: code-group
@@ -259,7 +253,7 @@ ID,title,descr
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users. 
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
 → See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
@@ -360,7 +354,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 <div markdown="1" class="impl java">
 
-Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native data base features](../java/advanced#jdbctemplate), e.g.:
+Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native data base features](../java/advanced#jdbctemplate) as follows:
 
 ```java
 @Autowired
@@ -500,8 +494,8 @@ Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds comp
 A few observations on the generated SQL DDL output:
 
 1. **Tables / Views** — declared entities become tables, projected entities become views
-2. **Type Mapping** — [CDS types are mapped to database-specifc SQL types](../cds/types)
-3. **Slugified FQNs** — dots in fullly qualified CDS names become underscores in SQL names
+2. **Type Mapping** — [CDS types are mapped to database-specific SQL types](../cds/types)
+3. **Slugified FQNs** — dots in fully qualified CDS names become underscores in SQL names
 4. **Flattened Structs** — structured elements like `Books:price` are flattened with underscores
 5. **Generated Foreign Keys** — for managed to-one Associations, foreign key columns are created. For example, this applies to `Books:author`.
 

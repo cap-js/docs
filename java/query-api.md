@@ -689,12 +689,12 @@ Select.from("bookshop.Books")
     .orderBy(c -> c.get("ID").desc(), c -> c.get("title").asc());
 ```
 
-You can order by the alias of a column of the select list or a column that is defined as a result of the function call.
+You can order by the alias of a column of the select list or a column that is defined as a result of the function call. 
 
 ```java
 Select.from("bookshop.Person")
-			.columns(p -> p.get("name").toUpper().as("aliasForName"))
-			.orderBy(p -> p.get("aliasForName").asc());
+    .columns(p -> p.get("name").toUpper().as("aliasForName"))
+    .orderBy(p -> p.get("aliasForName").asc());
 ```
 
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.

@@ -138,7 +138,7 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
     :::
 
 
-- Queries are now cleansed from draft-related properties (e.g. `IsActiveEntity`)
+- Queries are now cleansed from draft-related properties (like `IsActiveEntity`)
 - The target is resolved before the handler execution and points to either the active or draft entity:
 
     ```js

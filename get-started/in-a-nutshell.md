@@ -2,9 +2,7 @@
 shorty: in a Nutshell
 synopsis: >
   Get started with CAP in a minimalistic setup.
-notebook: true
-notebooklanguages: node
-notebooktitle: Getting Started in a Nutshell
+#notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
@@ -15,13 +13,11 @@ impl-variants: true
 Using a minimal setup
 { .subtitle}
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 
 This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
 [[toc]]
 
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 ## ⓪ Preliminaries
 
@@ -177,7 +173,6 @@ compilation and reload of the CAP Java application. The embedded database of the
 
 </div>
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 ### Compiling Models (Optional) {#cli}
 
 We can also test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
@@ -196,7 +191,6 @@ cds db/schema.cds -2 sql
 ```
 
 [Learn more about the command line interface by executing `cds help`.](#cli){.learn-more}
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 
 
@@ -311,7 +305,6 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 </div>
 
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 ### Compiling APIs (Optional) { #repl}
 
 You can also compile service definitions explicitly, for example to an [OData model](http:/docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
@@ -322,7 +315,6 @@ cds srv/cat-service.cds -2 edmx
 
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 ## ④ Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
@@ -424,7 +416,6 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 
 <div class="impl node">
 
@@ -647,7 +638,6 @@ public class SubmitOrderHandler implements EventHandler {
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
 Or submit orders until you see the error messages. {.impl .node}
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 
 ## Summary and Next Steps

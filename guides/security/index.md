@@ -1,8 +1,8 @@
 ---
-permalink: security/
 section: Security
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
+redirect_from: security/
 ---
 
 # CAP Security Guide

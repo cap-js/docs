@@ -268,6 +268,8 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
 
+### Using `cds compile -2 sql`
+
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
 ::: code-group
@@ -306,15 +308,14 @@ service CatalogService {
 ```
 :::
 
-### Using `cds compile -2 sql`
 
-We can generate a SQL DDL script by running this in the root directory containing both *.cds* files:
+Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
 
 ```sh
 cds compile srv/cat-service --to sql > ddl.sql
 ```
 
-Which would generate this output:
+Output:
 
 ::: code-group
 
@@ -402,7 +403,7 @@ entity Bar as select from Foo;   //> No SQL view will be generated
 
 ### @cds.persistence.exists
 
-Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
+Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a database relation is expected to exist, so we can generate SQL views on top.
 
 ```cds
 @cds.persistence.exists
@@ -420,7 +421,7 @@ If the respective entity is a user-defined function or a calculation view, one o
 
 ### @cds.persistence.table
 
-Annotate an entity with `@cds.persistence.table` to create a table with the effective signature of the view definition instead of a SQL view.
+Annotate an entity with `@cds.persistence.table` to create a table with the effective signature of the view definition instead of an SQL view.
 
 ```cds
 @cds.persistence.table
@@ -429,7 +430,7 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
-One use case for this annotation is to use projections on imported APIs as replica cache tables.
+Use case for this annotation: Use projections on imported APIs as replica cache tables.
 
 
 
@@ -437,7 +438,7 @@ One use case for this annotation is to use projections on imported APIs as repli
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 
-For example:
+Example:
 
 ````cds
 @sql.append: ```sql
@@ -453,7 +454,7 @@ entity E { ...,
 entity V as select from E { ... };
 ````
 
-would result in this output:
+Output:
 
 ```sql
 CREATE TABLE E ( ...,

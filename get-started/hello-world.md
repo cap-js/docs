@@ -1,7 +1,7 @@
 ---
 synopsis: >
   Looking for the obligatory greeting? &rarr; here you go.
-#notebook: true
+notebook: true
 status: released
 impl-variants: true
 ---

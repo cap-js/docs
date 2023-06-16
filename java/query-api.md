@@ -697,6 +697,8 @@ Select.from("bookshop.Person")
     .orderBy(p -> p.get("aliasForName").asc());
 ```
 
+Aliases of a columns have a precedence over the elements names when `orderBy` is evaluated and may shadow the respective elements. At best, such cases should be avoided.
+
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.
 
 By default, `null` values come before non-`null` values when sorting in ascending order and after non-`null` values when sorting in descending order. Use the `ascNullsLast` and `descNullsFirst` methods if you need to change this behavior.

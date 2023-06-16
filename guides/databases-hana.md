@@ -10,13 +10,13 @@
 
 
 
-Run this to use HANA Cloud for production:
+Run this to use SAP HANA Cloud for production:
 
 ```sh
 npm add @sap/cds-hana
 ```
 
-::: details Using other HANA drivers...
+::: details Using other SAP HANA drivers...
 
 Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which will take precedence over the default driver.
 
@@ -32,7 +32,7 @@ Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driv
 
 ## Running `cds build`
 
-Deployment to HANA is done via the [HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop):
+Deployment to SAP HANA is done via the [SAP HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop):
 
 ```sh
 cds build --for hana
@@ -136,7 +136,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 
 
 
-## Deploying to HANA
+## Deploying to SAP HANA
 
 There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts.
 
@@ -188,15 +188,15 @@ If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#ha
 
 ### Using `cf deploy` or `cf push`
 
-See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the HANA database.
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
 
 
 
 
-## Native HANA Features
+## Native SAP HANA Features
 
-The HANA Service provides dedicated support for native HANA features as outlined below.
+The HANA Service provides dedicated support for native SAP HANA features as outlined below.
 
 ### Geospatial Functions
 
@@ -320,7 +320,7 @@ Currently there's no framework support for incompatible schema changes that requ
 
 There's full support for schema evolution when the _cds-mtxs_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
 
-::: warning 
+::: warning
 Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet
 Right now, you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::

@@ -1,7 +1,7 @@
 ---
 synopsis: >
   This guide provides instructions on how to use databases with CAP applications.
-  Out of the box-support is provided for HANA, SQLite, H2, and PostgreSQL.
+  Out of the box-support is provided for SAP HANA, SQLite, H2, and PostgreSQL.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -41,7 +41,7 @@ Using SQLite for development:
 npm add @cap-js/sqlite -D
 ```
 
-Using HANA for production:
+Using SAP HANA for production:
 
 ```sh
 npm add @sap/cds-hana
@@ -56,7 +56,7 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration
 
-The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and HANA, this will effectively result in this auto-wired configuration:
+The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this will effectively result in this auto-wired configuration:
 
 <!-- REVISIT: hdbtable is now default, should we mention it anyway? -->
 ```json
@@ -192,7 +192,7 @@ ID,title,descr
 
 ::: danger
 On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
-→ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+→ See [CSV data gets overridden in the SAP HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
 
@@ -410,7 +410,7 @@ entity Foo {...}                 //> No SQL table will be generated
 entity Bar as select from Foo;   //> The SQL view will be generated
 ```
 
-::: details On HANA ...
+::: details On SAP HANA ...
 
 If the respective entity is a user-defined function or a calculation view, one of the annotations `@cds.persistence.udf` or `@cds.persistence.calcview` also needs to be assigned. See [Calculated Views and User-Defined Functions](../advanced/hana#calculated-views-and-user-defined-functions) for more details.
 
@@ -472,7 +472,7 @@ The following rules apply:
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For HANA tables there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA tables there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 

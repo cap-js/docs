@@ -579,7 +579,10 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 
 - Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
 - CQNs with subqueries require table aliases to refer to elements of outer queries.
+- Table aliases must not contain dots.
 - CQNs with an empty columns array now throws an error.
+- `*` is not a column reference, use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
+- Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
 - Column names in CSVs must map to physical column names:
 
 ```csvc

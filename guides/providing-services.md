@@ -149,7 +149,7 @@ service BookshopService {
 
 This definition effectively defines the API served by `BookshopService`.
 
-![service-apis.drawio](assets/providing-services/service-apis.drawio.svg){.adapt}
+![service-apis.drawio](assets/providing-services/service-apis.drawio.svg)
 
 Simple service definitions like that are all we need to run full-fledged servers out-of-the-box, served by CAP's generic runtimes, without any implementation coding required.
 

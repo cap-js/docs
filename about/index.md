@@ -37,13 +37,13 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" class="adapt">
+<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.svg" style="height:40px"  class="adapt"/>
-  <img src="../assets/logos/express.png" style="height:30px"  class="adapt"/>
-  <img src="../assets/logos/java.svg" style="height:44px" class="adapt"/>
-  <img src="../assets/logos/spring.svg" style="height:25px"  class="adapt"/>
+  <img src="../assets/logos/nodejs.svg" style="height:40px" />
+  <img src="../assets/logos/express.png" style="height:30px" />
+  <img src="../assets/logos/java.svg" style="height:44px"/>
+  <img src="../assets/logos/spring.svg" style="height:25px" />
 </div>
 
 <style scoped>
@@ -105,7 +105,7 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
 <figure>
-  <img src="../assets/core-concepts.drawio.svg" width="650px"  class="adapt">
+  <img src="../assets/core-concepts.drawio.svg" width="650px" >
   <figcaption>Anatomy of a Typical Application</figcaption>
 </figure>
 <br >
@@ -333,7 +333,7 @@ All behavioral aspects in CAP are based on ubiquitous notions of [Services](#ser
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-  <img src="../assets/agnostic-services.drawio.svg" width="333px" class="adapt">
+  <img src="../assets/agnostic-services.drawio.svg" width="333px">
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 

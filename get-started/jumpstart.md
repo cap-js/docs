@@ -56,7 +56,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 4. Install SQLite
 
-- **On Windows only:** Download and run the appropriate installer from [sqlite.org](https://sqlite.org/download.html)
+- **On Windows only:** Download and run the appropriate installer from [sqlite.org](https://sqlite.org/download.html).
 
 ### 5. Install Java & Maven
 

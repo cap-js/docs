@@ -238,17 +238,17 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 Automatic schema evolution only allows changes without potential data loss.
 
-::: tip Allowed:
+#### Allowed{.good}
+
 - Adding entities and elements
 - Increasing the length of Strings
 - Increasing the size of Integers
-:::
 
-::: warning Disallowed:
+#### Disallowed{.bad}
+
 - Removing entities or elements
 - Changes to primary keys
 - All other type changes
-:::
 
 For example the following type changes are allowed:
 

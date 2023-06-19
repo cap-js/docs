@@ -143,7 +143,7 @@ For example, given the following sources:
 
 ::: code-group
 ```properties [env.properties]
-cds.requires.db.credentials.database = my.db
+cds.requires.db.credentials.database = my.sqlite
 ```
 :::
 
@@ -154,7 +154,7 @@ cds.env = { ...,
     db: {
       kind: "sqlite",
       model: "./db",
-      credentials: { database:"my.db" }
+      credentials: { database:"my.sqlite" }
     }
   }
 }
@@ -169,7 +169,7 @@ Node.js programs can also add and change settings by simply assigning values lik
 ```js
 const cds = require('@sap/cds')
 cds.env.requires.sql.kind = 'sqlite'
-cds.env.requires.sql.credentials = { database:'my.db' }
+cds.env.requires.sql.credentials = { database:'my.sqlite' }
 ```
 
 > This would change the respective settings in the running program only, without writing back to the sources listed above.

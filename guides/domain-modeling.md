@@ -696,10 +696,6 @@ annotate my.Books with @(
 };
 ```
 
-
-
-.
-
 # Best Practices
 
 ## Separation of Concerns

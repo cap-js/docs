@@ -43,7 +43,9 @@ Example:
 We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
 :::
 
-### Keep Open Ranges When *Publishing* for Reuse {#publish } <!-- TODO: revisit duplicated attribute { #reuse} -->
+### Keep Open Ranges When *Publishing* for Reuse {#publish }
+
+<!-- TODO: revisit duplicated attribute { #reuse} -->
 
 Let's explain this by looking at counter examples.
 

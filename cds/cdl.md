@@ -1117,14 +1117,14 @@ They're based on a mixin approach as known from Aspect-oriented Programming meth
 Use `extend` to add extension fields or to add/override metadata to existing definitions, for example, annotations, as follows:
 
 ```cds
-extend Foo with @title:'Foo' {
+extend Foo with @(title: 'Foo') {
   newField : String;
   extend nestedStructField {
     newField : String;
     extend existingField @title:'Nested Field';
   }
 }
-extend Bar with @title:'Bar'; // nothing for elements
+extend Bar with @title: 'Bar'; // nothing for elements
 ```
 
 ::: tip
@@ -1144,6 +1144,9 @@ extend User with (length:120);
 extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
+
+The last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`,
+the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
 ### Named Aspects — `define aspect` {#aspect}

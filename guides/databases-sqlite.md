@@ -178,8 +178,8 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    ```cds
    entity Books { ...
       title : localized String(222); //> increase length from 111 to 222
-      foo : Association to Foo;      //> add a new relationship
-      foo : String;                  //> add a new element
+      foo : Association to Foo;      //> add a new relationship 
+      bar : String;                  //> add a new element
    }
    entity Foo { key ID: UUID }       //> add a new entity
    ```
@@ -339,25 +339,45 @@ SELECT.one.localized(Books)
 ```
 
 
+
+### Portable Operators
+
+The new database services guarantees identical behavior of common operators:
+
+* `==` and `=` are both supported and translated to native SQL's `IS` operator
+* `!=` → `is not`, 
+* vs  `<>`
+
+- `IS` vs `=` vs `==`
+- `=` → defaults to: `IS`
+- `<`, `<=`, ... → are supported generically → just passed through 
+
+https://www.sqlite.org/lang_expr.html
+
+
+
 ### Standard Functions
 
-A specified set of standard functions is now supported in a **database-agnostic** way and translated to database-specific variants. These functions are by and large the same as specified in OData:
+A specified set of standard functions is now supported in a **database-agnostic**, hence portable way and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData: 
 
 * `concat(x,y,...)` — concatenates the given strings
 * `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
 * `startswith(x,y)` — checks whether `y` starts with `x`
-* `endswith(x,y)` — checks whether `y` starts with `x`
+* `endswith(x,y)` — checks whether `y` ends with `x`
 * `matchesPattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n`
+* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
 * `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
 * `toupper(x)` — returns all-uppercased `x`
 * `ceiling(x)` — returns ceiled `x`
-* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
+* `session_context(v)` — with standard variable names → [see below](#session-variables)
+* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime 
 
-The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries.
+> <sup>1</sup> Argument `n` is optional
+
+The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries. 
 
 For example, this CQL query:
 
@@ -393,7 +413,11 @@ In addition to the standard functions, which all new database services will supp
 - `seconds_between`
 - `nano100_between`
 
+With open source and the new db service architecture we also have methods in place to enhance this list by custom implementation.
+
 > Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
+
+
 
 
 
@@ -410,13 +434,36 @@ SELECT session_context('$valid.to')
 
 Amongst other, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
 
+::: tip Portable API
 
+The API as shown below with function `session_context()` and the specific pseudo variable names is supported by all new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases. 
+
+:::
 
 
 
 ### Using Lean Draft
 
 The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, nothing of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single cheap selects.
+
+
+
+### Consitent Timestamps
+
+- Timestamp Comparisons 
+
+- Timestamp Precision → ms in SQLite, using Date.toISOString()
+
+  ```js
+  //let t = new Date
+  let t = "2022....+06:00" //> works via OData but not on DB level
+   ///> HANA would ignore the timezone !!!
+   ///> PostgreSQL
+  await INSERT.into(Foo,{createdAt:t})
+  let foo = SELECT.one(Foo).where({createdAt:t})
+  ```
+
+- 
 
 
 
@@ -528,7 +575,7 @@ Generic application service handlers use *SELECT.localized* to request localized
 
 ### New Streaming API
 
-New STREAM event, ...
+TODO: New STREAM event, ...
 
 
 
@@ -544,7 +591,11 @@ SELECT.from(Books)          //> [{ ID, title, ... }]
 SELECT('image').from(Books) //> [{ image }]
 ```
 
-BLOBs hold potentially large amounts of data, so they should rather be streamed than read like that. Another reason to refrain from using the explicit read is that some databases don't support that.
+::: tip Avoid direct reads of BLOBs
+
+Even if we still support direct reads as shown in line three above, you should generally refrain from using that option. Reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such thing, consider using non-large `Binary` elements instead. 
+
+:::
 
 
 
@@ -554,7 +605,7 @@ In contrast to former behaviour, new database services ignore all virtual elemen
 
 ::: details Reasoning...
 
-Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values, for virtual elements. This behavior was removed, as it provides little value, if at all.
+Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values, for virtual elements. This behavior was removed, as it provides very little value, if at all.
 
 :::
 
@@ -574,6 +625,8 @@ SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
 SELECT.from('Foo')         //> [{ foo:1 }, ...]
 SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
+
+
 
 ### Miscellaneous
 

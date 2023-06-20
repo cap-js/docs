@@ -256,6 +256,21 @@ Primitive annotation values, meaning Strings, Numbers, `true`, `false` are mappe
 <Annotation Term="Some.String" String="foo"/>
 ```
 
+#### Primitive Null
+
+The annotation value `null` has a special semantics in CDL as it removes an existing annotation assignment. Rendering a `null` value
+must be done as dynamic expression:
+
+```cds
+@Some.Null: { $edmJson: { $Null } }
+```
+
+```xml
+<Annotation Term="Some.Null">
+  <Null/>
+</Annotation>
+```
+
 [Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/main/app/travel_processor/capabilities.cds){.learn-more}
 
 ### Records

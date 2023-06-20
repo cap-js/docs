@@ -101,7 +101,7 @@ You can also use persistent SQLite databases. Follow these steps to do so:
    cds deploy
    ```
 
-Then the following happens:
+This will...:
 
 1. Create a database file with the given name.
 2. Create the tables and views according to your CDS model.
@@ -203,19 +203,19 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    DROP VIEW AdminService_Books_texts;
    DROP VIEW CatalogService_Books;
    DROP VIEW AdminService_Books;
-
+   
    -- Alter Tables for New or Altered Columns
    -- ALTER TABLE sap_capire_bookshop_Books ALTER title TYPE NVARCHAR(222);
    -- ALTER TABLE sap_capire_bookshop_Books_texts ALTER title TYPE NVARCHAR(222);
    ALTER TABLE sap_capire_bookshop_Books ADD foo_ID NVARCHAR(36);
    ALTER TABLE sap_capire_bookshop_Books ADD bar NVARCHAR(255);
-
+   
    -- Create New Tables
    CREATE TABLE sap_capire_bookshop_Foo (
      ID NVARCHAR(36) NOT NULL,
      PRIMARY KEY(ID)
    );
-
+   
    -- Re-Create Affected Views
    CREATE VIEW AdminService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0;
    CREATE VIEW CatalogService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0 LEFT JOIN sap_capire_bookshop_Authors AS author_1 O ... ;
@@ -340,19 +340,16 @@ SELECT.one.localized(Books)
 
 
 
-### Portable Operators
+### Standard Operators
 
-The new database services guarantees identical behavior of common operators:
+The new database services guarantees identical behavior of these logic operators:
 
-* `==` and `=` are both supported and translated to native SQL's `IS` operator
-* `!=` → `is not`, 
-* vs  `<>`
+- `==`, `=` — with `= null` being translated to `is null`
+- `!=`,  `<>`  — with `!=` translated to `IS NOT` in SQLite
 
-- `IS` vs `=` vs `==`
-- `=` → defaults to: `IS`
-- `<`, `<=`, ... → are supported generically → just passed through 
+* `<`, `>`, `<=`, `>=` — are supported as is in standard SQL
 
-https://www.sqlite.org/lang_expr.html
+Especially the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves portability of your code. 
 
 
 
@@ -436,7 +433,7 @@ Amongst other, this allows us to get rid of static helper views for localized da
 
 ::: tip Portable API
 
-The API as shown below with function `session_context()` and the specific pseudo variable names is supported by all new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases. 
+The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases. 
 
 :::
 
@@ -450,22 +447,40 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 ### Consitent Timestamps
 
-- Timestamp Comparisons 
+Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
 
-- Timestamp Precision → ms in SQLite, using Date.toISOString()
+1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps). 
+2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above. 
 
-  ```js
-  //let t = new Date
-  let t = "2022....+06:00" //> works via OData but not on DB level
-   ///> HANA would ignore the timezone !!!
-   ///> PostgreSQL
-  await INSERT.into(Foo,{createdAt:t})
-  let foo = SELECT.one(Foo).where({createdAt:t})
-  ```
+**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example: 
 
-- 
+```js
+await INSERT.into(Books).entries([
+  { title:'A', createdAt: '2022-11-11T11:11:11Z' },      // wrong
+  { title:'B', createdAt: '2022-11-11T11:11:11.000Z' },  // correct
+  { title:'C', createdAt: '2022-11-11T11:11:11.123Z' },
+})
+let books = await SELECT('title').from(Books).orderBy('createdAt')
+console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
+```
 
+The order is wrong because of the `'Z'` in A being at the wrong position. 
 
+::: tip Prefer using `Date` objects
+
+Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above. 
+
+For example, the above would be fixed by changing the INSERT to: 
+
+```js
+await INSERT.into(Books).entries([
+  { title:'A', createdAt: new Date('2022-11-11T11:11:11Z') },
+  { title:'B', createdAt: new Date('2022-11-11T11:11:11.000Z') },
+  { title:'C', createdAt: new Date('2022-11-11T11:11:11.123Z') },
+})
+```
+
+:::
 
 ### Improved Performance
 

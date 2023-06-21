@@ -344,7 +344,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
-## Generating DDL Files
+## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
 

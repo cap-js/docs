@@ -240,7 +240,7 @@ Note that there's no interpretation and no special handling for these qualifiers
 The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
 :::
 
-Primitive annotation values, meaning Strings, Numbers, `true`, `false` are mapped to corresponding OData annotations as follows:
+Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are mapped to corresponding OData annotations as follows:
 
 ```cds
 @Some.Boolean: true
@@ -258,7 +258,7 @@ Primitive annotation values, meaning Strings, Numbers, `true`, `false` are mappe
 
 #### Primitive Null
 
-The annotation value `null` has a special semantics in CDL as it removes an existing annotation assignment. Rendering a `null` value
+The annotation value `null` has a special semantics in CDL: it removes an existing annotation assignment. Rendering a `null` value
 must be done as dynamic expression:
 
 ```cds

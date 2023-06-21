@@ -697,7 +697,7 @@ Select.from("bookshop.Person")
     .orderBy(p -> p.get("aliasForName").asc());
 ```
 
-Aliases of a columns have a precedence over the elements names when `orderBy` is evaluated and may shadow the respective elements. At best, such cases should be avoided.
+Aliases of columns have precedence over the element names when `orderBy` is evaluated. Aliases may shadow the respective elements. To avoid that shadowing, don't use aliases that equal existing element names.
 
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.
 

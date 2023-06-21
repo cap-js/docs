@@ -84,8 +84,8 @@ COMMANDS
     <em>t | lint</em>       [beta] run linter for env or model checks
     <em>v | version</em>    get detailed version information
     <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull the base model for your SaaS app extension.
-    <em>  | push</em>       push your extension to the SaaS app in order to enable or update it
+    <em>  | pull</em>       pull base model for a SaaS app extension
+    <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
     <em>  | mock</em>       call cds serve with mocked service
 
@@ -254,7 +254,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 * If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "CAP Notebook button" on the *right-hand-side* of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
-   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" class="adapt">
+   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 

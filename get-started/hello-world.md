@@ -2,8 +2,6 @@
 synopsis: >
   Looking for the obligatory greeting? &rarr; here you go.
 notebook: true
-notebooklanguages: node, java
-notebooktitle: Hello World
 status: released
 impl-variants: true
 ---

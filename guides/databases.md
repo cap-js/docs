@@ -10,6 +10,7 @@ impl-variants: true
 
 # Using Databases
 
+<!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 <div v-html="$frontmatter?.synopsis" />
 
 
@@ -30,6 +31,7 @@ Following are cds-plugin packages for CAP Node.js runtime that provide support f
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
+<!-- Do we really need to say that? -->
 > Follow the links above to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, as follows:
@@ -46,6 +48,7 @@ Using SAP HANA for production:
 npm add @sap/cds-hana
 ```
 
+<!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
 ... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
@@ -54,8 +57,9 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration  {.impl .node}
 
-The afore-mentioned packages use the `cds-plugin` technique to automatically configure the primary database with `cds.env`. For example, if you added `sqlite` and `hana`, this will effectively result in this auto-wired configuration:
+The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this will effectively result in this auto-wired configuration:
 
+<!-- REVISIT: hdbtable is now default, should we mention it anyway? -->
 ```json
 {"cds":{
   "requires": {
@@ -67,7 +71,7 @@ The afore-mentioned packages use the `cds-plugin` technique to automatically con
 }}
 ```
 
-::: details In contrast to former — that is pre cds7 — setups this means...
+::: details In contrast to pre CDS 7 setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
 2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
@@ -109,15 +113,15 @@ The config options are as follows:
 - `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 
-::: warning
+::: warning Don't configure credentials
 
 Credentials like `username` and  `password` should **not** be added here but provided through service bindings, for example, via `cds bind`.
 
 :::
 
-::: tip
+::: tip Use `cds env` to inspect effective configuration
 
-You can always inspect the effective configuration using the `cds env` CLI command like that:
+For example, running this command:
 
 ```sh
 cds env cds.requires.db
@@ -162,7 +166,7 @@ Put CSV files into `db/data` to fill your database with initial data.
 
 <div markdown="1" class="impl node">
 
-For example, in our [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
+Put CSV files into `db/data` to fill your database with initial data. For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -199,17 +203,7 @@ The **filenames** are expected to match fully-qualified names of respective enti
 
 ### Using `.csv` Files
 
-<div markdown="1" class="impl node">
-
-The **content** of these files are standard CSV content with the column titles corresponding to declared element names, like for `sap.capire.bookshop-Books.csv`:
-
-</div>
-
-<div markdown="1" class="impl java">
-
-The **content** of these files are standard CSV content with the column titles corresponding to _column_ names, like for `my.bookshop-Books.csv`:
-
-</div>
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names, like for `Books`:
 
 ::: code-group
 
@@ -224,7 +218,7 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association  `author` → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
 
 If your content contains ...
 
@@ -233,12 +227,12 @@ If your content contains ...
 
 ```csvc
 ID,title,descr
-252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift. ...
+252,Eleonora,"""Eleonora"" is a short story by Edgar Allan Poe, first published in 1842 in Philadelphia in the literary annual The Gift."
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can't be changed by application users.
-→ See [CSV data gets overridden in the HANA guide for details](databases-hana#csv-data-gets-overridden).
+On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
+→ See [CSV data gets overridden in the SAP HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
 ### Use `cds add data`
@@ -297,7 +291,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 <div markdown="1" class="impl node">
 
-At runtime, we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example queries like this are supported for all databases:
+At runtime, we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```js
 SELECT.from (Authors, a => {
@@ -313,7 +307,7 @@ SELECT.from (Authors, a => {
 
 <div markdown="1" class="impl java">
 
-At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example queries like this are supported for all databases:
+At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```java
 Select.from(AUTHOR)
@@ -493,7 +487,7 @@ In addition, you can use the following annotations to fine-tune generated SQL.
 
 ### @cds.persistence.skip
 
-Add  `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
+Add `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
 
 ```cds
 @cds.persistence.skip
@@ -505,7 +499,7 @@ entity Bar as select from Foo;   //> No SQL view will be generated
 
 ### @cds.persistence.exists
 
-Add  `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a db relation is expected to exist, so we can generate SQL views on top.
+Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a database relation is expected to exist, so we can generate SQL views on top.
 
 ```cds
 @cds.persistence.exists
@@ -532,7 +526,7 @@ entity Foo as projection on Bar {...}
 
 > All parts of the view definition not relevant for the signature (like `where`, `group by`, ...) are ignored.
 
-One use case for this annotation is to use projections on imported APIs as replica cache tables.
+Use case for this annotation: Use projections on imported APIs as replica cache tables.
 
 
 
@@ -540,7 +534,7 @@ One use case for this annotation is to use projections on imported APIs as repli
 
 Use `@sql.prepend` and `@sql.append` to add native SQL clauses to before or after generated SQL output of CDS entities or elements.
 
-For example:
+Example:
 
 ````cds
 @sql.append: ```sql
@@ -556,7 +550,7 @@ entity E { ...,
 entity V as select from E { ... };
 ````
 
-would result in this output:
+Output:
 
 ```sql
 CREATE TABLE E ( ...,
@@ -574,8 +568,8 @@ The following rules apply:
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
-- Annotation  `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For SAP HANA there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
+- Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
+- For SAP HANA tables there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
@@ -587,7 +581,7 @@ If you use native database clauses in combination with `@cds.persistence.journal
 
 ### Reserved Words
 
-The CDS compiler and CAP runtimes provide smart quiting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
+The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
 
 Find here a collection of resources on selected databases and their reference documentation:
 
@@ -596,7 +590,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
 
-[There also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
+[There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 
 
 
@@ -667,9 +661,8 @@ entity Genres {
 
 
 
-::: warning
-Database constraints are not intended for checking user input. Instead, they protect
-the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
+::: warning Database constraints are not intended for checking user input
+Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::

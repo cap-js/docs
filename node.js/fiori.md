@@ -14,7 +14,7 @@
 
 
 
-## Draft Support 
+## Draft Support
 
 Class `ApplicationService` provides built-in support for Fiori Draft, which add these additional CRUD events:
 
@@ -71,7 +71,7 @@ Same event can go to active entities, bypassing draft mechanism, but respecting 
 function srv.on ('SAVE', <entity>.drafts, req => {...})
 ```
 
-Ends a draft session by UPDATEing the active entity with draft entity data. 
+Ends a draft session by UPDATEing the active entity with draft entity data.
 
 
 
@@ -81,7 +81,7 @@ Ends a draft session by UPDATEing the active entity with draft entity data.
 function srv.on ('CANCEL', <entity>.drafts, req => {...})
 ```
 
-Ends a draft session by canceling, i.e., deleting the draft entity. 
+Ends a draft session by canceling, i.e., deleting the draft entity.
 
 
 
@@ -91,5 +91,67 @@ Ends a draft session by canceling, i.e., deleting the draft entity.
 
 
 
-## Lean Draft 
+## Lean Draft
 
+Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity and enables more features like storing active instances in remote systems while keeping the corresponding drafts in the local persistence.
+
+### Enablement
+
+Lean draft is enabled by default. Add this to your `cds` configuration to disable the feature:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "lean_draft": false
+    }
+  }
+}
+```
+
+### Differences to Previous Version
+
+- Draft-enabled entities have corresponding CSN entities for drafts:
+
+    ```js
+    const { MyEntity } = srv.entities
+    MyEntity.drafts // points to model.definitions['MyEntity.drafts']
+    ```
+
+- Handlers must be registered for the correct entity, the following variants are allowed:
+
+    ```js
+    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
+    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
+    srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
+    srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
+    srv.on('NEW', 'MyEntity.drafts', /*...*/)
+    srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
+    srv.on('EDIT', 'MyEntity', /*...*/)
+    srv.on('SAVE', 'MyEntity', /*...*/)
+    ```
+
+    You can use the array variant to register handler for both, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
+
+    ::: info Compatibility flag
+    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
+    :::
+
+
+- Queries are now cleansed from draft-related properties (like `IsActiveEntity`)
+- The target is resolved before the handler execution and points to either the active or draft entity:
+
+    ```js
+    srv.on('READ', 'MyEntity.drafts', (req, next) => {
+      assert.equal(req.target.name, 'MyEntity.drafts')
+      return next()
+    })
+    ```
+
+    ::: info Special case: "Editing Status: All"
+    In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
+    The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
+    :::
+
+- Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
+- Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.

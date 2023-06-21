@@ -129,7 +129,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-
+   
    ```
 
 
@@ -519,8 +519,7 @@ Add an `undeploy.json` file in folder `db/src` with content like this:
 [
   "src/gen/**/*.hdbconstraint",
   "src/gen/**/*.hdbtabledata",
-  "src/gen/**/*.hdbtable",
-  "src/gen/**/*.hdbview"
+  ...
 ]
 ```
 

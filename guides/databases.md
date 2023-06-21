@@ -201,7 +201,15 @@ The **filenames** are expected to match fully-qualified names of respective enti
 
 <div markdown="1" class="impl node">
 
-The **content** of these files are standard CSV content with the column titles corresponding to declared element names like that:
+The **content** of these files are standard CSV content with the column titles corresponding to declared element names, like for `sap.capire.bookshop-Books.csv`:
+
+</div>
+
+<div markdown="1" class="impl java">
+
+The **content** of these files are standard CSV content with the column titles corresponding to _column_ names, like for `my.bookshop-Books.csv`:
+
+</div>
 
 ::: code-group
 
@@ -217,30 +225,6 @@ ID,title,author_ID,stock
 :::
 
 > Note: `author_ID` is the generated foreign key for the managed Association `author`  → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
-
-</div>
-
-<div markdown="1" class="impl java">
-
-The **content** of these files are standard CSV content with the column titles corresponding to _column_ names:
-
-::: code-group
-
-```csvc [db/data/my.bookshop-Books.csv]
-ID,TITLE,AUTHOR_ID,STOCK
-201,Wuthering Heights,101,12
-207,Jane Eyre,107,11
-251,The Raven,150,333
-252,Eleonora,150,555
-271,Catweazle,170,22
-```
-
-:::
-
-> Note: `AUTHOR_ID` is the generated foreign key for the managed Association `author`  → lean more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
-
-</div>
-
 
 If your content contains ...
 
@@ -280,7 +264,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 <div markdown="1" class="impl java">
 
-Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles):
+Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This confguration reads CSV data from `test/data` if the profile `test` is active:
 
 ::: code-group
 
@@ -366,14 +350,12 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
-## Generating SQL DDL
+## Generating DDL Files
 
 <div markdown="1" class="impl node">
 
 
-When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. You can also do this manually with  the CLI command `cds compile --to sql`.
-
-For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
+When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. 
 
 </div>
 
@@ -383,8 +365,9 @@ When you have created a CAP Java application with `cds init --add java` or with 
 
 </div>
 
-
 You can also do this manually with the CLI command `cds compile --to <dialect>`.
+
+### Using `cds compile -2 <dialect>`
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -424,15 +407,14 @@ service CatalogService {
 ```
 :::
 
-### Using `cds compile -2 <dialect>`
 
-We can generate an SQL DDL script for SQLite by running this in the root directory containing both *.cds* files:
+Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
 
 ```sh
 cds compile srv/cat-service --to sqlite > schema.sql
 ```
 
-Which would generate this output:
+Output:
 
 ::: code-group
 
@@ -489,7 +471,6 @@ ON Books.author_ID = author.ID;
 ::: tip
 Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
 :::
-
 
 
 ### Rules for generated DDL

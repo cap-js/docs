@@ -781,7 +781,7 @@ hello world
 If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
-{"message": "hello world"}
+{"data": {"message": "hello world"}}
 ```
 
 #### Handling events

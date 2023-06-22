@@ -87,7 +87,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```console
+```log
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?

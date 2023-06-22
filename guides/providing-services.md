@@ -678,10 +678,25 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 ### `@mandatory` {#mandatory}
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
-::: tip
-The same applies for fields with the [OData Annotation](../advanced/odata#annotations) `@FieldControl.Mandatory`.
 
- :::
+```cds
+service Sue {
+  entity Books {
+    key ID : UUID;
+    title  : String @mandatory;
+  }
+}
+```
+
+In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unneccessary request rountrips:
+
+```xml
+<Annotations Target="Sue.Books/title">
+  <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+```
+
+
 
 ### `@assert.unique` {#unique}
 

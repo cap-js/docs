@@ -362,7 +362,7 @@ Content-Type: application/json
 }
 ```
 
-::: tip
+::: warning *Note:* <!--  -->
 Accepted language codes in the `locale` property need to follow the [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) standard but use __underscore__ (`_`) instead of __hyphen__ (`-`), for example `en_GB` instead of `en-GB`.
 :::
 

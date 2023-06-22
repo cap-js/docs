@@ -362,6 +362,10 @@ Content-Type: application/json
 }
 ```
 
+::: tip
+Accepted language codes in the `locale` property need to follow the [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) standard but use __underscore__ (`_`) instead of __hyphen__ (`-`), for example `en_GB` instead of `en-GB`.
+:::
+
 ### Delete Operations
 
 To delete a locale's language-specific texts of an entity, perform a `DELETE` request to the entity's texts table through navigation. Specify the entity's key and the locale that you want to delete.

@@ -255,7 +255,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 <div markdown="1" class="impl java">
 
-Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This confguration reads CSV data from `test/data` if the profile `test` is active:
+Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
 ::: code-group
 
@@ -341,7 +341,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
-## Generating DDL Files
+## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
 

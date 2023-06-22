@@ -323,12 +323,12 @@ We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/c
 
 All behavioral aspects in CAP are based on ubiquitous notions of [Services](#services) and [Events](#events), as expressed in this manifest:
 
-1. _All active things are Services_ --- local ones, remote ones, as well as databases
-2. *Services are [declared in CDS](#service-definitions-in-cds)* --- reflected and used in generic service providers
-3. *Services [provide uniform APIs](#uniform-consumption)* --- consumed by other services or frontends
-4. _Services [react on Events](#events)_ --- covering _synchronous_ and _asynchronous_ APIs
-5. *Services [consume other Services](#uniform-consumption)* --- in event handler implementations
-6. _All data is passive_ --- that is, without its own behavior, adhering to _REST_
+1. _All active things are Services_ — local ones, remote ones, as well as databases
+2. *Services are [declared in CDS](#service-definitions-in-cds)* — reflected and used in generic service providers
+3. *Services [provide uniform APIs](#uniform-consumption)* — consumed by other services or frontends
+4. _Services [react on Events](#events)_ — covering _synchronous_ and _asynchronous_ APIs
+5. *Services [consume other Services](#uniform-consumption)* — in event handler implementations
+6. _All data is passive_ — that is, without its own behavior, adhering to _REST_
 
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
@@ -390,7 +390,7 @@ POST /orders/cancelOrder/4711
 
 <div>
 
-**Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
+**Every active thing in CAP is a service**, including *local* services or *remote* ones — even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 

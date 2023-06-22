@@ -256,10 +256,7 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-#### Primitive Null
-
-The annotation value `null` has a special semantics in CDL: it removes an existing annotation assignment. Rendering a `null` value
-must be done as dynamic expression:
+Rendering a `null` value must be done as dynamic expression:
 
 ```cds
 @Some.Null: { $edmJson: { $Null } }

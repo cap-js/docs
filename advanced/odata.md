@@ -240,10 +240,9 @@ Note that there's no interpretation and no special handling for these qualifiers
 The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
 :::
 
-Primitive annotation values, meaning Strings, Numbers, `true`, `false`, and `null` are mapped to corresponding OData annotations as follows:
+Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are mapped to corresponding OData annotations as follows:
 
 ```cds
-@Some.Null: null
 @Some.Boolean: true
 @Some.Integer: 1
 @Some.Number: 3.14
@@ -251,11 +250,22 @@ Primitive annotation values, meaning Strings, Numbers, `true`, `false`, and `nul
 ```
 
 ```xml
-<Annotation Term="Some.Null"><Null/></Annotation>
 <Annotation Term="Some.Boolean" Bool="true"/>
 <Annotation Term="Some.Integer" Int="1"/>
 <Annotation Term="Some.Number" Decimal="3.14"/>
 <Annotation Term="Some.String" String="foo"/>
+```
+
+Rendering a `null` value must be done as dynamic expression:
+
+```cds
+@Some.Null: { $edmJson: { $Null } }
+```
+
+```xml
+<Annotation Term="Some.Null">
+  <Null/>
+</Annotation>
 ```
 
 [Have a look at our *CAP SFLIGHT* sample, showcasing the usage of OData annotations.](https://github.com/SAP-samples/cap-sflight/blob/main/app/travel_processor/capabilities.cds){.learn-more}

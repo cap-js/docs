@@ -154,11 +154,8 @@ Database support is enabled by adding a dependency to the corresponding feature,
 | **[SQLite](databases-sqlite)**       | `cds-feature-jdbc` | Supported for development and CI <br> Recommended for local MTX |
 | **[PostgreSQL](databases-postgres)** | `cds-feature-jdbc` | Supported for productive use |
 
-
-
+[Learn more about supported databases in CAP Java and their configuration](../java/persistence-services#database-support){ .learn-more}
 </div>
-
-
 
 ## Providing Initial Data
 

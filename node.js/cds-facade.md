@@ -117,7 +117,7 @@ if (cds.version[0] < 6) // code for pre cds6 usage
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
-```console
+```log
 [dev] cds repl
 > cds.home // [!code focus]
 ~/.npm/lib/node_modules/@sap/cds

@@ -413,7 +413,7 @@ entity Authors { ...
 }
 ```
 
-> The on condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
 
 ### Many-to-Many Associations
 

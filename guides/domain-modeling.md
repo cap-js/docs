@@ -389,7 +389,7 @@ entity Books { ...
 
 >  Note: To-many associations are unmanaged by nature as we always have to specify an on condition. Reason for that is that backlink associations or foreign keys cannot be guessed reliably.
 
-::: tip
+::: tip Prefer managed associations
 
 For the sake of conciseness and comprehensibility of your models always prefer *managed Associations* for to-one associations.
 

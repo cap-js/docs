@@ -397,7 +397,7 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
-### Querying Through OData out-of-the-box
+### Querying Through OData Out of the Box
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
@@ -471,7 +471,7 @@ Besides, being usable from any UI frontends using standard AJAX requests, CAP pr
 
 ### Using OData Protocol
 
-As CAP-based services are full-fledged OData services out-of-the-box, you can use advanced
+As CAP-based services are full-fledged OData services out of the box, you can use advanced
 query options, such as `$select`, `$expand`, `$search`, and many more.
 
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
@@ -480,7 +480,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 ## ⑥ Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-While the generic providers serve most CRUD requests out-of-the-box, you can add custom code to deal with the specific domain logic of your application.
+While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
 ### Providing Service Implementations

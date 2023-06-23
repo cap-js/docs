@@ -594,7 +594,7 @@ entity Books.texts {
 }
 ```
 
-Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out-of-the-box.
+Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out of the box.
 
 ::: tip
 By generating `.texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility.

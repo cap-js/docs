@@ -75,7 +75,7 @@ This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** r
 
 <div id="beforerunningootb" />
 
-## Running Out-of-the-Box
+## Running Out of the Box
 
 When we save the file we created in the former step, the `cds` watcher in the terminal immediately reacts, showing this output:
 

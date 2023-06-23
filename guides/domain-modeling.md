@@ -278,24 +278,16 @@ entity Books {
 }
 ```
 
-
-
-::: tip
+#### Do: {.good}
 
 - [Prefer ***simple***, ***technical*** primary keys](#prefer-simple-technical-keys)
 - [Prefer ***canonic*** primary keys](#prefer-canonic-keys)
 - [Prefer ***UUIDs*** for primary keys](#prefer-uuids-for-keys)
 
-:::
-
-::: warning
+#### Don't: {.bad}
 
 - Don't use binary data as keys!
 - [Don't interpret UUIDs!](#don-t-interpret-uuids)
-
-:::
-
-
 
 ### Prefer Simple, Technical Keys
 
@@ -397,7 +389,7 @@ entity Books { ...
 
 >  Note: To-many associations are unmanaged by nature as we always have to specify an on condition. Reason for that is that backlink associations or foreign keys cannot be guessed reliably.
 
-::: tip
+::: tip Prefer managed associations
 
 For the sake of conciseness and comprehensibility of your models always prefer *managed Associations* for to-one associations.
 
@@ -421,7 +413,7 @@ entity Authors { ...
 }
 ```
 
-> The on condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
 
 ### Many-to-Many Associations
 
@@ -451,7 +443,7 @@ entity Users { ...
 }
 ```
 
-Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to Projects in there called `up_`.
+Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
 
 ## ⑤ Add Compositions
 

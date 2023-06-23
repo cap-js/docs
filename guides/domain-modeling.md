@@ -443,7 +443,7 @@ entity Users { ...
 }
 ```
 
-Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to Projects in there called `up_`.
+Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
 
 ## ⑤ Add Compositions
 

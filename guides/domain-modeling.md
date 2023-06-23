@@ -278,24 +278,16 @@ entity Books {
 }
 ```
 
-
-
-::: tip
+#### Do: {.good}
 
 - [Prefer ***simple***, ***technical*** primary keys](#prefer-simple-technical-keys)
 - [Prefer ***canonic*** primary keys](#prefer-canonic-keys)
 - [Prefer ***UUIDs*** for primary keys](#prefer-uuids-for-keys)
 
-:::
-
-::: warning
+#### Don't: {.bad}
 
 - Don't use binary data as keys!
 - [Don't interpret UUIDs!](#don-t-interpret-uuids)
-
-:::
-
-
 
 ### Prefer Simple, Technical Keys
 

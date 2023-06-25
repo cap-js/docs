@@ -39,7 +39,7 @@ features:
 - title: Enterprise Best Practices
   icon: 📂
   details:
-    Proven best practices for Authorization, Localization/i18n, Localized Data, Temporal Data, Data Privacy, Verticalization are served out-of-the-box.
+    Proven best practices for Authorization, Localization/i18n, Localized Data, Temporal Data, Data Privacy, Verticalization are served out of the box.
   link: about/#generic-providers
 - title: Focus on Domain
   icon: 🎯

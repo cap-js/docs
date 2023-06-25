@@ -22,7 +22,7 @@ Declaration:
 
 ```ts:no-line-numbers
 async function cds.serve (
-  service        : 'all' | string | cds.Service | typeof cds.Service, 
+  service        : 'all' | string | cds.Service | typeof cds.Service,
   options        : { service = 'all', ... }
 ) .from ( model  : string | CSN )         // default: cds.model
   .to ( protocol : string | 'rest' | 'odata' | 'odata-v2' | 'odata-v4' | ... )
@@ -114,7 +114,7 @@ This uses these defaults for all options:
 | ------ | ----------- | ------- |
 | cds.serve ... | which services to construct |  `'all'` services
 | <i>&#8627;</i>.from  | models to load definitions from | `'./srv'` folder
-| <i>&#8627;</i>.in  | express app to mount to | --- none ---
+| <i>&#8627;</i>.in  | express app to mount to | — none —
 | <i>&#8627;</i>.to  | client protocol to serve to | `'fiori'`
 | <i>&#8627;</i>.at  | endpoint path to serve at | `@path` or `.name`
 | <i>&#8627;</i>.with  | implementation function | `@impl` or `._source`.js

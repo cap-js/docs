@@ -240,22 +240,59 @@ srv/cat-service.js   #> service implementation used by default
 
 ## cds. middlewares
 
+The framework registers a set of express middlewares by default. If required, custom middlewares can be registered using [`.add`](#add-mw-pos).
+
+The standard set of middlewares uses the following order:
+```js
+[
+  context,
+  trace,
+  auth,
+  ctx_auth,
+  ctx_model
+]
+```
+
 
 
 ### . context() {.method}
 
+This middleware initializes [cds.context](events#cds-context) and starts the continuation. It's required for every application.
+
 ### . auth() {.method}
+
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
 
 ### . ctx_auth() {.method}
 
-### . ctx_models() {.method}
+This middleware adds user and tenant identified by authentication middleware to [cds.context](events#cds-context).
+
+### . ctx_model() {.method}
+
+It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 ### . trace() {.method}
 
-### . error() {.method}
+The tracing middleware allows you to do a first-level performance analysis. It logs how much time is spent on which layer of the framework when serving a request.
+To enable this middleware, you can set for example the [environment variable](cds-log#debug-env-variable) `DEBUG=trace`.
 
+### . error() {.method} (concept only or leave out?)
 
+In the future, protocol adapters should provide an error object to the error middleware which terminates the request. As of now, the protocol adapters terminate the request itself.
 
+### .add(mw, pos?) {.method}
+
+Registers additional middlewares at the specified position.
+`mw` must be a function that returns an express middleware.
+`pos` specified the index or a relative position within the middleware chain. If not specified, the middleware is added to the end.
+
+ ```js
+ cds.middlewares.add (mw, {at:0}) // to the front
+ cds.middlewares.add (mw, {at:2})
+ cds.middlewares.add (mw, {before:'auth'})
+ cds.middlewares.add (mw, {after:'auth'})
+ cds.middlewares.add (mw) // to the end
+ ```
 
 
 ## cds. protocols

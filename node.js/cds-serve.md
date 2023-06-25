@@ -352,6 +352,6 @@ service CatalogService {}
 
 Be aware that using an absolute path will disallow serving the service at multiple protocols.
 
-### How to implement a custom protocol? {concept only or leave out?}
+### How to implement a custom protocol? (concept only or leave out?)
 - make cds.protocols aware using our plugin mechanism.
 - translate proprietary protocol into CQN and run it using our cds.services API

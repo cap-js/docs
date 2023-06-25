@@ -296,3 +296,62 @@ Registers additional middlewares at the specified position.
 
 
 ## cds. protocols
+
+The framework provides adapters for OData V4 and REST out of the box. In addition, GraphQL can be served by using our open source package [`@cap-js/graphql`](https://github.com/cap-js/graphql).
+
+By default, the protocols are served at the following path:
+|protocol|path|
+|---|---|
+|OData V4|/odata/v4|
+|REST|/rest|
+|GraphQL|/graphql|
+
+### @protocol
+
+Configures at which protocol(s) a service is served.  
+
+```cds
+@odata
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog
+
+@protocol: 'odata'
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog
+
+@protocol: ['odata', 'rest', 'graphql']
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog, /rest/catalog and /graphql
+
+@protocol: { kind: 'odata', path: 'some/path' }
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/some/path
+```
+
+Note, that
+- the shortcuts `@rest`, `@odata`, `@graphql` are only supported for services served at only one protocol.
+- `@protocol` has precedence over the shortcuts.
+- `@protocol.path` has precedence over `@path`.
+- the default protocol is OData V4.
+- `odata` is a shortcut for `odata-v4`.
+- `@protocol: none` will treat the service as _internal_.
+
+### @path
+
+Configures the path at which a service is served.
+
+```cds
+@path: 'browse'
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/browse
+
+@path: '/browse'
+service CatalogService {}
+//> serves CatalogService at: /browse
+```
+
+Be aware that using an absolute path will disallow serving the service at multiple protocols.
+
+### How to implement a custom protocol? {concept only or leave out?}
+- make cds.protocols aware using our plugin mechanism.
+- translate proprietary protocol into CQN and run it using our cds.services API

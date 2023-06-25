@@ -5,7 +5,7 @@ impl-variants: true
 
 # Using SQLite for Development {#sqlite}
 
-CAP provides extensive support for SQLite, which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
+CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
 
 <div markdown="1" class="impl node">
 
@@ -35,11 +35,19 @@ Run this to use SQLite during development:
 npm add @cap-js/sqlite -D
 ```
 
-[See also the general information on installing database packages.](databases#setup-configuration){.learn-more}
+[See also the general information on installing database packages](databases#setup-configuration){.learn-more}
 
 </div>
 
 <div markdown="1" class="impl java">
+
+### Using the Maven Archetype {.impl .java}
+
+When a new CAP Java project is created with the [Maven Archetype](../java/development/#the-maven-archetype),
+you can specify the in-memory database to be used. Use the option `-DinMemoryDatabase=sqlite` to create a project that uses
+SQLite as in-memory database.
+
+### Manual Configuration {.impl .java}
 
 To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
@@ -53,13 +61,13 @@ To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
 The further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
 
-Next, configure the build to [create an initial _schema.sql_ file](http://localhost:5173/docs/java/persistence-services#initial-database-schema-1) for SQLite using `cds deploy --to sqlite --dry`.
+Next, configure the build to [create an initial _schema.sql_ file](../docs/java/persistence-services#initial-database-schema-1) for SQLite using `cds deploy --to sqlite --dry`.
 
 Finally, configure the DB connection in a non-productive Spring profile of the _applicationy.yaml_ file. You can configure SQlite  
 
 * the connection data for SQLite  for either an in-memory or a file-based SQLite database
 
-[See also the general information on datasource configuration.](../java/persistence-services/datasources){.learn-more}
+[See also the general information on datasource configuration](../java/persistence-services#datasource-configuration){.learn-more}
 
 </div>
 
@@ -344,7 +352,7 @@ entity Foo {
 
 <div markdown="1" class="impl java">
 
-CAP does support most of the major features on SQLite:
+CAP supports most of the major features on SQLite:
 
 * [Path Expressions](../java/query-api#path-expressions) & Filters
 * [Expands](../java/query-api#projections)

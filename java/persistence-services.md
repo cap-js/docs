@@ -29,7 +29,7 @@ SAP HANA is supported as the CAP standard database and recommended for productiv
 
 ### PostgreSQL
 
-CAP Java SDK is tested on PostgreSQL 15 and supports most of the CAP features. Known limitations are:
+CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and supports most of the CAP features. Known limitations are:
 
 1. CAP can create an _initial_ database schema only. There is no automatic schema evolution.
 2. No locale specific sorting. The sort order of queries behaves as configured on the database.
@@ -51,7 +51,7 @@ CAP Java SDK is tested on PostgreSQL 15 and supports most of the CAP features. K
 
 ### SQLite
 
-CAP supports SQLite out of the box. When working with Java, it’s [recommended](../guides/databases-sqlite?impl-variant=java#sqlite-in-production) to use SQLite only for development and testing purposes.
+CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When working with Java, it’s [recommended](../guides/databases-sqlite?impl-variant=java#sqlite-in-production) to use SQLite only for development and testing purposes.
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 

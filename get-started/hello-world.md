@@ -25,14 +25,19 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 ## Initialize the project { .impl .java}
 
-<div class="impl java">
+::: code-group
 
-```sh
-cds init hello-world --add java,samples
+```sh [Node.js]
+cds init hello-world --add samples
 cd hello-world
 ```
 
-</div>
+```sh [Java]
+cds init hello-world --add java
+cd hello-world
+```
+
+:::
 
 ## Define a Service
 ... using [CDS](../cds/):
@@ -84,8 +89,8 @@ module.exports = class say {
 
 ::: code-group
 
-```java [srv/src/main/java/customer/hello_world_java/handlers/HelloWorld.java]
-package customer.hello_world_java.handlers;
+```java [srv/src/main/java/customer/hello_world/handlers/HelloHandler.java]
+package customer.hello_world.handlers;
 
 import org.springframework.stereotype.Component;
 
@@ -110,27 +115,26 @@ public class HelloHandler implements EventHandler {
 ```
 :::
 
-</div>
+```sh
+awk -v n=22 -v s="<exclusions><exclusion><groupId>com.sap.cds</groupId><artifactId>cds-feature-jdbc</artifactId></exclusion><exclusion><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-jdbc</artifactId></exclusion></exclusions>" 'NR == n {print s} {print}' "srv/pom.xml" > out
+mv out srv/pom.xml
+```
 
 ## Run it
 ... for example, from your command line in the root directory of your "Hello World":
 
-<div class="impl node">
+::: code-group
 
-```sh
+```sh [Node.js]
 cds watch
 ```
 
-</div>
-
-<div class="impl java">
-
-```sh
+```sh [Java]
 cd srv
 mvn cds:watch
 ```
 
-</div>
+:::
 
 
 ## Consume it
@@ -138,7 +142,8 @@ mvn cds:watch
 
 <http://localhost:4004/say/hello(to='world')>  { .impl .node}
 
-<!-- <http://localhost:4004/say/hello?to=world> -->
-http://localhost:8080/odata/v4/say/hello(to='world') { .impl .java}
+<http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
+
+You should see the value "Hello world!" being returned.
 
 <!--- % include links.md %} -->

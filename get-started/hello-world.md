@@ -58,6 +58,7 @@ service say {
 
 ... for example, using [Node.js](../node.js/) express.js handlers style.
 
+</div>
 
 ::: code-group
 
@@ -80,8 +81,6 @@ module.exports = class say {
 :::
 
 > That has limited flexibility, for example, you can register only one handler per event. { .impl .node}
-
-</div>
 
 <div class="impl java">
 

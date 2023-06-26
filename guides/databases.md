@@ -145,14 +145,14 @@ cds env cds.requires.db
 
 CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-Database support is enabled by adding a dependency to the corresponding feature, as shown in the following table:
+Database support is enabled by adding a Maven dependency to the JDBC driver, as shown in the following table:
 
-| Database                       | Feature                                                      | Remarks                            |
+| Database                       | JDBC Driver                                                 | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SAP HANA Cloud](databases-hana)**     | `cds-feature-hana` | Recommended for productive use         |
-| **[H2](databases-sqlite)**       | `cds-feature-jdbc` | Recommended for development and CI     |
-| **[SQLite](databases-sqlite)**       | `cds-feature-jdbc` | Supported for development and CI <br> Recommended for local MTX |
-| **[PostgreSQL](databases-postgres)** | `cds-feature-jdbc` | Supported for productive use |
+| **[SAP HANA Cloud](databases-hana)**     | `com.sap.cloud.db.jdbc:ngdbc` | Recommended for productive use         |
+| **[H2](databases-h2)**       | `com.h2database:h2` | Recommended for development and CI     |
+| **[SQLite](databases-sqlite)**       | `org.xerial:sqlite-jdbc` | Supported for development and CI <br> Recommended for local MTX |
+| **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
 [Learn more about supported databases in CAP Java and their configuration](../java/persistence-services#database-support){ .learn-more}
 </div>
@@ -183,15 +183,14 @@ bookshop/
 For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors* and *Genres* as follows:
 
 ```zsh
-bookshop/
-├─ db/
-│ └─ data/ #> place your .csv files here
-│ │ ├─ my.bookshop-Authors.csv
-│ │ ├─ my.bookshop-Books.csv
-│ │ ├─ my.bookshop-Books.texts.csv
-│ │ └─ my.bookshop-Genres.csv
-│ └─ index.cds
-└─ ...
+db/
+└─ data/ #> place your .csv files here
+│ ├─ my.bookshop-Authors.csv
+│ ├─ my.bookshop-Books.csv
+│ ├─ my.bookshop-Books.texts.csv
+│ └─ my.bookshop-Genres.csv
+| └─ ...
+└─ index.cds
 ```
 </div>
 
@@ -264,7 +263,8 @@ Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dat
 spring:
   config.activate.on-profile: test
 cds
-  dataSource.csv.paths: test/data/**
+  dataSource.csv.paths: 
+  - test/data/**
 ```
 
 :::

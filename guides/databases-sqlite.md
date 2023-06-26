@@ -445,7 +445,7 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 
 
-### Consitent Timestamps
+### Consistent Timestamps
 
 Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
 

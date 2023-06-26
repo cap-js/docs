@@ -240,22 +240,118 @@ srv/cat-service.js   #> service implementation used by default
 
 ## cds. middlewares
 
+The framework registers a set of express middlewares by default. If required, custom middlewares can be registered using [`.add`](#add-mw-pos).
+
+The standard set of middlewares uses the following order:
+```js
+[
+  context,
+  trace,
+  auth,
+  ctx_auth,
+  ctx_model
+]
+```
+
 
 
 ### . context() {.method}
 
+This middleware initializes [cds.context](events#cds-context) and starts the continuation. It's required for every application.
+
 ### . auth() {.method}
+
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
 
 ### . ctx_auth() {.method}
 
-### . ctx_models() {.method}
+This middleware adds user and tenant identified by authentication middleware to [cds.context](events#cds-context).
+
+### . ctx_model() {.method}
+
+It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 ### . trace() {.method}
 
-### . error() {.method}
+The tracing middleware allows you to do a first-level performance analysis. It logs how much time is spent on which layer of the framework when serving a request.
+To enable this middleware, you can set for example the [environment variable](cds-log#debug-env-variable) `DEBUG=trace`.
 
+### . error() {.method} (concept only or leave out?)
 
+In the future, protocol adapters should provide an error object to the error middleware which terminates the request. As of now, the protocol adapters terminate the request itself.
 
+### .add(mw, pos?) {.method}
+
+Registers additional middlewares at the specified position.
+`mw` must be a function that returns an express middleware.
+`pos` specified the index or a relative position within the middleware chain. If not specified, the middleware is added to the end.
+
+ ```js
+ cds.middlewares.add (mw, {at:0}) // to the front
+ cds.middlewares.add (mw, {at:2})
+ cds.middlewares.add (mw, {before:'auth'})
+ cds.middlewares.add (mw, {after:'auth'})
+ cds.middlewares.add (mw) // to the end
+ ```
 
 
 ## cds. protocols
+
+The framework provides adapters for OData V4 and REST out of the box. In addition, GraphQL can be served by using our open source package [`@cap-js/graphql`](https://github.com/cap-js/graphql).
+
+By default, the protocols are served at the following path:
+|protocol|path|
+|---|---|
+|OData V4|/odata/v4|
+|REST|/rest|
+|GraphQL|/graphql|
+
+### @protocol
+
+Configures at which protocol(s) a service is served.  
+
+```cds
+@odata
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog
+
+@protocol: 'odata'
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog
+
+@protocol: ['odata', 'rest', 'graphql']
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/catalog, /rest/catalog and /graphql
+
+@protocol: { kind: 'odata', path: 'some/path' }
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/some/path
+```
+
+Note, that
+- the shortcuts `@rest`, `@odata`, `@graphql` are only supported for services served at only one protocol.
+- `@protocol` has precedence over the shortcuts.
+- `@protocol.path` has precedence over `@path`.
+- the default protocol is OData V4.
+- `odata` is a shortcut for `odata-v4`.
+- `@protocol: none` will treat the service as _internal_.
+
+### @path
+
+Configures the path at which a service is served.
+
+```cds
+@path: 'browse'
+service CatalogService {}
+//> serves CatalogService at: /odata/v4/browse
+
+@path: '/browse'
+service CatalogService {}
+//> serves CatalogService at: /browse
+```
+
+Be aware that using an absolute path will disallow serving the service at multiple protocols.
+
+### How to implement a custom protocol? (concept only or leave out?)
+- make cds.protocols aware using our plugin mechanism.
+- translate proprietary protocol into CQN and run it using our cds.services API

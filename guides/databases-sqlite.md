@@ -549,7 +549,7 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 
 
-### Consitent Timestamps {.impl .node}
+### Consistent Timestamps {.impl .node}
 
 Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
 
@@ -636,9 +636,6 @@ During migration you may want to occasionally run and test your app with both, t
    ```sh
    jest --silent
    ```
-
-
-
 
 
 ### Avoid UNIONs and JOINs {.impl .node}

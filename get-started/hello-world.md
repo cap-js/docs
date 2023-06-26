@@ -23,26 +23,27 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 </div>
 
 
-## Initialize the project { .impl .java}
+## Create a Project
 
-::: code-group
+<div class="impl node">
 
-```sh [Node.js]
+```sh
 cds init hello-world --add samples
 cd hello-world
 ```
 
-```sh [Java]
+</div>
+
+<div class="impl java">
+
+```sh
 cds init hello-world --add java,samples
 cd hello-world
 ```
 
-:::
+> With the `cds init` command above you also created a sample schema and service. It's not relevant and can be ignored for now, but a CAP Java service currently needs persistence in order to startup correctly.
 
-
-::: tip _Note_
-With the `cds init` command above you also created a sample schema and service. It's not relevant and can be ignored for now but a CAP service currently needs persistence in order to startup correctly.
-:::
+</div>
 
 ## Define a Service
 ... using [CDS](../cds/):

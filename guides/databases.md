@@ -331,7 +331,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 <div markdown="1" class="impl java">
 
-Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native data base features](../java/advanced#jdbctemplate) as follows:
+Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/advanced#jdbctemplate) as follows:
 
 ```java
 @Autowired

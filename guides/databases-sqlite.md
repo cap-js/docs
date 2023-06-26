@@ -61,14 +61,6 @@ To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
 The further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
 
-Next, configure the build to [create an initial _schema.sql_ file](../docs/java/persistence-services#initial-database-schema-1) for SQLite using `cds deploy --to sqlite --dry`.
-
-Finally, configure the DB connection in a non-productive Spring profile of the _applicationy.yaml_ file. You can configure SQlite  
-
-* the connection data for SQLite  for either an in-memory or a file-based SQLite database
-
-[See also the general information on datasource configuration](../java/persistence-services#datasource-configuration){.learn-more}
-
 </div>
 
 ### In-Memory Databases
@@ -111,7 +103,7 @@ Output:
 
 <div markdown="1" class="impl java">
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > > srv/src/main/resources/schema.sql`. 
+The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`. 
 
 Finally, configure the DB connection in the non-productive `default` profile:
 
@@ -143,7 +135,18 @@ cds:
 TODO: A plain cds.requires.db = 'sqlite' also behaves this way.
 If possible, all common scenarios should be covered by shortcuts only.
 -->
+
+<div markdown="1" class="impl node">
+
 You can also use persistent SQLite databases. Follow these steps to do so:
+
+</div>
+
+<div markdown="1" class="impl java">
+
+You can also use persistent SQLite databases. In this case, the schema is initialized by `cds deploy` and not by Spring. Follow these steps:
+
+</div>
 
 1. Specify a database filename in your `db` configuration as follows:
 
@@ -182,8 +185,6 @@ With that in place, when starting the server it will use this prepared database 
 </div>
 
 <div markdown="1" class="impl java">
-
-Since the schema is initialized using the `cds deploy` command the schema must not be initialized by Spring, and the initialization mode is set to `never`.
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 

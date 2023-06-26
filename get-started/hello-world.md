@@ -39,6 +39,11 @@ cd hello-world
 
 :::
 
+
+::: tip _Note_
+With the `cds init` command above you also created a sample schema and service. It's not relevant and can be ignored for now but a CAP service currently needs persistence in order to startup correctly.
+:::
+
 ## Define a Service
 ... using [CDS](../cds/):
 

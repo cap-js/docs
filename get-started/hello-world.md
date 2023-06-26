@@ -86,6 +86,8 @@ module.exports = class say {
 
 ... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
 
+</div>
+
 ::: code-group
 
 ```java [srv/src/main/java/customer/hello_world/handlers/HelloHandler.java]
@@ -114,10 +116,13 @@ public class HelloHandler implements EventHandler {
 ```
 :::
 
+
+::: code-group
 ```sh
 awk -v n=22 -v s="<exclusions><exclusion><groupId>com.sap.cds</groupId><artifactId>cds-feature-jdbc</artifactId></exclusion><exclusion><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-jdbc</artifactId></exclusion></exclusions>" 'NR == n {print s} {print}' "srv/pom.xml" > out
 mv out srv/pom.xml
 ```
+:::
 
 ## Run it
 ... for example, from your command line in the root directory of your "Hello World":

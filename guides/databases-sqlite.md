@@ -122,13 +122,15 @@ spring:
   sql:
     init:
       mode: always
-    supportedLocales: "*"
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
+cds:
+  sql:
+    supportedLocales: "*"
 ```
 
 [Learn how to configure an in-memory SQLite database](../java/persistence-services/in-memory-storage){.learn-more}
@@ -189,15 +191,14 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 ---
 spring:
   profiles: sqlite
-  sql:
-    init:
-      mode: never
-    supportedLocales: "*"
   datasource:
     url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
+cds:
+  sql:
+    supportedLocales: "*"
 ```
 
 [Learn how to configure a file based SQLite database](../java/persistence-services/file-based-storage){.learn-more}

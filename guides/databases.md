@@ -630,8 +630,6 @@ CREATE TABLE Books (
   CONSTRAINT Books_author //[!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
-    ON UPDATE RESTRICT
-    ON DELETE RESTRICT
     VALIDATED           -- validate existing entries when constraint is created
     ENFORCED            -- validate changes by insert/update/delete
     INITIALLY DEFERRED  -- validate only at commit

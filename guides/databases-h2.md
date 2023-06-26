@@ -44,9 +44,9 @@ CAP supports most of the major features on H2:
 
 * [Path Expressions](../java/query-api#path-expressions) & Filters
 * [Expands](../java/query-api#projections)
-* [Localized Queries](../docs/guides/localized-data#read-operations)
+* [Localized Queries](../guides/localized-data#read-operations)
 * [Comparison Operators](../java/query-api#comparison-operators)
-* [Predicate Functions](..//java/query-api#predicate-functions)
+* [Predicate Functions](../java/query-api#predicate-functions)
 
 [Learn about features and limitations of H2](../java/persistence-services#h2){.learn-more}
 

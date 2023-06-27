@@ -1,3 +1,8 @@
+---
+status: released
+---
+
+
 # Fiori Support
 
 
@@ -5,14 +10,14 @@
 [[toc]]
 
 
-
+<!--
 ## Serving `$metadata` Requests
 
 
 
 ## Serving `$batch` Requests
 
-
+-->
 
 ## Draft Support
 

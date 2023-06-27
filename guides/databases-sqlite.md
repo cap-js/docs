@@ -178,7 +178,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    ```cds
    entity Books { ...
       title : localized String(222); //> increase length from 111 to 222
-      foo : Association to Foo;      //> add a new relationship 
+      foo : Association to Foo;      //> add a new relationship
       bar : String;                  //> add a new element
    }
    entity Foo { key ID: UUID }       //> add a new entity
@@ -203,19 +203,19 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    DROP VIEW AdminService_Books_texts;
    DROP VIEW CatalogService_Books;
    DROP VIEW AdminService_Books;
-   
+
    -- Alter Tables for New or Altered Columns
    -- ALTER TABLE sap_capire_bookshop_Books ALTER title TYPE NVARCHAR(222);
    -- ALTER TABLE sap_capire_bookshop_Books_texts ALTER title TYPE NVARCHAR(222);
    ALTER TABLE sap_capire_bookshop_Books ADD foo_ID NVARCHAR(36);
    ALTER TABLE sap_capire_bookshop_Books ADD bar NVARCHAR(255);
-   
+
    -- Create New Tables
    CREATE TABLE sap_capire_bookshop_Foo (
      ID NVARCHAR(36) NOT NULL,
      PRIMARY KEY(ID)
    );
-   
+
    -- Re-Create Affected Views
    CREATE VIEW AdminService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0;
    CREATE VIEW CatalogService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0 LEFT JOIN sap_capire_bookshop_Authors AS author_1 O ... ;
@@ -349,13 +349,13 @@ The new database services guarantees identical behavior of these logic operators
 
 * `<`, `>`, `<=`, `>=` — are supported as is in standard SQL
 
-Especially the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves portability of your code. 
+Especially the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves portability of your code.
 
 
 
 ### Standard Functions
 
-A specified set of standard functions is now supported in a **database-agnostic**, hence portable way and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData: 
+A specified set of standard functions is now supported in a **database-agnostic**, hence portable way and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
 
 * `concat(x,y,...)` — concatenates the given strings
 * `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
@@ -370,11 +370,11 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `toupper(x)` — returns all-uppercased `x`
 * `ceiling(x)` — returns ceiled `x`
 * `session_context(v)` — with standard variable names → [see below](#session-variables)
-* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime 
+* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
 > <sup>1</sup> Argument `n` is optional
 
-The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries. 
+The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries.
 
 For example, this CQL query:
 
@@ -433,7 +433,7 @@ Amongst other, this allows us to get rid of static helper views for localized da
 
 ::: tip Portable API
 
-The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases. 
+The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases.
 
 :::
 
@@ -444,43 +444,6 @@ The API as shown below with function `session_context()` and the specific pseudo
 The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, nothing of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single cheap selects.
 
 
-
-### Consistent Timestamps
-
-Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
-
-1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps). 
-2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above. 
-
-**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example: 
-
-```js
-await INSERT.into(Books).entries([
-  { title:'A', createdAt: '2022-11-11T11:11:11Z' },      // wrong
-  { title:'B', createdAt: '2022-11-11T11:11:11.000Z' },  // correct
-  { title:'C', createdAt: '2022-11-11T11:11:11.123Z' },
-})
-let books = await SELECT('title').from(Books).orderBy('createdAt')
-console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
-```
-
-The order is wrong because of the `'Z'` in A being at the wrong position. 
-
-::: tip Prefer using `Date` objects
-
-Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above. 
-
-For example, the above would be fixed by changing the INSERT to: 
-
-```js
-await INSERT.into(Books).entries([
-  { title:'A', createdAt: new Date('2022-11-11T11:11:11Z') },
-  { title:'B', createdAt: new Date('2022-11-11T11:11:11.000Z') },
-  { title:'C', createdAt: new Date('2022-11-11T11:11:11.123Z') },
-})
-```
-
-:::
 
 ### Improved Performance
 
@@ -608,7 +571,7 @@ SELECT('image').from(Books) //> [{ image }]
 
 ::: tip Avoid direct reads of BLOBs
 
-Even if we still support direct reads as shown in line three above, you should generally refrain from using that option. Reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such thing, consider using non-large `Binary` elements instead. 
+Even if we still support direct reads as shown in line three above, you should generally refrain from using that option. Reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such thing, consider using non-large `Binary` elements instead.
 
 :::
 

@@ -42,7 +42,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 | [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(3)</sup> |
 
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
-- <sup>(2)</sup> No support for `$top` and `$skip` options.
+- <sup>(2)</sup> No support for `$top`, `$skip` and `$count` options.
 - <sup>(3)</sup> The navigation path identifying the collection can only contain one segment.
 
 [Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){.learn-more}
@@ -54,7 +54,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 | [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 
 
-## Mass Data Upload Using PATCH on Entity Collections { #odata-patch-collection .impl .beta }
+## PATCH Entity Collection with Mass Data { #odata-patch-collection }
 
 With OData v4, you can [update a collection of entities](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateaCollectionofEntities) with a _single_ PATCH request.
 The resource path of the request targets the entity collection and the body of the request is given as a [delta payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads):
@@ -91,10 +91,6 @@ Use PATCH on entity collections for uploading mass data via a dedicated service,
 ```cds
 @Capabilities.UpdateRestrictions.DeltaUpdateSupported
 ```
-
-::: tip
-PATCH on entity collections is currently only supported in the Java runtime.
-:::
 
 Limitations:
  * Conflict detection via [ETags](../guides/providing-services#etag) is not supported.

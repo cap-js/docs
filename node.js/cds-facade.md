@@ -10,7 +10,7 @@ status: released
 
 The `cds` facade object provides access to all CAP Node.js APIs. Use it like that:
 
-```sh
+```js
 const cds = require('@sap/cds')
 let csn = cds.compile(`entity Foo {}`)
 ```
@@ -19,7 +19,7 @@ let csn = cds.compile(`entity Foo {}`)
 
 Use `cds repl` to try out things, for example like this to :
 
-```sh
+```console
 [dev] cds repl
 Welcome to cds repl v6.8.0
 > cds.compile(`entity Foo { key ID : UUID }`)
@@ -117,7 +117,7 @@ if (cds.version[0] < 6) // code for pre cds6 usage
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
-```sh
+```log
 [dev] cds repl
 > cds.home // [!code focus]
 ~/.npm/lib/node_modules/@sap/cds
@@ -164,7 +164,7 @@ For example, [`cds-plugins`](cds-serve) can use that to plugin to different part
 
 Provides access to the effective configuration of the current process, transparently from various sources, including the local _package.json_ or _.cdsrc.json_, service bindings and process environments.
 
-```js
+```console
 [dev] cds repl
 > cds.env.requires.auth // [!code focus]
 {
@@ -173,7 +173,7 @@ Provides access to the effective configuration of the current process, transpare
   users: {
     alice: { tenant: 't1', roles: [ 'cds.Subscriber', 'admin' ] },
     bob: { tenant: 't1', roles: [ 'cds.ExtensionDeveloper' ] },
-    // ...,
+    # ...,
     '*': true
   },
   tenants: {
@@ -191,12 +191,12 @@ Provides access to the effective configuration of the current process, transpare
 
 ... is a convenience shortcut to [`cds.env.requires`](#cds-env).
 
-```js
+```console
 [dev] cds repl
 > cds.requires.auth // [!code focus]
 {
   kind: 'basic-auth',
-  // ... as above
+  # ... as above
 }
 ```
 
@@ -204,8 +204,8 @@ Provides access to the effective configuration of the current process, transpare
 
 ### cds. services {.property}
 
-A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve`](cds-serve),
-or connected to by [`cds.connect`](cds-connect) so far.
+A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve()`](cds-serve),
+or connected to by [`cds.connect()`](cds-connect).
 
 It’s an *iterable* object, so can be accessed in the following ways:
 

@@ -19,15 +19,35 @@ This guide explains how to add one or more SAP Fiori elements apps to a CAP proj
 
 ## SAP Fiori Preview
 
-When starting your application, for example, using `cds watch`, there is an SAP Fiori preview for development purposes. You can use this to see the effect of annotations in a quick roundtrip. Be aware that this is just a preview. There can be differences between the preview and an implemented SAP Fiori application.
+For Node.js applications there is a _Fiori preview_ link on the index page.  It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
 
-The preview is only active with the [development profile](../node.js/cds-env#profiles).
+::: details Be aware that this is **not meant for production**.
 
-::: tip
-To also enable this preview for the production profile, add the following configuration to your project's _package.json_: `cds.features.fiori_preview:true`
-If you add this to your _cdsrc.json_ omit the `cds` section.
+The preview not meant as a replacement for a proper SAP Fiori Elements (UI5) application.
+It is only active locally where the [development profile](../node.js/cds-env#profiles) is enabled.
+
+To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "features": {
+      "fiori_preview": true
+    }
+  }
+}
+```
+```json [.cdsrc.json]
+{
+  "features": {
+    "fiori_preview": true
+  }
+}
+```
+
 :::
-
 
 ## Adding SAP Fiori Apps to CAP Projects
 
@@ -93,7 +113,7 @@ annotate CatalogService.Books with @(
 
 
 [Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more target="_blank"}
-[Learn more about **OData Annotations in CDS**.][OData Annotations]{.learn-more}
+[Learn more about **OData Annotations in CDS**.](./odata#annotations){.learn-more}
 
 
 ### Where to Put Them?
@@ -318,7 +338,7 @@ When you open an annotation file, all language-dependent string values are check
 
 ### Prefer `@title` and `@description`
 
-Influenced by the [JSON Schema], CDS supports the [common annotations] `@title` and `@description`, which are mapped to corresponding [OData annotations] as follows:
+Influenced by the [JSON Schema](http://json-schema.org), CDS supports the [common annotations](../cds/annotations#common-annotations) `@title` and `@description`, which are mapped to corresponding [OData annotations](./odata#annotations) as follows:
 
 | CDS            | JSON Schema   | OData               |
 |----------------|---------------|---------------------|
@@ -337,7 +357,7 @@ annotate my.Books with { //...
 
 ### Prefer `@readonly`, `@mandatory`, ...
 
-CDS supports `@readonly` as a common annotation, which translates to respective [OData annotations] from the `@Capabilities` vocabulary. We recommend using the former for reasons of conciseness and comprehensibility as shown in this example:
+CDS supports `@readonly` as a common annotation, which translates to respective [OData annotations](./odata#annotations) from the `@Capabilities` vocabulary. We recommend using the former for reasons of conciseness and comprehensibility as shown in this example:
 
 ```cds
 @readonly entity Foo {   // entity-level
@@ -388,7 +408,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
-Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data]:
+Annotate the underlying base entity in the base model with `@fiori.draft.enabled` to also support drafts for [localized data](../guides/localized-data):
 
 ```cds
 annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
@@ -403,7 +423,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services/#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java
@@ -450,7 +470,7 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 
 ## Value Help Support
 
-In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies], CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
+In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies](odata#annotations), CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
 
 
 ### Convenience Option `@cds.odata.valuelist`
@@ -471,6 +491,8 @@ service BookshopService {
 
 
 ### Pre-Defined Types in `@sap/cds/common`
+
+[@sap/cds/common]: ../cds/common
 
 The reuse types in [@sap/cds/common] already have this added to base types and entities, so all uses automatically benefit from this. This is an effective excerpt of respective definitions in `@sap/cds/common`:
 
@@ -536,7 +558,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services/#actions-and-functions){.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services#custom-actions-functions){.learn-more}
 
 
 We're going to look at three things.
@@ -607,9 +629,5 @@ This annotation uses [dynamic expressions](../advanced/odata#dynamic-expressions
 <div id="client-side-validations" />
 
 <div id="fiori-compat" />
-
-##### Locked by Another User
-
-The scenario [Locked by Another User](https://wiki.one.int.sap/wiki/pages/viewpage.action?spaceKey=odata&title=Draft+Choreography#DraftChoreography-ListEditingStatus:LockedbyAnotherUser) of the draft choreography has been adjusted since SAP Fiori elements v1.91. The new implementation can only be served by backend versions `cds^5` (Node.js) and 1.12.0 (Java), respectively.
 
 <div id="reserved-words" />

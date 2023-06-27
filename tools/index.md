@@ -84,8 +84,8 @@ COMMANDS
     <em>t | lint</em>       [beta] run linter for env or model checks
     <em>v | version</em>    get detailed version information
     <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull the base model for your SaaS app extension.
-    <em>  | push</em>       push your extension to the SaaS app in order to enable or update it
+    <em>  | pull</em>       pull base model for a SaaS app extension
+    <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
     <em>  | mock</em>       call cds serve with mocked service
 
@@ -254,7 +254,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 * If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "CAP Notebook button" on the *right-hand-side* of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
-   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" class="adapt">
+   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 
@@ -591,7 +591,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 ## CDS Lint & ESlint {#cds-lint}
 
-<style scoped>
+<style lang="scss" scoped>
   .emoji {
     display: inline !important;
     margin: 0px !important;
@@ -600,19 +600,39 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
     padding-left: 0;
     padding-right: 0;
   }
+  .cols-2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 640px) {
+    .cols-2 {
+      gap: 2em;
+    }
+    .cols-2 > * {
+      &:first-child {
+        flex: 1;
+      }
+    }
+  }
 </style>
 
-<table style="border: none;">
-  <tr style="border: none;">
-    <td style="border: none;">
-      To catch issues with CDS models and the CDS environment early, CAP provides an <a href="https://eslint.org/">ESLint plugin</a> with a set of <a href="#cds-lint-rules">recommended rules</a>.
-      Together with the <code>lint</code> client of the <a href="https://www.npmjs.com/package/@sap/cds-dk"><code>@sap/cds-dk</code></a>, this comprises <b>CDS Lint</b>.
-    </td>
-    <td style="width:30%; padding:0; border: none;">
-      <img src="./assets/cdslint.svg" style="margin-top:0; margin-right: -30%">
-    </td>
-  </tr>
-</table>
+<div class="cols-2">
+
+<div>
+
+To catch issues with CDS models and the CDS environment early, CAP provides an [ESLint plugin](https://eslint.org/) with a set of [recommended rules](#cds-lint-rules).
+Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package/@sap/cds-dk), this comprises **CDS Lint**.
+
+</div>
+
+<div>
+
+<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+
+</div>
+
+</div>
 
 ### Usage via `cds` CLI
 
@@ -649,7 +669,7 @@ The **CDS Lint** rules are a set of generic rules based on CAP best practices. T
 
 #### Configuring CDS Lint Rules
 
-Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint-rulelist/rules-released#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
+Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint-rulelist/rules#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
 
 ```json
 {

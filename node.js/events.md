@@ -128,7 +128,7 @@ A unique string identifying the current tenant, or `undefined` if not in multite
 
 A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){.learn-more}
 
 
 
@@ -386,7 +386,7 @@ Use these methods to collect messages or errors and return them in the request r
 | -------------- | -------------- | ---------- | :------: |
 | `req.notify()` | `req.messages` | Toasters   |    1     |
 | `req.info()`   | `req.messages` | Dialog     |    2     |
-| `req.warn`     | `req.messages` | Dialog     |    3     |
+| `req.warn()`   | `req.messages` | Dialog     |    3     |
 | `req.error()`  | `req.errors`   | Dialog     |    4     |
 
 {style="font-style:italic;width:80%;"}

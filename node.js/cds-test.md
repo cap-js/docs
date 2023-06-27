@@ -215,8 +215,8 @@ Welcome to cds repl v5.5.0
 > cds.test('@capire/bookshop')
 Test {}
 ```
-```sh
-[cds](cds) - model loaded from 6 file(s):
+```log
+[cds] - model loaded from 6 file(s):
 
   ./bookshop/db/schema.cds
   ./bookshop/srv/admin-service.cds
@@ -225,7 +225,7 @@ Test {}
   ./../../cds/common.cds
   ./common/index.cds
 
-[cds](cds) - connect to db > sqlite { database: ':memory:' }
+[cds] - connect to db > sqlite { database: ':memory:' }
  > filling sap.capire.bookshop.Authors from ./bookshop/db/data/sap.capire.bookshop-Authors.csv
  > filling sap.capire.bookshop.Books from ./bookshop/db/data/sap.capire.bookshop-Books.csv
  > filling sap.capire.bookshop.Books.texts from ./bookshop/db/data/sap.capire.bookshop-Books_texts.csv
@@ -234,11 +234,11 @@ Test {}
  > filling sap.common.Currencies.texts from ./common/data/sap.common-Currencies_texts.csv
 /> successfully deployed to sqlite in-memory db
 
-[cds](cds) - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
-[cds](cds) - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
+[cds] - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
+[cds] - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
 
-[cds](cds) - server listening on { url: 'http://localhost:64914' }
-[cds](cds) - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
+[cds] - server listening on { url: 'http://localhost:64914' }
+[cds] - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
 [ terminate with ^C ]
 ```
 ```js

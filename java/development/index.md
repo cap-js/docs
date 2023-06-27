@@ -195,8 +195,8 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
 | Java | 17 | 17 |
-| @sap/cds-dk | 4 | latest |
-| @sap/cds-compiler | 2 | latest |
+| @sap/cds-dk | 6 | latest |
+| @sap/cds-compiler | 3 | latest |
 | Spring Boot | 3.0 | 3.0 |
 | XSUAA | 3.0 | latest |
 | SAP Cloud SDK | 4.13 | latest |
@@ -235,7 +235,7 @@ It supports the following command line options:
 | `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
 | `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[11\|17]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|20]` | Specifies the target JDK version. If not specified, the default value is `17`. |
 
 ### Maven Build Options
 

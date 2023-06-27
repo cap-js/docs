@@ -47,98 +47,6 @@ This method is called automatically by the framework on the first query, so **yo
 ## cds.DatabaseService — Configuration {#databaseservice-configuration }
 [databaseservice configuration]: #databaseservice-configuration
 
-
-<!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
-
-
-### Presets
-
-We support some convenience presets allowing for minimized configuration and sensible out-of-the-box defaults. You may also use them in combination with configuration profiles.
-
-##### HANA Cloud
-
-This is the shortcut:
-```json
-{
-  "cds": {
-    "requires": {
-      "db": "hana-cloud"
-    }
-  }
-}
-```
-
-This is the expanded version:
-
-```json
-{
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "hana",
-        "deploy-format": "hdbtable"
-      }
-    }
-  }
-}
-```
-##### HANA Cloud for Multitenancy
-
-This is the shortcut:
-```json
-{
-  "cds": {
-    "requires": {
-      "db": "hana-mt"
-    }
-  }
-}
-```
-
-This is the expanded version:
-
-```json
-{
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "hana",
-        "deploy-format": "hdbtable",
-        "vcap": { "label": "service-manager" }
-      }
-    }
-  }
-}
-```
-
-##### Multitenant SQLite/HANA Stack for Streamlined MTX
-
-This is the shortcut:
-```json
-{
-  "cds": {
-    "requires": {
-      "db": "sql-mt"
-    }
-  }
-}
-```
-
-This is the expanded version:
-
-```json
-{
-  "cds": {
-    "requires": {
-      "db": {
-        "[development]": "sqlite",
-        "[production]": "hana-mt"
-      }
-    }
-  }
-}
-```
-
 ### Pool
 
 Instead of opening and closing a database connection for every request, we use a pool to reuse connections.
@@ -212,8 +120,12 @@ Even though we provide a default pool configuration, we expect that each applica
 
 <!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
+The main use case of upsert is data replication. [Upsert](../cds/cqn.md#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
 
-[Upsert](../cds/cqn.md#upsert) updates existing entity records from the given data or inserts new ones if they don't exist in the database.
+::: warning
+Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
+:::
+
 `UPSERT` statements can be created with the [UPSERT](cds-ql#upsert) query API:
 
 ```js
@@ -221,26 +133,18 @@ UPSERT.into('db.Books')
   .entries({ ID: 4711, title: 'Wuthering Heights', stock: 100 })
 ```
 
-
 `UPSERT` queries are translated into DB native upsert statements, more specifically they unfold to an [UPSERT SQL statement](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/ea8b6773be584203bcd99da76844c5ed.html) on SAP HANA and to an [INSERT ON CONFLICT SQL statement](https://www.sqlite.org/lang_upsert.html) on SQLite.
 
-The main use case of upsert is data replication.
-
-If upsert data is incomplete only the given values are updated or inserted, which means the `UPSERT` statement has "PATCH semantics".
-::: warning
-Even if an entity doesn't exist in the database:<br> &rarr; Upsert is **not** equivalent to Insert.
-:::
+- The rows to be upserted need to have the same structure, that is, all rows needs to specify the same named values.
+- The upsert data must contain all key elements of the entity.
+- If upsert data is incomplete only the given values are updated or inserted, which means the `UPSERT` statement has "PATCH semantics".
+- `UPSERT` statements don't have a where clause. The key values of the entity that is upserted are extracted from the data.
 
 The following actions are *not* performed on upsert:
  * UUID key values are _not generated_.
  * The `@cds.on.insert` annotation is _not handled_.
  * Elements are _not initialized_ with default values if the element's value is not given.
  * Generic CAP handlers, such as audit logging, are not invoked.
-
-`UPSERT` statements don't have a where clause. The key values of the entity that is upserted are extracted from the data.
-::: tip
-The upsert data must contain all key elements of the entity.
-:::
 
 ::: warning
 In contrast to the Java runtime, deep upserts and delta payloads are not yet supported.

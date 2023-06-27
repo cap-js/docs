@@ -122,7 +122,7 @@ Background jobs are tasks to be executed *outside of the current transaction*, p
 ```js
 // run in current tenant context but with privileged user
 // and with a new database transactions each...
-cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, ()=>{
+cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, async ()=>{
   const mails = await SELECT.from('Outbox')
   await MailServer.send(mails)
   await DELETE.from('Outbox').where (`ID in ${mails.map(m => m.ID)}`)
@@ -207,10 +207,10 @@ Use this method to run the given function `fn` and all nested operations in a ne
 For example: 
 
 ```js
-await srv.tx (tx => {
-  let exists = tx.run ( SELECT(1).from(Books,201).forUpdate() )
-  if (exists) tx.update (Books,201).with(data)
-  else tx.create (Books,{ ID:201,...data })
+await srv.tx (async tx => {
+  let exists = await tx.run ( SELECT(1).from(Books,201).forUpdate() )
+  if (exists) await tx.update (Books,201).with(data)
+  else await tx.create (Books,{ ID:201,...data })
 })
 ```
 
@@ -234,19 +234,19 @@ tx = { __proto__:srv,
 The new root transaction is also active for all nested operations run from fn, including other services, most important database services. In particular, the following would work as well as expected (this time using `cds.tx` as shortcut `cds.db.tx`): 
 
 ```js
-await cds.tx (() => {
-  let exists = SELECT(1).from(Books,201).forUpdate()
-  if (exists) UPDATE (Books,201).with(data)
-  else INSERT.into (Books,{ ID:201,...data })
+await cds.tx (async () => {
+  let exists = await SELECT(1).from(Books,201).forUpdate()
+  if (exists) await UPDATE (Books,201).with(data)
+  else await INSERT.into (Books,{ ID:201,...data })
 })
 ```
 
 **Optional argument `ctx`** allows to override values for nested contexts, which are otherwise inherited from `cds.context`, for example:
 
 ```js
-await cds.tx ({ tenant:t0, user: privileged }, ()=>{
+await cds.tx ({ tenant:t0, user: privileged }, async ()=>{
   // following + nested will now run with specified tenant and user...
-  let exists = SELECT(1).from(Books,201).forUpdate()
+  let exists = await SELECT(1).from(Books,201).forUpdate()
   ...
 })
 ```
@@ -256,12 +256,12 @@ await cds.tx ({ tenant:t0, user: privileged }, ()=>{
 ```js
 const tx = srv.tx() // [!code focus]
 try { // [!code focus]
-  let exists = tx.run ( SELECT(1).from(Books,201).forUpdate() )
-  if (exists) tx.update (Books,201).with(data)
-  else tx.create (Books,{ ID:201,...data })
-  tx.commit() // [!code focus]
+  let exists = await tx.run ( SELECT(1).from(Books,201).forUpdate() )
+  if (exists) await tx.update (Books,201).with(data)
+  else await tx.create (Books,{ ID:201,...data })
+  await tx.commit() // [!code focus]
 } catch(e) {
-  tc.rollback(e) // will rethrow e // [!code focus]
+  await tx.rollback(e) // will rethrow e // [!code focus]
 } // [!code focus]
 ```
 

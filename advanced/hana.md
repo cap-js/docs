@@ -49,7 +49,7 @@ Steps to match the signature of a database object in a facade entity:
 * After applying the CDS-to-DB type mapping, check that the types of the facade entity's elements match the types of the database object's columns.
 * For a view, table function, or calculation view with parameters, check that the parameter names and types match, too.
 
-> If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add [`@assert.notNull: false`](../guides/providing-services/#assert-notNull). This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
+> If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add [`@assert.notNull: false`](../guides/providing-services#assert-notNull). This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
 
 
 As a result, the database name is defined by the name of the entity or its elements, after applying the SQL name mapping.
@@ -381,11 +381,11 @@ view WeUseAddressUDF as select from AddressUDF;
 
 ::: code-group
 ```sql [mapping-calc-view.hdbview]
-CREATE VIEW WeUseAddressCalcView AS SELECT
+VIEW WeUseAddressCalcView AS SELECT
   AddressCalcView_0.id
 FROM AddressCalcView(PLACEHOLDER."$$USERID$$" => 4711) AS AddressCalcView_0;
 
-CREATE VIEW WeUseAddressUDF AS SELECT
+VIEW WeUseAddressUDF AS SELECT
   AddressUDF_0.id
 FROM AddressUDF() AS AddressUDF_0;
 ```

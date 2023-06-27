@@ -7,7 +7,7 @@ status: released
 
 # Domain Modeling
 
-Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services/)*.
+Domain Models capture the static, data-related aspects of a problem domain in terms of entity-relationship models. They serve as the basis for *[persistence models](./databases)* deployed to databases as well as for *[service definitions](./providing-services)*.
 
 [[toc]]
 
@@ -66,7 +66,7 @@ type Genre : String enum {
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
-![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg){.center}
+![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg)
 
 The more we succeeded in capturing intent over imperative implementations, the more we can provide optimized generic implementations.
 
@@ -278,24 +278,16 @@ entity Books {
 }
 ```
 
-
-
-::: tip
+#### Do: {.good}
 
 - [Prefer ***simple***, ***technical*** primary keys](#prefer-simple-technical-keys)
 - [Prefer ***canonic*** primary keys](#prefer-canonic-keys)
 - [Prefer ***UUIDs*** for primary keys](#prefer-uuids-for-keys)
 
-:::
-
-::: warning
+#### Don't: {.bad}
 
 - Don't use binary data as keys!
 - [Don't interpret UUIDs!](#don-t-interpret-uuids)
-
-:::
-
-
 
 ### Prefer Simple, Technical Keys
 
@@ -318,7 +310,7 @@ entity Books : cuid { ... }
 entity Authors : cuid { ... }
 ```
 
-This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.Prefer Simple, Technical Keys
+This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.
 
 ### Prefer UUIDs for Keys
 
@@ -357,11 +349,9 @@ On the same note, converting UUID values obtained as strings from the database i
 
 :::
 
-::: details See also: [Mapping UUIDs to OData](../advanced/odata#override-type-mapping)
-:::
+[See also: Mapping UUIDs to OData](../advanced/odata#override-type-mapping) {.learn-more}
 
-::: details See also: [Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql)
-:::
+[See also: Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql) {.learn-more}
 
 ## ④ Add Associations {#associations}
 
@@ -399,7 +389,7 @@ entity Books { ...
 
 >  Note: To-many associations are unmanaged by nature as we always have to specify an on condition. Reason for that is that backlink associations or foreign keys cannot be guessed reliably.
 
-::: tip
+::: tip Prefer managed associations
 
 For the sake of conciseness and comprehensibility of your models always prefer *managed Associations* for to-one associations.
 
@@ -423,7 +413,7 @@ entity Authors { ...
 }
 ```
 
-> The on condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
 
 ### Many-to-Many Associations
 
@@ -453,7 +443,7 @@ entity Users { ...
 }
 ```
 
-Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to Projects in there called `up_`.
+Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
 
 ## ⑤ Add Compositions
 
@@ -596,7 +586,7 @@ entity Books.texts {
 }
 ```
 
-Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out-of-the-box.
+Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out of the box.
 
 ::: tip
 By generating `.texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility.
@@ -697,10 +687,6 @@ annotate my.Books with @(
   author @ValueList.entity: 'Authors';
 };
 ```
-
-
-
-.
 
 # Best Practices
 

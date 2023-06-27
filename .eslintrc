@@ -1,6 +1,7 @@
 {
   "ignorePatterns": ["**/webapp/**", "assets/**"],
   "extends": ["eslint:recommended", "plugin:vue/vue3-recommended"],
+  "parser": "@typescript-eslint/parser",
   "env": {
     "es2022": true,
     "node": true,

@@ -290,7 +290,7 @@ service CatalogService {}
 service CatalogService {}
 //> serves CatalogService at: /odata/v4/catalog, /rest/catalog and /graphql
 
-@protocol: { kind: 'odata', path: 'some/path' }
+@protocol: [{ kind: 'odata', path: 'some/path' }]
 service CatalogService {}
 //> serves CatalogService at: /odata/v4/some/path
 ```

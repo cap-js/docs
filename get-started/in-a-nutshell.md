@@ -2,7 +2,7 @@
 shorty: in a Nutshell
 synopsis: >
   Get started with CAP in a minimalistic setup.
-#notebook: true
+notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
@@ -276,7 +276,7 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
-```java
+```log
 c.s.c.services.impl.ServiceCatalogImpl : Registered service AdminService
 c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 ```
@@ -287,6 +287,7 @@ As you can see in the log output, the two service definitions have been compiled
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
 :::
 
+// TODO: Requires insert in file
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -408,7 +409,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 - _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
-> Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
+> Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
 > Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
@@ -530,7 +531,8 @@ Service implementations essentially consist of one or more event handlers.
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
-```js
+::: code-group
+```js [srv/cat-service.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
@@ -541,6 +543,7 @@ module.exports = function (){
   })
 }
 ```
+:::
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 

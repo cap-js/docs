@@ -879,7 +879,7 @@ For every role name in the CDS model, one scope and one role template are genera
 ::: tip Re-generate on model changes
 You can have such a file re-generated via
 ```sh
-cds compile --to xsuaa > xs-security.json
+cds compile srv --to xsuaa > xs-security.json
 ```
 :::
 

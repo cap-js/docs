@@ -127,7 +127,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 
 ## cds. compile (...) .to.xyz() {.method}
 
-This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-1). 
+This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-1).
 
 For example:
 
@@ -302,14 +302,14 @@ const csn = await cds.load(['db','srv'])
 
 ## cds. parse() { .method }
 
-This is an API facade for a set of functions to parse whole [CDL] models, individual [CQL](../cds/cql) queries, or CQL expressions.
+This is an API facade for a set of functions to parse whole [CDL](../cds/cdl) models, individual [CQL](../cds/cql) queries, or CQL expressions.
 The three main methods are offered as classic functions, as well as [tagged template string functions](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals).
 
 
 
 ### `CDL`, cds. parse. cdl() {.method #parse-cdl }
 
-Parses a source string in _[CDL][../cds/cdl]_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
+Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
 It's essentially a [shortcut to `cds.compile (..., {flavor:'parsed'})`](#cds-compile).
 
 Examples:

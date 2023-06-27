@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <div id="shortcuts" ref="shortcuts" class="modal-dialog" v-if="visible">
-      <div class="modal-content">
+    <dialog id="shortcuts" ref="dialog" class="modal-dialog" v-show="visible">
+      <div class="modal-content" v-if="visible">
         <div class="modal-header">
           <span class="modal-close" title="Close dialog" @click="visible = false">&times;</span>
           <h5 class="no-anchor">Keyboard Shortcuts</h5>
@@ -10,14 +10,17 @@
           <table>
             <tr v-for="cmd in enabledCommands()" :key="cmd.name">
               <td>{{ cmd.name }}</td>
-              <td v-for="key in cmd.keys" :key="key" class="keybinding">
-                <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
+              <td class="keybinding">
+                <template v-for="(key, i) in cmd.keys" :key="key">
+                  <span v-if="i > 0"> or </span>
+                  <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
+                </template>
               </td>
             </tr>
           </table>
         </div>
       </div>
-    </div>
+    </dialog>
   </Teleport>
 </template>
 
@@ -25,7 +28,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 
-const { site, theme } = useData()
+const { site, theme, page } = useData()
 const metaKey = ref('Meta')
 
 onMounted(() => {
@@ -34,10 +37,10 @@ onMounted(() => {
 })
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 
-const keyStrokeSearch = [metaKey, ref('K')]
+const keyStrokesSearch = [[metaKey, ref('K')], ref('/')]
 const querySelectorSearchInput = 'input[class=search-input]'
 const commands = ref([
-  { name:'Search', keys:[keyStrokeSearch] }, // VP search has the actual logic
+  { name:'Search', keys:keyStrokesSearch }, // VP search has the actual logic
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
   DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
@@ -47,14 +50,21 @@ const commands = ref([
 ])
 
 const visible = ref(false)
-const shortcuts = ref(null) // must match to ref="shortcuts" from template
+const dialog = ref(null) // must match to ref="dialog" from template
 
-// close when the user clicks anywhere outside of the modal
-const onClickOutside = event => { if (event.target === shortcuts.value)  visible.value = false }
-watch(visible, (isVisible) => isVisible
-  ? window.addEventListener('click', onClickOutside)
-  : window.removeEventListener('click', onClickOutside)
-)
+// Close when the user clicks anywhere outside of the dialog.
+// This is not a true 'modal' behavior, but still more convenient than not.
+const onClickOutside = event => { if (event.target === dialog.value)  visible.value = false }
+
+watch(visible, isVisible => {
+  if (isVisible) {
+    window.addEventListener('click', onClickOutside)
+    dialog.value.showModal()
+  } else {
+    window.removeEventListener('click', onClickOutside)
+    dialog.value.close()
+  }
+})
 
 function enabledCommands() {
   return commands.value.filter(cmd => !cmd.hidden && ('enabled' in cmd ? cmd.enabled() : true))
@@ -90,15 +100,21 @@ function DOMCommand(name, idQuerySel, ...keys) {
 }
 
 function commandsFromConfig() {
-  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key).map(link => {
-    const url = new URL(link.link)
+  return (theme.value.capire?.gotoLinks||[]).filter(link => !!link.key || !!link.href).map(link => {
+    const { hostname } = new URL(link.href)
     return {
-      name: `Go to ${link.name || url.hostname}`,
-      enabled: () => window.location.hostname !== url.hostname,
+      name: `Go to ${link.name || hostname}`,
+      enabled: () => window.location.hostname !== hostname,
       run: () => {
-        // remove base path, as it may be different on the target site
-        const path = window.location.pathname.slice(site.value.base.length)
-        window.open(url + path + window.location.search, '_blank');
+        const url = new URL(link.href)
+        if (url.href.startsWith('http')) {
+          url.pathname += window.location.pathname.slice(site.value.base.length) // base path may be different on the target site
+          url.search = window.location.search
+          url.hash = window.location.hash
+        } else { // local URLs
+          url.href = url.href.replace('${filePath}', page.value.filePath)
+        }
+        window.open(url, '_blank');
       },
       keys: [ref(link.key)],
       hidden: !!link.hidden
@@ -111,27 +127,28 @@ function commandsFromConfig() {
 <style scoped>
 table {
   width: 100%;
-  display: table;
-  margin: 0px;
+  border-style: hidden !important;
 }
-table, td { border: none; }
+td, th {
+  border: 1px solid var(--vp-c-divider);
+  border-left: hidden !important;
+}
 
 /* Modal Dialog */
 .modal-dialog {
-  position: fixed; /* Stay in place */
-  z-index: 5000; /* Sit on top */
-  left: 0;
-  top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
+  max-width: unset;
+  max-height: unset;
+  border-style: unset;
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
   position: relative;
+  overflow: hidden;
+  resize: both;
   background-color: var(--vp-c-bg);
   margin: 10% auto;
   padding: 0;
@@ -153,7 +170,7 @@ table, td { border: none; }
 /* Modal Body */
 .modal-body {
   padding: 2px 16px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* The Close Button */

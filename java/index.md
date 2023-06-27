@@ -1,8 +1,6 @@
 ---
 section: Java
 status: released
-versions:
-  java: 1.34.1
 ---
 
 <style scoped>
@@ -18,15 +16,15 @@ Reference Documentation { .subtitle}
 
 <span class="badges">
 
-<a :href="`https://javadoc.io/doc/com.sap.cds/cds-services-api/${versions.java}/overview-summary.html`" target="_blank" rel="noopener noreferrer"><img :src="`https://img.shields.io/badge/cds--services-${versions.java}-brightgreen.svg`" title="cds-services" crossorigin/></a>
-<a :href="`https://javadoc.io/doc/com.sap.cds/cds4j-api/${versions.java}/com/sap/cds/ql/package-summary.html`" target="_blank" rel="noopener noreferrer"><img :src="`https://img.shields.io/badge/cds4j--api-${versions.java}-brightgreen.svg`" title="cds4j-api" crossorigin/></a>
+<a :href="`https://javadoc.io/doc/com.sap.cds/cds-services-api/${versions.java_services}/overview-summary.html`" target="_blank" rel="noopener noreferrer" class="no-ext-link"><img :src="`https://img.shields.io/badge/cds--services-${versions.java_services}-brightgreen.svg`" title="cds-services" crossorigin/></a>
+<a :href="`https://javadoc.io/doc/com.sap.cds/cds4j-api/${versions.java_cds4j}/com/sap/cds/ql/package-summary.html`" target="_blank" rel="noopener noreferrer" class="no-ext-link"><img :src="`https://img.shields.io/badge/cds4j--api-${versions.java_cds4j}-brightgreen.svg`" title="cds4j-api" crossorigin/></a>
 
 </span>
 
 <script setup>
 import { useData } from 'vitepress'
-const { frontmatter } = useData()
-const { versions } = frontmatter.value
+const { theme } = useData()
+const { versions } = theme.value.capire
 
 import { data as pages } from './index.data.js'
 </script>

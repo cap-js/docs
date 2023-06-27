@@ -18,6 +18,8 @@ Built-in support for temporal data follows the general principle of CDS to captu
 > For an introduction to this topic, see [Temporal database](https://en.wikipedia.org/w/index.php?title=Temporal_database&oldid=911558203) (Wikipedia) and [Temporal features in SQL:2011](https://files.ifi.uzh.ch/dbtg/ndbs/HS17/SQL2011.pdf).
 <!-- and [Temporal features in SQL:2011](https://cs.ulb.ac.be/public/_media/teaching/infoh415/tempfeaturessql2011.pdf).-->
 
+[[toc]]
+
 
 ## Starting with 'Timeless' Models {#timeless-model}
 
@@ -59,7 +61,7 @@ entity Departments {
 
 A set of sample data entries for this model, which only captures the latest state, can look like this:
 
-![Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department.](assets/temporal-data/timeless-data.png "Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department."){.adapt}
+![Alice has the job a a developer and consultant. Bob is a builder. Alice works in her roles for the departments core development and app development. Bob's work assignment is linked to the construction department.](assets/temporal-data/timeless-data.drawio.svg)
 
 > Italic titles indicate to-one associations; actual names of the respective foreign key columns in SQL are `job1_ID`, `empl_ID`, and `dept_ID`.
 
@@ -68,7 +70,7 @@ A set of sample data entries for this model, which only captures the latest stat
 
 _Temporal Entities_ represent _logical_ records of information for which we track changes over time by recording each change as individual _time slices_ in the database with valid from/to boundaries. For example, we could track the changes of Alice's primary work assignment _WA1_ over time:
 
-![Alice progressed from developer to senior developer to architect.](assets/temporal-data/time-slices.png "Alice progressed from developer to senior developer to architect."){style="width:70%"}{.adapt}
+![Alice progressed from developer to senior developer to architect.](assets/temporal-data/time-slices.drawio.svg)
 
 ::: tip
 Validity periods are expected to be **non-overlapping** and **closed-open** intervals; same as in SQL:2011.
@@ -126,7 +128,7 @@ entity WorkDetails : temporal {   // temporal details entity
 
 The data situation would change as follows:
 
-![Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined.](assets/temporal-data/temporal-details.png "Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined."){.adapt}
+![Alice has two work assignments. Her first work assignment is stable but the roles in this assignment change over time. She progressed from developer to senior developer to architect. Each role has specific validity defined.](assets/temporal-data/temporal-details.drawio.svg)
 
 
 ## Serving Temporal Data
@@ -145,7 +147,7 @@ service HRService {
 :::
 
 > You can omit composed entities like _WorkAssignments_ from the service, as they would get
-[auto-exposed](providing-services/#auto-exposed-entities) automatically.
+[auto-exposed](providing-services#auto-exposed-entities) automatically.
 
 <div id="beforereadingtempdata" />
 

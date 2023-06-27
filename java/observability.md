@@ -34,7 +34,7 @@ Various logging frameworks for Java have evolved and are widely used in Open Sou
 
 CAP Java SDK seamlessly integrates with Simple Logging Facade for Java ([SLF4J](http://www.slf4j.org)), which provides an abstraction layer for logging APIs. Applications compiled against SLF4J are free to choose a concrete logging framework implementation at deployment time. Most famous libraries have a native integration to SLF4J, but it also has the capability to bridge legacy logging API calls:
 
-<img src="./assets/slf4j.png" width="500px" class="adapt">
+<img src="./assets/slf4j.png" width="500px">
 
 ### Logging API { #logging-api}
 
@@ -243,7 +243,7 @@ To minimize overhead at runtime, monitoring information is gathered rather on a 
 
 How can dedicated Java tracing tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
 
-<img src="./assets/remote-tracing.png" width="600px" class="adapt">
+<img src="./assets/remote-tracing.png" width="600px">
 
 As authorized operator, you can access the container and start tools [locally](#tracing-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections (for example, JVM diagnostic tools such as `jcmd`). Alternatively, additional JVM configuration is required as prerequisite (JMX).
 A bunch of tools also support [remote](#tracing-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote tracing tool via an ssh tunnel.

@@ -50,6 +50,10 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 | Data Modification | Remarks                                   | Node.js    | Java    |
 |-------------------|-------------------------------------------|------------|---------|
+| [Create an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_CreateanEntity) | `POST` request on Entity collection | <X/> | <X/> |
+| [Update an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateanEntity) | `PATCH` or `PUT` request on Entity | <X/> | <X/> |
+[ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
+| [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
 | [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 

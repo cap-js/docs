@@ -1145,7 +1145,7 @@ extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
 
-For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `->` means `using from`,
+For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 

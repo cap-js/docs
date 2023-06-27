@@ -37,22 +37,24 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### CLI & Tools Support
 
-| CLI commands                                                                    |                        |
-|---------------------------------------------------------------------------------|------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`   |
-| Add a feature to an existing project                                            | `cds add <facets>`     |
-| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`     |
-| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>` |
-| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>` |
-| [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`            |
-| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`             |
-| Inspect effective configuration                                                 | `cds env`              |
-| Prepare for deployment                                                          | `cds build`            |
-| Deploy to databases or cloud                                                    | `cds deploy`           |
-| Create an extension project                                                     | `cds extend <app-url>` |
-| Activate an extension project                                                   | `cds activate `        |
-| Login to extendable SaaS application                                            | `cds login <app-url>`  |
-| Logout from extendable SaaS application                                         | `cds logout `          |
+| CLI commands                                                                    |                            |
+|---------------------------------------------------------------------------------|----------------------------|
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#start-a-project)   | `cds init <project>`       |
+| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
+| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
+| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
+| [Run and restart on file changes](../get-started/in-a-nutshell#start-a-project) | `cds watch`                |
+| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
+| Inspect effective configuration                                                 | `cds env`                  |
+| Prepare for deployment                                                          | `cds build`                |
+| Deploy to databases or cloud                                                    | `cds deploy`               |
+| Login to multitenant SaaS application                                           | `cds login <app-url>`      |
+| Logout from multitenant SaaS application                                        | `cds logout`               |
+| Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
+| Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
+| Pull the base model for a SaaS extension                                        | `cds pull <app-url>`       |
+| Push a SaaS extension                                                           | `cds push`                 |
 
 
 > Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
@@ -96,16 +98,16 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Core Framework Features                                                                 |  CDS  | Node.js | Java |
 |-----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Automatically Serving CRUD Requests](../guides/providing-services/#generic-providers)  | <Na/> |  <X/>   | <X/> |
-| [Deep-Read/Write Structured Documents](../guides/providing-services/#serving-documents) | <X/>  |  <X/>   | <X/> |
-| [Automatic Input Validation](../guides/providing-services/#input-validation)            | <X/>  |  <X/>   | <X/> |
+| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)  | <Na/> |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services#serving-documents) | <X/>  |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services#input-validation)            | <X/>  |  <X/>   | <X/> |
 | [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)             | <X/>  |  <X/>   | <X/> |
-| [Implicit Paging](../guides/providing-services/#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
-| [Implicit Sorting](../guides/providing-services/#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
 | [Access Control](../guides/authorization)                                               | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                            | <X/>  |  <X/>   | <X/> |
 | [Streaming & Media Types](../guides/media-data)                                         | <X/>  |  <X/>   | <X/> |
-| [Conflict Detection through _ETags_](../guides/providing-services/#etag)                | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
 | [Authentication via JWT](../guides/authorization#prerequisite-authentication)           | <Na/> |  <X/>   | <X/> |
 | [Basic Authentication](../guides/authorization#prerequisite-authentication)             | <Na/> |  <X/>   | <X/> |
 
@@ -117,7 +119,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services/#managed-data)                                  | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/providing-services#managed-data)                                  | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
@@ -189,9 +191,10 @@ Following is an index of the features currently covered by CAP, with status and 
 |                                                 | CDS/deploy |      Node.js       | Java |
 |-------------------------------------------------|:----------:|:------------------:|:----:|
 | [SAP HANA](../guides/databases)                |    <X/>    |        <X/>        | <X/> |
-| [SAP HANA Cloud](../guides/databases#get-hana) |    <X/>    |        <X/>        | <X/> |
-| [PostgreSQL](../guides/databases)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
-| [SQLite](../guides/databases) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [SAP HANA Cloud](../guides/databases-hana) |    <X/>    |        <X/>        | <X/> |
+| [PostgreSQL](../guides/databases-postgres)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
+| [SQLite](../guides/databases-sqlite) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
+| [H2](../java/persistence-services#h2) <sup>2</sup>         |    <X/>    |        <Na/>       | <X/> |
 | [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |
@@ -252,7 +255,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Extension Namespaces](../guides/extensibility/customization)                                    | <X/> |
 | [Extension Templates](../guides/extensibility/customization#templates)                           | <X/> |
 | Custom Governance Checks                                                                         | <D/> |
-| [Generic Input Validations](../guides/providing-services/#input-validation)                      | <X/> |
+| [Generic Input Validations](../guides/providing-services#input-validation)                      | <X/> |
 | Declarative Constraints                                                                          | <O/> |
 | Execute Sandboxed Code                                                                           | <O/> |
 | Runtime API for In-App Extensibility                                                             | <D/> |

@@ -3,8 +3,6 @@ shorty: in a Nutshell
 synopsis: >
   Get started with CAP in a minimalistic setup.
 notebook: true
-notebooklanguages: node
-notebooktitle: Getting Started in a Nutshell
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
@@ -12,20 +10,18 @@ impl-variants: true
 
 # Getting Started in a Nutshell
 
-Using a minimalistic setup
+Using a minimal setup
 { .subtitle}
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 
-This guide is a step-by-step walkthrough to build a CAP application, using a minimalistic setup with Node.js and SQLite.
+This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
 [[toc]]
 
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 ## ⓪ Preliminaries
 
-1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [Local Setup guide](jumpstart#setup).
+1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
 
 2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
 
@@ -71,7 +67,7 @@ code bookshop
 
 ::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
 
 :::
 
@@ -91,7 +87,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```sh
+```log
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -157,21 +153,26 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 
 ### Deployed to Databases Automatically {#deployed-in-memory}
 
-As soon as you save your file, the still running `cds watch` reacts immediately with new output like this: {.impl .node}
+<div class="impl node">
 
-<pre class="log impl node">
-[cds] - connect to db { database: <em>':memory:'</em> }
-/> successfully deployed to sqlite in-memory db
-</pre>
+As soon as you save your file, the still running `cds watch` reacts immediately with new output like this:
 
-This means that `cds watch` detected the changes in _db/schema.cds_ and automatically bootstrapped an in-memory _SQLite_ database when restarting the server process. {.impl .node}
+```log
+[cds] - connect to db { database: ':memory:' }
+/> successfully deployed to in-memory database.
+```
+
+This means that `cds watch` detected the changes in _db/schema.cds_ and automatically bootstrapped an in-memory _SQLite_ database when restarting the server process.
+
+</div>
+
+<div class="impl java">
 
 As soon as you save your CDS file, the still running `mvn cds:watch` command reacts immediately with a CDS
-compilation and reload of the CAP Java application. The embedded database of the started application will reflect the schema defined in your CDS file. {.impl .java}
+compilation and reload of the CAP Java application. The embedded database of the started application will reflect the schema defined in your CDS file.
 
+</div>
 
-
-<!-- EXCLUDE IN NOTEBOOK START -->
 ### Compiling Models (Optional) {#cli}
 
 We can also test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
@@ -189,8 +190,7 @@ cds db/schema.cds -2 yml
 cds db/schema.cds -2 sql
 ```
 
-[Learn more about the command line interface by executing `cds --help`.](#cli){.learn-more}
-<!-- EXCLUDE IN NOTEBOOK END -->
+[Learn more about the command line interface by executing `cds help`.](#cli){.learn-more}
 
 
 
@@ -202,9 +202,9 @@ cds db/schema.cds -2 sql
 
 After the recent changes, `cds watch` also prints this message:
 
-```sh
+```log
 No service definitions found in loaded models.
-Waiting for some to be added...
+Waiting for some to arrive...
 ```
 
 </div>
@@ -217,10 +217,10 @@ After the recent changes, the running CAP Java application is still not exposing
 
 So, let's go on feeding it with two service definitions for different use cases:
 
-- An *AdminService* for administrators to maintain _Books_ and _Authors_
-- A *CatalogService* for end users to browse and order *Books*
+- An `AdminService` for administrators to maintain `Books` and `Authors`
+- A `CatalogService` for end users to browse and order `Books`
 
-Create the following two files in folder `./srv` and fill them wih this content:
+Create the following two files in folder _./srv_ and fill them wih this content:
 
 ::: code-group
 ```cds [srv/admin-service.cds]
@@ -244,33 +244,31 @@ service CatalogService @(path:'/browse') { // [!code focus]
 ```
 :::
 
-<!--- % include _code from='bookshop:srv/cat-service.cds' %} -->
-*Find this sources also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
-[Learn more about **Defining Services**.](../guides/providing-services/){ .learn-more}
+*Find this source also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
+[Learn more about **Defining Services**.](../guides/providing-services){ .learn-more}
 
 
-### Served to OData out-of-the-box
+### Served to OData out of the box
 
 <div class="impl node">
 
 This time `cds watch` reacted with additional output like this:
 
-```js
+```log
 [cds] - serving AdminService { at: '/admin' }
 [cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - [ terminate with ^C ]
 ```
 
-As you can see in the log output, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
+As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
 
 <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
 Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888" class="adapt"} {.impl .node}
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"} {.impl .node}
 
-> User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the `admin` service. You don't need to enter a password.
+> User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
 
 </div>
 
@@ -278,7 +276,7 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
-```java
+```log
 c.s.c.services.impl.ServiceCatalogImpl : Registered service AdminService
 c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 ```
@@ -289,24 +287,24 @@ As you can see in the log output, the two service definitions have been compiled
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
 :::
 
+<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
 ```xml
 <dependency>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-security</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
 ```
 
 <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
 Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome_java.png){style="width:450px; box-shadow: 1px 1px 5px #888888" class="adapt"}
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome_java.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
 
-> User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the `admin` service. You don't need to enter a password.
+> User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
 
 </div>
 
 
-<!-- EXCLUDE IN NOTEBOOK START -->
 ### Compiling APIs (Optional) { #repl}
 
 You can also compile service definitions explicitly, for example to an [OData model](http:/docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
@@ -317,7 +315,6 @@ cds srv/cat-service.cds -2 edmx
 
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 ## ④ Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
@@ -370,18 +367,18 @@ ID,name
 % include _code from='bookshop:db/init.js' %}
 [learn more about using `cds.ql` for reading and writing data](../node.js/cds-ql){ .learn-more}  -->
 
-After you’ve added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content been loaded into the database automatically:
+After you’ve added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
-<pre class="log">
-[cds] - connect to db { database: <em>':memory:'</em> }
+```log
+[cds] - connect to db { database: ':memory:' }
  > filling sap.capire.bookshop.Authors from bookshop/db/data/sap.capire.bookshop-Authors.csv
- > filling sap.capire.bookshop.Books from bookshop/db/data/sap.capire.bookshop-Books.csv<!-- EXCLUDE IN NOTEBOOK START -->
+ > filling sap.capire.bookshop.Books from bookshop/db/data/sap.capire.bookshop-Books.csv
  > filling sap.capire.bookshop.Books_texts from bookshop/db/data/sap.capire.bookshop-Books_texts.csv
  > filling sap.capire.bookshop.Genres from bookshop/db/data/sap.capire.bookshop-Genres.csv
  > filling sap.common.Currencies from common/data/sap.common-Currencies.csv
- > filling sap.common.Currencies_texts from common/data/sap.common-Currencies_texts.csv<!-- EXCLUDE IN NOTEBOOK END -->
-/> successfully deployed to sqlite in-memory db
-</pre>
+ > filling sap.common.Currencies_texts from common/data/sap.common-Currencies_texts.csv
+/> successfully deployed to in-memory database.
+```
 
 > This is the output when you're using the [samples](https://github.com/sap-samples/cloud-cap-samples). It's less if you've followed the manual steps here.
 
@@ -389,64 +386,58 @@ After you’ve added these files, `cds watch` restarts the server with output, t
 
 <div class="impl java">
 
-After you’ve added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content been loaded into the database automatically: {.impl .java}
+After you’ve added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
-<pre class="log">
- c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Authors.csv
- c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
-</pre>
+```log
+c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Authors.csv
+c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
+```
 
 </div>
 
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
-### Querying Through OData out-of-the-box
+### Querying Through OData Out of the Box
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[browse/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
-- _[admin/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
-- _[admin/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
-- _[browse/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
-- _[admin/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
-- _[admin/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
+- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
+- _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
-> Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
+> Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
 > Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
-[Learn more about **Generic Providers**.](../guides/providing-services/){.learn-more}
+[Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
-<!-- EXCLUDE IN NOTEBOOK START -->
-### Deploying Persistent Databases {.impl .node}
-
-Instead of using in-memory, we can also use persistent databases. For example, still with SQLite: {.impl .node}
 
 <div class="impl node">
+
+### Deploying Persistent Databases
+
+We can also use persistent instead of in-memory databases. For example, still with SQLite:
 
 ```sh
 npm add sqlite3 -D
-cds deploy --to sqlite:my.db
+cds deploy --to sqlite:my.sqlite
 ```
-</div>
 
-The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.db_. This is also recorded in the _package.json_. s{.impl .node}
+The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.sqlite_. This is also recorded in the _package.json_.
 
-To see what that did, use the _sqlite3_ CLI with the newly created database: {.impl .node}
-
-<div class="impl node">
+To see what that did, use the `sqlite3` CLI with the newly created database:
 
 ```sh
-sqlite3 my.db .dump
-sqlite3 my.db .tables
+sqlite3 my.sqlite .dump
+sqlite3 my.sqlite .tables
 ```
-</div>
 
-You could also deploy to a provisioned SAP HANA database using this variant: {.impl .node}
-
-<div class="impl node">
+You could also deploy to a provisioned SAP HANA database using this variant:
 
 ```sh
 cds deploy --to hana
@@ -474,14 +465,14 @@ For example, you can [find a simple Vue.js app in **cap/samples**](https://githu
 
 Besides, being usable from any UI frontends using standard AJAX requests, CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori draft.
 
-![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/in-a-nutshell/fiori-app.png){style="margin:0" .adapt}
+![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/in-a-nutshell/fiori-app.png){.mute-dark}
 
-[Learn more about **Serving Fiori UIS**.](../advanced/fiori){.learn-more}
+[Learn more about **Serving Fiori UIs**.](../advanced/fiori){.learn-more}
 
 
 ### Using OData Protocol
 
-As CAP-based services are full-fledged OData services out-of-the-box, you can use advanced
+As CAP-based services are full-fledged OData services out of the box, you can use advanced
 query options, such as `$select`, `$expand`, `$search`, and many more.
 
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
@@ -490,7 +481,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 ## ⑥ Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-While the generic providers serve most CRUD requests out-of-the-box, you can add custom code to deal with the specific domain logic of your application.
+While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
 ### Providing Service Implementations
@@ -499,20 +490,16 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl node">
 
-<div style="margin: 0 44px">
-
-```sh
+```console
 ./srv
   - cat-service.cds  # service definitions
   - cat-service.js   # service implementation
 ...
 ```
 
-</div>
-
-[See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){ .learn-more target="_blank"}
-[Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more}
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more}
+[See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
+[Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more .impl .java}
 
 </div>
 
@@ -544,7 +531,8 @@ Service implementations essentially consist of one or more event handlers.
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
-```js
+::: code-group
+```js [srv/cat-service.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
@@ -555,6 +543,7 @@ module.exports = function (){
   })
 }
 ```
+:::
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 
@@ -639,7 +628,7 @@ public class SubmitOrderHandler implements EventHandler {
 </div>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
-[Find an extended version of this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
+[Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
 [Learn more about **connecting to services** using `cds.connect`.](../node.js/cds-connect){ .learn-more .impl .node}
 [Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){.learn-more .impl .java}
 [Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){ .learn-more .impl .node}
@@ -650,7 +639,6 @@ public class SubmitOrderHandler implements EventHandler {
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
 Or submit orders until you see the error messages. {.impl .node}
-<!-- EXCLUDE IN NOTEBOOK END -->
 
 
 ## Summary and Next Steps
@@ -658,13 +646,13 @@ With this getting started guide we introduced many of the basics of CAP, such as
 
 - [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
 - [Domain Modeling](../guides/domain-modeling)
-- [Defining Services and APIs](../guides/providing-services/)
-- [Providing Services](../guides/providing-services/)
+- [Defining Services and APIs](../guides/providing-services)
+- [Providing Services](../guides/providing-services)
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services/#adding-custom-logic)
+- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP, Cloud Foundry environment](../guides/deployment/).
+[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 
 Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.

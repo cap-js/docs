@@ -1,9 +1,7 @@
 ---
 synopsis: >
   How to start a new CAP Java project and how to run it locally.
-notebook: true
-notebooklanguages: java
-notebooktitle: Getting Started
+#notebook: true
 redirect_from: java/overview
 status: released
 ---
@@ -47,7 +45,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
-2. Install a Java VM. At least, Java 8 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
+2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
 3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.5.0 is required).
 
@@ -74,7 +72,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```sh
-mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE"
+mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE" -DinteractiveMode=true
 ```
 
 <div id="release-sap" />

@@ -92,17 +92,17 @@ In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\
 
 By default, Node.js apps started with `cds run` or `cds watch` use port 4004, which might be occupied if other app instances are still running. In this case, `cds watch` now asks you if it should pick a different port.
 
-<pre class="log">
+```log{5}
 $ cds watch
 ...
 [cds] - serving CatalogService ...
 
-<em>EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)</em>
+EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)
 > y
 restart
 ...
-[cds] - server listening on { url: 'http://localhost:<em>4005</em>' }
-</pre>
+[cds] - server listening on { url: 'http://localhost:4005' }
+```
 
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 
@@ -368,7 +368,7 @@ You can disable the database clustering for the update.
 | _Root Cause_ | An error like `Version incompatibility for the ... build plugin: "2.0.x" (installed) is incompatible with "2.0.y" (requested)` indicates that your project demands a higher version of SAP HANA than what is available in your org/space on SAP BTP, Cloud Foundry environment. The error might not occur on other landscapes for the same project.
 | _Solution_ | Lower the version in file `db/src/.hdiconfig` to the one given in the error message. If you're the owner of the SAP HANA installation, ask for an upgrade of the SAP HANA instance.
 
-#### Deployment fails — _Cannot create certificate store_
+#### Deployment fails — _Cannot create certificate store_ {#cannot-create-certificate-store}
 
 |  | Explanation |
 | --- | ---- |

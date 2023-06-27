@@ -16,6 +16,8 @@ Localized data refers to the maintenance of different translations of textual da
 
 > Find a **working sample** at <https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop>.
 
+[[toc]]
+
 
 ## Declaring Localized Data
 
@@ -359,6 +361,10 @@ Content-Type: application/json
   {"name": "Ein neuer Name"} ]
 }
 ```
+
+::: warning *Note:* <!--  -->
+Accepted language codes in the `locale` property need to follow the [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) standard but use __underscore__ (`_`) instead of __hyphen__ (`-`), for example `en_GB`.
+:::
 
 ### Delete Operations
 

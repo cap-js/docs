@@ -45,4 +45,4 @@ jobs:
         run: |
           npm run docs:preview -- --port 5555 &
           sleep 2
-          .github/blc.js http://localhost:5555/docs/
+          .github/etc/blc.js http://localhost:5555/docs/

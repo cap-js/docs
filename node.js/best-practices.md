@@ -43,7 +43,9 @@ Example:
 We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
 :::
 
-### Keep Open Ranges When *Publishing* for Reuse {#publish } <!-- TODO: revisit duplicated attribute { #reuse} -->
+### Keep Open Ranges When *Publishing* for Reuse {#publish }
+
+<!-- TODO: revisit duplicated attribute { #reuse} -->
 
 Let's explain this by looking at counter examples.
 
@@ -99,7 +101,7 @@ This ensures that the deployed tool/service/app doesn't receive new vulnerabilit
 :::tip
 
 We recommend running `npm update` regularly and frequently during development to ensure that you receive the latest fixes.<br>
-Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automatize this process.
+Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automate this process.
 
 <div id="renovate-sap" />
 
@@ -170,7 +172,7 @@ Consult sources such as [Express' **Production Best Practices: Security** docume
 
 Creating a [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is a major building block in securing your web application.
 
-[`helmet`](https://www.npmjs.com/package/helmet) provides a default policy out-of-the-box that you can also customize as follows:
+[`helmet`](https://www.npmjs.com/package/helmet) provides a default policy out of the box that you can also customize as follows:
 
 ```js
 cds.on('bootstrap', app => {

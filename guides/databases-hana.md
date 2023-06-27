@@ -179,7 +179,6 @@ There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid 
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
 
-<div markdown="1" class="impl node">
 ### Prepare for Production { #configure-hana .impl .node }
 
 To prepare the project, execute:
@@ -228,7 +227,6 @@ If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#ha
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
-</div>
 
 
 

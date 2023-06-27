@@ -39,7 +39,6 @@ npm add @cap-js/sqlite -D
 
 </div>
 
-<div markdown="1" class="impl java">
 
 ### Using the Maven Archetype {.impl .java}
 
@@ -61,7 +60,6 @@ To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
 The further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
 
-</div>
 
 ### In-Memory Databases
 

@@ -204,8 +204,8 @@ Provides access to the effective configuration of the current process, transpare
 
 ### cds. services {.property}
 
-A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve`](cds-serve),
-or connected to by [`cds.connect`](cds-connect) so far.
+A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve()`](cds-serve),
+or connected to by [`cds.connect()`](cds-connect).
 
 It’s an *iterable* object, so can be accessed in the following ways:
 

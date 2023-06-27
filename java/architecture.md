@@ -97,7 +97,7 @@ Moreover, optional service extensions such as [SAP Event Mesh](./messaging-found
 All CAP Java SDK modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). They've group id `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds. It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
 
-```
+```xml
 <properties>
 	<cds.sdk.version>1.1.0</cds.sdk.version>
 </properties>
@@ -154,7 +154,7 @@ Unlike all the other dependencies, `cds-services-api` is defined not as a `runti
 
 Additional application features you want to use are added as additional dependencies. For instance:
 
-```
+```xml
 <dependencies>
 	<!-- Features -->
 	<dependency>

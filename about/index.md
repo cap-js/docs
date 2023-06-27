@@ -84,7 +84,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
 
@@ -190,7 +190,7 @@ Moreover, that fosters [**separation of concerns**](../guides/domain-modeling#se
 
 </div>
 
-## Proven Best Practices, Served Out-of-the-Box {#generic-providers label='Proven Best Practices'}
+## Proven Best Practices, Served Out of the Box {#generic-providers label='Proven Best Practices'}
 
 
 The CAP runtimes in Node.js and Java provide many generic implementations for recurring tasks and best practices, distilled from proven SAP applications.
@@ -323,12 +323,12 @@ We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/c
 
 All behavioral aspects in CAP are based on ubiquitous notions of [Services](#services) and [Events](#events), as expressed in this manifest:
 
-1. _All active things are Services_ --- local ones, remote ones, as well as databases
-2. *Services are [declared in CDS](#service-definitions-in-cds)* --- reflected and used in generic service providers
-3. *Services [provide uniform APIs](#uniform-consumption)* --- consumed by other services or frontends
-4. _Services [react on Events](#events)_ --- covering _synchronous_ and _asynchronous_ APIs
-5. *Services [consume other Services](#uniform-consumption)* --- in event handler implementations
-6. _All data is passive_ --- that is, without its own behavior, adhering to _REST_
+1. _All active things are Services_ — local ones, remote ones, as well as databases
+2. *Services are [declared in CDS](#service-definitions-in-cds)* — reflected and used in generic service providers
+3. *Services [provide uniform APIs](#uniform-consumption)* — consumed by other services or frontends
+4. _Services [react on Events](#events)_ — covering _synchronous_ and _asynchronous_ APIs
+5. *Services [consume other Services](#uniform-consumption)* — in event handler implementations
+6. _All data is passive_ — that is, without its own behavior, adhering to _REST_
 
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
@@ -390,7 +390,7 @@ POST /orders/cancelOrder/4711
 
 <div>
 
-**Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
+**Every active thing in CAP is a service**, including *local* services or *remote* ones — even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
@@ -474,5 +474,5 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ---
 
 <div markdown="1" style="font-size:90%; color:#666">
-<sup>1</sup> *GraphQL* and *Kafka* aren’t supported out-of-the-box today, but might be added in future.
+<sup>1</sup> *GraphQL* and *Kafka* aren't supported out of the box today, but might be added in future.
 </div>

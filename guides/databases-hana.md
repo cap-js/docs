@@ -9,6 +9,7 @@ impl-variants: true
 
 [[toc]]
 
+
 [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html) is supported as the CAP standard database and recommended for productive use with full support for schema evolution and multitenancy.
 
 ::: warning
@@ -167,7 +168,6 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-
    ```
 
 

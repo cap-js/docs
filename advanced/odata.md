@@ -30,28 +30,81 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
 |----------------|-------------------------------------------|------------|---------|
-| `$search`      | Search in multiple/all text elements<sup>(3)</sup>        | <X/>      | <X/>   |
+| `$search`      | Search in multiple/all text elements<sup>(1)</sup>| <X/> | <X/>   |
 | `$value`       | Retrieves single rows/values              | <X/>      | <X/>  |
 | `$top`,`$skip` | Requests paginated results                | <X/>      | <X/>   |
 | `$filter`      | Like SQL where clause                     | <X/>      | <X/>   |
 | `$select`      | Like SQL select clause                    | <X/>      | <X/>   |
 | `$orderby`     | Like SQL order by clause                  | <X/>      | <X/>   |
 | `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
-| [Delta Payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in deep update | <D/> | <X/> |
 | `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
-| `$expand`      | Deep-read associated entities             | <X/> <sup>(1)</sup>     | <X/> <sup>(2)</sup>  |
-| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(4)</sup> |
+| `$expand`      | Deep-read associated entities             | <X/> <sup>(2)</sup>| <X/> |
+| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(3)</sup> |
 
-<span id="features" />
-
-- <sup>(1)</sup> Support for nested `$select`, `$expand`, `$filter` and `$orderby` options.
-- <sup>(2)</sup> Support for nested `$select`, `$expand`, `$filter`, `$orderby`, `$top` and `$skip` options.
-- <sup>(3)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
-- <sup>(4)</sup> Current limitation: Navigation path identifying the collection can only contain one segment.
-
+- <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
+- <sup>(2)</sup> No support for `$top` and `$skip` options.
+- <sup>(3)</sup> The navigation path identifying the collection can only contain one segment.
 
 [Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){.learn-more}
 [Learn more in the tutorials **Take a Deep Dive into OData**.](https://developers.sap.com/mission.scp-3-odata.html){.learn-more}
+
+| Data Modification | Remarks                                   | Node.js    | Java    |
+|-------------------|-------------------------------------------|------------|---------|
+| [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
+
+
+## Mass Data Upload Using PATCH on Entity Collections { #odata-patch-collection .impl .beta }
+
+With OData v4, you can [update a collection of entities](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateaCollectionofEntities) with a _single_ PATCH request.
+The resource path of the request targets the entity collection and the body of the request is given as a [delta payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads):
+
+```js
+PATCH /CatalogService/Books
+Content-Type: application/json
+
+{
+    "@context": "#$delta",
+    "value": [
+        {
+            "ID": 17,
+            "title": "CAP - what's new in 2023",
+            "price": 29.99,
+            "author_ID": 999
+        },
+        {
+            "ID": 85,
+            "price": 9.99
+        },
+        {
+            "ID": 42,
+            "@removed": { "reason": "deleted" }
+        }
+    ]
+}
+```
+
+PATCH requests with delta payload are executed using batch delete and [upsert](../java/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](http://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
+
+Use PATCH on entity collections for uploading mass data via a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by the following annotation:
+
+```cds
+@Capabilities.UpdateRestrictions.DeltaUpdateSupported
+```
+
+::: tip
+PATCH on entity collections is currently only supported in the Java runtime.
+:::
+
+Limitations:
+ * Conflict detection via [ETags](../guides/providing-services#etag) is not supported.
+ * [Draft flow](../java/fiori-drafts#bypassing-draft-flow) is bypassed, `IsActiveEntity` has to be `true`.
+ * [Draft locks](../java/fiori-drafts#draft-lock) are ignored, active entities are updated or deleted w/o canceling drafts.
+ * [Added and deleted links](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_IteminaDeltaPayloadResponse) are not supported.
+ * The header `Prefer=representation` is not yet supported.
+ * The `continue-on-error` preference is not yet supported.
+ * The generic CAP handler support for [upsert](../java/query-api#upsert) is limited, for example, audit logging is not supported.
+
 
 ## Mapping of CDS Types { #type-mapping}
 
@@ -928,7 +981,6 @@ The full support of Open Types (`@open`) in OData is currently available for the
 The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
 :::
 
-<div id="mass-data" />
 
 ## Singletons
 

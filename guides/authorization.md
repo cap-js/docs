@@ -391,7 +391,7 @@ Basically, the access control for entities in draft mode differs from the [gener
 - If a user has the privilege to create an entity (`CREATE`), he or she also has the privilege to create a **new** draft entity and update, delete, and activate it.
 - If a user has the privilege to update an entity (`UPDATE`), he or she also has the privilege to **put it into draft mode** and update, delete, and activate it.
 - Draft entities can only be edited by the creator user.
-  + In the Node.js runtime, this includes calling bound actions/ functions on the draft entity.
+  + In the Node.js runtime, this includes calling bound actions/functions on the draft entity.
 
 ::: tip
 As a result of the derived authorization rules for draft entities, you don't need to take care of draft events when designing the CDS authorization model.

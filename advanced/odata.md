@@ -26,7 +26,7 @@ status: released
 
 ## Feature Overview { #overview}
 
-OData is an OASIS standard, which essentially enhances plain REST with standardized query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table.
+OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
 |----------------|-------------------------------------------|------------|---------|
@@ -38,12 +38,24 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 | `$orderby`     | Like SQL order by clause                  | <X/>      | <X/>   |
 | `$count`       | Gets number of rows for paged results     | <X/>      | <X/>   |
 | `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
-| `$expand`      | Deep-read associated entities             | <X/> <sup>(2)</sup>| <X/> |
-| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(3)</sup> |
+| `$expand`      | Deep-read associated entities             | <X/>      | <X/>   |
+| [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(2)</sup> |
 
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
-- <sup>(2)</sup> No support for `$top`, `$skip` and `$count` options.
-- <sup>(3)</sup> The navigation path identifying the collection can only contain one segment.
+- <sup>(2)</sup> The navigation path identifying the collection can only contain one segment.
+
+System query options can also be applied to an [expanded navigation property](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within $expand):
+
+| Query Options  | Remarks                                   | Node.js  | Java   |
+|----------------|-------------------------------------------|----------|--------|
+| `$select`      | Select properties of associated entities  | <X/>     | <X/>   |
+| `$filter`      | Filter associated entities                | <X/>     | <X/>   |
+| `$expand`      | Nested expand                             | <X/>     | <X/>   |
+| `$orderby`     | Sort associated entities                  | <X/>     | <X/>   |
+| `$top`,`$skip` | Paginate associated entities              | <Na/>    | <X/>   |
+| `$count`       | Count associated entities                 | <Na/>    | <X/>   |
+| `$search`      | Search associated entities                | <Na/>    | <Na/>  |
+
 
 [Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){.learn-more}
 [Learn more in the tutorials **Take a Deep Dive into OData**.](https://developers.sap.com/mission.scp-3-odata.html){.learn-more}

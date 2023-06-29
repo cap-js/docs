@@ -21,7 +21,7 @@ This section deals with Audit Logging for reading sensitive data and changes to 
 
 <span id="inintroduction" />
 
-In CAP, audit logging can be handled mostly automatically by adding certain annotations to your business entity definitions and adding some configuration to your project.
+In CAP, audit logging can be handled mostly automatically by adding certain annotations to your business entity definitions and adding some configuration/ plugin to your project.
 
 ::: warning _❗ Data Subject and Data Object_<br>
 For each audit log on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
@@ -89,6 +89,9 @@ The `@PersonalData.IsPotentiallySensitive` annotation induces an audit log for e
 --- Avoid unnecessary logging activities in your application.
 :::
 
+::: warning _Warning_
+Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
+:::
 
 ###  Data Subject Details
 
@@ -137,6 +140,10 @@ annotate bookshop.CustomerPostalAddress with @AuditLog.Operation : {
 Very similarly to the section on 'Data Subject' this entity is as well annotated in four levels.
 More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
 
+::: warning _Warning_
+Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
+:::
+
 ###  Transactional Data
 
 In the section on 'Data Subject' and 'Data Subject Details' we have seen, how to annotate the master data entities carrying the semantical information of the 'Data Subject'.
@@ -176,6 +183,10 @@ annotate bookshop.Orders with @AuditLog.Operation : {
 ```
 
 Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
+
+::: warning _Warning_
+Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
+:::
 
 <div id="ddkkkeuz32188fjj" />
 

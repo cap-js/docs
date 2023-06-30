@@ -6,7 +6,7 @@ status: released
 
 
 
-This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture than the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features). 
+This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features). 
 
 *Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter below.*{.learn-more}
 
@@ -261,7 +261,7 @@ entity Foo {
 
 ::: tip
 
-If you need to apply such disallowed changes during development, just drop and recreate your database, e.g. by killing it in docke an re-create it using the `docker-compose` command as [documented above](#using-docker).
+If you need to apply such disallowed changes during development, just drop and recreate your database, e.g. by killing it in docker an re-create it using the `docker-compose` command as [documented above](#using-docker).
 
 :::
 
@@ -343,7 +343,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 ## Migration
 
-Thanks to CAP's database-agnostic cds.ql API, we are confident that the new PostgreSQL servcie comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
+Thanks to CAP's database-agnostic cds.ql API, we are confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
 
 ### `cds deploy --model-only`
 
@@ -362,7 +362,7 @@ This will...:
 
 ::: warning IMPORTANT:
 
-Your `.cds` models are expexcted to reflect the deployed state of your database.
+Your `.cds` models are expected to reflect the deployed state of your database.
 
 :::
 

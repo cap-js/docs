@@ -6,9 +6,9 @@ status: released
 
 
 
-This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture than the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features). 
+This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture than the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features).
 
-*Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter below.*{.learn-more}
+*Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter.*{.learn-more}
 
 [[toc]]
 
@@ -22,9 +22,9 @@ Run this to use [PostgreSQL](https://www.postgresql.org/) for production:
 npm add @cap-js/postgres
 ```
 
-### Auto-wired Configuration
+### Auto-Wired Configuration
 
-The `@cap-js/postgres` packages uses `cds-plugin` technique to auto-configure your application to use a PostgreSQL database for production.
+The `@cap-js/postgres` package uses `cds-plugin` technique to auto-configure your application and use a PostgreSQL database for production.
 
 You can inspect the effective configuration using `cds env`:
 
@@ -48,11 +48,11 @@ Output:
 
 ### Using Docker
 
-You can use Docker to run a PostgreSQL database locally. Do so as follows... 
+You can use Docker to run a PostgreSQL database locally as follows:
 
 1. Install and run [Docker Desktop](https://www.docker.com)
 
-2. Create a file like that: 
+2. Create a file like that:
    ::: code-group
 
    ```yaml [pg.yml]
@@ -72,39 +72,39 @@ You can use Docker to run a PostgreSQL database locally. Do so as follows...
    docker-compose -f pg.yml up -d
    ```
 
-   
+
 
 
 
 ### Service Bindings
 
-In the cloud, use given techiques to bind a cloud-based instance of PostgreSQL to your application. 
+In the cloud, use given techniques to bind a cloud-based instance of PostgreSQL to your application.
 
-For local development provide the credentials via a suitable [`cds env`](../node.js/cds-env) technique, like one of the following...
+For local development provide the credentials using a suitable [`cds env`](../node.js/cds-env) technique, like one of the following.
 
 
 
-#### Using defaults with `[pg]` profile
+#### Using Defaults with `[pg]` Profile
 
-The `@cds-js/postgres` comes with default credentials under profile `[pg]` that match the defaults used in the [docker setup above](#using-docker). So, in case you sticked to these defaults you can skip the next sections and just go ahead, deploy your database:
+The `@cds-js/postgres` comes with default credentials under profile `[pg]` that match the defaults used in the [docker setup](#using-docker). So, in case you stick to these defaults you can skip the next sections and just go ahead, deploy your database:
 
 ```sh
 cds deploy --profile pg
 ```
 
-and run your application:
+Run your application:
 
 ```sh
 cds watch --profile pg
 ```
 
-Learn more about that in the [Deployment](#deployment) chapter below.
+Learn more about that in the [Deployment](#deployment) chapter below.{.learn-more}
 
 
 
-#### In your private `~/.cdsrc.json`
+#### In Your private `~/.cdsrc.json`
 
-Add it to your private `~/.cdsrc.json` if you want to use these credentials on your local machine only: 
+Add it to your private `~/.cdsrc.json` if you want to use these credentials on your local machine only:
 
 ::: code-group
 
@@ -128,9 +128,9 @@ Add it to your private `~/.cdsrc.json` if you want to use these credentials on y
 
 :::
 
-#### In project `.env` files
+#### In Project `.env` Files
 
-Alternatively, use a `.env` file in jour project's root folder if you want to share the same credentials with your team mates: 
+Alternatively, use a `.env` file in your project's root folder if you want to share the same credentials with your team:
 
 ::: code-group
 
@@ -147,7 +147,7 @@ cds.requires.db.[pg].credentials.database = postgres
 
 ::: tip Using Profiles
 
-The configuration examples above use the [`cds.env` profile](../node.js/cds-env#profiles) `[pg]` to allow to selectively test with PostgreSQL databases from the command line like so:
+The previous configuration examples use the [`cds.env` profile](../node.js/cds-env#profiles) `[pg]` to allow selectively testing with PostgreSQL databases from the command line as follows:
 
 ```sh
 cds watch --profile pg
@@ -161,7 +161,7 @@ The profile name can be freely chosen, of course.
 
 ## Deployment
 
-### Using `cds deploy` 
+### Using `cds deploy`
 
 Deploy your database as usual with that:
 
@@ -179,14 +179,14 @@ cds deploy --profile pg
 
 ### With Deployer App
 
-When deploying to cloud foundry, this can be accomplished by providing a simple deployer app, which you can construct as follows...
+When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app, which you can construct as follows:
 
 1. Create a new folder named `gen/pg`:
    ```sh
    mkdir -p gen/pg
    ```
 
-2. Generate a pre-compiled cds model:
+2. Generate a precompiled cds model:
    ```sh
    cds compile '*' > gen/pg/csn.json
    ```
@@ -199,7 +199,7 @@ When deploying to cloud foundry, this can be accomplished by providing a simple 
 4. Add a *package.json* to `gen/pg` with this content:
    ::: code-group
    ```json [gen/pg/package.json]
-   { 
+   {
      "dependencies": {
        "@sap/cds": "*"
      },
@@ -209,16 +209,16 @@ When deploying to cloud foundry, this can be accomplished by providing a simple 
    }
    ```
    :::
-   > **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable is not available. 
+   > **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable isn't available.
 
-5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta). 
+5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
 
 
 
 ## Schema Evolution
 
-When re-deploying after you made changes to your CDS models, like adding fields, automatic schema evolution is applied. Whenever you  run `cds deploy` (or `cds-deploy`) it executes these steps:
+When redeploying after you changed your CDS models, like adding fields, automatic schema evolution is applied. Whenever you  run `cds deploy` (or `cds-deploy`) it executes these steps:
 
 1. Read a CSN of a former deployment from table `cds_model`.
 2. Calculate the **delta** to current model.
@@ -261,7 +261,7 @@ entity Foo {
 
 ::: tip
 
-If you need to apply such disallowed changes during development, just drop and recreate your database, e.g. by killing it in docke an re-create it using the `docker-compose` command as [documented above](#using-docker).
+If you need to apply such disallowed changes during development, just drop and re-create your database, for example by killing it in docker and re-create it using the `docker-compose` command, [see Using Docker](#using-docker).
 
 :::
 
@@ -308,19 +308,19 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    DROP VIEW AdminService_Books_texts;
    DROP VIEW CatalogService_Books;
    DROP VIEW AdminService_Books;
-   
+
    -- Alter Tables for New or Altered Columns
    ALTER TABLE sap_capire_bookshop_Books ALTER title TYPE VARCHAR(222);
    ALTER TABLE sap_capire_bookshop_Books_texts ALTER title TYPE VARCHAR(222);
    ALTER TABLE sap_capire_bookshop_Books ADD foo_ID VARCHAR(36);
    ALTER TABLE sap_capire_bookshop_Books ADD bar VARCHAR(255);
-   
+
    -- Create New Tables
    CREATE TABLE sap_capire_bookshop_Foo (
      ID VARCHAR(36) NOT NULL,
      PRIMARY KEY(ID)
    );
-   
+
    -- Re-Create Affected Views
    CREATE VIEW AdminService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0;
    CREATE VIEW CatalogService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0 LEFT JOIN sap_capire_bookshop_Authors AS author_1 O ... ;
@@ -343,11 +343,11 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 ## Migration
 
-Thanks to CAP's database-agnostic cds.ql API, we are confident that the new PostgreSQL servcie comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
+Thanks to CAP's database-agnostic cds.ql API, we're confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
 
 ### `cds deploy --model-only`
 
-Not a breaking change, but definitely required to migrate former `cds-pg` databases, is to prepare it for schema evolution. 
+Not a breaking change, but definitely required to migrate former `cds-pg` databases, is to prepare it for schema evolution.
 
 To do so run `cds deploy` once with the `--model-only` flag:
 
@@ -357,12 +357,12 @@ cds deploy --model-only
 
 This will...:
 
-- Create the `cds_model` table in your database
-- Fill it with the current model obtained through `cds compile '*'` 
+- Create the `cds_model` table in your database.
+- Fill it with the current model obtained through `cds compile '*'`.
 
 ::: warning IMPORTANT:
 
-Your `.cds` models are expexcted to reflect the deployed state of your database.
+Your `.cds` models are expected to reflect the deployed state of your database.
 
 :::
 

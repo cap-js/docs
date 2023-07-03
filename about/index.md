@@ -104,13 +104,10 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
-<figure>
-  <img src="../assets/core-concepts.drawio.svg" width="650px" >
-  <figcaption>Anatomy of a Typical Application</figcaption>
-</figure>
-<br >
+![](../assets/core-concepts.drawio.svg)
+Anatomy of a Typical Application{.caption}
 
-<br><br>
+<br>
 
 ###### Core Data Services (CDS)
 

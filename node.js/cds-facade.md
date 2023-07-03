@@ -107,7 +107,8 @@ Following are properties which are not references to submodules.
 Returns the version of the `@sap/cds` package from which the current instance of the `cds` facade module was loaded. For example, use that to write version specific code:
 
 ```js
-if (cds.version[0] < 6) // code for pre cds6 usage
+const [major, minor] = cds.version.split('.').map(Number)
+if (major < 6) // code for pre cds6 usage
 ```
 
 

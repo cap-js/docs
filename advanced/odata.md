@@ -664,7 +664,7 @@ With this configuration, all annotations prefixed with `MyVocabulary` are consid
 
 ```cds
 service S {
-  @MyVocabulary.MyAnno: 'test'
+  @MyVocabulary.MyAnno: 'My new Annotation'
   entity E { /*...*/ };
 };
 ```

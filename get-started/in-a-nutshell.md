@@ -2,7 +2,7 @@
 shorty: in a Nutshell
 synopsis: >
   Get started with CAP in a minimalistic setup.
-#notebook: true
+notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
@@ -87,7 +87,7 @@ cd srv && mvn cds:watch
 
 ::: details `cds watch` is waiting for things to come...
 
-```console
+```log
 [dev] cds w
 
 cds serve all --with-mocks --in-memory?
@@ -276,7 +276,7 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
-```java
+```log
 c.s.c.services.impl.ServiceCatalogImpl : Registered service AdminService
 c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 ```
@@ -287,6 +287,7 @@ As you can see in the log output, the two service definitions have been compiled
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
 :::
 
+<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -397,7 +398,7 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
-### Querying Through OData out-of-the-box
+### Querying Through OData Out of the Box
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
@@ -408,7 +409,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 - _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
-> Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
+> Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
 > Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
@@ -471,7 +472,7 @@ Besides, being usable from any UI frontends using standard AJAX requests, CAP pr
 
 ### Using OData Protocol
 
-As CAP-based services are full-fledged OData services out-of-the-box, you can use advanced
+As CAP-based services are full-fledged OData services out of the box, you can use advanced
 query options, such as `$select`, `$expand`, `$search`, and many more.
 
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
@@ -480,7 +481,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 ## ⑥ Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-While the generic providers serve most CRUD requests out-of-the-box, you can add custom code to deal with the specific domain logic of your application.
+While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
 ### Providing Service Implementations
@@ -530,7 +531,8 @@ Service implementations essentially consist of one or more event handlers.
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
-```js
+::: code-group
+```js [srv/cat-service.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
@@ -541,6 +543,7 @@ module.exports = function (){
   })
 }
 ```
+:::
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 

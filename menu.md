@@ -37,7 +37,7 @@
   - [HANA](guides/databases-hana)
   - [H2 (Java)](guides/databases-h2)
   - [PostgreSQL](guides/databases-postgres)
-- [Querying](guides/querying)
+<!-- - [Querying](guides/querying) -->
 - [Messaging](guides/messaging/)
 - [Authorization](guides/authorization)
 - [Localization, i18n](guides/i18n)

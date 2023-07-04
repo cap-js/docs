@@ -42,7 +42,7 @@ You can recognize five different areas of the stack, which comprise components a
 * The [application framework](#application-framework) defines the runtime basis of your application typically inclusing a web server.
 * [Protocol adapters](#protocol-adapters) map protocol-specific web events into [CQN](../cds/cqn) events for further processing.
 * The resulting CQN-events are passed to [service providers](#service-providers), which drive the processing of the event.
-* The [CQN execution engine](#cqn-execution-engine) is capable of translating [CQN](../cds/cqn) statements into native statements of any data sink such as a persistence service.
+* The [CQN execution engine](#cqn-execution-engine) is capable of translating [CQN](../cds/cqn) statements into native statements of a data sink such as a persistence service.
 * [Application features](#application-features) are optional extensions that add additional functionality to your application, for instance to add multitenancy capabilities or a platform service integration.
 
 
@@ -153,13 +153,19 @@ The dependencies of a Spring Boot application with OData V4 endpoints could look
 </dependencies>
 ```
 ::: tip
-Only API modules should be added without dependency scope (they gain `compile` scope by default) such as `cds-services-api` or `cds4j-api`.
+Only API modules without dependency scope should be added (they gain `compile` scope by default) such as `cds-services-api` or `cds4j-api`.
 All other dependencies should have a dedicated scope e.g. `runtime` or `test` to prevent misuse.
 :::
 
-You are not obliged to choose one of the prepared application frameworks, which have artifact id prefix `cds-framework`. 
-It's also possible to use the CAP Java SDK in a different context. 
-You're also free to add additional adapters or to bring your own adapter.
+You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`), 
+instead you can define your own application context if required. 
+Similarly, you're free to configure multiple adapters including custom implementations that map any specific web service protocol.
+
+::: tip
+It's highly recommended to configure `cds-framework-spring-boot` as application framework 
+as it provides you with a lot of out of the box [integration with CAP](./development/#spring-boot-integration) 
+and enhanced features such as dependency injection and auto configuration.
+:::
 
 Additional application features you want to use are added as additional dependencies. For instance
 

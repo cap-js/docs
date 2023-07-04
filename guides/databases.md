@@ -11,7 +11,7 @@ impl-variants: true
 # Using Databases
 
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 [[toc]]
@@ -263,7 +263,7 @@ Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dat
 spring:
   config.activate.on-profile: test
 cds
-  dataSource.csv.paths: 
+  dataSource.csv.paths:
   - test/data/**
 ```
 
@@ -346,7 +346,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 <div markdown="1" class="impl node">
 
 
-When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models. 
+When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
 
 </div>
 

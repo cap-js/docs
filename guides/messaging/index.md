@@ -12,7 +12,7 @@ status: released
   <a impl-variant="java" class="impl-variant" title="Content for Java">Java</a>
 </div> -->
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 

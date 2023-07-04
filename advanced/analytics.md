@@ -9,7 +9,7 @@ redirect_from: guides/analytics
 
 # Analytics in OData V2
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Aggregation
 

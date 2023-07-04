@@ -14,7 +14,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Introduction to Event Handlers
 

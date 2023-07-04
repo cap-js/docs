@@ -9,7 +9,7 @@ status: released
 
 # Performance Modeling
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Avoid UNION
 

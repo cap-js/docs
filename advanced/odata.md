@@ -44,7 +44,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
 - <sup>(2)</sup> The navigation path identifying the collection can only contain one segment.
 
-System query options can also be applied to an [expanded navigation property](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within $expand):
+System query options can also be applied to an [expanded navigation property](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
 
 | Query Options  | Remarks                                   | Node.js  | Java   |
 |----------------|-------------------------------------------|----------|--------|

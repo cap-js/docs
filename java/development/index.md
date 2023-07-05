@@ -196,11 +196,9 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | Java | 8 | 17 |
 | @sap/cds-dk | 4 | 6 |
 | @sap/cds-compiler | 2 | 3 |
-| Spring Boot<sup>1</sup> | 2.7 | 2.7 |
+| Spring Boot | 2.7 | 2.7 |
 | XSUAA | 2.13 | latest |
 | SAP Cloud SDK | 4.10 | latest |
-
-<sup>1</sup> Spring Boot 3.0 is supported in `2.x` feature version only.
 
 ## Building CAP Java Applications
 

@@ -31,10 +31,10 @@ SAP HANA is supported as the CAP standard database and recommended for productiv
 
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and supports most of the CAP features. Known limitations are:
 
-1. CAP can create an _initial_ database schema only. There is no automatic schema evolution.
-2. No locale specific sorting. The sort order of queries behaves as configured on the database.
-3. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
-4. The CDS type `UInt8` can't be used with PostgreSQL, as there is no `TINYINT`. Use `Int16` instead.
+1. No locale specific sorting. The sort order of queries behaves as configured on the database.
+2. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
+3. The CDS type `UInt8` can't be used with PostgreSQL, as there is no `TINYINT`. Use `Int16` instead.
+4. [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) are not yet supported on PostgreSQL.
 
 ### H2 Database
 
@@ -104,9 +104,9 @@ SAP HANA can be configured when running locally as well as when running producti
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
-### PostgreSQL
+### PostgreSQL { #configure-postgresql }
 
-CAP Java provides limited support for [PostgreSQL](https://www.postgresql.org/). The major limitation is that CAP can only create an _initial_ database schema but there is no automatic schema evolution.
+PostgreSQL can be configured when running locally as well as when running productively in the cloud. However, for a cloud deployment no auto-configuration is available. 
 
 #### Initial Database Schema
 
@@ -131,7 +131,7 @@ The generated `schema.sql` can be automatically deployed by Spring if you config
 Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase.
 :::
 
-#### Configure the PostgreSQL Database
+#### Configure the Connection Data { #postgres-connection }
 
 Configure the connection data of your PostgreSQL database in the _application.yaml_:
 

@@ -16,7 +16,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 </div>
 
 <div markdown="1" class="impl java">
-[Learn more about features and limitations of SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about features and limitations of using CAP with SQlite](../java/persistence-services#sqlite){.learn-more}
 
 </div>
 
@@ -34,7 +34,7 @@ Run this to use SQLite for development:
 npm add @cap-js/sqlite -D
 ```
 
-### Auto-wired Configuration
+### Auto-wired Configuration {.impl .node}
 
 The `@cap-js/sqlite` uses `cds-plugin` technique to auto-configure your application to use an in-memory SQLite database for development.
 

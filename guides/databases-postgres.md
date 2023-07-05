@@ -1,29 +1,64 @@
 ---
 status: released
+impl-variants: true
 ---
 
 # Using PostgreSQL
 
-
-
+<div markdown="1" class="impl node">
 
 This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features). 
 
 *Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter.*{.learn-more}
 
-[[toc]]
+</div>
 
+<div markdown="1" class="impl java">
+
+CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
+
+[Learn more about features and limitations of using CAP with PostgreSQL](../java/persistence-services#popstgres){.learn-more}
+
+</div>
+
+[[toc]]
 
 
 ## Setup & Configuration
 
+<div markdown="1" class="impl node">
+
 Run this to use [PostgreSQL](https://www.postgresql.org/) for production:
+
+</div>
+
+<div markdown="1" class="impl java">
+
+To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL JDBC driver:
+
+```xml
+<dependency>
+	<groupId>org.postgresql</groupId>
+   <artifactId>postgresql</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+In order to use the CDS tooling with PostgreSQL you also need to install the module `@cap-js/postgres`:
+
+</div>
 
 ```sh
 npm add @cap-js/postgres
 ```
 
-### Auto-Wired Configuration
+<div markdown="1" class="impl java">
+
+This allows to use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to create a [create DDL script](#deployment-using-liquibase) for PostgreSQL.
+
+</div>
+
+### Auto-Wired Configuration {.impl .node}
 
 The `@cap-js/postgres` package uses `cds-plugin` technique to auto-configure your application and use a PostgreSQL database for production.
 
@@ -45,7 +80,11 @@ Output:
 
 [See also the general information on installing database packages](databases#setup-configuration){.learn-more}
 
+## Provisoning a Database Instance
 
+Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect the a PostgreSQL offering from the cloud provider.
+
+For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 
@@ -73,17 +112,74 @@ You can use Docker to run a PostgreSQL database locally as follows:
    docker-compose -f pg.yml up -d
    ```
 
+## Service Bindings
 
-
-
-
-### Service Bindings
+You need a service binding to connect to the PostgreSQL database.
 
 In the cloud, use given techniques to bind a cloud-based instance of PostgreSQL to your application.
 
+<div markdown="1" class="impl node">
+
 For local development provide the credentials using a suitable [`cds env`](../node.js/cds-env) technique, like one of the following.
 
+</div>
 
+### Configure Connection Data {.impl .java}
+
+Next, you need to [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_. Here this is done in a decicated `postgres` profile:
+
+```yaml
+---
+spring:
+  profiles: postgres
+  datasource:
+    url: <url>
+    username: <user>
+    password: <password>
+    driver-class-name: org.postgres.Driver
+```
+
+If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
+
+```yaml
+spring.datasource:
+  url: jdbc:postgresql://localhost:5432/postgres
+  username: postgres
+  password: postgres
+  driver-class-name: org.postgresql.Driver
+```
+
+Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#configure-postgresql){ .learn-more}
+
+### Service Bindings for CDS tooling {.impl .java}
+
+<div markdown="1" class="impl java">
+
+If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `~/.cdsrc.json`. If you run postgres in a [docker container](#using-docker) use:
+
+::: code-group
+
+```json [~/.cdsrc.json]
+{
+  "requires": {
+    "db": {
+      "kind": "postgres",
+      "credentials": {
+        "host": "localhost", "port": 5432,
+        "user": "postgres",
+        "password": "postgres",
+        "database": "postgres"
+      }
+    }
+  }
+}
+```
+
+:::
+
+</div>
+
+### Configure Service Bindings {.impl .node}
 
 #### Using Defaults with `[pg]` Profile
 
@@ -103,7 +199,7 @@ Learn more about that in the [Deployment](#deployment) chapter below.{.learn-mor
 
 
 
-#### In Your private `~/.cdsrc.json`
+#### In Your private `~/.cdsrc.json` 
 
 Add it to your private `~/.cdsrc.json` if you want to use these credentials on your local machine only:
 
@@ -129,7 +225,8 @@ Add it to your private `~/.cdsrc.json` if you want to use these credentials on y
 
 :::
 
-#### In Project `.env` Files
+
+#### In Project `.env` Files 
 
 Alternatively, use a `.env` file in your project's root folder if you want to share the same credentials with your team:
 
@@ -162,6 +259,7 @@ The profile name can be freely chosen, of course.
 
 ## Deployment
 
+
 ### Using `cds deploy`
 
 Deploy your database as usual with that:
@@ -170,15 +268,19 @@ Deploy your database as usual with that:
 cds deploy
 ```
 
+<div markdown="1" class="impl node">
+
 Or with that if you used profile `[pg]` as introduced in the setup chapter above:
 
 ```sh
 cds deploy --profile pg
 ```
 
+</div>
 
 
-### With Deployer App
+
+### With a Deployer App
 
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app, which you can construct as follows:
 
@@ -214,16 +316,13 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
-
-
-
-## Schema Evolution
+## Automatic Schema Evolution
 
 When redeploying after you changed your CDS models, like adding fields, automatic schema evolution is applied. Whenever you  run `cds deploy` (or `cds-deploy`) it executes these steps:
 
 1. Read a CSN of a former deployment from table `cds_model`.
 2. Calculate the **delta** to current model.
-3. Generate and run SQL DDL statements with:
+3. Generate and run DDL statements with:
    - `CREATE TABLE` statements for new entities
    - `CREATE VIEW` statements for new views
    - `ALTER TABLE` statements for entities with new or changed elements
@@ -231,9 +330,7 @@ When redeploying after you changed your CDS models, like adding fields, automati
 4. Fill in initial data from provided _.csv_ files using `UPSERT` commands.
 5. Store a CSN representation of the current model in `cds_model`.
 
-> You can switch of automatic schema evolution, if necessary,  by setting `cds.requires.db.schema_evolution = false`.
-
-
+> You disableautomatic schema evolution, if necessary,  by setting `cds.requires.db.schema_evolution = false`.
 
 ### Limitations
 
@@ -289,7 +386,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    entity Foo { key ID: UUID }       //> add a new entity
    ```
 
-3. Generate delta SQL DDL script:
+3. Generate delta DDL script:
 
    ```sh
    cds deploy --dry --delta-from cds-model.csn > delta.sql
@@ -338,11 +435,102 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
    > **Note:** In case of SQLite, ALTER TYPE commands are neither necessary nor supported, as SQLite is essentially typeless.
 
+## Deployment Using Liquibase  { .impl .java }
 
+In a _single tenant_ application, without extensibility, you can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. As Liquibase allows to define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), you can easily leverage `cds deploy` to generate DDL scripts to be used by Liquibase.
 
+Add a Maven dependency to Liquibase:
 
+```xml
+<dependency>
+  <groupId>org.liquibase</groupId> 
+  <artifactId>liquibase-core</artifactId>
+</dependency>
+```
 
-## Migration
+### Initial Schema Version
+
+Once you are ready to release an initial version of your database schema you can create a DDL file, which defines the database schema. Firstly create subfolder `changelog` in `srv/src/main/resources`. Here we place the Liquibase [change log](https://docs.liquibase.com/concepts/changelogs/home.html) and the DDL scripts for the schema versions. The change log is described by the _changelog/changelog.yml_ file:
+
+```yml
+databaseChangeLog:
+   - changeSet:
+       id: 1
+       author: me
+       changes:
+       - sqlFile:
+           dbms: postgresq
+           path: changelog/v1/schema.sql
+```
+
+Use `cds deploy` to create the _v1/schema.sql_ file:
+
+```sh
+cds deploy --dry > srv/src/main/resources/changelog/v1/schema.sql
+```
+
+In the _application.yml_ file, configure schema evolution with Liquibase:
+
+```yml
+spring:
+    liquibase:
+        change-log: classpath:/changelog/changelog.yml
+```
+
+Finally, store the CSN file, which corresponds to this schema version:
+
+```sh
+cds deploy --model-only --dry > srv/src/main/resources/changelog/v1/csn.json
+```
+
+The CSN file is needed as input to compute the delta DDL script for the next change set.
+
+If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
+
+::: warning
+Do not change the _schema.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of teh file is validated.
+:::
+
+### Next Schema Versions
+
+If changes of the CDS model require changes on the database, you can create a new change set that captures the necessary changes.
+
+Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/csn.json_) and the current model. Write the diff into a _v2/delta.sql_ file:
+
+```sh
+cds deploy --dry --delta-from srv/src/main/resources/changelog/v1/csn.json >
+                              srv/src/main/resources/changelog/v2/delta.sql
+```
+
+Next, add a corresponding change set in the _changelog/changelog.yml_ file:
+
+```yml
+databaseChangeLog:
+   - changeSet:
+       id: 1
+       author: me
+       changes:
+       - sqlFile:
+           dbms: postgresq
+           path: changelog/v1/schema.sql
+   - changeSet:
+       id: 2
+       author: me
+       changes:
+       - sqlFile:
+           dbms: postgresq
+           path: changelog/v2/delta.sql
+```
+
+Don't forget to store the CSN file, which corresponds to this schema version:
+
+```sh
+cds deploy --model-only --dry > srv/src/main/resources/changelog/v2/csn.json
+```
+
+If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.
+
+## Migration { .impl .node }
 
 Thanks to CAP's database-agnostic cds.ql API, we're confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
 

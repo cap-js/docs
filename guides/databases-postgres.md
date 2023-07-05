@@ -126,7 +126,7 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 ### Configure Connection Data {.impl .java}
 
-Next, you need to [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_. Here this is done in a decicated `postgres` profile:
+Next, you need to [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file. Here, this is done in a decicated `postgres` profile:
 
 ```yaml
 ---
@@ -199,7 +199,7 @@ Learn more about that in the [Deployment](#deployment) chapter below.{.learn-mor
 
 
 
-#### In Your private `~/.cdsrc.json` 
+#### In Your private `~/.cdsrc.json`
 
 Add it to your private `~/.cdsrc.json` if you want to use these credentials on your local machine only:
 
@@ -224,7 +224,6 @@ Add it to your private `~/.cdsrc.json` if you want to use these credentials on y
 ```
 
 :::
-
 
 #### In Project `.env` Files 
 
@@ -259,7 +258,6 @@ The profile name can be freely chosen, of course.
 
 ## Deployment
 
-
 ### Using `cds deploy`
 
 Deploy your database as usual with that:
@@ -277,7 +275,6 @@ cds deploy --profile pg
 ```
 
 </div>
-
 
 
 ### With a Deployer App
@@ -330,7 +327,7 @@ When redeploying after you changed your CDS models, like adding fields, automati
 4. Fill in initial data from provided _.csv_ files using `UPSERT` commands.
 5. Store a CSN representation of the current model in `cds_model`.
 
-> You disableautomatic schema evolution, if necessary,  by setting `cds.requires.db.schema_evolution = false`.
+> You disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
 
 ### Limitations
 
@@ -437,7 +434,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 ## Deployment Using Liquibase  { .impl .java }
 
-In a _single tenant_ application, without extensibility, you can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. As Liquibase allows to define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), you can easily leverage `cds deploy` to generate DDL scripts to be used by Liquibase.
+You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. As Liquibase allows to define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), you can easily leverage `cds deploy` to generate DDL scripts to be used by Liquibase.
 
 Add a Maven dependency to Liquibase:
 
@@ -450,7 +447,7 @@ Add a Maven dependency to Liquibase:
 
 ### Initial Schema Version
 
-Once you are ready to release an initial version of your database schema you can create a DDL file, which defines the database schema. Firstly create subfolder `changelog` in `srv/src/main/resources`. Here we place the Liquibase [change log](https://docs.liquibase.com/concepts/changelogs/home.html) and the DDL scripts for the schema versions. The change log is described by the _changelog/changelog.yml_ file:
+Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create subfolder `changelog` under `srv/src/main/resources`. Here you place the Liquibase [change log](https://docs.liquibase.com/concepts/changelogs/home.html) and the DDL scripts for the schema versions. The change log is described by the _changelog/changelog.yml_ file:
 
 ```yml
 databaseChangeLog:
@@ -469,7 +466,7 @@ Use `cds deploy` to create the _v1/schema.sql_ file:
 cds deploy --dry > srv/src/main/resources/changelog/v1/schema.sql
 ```
 
-In the _application.yml_ file, configure schema evolution with Liquibase:
+In the _application.yml_ file, configure Spring to use Liquibase for schema evolution:
 
 ```yml
 spring:
@@ -563,4 +560,8 @@ When you have a SaaS application, upgrade all your tenants using the [deployer a
 
 ## MTX Support
 
-... to come soon.
+::: warning
+
+[Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) are not yet supported on PostgreSQL.
+
+::: 

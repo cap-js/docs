@@ -9,7 +9,7 @@ status: released
 
 # Serving Media Data
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 

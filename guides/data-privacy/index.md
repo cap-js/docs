@@ -11,7 +11,7 @@ status: released
 # Managing Data Privacy
 
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 The following guides give detailed information to each of these options...
@@ -22,4 +22,3 @@ import { data as pages } from './index.data.js'
 
 <br>
 <IndexList :pages='pages' />
-

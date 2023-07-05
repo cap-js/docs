@@ -9,7 +9,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Common Annotations
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [Learn more about the syntax of annotations.](./cdl#annotations){.learn-more}
 

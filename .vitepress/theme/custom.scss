@@ -26,7 +26,7 @@
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img { filter: brightness(.884) invert(1) hue-rotate(177deg) }
+    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
     img.mute-dark { filter:brightness(0.6) }
   }

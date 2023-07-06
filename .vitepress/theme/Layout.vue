@@ -24,6 +24,9 @@ const { Layout } = DefaultTheme
       </div>
       <slot name="nav-bar-implvariants-after" />
     </template>
+    <template #nav-bar-content-after>
+      <slot name="nav-bar-content-after" />
+    </template>
     <template #nav-screen-content-after>
       <NavScreenMenuItem/>
       <slot name="nav-screen-content-after" />

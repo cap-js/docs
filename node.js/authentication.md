@@ -478,7 +478,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
     >In that case you need to add the environment variable `cds_requires_auth_kind=xsuaa` to the run configuration.
 
 3. Check authentication configuration:
-```
+```sh
 cds env list requires.uaa --resolve-bindings --profile hybrid
 ```
 This prints the full `uaa` configuration including the credentials.

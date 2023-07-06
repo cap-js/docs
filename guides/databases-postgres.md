@@ -38,9 +38,9 @@ To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL JDBC dri
 
 ```xml
 <dependency>
-	<groupId>org.postgresql</groupId>
-   <artifactId>postgresql</artifactId>
-  <scope>runtime</scope>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -131,7 +131,7 @@ Next, you need to [configure the connection data](../java/persistence-services#p
 ```yaml
 ---
 spring:
-  profiles: postgres
+  config.activate.on-profile: postgres
   datasource:
     url: <url>
     username: <user>
@@ -485,7 +485,7 @@ The CSN file is needed as input to compute the delta DDL script for the next cha
 If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
 
 ::: warning
-Do not change the _schema.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of teh file is validated.
+Do not change the _schema.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated.
 :::
 
 ### Next Schema Versions

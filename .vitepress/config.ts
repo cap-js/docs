@@ -19,7 +19,7 @@ const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
   java_services: '2.0.1',
-  java_cds4j: '2.0.0'
+  java_cds4j: '2.0.2'
 }
 
 const config:UserConfig<CapireThemeConfig> = {

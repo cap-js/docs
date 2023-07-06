@@ -7,7 +7,7 @@ status: released
 
 # Project-Specific Configurations
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## CLI `cds env` Command {#cli}

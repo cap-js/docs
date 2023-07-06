@@ -11,6 +11,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: '! github.event.pull_request.head.repo.fork'
     steps:
       - name: Checkout parent repo
         run: |

@@ -8,7 +8,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 # Platform Security
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Platform Compliance { #platform-compliance }
 

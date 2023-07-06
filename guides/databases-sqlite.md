@@ -8,7 +8,6 @@ impl-variants: true
 CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
 
 <div markdown="1" class="impl node">
-
 ::: tip New SQLite Service
 This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
 :::

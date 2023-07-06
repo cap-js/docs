@@ -165,7 +165,7 @@ public class AppSecurityConfig {
   public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
     return http
       .securityMatcher(AntPathRequestMatcher.antMatcher("/public/**"))
-      .csrf(c -> c.disable())
+      .csrf(c -> c.disable()) // don't insist on csrf tokens in put, post etc.
       .authorizeHttpRequests(r -> r.anyRequest().permitAll())
       .build();
   }

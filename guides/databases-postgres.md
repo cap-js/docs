@@ -155,7 +155,7 @@ Learn more about the [configuration of a PostgreSQL database](../java/persistenc
 
 <div markdown="1" class="impl java">
 
-If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `~/.cdsrc.json`. If you run postgres in a [docker container](#using-docker) use:
+If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `~/.cdsrc-private.json`. If you run postgres in a [docker container](#using-docker) use:
 
 ::: code-group
 

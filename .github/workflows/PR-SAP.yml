@@ -1,19 +1,19 @@
-name: PR Parent
+name: PR Build (SAP)
 
 on:
   pull_request:
     branches: [main]
 
 concurrency:
-  group: pr-parent-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: pr-sap-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-sap:
     runs-on: ubuntu-latest
     if: '! github.event.pull_request.head.repo.fork'
     steps:
-      - name: Checkout parent repo
+      - name: Checkout SAP repo
         run: |
           git config --global credential.helper "cache --timeout=3600"
           echo -e "url=https://user:${GH_TOKEN}@github.com\n" | git credential approve

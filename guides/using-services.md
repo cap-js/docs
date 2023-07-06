@@ -290,7 +290,7 @@ The service is automatically mocked, as you can see in the log output on server 
 /> successfully deployed to sqlite in-memory db
 
 [cds] - serving RiskService { at: '/service/risk', impl: './srv/risk-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus]
 
 [cds] - launched in: 1.104s
 [cds] - server listening on { url: 'http://localhost:4004' }
@@ -323,7 +323,7 @@ entity API_BUSINESS_PARTNER.A_BusinessPartner {
   ...
 
   to_BusinessPartnerAddress :
-    Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress {  };
+    Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress {  };  // [!code focus]
 };
 
 entity API_BUSINESS_PARTNER.A_BusinessPartnerAddress {
@@ -1259,7 +1259,7 @@ cds:
 
 Run your application with the Destination service:
 
-```
+```sh
 cds bind --exec -- mvn spring-boot:run \
   -Dspring-boot.run.profiles=default,hybrid
 ```

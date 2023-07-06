@@ -136,7 +136,7 @@ spring:
     url: <url>
     username: <user>
     password: <password>
-    driver-class-name: org.postgres.Driver
+    driver-class-name: org.postgresql.Driver
 ```
 
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:

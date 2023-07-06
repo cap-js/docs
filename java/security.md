@@ -164,9 +164,9 @@ public class AppSecurityConfig {
   @Bean
   public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/public/**").and()
-      .csrf().disable() // don't insist on csrf tokens in put, post etc.
-      .authorizeRequests().anyRequest().permitAll().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/public/**"))
+      .csrf(c -> c.disable())
+      .authorizeHttpRequests(r -> r.anyRequest().permitAll())
       .build();
   }
 
@@ -181,12 +181,6 @@ The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/arch
 Be cautious with the configuration of the `HttpSecurity` instance in your custom configuration. Make sure that only the intended endpoints are affected.
 :::
 
-Example:
-```java
-http.authorizeRequests().antMatchers("/public/**").permitAll()
-```
-Opens *all* endpoints of the application, which is hardly intended.
-
 Another typical example is the configuration of [Spring Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.enabling). For example a custom configuration can apply basic authentication to actuator endpoints `/actuator/**`:
 
 ```java
@@ -198,10 +192,10 @@ public class ActuatorSecurityConfig {
   @Bean
   public SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/actuator/**").and()
-      .httpBasic().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/actuator/**"))
+      .httpBasic(Customizer.withDefaults())
       .authenticationProvider(/* configure basic authentication users here with PasswordEncoder etc. */)
-      .authorizeRequests().anyRequest().authenticated().and()
+      .authorizeHttpRequests(r -> r.anyRequest().authenticated())
       .build();
   }
 

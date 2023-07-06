@@ -48,6 +48,7 @@ const config:UserConfig<CapireThemeConfig> = {
     editLink: {
       pattern: 'https://github.com/cap-js/docs/edit/main/:path'
     },
+    externalLinkIcon: true,
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],

@@ -171,6 +171,7 @@ If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#us
     }
   }
 }
+```
 
 </div>
 

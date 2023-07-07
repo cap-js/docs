@@ -34,7 +34,7 @@ Run this to use [PostgreSQL](https://www.postgresql.org/) for production:
 
 <div markdown="1" class="impl java">
 
-To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL JDBC driver:
+To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL JDBC driver in `srv/pom.xml`:
 
 ```xml
 <dependency>
@@ -157,9 +157,7 @@ Learn more about the [configuration of a PostgreSQL database](../java/persistenc
 
 If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`. If you run postgres in a [docker container](#using-docker) use:
 
-::: code-group
-
-```json [~/.cdsrc.json]
+```json
 {
   "requires": {
     "db": {
@@ -173,9 +171,6 @@ If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#us
     }
   }
 }
-```
-
-:::
 
 </div>
 

@@ -184,7 +184,7 @@ Additional application features you want to use are added as additional dependen
 Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. If a chosen feature misses the required environment at runtime, the feature won't be activated. Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
 For instance, the authentication feature `cds-feature-hana` requires a valid `hana`-binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.
 
-### CAP Java Standard Modules
+### CAP Java Standard Modules {#available-modules}
 
 CAP Java comes with a rich set of prepared modules in all different layers of the stack:
 

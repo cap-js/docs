@@ -21,9 +21,9 @@ CAP Node.js servers a bootstrapped through a [built-in `server.js` module](#buil
 ## CLI Command `cds serve`
 
 A Node.js CAP server process is usually started with the `cds serve` CLI command,
-with `cds run` and `cds watch` as convenience variants. 
+with `cds run` and `cds watch` as convenience variants.
 
-**For deployment**, when the `@sap/cds-dk` package providing the `cds` CLI executable is not available, use the `cds-serve` binary provided by the `@sap/cds` package: 
+**For deployment**, when the `@sap/cds-dk` package providing the `cds` CLI executable is not available, use the `cds-serve` binary provided by the `@sap/cds` package:
 
 ```json
 {
@@ -64,7 +64,7 @@ cds.server = module.exports = async function (options) {
   await cds.serve ('all') .from(csn) .in (app)
   await cds.emit ('served', cds.services)
 
-  // launch http server
+  // launch HTTP server
   cds .emit ('launching', app)
   const port = o.port ?? process.env.PORT || 4004
   const server = app.server = app.listen(port) .once ('listening', ()=>

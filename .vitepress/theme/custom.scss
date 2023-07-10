@@ -26,7 +26,7 @@
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img { filter: brightness(.884) invert(1) hue-rotate(177deg) }
+    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
     img.mute-dark { filter:brightness(0.6) }
   }
@@ -203,13 +203,6 @@ main {
   h3.class + h3.class,
   h3.method + h3.method {
     margin-top: 0
-  }
-
-  a[target="_blank"]:not(.no-ext-link) {
-    &::after {
-      font-size: 0.7em;
-      content: "\00A0\2197";
-    }
   }
 }
 

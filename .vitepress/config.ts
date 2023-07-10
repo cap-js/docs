@@ -18,8 +18,8 @@ const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.0.1',
-  java_cds4j: '2.0.0'
+  java_services: '2.0.2',
+  java_cds4j: '2.0.2'
 }
 
 const config:UserConfig<CapireThemeConfig> = {
@@ -48,6 +48,7 @@ const config:UserConfig<CapireThemeConfig> = {
     editLink: {
       pattern: 'https://github.com/cap-js/docs/edit/main/:path'
     },
+    externalLinkIcon: true,
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/'}
     ],

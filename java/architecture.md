@@ -59,7 +59,7 @@ As all other components in the different layers of the CAP Java SDK are decouple
 
 ### Protocol Adapters { #protocol-adapters}
 
-The CAP runtime is based on an [event](../about/#events) driven approach. Generally, [Service](../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../guides/providing-services#event-handlers). During execution, services can send events to other service providers and consume the results. The native query language in CAP is [CQN](../cds/cqn), which is accepted by all services that deal with data query and manipulation. Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../about/#querying)) afterwards. Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java SDK. Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. Such application-specific protocols can easily be implemented by means of Spring RestControllers.
+The CAP runtime is based on an [event](../about/#events) driven approach. Generally, [Service](../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../guides/providing-services#event-handlers). During execution, services can send events to other service providers and consume the results. The native query language in CAP is [CQN](../cds/cqn), which is accepted by all services that deal with data query and manipulation. Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting [Application Service](../about/#querying) afterwards. Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java SDK. Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. Such application-specific protocols can easily be implemented by means of Spring RestControllers.
 
 The modular architecture allows to add custom protocol adapters in a convenient manner, which can be plugged into the stack at runtime. Note that different endpoints can be served by different protocol adapters at the same time.
 
@@ -117,7 +117,7 @@ Beside the Java libraries (Jars) reflecting the modularized functionality, the g
 ```
 
 ::: tip
-Importing `cds-services-bom` into the DependencyManagement of your project ensures that all cds-module versions are in sync.
+Importing `cds-services-bom` into the dependency management of your project ensures that all cds-module versions are in sync.
 :::
 
 The actual Maven dependencies specified in your `pom` need to cover all libraries that are necessary to run the web application: An application framework, a protocol adapter, and the CAP Java SDK.
@@ -154,20 +154,20 @@ The dependencies of a Spring Boot application with OData V4 endpoints could look
 ```
 ::: tip
 Only API modules without dependency scope should be added (they gain `compile` scope by default) such as `cds-services-api` or `cds4j-api`.
-All other dependencies should have a dedicated scope e.g. `runtime` or `test` to prevent misuse.
+All other dependencies should have a dedicated scope, like `runtime` or `test`, to prevent misuse.
 :::
 
-You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`), 
-instead you can define your own application context if required. 
+You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`),
+instead you can define your own application context if required.
 Similarly, you're free to configure multiple adapters including custom implementations that map any specific web service protocol.
 
 ::: tip
-It's highly recommended to configure `cds-framework-spring-boot` as application framework 
-as it provides you with a lot of out of the box [integration with CAP](./development/#spring-boot-integration) 
+It's highly recommended to configure `cds-framework-spring-boot` as application framework
+as it provides you with a lot of out-of-the-box [integration with CAP](./development/#spring-boot-integration)
 and enhanced features such as dependency injection and auto configuration.
 :::
 
-Additional application features you want to use are added as additional dependencies. For instance
+Additional application features you want to use are added as additional dependencies. For instance `cds-feature-mt` is required to make your application multitenancy-aware.
 
 ```xml
 <dependencies>
@@ -180,7 +180,6 @@ Additional application features you want to use are added as additional dependen
 </dependencies>
 ```
 
-is required to make your application multitenancy-aware.
 
 Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. If a chosen feature misses the required environment at runtime, the feature won't be activated. Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
 For instance, the authentication feature `cds-feature-hana` requires a valid `hana`-binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.

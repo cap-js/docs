@@ -135,6 +135,7 @@
 - [cds. ql ...](node.js/cds-ql)
 - [cds. tx()](node.js/cds-tx)
 - [cds. log()](node.js/cds-log)
+- [cds .import()](node.js/cds-dk#import)
 - [cds. env](node.js/cds-env)
 - [cds. auth](node.js/authentication)
 - [cds. i18n](node.js/cds-i18n)

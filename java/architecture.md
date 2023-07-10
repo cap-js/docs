@@ -39,7 +39,7 @@ The following diagram illustrates the modular stack architecture and highlights 
 <img src="./assets/modularized-architecture.png" width="600px">
 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
-* The [application framework](#application-framework) defines the runtime basis of your application typically inclusing a web server.
+* The [application framework](#application-framework) defines the runtime basis of your application typically including a web server.
 * [Protocol adapters](#protocol-adapters) map protocol-specific web events into [CQN](../cds/cqn) events for further processing.
 * The resulting CQN-events are passed to [service providers](#service-providers), which drive the processing of the event.
 * The [CQN execution engine](#cqn-execution-engine) is capable of translating [CQN](../cds/cqn) statements into native statements of a data sink such as a persistence service.

@@ -1070,7 +1070,7 @@ These methods are _HTTP method-style_ counterparts to the [_CRUD-style_ convenie
 As with these, the returned queries can be executed with `await`.
 For invoking actions or functions, do not use `.post()` or `.get()` but see [Actions API](#srv-action).
 
-REST and OData services support these basic http methods, which are mapped to their CRUD counterpart as documented in the following. They can be used to construct data queries as with the CRUD variants as well as be used to send plain HTTP requests.
+REST and OData services support these basic HTTP methods, which are mapped to their CRUD counterpart as documented in the following. They can be used to construct data queries as with the CRUD variants as well as be used to send plain HTTP requests.
 
 _**Common Usages:**_
 

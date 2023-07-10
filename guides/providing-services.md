@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 
@@ -756,16 +756,16 @@ Add `@assert.target` annotation to the service definition as previously mentione
 
 ```cds
 entity Books {
-    key ID : UUID;
-    title  : String;
-    author : Association to Authors @assert.target;
-  }
+  key ID : UUID;
+  title  : String;
+  author : Association to Authors @assert.target;
+}
 
-  entity Authors {
-    key ID : UUID;
-    name   : String;
-    books  : Association to many Books on books.author = $self;
-  }
+entity Authors {
+  key ID : UUID;
+  name   : String;
+  books  : Association to many Books on books.author = $self;
+}
 ```
 
 **HTTP Request** — *assume that an author with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*

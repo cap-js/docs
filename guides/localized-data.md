@@ -10,7 +10,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Localized Data
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 Localized data refers to the maintenance of different translations of textual data and automatically fetching the translations matching the users' preferred language, with per-row fallback to default languages, if the required translations aren’t available. Language codes are in ISO 639-1 format.
 

@@ -195,7 +195,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }
@@ -263,7 +263,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }

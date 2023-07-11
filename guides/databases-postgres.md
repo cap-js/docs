@@ -148,7 +148,7 @@ spring.datasource:
   password: postgres
   driver-class-name: org.postgresql.Driver
 ```
-
+To start the application with the new profile `postgres`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#configure-postgresql){ .learn-more}
 
 ### Service Bindings for CDS tooling {.impl .java}
@@ -432,7 +432,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. As Liquibase allows to define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), you can easily leverage `cds deploy` to generate DDL scripts to be used by Liquibase.
 
-Add a Maven dependency to Liquibase:
+Add a Maven dependency to Liquibase in `srv/pom.xml`:
 
 ```xml
 <dependency>

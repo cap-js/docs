@@ -50,7 +50,7 @@ const config:UserConfig<CapireThemeConfig> = {
     },
     externalLinkIcon: true,
     socialLinks: [
-      {icon: 'github', link: 'https://github.com/cap-js/'}
+      {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
     outline: [1,3],
     capire: { versions: latestVersions, gotoLinks: [] }
@@ -99,6 +99,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   vite: {
     plugins: [
+      //@ts-ignore
       redirects.devPlugin()
     ],
     build: {

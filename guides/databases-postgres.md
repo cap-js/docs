@@ -34,12 +34,12 @@ Run this to use [PostgreSQL](https://www.postgresql.org/) for production:
 
 <div markdown="1" class="impl java">
 
-To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL JDBC driver in `srv/pom.xml`:
+To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL feature in `srv/pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-feature-postgresql</artifactId>
     <scope>runtime</scope>
 </dependency>
 ```
@@ -126,29 +126,22 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 ### Configure Connection Data {.impl .java}
 
-Next, you need to [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file. Here, this is done in a decicated `postgres` profile:
+If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-configured.
 
-```yaml
----
-spring:
-  config.activate.on-profile: postgres
-  datasource:
-    url: <url>
-    username: <user>
-    password: <password>
-    driver-class-name: org.postgresql.Driver
-```
-
+Alternatively you can [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file explicitly. 
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
 ```yaml
-spring.datasource:
-  url: jdbc:postgresql://localhost:5432/postgres
-  username: postgres
-  password: postgres
-  driver-class-name: org.postgresql.Driver
+spring:
+  config.activate.on-profile: postgres-docker
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
 ```
-To start the application with the new profile `postgres`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres`.
+
+To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#configure-postgresql){ .learn-more}
 
 ### Service Bindings for CDS tooling {.impl .java}

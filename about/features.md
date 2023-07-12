@@ -87,9 +87,9 @@ Following is an index of the features currently covered by CAP, with status and 
 | [&mdash; w/ Actions & Functions](../cds/cdl#actions)                                                              | <X/> |
 | [&mdash; w/ Events](../cds/cdl#events)                                                                            | <X/> |
 | [Managed Compositions of Aspects](../cds/cdl#managed-compositions)                                                | <X/> |
-| Structured Elements                                                                                               | <O/> |
-| Nested Projections                                                                                                | <O/> |
-| Calculated Fields                                                                                                 | <O/> |
+| [Structured Elements](../cds/cdl#structured-types)                                                                | <X/> |
+| Nested Projections                                                                                                | <D/> |
+| [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
 | Pluggable CDS linter                                                                                              | <D/> |
 | [CDS linter](../tools/#cds-lint)                                                                                  | <X/> |

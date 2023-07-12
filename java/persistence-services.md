@@ -106,7 +106,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 ### PostgreSQL { #configure-postgresql }
 
-PostgreSQL can be configured when running locally as well as when running productively in the cloud. However, for a cloud deployment no auto-configuration is available. 
+PostgreSQL can be configured when running locally as well as when running productively in the cloud. Similar to HANA, the datasource is auto-configured based on available service bindings, if the dependency `cds-feature-postgresql` is available on the classpath.
 
 #### Initial Database Schema
 
@@ -131,9 +131,9 @@ The generated `schema.sql` can be automatically deployed by Spring if you config
 Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase.
 :::
 
-#### Configure the Connection Data { #postgres-connection }
+#### Configure the Connection Data Explicitly { #postgres-connection }
 
-Configure the connection data of your PostgreSQL database in the _application.yaml_:
+If you don't have a compatible PostgreSQL service binding in your application environment you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
 
 ```yaml
 ---
@@ -143,7 +143,7 @@ spring:
     url: <url>
     username: <user>
     password: <password>
-    driver-class-name: org.postgres.Driver
+    driver-class-name: org.postgresql.Driver
 ```
 
 ### H2

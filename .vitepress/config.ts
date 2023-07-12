@@ -99,6 +99,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   vite: {
     plugins: [
+      //@ts-ignore
       redirects.devPlugin()
     ],
     build: {

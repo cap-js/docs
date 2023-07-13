@@ -57,6 +57,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
+    ['link', { rel: 'shortcut icon', href: '/assets/logos/favicon.ico' }],
   ],
   lastUpdated: true,
   cleanUrls: true,

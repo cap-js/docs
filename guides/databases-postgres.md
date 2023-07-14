@@ -436,9 +436,11 @@ Add a Maven dependency to Liquibase in `srv/pom.xml`:
 </dependency>
 ```
 
-### Initial Schema Version
+Once `liquibase-core` is on the classpath, [Spring runs database migrations](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.liquibase) for application startup and before your tests run.
 
-Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create subfolders `db/changelog` under `srv/src/main/resources`. Here you place the Liquibase [db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) and the DDL scripts for the schema versions. The change log is described by the _db/changelog/db.changelog-master.yml_ file:
+### ① Initial Schema Version
+
+Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create a `db/changelog` subfolder under `srv/src/main/resources`. Here, you place the Liquibase _change log_ file file as well as the DDL scripts for the schema versions. The change log is defined by the [db/changelog/db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) file:
 
 ```yml
 databaseChangeLog:
@@ -479,7 +481,7 @@ If you start your application as usual with `mvn spring-boot:run` Liquibase will
 Do not change the _schema.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated.
 :::
 
-### Next Schema Versions
+### ② Next Schema Versions
 
 If changes of the CDS model require changes on the database, you can create a new change set that captures the necessary changes.
 
@@ -517,6 +519,8 @@ cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/csn.json
 ```
 
 If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.
+
+For further schema versions repeat step ②.
 
 ## Migration { .impl .node }
 

@@ -172,6 +172,7 @@ None of the listed features will be available out of the box in case you choose 
 | [FeatureTogglesInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html)  | Information about feature toggles | `@Autowired`<br>`FeatureTogglesInfo ftsInfo;`
 | [CdsDataStore](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDataStore.html) | Direct access to default data store | `@Autowired`<br>`CdsDataStore ds;` |
 
+<div id="springboot-nativeimages" />
 
 ## Minimum Dependency Versions
 
@@ -372,6 +373,8 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 :::
 
 <div id="afterautobuild" />
+
+<div id="afterlocaldev" />
 
 ## Testing CAP Java Applications
 

@@ -270,19 +270,19 @@ cds deploy --profile pg
 
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app, which you can construct as follows:
 
-1. Create a new folder named `gen/pg`:
+1. Create a new folder named `gen/pg/db`:
    ```sh
-   mkdir -p gen/pg
+   mkdir -p gen/pg/db
    ```
 
 2. Generate a precompiled cds model:
    ```sh
-   cds compile '*' > gen/pg/csn.json
+   cds compile '*' > gen/pg/db/csn.json
    ```
 
 3. Add required `.csv` files, for example:
    ```sh
-   cp -r db/data gen/pg
+   cp -r db/data gen/pg/db/data
    ```
 
 4. Add a *package.json* to `gen/pg` with this content:
@@ -290,7 +290,8 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
    ```json [gen/pg/package.json]
    {
      "dependencies": {
-       "@sap/cds": "*"
+       "@sap/cds": "*",
+       "@cap-js/postgres": "*"
      },
      "scripts": {
        "start": "cds-deploy"

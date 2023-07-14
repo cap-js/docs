@@ -306,4 +306,8 @@ tr:nth-child(odd) {
   [class*='language-'] pre {
     overflow: hidden !important;
   }
+  // expand navbar to cover wide content (see java/development/properties)
+  .content-body {
+    min-width: 1164px;
+  }
 }

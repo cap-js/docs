@@ -1,0 +1,357 @@
+* {
+  font-family: var(--vp-font-family-base);
+  font-size: 1rem;
+}
+
+h1,
+.h1 {
+  font-size: 48px;
+  margin: 1em 0 1em;
+  font-weight: 400;
+  line-height: 1.2em
+}
+
+h2,
+.h2 {
+  font-size: 24px;
+  margin: 4em 0 2em;
+  padding-top: 12px;
+}
+
+h3,
+.h3 {
+  font-size: 20px;
+  margin: 3em 0 1em;
+}
+
+h4,
+.h4 {
+  font-size: 17px;
+  margin: 2em 0 1em;
+}
+
+h1+.subtitle {
+  margin: -40px 0 48px;
+  font-size: 1.7em;
+  font-weight: 400;
+}
+
+p+h1 {
+  margin-top: 3em
+}
+
+p {
+  line-height: 1.5em
+}
+
+ul {
+  padding-left: 2.2em;
+}
+
+div.language-zsh pre code {
+  line-height: 1.4em
+}
+
+pre {
+  padding: 16px 0 !important;
+}
+
+:not(pre)>code {
+  font-style: italic;
+  font-size: 90%;
+}
+
+.custom-block code {
+  font-weight: 600; // default is 700 which looks too fat
+}
+
+// Fix for copy button position
+[class*='language-']>button.copy {
+  top: 7px;
+}
+
+pre.log {
+  font-size: var(--vp-code-font-size);
+  line-height: var(--vp-code-line-height);
+  padding: 20px !important;
+  border-radius: 8px;
+  overflow: hidden;
+
+  span {
+    &.cmd {
+      color: #FFCB6B;
+    }
+
+    &.flags {
+      color: #C3E88D;
+    }
+
+    &.cwd {
+      color: #777;
+    }
+
+    &.livereload {
+      color: #FDEC87
+    }
+  }
+
+  em {
+    color: #00ff00e0;
+  }
+
+  b {
+    color: #ee0000e0;
+  }
+
+  i {
+    color: grey;
+  }
+
+  background: var(--vp-code-block-bg);
+  color: #fafafa;
+}
+}
+
+// Table of Contents
+nav.table-of-contents {
+  line-height: 150%;
+  margin: 44px;
+
+  &::before {
+    content: 'Table of Contents';
+    font-size: 111%;
+    font-weight: 500;
+  }
+
+  ul ul {
+    padding: 7px 22px;
+
+    li {
+      list-style-type: circle;
+      font-size: 95%;
+      line-height: 120%;
+      font-weight: 200 !important;
+    }
+  }
+}
+
+// Custom Blocks
+.custom-block {
+  font-size: 95%;
+  border-width: 0 0 0 7px;
+  border-radius: 14px;
+
+  &.tip {
+    border-color: #096;
+    background-color: #dfe;
+    color: #041;
+
+    .dark & {
+      background-color: #021;
+      color: #ced;
+    }
+  }
+
+  &.warning {
+    border-color: #ea0;
+    background-color: #fff7f0;
+    color: #960;
+
+    .dark & {
+      background-color: #210;
+      color: #ea0;
+    }
+  }
+
+  &.danger {
+    border-color: #900;
+    background-color: #fee;
+    color: #600;
+
+    .dark & {
+      background-color: #300;
+      color: #fcc;
+    }
+  }
+
+  a {
+    font-weight: inherit !important;
+    text-decoration-style: dotted;
+    text-decoration: underline;
+  }
+}
+
+// Details Blocks
+details.custom-block.details {
+  padding: 11px 14px 1px;
+
+  .dark & {
+    background-color: #222;
+  }
+
+  summary {
+    font-weight: 500;
+    font-style: italic;
+
+    a {
+      color: darkcyan
+    }
+  }
+}
+
+img {
+  margin: 30px auto;
+}
+
+.good {
+  color: teal
+}
+
+.bad,
+.important {
+  color: darkred
+}
+
+;
+
+.dark & {
+
+  .bad,
+  .important {
+    color: #e00
+  }
+}
+
+.constructor::before {
+  content: 'Constructor: ';
+  color: grey
+}
+
+.property::before {
+  content: 'Property: ';
+  color: grey
+}
+
+.method::before {
+  content: 'Method: ';
+  color: grey
+}
+
+.event::before {
+  content: 'Event: ';
+  color: grey
+}
+
+.class::before {
+  content: 'Class: ';
+  color: grey
+}
+
+.async-method::before {
+  content: 'Method: async ';
+  color: grey
+}
+
+h3.event,
+h3.method,
+h3.async-method {
+  margin-top: 5em;
+  // font-size: 22px;
+}
+
+h4.property+h4.property,
+h4.event+h4.event,
+h4.method+h4.method,
+h3.property+h3.property,
+h3.event+h3.event,
+h3.class+h3.class,
+h3.method+h3.method {
+  margin-top: 0
+}
+
+a[target="_blank"]:not(.no-ext-link) {
+  &::after {
+    font-size: 0.7em;
+    content: "\00A0\2197";
+  }
+}
+
+
+// "On this page" Outlines
+div.aside nav {
+  ul {
+    font-size: 15px !important;
+
+    ul.nested {
+      font-size: 95% !important;
+      padding: 7px 0 7px 20px;
+
+      li a {
+        line-height: 2em !important;
+      }
+    }
+  }
+}
+
+// Hide empty table headers
+tr:has(> th:empty:first-child:last-child),
+tr:has(> th:empty:first-child:not(:last-child) + th:empty:last-child) {
+  display: none;
+}
+
+kbd {
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px;
+  line-height: 10px;
+  vertical-align: middle;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 var(--vp-c-divider);
+  position: relative;
+  top: -1px;
+}
+
+.learn-more {
+  color: var(--vp-c-gray);
+  font-style: italic;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.learn-more::before {
+  content: url('https://cap.cloud.sap/docs/images/learn-more.svg');
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* remove transparency in the odd rows (when it scrolls over outline) */
+tr:nth-child(odd) {
+  background-color: var(--vp-c-bg);
+}
+
+
+/* expand width on big screens */
+@media screen and (min-width: 1600px) {
+
+  div[class^='language-']:hover,
+  div[class^='language-']:focus,
+  pre.log:hover,
+  pre.log:focus {
+    min-width: fit-content;
+    padding-right: 40px;
+  }
+
+  table:hover,
+  table:focus {
+    min-width: fit-content;
+  }
+
+  [class*='language-'] pre {
+    overflow: hidden !important;
+  }
+}

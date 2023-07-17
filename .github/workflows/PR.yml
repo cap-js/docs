@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -25,3 +26,41 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run docs:build
+
+      - name: Tar build result  # tar'ing is much faster than the built-in artifact zipping
+        run: tar -czf site.tgz -C .vitepress/dist/ .
+      - name: Upload build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: site
+          path: site.tgz
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    container:
+      # docker image containing xvfb
+      image: sitespeedio/sitespeed.io
+
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: site
+    - name: Unpack Artifact
+      run: |
+        tar -xzf site.tgz -C .
+    - name: Checkout Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: zulu
+        java-version: 18
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: 3.8.2
+    - name: Test CAP Notebooks
+      if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
+      uses: mnkiefer/notebook-runner@main
+      with:
+        notebook-dir: notebooks

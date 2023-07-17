@@ -3,6 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
+import Notebook from './components/Notebook.vue'
 import NotFound from './components/NotFound.vue'
 
 const { Layout } = DefaultTheme
@@ -23,6 +24,7 @@ const { Layout } = DefaultTheme
         <ImplVariants/>
       </div>
       <slot name="nav-bar-implvariants-after" />
+      <Notebook />
     </template>
     <template #nav-bar-content-after>
       <slot name="nav-bar-content-after" />

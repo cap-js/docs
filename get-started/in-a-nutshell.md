@@ -289,6 +289,8 @@ As you can see in the log output, the two service definitions have been compiled
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
 :::
 
+<div class="notebook-nonexec">
+
 <!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
 ```xml
 <dependency>
@@ -296,6 +298,8 @@ Both services defined above contain security annotations that restrict access to
   <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
 ```
+
+</div>
 
 <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
 Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:

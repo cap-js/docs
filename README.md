@@ -1,5 +1,7 @@
 # Documentation for SAP Cloud Application Programming Model
 
+[![REUSE status](https://api.reuse.software/badge/github.com/cap-js/docs)](https://api.reuse.software/info/github.com/cap-js/docs)
+
 ## About this project
 
 This repository contains the core parts of the **documentation pages** for the SAP Cloud Application Programming Model. As a short name, we refer to the documentation as _Capire_.

@@ -517,6 +517,8 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
 
+<div class="notebook-nonexec">
+
 ```java
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
@@ -524,6 +526,8 @@ public class CatalogHandler implements EventHandler {
   // your custom code will go here
 }
 ```
+
+</div>
 
 ::: tip
 Place the code in your package of choice and use your IDE to generate the needed `import` statements.

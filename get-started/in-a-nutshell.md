@@ -27,7 +27,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 3. **Option: Download from GitHub** – Instead of going for this hand-on step-by-step experience, you can get the final sample content from GitHub. If you choose to do so clone the repo as follows:
 
-::: code-group
+::: code-group notebook-nonexec
 
 ```sh [Node.js]
 git clone https://github.com/sap-samples/cloud-cap-samples samples

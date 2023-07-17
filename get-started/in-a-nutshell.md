@@ -616,6 +616,8 @@ module.exports = async function (){
 
 <div class="impl java">
 
+<div class="notebook-nonexec">
+
 ```java
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
@@ -639,6 +641,8 @@ public class SubmitOrderHandler implements EventHandler {
 	}
 }
 ```
+</div>
+
 </div>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}

@@ -4,6 +4,9 @@ import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
 import NotFound from './components/NotFound.vue'
+import Ribbon from './components/Ribbon.vue'
+
+const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 
 const { Layout } = DefaultTheme
 </script>
@@ -32,6 +35,11 @@ const { Layout } = DefaultTheme
       <slot name="nav-screen-content-after" />
     </template>
   </Layout>
+
+  <Ribbon v-if="isPreview">
+    DEV PREVIEW.<br>
+    Use <a href="https://cap.cloud.sap" target="_blank" rel="noopener noreferrer">cap.cloud.sap</a>
+  </Ribbon>
 
   <ShortcutsList />
 

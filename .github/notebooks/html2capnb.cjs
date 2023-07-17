@@ -99,12 +99,13 @@ function replaceNode(node, baseUrl, urlPath) {
 function nodeIsIgnored(node, impl) {
   return CSSselect.is(node, "button") ||
          CSSselect.is(node, "[class~=line-numbers-wrapper]") ||
-        CSSselect.is(node, `.impl:not(.impl.${impl})`) ||
-        CSSselect.is(node, ".language-console > .lang, .language-log > .lang")
+         CSSselect.is(node, `.impl:not(.impl.${impl})`) ||
+         CSSselect.is(node, ".language-console > .lang, .language-log > .lang") ||
+         CSSselect.is(node, "[class~=notebook-skip]")
 }
 
 function nodeIsCode(node) {
-  return (node?.attribs?.class === "vp-code-group" && node?.attribs?.class.includes("notebook-nonexec")) ||
+  return node?.attribs?.class === "vp-code-group" ||
   (node?.attribs?.class?.includes("language-") && !["language-console", "language-log"].includes(node?.attribs?.class))
 }
 

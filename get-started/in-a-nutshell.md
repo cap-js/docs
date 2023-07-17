@@ -19,6 +19,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 [[toc]]
 
 
+<div class="notebook-skip">
 ## ⓪ Preliminaries
 
 1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
@@ -27,7 +28,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 3. **Option: Download from GitHub** – Instead of going for this hand-on step-by-step experience, you can get the final sample content from GitHub. If you choose to do so clone the repo as follows:
 
-::: code-group notebook-nonexec
+::: code-group
 
 ```sh [Node.js]
 git clone https://github.com/sap-samples/cloud-cap-samples samples
@@ -42,7 +43,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 :::
 
 > Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide.
-
+</div>
 
 
 ## ① Jumpstart a Project { #start-a-project}

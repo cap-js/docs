@@ -1,4 +1,4 @@
-# Documentation for SAP Cloud Application Programming Model
+# Documentation for <br> SAP Cloud Application Programming Model
 
 [![REUSE status](https://api.reuse.software/badge/github.com/cap-js/docs)](https://api.reuse.software/info/github.com/cap-js/docs)
 

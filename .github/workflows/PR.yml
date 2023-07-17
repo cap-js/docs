@@ -67,3 +67,4 @@ jobs:
       uses: mnkiefer/notebook-runner@main
       with:
         notebook-dir: notebooks
+        timeout: 200000

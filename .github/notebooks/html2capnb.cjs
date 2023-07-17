@@ -104,7 +104,7 @@ function nodeIsIgnored(node, impl) {
 }
 
 function nodeIsCode(node) {
-  return node?.attribs?.class === "vp-code-group" ||
+  return (node?.attribs?.class === "vp-code-group" && node?.attribs?.class.includes("notebook-nonexec")) ||
   (node?.attribs?.class?.includes("language-") && !["language-console", "language-log"].includes(node?.attribs?.class))
 }
 

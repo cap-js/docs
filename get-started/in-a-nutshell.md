@@ -43,6 +43,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 :::
 
 > Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide.
+
 </div>
 
 

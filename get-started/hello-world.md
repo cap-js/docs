@@ -37,8 +37,8 @@ cd hello-world
 <div class="impl java">
 
 ```sh
-cds init hello-world --add java,samples
-cd hello-world
+cds init hello_world --add java,samples
+cd hello_world
 ```
 
 > With the `cds init` command above you also created a sample schema and service. It's not relevant and can be ignored for now, but a CAP Java service currently needs persistence in order to startup correctly.
@@ -126,6 +126,15 @@ public class HelloHandler implements EventHandler {
 ## Run it
 ... for example, from your command line in the root directory of your "Hello World":
 
+<!-- Temp fix until Notebook *CDS Server* cell becomes less restricted -->
+<div class="impl java">
+
+```sh
+cd srv
+```
+
+</div>
+
 ::: code-group
 
 ```sh [Node.js]
@@ -133,7 +142,6 @@ cds watch
 ```
 
 ```sh [Java]
-cd srv
 mvn cds:watch
 ```
 

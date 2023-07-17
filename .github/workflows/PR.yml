@@ -54,11 +54,11 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: zulu
-        java-version: 18
+        java-version: 17
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
-        maven-version: 3.8.2
+        maven-version: 3.8.8
     - name: Test CAP Notebooks
       if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
       uses: mnkiefer/notebook-runner@main

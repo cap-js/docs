@@ -192,9 +192,9 @@ function addWriteFileMagic(text, language, label) {
 
 // RULE: Code cells containg cds watch/ serve commands are of type 'CDS server'
 function addCDSServerLanguage(language, text) {
-  if (text.trim().startsWith('cds watch') ||
-      text.trim().startsWith('cds serve') ||
-      text.trim().startsWith('mvn cds:watch')
+  if (text.trim().includes('cds watch') ||
+      text.trim().includes('cds serve') ||
+      text.trim().includes('mvn cds:watch')
     ) {
     return 'cds server'
   }

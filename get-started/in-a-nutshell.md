@@ -441,9 +441,13 @@ sqlite3 my.sqlite .tables
 
 You could also deploy to a provisioned SAP HANA database using this variant:
 
+<div class="notebook-nonexec">
+
 ```sh
 cds deploy --to hana
 ```
+</div>
+
 </div>
 
 

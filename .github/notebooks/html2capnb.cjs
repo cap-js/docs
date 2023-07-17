@@ -105,8 +105,12 @@ function nodeIsIgnored(node, impl) {
 }
 
 function nodeIsCode(node) {
-  return node?.attribs?.class === "vp-code-group" ||
-  (node?.attribs?.class?.includes("language-") && !["language-console", "language-log"].includes(node?.attribs?.class))
+  return !node?.parent?.attribs?.class?.includes("notebook-nonexec") && (
+    node?.attribs?.class?.includes("vp-code-group") || (
+      node?.attribs?.class?.includes("language-") &&
+      !["language-console", "language-log"].includes(node?.attribs?.class)
+    )
+  )
 }
 
 function getCodeCells(node, impl) {

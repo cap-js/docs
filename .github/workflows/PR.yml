@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
-      cookbooks: ${{ steps.search-changed-files.outputs.cookbooks }}
+      changed_cookbooks: ${{ steps.search-changed-files.outputs.cookbooks }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
           done
           COOKBOOKS_STRING=$(IFS=' '; echo "${COOKBOOKS[*]}")
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
-          echo "cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
+          echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -85,12 +85,12 @@ jobs:
         apt-get install sqlite3
     - name: Test CAP Notebooks
       run: |
+        notebooks=()
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
-        echo "COOKBOOKS=${{ needs.build.outputs.cookbooks }}"
-        cat ./notebooks/generated_notebooks
-        for file in ${{ needs.build.outputs.cookbooks }}; do
-          awk '$1 == "$file" {print $2}' ./notebooks/generated_notebooks
+        for file in (${{ needs.build.outputs.changed_cookbooks }}); do
+          notebook+=(awk '$1 == "$file" {print $2}' ./notebooks/generated_notebooks)
         done
+        echo "NOTEBOOKS=$notebooks"
         
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
       #uses: mnkiefer/notebook-runner@main

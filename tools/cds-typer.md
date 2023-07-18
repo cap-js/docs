@@ -71,7 +71,7 @@ Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that i
 
 :::
 
-## `typer` Facet {#typer-facet}
+## Adding the `typer` Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`. 
 
 ::: details Under the hood

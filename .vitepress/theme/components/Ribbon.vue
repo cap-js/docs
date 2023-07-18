@@ -6,6 +6,12 @@
   </div>
 </template>
 
+<style lang="scss">
+.ribbon a:hover {
+  text-decoration: underline;
+}
+</style>
+
 <style lang="scss" scoped>
 
 /* common */

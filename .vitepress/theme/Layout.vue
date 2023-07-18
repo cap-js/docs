@@ -37,8 +37,8 @@ const { Layout } = DefaultTheme
   </Layout>
 
   <Ribbon v-if="isPreview">
-    DEV PREVIEW.<br>
-    Use <a href="https://cap.cloud.sap" target="_blank" rel="noopener noreferrer">cap.cloud.sap</a>
+    DEV PREVIEW<br>
+    See <a href="https://cap.cloud.sap" target="_blank" rel="noopener noreferrer">cap.cloud.sap</a>
   </Ribbon>
 
   <ShortcutsList />

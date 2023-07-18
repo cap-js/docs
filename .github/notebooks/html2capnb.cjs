@@ -30,7 +30,7 @@ try {
 }
 
 function buildNotebooks(_paths) {
- const fileMappings = '';
+ let fileMappings = '';
   const { sourcePath, destPath, rootPath } = _paths;
   var files = fs.readdirSync(sourcePath);
   for (var i = 0; i < files.length; i++) {

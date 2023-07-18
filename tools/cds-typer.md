@@ -92,7 +92,7 @@ _tsconfig.json_, as we do not want to interfere with your configuration.
 :::
 
 
-## Emitted Type Files
+## About the Emitted Type Files
 
 The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
 For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
@@ -119,7 +119,7 @@ export class Books { … }
 The singular forms represent the entities from the original model and try to adhere to best practices of object oriented programming for naming classes in singular form.
 The plural form exists as a convenience to refer to a collection of multiple entities. You can [fine tune](#fine-tuning) both singular and plural names that are used here.
 
-At this point, you could already import these types by using absolute paths, but there is a more convenient way for doing so which will be described in the next section.
+You could import these types by using absolute paths, but there is a more convenient way for doing so which will be described in the next section.
 
 ## Subpath Imports
 Adding type support via `cds add typer` includes adding [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). Per default, the facet adds a mapping of `#cds-models/` to the default path your model's types are assumed to be generated to (_\<project root\>/@cds-models/_). If you are generating your types to another path and want to use subpath imports, you will have to adjust this setting in your _package.json_ **and** _jsconfig.json_/ _tsconfig.json_ accordingly.

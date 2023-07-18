@@ -87,8 +87,8 @@ jobs:
       run: |
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
         for file in ${{ needs.build.outputs.changed_cookbooks }}; do
-          echo "$file"
-          awk '{print $1}' ./notebooks/generated_notebooks
+          echo "FILE: $file"
+          echo "COL: $(awk '{print $1}' ./notebooks/generated_notebooks)"
           awk '$1 == "$file" {print $2}' ./notebooks/generated_notebooks
         done
         

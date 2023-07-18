@@ -20,6 +20,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 
 <div class="notebook-skip">
+	
 ## ⓪ Preliminaries
 
 1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).

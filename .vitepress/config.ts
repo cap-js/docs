@@ -123,4 +123,8 @@ const config:UserConfig<CapireThemeConfig> = {
   }
 }
 
+if (process.env.VITE_CAPIRE_PREVIEW) {
+  config.head!.push(['meta', { name: 'robots', content: 'noindex,nofollow' }])
+}
+
 export default config

@@ -44,7 +44,7 @@ using { cuid, Country } from '@sap/cds/common';
   email        : String;
   firstName    : String;
   lastName     : String;
-  creditCardNo : String;
+//  creditCardNo : String;
   dateOfBirth  : Date;
   postalAddress : Association to CustomerPostalAddress on postalAddress.Customer = $self;
 }

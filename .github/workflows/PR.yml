@@ -55,7 +55,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    if: ${{ jobs.build.steps.changed_notebooks.outputs.has_notebooks  == 'true' }}
+    if: ${{ needs.build.steps.changed_notebooks.outputs.has_notebooks  == 'true' }}
     container:
       # docker image containing xvfb
       image: sitespeedio/sitespeed.io

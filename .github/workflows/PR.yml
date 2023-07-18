@@ -22,9 +22,10 @@ jobs:
             *.md
       - name: List all changed files
         id: changed-notebooks
+        shell: bash
         run: |
           HAS_NOTEBOOKS=false
-          for file in ${{ changed-files.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
              if (grep -q "notebook=true" file && echo "true" || echo "false") {
               HAS_NOTEBOOKS=true
              }

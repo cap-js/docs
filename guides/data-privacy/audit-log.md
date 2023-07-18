@@ -80,10 +80,6 @@ The `@PersonalData.IsPotentiallySensitive` annotation induces an audit log for e
 --- Avoid unnecessary logging activities in your application.
 :::
 
-::: warning _Warning_
-Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
-:::
-
 ###  Data Subject Details
 
 In the first example, the audited object was identical to the data subject, but this is not always the case.

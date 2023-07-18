@@ -44,7 +44,6 @@ using { cuid, Country } from '@sap/cds/common';
   email        : String;
   firstName    : String;
   lastName     : String;
-//  creditCardNo : String;
   dateOfBirth  : Date;
   postalAddress : Association to CustomerPostalAddress on postalAddress.Customer = $self;
 }
@@ -64,16 +63,8 @@ annotate bookshop.Customers with @PersonalData : {
   emailAddress @PersonalData.IsPotentiallyPersonal;
   firstName    @PersonalData.IsPotentiallyPersonal;
   lastName     @PersonalData.IsPotentiallyPersonal;
-  creditCardNo @PersonalData.IsPotentiallySensitive;
   dateOfBirth  @PersonalData.IsPotentiallyPersonal;
 }
-
-annotate bookshop.Customers with @AuditLog.Operation : {
-  Read   : true,
-  Insert : true,
-  Update : true,
-  Delete : true
-};
 
 ```
 
@@ -100,7 +91,7 @@ In the first example, the audited object was identical to the data subject, but 
 In many cases you have additional master data describing more details of the data subject stored in a separate entity.
 In our terminology this has the semantics 'Data Subject Details'.
 
-In our example we have the additional entity `CustomerPostalAddress` which contains additional master data belonging to a certain 'Customer', but which are stored in a separate entity, for better clarity or better separation of concerns.
+In our example we have the additional entities `CustomerPostalAddress` and `CustomerBillingData` which contain additional master data belonging to a certain 'Customer', but which are stored in separate entities, for better clarity and better separation of concerns.
 
 ```cds
 
@@ -112,9 +103,14 @@ entity CustomerPostalAddress : cuid, managed {
   someOtherField : String(128);
 };
 
+entity CustomerBillingData : cuid, managed {
+  Customer      : Association to one Customers;
+  creditCardNo  : String;
+};
+
 ```
 
-This entity is annotated in the _db/data-privacy.cds_ file.
+These entities are annotated in the _db/data-privacy.cds_ file.
 
 ```cds
 annotate bookshop.CustomerPostalAddress with @PersonalData : {
@@ -128,12 +124,14 @@ annotate bookshop.CustomerPostalAddress with @PersonalData : {
   country  @PersonalData.IsPotentiallyPersonal;
 }
 
-annotate bookshop.CustomerPostalAddress with @AuditLog.Operation : {
-  Read   : true,
-  Insert : true,
-  Update : true,
-  Delete : true
-};
+annotate bookshop.CustomerBillingData with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubjectDetails'
+} 
+{
+  Customer @PersonalData.FieldSemantics : 'DataSubjectID';
+  creditCardNo @PersonalData.IsPotentiallySensitive;
+}
 
 ```
 

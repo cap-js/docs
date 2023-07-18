@@ -20,12 +20,12 @@ You can use `cds-typer` in three ways: conveniently integrated into VSCode, thro
 
 ### Integration into VSCode  {#cds-typer-vscode}
 
-Using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you can make sure the generated type information stays in sync with your model. Instead of [manually calling](#type-generator-cli) the type generator every time you update your model, the extension will automatically trigger the process whenever you hit _save_ on a _.cds_ file that is part of your model. This requires the [`typer`facet](#typer-facet) to be added to your project.
+Using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you can make sure the generated type information stays in sync with your model. Instead of [manually calling](#typer-cli) the type generator every time you update your model, the extension will automatically trigger the process whenever you hit _save_ on a _.cds_ file that is part of your model. This requires the [`typer`facet](#typer-facet) to be added to your project.
 Opening your VSCode settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process.
 Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
 If you stick to the defaults, saving a _.cds_ file will have the type generator emit [its type files](#emitted-type-files) into the directory _@cds-models_ in your project's root.
 
-### Command Line Interface (CLI)
+### Command Line Interface (CLI) {#typer-cli}
 
 ```sh
 npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/mybookshop

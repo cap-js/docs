@@ -88,6 +88,10 @@ jobs:
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
         echo "COOKBOOKS=${{ needs.build.outputs.cookbooks }}"
         cat ./notebooks/generated_notebooks
+        for file in ${{ needs.build.outputs.cookbooks }}; do
+          awk '$1 == "$file" {print $2}' ./notebooks/generated_notebooks
+        done
+        
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
       #uses: mnkiefer/notebook-runner@main
       #with:

@@ -55,7 +55,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    if: env.has_notebooks == 'true'
+    if: $ {{ env.has_notebooks == 'true' }}
     container:
       # docker image containing xvfb
       image: sitespeedio/sitespeed.io

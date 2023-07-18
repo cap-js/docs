@@ -32,7 +32,7 @@ jobs:
             fi
           done
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
-          echo "notebooks="${NOTEBOOKS[*]}" >> "$GITHUB_OUTPUT"
+          echo "notebooks=${NOTEBOOKS[*]}" >> "$GITHUB_OUTPUT"
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:

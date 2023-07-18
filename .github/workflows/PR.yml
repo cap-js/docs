@@ -43,27 +43,48 @@ jobs:
       image: sitespeedio/sitespeed.io
 
     steps:
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v37
+      with:
+        files: |
+          *.md
+    - name: List all changed files
+      id: changed-notebooks
+      run: |
+        HAS_NOTEBOOKS=false
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+           if (${{ contains($file, "notebook: true") }}) {
+            HAS_NOTEBOOKS=true
+           }
+        done
+        echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
     - name: Download Artifact
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true'
       uses: actions/download-artifact@v3
       with:
         name: site
     - name: Unpack Artifact
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true'
       run: |
         tar -xzf site.tgz -C .
     - name: Checkout Java
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true'
       uses: actions/setup-java@v3
       with:
         distribution: zulu
         java-version: 17
     - name: Set up Maven
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true'
       uses: stCarolas/setup-maven@v4.5
       with:
         maven-version: 3.8.8
     - name: Setup Build Environment
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true'
       run: |
         apt-get install sqlite3
     - name: Test CAP Notebooks
-      if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
+      if: steps.changed-notebooks.outputs.has_notebooks == 'true' && ${{ hashFiles('./notebooks/*.capnb') != '' }}
       uses: mnkiefer/notebook-runner@main
       with:
         notebook-dir: notebooks

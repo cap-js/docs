@@ -88,8 +88,8 @@ jobs:
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
         for file in ${{ needs.build.outputs.changed_cookbooks }}; do
           echo "FILE: $file"
-          echo "COLUMN: $(awk -F' ' '{print $1}' ./notebooks/generated_notebooks)"
-          echo "NOTEBOOK: $(awk -F' ' '$1 == "$file" {print $2}' ./notebooks/generated_notebooks)"
+          echo "COLUMN: $(awk -vFS='[ ]' '{print $1}' ./notebooks/generated_notebooks)"
+          echo "NOTEBOOK: $(awk -vFS='[ ]' '$1 == "$file" {print $2}' ./notebooks/generated_notebooks)"
         done
         
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}

@@ -68,7 +68,7 @@ function buildNotebooks(_paths) {
           }
       }
   }
-  fs.writeFileSync(path.join(destPath, 'generated_notebooks'), JSON.stringify(fileMappings, null, 4), 'utf8');
+  fs.writeFileSync(path.join(destPath, 'generated_notebooks'), fileMappings, 'utf8');
 }
 console.log("\n> Done");
 

@@ -730,5 +730,3 @@ To learn about the features specific to CAP development in the studio, see the g
 + [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
 
 + Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
-
-

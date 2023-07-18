@@ -198,6 +198,7 @@ function addWriteFileMagic(text, language, label) {
 function addCDSServerLanguage(language, text) {
   if (text.trim().includes('cds watch') ||
       text.trim().includes('cds serve') ||
+      text.trim().includes('cds run') ||
       text.trim().includes('mvn cds:watch')
     ) {
     return 'cds server'

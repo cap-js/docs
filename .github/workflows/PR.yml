@@ -26,7 +26,7 @@ jobs:
           NOTEBOOKS=()
           HAS_NOTEBOOKS=false
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if (grep -q "notebook:true" $file); then
+            if (grep -P "notebook:\s*true" $file); then
               HAS_NOTEBOOKS=true
               NOTEBOOKS+=("$file")
             fi

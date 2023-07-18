@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
-      changed_cookbooks: ${{ steps.search-changed-files.outputs.cookbooks }}
+      changed_cookbooks: ${{ steps.search-changed-files.outputs.changed_cookbooks }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,15 +23,15 @@ jobs:
       - name: Search changed files
         id: search-changed-files
         run: |
-          COOKBOOKS=()
+          CHANGED_COOKBOOKS=()
           HAS_NOTEBOOKS=false
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if (grep -P "notebook:\s*true" $file); then
               HAS_NOTEBOOKS=true
-              COOKBOOKS+=("$file")
+              CHANGED_COOKBOOKS+=("$file")
             fi
           done
-          COOKBOOKS_STRING=$(IFS=' '; echo "${COOKBOOKS[*]}")
+          COOKBOOKS_STRING=$(IFS=' '; echo "${CHANGED_COOKBOOKS[*]}")
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
       - name: Use Node.js

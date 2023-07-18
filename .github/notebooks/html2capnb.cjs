@@ -30,6 +30,7 @@ try {
 }
 
 function buildNotebooks(_paths) {
+ const fileMappings = '';
   const { sourcePath, destPath, rootPath } = _paths;
   var files = fs.readdirSync(sourcePath);
   for (var i = 0; i < files.length; i++) {
@@ -61,11 +62,13 @@ function buildNotebooks(_paths) {
 
               // Generate notebook from HTML
               html2notebook(filename, config);
+              fileMappings += `${{filename}} ${{capnbFilepath}}\n`;
 
             })
           }
       }
   }
+  fs.writeFileSync(path.join(destPath, 'generated_notebooks'), JSON.stringify(fileMappings, null, 4)
 }
 console.log("\n> Done");
 

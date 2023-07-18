@@ -54,7 +54,7 @@ jobs:
       run: |
         HAS_NOTEBOOKS=false
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-           if (${{ contains(file, "notebook: true") }}) {
+           if (grep -q "notebook=true" file && echo "true" || echo "false") {
             HAS_NOTEBOOKS=true
            }
         done

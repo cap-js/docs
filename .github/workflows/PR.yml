@@ -85,12 +85,11 @@ jobs:
         apt-get install sqlite3
     - name: Test CAP Notebooks
       run: |
-        notebooks=()
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
         for file in ${{ needs.build.outputs.changed_cookbooks }}; do
+          echo "$file"
           awk '$1 == "$file" {print $2}' ./notebooks/generated_notebooks
         done
-        echo "NOTEBOOKS=$notebooks"
         
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
       #uses: mnkiefer/notebook-runner@main

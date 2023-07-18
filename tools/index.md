@@ -732,23 +732,3 @@ To learn about the features specific to CAP development in the studio, see the g
 + Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
 
 
-## CDS Typer {#cds-typer}
-
-The [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) offers a way to derive TypeScript definitions from a CDS model to give users enhanced code completion and a certain degree of type safety when implementing services.
-
-```js
-class CatalogService extends cds.ApplicationService { init() {
-    const { Book } = require('#cds-models/sap/capire/bookshop')
-
-    this.before('CREATE', Book, req => {
-        req.data.…  // known to be a Book. Code completion suggests:
-              // ID (number)
-              // title (string)
-              // author (Author)
-              // createdAt (Date)
-              // …
-    })
-}}
-```
-
-You can find extensive documentation in a [dedicated chapter](cds-typer), together with a [quickstart guide](cds-typer#quickstart) to get everything up and running.

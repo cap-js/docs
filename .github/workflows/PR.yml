@@ -31,7 +31,7 @@ jobs:
               COOKBOOKS+=("$file")
             fi
           done
-          COOKBOOKS_STRING=$(IFS= ; echo "${COOKBOOKS[*]}")
+          COOKBOOKS_STRING=$(IFS=' '; echo "${COOKBOOKS[*]}")
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
       - name: Use Node.js

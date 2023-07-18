@@ -5,6 +5,9 @@ const { html2notebook } = require('html2notebook');
 const { DomUtils } = require('htmlparser2');
 const CSSselect = require("css-select");
 
+
+let fileMappings = '';
+
 // Capire (Vitepress) specifics
 const IMPL_VARIANTS = {
  "node": "Node.js",
@@ -21,16 +24,16 @@ const LANG_MAPPINGS = {
     "sh": "shell"
 }
 const STYLES = fs.readFileSync(path.join(__dirname, "notebookStyles.scss"), "utf8");
+const SITE_DIR = process.argv.slice(2)[0];
 
 // Generate notebooks for all HTML files which contain class="notebook"
 try {
-  buildNotebooks(scanPaths(process.argv.slice(2)[0],  "notebooks"));
+  buildNotebooks(scanPaths(SITE_DIR,  "notebooks"));
 } catch (err) {
   console.log(`An error while occured while building the pages notebooks:\n\n`, err);
 }
 
 function buildNotebooks(_paths) {
- let fileMappings = '';
   const { sourcePath, destPath, rootPath } = _paths;
   var files = fs.readdirSync(sourcePath);
   for (var i = 0; i < files.length; i++) {
@@ -62,7 +65,7 @@ function buildNotebooks(_paths) {
 
               // Generate notebook from HTML
               html2notebook(filename, config);
-              fileMappings += `${{filename}} ${{capnbFilepath}}\n`;
+              fileMappings += `${filename.replace(`${path.resolve(SITE_DIR)}/`, '').replace('.html', '.md')} ${capnbFile}\n`;
 
             })
           }

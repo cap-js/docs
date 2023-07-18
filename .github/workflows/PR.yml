@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      changed_notebooks: ${{ steps.search-changes-files.outputs.has_notebooks }}
+      changed_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

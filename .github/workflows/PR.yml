@@ -35,6 +35,7 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: |
+          echo ${{ outputs.changed_notebooks }}
           cd .github/cds-snippet-checker
           npm install
           npm run check

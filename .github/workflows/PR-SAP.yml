@@ -81,6 +81,7 @@ jobs:
         id: get-notebooks
         shell: bash
         run: |
+          ls
           NOTEBOOKS=()
           CHANGED_COOKBOOKS=("${{ steps.search-changed-files.outputs.changed_cookbooks }}")
           while read mdfile nbfile; do

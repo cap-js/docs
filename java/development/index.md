@@ -172,7 +172,68 @@ None of the listed features will be available out of the box in case you choose 
 | [FeatureTogglesInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html)  | Information about feature toggles | `@Autowired`<br>`FeatureTogglesInfo ftsInfo;`
 | [CdsDataStore](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDataStore.html) | Direct access to default data store | `@Autowired`<br>`CdsDataStore ds;` |
 
-<div id="springboot-nativeimages" />
+### GraalVM Native Image support
+
+Since Spring Boot 3 it is possible to compile Spring Boot applications to standalone native executables leveraging GraalVM Native Images.
+Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.
+
+[Learn more about Native Image support in Spring Boot.](https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html){.learn-more}
+
+If you want to compile your application as a native executable the following boundary conditions need to be considered:
+
+1. The GraalVM Native Image build analyzes your application from the `main` entry point. Only the code that is reachable through static analysis is included into the native image. This means that the full classpath needs to be known and available already at build time.
+
+2. Dynamic elements of your code, such as usage of reflection, JDK proxies or resources needs to be registered with the GraalVM Native Image build. You can learn more about this in the [GraalVM Native Image documentation](https://www.graalvm.org/latest/reference-manual/native-image/metadata/).
+
+    ::: tip
+    Many runtime hints for reflection, JDK proxy usage and resources are contributed automatically to the Native Image build.
+    This includes required reflection for event handler classes defined in application code and required JDK proxy usage for interfaces generated from the application's CDS model by the CDS Maven Plugin.
+    :::
+
+3. Spring Boot defines and fixes all bean definitions of your application already at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles you need to supply these triggers to the Native Image build. The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). You can provide this information in a `native-build-env.json`, which you can configure together with the Spring profile in the `srv/pom.xml`:
+
+    ::: code-group
+    ```json [native-build-env.json]
+    {
+        "hana": [ { "name": "<hana-binding-name>" } ],
+        "xsuaa": [ { "name": "<xsuaa-binding-name>" } ]
+    }
+    ```
+    ```xml [srv/pom.xml]
+    <profile>
+        <id>native</id>
+        <build>
+            <pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>process-aot</id>
+                                <configuration>
+                                    <profiles>cloud</profiles>
+                                    <jvmArguments>-Dcds.environment.local.defaultEnvPath=../native-build-env.json</jvmArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </pluginManagement>
+        </build>
+    </profile>
+    ```
+    :::
+
+When using Spring Boot's parent POM you can easily trigger the Native Image build by executing `mvn spring-boot:build-image -Pnative`.
+This will build a Docker image using Cloud Native Buildpacks including a minimized OS and your application.
+You can launch the Docker image by running `docker run --rm -p 8080:8080 <srv-project-name>:<version>`.
+
+::: tip
+If you want to try out CAP's Native Image support you can use the [SFlight sample application](https://github.com/SAP-samples/cap-sflight) which is prepared for GraalVM Native Images.
+Note, that SFlight's native executable is built and configured to use SAP HANA and XSUAA by default. You therefore need to run it with the `cloud` profile and supply a SAP HANA and XSUAA service binding.
+Alternatively you can make corresponding adaptations in `native-build-env.json` and `srv/pom.xml` to build the native executable for a different set of service bindings and profile.
+:::
 
 ## Minimum Dependency Versions
 
@@ -372,7 +433,9 @@ If you want to have the comfort of an automated CDS build like with the `watch` 
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
 :::
 
-<div id="afterautobuild" />
+#### Local Development for Multitenant Applications
+
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas#local-mtx) for more information.
 
 <div id="afterlocaldev" />
 

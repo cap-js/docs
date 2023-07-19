@@ -361,7 +361,7 @@ bookstore
 │   package.json
 │
 └───@cds-models
-│   └───<see above>
+│   └───<described in the previous section>
 │
 └───db
 │      schema.cds

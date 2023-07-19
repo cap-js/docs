@@ -8,7 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     outputs:
@@ -47,7 +46,6 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run docs:build
-
       - name: Tar build result  # tar'ing is much faster than the built-in artifact zipping
         run: tar -czf site.tgz -C .vitepress/dist/ .
       - name: Upload build result

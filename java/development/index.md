@@ -145,7 +145,7 @@ Beside the common Spring features such as dependency injection and a sophisticat
 
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).
-* A number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in Spring application contexts such as technical services, the `CdsModel`, or the `UserInfo` in current request scope.
+* A number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in the Spring application context such as technical services, the `CdsModel`, or the `UserInfo` in current request scope.
 * *Automatic* configuration of XSUAA, IAS, and [mock user authentication](../security#mock-users) by means of Spring security configuration.
 * Integration of `cds`-property section into Spring properties. See section [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config) in the Spring Boot documentation for more details.
 * [The cds actuator](../observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
@@ -189,7 +189,7 @@ If you want to compile your application as a native executable the following bou
     Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
     This includes 
     - Required reflection for event handler classes defined in application code
-    - The usage of a required JDK proxy for interfaces generated from the application's CDS model by the CDS Maven Plugin.
+    - JDK proxies for interfaces generated from the application's CDS model by the CDS Maven Plugin.
     :::
 
 3. Spring Boot defines and fixes all bean definitions of your application already at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build. The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). You can provide this information in a `native-build-env.json`, which you can configure together with the Spring profile in the `srv/pom.xml`:

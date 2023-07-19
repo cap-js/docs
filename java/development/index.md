@@ -188,11 +188,15 @@ If you want to compile your application as a native executable the following bou
     ::: tip
     Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
     This includes 
-    - Required reflection for event handler classes defined in application code
+    - Required reflection for event handler classes defined in application code.
     - JDK proxies for interfaces generated from the application's CDS model by the CDS Maven Plugin.
     :::
 
-3. Spring Boot defines and fixes all bean definitions of your application already at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build. The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). You can provide this information in a `native-build-env.json`, which you can configure together with the Spring profile in the `srv/pom.xml`:
+3. Spring Boot automatically defines and fixes all bean definitions of your application at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build.
+
+CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
+
+The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
 
     ::: code-group
     ```json [native-build-env.json]
@@ -372,7 +376,7 @@ You can speed up your development turnaround by adding the [Spring Boot Devtools
 </dependency>
 ```
 
-Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than the complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
+Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than a complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
 
 * Java classes (e.g. custom handlers)
 * Anything inside src/main/resources
@@ -393,12 +397,12 @@ CDS builds in particular change numerous resources in your project. To have a sm
 CDS Maven plugin provides several goals to perform CDS-related build steps. It can be used in CAP Java projects to perform the following build tasks:
 
 - Install Node.js in the specified version
-- Install the CDS Development Kit `@sap/cds-dk` in a specified version
+- Install the CDS Development Kit `@sap/cds-dk` with a specified version
 - Perform arbitrary CDS commands on a CAP Java project
 - Generate Java classes for type-safe access
 - Clean a CAP Java project from artifacts of the previous build
 
-Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. On how to modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
+Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. To have an example on how you can modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
 See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} for more details.
 
@@ -421,7 +425,7 @@ mvn cds:watch
 It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
 
 The `watch` goal uses the `spring-boot-maven-plugin` internally to start the application with the goal `run` (this also includes a CDS build). Therefore, it's required that the application is a Spring Boot application and that you execute the `watch` goal within your service module folder.
-When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism described in the linked section. In case your application doesn't use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than the complete restart the approach using the Spring Boot Devtools is the preferred approach.
+When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism. In case your application doesn't use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than a complete restart the approach using the Spring Boot Devtools is the preferred approach.
 
 ::: warning
 The `watch` goal only works on Windows if the Spring Boot Devtools are enabled.

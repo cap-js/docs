@@ -71,6 +71,7 @@ jobs:
         name: github-pages
     - name: Unpack Artifact
       run: |
+        ls .
         unzip github-pages
     - name: Checkout Java
       uses: actions/setup-java@v3

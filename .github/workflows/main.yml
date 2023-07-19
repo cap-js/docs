@@ -72,7 +72,7 @@ jobs:
     - name: Unpack Artifact
       run: |
         ls .
-        unzip github-pages
+        tar -xf artifact.tar
     - name: Checkout Java
       uses: actions/setup-java@v3
       with:

@@ -10,7 +10,7 @@ status: released
 
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
-## Quickstart
+## Quickstart using VS Code {#cds-typer-vscode}
 1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
 2. In your project's root, execute `cds add typer`.
 3. Install the newly added dev-dependency using `npm i`.
@@ -27,60 +27,13 @@ const { Books } = require('#cds-models/…')
 service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
 ```
 
-## Starting `cds-typer`
 
-You can use `cds-typer` in three ways: conveniently integrated into VSCode, through the CLI, or programmatically.
-
-### Integration into VSCode  {#cds-typer-vscode}
+::: details How it works:
 
 Using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you can make sure the generated type information stays in sync with your model. Instead of [manually calling](#typer-cli) the type generator every time you update your model, the extension will automatically trigger the process whenever you hit _save_ on a _.cds_ file that is part of your model. This requires the [`typer`facet](#typer-facet) to be added to your project.
 Opening your VSCode settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process.
 Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
 If you stick to the defaults, saving a _.cds_ file will have the type generator emit [its type files](#emitted-type-files) into the directory _@cds-models_ in your project's root.
-
-### Command Line Interface (CLI) {#typer-cli}
-
-```sh
-npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/mybookshop
-```
-
-The CLI offers several parameters which you can list using the `--help` parameter.
-
-::: details You should then see the following output:
-
-<!-- TODO: automatically pull command line options from cds-typer --help -->
-```log
-> @cap-js/cds-typer@0.4.0 cli
-> node lib/cli.js --help
-
-[SYNOPSIS]
-Call with at least one positional parameter pointing to the (root) CDS file you want to compile.
-Additionaly, you can use the following parameters:
---help: this text
-
---inlineDeclarations: whether to resolve inline type declarations flat (x_a, x_b, ...) or structured (x: {a, b}) [allowed: flat | structured] (default: structured)
-
---jsConfigPath: Path to where the jsconfig.json should be written. If specified, cds-typer will create a jsconfig.json file and set it up to restrict property usage in types entities to existing properties only.
-
---logLevel: minimum log level [allowed: TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE] (default: NONE)
-
---outputDirectory: root directory to write generated files to (default: ./)
-
---propertiesOptional: if set to true, properties in entities are always generated as optional (a?: T) [allowed: true | false] (default: true)
-
---rootDir: [DEPRICATED] use outputDirectory instead (default: ./)
-
---version: prints the version of this tool
-```
-:::
-
-### Programmatically
-
-`cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
-
-::: warning Could alter CSN!
-
-Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
 
 :::
 
@@ -275,7 +228,57 @@ export class FlockOfSheep { … }
 You can enable strict property checking for your JavaScript project by adding the [`checkJs: true`](https://www.typescriptlang.org/tsconfig#checkJs) setting to your _jsconfig.json_ or _tsconfig.json_.
 This will consider referencing properties in generated types that are not explicitly defined as error.
 
-## Integrating `cds-typer` Into TypeScript Projects
+## Usage Options
+
+Besides using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line and programmatically.
+
+### Command Line Interface (CLI) {#typer-cli}
+
+```sh
+npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/mybookshop
+```
+
+The CLI offers several parameters which you can list using the `--help` parameter.
+
+::: details You should then see the following output:
+
+<!-- TODO: automatically pull command line options from cds-typer --help -->
+```log
+> @cap-js/cds-typer@0.4.0 cli
+> node lib/cli.js --help
+
+[SYNOPSIS]
+Call with at least one positional parameter pointing to the (root) CDS file you want to compile.
+Additionaly, you can use the following parameters:
+--help: this text
+
+--inlineDeclarations: whether to resolve inline type declarations flat (x_a, x_b, ...) or structured (x: {a, b}) [allowed: flat | structured] (default: structured)
+
+--jsConfigPath: Path to where the jsconfig.json should be written. If specified, cds-typer will create a jsconfig.json file and set it up to restrict property usage in types entities to existing properties only.
+
+--logLevel: minimum log level [allowed: TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE] (default: NONE)
+
+--outputDirectory: root directory to write generated files to (default: ./)
+
+--propertiesOptional: if set to true, properties in entities are always generated as optional (a?: T) [allowed: true | false] (default: true)
+
+--rootDir: [DEPRICATED] use outputDirectory instead (default: ./)
+
+--version: prints the version of this tool
+```
+:::
+
+### Programmatically
+
+`cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
+
+::: warning Could alter CSN!
+
+Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
+
+:::
+
+## Integrate Into TypeScript Projects
 The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration.
 
 1. Make sure the directory the types are generated into are part of your project's files. You will either have to add that folder to your `rootDirs` in your _tsconfig.json_ or make sure the types are generated into a directory that is already part of your `rootDir`.
@@ -286,7 +289,7 @@ The types emitted by `cds-typer` can be used in TypeScript projects as well! Dep
 tsc && cp -r @cds-models dist
 ```
 
-## Integrating `cds-typer` Into Your CI
+## Integrate Into Your CI
 As the generated types are build artifacts, we recommend to exclude them from your software versioning process. Still, as using `cds-typer` changes how you include your model in your service implementation, you need to include the emitted files when releasing your project or running tests in your continuous integration pipeline.
 You should therefore trigger `cds-typer` as part of your build process. One easy way to do so is to add a variation of the following command to your build script:
 
@@ -296,7 +299,7 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 
-## Adding the `typer` Facet {#typer-facet}
+## About The Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
 
 ::: details Under the hood

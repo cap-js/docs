@@ -84,6 +84,7 @@ jobs:
       run: |
         apt-get install sqlite3
     - name: Test CAP Notebooks
+      shell: bash
       run: |
         NOTEBOOKS=()
         CHANGED_COOKBOOKS=("${{ needs.build.outputs.changed_cookbooks }}")

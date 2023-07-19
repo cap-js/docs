@@ -55,7 +55,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 ::: code-group
 ```sh [Node.js]
-cds innit bookshop
+cds init bookshop
 ```
 ```sh [Java]
 cds init bookshop --add java

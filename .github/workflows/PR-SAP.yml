@@ -16,20 +16,6 @@ jobs:
       has_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
       changed_cookbooks: ${{ steps.search-changed-files.outputs.changed_cookbooks }}
     steps:
-      - name: Checkout SAP repo
-        run: |
-          git config --global credential.helper "cache --timeout=3600"
-          echo -e "url=https://user:${GH_TOKEN}@github.com\n" | git credential approve
-          echo -e "url=https://user:${GH_TOKEN_PARENT}@github.tools.sap\n" | git credential approve
-          git clone --depth 1 --no-single-branch https://github.tools.sap/cap/docs docs
-          cd docs
-          git checkout $GITHUB_HEAD_REF || git checkout main
-          git submodule update --init --recursive
-          cd @external
-          git checkout $GITHUB_HEAD_REF
-        env:
-          GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get changed files
@@ -50,6 +36,20 @@ jobs:
           COOKBOOKS_STRING=$(echo ${CHANGED_COOKBOOKS[*]})
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
+      - name: Checkout SAP repo
+        run: |
+          git config --global credential.helper "cache --timeout=3600"
+          echo -e "url=https://user:${GH_TOKEN}@github.com\n" | git credential approve
+          echo -e "url=https://user:${GH_TOKEN_PARENT}@github.tools.sap\n" | git credential approve
+          git clone --depth 1 --no-single-branch https://github.tools.sap/cap/docs docs
+          cd docs
+          git checkout $GITHUB_HEAD_REF || git checkout main
+          git submodule update --init --recursive
+          cd @external
+          git checkout $GITHUB_HEAD_REF
+        env:
+          GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:

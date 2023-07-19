@@ -10,9 +10,22 @@ status: released
 
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
+## Quickstart
+1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
+2. In your project's root, execute `cds add typer`.
+3. Install the newly added dev-dependency using `npm i`.
+4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
+5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
-⏩ _You may skip ahead to the [Quickstart](#quickstart) section if you just want to get everything up and running for your project in a VSCode environment._
+```js
+//  without cds-typer
+const { Books } = cds.entities(…)
+service.before('CREATE' Books, ({ data }) => { /* data is of type any */})
 
+// ✨ with cds-typer
+const { Books } = require('#cds-models/…')
+service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
+```
 
 ## Starting `cds-typer`
 
@@ -70,113 +83,6 @@ Additionaly, you can use the following parameters:
 Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
 
 :::
-
-## Adding the `typer` Facet {#typer-facet}
-Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
-
-::: details Under the hood
-
-Adding this facet effectively does four things:
-
-1. Adds `@cap-js/cds-typer` as a dev-dependency (⚠️ which you still have to install using `npm i`)
-2. Creates (or modifies) a _jsconfig.json_ file to support intellisense for the generated types
-3. Modifies _package.json_ to enable [subpath imports](https://nodejs.org/api/packages.html#subpath-imports) for the generated types
-4. Adds `@cds-models` (the default output folder for generated files) to your project's _.gitignore_
-:::
-
-::: warning _TypeScript Projects_
-
-Adding the facet in a TypeScript project will adjust your _tsconfig.json_ instead. Note that you may have to manually add the type generator's configured output directory to the `rootDirs` entry in your
-_tsconfig.json_, as we do not want to interfere with your configuration.
-
-:::
-
-
-## About the Emitted Type Files {#emitted-type-files}
-
-The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
-For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
-
-```
-@cds-models
-└───sap
-    └───capire
-        └───bookshop
-              index.js
-              index.ts
-```
-
-Each _index.ts_ file will contain type information for one namespace. For each entity belonging to that namespace, you will find two exports, a singular and a plural form:
-
-```ts
-// @cds-models/sap/capire/bookshop/index.ts
-export class Author { … }
-export class Authors { … }
-export class Book { … }
-export class Books { … }
-```
-
-The singular forms represent the entities from the original model and try to adhere to best practices of object oriented programming for naming classes in singular form.
-The plural form exists as a convenience to refer to a collection of multiple entities. You can [fine tune](#fine-tuning) both singular and plural names that are used here.
-
-You could import these types by using absolute paths, but there is a more convenient way for doing so which will be described in the next section.
-
-## Subpath Imports
-Adding type support via `cds add typer` includes adding [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). Per default, the facet adds a mapping of `#cds-models/` to the default path your model's types are assumed to be generated to (_\<project root\>/@cds-models/_). If you are generating your types to another path and want to use subpath imports, you will have to adjust this setting in your _package.json_ **and** _jsconfig.json_/ _tsconfig.json_ accordingly.
-
-Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
-
-```
-bookstore
-│   package.json
-│
-└───@cds-models
-│   └───<see above>
-│
-└───db
-│      schema.cds
-│      …
-│
-└───srv
-│      cat-service.cds
-│      cat-service.js
-│       …
-│
-└─── …
-```
-
-The following two (equally valid) statements would amount to the same import [from within the catalog service](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/srv/cat-service.js):
-
-```js
-// srv/cat-service.js
-const { Books } = require('../@cds-models/sap/capire/bookshop')
-const { Books } = require('#cds-models/sap/capire/bookshop')
-```
-
-These imports will behave like [`cds.entities('sap.capire.bookshop')`](https://pages.github.tools.sap/cap/docs/node.js/cds-reflect#entities) during runtime, but offer you code completion and type hinting at design time:
-
-```js
-class CatalogService extends cds.ApplicationService { init(){
-  const { Book } = require('#cds-models/sap/capire/bookshop')
-
-  this.on ('UPDATE', Book, req => {
-    // in here, req is known to hold a payload of type Book.
-    // Code completion therefore offers all the properties that are defined in the model.
-  })
-})
-```
-
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
-
-```js
-// ❌ works during design time, but will cause runtime errors
-const { Book } = require('#cds-models/sap/capire/bookshop')
-
-class CatalogService extends cds.ApplicationService { init(){
-  // ✅ works both at design time and at runtime
-  const { Book } = require('#cds-models/sap/capire/bookshop')
-})
-```
 
 ## Using Emitted Types in Your Service
 The types emitted by the type generator are tightly integrated with the CDS API. The following section illustrates where the generated types are recognized by CDS.
@@ -389,19 +295,110 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
-## Quickstart
-1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. In your project's root, execute `cds add typer`.
-3. Install the newly added dev-dependency using `npm i`.
-4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
-5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
+
+## Adding the `typer` Facet {#typer-facet}
+Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
+
+::: details Under the hood
+
+Adding this facet effectively does four things:
+
+1. Adds `@cap-js/cds-typer` as a dev-dependency (⚠️ which you still have to install using `npm i`)
+2. Creates (or modifies) a _jsconfig.json_ file to support intellisense for the generated types
+3. Modifies _package.json_ to enable [subpath imports](https://nodejs.org/api/packages.html#subpath-imports) for the generated types
+4. Adds `@cds-models` (the default output folder for generated files) to your project's _.gitignore_
+:::
+
+::: warning _TypeScript Projects_
+
+Adding the facet in a TypeScript project will adjust your _tsconfig.json_ instead. Note that you may have to manually add the type generator's configured output directory to the `rootDirs` entry in your
+_tsconfig.json_, as we do not want to interfere with your configuration.
+
+:::
+
+
+## About the Emitted Type Files {#emitted-type-files}
+
+The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
+For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
+
+```
+@cds-models
+└───sap
+    └───capire
+        └───bookshop
+              index.js
+              index.ts
+```
+
+Each _index.ts_ file will contain type information for one namespace. For each entity belonging to that namespace, you will find two exports, a singular and a plural form:
+
+```ts
+// @cds-models/sap/capire/bookshop/index.ts
+export class Author { … }
+export class Authors { … }
+export class Book { … }
+export class Books { … }
+```
+
+The singular forms represent the entities from the original model and try to adhere to best practices of object oriented programming for naming classes in singular form.
+The plural form exists as a convenience to refer to a collection of multiple entities. You can [fine tune](#fine-tuning) both singular and plural names that are used here.
+
+You could import these types by using absolute paths, but there is a more convenient way for doing so which will be described in the next section.
+
+## Subpath Imports
+Adding type support via `cds add typer` includes adding [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). Per default, the facet adds a mapping of `#cds-models/` to the default path your model's types are assumed to be generated to (_\<project root\>/@cds-models/_). If you are generating your types to another path and want to use subpath imports, you will have to adjust this setting in your _package.json_ **and** _jsconfig.json_/ _tsconfig.json_ accordingly.
+
+Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
+
+```
+bookstore
+│   package.json
+│
+└───@cds-models
+│   └───<see above>
+│
+└───db
+│      schema.cds
+│      …
+│
+└───srv
+│      cat-service.cds
+│      cat-service.js
+│       …
+│
+└─── …
+```
+
+The following two (equally valid) statements would amount to the same import [from within the catalog service](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/srv/cat-service.js):
 
 ```js
-//  without cds-typer
-const { Books } = cds.entities(…)
-service.before('CREATE' Books, ({ data }) => { /* data is of type any */})
+// srv/cat-service.js
+const { Books } = require('../@cds-models/sap/capire/bookshop')
+const { Books } = require('#cds-models/sap/capire/bookshop')
+```
 
-// ✨ with cds-typer
-const { Books } = require('#cds-models/…')
-service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
+These imports will behave like [`cds.entities('sap.capire.bookshop')`](https://pages.github.tools.sap/cap/docs/node.js/cds-reflect#entities) during runtime, but offer you code completion and type hinting at design time:
+
+```js
+class CatalogService extends cds.ApplicationService { init(){
+  const { Book } = require('#cds-models/sap/capire/bookshop')
+
+  this.on ('UPDATE', Book, req => {
+    // in here, req is known to hold a payload of type Book.
+    // Code completion therefore offers all the properties that are defined in the model.
+  })
+})
+```
+
+Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
+
+```js
+// ❌ works during design time, but will cause runtime errors
+const { Book } = require('#cds-models/sap/capire/bookshop')
+
+class CatalogService extends cds.ApplicationService { init(){
+  // ✅ works both at design time and at runtime
+  const { Book } = require('#cds-models/sap/capire/bookshop')
+})
 ```

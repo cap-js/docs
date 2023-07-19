@@ -50,7 +50,7 @@ const config:UserConfig<CapireThemeConfig> = {
     },
     externalLinkIcon: true,
     socialLinks: [
-      {icon: 'github', link: 'https://github.com/cap-js/'}
+      {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
     outline: [1,3],
     capire: { versions: latestVersions, gotoLinks: [] }
@@ -121,6 +121,10 @@ const config:UserConfig<CapireThemeConfig> = {
     await fs.mkdir(join(outDir, hanaAssetDir), {recursive: true})
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
   }
+}
+
+if (process.env.VITE_CAPIRE_PREVIEW) {
+  config.head!.push(['meta', { name: 'robots', content: 'noindex,nofollow' }])
 }
 
 export default config

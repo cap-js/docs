@@ -68,7 +68,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v3
       with:
-        name: site
+        name: github-pages
     - name: Unpack Artifact
       run: |
         tar -xzf site.tgz -C .

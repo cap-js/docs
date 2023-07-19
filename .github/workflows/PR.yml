@@ -97,9 +97,10 @@ jobs:
           fi
         done < "./notebooks/generated_notebooks"
         NOTEBOOKS_STRING=$(IFS=' '; echo '${NOTEBOOKS[*]}')
+        echo "+++ $NOTEBOOKS_STRING"
         echo "notebooks=$NOTEBOOKS_STRING" >> "$GITHUB_OUTPUT"
     - name: Test CAP Notebooks
       uses: mnkiefer/notebook-runner@main
       with:
-        notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}
+        notebook-files: "${{ steps.get-notebooks.outputs.notebooks }}"
         timeout: 200000

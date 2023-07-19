@@ -83,7 +83,7 @@ jobs:
     - name: Setup Build Environment
       run: |
         apt-get install sqlite3
-    - name: Test CAP Notebooks
+    - name: Get CAP Notebooks
       shell: bash
       run: |
         NOTEBOOKS=()
@@ -95,8 +95,9 @@ jobs:
             NOTEBOOKS+=("$nbfile")
           fi
         done < "./notebooks/generated_notebooks"
-        NOTEBOOK_STRING=$(IFS=' '; echo "${NOTEBOOKS[*]}")
-        uses: mnkiefer/notebook-runner@main
-        with:
-          notebook-files: $NOTEBOOK_STRING
-          timeout: 200000
+        echo "notebooks=$(IFS=' '; echo '${NOTEBOOKS[*]}')" >> "$GITHUB_ENV"
+    - name: Test CAP Notebooks
+      uses: mnkiefer/notebook-runner@main
+      with:
+        notebook-files: ${{ env.notebooks }}
+        timeout: 200000

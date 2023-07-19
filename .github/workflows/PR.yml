@@ -86,7 +86,7 @@ jobs:
     - name: Test CAP Notebooks
       run: |
         NOTEBOOKS=()
-        CHANGED_COOKBOOKS=(get-started/hello-world.md get-started/in-a-nutshell.md)
+        CHANGED_COOKBOOKS=("${{ needs.build.outputs.changed_cookbooks }}")
         echo "CHANGED_NOTEBOOKS=true"
         while read mdfile nbfile; do
           if [[ " ${CHANGED_COOKBOOKS[*]} " == *"$mdfile"* ]]; then

@@ -31,12 +31,12 @@ If you stick to the defaults, saving a _.cds_ file will have the type generator 
 npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/mybookshop
 ```
 
-The CLI offers several parameters which you can list using the `--help` parameter. 
+The CLI offers several parameters which you can list using the `--help` parameter.
 
 ::: details You should then see the following output:
 
 <!-- TODO: automatically pull command line options from cds-typer --help -->
-```sh
+```log
 > @cap-js/cds-typer@0.4.0 cli
 > node lib/cli.js --help
 
@@ -61,7 +61,7 @@ Additionaly, you can use the following parameters:
 ```
 :::
 
-### Programmatically 
+### Programmatically
 
 `cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
 
@@ -72,7 +72,7 @@ Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that i
 :::
 
 ## Adding the `typer` Facet {#typer-facet}
-Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`. 
+Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
 
 ::: details Under the hood
 
@@ -86,7 +86,7 @@ Adding this facet effectively does four things:
 
 ::: warning _TypeScript projects_
 
-Adding the facet in a TypeScript project will adjust your _tsconfig.json_ instead. Note that you may have to manually add the type generator's configured output directory to the `rootDirs` entry in your 
+Adding the facet in a TypeScript project will adjust your _tsconfig.json_ instead. Note that you may have to manually add the type generator's configured output directory to the `rootDirs` entry in your
 _tsconfig.json_, as we do not want to interfere with your configuration.
 
 :::
@@ -136,7 +136,7 @@ bookstore
 └───db
 │      schema.cds
 │      …
-│   
+│
 └───srv
 │      cat-service.cds
 │      cat-service.js
@@ -166,7 +166,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Note that just as with `cds.entities(…)`, these imports cannot be static, but need to be dynamic:
+Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
 
 ```js
 // ❌ works during design time, but will cause runtime errors
@@ -237,7 +237,7 @@ const { submitOrder } = require('#cds-models/sap/capire/Bookshop')
 service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
 ```
 
-::: warning _Lambda functions vs fully fledged functions_
+::: warning _Lambda Functions vs. Fully Fledged Functions_
 
 Using anything but lambda functions for either CRUD handler or action implementation will make it impossible for the LSP to infer the parameter types.
 
@@ -247,7 +247,7 @@ You can remedy this by specifying the expected type yourself via [JSDoc](https:/
 service.on('READ', Books, readBooksHandler)
 
 /** @param {{ data: import('#cds-models/sap/capire/Bookshop').Books }} req */
-function readBooksHandler (req) { 
+function readBooksHandler (req) {
   // req.data is now properly known to be of type Books again
 }
 ```
@@ -257,7 +257,7 @@ function readBooksHandler (req) {
 
 ### Enums
 
-CDS enums are supported by `cds-typer` and are represented during runtime as well. So you can assign values to enum-typed properties with more confidence: 
+CDS enums are supported by `cds-typer` and are represented during runtime as well. So you can assign values to enum-typed properties with more confidence:
 
 ```cds
 type Priority: String enum {
@@ -286,6 +286,8 @@ service.before('CREATE', Ticket, (req) => {
 ### Handling Optional Properties
 Per default, all properties of emitted types are set to be optional. This reflects how entities can be partial in handlers.
 
+CDS file:
+
 ```cds
 entity Author {
     name: String; // [!code focus]
@@ -298,7 +300,7 @@ entity Book {
 }
 ```
 
-becomes
+Generated type file:
 
 ```ts
 class Author {
@@ -341,8 +343,9 @@ const authorName = myPartiallyAttachedBook.author.name
 ### Singular/ Plural
 The generated types offer both a singular and plural form for convenience. The derivation of these names uses a heuristic that assumes entities are named with an English noun in plural form, following the [best practice guide](https://cap.cloud.sap/docs/guides/domain-modeling#pluralize-entity-names).
 
-Naturally, this best practice can not be enforced on every model. Even for names that do follow best practices, the heuristic can fail. If you find that you would like to specify custom identifiers for singular or plural forms, you can do so using the `@singular` or `@plural` annotations:
+Naturally, this best practice can't be enforced on every model. Even for names that do follow best practices, the heuristic can fail. If you find that you would like to specify custom identifiers for singular or plural forms, you can do so using the `@singular` or `@plural` annotations.
 
+CDS file:
 ```cds
 // model.cds
 @singular: 'Mouse'
@@ -352,7 +355,7 @@ entity Mice { … }
 entity Sheep { … }
 ```
 
-will emit the following types:
+Generated type file:
 
 ```ts
 // index.ts
@@ -371,7 +374,7 @@ The types emitted by `cds-typer` can be used in TypeScript projects as well! Dep
 
 1. Make sure the directory the types are generated into are part of your project's files. You will either have to add that folder to your `rootDirs` in your _tsconfig.json_ or make sure the types are generated into a directory that is already part of your `rootDir`.
 2. Preferably run the project using `cds-ts`.
-3. If you have to use `tsc`, e.g. for deployment, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
+3. If you have to use `tsc`, for example for deployment, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
 
 ```sh
 tsc && cp -r @cds-models dist
@@ -387,10 +390,10 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 ## Quickstart
-1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed
-2. In your project's root, execute `cds add typer`
-3. Install the newly added dev-dependency using `npm i`
-4. Saving any _.cds_ file of your model from VSCode triggers the type generation process
+1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
+2. In your project's root, execute `cds add typer`.
+3. Install the newly added dev-dependency using `npm i`.
+4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
 5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
 ```js

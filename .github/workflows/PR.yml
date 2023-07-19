@@ -20,7 +20,7 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v37
-      - name: Search changed files
+      - name: Find changed cookbooks
         id: search-changed-files
         run: |
           CHANGED_COOKBOOKS=()
@@ -85,13 +85,16 @@ jobs:
         apt-get install sqlite3
     - name: Test CAP Notebooks
       run: |
+        NOTEBOOKS=()
+        CHANGED_COOKBOOKS=(${{ needs.build.outputs.changed_cookbooks }})
         echo "CHANGED_NOTEBOOKS=${{ needs.build.outputs.has_notebooks }}"
-        for file in ${{ needs.build.outputs.changed_cookbooks }}; do
-          echo "FILE: $file"
-          echo "COLUMN: $(awk -vFS='[ ]' '{print $1}' ./notebooks/generated_notebooks)"
-          echo "NOTEBOOK: $(awk -vFS='[ ]' '$1 == "$file" {print $2}' ./notebooks/generated_notebooks)"
-        done
-        
+        while read mdfile nbfile; do
+          echo "$mdfile $nbfile"
+          if [[ ${CHANGED_NOTEBOOKS[@]} =~ $mdfile ]]; then
+            NOTEBOOKS+=("$nbFile")
+          fi
+        done < "./notebooks/generated_notebooks"
+        echo "NOTEBOOKS=$NOTEBOOKS"
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
       #uses: mnkiefer/notebook-runner@main
       #with:

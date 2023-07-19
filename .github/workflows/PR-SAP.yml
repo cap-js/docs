@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          path: 'cap-js-docs'
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v37

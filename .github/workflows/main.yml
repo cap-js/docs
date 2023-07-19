@@ -71,7 +71,7 @@ jobs:
         name: github-pages
     - name: Unpack Artifact
       run: |
-        tar -xzf site.tgz -C .
+        tar -xzf github-pages.tgz -C .
     - name: Checkout Java
       uses: actions/setup-java@v3
       with:

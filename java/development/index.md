@@ -172,7 +172,7 @@ None of the listed features will be available out of the box in case you choose 
 | [FeatureTogglesInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html)  | Information about feature toggles | `@Autowired`<br>`FeatureTogglesInfo ftsInfo;`
 | [CdsDataStore](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDataStore.html) | Direct access to default data store | `@Autowired`<br>`CdsDataStore ds;` |
 
-### GraalVM Native Image support
+### GraalVM Native Image support (beta)
 
 Since Spring Boot 3 it is possible to compile Spring Boot applications to standalone native executables leveraging GraalVM Native Images.
 Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.

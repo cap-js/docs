@@ -12,6 +12,9 @@ jobs:
   build-sap:
     runs-on: ubuntu-latest
     if: '! github.event.pull_request.head.repo.fork'
+    outputs:
+      has_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
+      changed_cookbooks: ${{ steps.search-changed-files.outputs.changed_cookbooks }}
     steps:
       - name: Checkout SAP repo
         run: |
@@ -27,6 +30,12 @@ jobs:
         env:
           GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+      - name: Find changed cookbooks
+        id: search-changed-files
+        run: ./scripts/search-changed-files.sh
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:

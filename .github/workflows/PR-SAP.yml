@@ -35,7 +35,19 @@ jobs:
         uses: tj-actions/changed-files@v37
       - name: Find changed cookbooks
         id: search-changed-files
-        run: ./scripts/search-changed-files.sh
+        shell: bash
+        run: |
+          CHANGED_COOKBOOKS=()
+          HAS_NOTEBOOKS=false
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          if (grep -P "notebook:\s*true" $file); then
+              HAS_NOTEBOOKS=true
+              CHANGED_COOKBOOKS+=("$file")
+          fi
+          done
+          COOKBOOKS_STRING=$(echo ${CHANGED_COOKBOOKS[*]})
+          echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
+          echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -56,3 +68,42 @@ jobs:
           npm run docs:preview -- --port 5555 &
           sleep 2
           .github/etc/blc.js http://localhost:5555/docs/
+
+          test:
+            runs-on: ubuntu-latest
+            needs: build
+            steps:
+            - name: Download Artifact
+              uses: actions/download-artifact@v3
+              with:
+                name: site
+            - name: Unpack Artifact
+              run: |
+                tar -xzf site.tgz -C .
+            - name: Checkout Java
+              uses: actions/setup-java@v3
+              with:
+                distribution: zulu
+                java-version: 17
+            - name: Set up Maven
+              uses: stCarolas/setup-maven@v4.5
+              with:
+                maven-version: 3.8.8
+            - name: Get CAP Notebooks
+              id: get-notebooks
+              shell: bash
+              run: |
+                NOTEBOOKS=()
+                CHANGED_COOKBOOKS=("${{ needs.build.outputs.changed_cookbooks }}")
+                while read mdfile nbfile; do
+                    if [[ " ${CHANGED_COOKBOOKS[*]} " =~ " $mdfile " ]]; then
+                    NOTEBOOKS+=("./notebooks/$nbfile")
+                    fi
+                done < "./notebooks/generated_notebooks"
+                NOTEBOOKS_STRING="${NOTEBOOKS[*]}"
+                echo "notebooks=$NOTEBOOKS_STRING" >> "$GITHUB_OUTPUT"
+            - name: Test CAP Notebooks
+              uses: mnkiefer/notebook-runner@main
+              with:
+                notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}
+                timeout: 200000

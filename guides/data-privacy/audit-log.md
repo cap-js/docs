@@ -31,6 +31,8 @@ The application has to clarify that this link between data object and data subje
 Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
 :::
 
+<img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
+
 ## About the Audited Object
 
 ### Data Subject
@@ -123,7 +125,7 @@ annotate bookshop.CustomerPostalAddress with @PersonalData : {
 annotate bookshop.CustomerBillingData with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
-} 
+}
 {
   Customer @PersonalData.FieldSemantics : 'DataSubjectID';
   creditCardNo @PersonalData.IsPotentiallySensitive;
@@ -185,3 +187,185 @@ Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
 <div id="ddkkkeuz32188fjj" />
 
 <span id="sdfgew343224" />
+
+
+### Transactional Outbox
+
+By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
+
+![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
+
+
+
+This provides an ultimate level of resiliency, plus additional benefits:
+
+- **Audit log messages are guaranteed to be delivered** &mdash; even if the audit log service should be down for a longer time period.
+
+- **Asynchronous delivery of log messages** &mdash; the main thread doesn't wait for requests being sent and successfully processed by the audit log service.
+
+- **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
+
+
+
+
+### Programmatic API
+
+In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
+
+Connecting to the service:
+
+```js
+const audit = await cds.connect.to('audit-log')
+```
+
+Sending log messages:
+
+```js
+await audit.log ('SomeEvent', { … })
+```
+
+<br>
+
+
+::: tip
+The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
+:::
+
+#### Basic Service API
+
+The basic service definition declares the generic `log` operation used for all kinds of events, along with type `LogMessage` declares the common fields of all log messages — these fields are filled in automatically if not provided by the caller.
+
+```cds
+namespace sap.auditlog;
+
+service AuditLogService {
+
+  action log     (event: String, data: LogEntry);
+  action logSync (event: String, data: LogEntry);
+
+}
+
+/** Common fields, filled in automatically if missing */
+type LogEntry {
+  uuid      : UUID;
+  tenant    : String;
+  user      : String;
+  timestamp : Timestamp;
+}
+```
+
+::: warning _Warning_
+Only applicable for the Node.js runtime. Java still uses old model, I assume.
+:::
+
+Usage is like that:
+
+```js
+await audit.log ('SomeEvent', {
+  some_details: 'whatever'
+})
+```
+
+#### Personal Data-related Events
+
+In addition, pre-defined event payloads for personal data-related events are declared:
+
+```cds
+namespace sap.auditlog;
+
+service AuditLogService {
+  // … as above
+
+  event SensitiveDataRead : LogEntry {
+    // dataSubjects : many DataSubject;
+    dataSubject  : DataSubject;
+    dataObject   : DataObject;
+    // channel      : String;
+    attributes   : many { name: String };
+    // attachments  : many { name: String; id: String };
+  }
+
+  event PersonalDataChanged : LogEntry {
+    dataSubject   : DataSubject;
+    dataObject    : DataObject;
+    attributes    : many { name: String; old: String; new: String; };
+  }
+
+}
+
+type DataObject  : { type: String; id: {} }
+type DataSubject : DataObject { role: String }
+```
+
+Send corresponding log messages complying to these definitions like that:
+
+```js
+await audit.log ('SensitiveDataRead', {
+  dataSubject: {
+    type: 'sap.capire.bookshop.Customers',
+    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' },
+    role: 'Customer',
+  },
+  dataObject: {
+    type: 'sap.capire.bookshop.Customers',
+    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' }
+  },
+  attributes: [
+    { name: 'creditCardNo' }
+  ]
+})
+```
+
+
+
+#### Config Change Events
+
+```cds
+service AuditLogService {
+  // … as above
+  event ConfigChange : LogMessage {
+    object        : DataObject;
+    attributes    : ChangedAttributes;
+  }
+}
+```
+
+::: warning _Warning_
+Not applicable for the Node.js runtime.
+:::
+
+
+
+#### Security Events
+
+```cds
+service AuditLogService {
+  // ... as above
+  event FailedLogin : LogMessage {
+    action : String;
+    data   : String;
+  }
+}
+```
+
+::: warning _Warning_
+Not applicable for the Node.js runtime.
+:::
+
+
+
+### Service Providers
+
+In addition, everybody could provide new implementations in the same way as we implement the mock variant:
+
+```js
+const cds = require('@sap/cds')
+
+class ConsoleAuditLogService extends cds.Service {
+  log (event, data) {
+    console.log (event, data)
+  }
+}
+
+module.exports = ConsoleAuditLogService
+```

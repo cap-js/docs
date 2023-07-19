@@ -86,11 +86,12 @@ jobs:
       id: get-notebooks
       shell: bash
       run: |
-        ls
-        NOTEBOOKS=$(ls ./notebooks/*.capnb)
+        tar -xvf artifact.tar site
+        ls site
+        NOTEBOOKS=$(ls ./site/notebooks/*.capnb)
         echo "notebooks=$NOTEBOOKS" >> "$GITHUB_OUTPUT"
     - name: Test CAP Notebooks
-      if: ${{ hashFiles('./notebooks/*.capnb') != '' }}
+      if: ${{ hashFiles('./site/notebooks/*.capnb') != '' }}
       uses: mnkiefer/notebook-runner@main
       with:
         notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}

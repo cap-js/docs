@@ -31,7 +31,6 @@ jobs:
               CHANGED_COOKBOOKS+=("$file")
             fi
           done
-          echo ${ARRAY[*]}
           COOKBOOKS_STRING=$(echo ${CHANGED_COOKBOOKS[*]})
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
@@ -86,7 +85,6 @@ jobs:
       run: |
         NOTEBOOKS=()
         CHANGED_COOKBOOKS=("${{ needs.build.outputs.changed_cookbooks }}")
-        #echo "CHANGED_NOTEBOOKS=true"
         while read mdfile nbfile; do
           if [[ " ${CHANGED_COOKBOOKS[*]} " =~ " $mdfile " ]]; then
             NOTEBOOKS+=("./notebooks/$nbfile")

@@ -65,7 +65,7 @@ Additionaly, you can use the following parameters:
 
 `cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
 
-::: warning Impure Application
+::: warning Could alter CSN!
 
 Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
 

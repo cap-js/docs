@@ -86,9 +86,9 @@ jobs:
           CHANGED_COOKBOOKS=("${{ steps.search-changed-files.outputs.changed_cookbooks }}")
           while read mdfile nbfile; do
               if [[ " ${CHANGED_COOKBOOKS[*]} " =~ " $mdfile " ]]; then
-              NOTEBOOKS+=(".vitepress/dist/notebooks/$nbfile")
+              NOTEBOOKS+=("docs/.vitepress/dist/notebooks/$nbfile")
               fi
-          done < ".vitepress/dist/notebooks/generated_notebooks"
+          done < "docs/.vitepress/dist/notebooks/generated_notebooks"
           NOTEBOOKS_STRING="${NOTEBOOKS[*]}"
           echo "notebooks=$NOTEBOOKS_STRING" >> "$GITHUB_OUTPUT"
           echo "Testing notebooks: $NOTEBOOK_STRING"

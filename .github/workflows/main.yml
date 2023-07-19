@@ -69,6 +69,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: github-pages
+        path: .
     - name: Unpack Artifact
       run: |
         tar -xf artifact.tar

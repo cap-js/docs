@@ -459,13 +459,6 @@ Use `cds deploy` to create the _v1/schema.sql_ file:
 cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/schema.sql
 ```
 
-In the _application.yml_ file, configure Spring to use Liquibase for schema evolution:
-
-```yml
-spring:
-    liquibase:
-        change-log: classpath:/changelog/changelog.yml
-```
 
 Finally, store the CSN file, which corresponds to this schema version:
 

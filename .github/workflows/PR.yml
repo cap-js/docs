@@ -79,7 +79,7 @@ jobs:
         maven-version: 3.8.8
     - name: Setup Build Environment
       run: |
-        apt-get install sqlite3
+        sudo apt-get install sqlite3
     - name: Get CAP Notebooks
       id: get-notebooks
       shell: bash

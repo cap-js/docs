@@ -179,7 +179,7 @@ class CatalogService extends cds.ApplicationService { init(){
 ```
 
 ## Using Emitted Types in Your Service
-The types emitted by the type generator are tightly integrated with the CDS API. The following section elucidates where the generated types are recognised by CDS.
+The types emitted by the type generator are tightly integrated with the CDS API. The following section illustrates where the generated types are recognized by CDS.
 
 ### CQL
 

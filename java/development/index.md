@@ -194,9 +194,9 @@ If you want to compile your application as a native executable the following bou
 
 3. Spring Boot automatically defines and fixes all bean definitions of your application at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build.
 
-CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
-
-The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
+    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
+    
+    The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
 
     ::: code-group
     ```json [native-build-env.json]

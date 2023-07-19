@@ -1,8 +1,7 @@
-name: PR
+name: PR Build
 
 on:
   pull_request:
-    branches: [main]
 
 concurrency:
   group: pr-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -19,6 +18,10 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+      - run: |
+          cd .github/cds-snippet-checker
+          npm install
+          npm run check
       - run: npm ci
       - run: npm test
       - run: npm run docs:build

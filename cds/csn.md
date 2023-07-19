@@ -193,7 +193,7 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 | Property   | Used for                                                              |
 |------------|-----------------------------------------------------------------------|
-| `type`     | [Scalar Types](#scalar-types), [Structured Types], and [Associations] |
+| `type`     | [Scalar Types](#scalar-types), [Structured Types](#structured-types), and [Associations](#associations) |
 | `elements` | [Structured Types](#structured-types)                                 |
 | `items`    | [Arrayed Types](#arrayed-types)                                       |
 | `enum`     | [Enumeration Types](#enumeration-types)                               |
@@ -448,7 +448,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### Associations with specified `cardinality`
+### With Specified `cardinality`
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -468,7 +468,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### Associations with specified `on` Condition
+### With Specified `on` Condition
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -484,7 +484,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### Associations with specified `keys`
+### With Specified `keys`
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 
@@ -686,4 +686,3 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 ```
 
 This data must be written and handled by the application, there’s no out-of-the-box support for this by CAP.
-

@@ -79,7 +79,7 @@ In addition, you can acess the current event context from wherever you are in yo
 
 ### . http {.property}
 
-If the inbound process came from an http channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
 
 ```js
 this.on ('*', req => {
@@ -128,7 +128,7 @@ A unique string identifying the current tenant, or `undefined` if not in multite
 
 A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){.learn-more}
 
 
 
@@ -168,7 +168,7 @@ The name of the incoming event, which can be one of:
 
 ### . data {.property}
 
-Contains the event data. For example, the http body for CREATE or UPDATE requests, or the payload of an asynchronous event message.
+Contains the event data. For example, the HTTP body for `CREATE` or `UPDATE` requests, or the payload of an asynchronous event message.
 
 
 
@@ -188,13 +188,13 @@ Provides access to headers of the event message or request. In case of asynchron
 
 ### eve. on 'done' {.event}
 
-Register handlers to these events on a per event / request basis. The event are executed when the whole top-level request handling is finished
+Register handlers to these events on a per event / request basis. The events are executed when the whole top-level request handling is finished
 
 Use this method to register handlers, executed when the whole request is finished.
 
 ```js
-req.before('commit', () => {...}) // immediately beforr calling commit
-req.on('succeeded', () => {...}) // request succeeded, after commmit
+req.before('commit', () => {...}) // immediately before calling commit
+req.on('succeeded', () => {...}) // request succeeded, after commit
 req.on('failed', () => {...}) // request failed, after rollback
 req.on('done', () => {...}) // request succeeded/failed, after all
 ```
@@ -205,11 +205,11 @@ The events `succeeded` , `failed` and `done` are emitted *after* the current tra
 
 
 
-To veto requests, either use the `req.before('commit')` hook described above, or service-level `before` `COMMIT` handlers.
+To veto requests, either use the `req.before('commit')` hook, or service-level `before` `COMMIT` handlers.
 
 To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](./cds-tx).
 
-Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. Following the atomicity property ("all or nothing"), if at least one of the requests in the changeset fails, all requests fail.
+Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. If at least one of the requests in the changeset fails, following the atomicity property ("all or nothing"), all requests fail.
 
 
 
@@ -221,7 +221,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 
 
 
-Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers], such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply).
+Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers](./core-services#srv-handle-event), such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply).
 
 
 [Router]: http://expressjs.com/en/4x/api.html#router
@@ -236,7 +236,7 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](http://expressjs.com). {.indent}
 
 ::: warning
-Please refrain from using internal properties of that object, i.e. the ones starting with '_'. They might be removed in any future release without notice.
+Please refrain from using internal properties of that object, that is the ones starting with '_'. They might be removed in any future release without notice.
 :::
 
 
@@ -386,7 +386,7 @@ Use these methods to collect messages or errors and return them in the request r
 | -------------- | -------------- | ---------- | :------: |
 | `req.notify()` | `req.messages` | Toasters   |    1     |
 | `req.info()`   | `req.messages` | Dialog     |    2     |
-| `req.warn`     | `req.messages` | Dialog     |    3     |
+| `req.warn()`   | `req.messages` | Dialog     |    3     |
 | `req.error()`  | `req.errors`   | Dialog     |    4     |
 
 {style="font-style:italic;width:80%;"}

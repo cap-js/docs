@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## The CDS Model
 
@@ -211,13 +211,13 @@ Features are modeled in CDS by dividing up CDS code concerning separate features
         `-- ...
 ```
 
-In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note, that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
+In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
 
 The database schema resulting from CDS build at design time contains *all* features. This is required to serve the base model and all combinations of features at runtime.
 
 ### The Model Provider Service
 
-![feature-toggles.drawio](../assets/feature-toggles.drawio.svg){.adapt}
+![feature-toggles.drawio](../assets/feature-toggles.drawio.svg)
 
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 

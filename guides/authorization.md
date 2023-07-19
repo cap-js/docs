@@ -26,20 +26,19 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 Authorization means restricting access to data by adding respective declarations to CDS models, which are then enforced in service implementations. By adding such declarations, we essentially revoke all default access and then grant individual privileges.
 
-<!-- #### Content -->
-<!--- % include _toc levels="2,3" %} -->
-<!--- % include links.md %} -->
+[[toc]]
+
 
 
 
 ## Authentication as Prerequisite { #prerequisite-authentication}
 
-In essence, authentication verifies the user's identity and the presented claims such as granted roles and tenant membership. Briefly, authentication reveals _who_ uses the service. In contrast, authorization controls _how_ the user can interact with the application's resources according to granted privileges. As the access control needs to rely on verified claims, authentication is a prerequisite to authorization.
+In essence, authentication verifies the user's identity and the presented claims such as granted roles and tenant membership. Briefly, **authentication** reveals _who_ uses the service. In contrast, **authorization** controls _how_ the user can interact with the application's resources according to granted privileges. As the access control needs to rely on verified claims, authentication is a prerequisite to authorization.
 
 From perspective of CAP, the authentication method is freely customizable. For convenience, a set of authentication methods is supported out of the box to cover most common scenarios:
 
 - [XS User and Authentication and Authorization service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (XSUAA) is a full-fleged [OAuth 2.0](https://oauth.net/2/) authorization server which allows to protect your endpoints in productive environments. JWT tokens issued by the server not only contain information about the user for authentication, but also assigned scopes and attributes for authorization.
-- [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)(IAS) is an [OpenId Connect](https://openid.net/connect/) compliant service for next-generation identity and access management. As of today, CAP provides IAS authentication for incoming requests only. Authorization has to be explicitly managed by the application.
+- [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) is an [OpenId Connect](https://openid.net/connect/) compliant service for next-generation identity and access management. As of today, CAP provides IAS authentication for incoming requests only. Authorization has to be explicitly managed by the application.
 - For _local development_ and _test_ scenario mock user authentication is provided as built-in feature.
 
 Find detailed instructions for setting up authentication in these runtime-specific guides:
@@ -150,7 +149,7 @@ Beside the scope, restrictions can limit access to resources with regards to *di
 - The [roles](#roles) of the user (who?)
 - [Filter-condition](#instance-based-auth) on instances to operate on (which?)
 
-### Restricting Events with @readonly and @insertonly { #restricting-events}
+### @readonly and @insertonly { #restricting-events}
 
 Annotate entities with `@readonly` or `@insertonly` to statically restrict allowed operations for **all** users as demonstrated in the example:
 
@@ -161,7 +160,7 @@ service BookshopService {
 }
 ```
 
-Note that both annotations introduce access control on an entity level. In contrast, for the sake of [input validation](providing-services/#input-validation), you can also use `@readonly` on a property level.
+Note that both annotations introduce access control on an entity level. In contrast, for the sake of [input validation](providing-services#input-validation), you can also use `@readonly` on a property level.
 
 In addition, annotation `@Capabilities` from standard OData vocabulary is enforced by the runtimes analogously:
 
@@ -213,7 +212,7 @@ In general, **implicitly auto-exposed entities cannot be accessed directly**, th
 
 In contrast, **explicitly auto-exposed entities can be accessed directly, but only as `@readonly`**. The rationale behind that is that entities representing value lists need to be readable at the service level, for instance to support value help lists.
 
-See details about `@cds.autoexpose` in [Auto-Exposed Entities](./providing-services/#auto-exposed-entities).
+See details about `@cds.autoexpose` in [Auto-Exposed Entities](./providing-services#auto-exposed-entities).
 
 This results in the following access matrix:
 
@@ -229,7 +228,7 @@ This results in the following access matrix:
 CodeLists such as `Languages`, `Currencies`, and `Countries` from `sap.common` are annotated with `@cds.autoexpose` and so are explicitly auto-exposed.
 :::
 
-### Restricting Roles with @requires { #requires}
+### @requires { #requires}
 
 You can use the `@requires` annotation to control which (pseudo-)role a user requires to access a resource:
 
@@ -245,7 +244,7 @@ When restricting service access through `@requires`, the service's metadata endp
 :::
 
 
-### Access Control with @restrict { #restrict-annotation}
+### @restrict { #restrict-annotation}
 
 You can use the `@restrict` annotation to define authorizations on a fine-grained level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
 The building block of such a restriction is a single **privilege**, which has the general form:
@@ -316,7 +315,7 @@ Currently, the security annotations **are only evaluated on the target entity of
 - Restrictions of (recursively) expanded or inlined entities of a `READ` request aren't checked.
 - Deep inserts and updates are checked on the root entity only.
 
-> See [solution sketches](#limitation-deep-authorization) for information about how to deal with that.
+See [solution sketches](#limitation-deep-authorization) for information about how to deal with that.{.learn-more}
 
 
 #### Supported Combinations with CDS Resources
@@ -366,9 +365,8 @@ service CustomerService @(requires: 'authenticated-user') {
   action monthlyBalance @(requires: 'Vendor') ();
 }
 ```
-::: tip
-The privilege for the `addRating` action is defined on an entity level.
-:::
+
+> The privilege for the `addRating` action is defined on an entity level.
 
 
 The resulting authorizations are illustrated in the following access matrix:
@@ -386,20 +384,20 @@ The resulting authorizations are illustrated in the following access matrix:
 The example models access rules for different roles in the same service. In general, this is _not recommended_ due to the high complexity. See [best practices](#dedicated-services) for information about how to avoid this.
 
 
-### Restrictions and Draft Mode
+### Draft Mode {#restrictions-and-draft-mode}
 
 Basically, the access control for entities in draft mode differs from the [general restriction rules](#restrict-annotation) that apply to (active) entities. A user, who has created a draft, should also be able to edit (`UPDATE`) or cancel the draft (`DELETE`). The following rules apply:
 
 - If a user has the privilege to create an entity (`CREATE`), he or she also has the privilege to create a **new** draft entity and update, delete, and activate it.
 - If a user has the privilege to update an entity (`UPDATE`), he or she also has the privilege to **put it into draft mode** and update, delete, and activate it.
 - Draft entities can only be edited by the creator user.
-  + In the Node.js runtime (@sap/cds^5.8), this includes calling bound actions/ functions on the draft entity.
+  + In the Node.js runtime, this includes calling bound actions/functions on the draft entity.
 
 ::: tip
 As a result of the derived authorization rules for draft entities, you don't need to take care of draft events when designing the CDS authorization model.
 :::
 
-### Restrictions of Auto-Exposed and Generated Entities { #autoexposed-restrictions}
+### Auto-Exposed and Generated Entities { #autoexposed-restrictions}
 
 In general, **a service actually exposes more than the explicitly modeled entities from the CDS service model**. This stems from the fact that the compiler auto-exposes entities for the sake of completeness, for example, by adding composition entities. Another reason is generated entities for localization or draft support that need to appear in the service. Typically, such entities don't have restrictions. The emerging question is, how can requests to these entities be authorized?
 
@@ -427,10 +425,8 @@ So, the authorization for the requests in the example is delegated as follows:
 | `IssuesService.Components[<id>].issues`                | `IssuesService.Components`<sup>3</sup> |
 | `IssuesService.Components[<id>].issues[<id>].category` | `IssuesService.Categories`<sup>2</sup> |
 
-> <sup>1</sup> Request is rejected.
-
-> <sup>2</sup> `@readonly` due to `@cds.autoexpose`
-
+> <sup>1</sup> Request is rejected.<br>
+> <sup>2</sup> `@readonly` due to `@cds.autoexpose`<br>
 > <sup>3</sup> According to the restriction. `<id>` is relevant for instance-based filters.
 
 ### Inheritance of Restrictions
@@ -475,7 +471,8 @@ A service level entity can't inherit a restriction with a `where` condition that
 
 ## Instance-Based Authorization { #instance-based-auth }
 
-The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*. <br>
+The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*.
+
 The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies following standard CDS events only<sup>1</sup>:
 - `READ` (as result filter)
 - `UPDATE` (as reject condition)
@@ -525,7 +522,7 @@ If you explicitly want to offer unrestricted attributes to customers, you need t
   > If `$user.country` is undefined or empty, the overall expression evaluates to `true` reflecting the unrestricted attribute.
 
 ::: warning
-Refreign from unrestricted XSUAA attributes as they need to be designed very carefully as shown in the following example.
+Refrain from unrestricted XSUAA attributes as they need to be designed very carefully as shown in the following example.
 :::
 
 Consider this bad example with *unrestricted* attribute `country` (assuming `valueRequired:false` in XSUAA configuration):
@@ -578,7 +575,7 @@ service ProjectService @(requires: 'authenticated-user') {
 }
 ```
 
-In the `ProjectService` example, only projects for which the current user is a member with role `Editor` are readable and editable. Note, that with exception of the user ID (`$user`) **all authorization information originates from the business data**.
+In the `ProjectService` example, only projects for which the current user is a member with role `Editor` are readable and editable. Note that with exception of the user ID (`$user`) **all authorization information originates from the business data**.
 
 Supported features of `exists` predicate:
 * Combine with other predicates in the `where` condition (`where: 'exists a1[...] or exists a2[...]`).
@@ -589,7 +586,7 @@ Supported features of `exists` predicate:
 Paths *inside* the filter (`where: 'exists a1[b1.c = ...]`) are not yet supported.
 :::
 
-<!--  * Note, that in the Node.js stack, variant `a1[b1.c = ...]` only works on SAP HANA (as `b1.c` is a path expression).  -->
+<!--  * Note that in the Node.js stack, variant `a1[b1.c = ...]` only works on SAP HANA (as `b1.c` is a path expression).  -->
 
 
 The following example demonstrates the last two features:
@@ -615,14 +612,10 @@ service ProductsService @(requires: 'authenticated-user') {
 }
 ```
 
-Here, the authorization of `Products` is derived from `Divisions` by leveraging the _n:m relationship_ via entity `ProducingDivisions`. Note, that the path `producers.division` in the `exist` predicate points to target entity `Divisions`, where the filter with the user-dependent attribute `$user.division` is applied.
+Here, the authorization of `Products` is derived from `Divisions` by leveraging the _n:m relationship_ via entity `ProducingDivisions`. Note that the path `producers.division` in the `exists` predicate points to target entity `Divisions`, where the filter with the user-dependent attribute `$user.division` is applied.
 
-::: warning _Warning_ <!--  -->
+::: warning Consider Access Control Lists
 Be aware that deep paths might introduce a performance bottleneck. Access Control List (ACL) tables, managed by the application, allow efficient queries and might be the better option in this case. <span id="tip-efficient-queries" />
-:::
-
-::: tip
-The `exists`- predicate requires CDS compiler V2.
 :::
 
 <div id="beforeassociationpaths" />
@@ -857,15 +850,14 @@ Information about roles and attributes has to be made available to the UAA platf
 
 ### 1. Roles and Attributes Are Filled into the XSUAA Configuration
 
-Derive scopes, attributes, and role templates out of the CDS model:
+Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
 cds add xsuaa
 ```
 
-This results in:
+This generates an _xs-security.json_ file:
 
-<!--- % include _code sample='xs-security.json' %} -->
 ::: code-group
 ```json [xs-security.json]
 {
@@ -882,80 +874,61 @@ This results in:
 ```
 :::
 
-::: tip
-You can have such a file generated through
-`cds compile service.cds --to xsuaa > xs-security.json`.  The actual name of the file is not important.
+For every role name in the CDS model, one scope and one role template are generated with the exact name of the CDS role.
+
+::: tip Re-generate on model changes
+You can have such a file re-generated via
+```sh
+cds compile srv --to xsuaa > xs-security.json
+```
 :::
 
-For every role name in the CDS model, one scope and one role template are generated with the exact name of the CDS role.
-The modeled role and scope names in the CDS files can contain invalid characters from an XSUAA perspective. See [Application Security Descriptor Configuration Syntax](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/6d3ed64092f748cbac691abc5fe52985.html) in the SAP HANA Platform documentation for the syntax of the _xs-security.json_. You can also find hints for completing this file manually for the complete setup of your XSUAA instance besides the authorization aspect.
-If you create the _xs-security.json_ manually, or whether you already have an existing file, make sure that the scope names in the file match the role names in the CDS model exactly, as these scope names will be checked at runtime.
+See [Application Security Descriptor Configuration Syntax](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/6d3ed64092f748cbac691abc5fe52985.html) in the SAP HANA Platform documentation for the syntax of the _xs-security.json_ and advanced configuration options.
+
+<!-- REVISIT: Not ideal cds compile --to xsuaa can generate invalid xs-security.json files -->
+::: warning Avoid invalid characters in your models
+Roles modeled in CDS may contain characters considered invalid by the XSUAA service.
+:::
+
+If you modify the _xs-security.json_ manually, make sure that the scope names in the file exactly match the role names in the CDS model, as these scope names will be checked at runtime.
 
 ### 2. XSUAA Configuration Is Completed and Published
 
-Depending on whether MTA deployment is used, choose one approach:
-
-
 #### Through MTA Build
 
-Merges any inline configuration from the _mta.yaml_ (see the `config` block) and the _xs-security.json_ file:
+If there's no _mta.yaml_ present, run this command:
 
 ```sh
 cds add mta
 ```
 
-This results in:
+::: details See what this does in the background…
 
-<!--- % include _code sample='mta.yml' %} -->
+1. It creates an _mta.yaml_ file with an `xsuaa` service.
+2. The created service added to the `requires` section of your backend, and possibly other services requiring authentication.
 ::: code-group
-```yaml [mta.yml]
+```yaml [mta.yaml]
+modules:
+  - name: bookshop-srv
+    requires:
+      - bookshop-auth // [!code ++]
 resources:
-  name: my-uaa
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: xsuaa
-    service-plan: application
-    path: ./xs-security.json  # include cds managed scopes and role templates
-    config:
-      xsappname: my-uaa-${space}
-      tenant-mode: dedicated   # use 'shared' for multi-tenant deployments
-      scopes: []   # more scopes
+  name: bookshop-auth // [!code ++]
+  type: org.cloudfoundry.managed-service // [!code ++]
+  parameters: // [!code ++]
+    service: xsuaa // [!code ++]
+    service-plan: application // [!code ++]
+    path: ./xs-security.json # include cds managed scopes and role templates // [!code ++]
+    config: // [!code ++]
+      xsappname: bookshop-${org}-${space} // [!code ++]
+      tenant-mode: dedicated # 'shared' for multitenant deployments // [!code ++]
 ```
 :::
 
-If there are conflicts, the [MTA security configuration](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/6d3ed64092f748cbac691abc5fe52985.html) has priority.
 
-Deployment of such an MTA uploads the XSUAA configuration to SAP BTP.
+Inline configuration in the _mta.yaml_ `config` block and the _xs-security.json_ file are merged. If there are conflicts, the [MTA security configuration](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/6d3ed64092f748cbac691abc5fe52985.html) has priority.
 
 [Learn more about **building and deploying MTA applications**.](deployment/){ .learn-more}
-
-
-#### Manual
-
-Add the following two properties to the `xs-security.json` file:
-
-::: code-group
-```jsonc [xs-security.json]
-{
-  "xsappname": "bookshop",
-  "tenant-mode": "dedicated",
-  ...
-}
-```
-:::
-
-To create a new XSUAA service with this XSUAA configuration, use:
-
-```sh
-cf create-service xsuaa application <servicename> -c xs-security.json
-```
-
-To update an existing service, use:
-
-```sh
-cf update-service <servicename> -c xs-security.json
-```
-
 
 ### 3. Assembling Roles and Assigning Roles to Users
 

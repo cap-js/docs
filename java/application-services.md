@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Handling CRUD Events { #crudevents}
 
@@ -300,7 +300,7 @@ Configure how application services are served. You can define per service which 
 
 Each protocol adapter has its own and unique base path.
 
-By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and the base paths of both can be configured with [CDS Properties] in the _application.yaml_:
+By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and the base paths of both can be configured with [CDS Properties](development/properties) in the _application.yaml_:
 
 | Protocol | Default base path | CDS Property                                                                      |
 |----------|-------------------|-----------------------------------------------------------------------------------|

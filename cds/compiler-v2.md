@@ -1,5 +1,4 @@
 ---
-title: Upgrade to Compiler v2
 shorty: Compiler v2
 synopsis: >
   CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
@@ -10,9 +9,9 @@ redirect_from: releases/compiler-v2
 status: released
 ---
 
-# {{ $frontmatter?.title }}
+# Upgrade to Compiler v2
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 Changes mostly affect internal implementations of the compiler and nonpublic parts of the artifacts produced by the compiler (CSN, EDMX, ...), hence are unlikely to be observed by users of CDS.
 
@@ -45,7 +44,7 @@ before upgrading to v2 &rarr; find respective hints in the following sections.
 
 ### Fix ambiguous `redirects`
 
-When there's no unique target for [**_auto-redirection_**](../guides/providing-services/#auto-redirected-associations),
+When there's no unique target for [**_auto-redirection_**](../guides/providing-services#auto-redirected-associations),
 compiler v1 'silently' skipped respective associations with a warning.
 Yet, many ignored these warnings, which lead to hard-to-detect subsequent errors.
 Therefore, we raised that to an error-level message with compiler v2.

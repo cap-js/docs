@@ -37,17 +37,17 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" class="adapt">
+<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.svg" style="height:40px"  class="adapt"/>
-  <img src="../assets/logos/express.png" style="height:30px"  class="adapt"/>
-  <img src="../assets/logos/java.svg" style="height:44px" class="adapt"/>
-  <img src="../assets/logos/spring.svg" style="height:25px"  class="adapt"/>
+  <img src="../assets/logos/nodejs.svg" style="height:40px" />
+  <img src="../assets/logos/express.png" style="height:30px" />
+  <img src="../assets/logos/java.svg" style="height:44px"/>
+  <img src="../assets/logos/spring.svg" style="height:25px" />
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 0 11px 11px; }
+  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
 </style>
 
 On top of open source technologies, CAP mainly adds:
@@ -84,8 +84,8 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out-of-the-box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services/#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
-| **Out-of-the-box support** for <br> **[SAP Fiori]** and **[SAP HANA]** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
 
 
@@ -104,13 +104,10 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
-<figure>
-  <img src="../assets/core-concepts.drawio.svg" width="650px"  class="adapt">
-  <figcaption>Anatomy of a Typical Application</figcaption>
-</figure>
-<br >
+![CDS models are used to define domain models, service models and UI markup. You can add custom code on top of them.](../assets/core-concepts.drawio.svg)
+Anatomy of a Typical Application{.caption}
 
-<br><br>
+<br>
 
 ###### Core Data Services (CDS)
 
@@ -147,7 +144,7 @@ Domain Models capture static aspects of problem domains as well-known _entity-re
 
 **_[Associations](../cds/cdl#associations)_** capture relationships. _[Compositions](../cds/cdl#compositions)_ extend that to easily model **document structures**.
 
-**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services/#input-validation), [Input Validation](../guides/providing-services/#input-validation) or [Authorization](../guides/authorization).
+**_[Annotations](../cds/cdl#annotations)_** allow enriching models with additional metadata, such as for [UIs](../advanced/fiori), [Validations](../guides/providing-services#input-validation), [Input Validation](../guides/providing-services#input-validation) or [Authorization](../guides/authorization).
 
 </div>
 
@@ -190,7 +187,7 @@ Moreover, that fosters [**separation of concerns**](../guides/domain-modeling#se
 
 </div>
 
-## Proven Best Practices, Served Out-of-the-Box {#generic-providers label='Proven Best Practices'}
+## Proven Best Practices, Served Out of the Box {#generic-providers label='Proven Best Practices'}
 
 
 The CAP runtimes in Node.js and Java provide many generic implementations for recurring tasks and best practices, distilled from proven SAP applications.
@@ -200,24 +197,24 @@ Following is an excerpt of generic features provided:
 
 ###### Automatically Serving Requests
 
-- [Serving CRUD Requests](../guides/providing-services/#generic-providers)
-- [Serving Nested Documents](../guides/providing-services/#serving-documents)
+- [Serving CRUD Requests](../guides/providing-services#generic-providers)
+- [Serving Nested Documents](../guides/providing-services#serving-documents)
 - [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
 ###### Handling Recurring Tasks
 
-- [Implicit Pagination](../guides/providing-services/#implicit-pagination)
-- [Input Validation](../guides/providing-services/#input-validation)
+- [Implicit Pagination](../guides/providing-services#implicit-pagination)
+- [Input Validation](../guides/providing-services#input-validation)
 - [Authentication](../node.js/authentication)
 - [Authorization](../guides/authorization)
 - [Localization / i18n](../guides/i18n)
-- [Concurrency Control](../guides/providing-services/#concurrency-control)
+- [Concurrency Control](../guides/providing-services#concurrency-control)
 
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services/#managed-data)
+- [Managed Data](../guides/providing-services#managed-data)
 - [Localized Data](../guides/localized-data)
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
@@ -323,17 +320,17 @@ We also use [CQL](../cds/cql) in CDS to declare [_de-normalized views_](../cds/c
 
 All behavioral aspects in CAP are based on ubiquitous notions of [Services](#services) and [Events](#events), as expressed in this manifest:
 
-1. _All active things are Services_ --- local ones, remote ones, as well as databases
-2. *Services are [declared in CDS](#service-definitions-in-cds)* --- reflected and used in generic service providers
-3. *Services [provide uniform APIs](#uniform-consumption)* --- consumed by other services or frontends
-4. _Services [react on Events](#events)_ --- covering _synchronous_ and _asynchronous_ APIs
-5. *Services [consume other Services](#uniform-consumption)* --- in event handler implementations
-6. _All data is passive_ --- that is, without its own behavior, adhering to _REST_
+1. _All active things are Services_ — local ones, remote ones, as well as databases
+2. *Services are [declared in CDS](#service-definitions-in-cds)* — reflected and used in generic service providers
+3. *Services [provide uniform APIs](#uniform-consumption)* — consumed by other services or frontends
+4. _Services [react on Events](#events)_ — covering _synchronous_ and _asynchronous_ APIs
+5. *Services [consume other Services](#uniform-consumption)* — in event handler implementations
+6. _All data is passive_ — that is, without its own behavior, adhering to _REST_
 
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-  <img src="../assets/agnostic-services.drawio.svg" width="333px" class="adapt">
+  <img src="../assets/agnostic-services.drawio.svg" width="333px">
   <figcaption><a href="related#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
@@ -390,7 +387,7 @@ POST /orders/cancelOrder/4711
 
 <div>
 
-**Every active thing in CAP is a service**, including *local* services or *remote* ones --- even *databases* are represented as services.
+**Every active thing in CAP is a service**, including *local* services or *remote* ones — even *databases* are represented as services.
 
 All services provide a **uniform** API for programmatic consumption. Thus, application code stays **agnostic** to underlying protocols.
 
@@ -398,7 +395,7 @@ All services provide a **uniform** API for programmatic consumption. Thus, appli
 
 </div>
 
-::: tip _[Late-cut µ services](../guides/providing-services/#late-cut-microservices)_
+::: tip _[Late-cut µ services](../guides/providing-services#late-cut-microservices)_
 This protocol-agnostic API allows [mocking remote services](../guides/using-services#local-mocking), as well as late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
@@ -435,7 +432,7 @@ srv.on ('orderCancelled', (msg)=>{})
 
 **Everything in CAP happens in response to events.** CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, thus blurring the line between both worlds.
 
-We add custom logic in [event handlers](../guides/providing-services/#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
+We add custom logic in [event handlers](../guides/providing-services#event-handlers), registered to **implement** service operations. In the same way, we **subscribe** to asynchronous events emitted by other services.
 
 </div>
 
@@ -474,5 +471,5 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ---
 
 <div markdown="1" style="font-size:90%; color:#666">
-<sup>1</sup> *GraphQL* and *Kafka* aren’t supported out-of-the-box today, but might be added in future.
+<sup>1</sup> *Kafka* isn't supported out of the box today, but might be added in future.
 </div>

@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  Describes authentication and authorization in CAP Java
+  Describes authentication and authorization in CAP Java.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -23,7 +23,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 { #security}
 
@@ -164,9 +164,9 @@ public class AppSecurityConfig {
   @Bean
   public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/public/**").and()
-      .csrf().disable() // don't insist on csrf tokens in put, post etc.
-      .authorizeRequests().anyRequest().permitAll().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/public/**"))
+      .csrf(c -> c.disable()) // don't insist on csrf tokens in put, post etc.
+      .authorizeHttpRequests(r -> r.anyRequest().permitAll())
       .build();
   }
 
@@ -181,12 +181,6 @@ The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/arch
 Be cautious with the configuration of the `HttpSecurity` instance in your custom configuration. Make sure that only the intended endpoints are affected.
 :::
 
-Example:
-```java
-http.authorizeRequests().antMatchers("/public/**").permitAll()
-```
-Opens *all* endpoints of the application, which is hardly intended.
-
 Another typical example is the configuration of [Spring Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.enabling). For example a custom configuration can apply basic authentication to actuator endpoints `/actuator/**`:
 
 ```java
@@ -198,10 +192,10 @@ public class ActuatorSecurityConfig {
   @Bean
   public SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/actuator/**").and()
-      .httpBasic().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/actuator/**"))
+      .httpBasic(Customizer.withDefaults())
       .authenticationProvider(/* configure basic authentication users here with PasswordEncoder etc. */)
-      .authorizeRequests().anyRequest().authenticated().and()
+      .authorizeHttpRequests(r -> r.anyRequest().authenticated())
       .build();
   }
 
@@ -380,7 +374,7 @@ The CAP Java SDK translates the `where`-condition in the `@restrict` annotation 
 * `UPDATE` and `DELETE` requests that address instances that aren’t covered by the condition (for example, which aren't visible) aren’t rejected, but work on the limited set of instances as expected.
 As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
 
-CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note, that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
+CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
 
 ### Enforcement API & Custom Handlers { #enforcement-api}
 

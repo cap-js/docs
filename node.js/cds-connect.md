@@ -125,12 +125,12 @@ async function cds.connect.to (
   name : string,  // reference to an entry in `cds.requires` config
   options : {
     kind : string // reference to a preset in `cds.requires.kinds` config
-    impl : string // module name of the implementation 
+    impl : string // module name of the implementation
   }
 )
 ```
 
-Use `cds.connect.to()` to connect to services configured in a project's `cds.requires` configuration. Usually such services are remote services, which in turn can be mocked locally. Here's an example: 
+Use `cds.connect.to()` to connect to services configured in a project's `cds.requires` configuration. Usually such services are remote services, which in turn can be mocked locally. Here's an example:
 
 ::: code-group
 
@@ -150,7 +150,7 @@ const ReviewsService = cds.connect.to('ReviewsService')
 const db = cds.connect.to('db')
 ```
 
-Argument `options` allows to pass options programmatically, and thus create services without configurations, for example: 
+Argument `options` allows to pass options programmatically, and thus create services without configurations, for example:
 
 ```js
 const db2 = cds.connect.to ({
@@ -158,7 +158,7 @@ const db2 = cds.connect.to ({
 })
 ```
 
-In essence, `cds.connect.to()` works like that: 
+In essence, `cds.connect.to()` works like that:
 
 ```js
 let o = { ...cds.requires[name], ...options }
@@ -173,7 +173,7 @@ return srv.init() ?? srv
 
 ### cds.connect.to  <i>  (name, options?) &#8594; service </i>
 
-Connects to a required service and returns a _Promise_ resolving to a corresponding _[Service]_ instance.
+Connects to a required service and returns a _Promise_ resolving to a corresponding _[Service](../cds/cdl#services)_ instance.
 Subsequent invocations with the same service name all return the same instance.
 
 ```js
@@ -572,7 +572,7 @@ For example, in the _package.json_ file:
 
 The credentials can be provided in any supported way. For example, as env variables:
 
-```
+```sh
 cds_requires_myservice_credentials_user=test-user
 cds_requires_myservice_credentials_password=test-password
 ```

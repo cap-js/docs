@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 
@@ -108,7 +108,7 @@ aspect OrderItems {
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){ .learn-more}
 
 In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
-![ent-rel.drawio](./assets/entrel.drawio.svg){.adapt}
+![ent-rel.drawio](./assets/entrel.drawio.svg)
 
 ::: tip
 Use [Managed Compositions of Aspects](../guides/domain-modeling#composition-of-aspects) to model unidirectional one-to-many compositions.
@@ -216,7 +216,7 @@ author.put("books", Arrays.asList(book1, book2));
 
 In CAP Java data is represented in maps. To simplify data access in custom code, CAP Java additionally provides generated [accessor interfaces](#typed-access) which extend [CdsData](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CdsData.html), enhancing the `Map` interface with path access to nested data and build-in serialization to JSON.
 
-![accessor.drawio](./assets/accessor.drawio.svg){.adapt}
+![accessor.drawio](./assets/accessor.drawio.svg)
 
 The `Row`s of a [query result](./query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
@@ -776,7 +776,7 @@ This proxy is then used to wrap the original `InputStream`. This works for both 
 
 For uploads, you can either use a custom `Before` or `On` handler to wrap the proxy implementation around the original stream before passing it to its final destination.
 
-Using a custom `Before` handler makes sense if the stream's final destination is the persistence layer of the CAP Java SDK, which writes the content to the database. Note, that the pre-processing logic in this example is implemented in the `read()` methods of the `FilterInputStream` and is only called when the data is streamed, during the `On` phase of the request:
+Using a custom `Before` handler makes sense if the stream's final destination is the persistence layer of the CAP Java SDK, which writes the content to the database. Note that the pre-processing logic in this example is implemented in the `read()` methods of the `FilterInputStream` and is only called when the data is streamed, during the `On` phase of the request:
 
 ```java
 @Before(event = CdsService.EVENT_UPDATE)

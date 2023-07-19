@@ -14,7 +14,10 @@ breadcrumbs:
 
 # Querying and View Building
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
+
+[[toc]]
+
 
 ## Overview — Why Querying?
 

@@ -19,20 +19,21 @@ Use the `cds bind` command to connect your application to services on the cloud.
 
 ## Bind to Cloud Services
 
-### Bind a Local Application to Services on Cloud Foundry
+### Services on Cloud Foundry
 
 ```sh
 cds bind -2 my-hana:my-hana-key
 ```
 
-Binds your CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
+Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Learn how to binding to user-provided services on cloud foundry.](#binding-user-provided-services){.learn-more}
+[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
+[Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding db to Cloud Foundry managed service my-hana:my-hana-key with kind hana.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -83,17 +84,17 @@ Note that no credentials are saved. Only the information about **where the crede
 
 [All `cds bind` command line options](#cds-bind-usage){.learn-more}
 
-#### Bind a Local Application to User-Provided Services on Cloud Foundry { #binding-user-provided-services}
+#### User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
 ```sh
 cds bind my-ups -2 my-user-provided-service
 ```
 
-Binds your CAP application to the user provided service instance `my-user-provided-service`, using your currently targeted Cloud Foundry space. The service name `my-ups` is optional - it has to match the service name used in the CDS `required` services configuration.
+Binds your local CAP application to the user provided service instance `my-user-provided-service`, using your currently targeted Cloud Foundry space. The service name `my-ups` is optional - it has to match the service name used in the CDS `required` services configuration.
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding my-ups to Cloud Foundry user provided service my-user-provided-service.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -103,7 +104,7 @@ Output:
 
 `cds watch --profile hybrid` will automatically resolve user-provided service instance bindings using the same technique as for any other managed service binding.
 
-### Bind a Local Application to Services on Kubernetes
+### Services on Kubernetes
 
 
 You can bind to **Service Bindings** of Open Service Broker service instances, such as SAP BTP services, on your Kubernetes cluster and to plain Kubernetes **Secrets** by adding the `--on k8s` option to the `cds bind` command:
@@ -118,7 +119,7 @@ The command uses your current Kubernetes context. That is your current server an
 
 To list all **Service Bindings** in your current Kubernetes context, you can use the `kubectl get servicebindings` command:
 
-```
+```log
 NAME                  SERVICE-INSTANCE      SECRET-NAME           STATUS   AGE
 cpapp-xsuaa-binding   cpapp-xsuaa           cpapp-xsuaa-secret    Ready    11s
 ```
@@ -131,7 +132,7 @@ cds bind -2 cpapp-xsuaa-binding --on k8s
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding uaa to Kubernetes service binding cpapp-xsuaa-binding with kind xsuaa
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
@@ -172,7 +173,7 @@ Alternatively, you can bind to Kubernetes **Secrets**.
 
 You can use the `kubectl get secrets` command to list all secrets in your current Kubernetes context:
 
-```
+```log
 NAME                                    TYPE                                  DATA   AGE
 cap-hdi-container                       Opaque                                11     44h
 ```
@@ -187,7 +188,7 @@ cds bind -2 cap-hdi-container --on k8s --kind hana
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding db to Kubernetes secret cap-hdi-container with kind hana
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
@@ -284,9 +285,7 @@ For example:
 cds bind --exec mvn spring-boot:run
 ```
 
-## Run with Service Bindings from a Running Cloud Application
-
-### Run CAP Apps Using Cloud Application Bindings
+### Bindings from a Cloud Application
 
 Instead of binding to specific cloud services, you can run your application with all service bindings of an application on the SAP BTP, Cloud Foundry environment.
 
@@ -418,7 +417,7 @@ You need to have access to a SAP HANA Cloud instance from your Cloud Foundry spa
 ### Destinations
 
 Learn how to [connect to remote services from local
-](../guides/using-services#connect-to-remote-services-from-local) using SAP BTP destinations.
+](../guides/using-services#connect-to-remote-services-locally) using SAP BTP destinations.
 
 ### Authentication and Authorization using XSUAA
 

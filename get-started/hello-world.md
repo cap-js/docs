@@ -2,8 +2,6 @@
 synopsis: >
   Looking for the obligatory greeting? &rarr; here you go.
 notebook: true
-notebooklanguages: node, java
-notebooktitle: Hello World
 status: released
 impl-variants: true
 ---
@@ -25,7 +23,16 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 </div>
 
 
-## Initialize the project { .impl .java}
+## Create a Project
+
+<div class="impl node">
+
+```sh
+cds init hello-world --add samples
+cd hello-world
+```
+
+</div>
 
 <div class="impl java">
 
@@ -33,6 +40,8 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 cds init hello-world --add java,samples
 cd hello-world
 ```
+
+> With the `cds init` command above you also created a sample schema and service. It's not relevant and can be ignored for now, but a CAP Java service currently needs persistence in order to startup correctly.
 
 </div>
 
@@ -55,6 +64,7 @@ service say {
 
 ... for example, using [Node.js](../node.js/) express.js handlers style.
 
+</div>
 
 ::: code-group
 
@@ -78,16 +88,14 @@ module.exports = class say {
 
 > That has limited flexibility, for example, you can register only one handler per event. { .impl .node}
 
-</div>
-
 <div class="impl java">
 
 ... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
 
 ::: code-group
 
-```java [srv/src/main/java/customer/hello_world_java/handlers/HelloWorld.java]
-package customer.hello_world_java.handlers;
+```java [srv/src/main/java/customer/hello_world/handlers/HelloHandler.java]
+package customer.hello_world.handlers;
 
 import org.springframework.stereotype.Component;
 
@@ -114,33 +122,31 @@ public class HelloHandler implements EventHandler {
 
 </div>
 
+
 ## Run it
 ... for example, from your command line in the root directory of your "Hello World":
 
-<div class="impl node">
+::: code-group
 
-```sh
+```sh [Node.js]
 cds watch
 ```
 
-</div>
-
-<div class="impl java">
-
-```sh
+```sh [Java]
 cd srv
 mvn cds:watch
 ```
 
-</div>
+:::
 
 
 ## Consume it
 ... for example, from your browser:<br>
 
-<http://localhost:4004/say/hello(to='world')>  { .impl .node}
+<http://localhost:4004/odata/v4/say/hello(to='world')>  { .impl .node}
 
-<!-- <http://localhost:4004/say/hello?to=world> -->
-http://localhost:8080/odata/v4/say/hello(to='world') { .impl .java}
+<http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
+
+You should see the value "Hello world!" being returned.
 
 <!--- % include links.md %} -->

@@ -58,11 +58,13 @@ cds.parse.expr(`timestamp'2023-04-15T13:05:23Z'`)  == {val: '2023-04-15T13:05:23
 
 [ref]: #references
 
-A reference is represented as `{ref:...}` with property `ref` holding an array of reference segments as plain identifier strings, or in case of infix filters and/or arguments an object `{id:identifier, ...}` as follows:
+A reference is represented as `{ ref: … }` with property `ref`. This property holds an array of reference segments as plain identifier strings.  Only in case of infix filters and/or arguments, the property holds an object `{ id: 'identifier', … }` and all properties except `id` are optional, as shown in the following snippet:
 
 ```js
 ref = {ref:[..._segment]}
-_segment = string | { id:string, args:_named, where:_xpr }
+_segment = string | { id: string, args: _named, where: _xpr,
+                      groupBy: [ ...expr ], having: _xpr,
+                      orderBy: [ ...ordering_term ], limit: { rows: expr, offset: expr } }
 _named = { ... <name>:expr }
 ```
 
@@ -73,6 +75,11 @@ cqn4(`![keyword]`) == {ref:['keyword']}
 cqn4(`foo.bar`) == {ref:['foo','bar']}
 cqn4(`foo[9].bar`) == {ref:[{ id:'foo', where:[{val:9}] }, 'bar' ]}
 cqn4(`foo(p:x).bar`) == {ref:[{ id:'foo', args:{p:{ref:['x']}} }, 'bar' ]}
+cqn4(`foo[where a=1 group by b having b>2 order by c limit 7].bar`)
+  == {ref:[{ id:'foo', where:[{ref:['a']}, '=', {val:9}],
+                       groupBy: [{ref: ['b']}], having: [{ref: ['b']}, '>',  {val:2}],
+                       orderBy: [{ref: ['c']}], limit: {rows: {val: 7}} },
+           'bar' ]}
 ```
 
 

@@ -31,7 +31,8 @@ jobs:
               CHANGED_COOKBOOKS+=("$file")
             fi
           done
-          COOKBOOKS_STRING=$(IFS=' '; echo "${CHANGED_COOKBOOKS[*]}")
+          echo ${ARRAY[*]}
+          COOKBOOKS_STRING=$(echo ${CHANGED_COOKBOOKS[*]})
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
       - name: Use Node.js

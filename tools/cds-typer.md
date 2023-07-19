@@ -30,12 +30,14 @@ service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
 
 ::: details How it works:
 
-Using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you can make sure the generated type information stays in sync with your model. Instead of [manually calling](#typer-cli) the type generator every time you update your model, the extension will automatically trigger the process whenever you hit _save_ on a _.cds_ file that is part of your model. This requires the [`typer`facet](#typer-facet) to be added to your project.
-Opening your VSCode settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process.
-Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
-If you stick to the defaults, saving a _.cds_ file will have the type generator emit [its type files](#emitted-type-files) into the directory _@cds-models_ in your project's root.
+The extension will automatically trigger the type generator whenever you hit _save_ on a _.cds_ file that is part of your model. That ensures that the generated type information stays in sync with your model. If you stick to the defaults, saving a _.cds_ file will have the type generator emit [its type files](#emitted-type-files) into the directory _@cds-models_ in your project's root.
+
+Opening your VSCode settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process. Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
 
 :::
+
+[Learn more about the `typer` facet.](#typer-facet){.learn-more}
+[Learn about other options to use `cds-typer`.](#usage-options){.learn-more}
 
 ## Using Emitted Types in Your Service
 The types emitted by the type generator are tightly integrated with the CDS API. The following section illustrates where the generated types are recognized by CDS.

@@ -90,7 +90,7 @@ jobs:
         CHANGED_COOKBOOKS=("${{ needs.build.outputs.changed_cookbooks }}")
         echo "CHANGED_NOTEBOOKS=true"
         while read mdfile nbfile; do
-          if [[ " ${CHANGED_COOKBOOKS[*]} " == " $mdfile " ]]; then
+          if [[ " ${CHANGED_COOKBOOKS[*]} " =~ " $mdfile " ]]; then
             echo "$nbfile"
             NOTEBOOKS+=("$nbfile")
           fi

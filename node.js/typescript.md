@@ -128,4 +128,4 @@ class CatalogService extends cds.ApplicationService { init() {
 }}
 ```
 
-You can find extensive documentation in a [dedicated chapter](../tools/cds-typer), together with a [quickstart guide](../tools/cds-typer#quickstart) to get everything up and running.
+You can find extensive documentation in a [dedicated chapter](../tools/cds-typer), together with a [quickstart guide](../tools/cds-typer#cds-typer-vscode) to get everything up and running.

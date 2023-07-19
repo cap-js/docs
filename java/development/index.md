@@ -183,11 +183,13 @@ If you want to compile your application as a native executable the following bou
 
 1. The GraalVM Native Image build analyzes your application from the `main` entry point. Only the code that is reachable through static analysis is included into the native image. This means that the full classpath needs to be known and available already at build time.
 
-2. Dynamic elements of your code, such as usage of reflection, JDK proxies, or resources needs to be registered with the GraalVM Native Image build. You can learn more about this in the [GraalVM Native Image documentation](https://www.graalvm.org/latest/reference-manual/native-image/metadata/).
+2. Dynamic elements of your code, such as usage of reflection, JDK proxies, or resources need to be registered with the GraalVM Native Image build. You can learn more about this in the [GraalVM Native Image documentation](https://www.graalvm.org/latest/reference-manual/native-image/metadata/).
 
     ::: tip
     Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
-    This includes required reflection for event handler classes defined in application code, and the usage of a required JDK proxy for interfaces generated from the application's CDS model by the CDS Maven Plugin.
+    This includes 
+    - Required reflection for event handler classes defined in application code
+    - The usage of a required JDK proxy for interfaces generated from the application's CDS model by the CDS Maven Plugin.
     :::
 
 3. Spring Boot defines and fixes all bean definitions of your application already at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build. The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). You can provide this information in a `native-build-env.json`, which you can configure together with the Spring profile in the `srv/pom.xml`:

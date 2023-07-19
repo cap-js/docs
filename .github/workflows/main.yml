@@ -71,7 +71,6 @@ jobs:
         name: github-pages
     - name: Unpack Artifact
       run: |
-        ls .
         tar -xf artifact.tar
     - name: Checkout Java
       uses: actions/setup-java@v3
@@ -86,6 +85,7 @@ jobs:
       id: get-notebooks
       shell: bash
       run: |
+        ls
         NOTEBOOKS=$(ls ./notebooks/*.capnb)
         echo "notebooks=$NOTEBOOKS" >> "$GITHUB_OUTPUT"
     - name: Test CAP Notebooks

@@ -94,7 +94,7 @@ jobs:
             echo "$nbfile"
             NOTEBOOKS+=("$nbfile")
           fi
-        done < "./generated_notebooks"
+        done < "./notebooks/generated_notebooks"
         NOTEBOOK_STRING=$(IFS=' '; echo "${NOTEBOOKS[*]}")
         echo "$NOTEBOOK_STRING"
       #if: ${{ hashFiles('./notebooks/*.capnb') != '' }}

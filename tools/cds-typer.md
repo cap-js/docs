@@ -84,7 +84,7 @@ Adding this facet effectively does four things:
 4. Adds `@cds-models` (the default output folder for generated files) to your project's _.gitignore_
 :::
 
-::: warning _TypeScript projects_
+::: warning _TypeScript Projects_
 
 Adding the facet in a TypeScript project will adjust your _tsconfig.json_ instead. Note that you may have to manually add the type generator's configured output directory to the `rootDirs` entry in your
 _tsconfig.json_, as we do not want to interfere with your configuration.

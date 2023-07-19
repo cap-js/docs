@@ -189,7 +189,7 @@ Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
 <span id="sdfgew343224" />
 
 
-### Transactional Outbox
+## Transactional Outbox
 
 By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
 
@@ -208,7 +208,7 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 
 
-### Programmatic API
+## Programmatic API
 
 In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
 
@@ -231,7 +231,7 @@ await audit.log ('SomeEvent', { … })
 The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
 :::
 
-#### Basic Service API
+### Basic Service API
 
 The basic service definition declares the generic `log` operation used for all kinds of events, along with type `LogMessage` declares the common fields of all log messages — these fields are filled in automatically if not provided by the caller.
 
@@ -266,7 +266,7 @@ await audit.log ('SomeEvent', {
 })
 ```
 
-#### Personal Data-related Events
+### Personal Data-Related Events
 
 In addition, pre-defined event payloads for personal data-related events are declared:
 
@@ -318,7 +318,7 @@ await audit.log ('SensitiveDataRead', {
 
 
 
-#### Config Change Events
+### Config Change Events
 
 ```cds
 service AuditLogService {
@@ -336,7 +336,7 @@ Not applicable for the Node.js runtime.
 
 
 
-#### Security Events
+### Security Events
 
 ```cds
 service AuditLogService {
@@ -354,7 +354,7 @@ Not applicable for the Node.js runtime.
 
 
 
-### Service Providers
+## Service Providers
 
 In addition, everybody could provide new implementations in the same way as we implement the mock variant:
 

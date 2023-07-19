@@ -84,6 +84,7 @@ jobs:
       run: |
         apt-get install sqlite3
     - name: Get CAP Notebooks
+      id: get-notebooks
       shell: bash
       run: |
         NOTEBOOKS=()
@@ -99,5 +100,5 @@ jobs:
     - name: Test CAP Notebooks
       uses: mnkiefer/notebook-runner@main
       with:
-        notebook-files: ${{ test.outputs.notebooks }}
+        notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}
         timeout: 200000

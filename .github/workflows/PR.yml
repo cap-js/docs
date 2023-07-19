@@ -77,9 +77,9 @@ jobs:
       uses: stCarolas/setup-maven@v4.5
       with:
         maven-version: 3.8.8
-    - name: Setup Build Environment
-      run: |
-        sudo apt-get install sqlite3
+    #- name: Setup Build Environment
+    #  run: |
+    #    sudo apt-get install sqlite3
     - name: Get CAP Notebooks
       id: get-notebooks
       shell: bash

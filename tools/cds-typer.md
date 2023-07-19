@@ -183,13 +183,13 @@ const myBook: Book = …
 // (i) optional chaining
 const authorName = myBook.author?.name
 
-// (ii) non-null assertion operator
-const authorName = myBook.author!.name
-
-// (iii) explicitly ruling out the undefined type
+// (ii) explicitly ruling out the undefined type
 if (myBook.author !== undefined) {
     const authorName = myBook.author.name
 }
+
+// (iii) non-null assertion operator
+const authorName = myBook.author!.name
 
 // (iv) explicitly casting your object to a type where all properties are attached
 const myAttachedBook = myBook as Required<Book>
@@ -199,6 +199,8 @@ const authorName = myAttachedBook.author.name
 const myPartiallyAttachedBook = myBook as Book & { author: Author }
 const authorName = myPartiallyAttachedBook.author.name
 ```
+
+Note that (iii) through (v) are specific to TypeScript, while (i) and (ii) can also be used in JavaScript projects.
 
 ## Fine Tuning
 ### Singular/ Plural
@@ -246,27 +248,57 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
+
 > @cap-js/cds-typer@0.4.0 cli
 > node lib/cli.js --help
 
-[SYNOPSIS]
-Call with at least one positional parameter pointing to the (root) CDS file you want to compile.
-Additionaly, you can use the following parameters:
---help: this text
+SYNOPSIS
 
---inlineDeclarations: whether to resolve inline type declarations flat (x_a, x_b, ...) or structured (x: {a, b}) [allowed: flat | structured] (default: structured)
+  cds-typer [cds file | "*"]
 
---jsConfigPath: Path to where the jsconfig.json should be written. If specified, cds-typer will create a jsconfig.json file and set it up to restrict property usage in types entities to existing properties only.
+  Generates type information based on a CDS model.
+  Call with at least one positional parameter pointing
+  to the (root) CDS file you want to compile.
 
---logLevel: minimum log level [allowed: TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE] (default: NONE)
+OPTIONS
 
---outputDirectory: root directory to write generated files to (default: ./)
+  --help
 
---propertiesOptional: if set to true, properties in entities are always generated as optional (a?: T) [allowed: true | false] (default: true)
+    This text.
 
---rootDir: [DEPRICATED] use outputDirectory instead (default: ./)
+  --inlineDeclarations: <flat | structured>
+    (default: structured)
 
---version: prints the version of this tool
+    Whether to resolve inline type declarations
+    flat: (x_a, x_b, ...)
+    or structured: (x: {a, b}).
+
+  --jsConfigPath: <string>
+
+    Path to where the jsconfig.json should be written.
+    If specified, cds-typer will create a jsconfig.json file and
+    set it up to restrict property usage in types entities to
+    existing properties only.
+
+  --logLevel: <TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE>
+    (default: NONE)
+
+    Minimum log level that is printed.
+
+  --outputDirectory: <string>
+    (default: ./)
+
+    Root directory to write the generated files to.
+
+  --propertiesOptional: <true | false>
+    (default: true)
+
+    If set to true, properties in entities are
+    always generated as optional (a?: T).
+
+  --version
+
+    Prints the version of this tool.
 ```
 :::
 

@@ -95,9 +95,9 @@ jobs:
             NOTEBOOKS+=("$nbfile")
           fi
         done < "./notebooks/generated_notebooks"
-        echo "notebooks=$(IFS=' '; echo '${NOTEBOOKS[*]}')" >> "$GITHUB_ENV"
+        echo "notebooks=$(IFS=' '; echo '${NOTEBOOKS[*]}')" >> "$GITHUB_OUTPUT"
     - name: Test CAP Notebooks
       uses: mnkiefer/notebook-runner@main
       with:
-        notebook-files: ${{ env.notebooks }}
+        notebook-files: ${{ test.outputs.notebooks }}
         timeout: 200000

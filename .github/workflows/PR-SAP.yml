@@ -12,9 +12,6 @@ jobs:
   build-sap:
     runs-on: ubuntu-latest
     if: '! github.event.pull_request.head.repo.fork'
-    outputs:
-      has_notebooks: ${{ steps.search-changed-files.outputs.has_notebooks }}
-      changed_cookbooks: ${{ steps.search-changed-files.outputs.changed_cookbooks }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,7 +33,7 @@ jobs:
           COOKBOOKS_STRING=$(echo ${CHANGED_COOKBOOKS[*]})
           echo "has_notebooks=$HAS_NOTEBOOKS" >> "$GITHUB_OUTPUT"
           echo "changed_cookbooks=$COOKBOOKS_STRING" >> "$GITHUB_OUTPUT"
-          echo "++$COOKBOOKS_STRING"
+          echo "Found changed cookbooks: $COOKBOOKS_STRING"
       - name: Checkout SAP repo
         run: |
           git config --global credential.helper "cache --timeout=3600"
@@ -85,7 +82,7 @@ jobs:
         shell: bash
         run: |
           NOTEBOOKS=()
-          CHANGED_COOKBOOKS=("${{ steps.build-sap.outputs.changed_cookbooks }}")
+          CHANGED_COOKBOOKS=("${{ steps.search-changed-files.outputs.changed_cookbooks }}")
           while read mdfile nbfile; do
               if [[ " ${CHANGED_COOKBOOKS[*]} " =~ " $mdfile " ]]; then
               NOTEBOOKS+=(".vitepress/dist/notebooks/$nbfile")
@@ -93,6 +90,7 @@ jobs:
           done < ".vitepress/dist/notebooks/generated_notebooks"
           NOTEBOOKS_STRING="${NOTEBOOKS[*]}"
           echo "notebooks=$NOTEBOOKS_STRING" >> "$GITHUB_OUTPUT"
+          echo "Testing notebooks: $NOTEBOOK_STRING"
       - name: Test CAP Notebooks
         uses: mnkiefer/notebook-runner@main
         with:

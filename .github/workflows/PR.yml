@@ -96,7 +96,8 @@ jobs:
             NOTEBOOKS+=("$nbfile")
           fi
         done < "./notebooks/generated_notebooks"
-        echo "notebooks=$(IFS=' '; echo '${NOTEBOOKS[*]}')" >> "$GITHUB_OUTPUT"
+        NOTEBOOKS_STRING=$(IFS=' '; echo '${NOTEBOOKS[*]}')
+        echo "notebooks=$NOTEBOOKS_STRING" >> "$GITHUB_OUTPUT"
     - name: Test CAP Notebooks
       uses: mnkiefer/notebook-runner@main
       with:

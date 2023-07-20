@@ -18,9 +18,9 @@ For example, this is how you convert all services in `srv/` and store the API fi
 cds compile srv --service all -o docs --to openapi
 ```
 
-With the `--openapi:diagram` parameter, you can also include a [yuml](https://yuml.me/) ER diagram of the service entities in the Open API file.
+With the `--openapi:diagram` parameter, you can also include a [yuml](https://yuml.me/) entity-relationship diagram of the service entities in the Open API file.
 
-![openapi](assets/openapi-diagram.png){ .adapt }
+![A screenshot of the entity-relationship diagram.](assets/openapi-diagram.png){ .adapt }
 
 The default value of the server URL is the service base path as declared in the CDS source.
 
@@ -58,7 +58,7 @@ if (process.env.NODE_ENV !== 'production') {
 ```
 
 Swagger UI is then served at `$api-docs/...`.  Just follow the _Open API preview_ links on the index page:
-![Swagger link](assets/swagger-link.png){style="margin:5px auto;width:50%" .adapt}
+![A screenshot showing the link to the Swagger UI.](assets/swagger-link.png){style="margin:5px auto;width:50%" .adapt}
 
 [Learn more about the `cds-swagger-ui-express`.](https://www.npmjs.com/package/cds-swagger-ui-express){.learn-more}
 
@@ -167,7 +167,7 @@ Term | Annotation Target | OpenAPI field
 
 Examples for typical questions on how to fine-tune the generated OpenAPI descriptions.
 
-### How do I suppress GET (list and by-key) on an entity set?
+### Suppress GET (list and by-key) on an entity set?
 
 To suppress both types of GET requests to an entity set, annotate it with
 
@@ -177,7 +177,7 @@ To suppress both types of GET requests to an entity set, annotate it with
 }
 ```
 
-### How do I suppress GET (list) on an entity set?
+### Suppress GET (list) on an entity set?
 
 To suppress only GET list requests to an entity set and still allow GET by-key, annotate it with
 
@@ -191,7 +191,7 @@ To suppress only GET list requests to an entity set and still allow GET by-key, 
 ```
 
 
-### How do I suppress GET (by-key) on an entity set?
+### Suppress GET (by-key) on an entity set?
 
 To suppress only GET by-key requests to an entity set and still allow GET list, annotate it with
 

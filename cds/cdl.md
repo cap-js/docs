@@ -148,6 +148,7 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
+
 ::: warning
 Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
 :::
@@ -176,7 +177,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services/#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -265,11 +266,12 @@ For more information, see [Important Disclaimers and Legal Information](https://
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
 
-Today CAP CDS only supports calculated elements with a value expression
-with "on-read" semantics.
+Today CAP CDS only supports calculated elements with a value expression.
+They are read-only, no value must be provided for them in a WRITE operation.
+When reading a calculated element, the result of the expression is returned.
 
-
-<span id="beforeonread" />
+Calculated elements with a value expression come in two variants: "on-read" and "on-write".
+The difference between them is the point in time when the expression is evaluated.
 
 #### On-read (beta)
 
@@ -285,7 +287,6 @@ entity Employees {
 ```
 
 For a calculated element with "on-read" semantics, the calculation expression is evaluated when reading an entry from the entity.
-The calculated element is read-only, no value must be provided for it in a WRITE operation.
 Using such a calculated element in a query or view definition is equivalent to
 writing the expression directly into the query, both with respect to semantics and to performance.
 In CAP, it is implemented by replacing each occurrence of a calculated element in a query by the respective expression.
@@ -314,21 +315,55 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
+* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
-A calculated element can be *used* in every location where an expression can occur, with these
-exceptions:
+A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
-* A calculated element can't be used in the ON condition of an unmanaged association.
-* A calculated element can't be used as the foreign key of a managed association.
+* in the ON condition of an unmanaged association
+* as the foreign key of a managed association
+* in a query together with nested projections (inline/expand)
 
+::: warning Temporary Restriction in the Node.js Runtime
+Currently, an OData request or a custom query can't directly access a calculated element in the entity
+where it is defined. It must always be accessed using a view/projection.
+:::
 
-There are some temporary restrictions:
+#### On-write (beta)
 
-* Currently, a calculated element must always be accessed using a view/projection. An OData request or custom code can't access the calculated element in the entity where it is defined.
-* A calculated element can't be used in a query together with nested projections (inline/expand).
+Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
+by adding the keyword `stored`. A type specification is mandatory.
 
-<span id="concept-ow" />
+```cds
+entity Employees {
+  firstName : String;
+  lastName : String;
+  name : String = (firstName || ' ' || lastName) stored;
+}
+```
+
+For a calculated element "on-write", the expression is already evaluated when an entry is written into
+the database. The resulting value is then stored/persisted like a regular field, and when reading from the entity,
+it behaves like a regular field as well. Using a stored calculated element can improve performance,
+in particular when it's used for sorting or filtering. This is paid for by higher memory consumption.
+
+While calculated elements "on-read" are handled entirely by CAP, the "on-write" variant is implemented by using
+the corresponding feature for database tables.
+The previous entity definition results in the following table definition:
+```sql
+-- SAP HANA syntax --
+CREATE TABLE Employees (
+  firstName NVARCHAR,
+  lastName NVARCHAR,
+  name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
+);
+```
+For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+In addition, there are restrictions that depend on the particular database. Currently all databases
+supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
+table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
+
+No restrictons apply for reading a calculated element on-write.
 
 <div id="concept-alce" />
 
@@ -403,7 +438,7 @@ entity Order {
 }
 ```
 
-To enforce your _enum_ values during runtime, use the [`@assert.range` annotation](../guides/providing-services/#assert-range).
+To enforce your _enum_ values during runtime, use the [`@assert.range` annotation](../guides/providing-services#assert-range).
 For localization of enum values, model them as [code list](./common#adding-own-code-lists).
 
 <br>
@@ -427,7 +462,7 @@ The entity signature is inferred from the projection.
 
 ### The `as select from` Variant {#as-select-from}
 
-Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL] query including all query clauses.
+Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL](./cql) query including all query clauses.
 
 ```cds
 entity Foo1 as SELECT from Bar; //> implicit {*}
@@ -468,6 +503,7 @@ Each element inherits all properties from the respective base element, except th
 The `key` property is only inherited if all of the following applies:
 - No explicit `key` is set in the query.
 - All key elements of the primary base entity are selected (for example, by using `*`).
+- No path expression with a to-many association is used.
 - No `union`, `join` or similar query construct is used.
 
 For example, the following definition:
@@ -489,6 +525,8 @@ entity SomeView {
   jobTitle: String;
 };
 ```
+
+Note: CAP does **not** enforce uniqueness for key elements of a view or projection.
 
 Use a CDL cast to set an element's type, if one of the following conditions apply:
 + You don't want to use the inferred type.
@@ -723,7 +761,7 @@ to get all users of all teams.
 
 ## Annotations
 
-This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations] guide.
+This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.
 
 - [Annotation Syntax](#annotation-syntax)
 - [Annotation Targets](#annotation-targets)
@@ -767,20 +805,23 @@ You can basically annotate any named thing in a CDS model, such as:
 
 Contexts and services:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] (context|service) Foo @inner { ... }
 ```
 
 Definitions and elements with simple types:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] type Foo @inner : String @after;
 @before [key] anElement @inner : String @after;
 ```
 
 Entities, aspects, and other struct types and elements thereof:
 
-```java
+<!-- cds-mode: ignore, because it shows syntax alternatives -->
+```cds
 @before [define] (entity|type|aspect|annotation) Foo @inner {
   @before simple @inner : String @after;
   @before struct @inner { ...elements... };
@@ -789,36 +830,47 @@ Entities, aspects, and other struct types and elements thereof:
 
 Enums:
 
-```java
-... status : String @inner enum {
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… status : String @inner enum {
   fulfilled @after;
 }
 ```
 
 Columns in a view definition's query:
 
-```java
-... as SELECT from Foo {
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… as SELECT from Foo {
   @before expr as alias @inner : String,
-  ...
+  …
 }
 ```
 
 Parameters in view definitions:
 
-```java
-... with parameters (
-  @before param @inner : String @after
-) ...
+<!-- cds-mode: ignore, because it shows only partial CDS -->
+```cds
+… with parameters (
+  @before param @(inner) : String @after
+) …
 ```
 
-Actions/functions including their parameters and result elements:
+Actions/functions including their parameters and result:
 
-```java
+<!-- cds-mode: upcoming, cds-compiler v4 -->
+```cds
 @before action doSomething @inner (
-  @before param @inner : String @after
-) returns {
-  @before result @inner : String @after;
+  @before param @(inner) : String @after
+) returns @before resultType;
+```
+
+Or in case of a structured result:
+
+<!-- cds-mode: upcoming, cds-compiler v4 -->
+```cds
+action doSomething returns @before {
+  @before resultElem @inner : String @after;
 };
 ```
 
@@ -827,7 +879,7 @@ Actions/functions including their parameters and result elements:
 
 Values can be literals or references. If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-```java
+```cds
 @aFlag //= true, if no value is given
 @aBoolean: false
 @aString: 'foo'
@@ -840,7 +892,7 @@ Values can be literals or references. If no value is given, the default value is
 
 As described in the [CSN spec](./csn#literals), the previously mentioned annotations would compile to CSN as follows:
 
-```
+```jsonc
 {
   "@aFlag": true,
   "@aBoolean": false,
@@ -849,7 +901,7 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
   "@aDecimal": 11.1,
   "@aSymbol": {"#":"foo"},
   "@aReference": {"=":"foo.bar"},
-  "@anArray": [ ... ]
+  "@anArray": [ /* … */ ]
 }
 ```
 
@@ -864,27 +916,27 @@ Annotations in CDS are flat lists of key-value pairs assigned to a target.
 The record syntax - that is, `{key:<value>, ...}` - is a shortcut notation that applies a common prefix to nested annotations.
 For example, the following are equivalent:
 
-```java
+```cds
 @Common.foo.bar
 @Common.foo.car: 'wheels'
 ```
-```java
+```cds
 @Common: { foo.bar, foo.car: 'wheels' }
 ```
-```java
+```cds
 @Common.foo: { bar }
 @Common.foo.car: 'wheels'
 ```
-```java
-@Common.foo: { bar, car: 'wheels'  }
+```cds
+@Common.foo: { bar, car: 'wheels' }
 ```
 
 and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
-```
+```json
 {
   "@Common.foo.bar": true,
-  "@Common.foo.car": "wheels",
+  "@Common.foo.car": "wheels"
 }
 ```
 
@@ -936,21 +988,24 @@ You can also directly annotate a single element:
 annotate Foo:nestedStructField.existingField @title:'Nested Field';
 ```
 
-Actions and functions and even their parameters can be annotated:
+Actions, functions, their parameters and `returns` can be annotated:
 
+
+<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 service SomeService {
   entity SomeEntity { key id: Integer } actions
   {
-    action boundAction(P: Integer);
+    action boundAction(P: Integer) returns String;
   };
-  action unboundAction(P: Integer);
+  action unboundAction(P: Integer) returns String;
 };
 
-annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P);
+annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P)
+                                        returns @label: 'Returns a string';
 annotate SomeService.SomeEntity with actions {
      @label: 'Action label'
-     boundAction(@label: 'firstParameter' P);
+     boundAction(@label: 'firstParameter' P) returns @label: 'Returns a string';
 }
 ```
 
@@ -1064,14 +1119,14 @@ They're based on a mixin approach as known from Aspect-oriented Programming meth
 Use `extend` to add extension fields or to add/override metadata to existing definitions, for example, annotations, as follows:
 
 ```cds
-extend Foo with @title:'Foo' {
+extend Foo with @(title: 'Foo') {
   newField : String;
   extend nestedStructField {
     newField : String;
     extend existingField @title:'Nested Field';
   }
 }
-extend Bar with @title:'Bar'; // nothing for elements
+extend Bar with @title: 'Bar'; // nothing for elements
 ```
 
 ::: tip
@@ -1091,6 +1146,9 @@ extend User with (length:120);
 extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
+
+For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
+the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
 ### Named Aspects — `define aspect` {#aspect}
@@ -1186,7 +1244,7 @@ Enhancing nested structs isn't supported. Note also that you can use the common 
 - [Custom Actions/Functions](#actions)
 - [Custom-defined Events](#events)
 - [Extending Services](#extend-service)
-<span id="tocservices" />
+  <span id="tocservices" />
 
 
 ### Service Definitions
@@ -1418,7 +1476,7 @@ Explicitly modelled binding parameters are ignored for OData V2.
 
 ### Custom-Defined Events {#events}
 
-Similar to [Actions and Functions][actions] you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
+Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
 
 ```cds
 service MyOrders { ...
@@ -1505,7 +1563,7 @@ type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
 
 ### Fully Qualified Names
 
-A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN][]:
+A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
 
 ::: code-group
 ```json [contexts.json]
@@ -1570,9 +1628,11 @@ Hence, the same rules apply:
 - Relative path resolution
   Names starting with `./` or `../` are resolved relative to the current model.
 - Resolving absolute references
-  They're fetched for in `node_modules` folders:
-  - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-  - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+  Names starting with `/` are resolved absolute to the file system.
+- Resolving module references
+  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
+   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
 
 ::: tip
 To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
@@ -1582,9 +1642,9 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
 
 ## Comments {#comments}
 
-  - [Single-Line Comments](#single-comment)
-  - [Multi-Line Comments](#multi-comment)
-  - [Doc comments](#doc-comment)
+- [Single-Line Comments](#single-comment)
+- [Multi-Line Comments](#multi-comment)
+- [Doc comments](#doc-comment)
 
 
 ### Single-Line Comments — `//` {#single-comment}

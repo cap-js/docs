@@ -13,13 +13,13 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## Enabling Remote Services
 
 [Remote Services](consumption-api#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
-The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out-of-the-box.
+The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
 To enable these capabilities in an application, add the following Maven dependency to your project:
 
 ```xml
@@ -35,7 +35,7 @@ After adding the dependency mentioned above, both libraries integrate seamlessly
 CAP ensures to automatically propagate tenant and user information from the _Request Context_ to the Cloud SDK.
 
 CAP's clear recommendation is to use _Remote Services_ over directly leveraging the SAP Cloud SDK.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services/#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 ::: tip
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services).
 :::
@@ -176,13 +176,13 @@ public class DestinationConfiguration implements EventHandler {
 
 [Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){.learn-more}
 
-Note, that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
+Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
 
 ### Adding SAP Cloud SDK Dependencies
 
-The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out-of-the-box.
+The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out of the box.
 In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
 
 It's recommended to add the SAP Cloud SDK BOM to the dependency management section of your application's parent POM.
@@ -312,4 +312,3 @@ ClientCredentialsHttpDestination clientCredentialsHttpDestination =
         new XsuaaService()
     );
 ```
-

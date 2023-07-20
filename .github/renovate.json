@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:base",
+    ":disableDependencyDashboard"
   ],
   "includePaths": [
     ".vitepress/config.ts",
@@ -9,7 +10,7 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": [ "com.sap.cds:cds-services-api" ],
+      "matchPackageNames": [ "com.sap.cds:cds-services-api", "com.sap.cds:cds4j-api" ],
       "rangeStrategy": "bump",
       "groupName": "CAP Java SDK"
     }
@@ -18,9 +19,18 @@
     {
       "fileMatch": [ ".vitepress/config.ts" ],
       "matchStrings": [
-        "java\\s*:\\s*'(?<currentValue>.*?)'"
+        "java_services\\s*:\\s*'(?<currentValue>.*?)'"
       ],
       "depNameTemplate": "com.sap.cds:cds-services-api",
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "maven"
+    },
+    {
+      "fileMatch": [ ".vitepress/config.ts" ],
+      "matchStrings": [
+        "java_cds4j\\s*:\\s*'(?<currentValue>.*?)'"
+      ],
+      "depNameTemplate": "com.sap.cds:cds4j-api",
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
     }

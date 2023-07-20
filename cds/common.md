@@ -110,7 +110,7 @@ entity Foo {
 
 The annotations `@cds.on.insert/update` are handled in generic service providers so to fill in those fields automatically.
 
-[Learn more about **generic service features**.](../guides/providing-services/#managed-data){ .learn-more}
+[Learn more about **generic service features**.](../guides/providing-services#managed-data){ .learn-more}
 
 
 ### Aspect `temporal`
@@ -424,7 +424,7 @@ EU;de;Europäische Union;Europäische Union
 
 You can use Excel or similar tools to maintain these files. For example, the following screenshot shows how we maintained the above two files in Numbers on a Mac:
 
-![csv in numbers](./assets/csv-numbers.png){.adapt}
+![This screenshot is explained in the accompanying text.](./assets/csv-numbers.png)
 
 ### Using Prebuilt Content Package {#prebuilt-data}
 
@@ -447,7 +447,7 @@ using from '@sap/cds-common-content';
 
 ## Adapting to Your Needs
 
-As stated, the predefined definitions are minimalistic by intent. Yet, as _@sap/cds/common_ is also just a CDS model, you can apply all the standard features provided by [CDS](CDL], especially CDS' [Aspects) to adapt, and extend these definitions to your needs.
+As stated, the predefined definitions are minimalistic by intent. Yet, as _@sap/cds/common_ is also just a CDS model, you can apply all the standard features provided by [CDS](./cdl), especially CDS' [Aspects](./cdl#aspects) to adapt, and extend these definitions to your needs.
 
 Let's look at a few examples of what could be done. You can combine these extensions in an effective model.
 ::: tip

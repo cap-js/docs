@@ -1,16 +1,18 @@
-# Documentation for SAP Cloud Application Programming Model
+# Documentation for <br> SAP Cloud Application Programming Model
+
+[![REUSE status](https://api.reuse.software/badge/github.com/cap-js/docs)](https://api.reuse.software/info/github.com/cap-js/docs)
 
 ## About this project
 
-Contains the documentation pages for SAP Cloud Application Programming Model
+This repository contains the core parts of the **documentation pages** for the SAP Cloud Application Programming Model. As a short name, we refer to the documentation as _Capire_.
 
-## Requirements and Setup
-
-*Insert a short description what is required to get your project running...*
+Along with additional SAP-specific pages the content is published to https://cap.cloud.sap on a regular basis.
 
 ## Support, Feedback, Contributing
 
-This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/cap-js/docs/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
+This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/SAP/cap-js/docs/issues) and [pull requests](https://github.com/SAP/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
+
+See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
 
 ## Code of Conduct
 

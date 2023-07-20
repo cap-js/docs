@@ -1,21 +1,13 @@
 ---
 label: Configuration
 synopsis: >
-  Learn here about using <code>cds.env</code> to specify and access configuration options for the Node.js runtimes as well as the `@sap/cds-dk` CLI commands.
+  Learn here about using <code>cds.env</code> to specify and access configuration options for the Node.js runtimes as well as the <code>@sap/cds-dk</code> CLI commands.
 status: released
 ---
-<!--- Migrated: @external/node.js/cds-env.md -> @external/node.js/cds-env.md -->
-
 
 # Project-Specific Configurations
 
-<!-- <style scoped>
-  h1:before {
-    content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
-  }
-</style> -->
-
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## CLI `cds env` Command {#cli}
@@ -40,9 +32,9 @@ For example:
 
 <pre class="log">
 <i>$</i> cds env ls requires.sql
-requires.sql.credentials.database = :memory:
-requires.sql.impl = @sap/cds/lib/db/sql-service
-requires.sql.kind = sqlite
+requires.sql.credentials.database = <em>:memory:</em>
+requires.sql.impl = <em>@sap/cds/lib/db/sql-service</em>
+requires.sql.kind = <em>sqlite</em>
 </pre>
 
 <pre class="log">
@@ -68,7 +60,7 @@ Alternatively, you can also use the `cds eval` or `cds repl` CLI commands to acc
 
 <pre class="log">
 <i>$</i> cds -r
-<em>Welcome to cds repl v4.0.1</em>
+<em>Welcome to cds repl ...</em>
 > cds.env.requires.sql
 {
   credentials: { database: <em>':memory:'</em> },
@@ -90,7 +82,7 @@ console.log (cds.env.requires.sql)
 
 As depicted in the figure below `cds.env` provides one-stop convenient and transparent access to the effective configuration read from various sources, including global defaults, static, project-specific configuration as well as dynamic settings from process environment and service bindings. Different environments, for example, dev vs prod can be identified and selected by [profiles](#profiles).
 
-!['cds env' in the middle, targeted by arrows coming from project content, service bindings and environment.](./assets/cds.env.drawio.svg){.adapt}
+!['cds env' in the middle, targeted by arrows coming from project content, service bindings and environment.](./assets/cds.env.drawio.svg)
 
 ## Sources for `cds.env`
 
@@ -151,7 +143,7 @@ For example, given the following sources:
 
 ::: code-group
 ```properties [env.properties]
-cds.requires.db.credentials.database = my.db
+cds.requires.db.credentials.database = my.sqlite
 ```
 :::
 
@@ -162,7 +154,7 @@ cds.env = { ...,
     db: {
       kind: "sqlite",
       model: "./db",
-      credentials: { database:"my.db" }
+      credentials: { database:"my.sqlite" }
     }
   }
 }
@@ -177,7 +169,7 @@ Node.js programs can also add and change settings by simply assigning values lik
 ```js
 const cds = require('@sap/cds')
 cds.env.requires.sql.kind = 'sqlite'
-cds.env.requires.sql.credentials = { database:'my.db' }
+cds.env.requires.sql.credentials = { database:'my.sqlite' }
 ```
 
 > This would change the respective settings in the running program only, without writing back to the sources listed above.
@@ -190,14 +182,14 @@ cds.env.requires.sql.credentials = { database:'my.db' }
 
 The lowest level of settings is read from built-in defaults, which comprise settings for these top-level properties:
 
-| Settings   | Description                                 |
-|------------|---------------------------------------------|
-| `build`    | for build-related settings                  |
-| `features` | to switch on/off cds features               |
+| Settings   | Description                                  |
+|------------|----------------------------------------------|
+| `build`    | for build-related settings                   |
+| `features` | to switch on/off cds features                |
 | `folders`  | locations for `app`, `srv`, and `db` folders |
-| `i18n`     | for i18n-related settings                   |
-| `odata`    | for OData protocol-related settings         |
-| `requires` | to configure required services              |
+| `i18n`     | for i18n-related settings                    |
+| `odata`    | for OData protocol-related settings          |
+| `requires` | to configure required services               |
 
 > As these properties are provided in the defaults, apps can safely access them, for example, through `cds.env.requires.sql`, without always checking for null values on the top-level entries.
 
@@ -264,7 +256,7 @@ CDS_REQUIRES_DB_KIND=sql cds run
 
 ### In _./default-env.json_
 
-The use of _default-env.json_ is deprecated. Please use [`cds bind`](../advanced/hybrid-testing#run-with-service-bindings)
+The use of _default-env.json_ is deprecated. Please use [`cds bind`](../advanced/hybrid-testing#run-with-service-bindings).
 
 
 ### In `./.env`

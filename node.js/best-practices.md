@@ -43,7 +43,9 @@ Example:
 We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
 :::
 
-### Keep Open Ranges When *Publishing* for Reuse {#publish } <!-- TODO: revisit duplicated attribute { #reuse} -->
+### Keep Open Ranges When *Publishing* for Reuse {#publish }
+
+<!-- TODO: revisit duplicated attribute { #reuse} -->
 
 Let's explain this by looking at counter examples.
 
@@ -170,7 +172,7 @@ Consult sources such as [Express' **Production Best Practices: Security** docume
 
 Creating a [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is a major building block in securing your web application.
 
-[`helmet`](https://www.npmjs.com/package/helmet) provides a default policy out-of-the-box that you can also customize as follows:
+[`helmet`](https://www.npmjs.com/package/helmet) provides a default policy out of the box that you can also customize as follows:
 
 ```js
 cds.on('bootstrap', app => {

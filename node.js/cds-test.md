@@ -33,7 +33,7 @@ Use function `cds.test()` to easily launch and test a CAP server as follows:
 
 ```js{3}
 const project = __dirname+'/..' // The project's root folder
-const cds = require('@sap/cds/lib')
+const cds = require('@sap/cds')
 cds.test(project)
 ```
 [Learn more about tests in the SFLIGHT app.](https://github.com/SAP-samples/cap-sflight/blob/main/test/odata.test.js){.learn-more}
@@ -49,7 +49,7 @@ cds.test(project)
 By default, the `cds` APIs read files from the current working directory. To run test simulating whole projects, use `cds.test.in(<...>)` to specify the test project's root folder.
 
 ```js{2}
-const cds = require('@sap/cds/lib')
+const cds = require('@sap/cds')
 cds.test.in(__dirname)
 ```
 
@@ -215,8 +215,8 @@ Welcome to cds repl v5.5.0
 > cds.test('@capire/bookshop')
 Test {}
 ```
-```sh
-[cds](cds) - model loaded from 6 file(s):
+```log
+[cds] - model loaded from 6 file(s):
 
   ./bookshop/db/schema.cds
   ./bookshop/srv/admin-service.cds
@@ -225,7 +225,7 @@ Test {}
   ./../../cds/common.cds
   ./common/index.cds
 
-[cds](cds) - connect to db > sqlite { database: ':memory:' }
+[cds] - connect to db > sqlite { database: ':memory:' }
  > filling sap.capire.bookshop.Authors from ./bookshop/db/data/sap.capire.bookshop-Authors.csv
  > filling sap.capire.bookshop.Books from ./bookshop/db/data/sap.capire.bookshop-Books.csv
  > filling sap.capire.bookshop.Books.texts from ./bookshop/db/data/sap.capire.bookshop-Books_texts.csv
@@ -234,11 +234,11 @@ Test {}
  > filling sap.common.Currencies.texts from ./common/data/sap.common-Currencies_texts.csv
 /> successfully deployed to sqlite in-memory db
 
-[cds](cds) - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
-[cds](cds) - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
+[cds] - serving AdminService { at: '/admin', impl: './bookshop/srv/admin-service.js' }
+[cds] - serving CatalogService { at: '/browse', impl: './bookshop/srv/cat-service.js' }
 
-[cds](cds) - server listening on { url: 'http://localhost:64914' }
-[cds](cds) - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
+[cds] - server listening on { url: 'http://localhost:64914' }
+[cds] - launched at 9/8/2021, 5:36:20 PM, in: 767.042ms
 [ terminate with ^C ]
 ```
 ```js

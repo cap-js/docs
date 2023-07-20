@@ -195,7 +195,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }
@@ -263,7 +263,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }
@@ -478,7 +478,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
     >In that case you need to add the environment variable `cds_requires_auth_kind=xsuaa` to the run configuration.
 
 3. Check authentication configuration:
-```
+```sh
 cds env list requires.uaa --resolve-bindings --profile hybrid
 ```
 This prints the full `uaa` configuration including the credentials.
@@ -495,7 +495,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png){.adapt}
+   ![Create role collections](./assets/create-role-collection.png)
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.

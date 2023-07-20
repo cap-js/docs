@@ -25,8 +25,10 @@
 
   /* inverts image colors in dark mode */
   &.dark {
-    img { filter: brightness(.9) invert(1) hue-rotate(177deg) }
+    /* brightness fine-tuned to turn #fff into --vp-c-bg */
+    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
+    img.mute-dark { filter:brightness(0.6) }
   }
 }
 
@@ -34,14 +36,14 @@ main {
 
   // Headings
   .vp-doc {
-    h1, .h1 { font-size: 48px; margin: 1em 0 1em; font-weight: 300; line-height: 1.2em }
+    h1, .h1 { font-size: 48px; margin: 1em 0 1em; font-weight: 400; line-height: 1.2em }
     h2, .h2 { font-size: 24px; margin: 4em 0 2em; padding-top: 12px; }
     h3, .h3 { font-size: 20px; margin: 3em 0 1em; }
     h4, .h4 { font-size: 17px; margin: 2em 0 1em; }
     h1 + .subtitle {
       margin: -40px 0 48px;
       font-size: 1.7em;
-      font-weight: 100;
+      font-weight: 400;
     }
     p + h1 {
       margin-top: 3em
@@ -52,8 +54,15 @@ main {
     ul {
       padding-left: 2.2em;
     }
+    .caption {
+      text-align: center;
+      color: #888;
+    }
     div.language-zsh pre code {
-        line-height: 1.4em
+      line-height: 1.4em
+    }
+    pre {
+      padding: 16px 0 !important;
     }
     :not(pre) > code {
       font-style: italic;
@@ -64,6 +73,44 @@ main {
       font-weight: 600; // default is 700 which looks too fat
     }
 
+    // Fix for copy button position
+    [class*='language-'] > button.copy {
+      top: 7px;
+    }
+
+    pre.log {
+      font-size: var(--vp-code-font-size);
+      line-height: var(--vp-code-line-height);
+      padding: 20px !important;
+      border-radius: 8px;
+      overflow: hidden;
+      span {
+        &.cmd {
+          color: #FFCB6B;
+        }
+        &.flags {
+          color: #C3E88D;
+        }
+        &.cwd {
+          color: #777;
+        }
+        &.livereload {
+          color: #FDEC87
+        }
+      }
+      em {
+        color: #00ff00e0;
+      }
+      b {
+        color: #ee0000e0;
+      }
+      i {
+        color: grey;
+      }
+
+      background: var(--vp-code-block-bg);
+      color: #fafafa;
+    }
   }
 
   // Table of Contents
@@ -132,13 +179,12 @@ main {
     }
   }
 
-  img.center {
-    margin: auto;
-    display: block;
+  img {
+    margin: 30px auto;
   }
 
   .good { color:teal }
-  .bad { color:darkred }
+  .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
   .constructor::before { content: 'Constructor: '; color: grey }
   .property::before { content: 'Property: '; color: grey }
   .method::before { content: 'Method: '; color: grey }
@@ -225,39 +271,11 @@ kbd {
   margin-right: 5px;
 }
 
-pre.log {
-  font-size: var(--vp-code-font-size);
-  line-height: var(--vp-code-line-height);
-  padding: 20px;
-  border-radius: 8px;
-  overflow: auto;
-  span {
-    &.cmd {
-      color: #FFCB6B;
-    }
-    &.flags {
-      color: #C3E88D;
-    }
-    &.cwd {
-      color: #777;
-    }
-    &.livereload {
-      color: #FDEC87
-    }
-  }
-  em {
-    color: #00ff00e0;
-  }
-  b {
-    color: #ee0000e0;
-  }
-  i {
-    color: grey;
-  }
-
-  background: var(--vp-code-block-bg);
-  color: #fafafa;
+/* remove transparency in the odd rows (when it scrolls over outline) */
+tr:nth-child(odd) {
+  background-color: var(--vp-c-bg);
 }
+
 
 // enable for light code theme
 // pre.log {
@@ -274,12 +292,22 @@ pre.log {
 
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
-  table:hover,
-  table:focus,
   div[class^='language-']:hover,
   div[class^='language-']:focus,
   pre.log:hover,
   pre.log:focus {
     min-width: fit-content;
+    padding-right: 40px;
+  }
+  table:hover,
+  table:focus {
+    min-width: fit-content;
+  }
+  [class*='language-'] pre {
+    overflow: hidden !important;
+  }
+  // expand navbar to cover wide content (see java/development/properties)
+  .content-body {
+    min-width: 1164px;
   }
 }

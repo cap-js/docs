@@ -79,7 +79,7 @@ In addition, you can acess the current event context from wherever you are in yo
 
 ### . http {.property}
 
-If the inbound process came from an http channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
 
 ```js
 this.on ('*', req => {
@@ -128,7 +128,7 @@ A unique string identifying the current tenant, or `undefined` if not in multite
 
 A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services/#managed-data){.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){.learn-more}
 
 
 

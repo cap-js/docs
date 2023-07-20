@@ -624,7 +624,7 @@ Mixing them together is not trivial, therefore only some special cases are suppo
 
 ## MTX (legacy)
 
-This refers to potential problems with [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis).
+This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
 
 ### How do I set up MTX-Sidecar with App Router? { #mtx-as-sidecar-with-approuter}
 

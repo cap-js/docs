@@ -91,5 +91,4 @@ jobs:
       uses: mnkiefer/notebook-runner@main
       with:
         notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}
-        summary-on-success: true
         timeout: 200000

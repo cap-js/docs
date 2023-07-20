@@ -175,7 +175,7 @@ module.exports = cds.server
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Most probably, this error is caused by the destination timeout of the AppRouter.
+| _Root Cause_ | Most probably, this error is caused by the destination timeout of the App Router.
 | _Solution_ | Set your own `timeout` configuration of [@sap/approuter](https://www.npmjs.com/package/@sap/approuter#destinations).
 
 ### Why does the server crash with `No service definition found for <srv-name>`?
@@ -626,13 +626,13 @@ Mixing them together is not trivial, therefore only some special cases are suppo
 
 This refers to potential problems with [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis).
 
-### How Do I Setup a Sidecar with AppRouter? { #mtx-as-sidecar-with-approuter}
+### How do I set up MTX-Sidecar with App Router? { #mtx-as-sidecar-with-approuter}
 
 See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
 
-### I get a 401 error, when logging in to MTX-Sidecar through AppRouter { #mtx-sidecar-approuter-401}
+### I get a 401 error when logging in to MTX-Sidecar through App Router { #mtx-sidecar-approuter-401}
 
-1. Enable token forwarding in AppRouter, for example using _mta.yaml_:
+1. Enable token forwarding in App Router, for example using _mta.yaml_:
 
    ```yaml
      - name: approuter
@@ -665,7 +665,7 @@ See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project 
      Based on the previous example, it would be:
 
      ```sh
-     cds login … <AppRouter URL>/extend
+     cds login … <App-Router URL>/extend
      ```
 
    - `destination` is the name of the destination pointing to MTX as defined in [mta.yaml](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/8aeea65eb9d64267b554f64a3db8a349.html)

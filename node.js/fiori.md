@@ -64,7 +64,7 @@ Additionally, you can add your logic to the draft specific events as follows:
     srv.on('NEW', 'MyEntity.drafts', /*...*/)
     // When a draft is discarded
     srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
-    // creates new draft from existing active entity
+    // When a new draft is created from an active instance
     srv.on('EDIT', 'MyEntity', /*...*/)
     srv.on('SAVE', 'MyEntity', /*...*/)
   ```

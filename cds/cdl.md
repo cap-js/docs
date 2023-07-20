@@ -1,4 +1,4 @@
-/#se---
+---
 # shorty: Definition Language
 synopsis: >
   A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.

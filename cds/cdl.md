@@ -148,26 +148,28 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-::: danger
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
+
+::: warning
+Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values
 
 For arrayed types the `null` and `not null` constraints apply to the _members_ of the collections. The default is `not null` indicating that the collections can't hold `null` values.
 
-::: danger
+::: warning
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
 :::
 
-In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
+In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`.
+The collection `emails` itself must not be `null`!
 
 ```cds
 entity Bar {
     emails      : many {
         kind    : String null;
         address : String not null;
-    } null;
+    } null;  // -> collection emails may hold null values, overwriting default
 }
 ```
 

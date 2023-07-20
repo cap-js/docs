@@ -60,7 +60,7 @@ It is also possible to use the array variant to register a handler for both enti
 Additionally, you can add your logic to the draft specific events as follows:
 
   ```js
-    // creates new empty draft
+    // When a new draft is created
     srv.on('NEW', 'MyEntity.drafts', /*...*/)
     // cancels draft
     srv.on('CANCEL', 'MyEntity.drafts', /*...*/)

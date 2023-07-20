@@ -203,7 +203,7 @@ The user's preferred locale is determined from request parameters, user settings
 
 The resulting [normalized locale](i18n#normalized-locales) is available programmatically, in your event handlers.
 
-* Node.js: `req.user.locale`
+* Node.js: `req.locale`
 * Java: `eventContext.getParameterInfo().getLocale()`
 
 ### Propagating `$user.locale` to Databases {#propagating-of-user-locale}

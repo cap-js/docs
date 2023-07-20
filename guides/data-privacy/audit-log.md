@@ -369,3 +369,10 @@ class ConsoleAuditLogService extends cds.Service {
 
 module.exports = ConsoleAuditLogService
 ```
+
+## Setup on BTP
+
+Your application needs to be bound to an instance of the SAP Audit Log Service.
+In case you're providing a SaaS application, you additionally need to return the `xsappname` of the service instance's UAA instance (i.e., `cds.env.requires['audit-log'].credentials.uaa.xsappname`).
+If you miss doing this, audit logs that are emitted via the persistent outbox (the default in production as it provides the ultimate resilience) will be lost in nirvana, as the sending effort will end in an unrecoverable error.
+As with all dependencies: If you add them later on, you'll need to update all subscriptions.

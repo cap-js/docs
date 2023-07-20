@@ -1,4 +1,4 @@
----
+/#se---
 # shorty: Definition Language
 synopsis: >
   A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.
@@ -150,7 +150,7 @@ With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 
 ::: warning
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services/#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values

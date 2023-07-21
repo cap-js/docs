@@ -11,9 +11,10 @@ status: released
 ---
 <!--- Migrated: @external/guides/67-Data-Privacy/01-intro.md -> @external/guides/data-privacy/introduction.md -->
 
-# Basics of Data Privacy with CAP
+# Basics of Data Privacy
 
 <div v-html="$frontmatter?.synopsis" />
+
 
 
 ## Introduction
@@ -25,9 +26,61 @@ SAP provides specific features and functions to support compliance regarding the
 
 CAP supports applications in their obligations to comply to data privacy regulations, by automating tedious tasks as much as possible based on annotated models. Using annotations and configurations, CAP supports you using SAP BTP services, which enable you to fulfill specific data privacy requirements in your application. This means at first, personal data management, with the help of annotations and configurations and the SAP Personal Data Manager service.
 
+ADDED FROM GUIDE #4:
+
+Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
+
+<img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
+
+::: tip
+DRM integration in progress
+:::
+
+<!--
+TODO: keep?
 <span id="inintroduction" />
+-->
+
+
+
+### Data Protection and Privacy Requirements
+
+EU regulation etc. -> [Personal Data](https://en.wikipedia.org/wiki/Personal_data)
+
+#### Right of access to personal data
+
+See [Right of access to personal data](https://en.wikipedia.org/wiki/Right_of_access_to_personal_data) -> SAP Personal Data Manager
+
+#### Right to be forgotten
+
+See [Right to be forgotten](https://en.wikipedia.org/wiki/Right_to_be_forgotten) -> SAP Data Rentention Manager
+
+
+
+### Addressed Requirements
+
+The most essential requests you have to answer are those in the table below, with the job to be done in response to that given on the right-hand side:
+
+| Question / Request                          | Discipline                                               |
+| ------------------------------------------- | -------------------------------------------------------- |
+| *When was personal data stored/changed?*    | → [Audit Logging](#audit-logging)                        |
+| *What data about me do you have stored?*    | → [Personal Data Management](#sap-personal-data-manager) |
+| → "Right of access to personal data"        |                                                          |
+| *Please delete all personal data about me!* | → [Retention Management](#sap-data-retention-manager)    |
+| → "Right to be forgotten"                   |                                                          |
+
+<br>
+
+::: warning
+**PLEASE NOTE:** Full compliance is more than that! <br>
+While CAP and SAP BTP services greatly facilitate fulfilling the obligations related to data privacy, there are usually numerous **additional regulations** you have comply to, such as from industry-specific legislation in different countries.
+:::
+
+
 
 <span id="sdfgew343244" />
+
+
 
 ## Indicate Personal Data in Your Domain Model { #indicate-privacy }
 
@@ -49,27 +102,33 @@ using {sap.capire.bookshop} from './schema';
 annotate bookshop.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubject'
-}
-{
+} {
   ID           @PersonalData.FieldSemantics : 'DataSubjectID';
   emailAddress @PersonalData.IsPotentiallyPersonal;
   firstName    @PersonalData.IsPotentiallyPersonal;
   lastName     @PersonalData.IsPotentiallyPersonal;
-  creditCardNo @PersonalData.IsPotentiallySensitive;
   dateOfBirth  @PersonalData.IsPotentiallyPersonal;
 }
 
 annotate bookshop.CustomerPostalAddress with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
-}
-{
+} {
   Customer @PersonalData.FieldSemantics : 'DataSubjectID';
   street   @PersonalData.IsPotentiallyPersonal;
   town     @PersonalData.IsPotentiallyPersonal;
   country  @PersonalData.IsPotentiallyPersonal;
 }
+
+annotate bookshop.CustomerBillingData with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubjectDetails'
+} {
+  Customer     @PersonalData.FieldSemantics : 'DataSubjectID';
+  creditCardNo @PersonalData.IsPotentiallySensitive;
+}
 ```
+
 It is important to annotate the data privacy-relevant entities as `DataSubject`, `DataSubjectDetails`, or `Other`.
 
 

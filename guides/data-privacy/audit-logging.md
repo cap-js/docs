@@ -1,8 +1,8 @@
 ---
 layout: cookbook
-shorty: Audit Log
+shorty: Audit Logging
 synopsis: >
-  Enable and use audit-log capabilities with your CAP application.
+  Enable and use audit-logging capabilities with your CAP application.
 breadcrumbs:
   - Cookbook
   - Data Privacy
@@ -11,7 +11,7 @@ status: released
 ---
 <!--- Migrated: @external/guides/67-Data-Privacy/03-audit-log.md -> @external/guides/data-privacy/audit-log.md -->
 
-# Audit Logging with CAP
+# Audit Logging
 
 <div v-html="$frontmatter?.synopsis" />
 
@@ -43,11 +43,12 @@ In our case `Customers` is the main master data entity with the semantics of 'Da
 using { cuid, Country } from '@sap/cds/common';
 
  entity Customers : cuid, managed {
-  email        : String;
-  firstName    : String;
-  lastName     : String;
-  dateOfBirth  : Date;
-  postalAddress : Association to CustomerPostalAddress on postalAddress.Customer = $self;
+  email           : String;
+  firstName       : String;
+  lastName        : String;
+  dateOfBirth     : Date;
+  postalAddresses : Composition of many CustomerPostalAddress on postalAddresses.Customer = $self;
+  billingData     : Composition of many CustomerBillingData on billingData.Customer = $self;
 }
 
 ```
@@ -228,7 +229,7 @@ await audit.log ('SomeEvent', { … })
 
 
 ::: tip
-The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
+The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
 :::
 
 ### Basic Service API

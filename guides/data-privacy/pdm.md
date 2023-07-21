@@ -12,7 +12,7 @@ status: released
 ---
 <!--- Migrated: @external/guides/67-Data-Privacy/02-personal-data-manager.md -> @external/guides/data-privacy/pdm.md -->
 
-# Personal Data Management with CAP
+# Personal Data Management
 
 <div v-html="$frontmatter?.synopsis" />
 

@@ -66,6 +66,10 @@ By default, the following [pool configuration](https://www.npmjs.com/package/gen
 }
 ```
 
+::: warning
+The default configuration above does not apply to `@cap-js` database implementations.
+:::
+
 The _generic-pool_ has a built-in pool evictor, which inspects idle database connections in the pool and destroys them if they are too old.
 
 The following parameters are provided in the pool configuration:
@@ -104,6 +108,7 @@ Pool configuration can be adjusted by setting the `pool` option as shown in the 
   }
 }
 ```
+
 ::: warning _❗ Warning_
 The parameters are very specific to the current technical setup, such as the application environment and database location.
 Even though we provide a default pool configuration, we expect that each application provides its own configuration based on its specific needs.

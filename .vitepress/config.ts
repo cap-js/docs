@@ -43,7 +43,22 @@ const config:UserConfig<CapireThemeConfig> = {
       options: {
         miniSearch: {
           options: {
-            tokenize: text => text.split( /[\n\r #%*,/:;?[\]{}()&]+/u ) // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
+            tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
+            processTerm: (term, fieldName) => {
+              term = term.trim().toLowerCase().replace(/^\.+/, '').replace(/\.+$/, '')
+              const stopWords = ['and', 'the', 'com', 'sap', 'cds', 'java', 'json', 'node', 'node.js', 'frontmatter', '$frontmatter.synopsis']
+              if (term.length < 3 || stopWords.includes(term))  return false
+
+              if (fieldName === 'text') {
+                // as we don't tokenize along . to keep expressions like `cds.requires.db`, split and add the single parts as extra terms
+                const parts = term.split('.')
+                if (parts.length > 1) {
+                  const newTerms = [term, ...parts].filter(t => t.length >= 3).filter(t => !stopWords.includes(t))
+                  return newTerms
+                }
+              }
+              return term
+            },
           }
         }
       }

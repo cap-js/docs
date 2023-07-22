@@ -43,7 +43,7 @@ const config:UserConfig<CapireThemeConfig> = {
       options: {
         miniSearch: {
           options: {
-            tokenize: text => text.split( /[\n\r #%*,/:;?@[\]{}]+/u ) // simplified charset: removed [-_.] and non-english chars (diacritics etc.)
+            tokenize: text => text.split( /[\n\r #%*,/:;?@[\]{}()&]+/u ) // simplified charset: removed [-_.] and non-english chars (diacritics etc.)
           }
         }
       }

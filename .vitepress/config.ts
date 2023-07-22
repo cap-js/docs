@@ -39,7 +39,14 @@ const config:UserConfig<CapireThemeConfig> = {
       ] },
     ]},
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        miniSearch: {
+          options: {
+            tokenize: text => text.split( /[\n\r #%*,/:;?@[\]{}]+/u ) // simplified charset: removed [-_.] and non-english chars (diacritics etc.)
+          }
+        }
+      }
     },
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',

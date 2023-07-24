@@ -62,6 +62,7 @@ const config:UserConfig<CapireThemeConfig> = {
             },
           },
           searchOptions: {
+            combineWith: "AND",
             //@ts-ignore
             boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
               // downrate matches in archives, changelogs etc.

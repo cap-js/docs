@@ -41,6 +41,7 @@ const config:UserConfig<CapireThemeConfig> = {
     search: {
       provider: 'local',
       options: {
+        exclude: (relativePath) => relativePath.includes('/customization-old'),
         miniSearch: {
           options: {
             tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)

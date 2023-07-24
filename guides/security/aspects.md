@@ -368,6 +368,13 @@ validate(entity, column); // validate entity and column, e.g. compare with posit
 Select.from(entity).columns(b -> b.get(column));
 ```
 
+```js
+const entity = <from user input>
+const column = <from user input>
+validate(entity, column) // validate entity and column, e.g. compare with positive list
+SELECT.from(entity).columns(column)
+```
+
 ::: warning
 Be careful in custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:
 :::

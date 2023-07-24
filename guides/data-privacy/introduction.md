@@ -84,21 +84,66 @@ While CAP and SAP BTP services greatly facilitate fulfilling the obligations rel
 
 ## Indicate Personal Data in Your Domain Model { #indicate-privacy }
 
-Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
-::: tip
-The best practice is to do that in separate files. <br>
-See also: [Using Aspects for Separation of Concerns](../../guides/domain-modeling#separation-of-concerns).
-:::
+See [full sample](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).
 
-Let's have a look at our [sample](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).
+### Base Model
 
-Open the _db/data-privacy.cds_ file, which contains our data privacy-related annotations.
+In the remainder of this guide, we'll use this domain model as the base to add data privacy and audit logging.
+
+db/schema.cds
+{.sample-label}
 
 ```cds
-// Proxy for importing schema from bookshop sample
+using { Country, managed, cuid } from '@sap/cds/common';
+namespace sap.capire.bookshop;
+
+entity Customers : cuid, managed {
+  emailAddress  : String;
+  firstName     : String;
+  lastName      : String;
+  dateOfBirth   : Date;
+  addresses     : Composition of Addresses on addresses.customer = $self;
+  billingData   : Composition of BillingData on billingData.customer = $self;
+}
+
+entity Addresses : cuid, managed {
+  customer       : Association to Customers;
+  street         : String(128);
+  town           : String(128);
+  country        : Country;
+  someOtherField : String(128);
+}
+
+entity BillingData : cuid, managed {
+  customer     : Association to Customers;
+  creditCardNo : String(16);
+}
+
+entity Orders : cuid, managed {
+  orderNo      : String(111); // human-readable key
+  customer     : Association to Customers;
+  personalNote : String;
+  dateOfOrder  : Date;
+  Items        : Composition of many { … }
+}
+```
+
+### Annotating Personal Data
+
+Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Data Subject Details* or *Other*.
+
+Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
+
+<img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
+
+Following the [best practice of separation of concerns](../../domain-modeling#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
+
+db/data-privacy.cds
+{.sample-label}
+
+```cds
 using {sap.capire.bookshop} from './schema';
 
-// annotations for Data Privacy
 annotate bookshop.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubject'
@@ -110,36 +155,49 @@ annotate bookshop.Customers with @PersonalData : {
   dateOfBirth  @PersonalData.IsPotentiallyPersonal;
 }
 
-annotate bookshop.CustomerPostalAddress with @PersonalData : {
+annotate bookshop.Addresses with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
 } {
-  Customer @PersonalData.FieldSemantics : 'DataSubjectID';
+  customer @PersonalData.FieldSemantics : 'DataSubjectID';
   street   @PersonalData.IsPotentiallyPersonal;
   town     @PersonalData.IsPotentiallyPersonal;
   country  @PersonalData.IsPotentiallyPersonal;
 }
 
-annotate bookshop.CustomerBillingData with @PersonalData : {
+annotate bookshop.BillingData with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
 } {
-  Customer     @PersonalData.FieldSemantics : 'DataSubjectID';
+  customer     @PersonalData.FieldSemantics : 'DataSubjectID';
   creditCardNo @PersonalData.IsPotentiallySensitive;
+}
+
+annotate bookshop.Orders with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'Other'
+} {
+  customer     @PersonalData.FieldSemantics : 'DataSubjectID';
+  personalNote @PersonalData.IsPotentiallyPersonal;
 }
 ```
 
 It is important to annotate the data privacy-relevant entities as `DataSubject`, `DataSubjectDetails`, or `Other`.
 
-
 You can annotate different CDS artifacts, such as entities or fields. The data privacy annotations work on different levels - from the entity level to the field level, as described below.
 
+- The **entity-level annotations** signify relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the graphic below.
+
+- The **key-level annotations** signify object primary keys, as well as references to data subjects (which have to be present on each object).
+
+- The **field-level annotations** identify elements containing personal data.
 
 ### Entity-Level Annotations
 
-Entity-level annotations indicate which entities are relevant for data privacy. The most important annotations are:
+#### EntitySemantics
 
-<!-- cds-mode: ignore, because it's the same annotation repeated -->
+Entity-level annotations indicate which entities are relevant for data privacy.
+
 ```cds
 @PersonalData.EntitySemantics: 'DataSubject'
 @PersonalData.EntitySemantics: 'DataSubjectDetails'
@@ -160,6 +218,23 @@ The application has to clarify that this link between data object and data subje
 Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
 :::
 
+#### DataSubjectRole
+
+```cds
+@PersonalData.DataSubjectRole: '<Role>'
+```
+
+Can be added to `@PersonalData.EntitySemantics: 'DataSubject'`. User-chosen string designing the role name to use. Default is the entity name.
+
+Example:
+
+```cds
+annotate Customers with @PersonalData: {
+  EntitySemantics: 'DataSubject',
+  DataSubjectRole: 'Customer'
+};
+```
+
 ### Key-Level Annotations
 
 Key-level annotations indicate the corresponding key information.
@@ -176,48 +251,13 @@ Field-level annotations tag which fields are relevant for data privacy in detail
 
 ```cds
 @PersonalData.IsPotentiallyPersonal
+@PersonalData.IsPotentiallySensitive
 ```
 
 This allows you to manage the data privacy-related actions on a fine granular level only using metadata definitions with annotations and without any need of implementation.
 
 <div id="field-annos-more" />
 
-<!-- Build that as own guide as soon as it's ready
-
-
-## Retention Manager
-
-Goal – find out which personal data has to be deleted at a certain point in time.
-
-When?
-Find out the correct time for deletion.
-
-What?
-Find out the correct amount of data to be deleted.
-
-
-To support this, we’ll invent some new CDS annotation to mark all possible candidates for 'End of Business' indicating time fields in each legal ground (like Consent, Order etc.).
-
-This new CDS annotation for "End of Business" indicators will serve as input for the retention manager.
-
-An additional configuration at the customer site per type of transactional document defines the actual retention time (like 2 years, 5 years, etc.).
-Finally, the retention manager searches all candidates (of natural persons) for possible deletion (across all object types).
-
-Finally, the search results will be cross checked:
-Check all legal grounds, if deletion of certain data really is allowed.                                                                (One active Legal ground is sufficient to stop the deletion!)
-
-CDS could support this process by building certain queries - based on annotations - to find out which legal ground is invalid at a certain point in time (tt.mm.yyyy) and no other legal ground (of the same type) per person (DataSubject) exists.
-
-Static implementation for such queries already exists. We try to bring this on a dynamic meta-data-driven level with help of CDS annotations and CDS queries.
- 
-## Consent Repository
-
-The consent repository is already built with help of CAP and therefore with CDS and with full OData support.
-
-See the [Concent Management Documentation](https://github.../foundation-apps/ConsentManagementDocumentation) for more details.
-
-## Central Business Partner
-
-To reuse the Business Partner from an SAP S/4HANA system, a central Business Partner service is created. If your application makes use of this Business Partner service, you only have to annotate the relation to the Business Partner and your application can make use of the service. In addition, all settings that are necessary to integrate all DPP processes will be performed automatically.
-
--->
+::: warning _Warning_
+Read access logs for sensitive data happen for each and every _Read_ access. Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en). Try to avoid reading sensitive data at all, for example, by obscuring credit card numbers as `**** **** **** 1234`.
+:::

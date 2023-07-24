@@ -361,6 +361,8 @@ Attackers can send malicious input data in a regular request to make the server 
 [CQL statements](../querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
 Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based in user input:
 
+<div class="impl java">
+  
 ```java
 String entity = <from user input>;
 String column = <from user input>;
@@ -368,12 +370,18 @@ validate(entity, column); // validate entity and column, e.g. compare with posit
 Select.from(entity).columns(b -> b.get(column));
 ```
 
+</div>
+
+<div class="impl node">
+  
 ```js
 const entity = <from user input>
 const column = <from user input>
 validate(entity, column) // validate entity and column, e.g. compare with positive list
 SELECT.from(entity).columns(column)
 ```
+
+</div>
 
 ::: warning
 Be careful in custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:

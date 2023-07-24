@@ -665,7 +665,6 @@ The **CDS Lint** rules are a set of generic rules based on CAP best practices. T
 <span id="cds-lint-rules" />
 
 ### Customization
-<br>
 
 #### Configuring CDS Lint Rules
 

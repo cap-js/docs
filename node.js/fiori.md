@@ -36,11 +36,11 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
   }
 }
 ```
-### Handlers Registration { #draftevents}
+
+### Handlers Registration {#draft-support}
 
 Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities. 
-
-Please note, that `CREATE` and `UPDATE` events for an active entity are not the same as in the case of a nondraft implementation. You can find more details about these events below. 
+Please note that draft-enabled entities must follow a specific draft choreography.
 
 The examples are provided for `on` handlers, but of course the same is true for `before` and `after` handlers.  
 
@@ -71,7 +71,19 @@ Additionally, you can add your logic to the draft specific events as follows:
 
 - The `CANCEL` event is triggered when you cancel the draft. In this case, the draft entity is deleted and the active entity is not changed.
 - The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created. 
-- The `SAVE` event is a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is triggered when you press `SAVE` button in UI after finishing editing your draft. Please note, that composition children of the active entity will also be updated or created. The `SAVE` event also means that `MyEntity.drafts` is deleted and all changes are written into `MyEntity`.
+- The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Please note, that composition children of the active entity will also be updated or created.
+
+::: info Compatibility flag
+    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
+:::
+
+### Draft Locks
+
+To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
+
+```json
+cds.drafts.cancellationTimeout=1h
+```
 
 ### Differences to Previous Version
 
@@ -81,11 +93,6 @@ Additionally, you can add your logic to the draft specific events as follows:
     const { MyEntity } = srv.entities
     MyEntity.drafts // points to model.definitions['MyEntity.drafts']
     ```
-
-    ::: info Compatibility flag
-    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
-    :::
-
 
 - Queries are now cleansed from draft-related properties (like `IsActiveEntity`)
 - `PATCH` event is not supported anymore.
@@ -106,11 +113,3 @@ Additionally, you can add your logic to the draft specific events as follows:
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 
-
-## Draft Locks
-
-To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
-
-```json
-cds.drafts.cancellationTimeout=1h
-```

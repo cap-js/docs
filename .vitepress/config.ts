@@ -39,7 +39,43 @@ const config:UserConfig<CapireThemeConfig> = {
       ] },
     ]},
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        exclude: (relativePath) => relativePath.includes('/customization-old'),
+        miniSearch: {
+          options: {
+            tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
+            processTerm: (term, fieldName) => {
+              term = term.trim().toLowerCase().replace(/^\.+/, '').replace(/\.+$/, '')
+              const stopWords = ['and', 'the', 'com', 'sap', 'cds', 'java', 'json', 'node', 'node.js', 'frontmatter', '$frontmatter.synopsis']
+              if (term.length < 3 || stopWords.includes(term))  return false
+
+              if (fieldName === 'text') {
+                // as we don't tokenize along . to keep expressions like `cds.requires.db`, split and add the single parts as extra terms
+                const parts = term.split('.')
+                if (parts.length > 1) {
+                  const newTerms = [term, ...parts].filter(t => t.length >= 3).filter(t => !stopWords.includes(t))
+                  return newTerms
+                }
+              }
+              return term
+            },
+          },
+          searchOptions: {
+            combineWith: "AND",
+            //@ts-ignore
+            boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
+              // downrate matches in archives, changelogs etc.
+              if (documentId.match(/\/archive|changelog|old-mtx-apis/)) return -5
+              // downrate Java matches if Node is toggled and vice versa
+              const toggled = localStorage.getItem('impl-variant')
+              if (toggled === 'node' && (documentId.includes('/java/')    || storedFields?.titles?.includes('Java')))    return -1
+              if (toggled === 'java' && (documentId.includes('/node.js/') || storedFields?.titles?.includes('Node.js'))) return -1
+              return 1
+            }
+          }
+        }
+      }
     },
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',

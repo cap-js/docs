@@ -229,7 +229,6 @@ spring:
   sql:
     init:
       mode: always
-    supportedLocales: "*"
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC

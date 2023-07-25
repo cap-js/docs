@@ -3,7 +3,7 @@ layout: cookbook
 label: Personal Data Management
 shorty: PDM
 synopsis: >
-  Use the SAP Personal Data Manager (PDM) with a CAP application
+  Use the SAP Personal Data Manager (PDM) with a CAP application.
 breadcrumbs:
   - Cookbook
   - Data Privacy
@@ -11,6 +11,8 @@ breadcrumbs:
 status: released
 ---
 <!--- Migrated: @external/guides/67-Data-Privacy/02-personal-data-manager.md -> @external/guides/data-privacy/pdm.md -->
+
+
 
 # Personal Data Management
 
@@ -32,6 +34,8 @@ Following the CAP principles, we recommend adding a new dedicated CAP service th
 
 
 ### CAP Service Model for SAP Personal Data Manager
+
+TODO: adjust modeling in cloud-cap-samples to this one or the other way around?
 
 Open the _srv/pdm-service.cds_ file, which contains the content for the Personal Data Manager service.
 

@@ -30,6 +30,8 @@ ADDED FROM GUIDE #4:
 
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
+TODO: linie zu DRM sollte gestrichelt sein
+
 <img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
 
 ::: tip
@@ -84,9 +86,11 @@ While CAP and SAP BTP services greatly facilitate fulfilling the obligations rel
 
 ## Indicate Personal Data in Your Domain Model { #indicate-privacy }
 
-See [full sample](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).
+See full sample in [cloud-cap-samples](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).
 
 ### Base Model
+
+TODO: adjust modeling in cloud-cap-samples to this one or the other way around?
 
 In the remainder of this guide, we'll use this domain model as the base to add data privacy and audit logging.
 
@@ -133,6 +137,10 @@ entity Orders : cuid, managed {
 Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Data Subject Details* or *Other*.
 
 Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
+
+TODOs:
+- add BillingData to diagram
+- fix types (i.e., `DataSubject`, `DataSubjectDetails`, and `Other`)
 
 <img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
@@ -194,6 +202,7 @@ You can annotate different CDS artifacts, such as entities or fields. The data p
 
 ### Entity-Level Annotations
 
+
 #### EntitySemantics
 
 Entity-level annotations indicate which entities are relevant for data privacy.
@@ -212,11 +221,12 @@ Annotation            | Description
 
 ::: warning _❗ Data Subject and Data Object_<br>
 For each specific personal data operation on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
-The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like
-`Customer @PersonalData.FieldSemantics : 'DataSubjectID';` - is never broken. Thus, semantically correct personal data operation logs can only be written on top of a semantical correctly built application.
+
+The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like `Customer @PersonalData.FieldSemantics : 'DataSubjectID'` - is never broken. Thus, semantically correct personal data operation logs can only be written on top of a semantical correctly built application.
 
 Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
 :::
+
 
 #### DataSubjectRole
 
@@ -235,6 +245,7 @@ annotate Customers with @PersonalData: {
 };
 ```
 
+
 ### Key-Level Annotations
 
 Key-level annotations indicate the corresponding key information.
@@ -244,6 +255,7 @@ Key-level annotations indicate the corresponding key information.
 ```
 
 This key information consists of the `DataSubject` (= Person) and its identifiers and the corresponding personal documents (such as Order, Consent, ...) and its identifiers. The latter is always captured implicitly, so we mainly have to specify the type and the key of the `DataSubject`.
+
 
 ### Field-Level Annotations
 
@@ -256,8 +268,6 @@ Field-level annotations tag which fields are relevant for data privacy in detail
 
 This allows you to manage the data privacy-related actions on a fine granular level only using metadata definitions with annotations and without any need of implementation.
 
-<div id="field-annos-more" />
-
 ::: warning _Warning_
-Read access logs for sensitive data happen for each and every _Read_ access. Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en). Try to avoid reading sensitive data at all, for example, by obscuring credit card numbers as `**** **** **** 1234`.
+Please see [Audit Logging](./audit-logging.md) for implications before marking data as sensitive.
 :::

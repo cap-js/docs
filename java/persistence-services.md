@@ -168,7 +168,7 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](http://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
-The `cds-maven-plugin` provides an `add` goal that can be used to add H2 support to the CAP Java project:
+The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```
 mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
 ```
@@ -201,7 +201,7 @@ Also, you need to enable compiler support for session context variables in _.cds
 
 In addition, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
 
-The `cds-maven-plugin` provides an `add` goal that can be used to add Sqlite support to the CAP Java project:
+The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```
 mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
 ```

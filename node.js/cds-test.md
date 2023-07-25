@@ -33,7 +33,7 @@ Use function `cds.test()` to easily launch and test a CAP server as follows:
 
 ```js{3}
 const project = __dirname+'/..' // The project's root folder
-const cds = require('@sap/cds/lib')
+const cds = require('@sap/cds')
 cds.test(project)
 ```
 [Learn more about tests in the SFLIGHT app.](https://github.com/SAP-samples/cap-sflight/blob/main/test/odata.test.js){.learn-more}
@@ -49,7 +49,7 @@ cds.test(project)
 By default, the `cds` APIs read files from the current working directory. To run test simulating whole projects, use `cds.test.in(<...>)` to specify the test project's root folder.
 
 ```js{2}
-const cds = require('@sap/cds/lib')
+const cds = require('@sap/cds')
 cds.test.in(__dirname)
 ```
 

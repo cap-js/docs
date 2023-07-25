@@ -168,6 +168,12 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](http://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
+The `cds-maven-plugin` provides an `add` goal that can be used to add H2 support to the CAP Java project:
+
+```
+mvn cds:add -Dfeature=H2 -Dprofile=default
+```
+
 ### SQLite
 
 #### Initial Database Schema

@@ -552,7 +552,7 @@ Add an `undeploy.json` file in folder `db/src` with content like this:
 
 ::: code-group
 
-```sql [db/src/undeploy.json]
+```json [db/src/undeploy.json]
 [
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",

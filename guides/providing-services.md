@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 
@@ -149,9 +149,9 @@ service BookshopService {
 
 This definition effectively defines the API served by `BookshopService`.
 
-![service-apis.drawio](assets/providing-services/service-apis.drawio.svg){.adapt}
+![service-apis.drawio](assets/providing-services/service-apis.drawio.svg)
 
-Simple service definitions like that are all we need to run full-fledged servers out-of-the-box, served by CAP's generic runtimes, without any implementation coding required.
+Simple service definitions like that are all we need to run full-fledged servers out of the box, served by CAP's generic runtimes, without any implementation coding required.
 
 ### Services Act as Facades {#services-as-facades}
 
@@ -237,7 +237,7 @@ service AdminService {
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
-In effect, a service definition [as introduced above](#modeling-services) is all we need to run a full-fledged server out-of-the-box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
+In effect, a service definition [as introduced above](#modeling-services) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
 
 
 ### Serving CRUD Requests {#serving-crud}
@@ -678,10 +678,25 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 ### `@mandatory` {#mandatory}
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
-::: tip
-The same applies for fields with the [OData Annotation](../advanced/odata#annotations) `@FieldControl.Mandatory`.
 
- :::
+```cds
+service Sue {
+  entity Books {
+    key ID : UUID;
+    title  : String @mandatory;
+  }
+}
+```
+
+In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unneccessary request rountrips:
+
+```xml
+<Annotations Target="Sue.Books/title">
+  <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+</Annotations>
+```
+
+
 
 ### `@assert.unique` {#unique}
 
@@ -741,16 +756,16 @@ Add `@assert.target` annotation to the service definition as previously mentione
 
 ```cds
 entity Books {
-    key ID : UUID;
-    title  : String;
-    author : Association to Authors @assert.target;
-  }
+  key ID : UUID;
+  title  : String;
+  author : Association to Authors @assert.target;
+}
 
-  entity Authors {
-    key ID : UUID;
-    name   : String;
-    books  : Association to many Books on books.author = $self;
-  }
+entity Authors {
+  key ID : UUID;
+  name   : String;
+  books  : Association to many Books on books.author = $self;
+}
 ```
 
 **HTTP Request** — *assume that an author with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*
@@ -1192,7 +1207,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   await srv.send('stock',{id:2})
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
-  await srv.send('order','Foo',{id:2,x:3})
+  //for passing the params property, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.

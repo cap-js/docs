@@ -74,7 +74,7 @@ You have all your answers and know your scenario, go on reading about [external 
 <!-- Bookshop, SFlight, Incidents Mgmt, Risk Mgmt, Orders Mgmt. etc. -> we might want to cut down on our sample scenarios  -->
 The risk management use case of the previously mentioned [tutorial](https://developers.sap.com/mission.btp-application-cap-e2e.html) shows you one possible scenario:
 
-![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){.adapt style="width: 500px"}
+![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){style="width: 500px"}
 
 ::: info _User Story_
 A company wants to ensure that goods are only sourced from suppliers with acceptable risks. There shall be a software system, that allows a clerk to maintain risks for suppliers and their mitigations. The system shall block the supplier used if risks can't be mitigated.
@@ -290,7 +290,7 @@ The service is automatically mocked, as you can see in the log output on server 
 /> successfully deployed to sqlite in-memory db
 
 [cds] - serving RiskService { at: '/service/risk', impl: './srv/risk-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus]
 
 [cds] - launched in: 1.104s
 [cds] - server listening on { url: 'http://localhost:4004' }
@@ -323,7 +323,7 @@ entity API_BUSINESS_PARTNER.A_BusinessPartner {
   ...
 
   to_BusinessPartnerAddress :
-    Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress {  };
+    Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress {  };  // [!code focus]
 };
 
 entity API_BUSINESS_PARTNER.A_BusinessPartnerAddress {
@@ -1259,7 +1259,7 @@ cds:
 
 Run your application with the Destination service:
 
-```
+```sh
 cds bind --exec -- mvn spring-boot:run \
   -Dspring-boot.run.profiles=default,hybrid
 ```
@@ -1386,7 +1386,7 @@ The MTA-based deployment is described in [the deployment guide](deployment/). Yo
 
 
 ```sh
-cds add xsuaa,destination,connectivity
+cds add xsuaa,destination,connectivity --for production
 ```
 
 ::: details Learn what this does in the background...

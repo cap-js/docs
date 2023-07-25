@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  This section describes how to register event handlers on services. In CAP everything that happens at runtime is an <a href="../about/#events">event</a> that is sent to a <a href="../about/#services">service</a>.
+  This section describes how to register event handlers on services. In CAP everything that happens at runtime is an event that is sent to a service.
   With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 redirect_from: java/srv-impl
 status: released
@@ -14,7 +14,8 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+This section describes how to register event handlers on services. In CAP everything that happens at runtime is an [event](../about/#events) that is sent to a [service](../about/#services).
+With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 
 ## Introduction to Event Handlers
 
@@ -27,7 +28,7 @@ Event handlers are a powerful means to extend CAP. Did you know, that most of th
 
 Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](./consumption-api#cdsservices).
 These events are most typically triggered, when an HTTP-based protocol adapter (for example OData V4) executes a CQN statement on an Application Service to fulfill the HTTP request.
-The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers](../guides/providing-services)) that handle CRUD operations out-of-the-box and implement the handling of many CDS annotations.
+The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers](../guides/providing-services)) that handle CRUD operations out of the box and implement the handling of many CDS annotations.
 Applications most commonly use event handlers on CRUD events to _extend_ the event processing by using the [`Before`](#before) and [`After`](#after) phase.
 
 [Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) that are defined by an Application Service in its model definition are mapped to events as well.

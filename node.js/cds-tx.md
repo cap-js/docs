@@ -135,7 +135,7 @@ cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, async ()=>{
 
 ## Event Contexts
 
-Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound http request object.
+Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound HTTP request object.
 
 #### Accessing Context Information {.h2}
 
@@ -148,7 +148,7 @@ if (user.is('admin')) ...
 ```
 
 ```js
-// Accessing http req, res objects
+// Accessing HTTP req, res objects
 const { req, res } = cds.context.http
 if (!req.is('application/json')) res.send(415)
 ```
@@ -200,11 +200,11 @@ cds.context.user.id === 'u1'          //> true
 ```tsx
 function srv.tx ( ctx?, fn? : tx<srv> => {...} ) => Promise
 function srv.tx ( ctx? ) => tx<srv>
-var ctx : { tenant, user, locale } 
+var ctx : { tenant, user, locale }
 ```
 
-Use this method to run the given function `fn` and all nested operations in a new *root* transaction. 
-For example: 
+Use this method to run the given function `fn` and all nested operations in a new *root* transaction.
+For example:
 
 ```js
 await srv.tx (async tx => {
@@ -214,15 +214,15 @@ await srv.tx (async tx => {
 })
 ```
 
-::: details Transaction objects  `tx<srv>` 
+::: details Transaction objects  `tx<srv>`
 
-The `tx` object created by `srv.tx()` and passed to the function `fn` is a derivate of the service instance, constructed like that: 
+The `tx` object created by `srv.tx()` and passed to the function `fn` is a derivate of the service instance, constructed like that:
 
 ```js
-tx = { __proto__:srv, 
-  context: { tenant, user, locale }, // defaults from cds.context 
+tx = { __proto__:srv,
+  context: { tenant, user, locale }, // defaults from cds.context
   model: cds.model, // could be a tenant-extended variant instead
-  commit(){...}, 
+  commit(){...},
   rollback(){...},
 }
 ```
@@ -231,7 +231,7 @@ tx = { __proto__:srv,
 
 
 
-The new root transaction is also active for all nested operations run from fn, including other services, most important database services. In particular, the following would work as well as expected (this time using `cds.tx` as shortcut `cds.db.tx`): 
+The new root transaction is also active for all nested operations run from fn, including other services, most important database services. In particular, the following would work as well as expected (this time using `cds.tx` as shortcut `cds.db.tx`):
 
 ```js
 await cds.tx (async () => {
@@ -267,7 +267,7 @@ try { // [!code focus]
 
 ::: warning
 
-Note though, that with this usage we've **not** started a new async context, and all nested calls to other services, like db, will **not** happen within the confines of the constructed `tx`.  
+Note though, that with this usage we've **not** started a new async context, and all nested calls to other services, like db, will **not** happen within the confines of the constructed `tx`.
 
 :::
 

@@ -26,7 +26,7 @@
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img { filter: brightness(.884) invert(1) hue-rotate(177deg) }
+    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
     img.mute-dark { filter:brightness(0.6) }
   }
@@ -53,6 +53,10 @@ main {
     }
     ul {
       padding-left: 2.2em;
+    }
+    .caption {
+      text-align: center;
+      color: #888;
     }
     div.language-zsh pre code {
       line-height: 1.4em
@@ -200,13 +204,6 @@ main {
   h3.method + h3.method {
     margin-top: 0
   }
-
-  a[target="_blank"]:not(.no-ext-link) {
-    &::after {
-      font-size: 0.7em;
-      content: "\00A0\2197";
-    }
-  }
 }
 
 // Menu Sidebar
@@ -295,8 +292,6 @@ tr:nth-child(odd) {
 
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
-  table:hover,
-  table:focus,
   div[class^='language-']:hover,
   div[class^='language-']:focus,
   pre.log:hover,
@@ -304,7 +299,15 @@ tr:nth-child(odd) {
     min-width: fit-content;
     padding-right: 40px;
   }
+  table:hover,
+  table:focus {
+    min-width: fit-content;
+  }
   [class*='language-'] pre {
     overflow: hidden !important;
+  }
+  // expand navbar to cover wide content (see java/development/properties)
+  .content-body {
+    min-width: 1164px;
   }
 }

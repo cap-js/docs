@@ -9,13 +9,14 @@ status: released
 
 # Performance Modeling
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Avoid UNION
+
 Using the UNION statement to merge data from different sources should be avoided. Especially, if other activities like SORTING or FILTERING are performed after the UNION statement.
 
 In general, there are two use cases for UNIONs:
-- You want to implement [Polymorphy](#polymorphy)
+- You want to implement [Polymorphism](#polymorphism)
 - You port legacy applications to CAP, which already use UNION statements.
 
 ::: warning
@@ -26,12 +27,12 @@ UNIONs in views come with a performance penalty and complex modelling.
 **Rules of Thumb:**
 - If you can't change your data model, you might have to use UNION to collect semantically close data.
 - The effort of transforming data structures to avoid UNION has the benefit of better performance as well as easier modelling and less complex application code.
-- Starting a new model, you should never need to use UNION. See [Polymorphy](#polymorphy).
+- Starting a new model, you should never need to use UNION. See [Polymorphism](#polymorphism).
 :::
 
-## Polymorphy
+## Polymorphism
 
-Polymorphy might be the root cause for severe performance issues due to the usage of UNIONs, CASEs and complex JOINs. Here are some good and bad examples.
+Polymorphism might be the root cause for severe performance issues due to the usage of UNIONs, CASEs and complex JOINs. Here are some good and bad examples.
 
 #### **Bad**{.bad}
 
@@ -117,7 +118,7 @@ This results in a single, sparsely populated DB table, which is not an issue usi
 
 ### View Building
 
-Polymorphy done right, also results in simplified view building. Assume you want to provide a list of all products of a certain vendor.
+Polymorphism done right, also results in simplified view building. Assume you want to provide a list of all products of a certain vendor.
 
 #### **Good**{.good}
 
@@ -385,7 +386,7 @@ Common patterns:
   - Convert emulated decimal numbers (like integers with additional positional formatting info) to real decimal numbers on the database.
   - Multiple attribute columns (like Address01, Address02, Address03, ...) to avoid extensive JOINs in old DB systems are causing a lot of complex queries and business logic. Better use compositions of type instead and only de-normalize your data model where it really makes sense.
   - Positional strings, like `A_G___U_I`, with complex internal logic might infer future case statements or complex internal calculations. Better use compositions of type here as well.
-  - If you encounter UNION statements in your legacy model, we strongly suggest to re-model as described in the section on [Polymorphy](#polymorphy).
+  - If you encounter UNION statements in your legacy model, we strongly suggest to re-model as described in the section on [Polymorphism](#polymorphism).
   - If you encounter CASE statements in your legacy model, we strongly suggest to re-model as described in the section on [Calculated Fields](#calculated-fields).
   - Omit unnecessary abstraction views. When you are porting an "ABAP" CDS Model starting with the corresponding Virtual Data Model (VDM), C_Views and I_Views don’t serve a purpose anymore. Please design your entities for optimized persistence, and your service layer for optimized processing. CAP already has a separation of concerns between the "DB" layer (persistency model) and the "SRV" layer (service / consumption model), there is no need to insert additional and unnecessary further abstraction layers. For example, the public interface layer with views like `I_COSTCENTER` will be replaced by the CDS services from which the OData consumption services are generated.
   - Legacy systems often have convoluted or overly complex data structures just to satisfy multiple processing requirements or use-cases with the same data structure. In CAP there is no need to create overly complex service entities, since you can use bound and unbound ACTIONs and FUNCTIONs for more complex data manipulation. Keep service entities as simple as possible and make them serve one purpose only, and rather create multiple simple entities instead of a complex one.
@@ -398,7 +399,7 @@ Common patterns:
 | Emulated decimal numbers | Convert to real decimal numbers on the database. |
 | Multiple attribute columns | Better use compositions of type instead. |
 | Positional strings, like `A_G___U_I` | Better use compositions of type. |
-| UNION statements | Re-model as described in [Polymorphy](#polymorphy). |
+| UNION statements | Re-model as described in [Polymorphism](#polymorphism). |
 | CASE statements | Re-model as described in [Calculated Fields](#calculated-fields). |
 | Complex data structures to satisfy multiple processing requirements | Use bound and unbound ACTIONs and FUNCTIONs and keep service entities as simple as possible. |
 | Unnecessary abstraction views (C_Views, I_Views) | Design your entities for optimized persistence, and your service layer for optimized processing. |

@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## The CDS Model
 
@@ -217,7 +217,7 @@ The database schema resulting from CDS build at design time contains *all* featu
 
 ### The Model Provider Service
 
-![feature-toggles.drawio](../assets/feature-toggles.drawio.svg){.adapt}
+![feature-toggles.drawio](../assets/feature-toggles.drawio.svg)
 
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 

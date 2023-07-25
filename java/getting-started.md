@@ -15,7 +15,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 <!--- % include links.md %} -->
 
 ## Introduction
@@ -45,7 +45,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
-2. Install a Java VM. At least, Java 8 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
+2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
 3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.5.0 is required).
 

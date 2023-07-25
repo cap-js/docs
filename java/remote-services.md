@@ -13,13 +13,13 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## Enabling Remote Services
 
 [Remote Services](consumption-api#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
-The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out-of-the-box.
+The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
 To enable these capabilities in an application, add the following Maven dependency to your project:
 
 ```xml
@@ -182,7 +182,7 @@ This is especially useful when integrating micro-services, which may have differ
 
 ### Adding SAP Cloud SDK Dependencies
 
-The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out-of-the-box.
+The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out of the box.
 In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
 
 It's recommended to add the SAP Cloud SDK BOM to the dependency management section of your application's parent POM.

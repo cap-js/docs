@@ -37,8 +37,8 @@ jobs:
       - run: npm test
       - run: npm run docs:build
         env:
-          GH_BASE: /
-          SITE_HOSTNAME: https://verbose-bassoon-wl69yrk.pages.github.io
+          SITE_HOSTNAME: https://cap-js.github.io/docs
+          VITE_CAPIRE_PREVIEW: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

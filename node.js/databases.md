@@ -8,7 +8,7 @@ status: released
 
 # Databases
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 

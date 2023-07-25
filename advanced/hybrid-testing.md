@@ -28,11 +28,12 @@ cds bind -2 my-hana:my-hana-key
 Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Learn how to binding to user-provided services on cloud foundry.](#binding-user-provided-services){.learn-more}
+[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
+[Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding db to Cloud Foundry managed service my-hana:my-hana-key with kind hana.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -93,7 +94,7 @@ Binds your local CAP application to the user provided service instance `my-user-
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding my-ups to Cloud Foundry user provided service my-user-provided-service.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -118,7 +119,7 @@ The command uses your current Kubernetes context. That is your current server an
 
 To list all **Service Bindings** in your current Kubernetes context, you can use the `kubectl get servicebindings` command:
 
-```
+```log
 NAME                  SERVICE-INSTANCE      SECRET-NAME           STATUS   AGE
 cpapp-xsuaa-binding   cpapp-xsuaa           cpapp-xsuaa-secret    Ready    11s
 ```
@@ -131,7 +132,7 @@ cds bind -2 cpapp-xsuaa-binding --on k8s
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding uaa to Kubernetes service binding cpapp-xsuaa-binding with kind xsuaa
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
@@ -172,7 +173,7 @@ Alternatively, you can bind to Kubernetes **Secrets**.
 
 You can use the `kubectl get secrets` command to list all secrets in your current Kubernetes context:
 
-```
+```log
 NAME                                    TYPE                                  DATA   AGE
 cap-hdi-container                       Opaque                                11     44h
 ```
@@ -187,7 +188,7 @@ cds bind -2 cap-hdi-container --on k8s --kind hana
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding db to Kubernetes secret cap-hdi-container with kind hana
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid

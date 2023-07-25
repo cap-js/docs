@@ -1,3 +1,8 @@
+---
+status: released
+impl-variants: true
+---
+
 # Using SAP HANA Cloud for Production
 
 
@@ -5,18 +10,25 @@
 [[toc]]
 
 
+[SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html) is supported as the CAP standard database and recommended for productive use with full support for schema evolution and multitenancy.
+
+::: warning
+
+CAP is not validated with other variants of SAP HANA, like "SAP HANA Database as a Service" or "SAP HANA (on premise)".
+
+:::
 
 ## Setup & Configuration
 
+<div markdown="1" class="impl node">
 
-
-Run this to use HANA Cloud for production:
+Run this to use SAP HANA Cloud for production:
 
 ```sh
 npm add @sap/cds-hana
 ```
 
-::: details Using other HANA drivers...
+::: details Using other SAP HANA drivers...
 
 Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which will take precedence over the default driver.
 
@@ -28,11 +40,38 @@ Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driv
 
 :::
 
+</div>
+
+<div markdown="1" class="impl java">
+
+To use SAP HANA Cloud, [configure a module](../java/architecture#module-configuration), which includes the feature `cds-feature-hana`.
+For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
+
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-hana</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+::: tip
+
+The [modules](../java/architecture#available-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
+
+:::
+
+The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
+
+Learn more about the [configuration of a SAP HANA Cloud Database](../java/persistence-services#sap-hana){ .learn-more}
+
+</div>
+
 
 
 ## Running `cds build`
 
-Deployment to HANA is done via the [HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop):
+Deployment to SAP HANA is done via the [SAP HANA Deployment Infrastructure (HDI)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html) which in turn requires running `cds build` to generate all the deployable HDI artifacts. For example, run this in [cap/samples/bookshop](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop):
 
 ```sh
 cds build --for hana
@@ -129,20 +168,19 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-
    ```
 
 
 
 
 
-## Deploying to HANA
+## Deploying to SAP HANA
 
 There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts.
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
 
-### Prepare for Production { #configure-hana}
+### Prepare for Production { #configure-hana .impl .node }
 
 To prepare the project, execute:
 
@@ -160,7 +198,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 
 
-### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana}
+### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana .impl .node }
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
@@ -186,17 +224,16 @@ Behind the scenes, `cds deploy` does the following:
 
 If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#hana) guide.
 
-### Using `cf deploy` or `cf push`
+### Using `cf deploy` or `cf push` { .impl .node }
 
-See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the HANA database.
-
-
+See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
 
 
-## Native HANA Features
 
-The HANA Service provides dedicated support for native HANA features as outlined below.
+## Native SAP HANA Features
+
+The HANA Service provides dedicated support for native SAP HANA features as outlined below.
 
 ### Geospatial Functions
 
@@ -320,7 +357,7 @@ Currently there's no framework support for incompatible schema changes that requ
 
 There's full support for schema evolution when the _cds-mtxs_ library is used for multitenancy handling. It ensures that all schema changes during base-model upgrades are rolled out to the tenant databases.
 
-::: warning 
+::: warning
 Tenant-specific extensibility using the _cds-mtxs_ library isn't supported yet
 Right now, you can't activate extensions on entities annotated with `@cds.persistence.journal`.
 :::
@@ -519,8 +556,7 @@ Add an `undeploy.json` file in folder `db/src` with content like this:
 [
   "src/gen/**/*.hdbconstraint",
   "src/gen/**/*.hdbtabledata",
-  "src/gen/**/*.hdbtable",
-  "src/gen/**/*.hdbview"
+  ...
 ]
 ```
 

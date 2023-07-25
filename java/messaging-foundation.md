@@ -27,7 +27,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 In contrast, the nature of synchronous communication between services can be disadvantageous depending on the desired information flow, for example, sender and receiver need to be available at the time of the request. The sender needs to know the receiver and how to call it, and that communication per request is usually point-to-point only.
 
@@ -41,7 +41,7 @@ The described messaging features are available from version `cds.java@1.19.0`.
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they’re interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
-<img src="./assets/messaging_foundation.png" width="700px" class="adapt">
+<img src="./assets/messaging_foundation.png" width="700px">
 
 CAP makes sending and receiving messages easy by providing an API agnostic from specific message brokers, and taking care of broker-specific mechanics like connection handling, protocols to use, creating queues, subscriptions, etc. The API seamlessly blends into the common event API of CAP services, so that event messages can be sent using `emit` and handlers to execute when receiving event messages can be declared with the `@On` annotation.
 
@@ -781,7 +781,7 @@ hello world
 If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
-{"message": "hello world"}
+{"data": {"message": "hello world"}}
 ```
 
 #### Handling events
@@ -860,4 +860,3 @@ When using a CAP messaging service directly to emit the raw message payload as a
 [Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
 <span id="aftercloudevents" />
-

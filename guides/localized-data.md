@@ -10,7 +10,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Localized Data
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 Localized data refers to the maintenance of different translations of textual data and automatically fetching the translations matching the users' preferred language, with per-row fallback to default languages, if the required translations aren’t available. Language codes are in ISO 639-1 format.
 
@@ -203,7 +203,7 @@ The user's preferred locale is determined from request parameters, user settings
 
 The resulting [normalized locale](i18n#normalized-locales) is available programmatically, in your event handlers.
 
-* Node.js: `req.user.locale`
+* Node.js: `req.locale`
 * Java: `eventContext.getParameterInfo().getLocale()`
 
 ### Propagating `$user.locale` to Databases {#propagating-of-user-locale}
@@ -361,6 +361,10 @@ Content-Type: application/json
   {"name": "Ein neuer Name"} ]
 }
 ```
+
+::: warning *Note:* <!--  -->
+Accepted language codes in the `locale` property need to follow the [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) standard but use __underscore__ (`_`) instead of __hyphen__ (`-`), for example `en_GB`.
+:::
 
 ### Delete Operations
 

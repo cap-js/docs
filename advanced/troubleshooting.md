@@ -632,7 +632,7 @@ See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project 
 
 ### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
 
-See [App-Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both App Router and MTX.
+See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
 
 When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
 

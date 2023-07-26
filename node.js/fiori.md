@@ -45,14 +45,14 @@ Please note that draft-enabled entities must follow a specific draft choreograph
 The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.  
 
   ```js
-    // only active entities
-    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
-    // only draft entities
-    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
-    // bound action/function on active entity
-    srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
-    // bound action/function on draft entity
-    srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
+  // only active entities
+  srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
+  // only draft entities
+  srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
+  // bound action/function on active entity
+  srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
+  // bound action/function on draft entity
+  srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
   ```
 
 It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
@@ -60,14 +60,14 @@ It's also possible to use the array variant to register a handler for both entit
 Additionally, you can add your logic to the draft-specific events as follows:
 
   ```js
-    // When a new draft is created
-    srv.on('NEW', 'MyEntity.drafts', /*...*/)
-    // When a draft is discarded
-    srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
-    // When a new draft is created from an active instance
-    srv.on('EDIT', 'MyEntity', /*...*/)
-    // When the active entity is changed
-    srv.on('SAVE', 'MyEntity', /*...*/)
+  // When a new draft is created
+  srv.on('NEW', 'MyEntity.drafts', /*...*/)
+  // When a draft is discarded
+  srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
+  // When a new draft is created from an active instance
+  srv.on('EDIT', 'MyEntity', /*...*/)
+  // When the active entity is changed
+  srv.on('SAVE', 'MyEntity', /*...*/)
   ```
 
 - The `CANCEL` event is triggered when you cancel the draft. In this case, the draft entity is deleted and the active entity isn't changed.

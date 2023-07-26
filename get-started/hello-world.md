@@ -30,6 +30,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 ```sh
 cds init hello-world --add samples
 cd hello-world
+npm install
 ```
 
 </div>

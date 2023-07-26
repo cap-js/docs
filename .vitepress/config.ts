@@ -93,6 +93,8 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
+    ['link', { rel: 'shortcut icon', href: '/assets/logos/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/logos/apple-touch-icon.png' }]
   ],
   lastUpdated: true,
   cleanUrls: true,

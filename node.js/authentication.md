@@ -378,7 +378,7 @@ module.exports = function custom_auth (req, res, next) {
   // do your custom authentication
   req.user = new cds.User({
     id: '<user-id>',
-    roles: ['<role-a>', '<role-b>']
+    roles: ['<role-a>', '<role-b>'],
     attr: {
       <user-attribute-a>: '<value>',
       <user-attribute-b>: '<value>'

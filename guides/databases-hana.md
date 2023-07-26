@@ -556,9 +556,7 @@ Add an `undeploy.json` file in folder `db/src` with content like this:
 [
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
-  "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*.hdbsynonym",
-  "src/gen/**/*.hdbtabledata"
+  "src/gen/**/*.hdbconstraint"
 ]
 ```
 

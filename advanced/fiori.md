@@ -433,7 +433,7 @@ You can add your validation logic before operation event handlers. Specific even
 
 ###### ... in Node.js
 
-You can add your validation logic before the operation handler for either CRUD or draft specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
+You can add your validation logic before the operation handler for either CRUD or draft-specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
 
 
 <div id="query-data-draft-enabled" />

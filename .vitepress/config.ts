@@ -68,7 +68,7 @@ const config:UserConfig<CapireThemeConfig> = {
             //@ts-ignore
             boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
               // downrate matches in archives, changelogs etc.
-              if (documentId.match(/\/archive|changelog|old-mtx-apis/)) return -5
+              if (documentId.match(/\/archive|changelog|old-mtx-apis|java\/multitenancy/)) return -5
               // downrate Java matches if Node is toggled and vice versa
               const toggled = localStorage.getItem('impl-variant')
               if (toggled === 'node' && (documentId.includes('/java/')    || storedFields?.titles?.includes('Java')))    return -1

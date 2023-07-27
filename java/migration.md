@@ -70,6 +70,11 @@ CAP Java 2.0 itself requires updated [dependency versions](./development/#depend
 - SAP Cloud SDK
 - Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
 
+::: warn
+The Cloud SDK BOM `sdk-bom` manages XSUAA to 2.x, which is not compatible with CAP Java 2.x. 
+Either replace `sdk-bom` with `sdk-modules-bom` which [manages Cloud SDK dependencies only](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) or add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
+:::
+
 ### API Cleanup
 
 Some interfaces, methods, configuration properties and annotations, which had already been deprecated in 1.x, are now removed in version 2.0. Please strictly fix all usage of [deprecated APIs](#overview-of-removed-interfaces-and-methods) by using the recommended replacement.

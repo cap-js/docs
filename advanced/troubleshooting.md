@@ -386,6 +386,14 @@ You can disable the database clustering for the update.
 | _Root Cause_ | Your SAP HANA Cloud instance is stopped. |
 | _Solution_ | [Start your SAP HANA Cloud instance.](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/fe8cbc3a13b4425990880bac3a5d50d9.html)
 
+#### Deployment fails ---
++ SSL certificate validation failed: error code: 337047686
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The `@sap/hana-client` can't verify the certificate because of missing system toolchain dependencies. |
+| _Solution_ | Make sure [`ca-certificates`](https://packages.ubuntu.com/focal/ca-certificates) is installed on your Docker container.
+
 #### Deployment fails — _Cannot create SSL engine: Received invalid SSL Record Header_
 
 |  | Explanation |

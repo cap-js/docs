@@ -315,7 +315,6 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
-* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
@@ -359,6 +358,7 @@ CREATE TABLE Employees (
 );
 ```
 For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+Furthermore, referencing localized elements is not allowed.
 In addition, there are restrictions that depend on the particular database. Currently all databases
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.

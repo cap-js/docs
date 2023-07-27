@@ -376,7 +376,7 @@ You can disable the database clustering for the update.
 | _Solution_ | To install it, follow these [instructions](https://help.sap.com/docs/SAP_DATA_SERVICES/e54136ab6a4a43e6a370265bf0a2d744/c049e28431ee4e8280cd6f5d1a8937d8.html). If this doesn't solve the problem, also set the environment variables as [described here](https://help.sap.com/docs/SAP_HANA_PLATFORM/e7e79e15f5284474b965872bf0fa3d63/463d3ceeb7404eca8762dfe74e9cff62.html).
 
 
-#### Deployment fails ---
+#### Deployment fails —
 + _Failed to get connection for database_
 + _Connection failed (RTE:[300015] SSL certificate validation failed_
 + _Cannot create SSL engine: Received invalid SSL Record Header_
@@ -386,8 +386,7 @@ You can disable the database clustering for the update.
 | _Root Cause_ | Your SAP HANA Cloud instance is stopped. |
 | _Solution_ | [Start your SAP HANA Cloud instance.](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/fe8cbc3a13b4425990880bac3a5d50d9.html)
 
-#### Deployment fails ---
-+ SSL certificate validation failed: error code: 337047686
+#### Deployment fails — SSL certificate validation failed: error code: 337047686
 
 |  | Explanation |
 | --- | ---- |

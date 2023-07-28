@@ -427,7 +427,7 @@ entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
 entity Members { // link table
-  key project : Association to Project;
+  key project : Association to Projects;
   key user : Association to Users;
 }
 ```

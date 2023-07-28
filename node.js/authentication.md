@@ -203,20 +203,22 @@ You can optionally configure users as follows:
 }
 ```
 
+#### Pre-defined Mock Users {#mock-users}
+
 The default configuration shipped with `@sap/cds` specifies these users:
 
 ```jsonc
   "users": {
-    "alice": { "roles": ["admin", "cds.Subscriber"] },
-    "bob":   { "roles": ["cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "carol": { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "dave":  { "roles": ["admin", "cds.Subscriber"] },
-    "erin":  { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "fred":  { },
-    "me":    { },
-    "*": true //> all other logins are allowed as well
+    "alice": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ] },
+    "bob":   { "tenant": "t1", "roles": [ "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "carol": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "dave":  { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ], "features": [] },
+    "erin":  { "tenant": "t2", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "fred":  { "tenant": "t2", "features": [ "isbn" ] },
+    "me":    { "tenant": "t1", "features": [ "*" ] },
+    "yves":  { "roles": [ "internal-user" ] }
+    "*":     true //> all other logins are allowed as well
   }
-}
 ```
 
 ::: tip
@@ -376,7 +378,7 @@ module.exports = function custom_auth (req, res, next) {
   // do your custom authentication
   req.user = new cds.User({
     id: '<user-id>',
-    roles: ['<role-a>', '<role-b>']
+    roles: ['<role-a>', '<role-b>'],
     attr: {
       <user-attribute-a>: '<value>',
       <user-attribute-b>: '<value>'

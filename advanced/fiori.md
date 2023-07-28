@@ -433,28 +433,8 @@ You can add your validation logic before operation event handlers. Specific even
 
 ###### ... in Node.js
 
-You can add your validation logic before the operation handler for the `CREATE` or `UPDATE` event (as in the case of nondraft implementations) or on the `SAVE` event (specific to drafts only):
+You can add your validation logic before the operation handler for either CRUD or draft-specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
 
-```js
-srv.before ('CREATE','Books', (req)=>{ ... }) // run before create
-srv.before ('UPDATE','Books', (req)=>{ ... }) // run before create
-srv.before ('SAVE','Books', (req)=>{...})     // run at final save only
-```
-
-In addition, you can add field-level validations on the individual `PATCH` events:
-
-```js
-srv.before ('PATCH','Books', (req)=>{...}) // run during editing
-```
-
-> These get triggered during the draft edit session whenever the user tabs from one field to the next, and can be used to provide early feedback.
-
-You can also add custom logic for the initial creation of drafts:
-
-```js
-srv.before ('NEW','Books', (req)=>{...}) // run during creation of a draft from scratch
-srv.before ('EDIT','Books', (req)=>{...}) // run during creation of a draft for existing instance
-```
 
 <div id="query-data-draft-enabled" />
 

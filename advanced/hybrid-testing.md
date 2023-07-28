@@ -240,7 +240,7 @@ Example output:
 ```
 
 ::: warning
-Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are resolved by `cds serve` or `cds exec`.
+Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are not resolved by `cds serve` or `cds exec`.
 :::
 
 ### Run Arbitrary Commands with Service Bindings

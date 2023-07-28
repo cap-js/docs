@@ -53,7 +53,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Logout from multitenant SaaS application                                        | `cds logout`               |
 | Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
 | Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
-| Pull the base model for a SaaS extension                                        | `cds pull <app-url>`       |
+| Pull the base model for a SaaS extension                                        | `cds pull`                 |
 | Push a SaaS extension                                                           | `cds push`                 |
 
 

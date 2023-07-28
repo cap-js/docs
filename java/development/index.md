@@ -129,7 +129,7 @@ In addition, for activating the Spring integration of CAP Java SDK, the followin
 </dependency>
 ```
 
-It might be more convenient to make use of CDS starter bundle `cds-starter-spring-boot-odata`, which not only comprises the necessary Spring dependencies, but also configures the OData V4 protocol adapter:
+It might be easier to use the CDS starter bundle `cds-starter-spring-boot-odata`, which not only comprises the necessary Spring dependencies, but also configures the OData V4 protocol adapter:
 
 ```xml
 <dependency>
@@ -141,15 +141,15 @@ It might be more convenient to make use of CDS starter bundle `cds-starter-sprin
 
 ### Spring Features
 
-Beside the common Spring features such as dependency injection and a sophisticated test framework, the following features are available in Spring CAP applications in addition:
+Beside the common Spring features such as dependency injection and a sophisticated test framework, the following features are available in Spring CAP applications:
 
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).
-* A various number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in Spring application context such as technical services, the `CdsModel` or the `UserInfo` in current request scope.
-* *Automatic* configuration of XSUAA, IAS and [mock user authentication](../security#mock-users) by means of Spring security configuration.
+* A number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in the Spring application context such as technical services, the `CdsModel`, or the `UserInfo` in current request scope.
+* *Automatic* configuration of XSUAA, IAS, and [mock user authentication](../security#mock-users) by means of Spring security configuration.
 * Integration of `cds`-property section into Spring properties. See section [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config) in the Spring Boot documentation for more details.
-* [cds actuator](../observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
-* [DB health check indicator](../observability#spring-health-checks) which also applies to tenant-aware DB connections.
+* [The cds actuator](../observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
+* [The DB health check indicator](../observability#spring-health-checks) which also applies to tenant-aware DB connections.
 
 ::: tip
 None of the listed features will be available out of the box in case you choose to pack and deploy your web application as plain Java Servlet in a *war* file.
@@ -162,7 +162,7 @@ None of the listed features will be available out of the box in case you choose 
 | :---------------------------------------------------- | :----------------------------------------------------- | :----------------------------------------------------- |
 | [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html)  | Runtime instance (singleton)  | `@Autowired`<br>`CdsRuntime runtime;`
 | [CdsRuntimeConfigurer](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntimeConfigurer.html)  | Runtime configuration instance (singleton)  | `@Autowired`<br>`CdsRuntimeConfigurer configurer;`
-| [Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html)  | All kinds of CDS services, application services and technical services   | `@Autowired`<br>`@Qualifier(CatalogService_.CDS_NAME)`<br>`private ApplicationService cs;`<br><br>`@Autowired`<br>`private PersistenceService ps;`
+| [Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html)  | All kinds of CDS services, application services, and technical services   | `@Autowired`<br>`@Qualifier(CatalogService_.CDS_NAME)`<br>`private ApplicationService cs;`<br><br>`@Autowired`<br>`private PersistenceService ps;`
 | [ServiceCatalog](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceCatalog.html)  | The catalog of all available services   | `@Autowired`<br>`ServiceCatalog catalog;`
 | [CdsModel](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsModel.html)  | The current model   | `@Autowired`<br>`CdsModel model;`
 | [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html)  | Information about the authenticated user   | `@Autowired`<br>`UserInfo userInfo;`
@@ -170,12 +170,80 @@ None of the listed features will be available out of the box in case you choose 
 | [ParameterInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/ParameterInfo.html)  | Information about request parameters   | `@Autowired`<br>`ParameterInfo paramInfo;`
 | [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html)  | Interface to write messages | `@Autowired`<br>`Messages messages;`
 | [FeatureTogglesInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html)  | Information about feature toggles | `@Autowired`<br>`FeatureTogglesInfo ftsInfo;`
-| [CdsDataStore](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDataStore.html) | Direct access to default data store | `@Autowired`<br>`CdsDataStore ds;` |
+| [CdsDataStore](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDataStore.html) | Direct access to the default data store | `@Autowired`<br>`CdsDataStore ds;` |
 
+### GraalVM Native Image Support (beta)
+
+Since Spring Boot 3 it's possible to compile Spring Boot applications to stand-alone native executables leveraging GraalVM Native Images.
+Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.
+
+[Learn more about Native Image support in Spring Boot.](https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html){.learn-more}
+
+If you want to compile your application as a native executable the following boundary conditions need to be considered:
+
+1. The GraalVM Native Image build analyzes your application from the `main` entry point. Only the code that is reachable through static analysis is included into the native image. This means that the full classpath needs to be known and available already at build time.
+
+2. Dynamic elements of your code, such as usage of reflection, JDK proxies, or resources need to be registered with the GraalVM Native Image build. You can learn more about this in the [GraalVM Native Image documentation](https://www.graalvm.org/latest/reference-manual/native-image/metadata/).
+
+    ::: tip
+    Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
+    This includes 
+    - Required reflection for event handler classes defined in application code.
+    - JDK proxies for interfaces generated from the application's CDS model by the CDS Maven Plugin.
+    :::
+
+3. Spring Boot automatically defines and fixes all bean definitions of your application at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build.
+
+    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
+    
+    The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
+
+    ::: code-group
+    ```json [native-build-env.json]
+    {
+        "hana": [ { "name": "<hana-binding-name>" } ],
+        "xsuaa": [ { "name": "<xsuaa-binding-name>" } ]
+    }
+    ```
+    ```xml [srv/pom.xml]
+    <profile>
+        <id>native</id>
+        <build>
+            <pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>process-aot</id>
+                                <configuration>
+                                    <profiles>cloud</profiles>
+                                    <jvmArguments>-Dcds.environment.local.defaultEnvPath=../native-build-env.json</jvmArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </pluginManagement>
+        </build>
+    </profile>
+    ```
+    :::
+
+When using Spring Boot's parent POM, you can easily trigger the Native Image build by executing `mvn spring-boot:build-image -Pnative`.
+This builds a Docker image using Cloud Native Buildpacks including a minimized OS and your application.
+You can launch the Docker image by running `docker run --rm -p 8080:8080 <srv-project-name>:<version>`.
+
+::: tip
+If you want to try out CAP's Native Image support you can use the [SFlight sample application](https://github.com/SAP-samples/cap-sflight) which is prepared for GraalVM Native Images.
+Note, that SFlight's native executable is built and configured to use SAP HANA and XSUAA by default. You therefore need to run it with the `cloud` profile and supply an SAP HANA and XSUAA service binding.
+Alternatively you can make corresponding adaptations in `native-build-env.json` and `srv/pom.xml` to build the native executable for a different set of service bindings and profile.
+:::
 
 ## Minimum Dependency Versions
 
-The CAP Java SDK uses various dependencies that are also used by the applications themselves. If the applications decide to manage versions of these dependencies it is helpful to know the minimum versions of these dependencies that the CAP Java SDK requires. The following table lists these minimum versions for various common dependencies, based on the latest release.
+The CAP Java SDK uses various dependencies that are also used by the applications themselves. If the applications decide to manage the versions of these dependencies, it's helpful to know the minimum versions of these dependencies that the CAP Java SDK requires. The following table lists these minimum versions for various common dependencies, based on the latest release.
 
 ### Active Version 2.x { #dependencies-version-2 }
 
@@ -224,7 +292,7 @@ mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-Darchetyp
 
 <div id="release-sap" />
 
-It supports the following command line options:
+It supports the following command-line options:
 
 | Option | Description |
 | -- | -- |
@@ -251,10 +319,10 @@ If you can't stick to defaults, you can use the _.cdsrc.json_ to add specific co
 
 [Learn more about configuration and `cds.env`](../../node.js/cds-env){.learn-more}
 
-#### Using a specific cds-dk version
+#### Using a Specific cds-dk Version
 
 By default, the build is configured to download a Node.js runtime and the `@sap/cds-dk` tools and install them locally within the project.
-The `install-cdsdk` goal requires a version of `@sap/cds-dk` which [needs to be provided explicitly](../../releases/archive/2022/oct22#important-changes-in-java) in the configuration. With this you can ensure that the build is fully reproducible.
+The `install-cdsdk` goal requires a version of `@sap/cds-dk`, which [needs to be provided explicitly](../../releases/archive/2022/oct22#important-changes-in-java) in the configuration. With this, you can ensure that the build is fully reproducible.
 You can provide this version by adding the following property to the `properties` section in your `pom.xml`:
 
 ```xml
@@ -298,8 +366,8 @@ By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the install
 This should be done at least with every **major update** of `@sap/cds-dk`.
 :::
 
-### Increased developer efficiency with Spring Boot Devtools
-In order to speed up your development turnaround you can add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) dependency to your CAP Java application. Just add this dependency to the `pom.xml` of your `srv` module:
+### Increased Developer Efficiency with Spring Boot Devtools
+You can speed up your development turnaround by adding the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) dependency to your CAP Java application. Just add this dependency to the `pom.xml` of your `srv` module:
 
 ```xml
 <dependency>
@@ -308,20 +376,20 @@ In order to speed up your development turnaround you can add the [Spring Boot De
 </dependency>
 ```
 
-Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than the complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
+Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than a complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
 
 * Java classes (e.g. custom handlers)
-* Anything below src/main/resources
+* Anything inside src/main/resources
   * Configuration files (e.g. application.yaml)
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 
-#### Spring Boot Devtools and CDS build
+#### Spring Boot Devtools and CDS Build
 
-The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java runtime. Thus, they can't trigger a CDS build in case of changed CDS sources. For more information, please check the [Local Development Support](#local-development-support) section.
+The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java runtime. Thus, they can't trigger a CDS build if there are changes in the CDS source files. For more information, please check the [Local Development Support](#local-development-support) section.
 
 ::: tip
-Especially CDS builds result in a lot of changed resources in your project. To have a smooth experience, define a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile) and [use `auto-build` goal](#cds-auto-build) of the CDS Maven plugin started from the command line.
+CDS builds in particular change numerous resources in your project. To have a smooth experience, define a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile) and [use `auto-build` goal](#cds-auto-build) of the CDS Maven plugin started from the command line.
 :::
 
 ### CDS Maven Plugin { #cds-maven-plugin}
@@ -329,12 +397,12 @@ Especially CDS builds result in a lot of changed resources in your project. To h
 CDS Maven plugin provides several goals to perform CDS-related build steps. It can be used in CAP Java projects to perform the following build tasks:
 
 - Install Node.js in the specified version
-- Install the CDS Development Kit `@sap/cds-dk` in a specified version
+- Install the CDS Development Kit `@sap/cds-dk` with a specified version
 - Perform arbitrary CDS commands on a CAP Java project
 - Generate Java classes for type-safe access
 - Clean a CAP Java project from artifacts of the previous build
 
-Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. On how to modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
+Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. To have an example on how you can modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
 See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} for more details.
 
@@ -354,10 +422,10 @@ cd srv
 mvn cds:watch
 ```
 
-It builds and starts the application and looks for changes in the CDS model. If you make changes to the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
+It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
 
 The `watch` goal uses the `spring-boot-maven-plugin` internally to start the application with the goal `run` (this also includes a CDS build). Therefore, it's required that the application is a Spring Boot application and that you execute the `watch` goal within your service module folder.
-When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism described in the linked section. In case your application does not use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than the complete restart the approach using the Spring Boot Devtools is the preferred approach.
+When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism. In case your application doesn't use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than a complete restart the approach using the Spring Boot Devtools is the preferred approach.
 
 ::: warning
 The `watch` goal only works on Windows if the Spring Boot Devtools are enabled.
@@ -371,7 +439,11 @@ If you want to have the comfort of an automated CDS build like with the `watch` 
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
 :::
 
-<div id="afterautobuild" />
+#### Local Development for Multitenant Applications
+
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas?impl-variant=java#local-mtx) for more information.
+
+<div id="afterlocaldev" />
 
 ## Testing CAP Java Applications
 
@@ -382,7 +454,7 @@ As described in [Modular Architecture](../architecture#modular_architecture), a 
 Typical areas that require testing are the [services](../consumption-api#cdsservices) that dispatch events to [event handlers](../provisioning-api), the event handlers themselves that implement the behaviour of the services, and finally the APIs that the application services define and that are exposed to clients through [OData](../application-services#odata-requests).
 
 ::: tip
-Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it is recommended to utilize it for writing tests.
+Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
 :::
 
 ### Best Practices
@@ -458,7 +530,7 @@ Whereas `discountBooks` is registered to the `After` phase of a `read` event on 
 
 #### Event Handler Layer Testing
 
-Out of these two handler methods `discountBooks` does not actually depend on the `PersistenceService`.
+Out of these two handler methods `discountBooks` doesn't actually depend on the `PersistenceService`.
 
 That allows us to verify its behavior in a unit test by creating a `CatalogServiceHandler` instance with the help of a `PersistenceService` mock to invoke the handler method on, as demonstrated below:
 
@@ -551,7 +623,7 @@ public class CatalogServiceTest {
 }
 ```
 
-The same way you can verify the `ServiceException` being thrown in case of the order quantity exceeding the stock value:
+In the same way you can verify that the `ServiceException` is being thrown when the order quantity exceeds the stock value:
 
 ```java
 @SpringBootTest

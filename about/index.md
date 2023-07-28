@@ -471,5 +471,5 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ---
 
 <div markdown="1" style="font-size:90%; color:#666">
-<sup>1</sup> *GraphQL* and *Kafka* aren't supported out of the box today, but might be added in future.
+<sup>1</sup> *Kafka* isn't supported out of the box today, but might be added in future.
 </div>

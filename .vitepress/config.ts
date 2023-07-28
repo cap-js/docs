@@ -47,8 +47,7 @@ const config:UserConfig<CapireThemeConfig> = {
             tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
             processTerm: (term, fieldName) => {
               term = term.trim().toLowerCase().replace(/^\.+/, '').replace(/\.+$/, '')
-              const stopWords = ['and', 'about', 'but', 'for', 'now', 'the', 'with', 'you',
-                'com', 'sap', 'cds', 'java', 'json', 'node', 'node.js', 'frontmatter', '$frontmatter.synopsis']
+              const stopWords = ['and', 'about', 'but', 'now', 'the', 'with', 'you', 'frontmatter', '$frontmatter.synopsis']
               if (term.length < 3 || stopWords.includes(term))  return false
 
               if (fieldName === 'text') {
@@ -67,6 +66,7 @@ const config:UserConfig<CapireThemeConfig> = {
             fuzzy: false, // produces too many bad results, like 'watch' finds 'patch' or 'batch'
             //@ts-ignore
             boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
+              if (storedFields?.titles.includes(term)) return 10000
               // downrate matches in archives, changelogs etc.
               if (documentId.match(/\/archive|changelog|old-mtx-apis|java\/multitenancy/)) return -5
               // downrate Java matches if Node is toggled and vice versa

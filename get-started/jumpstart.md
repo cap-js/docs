@@ -60,7 +60,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 5. Install Java & Maven
 
-- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed.
+- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed. At least, Java 17 is required.
 
 
 ### 6. Install Visual Studio Code

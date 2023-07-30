@@ -14,6 +14,14 @@ breadcrumbs:
 
 # Data Privacy Sample App for SAP BTP CF
 
+
+
+::: danger
+Work in progress
+:::
+
+
+
 We should document how to build AND DEPLOY a SaaS app with PDM, audit logging, and DRM (when available).
 There are many pitfalls such as returning all necessary xsappnames in a single deployment without manual copy & paste.
 
@@ -49,3 +57,62 @@ should we offer this?
     - also for mtxs sidecar, if dependency shall be returned automatically
 - add audit log service with oauth2 plan in mta.yaml
 - if dependency shall not be returned automatically, somehow tell mtxs to return it
+
+
+
+## Deploy for Production --- TODO: move to separate Sample App guide
+
+### Deploy your Application
+
+... for example, as documented in the [Deploy to Cloud Foundry](../../deployment/to-cf) guide.
+
+In essence, for a single-tenant app, run these commands in order:
+
+```sh
+cds add approuter,xsuaa,hana,mta --for production
+```
+
+```sh
+mbt build -t gen --mtar mta.tar
+```
+
+```sh
+cf deploy gen/mta.tar
+```
+
+For a SaaS app, change first command to:
+
+```sh
+cds add mtx,approuter,xsuaa,hana,mta --for production
+```
+
+
+
+### Bind to SAP Audit Log Service
+
+As shown in the configuration](#setup--configuration) section  above, CAP provides out-of-the-box support for SAP Audit Log Service as the recommended target for collecting audit logs in production.
+
+TODO: Now I'd want us to say something like:
+
+1. **Given** you have access to instance of SAP Audit Log Service (→ in cockpit)
+2. **Bind that to our app** using `cds bind`
+3. Optionally: Test-drive it in hybrid setup
+4. (Re-) Deploy your app ?
+
+>  BTW: Can we do that without having local `.json` files?
+
+
+
+### Bind to SAP PDM Service
+
+TODO: Similar to above, I'd like us to say something like:
+
+1. **Given** you have access to instance of SAP Personal Data Manager (→ in cockpit)
+2. **Bind that to our app** using `cds bind`
+   - care for `"authorities": ["$ACCEPT_GRANTED_AUTHORITIES"]`
+3. Optionally: Test-drive it in hybrid setup
+4. (Re-) Deploy your app ?
+
+> BTW: Creating and Asssigning Role Collections should be covered in their docs?
+
+

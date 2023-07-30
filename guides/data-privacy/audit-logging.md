@@ -17,32 +17,32 @@ status: released
 
 <div v-html="$frontmatter?.synopsis" />
 
+_The following is mainly written from a Node.js perspective. For Java's perspective, please see [Java - Audit Logging](https://pages.github.tools.sap/cap/docs/java/auditlog)._
+
+
 
 ## Introduction
 
-This section deals with Audit Logging for reading sensitive data and changes to personal data. As a prerequisite, you have [indicated entities and elements in your domain model, which will contain personal data](introduction#indicate-privacy).
+CAP provides out-of-the-box support for automatic audit logging of these events:
 
-<!--
+- Changes to *personal* data — enabled by default
+- Reads of *sensitive* data — disabled by default
 
-::: danger _TODO_
-already in Basics -> here or there?
+In essence, the steps to use that are:
+
+1. [Add `@PersonalData` Annotations](#annotations) to your domain models → as shown before.
+1. [Enable audit-logging](#enable-audit-logging) → `cds add audit-logging`
+1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console
+1. [Using SAP Audit Log Service](#sap-audit-log-service) for production
+
+::: danger TODO
+`cds add audit-logging` is not yet supported
 :::
 
-<span id="inintroduction" />
+In addition, custom audit logs can be recorded using the programmatic APIs.
 
-In CAP, audit logging can be handled mostly automatically by adding certain annotations to your business entity definitions and adding some configuration/ plugin to your project.
+As a prerequisite, you have to [indicate entities and elements in your domain model, which will contain personal data](introduction#indicate-privacy).
 
-::: warning _❗ Data Subject and Data Object_<br>
-For each audit log on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
-The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like
-`Customer @PersonalData.FieldSemantics : 'DataSubjectID';` - is never broken. Thus, semantically correct audit logs can only be written on top of a semantically correct built application.
-
-Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
-:::
-
-<img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
-
--->
 
 
 ## About the Audited Object
@@ -225,11 +225,137 @@ This provides an ultimate level of resiliency, plus additional benefits:
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
 
+## Setup & Configuration
+
+::: danger TODO
+`cds add audit-logging` is not yet supported
+:::
+
+Run this to enable audit logging
+
+```sh
+cds add audit-logging
+```
+
+::: details Behind the Scenes…
+
+This CLI command is a convenient shortcut for…
+
+1. Installing required 3rd-party packages, e.g.
+    ```js
+    npm add @cap-js/audit-logging
+    ```
+
+2. Which sets `cds.requires.audit-log = true` in `cds.env`, equivalent to:
+    ```json
+    {"cds":{
+      "requires": {
+        "audit-log": true
+      }
+    }}
+    ```
+
+3. Which in turn activates the `audit-log` configuration **preset**:
+    ```jsonc
+    {
+       "audit-log": {
+         "handle": ["WRITE"],
+         "[development]": {
+           "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
+           "outbox": false
+         },
+         "[production]": {
+           "impl": "@cap-js/audit-logging/srv/audit-log-to-restv2",
+           "outbox": true
+         }
+       }
+    }
+    ```
+
+**The individual config options are:**
+
+- `impl` — the service implementation to use
+- `outbox` — whether to use transactional outbox or not
+- `handle` — which events (`READ` and/or `WRITE`) to intercept and generate log messages from
+
+**The preset uses profile-specific configs** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
+
+```sh
+cds env requires.audit-log
+```
+
+```sh
+cds env requires.audit-log --profile production
+```
+
+:::
+
+See the [Sample App](./sample-app.md) for more details.
+
+
+## Generic Audit Logging
+
+[The @PersonalData annotations](introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
+
+1. **Start the server** as usual:
+
+    ```sh
+    cds watch
+    ```
+
+2. **Send an udate** request, changing personal data
+
+    ```http
+    PATCH http://localhost:4004/admin/Customers(8e2f2640-6866-4dcf-8f4d-3027aa831cad) HTTP/1.1
+    Authorization: Basic alice:in-wonderland
+    Content-Type: application/json
+
+    {
+      "firstName": "Johnny",
+      "dateOfBirth": "2002-03-09"
+    }
+    ```
+
+3. **See the audit logs** in the server's console output:
+
+    ```js
+    {
+      data_subject: {
+        type: 'AdminService.Customers',
+        id: { ID: '8e2f2640-6866-4dcf-8f4d-3027aa831cad' },
+        role: 'Customer',
+      },
+      object: {
+       type: 'AdminService.Customers',
+       id: { ID: '8e2f2640-6866-4dcf-8f4d-3027aa831cad' }
+      },
+      attributes: [
+        { name: 'firstName', old: 'John', new: 'Johnny' },
+        { name: 'dateOfBirth', old: '1970-01-01', new: '2002-03-09' }
+      ],
+      user: 'alice',
+      tenant: 't1',
+      uuid: '1391A703E2CBE52E817269EC7527368C',
+      time: '2023-02-26T08:13:48.287Z'
+    }
+    ```
+
+
+
+**Behind the scenes** the generic audit logging implementation automatically cares for:
+
+- Intercepting all read operations potentially involving sensitive data and
+- Intercepting all write operations potentially involving personal data
+- Determining the affected fields containing personal data, if any
+- Constructing log messages, and sending them to the connected audit log service
+- All emitted log messages are sent through the [transactional outbox](#transactional-outbox)
+- Applying resiliency mechanisms like retry with exponential backoff, etc.
+
+
+
 ## Programmatic API
 
 In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
-
-_The following is written from a Node.js perspective. For Java, please see [AuditLog Service](https://pages.github.tools.sap/cap/docs/java/auditlog)._
 
 Connecting to the service:
 

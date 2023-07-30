@@ -24,7 +24,9 @@ This section deals with Audit Logging for reading sensitive data and changes to 
 
 <!--
 
-TODO: already in Basics -> here or there?
+::: danger _TODO_
+already in Basics -> here or there?
+:::
 
 <span id="inintroduction" />
 
@@ -54,12 +56,12 @@ In our case `Customers` is the main master data entity with the semantics of 'Da
 using { cuid, Country } from '@sap/cds/common';
 
 entity Customers : cuid, managed {
-  email           : String;
-  firstName       : String;
-  lastName        : String;
-  dateOfBirth     : Date;
-  postalAddresses : Composition of many CustomerPostalAddress on postalAddresses.Customer = $self;
-  billingData     : Composition of many CustomerBillingData on billingData.Customer = $self;
+  email       : String;
+  firstName   : String;
+  lastName    : String;
+  dateOfBirth : Date;
+  addresses   : Composition of many CustomerPostalAddress on addresses.Customer = $self;
+  billingData : Composition of many CustomerBillingData on billingData.Customer = $self;
 }
 ```
 
@@ -80,9 +82,7 @@ annotate bookshop.Customers with @PersonalData : {
 
 Here we again have the four levels of annotations as already described in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
 
-<!--
 When you've annotated your (business) entity like this, the audit logs for read access and data modifications will be written automatically by the underlying CAP framework.
--->
 
 In the context of audit logging, the `@PersonalData.IsPotentiallyPersonal` field-level annotation is relevant for inducing audit logs for _Insert_, _Update_, and _Delete_, whereas the `@PersonalData.IsPotentiallySensitive` annotation is relevant for _Read_ access audit logs.
 
@@ -111,16 +111,16 @@ In our terminology this has the semantics 'Data Subject Details'.
 In our example we have the additional entities `CustomerPostalAddress` and `CustomerBillingData` which contain additional master data belonging to a certain 'Customer', but which are stored in separate entities, for better clarity and better separation of concerns.
 
 ```cds
-entity CustomerPostalAddress : cuid, managed {
-  Customer       : Association to one Customers;
+entity Addresses : cuid, managed {
+  customer       : Association to one Customers;
   street         : String(128);
   town           : String(128);
   country        : Country;
   someOtherField : String(128);
 };
 
-entity CustomerBillingData : cuid, managed {
-  Customer      : Association to one Customers;
+entity BillingData : cuid, managed {
+  customer      : Association to one Customers;
   creditCardNo  : String;
 };
 ```
@@ -128,21 +128,21 @@ entity CustomerBillingData : cuid, managed {
 These entities are annotated in the _db/data-privacy.cds_ file.
 
 ```cds
-annotate bookshop.CustomerPostalAddress with @PersonalData : {
+annotate bookshop.Addresses with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
 } {
-  Customer @PersonalData.FieldSemantics : 'DataSubjectID';
+  customer @PersonalData.FieldSemantics : 'DataSubjectID';
   street   @PersonalData.IsPotentiallyPersonal;
   town     @PersonalData.IsPotentiallyPersonal;
   country  @PersonalData.IsPotentiallyPersonal;
 }
 
-annotate bookshop.CustomerBillingData with @PersonalData : {
+annotate bookshop.BillingData with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubjectDetails'
 } {
-  Customer @PersonalData.FieldSemantics : 'DataSubjectID';
+  customer @PersonalData.FieldSemantics : 'DataSubjectID';
   creditCardNo @PersonalData.IsPotentiallySensitive;
 }
 ```
@@ -150,9 +150,7 @@ annotate bookshop.CustomerBillingData with @PersonalData : {
 Very similarly to the section on 'Data Subject' this entity is as well annotated in four levels.
 More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
 
-::: warning _Warning_
-Annotation `@AuditLog.Operation` is not applicable for the Node.js runtime.
-:::
+You may have noticed property `someOtherField` was not annotated. Hence, no modification will be logged.
 
 
 ###  Transactional Data
@@ -168,10 +166,10 @@ In our example we have the entity 'Orders'
 
 ```cds
 entity Orders : cuid, managed {
-  OrderNo         : String @title:'Order Number'; //> readable key
-  Items           : Composition of many OrderItems on Items.parent = $self;
+  orderNo         : String @title: 'Order Number'; //> readable key
+  items           : Composition of many OrderItems on items.parent = $self;
   currency        : Currency;
-  Customer        : Association to Customers;
+  customer        : Association to Customers;
   personalComment : String;
 }
 ```
@@ -182,13 +180,17 @@ To ensure proper audit logging we annotate using the usual four levels as descri
 annotate bookshop.Orders with @PersonalData.EntitySemantics : 'Other'
 {
   ID              @PersonalData.FieldSemantics : 'ContractRelatedID';
-  Customer        @PersonalData.FieldSemantics : 'DataSubjectID';
+  customer        @PersonalData.FieldSemantics : 'DataSubjectID';
   personalComment @PersonalData.IsPotentiallyPersonal;
 }
 ```
 
 
 ### Operation-Level Annotations
+
+::: danger _TODO_
+check if still needed for Java. In Node.js, this is no longer considered.
+:::
 
 Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
 
@@ -204,6 +206,7 @@ According to the information provided by annotations - written by the responsibl
 ::: warning _Warning_
 `@AuditLog.Operation` is not applicable for `@cap-js/audit-logging` (i.e., the Node.js stack).
 :::
+
 
 
 ## Transactional Outbox
@@ -224,11 +227,9 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 ## Programmatic API
 
-TODOs:
-- add model
-- add link to [Java's API](/java/auditlog#auditlog-service)
-
 In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
+
+_The following is written from a Node.js perspective. For Java, please see [AuditLog Service](https://pages.github.tools.sap/cap/docs/java/auditlog)._
 
 Connecting to the service:
 
@@ -242,25 +243,52 @@ Sending log messages:
 await audit.log ('SomeEvent', { … })
 ```
 
-<br>
-
-
 ::: tip
 The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
 :::
 
 
-## AuditLogService
+### Basic Service API
 
-Reference modeling in `@cap-js/audit-logging`:
+The basic service definition declares the generic `log` operation used for all kinds of events, along with type `LogEntry` declares the common fields of all log messages — these fields are filled in automatically if not provided by the caller.
 
 ```cds
 namespace sap.auditlog;
 
 service AuditLogService {
 
-  action log(event : String, data : LogEntry);
+  action log    (event : String, data : LogEntry);
   action logSync(event : String, data : LogEntry);
+
+}
+
+/** Common fields, filled in automatically */
+type LogEntry {
+  uuid   : UUID;
+  tenant : String;
+  user   : String;
+  time   : Timestamp;
+}
+```
+
+Usage is like that:
+
+```js
+await audit.log ('SomeEvent', {
+  some_details: 'whatever'
+})
+```
+
+
+### Personal Data-Related Events
+
+In addition, pre-defined event payloads for personal data-related events are declared:
+
+```cds
+namespace sap.auditlog;
+
+service AuditLogService {
+  // … as above
 
   event SensitiveDataRead : LogEntry {
     data_subject : DataSubject;
@@ -274,6 +302,150 @@ service AuditLogService {
     };
     channel      : String;
   }
+
+  event PersonalDataModified : LogEntry {
+    data_subject :      DataSubject;
+    object       :      DataObject;
+    attributes   : many Modification;
+    success      :      Boolean default true;
+  }
+
+}
+
+type DataObject {
+  type : String;
+  id   : {};
+}
+
+type DataSubject : DataObject {
+  role : String;
+}
+
+type Modification {
+  name : String;
+  old  : String;
+  new  : String;
+}
+```
+
+Send corresponding log messages complying to these definitions like that:
+
+```js
+await audit.log ('SensitiveDataRead', {
+  data_subject: {
+    type: 'sap.capire.bookshop.Customers',
+    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' },
+    role: 'Customer',
+  },
+  object: {
+    type: 'sap.capire.bookshop.BillingData',
+    id: { ID: '399a2704-3d2d-4fa1-9e7d-a4e45c67749b' }
+  },
+  attributes: [
+    { name: 'creditCardNo' }
+  ]
+})
+```
+
+```js
+await audit.log ('PersonalDataModified', {
+  data_subject: {
+    type: 'sap.capire.bookshop.Customers',
+    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' },
+    role: 'Customer',
+  },
+  object: {
+    type: 'sap.capire.bookshop.Customers',
+    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' }
+  },
+  attributes: [
+    { name: 'emailAddress', old: 'foo@example.com', new: 'bar@example.com' }
+  ]
+})
+```
+
+
+
+### Configuration Modified Events
+
+```cds
+service AuditLogService {
+  // … as above
+
+  event ConfigurationModified : LogEntry {
+    object     :      DataObject;
+    attributes : many Modification;
+  }
+
+}
+```
+
+Send corresponding log messages complying to these definitions like that:
+
+```js
+await audit.log ('ConfigurationModified', {
+  object: {
+    type: 'sap.common.Currencies',
+    id: { ID: 'f79ba248-c348-4962-9fef-680c3b88807c' }
+  },
+  attributes: [
+    { name: 'symbol', old: 'EUR', new: '€' }
+  ]
+})
+```
+
+
+### Security Events
+
+```cds
+service AuditLogService {
+  // … as above
+
+  event SecurityEvent : LogEntry {
+    data : {};
+    ip   : String;
+  }
+
+}
+```
+
+Send corresponding log messages complying to these definitions like that:
+
+```js
+await audit.log ('SecurityEvent', {
+  data: {
+    user: 'alice',
+    action: 'Attempt to access restricted service "PDMService" with insufficient authority'
+  },
+  ip: '127.0.0.1'
+})
+```
+
+
+### AuditLogService
+
+Here is the complete reference modeling as contained in `@cap-js/audit-logging`:
+
+```cds
+namespace sap.auditlog;
+
+service AuditLogService {
+
+  action log    (event : String, data : LogEntry);
+  action logSync(event : String, data : LogEntry);
+
+  event SensitiveDataRead : LogEntry {
+    data_subject : DataSubject;
+    object       : DataObject;
+    attributes   : many {
+      name       : String;
+    };
+    attachments  : many {
+      id         : String;
+      name       : String;
+    };
+    channel      : String;
+  };
 
   event PersonalDataModified : LogEntry {
     data_subject :      DataSubject;
@@ -294,6 +466,7 @@ service AuditLogService {
 
 }
 
+/** Common fields, filled in automatically */
 type LogEntry {
   uuid   : UUID;
   tenant : String;
@@ -317,129 +490,7 @@ type Modification {
 }
 ```
 
-The content of aspect `LogEntry` are automatically applied and cannot be provided manually (i.e., are overwritten by the service implementation).
-
-
-### Basic Service API
-
-The basic service definition declares the generic `log` operation used for all kinds of events, along with type `LogMessage` declares the common fields of all log messages — these fields are filled in automatically if not provided by the caller.
-
-```cds
-namespace sap.auditlog;
-
-service AuditLogService {
-
-  action log     (event: String, data: LogEntry);
-  action logSync (event: String, data: LogEntry);
-
-}
-
-/** Common fields, filled in automatically if missing */
-type LogEntry {
-  uuid      : UUID;
-  tenant    : String;
-  user      : String;
-  timestamp : Timestamp;
-}
-```
-
-::: warning _Warning_
-Only applicable for the Node.js runtime. Java still uses old model, I assume.
-:::
-
-Usage is like that:
-
-```js
-await audit.log ('SomeEvent', {
-  some_details: 'whatever'
-})
-```
-
-### Personal Data-Related Events
-
-In addition, pre-defined event payloads for personal data-related events are declared:
-
-```cds
-namespace sap.auditlog;
-
-service AuditLogService {
-  // … as above
-
-  event SensitiveDataRead : LogEntry {
-    // dataSubjects : many DataSubject;
-    dataSubject  : DataSubject;
-    dataObject   : DataObject;
-    // channel      : String;
-    attributes   : many { name: String };
-    // attachments  : many { name: String; id: String };
-  }
-
-  event PersonalDataChanged : LogEntry {
-    dataSubject   : DataSubject;
-    dataObject    : DataObject;
-    attributes    : many { name: String; old: String; new: String; };
-  }
-
-}
-
-type DataObject  : { type: String; id: {} }
-type DataSubject : DataObject { role: String }
-```
-
-Send corresponding log messages complying to these definitions like that:
-
-```js
-await audit.log ('SensitiveDataRead', {
-  dataSubject: {
-    type: 'sap.capire.bookshop.Customers',
-    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' },
-    role: 'Customer',
-  },
-  dataObject: {
-    type: 'sap.capire.bookshop.Customers',
-    id: { ID: '1923bd11-b1d6-47b6-a91b-732e755fa976' }
-  },
-  attributes: [
-    { name: 'creditCardNo' }
-  ]
-})
-```
-
-
-
-### Config Change Events
-
-```cds
-service AuditLogService {
-  // … as above
-  event ConfigChange : LogMessage {
-    object        : DataObject;
-    attributes    : ChangedAttributes;
-  }
-}
-```
-
-::: warning _Warning_
-Not applicable for the Node.js runtime.
-:::
-
-
-
-### Security Events
-
-```cds
-service AuditLogService {
-  // ... as above
-  event FailedLogin : LogMessage {
-    action : String;
-    data   : String;
-  }
-}
-```
-
-::: warning _Warning_
-Not applicable for the Node.js runtime.
-:::
+The contents of aspect `LogEntry` are automatically applied and cannot be provided manually (i.e., are overwritten by the service implementation).
 
 
 
@@ -450,34 +501,28 @@ In addition, everybody could provide new implementations in the same way as we i
 ```js
 const cds = require('@sap/cds')
 
-class ConsoleAuditLogService extends cds.Service {
+class MyAuditLogService extends cds.Service {
   log (event, data) {
+    console.log (event, data)
+  }
+  logSync (event, data) {
     console.log (event, data)
   }
 }
 
-module.exports = ConsoleAuditLogService
+module.exports = MyAuditLogService
 ```
 
-## Setup on BTP
+As always, custom implementations need to be configured:
 
-Your application needs to be bound to an instance of the SAP Audit Log Service.
-In case you're providing a SaaS application, you additionally need to return the `xsappname` of the service instance's UAA instance (i.e., `cds.env.requires['audit-log'].credentials.uaa.xsappname`).
-If you miss doing this, audit logs that are emitted via the persistent outbox (the default in production as it provides the ultimate resilience) will be lost in nirvana, as the sending effort will end in an unrecoverable error.
-As with all dependencies: If you add them later on, you'll need to update all subscriptions.
-
-TODO: should we add this to mtxs?
-- something like `if (cds.env.requires?.['audit-log']?.credentials?.uaa.xsappname) dependencies.push({ xsappname: ... })`
-- requires `@cap-js/audit-logging` to be added to mtxs sidecar
-- NOTE: if we don't do this, then a single deploy of an mta would not suffice! the first deploy creates the service instance and the developer then would need to look up the `uaa.xsappname` and add to mtxs sidecar package.json as to-be-returned dependency
-
-TODO: add `@sap/audit-logging` manually if changing impl to `audit-log-to-library` (default is now `audit-log-to-restv2`)?
-
-## `cds add audit-logging`
-
-should we offer this?
-
-- add `@cap-js/audit-logging`
-    - also for mtxs sidecar, if dependency shall be returned automatically
-- add audit log service with oauth2 plan in mta.yaml
-- if dependency shall not be returned automatically, somehow tell mtxs to return it
+```json
+{
+  "cds": {
+    "requires": {
+      "audit-log": {
+        "impl": "./lib/MyAuditLogService.js"
+      }
+    }
+  }
+}
+```

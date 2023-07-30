@@ -35,8 +35,6 @@ Following the CAP principles, we recommend adding a new dedicated CAP service th
 
 ### CAP Service Model for SAP Personal Data Manager
 
-TODO: adjust modeling in cloud-cap-samples to this one or the other way around?
-
 Open the _srv/pdm-service.cds_ file, which contains the content for the Personal Data Manager service.
 
 ```cds
@@ -49,42 +47,43 @@ using {sap.capire.bookshop.OrderItems} from '@capire/orders';
 @requires: 'PersonalDataManagerUser' // security check
 service PDMService {
 
-  // Data Privacy annotations on 'Customers' and 'Addresses' are derived from original entity definitions.
-  entity Customers as projection on db.Customers;
-  entity Addresses as projection on db.Addresses;
+  // Data Privacy annotations on 'Customers', 'Addresses', and 'BillingData' are derived from original entity definitions
+  entity Customers     as projection on db.Customers;
+  entity Addresses     as projection on db.Addresses;
+  entity BillingData   as projection on db.BillingData;
 
-  // create view on Orders and Items as flat projection
-  entity OrderItemView         as
+  //   create view on Orders and Items as flat projection
+  entity OrderItemView as
     select from Orders {
           ID,
-      key items.ID          as item_ID,
-          orderNo,
-          customer.ID       as customer_ID,
-          customer.email    as customer_email,
-          items.book.ID     as item_book_ID,
-          items.quantity    as item_quantity,
-          items.netQuantity as item_net_quantity
+      key Items.ID        as item_ID,
+          OrderNo,
+          customer.ID     as customer_ID,
+          customer.email  as customer_email,
+          Items.book.ID   as item_Book_ID,
+          Items.amount    as item_Amount,
+          Items.netAmount as item_NetAmount
     };
 
-  // annotate new view
-  annotate PDMService.OrderItemView with @(PersonalData.EntitySemantics : 'Other') {
-    item_ID        @PersonalData.FieldSemantics : 'ContractRelatedID';
-    customer_ID    @PersonalData.FieldSemantics : 'DataSubjectID';
+  //  annotate new view
+  annotate PDMService.OrderItemView with @(PersonalData.EntitySemantics: 'Other') {
+    item_ID        @PersonalData.FieldSemantics: 'ContractRelatedID';
+    customer_ID    @PersonalData.FieldSemantics: 'DataSubjectID';
     customer_email @PersonalData.IsPotentiallyPersonal;
   };
 
   // annotations for Personal Data Manager - Search Fields
-  annotate bookshop.Customers with @Communication.Contact : {
-    n    :
-    {
-      surname : lastName,
-      given   : firstName
+  annotate Customers with @(Communication.Contact: {
+    n   : {
+      surname: lastName,
+      given  : firstName
     },
-    bday : dateOfBirth
-  }
+    bday: dateOfBirth
+  });
 
 };
 ```
+
 ::: tip
 Make sure to have [indicated all relevant entities and elements in your domain model](introduction#indicate-privacy).
 :::

@@ -416,6 +416,11 @@ annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 
 > Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
 
+::: warning
+Adding the annotation `@fiori.draft.enabled` only works as long as the corresponding `_texts` entities
+don't yet contain any entries.
+:::
+
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
 [See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){.learn-more}
 

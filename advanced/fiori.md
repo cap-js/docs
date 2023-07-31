@@ -418,7 +418,7 @@ annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 
 ::: warning
 Adding the annotation `@fiori.draft.enabled` only works as long as the corresponding `_texts` entities
-don't yet contain any entries.
+don't yet contain any entries, because existing entries don't have a value for the new key field `ID_texts`.
 :::
 
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}

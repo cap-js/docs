@@ -336,7 +336,7 @@ cds.exit() //> will rune above handlers before stopping the server
 
 ## Lifecycle Events
 
-
+[Learn more about Lifecycle Events in `cds.server`](cds-server#lifecycle-events){.learn-more}
 
 #### cds. once '*bootstrap*' {.event}
 

@@ -416,7 +416,7 @@ That would basically search for occurrences of `"Heights"` in all text fields of
 
 #### Using the `@cds.search` Annotation {#using-cds-search-annotation}
 
-By default all elements of type `String` except virtual or calculated ones with "on-read" semantics of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
+By default all concrete elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
 ```cds
 @cds.search: {
@@ -449,9 +449,7 @@ entity Books { ... }
 
 Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
 
-::: warning Only Java
-You can not search on virtual element even if it is explicitly annotated with the annotation `@cds.search`.
-:::
+You can extend the search to calculated elements which are not searchable by default.
 
 #### Extend Search to *Associated* Entities
 

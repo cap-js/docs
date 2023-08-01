@@ -659,7 +659,7 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 
 ### <> operator {.impl .node}
 
-Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
+Operator `<>` works as specified in SQL standard, while `name != 'John'` translates to `name <> 'John' OR name is null`.
 
 ::: warning
 This is a breaking change to the previous implementation. Before, `<>` was translated to `name <> 'John' OR name is null` as well.

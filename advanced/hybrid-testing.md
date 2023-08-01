@@ -239,10 +239,6 @@ Example output:
 }
 ```
 
-::: warning
-Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are not resolved by `cds serve` or `cds exec`.
-:::
-
 ### Run Arbitrary Commands with Service Bindings
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other applications with cloud service bindings from local, then you can use the [`exec` sub command](#cds-bind-exec) of `cds bind`.

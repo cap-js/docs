@@ -22,10 +22,11 @@ const latestVersions = {
   java_cds4j: '2.0.2'
 }
 
+const base =  process.env.GH_BASE || '/docs/'
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
-  base: process.env.GH_BASE || '/docs/',
+  base,
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
@@ -101,8 +102,8 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
-    ['link', { rel: 'shortcut icon', href: '/assets/logos/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/logos/apple-touch-icon.png' }]
+    ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }]
   ],
   lastUpdated: true,
   cleanUrls: true,

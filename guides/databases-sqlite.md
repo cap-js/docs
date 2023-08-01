@@ -657,7 +657,13 @@ SELECT.from('Foo')         //> [{ foo:1 }, ...]
 SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
+### <> operator {.impl .node}
 
+Operator `<>` works as specified in SQL standard, while `name != 'John'` translates to `name <> 'John' OR name is null`.
+
+::: warning
+This is a breaking change to the previous implementation. Before, `<>` was translated to `name <> 'John' OR name is null` as well.
+::: 
 
 ### Miscellaneous {.impl .node}
 
@@ -666,7 +672,6 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throws an error.
 - `*` is not a column reference, use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
-- Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
 - Column names in CSVs must map to physical column names:
 
 ```csvc

@@ -453,7 +453,7 @@ databaseChangeLog:
            path: db/changelog/v1/model.sql
 ```
 
-Use `cds deploy` to create the _v1/schema.sql_ file:
+Use `cds deploy` to create the _v1/model.sql_ file:
 
 ```sh
 cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/model.sql

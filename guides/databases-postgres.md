@@ -450,20 +450,20 @@ databaseChangeLog:
        changes:
        - sqlFile:
            dbms: postgresql
-           path: db/changelog/v1/schema.sql
+           path: db/changelog/v1/model.sql
 ```
 
 Use `cds deploy` to create the _v1/schema.sql_ file:
 
 ```sh
-cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/schema.sql
+cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/model.sql
 ```
 
 
 Finally, store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/csn.json
+cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/model.csn
 ```
 
 The CSN file is needed as input to compute the delta DDL script for the next change set.
@@ -471,17 +471,17 @@ The CSN file is needed as input to compute the delta DDL script for the next cha
 If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
 
 ::: warning
-Do not change the _schema.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated.
+Do not change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated.
 :::
 
 ### ② Next Schema Versions
 
 If changes of the CDS model require changes on the database, you can create a new change set that captures the necessary changes.
 
-Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/csn.json_) and the current model. Write the diff into a _v2/delta.sql_ file:
+Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/model.csn_) and the current model. Write the diff into a _v2/delta.sql_ file:
 
 ```sh
-cds deploy --dry --delta-from srv/src/main/resources/db/changelog/v1/csn.json >
+cds deploy --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn >
                               srv/src/main/resources/db/changelog/v2/delta.sql
 ```
 
@@ -495,7 +495,7 @@ databaseChangeLog:
        changes:
        - sqlFile:
            dbms: postgresql
-           path: db/changelog/v1/schema.sql
+           path: db/changelog/v1/model.sql
    - changeSet:
        id: 2
        author: me
@@ -508,7 +508,7 @@ databaseChangeLog:
 Don't forget to store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/csn.json
+cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
 ```
 
 If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.

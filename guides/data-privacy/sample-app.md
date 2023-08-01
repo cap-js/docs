@@ -60,7 +60,7 @@ should we offer this?
 
 
 
-## Deploy for Production --- TODO: move to separate Sample App guide
+## Deploy for Production
 
 ### Deploy your Application
 

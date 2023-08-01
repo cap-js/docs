@@ -520,6 +520,8 @@ await audit.log ('ConfigurationModified', {
 })
 ```
 
+Note: Configuration modified events are not (yet) logged out of the box.
+
 
 ### Security Events
 
@@ -546,6 +548,8 @@ await audit.log ('SecurityEvent', {
   ip: '127.0.0.1'
 })
 ```
+
+Note: Security events are not (yet) logged out of the box.
 
 
 ### AuditLogService
@@ -620,7 +624,7 @@ The contents of aspect `LogEntry` are automatically applied and cannot be provid
 
 
 
-## Service Providers
+## Custom Implementation
 
 In addition, everybody could provide new implementations in the same way as we implement the mock variant:
 

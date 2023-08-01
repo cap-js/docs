@@ -449,7 +449,9 @@ entity Books { ... }
 
 Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
 
+::: tip
 You can extend the search to calculated elements, which are not searchable by default. The virtual elements will not be searchable even if they are explicitly annotated.
+:::
 
 #### Extend Search to *Associated* Entities
 

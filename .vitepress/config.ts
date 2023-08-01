@@ -64,15 +64,21 @@ const config:UserConfig<CapireThemeConfig> = {
           searchOptions: {
             combineWith: 'AND',
             fuzzy: false, // produces too many bad results, like 'watch' finds 'patch' or 'batch'
-            //@ts-ignore
+            // @ts-ignore
             boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
-              if (storedFields?.titles.includes(term)) return 10000
               // downrate matches in archives, changelogs etc.
               if (documentId.match(/\/archive|changelog|old-mtx-apis|java\/multitenancy/)) return -5
+
               // downrate Java matches if Node is toggled and vice versa
               const toggled = localStorage.getItem('impl-variant')
-              if (toggled === 'node' && (documentId.includes('/java/')    || storedFields?.titles?.includes('Java')))    return -1
-              if (toggled === 'java' && (documentId.includes('/node.js/') || storedFields?.titles?.includes('Node.js'))) return -1
+              const titles = (storedFields?.titles as string[]).filter(t => !!t).map(t => t.toLowerCase())
+              if (toggled === 'node' && (documentId.includes('/java/')    || titles.includes('java')))    return -1
+              if (toggled === 'java' && (documentId.includes('/node.js/') || titles.includes('node.js'))) return -1
+
+              // Uprate if term appears in titles. Add bonus for higher levels (i.e. lower index)
+              const titleIndex = titles.map((t, i) => t?.includes(term) ? i : -1).find(i => i>=0) ?? -1
+              if (titleIndex >=0)  return 10000 - titleIndex
+
               return 1
             }
           }

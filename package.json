@@ -1,6 +1,6 @@
 {
   "name": "@cap-js/docs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Capire on VitePress",
   "type": "module",
   "scripts": {
@@ -25,6 +25,6 @@
     "gray-matter": "^4.0.3",
     "sass": "^1.62.1",
     "sitemap": "^7.1.1",
-    "vitepress": "^1.0.0-beta.6"
+    "vitepress": "^1.0.0-beta.7"
   }
 }

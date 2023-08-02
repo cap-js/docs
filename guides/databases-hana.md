@@ -546,17 +546,27 @@ Yet, if you need to support initial data with user changes, you can use the `inc
 
 ### Undeploying Artifacts
 
-As documented in [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or csv files, the respective tables and content will remain in the database.
+As documented in the [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or CSV files, the respective tables and content will remain in the database.
 
-Add an `undeploy.json` file in folder `db/src` with content like this:
+By default, `cds add hana` will create an `undeploy.json` like this:
+
+::: code-group
+```json [db/src/undeploy.json]
+[
+  "src/gen/**/*.hdbview",
+  "src/gen/**/*.hdbindex",
+  "src/gen/**/*.hdbconstraint"
+]
+```
+
+If you need to remove deployed CSV files, also add this entry:
 
 ::: code-group
 
-```sql [db/src/undeploy.json]
+```json [db/src/undeploy.json]
 [
-  "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*.hdbtabledata",
   ...
+  "src/gen/**/*.hdbtabledata"
 ]
 ```
 

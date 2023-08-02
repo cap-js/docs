@@ -160,7 +160,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${siteHostName}${site.base}sitemap.xml\n`)
+    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${join(siteHostName, site.base, 'sitemap.xml')}\n`)
 
     await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 

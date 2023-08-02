@@ -140,9 +140,10 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 ```
-
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#configure-postgresql){ .learn-more}
+
+You can leverage Spring Boot 3.1 improved testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) to create PostgreSQL containers on the fly for local development or testing purposes.
 
 ### Service Bindings for CDS tooling {.impl .java}
 
@@ -431,8 +432,9 @@ Add a Maven dependency to Liquibase in `srv/pom.xml`:
 
 ```xml
 <dependency>
-  <groupId>org.liquibase</groupId> 
-  <artifactId>liquibase-core</artifactId>
+    <groupId>org.liquibase</groupId> 
+    <artifactId>liquibase-core</artifactId>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -440,7 +442,7 @@ Once `liquibase-core` is on the classpath, [Spring runs database migrations](htt
 
 ### ① Initial Schema Version
 
-Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create a `db/changelog` subfolder under `srv/src/main/resources`. Here, you place the Liquibase _change log_ file file as well as the DDL scripts for the schema versions. The change log is defined by the [db/changelog/db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) file:
+Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create a `db/changelog` subfolder under `srv/src/main/resources`. Here, you place the Liquibase _change log_ file as well as the DDL scripts for the schema versions. The change log is defined by the [db/changelog/db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) file:
 
 ```yml
 databaseChangeLog:
@@ -458,8 +460,6 @@ Use `cds deploy` to create the _v1/model.sql_ file:
 ```sh
 cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/model.sql
 ```
-
-
 Finally, store the CSN file, which corresponds to this schema version:
 
 ```sh
@@ -467,14 +467,14 @@ cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/model.csn
 ```
 
 The CSN file is needed as input to compute the delta DDL script for the next change set.
-
+ 
 If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
 
 ::: warning
-Do not change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated.
+Do not change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated. These files should be checked into your version control system.
 :::
 
-### ② Next Schema Versions
+### ② Schema Evolution
 
 If changes of the CDS model require changes on the database, you can create a new change set that captures the necessary changes.
 
@@ -485,7 +485,7 @@ cds deploy --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn >
                               srv/src/main/resources/db/changelog/v2/delta.sql
 ```
 
-Next, add a corresponding change set in the _changelog/changelog.yml_ file:
+Next, add a corresponding change set in the _changelog/db.changelog-master.yml_ file:
 
 ```yml
 databaseChangeLog:

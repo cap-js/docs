@@ -17,7 +17,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
 
-[Learn more about features and limitations of using CAP with PostgreSQL](../java/persistence-services#popstgres){.learn-more}
+[Learn more about features and limitations of using CAP with PostgreSQL](../java/persistence-services#postgresql){.learn-more}
 
 </div>
 
@@ -304,7 +304,7 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
-## Automatic Schema Evolution
+## Automatic Schema Evolution { #schema-evolution }
 
 When redeploying after you changed your CDS models, like adding fields, automatic schema evolution is applied. Whenever you  run `cds deploy` (or `cds-deploy`) it executes these steps:
 
@@ -474,7 +474,7 @@ If you start your application as usual with `mvn spring-boot:run` Liquibase will
 Do not change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated. These files should be checked into your version control system.
 :::
 
-### ② Schema Evolution
+### ② Schema Evolution { #schema-evolution-with-liquibase }
 
 If changes of the CDS model require changes on the database, you can create a new change set that captures the necessary changes.
 

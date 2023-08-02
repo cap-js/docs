@@ -102,7 +102,7 @@ SAP HANA can be configured when running locally as well as when running producti
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
-### PostgreSQL { #configure-postgresql }
+### PostgreSQL { #postgresql-1 }
 
 PostgreSQL can be configured when running locally as well as when running productively in the cloud. Similar to HANA, the datasource is auto-configured based on available service bindings, if the feature `cds-feature-postgresql` is added.
 
@@ -125,8 +125,9 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 ```
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+
 ::: warning
-Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase.
+Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in [Database guide for PostgreSQL](../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
 :::
 
 #### Configure the Connection Data Explicitly { #postgres-connection }

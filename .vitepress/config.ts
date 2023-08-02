@@ -79,14 +79,21 @@ const config:UserConfig<CapireThemeConfig> = {
   themeConfig: {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },
-    get nav() { return [
-      ...nav4(config.themeConfig!.sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
-      { text: 'Reference', items: [
-        { text: 'CDS',       link: 'cds/' },
-        { text: 'Node.js',   link: 'node.js/' },
-        { text: 'Java',      link: 'java/' },
-      ] },
-    ]},
+    get nav() {
+      const navItems = nav4(config.themeConfig!.sidebar) as any[]
+      return [
+        navItems.find((i:DefaultTheme.NavItem) => i.text === 'Getting Started'),
+        ...navItems.filter((i:any) => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
+          item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
+          return item
+        }),
+        { text: 'Reference', items: [
+          { text: 'CDS',       link: 'cds/' },
+          { text: 'Node.js',   link: 'node.js/' },
+          { text: 'Java',      link: 'java/' },
+        ] },
+      ]
+    },
     search: localSearchOptions,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',

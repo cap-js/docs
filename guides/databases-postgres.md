@@ -141,7 +141,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 ```
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
-Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#configure-postgresql){ .learn-more}
+Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#postgresql-1){ .learn-more}
 
 You can leverage Spring Boot 3.1 improved testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) to create PostgreSQL containers on the fly for local development or testing purposes.
 

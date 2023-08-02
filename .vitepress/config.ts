@@ -16,8 +16,8 @@ const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.0.2',
-  java_cds4j: '2.0.2'
+  java_services: '2.1.0',
+  java_cds4j: '2.1.0'
 }
 
 const base =  process.env.GH_BASE || '/docs/'

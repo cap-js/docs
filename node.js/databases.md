@@ -67,7 +67,7 @@ By default, the following [pool configuration](https://www.npmjs.com/package/gen
 ```
 
 ::: warning
-The default configuration above does not apply to `@cap-js` database implementations.
+This default pool configuration does not apply to `@cap-js` database implementations.
 :::
 
 The _generic-pool_ has a built-in pool evictor, which inspects idle database connections in the pool and destroys them if they are too old.
@@ -158,4 +158,4 @@ In contrast to the Java runtime, deep upserts and delta payloads are not yet sup
 ##  <i>  More to Come </i>
 
 This documentation is not complete yet, or the APIs are not released for general availability.
-There's more to come in this place in upcoming releases.
+Stay tuned to upcoming releases for further updates.

@@ -1,8 +1,7 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
-import * as sitemap from './lib/sitemap'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 
@@ -14,7 +13,6 @@ export type CapireThemeConfig = DefaultTheme.Config & {
 }
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
-const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
@@ -145,6 +143,9 @@ const config:UserConfig<CapireThemeConfig> = {
       level: [2,3]
     }
   },
+  sitemap: {
+    hostname: siteHostName
+  },
   vite: {
     plugins: [
       //@ts-ignore
@@ -156,11 +157,11 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   transformHtml(code, id, ctx) {
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
-    sitemap.collect(id, ctx, sitemapLinks)
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
+    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${siteHostName}${site.base}sitemap.xml\n`)
+
     await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either

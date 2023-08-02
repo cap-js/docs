@@ -208,9 +208,6 @@ spring:
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 #### In-Memory Storage
@@ -231,9 +228,6 @@ spring:
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 ## Persistence Services

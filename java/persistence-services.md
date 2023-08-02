@@ -106,7 +106,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 ### PostgreSQL { #configure-postgresql }
 
-PostgreSQL can be configured when running locally as well as when running productively in the cloud. Similar to HANA, the datasource is auto-configured based on available service bindings, if the dependency `cds-feature-postgresql` is available on the classpath.
+PostgreSQL can be configured when running locally as well as when running productively in the cloud. Similar to HANA, the datasource is auto-configured based on available service bindings, if the feature `cds-feature-postgresql` is added.
 
 #### Initial Database Schema
 

@@ -27,7 +27,7 @@ const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
-  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
+  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/PARKED-*.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },

@@ -1,8 +1,7 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { sidebar as sideb, nav4 } from './menu'
-import * as sitemap from './lib/sitemap'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 
@@ -14,7 +13,6 @@ export type CapireThemeConfig = DefaultTheme.Config & {
 }
 
 const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
-const sitemapLinks: { url:string, lastmod?:number}[] = []
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
@@ -22,22 +20,30 @@ const latestVersions = {
   java_cds4j: '2.0.2'
 }
 
+const base =  process.env.GH_BASE || '/docs/'
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
-  base: process.env.GH_BASE || '/docs/',
-  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md'],
+  base,
+  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/PARKED-*.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },
-    get nav() { return [
-      ...nav4(config.themeConfig!.sidebar).filter((i:any) => ['Getting Started', 'Cookbook'].includes(i.text)),
-      { text: 'Reference', items: [
-        { text: 'CDS',       link: 'cds/' },
-        { text: 'Node.js',   link: 'node.js/' },
-        { text: 'Java',      link: 'java/' },
-      ] },
-    ]},
+    get nav() {
+      const navItems = nav4(config.themeConfig!.sidebar) as any[]
+      return [
+        navItems.find((i:DefaultTheme.NavItem) => i.text === 'Getting Started'),
+        ...navItems.filter((i:any) => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
+          item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
+          return item
+        }),
+        { text: 'Reference', items: [
+          { text: 'CDS',       link: 'cds/' },
+          { text: 'Node.js',   link: 'node.js/' },
+          { text: 'Java',      link: 'java/' },
+        ] },
+      ]
+    },
     search: {
       provider: 'local',
       options: {
@@ -95,8 +101,8 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
-    ['link', { rel: 'shortcut icon', href: '/assets/logos/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/logos/apple-touch-icon.png' }]
+    ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }]
   ],
   lastUpdated: true,
   cleanUrls: true,
@@ -137,6 +143,9 @@ const config:UserConfig<CapireThemeConfig> = {
       level: [2,3]
     }
   },
+  sitemap: {
+    hostname: siteHostName
+  },
   vite: {
     plugins: [
       //@ts-ignore
@@ -148,11 +157,11 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   transformHtml(code, id, ctx) {
     redirects.collect(id, ctx.pageData.frontmatter, ctx.siteConfig, redirectLinks)
-    sitemap.collect(id, ctx, sitemapLinks)
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await sitemap.generate(outDir, site.base, siteHostName, sitemapLinks)
+    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${siteHostName}${site.base}sitemap.xml\n`)
+
     await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either

@@ -63,7 +63,7 @@ Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-sta
 
 Your application is secured by IAS-authentication **automatically**, if
 1. Following dependencies are set:
-  * `spring-security-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
+  * `resourceserver-security-spring-boot-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
   * `cds-feature-identity`
 2. The application is bound to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
 ::: warning

@@ -54,7 +54,7 @@ npm add @cap-js/postgres
 
 <div markdown="1" class="impl java">
 
-This allows to use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to create a [create DDL script](#deployment-using-liquibase) for PostgreSQL.
+This allows to use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
 
 </div>
 
@@ -82,7 +82,7 @@ Output:
 
 ## Provisoning a Database Instance
 
-Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect the a PostgreSQL offering from the cloud provider.
+Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect to a PostgreSQL offering from the cloud provider.
 
 For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker).
 
@@ -143,13 +143,13 @@ spring:
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#postgresql-1){ .learn-more}
 
-You can leverage Spring Boot 3.1 improved testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) to create PostgreSQL containers on the fly for local development or testing purposes.
+You can also leverage [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) introduced in Spring Boot 3.1 to create PostgreSQL containers on the fly for local development or testing purposes.
 
 ### Service Bindings for CDS tooling {.impl .java}
 
 <div markdown="1" class="impl java">
 
-If you use `cds deploy` deploy to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`. If you run postgres in a [docker container](#using-docker) use:
+If you use `cds deploy` to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`. If you run postgres in a [docker container](#using-docker) use:
 
 ```json
 {
@@ -438,7 +438,7 @@ Add a Maven dependency to Liquibase in `srv/pom.xml`:
 </dependency>
 ```
 
-Once `liquibase-core` is on the classpath, [Spring runs database migrations](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.liquibase) for application startup and before your tests run.
+Once `liquibase-core` is on the classpath, [Spring runs database migrations](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.liquibase) automatically on application startup and before your tests run.
 
 ### ① Initial Schema Version
 

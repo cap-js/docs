@@ -129,7 +129,7 @@ Returns the pathname of the `@sap/cds` installation folder from which the curren
 ### cds. root {.property}
 
 Returns the project root that is used by all CAP runtime file access as the root directory.
-By default tihs is `process.cwd()`, but can be set to a different root folder.
+By default this is `process.cwd()`, but can be set to a different root folder.
 It's guaranteed to be an absolute folder name.
 
 ```js

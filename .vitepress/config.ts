@@ -20,6 +20,54 @@ const latestVersions = {
   java_cds4j: '2.1.0'
 }
 
+const localSearchOptions = {
+  provider: 'local',
+  options: {
+    exclude: (relativePath) => relativePath.includes('/customization-old'),
+    miniSearch: {
+      options: {
+        tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
+        processTerm: (term, fieldName) => {
+          term = term.trim().toLowerCase().replace(/^\.+/, '').replace(/\.+$/, '')
+          const stopWords = ['frontmatter', '$frontmatter.synopsis', 'and', 'about', 'but', 'now', 'the', 'with', 'you']
+          if (term.length < 2 || stopWords.includes(term))  return false
+
+          if (fieldName === 'text') {
+            // as we don't tokenize along . to keep expressions like `cds.requires.db`, split and add the single parts as extra terms
+            const parts = term.split('.')
+            if (parts.length > 1) {
+              const newTerms = [term, ...parts].filter(t => t.length >= 2).filter(t => !stopWords.includes(t))
+              return newTerms
+            }
+          }
+          return term
+        },
+      },
+      searchOptions: {
+        combineWith: 'AND',
+        fuzzy: false, // produces too many bad results, like 'watch' finds 'patch' or 'batch'
+        // @ts-ignore
+        boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
+          // downrate matches in archives, changelogs etc.
+          if (documentId.match(/\/archive|changelog|old-mtx-apis|java\/multitenancy/)) return -5
+
+          // downrate Java matches if Node is toggled and vice versa
+          const toggled = localStorage.getItem('impl-variant')
+          const titles = (storedFields?.titles as string[]).filter(t => !!t).map(t => t.toLowerCase())
+          if (toggled === 'node' && (documentId.includes('/java/')    || titles.includes('java')))    return -1
+          if (toggled === 'java' && (documentId.includes('/node.js/') || titles.includes('node.js'))) return -1
+
+          // Uprate if term appears in titles. Add bonus for higher levels (i.e. lower index)
+          const titleIndex = titles.map((t, i) => t?.includes(term) ? i : -1).find(i => i>=0) ?? -1
+          if (titleIndex >=0)  return 10000 - titleIndex
+
+          return 1
+        }
+      }
+    }
+  }
+} as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
+
 const base =  process.env.GH_BASE || '/docs/'
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
@@ -30,61 +78,21 @@ const config:UserConfig<CapireThemeConfig> = {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },
     get nav() {
-      const navItems = nav4(config.themeConfig!.sidebar) as any[]
+      const navItems = nav4(config.themeConfig!.sidebar) as DefaultTheme.NavItem[]
       return [
-        navItems.find((i:DefaultTheme.NavItem) => i.text === 'Getting Started'),
-        ...navItems.filter((i:any) => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
-          item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
-          return item
+           navItems.find  (i => i.text === 'Getting Started'), //@ts-ignore
+        ...navItems.filter(i => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
+            item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
+            return item
         }),
         { text: 'Reference', items: [
           { text: 'CDS',       link: 'cds/' },
           { text: 'Node.js',   link: 'node.js/' },
           { text: 'Java',      link: 'java/' },
-        ] },
-      ]
+        ]},
+      ] as DefaultTheme.NavItem[]
     },
-    search: {
-      provider: 'local',
-      options: {
-        exclude: (relativePath) => relativePath.includes('/customization-old'),
-        miniSearch: {
-          options: {
-            tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
-            processTerm: (term, fieldName) => {
-              term = term.trim().toLowerCase().replace(/^\.+/, '').replace(/\.+$/, '')
-              const stopWords = ['and', 'about', 'but', 'for', 'now', 'the', 'with', 'you',
-                'com', 'sap', 'cds', 'java', 'json', 'node', 'node.js', 'frontmatter', '$frontmatter.synopsis']
-              if (term.length < 3 || stopWords.includes(term))  return false
-
-              if (fieldName === 'text') {
-                // as we don't tokenize along . to keep expressions like `cds.requires.db`, split and add the single parts as extra terms
-                const parts = term.split('.')
-                if (parts.length > 1) {
-                  const newTerms = [term, ...parts].filter(t => t.length >= 3).filter(t => !stopWords.includes(t))
-                  return newTerms
-                }
-              }
-              return term
-            },
-          },
-          searchOptions: {
-            combineWith: 'AND',
-            fuzzy: false, // produces too many bad results, like 'watch' finds 'patch' or 'batch'
-            //@ts-ignore
-            boostDocument: (documentId, term, storedFields:Record<string, string|string[]>) => {
-              // downrate matches in archives, changelogs etc.
-              if (documentId.match(/\/archive|changelog|old-mtx-apis|java\/multitenancy/)) return -5
-              // downrate Java matches if Node is toggled and vice versa
-              const toggled = localStorage.getItem('impl-variant')
-              if (toggled === 'node' && (documentId.includes('/java/')    || storedFields?.titles?.includes('Java')))    return -1
-              if (toggled === 'java' && (documentId.includes('/node.js/') || storedFields?.titles?.includes('Node.js'))) return -1
-              return 1
-            }
-          }
-        }
-      }
-    },
+    search: localSearchOptions,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`

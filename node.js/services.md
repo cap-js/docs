@@ -1,7 +1,7 @@
 ---
 shorty: Class <code>cds</code><i>.Service
 layout: node-js
-status: released
+# status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 

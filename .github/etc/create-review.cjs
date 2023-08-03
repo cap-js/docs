@@ -47,6 +47,7 @@ module.exports = async ({ github, require, exec, core }) => {
             .map(line => line.replace(`${BASE_DIR}/`, '').match(markdownlintRegExp))
 
         for(let [error, path, pointer, rule, description, contextKey = '', contextValue] of matches) {
+            console.log(error)
             // MD011/no-reversed-links
             if (rule === 'MD011') {
                 const { line, position } = await findPositionInDiff(contextValue, path)

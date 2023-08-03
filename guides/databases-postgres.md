@@ -84,7 +84,7 @@ Output:
 
 Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect the a PostgreSQL offering from the cloud provider.
 
-For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker). With Spring Boot 3.1 [improved testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) you can create PostgreSQL containers on the fly for local development or testing purposes.
+For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 
@@ -142,6 +142,8 @@ spring:
 ```
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#postgresql-1){ .learn-more}
+
+You can leverage Spring Boot 3.1 improved testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) to create PostgreSQL containers on the fly for local development or testing purposes.
 
 ### Service Bindings for CDS tooling {.impl .java}
 

@@ -8,7 +8,7 @@ impl-variants: true
 CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
 
 <div markdown="1" class="impl node">
-  
+
 ::: tip New SQLite Service
 This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
 :::
@@ -103,7 +103,7 @@ As stated above `@cap-js/sqlite` uses an in-memory SQLite database by default. F
 
 ::: tip
 
-Using in-memory databases is most recommended for test drives and for test pipelines. 
+Using in-memory databases is most recommended for test drives and for test pipelines.
 
 :::
 
@@ -112,7 +112,7 @@ Using in-memory databases is most recommended for test drives and for test pipel
 <div markdown="1" class="impl java">
 
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`. 
+The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
 
 Finally, configure the DB connection in the non-productive `default` profile:
 
@@ -129,9 +129,6 @@ spring:
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 [Learn how to configure an in-memory SQLite database](../java/persistence-services#in-memory-storage){.learn-more}
@@ -213,9 +210,6 @@ spring:
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 [Learn how to configure a file based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
@@ -264,7 +258,7 @@ While drop-create is most appropriate for development, it isn't for database upg
 
 
 
-## Features 
+## Features
 
 <div markdown="1" class="impl java">
 
@@ -468,10 +462,10 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
 
-1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps). 
-2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above. 
+1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps).
+2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above.
 
-**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example: 
+**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example:
 
 ```js
 await INSERT.into(Books).entries([
@@ -483,13 +477,13 @@ let books = await SELECT('title').from(Books).orderBy('createdAt')
 console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
 ```
 
-The order is wrong because of the `'Z'` in A being at the wrong position. 
+The order is wrong because of the `'Z'` in A being at the wrong position.
 
 ::: tip Prefer using `Date` objects
 
-Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above. 
+Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above.
 
-For example, the above would be fixed by changing the INSERT to: 
+For example, the above would be fixed by changing the INSERT to:
 
 ```js
 await INSERT.into(Books).entries([
@@ -657,7 +651,13 @@ SELECT.from('Foo')         //> [{ foo:1 }, ...]
 SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
+### <> operator {.impl .node}
 
+Operator `<>` works as specified in SQL standard, while `name != 'John'` translates to `name <> 'John' OR name is null`.
+
+::: warning
+This is a breaking change to the previous implementation. Before, `<>` was translated to `name <> 'John' OR name is null` as well.
+::: 
 
 ### Miscellaneous {.impl .node}
 
@@ -666,7 +666,6 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throws an error.
 - `*` is not a column reference, use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
-- Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
 - Column names in CSVs must map to physical column names:
 
 ```csvc
@@ -714,4 +713,4 @@ Having said this, there can indeed be scenarios where SQLite might be used also 
 
 ::: warning
 SQLite has only limited support for concurrent database access due to it's very coarse lock granularity. This makes it badly suited for applications with high concurrency.
-::: 
+:::

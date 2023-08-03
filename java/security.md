@@ -82,7 +82,7 @@ Your application is secured by the hybrid mode **automatically**, if
 2. The application is additionally bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
 
 ::: tip
-In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as descibed in [Configure XSUAA Authentication](#xsuaa)
+In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as described in [Configure XSUAA Authentication](#xsuaa)
 :::
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}

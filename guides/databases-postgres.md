@@ -44,7 +44,7 @@ To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL feature 
 </dependency>
 ```
 
-In order to use the CDS tooling with PostgreSQL you also need to install the module `@cap-js/postgres`:
+In order to use the CDS tooling with PostgreSQL, you also need to install the module `@cap-js/postgres`:
 
 </div>
 
@@ -54,7 +54,7 @@ npm add @cap-js/postgres
 
 <div markdown="1" class="impl java">
 
-This allows to use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
+After that, you can use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
 
 </div>
 
@@ -80,11 +80,11 @@ Output:
 
 [See also the general information on installing database packages](databases#setup-configuration){.learn-more}
 
-## Provisoning a Database Instance
+## Provisioning a DB Instance
 
-Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect to a PostgreSQL offering from the cloud provider.
+To connect to a PostgreSQL offering from the cloud provider in Production,  leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
 
-For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker).
+For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 
@@ -115,7 +115,7 @@ You can use Docker to run a PostgreSQL database locally as follows:
 <div markdown="1" class="impl java">
 
 ::: tip
-With [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) introduced in Spring Boot 3.1, you can create PostgreSQL containers on the fly for local development or testing purposes.
+With the introduction of [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) in Spring Boot 3.1, you can create PostgreSQL containers on the fly for local development or testing purposes.
 :::
 
 </div>
@@ -136,7 +136,7 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-configured.
 
-Alternatively you can [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file explicitly.
+You can also explicitly [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
 ```yaml
@@ -151,19 +151,19 @@ spring:
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#postgresql-1){ .learn-more}
 
-### Service Bindings for CDS tooling {.impl .java}
+### Service Bindings for CDS Tooling {.impl .java}
 
 #### Using Defaults with `[pg]` Profile {.impl .java}
 
-The `@cds-js/postgres` comes with default credentials under profile `[pg]` that match the defaults used in the [docker setup](#using-docker). So, in case you stick to these defaults you can skip the next sections and just go ahead, deploy your database:
+`@cds-js/postgres` comes with a set of default credentials under the profile `[pg]` that matches the defaults used in the [docker setup](#using-docker). So, if you stick to these defaults you can skip to deploying your database with:
 
 ```sh
 cds deploy --profile pg
 ```
 
-#### In Your private `.cdsrc-private.json` {.impl .java}
+#### In Your Private `.cdsrc-private.json` {.impl .java}
 
-If you use `cds deploy` to directly [deploy to a PostgreSQL database](#using-cds-deploy) and don't use the default credentials you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`:
+If you don't use the default credentials and want to use just `cds deploy`, you need to configure the service bindings (connection data) for the CDS tooling. Add the connection data to your private `.cdsrc-private.json`:
 
 ```json
 {
@@ -326,7 +326,7 @@ When redeploying after you changed your CDS models, like adding fields, automati
 5. Store a CSN representation of the current model in `cds_model`.
 
 
-> You disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
+> You can disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
 
 ### Limitations
 
@@ -371,7 +371,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    cds deploy --dry --model-only > cds-model.csn
    ```
 
-2. Make changes to your models, for example to *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
+2. Change your models, for example to *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
 
    ```cds
    entity Books { ...
@@ -429,11 +429,11 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
    :::
 
-   > **Note:** In case of SQLite, ALTER TYPE commands are neither necessary nor supported, as SQLite is essentially typeless.
+   > **Note:** If you use SQLite, ALTER TYPE commands are not necessary and so, are not supported, as SQLite is essentially typeless.
 
 ## Deployment Using Liquibase  { .impl .java }
 
-You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. As Liquibase allows to define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), you can easily leverage `cds deploy` to generate DDL scripts to be used by Liquibase.
+You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. Liquibase lets you define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), use `cds deploy` to quickly generate DDL scripts which can used by Liquibase.
 
 Add a Maven dependency to Liquibase in `srv/pom.xml`:
 
@@ -449,7 +449,7 @@ Once `liquibase-core` is on the classpath, [Spring runs database migrations](htt
 
 ### ① Initial Schema Version
 
-Once you are ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Firstly create a `db/changelog` subfolder under `srv/src/main/resources`. Here, you place the Liquibase _change log_ file as well as the DDL scripts for the schema versions. The change log is defined by the [db/changelog/db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) file:
+Once you're ready to release an initial version of your database schema, you can create a DDL file that defines the initial database schema. Create a `db/changelog` subfolder under `srv/src/main/resources`, place the Liquibase _change log_ file as well as the DDL scripts for the schema versions here. The change log is defined by the [db/changelog/db.changelog-master.yml](https://docs.liquibase.com/concepts/changelogs/home.html) file:
 
 ```yml
 databaseChangeLog:
@@ -473,12 +473,12 @@ Finally, store the CSN file, which corresponds to this schema version:
 cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/model.csn
 ```
 
-The CSN file is needed as input to compute the delta DDL script for the next change set.
+The CSN file is needed as an input to compute the delta DDL script for the next change set.
 
-If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
+If you start your application with `mvn spring-boot:run` Liquibase initializes the database schema to version `v1`, unless it has already been initialized.
 
 ::: warning
-Do not change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated. These files should be checked into your version control system.
+Don't change the _model.sql_ after it has been deployed by Liquibase as the [checksum](https://docs.liquibase.com/concepts/changelogs/changeset-checksums.html) of the file is validated. These files should be checked into your version control system. Follow step ② to make changes.
 :::
 
 ### ② Schema Evolution { #schema-evolution-with-liquibase }
@@ -512,15 +512,15 @@ databaseChangeLog:
            path: db/changelog/v2/model.sql
 ```
 
-Don't forget to store the CSN file, which corresponds to this schema version:
+Finally, store the CSN file, which corresponds to this schema version:
 
 ```sh
 cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
 ```
 
-If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.
+If you now start the application, Liquibase executes all change sets, which haven't yet been deployed to the database.
 
-For further schema versions repeat step ②.
+For further schema versions, repeat step ②.
 
 ## Migration { .impl .node }
 
@@ -557,6 +557,6 @@ When you have a SaaS application, upgrade all your tenants using the [deployer a
 
 ::: warning
 
-[Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) are not yet supported on PostgreSQL.
+[Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) aren't yet supported on PostgreSQL.
 
 :::

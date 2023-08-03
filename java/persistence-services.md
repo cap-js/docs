@@ -33,8 +33,8 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 
 1. No locale specific sorting. The sort order of queries behaves as configured on the database.
 2. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
-3. The CDS type `UInt8` can't be used with PostgreSQL, as there is no `TINYINT`. Use `Int16` instead.
-4. [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) are not yet supported on PostgreSQL.
+3. The CDS type `UInt8` can't be used with PostgreSQL, as there's no `TINYINT`. Use `Int16` instead.
+4. [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) aren't yet supported on PostgreSQL.
 
 ### H2 Database
 
@@ -127,12 +127,12 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
 ::: warning
-Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in [Database guide for PostgreSQL](../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
+Automatic schema deployment isn't suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in the [Database guide for PostgreSQL](../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
 :::
 
 #### Configure the Connection Data Explicitly { #postgres-connection }
 
-If you don't have a compatible PostgreSQL service binding in your application environment you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
+If you don't have a compatible PostgreSQL service binding in your application environment, you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
 
 ```yaml
 ---

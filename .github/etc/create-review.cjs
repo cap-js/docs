@@ -235,7 +235,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
     // startIdx starts at 1
     function findCodeBlock(file, startIdx) {
-        const lines = readFileSync(file, 'utf-8').split(/\n\r?/)
+        const lines = readFileSync(join(BASE_DIR, file), 'utf-8').split(/\n\r?/)
 
         const endIdx = lines.findIndex((el, idx) => idx >= startIdx && /`{3,}/.test(el.trim()))
 

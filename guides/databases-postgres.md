@@ -84,7 +84,7 @@ Output:
 
 Productively, you can leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option) to connect to a PostgreSQL offering from the cloud provider.
 
-For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker). With the improved [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) introduced in Spring Boot 3.1, you can create PostgreSQL containers on the fly for local development or testing purposes.
+For local development and testing, you can conveniently run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 
@@ -111,6 +111,14 @@ You can use Docker to run a PostgreSQL database locally as follows:
    ```sh
    docker-compose -f pg.yml up -d
    ```
+
+<div markdown="1" class="impl java">
+
+::: tip
+With [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) introduced in Spring Boot 3.1, you can create PostgreSQL containers on the fly for local development or testing purposes.
+:::
+
+</div>
 
 ## Service Bindings
 

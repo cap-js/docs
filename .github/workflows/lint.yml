@@ -64,5 +64,5 @@ jobs:
         HEAD_SHA: ${{ github.event.pull_request.head.sha }}
       with:
         script: |
-          const script = require('${{ github.workspace }}/.github/etc/create-review.cjs')
+          const script = require('${{ github.workspace }}/docs/@external/.github/etc/create-review.cjs')
           await script({github, context, core, require, exec})

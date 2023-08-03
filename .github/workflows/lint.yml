@@ -35,6 +35,8 @@ jobs:
         cache-dependency-path: docs/package-lock.json
     - run: npm ci
       working-directory: docs
+    - run: git checkout ${{ github.head_ref }}
+      working-directory: docs/@external
     - name: Get changes
       id: changes
       working-directory: docs/@external
@@ -58,7 +60,7 @@ jobs:
       uses: actions/github-script@v6
       env:
         SHA: ${{ github.event.pull_request.head.sha }}
-        BASE_DIR: ${{ github.workspace }}
+        BASE_DIR: ${{ github.workspace }}/docs/@external
         BASE_SHA: ${{ github.event.pull_request.base.sha }}
         PULL_NUMBER: ${{ github.event.number }}
         HEAD_SHA: ${{ github.event.pull_request.head.sha }}

@@ -7,7 +7,7 @@ impl-variants: true
 
 <div markdown="1" class="impl node">
 
-This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features). 
+This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features).
 
 *Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter.*{.learn-more}
 
@@ -128,7 +128,7 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-configured.
 
-Alternatively you can [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file explicitly. 
+Alternatively you can [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file explicitly.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
 ```yaml
@@ -145,9 +145,17 @@ Learn more about the [configuration of a PostgreSQL database](../java/persistenc
 
 ### Service Bindings for CDS tooling {.impl .java}
 
-<div markdown="1" class="impl java">
+#### Using Defaults with `[pg]` Profile {.impl .java}
 
-If you use `cds deploy` to directly [deploy to a PostgreSQL database](#using-cds-deploy) you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`. If you run postgres in a [docker container](#using-docker) use:
+The `@cds-js/postgres` comes with default credentials under profile `[pg]` that match the defaults used in the [docker setup](#using-docker). So, in case you stick to these defaults you can skip the next sections and just go ahead, deploy your database:
+
+```sh
+cds deploy --profile pg
+```
+
+#### In Your private `.cdsrc-private.json` {.impl .java}
+
+If you use `cds deploy` to directly [deploy to a PostgreSQL database](#using-cds-deploy) and don't use the default credentials you need to additionally configure the service bindings (connection data) for the CDS tooling. Add them to your private `.cdsrc-private.json`:
 
 ```json
 {
@@ -164,8 +172,6 @@ If you use `cds deploy` to directly [deploy to a PostgreSQL database](#using-cds
   }
 }
 ```
-
-</div>
 
 ### Configure Service Bindings {.impl .node}
 
@@ -213,7 +219,7 @@ Add it to your private `~/.cdsrc.json` if you want to use these credentials on y
 
 :::
 
-#### In Project `.env` Files 
+#### In Project `.env` Files
 
 Alternatively, use a `.env` file in your project's root folder if you want to share the same credentials with your team:
 
@@ -254,16 +260,11 @@ Deploy your database as usual with that:
 cds deploy
 ```
 
-<div markdown="1" class="impl node">
-
 Or with that if you used profile `[pg]` as introduced in the setup chapter above:
 
 ```sh
 cds deploy --profile pg
 ```
-
-</div>
-
 
 ### With a Deployer App
 
@@ -430,7 +431,7 @@ Add a Maven dependency to Liquibase in `srv/pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>org.liquibase</groupId> 
+    <groupId>org.liquibase</groupId>
     <artifactId>liquibase-core</artifactId>
     <scope>runtime</scope>
 </dependency>
@@ -465,7 +466,7 @@ cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/model.csn
 ```
 
 The CSN file is needed as input to compute the delta DDL script for the next change set.
- 
+
 If you start your application as usual with `mvn spring-boot:run` Liquibase will initialize the database schema to version `v1`, unless it has already been initialized.
 
 ::: warning
@@ -550,4 +551,4 @@ When you have a SaaS application, upgrade all your tenants using the [deployer a
 
 [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) are not yet supported on PostgreSQL.
 
-::: 
+:::

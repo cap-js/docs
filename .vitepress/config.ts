@@ -78,19 +78,19 @@ const config:UserConfig<CapireThemeConfig> = {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },
     get nav() {
-      const navItems = nav4(config.themeConfig!.sidebar) as any[]
+      const navItems = nav4(config.themeConfig!.sidebar) as DefaultTheme.NavItem[]
       return [
-        navItems.find((i:DefaultTheme.NavItem) => i.text === 'Getting Started'),
-        ...navItems.filter((i:any) => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
-          item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
-          return item
+           navItems.find  (i => i.text === 'Getting Started'), //@ts-ignore
+        ...navItems.filter(i => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
+            item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
+            return item
         }),
         { text: 'Reference', items: [
           { text: 'CDS',       link: 'cds/' },
           { text: 'Node.js',   link: 'node.js/' },
           { text: 'Java',      link: 'java/' },
-        ] },
-      ]
+        ]},
+      ] as DefaultTheme.NavItem[]
     },
     search: localSearchOptions,
     footer: {

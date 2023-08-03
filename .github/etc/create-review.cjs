@@ -34,13 +34,12 @@ module.exports = async ({ github, require, exec, core }) => {
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
     const markdownlintLogFile = join(BASE_DIR, 'MARKDOWNLINT.log')
-    console.log(cspellLogFile)
-    console.log(markdownlintLogFile)
+
     const comments = []
     let body = ''
     let lintErrorsText = ''
     let spellingMistakesText = ''
-    console.log(existsSync(markdownlintLogFile))
+
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')
@@ -48,7 +47,7 @@ module.exports = async ({ github, require, exec, core }) => {
             .map(line => line.replace(`${BASE_DIR}/`, '').match(markdownlintRegExp))
 
         for(let [error, path, pointer, rule, description, contextKey = '', contextValue] of matches) {
-            console.log(error)
+
             // MD011/no-reversed-links
             if (rule === 'MD011') {
                 const { line, position } = await findPositionInDiff(contextValue, path)

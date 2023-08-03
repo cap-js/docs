@@ -506,7 +506,7 @@ databaseChangeLog:
 Don't forget to store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
+cds deploy --profile pg --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
 ```
 
 If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.

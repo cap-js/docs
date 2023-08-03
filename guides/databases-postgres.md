@@ -479,8 +479,8 @@ If changes of the CDS model require changes on the database, you can create a ne
 Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/model.csn_) and the current model. Write the diff into a _v2/delta.sql_ file:
 
 ```sh
-cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn >
-                              srv/src/main/resources/db/changelog/v2/delta.sql
+cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn > \
+                                           srv/src/main/resources/db/changelog/v2/delta.sql
 ```
 
 Next, add a corresponding change set in the _changelog/db.changelog-master.yml_ file:

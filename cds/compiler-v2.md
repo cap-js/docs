@@ -799,7 +799,7 @@ Your custom coded needs to be adapted accordingly. This will not be necessary if
 
 ### Interfaces for Inline Defined Types
 
-CDS allows to use anonymous inline defined types in a service, for example as items types of an arryed type or as a return type of a function:
+CDS allows to use anonymous inline defined types in a service, for example as items types of an arrayed type or as a return type of a function:
 
 ```cds
 service hr {

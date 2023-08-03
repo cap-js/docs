@@ -75,7 +75,7 @@ To allow forwarding to remote services, JWT tokens issued by IAS service do not 
 [empty link]()
 ### Configure IAS and XSUAA Authentication (Hybrid) { #hybrid}
 
-It is possible to support IAS-authentication and XSUAA-authentication at the same time (hybrid). In this case, the CAP application will accept tokens issued by IAS and XSUAA.
+It is posible to support IAS-authentication and XSUAA-authentication at the same time (hybrid). In this case, the CAP application will accept tokens issued by IAS and XSUAA.
 
 Your application is secured by the hybrid mode **automatically**, if
 1. You enabled IAS-authentication as described in [Configure IAS Authentication](#ias)

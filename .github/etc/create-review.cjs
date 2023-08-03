@@ -182,7 +182,8 @@ module.exports = async ({ github, require, exec, core }) => {
                 stdout: (data) => {
                     diff += data.toString();
                 }
-            }
+            },
+            cwd: BASE_DIR
         }
 
         await exec.exec(`git diff ${BASE_SHA} ${SHA} -- ${file}`, [], opts)

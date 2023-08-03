@@ -479,7 +479,7 @@ If changes of the CDS model require changes on the database, you can create a ne
 Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/model.csn_) and the current model. Write the diff into a _v2/delta.sql_ file:
 
 ```sh
-cds deploy --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn >
+cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn >
                               srv/src/main/resources/db/changelog/v2/delta.sql
 ```
 
@@ -506,7 +506,7 @@ databaseChangeLog:
 Don't forget to store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --profile pg --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
+cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
 ```
 
 If you now start the application, Liquibase will execute all change sets, which have not yet been deployed to the database.

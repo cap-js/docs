@@ -34,12 +34,13 @@ module.exports = async ({ github, require, exec, core }) => {
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
     const markdownlintLogFile = join(BASE_DIR, 'MARKDOWNLINT.log')
-
+    console.log(cspellLogFile)
+    console.log(markdownlintLogFile)
     const comments = []
     let body = ''
     let lintErrorsText = ''
     let spellingMistakesText = ''
-
+    console.log(existsSync(markdownlintLogFile))
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')

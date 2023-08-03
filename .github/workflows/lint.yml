@@ -47,13 +47,13 @@ jobs:
       continue-on-error: true
       working-directory: docs/@external
       run: |
-        npx cspell --no-progress --show-suggestions --show-context ${{ steps.changes.outputs.DIFF_FILES }} >> ${{ github.workspace }}/CSPELL.log
+        npx cspell --no-progress --show-suggestions --show-context ${{ steps.changes.outputs.DIFF_FILES }} >> ${{ github.workspace }}/docs/@external/CSPELL.log
     - name: Run markdownlint
       id: markdownlint
       continue-on-error: true
       working-directory: docs/@external
       run: |
-        npx markdownlint-cli --output ${{ github.workspace }}/MARKDOWNLINT.log ${{ steps.changes.outputs.DIFF_FILES }}
+        npx markdownlint-cli --output ${{ github.workspace }}/docs/@external/MARKDOWNLINT.log ${{ steps.changes.outputs.DIFF_FILES }}
     - name: Create review
       id: create_review
       if: steps.cspell.outcome == 'failure' || steps.markdownlint.outcome == 'failure'

@@ -480,7 +480,7 @@ Use `cds deploy` to compute the delta DDL script based on the previous model ver
 
 ```sh
 cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn > \
-                                           srv/src/main/resources/db/changelog/v2/delta.sql
+                                           srv/src/main/resources/db/changelog/v2/model.sql
 ```
 
 Next, add a corresponding change set in the _changelog/db.changelog-master.yml_ file:
@@ -500,7 +500,7 @@ databaseChangeLog:
        changes:
        - sqlFile:
            dbms: postgresql
-           path: db/changelog/v2/delta.sql
+           path: db/changelog/v2/model.sql
 ```
 
 Don't forget to store the CSN file, which corresponds to this schema version:

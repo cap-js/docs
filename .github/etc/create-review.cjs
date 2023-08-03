@@ -30,7 +30,7 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
     const { join } = require('path')
-    const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA } = process.env
+    const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA, REPO, REPO_OWNER } = process.env
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
     const markdownlintLogFile = join(BASE_DIR, 'MARKDOWNLINT.log')
@@ -164,8 +164,8 @@ module.exports = async ({ github, require, exec, core }) => {
 
     if (body) {
         await github.rest.pulls.createReview({
-            owner: 'cap',
-            repo: 'docs',
+            owner: REPO_OWNER,
+            repo: REPO,
             pull_number: PULL_NUMBER,
             commit_id: HEAD_SHA,
             body,

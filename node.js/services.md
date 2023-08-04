@@ -1,7 +1,7 @@
 ---
 shorty: Class <code>cds</code><i>.Service
 layout: node-js
-status: released
+# status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
@@ -641,7 +641,7 @@ cds.serve('cat-service') .with (function(){
 
 #### srv.on  <i>  ('error', (err, req) => {}) </i> {#srv-on-error}
 
-Using the special event name `error`, you can register a custom error handler that is invoked whenever an error will be returned to the client. The handler receives the error object `err` and the respective request object `req`. Only synchroneous modifications of the error object are allowed.
+Using the special event name `error`, you can register a custom error handler that is invoked whenever an error will be returned to the client. The handler receives the error object `err` and the respective request object `req`. Only synchronous modifications of the error object are allowed.
 
 **Examples:**
 
@@ -1007,7 +1007,7 @@ _**Common Usages:**_
 
 <div class="indent" markdown="1">
 
-`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if neccessary:
+`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if necessary:
 
 ```js
 const srv = await cds.connect.to('SomeService')

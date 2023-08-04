@@ -257,9 +257,11 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | SAP Cloud SDK | 4.13 | latest |
 | Java Logging | 3.7 | latest |
 
-::: warn
-The Cloud SDK BOM `sdk-bom` manages XSUAA to 2.x, which is not compatible with CAP Java 2.x. 
-Either replace `sdk-bom` with `sdk-modules-bom` which [manages Cloud SDK dependencies only](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) or add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
+::: warning
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x. 
+You have two options:
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) 
+* Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
 :::
 
 ### Maintenance Version 1.34.x (LTS)

@@ -172,7 +172,7 @@ entity Foo {
 
 Another prominent use case is the CDS type `UUID`, which maps to `Edm.Guid` by default. However, the OData standard
 puts up restrictive rules for _Edm.Guid_ values - for example, only hyphenated strings are allowed - which can conflict with existing data.
-Therefore, you can overridde the default mapping as follows:
+Therefore, you can override the default mapping as follows:
 
 ```cds
 entity Books {
@@ -929,15 +929,15 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.: 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
-``` 
+```
 or
 
 ```json
-{"title": "Tow Sawyer", 
+{"title": "Tow Sawyer",
  "author": { "name": "Mark Twain", "age": 74 } }
 ```
 
@@ -1067,7 +1067,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
 
 2. Add this as a plugin to your project:
 
-    ::: code-group 
+    ::: code-group
     ```json [package.json]
     {...
     "cds" {
@@ -1077,7 +1077,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
       }
     }
     ```
-    
+
     ```json [.cdsrc.json]
     {
     "cov2ap" : {

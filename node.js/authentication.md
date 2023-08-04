@@ -9,7 +9,6 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 # Authentication
 
-
 {{$frontmatter?.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
 

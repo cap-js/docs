@@ -359,7 +359,7 @@ Attackers can send malicious input data in a regular request to make the server 
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection) that are introduced by query parameter values that are derived from malicious user input.
 [CQL statements](../querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
-Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based in user input:
+Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based on user input:
 
 <div class="impl java">
   
@@ -384,7 +384,7 @@ SELECT.from(entity).columns(column)
 </div>
 
 ::: warning
-Be careful in custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:
+Be careful with custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:
 :::
 
 - [Cross Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss) is used by attackers to inject a malicious script, which is executed in the browser session of an unsuspecting user.

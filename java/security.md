@@ -63,7 +63,7 @@ Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-sta
 
 Your application is secured by IAS-authentication **automatically**, if
 1. Following dependencies are set:
-  * `spring-security-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
+  * `resourceserver-security-spring-boot-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
   * `cds-feature-identity`
 2. The application is bound to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
 ::: warning
@@ -82,7 +82,7 @@ Your application is secured by the hybrid mode **automatically**, if
 2. The application is additionally bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
 
 ::: tip
-In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as descibed in [Configure XSUAA Authentication](#xsuaa)
+In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as described in [Configure XSUAA Authentication](#xsuaa)
 :::
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}

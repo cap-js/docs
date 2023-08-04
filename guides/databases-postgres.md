@@ -371,7 +371,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    cds deploy --dry --model-only > cds-model.csn
    ```
 
-2. Change your models, for example to *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
+2. Change your models, for example in *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
 
    ```cds
    entity Books { ...
@@ -433,7 +433,7 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
 ## Deployment Using Liquibase  { .impl .java }
 
-You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. Liquibase lets you define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), use `cds deploy` to quickly generate DDL scripts which can used by Liquibase.
+You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. Liquibase lets you define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), use `cds deploy` to quickly generate DDL scripts which can be used by Liquibase.
 
 Add a Maven dependency to Liquibase in `srv/pom.xml`:
 

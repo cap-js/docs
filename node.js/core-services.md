@@ -6,13 +6,6 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 # Core Services
 
 
-
-::: tip
-This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
-:::
-
-
-
 [[toc]]
 
 
@@ -452,7 +445,7 @@ class BooksService extends cds.ApplicationService {
 }
 ```
 
-Ensure to call `super.init()` to allow subclassses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
+Ensure to call `super.init()` to allow subclasses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
 
 
 
@@ -703,7 +696,7 @@ function srv.on (event, handler: (
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
+Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchronous requests, but work slightly different:
 
 1. They are usually registered 'from the outside', not as part of a service's implementation.
 2. They receive only a single argument: `msg`, an instance of [`cds.Event`](./events.md#cds-request); no `next`.
@@ -1026,7 +1019,7 @@ Promise.seq = handlers => async function next(){
 }()
 ```
 
-All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occured. In addition, note that...
+All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occurred. In addition, note that...
 
 - **`before`** handlers are always executed *concurrently*
 - **`on`** handlers are executed...

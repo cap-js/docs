@@ -692,7 +692,7 @@ service Sue {
 }
 ```
 
-In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unneccessary request rountrips:
+In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unnecessary request roundtrips:
 
 ```xml
 <Annotations Target="Sue.Books/title">

@@ -60,6 +60,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     ```
 ::: tip
 For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
+In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
 ## Starting a New Project { #new-project}

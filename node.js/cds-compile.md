@@ -59,7 +59,7 @@ let csn = await cds.compile ('file:db')
 
 ### Single in-memory sources
 
-If a single string, not starting with `file:`  is passed as first argument, it is interpreted as a CDL source string and compiled to CSN synchronously:
+If a single string, not starting with `file:`  is passed as first argument, it is interpreted as a CDL source string and compiled to CSN synchroneously:
 
 ```js
 let csn = cds.compile (`

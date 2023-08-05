@@ -9,7 +9,7 @@ impl-variants: true
 
 For local development and testing, CAP Java supports the [H2](https://www.h2database.com/) database, which can be configured to run in-memory.
 
-[Learn more about features and limitations of using CAP with H2](../java/persistence-services#h2){.learn-more}
+[Learn more about features and limitations of H2.](../java/persistence-services#h2){.learn-more}
 
 <div class="impl node">
 

@@ -76,7 +76,7 @@ cds.log() → {
 In addition, there is a boolean indicator to check which levels are active through corresponding underscored property, for example, `LOG._debug` is true if debug is enabled.
 
 ### *Recommendations*
-1. **Leave formatting to the log functions** — for example don't expensively construct debug messages, which aren't logged at all if debug is not switched on. For example:
+1. **Leave formatting to the log functions** — for example don't expensivelly construct debug messages, which aren't logged at all if debug is not switched on. For example:
 
    ```js
    // DONT:
@@ -214,7 +214,7 @@ You can assign different implementations by exchanging the factory with your own
 
 #### *Arguments*
 
-- `label`— the log label to use with each log output, if applicable
+- `label`— the log label to use with each log output, if appliccable
 - `level`— the log level to enable → *0=off, 1=error, 2=warn, 3=info, 4=debug, 5=trace*
 
 
@@ -225,7 +225,7 @@ You can assign different implementations by exchanging the factory with your own
 npm add winston
 ```
 
-Being designed as a simple log facade, `cds.log` can be easily integrated with advanced logging frameworks such as  [`winston`](https://www.npmjs.com/package/winston). For example, using the built-in convenience method `cds.log.winstonLogger()` in your project's server.js like that:
+Being designed as a simple log facade, `cds.log` can be easily integrated with advanced logging framworks such as  [`winston`](https://www.npmjs.com/package/winston). For example, using the built-in convenience method `cds.log.winstonLogger()` in your project's server.js like that:
 
 ```js
 cds.log.Logger = cds.log.winstonLogger()
@@ -293,7 +293,7 @@ DEBUG=all cds watch
 Values can be
 
   - comma-separated list of [logger ids](#logger-id), or
-  - the value `all` to switch on all debug output.
+  - the value `all` to switch on all debug ouput.
 
 ### *Matching multiple values of `DEBUG`*
 

@@ -6,13 +6,6 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 # Core Services
 
 
-
-::: tip
-This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
-:::
-
-
-
 [[toc]]
 
 

@@ -416,7 +416,7 @@ That would basically search for occurrences of `"Heights"` in all text fields of
 
 #### Using the `@cds.search` Annotation {#using-cds-search-annotation}
 
-By default all elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
+By default search is limited to the elements of type `String` of an entity that aren't [calculated](../cds/cdl#calculated-elements) or [virtual](../cds/cdl#virtual-elements). Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
 ```cds
 @cds.search: {
@@ -448,6 +448,10 @@ entity Books { ... }
 ```
 
 Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
+
+::: tip
+You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
+:::
 
 #### Extend Search to *Associated* Entities
 

@@ -427,7 +427,7 @@ entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
 entity Members { // link table
-  key project : Association to Projects;
+  key project : Association to Project;
   key user : Association to Users;
 }
 ```
@@ -512,7 +512,7 @@ aspect NamedAspect { someAdditionalField : String }
 extend Books with NamedAspect;
 ```
 
-We can also apply named aspects as **includes** in an inheritance-like syntax:
+We can also apply named aspects as **includes** in an inheritence-like syntax:
 
 ```cds
 entity Books : NamedAspect { ... }
@@ -596,7 +596,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 ### Authorization Model
 
-CAP supports out-of-the-box authorization by annotating services and entities with `@requires` and `@restrict` annotations like that:
+CAP supports out-of-the-box authorization by annotating services and entites with `@requires` and `@restrict` annotations like that:
 
 ```cds
 entity Books @(restrict: [

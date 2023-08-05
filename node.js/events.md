@@ -67,7 +67,7 @@ this.on ('*', req => {
 })
 ```
 
-In addition, you can access the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
+In addition, you can acess the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
 
 ```js
   let { tenant, user } = cds.context
@@ -105,7 +105,7 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 
 On outgoing HTTP messages it is propagated as `x-correlation-id` header.
 
-For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
+For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on ougoing CloudEvents messages.
 
 
 

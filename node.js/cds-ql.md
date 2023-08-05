@@ -162,7 +162,7 @@ SELECT ID from Books where ID=?
 dbc.run (sql, [201])
 ```
 
-The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
+The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragements, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
 
 ```js
 let input = 201 //> might be entered by end users

@@ -416,11 +416,6 @@ annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 
 > Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
 
-::: warning
-Adding the annotation `@fiori.draft.enabled` only works as long as the corresponding `_texts` entities
-don't yet contain any entries, because existing entries don't have a value for the new key field `ID_texts`.
-:::
-
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
 [See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){.learn-more}
 
@@ -438,8 +433,28 @@ You can add your validation logic before operation event handlers. Specific even
 
 ###### ... in Node.js
 
-You can add your validation logic before the operation handler for either CRUD or draft-specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
+You can add your validation logic before the operation handler for the `CREATE` or `UPDATE` event (as in the case of nondraft implementations) or on the `SAVE` event (specific to drafts only):
 
+```js
+srv.before ('CREATE','Books', (req)=>{ ... }) // run before create
+srv.before ('UPDATE','Books', (req)=>{ ... }) // run before create
+srv.before ('SAVE','Books', (req)=>{...})     // run at final save only
+```
+
+In addition, you can add field-level validations on the individual `PATCH` events:
+
+```js
+srv.before ('PATCH','Books', (req)=>{...}) // run during editing
+```
+
+> These get triggered during the draft edit session whenever the user tabs from one field to the next, and can be used to provide early feedback.
+
+You can also add custom logic for the initial creation of drafts:
+
+```js
+srv.before ('NEW','Books', (req)=>{...}) // run during creation of a draft from scratch
+srv.before ('EDIT','Books', (req)=>{...}) // run during creation of a draft for existing instance
+```
 
 <div id="query-data-draft-enabled" />
 

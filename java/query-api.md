@@ -689,6 +689,20 @@ Select.from("bookshop.Books")
     .orderBy(c -> c.get("ID").desc(), c -> c.get("title").asc());
 ```
 
+You can order by the alias of a column of the select list or a column that is defined as a result of the function call. 
+
+```java
+Select.from("bookshop.Person")
+    .columns(p -> p.get("name").toUpper().as("aliasForName"))
+    .orderBy(p -> p.get("aliasForName").asc());
+```
+
+Aliases of columns have precedence over the element names when `orderBy` is evaluated. 
+
+::: warning
+Aliases may shadow elements names. To avoid shadowing, don't use element names as aliases.
+::::
+
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.
 
 By default, `null` values come before non-`null` values when sorting in ascending order and after non-`null` values when sorting in descending order. Use the `ascNullsLast` and `descNullsFirst` methods if you need to change this behavior.

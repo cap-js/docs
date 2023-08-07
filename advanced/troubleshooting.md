@@ -107,7 +107,7 @@ restart
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 
 
-### Why do I loose registered event handlers?
+### Why do I lose registered event handlers?
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 

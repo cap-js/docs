@@ -1,5 +1,4 @@
-const { base, themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
-import { join } from 'node:path'
+const { themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
 
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []
@@ -20,7 +19,7 @@ export default (pages, basePath) => {
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object
       return {
-        url : join(base, p.url),
+        url: p.url,
         title: p.title,
         frontmatter: {
           synopsis: p.frontmatter.synopsis

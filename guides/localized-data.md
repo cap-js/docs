@@ -1,6 +1,6 @@
 ---
 index: 52
-layout: cookbook
+# layout: cookbook
 synopsis: >
   This guide extends the localization/i18n of static content, such as labels or messages, to serve localized versions of actual application data.
 status: released

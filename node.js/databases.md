@@ -2,7 +2,7 @@
 label: Databases
 synopsis: >
   Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
-layout: node-js
+# layout: node-js
 status: released
 ---
 

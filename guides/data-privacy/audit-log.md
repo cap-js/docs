@@ -1,5 +1,5 @@
 ---
-layout: cookbook
+# layout: cookbook
 shorty: Audit Log
 synopsis: >
   Enable and use audit-log capabilities with your CAP application.

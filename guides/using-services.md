@@ -4,7 +4,7 @@ synopsis: >
   Learn how to use uniform APIs to consume local or remote services.
 redirect_from:
   - guides/consuming-services
-layout: cookbook
+# layout: cookbook
 status: released
 impl-variants: true
 # uacp: Used as link target from Help Portal at

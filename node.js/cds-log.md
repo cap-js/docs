@@ -1,6 +1,6 @@
 ---
 shorty: cds.log
-layout: node-js
+# layout: node-js
 subtocs: false
 status: released
 ---

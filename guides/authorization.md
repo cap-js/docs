@@ -1,6 +1,6 @@
 ---
 index: 44
-layout: cookbook
+# layout: cookbook
 label: Authorization
 synopsis: >
   This guide explains how to restrict access to data by adding respective declarations to CDS models, which are then enforced in service implementations.

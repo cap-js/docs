@@ -2,7 +2,7 @@
 label: cds-typer
 synopsis: >
   This page explains the package cds-typer in depth.
-layout: node-js
+# layout: node-js
 status: released
 ---
 

@@ -359,7 +359,7 @@ _tsconfig.json_, as we do not want to interfere with your configuration.
 The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
 For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
 
-```
+```txt
 @cds-models
 └───sap
     └───capire
@@ -388,7 +388,7 @@ Adding type support via `cds add typer` includes adding [subpath imports](https:
 
 Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
 
-```
+```txt
 bookstore
 │   package.json
 │

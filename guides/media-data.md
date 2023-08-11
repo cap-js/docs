@@ -3,13 +3,13 @@ index: 55
 title: Media Data
 synopsis: >
   CAP provides out-of-the-box support for serving media and other binary data.
-layout: cookbook
+# layout: cookbook
 status: released
 ---
 
 # Serving Media Data
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 

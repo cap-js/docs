@@ -23,7 +23,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 { #security}
 
@@ -63,7 +63,7 @@ Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-sta
 
 Your application is secured by IAS-authentication **automatically**, if
 1. Following dependencies are set:
-  * `spring-security-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
+  * `resourceserver-security-spring-boot-starter` that brings Spring Security and [Java security library](https://github.com/SAP/cloud-security-xsuaa-integration)
   * `cds-feature-identity`
 2. The application is bound to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
 ::: warning
@@ -82,7 +82,7 @@ Your application is secured by the hybrid mode **automatically**, if
 2. The application is additionally bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
 
 ::: tip
-In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as descibed in [Configure XSUAA Authentication](#xsuaa)
+In hybrid mode, the same constraints in regards to multiple XSUAA bindings applies as described in [Configure XSUAA Authentication](#xsuaa)
 :::
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
@@ -164,9 +164,9 @@ public class AppSecurityConfig {
   @Bean
   public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/public/**").and()
-      .csrf().disable() // don't insist on csrf tokens in put, post etc.
-      .authorizeRequests().anyRequest().permitAll().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/public/**"))
+      .csrf(c -> c.disable()) // don't insist on csrf tokens in put, post etc.
+      .authorizeHttpRequests(r -> r.anyRequest().permitAll())
       .build();
   }
 
@@ -181,12 +181,6 @@ The Spring `SecurityFilterChain` requires CAP Java SDK [1.27.x](../releases/arch
 Be cautious with the configuration of the `HttpSecurity` instance in your custom configuration. Make sure that only the intended endpoints are affected.
 :::
 
-Example:
-```java
-http.authorizeRequests().antMatchers("/public/**").permitAll()
-```
-Opens *all* endpoints of the application, which is hardly intended.
-
 Another typical example is the configuration of [Spring Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.enabling). For example a custom configuration can apply basic authentication to actuator endpoints `/actuator/**`:
 
 ```java
@@ -198,10 +192,10 @@ public class ActuatorSecurityConfig {
   @Bean
   public SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
     return http
-      .requestMatchers().antMatchers("/actuator/**").and()
-      .httpBasic().and()
+      .securityMatcher(AntPathRequestMatcher.antMatcher("/actuator/**"))
+      .httpBasic(Customizer.withDefaults())
       .authenticationProvider(/* configure basic authentication users here with PasswordEncoder etc. */)
-      .authorizeRequests().anyRequest().authenticated().and()
+      .authorizeHttpRequests(r -> r.anyRequest().authenticated())
       .build();
   }
 

@@ -1,17 +1,30 @@
 ---
-#status: released
+status: released
 impl-variants: true
 ---
 
-<div markdown="1" class="impl java">
 
-# Using H2 for Development in CAP Java  {.impl .java}
+
+# Using H2 for Development in CAP Java
 
 For local development and testing, CAP Java supports the [H2](https://www.h2database.com/) database, which can be configured to run in-memory.
 
-[Learn more about features and limitations of H2](../java/persistence-services#h2){.learn-more}
+[Learn more about features and limitations of using CAP with H2](../java/persistence-services#h2){.learn-more}
+
+<div class="impl node">
+
+::: warning
+Not supported for CAP Node.js.
+:::
+
+</div>
+
+
+<div class="impl java">
 
 [[toc]]
+
+</div>
 
 ## Setup & Configuration {.impl .java}
 
@@ -49,6 +62,3 @@ CAP supports most of the major features on H2:
 * [Predicate Functions](../java/query-api#predicate-functions)
 
 [Learn about features and limitations of H2](../java/persistence-services#h2){.learn-more}
-
-</div>
-

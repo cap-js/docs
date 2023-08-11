@@ -12,13 +12,13 @@ CAP-related Terms and Acronyms {.subtitle}
 <!-- {{$frontmatter?.synopsis}} -->
 <br>
 
-[CAP]() — shorthand for "SAP Cloud Application Programming Model"
+[CAP](./glossary.md) — shorthand for "SAP Cloud Application Programming Model"
 : Not an official name, though.
 
-[capire]() — Italian for 'understand'
+[capire](./glossary.md) — Italian for 'understand'
 : ... and the title of these pages and documentation of CAP.
 
-[tl;dr]() — too long; didn't read
+[tl;dr](./glossary.md) — too long; didn't read
 : a common social phenomenon these days. Therefore, capire is rather meagre with text and greased with code. You have to read between the lines, sorry.
 
 ---

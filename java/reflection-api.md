@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## The CDS Model
 
@@ -192,7 +192,7 @@ CAP Java does not make any assumption _how_ the set of enabled features (_active
 
 Features are modeled in CDS by dividing up CDS code concerning separate features into separate subfolders of a common `fts` folder of your project, as shown by the following example:
 
-```
+```txt
 |-- [db]
 |   |-- my-model.cds
 |   `-- ...

@@ -28,8 +28,9 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 <div class="impl node">
 
 ```sh
-cds init hello-world --add samples
+cds init hello-world --add tiny-sample
 cd hello-world
+npm install
 ```
 
 </div>
@@ -92,8 +93,6 @@ module.exports = class say {
 
 ... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
 
-</div>
-
 ::: code-group
 
 ```java [srv/src/main/java/customer/hello_world/handlers/HelloHandler.java]
@@ -122,6 +121,8 @@ public class HelloHandler implements EventHandler {
 ```
 :::
 
+</div>
+
 
 ## Run it
 ... for example, from your command line in the root directory of your "Hello World":
@@ -143,7 +144,7 @@ mvn cds:watch
 ## Consume it
 ... for example, from your browser:<br>
 
-<http://localhost:4004/say/hello(to='world')>  { .impl .node}
+<http://localhost:4004/odata/v4/say/hello(to='world')>  { .impl .node}
 
 <http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
 

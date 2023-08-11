@@ -7,7 +7,7 @@ status: released
 
 # Project-Specific Configurations
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## CLI `cds env` Command {#cli}
@@ -95,7 +95,7 @@ As depicted in the figure below `cds.env` provides one-stop convenient and trans
 | 3 | [_./.cdsrc.json_](#project-settings) | static project settings
 | 4 | [_./package.json_](#project-settings) | static project settings &rarr; `{"cds":{ ... }}`
 | 5 | [_./.cdsrc-private.json_](#private-project-settings) | user-specific project config |
-| 6 | [_./default-env.json_](#process-env) | *deprecated see cds bind*
+| 6 | [_./default-env.json_](#process-env) | *deprecated, see cds bind*
 | 7 | [_./.env_](#process-env)  | user-specific project env (lines of `name=value`)
 | 8 | [`process.env.CDS_CONFIG`](#env-cds-config) | runtime settings from shell or cloud
 | 9 | [`process.env`](#process-env) | runtime env vars from shell or cloud

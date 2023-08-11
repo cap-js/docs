@@ -1,6 +1,6 @@
 ---
 index: 53
-layout: cookbook
+# layout: cookbook
 synopsis: >
   CAP provides out-of-the-box support for declaring and serving date-effective entities with application-controlled validity, in particular to serve as-of-now and time-travel queries.
 status: released
@@ -10,7 +10,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Temporal Data
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 Temporal data allows you to maintain information relating to past, present, and future application time.
 Built-in support for temporal data follows the general principle of CDS to capture intent with models while staying conceptual, concise, and comprehensive, and minimizing pollution by technical artifacts.

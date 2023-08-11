@@ -1,5 +1,5 @@
 ---
-layout: cookbook
+# layout: cookbook
 label: Personal Data Management
 shorty: PDM
 synopsis: >
@@ -16,7 +16,7 @@ status: released
 
 # Personal Data Management
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ::: warning _❗ To follow this cookbook hands-on you need an enterprise account._ <!--  -->
 The SAP Personal Data Manager service is currently only available for [enterprise accounts](https://discovery-center.cloud.sap/missiondetail/3019/3297/). An entitlement in trial accounts is not possible.

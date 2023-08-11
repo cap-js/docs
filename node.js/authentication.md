@@ -2,13 +2,12 @@
 label: Authentication
 synopsis: >
   This guide is about authenticating users on incoming HTTP requests.
-layout: node-js
+# layout: node-js
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
 # Authentication
-
 
 {{$frontmatter?.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
@@ -195,7 +194,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }
@@ -203,20 +202,22 @@ You can optionally configure users as follows:
 }
 ```
 
+#### Pre-defined Mock Users {#mock-users}
+
 The default configuration shipped with `@sap/cds` specifies these users:
 
 ```jsonc
   "users": {
-    "alice": { "roles": ["admin", "cds.Subscriber"] },
-    "bob":   { "roles": ["cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "carol": { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "dave":  { "roles": ["admin", "cds.Subscriber"] },
-    "erin":  { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "fred":  { },
-    "me":    { },
-    "*": true //> all other logins are allowed as well
+    "alice": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ] },
+    "bob":   { "tenant": "t1", "roles": [ "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "carol": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "dave":  { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ], "features": [] },
+    "erin":  { "tenant": "t2", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "fred":  { "tenant": "t2", "features": [ "isbn" ] },
+    "me":    { "tenant": "t1", "features": [ "*" ] },
+    "yves":  { "roles": [ "internal-user" ] }
+    "*":     true //> all other logins are allowed as well
   }
-}
 ```
 
 ::: tip
@@ -263,7 +264,7 @@ You can optionally configure users as follows:
         "<user.id>": {
           "password": "<password>",
           "roles": [ "<role-name>", ... ],
-          "userAttributes": { ... }
+          "attr": { ... }
         }
       }
     }
@@ -376,7 +377,7 @@ module.exports = function custom_auth (req, res, next) {
   // do your custom authentication
   req.user = new cds.User({
     id: '<user-id>',
-    roles: ['<role-a>', '<role-b>']
+    roles: ['<role-a>', '<role-b>'],
     attr: {
       <user-attribute-a>: '<value>',
       <user-attribute-b>: '<value>'
@@ -478,7 +479,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
     >In that case you need to add the environment variable `cds_requires_auth_kind=xsuaa` to the run configuration.
 
 3. Check authentication configuration:
-```
+```sh
 cds env list requires.uaa --resolve-bindings --profile hybrid
 ```
 This prints the full `uaa` configuration including the credentials.

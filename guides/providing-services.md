@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 
@@ -416,7 +416,7 @@ That would basically search for occurrences of `"Heights"` in all text fields of
 
 #### Using the `@cds.search` Annotation {#using-cds-search-annotation}
 
-By default all elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
+By default search is limited to the elements of type `String` of an entity that aren't [calculated](../cds/cdl#calculated-elements) or [virtual](../cds/cdl#virtual-elements). Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
 ```cds
 @cds.search: {
@@ -448,6 +448,10 @@ entity Books { ... }
 ```
 
 Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
+
+::: tip
+You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
+:::
 
 #### Extend Search to *Associated* Entities
 
@@ -688,7 +692,7 @@ service Sue {
 }
 ```
 
-In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unneccessary request rountrips:
+In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unnecessary request roundtrips:
 
 ```xml
 <Annotations Target="Sue.Books/title">
@@ -756,16 +760,16 @@ Add `@assert.target` annotation to the service definition as previously mentione
 
 ```cds
 entity Books {
-    key ID : UUID;
-    title  : String;
-    author : Association to Authors @assert.target;
-  }
+  key ID : UUID;
+  title  : String;
+  author : Association to Authors @assert.target;
+}
 
-  entity Authors {
-    key ID : UUID;
-    name   : String;
-    books  : Association to many Books on books.author = $self;
-  }
+entity Authors {
+  key ID : UUID;
+  name   : String;
+  books  : Association to many Books on books.author = $self;
+}
 ```
 
 **HTTP Request** — *assume that an author with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*
@@ -1207,7 +1211,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   await srv.send('stock',{id:2})
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
-  await srv.send('order','Foo',{id:2,x:3})
+  //for passing the params property, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.

@@ -67,7 +67,7 @@ this.on ('*', req => {
 })
 ```
 
-In addition, you can acess the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
+In addition, you can access the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
 
 ```js
   let { tenant, user } = cds.context
@@ -79,7 +79,7 @@ In addition, you can acess the current event context from wherever you are in yo
 
 ### . http {.property}
 
-If the inbound process came from an http channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
 
 ```js
 this.on ('*', req => {
@@ -105,7 +105,7 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 
 On outgoing HTTP messages it is propagated as `x-correlation-id` header.
 
-For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on ougoing CloudEvents messages.
+For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
 
 
 

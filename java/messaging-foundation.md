@@ -27,7 +27,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 In contrast, the nature of synchronous communication between services can be disadvantageous depending on the desired information flow, for example, sender and receiver need to be available at the time of the request. The sender needs to know the receiver and how to call it, and that communication per request is usually point-to-point only.
 
@@ -781,7 +781,7 @@ hello world
 If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
-{"message": "hello world"}
+{"data": {"message": "hello world"}}
 ```
 
 #### Handling events
@@ -860,4 +860,3 @@ When using a CAP messaging service directly to emit the raw message payload as a
 [Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
 <span id="aftercloudevents" />
-

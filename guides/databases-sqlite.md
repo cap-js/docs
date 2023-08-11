@@ -17,7 +17,8 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl java">
 
-[Learn more about features and limitations of SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about features and limitations of using CAP with SQlite](../java/persistence-services#sqlite){.learn-more}
+
 
 </div>
 
@@ -29,10 +30,30 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl node">
 
-Run this to use SQLite during development:
+Run this to use SQLite for development:
 
 ```sh
 npm add @cap-js/sqlite -D
+```
+
+### Auto-wired Configuration {.impl .node}
+
+The `@cap-js/sqlite` uses `cds-plugin` technique to auto-configure your application to use an in-memory SQLite database for development.
+
+You can inspect the effective configuration using `cds env`:
+
+```sh
+cds env requires.db
+```
+
+Output:
+
+```js
+{
+  impl: '@cap-js/sqlite',
+  credentials: { url: ':memory:' },
+  kind: 'sqlite'
+}
 ```
 
 [See also the general information on installing database packages](databases#setup-configuration){.learn-more}
@@ -60,12 +81,14 @@ To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
 The further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
 
+## Deployment
 
 ### In-Memory Databases
 
 <div markdown="1" class="impl node">
 
-Installing `@cap-js/sqlite`, as described previously, automatically configures your application to use an in-memory SQLite database. For example, you can see this in the log output when starting your application, with `cds watch`:
+
+As stated above `@cap-js/sqlite` uses an in-memory SQLite database by default. For example, you can see this in the log output when starting your application, with `cds watch`:
 
 ```log
 ...
@@ -79,29 +102,18 @@ Installing `@cap-js/sqlite`, as described previously, automatically configures y
 ...
 ```
 
-You can inspect the effective configuration using `cds env`:
+::: tip
 
-```sh
-cds env requires.db
-```
+Using in-memory databases is most recommended for test drives and for test pipelines.
 
-Output:
-
-```js
-{
-  impl: '@cap-js/sqlite',
-  credentials: { url: ':memory:' },
-  kind: 'sqlite'
-}
-```
-
-
+:::
 
 </div>
 
 <div markdown="1" class="impl java">
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`. 
+
+The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
 
 Finally, configure the DB connection in the non-productive `default` profile:
 
@@ -118,9 +130,6 @@ spring:
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 [Learn how to configure an in-memory SQLite database](../java/persistence-services#in-memory-storage){.learn-more}
@@ -136,11 +145,13 @@ If possible, all common scenarios should be covered by shortcuts only.
 
 <div markdown="1" class="impl node">
 
+
 You can also use persistent SQLite databases. Follow these steps to do so:
 
 </div>
 
 <div markdown="1" class="impl java">
+
 
 You can also use persistent SQLite databases. In this case, the schema is initialized by `cds deploy` and not by Spring. Follow these steps:
 
@@ -149,6 +160,7 @@ You can also use persistent SQLite databases. In this case, the schema is initia
 1. Specify a database filename in your `db` configuration as follows:
 
    ::: code-group
+
    ```json [package.json]
    { "cds": { "requires": {
       "db": {
@@ -157,9 +169,11 @@ You can also use persistent SQLite databases. In this case, the schema is initia
       }
    }}}
    ```
+
    :::
 
 2. Run `cds deploy`:
+
    ```sh
    cds deploy
    ```
@@ -171,6 +185,7 @@ This will...:
 3. Fill in initial data from provided _.csv_ files.
 
 <div markdown="1" class="impl node">
+
 
 With that in place, when starting the server it will use this prepared database instead of bootstrapping an in-memory one:
 
@@ -184,6 +199,7 @@ With that in place, when starting the server it will use this prepared database 
 
 <div markdown="1" class="impl java">
 
+
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 
 ```yaml
@@ -195,9 +211,6 @@ spring:
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 [Learn how to configure a file based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
@@ -214,13 +227,14 @@ Remember to always re-deploy your database whenever you made changes to your mod
 
 When running `cds deploy` repeatedly it will always drop-create all tables and views. This is **most appropriate for development** as schema changes are very frequent and broad during development.
 
-## Schema Evolution
+### Schema Evolution
 
 While drop-create is most appropriate for development, it isn't for database upgrades in production, as all customer data would be lost. To avoid this `cds deploy` also supports automatic schema evolution, which you can use as follows...
 
 1. Enable automatic schema evolution in your `db` configuration:
 
    ::: code-group
+
    ```json [package.json]
    { "cds": { "requires": {
       "db": {
@@ -230,6 +244,7 @@ While drop-create is most appropriate for development, it isn't for database upg
       }
    }}}
    ```
+
    :::
 
 2. Run `cds deploy`:
@@ -238,117 +253,13 @@ While drop-create is most appropriate for development, it isn't for database upg
    cds deploy
    ```
 
-Then the following happens:
 
-1. Read a CSN of a former deployment from table `cds_model`.
-2. Calculate the delta to current model.
-3. Generate and run SQL DDL statements with:
-   - `CREATE TABLE` statements for new entities
-   - `CREATE VIEW` statements for new views
-   - `ALTER TABLE` statements for entities with new or changed elements
-   - `DROP & CREATE VIEW` statements for views affected by changed entities
-4. Fill in initial data from provided _.csv_ files using `UPSERT` commands.
-5. Store a CSN representation of the current model in `cds_model`.
+
+[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally apply to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
 
 
 
-### Dry-Run Offline
-
-We can use `cds deploy` with option `--dry` to simulate and inspect how things work.
-
-1. Capture your current model in a CSN file:
-   ```sh
-   cds deploy --dry --model-only > cds-model.csn
-   ```
-
-2. Make changes to your models, for example to *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
-   ```cds
-   entity Books { ...
-      title : localized String(222); //> increase length from 111 to 222
-      foo : Association to Foo;      //> add a new relationship
-      bar : String;                  //> add a new element
-   }
-   entity Foo { key ID: UUID }       //> add a new entity
-   ```
-
-3. Generate delta SQL DDL script:
-   ```sh
-   cds deploy --dry --delta-from cds-model.csn > delta.sql
-   ```
-
-4. Inspect the generated SQL script, which should look like this:
-   ::: code-group
-
-   ```sql [delta.sql]
-   -- Drop Affected Views
-   DROP VIEW localized_CatalogService_ListOfBooks;
-   DROP VIEW localized_CatalogService_Books;
-   DROP VIEW localized_AdminService_Books;
-   DROP VIEW CatalogService_ListOfBooks;
-   DROP VIEW localized_sap_capire_bookshop_Books;
-   DROP VIEW CatalogService_Books_texts;
-   DROP VIEW AdminService_Books_texts;
-   DROP VIEW CatalogService_Books;
-   DROP VIEW AdminService_Books;
-
-   -- Alter Tables for New or Altered Columns
-   -- ALTER TABLE sap_capire_bookshop_Books ALTER title TYPE NVARCHAR(222);
-   -- ALTER TABLE sap_capire_bookshop_Books_texts ALTER title TYPE NVARCHAR(222);
-   ALTER TABLE sap_capire_bookshop_Books ADD foo_ID NVARCHAR(36);
-   ALTER TABLE sap_capire_bookshop_Books ADD bar NVARCHAR(255);
-
-   -- Create New Tables
-   CREATE TABLE sap_capire_bookshop_Foo (
-     ID NVARCHAR(36) NOT NULL,
-     PRIMARY KEY(ID)
-   );
-
-   -- Re-Create Affected Views
-   CREATE VIEW AdminService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0;
-   CREATE VIEW CatalogService_Books AS SELECT ... FROM sap_capire_bookshop_Books AS Books_0 LEFT JOIN sap_capire_bookshop_Authors AS author_1 O ... ;
-   CREATE VIEW AdminService_Books_texts AS SELECT ... FROM sap_capire_bookshop_Books_texts AS texts_0;
-   CREATE VIEW CatalogService_Books_texts AS SELECT ... FROM sap_capire_bookshop_Books_texts AS texts_0;
-   CREATE VIEW localized_sap_capire_bookshop_Books AS SELECT ... FROM sap_capire_bookshop_Books AS L_0 LEFT JOIN sap_capire_bookshop_Books_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = session_context( '$user.locale' );
-   CREATE VIEW CatalogService_ListOfBooks AS SELECT ... FROM CatalogService_Books AS Books_0;
-   CREATE VIEW localized_AdminService_Books AS SELECT ... FROM localized_sap_capire_bookshop_Books AS Books_0;
-   CREATE VIEW localized_CatalogService_Books AS SELECT ... FROM localized_sap_capire_bookshop_Books AS Books_0 LEFT JOIN localized_sap_capire_bookshop_Authors AS author_1 O ... ;
-   CREATE VIEW localized_CatalogService_ListOfBooks AS SELECT ... FROM localized_CatalogService_Books AS Books_0;
-   ```
-
-   :::
-
-   > **Note:** ALTER TYPE commands are neither necessary nor supported by SQLite, as SQLite is essentially typeless.
-
-
-
-### Limitations
-
-Automatic schema evolution only allows changes without potential data loss.
-
-#### Allowed{.good}
-
-- Adding entities and elements
-- Increasing the length of Strings
-- Increasing the size of Integers
-
-#### Disallowed{.bad}
-
-- Removing entities or elements
-- Changes to primary keys
-- All other type changes
-
-For example the following type changes are allowed:
-
-```cds
-entity Foo {
-   anInteger : Int64;     // from former: Int32
-   aString : String(22);  // from former: String(11)
-}
-```
-
-
-
-## Features 
+## Features
 
 <div markdown="1" class="impl java">
 
@@ -552,10 +463,10 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
 
-1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps). 
-2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above. 
+1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps).
+2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above.
 
-**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example: 
+**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example:
 
 ```js
 await INSERT.into(Books).entries([
@@ -567,13 +478,13 @@ let books = await SELECT('title').from(Books).orderBy('createdAt')
 console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
 ```
 
-The order is wrong because of the `'Z'` in A being at the wrong position. 
+The order is wrong because of the `'Z'` in A being at the wrong position.
 
 ::: tip Prefer using `Date` objects
 
-Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above. 
+Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above.
 
-For example, the above would be fixed by changing the INSERT to: 
+For example, the above would be fixed by changing the INSERT to:
 
 ```js
 await INSERT.into(Books).entries([
@@ -741,7 +652,13 @@ SELECT.from('Foo')         //> [{ foo:1 }, ...]
 SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
+### <> operator {.impl .node}
 
+Operator `<>` works as specified in SQL standard, while `name != 'John'` translates to `name <> 'John' OR name is null`.
+
+::: warning
+This is a breaking change to the previous implementation. Before, `<>` was translated to `name <> 'John' OR name is null` as well.
+::: 
 
 ### Miscellaneous {.impl .node}
 
@@ -750,7 +667,6 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throws an error.
 - `*` is not a column reference, use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
-- Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
 - Column names in CSVs must map to physical column names:
 
 ```csvc
@@ -798,4 +714,4 @@ Having said this, there can indeed be scenarios where SQLite might be used also 
 
 ::: warning
 SQLite has only limited support for concurrent database access due to it's very coarse lock granularity. This makes it badly suited for applications with high concurrency.
-::: 
+:::

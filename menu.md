@@ -37,7 +37,7 @@
   - [HANA](guides/databases-hana)
   - [H2 (Java)](guides/databases-h2)
   - [PostgreSQL](guides/databases-postgres)
-- [Querying](guides/querying)
+<!-- - [Querying](guides/querying) -->
 - [Messaging](guides/messaging/)
 - [Authorization](guides/authorization)
 - [Localization, i18n](guides/i18n)
@@ -73,6 +73,7 @@
 - [Docker](tools/index#docker)
 - [CDS Editors](tools/index#cds-editor)
 - [CDS Lint](tools/index#cds-lint)
+- [CDS Typer](tools/cds-typer)
 
 ### [CDS](cds/)
 
@@ -137,6 +138,7 @@
 - [cds. ql ...](node.js/cds-ql)
 - [cds. tx()](node.js/cds-tx)
 - [cds. log()](node.js/cds-log)
+- [cds .import()](node.js/cds-dk#import)
 - [cds. env](node.js/cds-env)
 - [cds. auth](node.js/authentication)
 - [cds. i18n](node.js/cds-i18n)

@@ -1,4 +1,5 @@
 ---
+status: released
 impl-variants: true
 ---
 
@@ -8,7 +9,8 @@ impl-variants: true
 
 [[toc]]
 
-[SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html) is supported as the CAP standard database and recommended for productive use with full support for schema evolution and multitenancy. 
+
+[SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html) is supported as the CAP standard database and recommended for productive use with full support for schema evolution and multitenancy.
 
 ::: warning
 
@@ -166,7 +168,6 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    [cds] - done > wrote output to:
       ...
       gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
-   
    ```
 
 
@@ -414,7 +415,7 @@ There are cases where you have to resolve or refactor the generated statements, 
 
 Example:
 
-```
+```txt
 >>>> Manual resolution required - DROP statements causing data loss are disabled
 >>>> by default.
 >>>> You may either:
@@ -476,7 +477,7 @@ ALTER TABLE E ALTER (text NVARCHAR(100) FUZZY SEARCH INDEX ON);
 It's important to understand that during deployment new migration versions will be applied on the existing database schema. If the resulting schema doesn't match the schema as defined by the TABLE statement, deployment fails and any changes are rolled-back. In consequence, when removing or replacing an existing `@sql.append` annotation, the original ALTER statements need to be undone. As the required statements can't automatically be determined, manual resolution is required. The CDS build generates comments starting with `>>>>` in order to provide some guidance and enforce manual resolution.
 
 Generated file with comments:
-```
+```txt
 == migration=3
 >>>>> Manual resolution required - insert ALTER statement(s) as described below.
 >>>>> After manual resolution delete all lines starting with >>>>>
@@ -545,17 +546,27 @@ Yet, if you need to support initial data with user changes, you can use the `inc
 
 ### Undeploying Artifacts
 
-As documented in [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or csv files, the respective tables and content will remain in the database.
+As documented in the [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or CSV files, the respective tables and content will remain in the database.
 
-Add an `undeploy.json` file in folder `db/src` with content like this:
+By default, `cds add hana` will create an `undeploy.json` like this:
+
+::: code-group
+```json [db/src/undeploy.json]
+[
+  "src/gen/**/*.hdbview",
+  "src/gen/**/*.hdbindex",
+  "src/gen/**/*.hdbconstraint"
+]
+```
+
+If you need to remove deployed CSV files, also add this entry:
 
 ::: code-group
 
-```sql [db/src/undeploy.json]
+```json [db/src/undeploy.json]
 [
-  "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*.hdbtabledata",
   ...
+  "src/gen/**/*.hdbtabledata"
 ]
 ```
 

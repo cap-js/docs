@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  API to fluently build <a href="../cds/cql">CQL</a> statements in Java.
+  API to fluently build CQL statements in Java.
 redirect_from: java/cds-ql
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+API to fluently build [CQL](../cds/cql) statements in Java.
 
 ## Introduction
 
@@ -688,6 +688,20 @@ Select.from("bookshop.Books")
     .columns(c -> c.get("ID"), c -> c.get("title"))
     .orderBy(c -> c.get("ID").desc(), c -> c.get("title").asc());
 ```
+
+You can order by the alias of a column of the select list or a column that is defined as a result of the function call. 
+
+```java
+Select.from("bookshop.Person")
+    .columns(p -> p.get("name").toUpper().as("aliasForName"))
+    .orderBy(p -> p.get("aliasForName").asc());
+```
+
+Aliases of columns have precedence over the element names when `orderBy` is evaluated. 
+
+::: warning
+Aliases may shadow elements names. To avoid shadowing, don't use element names as aliases.
+::::
 
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.
 

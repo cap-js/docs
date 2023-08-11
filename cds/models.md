@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Nature of Models
 synopsis: >
   Introduces the fundamental principles of CDS models.
@@ -9,7 +9,7 @@ status: released
 
 # The Nature of Models
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 Models in `cds` are plain JavaScript objects conforming to the _[Core Schema Notation (CSN)](./csn)_. They can be parsed from [_.cds_ sources](./cdl), read from _.json_ or _.yaml_ files or dynamically created in code at runtime.

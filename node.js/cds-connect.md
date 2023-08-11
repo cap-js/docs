@@ -1,6 +1,6 @@
 ---
 shorty: cds.connect
-layout: node-js
+# layout: node-js
 status: released
 ---
 
@@ -572,7 +572,7 @@ For example, in the _package.json_ file:
 
 The credentials can be provided in any supported way. For example, as env variables:
 
-```
+```sh
 cds_requires_myservice_credentials_user=test-user
 cds_requires_myservice_credentials_password=test-password
 ```

@@ -4,14 +4,14 @@ synopsis: >
   CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
   All projects are recommended to upgrade as soon as possible, as the former version will only receive critical fixes after cv2 is
   released.
-layout: cds-ref
+# layout: cds-ref
 redirect_from: releases/compiler-v2
 status: released
 ---
 
 # Upgrade to Compiler v2
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 Changes mostly affect internal implementations of the compiler and nonpublic parts of the artifacts produced by the compiler (CSN, EDMX, ...), hence are unlikely to be observed by users of CDS.
 
@@ -799,7 +799,7 @@ Your custom coded needs to be adapted accordingly. This will not be necessary if
 
 ### Interfaces for Inline Defined Types
 
-CDS allows to use anonymous inline defined types in a service, for example as items types of an arryed type or as a return type of a function:
+CDS allows to use anonymous inline defined types in a service, for example as items types of an arrayed type or as a return type of a function:
 
 ```cds
 service hr {

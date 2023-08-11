@@ -1,4 +1,6 @@
-# Documentation for SAP Cloud Application Programming Model
+# Documentation for <br> SAP Cloud Application Programming Model
+
+[![REUSE status](https://api.reuse.software/badge/github.com/cap-js/docs)](https://api.reuse.software/info/github.com/cap-js/docs)
 
 ## About this project
 
@@ -8,7 +10,7 @@ Along with additional SAP-specific pages the content is published to https://cap
 
 ## Support, Feedback, Contributing
 
-This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/SAP/cap-js/docs/issues) and [pull requests](https://github.com/SAP/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
+This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/cap-js/docs/issues) and [pull requests](https://github.com/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
 
 See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
 

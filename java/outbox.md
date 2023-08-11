@@ -11,7 +11,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 <!-- #### Content -->
@@ -91,4 +91,3 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 To manually delete entries in the `cds.outbox.Messages` table, you can either
 expose it in a service or programmatically modify it using the `cds.outbox.Messages`
 database entity.
-

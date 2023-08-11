@@ -1,6 +1,6 @@
 # Localization / i18n
 
-## 
+##
 
 ### Generic Errors
 
@@ -57,7 +57,7 @@ module.exports = (srv) => {
 
 Find the current list of generic runtime texts:
 
-```
+```txt
 400=Bad Request
 401=Unauthorized
 403=Forbidden

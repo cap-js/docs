@@ -1,5 +1,5 @@
 ---
-layout: cookbook
+# layout: cookbook
 shorty: Basics
 synopsis: >
   This guide explains the basic annotations related to data privacy.
@@ -13,7 +13,7 @@ status: released
 
 # Basics of Data Privacy
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 

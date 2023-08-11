@@ -104,13 +104,10 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
-<figure>
-  <img src="../assets/core-concepts.drawio.svg" width="650px" >
-  <figcaption>Anatomy of a Typical Application</figcaption>
-</figure>
-<br >
+![CDS models are used to define domain models, service models and UI markup. You can add custom code on top of them.](../assets/core-concepts.drawio.svg)
+Anatomy of a Typical Application{.caption}
 
-<br><br>
+<br>
 
 ###### Core Data Services (CDS)
 
@@ -474,5 +471,5 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ---
 
 <div markdown="1" style="font-size:90%; color:#666">
-<sup>1</sup> *GraphQL* and *Kafka* aren't supported out of the box today, but might be added in future.
+<sup>1</sup> *Kafka* isn't supported out of the box today, but might be added in future.
 </div>

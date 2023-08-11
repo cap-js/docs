@@ -12,7 +12,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 <!-- #### Content -->
@@ -235,7 +235,7 @@ You can add a Dynatrace connection to your CAP Java application by [additional c
 
 ### Tracing { #tracing}
 
-To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused tracing tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance JVM Garbage Collection), but they come with an additional overhead and therefore shouln't be constantly active. Hence, they need to meet following requirements:
+To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused tracing tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance JVM Garbage Collection), but they come with an additional overhead and therefore shouldn't be constantly active. Hence, they need to meet following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users

@@ -1,6 +1,6 @@
 {
-  "name": "cap-docs",
-  "version": "0.2.0",
+  "name": "@cap-js/docs",
+  "version": "0.8.0",
   "description": "Capire on VitePress",
   "type": "module",
   "scripts": {
@@ -24,7 +24,6 @@
     "eslint-plugin-vue": "^9.11.0",
     "gray-matter": "^4.0.3",
     "sass": "^1.62.1",
-    "sitemap": "^7.1.1",
-    "vitepress": "^1.0.0-beta.2"
+    "vitepress": "^1.0.0-rc.4"
   }
 }

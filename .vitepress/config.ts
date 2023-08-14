@@ -1,6 +1,7 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
+import { URL } from 'node:url'
 import { sidebar as sideb, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
@@ -12,7 +13,10 @@ export type CapireThemeConfig = DefaultTheme.Config & {
   }
 }
 
-const siteHostName = process.env.SITE_HOSTNAME || 'http://localhost:4173'
+const base =  process.env.GH_BASE || '/docs/'
+const siteURL = new URL(process.env.SITE_HOSTNAME || 'http://localhost:4173/docs')
+if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
+
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
@@ -68,7 +72,6 @@ const localSearchOptions = {
   }
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
-const base =  process.env.GH_BASE || '/docs/'
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
@@ -152,7 +155,7 @@ const config:UserConfig<CapireThemeConfig> = {
     }
   },
   sitemap: {
-    hostname: siteHostName
+    hostname: siteURL.href
   },
   vite: {
     plugins: [
@@ -168,7 +171,9 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   buildEnd: async ({ outDir, site }) => {
     await redirects.generate(outDir, site.base, redirectLinks)
-    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${join(siteHostName, site.base, 'sitemap.xml')}\n`)
+    const sitemapURL = new URL(siteURL.href)
+    sitemapURL.pathname = join(sitemapURL.pathname, 'sitemap.xml')
+    await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${sitemapURL}\n`)
 
     await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
 

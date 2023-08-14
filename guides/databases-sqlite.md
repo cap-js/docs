@@ -599,11 +599,11 @@ Generic application service handlers use *SELECT.localized* to request localized
 
 
 
-### New Streaming API {.impl .node}
+<!-- ### New Streaming API {.impl .node}
 
 TODO: New STREAM event, ...
 
-
+-->
 
 ### Skipped BLOBs {.impl .node}
 
@@ -654,11 +654,14 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 
 ### <> operator {.impl .node}
 
-Operator `<>` works as specified in SQL standard, while `name != 'John'` translates to `name <> 'John' OR name is null`.
+Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
+* Operator `<>` now works as specified in SQL standard.
+* `name != 'John'` is translated as before to `name <> 'John' OR name is null`. 
+
 
 ::: warning
-This is a breaking change to the previous implementation. Before, `<>` was translated to `name <> 'John' OR name is null` as well.
-::: 
+This is a breaking change to the previous implementation.
+:::
 
 ### Miscellaneous {.impl .node}
 

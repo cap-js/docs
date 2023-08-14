@@ -192,13 +192,15 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 </execution>
 ```
 
-Also, you need to enable compiler support for session context variables in _.cdsrc.json_:
+Enable support for [session context variables](../guides/databases-sqlite#session-variables) 
+
+- First enable compiler support in _.cdsrc.json_:
 
 ```json
 {"cdsc": { "betterSqliteSessionVariables": true }}
 ```
 
-In addition, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
+- Then, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```

@@ -88,12 +88,9 @@ watchEffect(() => {
 })
 
 function toggleContent(variant, initial) {
-  const query = knownImplVariants.map(v => '.impl.'+v).join(',')
-  const all = document.querySelectorAll(query)
-  all.forEach(element => {
-    const on = element.classList.contains(variant)
-    element.style.display = on ? '' : 'none'
-  })
+  const htmlClassList = document.documentElement.classList
+  knownImplVariants.forEach(v => htmlClassList.remove(v))
+  htmlClassList.add(variant)
 }
 
 function markStatus() {

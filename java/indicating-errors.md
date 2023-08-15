@@ -88,7 +88,7 @@ If the CDS property [`cds.errors.combined`](../java/development/properties#cds-e
 ## Formatting and Localization
 
 Texts passed to both `ServiceException` and the `Messages` API can be formatted and localized.
-By default you can use [SLF4J's messaging formatting style](http://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
+By default you can use [SLF4J's messaging formatting style](https://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
 
 ```java
 // message with placeholders

@@ -279,7 +279,7 @@ In contrast to [mocked authentication](#mocked), no default users are automatica
 
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['user account and authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-**Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
 ```sh
 npm add passport
 ```
@@ -335,7 +335,7 @@ This is an additional authentication strategy using the [Identity Authentication
 
 To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
 
-**Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
 ```sh
 npm add passport
 ```

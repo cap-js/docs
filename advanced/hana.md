@@ -260,7 +260,7 @@ The following is the definition of a calculation view `data.model.bookshop.CalcB
 ::: code-group
 ```xml [existing-calc-view-quoted.hdbcalculationview]
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="3.0" id="data.model.bookshop.CalcBooks" applyPrivilegeType="NONE" defaultClient="$$client$$" visibility="reportingEnabled" calculationScenarioType="TREE_BASED" dataCategory="CUBE" enforceSqlExecution="false" outputViewType="Aggregation" cacheInvalidationPeriod="NONE">
+<Calculation:scenario xmlns:Calculation="https://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="3.0" id="data.model.bookshop.CalcBooks" applyPrivilegeType="NONE" defaultClient="$$client$$" visibility="reportingEnabled" calculationScenarioType="TREE_BASED" dataCategory="CUBE" enforceSqlExecution="false" outputViewType="Aggregation" cacheInvalidationPeriod="NONE">
 <descriptions defaultDescription="Calculation View w/ parameters and quoted names"/>
 <localVariables>
   <variable id="Param" parameter="true">

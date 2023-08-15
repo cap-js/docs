@@ -580,7 +580,7 @@ srv.on('READ','Books', (req)=> [ ... ])
 ```js
 srv.on('READ','Books', ()=> SELECT.from(Books))
 ```
-4. Call `next` as in [express.js](http://expressjs.com) to delegate to handlers down the chain:
+4. Call `next` as in [express.js](https://expressjs.com) to delegate to handlers down the chain:
 ```js
 srv.on('READ','Books', (req,next)=>{
   if (...) return SELECT.from(Books) //> ... handle req my own
@@ -627,7 +627,7 @@ cds.serve('cat-service') .with (function(){
 
 ####  <i>  Single handlers for multiple events </i>
 
-Omit the `<entity>` argument to register handlers for all entities. Or add handlers for all events as well as [standard express.js middlewares](http://expressjs.com/en/guide/writing-middleware.html) with method `.use`:
+Omit the `<entity>` argument to register handlers for all entities. Or add handlers for all events as well as [standard express.js middlewares](https://expressjs.com/en/guide/writing-middleware.html) with method `.use`:
 
 ```js
 cds.serve('cat-service') .with (function(){

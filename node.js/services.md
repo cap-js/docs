@@ -580,7 +580,7 @@ srv.on('READ','Books', (req)=> [ ... ])
 ```js
 srv.on('READ','Books', ()=> SELECT.from(Books))
 ```
-4. Call `next` as in [express.js](http:/expressjs.com) to delegate to handlers down the chain:
+4. Call `next` as in [express.js](http://expressjs.com) to delegate to handlers down the chain:
 ```js
 srv.on('READ','Books', (req,next)=>{
   if (...) return SELECT.from(Books) //> ... handle req my own

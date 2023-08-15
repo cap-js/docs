@@ -338,7 +338,7 @@ When you open an annotation file, all language-dependent string values are check
 
 ### Prefer `@title` and `@description`
 
-Influenced by the [JSON Schema](http://json-schema.org), CDS supports the [common annotations](../cds/annotations#common-annotations) `@title` and `@description`, which are mapped to corresponding [OData annotations](./odata#annotations) as follows:
+Influenced by the [JSON Schema](https://json-schema.org), CDS supports the [common annotations](../cds/annotations#common-annotations) `@title` and `@description`, which are mapped to corresponding [OData annotations](./odata#annotations) as follows:
 
 | CDS            | JSON Schema   | OData               |
 |----------------|---------------|---------------------|

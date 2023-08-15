@@ -585,7 +585,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SAP HANA SQL Reference Guide for SAP HANA Platform (Cloud Version)](https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/28bcd6af3eb6437892719f7c27a8a285.html)
 * [SAP HANA SQL Reference Guide for SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/28bcd6af3eb6437892719f7c27a8a285.html)
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
-* [H2 Keywords/Reserved Words](http://www.h2database.com/html/advanced.html#keywords)
+* [H2 Keywords/Reserved Words](https://www.h2database.com/html/advanced.html#keywords)
 
 [There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 

@@ -133,21 +133,22 @@ cds.serve ('CustomerService') .with (function(){
 
 ## Authentication Strategies {#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`xsuaa`](#xsuaa) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "jwt" }
+    "auth": "xsuaa"
   }
 }
 ```
-
-::: tip
-Run `cds env get requires.auth` in your project root to find out the effective authentication config for your current environment.
 :::
 
+::: tip Inspect effective configuration
+Run `cds env get requires.auth` in your project root to find out the effective config for your current environment.
+:::
 
 
 ### Dummy Authentication {.h2 #dummy }
@@ -156,14 +157,15 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 
 **Configuration:** Choose this strategy as follows:
 
-```json
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "dummy" }
+    "auth": "dummy"
   }
 }
 ```
-
+:::
 
 ### Mocked Authentication {.h2 #mocked }
 
@@ -175,18 +177,21 @@ This authentication strategy uses basic authentication with pre-defined mock use
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "mocked" }
+    "auth": "mocked"
   }
 }
 ```
+:::
 
 You can optionally configure users as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
     "auth": {
       "kind": "mocked",
@@ -201,6 +206,7 @@ You can optionally configure users as follows:
   }
 }
 ```
+:::
 
 #### Pre-defined Mock Users {#mock-users}
 
@@ -245,18 +251,21 @@ This authentication strategy uses basic authentication to use mock users during 
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "basic" }
+    "auth": "basic"
   }
 }
 ```
+:::
 
 You can optionally configure users as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
     "auth": {
       "kind": "basic",
@@ -271,6 +280,7 @@ You can optionally configure users as follows:
   }
 }
 ```
+:::
 
 In contrast to [mocked authentication](#mocked), no default users are automatically added to the configuration.
 
@@ -291,13 +301,15 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "jwt" }
+    "auth": "jwt"
   }
 }
 ```
+:::
 
 [Learn more about testing JWT-based authentication in **XSUAA in Hybrid Setup**.](#xsuaa-setup){.learn-more}
 
@@ -314,13 +326,15 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "xsuaa" }
+    "auth": "xsuaa"
   }
 }
 ```
+:::
 
 [See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
@@ -347,13 +361,15 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "ias" }
+    "auth": "ias"
   }
 }
 ```
+:::
 
 
 ### Custom Authentication {#custom }

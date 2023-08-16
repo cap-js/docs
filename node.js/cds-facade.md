@@ -35,13 +35,13 @@ Welcome to cds repl v6.8.0
 
 Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents.
 
-- [cds. models]() {.property}
-  - [cds. resolve()]() {.method}
-  - [cds. load()]() {.method}
-  - [cds. parse()]() {.method}
+- [cds. models](./cds-facade.md) {.property}
+  - [cds. resolve()](./cds-compile.md#cds-resolve) {.method}
+  - [cds. load()](./cds-facade.md) {.method}
+  - [cds. parse()](./cds-compile.md#cds-parse) {.method}
   - [cds. compile](cds-compile) {.method}
   - [cds. linked()](cds-reflect) {.method}
-  - [cds. deploy()]() {.method}
+  - [cds. deploy()](./cds-facade.md) {.method}
 - [cds. server](cds-serve) {.property}
 - [cds. serve()](cds-serve) {.method}
   - cds. services {.property}
@@ -129,7 +129,7 @@ Returns the pathname of the `@sap/cds` installation folder from which the curren
 ### cds. root {.property}
 
 Returns the project root that is used by all CAP runtime file access as the root directory.
-By default tihs is `process.cwd()`, but can be set to a different root folder.
+By default this is `process.cwd()`, but can be set to a different root folder.
 It's guaranteed to be an absolute folder name.
 
 ```js
@@ -336,7 +336,7 @@ cds.exit() //> will rune above handlers before stopping the server
 
 ## Lifecycle Events
 
-
+[Learn more about Lifecycle Events in `cds.server`](cds-server#lifecycle-events){.learn-more}
 
 #### cds. once '*bootstrap*' {.event}
 

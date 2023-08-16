@@ -148,7 +148,8 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-::: danger
+
+::: warning
 Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
@@ -156,18 +157,19 @@ Filter expressions, [instance-based authorization](../guides/authorization#insta
 
 For arrayed types the `null` and `not null` constraints apply to the _members_ of the collections. The default is `not null` indicating that the collections can't hold `null` values.
 
-::: danger
+::: warning
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
 :::
 
-In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
+In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`.
+The collection `emails` itself must not be `null`!
 
 ```cds
 entity Bar {
     emails      : many {
         kind    : String null;
         address : String not null;
-    } null;
+    } null;  // -> collection emails may hold null values, overwriting default
 }
 ```
 
@@ -313,7 +315,6 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
-* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
@@ -356,7 +357,7 @@ CREATE TABLE Employees (
   name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
 );
 ```
-For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+For the definition of calculated elements on-write, all the on-read variant's restrictions apply and referencing localized elements isn't allowed.
 In addition, there are restrictions that depend on the particular database. Currently all databases
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
@@ -1434,7 +1435,7 @@ service MyOrders {
 ```
 
 ::: tip
-The notion of actions and functions in CDS adopts that of [OData](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
+The notion of actions and functions in CDS adopts that of [OData](https://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
 :::
 
 

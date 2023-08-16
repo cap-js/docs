@@ -2,13 +2,12 @@
 label: Authentication
 synopsis: >
   This guide is about authenticating users on incoming HTTP requests.
-layout: node-js
+# layout: node-js
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
 # Authentication
-
 
 {{$frontmatter?.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
@@ -134,21 +133,22 @@ cds.serve ('CustomerService') .with (function(){
 
 ## Authentication Strategies {#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`xsuaa`](#xsuaa) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "jwt" }
+    "auth": "xsuaa"
   }
 }
 ```
-
-::: tip
-Run `cds env get requires.auth` in your project root to find out the effective authentication config for your current environment.
 :::
 
+::: tip Inspect effective configuration
+Run `cds env get requires.auth` in your project root to find out the effective config for your current environment.
+:::
 
 
 ### Dummy Authentication {.h2 #dummy }
@@ -157,37 +157,39 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 
 **Configuration:** Choose this strategy as follows:
 
-```json
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "dummy" }
+    "auth": "dummy"
   }
 }
 ```
-
+:::
 
 ### Mocked Authentication {.h2 #mocked }
 
 This authentication strategy uses basic authentication with pre-defined mock users during development.
 
-::: tip
-**Note:** When testing different users in the browser, it's best to use an incognito window, because logon information might otherwise be reused.
-:::
+> **Note:** When testing different users in the browser, it's best to use an incognito window, because logon information might otherwise be reused.
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "mocked" }
+    "auth": "mocked"
   }
 }
 ```
+:::
 
 You can optionally configure users as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
     "auth": {
       "kind": "mocked",
@@ -202,26 +204,27 @@ You can optionally configure users as follows:
   }
 }
 ```
+:::
+
+#### Pre-defined Mock Users {#mock-users}
 
 The default configuration shipped with `@sap/cds` specifies these users:
 
 ```jsonc
   "users": {
-    "alice": { "roles": ["admin", "cds.Subscriber"] },
-    "bob":   { "roles": ["cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "carol": { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "dave":  { "roles": ["admin", "cds.Subscriber"] },
-    "erin":  { "roles": ["admin", "cds.Subscriber", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper"] },
-    "fred":  { },
-    "me":    { },
-    "*": true //> all other logins are allowed as well
+    "alice": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ] },
+    "bob":   { "tenant": "t1", "roles": [ "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "carol": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "dave":  { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ], "features": [] },
+    "erin":  { "tenant": "t2", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "fred":  { "tenant": "t2", "features": [ "isbn" ] },
+    "me":    { "tenant": "t1", "features": [ "*" ] },
+    "yves":  { "roles": [ "internal-user" ] }
+    "*":     true //> all other logins are allowed as well
   }
-}
 ```
 
-::: tip
 This default configuration is merged with your custom configuration such that, by default, logins by alice, bob, ... and others (`*`) are allowed.
-:::
 
 If you want to restrict these additional logins, you need to overwrite the defaults:
 
@@ -238,24 +241,25 @@ If you want to restrict these additional logins, you need to overwrite the defau
 
 This authentication strategy uses basic authentication to use mock users during development.
 
-::: tip
-**Note:** When testing different users in the browser, it's best to use an incognito window, because logon information might otherwise be reused.
-:::
+> **Note:** When testing different users in the browser, it's best to use an incognito window, because logon information might otherwise be reused.
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "basic" }
+    "auth": "basic"
   }
 }
 ```
+:::
 
 You can optionally configure users as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
     "auth": {
       "kind": "basic",
@@ -270,15 +274,16 @@ You can optionally configure users as follows:
   }
 }
 ```
+:::
 
 In contrast to [mocked authentication](#mocked), no default users are automatically added to the configuration.
 
 
 ### JWT-based Authentication { #jwt }
 
-This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['user account and authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
+This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['User Account and Authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-**Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
 ```sh
 npm add passport
 ```
@@ -290,20 +295,22 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "jwt" }
+    "auth": "jwt"
   }
 }
 ```
+:::
 
 [Learn more about testing JWT-based authentication in **XSUAA in Hybrid Setup**.](#xsuaa-setup){.learn-more}
 
 
 ### XSUAA-based Authentication { #xsuaa }
 
-Authentication kind *xsuaa* is a logical extension of kind [*jwt*](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
+Authentication kind `xsuaa` is a logical extension of kind [`jwt`](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
 
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
@@ -313,13 +320,15 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "xsuaa" }
+    "auth": "xsuaa"
   }
 }
 ```
+:::
 
 [See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
@@ -334,7 +343,7 @@ This is an additional authentication strategy using the [Identity Authentication
 
 To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
 
-**Prerequisites:** You need to add [passport](http://www.passportjs.org/) to your project:
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
 ```sh
 npm add passport
 ```
@@ -346,13 +355,15 @@ npm add @sap/xssec
 
 **Configuration:** Choose this strategy as follows:
 
-```jsonc
-"cds": { // in package.json
+::: code-group
+```json [package.json]
+"cds": {
   "requires": {
-    "auth": { "kind": "ias" }
+    "auth": "ias"
   }
 }
 ```
+:::
 
 
 ### Custom Authentication {#custom }
@@ -376,7 +387,7 @@ module.exports = function custom_auth (req, res, next) {
   // do your custom authentication
   req.user = new cds.User({
     id: '<user-id>',
-    roles: ['<role-a>', '<role-b>']
+    roles: ['<role-a>', '<role-b>'],
     attr: {
       <user-attribute-a>: '<value>',
       <user-attribute-b>: '<value>'
@@ -390,7 +401,7 @@ module.exports = function custom_auth (req, res, next) {
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}
 
-### <i> Prepare Local Environment </i>
+### Prepare Local Environment
 
 The following steps assume you've set up the [**Cloud Foundry Command Line Interface**](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/856119883b8c4c97b6a766cc6a09b48c.html).
 
@@ -441,7 +452,7 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
     This step is necessary for locally running apps and for apps deployed on Cloud Foundry.
     :::
 
-### <i> Configure the Application </i>
+### Configure the Application
 
 1. Create a service key:
 
@@ -484,7 +495,7 @@ cds env list requires.uaa --resolve-bindings --profile hybrid
 This prints the full `uaa` configuration including the credentials.
 
 
-### <i> Set Up the Roles for the Application </i> { #auth-in-cockpit}
+### Set Up the Roles for the Application { #auth-in-cockpit}
 
 By creating a service instance of the `xsuaa` service, all the roles from the _xs-security.json_ file are added to your subaccount. Next, you create a role collection that assigns these roles to your users.
 
@@ -503,7 +514,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 7. Add the email addresses for your users to the *Users* list.
 8. Choose *Save*
 
-### <i> Running Approuter </i>
+### Running Approuter
 
 The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
 The resulting JWT token is sent to the application where it’s used to enforce authorization and check the user's roles.

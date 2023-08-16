@@ -131,7 +131,7 @@ When loading destinations from SAP BTP Destination Service, you can specify a [d
 
 These strategies can be set in the destination configuration of the _Remote Service_:
 
-```
+```yml
 cds:
   remote.services:
   - name: "API_BUSINESS_PARTNER"

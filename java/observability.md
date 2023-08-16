@@ -32,7 +32,7 @@ Various logging frameworks for Java have evolved and are widely used in Open Sou
 - Hierarchical logger components that can be configured independently.
 - Separation of log input (messages, parameters, context) and log output (format, destination).
 
-CAP Java SDK seamlessly integrates with Simple Logging Facade for Java ([SLF4J](http://www.slf4j.org)), which provides an abstraction layer for logging APIs. Applications compiled against SLF4J are free to choose a concrete logging framework implementation at deployment time. Most famous libraries have a native integration to SLF4J, but it also has the capability to bridge legacy logging API calls:
+CAP Java SDK seamlessly integrates with Simple Logging Facade for Java ([SLF4J](https://www.slf4j.org)), which provides an abstraction layer for logging APIs. Applications compiled against SLF4J are free to choose a concrete logging framework implementation at deployment time. Most famous libraries have a native integration to SLF4J, but it also has the capability to bridge legacy logging API calls:
 
 <img src="./assets/slf4j.png" width="500px">
 
@@ -235,7 +235,7 @@ You can add a Dynatrace connection to your CAP Java application by [additional c
 
 ### Tracing { #tracing}
 
-To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused tracing tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance JVM Garbage Collection), but they come with an additional overhead and therefore shouln't be constantly active. Hence, they need to meet following requirements:
+To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused tracing tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance JVM Garbage Collection), but they come with an additional overhead and therefore shouldn't be constantly active. Hence, they need to meet following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users
@@ -292,7 +292,7 @@ cf ssh -N -T -L <local-port>:localhost:<port> <app-name>
 
 Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX clients are:
 
-- [JConsole](http://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
+- [JConsole](https://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
 - [OpenJDK Mission Control](https://github.com/openjdk/jmc), which can be installed separately.
 
 

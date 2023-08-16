@@ -314,7 +314,7 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 
 ### Compiling APIs (Optional) { #repl}
 
-You can also compile service definitions explicitly, for example to an [OData model](http:/docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
+You can also compile service definitions explicitly, for example to an [OData model](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
 
 ```sh
 cds srv/cat-service.cds -2 edmx

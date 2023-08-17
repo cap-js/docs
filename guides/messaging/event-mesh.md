@@ -1,5 +1,5 @@
 ---
-# layout: cookbook
+# # layout: cookbook
 shorty: SAP Event Mesh
 status: released
 ---

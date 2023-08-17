@@ -1,5 +1,5 @@
 ---
-layout: cookbook
+# layout: cookbook
 shorty: Basics
 synopsis: >
   This guide explains the basic annotations related to data privacy.

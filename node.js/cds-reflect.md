@@ -2,7 +2,7 @@
 shorty: cds.reflect
 synopsis: >
   Find here information about reflecting parsed CDS models in CSN representation.
-layout: node-js
+# layout: node-js
 status: released
 ---
 <!--- Migrated: @external/node.js/cds-reflect.md -> @external/node.js/cds-reflect.md -->

@@ -668,7 +668,7 @@ The **CDS Lint** rules are a set of generic rules based on CAP best practices. T
 
 #### Configuring CDS Lint Rules
 
-Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint-rulelist/rules#min-node-version) --> doesn't work <--- , just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
+Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint/rules#min-node-version) , just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
 
 ```json
 {

@@ -1,5 +1,5 @@
 const cspellRegExp = /^(.*\.md)(:\d+:?\d*)\s*- Unknown word \((.*?)\)\s+-- (.*?) Suggestions: (\[.*\])$/
-const markdownlintRegExp = /^(.*\.md)(:\d+:?\d*) (MD\d+)\/\S+\s+(.+) \[(.*:)?\s*(.*)\]$/
+const markdownlintRegExp = /^(.*\.md)(:\d+:?\d*) ([^\s]+) (.*?)(\[.*?\])?( \[Context: .*\])?$/
 
 const createSuggestionText = (suggestion) => '```suggestion\n' + suggestion + '\n```\n'
 
@@ -27,6 +27,8 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
 `
 
+const getInvalidUrlText = () => 'Please use wellformed URLs: Only use `http://<url>` for localhost links.'
+
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
     const { join } = require('path')
@@ -46,11 +48,38 @@ module.exports = async ({ github, require, exec, core }) => {
             .filter(Boolean)
             .map(line => line.replace(`${BASE_DIR}/`, '').match(markdownlintRegExp))
 
-        for(let [error, path, pointer, rule, description, contextKey = '', contextValue] of matches) {
+        // error, path, pointer, rule, description, contextKey = '', contextValue
+        /*
+        test.md:6:1 search-replace Custom rule [no-http-urls: only https urls] [Context: "column: 1 text:'[invalid](https:/test.de)'"] ->
 
-            // MD011/no-reversed-links
-            if (rule === 'MD011') {
-                const { line, position } = await findPositionInDiff(contextValue, path)
+            test.md:6:1 search-replace Custom rule [no-http-urls: only https urls] [Context: "column: 1 text:'[invalid](https:/test.de)'"]
+            test.md
+            :6:1
+            search-replace
+            Custom rule
+            [no-http-urls: only https urls]
+            [Context: "column: 1 text:'[invalid](https:/test.de)'"]
+
+
+        test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]] ->
+
+            test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]]
+            test.md
+            :15:1
+            MD011/no-reversed-links
+            Reversed link syntax
+            [(test)[link.de]]
+
+        */
+        for(let [error, path, pointer, rule, description, details, context] of matches) {
+            let contextText = ''
+
+            if (rule === 'MD011/no-reversed-links') {
+                const detailValue = details.slice(1,-1)
+
+                contextText = `[Context: "${detailValue}"]`
+
+                const { line, position } = await findPositionInDiff(detailValue, path)
 
                 if (!line || position < 0) {
                     continue
@@ -65,15 +94,13 @@ module.exports = async ({ github, require, exec, core }) => {
                 comments.push({ path, position, body: commentBody })
             }
 
-            let context = `[${contextKey ? contextKey + ' ' : ''}${contextValue}]`.trim()
+            if (rule === 'MD042/no-empty-links') {
+                contextText = details
 
-            // Rule MD042/no-empty-links
-            if (rule === 'MD042') {
-                context = context.replace(/(\[|\(|\]|\))/g, "\\$1")
+                // for MD042 we do not have any details, so context = details
+                const link = details.match(/\[Context: "(\[.*?\]\(\))"/)[1]
 
-                const emptyLink = contextValue.slice(1, -1)
-
-                const { position } = await findPositionInDiff(emptyLink, path)
+                const { position } = await findPositionInDiff(link, path)
 
                 if (position < 0) {
                     continue
@@ -82,9 +109,8 @@ module.exports = async ({ github, require, exec, core }) => {
                 comments.push({ path, position, body: getNoEmptyLinkText() })
             }
 
-            // Rule MD040/fenced-code-language
-            if (rule === 'MD040') {
-                context = ''
+            if (rule === 'MD040/fenced-code-language') {
+                contextText = ''
 
                 const codeBlockLines = findCodeBlock(path, +pointer.slice(1))
 
@@ -99,7 +125,27 @@ module.exports = async ({ github, require, exec, core }) => {
                 comments.push({ path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end })
             }
 
-            lintErrorsText += `* **${path}**${pointer} ${description} ${context}\n`
+            if (rule === 'search-replace') {
+                // [only-wellformed-urls: URLs should be wellformed] -> only-wellformed-urls
+                const ruleName = details.split(':')[0].slice(1)
+
+                if (ruleName === 'only-wellformed-urls') {
+                    const invalidLink = context.match(/\[Context:.*(\[.*\]\(.*\)).*\]/)[1]
+
+                    description = 'Only use wellformed URLs'
+                    contextText = `[Context: "${invalidLink}"]`
+
+                    const { line, position } = await findPositionInDiff(invalidLink, path)
+
+                    if (!line || position < 0) {
+                        continue
+                    }
+
+                    comments.push({ path, position, body: getInvalidUrlText() })
+                }
+            }
+
+            lintErrorsText += `* **${path}**${pointer} ${description} ${contextText}\n`
         }
     }
 

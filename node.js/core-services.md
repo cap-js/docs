@@ -506,7 +506,7 @@ class BooksService extends cds.ApplicationService {
 
 - **`.on`** handlers actually fulfill requests, e.g. by reading/writing data from/to databases
 - **`.before`** handlers run before the `.on` handlers, frequently for validating inbound data
-- **`.after`** handlers run before the `.on` handlers, frequently to enrich outbound data
+- **`.after`** handlers run after the `.on` handlers, frequently to enrich outbound data
 
 **Argument `event`** can be one of:
 

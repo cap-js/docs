@@ -144,7 +144,7 @@ We recommend adopting the following simple naming conventions as commonly used i
 
 To easily distinguish type / entity names  from elements names we recommend to...
 
-* Start **_entity_** and **_type_** names with capital letters — e.g., `Authors`
+* Start **_entity_** and **_type_** names with capital letters — e.g., `Author`
 * Start **_elements_** with a lowercase letter — e.g., `name`
 
 #### Pluralize *Entity* Names

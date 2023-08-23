@@ -30,10 +30,6 @@ ADDED FROM GUIDE #4:
 
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
-::: danger _TODO_
-why is white not white?
-:::
-
 <img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
 
 ::: tip

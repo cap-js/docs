@@ -27,10 +27,10 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
 `
 
-const getInvalidUrlText = (link) => {
+const getInvalidUrlText = (text, link) => {
     const updatedLink = link.includes('localhost') ? 'http' : 'https' + '://' + link.split('/').slice(1).join('/')
 
-    return createSuggestionText(updatedLink) + 'Please use wellformed URLs.'
+    return createSuggestionText(`${text}(${updatedLink})`) + 'Please use wellformed URLs.'
 }
 
 const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")

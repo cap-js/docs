@@ -27,7 +27,15 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
 `
 
-const getInvalidUrlText = () => 'Please use wellformed URLs: Only use `http://<url>` for localhost links.'
+const getInvalidUrlText = (link) => {
+    const updatedLink = link.includes('localhost') ? 'http' : 'https' + '://' + link.split('/').slice(1).join('/')
+
+    return createSuggestionText(updatedLink) + 'Please use wellformed URLs.'
+}
+
+const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
+
+const
 
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
@@ -102,9 +110,9 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                contextText = context.trim()
-
                 const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+
+                contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 
                 const { position } = await findPositionInDiff(link, path)
 
@@ -136,10 +144,10 @@ module.exports = async ({ github, require, exec, core }) => {
                 const ruleName = details.split(':')[0].slice(1)
 
                 if (ruleName === 'only-wellformed-urls') {
-                    const invalidLink = context.match(/\[Context:.*(\[.*\]\(.*\)).*\]/)[1]
+                    const [, text, link] = context.match(/\[Context:.*(\[.*\])(\(.*\)).*\]/)
 
                     description = 'Only use wellformed URLs'
-                    contextText = `[Context: "${invalidLink}"]`
+                    contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
 
                     const { line, position } = await findPositionInDiff(invalidLink, path)
 
@@ -147,7 +155,7 @@ module.exports = async ({ github, require, exec, core }) => {
                         continue
                     }
 
-                    comments.push({ path, position, body: getInvalidUrlText() })
+                    comments.push({ path, position, body: getInvalidUrlText(link.slice(1, -1)) })
                 }
             }
 

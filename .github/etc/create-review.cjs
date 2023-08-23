@@ -102,10 +102,9 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                contextText = details
+                contextText = context.trim()
 
-                // for MD042 we do not have any details, so context = details
-                const link = details.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
 
                 const { position } = await findPositionInDiff(link, path)
 

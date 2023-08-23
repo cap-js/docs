@@ -92,9 +92,9 @@ module.exports = async ({ github, require, exec, core }) => {
                     continue
                 }
 
-                const [, link, text] = contextValue.match(/\((.*?)\)\[(.*?)\]/)
+                const [, link, text] = detailValue.match(/\((.*?)\)\[(.*?)\]/)
 
-                const suggestion = line.replace(contextValue, `[${text}](${link})`).replace('+', '')
+                const suggestion = line.replace(detailValue, `[${text}](${link})`).replace('+', '')
 
                 const commentBody = createSuggestionText(suggestion)
 

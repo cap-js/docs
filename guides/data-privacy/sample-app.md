@@ -64,7 +64,7 @@ should we offer this?
 
 ### Deploy your Application
 
-... for example, as documented in the [Deploy to Cloud Foundry](../../deployment/to-cf) guide.
+... for example, as documented in the Deploy to Cloud Foundry guide. --> TODO: add link to guide
 
 In essence, for a single-tenant app, run these commands in order:
 

@@ -72,6 +72,13 @@ module.exports = async ({ github, require, exec, core }) => {
 
         */
         for(let [error, path, pointer, rule, description, details, context] of matches) {
+            console.log(error)
+            console.log(path)
+            console.log(pointer)
+            console.log(rule)
+            console.log(description)
+            console.log(details)
+            console.log(context)
             let contextText = ''
 
             if (rule === 'MD011/no-reversed-links') {

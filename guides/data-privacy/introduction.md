@@ -31,7 +31,7 @@ ADDED FROM GUIDE #4:
 Compliance to data privacy regulations is an important requirement for all busines applications nowadays. CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, like SAP Personal Data Manager service. This greatly relieves application developers these tedious tasks and related efforts.
 
 ::: danger _TODO_
-linie zu DRM sollte gestrichelt sein
+why is white not white?
 :::
 
 <img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
@@ -142,11 +142,6 @@ Let's annotate our data model to identify personal data. In essence, in all our 
 Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
 
 For more details on the `@PersonalData` vocabulary, see [this](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/PersonalData.md).
-
-::: danger _TODO_
-- add BillingData to diagram
-- adjust types to `DataSubject`, `DataSubjectDetails`, and `Other (e.g., Transactional Data)`
-:::
 
 <img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 

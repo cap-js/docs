@@ -28,7 +28,7 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 `
 
 const getInvalidUrlText = (text, link) => {
-    const updatedLink = link.includes('localhost') ? 'http' : 'https' + '://' + link.split('/').slice(1).join('/')
+    const updatedLink = (link.includes('localhost') ? 'http' : 'https') + '://' + link.split('/').slice(1).join('/')
 
     return createSuggestionText(`${text}(${updatedLink})`) + 'Please use wellformed URLs.'
 }

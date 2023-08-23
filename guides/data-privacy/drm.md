@@ -1,5 +1,4 @@
 ---
-layout: cookbook
 shorty: Data Retention Management
 synopsis: >
   Use the SAP Data Retention Manager (DRM) with a CAP application.

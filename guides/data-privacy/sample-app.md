@@ -1,5 +1,4 @@
 ---
-layout: cookbook
 shorty: Sample App
 synopsis: >
   Learn how to build and deploy an app with PDM, DRM, and audit logging on SAP BTP CF.

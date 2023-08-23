@@ -1,5 +1,4 @@
 ---
-layout: cookbook
 shorty: Audit Logging
 synopsis: >
   Enable and use audit-logging capabilities with your CAP application.
@@ -9,7 +8,6 @@ breadcrumbs:
   - Audit Logging
 status: released
 ---
-<!--- Migrated: @external/guides/67-Data-Privacy/03-audit-log.md -> @external/guides/data-privacy/audit-log.md -->
 
 
 

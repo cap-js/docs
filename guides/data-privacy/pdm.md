@@ -1,5 +1,4 @@
 ---
-# layout: cookbook
 label: Personal Data Management
 shorty: PDM
 synopsis: >
@@ -10,7 +9,6 @@ breadcrumbs:
   - PDM
 status: released
 ---
-<!--- Migrated: @external/guides/67-Data-Privacy/02-personal-data-manager.md -> @external/guides/data-privacy/pdm.md -->
 
 
 

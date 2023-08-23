@@ -1,5 +1,4 @@
 ---
-# layout: cookbook
 shorty: Basics
 synopsis: >
   This guide explains the basic annotations related to data privacy.
@@ -9,7 +8,8 @@ breadcrumbs:
   - Introduction
 status: released
 ---
-<!--- Migrated: @external/guides/67-Data-Privacy/01-intro.md -> @external/guides/data-privacy/introduction.md -->
+
+
 
 # Basics of Data Privacy
 

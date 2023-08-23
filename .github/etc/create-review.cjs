@@ -147,7 +147,7 @@ module.exports = async ({ github, require, exec, core }) => {
                     description = 'Only use wellformed URLs'
                     contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
 
-                    const { line, position } = await findPositionInDiff(invalidLink, path)
+                    const { line, position } = await findPositionInDiff(text + link, path)
 
                     if (!line || position < 0) {
                         continue

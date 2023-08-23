@@ -150,7 +150,7 @@ For more details on the `@PersonalData` vocabulary, see [this](https://github.co
 
 <img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
-Following the [best practice of separation of concerns](../../domain-modeling#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
+Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we do that in a separate file `db/data-privacy.cds`:
 
 db/data-privacy.cds
 {.sample-label}

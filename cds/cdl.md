@@ -1435,7 +1435,7 @@ service MyOrders {
 ```
 
 ::: tip
-The notion of actions and functions in CDS adopts that of [OData](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
+The notion of actions and functions in CDS adopts that of [OData](https://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
 :::
 
 
@@ -1624,11 +1624,11 @@ Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/a
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
-- Relative path resolution
+- Relative path resolution<br>
   Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references
+- Resolving absolute references<br>
   Names starting with `/` are resolved absolute to the file system.
-- Resolving module references
+- Resolving module references<br>
   Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.

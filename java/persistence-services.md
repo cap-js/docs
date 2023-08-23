@@ -43,7 +43,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 1. H2 only supports database level collation. Lexicographical sorting on character-based columns isn’t supported.
 2. Case-insensitive comparison isn’t yet supported.
 3. By default, views aren’t updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
-4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](http://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
+4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
 5. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
 
@@ -165,7 +165,7 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](http://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
 ```sh
@@ -192,13 +192,15 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 </execution>
 ```
 
-Also, you need to enable compiler support for session context variables in _.cdsrc.json_:
+Enable support for [session context variables](../guides/databases-sqlite#session-variables)
+
+- First enable compiler support in _.cdsrc.json_:
 
 ```json
 {"cdsc": { "betterSqliteSessionVariables": true }}
 ```
 
-In addition, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
+- Then, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```sh

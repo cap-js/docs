@@ -185,7 +185,7 @@ Renders the given model to a formatted JSON  or YAML string.
 ### .to .edmx() {.method}
 
 
-Compiles and returns an OData v4 [EDM](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
+Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
 
 Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-odata) above, with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
 

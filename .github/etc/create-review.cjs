@@ -153,7 +153,7 @@ module.exports = async ({ github, require, exec, core }) => {
                         continue
                     }
 
-                    comments.push({ path, position, body: getInvalidUrlText(link.slice(1, -1)) })
+                    comments.push({ path, position, body: getInvalidUrlText(text, link.slice(1, -1)) })
                 }
             }
 

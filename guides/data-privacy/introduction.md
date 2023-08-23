@@ -66,10 +66,10 @@ The most essential requests you have to answer are those in the table below, wit
 
 | Question / Request                          | Discipline                                               |
 | ------------------------------------------- | -------------------------------------------------------- |
-| *When was personal data stored/changed?*    | → [Audit Logging](#audit-logging)                        |
-| *What data about me do you have stored?*    | → [Personal Data Management](#sap-personal-data-manager) |
+| *When was personal data stored/changed?*    | → [Audit Logging](audit-logging.md)                        |
+| *What data about me do you have stored?*    | → [Personal Data Management](pdm.md) |
 | → "Right of access to personal data"        |                                                          |
-| *Please delete all personal data about me!* | → [Retention Management](#sap-data-retention-manager)    |
+| *Please delete all personal data about me!* | → [Retention Management](drm.md)    |
 | → "Right to be forgotten"                   |                                                          |
 
 <br>
@@ -80,14 +80,15 @@ While CAP and SAP BTP services greatly facilitate fulfilling the obligations rel
 :::
 
 
-
 <span id="sdfgew343244" />
 
 
 
-## Indicate Personal Data in Your Domain Model { #indicate-privacy }
+## @PersonalData { #indicate-privacy }
 
 See full sample in [cloud-cap-samples](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr).
+
+
 
 ### Base Model
 
@@ -131,11 +132,14 @@ entity Orders : cuid, managed {
 }
 ```
 
+
 ### Annotating Personal Data
 
 Let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Data Subject Details* or *Other*.
 
 Use `@PersonalData` annotations to indicate entities and elements in your domain model, which will contain personal data.
+
+This allows you to manage the data privacy-related actions on a fine granular level only using metadata definitions with annotations and without any need of implementation.
 
 For more details on the `@PersonalData` vocabulary, see [this](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/PersonalData.md).
 
@@ -197,10 +201,9 @@ You can annotate different CDS artifacts, such as entities or fields. The data p
 
 - The **field-level annotations** identify elements containing personal data.
 
-### Entity-Level Annotations
 
 
-#### EntitySemantics
+### .EntitySemantics
 
 Entity-level annotations indicate which entities are relevant for data privacy.
 
@@ -225,7 +228,8 @@ Make sure that the data subject is a valid CAP entity, otherwise the metadata-dr
 :::
 
 
-#### DataSubjectRole
+
+### .DataSubjectRole
 
 ```cds
 @PersonalData.DataSubjectRole: '<Role>'
@@ -243,27 +247,42 @@ annotate Customers with @PersonalData: {
 ```
 
 
-### Key-Level Annotations
+
+### .FieldSemantics
 
 Key-level annotations indicate the corresponding key information.
 
 ```cds
-@PersonalData.FieldSemantics: 'DataSubjectID'
+annotate Customers with {
+  ID @PersonalData.FieldSemantics: 'DataSubjectID'
+};
 ```
 
 This key information consists of the `DataSubject` (= Person) and its identifiers and the corresponding personal documents (such as Order, Consent, ...) and its identifiers. The latter is always captured implicitly, so we mainly have to specify the type and the key of the `DataSubject`.
 
 
-### Field-Level Annotations
 
-Field-level annotations tag which fields are relevant for data privacy in detail.
+### .IsPotentiallyPersonal
+
+`@PersonalData.IsPotentiallyPersonal` tags which fields are personal and, for example, require audit logs in case of modification.
 
 ```cds
-@PersonalData.IsPotentiallyPersonal
-@PersonalData.IsPotentiallySensitive
+annotate Customers with {
+  firstName @PersonalData.IsPotentiallyPersonal
+};
 ```
 
-This allows you to manage the data privacy-related actions on a fine granular level only using metadata definitions with annotations and without any need of implementation.
+
+
+### .IsPotentiallySensitive
+
+`@PersonalData.IsPotentiallySensitive` tags which fields are sensitive and, for example, require audit logs in case of access.
+
+```cds
+annotate Customers with {
+  ID @PersonalData.FieldSemantics: 'DataSubjectID'
+};
+```
 
 ::: warning _Warning_
 Please see [Audit Logging](./audit-logging.md) for implications before marking data as sensitive.

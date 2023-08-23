@@ -7,7 +7,7 @@ breadcrumbs:
   - Cookbook
   - Data Privacy
   - Sample App
-#status: released
+status: released
 ---
 
 

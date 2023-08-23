@@ -45,11 +45,11 @@
 - [Temporal Data](guides/temporal-data)
 - [Media Data](guides/media-data)
 - [Data Privacy](guides/data-privacy/)
-  - [Basics](guides/data-privacy/introduction)
-  - [Personal Data Management](guides/data-privacy/pdm)
-  - [Data Retention Management](guides/data-privacy/drm)
-  - [Audit Logging](guides/data-privacy/audit-logging)
-  - [Sample App](guides/data-privacy/sample-app)
+  - [Basics](guides/data-privacy/01_introduction)
+  - [Personal Data Management](guides/data-privacy/02_pdm)
+  - [Data Retention Management](guides/data-privacy/03_drm)
+  - [Audit Logging](guides/data-privacy/04_audit-logging)
+  - [Sample App](guides/data-privacy/05_sample-app)
 
 ### [Advanced](advanced/)
 

@@ -39,7 +39,7 @@ In essence, the steps to use that are:
 
 In addition, custom audit logs can be recorded using the programmatic APIs.
 
-As a prerequisite, you have to [indicate entities and elements in your domain model, which will contain personal data](introduction#indicate-privacy).
+As a prerequisite, you have to [indicate entities and elements in your domain model, which will contain personal data](01_introduction#indicate-privacy).
 
 
 
@@ -78,7 +78,7 @@ annotate bookshop.Customers with @PersonalData : {
 }
 ```
 
-Here we again have the four levels of annotations as already described in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
+Here we again have the four levels of annotations as already described in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
 
 When you've annotated your (business) entity like this, the audit logs for read access and data modifications will be written automatically by the underlying CAP framework.
 
@@ -146,7 +146,7 @@ annotate bookshop.BillingData with @PersonalData : {
 ```
 
 Very similarly to the section on 'Data Subject' this entity is as well annotated in four levels.
-More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
+More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
 
 You may have noticed property `someOtherField` was not annotated. Hence, no modification will be logged.
 
@@ -158,7 +158,7 @@ In the section on 'Data Subject' and 'Data Subject Details' we have seen, how to
 Now we have a look at classical transactional data.
 
 In the Personal Data Terminology all transactional data like 'Sales Orders', 'Shipments', 'Payments' are summarizes under the classification 'Other', which means they are relevant for Data Privacy, but they are neither 'Data Subject' nor 'Data Subject Details'.
-More details on this Terminology can be found in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
+More details on this Terminology can be found in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
 
 In our example we have the entity 'Orders'
 
@@ -172,7 +172,7 @@ entity Orders : cuid, managed {
 }
 ```
 
-To ensure proper audit logging we annotate using the usual four levels as described in the chapter [Indicate Personal Data in Your Domain Model](introduction#indicate-privacy).
+To ensure proper audit logging we annotate using the usual four levels as described in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
 
 ```cds
 annotate bookshop.Orders with @PersonalData.EntitySemantics : 'Other'
@@ -288,12 +288,12 @@ cds env requires.audit-log --profile production
 
 :::
 
-See the [Sample App](./sample-app.md) for more details.
+See the [Sample App](./05_sample-app.md) for more details.
 
 
 ## Generic Audit Logging
 
-[The @PersonalData annotations](introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
+[The @PersonalData annotations](01_introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
 
 1. **Start the server** as usual:
 

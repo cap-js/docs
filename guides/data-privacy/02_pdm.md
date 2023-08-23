@@ -83,7 +83,7 @@ service PDMService {
 ```
 
 ::: tip
-Make sure to have [indicated all relevant entities and elements in your domain model](introduction#indicate-privacy).
+Make sure to have [indicated all relevant entities and elements in your domain model](01_introduction#indicate-privacy).
 :::
 
 

@@ -259,7 +259,7 @@ GET http://localhost:4004/api-business-partner/reset
 * [Serving OData APIs](../advanced/odata)
 * [Serving SAP Fiori UIs](../advanced/fiori)
 * [Deploying to the Cloud](../guides/deployment/)
-* [Adding Audit Logging](../guides/data-privacy/audit-logging)
+* [Adding Audit Logging](../guides/data-privacy/04_audit-logging)
 * [Using Monitoring](../advanced/monitoring) & Analytics
 * Adding Tests
 * [Using CI/CD](../guides/deployment/cicd)

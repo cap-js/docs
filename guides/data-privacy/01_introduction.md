@@ -66,10 +66,10 @@ The most essential requests you have to answer are those in the table below, wit
 
 | Question / Request                          | Discipline                                               |
 | ------------------------------------------- | -------------------------------------------------------- |
-| *When was personal data stored/changed?*    | → [Audit Logging](audit-logging.md)                        |
-| *What data about me do you have stored?*    | → [Personal Data Management](pdm.md) |
+| *When was personal data stored/changed?*    | → [Audit Logging](04_audit-logging.md)                        |
+| *What data about me do you have stored?*    | → [Personal Data Management](02_pdm.md) |
 | → "Right of access to personal data"        |                                                          |
-| *Please delete all personal data about me!* | → [Retention Management](drm.md)    |
+| *Please delete all personal data about me!* | → [Retention Management](03_drm.md)    |
 | → "Right to be forgotten"                   |                                                          |
 
 <br>
@@ -285,5 +285,5 @@ annotate Customers with {
 ```
 
 ::: warning _Warning_
-Please see [Audit Logging](./audit-logging.md) for implications before marking data as sensitive.
+Please see [Audit Logging](./04_audit-logging.md) for implications before marking data as sensitive.
 :::

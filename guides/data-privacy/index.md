@@ -8,6 +8,14 @@ permalink: guides/data-privacy/
 status: released
 ---
 
+<!-- 
+
+TODOs:
+- sequence of chapters
+- right-hand menu
+
+-->
+
 # Managing Data Privacy
 
 

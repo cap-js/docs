@@ -35,8 +35,6 @@ const getInvalidUrlText = (link) => {
 
 const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
 
-const
-
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
     const { join } = require('path')

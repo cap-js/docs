@@ -54,19 +54,7 @@ module.exports = async ({ github, require, exec, core }) => {
             .filter(Boolean)
             .map(line => line.replace(`${BASE_DIR}/`, '').match(markdownlintRegExp))
 
-        // error, path, pointer, rule, description, contextKey = '', contextValue
         /*
-        test.md:6:1 search-replace Custom rule [no-http-urls: only https urls] [Context: "column: 1 text:'[invalid](https:/test.de)'"] ->
-
-            test.md:6:1 search-replace Custom rule [no-http-urls: only https urls] [Context: "column: 1 text:'[invalid](https:/test.de)'"]
-            test.md
-            :6:1
-            search-replace
-            Custom rule
-            [no-http-urls: only https urls]
-            [Context: "column: 1 text:'[invalid](https:/test.de)'"]
-
-
         test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]] ->
 
             test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]]
@@ -78,13 +66,6 @@ module.exports = async ({ github, require, exec, core }) => {
 
         */
         for(let [error, path, pointer, rule, description, details, context] of matches) {
-            console.log(error)
-            console.log(path)
-            console.log(pointer)
-            console.log(rule)
-            console.log(description)
-            console.log(details)
-            console.log(context)
             let contextText = ''
 
             if (rule === 'MD011/no-reversed-links') {
@@ -138,13 +119,13 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'search-replace') {
-                // [only-wellformed-urls: URLs should be wellformed] -> only-wellformed-urls
+                // [prefer-https-links: https links should be prefered] -> prefer-https-links
                 const ruleName = details.split(':')[0].slice(1)
 
                 if (ruleName === 'prefer-https-links') {
                     const [, text, link] = context.match(/\[Context:.*(\[.*\])(\(.*\)).*\]/)
 
-                    description = 'Https links should be prefered'
+                    description = 'https links should be prefered'
                     contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
 
                     const { line, position } = await findPositionInDiff(text + link, path)

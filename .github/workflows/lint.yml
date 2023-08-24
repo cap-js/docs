@@ -21,7 +21,7 @@ jobs:
         echo -e "url=https://user:${GH_TOKEN_PARENT}@github.tools.sap\n" | git credential approve
         git clone --depth 1 --no-single-branch https://github.tools.sap/cap/docs docs
         cd docs
-        git checkout move-dependencies
+        git checkout $GITHUB_HEAD_REF || git checkout main
         git submodule update --init --recursive
         cd @external
         git checkout $GITHUB_HEAD_REF

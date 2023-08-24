@@ -15,3 +15,10 @@ no language provided
 
 
 [test](http://test.de)
+
+[relative link](link)
+[relative link](link.md)
+[relative link](./link)
+[relative link](./link.md)
+[relative link](../link)
+[relative link](../link.md)

@@ -125,7 +125,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 if (ruleName === 'prefer-https-links') {
                     const [, text, link] = context.match(/\[Context:.*(\[.*\])(\(.*\)).*\]/)
 
-                    description = 'https links should be prefered'
+                    description = 'https links should be preferred'
                     contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
 
                     const { line, position } = await findPositionInDiff(text + link, path)

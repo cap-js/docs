@@ -28,7 +28,7 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 `
 
 const getInvalidUrlText = (text, link) => {
-    const updatedLink = (link.includes('localhost') ? 'http' : 'https') + '://' + link.split('/').slice(1).join('/')
+    const updatedLink = link.replace('http', 'https')
 
     return createSuggestionText(`${text}(${updatedLink})`) + 'Please use wellformed URLs.'
 }
@@ -141,10 +141,10 @@ module.exports = async ({ github, require, exec, core }) => {
                 // [only-wellformed-urls: URLs should be wellformed] -> only-wellformed-urls
                 const ruleName = details.split(':')[0].slice(1)
 
-                if (ruleName === 'only-wellformed-urls') {
+                if (ruleName === 'prefer-https-links') {
                     const [, text, link] = context.match(/\[Context:.*(\[.*\])(\(.*\)).*\]/)
 
-                    description = 'Only use wellformed URLs'
+                    description = 'https links should be prefered'
                     contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
 
                     const { line, position } = await findPositionInDiff(text + link, path)

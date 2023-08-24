@@ -12,6 +12,6 @@ code-fence-style:
 no-empty-links: true
 search-replace:
   rules:
-    - name: only-wellformed-urls
-      message: URLs should be wellformed
-      searchPattern: /\[.*?\]\((?!(https:\/\/|http://localhost|#)).+?\)/g
+    - name: prefer-https-links
+      message: https links should be prefered
+      searchPattern: /http:\/\/(?!localhost).*/g

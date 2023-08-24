@@ -954,3 +954,8 @@ req.user.is ("my.app.admin")
 > See the following sections for more details:
 - [Developing Security Artifacts in SAP BTP](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html)
 - [Maintaining Application Security in XS Advanced](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/35d910ee7c7a445a950b6aad989a5a26.html)
+
+## Role Assignments with AMS { #ams-configuration}
+
+SAP BTP applications using AMS and the identity services instead of XSUAA for authorization management can generate AMS policies out of teh CAP model and bind their application with the identity broker to AMS instead of XSUAA. The role assignment is then done in the SAP Cloud Identity Administrator Console. 
+The user role assignment is then transferred to the application via a download mechanism of the authorization information.

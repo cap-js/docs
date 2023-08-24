@@ -1,7 +1,7 @@
 ---
 shorty: Audit Logging
 synopsis: >
-  Enable and use audit-logging capabilities with your CAP application.
+  Enable and use audit-logging capabilities within your CAP application.
 breadcrumbs:
   - Cookbook
   - Data Privacy
@@ -21,198 +21,27 @@ _The following is mainly written from a Node.js perspective. For Java's perspect
 
 ## Introduction
 
-CAP provides out-of-the-box support for automatic audit logging of these events:
+CAP provides means for writing [custom audit logs](#custom-audit-logging) using the programmatic APIs, as well as out-of-the-box support for [automatic audit logging](#generic-audit-logging) of select events.
+By default, all audit logs -- whether custom or automatic -- are written via the [transactional outbox](#transactional-outbox) to ensure they are (eventually) stored without having to wait for an acknowledgement by the store itself.
+
+
+
+### Out-of-the-box Audit Logging
+
+Currently, CAP provides out-of-the-box audit logging for the following events:
 
 - Changes to *personal* data — enabled by default
-- Reads of *sensitive* data — disabled by default
+- Reads of *sensitive* data — __disabled by default__, see TODO
 
-In essence, the steps to use that are:
-
-1. [Add `@PersonalData` Annotations](#annotations) to your domain models → as shown before.
-1. [Enable audit-logging](#enable-audit-logging) → `cds add audit-logging`
-1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console
-1. [Using SAP Audit Log Service](#sap-audit-log-service) for production
-
-::: danger TODO
-`cds add audit-logging` is not yet supported
-:::
-
-In addition, custom audit logs can be recorded using the programmatic APIs.
-
-As a prerequisite, you have to [indicate entities and elements in your domain model, which will contain personal data](01_introduction#indicate-privacy).
+More automatic events are on the roadmap and will follow soon.
 
 
 
-## About the Audited Object
-
-
-### Data Subject
-
-In our case `Customers` is the main master data entity with the semantics of 'Data Subject'.
-
-```cds
-using { cuid, Country } from '@sap/cds/common';
-
-entity Customers : cuid, managed {
-  email       : String;
-  firstName   : String;
-  lastName    : String;
-  dateOfBirth : Date;
-  addresses   : Composition of many CustomerPostalAddress on addresses.Customer = $self;
-  billingData : Composition of many CustomerBillingData on billingData.Customer = $self;
-}
-```
-
-This entity is annotated in the _db/data-privacy.cds_ file.
-
-```cds
-annotate bookshop.Customers with @PersonalData : {
-  DataSubjectRole : 'Customer',
-  EntitySemantics : 'DataSubject'
-} {
-  ID          @PersonalData.FieldSemantics : 'DataSubjectID';
-  email       @PersonalData.IsPotentiallyPersonal;
-  firstName   @PersonalData.IsPotentiallyPersonal;
-  lastName    @PersonalData.IsPotentiallyPersonal;
-  dateOfBirth @PersonalData.IsPotentiallyPersonal;
-}
-```
-
-Here we again have the four levels of annotations as already described in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
-
-When you've annotated your (business) entity like this, the audit logs for read access and data modifications will be written automatically by the underlying CAP framework.
-
-In the context of audit logging, the `@PersonalData.IsPotentiallyPersonal` field-level annotation is relevant for inducing audit logs for _Insert_, _Update_, and _Delete_, whereas the `@PersonalData.IsPotentiallySensitive` annotation is relevant for _Read_ access audit logs.
-
-::: warning _Warning_
-The `@PersonalData.IsPotentiallySensitive` annotation induces an audit log for each and every _Read_ access.
---- Only use this annotation in [relevant cases](https://ec.europa.eu/info/law/law-topic/data-protection/reform/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en).
---- Avoid unnecessary logging activities in your application.
-For example, try to avoid reading sensitive data at all by obscuring credit card numbers as `**** **** **** 1234`
-:::
-
-We recommend using fields with the `IsPotentiallySensitive` annotation only in detail view entities. This ensures that the audit log for reading sensitive data is only triggered after explicitly jumping to the detail view from the respective overview list view.
-
-::: warning _Warning_
-In `@cap-js/audit-logging`, out-of-the-box logging is configurable via `cds.requires['audit-log'].handle = [...]`, with possible values `READ` and `WRITE`, and a default of `['WRITE']`.
-That is, data accesses are not logged by default, but must be opted into by overriding the default config.
-:::
-
-
-###  Data Subject Details
-
-In the first example, the audited object was identical to the data subject, but this is not always the case.
-
-In many cases you have additional master data describing more details of the data subject stored in a separate entity.
-In our terminology this has the semantics 'Data Subject Details'.
-
-In our example we have the additional entities `CustomerPostalAddress` and `CustomerBillingData` which contain additional master data belonging to a certain 'Customer', but which are stored in separate entities, for better clarity and better separation of concerns.
-
-```cds
-entity Addresses : cuid, managed {
-  customer       : Association to one Customers;
-  street         : String(128);
-  town           : String(128);
-  country        : Country;
-  someOtherField : String(128);
-};
-
-entity BillingData : cuid, managed {
-  customer      : Association to one Customers;
-  creditCardNo  : String;
-};
-```
-
-These entities are annotated in the _db/data-privacy.cds_ file.
-
-```cds
-annotate bookshop.Addresses with @PersonalData : {
-  DataSubjectRole : 'Customer',
-  EntitySemantics : 'DataSubjectDetails'
-} {
-  customer @PersonalData.FieldSemantics : 'DataSubjectID';
-  street   @PersonalData.IsPotentiallyPersonal;
-  town     @PersonalData.IsPotentiallyPersonal;
-  country  @PersonalData.IsPotentiallyPersonal;
-}
-
-annotate bookshop.BillingData with @PersonalData : {
-  DataSubjectRole : 'Customer',
-  EntitySemantics : 'DataSubjectDetails'
-} {
-  customer @PersonalData.FieldSemantics : 'DataSubjectID';
-  creditCardNo @PersonalData.IsPotentiallySensitive;
-}
-```
-
-Very similarly to the section on 'Data Subject' this entity is as well annotated in four levels.
-More details on these annotations can be found in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
-
-You may have noticed property `someOtherField` was not annotated. Hence, no modification will be logged.
-
-
-###  Transactional Data
-
-In the section on 'Data Subject' and 'Data Subject Details' we have seen, how to annotate the master data entities carrying the semantical information of the 'Data Subject'.
-
-Now we have a look at classical transactional data.
-
-In the Personal Data Terminology all transactional data like 'Sales Orders', 'Shipments', 'Payments' are summarizes under the classification 'Other', which means they are relevant for Data Privacy, but they are neither 'Data Subject' nor 'Data Subject Details'.
-More details on this Terminology can be found in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
-
-In our example we have the entity 'Orders'
-
-```cds
-entity Orders : cuid, managed {
-  orderNo         : String @title: 'Order Number'; //> readable key
-  items           : Composition of many OrderItems on items.parent = $self;
-  currency        : Currency;
-  customer        : Association to Customers;
-  personalComment : String;
-}
-```
-
-To ensure proper audit logging we annotate using the usual four levels as described in the chapter [Indicate Personal Data in Your Domain Model](01_introduction#indicate-privacy).
-
-```cds
-annotate bookshop.Orders with @PersonalData.EntitySemantics : 'Other'
-{
-  ID              @PersonalData.FieldSemantics : 'ContractRelatedID';
-  customer        @PersonalData.FieldSemantics : 'DataSubjectID';
-  personalComment @PersonalData.IsPotentiallyPersonal;
-}
-```
-
-
-### Operation-Level Annotations
-
-::: danger _TODO_
-check if still needed for Java. In Node.js, this is no longer considered.
-:::
-
-Finally, we annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
-
-Operation-level annotations indicate which `@AuditLog.Operation` (_Read_, _Insert_, _Update_, _Delete_), related to data-privacy requirements, will be handled automatically in the audit log (read access or change log). This annotation is introduced to manage CAP Audit Logs on a fine granular basis, for three reasons:
-  + The first annotation on the entity level is also valid for the SAP Personal Data Manager service.
-  + Some entities do not need all Audit Log operations.
-  + Some entities manage their Audit Log operations themselves.
-
-The default would be to switch on CAP Audit Logging for all standard operations.
-
-According to the information provided by annotations - written by the responsible developer or architect - the runtime will automatically write all the required read access and change logs by means of the audit log interface described in [Audit Log V2](https://github.wdf.sap.corp/xs-audit-log/audit-java-client/wiki/Audit-Log-V2).
-
-::: warning _Warning_
-`@AuditLog.Operation` is not applicable for `@cap-js/audit-logging` (i.e., the Node.js stack).
-:::
-
-
-
-## Transactional Outbox
+### Transactional Outbox { #transactional-outbox }
 
 By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
 
 ![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
-
 
 This provides an ultimate level of resiliency, plus additional benefits:
 
@@ -223,28 +52,33 @@ This provides an ultimate level of resiliency, plus additional benefits:
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
 
-## Setup & Configuration
 
-::: danger TODO
-`cds add audit-logging` is not yet supported
-:::
+### How-to in a Nutshell
 
-Run this to enable audit logging
+In essence, the steps to use Audit Logging in CAP are:
+
+1. [Add `@PersonalData` annotations](01_introduction#indicate-privacy) to your domain models
+1. [Enable audit logging](#setup) via plugin
+1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console
+1. [Using SAP Audit Log Service](#sap-audit-log-service) for production
+
+
+
+## Setup & Configuration { #setup }
+
+The audit logging functionality was externalized to the open source CDS Plugin Package [`@cap-js/audit-logging`](https://www.npmjs.com/package/@cap-js/audit-logging), which is co-owned by CAP and the SAP Audit Log Service team.
+
+[CDS Plugin Packages](../../node.js/cds-plugins) are self-containing extensions, i.e., they include not only the relevant code but also bring their own default configuration. Hence, in order to use audit logging in your CAP application, you only need to run:
 
 ```sh
-cds add audit-logging
+npm add @cap-js/audit-logging
 ```
 
 ::: details Behind the Scenes…
 
-This CLI command is a convenient shortcut for…
+Next to bringing the respective code, the plugin:
 
-1. Installing required 3rd-party packages, e.g.
-    ```js
-    npm add @cap-js/audit-logging
-    ```
-
-2. Which sets `cds.requires.audit-log = true` in `cds.env`, equivalent to:
+1. Sets `cds.requires.audit-log: true` in `cds.env`, equivalent to:
     ```json
     {"cds":{
       "requires": {
@@ -253,7 +87,7 @@ This CLI command is a convenient shortcut for…
     }}
     ```
 
-3. Which in turn activates the `audit-log` configuration **preset**:
+2. Which in turn activates the `audit-log` configuration **presets**:
     ```jsonc
     {
        "audit-log": {
@@ -288,12 +122,17 @@ cds env requires.audit-log --profile production
 
 :::
 
-See the [Sample App](./05_sample-app.md) for more details.
+<span id="data-privacy-add-audit-logging" />
+
+::: danger TODO @ Rene
+why (internal) fragment not being shown?
+:::
 
 
-## Generic Audit Logging
 
-[The @PersonalData annotations](01_introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
+## Generic Audit Logging { #generic-audit-logging }
+
+The [@PersonalData annotations](01_introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
 
 1. **Start the server** as usual:
 
@@ -342,8 +181,9 @@ See the [Sample App](./05_sample-app.md) for more details.
 
 **Behind the scenes** the generic audit logging implementation automatically cares for:
 
-- Intercepting all read operations potentially involving sensitive data and
 - Intercepting all write operations potentially involving personal data
+- Intercepting all read operations potentially involving sensitive data
+    - If configured, cf. `handle`
 - Determining the affected fields containing personal data, if any
 - Constructing log messages, and sending them to the connected audit log service
 - All emitted log messages are sent through the [transactional outbox](#transactional-outbox)
@@ -351,7 +191,7 @@ See the [Sample App](./05_sample-app.md) for more details.
 
 
 
-## Programmatic API
+## Custom Audit Logging { #custom-audit-logging }
 
 In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
 
@@ -364,7 +204,7 @@ const audit = await cds.connect.to('audit-log')
 Sending log messages:
 
 ```js
-await audit.log ('SomeEvent', { … })
+await audit.log('SomeEvent', { … })
 ```
 
 ::: tip
@@ -374,7 +214,7 @@ The Audit Log Service API is implemented as a CAP service, with the service API 
 
 ### Basic Service API
 
-The basic service definition declares the generic `log` operation used for all kinds of events, along with type `LogEntry` declares the common fields of all log messages — these fields are filled in automatically if not provided by the caller.
+The basic service definition declares the generic `log` and `logSync` operations used for all kinds of events, along with type `LogEntry`, which declares the common fields of all log messages — these fields are filled in automatically (values provided by the caller are ignored).
 
 ```cds
 namespace sap.auditlog;
@@ -398,15 +238,30 @@ type LogEntry {
 Usage is like that:
 
 ```js
-await audit.log ('SomeEvent', {
+await audit.log('SomeEvent', {
   some_details: 'whatever'
+})
+
+await audit.logSync('SomeOtherEvent', {
+  some_other_details: 'whatever else'
 })
 ```
 
+The difference between `log` and `logSync` is that `logSync` circumvents the [transactional outbox](#transactional-outbox) and, hence, resolves once writing to the audit log store was successful. In production, for example, that would mean that the audit log was acknowledged by the SAP Audit Log Service. However, it also means that the benefits of the transactional outbox, such as resilience, are skipped.
+
+If configuration `outbox` is set to `false`, the two operations behave identical, namely `log` bahaves like `logSync`. For this reason (and better error handling), you should always `await` calling `log` as well.
+
+Additionally, the service has pre-defined event payloads for the four event types:
+1. _Log read access to sensitive personal data_
+1. _Log changes to personal data_
+1. _Security event log_
+1. _Configuration change log_
+
+These payloads are based on [SAP Audit Log Service's REST API](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?locale=en-US), which maximizes performance by omitting any intermediate data structures.
+
+
 
 ### Personal Data-Related Events
-
-In addition, pre-defined event payloads for personal data-related events are declared:
 
 ```cds
 namespace sap.auditlog;
@@ -518,7 +373,6 @@ await audit.log ('ConfigurationModified', {
 })
 ```
 
-Note: Configuration modified events are not (yet) logged out of the box.
 
 
 ### Security Events
@@ -547,10 +401,13 @@ await audit.log ('SecurityEvent', {
 })
 ```
 
-Note: Security events are not (yet) logged out of the box.
 
 
 ### AuditLogService
+
+::: danger TODO
+keep?
+:::
 
 Here is the complete reference modeling as contained in `@cap-js/audit-logging`:
 
@@ -654,3 +511,26 @@ As always, custom implementations need to be configured:
   }
 }
 ```
+
+
+
+## Using SAP Audit Log Service { #sap-audit-log-service }
+
+Here is what you need to do in order to integrate with SAP Audit Log Service:
+
+1. In your space, create a service instance of service _SAP Audit Log Service_ (`auditlog`) with plan `premium`
+2. Add the service instance as _existing resource_ to your `mta.yml` and bind to your application in its _requires_ section
+    - Existing resources are defined like this:
+      ```yml
+      resources:
+      - name: my-auditlog-service
+        type: org.cloudfoundry.existing-service
+      ```
+
+<span id="data-privacy-audit-log-service-saas" />
+
+::: danger TODO @ Rene
+why (internal) fragment not being shown?
+:::
+
+A more comprehensive guide, incl. tutorials, is currently under development.

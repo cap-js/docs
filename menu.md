@@ -147,7 +147,6 @@
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
-<!-- TODO: - [Audit Logging](node.js/auditlog) -->
 
 ### [Security](security/)
 

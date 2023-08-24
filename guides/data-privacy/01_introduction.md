@@ -32,15 +32,15 @@ SAP provides specific features and functions to support compliance regarding the
 
 
 
-### Executive Summary
+### In a Nutshell
 
-The most essential requests you have to answer are those in the table below, with the job to be done in response to that given on the right-hand side:
+The most essential requests you have to answer are those in the table below, with the basis of the requirement in the middle, and the job to be done in response to that given on the right-hand side:
 
-| Question / Request                                                                            | Discipline                             |
-| --------------------------------------------------------------------------------------------- | -------------------------------------- |
-| *What data about me do you have stored?* → [Right of access](#right-of-access)                | [Personal Data Management](02_pdm.md)  |
-| *Please delete all personal data about me!* → [Right to be forgotten](#right-to-be-forgotten) | [Data Retention Management](03_drm.md) |
-| *When was personal data stored/changed?* → [Transparency](#transparency)                      | [Audit Logging](04_audit-logging.md)   |
+| Question / Request                          | Basis                                           | Solution                               |
+| ------------------------------------------- | ----------------------------------------------- | -------------------------------------- |
+| *What data about me do you have stored?*    | [Right of access](#right-of-access)             | [Personal Data Management](02_pdm.md)  |
+| *Please delete all personal data about me!* | [Right to be forgotten](#right-to-be-forgotten) | [Data Retention Management](03_drm.md) |
+| *When was personal data stored/changed?*    | [Transparency](#transparency)                   | [Audit Logging](04_audit-logging.md)   |
 
 
 
@@ -50,8 +50,8 @@ The [right of access to personal data](https://en.wikipedia.org/wiki/Right_of_ac
 
 The [SAP Personal Data Manager](https://help.sap.com/docs/personal-data-manager?locale=en-US) allows you to inform individuals about the data you have stored regarding them.
 
-::: danger
-TODO: Wolfgang wanted to add some text for this
+::: danger TODO @ Wolfgang
+add some text for this
 :::
 
 
@@ -62,8 +62,8 @@ The [right to be forgotten](https://en.wikipedia.org/wiki/Right_to_be_forgotten)
 
 The [SAP Data Retention Manager](https://help.sap.com/docs/data-retention-manager?locale=en-US) allows you to manage retention and residence rules to block or destroy personal data.
 
-::: danger
-TODO: Wolfgang wanted to add some text for this
+::: danger TODO @ Wolfgang
+add some text for this
 :::
 
 
@@ -74,17 +74,21 @@ Data privacy regulations typically include language demanding transparency regar
 
 The [SAP Audit Log Service](https://help.sap.com/docs/personal-data-manager?locale=en-US) stores all audit logs for a tenant in a common, compliant data store and allows auditors to search through and retrieve the respective logs when necessary.
 
-::: danger
-TODO: Wolfgang wanted to add some text for this
+::: danger TODO @ Wolfgang
+add some text for this
 :::
 
 
 
 <span id="data-privacy-product-standards" />
 
+::: danger TODO @ Rene
+why (internal) fragment not being shown?
+:::
 
 
-## Base Model { #base-model }
+
+## Example Base Model { #base-model }
 
 In the remainder of this guide, we'll use this domain model as the base to add data privacy and audit logging.
 
@@ -135,22 +139,6 @@ Next, let's annotate our data model to identify personal data. In essence, in al
 ::: tip
 For more details on the `@PersonalData` vocabulary, see [this](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/PersonalData.md).
 :::
-
-
-
-<!--
-
-It is important to annotate the data privacy-relevant entities as `DataSubject`, `DataSubjectDetails`, or `Other`.
-
-You can annotate different CDS artifacts, such as entities or fields. The data privacy annotations work on different levels - from the entity level to the field level, as described below.
-
-- The **entity-level annotations** signify relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the graphic below.
-
-- The **key-level annotations** signify object primary keys, as well as references to data subjects (which have to be present on each object).
-
-- The **field-level annotations** identify elements containing personal data.
-
--->
 
 
 
@@ -280,7 +268,7 @@ Please see [Audit Logging](./04_audit-logging.md) for implications before markin
 
 
 
-## Annotated Model
+## Example Annotated Model
 
 Below is the fully annotated model.
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotate our domain model in a separate file `db/data-privacy.cds`:

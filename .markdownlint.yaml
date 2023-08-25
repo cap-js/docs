@@ -10,3 +10,8 @@ code-fence-style:
 #     - VS Code
 #no-bare-urls: true
 no-empty-links: true
+search-replace:
+  rules:
+    - name: prefer-https-links
+      message: https links should be prefered
+      searchPattern: /\[.*?\]\(http:\/\/(?!localhost).*?\)/g

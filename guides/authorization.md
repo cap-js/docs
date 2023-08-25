@@ -959,3 +959,46 @@ req.user.is ("my.app.admin")
 
 SAP BTP applications using AMS and the identity services instead of XSUAA for authorization management can generate AMS policies out of teh CAP model and bind their application with the identity broker to AMS instead of XSUAA. The role assignment is then done in the SAP Cloud Identity Administrator Console. 
 The user role assignment is then transferred to the application via a download mechanism of the authorization information.
+
+### 1. Creating AMS policies from CAP roles
+
+To gerive policies from the CDS model you need to install the AMS tools:
+
+```sh
+npm i @sap/ams
+npm i --save-dev @sap/ams-dev
+```
+In your application the following settings are necessary:
+
+*manifest.yaml* (Needed to deploy the AMS sidecar togeteer with our app)
+```sh
+---
+applications:
+  - name: your-app-name
+   ...
+    buildpacks:
+      - https://github.com/SAP/cloud-authorization-buildpack/releases/latest/download/opa_buildpack.zip
+      - ...
+   ...
+    env:
+      AMS_DCL_ROOT: "/ams/dcl"
+...
+```
+
+*package.json* (Needed to run tne AMS plugin in CDS)
+```sh
+{
+  "name": "your-app-name",
+   ...
+  "dependencies": {
+    "@sap/ams": "^1.11.0",
+    ...
+  },
+  "devDependencies": {
+    "@sap/ams-dev": "^0.5.0",
+    "@sap/cds-dk": "^7",
+    "@sap/cloud-authorization-cap-client-tools": "^0.7.2"
+  },
+  ...
+}
+```

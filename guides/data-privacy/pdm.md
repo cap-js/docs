@@ -83,7 +83,7 @@ service PDMService {
 ```
 
 ::: tip
-Make sure to have [indicated all relevant entities and elements in your domain model](01_introduction#indicate-privacy).
+Make sure to have [indicated all relevant entities and elements in your domain model](introduction#indicate-privacy).
 :::
 
 
@@ -162,7 +162,7 @@ At this point, you are done with your application. Let's set up the SAP Personal
 
 The Personal Data Manager can't connect to your application running locally. Therefore, you first need to deploy your application. In our sample, we added two manifest files using `cds add cf-manifest` and SAP HANA configuration using `cds add hana`.
 
-The general deployment is described in detail in [Deploy Using Manifest Files](../../guides/deployment/to-cf).
+The general deployment is described in detail in [Deploy Using Manifest Files](../deployment/to-cf).
 
 Make a production build:
 
@@ -176,7 +176,7 @@ Deploy your application:
 cf create-service-push
 ```
 
-For multitenant-specific information, refer to our [Multitenancy Guide](../../guides/deployment/as-saas).
+For multitenant-specific information, refer to our [Multitenancy Guide](../deployment/as-saas).
 
 
 

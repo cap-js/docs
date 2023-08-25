@@ -57,7 +57,7 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 In essence, the steps to use Audit Logging in CAP are:
 
-1. [Add `@PersonalData` annotations](01_introduction#indicate-privacy) to your domain models
+1. [Add `@PersonalData` annotations](introduction#indicate-privacy) to your domain models
 1. [Enable audit logging](#setup) via plugin
 1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console
 1. [Using SAP Audit Log Service](#sap-audit-log-service) for production
@@ -122,17 +122,13 @@ cds env requires.audit-log --profile production
 
 :::
 
-<span id="data-privacy-add-audit-logging" />
-
-::: danger TODO @ Rene
-why (internal) fragment not being shown?
-:::
+<span id="in-setup-and-config" />
 
 
 
 ## Generic Audit Logging { #generic-audit-logging }
 
-The [@PersonalData annotations](01_introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
+The [@PersonalData annotations](introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
 
 1. **Start the server** as usual:
 
@@ -527,10 +523,6 @@ Here is what you need to do in order to integrate with SAP Audit Log Service:
         type: org.cloudfoundry.existing-service
       ```
 
-<span id="data-privacy-audit-log-service-saas" />
-
-::: danger TODO @ Rene
-why (internal) fragment not being shown?
-:::
+<span id="in-using-sap-audit-log" />
 
 A more comprehensive guide, incl. tutorials, is currently under development.

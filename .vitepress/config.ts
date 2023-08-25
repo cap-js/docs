@@ -107,7 +107,7 @@ const config:UserConfig<CapireThemeConfig> = {
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
-    outline: [1,3],
+    outline: [2,3],
     capire: { versions: latestVersions, gotoLinks: [] }
   },
   head: [

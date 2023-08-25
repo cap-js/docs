@@ -38,8 +38,8 @@ The most essential requests you have to answer are those in the table below, wit
 
 | Question / Request                          | Basis                                           | Solution                               |
 | ------------------------------------------- | ----------------------------------------------- | -------------------------------------- |
-| *What data about me do you have stored?*    | [Right of access](#right-of-access)             | [Personal Data Management](02_pdm.md)  |
-| *Please delete all personal data about me!* | [Right to be forgotten](#right-to-be-forgotten) | [Data Retention Management](03_drm.md) |
+| *What data about me do you have stored?*    | [Right of access](#right-of-access)             | [Personal Data Management](pdm.md)  |
+| *Please delete all personal data about me!* | [Right to be forgotten](#right-to-be-forgotten) | [Data Retention Management](drm.md) |
 | *When was personal data stored/changed?*    | [Transparency](#transparency)                   | [Audit Logging](audit-logging.md)   |
 
 

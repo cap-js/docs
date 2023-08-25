@@ -510,19 +510,5 @@ As always, custom implementations need to be configured:
 
 
 
-## Using SAP Audit Log Service { #sap-audit-log-service }
 
-Here is what you need to do in order to integrate with SAP Audit Log Service:
-
-1. In your space, create a service instance of service _SAP Audit Log Service_ (`auditlog`) with plan `premium`
-2. Add the service instance as _existing resource_ to your `mta.yml` and bind to your application in its _requires_ section
-    - Existing resources are defined like this:
-      ```yml
-      resources:
-      - name: my-auditlog-service
-        type: org.cloudfoundry.existing-service
-      ```
-
-<span id="in-using-sap-audit-log" />
-
-A more comprehensive guide, incl. tutorials, is currently under development.
+<span id="after-custom-auditlog" />

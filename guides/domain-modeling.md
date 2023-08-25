@@ -156,7 +156,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 #### Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
+- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
 - Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 

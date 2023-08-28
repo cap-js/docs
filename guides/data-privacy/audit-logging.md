@@ -26,7 +26,7 @@ By default, all audit logs -- whether custom or automatic -- are written via the
 
 
 
-### Out-of-the-box Audit Logging
+### Out-of-the-box Features
 
 Currently, CAP provides out-of-the-box audit logging for the following events:
 
@@ -36,20 +36,6 @@ Currently, CAP provides out-of-the-box audit logging for the following events:
 More automatic events are on the roadmap and will follow soon.
 
 
-
-### Transactional Outbox { #transactional-outbox }
-
-By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
-
-![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
-
-This provides an ultimate level of resiliency, plus additional benefits:
-
-- **Audit log messages are guaranteed to be delivered** &mdash; even if the audit log service should be down for a longer time period.
-
-- **Asynchronous delivery of log messages** &mdash; the main thread doesn't wait for requests being sent and successfully processed by the audit log service.
-
-- **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
 
 
@@ -122,8 +108,11 @@ cds env requires.audit-log --profile production
 
 :::
 
-<span id="in-setup-and-config" />
 
+
+<!--
+<span id="in-setup-and-config" />
+-->
 
 
 ## Generic Audit Logging { #generic-audit-logging }
@@ -187,6 +176,57 @@ The [@PersonalData annotations](introduction#indicate-privacy) are all we need t
 
 
 
+## Using SAP Audit Log Service { #sap-audit-log-service }
+
+Here is a brief description of the necessary steps for using SAP Audit Log Service on SAP BTP.
+A more comprehensive guide, incl. tutorials, is currently under development.
+
+### Setup Instance and Deploy App
+
+For deployment in general, please follow the [deployment guide](../deployment/). Check the rest of this guide before actually triggering the deployment (i.e., executing `cf deploy`).
+
+Here is what you need to do additionally in order to integrate with SAP Audit Log Service:
+
+1. In your space, create a service instance of service _SAP Audit Log Service_ (`auditlog`) with plan `premium`
+2. Add the service instance as _existing resource_ to your `mta.yml` and bind to your application in its _requires_ section
+    - Existing resources are defined like this:
+      ```yml
+      resources:
+      - name: my-auditlog-service
+        type: org.cloudfoundry.existing-service
+      ```
+
+
+
+<span id="audit-logging-in-saas" />
+
+
+
+### Accessing Audit Logs
+
+There are two options to access audit logs:
+
+1. Create an instance of service `auditlog-management` to retrieve audit logs via REST API (see [this](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-retrieval-api-usage-for-subaccounts-in-cloud-foundry-environment?locale=en-US))
+2. Use the SAP Audit Log Viewer (see [this](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-viewer-for-cloud-foundry-environment))
+
+
+
+## Transactional Outbox { #transactional-outbox }
+
+By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
+
+![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
+
+This provides an ultimate level of resiliency, plus additional benefits:
+
+- **Audit log messages are guaranteed to be delivered** &mdash; even if the audit log service should be down for a longer time period.
+
+- **Asynchronous delivery of log messages** &mdash; the main thread doesn't wait for requests being sent and successfully processed by the audit log service.
+
+- **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
+
+
+
 ## Custom Audit Logging { #custom-audit-logging }
 
 In addition to the generic audit logging provided out of the box, applications can also log custom events with custom data using the programmatic API.
@@ -200,7 +240,7 @@ const audit = await cds.connect.to('audit-log')
 Sending log messages:
 
 ```js
-await audit.log('SomeEvent', { … })
+await audit.log('Foo', { bar: 'baz' })
 ```
 
 ::: tip
@@ -208,46 +248,14 @@ The Audit Log Service API is implemented as a CAP service, with the service API 
 :::
 
 
-### Basic Service API
 
-The basic service definition declares the generic `log` and `logSync` operations used for all kinds of events, along with type `LogEntry`, which declares the common fields of all log messages — these fields are filled in automatically (values provided by the caller are ignored).
+### Service Definition
 
-```cds
-namespace sap.auditlog;
+Below is the complete reference modeling as contained in `@cap-js/audit-logging`. The individual operations and events are briefly discussed in the following sections.
 
-service AuditLogService {
+The service definition declares the generic `log` operation, which is used for all kinds of events, as well as the common type `LogEntry`, which declares the common fields of all log messages. These fields are filled in automatically by the base service and any values provided by the caller are ignored.
 
-  action log    (event : String, data : LogEntry);
-  action logSync(event : String, data : LogEntry);
-
-}
-
-/** Common fields, filled in automatically */
-type LogEntry {
-  uuid   : UUID;
-  tenant : String;
-  user   : String;
-  time   : Timestamp;
-}
-```
-
-Usage is like that:
-
-```js
-await audit.log('SomeEvent', {
-  some_details: 'whatever'
-})
-
-await audit.logSync('SomeOtherEvent', {
-  some_other_details: 'whatever else'
-})
-```
-
-The difference between `log` and `logSync` is that `logSync` circumvents the [transactional outbox](#transactional-outbox) and, hence, resolves once writing to the audit log store was successful. In production, for example, that would mean that the audit log was acknowledged by the SAP Audit Log Service. However, it also means that the benefits of the transactional outbox, such as resilience, are skipped.
-
-If configuration `outbox` is set to `false`, the two operations behave identical, namely `log` bahaves like `logSync`. For this reason (and better error handling), you should always `await` calling `log` as well.
-
-Additionally, the service has pre-defined event payloads for the four event types:
+Further, the service has pre-defined event payloads for the four event types:
 1. _Log read access to sensitive personal data_
 1. _Log changes to personal data_
 1. _Security event log_
@@ -255,15 +263,12 @@ Additionally, the service has pre-defined event payloads for the four event type
 
 These payloads are based on [SAP Audit Log Service's REST API](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?locale=en-US), which maximizes performance by omitting any intermediate data structures.
 
-
-
-### Personal Data-Related Events
-
 ```cds
 namespace sap.auditlog;
 
 service AuditLogService {
-  // … as above
+
+  action log(event : String, data : LogEntry);
 
   event SensitiveDataRead : LogEntry {
     data_subject : DataSubject;
@@ -276,15 +281,33 @@ service AuditLogService {
       name       : String;
     };
     channel      : String;
-  }
+  };
 
   event PersonalDataModified : LogEntry {
     data_subject :      DataSubject;
     object       :      DataObject;
     attributes   : many Modification;
     success      :      Boolean default true;
-  }
+  };
 
+  event ConfigurationModified : LogEntry {
+    object     :      DataObject;
+    attributes : many Modification;
+  };
+
+  event SecurityEvent : LogEntry {
+    data : {};
+    ip   : String;
+  };
+
+}
+
+/** Common fields, filled in automatically */
+type LogEntry {
+  uuid   : UUID;
+  tenant : String;
+  user   : String;
+  time   : Timestamp;
 }
 
 type DataObject {
@@ -303,7 +326,51 @@ type Modification {
 }
 ```
 
-Send corresponding log messages complying to these definitions like that:
+<!--
+
+### log vs. logSync
+
+```js
+await audit.logSync('SomeOtherEvent', {
+  some_other_details: 'whatever else'
+})
+```
+
+The difference between `log` and `logSync` is that `logSync` circumvents the [transactional outbox](#transactional-outbox) and, hence, resolves once writing to the audit log store was successful. In production, for example, that would mean that the audit log was acknowledged by the SAP Audit Log Service. However, it also means that the benefits of the transactional outbox, such as resilience, are skipped.
+
+If configuration `outbox` is set to `false`, the two operations behave identical, namely `log` bahaves like `logSync`. For this reason (and better error handling), you should always `await` calling `log` as well.
+
+-->
+
+
+
+### Sensitive Data Read
+
+```cds
+event SensitiveDataRead : LogEntry {
+  data_subject : DataSubject;
+  object       : DataObject;
+  attributes   : many {
+    name       : String;
+  };
+  attachments  : many {
+    id         : String;
+    name       : String;
+  };
+  channel      : String;
+}
+
+type DataObject {
+  type : String;
+  id   : {};
+}
+
+type DataSubject : DataObject {
+  role : String;
+}
+```
+
+Send sensitive data read event log messages like that:
 
 ```js
 await audit.log ('SensitiveDataRead', {
@@ -321,6 +388,26 @@ await audit.log ('SensitiveDataRead', {
   ]
 })
 ```
+
+
+### Personal Data Modified
+
+```cds
+event PersonalDataModified : LogEntry {
+  data_subject :      DataSubject;
+  object       :      DataObject;
+  attributes   : many Modification;
+  success      :      Boolean default true;
+}
+
+type Modification {
+  name : String;
+  old  : String;
+  new  : String;
+}
+```
+
+Send personal data modified event log messages like that:
 
 ```js
 await audit.log ('PersonalDataModified', {
@@ -340,22 +427,16 @@ await audit.log ('PersonalDataModified', {
 ```
 
 
-
-### Configuration Modified Events
+### Configuration Modified
 
 ```cds
-service AuditLogService {
-  // … as above
-
-  event ConfigurationModified : LogEntry {
-    object     :      DataObject;
-    attributes : many Modification;
-  }
-
+event ConfigurationModified : LogEntry {
+  object     :      DataObject;
+  attributes : many Modification;
 }
 ```
 
-Send corresponding log messages complying to these definitions like that:
+Send configuration modified event log messages like that:
 
 ```js
 await audit.log ('ConfigurationModified', {
@@ -370,22 +451,16 @@ await audit.log ('ConfigurationModified', {
 ```
 
 
-
 ### Security Events
 
 ```cds
-service AuditLogService {
-  // … as above
-
-  event SecurityEvent : LogEntry {
-    data : {};
-    ip   : String;
-  }
-
+event SecurityEvent : LogEntry {
+  data : {};
+  ip   : String;
 }
 ```
 
-Send corresponding log messages complying to these definitions like that:
+Send security event log messages like that:
 
 ```js
 await audit.log ('SecurityEvent', {
@@ -397,97 +472,27 @@ await audit.log ('SecurityEvent', {
 })
 ```
 
-
-
-### AuditLogService
-
-::: danger TODO
-keep?
-:::
-
-Here is the complete reference modeling as contained in `@cap-js/audit-logging`:
-
-```cds
-namespace sap.auditlog;
-
-service AuditLogService {
-
-  action log    (event : String, data : LogEntry);
-  action logSync(event : String, data : LogEntry);
-
-  event SensitiveDataRead : LogEntry {
-    data_subject : DataSubject;
-    object       : DataObject;
-    attributes   : many {
-      name       : String;
-    };
-    attachments  : many {
-      id         : String;
-      name       : String;
-    };
-    channel      : String;
-  };
-
-  event PersonalDataModified : LogEntry {
-    data_subject :      DataSubject;
-    object       :      DataObject;
-    attributes   : many Modification;
-    success      :      Boolean default true;
-  };
-
-  event ConfigurationModified : LogEntry {
-    object     :      DataObject;
-    attributes : many Modification;
-  };
-
-  event SecurityEvent : LogEntry {
-    data : {};
-    ip   : String;
-  };
-
-}
-
-/** Common fields, filled in automatically */
-type LogEntry {
-  uuid   : UUID;
-  tenant : String;
-  user   : String;
-  time   : Timestamp;
-}
-
-type DataObject {
-  type : String;
-  id   : {};
-}
-
-type DataSubject : DataObject {
-  role : String;
-}
-
-type Modification {
-  name : String;
-  old  : String;
-  new  : String;
-}
-```
-
-The contents of aspect `LogEntry` are automatically applied and cannot be provided manually (i.e., are overwritten by the service implementation).
+> In the SAP Audit Log Service REST API, `data` is a String. For ease of use, the default implementation stringifies `data`, if it is provided as an object. [Custom implementations](#custom-implementation) should also handle both.
 
 
 
-## Custom Implementation
+## Custom Implementation { #custom-implementation }
 
 In addition, everybody could provide new implementations in the same way as we implement the mock variant:
 
 ```js
-const cds = require('@sap/cds')
+const { AuditLogService } = require('@cap-js/audit-logging')
 
-class MyAuditLogService extends cds.Service {
-  log (event, data) {
-    console.log (event, data)
-  }
-  logSync (event, data) {
-    console.log (event, data)
+class MyAuditLogService extends AuditLogService {
+  async init() {
+    this.on('*', function (req) {
+      const { event, data } = req
+
+      console.log(`[my-audit-log] - ${event}:`, data)
+    })
+
+    // call AuditLogService's init
+    await super.init()
   }
 }
 
@@ -501,14 +506,9 @@ As always, custom implementations need to be configured:
   "cds": {
     "requires": {
       "audit-log": {
-        "impl": "./lib/MyAuditLogService.js"
+        "impl": "lib/MyAuditLogService.js"
       }
     }
   }
 }
 ```
-
-
-
-
-<span id="after-custom-auditlog" />

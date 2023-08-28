@@ -121,17 +121,17 @@ Because we protected the `PDMservice`, we need to establish the security check p
 
 ```json
 {
-    "xsappname": "gdpr-bookshop",
-    "tenant-mode": "shared",
-    "scopes": [
-        {
-            "name": "$XSAPPNAME.PersonalDataManagerUser",
-            "description": "Authority for Personal Data Manager",
-            "grant-as-authority-to-apps": [
-                "$XSSERVICENAME(pdm)"
-            ]
-        }
-    ]
+  "xsappname": "gdpr-bookshop",
+  "tenant-mode": "shared",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.PersonalDataManagerUser",
+      "description": "Authority for Personal Data Manager",
+      "grant-as-authority-to-apps": [
+        "$XSSERVICENAME(pdm)"
+      ]
+    }
+  ]
 }
 ```
 

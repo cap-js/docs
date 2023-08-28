@@ -93,7 +93,7 @@ annotate db.Customers with @PersonalData : {
   email        @PersonalData.IsPotentiallyPersonal;
   phone        @PersonalData.IsPotentiallyPersonal;
   creditCardNo @PersonalData.IsPotentiallySensitive;
-}
+};
 
 annotate db.Addresses with @PersonalData : {
   EntitySemantics : 'DataSubjectDetails'
@@ -102,13 +102,13 @@ annotate db.Addresses with @PersonalData : {
   street   @PersonalData.IsPotentiallyPersonal;
   town     @PersonalData.IsPotentiallyPersonal;
   country  @PersonalData.IsPotentiallyPersonal;
-}
+};
 
 annotate db.Incidents with @PersonalData : {
   EntitySemantics : 'Other'
 } {
   customer @PersonalData.FieldSemantics : 'DataSubjectID';
-}
+};
 ```
 
 
@@ -142,15 +142,15 @@ Hence, we annotate our model as follows:
 ```cds
 annotate db.Customers with @PersonalData: {
   EntitySemantics: 'DataSubject'
-}
+};
 
 annotate db.Addresses with @PersonalData: {
   EntitySemantics: 'DataSubjectDetails'
-}
+};
 
 annotate db.Incidents with @PersonalData: {
   EntitySemantics: 'Other'
-}
+};
 ```
 
 
@@ -169,7 +169,7 @@ In our model, we can add the `DataSubjectRole` as follows:
 annotate db.Customers with @PersonalData: {
   EntitySemantics: 'DataSubject',
   DataSubjectRole: 'Customer'
-}
+};
 ```
 
 
@@ -189,15 +189,15 @@ Hence, we annotate our model as follows:
 ```cds
 annotate db.Customers with {
   ID @PersonalData.FieldSemantics: 'DataSubjectID'
-}
+};
 
 annotate db.Addresses with {
   customer @PersonalData.FieldSemantics: 'DataSubjectID'
-}
+};
 
 annotate db.Incidents with {
   customer @PersonalData.FieldSemantics: 'DataSubjectID'
-}
+};
 ```
 
 ::: warning _❗ Data Subject and Data Object_<br>
@@ -220,7 +220,7 @@ annotate db.Customers with {
   lastName  @PersonalData.IsPotentiallyPersonal;
   email     @PersonalData.IsPotentiallyPersonal;
   phone     @PersonalData.IsPotentiallyPersonal;
-}
+};
 ```
 
 
@@ -232,7 +232,7 @@ annotate db.Customers with {
 ```cds
 annotate db.Customers with {
   creditCardNo @PersonalData.IsPotentiallySensitive;
-}
+};
 ```
 
 ::: warning _Warning_

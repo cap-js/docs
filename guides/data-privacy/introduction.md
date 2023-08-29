@@ -99,9 +99,9 @@ annotate db.Addresses with @PersonalData : {
   EntitySemantics : 'DataSubjectDetails'
 } {
   customer @PersonalData.FieldSemantics : 'DataSubjectID';
-  street   @PersonalData.IsPotentiallyPersonal;
-  town     @PersonalData.IsPotentiallyPersonal;
-  country  @PersonalData.IsPotentiallyPersonal;
+  city          @PersonalData.IsPotentiallyPersonal;
+  postCode      @PersonalData.IsPotentiallyPersonal;
+  streetAddress @PersonalData.IsPotentiallyPersonal;
 };
 
 annotate db.Incidents with @PersonalData : {

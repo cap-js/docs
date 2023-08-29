@@ -134,7 +134,7 @@ The [@PersonalData annotations](introduction#indicate-privacy) are all we need t
 
     {
       "firstName": "Johnny",
-      "dateOfBirth": "2002-03-09"
+      "lastName": "Doey"
     }
     ```
 
@@ -153,7 +153,7 @@ The [@PersonalData annotations](introduction#indicate-privacy) are all we need t
       },
       attributes: [
         { name: 'firstName', old: 'John', new: 'Johnny' },
-        { name: 'dateOfBirth', old: '1970-01-01', new: '2002-03-09' }
+        { name: 'lastName', old: 'Doe', new: 'Doey' }
       ],
       user: 'alice',
       tenant: 't1',

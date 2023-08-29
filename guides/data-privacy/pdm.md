@@ -33,50 +33,44 @@ Following the CAP principles, we recommend adding a new dedicated CAP service th
 
 ### CAP Service Model for SAP Personal Data Manager
 
-Open the _srv/pdm-service.cds_ file, which contains the content for the Personal Data Manager service.
+Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we create a dedicated service for the integration with SAP Personal Data Manager:
 
 ```cds
-//using from '@capire/orders';
-using {sap.capire.bookshop as db} from '../db/data-privacy';
-using {sap.capire.bookshop.Books} from '@capire/bookshop';
-using {sap.capire.bookshop.Orders} from '@capire/orders';
-using {sap.capire.bookshop.OrderItems} from '@capire/orders';
+using { sap.capire.incidents as db } from '@capire/incidents';
 
 @requires: 'PersonalDataManagerUser' // security check
 service PDMService {
 
-  // Data Privacy annotations on 'Customers', 'Addresses', and 'BillingData' are derived from original entity definitions
-  entity Customers     as projection on db.Customers;
-  entity Addresses     as projection on db.Addresses;
-  entity BillingData   as projection on db.BillingData;
+  // Data Privacy annotations on 'Customers' and 'Addresses' are derived from original entity definitions
+  entity Customers as projection on db.Customers;
+  entity Addresses as projection on db.Addresses;
 
-  //   create view on Orders and Items as flat projection
-  entity OrderItemView as
-    select from Orders {
-          ID,
-      key Items.ID        as item_ID,
-          OrderNo,
-          customer.ID     as customer_ID,
-          customer.email  as customer_email,
-          Items.book.ID   as item_Book_ID,
-          Items.amount    as item_Amount,
-          Items.netAmount as item_NetAmount
+  // create view on Incidents and Conversations as flat projection
+  entity IncidentConversationView as
+    select from Incidents {
+          ID, title, urgency, status,
+      key conversations.ID        as conversation_ID,
+          conversations.timestamp as conversation_timestamp,
+          conversations.author    as conversation_author,
+          conversations.message   as conversation_message,
+          customer.ID             as customer_ID,
+          customer.email          as customer_email
     };
 
-  //  annotate new view
-  annotate PDMService.OrderItemView with @(PersonalData.EntitySemantics: 'Other') {
-    item_ID        @PersonalData.FieldSemantics: 'ContractRelatedID';
-    customer_ID    @PersonalData.FieldSemantics: 'DataSubjectID';
-    customer_email @PersonalData.IsPotentiallyPersonal;
+  // annotate new view
+  annotate PDMService.IncidentConversationView with @(PersonalData.EntitySemantics: 'Other') {
+    customer_ID @PersonalData.FieldSemantics: 'DataSubjectID';
   };
 
   // annotations for Personal Data Manager - Search Fields
   annotate Customers with @(Communication.Contact: {
-    n   : {
-      surname: lastName,
-      given  : firstName
+    n : {
+      surname : lastName,
+      given   : firstName
     },
-    bday: dateOfBirth
+    email : {
+      address : email
+    }
   });
 
 };
@@ -92,9 +86,9 @@ Make sure to have [indicated all relevant entities and elements in your domain m
 
 As an additional step, you have to create flat projections on the additional business data, like transactional data.
 
-In our model, we have `Orders` and `OrderItems`, which are connected via a [composition](https://github.com/SAP-samples/cloud-cap-samples/blob/gdpr/orders/db/schema.cds). Since SAP Personal Data Manager needs flattened out structures, we define a helper view `OrderItemView` to flatten this out.
+In our model, we have `Incidents` and `Conversations`, which are connected via a [composition](https://github.com/SAP-samples/cloud-cap-samples/blob/gdpr/orders/db/schema.cds). Since SAP Personal Data Manager needs flattened out structures, we define a helper view `IncidentConversationView` to flatten this out.
 
-We have to then add data privacy-specific annotations to this new view as well. The `OrderItemView` as transactional data is marked as `Other`. In addition, it is important to tag the correct field, which defines the corresponding data subject, in our case that is `customer_ID    @PersonalData.FieldSemantics: 'DataSubjectID';`
+We have to then add data privacy-specific annotations to this new view as well. The `IncidentConversationView` as transactional data is marked as `Other`. In addition, it is important to tag the correct field, which defines the corresponding data subject, in our case that is `customer_ID @PersonalData.FieldSemantics: 'DataSubjectID';`
 
 
 
@@ -102,8 +96,11 @@ We have to then add data privacy-specific annotations to this new view as well. 
 
 In addition, the most important search fields of the data subject have to be annotated with the corresponding annotation `@Communication.Contact`.
 
-To perform a valid search in the SAP Personal Data Manager application, you will need _Surname_, _Given Name_, and _Birthday_ or the _Data Subject ID_. Details about this annotation can be found in
+To perform a valid search in the SAP Personal Data Manager application, you will need _Surname_, _Given Name_, and _Email_ or the _Data Subject ID_. Details about this annotation can be found in
 [Communication Vocabulary](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Communication.md).
+
+Alternatively to the tuple _Surname_, _Given Name_, and _Email_, you can also use _Surname_, _Given Name_, and _Birthday_ (called `bday`), if available in your data model. Details about this can be found in
+[SAP Personal Data Manager - Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/v4-annotations?q=Contact&locale=en-US).
 
 
 
@@ -121,7 +118,7 @@ Because we protected the `PDMservice`, we need to establish the security check p
 
 ```json
 {
-  "xsappname": "gdpr-bookshop",
+  "xsappname": "incidents-mgmt",
   "tenant-mode": "shared",
   "scopes": [
     {
@@ -156,6 +153,10 @@ At this point, you are done with your application. Let's set up the SAP Personal
 
 ## Connecting SAP Personal Data Manager
 
+Next, we will briefly detail the integration to SAP Personal Data Manager.
+A more comprehensive guide, incl. tutorials, is currently under development.
+For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager?locale=en-US).
+
 
 
 ### Build and Deploy Your Application
@@ -183,7 +184,6 @@ For multitenant-specific information, refer to our [Multitenancy Guide](../deplo
 ### Subscribe to SAP Personal Data Manager Service
 
 [Subscribe to the service](https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/ef10215655a540b6ba1c02a96e118d66.html) from the _Service Marketplace_ in the SAP BTP cockpit.
-
 
 ![A screenshot of the tile in the cockpit for the SAP Personal Data Manager service.](assets/pdmCockpitCreate.png){width="300"}
 
@@ -214,13 +214,14 @@ Application identifiers with **!b** are needed for the UI, and identifiers with 
 
 You need a configuration file, like the following, to create a service instance for the Personal Data Manager.
 
+`pdm-instance-config.json`
 ```json
 {
   "xs-security": {
-    "xsappname": "gdpr-bookshop",
+    "xsappname": "incidents-mgmt",
     "authorities": ["$ACCEPT_GRANTED_AUTHORITIES"]
   },
-  "fullyQualifiedApplicationName": "gdpr-bookshop",
+  "fullyQualifiedApplicationName": "incidents-mgmt",
   "appConsentServiceEnabled": true
 }
 
@@ -230,7 +231,7 @@ You need a configuration file, like the following, to create a service instance 
 Create a service instance using the SAP BTP cockpit or execute the following command:
 
 ```sh
-cf create-service personal-data-manager-service standard pdm -c ./.pdm/pdm-instance-config.json
+cf create-service personal-data-manager-service standard incidents-mgmt-pdm -c ./pdm-instance-config.json
 ```
 
 
@@ -239,19 +240,20 @@ cf create-service personal-data-manager-service standard pdm -c ./.pdm/pdm-insta
 
 With both the application deployed and the SAP Personal Data Manger service set up, you can now bind the service instance of the Personal Data Manager to your application. Use the URL of your application in a configuration file, such as the following example, which you need when binding a service instance.
 
+`pdm-binding-config.json`
 ```json
 {
-  "fullyQualifiedApplicationName": "gdpr-bookshop",
-  "fullyQualifiedModuleName": "gdpr-srv",
-  "applicationTitle": "PDM Bookshop",
-  "applicationTitleKey": "PDM Bookshop",
-  "applicationURL": "https://gdpr-srv.cfapps.eu10.hana.ondemand.com/", // get the URL from the CF CLI command: cf apps
+  "fullyQualifiedApplicationName": "incidents-mgmt",
+  "fullyQualifiedModuleName": "incidents-mgmt-srv",
+  "applicationTitle": "PDM Incidents",
+  "applicationTitleKey": "PDM Incidents",
+  "applicationURL": "https://incidents-mgmt-srv.cfapps.eu10.hana.ondemand.com/", // get the URL from the CF CLI command: cf apps
   "endPoints": [
     {
       "type": "odatav4",
       "serviceName": "pdm-service",
-      "serviceTitle": "GDPR",
-      "serviceTitleKey": "GDPR",
+      "serviceTitle": "Incidents Management",
+      "serviceTitleKey": "IncidentsManagement",
       "serviceURI": "pdm",
       "hasGdprV4Annotations": true,
       "cacheControl": "no-cache"
@@ -265,12 +267,8 @@ Here the `applicationURL`, the `fullyQualifiedModuleName`, and the `serviceURI` 
 Bind the service instance using the SAP BTP cockpit or execute the following command:
 
 ```sh
-cf bind-service gdpr-srv pdm -c ./.pdm/pdm-config.json
+cf bind-service incidents-mgmt-srv incidents-mgmt-pdm -c ./pdm-binding-config.json
 ```
-
-You need two configuration files for the Personal Data Manager service.
-In our [sample](https://github.com/SAP-samples/cloud-cap-samples/tree/gdpr/gdpr), you can find the _.pdm/pdm-instance-config.json_ and _.pdm/pdm-config.json_ files. Use them in addition to the [reference documentation](
-https://help.sap.com/docs/PERSONAL_DATA_MANAGER/620a3ea6aaf64610accdd05cca9e3de2/4ee5705b8ded43e68bde610223722971.html) to build your own files later on.
 
 
 

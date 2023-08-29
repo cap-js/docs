@@ -70,7 +70,7 @@ System query options can also be applied to an [expanded navigation property](ht
 | [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 
 
-## PATCH Entity Collection with Mass Data { #odata-patch-collection }
+## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
 
 With OData v4, you can [update a collection of entities](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateaCollectionofEntities) with a _single_ PATCH request.
 The resource path of the request targets the entity collection and the body of the request is given as a [delta payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads):

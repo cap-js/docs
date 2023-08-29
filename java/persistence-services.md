@@ -192,6 +192,7 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 </execution>
 ```
 
+
 Enable support for [session context variables](../guides/databases-sqlite#session-variables)
 
 - First enable compiler support in _.cdsrc.json_:

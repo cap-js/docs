@@ -322,9 +322,8 @@ A calculated element can be *used* in every location where an expression can occ
 * as the foreign key of a managed association
 * in a query together with nested projections (inline/expand)
 
-::: warning Temporary Restriction in the Node.js Runtime
-Currently, an OData request or a custom query can't directly access a calculated element in the entity
-where it is defined. It must always be accessed using a view/projection.
+::: warning
+ For the Node.js runtime, only the new _@cap-js_ database services support this feature.
 :::
 
 #### On-write (beta)

@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 synopsis: >
   Introduces <i>@sap/cds/common</i>, a prebuilt CDS model shipped with <i>@sap/cds</i> that provides common types and aspects.
 status: released

@@ -156,7 +156,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 #### Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
+- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
 - Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
@@ -314,7 +314,7 @@ This eases the implementation of generic functions that can apply the same ways 
 
 ### Prefer UUIDs for Keys
 
-While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](http://wiki.c2.com/?PrematureOptimization) by at least considering these points:
+While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](https://wiki.c2.com/?PrematureOptimization) by at least considering these points:
 
 * **UUIDs are universal** — that means that they’re unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
 

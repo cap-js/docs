@@ -1,5 +1,5 @@
 ---
-layout: cookbook
+# layout: cookbook
 label: Personal Data Management
 shorty: PDM
 synopsis: >

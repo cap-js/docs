@@ -1,6 +1,6 @@
 ---
 shorty: cds.log
-layout: node-js
+# layout: node-js
 subtocs: false
 status: released
 ---
@@ -220,7 +220,7 @@ You can assign different implementations by exchanging the factory with your own
 
 ### *Using `winston` Loggers* {#winston}
 
-**Prerequisites:** You need to add [winston](https:/www.npmjs.com/package/winston) to your project:
+**Prerequisites:** You need to add [winston](https://www.npmjs.com/package/winston) to your project:
 ```sh
 npm add winston
 ```

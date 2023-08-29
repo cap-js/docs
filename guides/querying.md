@@ -5,7 +5,7 @@ synopsis: >
   Learn about CAP's intrinsic querying capabilities, which allows
   clients to request the exact data they need, and are key enablers for
   serving requests automatically.
-layout: cookbook
+# layout: cookbook
 breadcrumbs:
   - Cookbook
   - Querying

@@ -1,5 +1,4 @@
 ---
-outline: [1,3]
 status: released
 synopsis: Start with a minimal setup and a grow-as-you-go approach.
 ---

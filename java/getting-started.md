@@ -122,7 +122,7 @@ CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP S
 
 The generated project has the following folder structure:
 
-```
+```txt
 <PROJECT-ROOT>/
 |-- db/
     `-- data-model.cds
@@ -172,7 +172,7 @@ mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
 This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
-```
+```txt
 <PROJECT-ROOT>/
 `-- integration-tests/
     `-- src/test/java/

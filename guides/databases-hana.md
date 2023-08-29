@@ -415,7 +415,7 @@ There are cases where you have to resolve or refactor the generated statements, 
 
 Example:
 
-```
+```txt
 >>>> Manual resolution required - DROP statements causing data loss are disabled
 >>>> by default.
 >>>> You may either:
@@ -477,7 +477,7 @@ ALTER TABLE E ALTER (text NVARCHAR(100) FUZZY SEARCH INDEX ON);
 It's important to understand that during deployment new migration versions will be applied on the existing database schema. If the resulting schema doesn't match the schema as defined by the TABLE statement, deployment fails and any changes are rolled-back. In consequence, when removing or replacing an existing `@sql.append` annotation, the original ALTER statements need to be undone. As the required statements can't automatically be determined, manual resolution is required. The CDS build generates comments starting with `>>>>` in order to provide some guidance and enforce manual resolution.
 
 Generated file with comments:
-```
+```txt
 == migration=3
 >>>>> Manual resolution required - insert ALTER statement(s) as described below.
 >>>>> After manual resolution delete all lines starting with >>>>>

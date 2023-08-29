@@ -44,7 +44,7 @@ To learn more about the entity data argument `List<Books> books` of the event ha
 
 Application Services are used by OData protocol adapters to expose the Application Service's API as an OData API on a path with the following pattern:
 
-```
+```txt
 http(s)://<application_url>/<base_path>/<service_name>
 ```
 

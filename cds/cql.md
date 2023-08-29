@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Query Language
 synopsis: >
   Documents the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.

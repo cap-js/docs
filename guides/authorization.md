@@ -962,7 +962,7 @@ The user role assignment is then transferred to the application via a download m
 
 ### 1. Creating AMS policies from CAP roles
 
-To gerive policies from the CDS model you need to install the AMS tools:
+To derive policies from the CDS model you need to install the AMS tools:
 
 ```sh
 npm i @sap/ams

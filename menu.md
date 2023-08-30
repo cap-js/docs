@@ -46,9 +46,8 @@
 - [Media Data](guides/media-data)
 - [Data Privacy](guides/data-privacy/)
   - [Basics](guides/data-privacy/introduction)
-  - [Personal Data Management](guides/data-privacy/pdm)
-  - [Data Retention Management](guides/data-privacy/drm)
   - [Audit Logging](guides/data-privacy/audit-logging)
+  - [Personal Data Management](guides/data-privacy/pdm)
 
 ### [Advanced](advanced/)
 

@@ -630,6 +630,8 @@ CREATE TABLE Books (
   CONSTRAINT Books_author //[!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT
     VALIDATED           -- validate existing entries when constraint is created
     ENFORCED            -- validate changes by insert/update/delete
     INITIALLY DEFERRED  -- validate only at commit
@@ -642,9 +644,8 @@ No constraints are generated for...
 * Associations annotated with `@assert.integrity: false`
 * Associations which's source or target entity is annotated with `@cds.persistence.exists` or `@cds.persistence.skip`
 
-
-
-If the association is the backlink of a **composition**, the constraint's delete rule changes to `CASCADE`. For example that applies to the `parent` association in here:
+If the association is the backlink of a **composition**, the constraint's delete rule changes to `CASCADE`.
+For example that applies to the `parent` association in here:
 
 ```cds
 entity Genres {
@@ -654,7 +655,35 @@ entity Genres {
 }
 ```
 
+As a special case, a referential constraint with `delete cascade` is also generated
+for text table of a [localized entity](../guides/localized-data#localized-data),
+although no managed association is present in the `texts` entity.
 
+Add a localized element to entity `Books` in the example above:
+```cds
+entity Books {
+  key ID : Integer; ...
+  title : localized String;
+}
+```
+
+The generated text table then is:
+```sql
+CREATE TABLE Books_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID INTEGER NOT NULL,
+  title NVARCHAR(5000),
+  PRIMARY KEY(locale, ID),
+  CONSTRAINT Books_texts_texts //[!code focus]
+    FOREIGN KEY(ID)
+    REFERENCES Books(ID)
+    ON UPDATE RESTRICT
+    ON DELETE CASCADE
+    VALIDATED
+    ENFORCED
+    INITIALLY DEFERRED
+)
+```
 
 ::: warning Database constraints are not intended for checking user input
 Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.

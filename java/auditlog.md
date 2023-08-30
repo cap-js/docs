@@ -188,21 +188,3 @@ class CustomAuditLogHandler implements EventHandler {
 
 [Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){.learn-more}
 
-
-
-## @AuditLog.Operation for Out-of-the-box Audit Logging
-
-::: danger TODO @ Matthias
-copied over from cookbook as only Java relevant (until removed there as well)
-:::
-
-We annotate all standard operations (`Read`, `Insert`, `Update`, `Delete`) as relevant for the audit log - which should be the default case for most of the relevant business entities.
-
-Operation-level annotations indicate which `@AuditLog.Operation` (_Read_, _Insert_, _Update_, _Delete_), related to data-privacy requirements, will be handled automatically in the audit log (read access or change log). This annotation is introduced to manage CAP Audit Logs on a fine granular basis, for three reasons:
-  + The first annotation on the entity level is also valid for the SAP Personal Data Manager service.
-  + Some entities do not need all Audit Log operations.
-  + Some entities manage their Audit Log operations themselves.
-
-The default would be to switch on CAP Audit Logging for all standard operations.
-
-According to the information provided by annotations - written by the responsible developer or architect - the runtime will automatically write all the required read access and change logs by means of the audit log interface described in [Audit Log V2](https://github.wdf.sap.corp/xs-audit-log/audit-java-client/wiki/Audit-Log-V2).

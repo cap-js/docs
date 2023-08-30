@@ -323,7 +323,7 @@ A calculated element can be *used* in every location where an expression can occ
 * in a query together with nested projections (inline/expand)
 
 ::: warning
- For the Node.js runtime, only the new _@cap-js_ database services support this feature.
+ For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write (beta)

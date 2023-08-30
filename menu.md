@@ -47,7 +47,8 @@
 - [Data Privacy](guides/data-privacy/)
   - [Basics](guides/data-privacy/introduction)
   - [Personal Data Management](guides/data-privacy/pdm)
-  - [Audit Log](guides/data-privacy/audit-log)
+  - [Data Retention Management](guides/data-privacy/drm)
+  - [Audit Logging](guides/data-privacy/audit-logging)
 
 ### [Advanced](advanced/)
 

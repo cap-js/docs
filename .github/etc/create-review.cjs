@@ -1,5 +1,5 @@
 const cspellRegExp = /^(.*\.md)(:\d+:?\d*)\s*- Unknown word \((.*?)\)\s+-- (.*?) Suggestions: (\[.*\])$/
-const markdownlintRegExp = /^(.*\.md)(:\d+:?\d*) (MD\d+)\/\S+\s+(.+) \[(.*:)?\s*(.*)\]$/
+const markdownlintRegExp = /^(.*\.md)(:\d+:?\d*) ([^\s]+) (.*?)(\[.*?\])?( \[Context: .*\])?$/
 
 const createSuggestionText = (suggestion) => '```suggestion\n' + suggestion + '\n```\n'
 
@@ -27,6 +27,14 @@ Generally, for each spelling mistake there are 2 ways to fix it:
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
 `
 
+const getInvalidUrlText = (text, link) => {
+    const updatedLink = link.replace('http', 'https')
+
+    return createSuggestionText(`${text}(${updatedLink})`)
+}
+
+const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
+
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
     const { join } = require('path')
@@ -46,34 +54,46 @@ module.exports = async ({ github, require, exec, core }) => {
             .filter(Boolean)
             .map(line => line.replace(`${BASE_DIR}/`, '').match(markdownlintRegExp))
 
-        for(let [error, path, pointer, rule, description, contextKey = '', contextValue] of matches) {
+        /*
+        test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]] ->
 
-            // MD011/no-reversed-links
-            if (rule === 'MD011') {
-                const { line, position } = await findPositionInDiff(contextValue, path)
+            test.md:15:1 MD011/no-reversed-links Reversed link syntax [(test)[link.de]]
+            test.md
+            :15:1
+            MD011/no-reversed-links
+            Reversed link syntax
+            [(test)[link.de]]
+
+        */
+        for(let [error, path, pointer, rule, description, details, context] of matches) {
+            let contextText = ''
+
+            if (rule === 'MD011/no-reversed-links') {
+                const detailValue = details.slice(1,-1)
+
+                contextText = `[Context: "${detailValue}"]`
+
+                const { line, position } = await findPositionInDiff(detailValue, path)
 
                 if (!line || position < 0) {
                     continue
                 }
 
-                const [, link, text] = contextValue.match(/\((.*?)\)\[(.*?)\]/)
+                const [, link, text] = detailValue.match(/\((.*?)\)\[(.*?)\]/)
 
-                const suggestion = line.replace(contextValue, `[${text}](${link})`).replace('+', '')
+                const suggestion = line.replace(detailValue, `[${text}](${link})`).replace('+', '')
 
                 const commentBody = createSuggestionText(suggestion)
 
                 comments.push({ path, position, body: commentBody })
             }
 
-            let context = `[${contextKey ? contextKey + ' ' : ''}${contextValue}]`.trim()
+            if (rule === 'MD042/no-empty-links') {
+                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
 
-            // Rule MD042/no-empty-links
-            if (rule === 'MD042') {
-                context = context.replace(/(\[|\(|\]|\))/g, "\\$1")
+                contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 
-                const emptyLink = contextValue.slice(1, -1)
-
-                const { position } = await findPositionInDiff(emptyLink, path)
+                const { position } = await findPositionInDiff(link, path)
 
                 if (position < 0) {
                     continue
@@ -82,9 +102,8 @@ module.exports = async ({ github, require, exec, core }) => {
                 comments.push({ path, position, body: getNoEmptyLinkText() })
             }
 
-            // Rule MD040/fenced-code-language
-            if (rule === 'MD040') {
-                context = ''
+            if (rule === 'MD040/fenced-code-language') {
+                contextText = ''
 
                 const codeBlockLines = findCodeBlock(path, +pointer.slice(1))
 
@@ -99,7 +118,27 @@ module.exports = async ({ github, require, exec, core }) => {
                 comments.push({ path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end })
             }
 
-            lintErrorsText += `* **${path}**${pointer} ${description} ${context}\n`
+            if (rule === 'search-replace') {
+                // [prefer-https-links: https links should be prefered] -> prefer-https-links
+                const ruleName = details.split(':')[0].slice(1)
+
+                if (ruleName === 'prefer-https-links') {
+                    const [, text, link] = context.match(/\[Context:.*(\[.*\])(\(.*\)).*\]/)
+
+                    description = 'https links should be preferred'
+                    contextText = `[Context: "${escapeMarkdownlink(text + link)}"]`
+
+                    const { line, position } = await findPositionInDiff(text + link, path)
+
+                    if (!line || position < 0) {
+                        continue
+                    }
+
+                    comments.push({ path, position, body: getInvalidUrlText(text, link.slice(1, -1)) })
+                }
+            }
+
+            lintErrorsText += `* **${path}**${pointer} ${description} ${contextText}\n`
         }
     }
 

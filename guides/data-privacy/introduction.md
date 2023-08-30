@@ -20,21 +20,21 @@ status: released
 ## Introduction
 
 
-Data protection is associated with numerous legal requirements and privacy concerns, such as the EU's [General Data Protection Regulation](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation). In addition to compliance with general data protection and privacy acts regarding [personal data](https://en.wikipedia.org/wiki/Personal_data), you need to consider compliance with industry-specific legislation in different countries.
+Data protection is associated with numerous legal requirements and privacy concerns, such as the EU's [General Data Protection Regulation](https://en.wikipedia.org/wiki/General_Data_Protection_Regulation). In addition to compliance with general data protection and privacy acts regarding [personal data](https://en.wikipedia.org/wiki/Personal_data), you need to consider compliance with industry-specific legislation in different countries/regions.
 
 CAP supports applications in their obligations to comply to data privacy regulations, by automating tedious tasks as much as possible based on annotated models. That is, CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, which enable you to fulfill specific data privacy requirements in your application. This greatly relieves application developers these tedious tasks and related efforts.
 
 <img src="./assets/Data-Privacy.drawio.svg" alt="Data Privacy.drawio.svg" style="zoom:111%;" />
 
 ::: warning
-SAP provides specific features and functions to support compliance regarding the relevant legal requirements, including data protection. SAP does not give any advice on whether these features and functions are the best method to support company, industry, regional, or country-specific requirements. Furthermore, this information should not be taken as advice or a recommendation regarding additional features that would be required in specific IT environments. Decisions related to data protection must be made on a case-by-case basis, considering the given system landscape and the applicable legal requirements.
+SAP provides specific features and functions to support compliance regarding the relevant legal requirements, including data protection. SAP does not give any advice on whether these features and functions are the best method to support company, industry, regional, or country/region-specific requirements. Furthermore, this information should not be taken as advice or a recommendation regarding additional features that would be required in specific IT environments. Decisions related to data protection must be made on a case-by-case basis, considering the given system landscape and the applicable legal requirements.
 :::
 
 
 
 ### In a Nutshell
 
-The most essential requests you have to answer are those in the table below, with the basis of the requirement in the middle, and the job to be done in response to that given on the right-hand side:
+The most essential requests you have to answer are those in the following table. The table also shows the basis of the requirement and the corresponding discipline for the request:
 
 | Question / Request                          | Basis                                           | Discipline                          |
 | ------------------------------------------- | ----------------------------------------------- | ----------------------------------- |
@@ -52,7 +52,7 @@ The [SAP Personal Data Manager](https://help.sap.com/docs/personal-data-manager?
 
 
 
-### Right to be Forgotten { #right-to-be-forgotten }
+### Right to Be Forgotten { #right-to-be-forgotten }
 
 The [right to be forgotten](https://en.wikipedia.org/wiki/Right_to_be_forgotten) gives people "the right to request erasure of personal data related to them on any one of a number of grounds [...]".
 
@@ -74,13 +74,15 @@ The [SAP Audit Log Service](https://help.sap.com/docs/personal-data-manager?loca
 
 ## Example Annotated Model { #annotated-model }
 
-In the remainder of this guide, we'll use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to.
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to.
 
 Below is the fully annotated model. The individual annotations are briefly discussed in the following sections.
 
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotated our domain model in a separate file:
 
-```cds
+::: code-group
+
+```cds [data-privacy.cds]
 using { sap.capire.incidents as db } from '@capire/incidents';
 
 annotate db.Customers with @PersonalData : {
@@ -111,21 +113,25 @@ annotate db.Incidents with @PersonalData : {
 };
 ```
 
+:::
+
 
 
 ## @PersonalData { #indicate-privacy }
 
-Next, let's annotate our data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. This allows you to manage the data privacy-related actions on a fine granular level only using metadata definitions with annotations and without any need of implementation. We do so using the `@PersonalData` annotations.
+Let's break down the annotations to identify personal data, shown in our previously introduced data model. We highlight each one in the following sections.
+
+In essence, in all our entities we search for elements that carry personal data, such as person names, birth dates, etc., and tag them accordingly. This allows you to manage the data privacy-related actions on a fine granular level, only using metadata definitions with annotations and without any need of implementation. We do so using the `@PersonalData` annotations.
 
 ::: tip
-For more details on the `@PersonalData` vocabulary, see [this](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/PersonalData.md).
+For more details on the `@PersonalData` vocabulary, see [the OData vocabulary](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/PersonalData.md).
 :::
 
 
 
 ### .EntitySemantics
 
-The entity-level annotation `@PersonalData.EntitySemantics` signifies relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the graphic below.
+The entity-level annotation `@PersonalData.EntitySemantics` signifies relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the following graphic.
 
 <img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
@@ -161,7 +167,7 @@ annotate db.Incidents with @PersonalData: {
 @PersonalData.DataSubjectRole: '<Role>'
 ```
 
-Can be added to `@PersonalData.EntitySemantics: 'DataSubject'`. It is a user-chosen string specifying the role name to use. If omitted, the default is the entity name. Use case is similar to providing user-friendly labels for the UI, although in this case there is no i18n.
+Can be added to `@PersonalData.EntitySemantics: 'DataSubject'`. It's a user-chosen string specifying the role name to use. If omitted, the default is the entity name. Use case is similar to providing user-friendly labels for the UI, although in this case there's no i18n.
 
 In our model, we can add the `DataSubjectRole` as follows:
 
@@ -203,16 +209,16 @@ annotate db.Incidents with {
 ::: warning _❗ Data Subject and Data Object_<br>
 For each specific personal data operation on a data object (like a Sales Order) a valid data subject (like a Customer) is needed.
 
-The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like `Customer @PersonalData.FieldSemantics : 'DataSubjectID'` - is never broken. Thus, semantically correct personal data operation logs can only be written on top of a semantical correctly built application.
+The application has to clarify that this link between data object and data subject - which is typically induced by an annotation like `Customer @PersonalData.FieldSemantics : 'DataSubjectID'` - is never broken. Thus, semantically correct personal data operation logs can only be written on top of a semantically correctly built application.
 
-Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism will not work.
+Make sure that the data subject is a valid CAP entity, otherwise the metadata-driven automatism won't work.
 :::
 
 
 
 ### .IsPotentiallyPersonal
 
-`@PersonalData.IsPotentiallyPersonal` tags which fields are personal and, for example, require audit logs in case of modification.
+`@PersonalData.IsPotentiallyPersonal` tags which fields are personal and, for example, require audit logs if modified.
 
 ```cds
 annotate db.Customers with {

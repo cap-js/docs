@@ -49,7 +49,6 @@
   - [Personal Data Management](guides/data-privacy/pdm)
   - [Data Retention Management](guides/data-privacy/drm)
   - [Audit Logging](guides/data-privacy/audit-logging)
-  - [Sample App](guides/data-privacy/sample-app)
 
 ### [Advanced](advanced/)
 

@@ -1,9 +1,10 @@
-const { themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
+const { base, themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
+import { join } from 'node:path'
 
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []
   items = items.map(item => { return { ...item, link: item.link.replace(/\.md$/, '') }})
-  const itemLinks = items.map(item => item.link)
+  const itemLinks = items.map(item => join(base, item.link))
 
   return pages
     .map(p => {

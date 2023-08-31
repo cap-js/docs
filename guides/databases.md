@@ -659,7 +659,7 @@ As a special case, a referential constraint with `delete cascade` is also genera
 for the text table of a [localized entity](../guides/localized-data#localized-data),
 although no managed association is present in the `texts` entity.
 
-Add a localized element to entity `Books` in the example above:
+Add a localized element to entity `Books`:
 ```cds
 entity Books {
   key ID : Integer; ...

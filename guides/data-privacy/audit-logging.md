@@ -15,25 +15,25 @@ status: released
 
 <div v-html="$frontmatter?.synopsis" />
 
-_The following is mainly written from a Node.js perspective. For Java's perspective, please see [Java - Audit Logging](https://pages.github.tools.sap/cap/docs/java/auditlog)._
+_The following is mainly written from a Node.js perspective. For Java's perspective, please see [Java - Audit Logging](../../java/auditlog)._
 
 
 
 ## Introduction
 
-CAP provides means for writing [custom audit logs](#custom-audit-logging) using the programmatic APIs, as well as out-of-the-box support for [automatic audit logging](#generic-audit-logging) of select events.
-By default, all audit logs -- whether custom or automatic -- are written via the [transactional outbox](#transactional-outbox) to ensure they are (eventually) stored without having to wait for an acknowledgement by the store itself.
+CAP provides means for writing [custom audit logs](#custom-audit-logging) using the programmatic APIs, as well as out-of-the-box support for [automatic audit logging](#generic-audit-logging) of selected events.
+By default, all audit logs - whether custom or automatic - are written to the [transactional outbox](#transactional-outbox). This ensures the audit logs are (eventually) stored without having to wait for an acknowledgement by the store itself.
 
 
 
 ### Out-of-the-box Features
 
-Currently, CAP provides out-of-the-box audit logging for the following events:
+Currently, CAP provides audit logging out of the box for the following events:
 
 - Changes to *personal* data — enabled by default
 - Reads of *sensitive* data — __disabled by default__, see TODO
 
-More automatic events are on the roadmap and will follow soon.
+More events are on the roadmap, to be supported out of the box.
 
 
 
@@ -43,18 +43,18 @@ More automatic events are on the roadmap and will follow soon.
 
 In essence, the steps to use Audit Logging in CAP are:
 
-1. [Add `@PersonalData` annotations](introduction#indicate-privacy) to your domain models
-1. [Enable audit logging](#setup) via plugin
-1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console
-1. [Using SAP Audit Log Service](#sap-audit-log-service) for production
+1. [Add `@PersonalData` annotations](introduction#indicate-privacy) to your domain models.
+1. [Enable audit logging](#setup) via plugin.
+1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console.
+1. [Using SAP Audit Log Service](#sap-audit-log-service) for production.
 
 
 
 ## Setup & Configuration { #setup }
 
-The audit logging functionality was externalized to the open source CDS Plugin Package [`@cap-js/audit-logging`](https://www.npmjs.com/package/@cap-js/audit-logging), which is co-owned by CAP and the SAP Audit Log Service team.
+The audit logging functionality was externalized to the open source CDS Plugin Package [`@cap-js/audit-logging`](https://www.npmjs.com/package/@cap-js/audit-logging).
 
-[CDS Plugin Packages](../../node.js/cds-plugins) are self-containing extensions, i.e., they include not only the relevant code but also bring their own default configuration. Hence, in order to use audit logging in your CAP application, you only need to run:
+[CDS Plugin Packages](../../node.js/cds-plugins) are self-containing extensions. They include not only the relevant code but also bring their own default configuration. To use audit logging in your CAP application, you only need to run:
 
 ```sh
 npm add @cap-js/audit-logging
@@ -62,7 +62,7 @@ npm add @cap-js/audit-logging
 
 ::: details Behind the Scenes…
 
-Next to bringing the respective code, the plugin:
+Next to bringing the respective code, the plugin does the following:
 
 1. Sets `cds.requires.audit-log: true` in `cds.env`, equivalent to:
     ```json
@@ -90,23 +90,25 @@ Next to bringing the respective code, the plugin:
     }
     ```
 
-**The individual config options are:**
+**The individual configuration options are:**
 
 - `impl` — the service implementation to use
 - `outbox` — whether to use transactional outbox or not
 - `handle` — which events (`READ` and/or `WRITE`) to intercept and generate log messages from
 
-**The preset uses profile-specific configs** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
+**The preset uses profile-specific configurations** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
 
-```sh
+::: code-group
+```sh [w/o profile]
 cds env requires.audit-log
 ```
 
-```sh
+```sh [production profile]
 cds env requires.audit-log --profile production
 ```
-
 :::
+
+
 
 
 
@@ -125,7 +127,7 @@ The [@PersonalData annotations](introduction#indicate-privacy) are all we need t
     cds watch
     ```
 
-2. **Send an udate** request, changing personal data
+2. **Send an update** request that changes personal data:
 
     ```http
     PATCH http://localhost:4004/admin/Customers(8e2f2640-6866-4dcf-8f4d-3027aa831cad) HTTP/1.1
@@ -164,15 +166,15 @@ The [@PersonalData annotations](introduction#indicate-privacy) are all we need t
 
 
 
-**Behind the scenes** the generic audit logging implementation automatically cares for:
+**Behind the scenes** the generic audit logging implementation does the following:
 
-- Intercepting all write operations potentially involving personal data
-- Intercepting all read operations potentially involving sensitive data
+- Intercept all write operations potentially involving personal data.
+- Intercept all read operations potentially involving sensitive data.
     - If configured, cf. `handle`
-- Determining the affected fields containing personal data, if any
-- Constructing log messages, and sending them to the connected audit log service
-- All emitted log messages are sent through the [transactional outbox](#transactional-outbox)
-- Applying resiliency mechanisms like retry with exponential backoff, etc.
+- Determine the affected fields containing personal data, if any.
+- Construct log messages, and send them to the connected audit log service.
+- All emitted log messages are sent through the [transactional outbox](#transactional-outbox).
+- Apply resiliency mechanisms like retry with exponential backoff, and more.
 
 
 
@@ -183,13 +185,14 @@ A more comprehensive guide, incl. tutorials, is currently under development.
 
 ### Setup Instance and Deploy App
 
+<span id="audit-logging-in-saas" />
+
 For deployment in general, please follow the [deployment guide](../deployment/). Check the rest of this guide before actually triggering the deployment (i.e., executing `cf deploy`).
 
-Here is what you need to do additionally in order to integrate with SAP Audit Log Service:
+Here is what you need to do additionally,  to integrate with SAP Audit Log Service:
 
-1. In your space, create a service instance of service _SAP Audit Log Service_ (`auditlog`) with plan `premium`
-2. Add the service instance as _existing resource_ to your `mta.yml` and bind to your application in its _requires_ section
-    - Existing resources are defined like this:
+1. In your space, create a service instance of the _SAP Audit Log Service_ (`auditlog`) service with plan `premium`.
+2. Add the service instance as _existing resource_ to your `mta.yml` and bind it to your application in its _requires_ section. Existing resources are defined like this:
       ```yml
       resources:
       - name: my-auditlog-service
@@ -198,22 +201,20 @@ Here is what you need to do additionally in order to integrate with SAP Audit Lo
 
 
 
-<span id="audit-logging-in-saas" />
-
 
 
 ### Accessing Audit Logs
 
 There are two options to access audit logs:
 
-1. Create an instance of service `auditlog-management` to retrieve audit logs via REST API (see [this](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-retrieval-api-usage-for-subaccounts-in-cloud-foundry-environment?locale=en-US))
-2. Use the SAP Audit Log Viewer (see [this](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-viewer-for-cloud-foundry-environment))
+1. Create an instance of service `auditlog-management` to retrieve audit logs via REST API, see [Audit Log Retrieval API Usage for the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-retrieval-api-usage-for-subaccounts-in-cloud-foundry-environment?locale=en-US).
+2. Use the SAP Audit Log Viewer, see [Audit Log Viewer for the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-viewer-for-cloud-foundry-environment).
 
 
 
 ## Transactional Outbox { #transactional-outbox }
 
-By default all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, will these messages be forwarded to the audit log service.
+By default, all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, these messages are forwarded to the audit log service.
 
 ![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
 
@@ -243,8 +244,8 @@ Sending log messages:
 await audit.log('Foo', { bar: 'baz' })
 ```
 
-::: tip
-The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown below. In effect, the common patterns of [*CAP Service Consumption*](../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
+::: tip Audit Logging as Just Another CAP Service
+The Audit Log Service API is implemented as a CAP service, with the service API defined in CDS as shown in the next section. In effect, the common patterns of [*CAP Service Consumption*](../using-services) apply, as well as all the usual benefits like *mocking*, *late-cut µ services*, *resilience* and *extensibility*.
 :::
 
 
@@ -370,7 +371,7 @@ type DataSubject : DataObject {
 }
 ```
 
-Send sensitive data read event log messages like that:
+Send `SensitiveDataRead` event log messages like that:
 
 ```js
 await audit.log ('SensitiveDataRead', {
@@ -407,7 +408,7 @@ type Modification {
 }
 ```
 
-Send personal data modified event log messages like that:
+Send `PersonalDataModified` event log messages like that:
 
 ```js
 await audit.log ('PersonalDataModified', {
@@ -436,7 +437,7 @@ event ConfigurationModified : LogEntry {
 }
 ```
 
-Send configuration modified event log messages like that:
+Send `ConfigurationModified` event log messages like that:
 
 ```js
 await audit.log ('ConfigurationModified', {
@@ -460,7 +461,7 @@ event SecurityEvent : LogEntry {
 }
 ```
 
-Send security event log messages like that:
+Send `SecurityEvent` log messages like that:
 
 ```js
 await audit.log ('SecurityEvent', {

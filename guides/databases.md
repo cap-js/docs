@@ -645,7 +645,7 @@ No constraints are generated for...
 * Associations which's source or target entity is annotated with `@cds.persistence.exists` or `@cds.persistence.skip`
 
 If the association is the backlink of a **composition**, the constraint's delete rule changes to `CASCADE`.
-For example that applies to the `parent` association in here:
+That applies, for example, to the `parent` association in here:
 
 ```cds
 entity Genres {

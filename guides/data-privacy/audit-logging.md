@@ -31,7 +31,7 @@ By default, all audit logs - whether custom or automatic - are written to the [t
 Currently, CAP provides audit logging out of the box for the following events:
 
 - Changes to *personal* data — enabled by default
-- Reads of *sensitive* data — __disabled by default__, see TODO
+- Reads of *sensitive* data — __disabled by default__
 
 More events are on the roadmap, to be supported out of the box.
 

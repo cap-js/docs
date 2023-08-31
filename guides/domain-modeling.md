@@ -156,7 +156,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 #### Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
+- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
 - Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
@@ -314,7 +314,7 @@ This eases the implementation of generic functions that can apply the same ways 
 
 ### Prefer UUIDs for Keys
 
-While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](http://wiki.c2.com/?PrematureOptimization) by at least considering these points:
+While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](https://wiki.c2.com/?PrematureOptimization) by at least considering these points:
 
 * **UUIDs are universal** — that means that they’re unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
 
@@ -427,7 +427,7 @@ entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
 entity Members { // link table
-  key project : Association to Project;
+  key project : Association to Projects;
   key user : Association to Users;
 }
 ```
@@ -512,7 +512,7 @@ aspect NamedAspect { someAdditionalField : String }
 extend Books with NamedAspect;
 ```
 
-We can also apply named aspects as **includes** in an inheritence-like syntax:
+We can also apply named aspects as **includes** in an inheritance-like syntax:
 
 ```cds
 entity Books : NamedAspect { ... }
@@ -596,7 +596,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 ### Authorization Model
 
-CAP supports out-of-the-box authorization by annotating services and entites with `@requires` and `@restrict` annotations like that:
+CAP supports out-of-the-box authorization by annotating services and entities with `@requires` and `@restrict` annotations like that:
 
 ```cds
 entity Books @(restrict: [

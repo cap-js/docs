@@ -5,7 +5,7 @@ status: released
 
 # Fiori Support
 
-
+See [Advanced > Draft-based Editing](../advanced/fiori#draft-support) for an overview on SAP Fiori Draft support in CAP.
 
 [[toc]]
 
@@ -18,83 +18,6 @@ status: released
 ## Serving `$batch` Requests
 
 -->
-
-## Draft Support
-
-Class `ApplicationService` provides built-in support for Fiori Draft, which add these additional CRUD events:
-
-You can add your validation logic in the before operation handler for the `CREATE` or `UPDATE` event (as in the case of nondraft implementations) or on the `SAVE` event (specific to drafts only):
-
-```js
-srv.before ('NEW','Books.drafts', ...)  // run before creating new drafts
-srv.after ('NEW','Books.drafts', ...)      // for newly created drafts
-srv.after ('EDIT','Books', ...)     // for starting edit draft sessions
-srv.before ('PATCH','Books.drafts', ...)   // for field-level validations during editing
-srv.before ('SAVE','Books.drafts', ...)    // run at final save only
-```
-
-These events get triggered during the draft edit session whenever the user tabs from one field to the next, and can be used to provide early feedback.
-
-
-
-### Event: `'NEW'`
-
-```tsx
-function srv.on ('NEW', <entity>.drafts, req => {...})
-```
-
-Starts a draft session with an empty draft entity.
-
-
-
-### Event: `'EDIT'`
-
-```tsx
-function srv.on ('EDIT', <entity>, req => {...})
-```
-
-Starts a draft session with a draft entity copied from an existing active entity.
-
-
-
-### Event: `'PATCH'`
-
-```tsx
-function srv.on ('PATCH', <entity>.drafts, req => {...})
-function srv.on ('PATCH', <entity>, req => {...})
-```
-
-Reacts on PATCH events on draft entities.
-
-Same event can go to active entities, bypassing draft mechanism, but respecting draft locks.
-
-
-
-### Event: `'SAVE'`
-
-```tsx
-function srv.on ('SAVE', <entity>.drafts, req => {...})
-```
-
-Ends a draft session by UPDATEing the active entity with draft entity data.
-
-
-
-### Event: `'CANCEL'`
-
-```tsx
-function srv.on ('CANCEL', <entity>.drafts, req => {...})
-```
-
-Ends a draft session by canceling, i.e., deleting the draft entity.
-
-
-
-
-
-## Draft Locks
-
-
 
 ## Lean Draft
 
@@ -114,6 +37,55 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 }
 ```
 
+### Handlers Registration {#draft-support}
+
+Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities. 
+Please note that draft-enabled entities must follow a specific draft choreography.
+
+The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.  
+
+  ```js
+  // only active entities
+  srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
+  // only draft entities
+  srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
+  // bound action/function on active entity
+  srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
+  // bound action/function on draft entity
+  srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
+  ```
+
+It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
+
+Additionally, you can add your logic to the draft-specific events as follows:
+
+  ```js
+  // When a new draft is created
+  srv.on('NEW', 'MyEntity.drafts', /*...*/)
+  // When a draft is discarded
+  srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
+  // When a new draft is created from an active instance
+  srv.on('EDIT', 'MyEntity', /*...*/)
+  // When the active entity is changed
+  srv.on('SAVE', 'MyEntity', /*...*/)
+  ```
+
+- The `CANCEL` event is triggered when you cancel the draft. In this case, the draft entity is deleted and the active entity isn't changed.
+- The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created. 
+- The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Note, that composition children of the active entity will also be updated or created.
+
+::: info Compatibility flag
+    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
+:::
+
+### Draft Locks
+
+To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
+
+```json
+cds.drafts.cancellationTimeout=1h
+```
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:
@@ -123,27 +95,8 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
     MyEntity.drafts // points to model.definitions['MyEntity.drafts']
     ```
 
-- Handlers must be registered for the correct entity, the following variants are allowed:
-
-    ```js
-    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity', /*...*/)
-    srv.on(['CREATE', 'READ', 'UPDATE', 'DELETE'], 'MyEntity.drafts', /*...*/)
-    srv.on('boundActionOrFunction', 'MyEntity', /*...*/)
-    srv.on('boundActionOrFunction', 'MyEntity.drafts', /*...*/)
-    srv.on('NEW', 'MyEntity.drafts', /*...*/)
-    srv.on('CANCEL', 'MyEntity.drafts', /*...*/)
-    srv.on('EDIT', 'MyEntity', /*...*/)
-    srv.on('SAVE', 'MyEntity', /*...*/)
-    ```
-
-    You can use the array variant to register handler for both, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
-
-    ::: info Compatibility flag
-    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
-    :::
-
-
 - Queries are now cleansed from draft-related properties (like `IsActiveEntity`)
+- `PATCH` event isn't supported anymore.
 - The target is resolved before the handler execution and points to either the active or draft entity:
 
     ```js
@@ -160,3 +113,4 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
+

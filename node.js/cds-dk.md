@@ -2,7 +2,7 @@
 label: CDS Design Time
 synopsis: >
   This guide is about consuming CDS design-time APIs programmatically.
-layout: node-js
+# layout: node-js
 status: released
 ---
 

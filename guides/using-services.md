@@ -4,7 +4,7 @@ synopsis: >
   Learn how to use uniform APIs to consume local or remote services.
 redirect_from:
   - guides/consuming-services
-layout: cookbook
+# layout: cookbook
 status: released
 impl-variants: true
 # uacp: Used as link target from Help Portal at
@@ -615,7 +615,7 @@ extend service RiskService with {
 CAP automatically tries to delegate queries to database entities, which don't exist as you're pointing to an external service. That behavior would produce an error like this:
 
 ```xml
-<error xmlns="http://docs.oasis-open.org/odata/ns/metadata">
+<error xmlns="https://docs.oasis-open.org/odata/ns/metadata">
 <code>500</code>
 <message>SQLITE_ERROR: no such table: RiskService_BusinessPartners in: SELECT BusinessPartner, Customer, Supplier, AcademicTitle, AuthorizationGroup, BusinessPartnerCategory, BusinessPartnerFullName, BusinessPartnerGrouping, BusinessPartnerName, BusinessPartnerUUID, CorrespondenceLanguage, CreatedByUser, CreationDate, (...)  FROM RiskService_BusinessPartner ALIAS_1 ORDER BY BusinessPartner COLLATE NOCASE ASC LIMIT 11</message>
 </error>
@@ -1508,9 +1508,11 @@ cds:
 
 ```
 
+Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
+
+
 </div>
 
-Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
 
 ## ⑤ Add Qualities
 

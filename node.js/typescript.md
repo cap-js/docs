@@ -1,5 +1,5 @@
 ---
-layout: node-js
+# layout: node-js
 status: released
 redirect_from: get-started/using-typescript
 ---
@@ -109,10 +109,23 @@ We invite you to contribute and help us complete the typings as appropriate. Sou
 
 
 
-## Enhanced TypeScript Support
+## Generating Model Types Automatically
 
-CAP envisions to enhance the TypeScript support and, for example, generate TypeScript interfaces for definitions in CDS models.
-But it's important to know, that this isn't planned in our roadmap (yet).
+The [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) offers a way to derive TypeScript definitions from a CDS model to give you enhanced code completion and a certain degree of type safety when implementing services.
 
-There are already community contributions that fill in this gap. <br>
-See the [blog post by Simon Gaudeck](https://blogs.sap.com/2020/05/22/taking-cap-to-the-next-level-with-typescript/) for more details.
+```js
+class CatalogService extends cds.ApplicationService { init() {
+    const { Book } = require('#cds-models/sap/capire/bookshop')
+
+    this.before('CREATE', Book, req => {
+        req.data.…  // known to be a Book. Code completion suggests:
+              // ID (number)
+              // title (string)
+              // author (Author)
+              // createdAt (Date)
+              // …
+    })
+}}
+```
+
+You can find extensive documentation in a [dedicated chapter](../tools/cds-typer), together with a [quickstart guide](../tools/cds-typer#cds-typer-vscode) to get everything up and running.

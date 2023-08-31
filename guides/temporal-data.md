@@ -1,6 +1,6 @@
 ---
 index: 53
-layout: cookbook
+# layout: cookbook
 synopsis: >
   CAP provides out-of-the-box support for declaring and serving date-effective entities with application-controlled validity, in particular to serve as-of-now and time-travel queries.
 status: released

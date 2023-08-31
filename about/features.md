@@ -53,7 +53,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Logout from multitenant SaaS application                                        | `cds logout`               |
 | Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
 | Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
-| Pull the base model for a SaaS extension                                        | `cds pull <app-url>`       |
+| Pull the base model for a SaaS extension                                        | `cds pull`                 |
 | Push a SaaS extension                                                           | `cds push`                 |
 
 
@@ -87,9 +87,9 @@ Following is an index of the features currently covered by CAP, with status and 
 | [&mdash; w/ Actions & Functions](../cds/cdl#actions)                                                              | <X/> |
 | [&mdash; w/ Events](../cds/cdl#events)                                                                            | <X/> |
 | [Managed Compositions of Aspects](../cds/cdl#managed-compositions)                                                | <X/> |
-| Structured Elements                                                                                               | <O/> |
-| Nested Projections                                                                                                | <O/> |
-| Calculated Fields                                                                                                 | <O/> |
+| [Structured Elements](../cds/cdl#structured-types)                                                                | <X/> |
+| Nested Projections                                                                                                | <D/> |
+| [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
 | Pluggable CDS linter                                                                                              | <D/> |
 | [CDS linter](../tools/#cds-lint)                                                                                  | <X/> |
@@ -124,7 +124,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../guides/data-privacy/audit-log)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
 
 
 <br>
@@ -192,16 +192,15 @@ Following is an index of the features currently covered by CAP, with status and 
 |-------------------------------------------------|:----------:|:------------------:|:----:|
 | [SAP HANA](../guides/databases)                |    <X/>    |        <X/>        | <X/> |
 | [SAP HANA Cloud](../guides/databases-hana) |    <X/>    |        <X/>        | <X/> |
-| [PostgreSQL](../guides/databases-postgres)              |    <X/>    | <Ac/> <sup>1</sup> | <X/> |
-| [SQLite](../guides/databases-sqlite) <sup>2</sup>     |    <X/>    |        <X/>        | <X/> |
-| [H2](../java/persistence-services#h2) <sup>2</sup>         |    <X/>    |        <Na/>       | <X/> |
+| [PostgreSQL](../guides/databases-postgres)              |    <X/>    | <X/> | <X/> |
+| [SQLite](../guides/databases-sqlite) <sup>1</sup>     |    <X/>    |        <X/>        | <X/> |
+| [H2](../java/persistence-services#h2) <sup>1</sup>         |    <X/>    |        <Na/>       | <X/> |
 | [MongoDB](../guides/databases) out of the box  |   <Na/>    |       <Na/>        | <D/> |
 | Pluggable drivers architecture                  |    <D/>    |        <D/>        | <X/> |
 | Out-of-the-box support for other databases?     |    <C/>    |        <C/>        | <C/> |
 
 
-> <sup>1</sup> For Node.js, see community project [cds-pg - PostgreSQL adapter for SAP CDS](https://www.npmjs.com/package/cds-pg). <br>
-> <sup>2</sup> To speed up development. Not for productive use! <br>
+> <sup>1</sup> To speed up development. Not for productive use! <br>
 
 > You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 

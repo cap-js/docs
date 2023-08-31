@@ -5,7 +5,6 @@ synopsis: >
 #permalink: /cds/cdl/
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
-outline: [1,3]
 ---
 
 <!--@include: ../links.md-->
@@ -148,7 +147,8 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-::: danger
+
+::: warning
 Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
@@ -156,18 +156,19 @@ Filter expressions, [instance-based authorization](../guides/authorization#insta
 
 For arrayed types the `null` and `not null` constraints apply to the _members_ of the collections. The default is `not null` indicating that the collections can't hold `null` values.
 
-::: danger
+::: warning
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
 :::
 
-In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
+In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`.
+The collection `emails` itself must not be `null`!
 
 ```cds
 entity Bar {
     emails      : many {
         kind    : String null;
         address : String not null;
-    } null;
+    } null;  // -> collection emails may hold null values, overwriting default
 }
 ```
 
@@ -313,7 +314,6 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
-* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
@@ -322,9 +322,8 @@ A calculated element can be *used* in every location where an expression can occ
 * as the foreign key of a managed association
 * in a query together with nested projections (inline/expand)
 
-::: warning Temporary Restriction in the Node.js Runtime
-Currently, an OData request or a custom query can't directly access a calculated element in the entity
-where it is defined. It must always be accessed using a view/projection.
+::: warning
+ For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write (beta)
@@ -356,7 +355,7 @@ CREATE TABLE Employees (
   name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
 );
 ```
-For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+For the definition of calculated elements on-write, all the on-read variant's restrictions apply and referencing localized elements isn't allowed.
 In addition, there are restrictions that depend on the particular database. Currently all databases
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
@@ -1434,7 +1433,7 @@ service MyOrders {
 ```
 
 ::: tip
-The notion of actions and functions in CDS adopts that of [OData](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
+The notion of actions and functions in CDS adopts that of [OData](https://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
 :::
 
 
@@ -1623,11 +1622,11 @@ Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/a
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
-- Relative path resolution
+- Relative path resolution<br>
   Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references
+- Resolving absolute references<br>
   Names starting with `/` are resolved absolute to the file system.
-- Resolving module references
+- Resolving module references<br>
   Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.

@@ -44,7 +44,7 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
 - <sup>(2)</sup> The navigation path identifying the collection can only contain one segment.
 
-System query options can also be applied to an [expanded navigation property](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
+System query options can also be applied to an [expanded navigation property](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
 
 | Query Options  | Remarks                                   | Node.js  | Java   |
 |----------------|-------------------------------------------|----------|--------|
@@ -70,7 +70,7 @@ System query options can also be applied to an [expanded navigation property](ht
 | [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 
 
-## PATCH Entity Collection with Mass Data { #odata-patch-collection }
+## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
 
 With OData v4, you can [update a collection of entities](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateaCollectionofEntities) with a _single_ PATCH request.
 The resource path of the request targets the entity collection and the body of the request is given as a [delta payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads):
@@ -100,7 +100,7 @@ Content-Type: application/json
 }
 ```
 
-PATCH requests with delta payload are executed using batch delete and [upsert](../java/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](http://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
+PATCH requests with delta payload are executed using batch delete and [upsert](../java/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
 
 Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by annotating the entity with
 
@@ -172,7 +172,7 @@ entity Foo {
 
 Another prominent use case is the CDS type `UUID`, which maps to `Edm.Guid` by default. However, the OData standard
 puts up restrictive rules for _Edm.Guid_ values - for example, only hyphenated strings are allowed - which can conflict with existing data.
-Therefore, you can overridde the default mapping as follows:
+Therefore, you can override the default mapping as follows:
 
 ```cds
 entity Books {
@@ -264,7 +264,7 @@ For each annotated target definition in CSN, the rules for restructuring from CS
 
 ### Qualified Annotations
 
-OData foresees [qualified annotations](http://docs.oasis-open.org/odata/odata/v4.0/errata03/os/complete/part3-csdl/odata-v4.0-errata03-os-part3-csdl-complete.html#_Toc453752511), which essentially allow to specify different values for a given property. CDS syntax for annotations was extended to also allow appending OData-style qualifiers after a `#` sign to an annotation key, but always only as the last component of a key in the syntax.
+OData foresees [qualified annotations](https://docs.oasis-open.org/odata/odata/v4.0/errata03/os/complete/part3-csdl/odata-v4.0-errata03-os-part3-csdl-complete.html#_Toc453752511), which essentially allow to specify different values for a given property. CDS syntax for annotations was extended to also allow appending OData-style qualifiers after a `#` sign to an annotation key, but always only as the last component of a key in the syntax.
 
 For example, this is supported:
 
@@ -582,13 +582,13 @@ In any case, the resulting EDMX is:
 ### Dynamic Expressions { #dynamic-expressions}
 
 OData supports dynamic expressions in annotations. CDS syntax doesn't allow writing expressions
-in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](http://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
-in the [JSON representation of the OData Common Schema Language](http://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
+in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
+in the [JSON representation of the OData Common Schema Language](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
 
 Note that here the CDS syntax for string literals with single quotes (`'foo'`) applies,
 and that paths are not automatically recognized but need to be written as `{$Path: 'fieldName'}`.
 The CDS compiler translates the expression into the corresponding
-[XML representation](http://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530421).
+[XML representation](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#_Toc38530421).
 
 For example, the CDS annotation:
 
@@ -791,7 +791,7 @@ This request operates on the books of the order with ID 10. First it filters out
 
 #### `concat`
 
-The [`concat` transformation](http://docs.oasis-open.org/odata/odata-data-aggregation-ext/v4.0/cs02/odata-data-aggregation-ext-v4.0-cs02.html#_Toc435016581) applies additional transformation sequences to the input set and concatenates the result:
+The [`concat` transformation](https://docs.oasis-open.org/odata/odata-data-aggregation-ext/v4.0/cs02/odata-data-aggregation-ext-v4.0-cs02.html#_Toc435016581) applies additional transformation sequences to the input set and concatenates the result:
 
 ```http
 GET /Books?$apply=
@@ -929,15 +929,15 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.: 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
-``` 
+```
 or
 
 ```json
-{"title": "Tow Sawyer", 
+{"title": "Tow Sawyer",
  "author": { "name": "Mark Twain", "age": 74 } }
 ```
 
@@ -1067,7 +1067,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
 
 2. Add this as a plugin to your project:
 
-    ::: code-group 
+    ::: code-group
     ```json [package.json]
     {...
     "cds" {
@@ -1077,7 +1077,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
       }
     }
     ```
-    
+
     ```json [.cdsrc.json]
     {
     "cov2ap" : {

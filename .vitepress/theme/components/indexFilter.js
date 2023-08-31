@@ -4,7 +4,7 @@ import { join } from 'node:path'
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []
   items = items.map(item => { return { ...item, link: item.link.replace(/\.md$/, '') }})
-  const itemLinks = items.map(item => item.link)
+  const itemLinks = items.map(item => join(base, item.link))
 
   return pages
     .map(p => {
@@ -20,7 +20,7 @@ export default (pages, basePath) => {
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object
       return {
-        url : join(base, p.url),
+        url: p.url,
         title: p.title,
         frontmatter: {
           synopsis: p.frontmatter.synopsis

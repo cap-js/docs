@@ -33,7 +33,7 @@ Currently, CAP provides audit logging out of the box for the following events:
 - Changes to *personal* data — enabled by default
 - Reads of *sensitive* data — __disabled by default__
 
-> See [Setup & Configuration - Behind the Scenes](#setup) for details regarding configuration.
+> See [Setup & Configuration - Behind the Scenes](#setup) for details regarding configuration options.
 
 More events are on the roadmap, to be supported out of the box.
 

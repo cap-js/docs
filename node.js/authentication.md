@@ -391,7 +391,11 @@ You can configure an own implementation by specifying an own `impl` as follows:
 }
 ```
 
-Essentially, custom authentication middlewares must do two things. First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Use [cds.User.anonymous](#anonymous-user) as the fallback option. Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
+Essentially, custom authentication middlewares must do two things:
+
+First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Use [new cds.User.default](#default-user) as the fallback option.
+
+Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
 
 
 ```js

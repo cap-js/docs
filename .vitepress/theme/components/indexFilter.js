@@ -1,4 +1,5 @@
-const { themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
+const { base, themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
+import { join } from 'node:path'
 
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []

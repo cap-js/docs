@@ -124,7 +124,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../guides/data-privacy/audit-log)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
 
 
 <br>

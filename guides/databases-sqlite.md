@@ -461,40 +461,90 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 ### Consistent Timestamps {.impl .node}
 
-Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
+Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all new database services along these lines...
 
-1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps).
-2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above.
+:::tip
 
-**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example:
-
-```js
-await INSERT.into(Books).entries([
-  { title:'A', createdAt: '2022-11-11T11:11:11Z' },      // wrong
-  { title:'B', createdAt: '2022-11-11T11:11:11.000Z' },  // correct
-  { title:'C', createdAt: '2022-11-11T11:11:11.123Z' },
-})
-let books = await SELECT('title').from(Books).orderBy('createdAt')
-console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
-```
-
-The order is wrong because of the `'Z'` in A being at the wrong position.
-
-::: tip Prefer using `Date` objects
-
-Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above.
-
-For example, the above would be fixed by changing the INSERT to:
-
-```js
-await INSERT.into(Books).entries([
-  { title:'A', createdAt: new Date('2022-11-11T11:11:11Z') },
-  { title:'B', createdAt: new Date('2022-11-11T11:11:11.000Z') },
-  { title:'C', createdAt: new Date('2022-11-11T11:11:11.123Z') },
-})
-```
+When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamps` have milliseconds precision in SQLite, and microsecond precision in case of HANA and PostgreSQL. 
 
 :::
+
+
+
+#### Writing Timestamps
+
+When writing data using INSERT, UPSERT or UPDATE, you can provide values for DateTime and Timestamp elements as JavaScript  `Date` objects or ISO 8601 Strings. All input will be normalized to ensure DateTime and Timstamp values can be savely compared. In case of HANA and PostgreSQL they are converted to native types, in case of SQLLite they are stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
+
+For example: 
+
+```js
+await INSERT.into(Books).entries([
+  { createdAt: new Date },                       //> stored .toISOString()
+  { createdAt: '2022-11-11T11:11:11Z' },         //> padded with .000Z
+  { createdAt: '2022-11-11T11:11:11.123Z' },     //> stored as is
+  { createdAt: '2022-11-11T11:11:11.1234563Z' }, //> truncated to .123Z
+  { createdAt: '2022-11-11T11:11:11+02:00' },    //> converted to zulu time
+])
+```
+
+
+
+#### Reading Timestamps
+
+Timestamps are returned as they are stored in a normalized way, with ms precision, as supported by JavaScript `Date` object. For example, the entries inserted above would return as follows: 
+
+```js
+await SELECT('createdAt').from(Books).where({title:null})
+```
+
+```js
+[
+  { createdAt: '2023-08-10T14:24:30.798Z' },
+  { createdAt: '2022-11-11T11:11:11.000Z' },
+  { createdAt: '2022-11-11T11:11:11.123Z' },
+  { createdAt: '2022-11-11T11:11:11.123Z' },
+  { createdAt: '2022-11-11T09:11:11.000Z' }
+]
+```
+
+DateTime elements will be returned with second precision, with all fractional second digits truncated. That is, if `createdAt` in our examples above would be a DateTime, the query above would return this:
+
+```js
+[
+  { createdAt: '2023-08-10T14:24:30Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T09:11:11Z' }
+]
+```
+
+
+
+#### Comparing DateTimes & Timestamps
+
+You can savely compare DateTimes & Timestamps with each others and with input values. The input values have to be`Date` objects or ISO 8601 Strings in Zulu timezone and with three fractional digits. 
+
+For example, all these work: 
+
+```js
+SELECT.from(Foo).where `someTimestamp = anotherTimestamp` 
+SELECT.from(Foo).where `someTimestamp = someDateTime`
+SELECT.from(Foo).where `someTimestamp = ${new Date}`
+SELECT.from(Foo).where `someTimestamp = ${req.timestamp}`
+SELECT.from(Foo).where `someTimestamp = ${'2022-11-11T11:11:11.123Z'}`
+```
+
+While these would fail, because the input values don't comply to the rules:
+
+```js
+SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11+02:00'}` // non-zulo time zone
+SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digit fractions
+```
+
+All this applies to all comparison operators, that is `=`, `<`, `>`, `<=`, `>=`. 
+
+
 
 ### Improved Performance {.impl .node}
 

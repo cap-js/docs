@@ -1072,8 +1072,8 @@ As an alternative to [`srv.run(query)`](#srv-run-query) you can use these conven
 
 - srv. **read** (entity, ...) {.method}
 - srv. **create** (entity, ...) {.method}
-- srv. **insert** (entity, ...) {.method}
-- srv. **upsert** (entity, ...) {.method}
+- srv. **insert** (...).into(entity) {.method}
+- srv. **upsert** (...).into(entity) {.method}
 - srv. **update** (entity, ...) {.method}
 - srv. **delete** (entity, ...) {.method}
 

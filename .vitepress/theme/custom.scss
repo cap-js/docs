@@ -44,6 +44,9 @@ main {
     p + h1 {
       margin-top: 3em
     }
+    .header-anchor {
+      top: auto // undo the hard-wired 24px of vitepress
+    }
     p {
       line-height: 1.5em
     }

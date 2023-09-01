@@ -1,6 +1,6 @@
 ---
 shorty: cds.connect
-layout: node-js
+# layout: node-js
 status: released
 ---
 

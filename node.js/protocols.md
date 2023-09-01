@@ -2,7 +2,7 @@
 label: Protocols
 synopsis: >
   Protocol Adapters translate inbound requests and messages into instances of [cds.Request](events) and cds.Query.
-layout: node-js
+# layout: node-js
 status: released
 ---
 <!--- Migrated: @external/node.js/protocols.md -> @external/node.js/protocols.md -->

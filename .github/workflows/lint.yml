@@ -54,7 +54,7 @@ jobs:
       continue-on-error: true
       working-directory: docs/@external
       run: |
-        npx markdownlint-cli --output ${{ github.workspace }}/docs/@external/MARKDOWNLINT.log ${{ steps.changes.outputs.DIFF_FILES }}
+        npx markdownlint-cli --output ${{ github.workspace }}/docs/@external/MARKDOWNLINT.log -r markdownlint-rule-search-replace ${{ steps.changes.outputs.DIFF_FILES }}
     - name: Create review
       id: create_review
       if: steps.cspell.outcome == 'failure' || steps.markdownlint.outcome == 'failure'

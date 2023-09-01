@@ -4,7 +4,7 @@ label: Data Privacy
 synopsis: >
     CAP helps application projects to comply with data privacy regulations using SAP Business Technology Platform (BTP) services.
 permalink: guides/data-privacy/
-layout: cookbook
+# layout: cookbook
 status: released
 ---
 

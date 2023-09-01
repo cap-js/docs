@@ -71,9 +71,9 @@ CAP Java 2.0 itself requires updated [dependency versions](./development/#depend
 - Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
 
 ::: warning
-The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x. 
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
 You have two options:
-* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) 
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
 * Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
 :::
 
@@ -685,7 +685,7 @@ Also replace the classic handler return types with the corresponding new impleme
 There are numerous files in your classic project, which aren’t required and supported anymore in the new project.
 Don't copy any of the following files to the new project:
 
-```
+```txt
 <PROJECT-ROOT>/
 |-- db/
 |   |-- .build.js

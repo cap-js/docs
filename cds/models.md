@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Nature of Models
 synopsis: >
   Introduces the fundamental principles of CDS models.

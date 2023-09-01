@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Schema Notation
 synopsis: >
   Specification of CSN, CDS' canonical format for representing CDS models as plain JavaScript objects, similar to <a href="https://json-schema.org" target="_blank" rel="noopener noreferrer">JSON Schema</a>.

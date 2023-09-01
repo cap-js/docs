@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Expressions
 synopsis: >
   Specification of the Core Expression Notation (CXN) used to capture expressions as plain JavaScript objects.

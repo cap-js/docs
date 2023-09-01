@@ -370,7 +370,7 @@ for (Map<String, Object> book : books) {
 
 The output will be:
 
-```
+```txt
 Catweazle	no match
 The Raven	match
 Dracula		no match

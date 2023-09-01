@@ -106,7 +106,7 @@ Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` d
 
 ### cds.**User.default** { #default-user }
 
-If a request couldn't be authenticated, for example due to a missing authorization header, the built-in authentication strategies assign the  default user to the request, i.e., `req.user = new cds.User.default`, ensuring that `req.user` is always set.
+If a request couldn't be authenticated, for example due to a missing authorization header, the framework will use `cds.User.default` as fallback.
 
 By default, `cds.User.default` points to `cds.User.Anonymous`. However, you can override this, for example to be `cds.User.Privileged` in tests, or to be any other class that returns an instance of `cds.User`.
 
@@ -395,7 +395,7 @@ You can configure an own implementation by specifying an own `impl` as follows:
 
 Essentially, custom authentication middlewares must do two things:
 
-First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Use [new cds.User.default](#default-user) as the fallback option.
+First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. 
 
 Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
 

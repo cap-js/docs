@@ -438,8 +438,6 @@ This error occurs if all of the following applies:
 ### How do I pass additional HDI deployment options to the multitenancy tenant deployment of the `cds-mtx` library
 
 You can add a subset of the [HDI deploy options](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html) using the environment variable `HDI_DEPLOY_OPTIONS`.\
-To avoid side effects, the allowed options are restricted to `[ 'undeploy', 'path_parameter','include_filter','exclude_filter',
-'write_timeout', 'connection_timeout', 'trace', 'lock_container_timeout','working_set' ]`.
 
 When making use of these parameters, for example `exclude_filter`, please always check if the parameters are consistent with your CDS build configuration to
 avoid deployment problems. For example, make sure to not exclude generated SAP HANA tables that are needed by generated views.

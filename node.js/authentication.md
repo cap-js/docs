@@ -312,6 +312,10 @@ npm add @sap/xssec
 
 Authentication kind `xsuaa` is a logical extension of kind [`jwt`](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
 
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
+```sh
+npm add passport
+```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh

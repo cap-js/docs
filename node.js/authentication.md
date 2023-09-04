@@ -69,12 +69,9 @@ User-related attributes, for example, from JWT tokens
 These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
 
 
-
-
 ### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
 
 [Use `req/msg.tenant` instead.](events#tenant){.learn-more}
-
 
 
 ### <i>DEPRECATED:</i> user.locale <i> : string </i> {#user-locale}
@@ -96,6 +93,22 @@ this.before('*', function (req) {
   )
 })
 ```
+
+Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, i.e., `const user = cds.User.privileged`.
+
+
+### cds.**User.Anonymous** <i> class </i> { #anonymous-user }
+
+Class `cds.User.Anonymous` allows you to instantiate an anonymous user (`const user = new cds.User.Anonymous`), for example in a [custom authentication](#custom) implementation.
+
+Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, i.e., `const user = cds.User.anonymous`.
+
+
+### cds.**User.default** { #default-user }
+
+If a request couldn't be authenticated, for example due to a missing authorization header, the framework will use `cds.User.default` as fallback.
+
+By default, `cds.User.default` points to `cds.User.Anonymous`. However, you can override this, for example to be `cds.User.Privileged` in tests, or to be any other class that returns an instance of `cds.User`.
 
 
 ### <i> Authorization Enforcement </i> {.h2 #enforcement }
@@ -131,16 +144,17 @@ cds.serve ('CustomerService') .with (function(){
 })
 ```
 
+
 ## Authentication Strategies {#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`xsuaa`](#xsuaa) in production.
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
 ::: code-group
 ```json [package.json]
 "cds": {
   "requires": {
-    "auth": "xsuaa"
+    "auth": "jwt"
   }
 }
 ```
@@ -166,6 +180,7 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 }
 ```
 :::
+
 
 ### Mocked Authentication {.h2 #mocked }
 
@@ -205,6 +220,7 @@ You can optionally configure users as follows:
 }
 ```
 :::
+
 
 #### Pre-defined Mock Users {#mock-users}
 
@@ -370,8 +386,7 @@ npm add @sap/xssec
 :::
 
 
-### Custom Authentication {#custom }
-
+### Custom Authentication { #custom }
 
 You can configure an own implementation by specifying an own `impl` as follows:
 
@@ -383,8 +398,11 @@ You can configure an own implementation by specifying an own `impl` as follows:
 }
 ```
 
-Essentially, custom authentication middlewares must do two things. First, they must [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
+Essentially, custom authentication middlewares must do two things:
 
+First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. 
+
+Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
 
 ```js
 module.exports = function custom_auth (req, res, next) {
@@ -402,6 +420,14 @@ module.exports = function custom_auth (req, res, next) {
 ```
 
 [If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
+
+
+## Authentication Enforced in Production
+
+In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitely get `@requires: 'authenticated-user'`.
+
+This can be disabled via feature flag `cds.env.requires.auth.restrict_all_services: false`, or by using [mocked authentication](#mocked) explicitly in production.
+
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}
 

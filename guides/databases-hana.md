@@ -237,7 +237,7 @@ The HANA Service provides dedicated support for native SAP HANA features as outl
 
 ### Geospatial Functions
 
-CDS supports the special syntax for HANA geospatial functions:
+CDS supports the special syntax for SAP HANA geospatial functions:
 
 ```cds
 entity Geo as select from Foo {

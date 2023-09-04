@@ -602,6 +602,12 @@ Enable generation of foreign key constraints on the database with:
 ```js
 cds.features.assert_integrity = 'db'
 ```
+
+::: warning Database constraints are not supported for H2
+Referential constraints on H2 cannot be defined as "deferred" and thus are not suitable for CAP,
+where referential consistency is established only at commit.
+:::
+
 With that switched on, foreign key constraints are generated for managed to-one associations. For example, given this model:
 
 ```cds

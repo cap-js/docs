@@ -20,7 +20,7 @@ status: released
 The SAP Personal Data Manager service is currently only available for [enterprise accounts](https://discovery-center.cloud.sap/missiondetail/3019/3297/). An entitlement in trial accounts is not possible.
 :::
 
-SAP BTP provides the [*SAP Personal Data Manager (PDM)*](https://help.sap.com/docs/PERSONAL_DATA_MANAGER) which allows administrators to respond to question "What data of me do you have?". To answer this question, the PDM service needs to fetch read all personal data via a respective OData endpoint, to be provided by the app as follows.
+SAP BTP provides the [*SAP Personal Data Manager (PDM)*](https://help.sap.com/docs/PERSONAL_DATA_MANAGER) which allows administrators to respond to the question "What data of me do you have?". To answer this question, the PDM service needs to fetch all personal data using an OData endpoint. That endpoint has to be provided by the application as follows.
 
 
 
@@ -35,7 +35,8 @@ Following the CAP principles, we recommend adding a new dedicated CAP service th
 
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we create a dedicated service for the integration with SAP Personal Data Manager:
 
-```cds
+::: code-group
+```cds [pdm-service.cds]
 using { sap.capire.incidents as db } from '@capire/incidents';
 
 @requires: 'PersonalDataManagerUser' // security check
@@ -75,6 +76,7 @@ service PDMService {
 
 };
 ```
+:::
 
 ::: tip
 Make sure to have [indicated all relevant entities and elements in your domain model](introduction#indicate-privacy).

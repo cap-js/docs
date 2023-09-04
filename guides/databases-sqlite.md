@@ -414,9 +414,9 @@ SELECT * from sap_capire_bookshop_Books
 
 
 
-### HANA Functions {.impl .node}
+### SAP HANA Functions {.impl .node}
 
-In addition to the standard functions, which all new database services will support, the new SQLite service also supports these common HANA functions, to further increase the scope for portable testing:
+In addition to the standard functions, which all new database services will support, the new SQLite service also supports these common SAP HANA functions, to further increase the scope for portable testing:
 
 - `years_between`
 - `months_between`
@@ -447,7 +447,7 @@ Amongst other, this allows us to get rid of static helper views for localized da
 
 ::: tip Portable API
 
-The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases.
+The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *SAP HANA*. This allows you to write respective code once and run it on all these databases.
 
 :::
 
@@ -465,7 +465,7 @@ Values for elements of type `DateTime`  and `Timestamp` are handled in a consist
 
 :::tip
 
-When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamps` have milliseconds precision in SQLite, and microsecond precision in case of HANA and PostgreSQL. 
+When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamps` have milliseconds precision in SQLite, and microsecond precision in case of SAP HANA and PostgreSQL.
 
 :::
 
@@ -473,9 +473,9 @@ When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTi
 
 #### Writing Timestamps
 
-When writing data using INSERT, UPSERT or UPDATE, you can provide values for DateTime and Timestamp elements as JavaScript  `Date` objects or ISO 8601 Strings. All input will be normalized to ensure DateTime and Timstamp values can be savely compared. In case of HANA and PostgreSQL they are converted to native types, in case of SQLLite they are stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
+When writing data using INSERT, UPSERT or UPDATE, you can provide values for DateTime and Timestamp elements as JavaScript  `Date` objects or ISO 8601 Strings. All input will be normalized to ensure DateTime and Timstamp values can be safely compared. In case of SAP HANA and PostgreSQL they are converted to native types, in case of SQLLite they are stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
 
-For example: 
+For example:
 
 ```js
 await INSERT.into(Books).entries([
@@ -491,7 +491,7 @@ await INSERT.into(Books).entries([
 
 #### Reading Timestamps
 
-Timestamps are returned as they are stored in a normalized way, with ms precision, as supported by JavaScript `Date` object. For example, the entries inserted above would return as follows: 
+Timestamps are returned as they are stored in a normalized way, with ms precision, as supported by JavaScript `Date` object. For example, the entries inserted above would return as follows:
 
 ```js
 await SELECT('createdAt').from(Books).where({title:null})
@@ -523,12 +523,12 @@ DateTime elements will be returned with second precision, with all fractional se
 
 #### Comparing DateTimes & Timestamps
 
-You can savely compare DateTimes & Timestamps with each others and with input values. The input values have to be`Date` objects or ISO 8601 Strings in Zulu timezone and with three fractional digits. 
+You can safely compare DateTimes & Timestamps with each others and with input values. The input values have to be`Date` objects or ISO 8601 Strings in Zulu timezone and with three fractional digits.
 
-For example, all these work: 
+For example, all these work:
 
 ```js
-SELECT.from(Foo).where `someTimestamp = anotherTimestamp` 
+SELECT.from(Foo).where `someTimestamp = anotherTimestamp`
 SELECT.from(Foo).where `someTimestamp = someDateTime`
 SELECT.from(Foo).where `someTimestamp = ${new Date}`
 SELECT.from(Foo).where `someTimestamp = ${req.timestamp}`
@@ -542,7 +542,7 @@ SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11+02:00'}` // non-zulo 
 SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digit fractions
 ```
 
-All this applies to all comparison operators, that is `=`, `<`, `>`, `<=`, `>=`. 
+All this applies to all comparison operators, that is `=`, `<`, `>`, `<=`, `>=`.
 
 
 
@@ -706,7 +706,7 @@ SELECT('bar').from('Foo')  //> ERROR: no columns to read
 
 Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
 * Operator `<>` now works as specified in SQL standard.
-* `name != 'John'` is translated as before to `name <> 'John' OR name is null`. 
+* `name != 'John'` is translated as before to `name <> 'John' OR name is null`.
 
 
 ::: warning

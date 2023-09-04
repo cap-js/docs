@@ -542,6 +542,19 @@ SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11+02:00'}` // non-zulo 
 SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digit fractions
 ```
 
+> This is because we never can reliably infer the types of input to where clause expressions, hence, that input will not receive any normalisation but be passed down as is as plain string.
+
+:::tip Allways ensure proper input in where clauses...
+
+... either strings in format `YYYY-MM-DDThh:mm:ss.fffZ` strict, or by use `Date` objects, e.g.:
+
+```js
+SELECT.from(Foo).where ({ createdAt: '2022-11-11T11:11:11.000Z' })
+SELECT.from(Foo).where ({ createdAt: new Date('2022-11-11T11:11:11Z') })
+```
+
+:::
+
 All this applies to all comparison operators, that is `=`, `<`, `>`, `<=`, `>=`.
 
 

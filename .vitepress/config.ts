@@ -20,8 +20,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.1.1',
-  java_cds4j: '2.1.1'
+  java_services: '2.2.0',
+  java_cds4j: '2.2.0'
 }
 
 const localSearchOptions = {

@@ -255,7 +255,7 @@ This comprises read and write operations like that:
 <br>
 
 ::: warning No filtering and sorting for virtual elements
-CAP runtimes delegate filtering and sorting to the database. As a consequence,
+CAP runtimes delegate filtering and sorting to the database. Therefore
 filtering and sorting is not available for `virtual` elements.
 :::
 

@@ -311,7 +311,10 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
-## Step by Step Guide to add PostgreSQL to an existing project and deploy to BTP
+## Setup with Existing Projects
+
+Find below a step by step guide to add PostgreSQL to an existing project and deploy to BTP...
+
 **Prerequisites:** 
 1. An existing instance of PostgreSQL running. For this example the instance name `my-postgres-db` is used.
 2. Service definition(s) and data model are in place (content in /srv and /db folder)

@@ -3,7 +3,6 @@ index: 67
 label: Data Privacy
 synopsis: >
     CAP helps application projects to comply with data privacy regulations using SAP Business Technology Platform (BTP) services.
-permalink: guides/data-privacy/
 # layout: cookbook
 status: released
 ---
@@ -60,7 +59,7 @@ The most essential requests you have to answer are those in the following table.
 
 ## Annotating Personal Data
 
-The first and frequently only task to do as an application developer is to identify entities and elements (potentially) holding personal data using `@PersonalData` annotations. These are used to automate CAP-facilitated audit logging, personal data management, and data retention management as much as possible. 
+The first and frequently only task to do as an application developer is to identify entities and elements (potentially) holding personal data using `@PersonalData` annotations. These are used to automate CAP-facilitated audit logging, personal data management, and data retention management as much as possible.
 
 [Learn more in the *Annotating Personal Data* chapter](annotations) {.learn-more}
 

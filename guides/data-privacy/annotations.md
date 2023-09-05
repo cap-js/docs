@@ -1,5 +1,6 @@
 ---
 status: released
+redirect_from: guides/data-privacy/introduction
 ---
 
 <style>
@@ -12,7 +13,7 @@ status: released
 
 # Annotating Personal Data
 
-In order to automate audit logging, personal data management, and data retention management as much as possible, the first and frequently only task to do as an application developer is to identify entities and elements (potentially) holding personal data using `@PersonalData` annotations. 
+In order to automate audit logging, personal data management, and data retention management as much as possible, the first and frequently only task to do as an application developer is to identify entities and elements (potentially) holding personal data using `@PersonalData` annotations.
 
 [[toc]]
 
@@ -20,7 +21,7 @@ In order to automate audit logging, personal data management, and data retention
 
 ## Reference App Sample { #annotated-model }
 
-In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to. 
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to.
 
 
 
@@ -128,7 +129,7 @@ annotate db.Customers with @PersonalData: {
 
 Use this annotation to identify data subject's unique key, or a reference to it. References are commonly associations or foreign keys in subject details entities, or related ones, referring to a subject entity.
 
-- Each `@PersonalData` entity needs to identify a  the `DataSubjectID` element. 
+- Each `@PersonalData` entity needs to identify a  the `DataSubjectID` element.
 - For entities with `DataSubject` semantics, this is typically the primary key.
 - For entities with `DataSubjectDetails` or `Other`  semantics, this is usually an association to the data subject.
 

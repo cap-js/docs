@@ -164,8 +164,7 @@ Here is what you need to do additionally,  to integrate with SAP Audit Log Servi
         type: org.cloudfoundry.existing-service
       ```
 
-
-
+[Learn more about *Audit Log Write API for Customers*](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?version=Cloud){.learn-more}
 
 
 ### Accessing Audit Logs

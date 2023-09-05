@@ -14,6 +14,8 @@ status: released
 
 In order to automate audit logging, personal data management, and data retention management as much as possible, the first and frequently only task to do as an application developer is to identify entities and elements (potentially) holding personal data using `@PersonalData` annotations. 
 
+[[toc]]
+
 
 
 ## Reference App Sample { #annotated-model }

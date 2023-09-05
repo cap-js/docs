@@ -24,6 +24,8 @@ TODOs:
 SAP does not give any advice on whether the features and functions provided to facilitate meeting data privacy obligations are the best method to support company, industry, regional, or country/region-specific requirements. Furthermore, this information should not be taken as advice or a recommendation regarding additional features that would be required in specific IT environments. Decisions related to data protection must be made on a case-by-case basis, considering the given system landscape and the applicable legal requirements.
 :::
 
+[[toc]]
+
 
 
 

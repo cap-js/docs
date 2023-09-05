@@ -402,9 +402,9 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
-- _[…/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
-- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:4004/odata/v4/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Authors?$search=Bro](http://localhost:4004/odata/v4/admin/Authors?$search=Bro)_ {.impl .node}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/odata/v4/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
 - _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
 - _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}

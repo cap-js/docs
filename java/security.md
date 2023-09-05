@@ -12,8 +12,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   const Na =  () => h('span', { class: 'na',  title: 'Not available' }, ['✗'] )
 </script>
 <style scoped>
-  .x   { color: var(--vp-c-green); }
-  .na  { color: var(--vp-c-red); }
+  .x   { color: var(--vp-c-green-1); }
+  .na  { color: var(--vp-c-red-1); }
 </style>
 
 # Security

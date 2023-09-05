@@ -16,9 +16,9 @@ status: released
   const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); font-weight:900;}
+  .ga   { color: var(--vp-c-green-2); font-weight:900;}
   .na   { color: #aaa; font-size:90%; }
-  .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
   .plan { color: #089; font-size:90% }
 </style>
 

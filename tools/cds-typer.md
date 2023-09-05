@@ -332,6 +332,21 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
+## Integrate Into Your Multitarget Application
+Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well. 
+
+::: code-group
+```yaml [mta.yaml]
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production
+    - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
+```
+:::
+
+This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.

@@ -26,7 +26,7 @@ In the remainder of this guide, we use the [Incidents Management reference sampl
 
 So, let's annotate the data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Subject Details* or *Related Data Objects*.
 
-Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotated our domain model in a separate file *srv/data-privacy.cds* which we we add to our project:
+Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotate our domain model in a separate file *srv/data-privacy.cds*, which we add to our project and fill it with the following content:
 
 ::: code-group
 
@@ -93,25 +93,21 @@ Hence, we annotate our model as follows:
 
 ```cds
 annotate db.Customers with @PersonalData: {
-  EntitySemantics: 'DataSubject'
+  EntitySemantics: 'DataSubject' // [!code focus]
 };
 
 annotate db.Addresses with @PersonalData: {
-  EntitySemantics: 'DataSubjectDetails'
+  EntitySemantics: 'DataSubjectDetails' // [!code focus]
 };
 
 annotate db.Incidents with @PersonalData: {
-  EntitySemantics: 'Other'
+  EntitySemantics: 'Other' // [!code focus]
 };
 ```
 
 
 
 ### .DataSubjectRole {.annotation}
-
-```cds
-@PersonalData.DataSubjectRole: '<Role>'
-```
 
 Can be added to `@PersonalData.EntitySemantics: 'DataSubject'`. It's a user-chosen string specifying the role name to use. If omitted, the default is the entity name. Use case is similar to providing user-friendly labels for the UI, although in this case there's no i18n.
 
@@ -120,7 +116,7 @@ In our model, we can add the `DataSubjectRole` as follows:
 ```cds
 annotate db.Customers with @PersonalData: {
   EntitySemantics: 'DataSubject',
-  DataSubjectRole: 'Customer'
+  DataSubjectRole: 'Customer' // [!code focus]
 };
 ```
 
@@ -138,15 +134,15 @@ Hence, we annotate our model as follows:
 
 ```cds
 annotate db.Customers with {
-  ID @PersonalData.FieldSemantics: 'DataSubjectID'
+  ID @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 
 annotate db.Addresses with {
-  customer @PersonalData.FieldSemantics: 'DataSubjectID'
+  customer @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 
 annotate db.Incidents with {
-  customer @PersonalData.FieldSemantics: 'DataSubjectID'
+  customer @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 ```
 
@@ -158,10 +154,10 @@ annotate db.Incidents with {
 
 ```cds
 annotate db.Customers with {
-  firstName @PersonalData.IsPotentiallyPersonal;
-  lastName  @PersonalData.IsPotentiallyPersonal;
-  email     @PersonalData.IsPotentiallyPersonal;
-  phone     @PersonalData.IsPotentiallyPersonal;
+  firstName @PersonalData.IsPotentiallyPersonal; // [!code focus]
+  lastName  @PersonalData.IsPotentiallyPersonal; // [!code focus]
+  email     @PersonalData.IsPotentiallyPersonal; // [!code focus]
+  phone     @PersonalData.IsPotentiallyPersonal; // [!code focus]
 };
 ```
 
@@ -173,13 +169,11 @@ annotate db.Customers with {
 
 ```cds
 annotate db.Customers with {
-  creditCardNo @PersonalData.IsPotentiallySensitive;
+  creditCardNo @PersonalData.IsPotentiallySensitive; // [!code focus]
 };
 ```
 
-::: warning _Warning_
-Please see [Audit Logging](./audit-logging.md) for implications before marking data as sensitive.
-:::
+
 
 
 

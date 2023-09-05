@@ -45,7 +45,7 @@ More events are on the roadmap, to be supported out of the box.
 
 In essence, the steps to use Audit Logging in CAP are:
 
-1. [Add `@PersonalData` annotations](introduction#indicate-privacy) to your domain models.
+1. [Add `@PersonalData` annotations](annotations) to your domain models.
 1. [Enable audit logging](#setup) via plugin.
 1. [Test-drive locally](#generic-audit-logging) → `cds watch` w/ audit logs in console.
 1. [Using SAP Audit Log Service](#sap-audit-log-service) for production.
@@ -121,7 +121,7 @@ cds env requires.audit-log --profile production
 
 ## Generic Audit Logging { #generic-audit-logging }
 
-The [@PersonalData annotations](introduction#indicate-privacy) are all we need to automatically log personal data-related events. Let's see that in action…
+The [@PersonalData annotations](annotations) are all we need to automatically log personal data-related events. Let's see that in action…
 
 1. **Start the server** as usual:
 

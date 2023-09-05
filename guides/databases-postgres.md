@@ -313,28 +313,33 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 ## Setup with Existing Projects
 
-Find below a step by step guide to add PostgreSQL to an existing project and deploy to BTP...
+Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequiistes are fulfilled:
 
-**Prerequisites:** 
 1. An existing instance of PostgreSQL running. For this example the instance name `my-postgres-db` is used.
-2. Service definition(s) and data model are in place (content in /srv and /db folder)
+2. Service definition(s) and data model are in place (content in _/srv_ and _/db_ folder)
 
-**Steps:**
-1. Addition of Postgres dependencies
-   - `npm install @cap-js/postgres`
-   - This automatically hooks itself into the production profile of CAP. Once the CAP service is deployed in the BTP and the production profile is active, the Postgres adapter is used.
-2. Addition of the standard CAP dependencies
-    - `cds add xsuaa,mta --for production`
-3. Modify the mta.yaml introducing the following changes
-    1.  Add the PG instance as existing service to the 'resource' section of the mta.yaml
-    ```yaml
+### Add Postgres dependencies
+```
+npm install @cap-js/postgres
+```
+This automatically hooks itself into the production profile of CAP. Once the CAP service is deployed in the BTP and the production profile is active, the Postgres adapter is used.
+
+### Add Standard CAP Dependencies
+```
+cds add xsuaa,mta --for production
+```
+
+### Modify the mta.yaml
+
+1.  Add the Postgres instance as existing service to the `resource` section:
+    ::: code-group
+    ```yaml [mta.yaml]
       - name: my-postgres-db
         type: org.cloudfoundry.existing-service
     ```
-    2. In order to deploy the data model to the PG instance as part of the standard deployment. A deployer task/module must be added. 
-          - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again. 
-          - The deployer path points to a gen/pg directory we need to create as part of the deployment process. See next step.
-          - The deployer also defines the dependency/binding to the postgres instance to have the credentials available at deploy time.
+    :::
+    
+2.  Add a deployer task/module, to deploy the data model to the Postgres instance as part of the standard deployment.
     ```yaml
       - name: pg-db-deployer
         type: hdb
@@ -344,8 +349,25 @@ Find below a step by step guide to add PostgreSQL to an existing project and dep
         requires:
             - name: my-postgres-db
     ```
-    3. To generate the content the deployer module uses, we reference a shell script in the `custom` builder section in the begining of the the mta.yaml. The complete section should look like this:
-    ```yaml
+
+    - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again. 
+    - The deployer path points to a _gen/pg_ directory we need to create as part of the deployment process. See next step.
+    - The deployer also defines the dependency/binding to the postgres instance to have the credentials available at deploy time.
+
+3. Add dependencies to your CAP service module
+    ::: code-group
+    ```yaml [mta.yaml]
+        requires:
+            - name: my-postgres-db
+            - name: pg-db-deployer
+    ```
+    :::
+   
+    This configuration creates a binding to the Postgres instance and waits for the deployer to finish before deploying the service.
+   
+4. To generate the content into the `gen/pg` folder, we reference a shell script in the `custom` builder section. The complete section should look like this:
+    ::: code-group
+    ```yaml [mta.yaml]
       build-parameters:
         before-all:
           - builder: custom
@@ -353,37 +375,38 @@ Find below a step by step guide to add PostgreSQL to an existing project and dep
               - npx cds build --production
               - ./scripts/pgbuild.sh
     ```
-    4. The shell script specified in the previous step is a simple combination of all the commands outlined in the CAP documentation. It creates the necessary artifacts in the gen/pg directory.
-        - Create a directory /scripts in the root of the project
-        - Create a file pgbuild.sh in the /scripts directory and change the permissions to make it executable: `chmod +x pgbuild.sh`
-        - Add the following content to the pgbuild.sh file:
-        ```bash
-        #!/usr/bin/env bash
+    :::
+    
+### Create the Shell Script
+The shell script specified in the previous step is a simple combination of all the commands outlined in the CAP documentation. It creates the necessary artifacts in the _gen/pg_ directory. Here are the simple steps:
 
-        echo ** Starting Postgres build **
+1. Create a directory _/scripts_ in the root of the project
+2. Create a file _pgbuild.sh_ in the _/scripts_ directory and change the permissions to make it executable:
+   ```
+   chmod +x pgbuild.sh
+   ```
+3. Add the following content to the _pgbuild.sh_ file:
+   ```bash
+   #!/usr/bin/env bash
 
-        echo - creating dir gen/pg/db -
-        mkdir -p gen/pg/db
+    echo ** Starting Postgres build **
 
-        echo - compiling model -
-        cds compile '*' > gen/pg/db/csn.json
+    echo - creating dir gen/pg/db -
+    mkdir -p gen/pg/db
 
-        echo - copy .csv files -
-        cp -r db/data gen/pg/db/data
+    echo - compiling model -
+    cds compile '*' > gen/pg/db/csn.json
 
-        echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy",}}' > gen/pg/package.json
+    echo - copy .csv files -
+    cp -r db/data gen/pg/db/data
 
-        ```
-    5. Add dependencies to your CAP service module to a. create a binding to the postgres db and b. wait for the deployer to finish before deploying the service. 
-    ```yaml
-        requires:
-            - name: my-postgres-db
-            - name: pg-db-deployer
+    echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy",}}' > gen/pg/package.json
+
     ```
-4. Deploy the service to the BTP
-    - `mbt build`
-    - `cf deploy mta_archives/<your-service>.mtar`
 
+### Deploy
+
+Package and deploy your project, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
 
 ## Automatic Schema Evolution { #schema-evolution }

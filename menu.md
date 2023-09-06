@@ -45,9 +45,9 @@
 - [Temporal Data](guides/temporal-data)
 - [Media Data](guides/media-data)
 - [Data Privacy](guides/data-privacy/)
-  - [Basics](guides/data-privacy/introduction)
+  - [Annotating Personal Data](guides/data-privacy/annotations)
+  - [Automatic Audit Logging](guides/data-privacy/audit-logging)
   - [Personal Data Management](guides/data-privacy/pdm)
-  - [Audit Log](guides/data-privacy/audit-log)
 
 ### [Advanced](advanced/)
 

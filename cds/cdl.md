@@ -322,9 +322,8 @@ A calculated element can be *used* in every location where an expression can occ
 * as the foreign key of a managed association
 * in a query together with nested projections (inline/expand)
 
-::: warning Temporary Restriction in the Node.js Runtime
-Currently, an OData request or a custom query can't directly access a calculated element in the entity
-where it is defined. It must always be accessed using a view/projection.
+::: warning
+ For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write (beta)
@@ -942,7 +941,7 @@ and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
 Annotations are inherited from types and base types to derived types, entities, and elements as well as from elements of underlying entities in case of views.
 
-For examples, given this view definition:
+For example, given this view definition:
 
 ```cds
 using Books from './bookshop-model';
@@ -965,7 +964,9 @@ The rules are:
 
 3. An explicit **cast** in the select clause cuts off the inheritance, for example, as for `genre` in our previous example.
 
-
+::: tip
+Propagation of annotations can be stopped via value `null`, for example, `@anno: null`.
+:::
 
 ### The `annotate` Directive
 {#annotate}
@@ -1675,7 +1676,7 @@ unless it is a doc comment.
 ### Doc Comments — `/**  */`
 {#doc-comment}
 
-A multi-line comment of the form `/**  */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
+A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
 
 ```cds
 /**
@@ -1712,3 +1713,7 @@ cds compile foo.cds --docs
 // in JavaScript:
 cds.compile(..., { docs: true })
 ```
+
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::

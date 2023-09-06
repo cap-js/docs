@@ -208,7 +208,7 @@ of required services in `requires` — most frequently your primary database con
 under `requires.db`.
 
 ::: tip
-The settings described here are part of your project's static content and delivery. They’re checked in to your git repos and used also in productive deployments. **Don’t** add environment-specific options as static settings but use one of the [dynamic process environment options](#process-env) for that.
+The settings described here are part of your project's static content and delivery. They're checked in to your git repos and used also in productive deployments. **Don't** add environment-specific options as static settings but use one of the [dynamic process environment options](#process-env) for that.
 :::
 
 ### In _./package.json_

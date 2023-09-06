@@ -23,7 +23,7 @@ impl-variants: true
 
 ### Adding Database Packages  {.impl .node}
 
-Following are cds-plugin packages for CAP Node.js runtime that provide support for respective databases:
+Following are cds-plugin packages for CAP Node.js runtime that support respective databases:
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
@@ -57,7 +57,7 @@ npm add @sap/cds-hana
 
 ### Auto-Wired Configuration  {.impl .node}
 
-The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this will effectively result in this auto-wired configuration:
+The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this effectively results in this auto-wired configuration:
 
 <!-- REVISIT: hdbtable is now default, should we mention it anyway? -->
 ```json
@@ -109,7 +109,7 @@ The previous setups auto-wire things through configuration presets, which are au
 
 The config options are as follows:
 
-- `kind` — a name of a preset, like `sql`, `sqlite`, or `hana`
+- `kind` — a name of a preset, like `sql`, `sqlite`, `postgres`, or `hana`
 - `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 
@@ -163,7 +163,7 @@ Put CSV files into `db/data` to fill your database with initial data.
 
 <div markdown="1" class="impl node">
 
-Put CSV files into `db/data` to fill your database with initial data. For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors* and *Genres* as follows:
+For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors, and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -180,7 +180,7 @@ bookshop/
 
 <div markdown="1" class="impl java">
 
-For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors* and *Genres* as follows:
+For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors, and *Genres* as follows:
 
 ```zsh
 db/
@@ -195,11 +195,11 @@ db/
 </div>
 
 
-The **filenames** are expected to match fully-qualified names of respective entity definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
+The **filenames** are expected to match fully qualified names of respective entity definitions in your CDS models, optionally using a dash `-` instead of a dot `.` for cosmetic reasons.
 
 ### Using `.csv` Files
 
-The **content** of these files are standard CSV content with the column titles corresponding to declared element names, like for `Books`:
+The **content of these files is standard CSV content with the column titles corresponding to declared element names, like for `Books`:
 
 ::: code-group
 
@@ -214,12 +214,12 @@ ID,title,author_ID,stock
 
 :::
 
-> Note: `author_ID` is the generated foreign key for the managed Association  `author` → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section below.
+> Note: `author_ID` is the generated foreign key for the managed Association  `author` → learn more about that in the [Generating SQL DDL](#generating-sql-ddl) section.
 
 If your content contains ...
 
 - commas or line breaks → enclose it in double quotes `"..."`
-- double quotes → escape them with doubled double quotes: `""`
+- double quotes → escape them with doubled double quotes: `""...""`
 
 ```csvc
 ID,title,descr
@@ -227,7 +227,7 @@ ID,title,descr
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
+On SAP HANA, only use CSV files for _configuration data_ that can't be changed by application users.
 → See [CSV data gets overridden in the SAP HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 
@@ -239,7 +239,7 @@ Run this to generate an initial set of empty `.csv` files with header lines base
 cds add data
 ```
 
-### Location of CSV files
+### Location of CSV Files
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
@@ -352,7 +352,7 @@ When you run your server with `cds watch` during development, an in-memory datab
 
 <div markdown="1" class="impl java">
 
-When you have created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build will invoke the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 </div>
 
@@ -464,15 +464,15 @@ Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds comp
 :::
 
 
-### Rules for generated DDL
+### Rules for Generated DDL
 
 A few observations on the generated SQL DDL output:
 
-1. **Tables / Views** — declared entities become tables, projected entities become views
-2. **Type Mapping** — [CDS types are mapped to database-specific SQL types](../cds/types)
-3. **Slugified FQNs** — dots in fully qualified CDS names become underscores in SQL names
-4. **Flattened Structs** — structured elements like `Books:price` are flattened with underscores
-5. **Generated Foreign Keys** — for managed to-one Associations, foreign key columns are created. For example, this applies to `Books:author`.
+1. **Tables / Views** — Declared entities become tables, projected entities become views.
+2. **Type Mapping** — [CDS types are mapped to database-specific SQL types](../cds/types).
+3. **Slugified FQNs** — Dots in fully qualified CDS names become underscores in SQL names.
+4. **Flattened Structs** — Structured elements like `Books:price` are flattened with underscores.
+5. **Generated Foreign Keys** — For managed to-one Associations, foreign key columns are created. For example, this applies to `Books:author`.
 
 
 
@@ -560,13 +560,13 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 
 The following rules apply:
 
-- The compiler doesn't check or process the provided SQL snippets in any way. You are responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
+- The compiler doesn't check or process the provided SQL snippets in any way. You're responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
 
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For SAP HANA tables there is an implicit `@sql.prepend:'COLUMN'` which is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA tables, there's an implicit  that is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
@@ -630,6 +630,8 @@ CREATE TABLE Books (
   CONSTRAINT Books_author //[!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT
     VALIDATED           -- validate existing entries when constraint is created
     ENFORCED            -- validate changes by insert/update/delete
     INITIALLY DEFERRED  -- validate only at commit
@@ -640,11 +642,10 @@ No constraints are generated for...
 * Unmanaged associations or compositions
 * To-many associations or compositions
 * Associations annotated with `@assert.integrity: false`
-* Associations which's source or target entity is annotated with `@cds.persistence.exists` or `@cds.persistence.skip`
+* Associations where the source or target entity is annotated with `@cds.persistence.exists` or `@cds.persistence.skip`
 
-
-
-If the association is the backlink of a **composition**, the constraint's delete rule changes to `CASCADE`. For example that applies to the `parent` association in here:
+If the association is the backlink of a **composition**, the constraint's delete rule changes to `CASCADE`.
+That applies, for example, to the `parent` association in here:
 
 ```cds
 entity Genres {
@@ -654,9 +655,37 @@ entity Genres {
 }
 ```
 
+As a special case, a referential constraint with `delete cascade` is also generated
+for the text table of a [localized entity](../guides/localized-data#localized-data),
+although no managed association is present in the `texts` entity.
 
+Add a localized element to entity `Books` from the previous example:
+```cds
+entity Books {
+  key ID : Integer; ...
+  title : localized String;
+}
+```
 
-::: warning Database constraints are not intended for checking user input
+The generated text table then is:
+```sql
+CREATE TABLE Books_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID INTEGER NOT NULL,
+  title NVARCHAR(5000),
+  PRIMARY KEY(locale, ID),
+  CONSTRAINT Books_texts_texts //[!code focus]
+    FOREIGN KEY(ID)
+    REFERENCES Books(ID)
+    ON UPDATE RESTRICT
+    ON DELETE CASCADE
+    VALIDATED
+    ENFORCED
+    INITIALLY DEFERRED
+)
+```
+
+::: warning Database constraints aren't intended for checking user input
 Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
@@ -666,7 +695,7 @@ Instead, they protect the integrity of your data in the database layer against p
 
 ## Using Native Features  { #native-db-functions}
 
-In general the CDS 2 SQL compiler doesn't 'understand' SQL functions but translates them to SQL generically as long as they follow the standard call syntax of `function(param1, param2)`. This allows you to use native database functions inside your CDS models.
+In general, the CDS 2 SQL compiler doesn't 'understand' SQL functions but translates them to SQL generically as long as they follow the standard call syntax of `function(param1, param2)`. This allows you to use native database functions inside your CDS models.
 
 Example:
 
@@ -724,4 +753,4 @@ In case of conflicts, follow these steps to provide different models for differe
    ```
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
-There is also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.
+There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.

@@ -41,7 +41,7 @@ Without security configured, CDS services are exposed to public. Proper configur
 
 ## Authentication { #authentication}
 
-User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](architecture#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA](#xsuaa) and [IAS](#ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there’s a built-in [mock user](#mock-users) support.
+User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](architecture#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA](#xsuaa) and [IAS](#ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there's a built-in [mock user](#mock-users) support.
 
 ### Configure XSUAA Authentication { #xsuaa}
 
@@ -204,7 +204,7 @@ public class ActuatorSecurityConfig {
 
 ### Custom Authentication { #custom-authentication}
 
-You’re free to configure any authentication method according to your needs. CAP isn’t bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/authorization#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
+You're free to configure any authentication method according to your needs. CAP isn't bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/authorization#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
 
 Hence, if you bring your own authentication, you've to transform the authenticated user and inject as `UserInfo` to the current request. This is done by means of [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) interface that can be implemented as Spring bean as demonstrated in [Registering Global Parameter Providers](../java/request-contexts#global-providers).
 More frequently you might have the requirement to just adapt the request's `UserInfo` which is possible with the same interface:
@@ -358,7 +358,7 @@ A precise description of the general authorization capabilities in CAP can be fo
 
 ### Role-Based Authorization { #role-based-auth}
 
-Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don’t match the accepted roles.
+Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
 More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/authorization#restrict-annotation) to find details about the possibilities.
 
 
@@ -371,7 +371,7 @@ Whereas role-based authorization applies to whole entities only, [Instance-Based
 The CAP Java SDK translates the `where`-condition in the `@restrict` annotation to a predicate, which is appended to the `CQN` statement of the request. This applies only to `READ`,`UPDATE`, and `DELETE` events. In the current version, the following limitations apply:
 * For `UPDATE` and `DELETE` events no paths in the `where`-condition are supported.
 * Paths in `where`-conditions with `to-many` associations or compositions can only be used with an [`exists` predicate](../guides/authorization#exists-predicate).
-* `UPDATE` and `DELETE` requests that address instances that aren’t covered by the condition (for example, which aren't visible) aren’t rejected, but work on the limited set of instances as expected.
+* `UPDATE` and `DELETE` requests that address instances that aren't covered by the condition (for example, which aren't visible) aren't rejected, but work on the limited set of instances as expected.
 As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
 
 CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.

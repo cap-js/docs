@@ -69,12 +69,9 @@ User-related attributes, for example, from JWT tokens
 These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
 
 
-
-
 ### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
 
 [Use `req/msg.tenant` instead.](events#tenant){.learn-more}
-
 
 
 ### <i>DEPRECATED:</i> user.locale <i> : string </i> {#user-locale}
@@ -96,6 +93,22 @@ this.before('*', function (req) {
   )
 })
 ```
+
+Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, i.e., `const user = cds.User.privileged`.
+
+
+### cds.**User.Anonymous** <i> class </i> { #anonymous-user }
+
+Class `cds.User.Anonymous` allows you to instantiate an anonymous user (`const user = new cds.User.Anonymous`), for example in a [custom authentication](#custom) implementation.
+
+Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, i.e., `const user = cds.User.anonymous`.
+
+
+### cds.**User.default** { #default-user }
+
+If a request couldn't be authenticated, for example due to a missing authorization header, the framework will use `cds.User.default` as fallback.
+
+By default, `cds.User.default` points to `cds.User.Anonymous`. However, you can override this, for example to be `cds.User.Privileged` in tests, or to be any other class that returns an instance of `cds.User`.
 
 
 ### <i> Authorization Enforcement </i> {.h2 #enforcement }
@@ -131,16 +144,17 @@ cds.serve ('CustomerService') .with (function(){
 })
 ```
 
+
 ## Authentication Strategies {#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`xsuaa`](#xsuaa) in production.
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
 ::: code-group
 ```json [package.json]
 "cds": {
   "requires": {
-    "auth": "xsuaa"
+    "auth": "jwt"
   }
 }
 ```
@@ -153,7 +167,7 @@ Run `cds env get requires.auth` in your project root to find out the effective c
 
 ### Dummy Authentication {.h2 #dummy }
 
-This strategy creates a user that passes all authorization checks. It’s meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
+This strategy creates a user that passes all authorization checks. It's meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
 
 **Configuration:** Choose this strategy as follows:
 
@@ -166,6 +180,7 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 }
 ```
 :::
+
 
 ### Mocked Authentication {.h2 #mocked }
 
@@ -205,6 +220,7 @@ You can optionally configure users as follows:
 }
 ```
 :::
+
 
 #### Pre-defined Mock Users {#mock-users}
 
@@ -312,6 +328,10 @@ npm add @sap/xssec
 
 Authentication kind `xsuaa` is a logical extension of kind [`jwt`](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
 
+**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
+```sh
+npm add passport
+```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -333,7 +353,7 @@ npm add @sap/xssec
 [See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
 ::: warning
-It’s recommended to only use this authentication kind if it’s necessary for your use case, as it denotes a lock-in to SAP BTP.
+It's recommended to only use this authentication kind if it's necessary for your use case, as it denotes a lock-in to SAP BTP.
 :::
 
 
@@ -366,8 +386,7 @@ npm add @sap/xssec
 :::
 
 
-### Custom Authentication {#custom }
-
+### Custom Authentication { #custom }
 
 You can configure an own implementation by specifying an own `impl` as follows:
 
@@ -379,8 +398,11 @@ You can configure an own implementation by specifying an own `impl` as follows:
 }
 ```
 
-Essentially, custom authentication middlewares must do two things. First, they must [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
+Essentially, custom authentication middlewares must do two things:
 
+First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`.
+
+Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
 
 ```js
 module.exports = function custom_auth (req, res, next) {
@@ -399,6 +421,14 @@ module.exports = function custom_auth (req, res, next) {
 
 [If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
 
+
+## Authentication Enforced in Production
+
+In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitely get `@requires: 'authenticated-user'`.
+
+This can be disabled via feature flag `cds.env.requires.auth.restrict_all_services: false`, or by using [mocked authentication](#mocked) explicitly in production.
+
+
 ## XSUAA in Hybrid Setup {#xsuaa-setup}
 
 ### Prepare Local Environment
@@ -409,7 +439,7 @@ The following steps assume you've set up the [**Cloud Foundry Command Line Inter
 ```sh
 cf l -a <api-endpoint>
 ```
-If you don’t know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
+If you don't know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
 
 2. Go to the project you have created in [Getting started in a Nutshell](../get-started/in-a-nutshell).
 
@@ -517,7 +547,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 ### Running Approuter
 
 The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
-The resulting JWT token is sent to the application where it’s used to enforce authorization and check the user's roles.
+The resulting JWT token is sent to the application where it's used to enforce authorization and check the user's roles.
 
 1. Add approuter in the `app` folder of your project:
 
@@ -551,7 +581,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
     > Usually the approuter is started using `npm start` in the `app` folder. But you need to provide the `VCAP_SERVICES` variable with the XSUAA credentials. With the `cds bind --exec` command you can launch an arbitrary command with the `VCAP_SERVICES` variable filled with your `cds bind` service bindings.
 
-    Since it only serves static files or delegates to the backend service, you can keep the server running. It doesn’t need to be restarted after you have changed files.
+    Since it only serves static files or delegates to the backend service, you can keep the server running. It doesn't need to be restarted after you have changed files.
 
 4. Make sure that your CAP application is running as well with the `hybrid` profile:
 

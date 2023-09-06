@@ -16,7 +16,7 @@ synopsis: >
 
 ## Jump-Starting Projects {#jumpstart}
 
-Assuming that you’ve installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
+Assuming that you've installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
 
 ```sh
 mkdir demo && cd demo  # create a new project folder
@@ -64,7 +64,7 @@ service CatalogService {
 
 ###### Prefer Top-Down Approaches
 
-Instead of following a bottom-up approach, starting from the data model, then putting services on top, then adding UIs, and so on, it’s much better to apply a top-down approach as follows:
+Instead of following a bottom-up approach, starting from the data model, then putting services on top, then adding UIs, and so on, it's much better to apply a top-down approach as follows:
 
 1. Roughly sketch your application's usage and use-cases, for example, your UIs.
 2. Capture required interfaces in [use case-oriented service definitions](#single-purposed-services).
@@ -259,7 +259,7 @@ GET http://localhost:4004/api-business-partner/reset
 * [Serving OData APIs](../advanced/odata)
 * [Serving SAP Fiori UIs](../advanced/fiori)
 * [Deploying to the Cloud](../guides/deployment/)
-* [Adding Audit Logging](../guides/data-privacy/audit-log)
+* [Adding Audit Logging](../guides/data-privacy/audit-logging)
 * [Using Monitoring](../advanced/monitoring) & Analytics
 * Adding Tests
 * [Using CI/CD](../guides/deployment/cicd)

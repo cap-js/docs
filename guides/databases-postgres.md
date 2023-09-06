@@ -314,7 +314,7 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 ## Step-by-Step Instructions
 
-Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequiistes are fulfilled:
+Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequisites are fulfilled:
 
 1. An existing instance of PostgreSQL running. For this example the instance name `my-postgres-db` is used.
 2. Service definition(s) and data model are in place (content in _/srv_ and _/db_ folder)

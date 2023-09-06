@@ -5,6 +5,3 @@
     "**/CONTRIBUTING.md": true,
     "**/LICENSE*": true,
     "**/node_modules/": true
-  },
-  "SAP HANA Database Explorer.displaySapWebAnalyticsStartupNotification": false
-}

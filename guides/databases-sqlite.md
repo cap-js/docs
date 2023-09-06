@@ -465,7 +465,7 @@ Values for elements of type `DateTime`  and `Timestamp` are handled in a consist
 
 :::tip
 
-When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamps` have milliseconds precision in SQLite, and microsecond precision in case of SAP HANA and PostgreSQL.
+When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamp` has milliseconds precision in SQLite, and microsecond precision in case of SAP HANA and PostgreSQL.
 
 :::
 
@@ -473,7 +473,7 @@ When we say *Timestamps* we mean elements of type `Timestamp` as well as `DateTi
 
 #### Writing Timestamps
 
-When writing data using INSERT, UPSERT or UPDATE, you can provide values for DateTime and Timestamp elements as JavaScript  `Date` objects or ISO 8601 Strings. All input will be normalized to ensure DateTime and Timstamp values can be safely compared. In case of SAP HANA and PostgreSQL they are converted to native types, in case of SQLLite they are stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
+When writing data using INSERT, UPSERT or UPDATE, you can provide values for `DateTime` and `Timestamp` elements as JavaScript  `Date` objects or ISO 8601 Strings. All input will be normalized to ensure `DateTime` and `Timestamp` values can be safely compared. In case of SAP HANA and PostgreSQL they are converted to native types, in case of SQLite they are stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
 
 For example:
 
@@ -491,7 +491,7 @@ await INSERT.into(Books).entries([
 
 #### Reading Timestamps
 
-Timestamps are returned as they are stored in a normalized way, with ms precision, as supported by JavaScript `Date` object. For example, the entries inserted above would return as follows:
+Timestamps are returned as they are stored in a normalized way, with milliseconds precision, as supported by JavaScript `Date` object. For example, the entries inserted previously would return as follows:
 
 ```js
 await SELECT('createdAt').from(Books).where({title:null})
@@ -507,7 +507,7 @@ await SELECT('createdAt').from(Books).where({title:null})
 ]
 ```
 
-DateTime elements will be returned with second precision, with all fractional second digits truncated. That is, if `createdAt` in our examples above would be a DateTime, the query above would return this:
+`DateTime` elements will be returned with second precision, with all fractional second digits truncated. That is, if `createdAt` in our examples would be a `DateTime`, the previous query would return this:
 
 ```js
 [
@@ -523,7 +523,7 @@ DateTime elements will be returned with second precision, with all fractional se
 
 #### Comparing DateTimes & Timestamps
 
-You can safely compare DateTimes & Timestamps with each others and with input values. The input values have to be`Date` objects or ISO 8601 Strings in Zulu timezone and with three fractional digits.
+You can safely compare DateTimes & Timestamps with each others and with input values. The input values have to be `Date` objects or ISO 8601 Strings in Zulu timezone and with three fractional digits.
 
 For example, all these work:
 
@@ -544,9 +544,9 @@ SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digi
 
 > This is because we never can reliably infer the types of input to where clause expressions, hence, that input will not receive any normalisation but be passed down as is as plain string.
 
-:::tip Allways ensure proper input in where clauses...
+:::tip Always ensure proper input in `where` clauses
 
-... either strings in format `YYYY-MM-DDThh:mm:ss.fffZ` strict, or by use `Date` objects, e.g.:
+Either use strings in format `YYYY-MM-DDThh:mm:ss.fffZ` strict, or `Date` objects, as follows:
 
 ```js
 SELECT.from(Foo).where ({ createdAt: '2022-11-11T11:11:11.000Z' })
@@ -555,7 +555,7 @@ SELECT.from(Foo).where ({ createdAt: new Date('2022-11-11T11:11:11Z') })
 
 :::
 
-All this applies to all comparison operators, that is `=`, `<`, `>`, `<=`, `>=`.
+The rules regarding Timestamps apply to all comparison operators: `=`, `<`, `>`, `<=`, `>=`
 
 
 

@@ -137,7 +137,7 @@ entity Bar { b: Foo.a; }
 
 Compiling this would produce this error with compiler v2 or warning with compiler v1:
 
-Artifact “Foo.a” hasn’t been found
+Artifact “Foo.a” hasn't been found
 {.error.danger}
 <!-- TODO -->
 Replace the dot before "a" by a colon.
@@ -336,7 +336,7 @@ Compiling this produces errors of this form in compiler v2 or warnings in compil
 A type, an element, or a service entity is expected here
 {.error.danger}
 
-Entity type must be from the current service ‘S’
+Entity type must be from the current service 'S'
 {.error.warning}
 
 ::: tip **Fix Option 1**<br>

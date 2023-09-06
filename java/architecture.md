@@ -24,7 +24,7 @@ The [modular architecture](#modular_architecture) reflects this requirement, all
 One of the basic design principle of the CAP Java SDK is to keep orthogonal functionality separated in independent components. The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
 Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services. Hence, the application is [platform **and** service agnostic](../about/#agnostic-approach).
 
-For instance, custom code doesn’t need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](./query-api). Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded. Consequently, preparing an application to be deployable in different platform contexts is rather a matter of configuration than of code adaption.
+For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](./query-api). Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded. Consequently, preparing an application to be deployable in different platform contexts is rather a matter of configuration than of code adaption.
 
 Consequently, CAP Java SDK doesn't determine the technology the application is built on.
 But it comes with a chosen set of industry-proven frameworks that can be consumed easily. Nevertheless, you can override the defaults separately depending on the demands in your scenario.
@@ -54,7 +54,7 @@ Typically, a framework also provides you with a rich set of generic tools for re
 
 CAP Java SDK positions [Spring](https://spring.io) or more precisely [Spring Boot](https://spring.io/projects/spring-boot) as the first choice application framework, which is seamlessly integrated. Spring comes as a rich set of industry-proven frameworks, libraries, and tools that greatly simplify custom development. Spring Boot also allows the creation of self-contained applications that are easy to configure and run.
 
-As all other components in the different layers of the CAP Java SDK are decoupled from the concrete application framework, thus you aren’t obligated to build on Spring. In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies. In this case, a solution based on plain Java Servlets could be favorable. Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
+As all other components in the different layers of the CAP Java SDK are decoupled from the concrete application framework, thus you aren't obligated to build on Spring. In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies. In this case, a solution based on plain Java Servlets could be favorable. Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
 
 
 ### Protocol Adapters { #protocol-adapters}
@@ -84,7 +84,7 @@ CAP Java makes use of [features](#feature-list) itself to provide optional funct
 
 ## Stack Configuration { #stack_configuration}
 
- As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can’t only choose among modules prepared for different environments. You can also include optional or custom extensions.
+ As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can't only choose among modules prepared for different environments. You can also include optional or custom extensions.
  Which set of modules is active at runtime is a matter of compile time and runtime configuration.
 
  At compile time, you can assemble modules from the different layers:

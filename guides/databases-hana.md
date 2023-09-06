@@ -14,7 +14,7 @@ impl-variants: true
 
 ::: warning
 
-CAP is not validated with other variants of SAP HANA, like "SAP HANA Database as a Service" or "SAP HANA (on premise)".
+CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as a Service" or "SAP HANA (on premise)".
 
 :::
 
@@ -30,7 +30,7 @@ npm add @sap/cds-hana
 
 ::: details Using other SAP HANA drivers...
 
-Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which will take precedence over the default driver.
+Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
 
 :::
 
@@ -63,7 +63,7 @@ The [modules](../java/architecture#available-modules) `cds-starter-cloudfoundry`
 
 The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
 
-Learn more about the [configuration of a SAP HANA Cloud Database](../java/persistence-services#sap-hana){ .learn-more}
+Learn more about the [configuration of an SAP HANA Cloud Database](../java/persistence-services#sap-hana){ .learn-more}
 
 </div>
 
@@ -202,7 +202,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, i.e., org and space.
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, that is, org and space.
 Then in the project root folder, just execute:
 
 ```sh
@@ -215,8 +215,8 @@ Behind the scenes, `cds deploy` does the following:
 
 * Compiles the CDS model to SAP HANA files (usually in _gen/db_, or _db/src/gen_)
 * Generates _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ files for the [CSV files](databases#providing-initial-data) in the project. If a _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ file is already present next to the CSV files, no new file is generated.
-* Creates a Cloud Foundry service of type `hdi-shared`, which creates a HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
-* Starts `@sap/hdi-deploy` locally. Should you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
+* Creates a Cloud Foundry service of type `hdi-shared`, which creates an HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
+* Starts `@sap/hdi-deploy` locally. If you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
 [Learn more about the deployment using HDI.](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
@@ -233,7 +233,7 @@ See the [Deploying to Cloud Foundry](deployment/) guide for information about ho
 
 ## Native SAP HANA Features
 
-The HANA Service provides dedicated support for native SAP HANA features as outlined below.
+The HANA Service provides dedicated support for native SAP HANA features as follows.
 
 ### Geospatial Functions
 
@@ -287,7 +287,7 @@ entity Bar as select from Foo {
 };
 ```
 
-Some of which are well-known standard functions like `current_timestamp` in the example above, which can be written without parentheses in CDS models. However, there are many unknown ones, that are not known to the compiler, for example:
+Some of which are well-known standard functions like `current_timestamp` in the previous example, which can be written without parentheses in CDS models. However, there are many unknown ones, that aren't known to the compiler, for example:
 
 - `current_connection`
 - `current_schema`
@@ -297,7 +297,7 @@ Some of which are well-known standard functions like `current_timestamp` in the 
 - `current_utctimestamp`
 - `sysuuid`
 
-To use these in CDS models you have to add the parentheses so that CDS generic support for using native features can kick in:
+To use these in CDS models, you have to add the parentheses so that CDS generic support for using native features can kick in:
 
 ```cds
 entity Foo { key ID : UUID; }
@@ -320,7 +320,7 @@ locate_regexpr(pattern in name from 5)
 first_value(name order by price desc)
 ```
 
-Restriction: `COLLATE` is not supported.
+Restriction: `COLLATE` isn't supported.
 
 For other functions, where the syntax isn't supported by the compiler (for example, `xmltable(...)`), a native _.hdbview_ can be used. See [Using Native SAP HANA Artifacts](../advanced/hana) for more details.
 
@@ -347,7 +347,7 @@ CAP supports database schema updates by detecting changes to the CDS model when 
 
 > <sup>1</sup> Rename field or association operations aren't detected as such. Instead, corresponding ADD and DROP statements are rendered requiring manual resolution activities.
 >
-> <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (eg. "ID").
+> <sup>2</sup> Changing targets may lead to renamed foreign keys. Possibly hard to detect data integrity issues due to non-matching foreign key values if target key names remain the same (for example "ID").
 
 ::: warning No support for incompatible schema changes
 Currently there's no framework support for incompatible schema changes that require scripted data migration steps (like changing field constraints NULL > NOT NULL). However, the CDS build does detect those changes and renders them as non-executable statements, requesting the user to take manual resolution steps. We recommend avoiding those changes in productive environments.
@@ -377,11 +377,11 @@ Schema updates using _.hdbtable_ deployments are a challenge for tables with lar
 | hdbmigrationtable | n/a |  Yes  |                   |
 
 ::: warning
-Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required upfront.
+Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. A deployment using _.hdbtable_ is required up front.
 
 [Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](#configure-hana){.learn-more}
 
-During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact which must not include any migration steps.
+During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact, which must not include any migration steps.
 :::
 
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
@@ -389,7 +389,7 @@ For all transitions you want to execute in HDI, you need to specify an undeploy 
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
-If you are migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you have to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions).
+If you're migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you've to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions).
 
 By default, all entities are still compiled to _.hdbtable_ and you only selectively choose the entities for which you want to build _.hdbmigrationtable_ by annotating them with `@cds.persistence.journal`.
 
@@ -430,7 +430,7 @@ Changing the type of a field causes CDS build to create a corresponding ALTER TA
 
 Examples:
 
-1. Changing the type of a field from String to Integer may cause tenant updates to fail if existing content cannot be converted.
+1. Changing the type of a field from String to Integer may cause tenant updates to fail if existing content can't be converted.
 2. Changing the type of a field from Decimal to Integer can succeed, but decimal places are truncated. Conversion fails if the content exceeds the maximum Integer length.
 
 We recommend keeping _.hdbtable_ deployment for entities where you expect low data volume. Every _.hdbmigrationtable_ artifact becomes part of your versioned source code, creating a new migration version on every model change/build cycle. In turn, each such migration can require manual resolution.
@@ -445,10 +445,10 @@ CDS build performs rudimentary checks on generated _.hdmigrationtable_ files:
 - CDS build fails if manual resolution comments starting with `>>>>>` exist in one of the generated _.hdbmigrationtable_ files. This ensures that manual resolution is performed before deployment.
 
 ### Native Database Clauses {#schema-evolution-native-db-clauses}
-Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations [`@sql.prepend` and `@sql.append`](databases#sql-prepend-append). In this section we are focusing on schema evolution specific details.
+Not all clauses supported by SQL can directly be written in CDL syntax. To use native database clauses also in a CAP CDS model, you can provide arbitrary SQL snippets with the annotations [`@sql.prepend` and `@sql.append`](databases#sql-prepend-append). In this section, we're focusing on schema evolution specific details.
 
-Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version will be generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
-Please note that the compiler does not evaluate or process these SQL snippets. Any snippet will be taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment will fail in case of syntax errors.
+Schema evolution requires that any changes are applied by corresponding ALTER statements. See [ALTER TABLE statement reference](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d329a6751910149d5fdbc4800f92ff.html) for more information. A new migration version is generated whenever an `@sql.append` or `@sql.prepend` annotation is added, changed, or removed. ALTER statements define the individual changes that create the final database schema. This schema has to match the schema defined by the TABLE statement in the _.hdbmigrationtable_ artifact.
+Please note that the compiler doesn't evaluate or process these SQL snippets. Any snippet is taken as is and inserted into the TABLE statement and the corresponding ALTER statement. The deployment fails in case of syntax errors.
 
 CDS Model:
 ```cds
@@ -497,7 +497,7 @@ ALTER TABLE E ALTER (text NVARCHAR(100) FUZZY SEARCH INDEX ON NOT NULL);
 ```
 
 ::: warning
-You can use `@sql.append` to partition your table initially, but you cannot subsequently change the partitions using schema evolution techniques as altering partitions isn't supported yet.
+You can use `@sql.append` to partition your table initially, but you can't subsequently change the partitions using schema evolution techniques as altering partitions isn't supported yet.
 :::
 
 ### Advanced Options
@@ -530,13 +530,13 @@ The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) 
 
 
 
-### CSV data gets overridden
+### CSV Data Gets Overridden
 
-HDI deploys CSV data as _[.hdbtabledata](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2cc2e43458d4abda6788049c58143dc/35c4dd829d2046f29fc741505302f74d.html)_ which assumes exclusive ownership of the data. It’s overridden with the next application deployment; hence:
+HDI deploys CSV data as _[.hdbtabledata, which assumes exclusive ownership of the data. It's overridden with the next application deployment; hence:
 
 ::: tip
 
-Only use CSV files for _configuration data_ that can’t be changed by application users.
+Only use CSV files for _configuration data_ that can't be changed by application users.
 
 :::
 
@@ -546,9 +546,9 @@ Yet, if you need to support initial data with user changes, you can use the `inc
 
 ### Undeploying Artifacts
 
-As documented in the [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), a HDI deployment by default never deletes artifacts. So if you remove an entity, or CSV files, the respective tables and content will remain in the database.
+As documented in the [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html), an HDI deployment by default never deletes artifacts. So, if you remove an entity or CSV files, the respective tables, and content remain in the database.
 
-By default, `cds add hana` will create an `undeploy.json` like this:
+By default, `cds add hana` creates an `undeploy.json` like this:
 
 ::: code-group
 ```json [db/src/undeploy.json]

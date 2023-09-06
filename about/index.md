@@ -61,7 +61,7 @@ On top of open source technologies, CAP mainly adds:
 
 ### Agnostic Design <wbr/> &rarr; *Safeguarding Investments* {#agnostic-approach}
 
-Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today’s technologies, which might soon become obsolete. **CAP avoids such lock-ins** through **higher-level concepts and APIs**, which abstract low-level platform features and protocols to a large extent. In particular, this applies to things like:
+Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. **CAP avoids such lock-ins** through **higher-level concepts and APIs**, which abstract low-level platform features and protocols to a large extent. In particular, this applies to things like:
 
 - Platform-specific deployment approaches and techniques
 - Platform-specific identity providers and authentication strategies
@@ -238,7 +238,7 @@ All data access in CAP is through dynamic queries, which allows clients to reque
 
 <div>
 
-**[CQL](../cds/cql)** is CDS’s advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
+**[CQL](../cds/cql)** is CDS's advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
 
 ```sql
 SELECT ID, addresses.country.name from Employees
@@ -446,11 +446,11 @@ Instead of talking to message brokers, services in CAP simply emit events on the
 ## Jumpstart & Grow-as-you-go {#grow-as-you-go}
  <!-- label='Grow as You Go' -->
 
-Following the principle of **convention over configuration**, there’s no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
+Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
 
 CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP greatly facilitates **integration scenarios** by simply importing an API from, say, an SAP S/4 backend or from SAP API Hub and running mocks for this locally.
 
-Over time, you **add things gradually**, only when they’re needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
+Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
 
 Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
 

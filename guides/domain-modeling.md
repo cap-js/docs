@@ -96,7 +96,7 @@ As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php
 
 ::: warning **Avoid overly abstract models**
 
-Even though domain models should abstract from technical implementations, don’t overstress this and balance it with ease of adoption. For example if the vast majority of your clients use relational databases, don't try to overly abstract from that, as that would have all suffer from common denominator syndromes.
+Even though domain models should abstract from technical implementations, don't overstress this and balance it with ease of adoption. For example if the vast majority of your clients use relational databases, don't try to overly abstract from that, as that would have all suffer from common denominator syndromes.
 
 :::
 
@@ -246,7 +246,7 @@ type DayOfWeek : Number @assert.range:[1,7];
 
 #### Use Custom Types Reasonably
 
-Avoid overly excessive use of custom-defined types. They’re valuable when you have a decent **reuse ratio**. Without reuse, your models just become harder to read and understand, as one always has to look up respective type definitions, as in the following example:
+Avoid overly excessive use of custom-defined types. They're valuable when you have a decent **reuse ratio**. Without reuse, your models just become harder to read and understand, as one always has to look up respective type definitions, as in the following example:
 
 ```cds
 using { sap.capire.bookshop.types } from './types';
@@ -316,7 +316,7 @@ This eases the implementation of generic functions that can apply the same ways 
 
 While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](https://wiki.c2.com/?PrematureOptimization) by at least considering these points:
 
-* **UUIDs are universal** — that means that they’re unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
+* **UUIDs are universal** — that means that they're unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
 
 * **UUIDs allow distributed seeds** — for example, in clients. In contrast, database sequences or other sequential generators always need a central service, for example, a single database instance and schema. This becomes even more a problem in distributed landscape topologies.
 
@@ -417,7 +417,7 @@ entity Authors { ...
 
 ### Many-to-Many Associations
 
-CDS currently doesn’t provide dedicated support for _many-to-many_ associations. Unless we add some, you have to resolve _many-to-many_ associations into two _one-to-many_ associations using a link entity to connect both. For example:
+CDS currently doesn't provide dedicated support for _many-to-many_ associations. Unless we add some, you have to resolve _many-to-many_ associations into two _one-to-many_ associations using a link entity to connect both. For example:
 
 ```cds
 entity Projects { ...

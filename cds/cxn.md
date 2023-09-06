@@ -165,7 +165,7 @@ cds.parse.expr(`exists books[year = 2000]`)  ==//> returns:
 ]}
 ```
 
-> CQN intentionally doesn’t aim to _understand_ the individual operators and related expressions. It captures them as arbitrary sequences, in the same lexical structure and order they’re written in the source. This 'ignorance' allows us to stay open to any kind of operators and keywords. For example, we can easily express native extensions of underlying database dialects.
+> CQN intentionally doesn't aim to _understand_ the individual operators and related expressions. It captures them as arbitrary sequences, in the same lexical structure and order they're written in the source. This 'ignorance' allows us to stay open to any kind of operators and keywords. For example, we can easily express native extensions of underlying database dialects.
 
 As an exception to that rule, CDS supports the ternary conditional operator on source level,
 but immediately converts it to the corresponding CASE expression in CXN:

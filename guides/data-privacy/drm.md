@@ -1,11 +1,4 @@
 ---
-shorty: Data Retention Management
-synopsis: >
-  Use the SAP Data Retention Manager (DRM) with a CAP application.
-breadcrumbs:
-  - Cookbook
-  - Data Privacy
-  - Data Retention
 # status: released
 ---
 

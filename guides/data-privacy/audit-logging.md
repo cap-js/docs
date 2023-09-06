@@ -191,7 +191,6 @@ The generic audit logging implementation does the following:
 - All emitted log messages are sent through the [transactional outbox](#transactional-outbox).
 - Apply resiliency mechanisms like retry with exponential backoff, and more.
 
-> You can specify whether write and/or read operations are intercepted via configuration `cds.requires['audit-log'].handle = [...]`, with the default being `['READ', 'WRITE']`, i.e., both operations.
 
 
 ## Custom Audit Logging { #custom-audit-logging }

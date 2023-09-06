@@ -311,7 +311,8 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
-## Setup with Existing Projects
+
+## Step-by-Step Instructions
 
 Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequiistes are fulfilled:
 
@@ -338,7 +339,7 @@ cds add xsuaa,mta --for production
         type: org.cloudfoundry.existing-service
     ```
     :::
-    
+
 2.  Add a deployer task/module, to deploy the data model to the Postgres instance as part of the standard deployment.
     ```yaml
       - name: pg-db-deployer
@@ -350,7 +351,7 @@ cds add xsuaa,mta --for production
             - name: my-postgres-db
     ```
 
-    - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again. 
+    - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again.
     - The deployer path points to a _gen/pg_ directory we need to create as part of the deployment process. See next step.
     - The deployer also defines the dependency/binding to the postgres instance to have the credentials available at deploy time.
 
@@ -362,9 +363,9 @@ cds add xsuaa,mta --for production
             - name: pg-db-deployer
     ```
     :::
-   
+
     This configuration creates a binding to the Postgres instance and waits for the deployer to finish before deploying the service.
-   
+
 4. To generate the content into the `gen/pg` folder, we reference a shell script in the `custom` builder section. The complete section should look like this:
     ::: code-group
     ```yaml [mta.yaml]
@@ -376,7 +377,7 @@ cds add xsuaa,mta --for production
               - ./scripts/pgbuild.sh
     ```
     :::
-    
+
 ### Create the Shell Script
 The shell script specified in the previous step is a simple combination of all the commands outlined in the CAP documentation. It creates the necessary artifacts in the _gen/pg_ directory. Here are the simple steps:
 

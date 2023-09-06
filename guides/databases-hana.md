@@ -536,7 +536,7 @@ HDI deploys CSV data as _[.hdbtabledata, which assumes exclusive ownership of th
 
 ::: tip
 
-Only use CSV files for _configuration data_ that can’t be changed by application users.
+Only use CSV files for _configuration data_ that can't be changed by application users.
 
 :::
 

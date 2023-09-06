@@ -4,7 +4,7 @@
 
 ### Generic Errors
 
-You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren’t model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../guides/i18n#where-to-place-text-bundles) for more details.
+You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren't model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../guides/i18n#where-to-place-text-bundles) for more details.
 
 Example:
 
@@ -89,4 +89,3 @@ fulfill the request
 
 MULTIPLE_ERRORS=Multiple errors occurred. See the details for more information.
 ```
-

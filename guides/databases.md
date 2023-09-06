@@ -227,7 +227,7 @@ ID,title,descr
 ```
 
 ::: danger
-On SAP HANA, only use CSV files for _configuration data_ that can’t be changed by application users.
+On SAP HANA, only use CSV files for _configuration data_ that can't be changed by application users.
 → See [CSV data gets overridden in the SAP HANA guide for details](databases-hana#csv-data-gets-overridden).
 :::
 

@@ -6,7 +6,7 @@ status: released
 
 
 
-"Capire" (Italian for ‘understand’) is the name of our CAP documentation you're looking at right now. It's organized as follows:
+"Capire" (Italian for ‘understand') is the name of our CAP documentation you're looking at right now. It's organized as follows:
 
 - [*About CAP*](../about/) — a brief introduction and overview of key concepts
 - [*Getting Started*](../get-started/) — a few guides to get you started quickly

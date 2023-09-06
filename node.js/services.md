@@ -616,7 +616,7 @@ srv.on('READ','Books', SELECT.from(Books))
 
 ####  <i>  Multiple handlers for same events </i>
 
-Arbitrary numbers of handlers for the same events can be registered. Those registered with `.on` are executed in order of their registration, while those registered with `.before` or `.after` the execution order isn’t guaranteed; they might be executed in parallel.
+Arbitrary numbers of handlers for the same events can be registered. Those registered with `.on` are executed in order of their registration, while those registered with `.before` or `.after` the execution order isn't guaranteed; they might be executed in parallel.
 
 ```js
 cds.serve('cat-service') .with (function(){
@@ -755,7 +755,7 @@ this.after('READ','Books', (books,req)=>{
 ```
 
 
-**Only modifications are allowed.** That is, replacing the result like in the following example isn’t possible:
+**Only modifications are allowed.** That is, replacing the result like in the following example isn't possible:
 
 ```js
 this.after('READ','Books', (books)=>{

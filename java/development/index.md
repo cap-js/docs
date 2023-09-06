@@ -28,7 +28,7 @@ This section describes how to configure applications. CAP Java applications can 
 
 For a first introduction, have a look at our [sample application](https://github.com/sap-samples/cloud-cap-samples-java) and the [configuration profiles](https://github.com/SAP-samples/cloud-cap-samples-java/blob/master/srv/src/main/resources/application.yaml) we added there.
 
-Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
+Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
 ### Service Bindings on SAP BTP, Kyma Runtime {#kubernetes-service-bindings}
 
@@ -106,7 +106,7 @@ The parameters `plan` and `tags` are optional.
 
 ## Spring Boot Integration { #spring-boot-integration}
 
-This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn’t supported.
+This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn't supported.
 Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
 
 As Spring Boot not only is widely accepted but also most popular application framework, CAP Java SDK comes with a seamless integration of Spring Boot as described in the following sections.
@@ -187,15 +187,15 @@ If you want to compile your application as a native executable the following bou
 
     ::: tip
     Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
-    This includes 
+    This includes
     - Required reflection for event handler classes defined in application code.
     - JDK proxies for interfaces generated from the application's CDS model by the CDS Maven Plugin.
     :::
 
 3. Spring Boot automatically defines and fixes all bean definitions of your application at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build.
 
-    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
-    
+    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build.
+
     The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
 
     ::: code-group
@@ -258,9 +258,9 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | Java Logging | 3.7 | latest |
 
 ::: warning
-The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x. 
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
 You have two options:
-* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) 
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
 * Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
 :::
 

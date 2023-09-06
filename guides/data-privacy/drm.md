@@ -23,7 +23,7 @@ What?
 Find out the correct amount of data to be deleted.
 
 
-To support this, we’ll invent some new CDS annotation to mark all possible candidates for 'End of Business' indicating time fields in each legal ground (like Consent, Order etc.).
+To support this, we'll invent some new CDS annotation to mark all possible candidates for 'End of Business' indicating time fields in each legal ground (like Consent, Order etc.).
 
 This new CDS annotation for "End of Business" indicators will serve as input for the retention manager.
 

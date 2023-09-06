@@ -91,7 +91,7 @@ The [**Right to be Forgotten**](https://en.wikipedia.org/wiki/Right_to_be_forgot
 
 The [SAP Data Retention Manager](https://help.sap.com/docs/data-retention-manager?locale=en-US) allows you to manage retention and residence rules to block or destroy personal data.
 
-[Learn more in the *Data Retention Management* guide](drm) {.learn-more}
+<!-- [Learn more in the *Data Retention Management* guide](drm) {.learn-more} -->
 
 
 

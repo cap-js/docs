@@ -341,7 +341,8 @@ cds add xsuaa,mta --for production
     :::
 
 2.  Add a deployer task/module, to deploy the data model to the Postgres instance as part of the standard deployment.
-    ```yaml
+    ::: code-group
+    ```yaml [mta.yaml]
       - name: pg-db-deployer
         type: hdb
         path: gen/pg
@@ -350,6 +351,7 @@ cds add xsuaa,mta --for production
         requires:
             - name: my-postgres-db
     ```
+    :::
 
     - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again.
     - The deployer path points to a _gen/pg_ directory we need to create as part of the deployment process. See next step.

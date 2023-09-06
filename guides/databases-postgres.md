@@ -92,7 +92,7 @@ You can use Docker to run a PostgreSQL database locally as follows:
 
 1. Install and run [Docker Desktop](https://www.docker.com)
 
-2. Create a file like that:
+2. Create the following file in your project root directory:
    ::: code-group
 
    ```yaml [pg.yml]

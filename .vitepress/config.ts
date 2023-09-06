@@ -85,13 +85,13 @@ const config:UserConfig<CapireThemeConfig> = {
       return [
            navItems.find  (i => i.text === 'Getting Started'), //@ts-ignore
         ...navItems.filter(i => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
-            item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
+            item.items.unshift({ text: 'Overview', link: '/guides/' }) // add extra overview item to navbar
             return item
         }),
         { text: 'Reference', items: [
-          { text: 'CDS',       link: 'cds/' },
-          { text: 'Node.js',   link: 'node.js/' },
-          { text: 'Java',      link: 'java/' },
+          { text: 'CDS',       link: '/cds/' },
+          { text: 'Node.js',   link: '/node.js/' },
+          { text: 'Java',      link: '/java/' },
         ]},
       ] as DefaultTheme.NavItem[]
     },

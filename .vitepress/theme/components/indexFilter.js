@@ -20,7 +20,7 @@ export default (pages, basePath) => {
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object
       return {
-        url: p.url,
+        url: join(base, p.url),
         title: p.title,
         frontmatter: {
           synopsis: p.frontmatter.synopsis

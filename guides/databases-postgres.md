@@ -284,7 +284,7 @@ cds build --for postgres
 
 ::: details What `cds build` does…
 1. Compiles the model into _gen/pg/db/csn.json_.
-2. Copies requires `.csv` files into _gen/pg/db/data_.
+2. Copies required `.csv` files into _gen/pg/db/data_.
 3. Adds a _gen/pg/package.json_ with this content:
    ```json
    {

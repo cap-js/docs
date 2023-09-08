@@ -16,5 +16,5 @@ search-replace:
       message: https links should be prefered
       searchPattern: /\[.*?\]\(http:\/\/(?!localhost).*?\)/g
     - name: custom-containers-requires-type
-      searchPattern: "/::: (?!info|tip|warning|danger|details|code-group|raw)/g"
+      searchPattern: "/(?<!<!--)::: (?!info|tip|warning|danger|details|code-group|raw)/g"
       message: custom container requires a type

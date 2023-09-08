@@ -1,4 +1,4 @@
-::: This is a danger
+::: danger This is a danger
 danger!
 :::
 
@@ -10,6 +10,12 @@ danger!
 danger!
 :::
 
-::: missing
+::: info missing
 test
 :::
+
+```
+missing language tag
+```
+
+spelling mistakke

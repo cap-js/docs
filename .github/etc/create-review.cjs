@@ -255,8 +255,8 @@ module.exports = async ({ github, require, exec, core }) => {
     async function findPositionInDiff(context, file) {
         const diff = await getDiff(file)
 
-        const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@'))
-        const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')))
+        const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
+        const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')) && !line.includes('<!--'))
 
         // context does not exist in diff --> errors is in file with diff, but errors was not introduced with current PR
         if (idxToStartingCoutingFrom === -1 || idxOfLineToSearch === -1) {

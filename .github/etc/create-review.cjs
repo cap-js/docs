@@ -35,6 +35,8 @@ const getInvalidUrlText = (text, link) => {
 
 const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
 
+const createSuggestContainerTypeText = (suggestion) => createSuggestionText(suggestion) + 'You have to specify a container type. Possible values: info, tip, warning, danger, details, code-group, raw.'
+
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
     const { join } = require('path')
@@ -135,6 +137,24 @@ module.exports = async ({ github, require, exec, core }) => {
                     }
 
                     comments.push({ path, position, body: getInvalidUrlText(text, link.slice(1, -1)) })
+                }
+
+                if (ruleName === 'custom-containers-requires-type') {
+                    const [, row, column] = pointer.split(':')
+
+                    const affectedLine = getLineFromFile(path, +row)
+
+                    const containerType = suggestContainerType(affectedLine) || 'info'
+
+                    const { line, position } = await findPositionInDiff(affectedLine, path)
+
+                    if (!line || position < 0) {
+                        continue
+                    }
+
+                    const correctedLine = `::: ${containerType} ${affectedLine.split(':::').slice(1).join('').trim()}`
+
+                    comments.push({ path, position, body: createSuggestContainerTypeText(correctedLine) })
                 }
             }
 
@@ -279,5 +299,13 @@ module.exports = async ({ github, require, exec, core }) => {
         const endIdx = lines.findIndex((el, idx) => idx >= startIdx && /`{3,}/.test(el.trim()))
 
         return lines.slice(startIdx - 1, endIdx + 1)
+    }
+
+    function suggestContainerType(line) {
+        return (line.toLowerCase().match(/(info|tip|warning|danger|details|code-group|raw)/) || [])[0]
+    }
+
+    function getLineFromFile(file, lineNumber) {
+        return readFileSync(join(BASE_DIR, file), 'utf-8').split(/\n\r?/)[lineNumber - 1]
     }
 }

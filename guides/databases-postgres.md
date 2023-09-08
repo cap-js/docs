@@ -320,13 +320,13 @@ Here's a step by step guide to add PostgreSQL to an existing project and deploy 
 2. Service definition(s) and data model are in place (content in _/srv_ and _/db_ folder)
 
 ### Add Postgres dependencies
-```
+```sh
 npm install @cap-js/postgres
 ```
 This automatically hooks itself into the production profile of CAP. Once the CAP service is deployed in the BTP and the production profile is active, the Postgres adapter is used.
 
 ### Add Standard CAP Dependencies
-```
+```sh
 cds add xsuaa,mta --for production
 ```
 
@@ -385,7 +385,7 @@ The shell script specified in the previous step is a simple combination of all t
 
 1. Create a directory _/scripts_ in the root of the project
 2. Create a file _pgbuild.sh_ in the _/scripts_ directory and change the permissions to make it executable:
-   ```
+   ```sh
    chmod +x pgbuild.sh
    ```
 3. Add the following content to the _pgbuild.sh_ file:

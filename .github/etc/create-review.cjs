@@ -35,7 +35,7 @@ const getInvalidUrlText = (text, link) => {
 
 const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
 
-const createSuggestContainerTypeText = (suggestion) => createSuggestionText(suggestion) + 'You have to specify a container type. Possible values: info, tip, warning, danger, details, code-group, raw.'
+const createSuggestContainerTypeText = (suggestion) => createSuggestionText(suggestion) + 'You have to specify a container type. Possible values: **info**, **tip**, **warning**, **danger**, **details**, **code-group**, **raw**.'
 
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')

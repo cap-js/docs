@@ -66,7 +66,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 - Platform-specific deployment approaches and techniques
 - Platform-specific identity providers and authentication strategies
 - On/Off-boarding of tenants in SaaS solutions and tenant isolation
-- Synchronous protocols like *REST*, *OData*, or *GraphQL* <sup>1</sup>
+- Synchronous protocols like *REST*, *OData*, or *GraphQL*
 - Asynchronous channels and brokers like *SAP Event Mesh*, *MQ*, or *Kafka* <sup>1</sup>
 - Different database technologies including *SQL* and *NoSQL*
 
@@ -283,7 +283,7 @@ $expand=Items(
 
 **Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
-to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
+to **remote** services through protocols like *OData* or *GraphQL*,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
 </div>

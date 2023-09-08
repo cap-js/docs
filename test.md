@@ -6,11 +6,11 @@ danger!
 danger!
 ::: -->
 
-::: danger This is a danger
+::: This is a danger
 danger!
 :::
 
-::: info missing
+::: missing
 testt
 :::
 

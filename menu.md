@@ -83,7 +83,6 @@
 - [Built-in Types](cds/types)
 - [Common Types and Aspects](cds/common)
 - [Common Annotations](cds/annotations)
-- [Upgrade to Compiler v2](cds/compiler-v2)
 - [Nature of Models](cds/models)
 
 ### [Java](java/)

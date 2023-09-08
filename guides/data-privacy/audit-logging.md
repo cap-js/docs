@@ -186,7 +186,6 @@ The generic audit logging implementation does the following:
 
 - Intercept all write operations potentially involving personal data.
 - Intercept all read operations potentially involving sensitive data.
-  - If configured, cf. `handle`
 - Determine the affected fields containing personal data, if any.
 - Construct log messages, and send them to the connected audit log service.
 - All emitted log messages are sent through the [transactional outbox](#transactional-outbox).

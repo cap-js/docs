@@ -109,7 +109,7 @@ The previous setups auto-wire things through configuration presets, which are au
 
 The config options are as follows:
 
-- `kind` — a name of a preset, like `sql`, `sqlite`, or `hana`
+- `kind` — a name of a preset, like `sql`, `sqlite`, `postgres`, or `hana`
 - `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 

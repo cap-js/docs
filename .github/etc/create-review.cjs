@@ -154,6 +154,9 @@ module.exports = async ({ github, require, exec, core }) => {
 
                     const correctedLine = `::: ${containerType} ${affectedLine.split(':::').slice(1).join('').trim()}`
 
+                    description = 'container type should be specified'
+                    contextText = `[Context: "${affectedLine}"]`
+
                     comments.push({ path, position, body: createSuggestContainerTypeText(correctedLine) })
                 }
             }

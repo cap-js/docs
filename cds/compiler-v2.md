@@ -1,23 +1,25 @@
 ---
 shorty: Compiler v2
 synopsis: >
-  CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
-  All projects are recommended to upgrade as soon as possible, as the former version will only receive critical fixes after cv2 is
-  released.
+  This document describes the upgrade to compiler version 2, released March 2021. As both compiler version 1 and version 2 are out of maintenance by now,
+  we expect that all projects have already upgraded. If in doubt, run `cds v` to find out which version of the CAP modules you have in use.
+
 # layout: cds-ref
 redirect_from: releases/compiler-v2
 status: released
 ---
 
+<!-- Keep this page, as _many_ links point to it! -->
+
 # Upgrade to Compiler v2
 
 {{ $frontmatter.synopsis }}
 
+CDS compiler version 2 brings numerous improvements, which allow us to significantly streamline model processing going forward.
 Changes mostly affect internal implementations of the compiler and nonpublic parts of the artifacts produced by the compiler (CSN, EDMX, ...), hence are unlikely to be observed by users of CDS.
 
 Nevertheless, there are a few changes that you as a user should notice and that can require adaptation of your models and/or code.
 This section describes these changes and what is necessary to migrate your application to compiler v2. For a complete list of all changes, refer to the compiler's changelog.
-
 
 <style scoped>
   h3 {

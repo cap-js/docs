@@ -202,7 +202,7 @@ Whenever we add content, `cds watch` would react immediately, for example, by bo
 
 ### Mocked Platform Services
 
-The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in 'inner loop' mode.
+The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in an 'inner loop' mode.
 
 Following are the defaults used automatically in *production*, or *development* mode.
 
@@ -215,7 +215,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 
 
-::: tip Stay in Inner Loop Development
+::: tip Stay in [Inner Loop Development](https://www.getambassador.io/docs/telepresence/latest/concepts/devloop)
 
 ... as much as possible to benefit from **accelerated development** at **minimized costs**. Use the full near-production setup only when you need it, for example for integration tests before releases.
 

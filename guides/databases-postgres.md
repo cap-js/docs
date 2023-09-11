@@ -314,19 +314,19 @@ When deploying to Cloud Foundry, this can be accomplished by providing a simple 
 
 ## Step-by-Step Instructions
 
-Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequiistes are fulfilled:
+Here's a step by step guide to add PostgreSQL to an existing project and deploy to SAP BTP. We assume that the following prerequisites are fulfilled:
 
 1. An existing instance of PostgreSQL running. For this example the instance name `my-postgres-db` is used.
 2. Service definition(s) and data model are in place (content in _/srv_ and _/db_ folder)
 
 ### Add Postgres dependencies
-```
+```sh
 npm install @cap-js/postgres
 ```
 This automatically hooks itself into the production profile of CAP. Once the CAP service is deployed in the BTP and the production profile is active, the Postgres adapter is used.
 
 ### Add Standard CAP Dependencies
-```
+```sh
 cds add xsuaa,mta --for production
 ```
 
@@ -341,7 +341,8 @@ cds add xsuaa,mta --for production
     :::
 
 2.  Add a deployer task/module, to deploy the data model to the Postgres instance as part of the standard deployment.
-    ```yaml
+    ::: code-group
+    ```yaml [mta.yaml]
       - name: pg-db-deployer
         type: hdb
         path: gen/pg
@@ -350,6 +351,7 @@ cds add xsuaa,mta --for production
         requires:
             - name: my-postgres-db
     ```
+    :::
 
     - Make sure to use the type `hdb` and NOT `nodejs` as the nodejs type will try to restart the service over and over again.
     - The deployer path points to a _gen/pg_ directory we need to create as part of the deployment process. See next step.
@@ -383,7 +385,7 @@ The shell script specified in the previous step is a simple combination of all t
 
 1. Create a directory _/scripts_ in the root of the project
 2. Create a file _pgbuild.sh_ in the _/scripts_ directory and change the permissions to make it executable:
-   ```
+   ```sh
    chmod +x pgbuild.sh
    ```
 3. Add the following content to the _pgbuild.sh_ file:

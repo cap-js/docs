@@ -255,7 +255,7 @@ While drop-create is most appropriate for development, it isn't for database upg
 
 
 
-[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally apply to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
+[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally applies to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
 
 
 

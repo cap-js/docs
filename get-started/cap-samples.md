@@ -190,15 +190,15 @@ This set of samples cover several distinct use cases.
 
 | Links to capire                                                                                           | Sample files / folders               |
 | --------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| [Project Setup & Layouts](../get-started/projects#sharing-and-reusing-content)    | [`./`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/)                           |
-| [Domain Modeling with CDS](../guides/domain-models)                               | [`./db/schema.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/db/schema.cds) |
+| [Project Setup & Layouts](../get-started/jumpstart#project-structure)    | [`./`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/)                           |
+| [Domain Modeling with CDS](../guides/domain-modeling)                               | [`./db/schema.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/db/schema.cds) |
 | [Defining Services](../guides/providing-services#defining-services)                         | [`./srv/*.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)               |
 | [Single-purposed Services](../guides/providing-services#single-purposed-services)           | [`./srv/*.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)               |
 | [Providing & Consuming Providers](../guides/providing-services)                   | http://localhost:4004                |
 | [Using Databases](../guides/databases)                                            | [`./db/data/*.csv`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/db/data)       |
-| [Adding Custom Logic](../guides/service-impl)                                     | [`./srv/*.js`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)                |
+| [Adding Custom Logic](../guides/providing-services#adding-custom-logic)                                     | [`./srv/*.js`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)                |
 | Adding Tests                                                                                              | [`./test`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/test)                   |
-| [Sharing for Reuse](../guides/reuse-and-compose)                                  | [`./index.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/index.cds)         |
+| [Sharing for Reuse](../guides/extensibility/composition)                                  | [`./index.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/index.cds)         |
 
 
 ### Bookstore
@@ -214,7 +214,7 @@ This set of samples cover several distinct use cases.
 
 | Links to capire                                                                                           | Sample files / folders               |
 | --------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| [Messaging](../get-started/projects#sharing-and-reusing-content)    | [`./package.json`](https://github.com/SAP-samples/cloud-cap-samples/blob/4a8b71c6f9689df6e9212aa6d8615fd788b6a80b/bookstore/package.json#L23)                           |
+| [Messaging](../get-started/jumpstart#project-structure)    | [`./package.json`](https://github.com/SAP-samples/cloud-cap-samples/blob/4a8b71c6f9689df6e9212aa6d8615fd788b6a80b/bookstore/package.json#L23)                           |
 </div>
 
 <div class="impl java">

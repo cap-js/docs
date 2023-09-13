@@ -6,9 +6,6 @@ impl-variants: true
 # Samples overview
 
 
-[![x](./assets/Logo_TFE.drawio.svg) **Explore a multitenant CAP application**](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas)
-
-
 ## Hello World
 
 
@@ -232,3 +229,5 @@ This set of samples cover several distinct use cases.
 
 
 ## SuSaaS
+
+*Explore a multitenant CAP application**](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas)

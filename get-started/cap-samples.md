@@ -192,7 +192,7 @@ This set of samples cover several distinct use cases.
 | --------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | [Project Setup & Layouts](../get-started/jumpstart#project-structure)    | [`./`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/)                           |
 | [Domain Modeling with CDS](../guides/domain-modeling)                               | [`./db/schema.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/db/schema.cds) |
-| [Defining Services](../guides/providing-services#defining-services)                         | [`./srv/*.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)               |
+| [Defining Services](../guides/providing-services#modeling-services)                         | [`./srv/*.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)               |
 | [Single-purposed Services](../guides/providing-services#single-purposed-services)           | [`./srv/*.cds`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/srv)               |
 | [Providing & Consuming Providers](../guides/providing-services)                   | http://localhost:4004                |
 | [Using Databases](../guides/databases)                                            | [`./db/data/*.csv`](https://github.com/SAP-samples/cloud-cap-samples/edit/main/bookshop/db/data)       |

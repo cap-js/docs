@@ -253,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 ### Source
 
-The source of the select statement determines the data set to which the query is applied. It’s specified by the `from` method.
+The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
 #### From `entity set` {#from-entity-set}
 
@@ -291,7 +291,7 @@ Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 
 #### From `subquery` {#from-select}
 
-It’s also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
+It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
 ```sql
 --CQL query
@@ -589,7 +589,7 @@ Select.from("bookshop.Books")
         .search("Allen");
 ```
 
-> The element `title` is [searchable](#searchable-elements), even though `title` isn’t selected.
+> The element `title` is [searchable](#searchable-elements), even though `title` isn't selected.
 
 * Use search expressions {#search-expression}
 
@@ -689,7 +689,7 @@ Select.from("bookshop.Books")
     .orderBy(c -> c.get("ID").desc(), c -> c.get("title").asc());
 ```
 
-You can order by the alias of a column of the select list or a column that is defined as a result of the function call. 
+You can order by the alias of a column of the select list or a column that is defined as a result of the function call.
 
 ```java
 Select.from("bookshop.Person")
@@ -697,7 +697,7 @@ Select.from("bookshop.Person")
     .orderBy(p -> p.get("aliasForName").asc());
 ```
 
-Aliases of columns have precedence over the element names when `orderBy` is evaluated. 
+Aliases of columns have precedence over the element names when `orderBy` is evaluated.
 
 ::: warning
 Aliases may shadow elements names. To avoid shadowing, don't use element names as aliases.
@@ -1782,7 +1782,7 @@ Select.from(AUTHORS)
 
 This query selects all authors with the name of an astronaut.
 ::: tip
-With an `exists` subquery, you can correlate entities that aren’t linked with associations.
+With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
 
 When using the [tree-style API](#composing-predicates) the _outer_ query is addressed by the special reference name `"$outer"`:

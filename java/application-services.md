@@ -68,7 +68,7 @@ The following table shows which CRUD events are triggered by which kind of OData
 | PUT | UPDATE | If the update didn't find an entity, a subsequent `CREATE` event is triggered |
 | DELETE | DELETE | |
 
-> In CAP Java versions < 1.9.0, the `UPSERT` event was used to implement OData V4 `PUT` requests. This has been changed, as the semantics of `UPSERT` didn’t really match the semantics of the OData V4 `PUT`.
+> In CAP Java versions < 1.9.0, the `UPSERT` event was used to implement OData V4 `PUT` requests. This has been changed, as the semantics of `UPSERT` didn't really match the semantics of the OData V4 `PUT`.
 
 ### Deeply Structured Documents
 
@@ -275,21 +275,21 @@ This section summarizes some best practices for implementing event handlers and 
     The CAP Java SDK provides [APIs](consumption-api) that can be used in event handlers to interact with other services.
     These other services can be used to request data, that is required by the event handler implementation.
 
-    If you’re implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it’s a good practice to read this data from the database using the [Persistence Service](consumption-api#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
+    If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](consumption-api#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
 
-    If you’re mashing up your service with another Application Service and also return data from that service to the client, it’s a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
+    If you're mashing up your service with another Application Service and also return data from that service to the client, it's a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
     If you do not require this decoupling, you can also access the service's entities directly from the database.
 
-    In case you’re working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](fiori-drafts#draftservices) to query and interact with drafts.
+    In case you're working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](fiori-drafts#draftservices) to query and interact with drafts.
 
 3. How should I implement business or domain logic shared across services?
 
-    In general, it’s a good practice to design your services with specific use cases in mind. Nevertheless, it might be necessary to share certain business or domain logic across multiple services.
+    In general, it's a good practice to design your services with specific use cases in mind. Nevertheless, it might be necessary to share certain business or domain logic across multiple services.
     To achieve this, simple utility methods can be implemented, which can be called from different event handlers.
 
     If the entities for which a utility method is implemented are different projections of the same database-level entity, you can manually map the entities to the database-level representation and use this to implement your utility method.
 
-    If they’re independent from each other, a suitable self-defined representation needs to be found to implement the utility method.
+    If they're independent from each other, a suitable self-defined representation needs to be found to implement the utility method.
 
 
 ## Serve Configuration

@@ -178,7 +178,7 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
 
 To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/development/#cds-maven-plugin) accordingly:
 
-```xml
+```xml [srv/pom.xml]
 <execution>
 	<id>cds</id>
 	<goals>

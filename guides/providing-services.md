@@ -278,7 +278,7 @@ GET .../Orders?$expand=header($expand=items)
 same using [`cds.ql` in Node.js](../node.js/cds-ql):
 
 ```js
-SELECT.from ('Orders', o => o.`*`, o.header (h => h.`*`, h.items('*')))
+SELECT.from ('Orders', o => { o`.*`, o.header (h => { h`.*`, h.items('*') }) })
 ```
 
 Both would return an array of nested structures as follows:

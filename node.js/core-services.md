@@ -1,6 +1,7 @@
 ---
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
+redirect_from: node.js/services
 ---
 
 # Core Services
@@ -1030,6 +1031,77 @@ All matching `before`, `on`, and `after` handlers are executed in corresponding 
 In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
+<!-- ## Streaming API {#srv-stream } -->
+
+### srv.stream (column) {.method}
+
+```ts
+async function srv.stream (column: string)
+  return : {
+    from(entity: CSN Definition | string): {
+      where(filter: any): ReadableStream // from node:stream
+  }
+}
+```
+
+This method allows streaming binary data properties.
+It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
+
+```js
+const stream = srv.stream().from('T', { ID: 1 }, a => a.data)
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T', { ID: 1 })
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T').where({ ID: 1 })
+stream.pipe(process.stdout)
+```
+
+::: warning
+Streaming is currently limited to [database services](databases).
+:::
+
+
+
+### srv.stream (query)  {.method}
+
+```ts
+async function srv.stream (query: CQN) : ReadableStream
+```
+
+This is a variant of `srv.stream`, which accepts a [`SELECT` query](../cds/cqn) as input and returns a Promise resolving to result stream when the query matched to an existing row in the database. The query is expected to select a single column and a single data row. Otherwise, an error is thrown.
+
+```js
+const stream = await srv.stream( SELECT('image').from('Foo',111) )
+stream.pipe(process.stdout)
+```
+
+
+
+### srv.foreach (entity) {.method}
+
+```ts
+function foreach(
+  query: CQN, callback: (row: object) => void
+)
+```
+
+Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
+
+_**Common Usages:**_
+
+```js
+cds.foreach (SELECT.from('Foo'), each => console.log(each))
+cds.foreach ('Foo', each => console.log(each))
+```
+{.indent}
+
+> As depicted in the second line, a plain entity name can be used for the `entity` argument in which case it's expanded to a `SELECT * from ...`.
 
 
 

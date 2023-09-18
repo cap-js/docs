@@ -255,7 +255,7 @@ While drop-create is most appropriate for development, it isn't for database upg
 
 
 
-[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally apply to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
+[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally applies to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
 
 
 
@@ -388,15 +388,15 @@ A specified set of standard functions is now supported in a **database-agnostic*
 
 > <sup>1</sup> Argument `n` is optional
 
-The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries.
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries.
 
-For example, this CQL query:
+CQL query:
 
 ```sql
 SELECT from Books where search((title,descr),'y')
 ```
 
-Gets translated to this native SQLite query:
+Translated native SQLite query:
 
 ```sql
 SELECT * from sap_capire_bookshop_Books
@@ -406,9 +406,9 @@ SELECT * from sap_capire_bookshop_Books
 
 > Note: only single values are supported for the second argument `y`.
 
-::: warning
+::: warning Case-sensitive
 
-**Note** that usage is **case-sensitive**, which means you've to write these functions exactly as given above; all-uppercase usages aren't supported.
+You've to write these functions exactly as given; all-uppercase usages aren't supported.
 
 :::
 
@@ -455,7 +455,7 @@ The API as shown below with function `session_context()` and the specific pseudo
 
 ### Using Lean Draft {.impl .node}
 
-The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, nothing of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single cheap selects.
+The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, nothing of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.
 
 
 
@@ -463,7 +463,7 @@ The old implementation was overly polluted with draft handling. But as draft is 
 
 Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all new database services along these lines...
 
-:::tip
+:::tip *Timestamps* = `Timestamp` as well as `DateTime`
 
 When we say *Timestamps*, we mean elements of type `Timestamp` as well as `DateTime`. Both are essentially the same type just with different precision: While `DateTime` elements have seconds precision only, `Timestamp` has milliseconds precision in SQLite, and microsecond precision in case of SAP HANA and PostgreSQL.
 
@@ -639,7 +639,7 @@ Mitigations:
 
 ### Fixed Localized Data {.impl .node}
 
-Formerly, when reading data using cds.ql, it *always* returned localized data. For example:
+Formerly, when reading data using `cds.ql`, it *always* returned localized data. For example:
 
 ```js
 SELECT.from(Books)       // always read from localized.Books instead

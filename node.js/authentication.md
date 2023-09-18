@@ -536,7 +536,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png)
+   ![Create role collections in SAP BTP cockpit](./assets/create-role-collection.png)
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.

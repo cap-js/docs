@@ -79,7 +79,7 @@ This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** r
 
 When we save the file we created in the former step, the `cds` watcher in the terminal immediately reacts, showing this output:
 
-```
+```sh
 [cds](cds) - connect to datasource - sqlite::memory:
 [cds](cds) - serving CatalogService at /browse
 [cds](cds) - service definitions loaded from:

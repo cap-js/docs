@@ -595,13 +595,18 @@ Find here a collection of resources on selected databases and their reference do
 
 ## Database Constraints {#db-constraints}
 
-The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables.
+The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 
 Enable generation of foreign key constraints on the database with:
 
 ```js
 cds.features.assert_integrity = 'db'
 ```
+
+::: warning Database constraints are not supported for H2
+Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.
+:::
+
 With that switched on, foreign key constraints are generated for managed to-one associations. For example, given this model:
 
 ```cds

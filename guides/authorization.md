@@ -95,7 +95,7 @@ CDS-based authorization deliberately refrains from using technical concepts, suc
 
 ### Pseudo Roles { #pseudo-roles}
 
-It’s frequently required to define access rules that aren’t based on an application-specific user role, but rather on the _authentication level_ of the request. For instance, a service could be accessible not only for identified, but also for anonymous (for example, unauthenticated) users. Such roles are called pseudo roles as they aren’t assigned by user administrators, but are added at runtime automatically.
+It's frequently required to define access rules that aren't based on an application-specific user role, but rather on the _authentication level_ of the request. For instance, a service could be accessible not only for identified, but also for anonymous (for example, unauthenticated) users. Such roles are called pseudo roles as they aren't assigned by user administrators, but are added at runtime automatically.
 
 The following predefined pseudo roles are currently supported by CAP:
 
@@ -103,7 +103,7 @@ The following predefined pseudo roles are currently supported by CAP:
 * `system-user` denotes an unnamed user used for technical communication.
 * `any` refers to all users including anonymous ones (that means, public access without authentication).
 
-The pseudo role `system-user` allows you to separate _internal_ access by technical users from _external_ access by business users. The technical user can come from a SaaS or the PaaS tenant. Such technical user requests typically run in a _privileged_ mode without any restrictions on an instance level. For example, an action that implements a data replication into another system needs to access all entities of subscribed SaaS tenants and can’t be exposed to any business user. Note that `system-user` also implies `authenticated-user`.
+The pseudo role `system-user` allows you to separate _internal_ access by technical users from _external_ access by business users. The technical user can come from a SaaS or the PaaS tenant. Such technical user requests typically run in a _privileged_ mode without any restrictions on an instance level. For example, an action that implements a data replication into another system needs to access all entities of subscribed SaaS tenants and can't be exposed to any business user. Note that `system-user` also implies `authenticated-user`.
 ::: tip
 For XSUAA or IAS authentication, the request user is attached with the pseudo role `system-user` if the presented JWT token has been issued with grant type `client_credentials` or `client_x509` for a trusted client application.
 :::
@@ -265,7 +265,7 @@ The following values are supported:
 
 - The `to` property lists all [user roles](#roles) or [pseudo roles](#pseudo-roles) that the privilege applies to. Note that the `any` pseudo-role applies for all users and is the default if no value is provided.
 
-- The `where`-clause can contain a Boolean expression in [CQL](../cds/cql)-syntax that filters the instances that the event applies to. As it allows user values (name, attributes, etc.) and entity data as input, it’s suitable for *dynamic authorizations based on the business domain*. Supported expressions and typical use cases are presented in [instance-based authorization](#instance-based-auth).
+- The `where`-clause can contain a Boolean expression in [CQL](../cds/cql)-syntax that filters the instances that the event applies to. As it allows user values (name, attributes, etc.) and entity data as input, it's suitable for *dynamic authorizations based on the business domain*. Supported expressions and typical use cases are presented in [instance-based authorization](#instance-based-auth).
 
 A privilege is met, if and only if **all properties are fulfilled** for the current request. In the following example, orders can only be read by an `Auditor` who meets `AuditBy` element of the instance:
 
@@ -328,7 +328,7 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | entity          |  <Y/>   | <Y/> |       <Y/>        |               |
 | action/function |  <Na/>  | <Y/> | <Na/><sup>1</sup> | = `@requires` |
 
-> <sup>1</sup> Node.js supports static expressions *that don’t have any reference to the model* such as `where: $user.level = 2`. <br>
+> <sup>1</sup> Node.js supports static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 
@@ -466,7 +466,7 @@ We recommend defining restrictions on a database entity level only in exceptiona
 :::
 
 ::: warning _Warning_ <!--  -->
-A service level entity can't inherit a restriction with a `where` condition that doesn’t match the projected entity. The restriction has to be overridden in this case.
+A service level entity can't inherit a restriction with a `where` condition that doesn't match the projected entity. The restriction has to be overridden in this case.
 :::
 
 ## Instance-Based Authorization { #instance-based-auth }
@@ -478,7 +478,7 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition)
 - `DELETE` (as reject condition)
 
- > <sup>1</sup> Node.js supports _static expressions_ *that don’t have any reference to the model* such as `where: $user.level = 2` for all events including action and functions.
+ > <sup>1</sup> Node.js supports _static expressions_ *that don't have any reference to the model* such as `where: $user.level = 2` for all events including action and functions.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 
@@ -653,7 +653,7 @@ CAP authorization allows you to control access to your business data on a fine g
 
 ### Choose Conceptual Roles
 
-When defining user roles, one of the first options could be to align roles to the available _operations_ on entities, which results in roles such as `SalesOrders.Read`, `SalesOrders.Create`, `SalesOrders.Update`, and `SalesOrders.Delete`, etc. What is the problem with this approach? Think about the resulting number of roles that the user administrator has to handle when assigning them to business users. The administrator would also have to know the domain model precisely and understand the result of combining the roles. Similarly, assigning roles to operations only (`Read`, `Create`, `Update`, ...) typically doesn’t fit your business needs.<br>
+When defining user roles, one of the first options could be to align roles to the available _operations_ on entities, which results in roles such as `SalesOrders.Read`, `SalesOrders.Create`, `SalesOrders.Update`, and `SalesOrders.Delete`, etc. What is the problem with this approach? Think about the resulting number of roles that the user administrator has to handle when assigning them to business users. The administrator would also have to know the domain model precisely and understand the result of combining the roles. Similarly, assigning roles to operations only (`Read`, `Create`, `Update`, ...) typically doesn't fit your business needs.<br>
 We strongly recommend defining roles that describe **how a business user interacts with the system**. Roles like `Vendor`, `Customer`, or `Accountant` can be appropriate. With this approach, the application developers define the set of accessible resources in the CDS model for each role - and not the user administrator.
 
 ### Prefer Single-Purposed, Use-Case Specific Services { #dedicated-services}
@@ -671,7 +671,7 @@ service CatalogService @(requires: 'authenticated-user') {
 }
 ```
 
-Four different roles (`authenticated-user`, `Vendor`, `Accountant`, `Admin`) *share* the same service - `CatalogService`. As a result, it’s confusing how a user can use `Books` or `doAccounting`. Considering the complexity of this small example (4 roles, 1 service, 2 resources), this approach can introduce a security risk, especially if the model is larger and subject to adaptation. Moreover, UIs defined for this service will likely appear unclear as well.<br>
+Four different roles (`authenticated-user`, `Vendor`, `Accountant`, `Admin`) *share* the same service - `CatalogService`. As a result, it's confusing how a user can use `Books` or `doAccounting`. Considering the complexity of this small example (4 roles, 1 service, 2 resources), this approach can introduce a security risk, especially if the model is larger and subject to adaptation. Moreover, UIs defined for this service will likely appear unclear as well.<br>
 The fundamental purpose of services is to expose business data in a specific way. Hence, the more straightforward way is to **use a service for each of the roles**:
 
 ```cds
@@ -713,7 +713,7 @@ service GitHubRepositoryService @(requires: 'authenticated-user') {
 }
 ```
 
-This service allows querying organizations for all authenticated users. In addition, `Admin` users are allowed to rename or delete. Granting `UPDATE` to `Admin` would allow administrators to change organization attributes that aren’t meant to change.
+This service allows querying organizations for all authenticated users. In addition, `Admin` users are allowed to rename or delete. Granting `UPDATE` to `Admin` would allow administrators to change organization attributes that aren't meant to change.
 
 ### Think About Domain-Driven Authorization { #domain-driven-authorization}
 
@@ -762,7 +762,7 @@ service BrowseEmployeesService @(requires:'Employee') {
 }
 ```
 
-A team (entity `Teams`) contains members of type `Employees`. An employee refers to a single contract (entity `Contracts`) which contains sensitive information that should be visible only to `Manager` users. `Employee` users should be able to browse the teams and their members, but aren’t allowed to read or even edit their contracts.<br>
+A team (entity `Teams`) contains members of type `Employees`. An employee refers to a single contract (entity `Contracts`) which contains sensitive information that should be visible only to `Manager` users. `Employee` users should be able to browse the teams and their members, but aren't allowed to read or even edit their contracts.<br>
 As `db.Employees` and `db.Contracts` are auto-exposed, managers can navigate to all instances through the `ManageTeamsService.Teams` service entity (for example, OData request `/ManageTeamsService/Teams?$expand=members($expand=contract)`).<br> It's important to note that this also holds for an `Employee` user, as **only the target entity** `BrowseEmployeesService.Teams` **has to pass the authorization check in the generic handler, and not the associated entities**.<br>
 
 To solve this security issue, introduce a new service entity `BrowseEmployeesService.Employees` that removes the navigation to `Contracts` from the projection:
@@ -776,14 +776,14 @@ service BrowseEmployeesService @(requires:'Employee') {
 }
 ```
 
-Now, an `Employee` user can't expand the contracts as the composition isn’t reachable anymore from the service.
+Now, an `Employee` user can't expand the contracts as the composition isn't reachable anymore from the service.
 ::: tip
-Associations without navigation links (for example, when an associated entity isn’t exposed) are still critical with regards to security.
+Associations without navigation links (for example, when an associated entity isn't exposed) are still critical with regards to security.
 :::
 
 ### Design Authorization Models from the Start
 
-As shown before, defining an adequate authorization strategy has a deep impact on the service model. Apart from the fundamental decision, if you want to build your authorizations on [dynamic roles](#domain-driven-authorization), authorization requirements can result in rearranging service and entity definitions completely. In the worst case, this means rewriting huge parts of the application (including the UI). For this reason, it’s *strongly* recommended to take security design into consideration at an early stage of your project.
+As shown before, defining an adequate authorization strategy has a deep impact on the service model. Apart from the fundamental decision, if you want to build your authorizations on [dynamic roles](#domain-driven-authorization), authorization requirements can result in rearranging service and entity definitions completely. In the worst case, this means rewriting huge parts of the application (including the UI). For this reason, it's *strongly* recommended to take security design into consideration at an early stage of your project.
 
 ### Keep it as Simple as Possible
 
@@ -837,7 +837,7 @@ The service provider frameworks **automatically enforce** restrictions in generi
 * Reject incoming requests if static restrictions aren't met.
 * Add corresponding filters to queries for instance-based authorization, etc.
 
-If generic enforcement doesn’t fit your needs, you can override or adapt it with **programmatic enforcement** in custom handlers:
+If generic enforcement doesn't fit your needs, you can override or adapt it with **programmatic enforcement** in custom handlers:
 
 - [Authorization Enforcement in Node.js](../node.js/authentication#enforcement)
 - [Enforcement API & Custom Handlers in Java](../java/security#enforcement-api)
@@ -932,7 +932,7 @@ Inline configuration in the _mta.yaml_ `config` block and the _xs-security.json_
 
 ### 3. Assembling Roles and Assigning Roles to Users
 
-This is a manual step an administrator would do in SAP BTP Cockpit. See [Set Up the Roles for the Application](../node.js/authentication#auth-in-cockpit) for more details. If a user attribute isn't set for a user in the IdP of the SAP BTP Cockpit, this means that the user has no restriction for this attribute. For example, if a user has no value set for an attribute "Country", they’re allowed to see data records for all countries.
+This is a manual step an administrator would do in SAP BTP Cockpit. See [Set Up the Roles for the Application](../node.js/authentication#auth-in-cockpit) for more details. If a user attribute isn't set for a user in the IdP of the SAP BTP Cockpit, this means that the user has no restriction for this attribute. For example, if a user has no value set for an attribute "Country", they're allowed to see data records for all countries.
 In the _xs-security.json_, the `attribute` entity has a property `valueRequired` where the developer can specify whether unrestricted access is possible by not assigning a value to the attribute.
 
 

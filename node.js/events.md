@@ -174,7 +174,7 @@ Contains the event data. For example, the HTTP body for `CREATE` or `UPDATE` req
 
 ### . headers {.property}
 
-Provides access to headers of the event message or request. In case of asynchronous event messages, it’s the headers information sent by the event source. For HTTP requests it’s the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
+Provides access to headers of the event message or request. In case of asynchronous event messages, it's the headers information sent by the event source. For HTTP requests it's the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
 
 
 

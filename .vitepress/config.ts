@@ -20,8 +20,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.1.1',
-  java_cds4j: '2.1.1'
+  java_services: '2.2.0',
+  java_cds4j: '2.2.0'
 }
 
 const localSearchOptions = {
@@ -76,7 +76,7 @@ const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
-  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/PARKED-*.md'],
+  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
     get sidebar() { return sideb('menu.md') },

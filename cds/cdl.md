@@ -941,7 +941,7 @@ and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
 Annotations are inherited from types and base types to derived types, entities, and elements as well as from elements of underlying entities in case of views.
 
-For examples, given this view definition:
+For example, given this view definition:
 
 ```cds
 using Books from './bookshop-model';
@@ -964,7 +964,9 @@ The rules are:
 
 3. An explicit **cast** in the select clause cuts off the inheritance, for example, as for `genre` in our previous example.
 
-
+::: tip
+Propagation of annotations can be stopped via value `null`, for example, `@anno: null`.
+:::
 
 ### The `annotate` Directive
 {#annotate}
@@ -1674,7 +1676,7 @@ unless it is a doc comment.
 ### Doc Comments — `/**  */`
 {#doc-comment}
 
-A multi-line comment of the form `/**  */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
+A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
 
 ```cds
 /**
@@ -1711,3 +1713,7 @@ cds compile foo.cds --docs
 // in JavaScript:
 cds.compile(..., { docs: true })
 ```
+
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::

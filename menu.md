@@ -45,8 +45,8 @@
 - [Temporal Data](guides/temporal-data)
 - [Media Data](guides/media-data)
 - [Data Privacy](guides/data-privacy/)
-  - [Basics](guides/data-privacy/introduction)
-  - [Audit Logging](guides/data-privacy/audit-logging)
+  - [Annotating Personal Data](guides/data-privacy/annotations)
+  - [Automatic Audit Logging](guides/data-privacy/audit-logging)
   - [Personal Data Management](guides/data-privacy/pdm)
 
 ### [Advanced](advanced/)
@@ -83,7 +83,6 @@
 - [Built-in Types](cds/types)
 - [Common Types and Aspects](cds/common)
 - [Common Annotations](cds/annotations)
-- [Upgrade to Compiler v2](cds/compiler-v2)
 - [Nature of Models](cds/models)
 
 ### [Java](java/)

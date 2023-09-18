@@ -602,7 +602,7 @@ In addition to the [static configuration of required services](#service-bindings
 
 ### cds.requires.<i>\<srv\></i>.credentials
 
-All service binding information goes into this property. It’s filled from the process environment when starting server processes, managed by deployment environments. Service bindings provide the details about how to reach a required service at runtime, that is, providing requisite credentials, most prominently the target service's `url`.
+All service binding information goes into this property. It's filled from the process environment when starting server processes, managed by deployment environments. Service bindings provide the details about how to reach a required service at runtime, that is, providing requisite credentials, most prominently the target service's `url`.
 
 For development purposes, you can pass them on the command line or add them to a _.env_ or _default-env.json_ file as follows:
 

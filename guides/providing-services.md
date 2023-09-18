@@ -254,6 +254,11 @@ This comprises read and write operations like that:
 
 <br>
 
+::: warning No filtering and sorting for virtual elements
+CAP runtimes delegate filtering and sorting to the database. Therefore
+filtering and sorting is not available for `virtual` elements.
+:::
+
 
 ### Serving Documents
 
@@ -273,7 +278,7 @@ GET .../Orders?$expand=header($expand=items)
 same using [`cds.ql` in Node.js](../node.js/cds-ql):
 
 ```js
-SELECT.from ('Orders', o => o.`*`, o.header (h => h.`*`, h.items('*')))
+SELECT.from ('Orders', o => { o`.*`, o.header (h => { h`.*`, h.items('*') }) })
 ```
 
 Both would return an array of nested structures as follows:

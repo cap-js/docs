@@ -16,8 +16,8 @@ impl-variants: true
   const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✗'] )
 </script>
 <style scoped>
-  .y  { color: var(--vp-c-green); font-weight:900; }
-  .x  { color: var(--vp-c-red);   font-weight:900; }
+  .y  { color: var(--vp-c-green-1); font-weight:900; }
+  .x  { color: var(--vp-c-red-1);   font-weight:900; }
 </style>
 
 # Consuming Services

@@ -12,10 +12,10 @@ status: released
   const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark);}
+  .ga   { color: var(--vp-c-green-2);}
   .na   { color: gray; font-size:90%; }
-  .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
-  .plan { color: var(--vp-c-gray-dark); font-size:90% }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
+  .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 </style>
 

@@ -220,13 +220,25 @@ This set of samples cover several distinct use cases.
 <div class="impl java">
 
 [Samples for **Java**](https://github.com/SAP-samples/cloud-cap-samples-java), and
+### Bookshop { #bookshop-java}
+
+The [bookshop-java is a sample application modeling a bookshop. From a domain point of view the bookshop offers
+functionality for browsing and managing books as well as managing orders. All of the major features of CAP Java are incorparated in one or another way in the code base of this single application.
+
+Among others they include
+
+* [Authorization and authentication](https://cap.cloud.sap/docs/java/security) in [selected services](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/admin-service.cds)
+* Integrate [Business Partner events](https://github.com/SAP-samples/cloud-cap-samples-java/blob/04dd881be4ec6fd33c318f449cb5880d27783275/srv/external.cds#L12C3-L13C3) via [Messaging](https://cap.cloud.sap/docs/java/messaging-foundation)
+* Integrate [Business Partner Adresses](https://github.com/SAP-samples/cloud-cap-samples-java/blob/04dd881be4ec6fd33c318f449cb5880d27783275/srv/external/API_BUSINESS_PARTNER.cds#L12) via remote service consumption
+* Usage of [feature toggles](https://cap.cloud.sap/docs/guides/extensibility/feature-toggles) to provide [features to selected users](https://github.com/SAP-samples/cloud-cap-samples-java/blob/04dd881be4ec6fd33c318f449cb5880d27783275/srv/src/main/java/my/bookshop/config/CustomFeatureToggleProvider.java#L22)
+
+For a more detailed list you can visit the [README of the Java bookshop](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/README.md).
 
 </div>
 
-## [Sample for **SAP Fiori**](https://github.com/SAP-samples/cap-sflight)
+## [CAP SFlight](https://github.com/SAP-samples/cap-sflight)
 
-
-
+The CAP SFlight sample application is the the CAP counterpart to the [ABAP Flight Scenario sample application](https://github.com/SAP-samples/abap-platform-refscen-flight). While modeling the domain of travel booking and travel management the application showcases close integration and use of different Fiori Element UI features including [draft handling](https://experience.sap.com/fiori-design-web/draft-handling/) and [ALP (analytical list page)](https://experience.sap.com/fiori-design-web/analytical-list-page/). In contrast to other sample applications CAP SFlight is a dual-stack application: both runtime stacks Java and node.js can be started for the same project.
 
 ## SuSaaS
 

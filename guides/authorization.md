@@ -16,8 +16,8 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
   const Na =  () => h('span', { class: 'na',  title: 'Not available' },  ['n/a']   )
 </script>
 <style scoped>
-  .y   { color: var(--vp-c-green); font-weight:900; }
-  .x   { color: var(--vp-c-red);   font-weight:900; }
+  .y   { color: var(--green); font-weight:900; }
+  .x   { color: var(--red);   font-weight:900; }
   /* .na  { font-weight:500; } */
 </style>
 

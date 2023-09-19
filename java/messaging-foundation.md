@@ -14,7 +14,7 @@ status: released
   const Beta = () => h('i',    { class: 'beta'                            }, ['beta'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); }
+  .ga   { color: var(--vp-c-green-1); }
   .na   { color: #fff; font-size:90%; }
   .beta { color: #aaa; font-size:90%; }
 </style>

@@ -48,7 +48,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
 
 ::: warning
-Support for localized and temporal data via session context variables requires H2 v2.2.x or later
+Support for localized and temporal data via session context variables requires H2 v2.2.x or later.
 :::
 
 ### SQLite

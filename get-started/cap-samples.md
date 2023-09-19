@@ -223,7 +223,7 @@ This set of samples cover several distinct use cases.
 ### Bookshop { #bookshop-java}
 
 The [bookshop-java is a sample application modeling a bookshop. From a domain point of view the bookshop offers
-functionality for browsing and managing books as well as managing orders. All of the major features of CAP Java are incorparated in one or another way in the code base of this single application.
+functionality for browsing and managing books as well as managing orders. All of the major features of CAP Java are incorporated in one or another way in the code base of this single application.
 
 Among others they include
 

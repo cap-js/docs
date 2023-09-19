@@ -47,6 +47,10 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 5. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
 
+::: warning
+Support for localized and temporal data via session context variables requires H2 v2.2.x or later.
+:::
+
 ### SQLite
 
 CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When working with Java, it's [recommended](../guides/databases-sqlite?impl-variant=java#sqlite-in-production) to use SQLite only for development and testing purposes.

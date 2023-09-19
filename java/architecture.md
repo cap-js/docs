@@ -79,7 +79,7 @@ The CQN execution engine is responsible for processing the passed CQN events and
 ### Application Features { #application-features}
 
 The overall architecture of the CAP Java SDK allows additional components to be plugged in at runtime. This plugin mechanism makes the architecture open for future extensions and allows context-based configuration. It also enables you to override standard behavior with custom-defined logic in all different layers. Customer components or [extension modules](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/comment-page-1/#comment-674200) that are registered by the runtime can bring custom adapters, custom services or just custom handlers for existing services.
-CAP Java makes use of [features](#feature-list) itself to provide optional functionality, examples are [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) integration.
+CAP Java makes use of [features](#feature-list) itself to provide optional functionality, examples are [SAP Event Mesh](./messaging-foundation) and [SAP Audit Log service](./auditlog) integration.
 
 
 ## Stack Configuration { #stack_configuration}

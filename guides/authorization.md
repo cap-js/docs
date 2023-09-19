@@ -112,11 +112,12 @@ For XSUAA or IAS authentication, the request user is attached with the pseudo ro
 
 Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name, tenant and attributes:
 
-| CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
-|---------------------|----------------------------------|-------------------------|
-| `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `zone_uuid`             |
-| `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
+| CAP User Property   | XSUAA JWT Property                           | IAS JWT Property        |
+|---------------------|----------------------------------------------|-------------------------|
+| `$user`             | `user_name`                                  | `sub`                   |
+| `$user.id`          | `user_id` for Java / `user_name` for Node.js | `scim_id`               |
+| `$user.tenant`      | `zid`                                        | `app_tid`               |
+| `$user.<attribute>` | `xs.user.attributes.<attribute>`             | All non-meta attributes |
 
 ::: tip
 CAP does not make any assumptions on the presented claims given in the token. String values are copied as they are.

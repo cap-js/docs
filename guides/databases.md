@@ -348,17 +348,29 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
 
+You can also do this manually with the CLI command `cds compile --to <dialect>`.
+
 </div>
 
 <div markdown="1" class="impl java">
 
 When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
+You can also do this manually with the CLI command `cds deploy --to <dialect>`.
+
 </div>
 
-You can also do this manually with the CLI command `cds compile --to <dialect>`.
+<div class="impl node">
 
 ### Using `cds compile -2 <dialect>`
+
+</div>
+
+<div class="impl java">
+
+### Using `cds deploy -2 <dialect>`
+
+</div>
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -400,6 +412,9 @@ service CatalogService {
 
 
 Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
+
+<div class="impl node">
+
 
 ```sh
 cds compile srv/cat-service --to sqlite > schema.sql
@@ -458,6 +473,100 @@ ON Books.author_ID = author.ID;
 ```
 
 :::
+
+</div>
+
+
+<div class="impl java">
+
+```sh
+cds deploy srv/cat-service --to h2 > schema.sql --dry
+```
+
+Output:
+
+::: code-group
+
+```sql [schema.sql]
+CREATE TABLE sap_capire_bookshop_Books (
+  createdAt TIMESTAMP(7),
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP(7),
+  modifiedBy NVARCHAR(255),
+  ID INTEGER NOT NULL,
+  title NVARCHAR(111),
+  descr NVARCHAR(1111),
+  author_ID INTEGER,
+  genre_ID INTEGER,
+  stock INTEGER,
+  price DECFLOAT,
+  currency_code NVARCHAR(3),
+  image BINARY LARGE OBJECT,
+  PRIMARY KEY(ID)
+);
+CREATE TABLE sap_capire_bookshop_Books (
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  author_ID NVARCHAR(36),
+  price_amount DECIMAL,
+  price_currency_code NVARCHAR(3),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_capire_bookshop_Authors (
+  ID NVARCHAR(36) NOT NULL,
+  name NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_common_Currencies (
+  name NVARCHAR(255),
+  descr NVARCHAR(1000),
+  code NVARCHAR(3) NOT NULL,
+  symbol NVARCHAR(5),
+  minorUnit SMALLINT,
+  PRIMARY KEY(code)
+);
+
+CREATE TABLE sap_capire_bookshop_Books_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books_0.createdAt,
+  Books_0.modifiedAt,
+  Books_0.ID,
+  Books_0.title,
+  Books_0.author,
+  Books_0.genre_ID,
+  Books_0.stock,
+  Books_0.price,
+  Books_0.currency_code,
+  Books_0.image
+FROM CatalogService_Books AS Books_0;
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books.ID,
+  Books.title,
+  Books.descr,
+  author.name AS author,
+  Books.price_amount,
+  Books.price_currency_code
+FROM sap_capire_bookshop_Books AS Books
+LEFT JOIN sap_capire_bookshop_Authors AS author
+ON Books.author_ID = author.ID;
+
+--- some more technical views skipped ...
+```
+
+:::
+
+
+</div>
 
 ::: tip
 Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.

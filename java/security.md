@@ -43,11 +43,21 @@ Without security configured, CDS services are exposed to public. Proper configur
 
 User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](architecture#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA](#xsuaa) and [IAS](#ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there's a built-in [mock user](#mock-users) support.
 
-### Configure XSUAA Authentication { #xsuaa}
+| CAP Maven Module     | Supported Authentication | Required Service Bindings | Supported Security Library                                                                                      |
+|----------------------|--------------------------|---------------------------|-----------------------------------------------------------------------------------------------------------------|
+| cds-feature-xsuaa    | XSUAA                    | XSUAA (mandatory)         | [spring-xsuaa](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-xsuaa)       |
+| cds-feature-identity | IAS<br/>XSUAA            | IAS or XSUAA or both      | [spring-security](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security) |
 
-Your application is secured by XSUAA-authentication **automatically**, if
+### Configure XSUAA Authentication { #xsuaa}
+CAP provides support for XSUAA-authentication through both security libraries. However, dependencies and configuration differ in both variants.   
+
+::: tip
+Usage of `cds-feature-identity` is recommended over `cds-feature-xsuaa`.
+:::
+
+*Option 1:* Your application is secured by XSUAA-authentication **automatically**, if
 1. Following dependencies are set:
-  * `xsuaa-spring-boot-starter` that brings Spring Security and [xsuaa library](https://github.com/SAP/cloud-security-xsuaa-integration)
+  * `xsuaa-spring-boot-starter` that brings Spring Security and [spring-xsuaa library](https://github.com/SAP/cloud-security-xsuaa-integration)
   * `cds-feature-xsuaa`
 2. The application is bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
 ::: tip
@@ -55,7 +65,20 @@ CAP Java picks only a single XSUAA binding. If you have multiple bindings, choos
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
-The individual dependencies can be explicitly added in the `pom.xml` file of your service.
+*Option 2 (recommended):* Your application is secured by XSUAA-authentication **automatically**, if 
+1. Following dependencies are set:
+   * `resourceserver-security-spring-boot-starter` that brings Spring Security and [spring-security library](https://github.com/SAP/cloud-security-xsuaa-integration)
+   * `cds-feature-identity`
+2. The application is bound to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+3. Property `cds.security.xsuaa.enabled` is set to `false`
+
+   ::: tip
+   CAP Java picks only a single XSUAA binding. If you have multiple bindings, choose a specific binding with property `cds.security.identity.xsuaabinding`.
+   Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
+   :::
+
+
+In both options, the individual dependencies can be explicitly added in the `pom.xml` file of your service.
 
 Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies for XSUAA-authentication.
 
@@ -72,6 +95,10 @@ To enforce IAS authentication, make sure no XSUAA instance is bound to the CAP s
 ::: tip
 To allow forwarding to remote services, JWT tokens issued by IAS service do not contain authorization information. In particular, no scopes are included. Closing this gap is up to you in your application.
 :::
+
+The individual dependencies can be explicitly added in the `pom.xml` file of your service.
+
+Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies for IAS-authentication.
 
 ### Configure IAS and XSUAA Authentication (Hybrid) { #hybrid}
 

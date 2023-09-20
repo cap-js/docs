@@ -38,8 +38,9 @@ function setClass(check) {
     container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
   }
 
-  markStatus()
+  markOutlineItems()
   toggleContent(check ? 'java' : 'node')
+
 }
 
 function useVariant() {
@@ -80,11 +81,9 @@ transition: none !important;
 
 watchEffect(() => {
   if (!supportsVariants.value)  return
-  setTimeout(() => { // otherwise DOM is not ready
-    if (typeof document !== 'undefined') {
-      animationsOff(() => setClass(currentCheckState()) )
-    }
-  }, 20)
+  if (typeof document !== 'undefined') {
+    animationsOff(() => setClass(currentCheckState()) )
+  }
 })
 
 function toggleContent(variant, initial) {
@@ -93,33 +92,18 @@ function toggleContent(variant, initial) {
   htmlClassList.add(variant)
 }
 
-function markStatus() {
+function markOutlineItems() {
   const hashes = {}
   const impls = document.querySelectorAll('.impl.node, .impl.java')
   for (let each of impls) {
     hashes['#' + each.id] = each
-    let level = level4(each);
-    if (!level) continue
-    let classes = each.classList
-    while ((each = each.nextElementSibling) && level4(each) > level) {
-      if (each.id) hashes['#' + each.id] = each
-      markClasses(each, classes)
-    }
   }
-  const allHeaderIDs = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].map(h => h.id)
-  const anchors = document.querySelectorAll('li > a')
+  const anchors = document.querySelectorAll('li > a.outline-link')
   for (const a of anchors) {
     const li = a.parentElement
     if (li.firstChild !== a)  continue
     const target = hashes[a.hash]
     if (target)  markClasses(li, target.classList)
-    // also hide all items w/o a link target on this page, i.e. target that was removed during build
-    else if (a.pathname === window.location.pathname && allHeaderIDs.indexOf(a.hash.slice(1)) < 0)
-      li.style.display = 'none'
-  }
-
-  function level4(node) {
-    return node.tagName.match(/^H(\d)$/) ? RegExp.$1 : 99
   }
 }
 

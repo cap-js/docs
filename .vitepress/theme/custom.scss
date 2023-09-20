@@ -20,10 +20,11 @@
   // --vp-button-brand-active-bg: #9f660a;
   // --vp-button-brand-active-border: #f3b655;
 
-  --vp-sidebar-width: 290px;
-
-  // unset the intense --vp-c-green-lighter color to the default yellow marker color
+  // use the standard search highlight color (instead of our brand orange)
   --vp-local-search-highlight-bg: mark;
+  --vp-local-search-highlight-text: black;
+
+  --vp-sidebar-width: 290px;
 
   /* inverts image colors in dark mode */
   &.dark {

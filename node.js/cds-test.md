@@ -56,12 +56,9 @@ cds.test.in(__dirname)
 For example, this would have `cds.env` loading the configuration from _package.json_ and _.cdsrc.json_ files found next to the test file, that is, in the same folder.
 
 ::: danger
-**Important:** Don't use `process.chdir()` in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests.
-:::
-
-::: danger
-**Important:** If you also need to import other files that use `@sap/cds`, make sure that `cds.test.in(...)` is called before any **import**. This ensures a proper initialization of the test environment.
-In Typescript this requires use of dynamic imports.
+- **Don't use `process.chdir()`** in Jest tests, as they may leave test containers in screwed state, leading to failing subsequent tests.
+- Make sure that `cds.test.in(...)` is called **before any import** of files that use `@sap/cds`. This ensures a proper initialization of the test environment.
+In ESM/Typescript this requires use of dynamic imports.
 :::
 
 ::: tip

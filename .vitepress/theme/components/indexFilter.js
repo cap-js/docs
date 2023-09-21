@@ -9,6 +9,7 @@ export default (pages, basePath) => {
   return pages
     .map(p => {
       p.url = p.url.replaceAll('@external/', '').replace(/\/index$/, '/')
+      p.url = join(base, p.url)
       return p
     })
     .filter(p => {
@@ -20,7 +21,7 @@ export default (pages, basePath) => {
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object
       return {
-        url: join(base, p.url),
+        url: p.url,
         title: p.title,
         frontmatter: {
           synopsis: p.frontmatter.synopsis

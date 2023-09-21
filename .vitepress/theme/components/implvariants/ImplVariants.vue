@@ -14,11 +14,22 @@ const knownImplVariants = ['node', 'java']
 onMounted(() => {
   if (!supportsVariants.value)  return
   let check = currentCheckState()
-  setClass(check)
-  // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query.
+  // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query anymore.
   const variantNew = check ? 'java' : 'node'
   localStorage.setItem('impl-variant', variantNew)
+
+  setClass(check)
+
+  // Scroll hash element into view. Needed on first page load if variant is changed by query param.
+  scrollTo(window.location.hash?.slice(1))
 })
+
+function scrollTo(id) {
+  const elem = document.getElementById(id)
+  if (elem) {
+    setTimeout(() => { elem?.scrollIntoView(true) }, 20)
+  }
+}
 
 function currentCheckState() {
   const url = new URL(window.location)

@@ -81,9 +81,11 @@ transition: none !important;
 
 watchEffect(() => {
   if (!supportsVariants.value)  return
-  if (typeof document !== 'undefined') {
-    animationsOff(() => setClass(currentCheckState()) )
-  }
+  setTimeout(() => { // otherwise DOM is not ready
+    if (typeof document !== 'undefined') {
+      animationsOff(() => setClass(currentCheckState()) )
+    }
+  }, 20)
 })
 
 function toggleContent(variant, initial) {

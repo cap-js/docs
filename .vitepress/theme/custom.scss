@@ -292,6 +292,13 @@ tr:nth-child(odd) {
   background-color: var(--vp-c-bg);
 }
 
+html.java .node {
+  display: none;
+}
+html.node .java {
+  display: none;
+}
+
 
 // enable for light code theme
 // pre.log {

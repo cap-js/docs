@@ -105,6 +105,9 @@ function toggleContent(variant, initial) {
   htmlClassList.add(variant)
 }
 
+// Only mark outline items here, as these are not part of the generated HTML,
+// but are created on the fly with JS.
+// All other DOM content is handled at build time on MD level (see md-attrs-propagate.ts)
 function markOutlineItems() {
   const hashes = {}
   const impls = document.querySelectorAll('.impl.node, .impl.java')

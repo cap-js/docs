@@ -39,7 +39,7 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
   const { rules } = md.renderer
   // console.log('rules', rules)
   for (let name of Object.keys(rules)) {
-    if (name === 'fence' || name.match(/container.*_open/)) {
+    if (name === 'fence' || name === 'html_block' || name.match(/container.*_open/)) {
       rules[name] = interceptingRenderer(rules[name]!)
     }
   }
@@ -50,7 +50,16 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
       const token = tokens[idx]
       if (token.meta?.classes) {
         deleteAttr('class', token.attrs)
-        const result = original(...args).replace('class="', `class="${token.meta.classes} `)
+        const classes = token.meta?.classes as string
+
+        let result:string = original(...args)
+        if (!classes.split(' ').some(cls => result.includes(cls))) {
+          if (result.includes(' class="')) {
+            result = result.replace(' class="', ` class="${token.meta.classes} `)
+          } else {
+            result = result.replace(/<(\w+)/, `<$1 class="${token.meta.classes}"`)
+          }
+        }
         return result
       }
 
@@ -58,8 +67,12 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
     }
   }
 
-  function deleteAttr(name:string, attrs?: [string, string][]|null) {
-    attrs?.forEach(a => { const i = a.indexOf(name);  if (i>=0) delete a[i]; })
+  function deleteAttr(name:string, attrs: [string, string][]|null) {
+    attrs?.forEach((a:any[], i) => {
+      if (a.indexOf(name) >= 0) {
+        attrs.splice(i, 1)
+      }
+    })
   }
 
   const classesById:Record<string, string> = {}

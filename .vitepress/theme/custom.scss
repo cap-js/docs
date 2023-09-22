@@ -7,16 +7,16 @@
     'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  --vp-c-brand-1: #c37d0b;
+  --vp-c-brand-1: #db8b0b;
   --vp-c-brand-2: #db8b0b;
-  --vp-c-brand-3: #f3b655;
-  --vp-c-brand-soft: rgba(219, 139, 11, 0.16);
+  --vp-c-brand-3: #db8b0b;
+  --vp-c-brand-soft: rgba(219, 139, 11, 0.16); // where is that used?
 
   // --vp-c-brand: #db8b0b;
   // --vp-c-brand-dark: #9f660a;
-  // --vp-button-brand-border: #efbc6b;
-  // --vp-button-brand-hover-bg: #c37d0b;
-  // --vp-button-brand-hover-border: #f3b655;
+  --vp-button-brand-border: #efbc6b;
+  --vp-button-brand-hover-bg: #c37d0b;
+  --vp-button-brand-hover-border: #f3b655;
   // --vp-button-brand-active-bg: #9f660a;
   // --vp-button-brand-active-border: #f3b655;
 
@@ -28,10 +28,6 @@
 
   /* inverts image colors in dark mode */
   &.dark {
-    --vp-c-brand-1: #f3b655;
-    --vp-c-brand-2: #db8b0b;
-    --vp-c-brand-3: #9f660a;
-
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
     img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }

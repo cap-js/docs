@@ -12,10 +12,10 @@ status: released
   const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark);}
+  .ga   { color: var(--vp-c-green-2);}
   .na   { color: gray; font-size:90%; }
-  .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
-  .plan { color: var(--vp-c-gray-dark); font-size:90% }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
+  .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 </style>
 
@@ -57,7 +57,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Push a SaaS extension                                                           | `cds push`                 |
 
 
-> Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you’ve installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
+> Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you've installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
 
 <br>
 
@@ -124,7 +124,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../guides/data-privacy/audit-log)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |
 
 
 <br>

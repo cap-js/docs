@@ -16,8 +16,8 @@ impl-variants: true
   const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✗'] )
 </script>
 <style scoped>
-  .y  { color: var(--vp-c-green); font-weight:900; }
-  .x  { color: var(--vp-c-red);   font-weight:900; }
+  .y  { color: var(--vp-c-green-1); font-weight:900; }
+  .x  { color: var(--vp-c-red-1);   font-weight:900; }
 </style>
 
 # Consuming Services
@@ -1508,9 +1508,11 @@ cds:
 
 ```
 
+Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
+
+
 </div>
 
-Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
 
 ## ⑤ Add Qualities
 

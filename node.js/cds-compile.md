@@ -296,7 +296,7 @@ const csn = await cds.load(['db','srv'])
 
 > The given filenames are resolved using [`cds.resolve()`](#cds-resolve).
 >
->  Note: It’s recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
+>  Note: It's recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
 
 
 

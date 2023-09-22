@@ -30,13 +30,13 @@ The following sections give a brief overview of CAP's core concepts.
 
 A CAP application commonly provides services defined in CDS models and served by the CAP runtimes. Every active thing in CAP is a service. They embody the behavioral aspects of a domain in terms of exposed entities, actions, and events.
 
-![service-centric-paradigm.drawio](assets/providing-services/service-centric-paradigm.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-centric-paradigm.drawio.svg)
 
 ### Ubiquitous Events
 
 At runtime, everything happening is in response to events. CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, blurring the line between both worlds.
 
-![services-events.drawio](assets/providing-services/services-events.drawio.svg)
+![This graphic shows that consumers send events to services and that there are hooks, so that event handlers can react on those events.](assets/providing-services/services-events.drawio.svg)
 
 ### Event Handlers
 
@@ -149,7 +149,7 @@ service BookshopService {
 
 This definition effectively defines the API served by `BookshopService`.
 
-![service-apis.drawio](assets/providing-services/service-apis.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-apis.drawio.svg)
 
 Simple service definitions like that are all we need to run full-fledged servers out of the box, served by CAP's generic runtimes, without any implementation coding required.
 
@@ -168,7 +168,7 @@ service BookshopService {
 
 This way, services become facades to encapsulated domain data, exposing different aspects tailored to respective use cases.
 
-![service-as-facades.drawio](assets/providing-services/service-as-facades.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-as-facades.drawio.svg)
 
 
 ### Serving Denormalized Views
@@ -254,6 +254,11 @@ This comprises read and write operations like that:
 
 <br>
 
+::: warning No filtering and sorting for virtual elements
+CAP runtimes delegate filtering and sorting to the database. Therefore
+filtering and sorting is not available for `virtual` elements.
+:::
+
 
 ### Serving Documents
 
@@ -273,7 +278,7 @@ GET .../Orders?$expand=header($expand=items)
 same using [`cds.ql` in Node.js](../node.js/cds-ql):
 
 ```js
-SELECT.from ('Orders', o => o.`*`, o.header (h => h.`*`, h.items('*')))
+SELECT.from ('Orders', o => { o`.*`, o.header (h => { h`.*`, h.items('*') }) })
 ```
 
 Both would return an array of nested structures as follows:
@@ -1196,7 +1201,7 @@ GET .../sue/Foo(2)/Sue.getStock()     // bound function
 POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
-> Note: You always need to add the `()` for functions, even if no arguments are required. For reasons of compliance with the OData standard, bound actions/functions always need to be prefixed with the service's name.
+> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`. For convenience, however, the Node.js runtime also allows calling bound actions/functions without prefixing them with the service name.
 
 <br>
 

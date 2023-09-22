@@ -10,3 +10,11 @@ code-fence-style:
 #     - VS Code
 #no-bare-urls: true
 no-empty-links: true
+search-replace:
+  rules:
+    - name: prefer-https-links
+      message: https links should be prefered
+      searchPattern: /\[.*?\]\(http:\/\/(?!localhost).*?\)/g
+    - name: custom-containers-requires-type
+      searchPattern: "/(?<!<!--)::: (?!info|tip|warning|danger|details|code-group|raw)/g"
+      message: custom container requires a type

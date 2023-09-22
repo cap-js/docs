@@ -28,7 +28,7 @@ CDS ships with a prebuilt model *`@sap/cds/common`* that provides common types a
 
 ## Why Use _@sap/cds/common_?
 
-It’s recommended that all applications use the common types and aspects provided through _@sap/cds/common_ to benefit from these features:
+It's recommended that all applications use the common types and aspects provided through _@sap/cds/common_ to benefit from these features:
 
 * **Concise** and **comprehensible** models &rarr; see also [Conceptual Modeling](../guides/domain-modeling)
 * **Foster interoperability** between all applications
@@ -169,7 +169,7 @@ CREATE TABLE Addresses (
 type Currency : Association to sap.common.Currencies;
 ```
 
-[It’s the same as for `Country`.](#type-country){ .learn-more}
+[It's the same as for `Country`.](#type-country){ .learn-more}
 
 ### Type `Language`
 
@@ -177,7 +177,7 @@ type Currency : Association to sap.common.Currencies;
 type Language : Association to sap.common.Languages;
 ```
 
-[It’s the same as for `Country`.](#type-country){ .learn-more}
+[It's the same as for `Country`.](#type-country){ .learn-more}
 
 ## Common Code Lists { #code-lists}
 

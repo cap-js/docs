@@ -6,18 +6,25 @@
     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --vp-c-brand: #db8b0b;
-  --vp-c-brand-dark: #9f660a;
+
+  --vp-c-brand-1: #db8b0b;
+  --vp-c-brand-2: #db8b0b;
+  --vp-c-brand-3: #db8b0b;
+  --vp-c-brand-soft: rgba(219, 139, 11, 0.16); // where is that used?
+
+  // --vp-c-brand: #db8b0b;
+  // --vp-c-brand-dark: #9f660a;
   --vp-button-brand-border: #efbc6b;
   --vp-button-brand-hover-bg: #c37d0b;
   --vp-button-brand-hover-border: #f3b655;
-  --vp-button-brand-active-bg: #9f660a;
-  --vp-button-brand-active-border: #f3b655;
+  // --vp-button-brand-active-bg: #9f660a;
+  // --vp-button-brand-active-border: #f3b655;
+
+  // use the standard search highlight color (instead of our brand orange)
+  --vp-local-search-highlight-bg: mark;
+  --vp-local-search-highlight-text: black;
 
   --vp-sidebar-width: 290px;
-
-  // unset the intense --vp-c-green-lighter color to the default yellow marker color
-  --vp-local-search-highlight-bg: mark;
 
   /* inverts image colors in dark mode */
   &.dark {
@@ -44,6 +51,9 @@ main {
     p + h1 {
       margin-top: 3em
     }
+    .header-anchor {
+      top: auto // undo the hard-wired 24px of vitepress
+    }
     p {
       line-height: 1.5em
     }
@@ -63,6 +73,13 @@ main {
     :not(pre) > code {
       font-style: italic;
       font-size: 90%;
+      color: unset; // revert the c-brand-1 from default theme
+    }
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline dotted;
+      }
     }
 
     .custom-block code {
@@ -269,6 +286,13 @@ kbd {
 /* remove transparency in the odd rows (when it scrolls over outline) */
 tr:nth-child(odd) {
   background-color: var(--vp-c-bg);
+}
+
+html.java .node {
+  display: none;
+}
+html.node .java {
+  display: none;
 }
 
 

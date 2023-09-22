@@ -381,7 +381,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 If you want to test your application with a real SAP HANA database, do the following steps.
 
-**Preconditions**{.warning-title}<br />
+**Preconditions**<br />
 You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
 :::
 

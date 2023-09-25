@@ -132,11 +132,11 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 [You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
-::: warning
-**Don't just copy the CDS file for a remote CAP service**, for example from a different application. There are issues to use them to call remote services:<br>
-- The effective service API depends on the used protocol.<br>
-- CDS files often use includes, which can't be resolved anymore.<br>
-- CAP creates unneeded database tables and views for all entities in the file.<br>
+::: warning Don't just copy the CDS file for a remote CAP service
+Simply copying CDS files from a different application comes with the following issues:
+- The effective service API depends on the used protocol.
+- CDS files often use includes, which can't be resolved anymore.
+- CAP creates unneeded database tables and views for all entities in the file.
 :::
 
 ### Import API Definition { #import-api}

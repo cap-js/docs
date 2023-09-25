@@ -408,7 +408,7 @@ Generate an SQL DDL script by running this in the root directory containing both
 
 
 ```sh
-cds compile srv/cat-service --to sqlite > schema.sql
+cds compile srv/cat-service --to sql --dialect sqlite > schema.sql
 ```
 
 Output:

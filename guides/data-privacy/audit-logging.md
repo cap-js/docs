@@ -480,7 +480,7 @@ As always, custom implementations need to be configured in `cds.requires.<>.impl
 
 By default, all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, these messages are forwarded to the audit log service.
 
-![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
+![This graphic is explained in the accompanying text.](./assets/Transactional-Outbox.drawio.svg)
 
 This provides an ultimate level of resiliency, plus additional benefits:
 

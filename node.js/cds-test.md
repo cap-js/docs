@@ -14,7 +14,7 @@ status: released
 
 The `cds.test` library provides best practice utils for writing tests for CAP Node.js applications.
 
-::: tip Find examples in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples/tree/master/test) and in the [*SFlight sample*](https://github.com/SAP-samples/cap-sflight/tree/main/test).
+::: tip Find examples in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples/tree/main/test) and in the [*SFlight sample*](https://github.com/SAP-samples/cap-sflight/tree/main/test).
 :::
 
 
@@ -442,7 +442,7 @@ class MyService extends cds.Service {} // [!code ++]
 
 :::warning Do switch on `CDS_TEST_ENV_CHECK` !
 
-It is strongly recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests to detect such errors. It will likely become default in upcomming releases.
+It is strongly recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests to detect such errors. It will likely become default in upcoming releases.
 
 :::
 

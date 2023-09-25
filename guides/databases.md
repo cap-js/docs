@@ -356,21 +356,12 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
-You can also do this manually with the CLI command `cds deploy --to <dialect> --dry > schema.sql`.
+[Learn more about adding an inital database schema.](../java/persistence-services#initial-database-schema){.learn-more}
 
 </div>
 
-<div class="impl node">
+### Using `cds compile -2 <target-format>`
 
-### Using `cds compile -2 <dialect>`
-
-</div>
-
-<div class="impl java">
-
-### Using `cds deploy -2 <dialect>`
-
-</div>
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -474,17 +465,13 @@ ON Books.author_ID = author.ID;
 
 :::
 
-::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
-:::
-
 </div>
 
 
 <div class="impl java">
 
 ```sh
-cds deploy srv/cat-service --to h2 --dry > schema.sql
+cds compile srv/cat-service --to sql --dialect h2 > schema.sql
 ```
 
 Output:
@@ -569,13 +556,13 @@ ON Books.author_ID = author.ID;
 
 :::
 
-::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds deploy --to <dialect>` to get DDL that matches the target database.
-:::
-
 </div>
 
+::: tip
+Use the specific SQL dialect (`sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
 
+For SAP HANA Cloud use `cds compile --to hana`.
+:::
 
 
 ### Rules for Generated DDL

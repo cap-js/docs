@@ -899,9 +899,7 @@ You need additional logic, if remote entities are in the game. The following tab
 
 #### Transient Access vs. Replication
 
-::: tip
-The _Integrate and Extend_ chapter shows only techniques for transient access.
-:::
+> This chapter shows only techniques for transient access.
 
 The following matrix can help you to find the best approach for your scenario:
 

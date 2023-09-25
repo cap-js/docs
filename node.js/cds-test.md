@@ -161,7 +161,7 @@ test.run().in(_dirname)
 
 ### cds.test() {.method}
 
-This method is the most convenient way to start a test server. It is actually just a convenient shortcut to construct a new instance of class `Test` and call [`test.run()`](#test-run-folder), defined as follows:
+This method is the most convenient way to start a test server. It is actually just a convenient shortcut to construct a new instance of class `Test` and call [`test.run()`](#test-run), defined as follows:
 
 ```js
 const { Test } = cds.test
@@ -269,7 +269,7 @@ npm add -D axios
 
 ### GET / PUT / POST ... {#http-bound .method}
 
-These are bound variants of the [`test.get/put/post/...` methods](#test-get-put-post) allowing to write HTTP requests like that:
+These are bound variants of the [`test.get/put/post/...` methods](#http-methods) allowing to write HTTP requests like that:
 
 ```js
 const { GET, POST } = cds.test()

@@ -1454,9 +1454,11 @@ With the destination service, you can access destinations in your provider accou
 
 Customers want to see business partners from, for example, their SAP S/4 HANA system.
 
-As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service.
+As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service. For destinations in an on-premise system, the connectivity service must be bound.
 
 The subscriber needs to create a destination with that name in their subscriber account, for example, pointing to their SAP S/4HANA system.
+
+
 
 
 

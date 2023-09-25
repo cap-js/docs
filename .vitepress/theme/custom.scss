@@ -225,17 +225,20 @@ main {
 aside.VPSidebar {
   .group {
     padding-top: 5px !important;
-    .VPSidebarItem.level-0 {
-      padding-bottom: 11px;
-      &.collapsed {
-        padding-bottom: 1px;
+    .VPSidebarItem {
+      &.level-0 {
+        padding-bottom: 11px;
+        &.collapsed {
+          padding-bottom: 1px;
+        }
       }
-      .VPSidebarItem.level-1 {
+      &.level-1 {
         padding-left: 15px;
         h2, h3, p {
           padding: 2px 0;
         }
       }
+      .caret { height: inherit; }
     }
   }
 }

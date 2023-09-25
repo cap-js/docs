@@ -356,7 +356,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
-You can also do this manually with the CLI command `cds deploy --to <dialect>`.
+You can also do this manually with the CLI command `cds deploy --to <dialect> --dry > schema.sql`.
 
 </div>
 
@@ -474,13 +474,17 @@ ON Books.author_ID = author.ID;
 
 :::
 
+::: tip
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
+:::
+
 </div>
 
 
 <div class="impl java">
 
 ```sh
-cds deploy srv/cat-service --to h2 > schema.sql --dry
+cds deploy srv/cat-service --to h2 --dry > schema.sql
 ```
 
 Output:
@@ -565,12 +569,13 @@ ON Books.author_ID = author.ID;
 
 :::
 
+::: tip
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds deploy --to <dialect>` to get DDL that matches the target database.
+:::
 
 </div>
 
-::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
-:::
+
 
 
 ### Rules for Generated DDL

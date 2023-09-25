@@ -316,6 +316,7 @@ html.node .java {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

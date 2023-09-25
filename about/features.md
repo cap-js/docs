@@ -91,8 +91,8 @@ Following is an index of the features currently covered by CAP, with status and 
 | Nested Projections                                                                                                | <D/> |
 | [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
-| Pluggable CDS linter                                                                                              | <D/> |
-| [CDS linter](../tools/#cds-lint)                                                                                  | <X/> |
+| Pluggable CDS Linter                                                                                              | <D/> |
+| [CDS Linter](../tools/#cds-lint)                                                                                  | <X/> |
 
 ### Providing Services
 

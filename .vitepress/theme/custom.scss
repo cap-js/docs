@@ -109,7 +109,7 @@ main {
         }
       }
       em {
-        color: #00ff00e0;
+        color: #00ab00e0;
       }
       b {
         color: #ee0000e0;
@@ -119,7 +119,6 @@ main {
       }
 
       background: var(--vp-code-block-bg);
-      color: #fafafa;
     }
   }
 
@@ -306,19 +305,6 @@ html.node .java {
 }
 
 
-// enable for light code theme
-// pre.log {
-//   background: #f8f8f8; // matches to light theme
-//   color: #032F62; // matches to light theme
-//   em {
-//     color: #db8b0b;
-//   }
-//   :root.dark & {
-//     background: var(--vp-code-block-bg);
-//     color: #fafafa;
-//   }
-// }
-
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
   div[class^='language-']:hover,
@@ -327,6 +313,7 @@ html.node .java {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

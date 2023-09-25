@@ -42,7 +42,7 @@ describe(()=>{
 This launches a cds server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
 ::: warning  Don't use `process.chdir()`!
-Doing so in Jest tests may leave test containers in screwed state, leading to failing subsequent tests.
+Doing so in Jest tests may leave test containers in screwed state, leading to failing subsequent tests. Use [`cds.test.in()`](#test-in-folder) instead.
 :::
 
 ::: danger Don't load [`cds.env`](cds-env) before [`cds.test()`](#cds-test)!

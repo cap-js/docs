@@ -330,6 +330,48 @@ beforeEach (async()=>{
 
 
 
+### test .log() {.method}
+
+Allows to capture console output in the current test scope. The method returns an object to control the captured logs:
+
+```tsx
+function cds.test.log() => {
+  output : string
+  clear()
+  release()
+} 
+```
+
+Usage examples:
+
+```js
+describe('cds.test.log()', ()=>{
+  let log = cds.test.log()
+  
+  it ('should capture log output', ()=>{
+    expect (log.output.length).to.equal(0)
+    console.log('foo',{bar:2})
+    expect (log.output.length).to.be.greaterThan(0)
+    expect (log.output).to.contain('foo')
+  })
+
+  it('should support log.clear()', ()=> {
+    log.clear()
+    expect (log.output).to.equal('')
+  })
+
+  it('should support log.release()', ()=> {
+    log.release() // releases captured log
+    console.log('foobar') // not captured
+    expect (log.output).to.equal('')
+  })
+})
+```
+
+The implementation redirects any console operations in a `beforeAll()` hook, clears `log.output` before each test, and releases the captured console in an `afterAll()` hook. 
+
+
+
 ### test. run (...) {.method}
 
 This is the method behind [`cds.test()`](#cds-test) to start a cds server, that is the following are equivalent:

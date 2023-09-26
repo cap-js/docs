@@ -11,6 +11,8 @@ impl-variants: true
 
 {{ $frontmatter.synopsis }}
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 ## Secure Communications { #secure-communications }
 
 
@@ -362,7 +364,7 @@ Attackers can send malicious input data in a regular request to make the server 
 Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based on user input:
 
 <div class="impl java">
-  
+
 ```java
 String entity = <from user input>;
 String column = <from user input>;
@@ -373,7 +375,7 @@ Select.from(entity).columns(b -> b.get(column));
 </div>
 
 <div class="impl node">
-  
+
 ```js
 const entity = <from user input>
 const column = <from user input>

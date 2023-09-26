@@ -109,7 +109,7 @@ main {
         }
       }
       em {
-        color: #00ff00e0;
+        color: #00ab00e0;
       }
       b {
         color: #ee0000e0;
@@ -119,7 +119,6 @@ main {
       }
 
       background: var(--vp-code-block-bg);
-      color: #fafafa;
     }
   }
 
@@ -225,17 +224,20 @@ main {
 aside.VPSidebar {
   .group {
     padding-top: 5px !important;
-    .VPSidebarItem.level-0 {
-      padding-bottom: 11px;
-      &.collapsed {
-        padding-bottom: 1px;
+    .VPSidebarItem {
+      &.level-0 {
+        padding-bottom: 11px;
+        &.collapsed {
+          padding-bottom: 1px;
+        }
       }
-      .VPSidebarItem.level-1 {
+      &.level-1 {
         padding-left: 15px;
         h2, h3, p {
           padding: 2px 0;
         }
       }
+      .caret { height: inherit; }
     }
   }
 }
@@ -306,19 +308,6 @@ html.node .java {
 }
 
 
-// enable for light code theme
-// pre.log {
-//   background: #f8f8f8; // matches to light theme
-//   color: #032F62; // matches to light theme
-//   em {
-//     color: #db8b0b;
-//   }
-//   :root.dark & {
-//     background: var(--vp-code-block-bg);
-//     color: #fafafa;
-//   }
-// }
-
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
   div[class^='language-']:hover,
@@ -327,6 +316,7 @@ html.node .java {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

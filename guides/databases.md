@@ -163,7 +163,7 @@ Put CSV files into `db/data` to fill your database with initial data.
 
 <div markdown="1" class="impl node">
 
-For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors, and *Genres* as follows:
+For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors*, and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -180,7 +180,7 @@ bookshop/
 
 <div markdown="1" class="impl java">
 
-For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors, and *Genres* as follows:
+For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors*, and *Genres* as follows:
 
 ```zsh
 db/
@@ -199,7 +199,7 @@ The **filenames** are expected to match fully qualified names of respective enti
 
 ### Using `.csv` Files
 
-The **content of these files is standard CSV content with the column titles corresponding to declared element names, like for `Books`:
+The **content** of these files is standard CSV content with the column titles corresponding to declared element names, like for `Books`:
 
 ::: code-group
 

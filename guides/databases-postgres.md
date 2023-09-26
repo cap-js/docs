@@ -173,7 +173,8 @@ If you don't use the default credentials and want to use just `cds deploy`, you 
     "db": {
       "kind": "postgres",
       "credentials": {
-        "host": "localhost", "port": 5432,
+        "host": "localhost",
+        "port": 5432,
         "user": "postgres",
         "password": "postgres",
         "database": "postgres"

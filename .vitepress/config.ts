@@ -5,6 +5,7 @@ import { URL } from 'node:url'
 import { sidebar as sideb, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
+import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
@@ -27,7 +28,7 @@ const latestVersions = {
 const localSearchOptions = {
   provider: 'local',
   options: {
-    exclude: (relativePath) => relativePath.includes('/customization-old'),
+    exclude: (relativePath:string) => relativePath.includes('/customization-old'),
     miniSearch: {
       options: {
         tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
@@ -113,7 +114,8 @@ const config:UserConfig<CapireThemeConfig> = {
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
     ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }]
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }],
+    ['script', {}, ` const variant = localStorage.getItem('impl-variant') ?? 'node'; document.documentElement.classList.add(variant)`]
   ],
   lastUpdated: true,
   cleanUrls: true,
@@ -152,7 +154,10 @@ const config:UserConfig<CapireThemeConfig> = {
     ],
     toc: {
       level: [2,3]
-    }
+    },
+    config: md => {
+      MdAttrsPropagate.install(md)
+    },
   },
   sitemap: {
     hostname: siteURL.href

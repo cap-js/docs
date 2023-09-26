@@ -7,30 +7,27 @@
     'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  --vp-c-brand-1: #c37d0b;
+  --vp-c-brand-1: #db8b0b;
   --vp-c-brand-2: #db8b0b;
-  --vp-c-brand-3: #f3b655;
-  --vp-c-brand-soft: rgba(219, 139, 11, 0.16);
+  --vp-c-brand-3: #db8b0b;
+  --vp-c-brand-soft: rgba(219, 139, 11, 0.16); // where is that used?
 
   // --vp-c-brand: #db8b0b;
   // --vp-c-brand-dark: #9f660a;
-  // --vp-button-brand-border: #efbc6b;
-  // --vp-button-brand-hover-bg: #c37d0b;
-  // --vp-button-brand-hover-border: #f3b655;
+  --vp-button-brand-border: #efbc6b;
+  --vp-button-brand-hover-bg: #c37d0b;
+  --vp-button-brand-hover-border: #f3b655;
   // --vp-button-brand-active-bg: #9f660a;
   // --vp-button-brand-active-border: #f3b655;
 
-  --vp-sidebar-width: 290px;
-
-  // unset the intense --vp-c-green-lighter color to the default yellow marker color
+  // use the standard search highlight color (instead of our brand orange)
   --vp-local-search-highlight-bg: mark;
+  --vp-local-search-highlight-text: black;
+
+  --vp-sidebar-width: 290px;
 
   /* inverts image colors in dark mode */
   &.dark {
-    --vp-c-brand-1: #f3b655;
-    --vp-c-brand-2: #db8b0b;
-    --vp-c-brand-3: #9f660a;
-
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
     img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
     .VPHome img, .avatar img, img.ignore-dark { filter:none }
@@ -81,12 +78,8 @@ main {
     a {
       text-decoration: none;
       &:hover {
-        text-decoration: underline dotted;
+        text-decoration: underline;
       }
-    }
-
-    .custom-block code {
-      font-weight: 600; // default is 700 which looks too fat
     }
 
     // Fix for copy button position
@@ -96,7 +89,8 @@ main {
 
     pre.log {
       font-size: var(--vp-code-font-size);
-      line-height: var(--vp-code-line-height);
+      line-height: 1.4em;
+      font-style: italic;
       padding: 20px !important;
       border-radius: 8px;
       overflow: hidden;
@@ -115,7 +109,7 @@ main {
         }
       }
       em {
-        color: #00ff00e0;
+        color: #00ab00e0;
       }
       b {
         color: #ee0000e0;
@@ -125,7 +119,6 @@ main {
       }
 
       background: var(--vp-code-block-bg);
-      color: #fafafa;
     }
   }
 
@@ -144,7 +137,6 @@ main {
         list-style-type: circle;
         font-size: 95%;
         line-height: 120%;
-        font-weight: 200 !important;
       }
     }
   }
@@ -155,24 +147,30 @@ main {
     border-width: 0 0 0 7px;
     border-radius: 14px;
     &.tip {
+      &, & code, & a { color: #041 };
+      background-color: #dfe;
       border-color: #096;
-      background-color: #dfe; color: #041;
       .dark & {
-        background-color: #021; color: #ced;
+        &, & code, & a { color: #ced; }
+        background-color: #021;
       }
     }
     &.warning {
+      &, & code, & a { color: #960; }
+      background-color: #fff7f0;
       border-color: #ea0;
-      background-color: #fff7f0; color: #960;
       .dark & {
-        background-color: #210; color: #ea0;
+        &, & code, & a { color: #ea0; }
+        background-color: #210;
       }
     }
     &.danger {
+      &, & code, & a { color: #600; }
+      background-color: #fee;
       border-color: #900;
-      background-color: #fee; color: #600;
       .dark & {
-        background-color: #300; color: #fcc;
+        &, & code, & a { color: #fcc; }
+        background-color: #300;
       }
     }
     a {
@@ -201,12 +199,12 @@ main {
 
   .good { color:teal }
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
-  .constructor::before { content: 'Constructor: '; color: grey }
-  .property::before { content: 'Property: '; color: grey }
-  .method::before { content: 'Method: '; color: grey }
-  .event::before { content: 'Event: '; color: grey }
-  .class::before { content: 'Class: '; color: grey }
-  .async-method::before { content: 'Method: async '; color: grey }
+  .constructor::before { content: 'Constructor: '; color: #999 }
+  .property::before { content: 'Property: '; color: #999 }
+  .method::before { content: 'Method: '; color: #999 }
+  .event::before { content: 'Event: '; color: #999 }
+  .class::before { content: 'Class: '; color: #999 }
+  .async-method::before { content: 'Method: async '; color: #999 }
   h3.event, h3.method, h3.async-method {
     margin-top: 5em;
     // font-size: 22px;
@@ -224,28 +222,38 @@ main {
 
 // Menu Sidebar
 aside.VPSidebar {
-  .group { padding-top: 5px !important;
-    .VPSidebarItem.level-0 {
-      padding-bottom: 5px;
-      .collapsed {
-        padding-bottom: 5px;
+  .group {
+    padding-top: 5px !important;
+    .VPSidebarItem {
+      &.level-0 {
+        padding-bottom: 11px;
+        &.collapsed {
+          padding-bottom: 1px;
+        }
       }
-      .VPSidebarItem.level-1 {
-        padding-bottom: 0;
+      &.level-1 {
+        padding-left: 15px;
+        h2, h3, p {
+          padding: 2px 0;
+        }
       }
+      .caret { height: inherit; }
     }
   }
 }
 
 // "On this page" Outlines
 div.aside nav {
+  .outline-link {
+    font-weight: inherit;
+  };
   ul {
     font-size: 15px !important;
     ul.nested {
       font-size: 95% !important;
-      padding: 7px 0 7px 20px;
+      padding: 0 0 0 20px;
       li a {
-        line-height: 2em !important;
+        line-height: 1.9em !important;
       }
     }
   }
@@ -271,7 +279,8 @@ kbd {
 }
 
 .learn-more {
-  color: var(--vp-c-gray);
+  &, & a { color: #999 !important; .dark & { color: #777 !important }};
+  font-style: italic;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
@@ -291,19 +300,13 @@ tr:nth-child(odd) {
   background-color: var(--vp-c-bg);
 }
 
+html.java .node {
+  display: none;
+}
+html.node .java {
+  display: none;
+}
 
-// enable for light code theme
-// pre.log {
-//   background: #f8f8f8; // matches to light theme
-//   color: #032F62; // matches to light theme
-//   em {
-//     color: #db8b0b;
-//   }
-//   :root.dark & {
-//     background: var(--vp-code-block-bg);
-//     color: #fafafa;
-//   }
-// }
 
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
@@ -313,6 +316,7 @@ tr:nth-child(odd) {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

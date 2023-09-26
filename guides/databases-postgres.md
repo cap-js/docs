@@ -21,6 +21,8 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP
 
 </div>
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 
@@ -171,7 +173,8 @@ If you don't use the default credentials and want to use just `cds deploy`, you 
     "db": {
       "kind": "postgres",
       "credentials": {
-        "host": "localhost", "port": 5432,
+        "host": "localhost",
+        "port": 5432,
         "user": "postgres",
         "password": "postgres",
         "database": "postgres"

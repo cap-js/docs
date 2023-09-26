@@ -103,7 +103,7 @@ service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
 
 Using anything but lambda functions for either CRUD handler or action implementation will make it impossible for the LSP to infer the parameter types.
 
-You can remedy this by specifying the expected type with one of the following options:
+You can remedy this by specifying the expected type with one of the following options.
 
 Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 

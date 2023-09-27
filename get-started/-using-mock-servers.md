@@ -179,7 +179,7 @@ module.exports = (db)=>{
 
 ###### Mock Custom Responses
 
-To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#adding-custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
+To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
 
 ```js
 module.exports = cds.service.impl (srv => {

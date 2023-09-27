@@ -19,7 +19,7 @@
   - [Modeling Services](guides/providing-services#service-definitions)
   - [Generic Providers](guides/providing-services#generic-providers)
   - [Input Validation](guides/providing-services#input-validation)
-  - [Custom Logic](guides/providing-services#adding-custom-logic)
+  - [Custom Logic](guides/providing-services#custom-logic)
   - [Actions & Functions](guides/providing-services#actions-functions)
 - [Consuming Services](guides/using-services)
   - [Introduction](guides/using-services#introduction)

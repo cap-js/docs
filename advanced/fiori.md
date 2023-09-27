@@ -427,7 +427,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java

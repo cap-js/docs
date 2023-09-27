@@ -91,15 +91,15 @@ Following is an index of the features currently covered by CAP, with status and 
 | Nested Projections                                                                                                | <D/> |
 | [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
-| Pluggable CDS linter                                                                                              | <D/> |
-| [CDS linter](../tools/#cds-lint)                                                                                  | <X/> |
+| Pluggable CDS Linter                                                                                              | <D/> |
+| [CDS Linter](../tools/#cds-lint)                                                                                  | <X/> |
 
 ### Providing Services
 
 | Core Framework Features                                                                 |  CDS  | Node.js | Java |
 |-----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)  | <Na/> |  <X/>   | <X/> |
-| [Deep-Read/Write Structured Documents](../guides/providing-services#serving-documents) | <X/>  |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services#deep-reads-writes) | <X/>  |  <X/>   | <X/> |
 | [Automatic Input Validation](../guides/providing-services#input-validation)            | <X/>  |  <X/>   | <X/> |
 | [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)             | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
@@ -119,9 +119,9 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/providing-services#managed-data)                                  | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/domain-modeling#managed-data)                                  | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
 | Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]       | <Na/> |  <X/>   | <X/> |

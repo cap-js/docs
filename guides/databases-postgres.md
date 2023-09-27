@@ -21,6 +21,8 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP
 
 </div>
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 
@@ -171,7 +173,8 @@ If you don't use the default credentials and want to use just `cds deploy`, you 
     "db": {
       "kind": "postgres",
       "credentials": {
-        "host": "localhost", "port": 5432,
+        "host": "localhost",
+        "port": 5432,
         "user": "postgres",
         "password": "postgres",
         "database": "postgres"
@@ -403,7 +406,7 @@ The shell script specified in the previous step is a simple combination of all t
     echo - copy .csv files -
     cp -r db/data gen/pg/db/data
 
-    echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy",}}' > gen/pg/package.json
+    echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy"}}' > gen/pg/package.json
 
     ```
 

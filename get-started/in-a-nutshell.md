@@ -16,6 +16,8 @@ Using a minimal setup
 
 This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 
@@ -651,7 +653,7 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
+- [Adding Custom Logic](../guides/providing-services#custom-logic)
 
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 

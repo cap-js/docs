@@ -78,12 +78,8 @@ main {
     a {
       text-decoration: none;
       &:hover {
-        text-decoration: underline dotted;
+        text-decoration: underline;
       }
-    }
-
-    .custom-block code {
-      font-weight: 600; // default is 700 which looks too fat
     }
 
     // Fix for copy button position
@@ -93,7 +89,8 @@ main {
 
     pre.log {
       font-size: var(--vp-code-font-size);
-      line-height: var(--vp-code-line-height);
+      line-height: 1.4em;
+      font-style: italic;
       padding: 20px !important;
       border-radius: 8px;
       overflow: hidden;
@@ -112,7 +109,7 @@ main {
         }
       }
       em {
-        color: #00ff00e0;
+        color: #00ab00e0;
       }
       b {
         color: #ee0000e0;
@@ -122,7 +119,6 @@ main {
       }
 
       background: var(--vp-code-block-bg);
-      color: #fafafa;
     }
   }
 
@@ -141,7 +137,6 @@ main {
         list-style-type: circle;
         font-size: 95%;
         line-height: 120%;
-        font-weight: 200 !important;
       }
     }
   }
@@ -152,24 +147,30 @@ main {
     border-width: 0 0 0 7px;
     border-radius: 14px;
     &.tip {
+      &, & code, & a { color: #041 };
+      background-color: #dfe;
       border-color: #096;
-      background-color: #dfe; color: #041;
       .dark & {
-        background-color: #021; color: #ced;
+        &, & code, & a { color: #ced; }
+        background-color: #021;
       }
     }
     &.warning {
+      &, & code, & a { color: #960; }
+      background-color: #fff7f0;
       border-color: #ea0;
-      background-color: #fff7f0; color: #960;
       .dark & {
-        background-color: #210; color: #ea0;
+        &, & code, & a { color: #ea0; }
+        background-color: #210;
       }
     }
     &.danger {
+      &, & code, & a { color: #600; }
+      background-color: #fee;
       border-color: #900;
-      background-color: #fee; color: #600;
       .dark & {
-        background-color: #300; color: #fcc;
+        &, & code, & a { color: #fcc; }
+        background-color: #300;
       }
     }
     a {
@@ -198,19 +199,22 @@ main {
 
   .good { color:teal }
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
-  .constructor::before { content: 'Constructor: '; color: grey }
-  .property::before { content: 'Property: '; color: grey }
-  .method::before { content: 'Method: '; color: grey }
-  .event::before { content: 'Event: '; color: grey }
-  .class::before { content: 'Class: '; color: grey }
-  .async-method::before { content: 'Method: async '; color: grey }
+  .constructor::before { content: 'Constructor: '; color: #999 }
+  .annotation::before { content: 'Annotation: '; color: #999 }
+  .property::before { content: 'Property: '; color: #999 }
+  .method::before { content: 'Method: '; color: #999 }
+  .event::before { content: 'Event: '; color: #999 }
+  .class::before { content: 'Class: '; color: #999 }
+  .async-method::before { content: 'Method: async '; color: #999 }
   h3.event, h3.method, h3.async-method {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.annotation + h4.annotation,
   h4.property + h4.property,
   h4.event + h4.event,
   h4.method + h4.method,
+  h3.annotation + h3.annotation,
   h3.property + h3.property,
   h3.event + h3.event,
   h3.class + h3.class,
@@ -221,28 +225,38 @@ main {
 
 // Menu Sidebar
 aside.VPSidebar {
-  .group { padding-top: 5px !important;
-    .VPSidebarItem.level-0 {
-      padding-bottom: 5px;
-      .collapsed {
-        padding-bottom: 5px;
+  .group {
+    padding-top: 5px !important;
+    .VPSidebarItem {
+      &.level-0 {
+        padding-bottom: 11px;
+        &.collapsed {
+          padding-bottom: 1px;
+        }
       }
-      .VPSidebarItem.level-1 {
-        padding-bottom: 0;
+      &.level-1 {
+        padding-left: 15px;
+        h2, h3, p {
+          padding: 2px 0;
+        }
       }
+      .caret { height: inherit; }
     }
   }
 }
 
 // "On this page" Outlines
 div.aside nav {
+  .outline-link {
+    font-weight: inherit;
+  };
   ul {
     font-size: 15px !important;
     ul.nested {
       font-size: 95% !important;
-      padding: 7px 0 7px 20px;
+      padding: 0 0 0 20px;
       li a {
-        line-height: 2em !important;
+        line-height: 1.9em !important;
       }
     }
   }
@@ -268,7 +282,8 @@ kbd {
 }
 
 .learn-more {
-  color: var(--vp-c-gray);
+  &, & a { color: #999 !important; .dark & { color: #777 !important }};
+  font-style: italic;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
@@ -296,19 +311,6 @@ html.node .java {
 }
 
 
-// enable for light code theme
-// pre.log {
-//   background: #f8f8f8; // matches to light theme
-//   color: #032F62; // matches to light theme
-//   em {
-//     color: #db8b0b;
-//   }
-//   :root.dark & {
-//     background: var(--vp-code-block-bg);
-//     color: #fafafa;
-//   }
-// }
-
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
   div[class^='language-']:hover,
@@ -317,6 +319,7 @@ html.node .java {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

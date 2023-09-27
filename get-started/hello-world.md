@@ -22,6 +22,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 ## Create a Project
 

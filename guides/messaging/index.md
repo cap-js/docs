@@ -18,7 +18,7 @@ status: released
 
 
 
-## Introduction — Ubiquitous Events in CAP {#intro}
+## Ubiquitous Events in CAP {#intro}
 
 We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#books-reviews-sample).
 
@@ -119,7 +119,7 @@ The following explanations walk us through a books review example from cap/sampl
 Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples/cloud-cap-samples#readme) for getting the samples and exercising the following steps.
 :::
 
-### Declaring Events in CDS {.h2}
+### Declaring Events in CDS
 
 Package `@capire/reviews` essentially provides a `ReviewsService`, [declared like that](https://github.com/sap-samples/cloud-cap-samples/blob/main/reviews/srv/reviews-service.cds):
 
@@ -149,7 +149,7 @@ As you can read from the definitions, the service's synchronous API allows to cr
 **Services in CAP** combine **synchronous** *and* **asynchronous** APIs. Events are declared on conceptual level focusing on domain, instead of low-level wire protocols.
 :::
 
-### Emitting Events {.h2}
+### Emitting Events
 
 Find the code to emit events in *[@capire/reviews/srv/reviews-service.js](https://github.com/SAP-samples/cloud-cap-samples/blob/139d9574950d1a5ead475c7b47deb174418500e4/reviews/srv/reviews-service.js#L12-L20)*:
 
@@ -173,7 +173,7 @@ Method `srv.emit()` is used to emit event messages. As you can see, emitters usu
 Simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
 :::
 
-### Receiving Events {.h2}
+### Receiving Events
 
 Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://github.com/SAP-samples/cloud-cap-samples/blob/30764b261b6bf95854df59f54a8818a4ceedd462/bookstore/srv/mashup.js#L39-L47)* (which is the basic bookshop app enhanced by reviews, hence integration with `ReviewsService`):
 

@@ -260,7 +260,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -1033,7 +1033,7 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 
 <!-- ## Streaming API {#srv-stream } -->
 
-### srv.stream (column) {.method}
+### srv. stream (column) {.method}
 
 ```ts
 async function srv.stream (column: string)
@@ -1068,7 +1068,7 @@ Streaming is currently limited to [database services](databases).
 
 
 
-### srv.stream (query)  {.method}
+### srv. stream (query)  {.method}
 
 ```ts
 async function srv.stream (query: CQN) : ReadableStream
@@ -1083,7 +1083,7 @@ stream.pipe(process.stdout)
 
 
 
-### srv.foreach (entity) {.method}
+### srv. foreach (entity) {.method}
 
 ```ts
 function foreach(

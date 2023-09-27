@@ -19,7 +19,7 @@ See our [contribution guidelines](CONTRIBUTING.md) for information about how to 
 If you contribute often to the documentation it's best to create your own fork, clone it to your local machine. 
 
 ```sh
-git clone https://github.com/njames/sap-cap-js-docs.git
+git clone https://github.com/cap-js/docs.git
 ```
 
 Install the dependencies:

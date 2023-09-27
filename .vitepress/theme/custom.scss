@@ -200,6 +200,7 @@ main {
   .good { color:teal }
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
   .constructor::before { content: 'Constructor: '; color: #999 }
+  .annotation::before { content: 'Annotation: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
   .method::before { content: 'Method: '; color: #999 }
   .event::before { content: 'Event: '; color: #999 }
@@ -209,9 +210,11 @@ main {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.annotation + h4.annotation,
   h4.property + h4.property,
   h4.event + h4.event,
   h4.method + h4.method,
+  h3.annotation + h3.annotation,
   h3.property + h3.property,
   h3.event + h3.event,
   h3.class + h3.class,

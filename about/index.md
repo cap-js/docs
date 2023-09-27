@@ -214,7 +214,7 @@ Following is an excerpt of generic features provided:
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services#managed-data)
+- [Managed Data](../guides/domain-modeling#managed-data)
 - [Localized Data](../guides/localized-data)
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)

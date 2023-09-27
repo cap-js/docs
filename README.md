@@ -14,7 +14,7 @@ This project is open to feature requests/suggestions, bug reports, etc. via [Git
 
 See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
 
-## Running locally
+## Running Locally
 
 If you contribute often to the documentation it's best to create your own fork, clone it to your local machine. 
 

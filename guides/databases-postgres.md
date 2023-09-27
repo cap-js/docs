@@ -406,7 +406,7 @@ The shell script specified in the previous step is a simple combination of all t
     echo - copy .csv files -
     cp -r db/data gen/pg/db/data
 
-    echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy",}}' > gen/pg/package.json
+    echo '{"dependencies": { "@sap/cds": "*", "@cap-js/postgres": "*"},  "scripts": {    "start": "cds-deploy"}}' > gen/pg/package.json
 
     ```
 

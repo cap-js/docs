@@ -80,6 +80,9 @@ main {
       &:hover {
         text-decoration: underline;
       }
+      &:active {
+        opacity: 0.75;
+      }
     }
 
     // Fix for copy button position
@@ -146,30 +149,34 @@ main {
     font-size: 95%;
     border-width: 0 0 0 7px;
     border-radius: 14px;
+    &.info {
+      &, & code, & a, & a:hover { color: var(--vp-custom-block-info-text) };
+      border-color: #ccc;
+    }
     &.tip {
-      &, & code, & a { color: #041 };
+      &, & code, & a, & a:hover { color: #041 };
       background-color: #dfe;
       border-color: #096;
       .dark & {
-        &, & code, & a { color: #ced; }
+        &, & code, & a, & a:hover { color: #ced; }
         background-color: #021;
       }
     }
     &.warning {
-      &, & code, & a { color: #960; }
+      &, & code, & a, & a:hover { color: #960; }
       background-color: #fff7f0;
       border-color: #ea0;
       .dark & {
-        &, & code, & a { color: #ea0; }
+        &, & code, & a, & a:hover { color: #ea0; }
         background-color: #210;
       }
     }
     &.danger {
-      &, & code, & a { color: #600; }
+      &, & code, & a, & a:hover { color: #600; }
       background-color: #fee;
       border-color: #900;
       .dark & {
-        &, & code, & a { color: #fcc; }
+        &, & code, & a, & a:hover { color: #fcc; }
         background-color: #300;
       }
     }

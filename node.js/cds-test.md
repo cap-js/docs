@@ -4,14 +4,19 @@ status: released
 
 # Testing with `cds.test`
 
+# Testing with `cds.test`
 
 
+
+[[toc]]
 [[toc]]
 
 
 
 ## Overview
+## Overview
 
+The `cds.test` library provides best practice utils for writing tests for CAP Node.js applications.
 The `cds.test` library provides best practice utils for writing tests for CAP Node.js applications.
 
 ::: tip Find examples in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples/tree/master/test) and in the [*SFlight sample*](https://github.com/SAP-samples/cap-sflight/tree/main/test).
@@ -31,6 +36,19 @@ project/    # your project's root folder
 └─ package.json
 ```
 
+### Running a CAP Server
+
+Use function [`cds.test()`](#cds-test) to easily launch and test a CAP server. For example, given your CAP application has a `./test` subfolder containing tests as follows:
+
+```zsh
+project/    # your project's root folder
+├─ srv/
+├─ db/
+├─ test/    # your .test.js files go in here
+└─ package.json
+```
+
+Start your app's server in your `.test.js` files like that:
 Start your app's server in your `.test.js` files like that:
 
 ```js{3}
@@ -38,7 +56,11 @@ const cds = require('@sap/cds')
 describe(()=>{
   const test = cds.test(__dirname+'/..')
 })
+describe(()=>{
+  const test = cds.test(__dirname+'/..')
+})
 ```
+This launches a cds server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 This launches a cds server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
 ::: warning  Don't use `process.chdir()`!
@@ -47,13 +69,17 @@ Doing so in Jest tests may leave test containers in screwed state, leading to fa
 
 ::: danger Don't load [`cds.env`](cds-env) before [`cds.test()`](#cds-test)!
 To ensure `cds.env`, and hence all plugins, are loaded from the test's target folder, the call to `cds.test()` should be the very first thing you do in your tests. Any references to [`cds`](cds-facade) sub modules or any imports of which have to go after.  → [Learn more below.](#cds-test-env-check)
+::: danger Don't load [`cds.env`](cds-env) before [`cds.test()`](#cds-test)!
+To ensure `cds.env`, and hence all plugins, are loaded from the test's target folder, the call to `cds.test()` should be the very first thing you do in your tests. Any references to [`cds`](cds-facade) sub modules or any imports of which have to go after.  → [Learn more below.](#cds-test-env-check)
 :::
 
 
 
 
 ### Testing Service APIs
+### Testing Service APIs
 
+As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js Service APIs](core-services). Here is an example for that taken from [cap/samples](https://github.com/SAP-samples/cloud-cap-samples/blob/a8345122ea5e32f4316fe8faef9448b53bd097d4/test/consuming-services.test.js#L2):
 As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js Service APIs](core-services). Here is an example for that taken from [cap/samples](https://github.com/SAP-samples/cloud-cap-samples/blob/a8345122ea5e32f4316fe8faef9448b53bd097d4/test/consuming-services.test.js#L2):
 
 ```js
@@ -68,9 +94,15 @@ it('Allows testing programmatic APIs', async () => {
 
 
 ### Testing HTTP APIs
+### Testing HTTP APIs
 
 To test HTTP APIs we can use bound functions like so:
+To test HTTP APIs we can use bound functions like so:
 
+```js
+const { GET, POST } = cds.test(...)
+const { data } = await GET ('/browse/Books')
+await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 ```js
 const { GET, POST } = cds.test(...)
 const { data } = await GET ('/browse/Books')
@@ -78,11 +110,15 @@ await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 ```
 
 [Learn more below.](#http-bound) {.learn-more}
+[Learn more below.](#http-bound) {.learn-more}
 
 
 
 ### Using Jest or Mocha
+### Using Jest or Mocha
 
+ [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its fan base.
+The `cds.test` library is designed to write tests that run with both, as in this sample:
  [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its fan base.
 The `cds.test` library is designed to write tests that run with both, as in this sample:
 
@@ -92,8 +128,13 @@ describe('my test suite', ()=>{
   it ('should test', ()=>{   // Jest & Mocha
     const { data } = await GET ('/browse/Books')
     expect(data.value).to.eql([ // chai style expect
+  const { GET, expect } = cds.test(...)
+  it ('should test', ()=>{   // Jest & Mocha
+    const { data } = await GET ('/browse/Books')
+    expect(data.value).to.eql([ // chai style expect
       { ID: 201, title: 'Wuthering Heights', author: 'Emily Brontë' },
       { ID: 252, title: 'Eleonora', author: 'Edgar Allen Poe' },
+      //...
       //...
     ])
   })
@@ -103,11 +144,15 @@ describe('my test suite', ()=>{
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
 
 ::: tip [All tests in cap/samples](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
+You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
+
+::: tip [All tests in cap/samples](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
 
 
+### Using Test Watchers
 ### Using Test Watchers
 
 You can also start the tests in watch mode, for example:
@@ -492,15 +537,21 @@ await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
 ## Using `cds.test` in REPL
 
 You can use `cds.test` in REPL, for example, by running this from your command line in [cap/samples](https://github.com/sap-samples/cloud-cap-samples):
+You can use `cds.test` in REPL, for example, by running this from your command line in [cap/samples](https://github.com/sap-samples/cloud-cap-samples):
 
 ```sh
 [cap/samples] cds repl
 Welcome to cds repl v7.1
+[cap/samples] cds repl
+Welcome to cds repl v7.1
 ```
+
 
 ```js
 > var test = await cds.test('bookshop')
+> var test = await cds.test('bookshop')
 ```
+
 
 ```log
 [cds] - model loaded from 6 file(s):
@@ -529,10 +580,12 @@ Welcome to cds repl v7.1
 [ terminate with ^C ]
 ```
 
+
 ```js
 > await SELECT `title` .from `Books` .where `exists author[name like '%Poe%']`
 [ { title: 'The Raven' }, { title: 'Eleonora' } ]
 ```
+
 
 ```js
 > var { CatalogService } = cds.services

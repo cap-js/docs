@@ -22,6 +22,8 @@ impl-variants: true
 
 # Consuming Services
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 ## Introduction
@@ -132,11 +134,11 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 [You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
-::: warning
-**Don't just copy the CDS file for a remote CAP service**, for example from a different application. There are issues to use them to call remote services:<br>
-- The effective service API depends on the used protocol.<br>
-- CDS files often use includes, which can't be resolved anymore.<br>
-- CAP creates unneeded database tables and views for all entities in the file.<br>
+::: warning Don't just copy the CDS file for a remote CAP service
+Simply copying CDS files from a different application comes with the following issues:
+- The effective service API depends on the used protocol.
+- CDS files often use includes, which can't be resolved anymore.
+- CAP creates unneeded database tables and views for all entities in the file.
 :::
 
 ### Import API Definition { #import-api}
@@ -899,9 +901,7 @@ You need additional logic, if remote entities are in the game. The following tab
 
 #### Transient Access vs. Replication
 
-::: tip
-The _Integrate and Extend_ chapter shows only techniques for transient access.
-:::
+> This chapter shows only techniques for transient access.
 
 The following matrix can help you to find the best approach for your scenario:
 
@@ -1454,9 +1454,11 @@ With the destination service, you can access destinations in your provider accou
 
 Customers want to see business partners from, for example, their SAP S/4 HANA system.
 
-As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service.
+As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service. For destinations in an on-premise system, the connectivity service must be bound.
 
 The subscriber needs to create a destination with that name in their subscriber account, for example, pointing to their SAP S/4HANA system.
+
+
 
 
 

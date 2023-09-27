@@ -8,12 +8,18 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --vp-c-brand-1: #db8b0b;
+  --vp-c-brand-1: #db8b0b;
   --vp-c-brand-2: #db8b0b;
+  --vp-c-brand-3: #db8b0b;
+  --vp-c-brand-soft: rgba(219, 139, 11, 0.16); // where is that used?
   --vp-c-brand-3: #db8b0b;
   --vp-c-brand-soft: rgba(219, 139, 11, 0.16); // where is that used?
 
   // --vp-c-brand: #db8b0b;
   // --vp-c-brand-dark: #9f660a;
+  --vp-button-brand-border: #efbc6b;
+  --vp-button-brand-hover-bg: #c37d0b;
+  --vp-button-brand-hover-border: #f3b655;
   --vp-button-brand-border: #efbc6b;
   --vp-button-brand-hover-bg: #c37d0b;
   --vp-button-brand-hover-border: #f3b655;
@@ -79,6 +85,7 @@ main {
       text-decoration: none;
       &:hover {
         text-decoration: underline;
+        text-decoration: underline;
       }
     }
 
@@ -89,6 +96,8 @@ main {
 
     pre.log {
       font-size: var(--vp-code-font-size);
+      line-height: 1.4em;
+      font-style: italic;
       line-height: 1.4em;
       font-style: italic;
       padding: 20px !important;
@@ -109,7 +118,7 @@ main {
         }
       }
       em {
-        color: #00ff00e0;
+        color: #00ab00e0;
       }
       b {
         color: #ee0000e0;
@@ -119,7 +128,6 @@ main {
       }
 
       background: var(--vp-code-block-bg);
-      color: #fafafa;
     }
   }
 
@@ -150,8 +158,12 @@ main {
     &.tip {
       &, & code, & a { color: #041 };
       background-color: #dfe;
+      &, & code, & a { color: #041 };
+      background-color: #dfe;
       border-color: #096;
       .dark & {
+        &, & code, & a { color: #ced; }
+        background-color: #021;
         &, & code, & a { color: #ced; }
         background-color: #021;
       }
@@ -159,8 +171,12 @@ main {
     &.warning {
       &, & code, & a { color: #960; }
       background-color: #fff7f0;
+      &, & code, & a { color: #960; }
+      background-color: #fff7f0;
       border-color: #ea0;
       .dark & {
+        &, & code, & a { color: #ea0; }
+        background-color: #210;
         &, & code, & a { color: #ea0; }
         background-color: #210;
       }
@@ -168,8 +184,12 @@ main {
     &.danger {
       &, & code, & a { color: #600; }
       background-color: #fee;
+      &, & code, & a { color: #600; }
+      background-color: #fee;
       border-color: #900;
       .dark & {
+        &, & code, & a { color: #fcc; }
+        background-color: #300;
         &, & code, & a { color: #fcc; }
         background-color: #300;
       }
@@ -210,9 +230,11 @@ main {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.annotation + h4.annotation,
   h4.property + h4.property,
   h4.event + h4.event,
   h4.method + h4.method,
+  h3.annotation + h3.annotation,
   h3.property + h3.property,
   h3.event + h3.event,
   h3.class + h3.class,
@@ -236,6 +258,7 @@ aside.VPSidebar {
           padding: 2px 0;
         }
       }
+      .caret { height: inherit; }
     }
   }
 }
@@ -245,12 +268,17 @@ div.aside nav {
   .outline-link {
     font-weight: inherit;
   };
+  .outline-link {
+    font-weight: inherit;
+  };
   ul {
     font-size: 15px !important;
     ul.nested {
       font-size: 95% !important;
       padding: 0 0 0 20px;
+      padding: 0 0 0 20px;
       li a {
+        line-height: 1.9em !important;
         line-height: 1.9em !important;
       }
     }
@@ -277,6 +305,8 @@ kbd {
 }
 
 .learn-more {
+  &, & a { color: #999 !important; .dark & { color: #777 !important }};
+  font-style: italic;
   &, & a { color: #999 !important; .dark & { color: #777 !important }};
   font-style: italic;
   margin-top: -5px;
@@ -306,19 +336,6 @@ html.node .java {
 }
 
 
-// enable for light code theme
-// pre.log {
-//   background: #f8f8f8; // matches to light theme
-//   color: #032F62; // matches to light theme
-//   em {
-//     color: #db8b0b;
-//   }
-//   :root.dark & {
-//     background: var(--vp-code-block-bg);
-//     color: #fafafa;
-//   }
-// }
-
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
   div[class^='language-']:hover,
@@ -327,6 +344,7 @@ html.node .java {
   pre.log:focus {
     min-width: fit-content;
     padding-right: 40px;
+    z-index: 1;  // draw over outline
   }
   table:hover,
   table:focus {

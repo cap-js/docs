@@ -12,10 +12,11 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 
 ## Quickstart using VS Code {#cds-typer-vscode}
 1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. In your project's root, execute `cds add typer`.
-3. Install the newly added dev-dependency using `npm i`.
-4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
-5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
+2. See that cds-typer is enabled in your VSCode settings (CDS > Type Generator > Enabled).
+3. In your project's root, execute `cds add typer`.
+4. Install the newly added dev-dependency using `npm i`.
+5. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
+6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
 ```js
 //  without cds-typer
@@ -102,13 +103,27 @@ service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
 
 Using anything but lambda functions for either CRUD handler or action implementation will make it impossible for the LSP to infer the parameter types.
 
-You can remedy this by specifying the expected type yourself via [JSDoc](https://jsdoc.app/):
+You can remedy this by specifying the expected type with one of the following options.
+
+Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 
 ```js
 service.on('READ', Books, readBooksHandler)
 
 /** @param {{ data: import('#cds-models/sap/capire/Bookshop').Books }} req */
 function readBooksHandler (req) {
+  // req.data is now properly known to be of type Books again
+}
+```
+
+Using `import type` in TypeScript projects:
+
+```ts
+import type { Books } from '#cds-models/sap/capire/bookshop'
+
+service.on('READ', Books, readBooksHandler)
+
+function readBooksHandler (req: {{ data: Books }}) {
   // req.data is now properly known to be of type Books again
 }
 ```

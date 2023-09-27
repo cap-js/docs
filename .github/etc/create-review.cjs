@@ -205,11 +205,11 @@ module.exports = async ({ github, require, exec, core }) => {
             spellingMistakesText += `* **${path}**${pointer} Unknown word "**${word}**"\n`
         }
 
-        if (wordsWithoutSuggestions.length > 0) {
+        if (wordsWithoutSuggestions.length > 0 && comments.length > 0) {
             spellingMistakesText += `\n${createWordsWithoutSuggestionsText(wordsWithoutSuggestions)}\n`
         }
 
-        if (matches.length > 0) {
+        if (matches.length > 0 && comments.length > 0) {
             spellingMistakesText += `${getSpellingCorrectionTip()}\n`
         }
 

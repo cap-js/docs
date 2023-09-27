@@ -16,15 +16,19 @@ See our [contribution guidelines](CONTRIBUTING.md) for information about how to 
 
 ## Running locally
 
-If you are going to contribute often to the documentation it is best to create your own fork, clone it to your local machine. 
-
-Once it is cloned to you machine, install the node dependencies with:
+If you contribute often to the documentation it's best to create your own fork, clone it to your local machine. 
 
 ```sh
-npm install
+git clone https://github.com/njames/sap-cap-js-docs.git
 ```
 
-then start the local server with:
+Install the dependencies:
+
+```sh
+npm run setup
+```
+
+Start the local server:
 
 ```sh
 npm run start
@@ -39,7 +43,7 @@ This will respond with:
   ➜  press h to show help
 ```
 
-Once this is running, if you are reading this documentation at https://cap.cloud.sap/ anytime you press the `l` shortcut key it will open the locally hosted site you just set up at the same page. 
+Once this is running, if you are reading this documentation at https://cap.cloud.sap/ anytime you press <key>l</key> it opens the locally hosted site at the same page. 
 
 ## Code of Conduct
 

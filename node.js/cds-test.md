@@ -39,14 +39,14 @@ describe(()=>{
   const test = cds.test(__dirname+'/..')
 })
 ```
-This launches a cds server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
+This launches a CDS server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
 ::: warning  Don't use `process.chdir()`!
-Doing so in Jest tests may leave test containers in screwed state, leading to failing subsequent tests. Use [`cds.test.in()`](#test-in-folder) instead.
+Doing so in Jest tests may leave test containers in failed state, leading to failing subsequent tests. Use [`cds.test.in()`](#test-in-folder) instead.
 :::
 
 ::: danger Don't load [`cds.env`](cds-env) before [`cds.test()`](#cds-test)!
-To ensure `cds.env`, and hence all plugins, are loaded from the test's target folder, the call to `cds.test()` should be the very first thing you do in your tests. Any references to [`cds`](cds-facade) sub modules or any imports of which have to go after.  → [Learn more below.](#cds-test-env-check)
+To ensure `cds.env`, and hence all plugins, are loaded from the test's target folder, the call to `cds.test()` is the first thing you do in your tests. Any references to [`cds`](cds-facade) sub modules or any imports of which have to go after.  → [Learn more in `CDS_TEST_ENV_CHECK`.](#cds-test-env-check)
 :::
 
 
@@ -54,7 +54,7 @@ To ensure `cds.env`, and hence all plugins, are loaded from the test's target fo
 
 ### Testing Service APIs
 
-As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js Service APIs](core-services). Here is an example for that taken from [cap/samples](https://github.com/SAP-samples/cloud-cap-samples/blob/a8345122ea5e32f4316fe8faef9448b53bd097d4/test/consuming-services.test.js#L2):
+As `cds.test()` launches the server in the current process, you can access all services programmatically using the respective [Node.js Service APIs](core-services). Here's an example for that taken from [*cap/samples*](https://github.com/SAP-samples/cloud-cap-samples/blob/a8345122ea5e32f4316fe8faef9448b53bd097d4/test/consuming-services.test.js#L2):
 
 ```js
 it('Allows testing programmatic APIs', async () => {
@@ -69,7 +69,7 @@ it('Allows testing programmatic APIs', async () => {
 
 ### Testing HTTP APIs
 
-To test HTTP APIs we can use bound functions like so:
+To test HTTP APIs, we can use bound functions like so:
 
 ```js
 const { GET, POST } = cds.test(...)
@@ -77,13 +77,13 @@ const { data } = await GET ('/browse/Books')
 await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 ```
 
-[Learn more below.](#http-bound) {.learn-more}
+[Learn more in GET/PUT/POST.](#http-bound) {.learn-more}
 
 
 
 ### Using Jest or Mocha
 
- [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its fan base.
+ [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
 The `cds.test` library is designed to write tests that run with both, as in this sample:
 
 ```js
@@ -102,7 +102,7 @@ describe('my test suite', ()=>{
 
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
 
-::: tip [All tests in cap/samples](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
+::: tip [All tests in *cap/samples*](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
@@ -116,7 +116,7 @@ You can also start the tests in watch mode, for example:
 jest --watchAll
 ```
 
-which should give you green tests, when running in cap/samples root:
+This should give you green tests, when running in *cap/samples* root:
 
 <pre class="log">
 <em>PASS</em>  <i>test/</i>cds.ql.test.js
@@ -161,7 +161,7 @@ test.run().in(_dirname)
 
 ### cds.test() {.method}
 
-This method is the most convenient way to start a test server. It is actually just a convenient shortcut to construct a new instance of class `Test` and call [`test.run()`](#test-run), defined as follows:
+This method is the most convenient way to start a test server. It's actually just a convenient shortcut to construct a new instance of class `Test` and call [`test.run()`](#test-run), defined as follows:
 
 ```js
 const { Test } = cds.test
@@ -174,7 +174,7 @@ cds.test = (...args) => (new Test).run(...args)
 
 ### .chai, ... {.property}
 
-To write tests that run in [*Mocha*](https://mochajs.org) as well as in [*Jest*](https://jestjs.io) you should use the [*Chai Assertion Library*](https://www.chaijs.com/) through the following convenient methods ...
+To write tests that run in [*Mocha*](https://mochajs.org) as well as in [*Jest*](https://jestjs.io), you should use the [*Chai Assertion Library*](https://www.chaijs.com/) through the following convenient methods.
 
 :::warning Using `chai` requires these dependencies added to your project:
 
@@ -198,7 +198,7 @@ it('should support chai.except style', ()=>{
 })
 ```
 
-If you prefer Jest's `expect()` functions you can just use the respective global:
+If you prefer Jest's `expect()` functions, you can just use the respective global:
 
 ```js
 cds.test()
@@ -240,7 +240,7 @@ it('should support chai.should style', ()=>{
 
 #### .chai {.property}
 
-This getter provides access to the [*chai*](https://www.chaijs.com) library, preconfigured with the [chai-subset](https://www.chaijs.com/plugins/chai-subset/) and [chai-as-promised](https://www.chaijs.com/plugins/chai-as-promised/) plugins. These plugins contribute the `containSubset` and `eventually` APIs, respectively. The getter is essentially implemented like this:
+This getter provides access to the [*chai*](https://www.chaijs.com) library, preconfigured with the [chai-subset](https://www.chaijs.com/plugins/chai-subset/) and [chai-as-promised](https://www.chaijs.com/plugins/chai-as-promised/) plugins. These plugins contribute the `containSubset` and `eventually` APIs, respectively. The getter is implemented like this:
 
 ```js
 get chai() {
@@ -282,7 +282,7 @@ await POST('/browse/submitOrder',
 
 [Learn more about Axios.](https://axios-http.com) {.learn-more}
 
-In case of single url arguments the functions can be used in tagged template string style, which essentially allows omitting the parentheses from function calls:
+For single URL arguments, the functions can be used in tagged template string style, which allows omitting the parentheses from function calls:
 
 ```js
 let { data } = await GET('/browse/Books')
@@ -312,7 +312,7 @@ await test.post('/browse/submitOrder',
 
 ### test .data .reset() {.method}
 
-This is a bound method, which can be used in a `beforeEach` handler to automatically reset and re-deploy the database for each test like so:
+This is a bound method, which can be used in a `beforeEach` handler to automatically reset and redeploy the database for each test like so:
 
 ```js
 const { test } = cds.test()
@@ -339,7 +339,7 @@ function cds.test.log() => {
   output : string
   clear()
   release()
-} 
+}
 ```
 
 Usage examples:
@@ -347,7 +347,7 @@ Usage examples:
 ```js
 describe('cds.test.log()', ()=>{
   let log = cds.test.log()
-  
+
   it ('should capture log output', ()=>{
     expect (log.output.length).to.equal(0)
     console.log('foo',{bar:2})
@@ -368,13 +368,13 @@ describe('cds.test.log()', ()=>{
 })
 ```
 
-The implementation redirects any console operations in a `beforeAll()` hook, clears `log.output` before each test, and releases the captured console in an `afterAll()` hook. 
+The implementation redirects any console operations in a `beforeAll()` hook, clears `log.output` before each test, and releases the captured console in an `afterAll()` hook.
 
 
 
 ### test. run (...) {.method}
 
-This is the method behind [`cds.test()`](#cds-test) to start a cds server, that is the following are equivalent:
+This is the method behind [`cds.test()`](#cds-test) to start a CDS server, that is the following are equivalent:
 
 ```js
 cds.test(...)
@@ -384,11 +384,11 @@ cds.test(...)
 (new cds.test.Test).run(...)
 ```
 
-It asynchroneously launches a cds server in a `beforeAll()` hook with an arbitrary port, with controlled shutdown when all tests have finished in an `afterAll()` hook.
+It asynchronously launches a CDS server in a `beforeAll()` hook with an arbitrary port, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
-The arguments are as supported by the `cds serve` CLI command.
+The arguments are the same as supported by the `cds serve` CLI command.
 
-Specify the command `'serve'` as the first argument to serve specific cds files or services:
+Specify the command `'serve'` as the first argument to serve specific CDS files or services:
 
 ```js
 cds.test('serve','srv/cat-service.cds')
@@ -401,13 +401,13 @@ You can optionally add [`test.in(folder)`](#test-in-folder) in fluent style to r
 cds.test('serve','srv/cat-service.cds').in('/cap/samples/bookshop')
 ```
 
-If the first argument is **not** `'serve'` it is interpreted as a target folder:
+If the first argument is **not** `'serve'`, it's interpreted as a target folder:
 
 ```js
 cds.test('/cap/samples/bookshop')
 ```
 
-Essentially this variant is a convenient shortcut for:
+This variant is a convenient shortcut for:
 
 ```js
 cds.test('serve','all','--in-memory?').in('/cap/samples/bookshop')
@@ -434,7 +434,7 @@ cds.test.in(__dirname)
 
 ### `CDS_TEST_ENV_CHECK`
 
-It is important to ensure [`cds.env`](cds-env), and hence all plugins, are loaded from the test's target folder. To ensure this, any references to [`cds`](cds-facade) sub modules or any imports of which have to go after. For example if you had a test like that:
+It's important to ensure [`cds.env`](cds-env), and hence all plugins, are loaded from the test's target folder. To ensure this, any references to or imports of [`cds`](cds-facade) sub modules have to go after all plugins are loaded. For example if you had a test like that:
 
 ```js
 cds.env.fiori.lean_draft = true   //> cds.env loaded from ./ // [!code --]
@@ -443,7 +443,7 @@ cds.test(__dirname)               //> target folder: __dirname
 
 This would result in the test server started from `__dirname`, but erroneously using `cds.env` loaded from `./`.
 
-As these mistakes end up in hard-to-resolve follow up errors, [`test.in()`](#test-in-folder) can detect this if environment variable `CDS_TEST_ENV_CHECK` is set. The above code will then result into an error like that:
+As these mistakes end up in hard-to-resolve follow up errors, [`test.in()`](#test-in-folder) can detect this if environment variable `CDS_TEST_ENV_CHECK` is set. The previous code will then result into an error like that:
 
 ```sh
 CDS_TEST_ENV_CHECK=y jest cds.test.test.js
@@ -466,7 +466,7 @@ Detected cds.env loaded before running cds.test in different folder:
   at Object.describe (test/cds.test.test.js:5:1)
 ```
 
-A similar error would occur if one of the `cds` sub module would be accessed, which frequently load `cds.env` in their global scope, like `cds.Service` in the snippet below:
+A similar error would occur if one of the `cds` sub modules would be accessed, which frequently load `cds.env` in their global scope, like `cds.Service` in the following snippet:
 
 ```js
 class MyService extends cds.Service {}  //> cds.env loaded from ./ // [!code --]
@@ -484,7 +484,7 @@ class MyService extends cds.Service {} // [!code ++]
 
 :::warning Do switch on `CDS_TEST_ENV_CHECK` !
 
-It is strongly recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests to detect such errors. It will likely become default in upcoming releases.
+We recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests to detect such errors. It's likely to become default in upcoming releases.
 
 :::
 
@@ -494,7 +494,7 @@ It is strongly recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests t
 
 ### Check Status Codes Last
 
-Avoid checking for single status codes. Instead simply check the response data:
+Avoid checking for single status codes. Instead, simply check the response data:
 
 ```js
 const { data, status } = await GET `/catalog/Books`
@@ -503,7 +503,7 @@ expect(data).to.equal(...)     //> do this to see what's wrong
 expect(status).to.equal(200)   //> Do it at the end, if at all // [!code ++]
 ```
 
-This makes a difference in case of an error: with the status code check, your test will abort with a useless _Expected: 200, received: xxx_ error, while without it, it fails with a richer error that includes a status text.
+This makes a difference if there are errors: with the status code check, your test aborts with a useless _Expected: 200, received: xxx_ error, while without it, it fails with a richer error that includes a status text.
 
 Note that by default, Axios yields errors for status codes `< 200` and `>= 300`. This can be [configured](https://github.com/axios/axios#handling-errors), though.
 
@@ -521,7 +521,7 @@ await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
 )
 ```
 
-**DO:**{.good} check for the essential information only:
+**DO**{.good} check for the essential information only:
 
 ```js
 await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
@@ -533,7 +533,7 @@ await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
 
 ## Using `cds.test` in REPL
 
-You can use `cds.test` in REPL, for example, by running this from your command line in [cap/samples](https://github.com/sap-samples/cloud-cap-samples):
+You can use `cds.test` in REPL, for example, by running this from your command line in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples):
 
 ```sh
 [cap/samples] cds repl

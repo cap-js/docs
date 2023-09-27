@@ -198,7 +198,7 @@ Following is an excerpt of generic features provided:
 ###### Automatically Serving Requests
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#serving-documents)
+- [Serving Nested Documents](../guides/providing-services#deep-reads-writes)
 - [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 

@@ -14,6 +14,33 @@ This project is open to feature requests/suggestions, bug reports, etc. via [Git
 
 See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
 
+## Running locally
+
+If you are going to contribute often to the documentation it is best to create your own fork, clone it to your local machine. 
+
+Once it is cloned to you machine, install the node dependencies with:
+
+```sh
+npm install
+```
+
+then start the local server with:
+
+```sh
+npm run start
+```
+
+This will respond with:
+```sh
+  vitepress v1.0.0-rc.15
+
+  ➜  Local:   http://localhost:5173/docs/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+```
+
+Once this is running, if you are reading this documentation at https://cap.cloud.sap/ anytime you press the `l` shortcut key it will open the locally hosted site you just set up at the same page. 
+
 ## Code of Conduct
 
 We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone. By participating in this project, you agree to abide by its [Code of Conduct](CODE_OF_CONDUCT.md) at all times.

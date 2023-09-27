@@ -568,8 +568,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../providing-services#using-cds-search-annotation)
 - [Pagination (implicit sort order)](../providing-services#pagination-sorting)
+- [Searching Data](../providing-services#searching-data)
 - Filtering
 
 ::: warning

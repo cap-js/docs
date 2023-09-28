@@ -195,9 +195,9 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 const commentBody = createCspellSuggestionText(suggestion, suggestions.slice(1))
 
-                comments.push({ path, position, body: commentBody })
+                comments.push({ path, line: position, body: commentBody })
             } else {
-                comments.push({ path, position, body: createUnknownWordComment(word) })
+                comments.push({ path, line: position, body: createUnknownWordComment(word) })
 
                 wordsWithoutSuggestions.push(word)
             }
@@ -228,6 +228,7 @@ module.exports = async ({ github, require, exec, core }) => {
             owner: REPO_OWNER,
             repo: REPO,
             pull_number: PULL_NUMBER,
+            commit_id: HEAD_SHA,
             body,
             event: 'COMMENT',
             comments

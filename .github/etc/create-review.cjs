@@ -189,7 +189,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 continue
             }
 
-            // Github required that no path starts with './', but cspell provides the paths exactly in this format
+            // Github requires that no path starts with './', but cspell provides the paths exactly in this format
             const properlyStructuredPath = path.replace(/^\.\//, '')
 
             if (suggestions.length > 0) {

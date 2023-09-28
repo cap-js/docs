@@ -390,7 +390,7 @@ SAP Fiori supports edit sessions with draft states stored on the server, so user
 
 [Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){.learn-more}
 
-[For details about the draft flow in SAP Fiori flements, see **SAP Fiori elements Draft Handling documentation**](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d){.learn-more}
+[For details about the draft flow in SAP Fiori elements, see **SAP Fiori elements > Draft Handling**](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d){.learn-more}
 
 
 ### Enabling Draft with `@odata.draft.enabled`

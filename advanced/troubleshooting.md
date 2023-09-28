@@ -107,7 +107,7 @@ restart
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 
 
-### Why do I loose registered event handlers?
+### Why do I lose registered event handlers?
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 
@@ -131,7 +131,7 @@ cds.on('served', async ()=>{
 })
 ```
 
-### My app isn’t showing up in Dynatrace
+### My app isn't showing up in Dynatrace
 
 Make sure that:
 - Your app's start script is `cds run` instead of `npx cds run`.
@@ -139,7 +139,7 @@ Make sure that:
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates, that the settings of the pool containing the database clients don’t match the application's needs. There are two possible root causes.
+This error indicates, that the settings of the pool containing the database clients don't match the application's needs. There are two possible root causes.
 
 |  | Explanation |
 | --- | ---- |
@@ -200,8 +200,8 @@ A new option `privilegedUser()` can be leveraged when [defining](../java/request
 
 ### How can I expose custom REST APIs with CAP?
 
-From time to time you might want to expose additional REST APIs in your CAP application, that aren’t covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
-In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you’ll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
+From time to time you might want to expose additional REST APIs in your CAP application, that aren't covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
+In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you'll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
 
 ### How can I build a CAP Java application without SQL database?
 
@@ -274,7 +274,7 @@ sqlite>
 
 If you want to test further, use _.help_ command to see all available commands in _sqlite3_.
 
-In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It’s available as an extension for VS Code and integrated in SAP Business Application Studio.
+In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
 ## SAP HANA { #hana}
@@ -316,7 +316,7 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 ### How Do I Resolve Service Creation Errors?
 
-- If there’s more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
+- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
 - On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
 
@@ -404,14 +404,14 @@ You can disable the database clustering for the update.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your configuration isn’t properly set. |
+| _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
 #### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your IP isn’t part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
+| _Root Cause_ | Your IP isn't part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
@@ -438,8 +438,6 @@ This error occurs if all of the following applies:
 ### How do I pass additional HDI deployment options to the multitenancy tenant deployment of the `cds-mtx` library
 
 You can add a subset of the [HDI deploy options](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html) using the environment variable `HDI_DEPLOY_OPTIONS`.\
-To avoid side effects, the allowed options are restricted to `[ 'undeploy', 'path_parameter','include_filter','exclude_filter',
-'write_timeout', 'connection_timeout', 'trace', 'lock_container_timeout','working_set' ]`.
 
 When making use of these parameters, for example `exclude_filter`, please always check if the parameters are consistent with your CDS build configuration to
 avoid deployment problems. For example, make sure to not exclude generated SAP HANA tables that are needed by generated views.
@@ -533,7 +531,7 @@ This is the same issue as with the installation error above.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your file isn’t UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
+| _Root Cause_ | Your file isn't UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
 | _Solution_ | Make sure, you execute `cds compile` in a command prompt that encodes in UTF-8 when piping output into a file.
 
 [You can find related information on **Stack Overflow**.](https://stackoverflow.com/questions/40098771/changing-powershells-default-output-encoding-to-utf-8){.learn-more}

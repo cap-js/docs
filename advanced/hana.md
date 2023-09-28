@@ -260,7 +260,7 @@ The following is the definition of a calculation view `data.model.bookshop.CalcB
 ::: code-group
 ```xml [existing-calc-view-quoted.hdbcalculationview]
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="3.0" id="data.model.bookshop.CalcBooks" applyPrivilegeType="NONE" defaultClient="$$client$$" visibility="reportingEnabled" calculationScenarioType="TREE_BASED" dataCategory="CUBE" enforceSqlExecution="false" outputViewType="Aggregation" cacheInvalidationPeriod="NONE">
+<Calculation:scenario xmlns:Calculation="https://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="3.0" id="data.model.bookshop.CalcBooks" applyPrivilegeType="NONE" defaultClient="$$client$$" visibility="reportingEnabled" calculationScenarioType="TREE_BASED" dataCategory="CUBE" enforceSqlExecution="false" outputViewType="Aggregation" cacheInvalidationPeriod="NONE">
 <descriptions defaultDescription="Calculation View w/ parameters and quoted names"/>
 <localVariables>
   <variable id="Param" parameter="true">
@@ -463,7 +463,7 @@ view OrdersView as select from Orders
 entity ItemSelection as projection on Items;
 ```
 
-However, as the annotation `@cds.persistence.exists` __isn’t__ propagated, this allows using such proxy artifacts as query sources and to be valid association targets.
+However, as the annotation `@cds.persistence.exists` __isn't__ propagated, this allows using such proxy artifacts as query sources and to be valid association targets.
 
 The example can now be rewritten to:
 
@@ -498,7 +498,7 @@ By composing `ItemSelection` instead of `Items`, it's possible to use this compo
 
 ## SAP HANA-Specific Data Types { #hana-types}
 
-The following SAP HANA-specific data types are primarily intended for porting existing SAP HANA CDS models into the CAP domain if the old SAP HANA types must be preserved in the existing database tables. If you’re starting from scratch, these types shouldn’t be used but only the [predefined CDS types](../cds/types).
+The following SAP HANA-specific data types are primarily intended for porting existing SAP HANA CDS models into the CAP domain if the old SAP HANA types must be preserved in the existing database tables. If you're starting from scratch, these types shouldn't be used but only the [predefined CDS types](../cds/types).
 
 | CDS Type | Arguments / Remarks | SQL | OData (V4) |
 | --- | --- |--- | --- |

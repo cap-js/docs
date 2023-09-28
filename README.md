@@ -10,9 +10,40 @@ Along with additional SAP-specific pages the content is published to https://cap
 
 ## Support, Feedback, Contributing
 
-This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/SAP/cap-js/docs/issues) and [pull requests](https://github.com/SAP/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
+This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/cap-js/docs/issues) and [pull requests](https://github.com/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
 
 See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
+
+## Running Locally
+
+If you contribute often to the documentation it's best to create your own fork, clone it to your local machine. 
+
+```sh
+git clone https://github.com/<your-git-account>/sap-cap-js-docs.git
+```
+
+Install the dependencies:
+
+```sh
+npm run setup
+```
+
+Start the local server:
+
+```sh
+npm run start
+```
+
+This will respond with:
+```sh
+  vitepress v1.0.0-rc.15
+
+  ➜  Local:   http://localhost:5173/docs/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+```
+
+Once this is running, if you are reading this documentation at https://cap.cloud.sap/ anytime you press <key>l</key> it opens the locally hosted site at the same page. 
 
 ## Code of Conduct
 

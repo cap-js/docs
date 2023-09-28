@@ -2,7 +2,7 @@
 label: cds-typer
 synopsis: >
   This page explains the package cds-typer in depth.
-layout: node-js
+# layout: node-js
 status: released
 ---
 
@@ -12,10 +12,11 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 
 ## Quickstart using VS Code {#cds-typer-vscode}
 1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. In your project's root, execute `cds add typer`.
-3. Install the newly added dev-dependency using `npm i`.
-4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
-5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
+2. See that cds-typer is enabled in your VSCode settings (CDS > Type Generator > Enabled).
+3. In your project's root, execute `cds add typer`.
+4. Install the newly added dev-dependency using `npm i`.
+5. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
+6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
 ```js
 //  without cds-typer
@@ -102,13 +103,27 @@ service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
 
 Using anything but lambda functions for either CRUD handler or action implementation will make it impossible for the LSP to infer the parameter types.
 
-You can remedy this by specifying the expected type yourself via [JSDoc](https://jsdoc.app/):
+You can remedy this by specifying the expected type with one of the following options.
+
+Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 
 ```js
 service.on('READ', Books, readBooksHandler)
 
 /** @param {{ data: import('#cds-models/sap/capire/Bookshop').Books }} req */
 function readBooksHandler (req) {
+  // req.data is now properly known to be of type Books again
+}
+```
+
+Using `import type` in TypeScript projects:
+
+```ts
+import type { Books } from '#cds-models/sap/capire/bookshop'
+
+service.on('READ', Books, readBooksHandler)
+
+function readBooksHandler (req: {{ data: Books }}) {
   // req.data is now properly known to be of type Books again
 }
 ```
@@ -332,6 +347,21 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
+## Integrate Into Your Multitarget Application
+Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well. 
+
+::: code-group
+```yaml [mta.yaml]
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production
+    - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
+```
+:::
+
+This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
@@ -359,7 +389,7 @@ _tsconfig.json_, as we do not want to interfere with your configuration.
 The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
 For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
 
-```
+```txt
 @cds-models
 └───sap
     └───capire
@@ -388,7 +418,7 @@ Adding type support via `cds add typer` includes adding [subpath imports](https:
 
 Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
 
-```
+```txt
 bookstore
 │   package.json
 │

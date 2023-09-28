@@ -16,7 +16,7 @@ synopsis: >
 
 ## Jump-Starting Projects {#jumpstart}
 
-Assuming that you’ve installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
+Assuming that you've installed [_@sap/cds-dk_](jumpstart#setup), jump-starting a project in CAP is as simple as this:
 
 ```sh
 mkdir demo && cd demo  # create a new project folder
@@ -64,7 +64,7 @@ service CatalogService {
 
 ###### Prefer Top-Down Approaches
 
-Instead of following a bottom-up approach, starting from the data model, then putting services on top, then adding UIs, and so on, it’s much better to apply a top-down approach as follows:
+Instead of following a bottom-up approach, starting from the data model, then putting services on top, then adding UIs, and so on, it's much better to apply a top-down approach as follows:
 
 1. Roughly sketch your application's usage and use-cases, for example, your UIs.
 2. Capture required interfaces in [use case-oriented service definitions](#single-purposed-services).
@@ -79,7 +79,7 @@ This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** r
 
 When we save the file we created in the former step, the `cds` watcher in the terminal immediately reacts, showing this output:
 
-```
+```sh
 [cds](cds) - connect to datasource - sqlite::memory:
 [cds](cds) - serving CatalogService at /browse
 [cds](cds) - service definitions loaded from:
@@ -179,7 +179,7 @@ module.exports = (db)=>{
 
 ###### Mock Custom Responses
 
-To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#adding-custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
+To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
 
 ```js
 module.exports = cds.service.impl (srv => {
@@ -209,7 +209,7 @@ GET http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(Business
 
 ###### Reset Mock Data at Runtime
 
-To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#custom-actions-functions).
+To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#actions-functions).
 
 > When using `cds watch`, executing `rs` in the terminal with the running watch command will restart the mock server and reset the mock data without the need of an unbound action.
 
@@ -259,7 +259,7 @@ GET http://localhost:4004/api-business-partner/reset
 * [Serving OData APIs](../advanced/odata)
 * [Serving SAP Fiori UIs](../advanced/fiori)
 * [Deploying to the Cloud](../guides/deployment/)
-* [Adding Audit Logging](../guides/data-privacy/audit-log)
+* [Adding Audit Logging](../guides/data-privacy/audit-logging)
 * [Using Monitoring](../advanced/monitoring) & Analytics
 * Adding Tests
 * [Using CI/CD](../guides/deployment/cicd)

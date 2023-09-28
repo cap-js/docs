@@ -2,7 +2,7 @@
 label: Databases
 synopsis: >
   Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
-layout: node-js
+# layout: node-js
 status: released
 ---
 
@@ -40,7 +40,7 @@ This method is called automatically by the framework on the first query, so **yo
   - `affectedRows`: the number inserted (root) entries or the number of affectedRows in case of INSERT into SELECT
   - `valueOf()`: returns `affectedRows` such that comparisons like `result > 0` can be used
     ::: tip
-    `===` can’t be used as it also compares the type
+    `===` can't be used as it also compares the type
     :::
 
 
@@ -65,6 +65,10 @@ By default, the following [pool configuration](https://www.npmjs.com/package/gen
   "fifo": false
 }
 ```
+
+::: warning
+This default pool configuration does not apply to `@cap-js` database implementations.
+:::
 
 The _generic-pool_ has a built-in pool evictor, which inspects idle database connections in the pool and destroys them if they are too old.
 
@@ -104,6 +108,7 @@ Pool configuration can be adjusted by setting the `pool` option as shown in the 
   }
 }
 ```
+
 ::: warning _❗ Warning_
 The parameters are very specific to the current technical setup, such as the application environment and database location.
 Even though we provide a default pool configuration, we expect that each application provides its own configuration based on its specific needs.
@@ -153,4 +158,4 @@ In contrast to the Java runtime, deep upserts and delta payloads are not yet sup
 ##  <i>  More to Come </i>
 
 This documentation is not complete yet, or the APIs are not released for general availability.
-There's more to come in this place in upcoming releases.
+Stay tuned to upcoming releases for further updates.

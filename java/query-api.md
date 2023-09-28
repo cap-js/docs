@@ -253,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 ### Source
 
-The source of the select statement determines the data set to which the query is applied. It’s specified by the `from` method.
+The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
 #### From `entity set` {#from-entity-set}
 
@@ -291,7 +291,7 @@ Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 
 #### From `subquery` {#from-select}
 
-It’s also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
+It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
 ```sql
 --CQL query
@@ -589,7 +589,7 @@ Select.from("bookshop.Books")
         .search("Allen");
 ```
 
-> The element `title` is [searchable](#searchable-elements), even though `title` isn’t selected.
+> The element `title` is [searchable](#searchable-elements), even though `title` isn't selected.
 
 * Use search expressions {#search-expression}
 
@@ -688,6 +688,20 @@ Select.from("bookshop.Books")
     .columns(c -> c.get("ID"), c -> c.get("title"))
     .orderBy(c -> c.get("ID").desc(), c -> c.get("title").asc());
 ```
+
+You can order by the alias of a column of the select list or a column that is defined as a result of the function call.
+
+```java
+Select.from("bookshop.Person")
+    .columns(p -> p.get("name").toUpper().as("aliasForName"))
+    .orderBy(p -> p.get("aliasForName").asc());
+```
+
+Aliases of columns have precedence over the element names when `orderBy` is evaluated.
+
+::: warning
+Aliases may shadow elements names. To avoid shadowing, don't use element names as aliases.
+::::
 
 On SAP HANA, the user's locale is passed to the database, resulting in locale-specific sorting of string-based columns.
 
@@ -922,7 +936,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert { #deep-upsert}
 
-Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#_5-add-compositions), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#compositions), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.
@@ -974,9 +988,9 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 ### Deep Update { #deep-update}
 
-Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#_5-add-compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
+Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
 
-By default, only target entities of [compositions](../guides/domain-modeling#_5-add-compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
+By default, only target entities of [compositions](../guides/domain-modeling#compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 
@@ -1768,7 +1782,7 @@ Select.from(AUTHORS)
 
 This query selects all authors with the name of an astronaut.
 ::: tip
-With an `exists` subquery, you can correlate entities that aren’t linked with associations.
+With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
 
 When using the [tree-style API](#composing-predicates) the _outer_ query is addressed by the special reference name `"$outer"`:

@@ -28,7 +28,7 @@ This section describes how to configure applications. CAP Java applications can 
 
 For a first introduction, have a look at our [sample application](https://github.com/sap-samples/cloud-cap-samples-java) and the [configuration profiles](https://github.com/SAP-samples/cloud-cap-samples-java/blob/master/srv/src/main/resources/application.yaml) we added there.
 
-Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
+Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
 ### Service Bindings on SAP BTP, Kyma Runtime {#kubernetes-service-bindings}
 
@@ -106,7 +106,7 @@ The parameters `plan` and `tags` are optional.
 
 ## Spring Boot Integration { #spring-boot-integration}
 
-This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn’t supported.
+This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn't supported.
 Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
 
 As Spring Boot not only is widely accepted but also most popular application framework, CAP Java SDK comes with a seamless integration of Spring Boot as described in the following sections.
@@ -252,10 +252,17 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | Java | 17 | 17 |
 | @sap/cds-dk | 6 | latest |
 | @sap/cds-compiler | 3 | latest |
-| Spring Boot | 3.0 | 3.0 |
+| Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 4.13 | latest |
+| SAP Cloud SDK | 4.24 | latest |
 | Java Logging | 3.7 | latest |
+
+::: warning
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
+You have two options:
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
+* Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
+:::
 
 ### Maintenance Version 1.34.x (LTS)
 

@@ -4,7 +4,7 @@ synopsis: >
   Learn how to use uniform APIs to consume local or remote services.
 redirect_from:
   - guides/consuming-services
-layout: cookbook
+# layout: cookbook
 status: released
 impl-variants: true
 # uacp: Used as link target from Help Portal at
@@ -16,11 +16,13 @@ impl-variants: true
   const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✗'] )
 </script>
 <style scoped>
-  .y  { color: var(--vp-c-green); font-weight:900; }
-  .x  { color: var(--vp-c-red);   font-weight:900; }
+  .y  { color: var(--vp-c-green-1); font-weight:900; }
+  .x  { color: var(--vp-c-red-1);   font-weight:900; }
 </style>
 
 # Consuming Services
+
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 [[toc]]
 
@@ -132,11 +134,11 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 [You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
-::: warning
-**Don't just copy the CDS file for a remote CAP service**, for example from a different application. There are issues to use them to call remote services:<br>
-- The effective service API depends on the used protocol.<br>
-- CDS files often use includes, which can't be resolved anymore.<br>
-- CAP creates unneeded database tables and views for all entities in the file.<br>
+::: warning Don't just copy the CDS file for a remote CAP service
+Simply copying CDS files from a different application comes with the following issues:
+- The effective service API depends on the used protocol.
+- CDS files often use includes, which can't be resolved anymore.
+- CAP creates unneeded database tables and views for all entities in the file.
 :::
 
 ### Import API Definition { #import-api}
@@ -200,7 +202,7 @@ When importing the specification files, the `kind` is set according to the follo
 | OpenAPI     |  `rest`       |
 | AsyncAPI     |  `odata`       |
 
-[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#special-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#odata-type-mappings){.learn-more}
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
@@ -615,7 +617,7 @@ extend service RiskService with {
 CAP automatically tries to delegate queries to database entities, which don't exist as you're pointing to an external service. That behavior would produce an error like this:
 
 ```xml
-<error xmlns="http://docs.oasis-open.org/odata/ns/metadata">
+<error xmlns="https://docs.oasis-open.org/odata/ns/metadata">
 <code>500</code>
 <message>SQLITE_ERROR: no such table: RiskService_BusinessPartners in: SELECT BusinessPartner, Customer, Supplier, AcademicTitle, AuthorizationGroup, BusinessPartnerCategory, BusinessPartnerFullName, BusinessPartnerGrouping, BusinessPartnerName, BusinessPartnerUUID, CorrespondenceLanguage, CreatedByUser, CreationDate, (...)  FROM RiskService_BusinessPartner ALIAS_1 ORDER BY BusinessPartner COLLATE NOCASE ASC LIMIT 11</message>
 </error>
@@ -899,9 +901,7 @@ You need additional logic, if remote entities are in the game. The following tab
 
 #### Transient Access vs. Replication
 
-::: tip
-The _Integrate and Extend_ chapter shows only techniques for transient access.
-:::
+> This chapter shows only techniques for transient access.
 
 The following matrix can help you to find the best approach for your scenario:
 
@@ -1454,9 +1454,11 @@ With the destination service, you can access destinations in your provider accou
 
 Customers want to see business partners from, for example, their SAP S/4 HANA system.
 
-As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service.
+As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service. For destinations in an on-premise system, the connectivity service must be bound.
 
 The subscriber needs to create a destination with that name in their subscriber account, for example, pointing to their SAP S/4HANA system.
+
+
 
 
 
@@ -1508,9 +1510,11 @@ cds:
 
 ```
 
+Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
+
+
 </div>
 
-Read more in the full reference of all [supported retrieval strategy values](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options). Please note that the value must be provided in pascal case, for example: `AlwaysProvider`.
 
 ## ⑤ Add Qualities
 

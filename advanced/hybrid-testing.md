@@ -239,10 +239,6 @@ Example output:
 }
 ```
 
-::: warning
-Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are resolved by `cds serve` or `cds exec`.
-:::
-
 ### Run Arbitrary Commands with Service Bindings
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other applications with cloud service bindings from local, then you can use the [`exec` sub command](#cds-bind-exec) of `cds bind`.
@@ -385,7 +381,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 If you want to test your application with a real SAP HANA database, do the following steps.
 
-**Preconditions**{.warning-title}<br />
+**Preconditions**<br />
 You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
 :::
 

@@ -1,6 +1,6 @@
 ---
 index: 52
-layout: cookbook
+# layout: cookbook
 synopsis: >
   This guide extends the localization/i18n of static content, such as labels or messages, to serve localized versions of actual application data.
 status: released
@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 {{ $frontmatter.synopsis }}
 
-Localized data refers to the maintenance of different translations of textual data and automatically fetching the translations matching the users' preferred language, with per-row fallback to default languages, if the required translations aren’t available. Language codes are in ISO 639-1 format.
+Localized data refers to the maintenance of different translations of textual data and automatically fetching the translations matching the users' preferred language, with per-row fallback to default languages, if the required translations aren't available. Language codes are in ISO 639-1 format.
 
 > Find a **working sample** at <https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop>.
 
@@ -39,7 +39,7 @@ entity Books {
 If you want to use the `localized` modifier, the entity's keys must not be associations.
 :::
 
-> `localized` in entity sub elements isn’t currently supported and is ignored.
+> `localized` in entity sub elements isn't currently supported and is ignored.
 > This includes `localized` in structured elements and structured types.
 
 ## Behind the Scenes
@@ -94,7 +94,7 @@ In contrast to former versions, with CDS compiler v2 we don't add such entities 
 As we already mentioned, the CDS compiler is already creating views that resolve the translated texts internally. Once a CDS runtime detects
 a request with a user locale, it uses those views instead of the table of the involved entity.
 
-Note that SQLite doesn’t support locales like _SAP HANA_ does. For _SQLite_, additional views are generated for different languages. Currently those views are generated for the locales 'de' and 'fr' and the default locale is handled as 'en'.
+Note that SQLite doesn't support locales like _SAP HANA_ does. For _SQLite_, additional views are generated for different languages. Currently those views are generated for the locales 'de' and 'fr' and the default locale is handled as 'en'.
 
 ```json
 "i18n": { "for_sqlite": ["en", ...] }
@@ -135,7 +135,7 @@ entity ClosedBookView as SELECT from Books {ID, title, descr, localized};
 
 ### Base Entities Stay Intact
 
-In contrast to similar strategies, all texts aren’t externalized but the original texts are kept in the source entity. This saves one join when reading localized texts with fallback to the original ones.
+In contrast to similar strategies, all texts aren't externalized but the original texts are kept in the source entity. This saves one join when reading localized texts with fallback to the original ones.
 
 
 ### Extending *.texts* Entities { #extending-texts-entities}
@@ -288,7 +288,7 @@ entity localized.CatalogService.BooksDetails as
 SELECT from localized.Books;
 ```
 ::: warning Note:
-In contrast to former versions, with CDS compiler v2 we don't add such entities to CSN anymore but only on generated SQL DDL output. Note that these `localized.` entities also aren’t exposed through OData.
+In contrast to former versions, with CDS compiler v2 we don't add such entities to CSN anymore but only on generated SQL DDL output. Note that these `localized.` entities also aren't exposed through OData.
 :::
 
 ### Read Operations

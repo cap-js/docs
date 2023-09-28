@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Query Language
 synopsis: >
   Documents the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
@@ -149,7 +149,7 @@ WHERE author.name='Emily Brontë'
 ```
 
 ::: tip
-All column references get qualified &rarr; in contrast to plain SQL joins there’s no risk of ambiguous or conflicting column names.
+All column references get qualified &rarr; in contrast to plain SQL joins there's no risk of ambiguous or conflicting column names.
 :::
 
 ### With Infix Filters

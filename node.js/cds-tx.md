@@ -1,6 +1,6 @@
 ---
 redirect_from: node.js/transactions
-layout: node-js
+# layout: node-js
 status: released
 label: Transactions
 ---
@@ -87,7 +87,7 @@ Nested transactions are automatically committed when their root transaction is c
 
 ## Manual Transactions
 
-Use `cds.tx()` to start and commit transactions manually, if you need to ensure two or more queries to run in a single transaction. The easiest way to achive this is shown below:
+Use `cds.tx()` to start and commit transactions manually, if you need to ensure two or more queries to run in a single transaction. The easiest way to achieve this is shown below:
 
 ```js
 cds.tx (async ()=>{

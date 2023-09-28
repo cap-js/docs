@@ -67,7 +67,7 @@ this.on ('*', req => {
 })
 ```
 
-In addition, you can acess the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
+In addition, you can access the current event context from wherever you are in your code via the continuation-local variable [`cds.context`](#cds-context):
 
 ```js
   let { tenant, user } = cds.context
@@ -105,7 +105,7 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 
 On outgoing HTTP messages it is propagated as `x-correlation-id` header.
 
-For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on ougoing CloudEvents messages.
+For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
 
 
 
@@ -128,7 +128,7 @@ A unique string identifying the current tenant, or `undefined` if not in multite
 
 A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/domain-modeling#managed-data){.learn-more}
 
 
 
@@ -174,7 +174,7 @@ Contains the event data. For example, the HTTP body for `CREATE` or `UPDATE` req
 
 ### . headers {.property}
 
-Provides access to headers of the event message or request. In case of asynchronous event messages, it’s the headers information sent by the event source. For HTTP requests it’s the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
+Provides access to headers of the event message or request. In case of asynchronous event messages, it's the headers information sent by the event source. For HTTP requests it's the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
 
 
 
@@ -224,16 +224,16 @@ Additional note about OData: For requests that are part of a changeset, the even
 Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers](./core-services#srv-handle-event), such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply).
 
 
-[Router]: http://expressjs.com/en/4x/api.html#router
-[routing]: http://expressjs.com/en/guide/routing.html
-[middleware]: http://expressjs.com/en/guide/using-middleware.html
+[Router]: https://expressjs.com/en/4x/api.html#router
+[routing]: https://expressjs.com/en/guide/routing.html
+[middleware]: https://expressjs.com/en/guide/using-middleware.html
 
 
 
 
 ### . _  {.property}
 
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](http://expressjs.com). {.indent}
+Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
 
 ::: warning
 Please refrain from using internal properties of that object, that is the ones starting with '_'. They might be removed in any future release without notice.
@@ -420,7 +420,7 @@ req.error ({
 
 Additional properties can be added as well, for example to be used in [custom error handlers](core-services#srv-on-error).
 
-> In OData responses, notifications get collected and put into HTTP response header `sap-messages` as a stringified array, while the others are collected in the respective response body properties (&rarr; see [OData Error Responses](http://docs.oasis-open.org/odata/odata-json-format/v4.0/os/odata-json-format-v4.0-os.html#_Toc372793091)).
+> In OData responses, notifications get collected and put into HTTP response header `sap-messages` as a stringified array, while the others are collected in the respective response body properties (&rarr; see [OData Error Responses](https://docs.oasis-open.org/odata/odata-json-format/v4.0/os/odata-json-format-v4.0-os.html#_Toc372793091)).
 
 ####  <i>  Error Sanitization </i>
 

@@ -115,15 +115,15 @@ The export-import cycle is the way to go for now. It is under investigation to i
 
 ::: code-group
 
-```sh
+```sh [Mac/Linux]
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
-```cmd
+```cmd [Windows]
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
-```powershell
+```powershell  [Powershell]
 cds compile srv -s OrdersService -2 edmx -o dest/
 ```
 :::

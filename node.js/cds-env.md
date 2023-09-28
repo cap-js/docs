@@ -423,14 +423,14 @@ cds run --profile my-custom-profile
 or
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 CDS_ENV=my-custom-profile cds run
 ```
-```cmd
+```cmd [Windows]
 set CDS_ENV=my-custom-profile
 cds run
 ```
-```powershell
+```powershell [Powershell]
 $Env:CDS_ENV=my-custom-profile
 cds run
 ```

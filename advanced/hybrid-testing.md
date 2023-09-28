@@ -250,13 +250,13 @@ With `cds bind` you avoid storing credentials on your hard disk. If you need to 
 For example, you can run the approuter from the `approuter` child directory:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- npm start --prefix approuter
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- npm start --prefix approuter
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' npm start --prefix approuter
 ```
 :::
@@ -264,13 +264,13 @@ cds bind --exec '--' npm start --prefix approuter
 This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
 :::

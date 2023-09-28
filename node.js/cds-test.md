@@ -76,16 +76,16 @@ Or by setting process env variable `CDS_TEST_VERBOSE`, for example like that fro
 
 ::: code-group
 
-```sh
+```sh [Mac/Linux]
 CDS_TEST_VERBOSE=y mocha
 ```
 
-```cmd
+```cmd [Windows]
 set CDS_TEST_VERBOSE=y
 mocha
 ```
 
-```powershell
+```powershell [Powershell]
 $Env:CDS_TEST_VERBOSE=y
 mocha
 ```

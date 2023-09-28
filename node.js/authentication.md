@@ -525,13 +525,13 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 3. In your project folder run:
 
     ::: code-group
-    ```sh
+    ```sh [Mac/Linux]
     cds bind --exec -- npm start --prefix app
     ```
-    ```cmd
+    ```cmd [Windows]
     cds bind --exec -- npm start --prefix app
     ```
-    ```powershell
+    ```powershell [Powershell]
     cds bind --exec '--' npm start --prefix app
     ```
     :::

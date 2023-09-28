@@ -389,7 +389,7 @@ First install the required packages:
 
 <!-- TODO: No fixed major version numbers? -->
 ```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/util@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
 ```
 
 Then start the CAP application with the mocked remote service only:

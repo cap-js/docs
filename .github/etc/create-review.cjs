@@ -195,9 +195,9 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 const commentBody = createCspellSuggestionText(suggestion, suggestions.slice(1))
 
-                comments.push({ path, line: position, body: commentBody })
+                comments.push({ path: path.replace(/^\.\//, ''), line: position, body: commentBody })
             } else {
-                comments.push({ path, line: position, body: createUnknownWordComment(word) })
+                comments.push({ path: path.replace(/^\.\//, ''), line: position, body: createUnknownWordComment(word) })
 
                 wordsWithoutSuggestions.push(word)
             }

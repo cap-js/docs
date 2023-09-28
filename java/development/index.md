@@ -284,15 +284,15 @@ This section describes various options to create a CAP Java project from scratch
 Use the following command line to create a project from scratch with the CDS Maven archetype:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```cmd
+```cmd [Windows]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```powershell
+```powershell [Powershell]
 mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-DarchetypeGroupId=com.sap.cds `-DarchetypeVersion=RELEASE
 ```
 :::

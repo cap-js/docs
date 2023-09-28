@@ -125,7 +125,7 @@ cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
-```powershell [Powershell]
+```powershell  [Powershell]
 cds compile srv -s OrdersService -2 edmx -o dest/
 ```
 :::

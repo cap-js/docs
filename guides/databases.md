@@ -362,7 +362,7 @@ When you've created a CAP Java application with `cds init --add java` or with CA
 
 </div>
 
-### Using `cds compile -2 <target-format>`
+### Using `cds compile`
 
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):

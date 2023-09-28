@@ -279,13 +279,13 @@ cds deploy --profile pg
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
-cds build --for postgres
+cds build
 ```
 
 ::: details What `cds build` does…
-1. Compiles the model into _gen/pg/db/csn.json_.
-2. Copies required `.csv` files into _gen/pg/db/data_.
-3. Adds a _gen/pg/package.json_ with this content:
+1. Compiles the model into _gen/db/pg/csn.json_.
+2. Copies required `.csv` files into _gen/db/pg/data_.
+3. Adds a _gen/db/package.json_ with this content:
    ```json
    {
      "dependencies": {

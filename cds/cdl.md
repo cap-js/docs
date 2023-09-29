@@ -756,7 +756,7 @@ GET /Teams?$expand=members($expand=user)
 to get all users of all teams.
 
 
-### Publish Associations in Projections
+### Publish Associations in Projections {#publish-associations}
 
 As associations are first class citizens, you can put them into the select list
 of a view or projection ("publish") like regular elements. A `select *` includes all associations.

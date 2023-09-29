@@ -756,6 +756,61 @@ GET /Teams?$expand=members($expand=user)
 to get all users of all teams.
 
 
+### Exposing associations in projections
+
+As associations are first class citizens, you can put them into the select list
+of a view or projection like regular elements. A `select *` includes all associations.
+If you need to rename an association, you can provide an alias.
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  ID,
+  addresses
+}
+```
+
+The effective signature of the projection contains an association `addresses` with the same
+properties as association `addresses` of entity `Employees`.
+
+#### Exposing associations with a filter (beta)
+
+ADD BETA BOX?
+
+When exposing an association in a view or projection, you can add a filter.
+The ON condition of the exposed association is the ON condition of the original
+association plus the filter condition, combined with `and`.
+
+EXAMPLE
+
+
+The resulting association `...TODO...NAME...` in the effective signature of the projection
+looks like it would have been defined like this:
+
+EXAMPLE
+
+If the filter condition effectively reduces the cardinality of the association
+to one, you should make this explicit in the filter:
+
+EXAMPLE WITH `:1`
+
+An association that has been exposed with a filter is read-only. It must not be
+used to modify the target entity.
+
+Filters usually are provided only for to-many associations, and to-many
+associations usually are unmanaged. Thus exposure with a filter is mainly be used
+for unmanaged associations.
+Nevertheless you can also expose a managed association with a filter. This will automatically
+turn the association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly exposed.
+
+EXAMPLE
+
+The effect is similar to the following projection:
+
+EXAMPLE
+
+
 ## Annotations
 
 This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.

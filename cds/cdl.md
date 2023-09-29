@@ -255,12 +255,7 @@ entity ![Entity] {
 
 <span id="calculated-fields"/>
 
-### Calculated Elements (beta) {#calculated-elements}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+### Calculated Elements {#calculated-elements}
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -272,7 +267,7 @@ When reading a calculated element, the result of the expression is returned.
 Calculated elements with a value expression come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
-#### On-read (beta)
+#### On-read
 
 ```cds
 entity Employees {
@@ -326,7 +321,7 @@ A calculated element can be *used* in every location where an expression can occ
  For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
-#### On-write (beta)
+#### On-write
 
 Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
 by adding the keyword `stored`. A type specification is mandatory.

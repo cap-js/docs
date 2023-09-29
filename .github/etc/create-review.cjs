@@ -189,15 +189,18 @@ module.exports = async ({ github, require, exec, core }) => {
                 continue
             }
 
+            // Github requires that no path starts with './', but cspell provides the paths exactly in this format
+            const properlyStructuredPath = path.replace(/^\.\//, '')
+
             if (suggestions.length > 0) {
                 // replace word with first suggestions and remove first "+" sign
                 const suggestion = line.replace(word, suggestions[0]).replace('+', '')
 
                 const commentBody = createCspellSuggestionText(suggestion, suggestions.slice(1))
 
-                comments.push({ path, position, body: commentBody })
+                comments.push({ path: properlyStructuredPath, position, body: commentBody })
             } else {
-                comments.push({ path, position, body: createUnknownWordComment(word) })
+                comments.push({ path: properlyStructuredPath, position, body: createUnknownWordComment(word) })
 
                 wordsWithoutSuggestions.push(word)
             }
@@ -205,11 +208,11 @@ module.exports = async ({ github, require, exec, core }) => {
             spellingMistakesText += `* **${path}**${pointer} Unknown word "**${word}**"\n`
         }
 
-        if (wordsWithoutSuggestions.length > 0) {
+        if (wordsWithoutSuggestions.length > 0 && comments.length > 0) {
             spellingMistakesText += `\n${createWordsWithoutSuggestionsText(wordsWithoutSuggestions)}\n`
         }
 
-        if (matches.length > 0) {
+        if (matches.length > 0 && comments.length > 0) {
             spellingMistakesText += `${getSpellingCorrectionTip()}\n`
         }
 

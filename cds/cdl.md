@@ -819,7 +819,7 @@ Example:
 ```cds
 entity P_Books as projection on Books {
   author.ID as authorID,  // needed for ON condition of deadAuthor
-  author[dateOfDeath < $now] as deadAuthor  // -> unmanaged association
+  author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
 };
 ```
 

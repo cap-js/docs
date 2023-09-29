@@ -784,7 +784,7 @@ return : result of this.dispatch(req)
 Use this method to send synchronous requests to a service for execution.
 
 -  `method` can be a HTTP method, or a name of a custom action or function
--  `path` can be an arbitrary URL, starting with a leading `'/'`
+-  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string. 
 
 Examples:
 
@@ -1125,7 +1125,7 @@ srv.patch('/Books',...)   -->  srv.send('PATCH','/Books',...)
 srv.delete('/Books',...)  -->  srv.send('DELETE','/Books',...)
 ```
 
-You can also use them as REST-style variants to run queries by omitting the leading slash in the `path` argument, or by passing a reflected entity definition instead. In that case they start constructing *bound* [`cds.ql` query objects](cds-ql), as their [CRUD-style counterparts](#crud-style-api):
+Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent to a service unmodified. But you can also use these methods as REST-style variants to run queries by omitting the leading slash in the `path` argument, or by passing a reflected entity definition instead. In that case they start constructing *bound* [`cds.ql` query objects](cds-ql), as their [CRUD-style counterparts](#crud-style-api):
 
 ```js
 await srv.get(Books,201)

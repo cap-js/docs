@@ -756,10 +756,10 @@ GET /Teams?$expand=members($expand=user)
 to get all users of all teams.
 
 
-### Exposing associations in projections
+### Publish Associations in Projections
 
 As associations are first class citizens, you can put them into the select list
-of a view or projection like regular elements. A `select *` includes all associations.
+of a view or projection ("publish") like regular elements. A `select *` includes all associations.
 If you need to rename an association, you can provide an alias.
 
 Example:
@@ -773,42 +773,52 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Exposing associations with a filter (beta)
+#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
 
-ADD BETA BOX?
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
+:::
 
-When exposing an association in a view or projection, you can add a filter.
-The ON condition of the exposed association is the ON condition of the original
+When publishing an unmanaged association in a view or projection, you can add a filter condition.
+The ON condition of the resulting association is the ON condition of the original
 association plus the filter condition, combined with `and`.
 
-EXAMPLE
-
-
-The resulting association `...TODO...NAME...` in the effective signature of the projection
-looks like it would have been defined like this:
-
-EXAMPLE
+Example:
+```cds
+entity P_Authors as projection on Authors {
+  *,
+  books[stock > 0] as availableBooks
+};
+```
 
 If the filter condition effectively reduces the cardinality of the association
 to one, you should make this explicit in the filter:
 
-EXAMPLE WITH `:1`
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  *,
+  addresses[1: kind='home'] as homeAddress
+}
+```
 
-An association that has been exposed with a filter is read-only. It must not be
+An association that has been published with a filter is read-only. It must not be
 used to modify the target entity.
 
-Filters usually are provided only for to-many associations, and to-many
-associations usually are unmanaged. Thus exposure with a filter is mainly be used
-for unmanaged associations.
-Nevertheless you can also expose a managed association with a filter. This will automatically
-turn the association into an unmanaged one. You must ensure that all foreign key elements
-needed for the ON condition are explicitly exposed.
+Filters usually are provided only for to-many associations, which usually are unmanaged.
+Thus publishing with a filter is almost exclusively used for unmanaged associations.
+Nevertheless you can also publish a managed association with a filter. This will automatically
+turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly published.
 
-EXAMPLE
-
-The effect is similar to the following projection:
-
-EXAMPLE
+Example:
+```cds
+entity P_Books as projection on Books {
+  author.ID as authorID,  // needed for ON condition of deadAuthor
+  author[dateOfDeath < $now] as deadAuthor  // -> unmanaged association
+};
+```
 
 
 ## Annotations

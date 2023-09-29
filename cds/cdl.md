@@ -605,7 +605,7 @@ key element `address_ID` being added automatically upon activation to a SQL data
 
 > For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
 
-If the target has a single primary key, a default value can be provided (beta feature).
+If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:
 
 ```cds

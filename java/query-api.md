@@ -1284,7 +1284,7 @@ CqnListValue vals  = list(val(2012), val(2));
 CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
 ```
 
-You can also compare multiple list values at once in a `IN` predicate - for example to efficiently filter by mutiple key value sets:
+You can also compare multiple list values at once using an `IN` predicate - for example to efficiently filter by multiple key value sets:
 
 ```java
 import static com.sap.cds.ql.CQL.*;
@@ -1292,9 +1292,8 @@ import static com.sap.cds.ql.CQL.*;
 CqnListValue elements = list(get("AirlineID"), get("ConnectionID"));
 CqnListValue lh454  = list(val("LH"), val(454));
 CqnListValue ba119  = list(val("BA"), val(119));
-List<CqnListValue> valueSets = List.of(lh454, ba119);
 
-CqnSelect q = Select.from(FLIGHT_CONNECTION).where(in(elements, valueSets));
+CqnSelect q = Select.from(FLIGHT_CONNECTION).where(in(elements, List.of(lh454, ba119)));
 ```
 
 #### Parameters {#expr-param}

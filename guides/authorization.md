@@ -100,7 +100,7 @@ It’s frequently required to define access rules that aren’t based on an appl
 The following predefined pseudo roles are currently supported by CAP:
 
 * `authenticated-user` refers to named or unnamed users who have presented a valid authentication claim such as a logon token.
-* `system-user` denotes an unnamed user used for technical communication.
+* [`system-user` denotes an unnamed user used for technical communication.](#system-user)
 * `internal-user` is dedicated to distinguish application internal communication (see [application zone](../guides/security/overview#application-zone).
 * `any` refers to all users including anonymous ones (that means, public access without authentication).
 

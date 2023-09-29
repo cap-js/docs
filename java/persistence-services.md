@@ -18,14 +18,30 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Database Support { #database-support}
 
-The CAP Java SDK has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-### SAP HANA (Cloud)
+Write operations through views are supported by the CAP runtime as described in [Resolvable Views](query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the DB.
 
-SAP HANA is supported as the CAP standard database and recommended for productive use with needs for schema evolution and multitenancy. Some salient points to note with SAP HANA are:
+### SAP HANA Cloud
 
-1. Views are supported as described in [Resolvable Views](query-execution#updatable-views), else any operation on views are defaulted to SAP HANA, which has limitations as described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
-2. Shared locks are supported on SAP HANA Cloud only
+SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy.
+
+1. Write operations through views that cannot be resolved by the CAP runtime are passed through to SAP HANA, limitations are described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
+
+2. [Shared locks](../java/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
+
+3. When using String elements in locale-specific ordering relations (`>`, `<`, ... , `between`) a statement-wide collation is added that can have negative impact on the performance. If locale-specific ordering is not required for specific String elements, annotate the element with `@cds.collate: false`. 
+
+```cds
+entity Books : cuid {
+    title        : localized String(111);
+    descr        : localized String(1111);
+    @cds.collate : false // [!code focus]
+    isbn         : String(40);  // does not require locale-specific sorting // [!code focus]
+}
+```
+
+To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
 
 ### PostgreSQL
 

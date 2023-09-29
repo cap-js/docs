@@ -792,14 +792,17 @@ entity P_Authors as projection on Authors {
 };
 ```
 
+In this example, in addition to `books` projection `P_Authors` has a new association `availableBooks`
+that points only to those books where `stock > 0`.
+
 If the filter condition effectively reduces the cardinality of the association
-to one, you should make this explicit in the filter:
+to one, you should make this explicit in the filter by adding a `1:` before the condition:
 
 Example:
 ```cds
 entity P_Employees as projection on Employees {
   *,
-  addresses[1: kind='home'] as homeAddress
+  addresses[1: kind='home'] as homeAddress  // homeAddress is to-one
 }
 ```
 

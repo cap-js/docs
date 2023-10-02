@@ -41,7 +41,9 @@ entity Books : cuid {
 }
 ```
 
+:::tip Disable Statement-Wide Collation
 To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
+:::
 
 ### PostgreSQL
 

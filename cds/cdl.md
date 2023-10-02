@@ -751,6 +751,74 @@ GET /Teams?$expand=members($expand=user)
 to get all users of all teams.
 
 
+### Publish Associations in Projections {#publish-associations}
+
+As associations are first class citizens, you can put them into the select list
+of a view or projection ("publish") like regular elements. A `select *` includes all associations.
+If you need to rename an association, you can provide an alias.
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  ID,
+  addresses
+}
+```
+
+The effective signature of the projection contains an association `addresses` with the same
+properties as association `addresses` of entity `Employees`.
+
+#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
+:::
+
+When publishing an unmanaged association in a view or projection, you can add a filter condition.
+The ON condition of the resulting association is the ON condition of the original
+association plus the filter condition, combined with `and`.
+
+Example:
+```cds
+entity P_Authors as projection on Authors {
+  *,
+  books[stock > 0] as availableBooks
+};
+```
+
+In this example, in addition to `books` projection `P_Authors` has a new association `availableBooks`
+that points only to those books where `stock > 0`.
+
+If the filter condition effectively reduces the cardinality of the association
+to one, you should make this explicit in the filter by adding a `1:` before the condition:
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  *,
+  addresses[1: kind='home'] as homeAddress  // homeAddress is to-one
+}
+```
+
+An association that has been published with a filter is read-only. It must not be
+used to modify the target entity.
+
+Filters usually are provided only for to-many associations, which usually are unmanaged.
+Thus publishing with a filter is almost exclusively used for unmanaged associations.
+Nevertheless you can also publish a managed association with a filter. This will automatically
+turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly published.
+
+Example:
+```cds
+entity P_Books as projection on Books {
+  author.ID as authorID,  // needed for ON condition of deadAuthor
+  author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
+};
+```
+
+
 ## Annotations
 
 This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.

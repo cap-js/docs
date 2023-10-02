@@ -9,7 +9,9 @@ impl-variants: true
 
 # Security Aspects
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
+
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 ## Secure Communications { #secure-communications }
 
@@ -357,12 +359,34 @@ Attackers can send malicious input data in a regular request to make the server 
 #### Common Attack Patterns { #common-injection-attacks }
 <!-- #SEC-100 #SEC-283 #SEC-228  -->
 
-- CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection).
+- CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection) that are introduced by query parameter values that are derived from malicious user input.
 [CQL statements](../querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
+Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based on user input:
+
+<div class="impl java">
+
+```java
+String entity = <from user input>;
+String column = <from user input>;
+validate(entity, column); // validate entity and column, e.g. compare with positive list
+Select.from(entity).columns(b -> b.get(column));
+```
+
+</div>
+
+<div class="impl node">
+
+```js
+const entity = <from user input>
+const column = <from user input>
+validate(entity, column) // validate entity and column, e.g. compare with positive list
+SELECT.from(entity).columns(column)
+```
+
+</div>
 
 ::: warning
-Be careful in custom code when modifying or creating CQL queries. Refrain from building the query structure (target entity, columns) directly on basis of request input.
-You're encouraged to pass user data in the provided methods such as CQL values or entity data.
+Be careful with custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:
 :::
 
 - [Cross Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss) is used by attackers to inject a malicious script, which is executed in the browser session of an unsuspecting user.
@@ -544,8 +568,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../providing-services#using-cds-search-annotation)
 - [Pagination (implicit sort order)](../providing-services#pagination-sorting)
+- [Searching Data](../providing-services#searching-data)
 - Filtering
 
 ::: warning

@@ -8,7 +8,7 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 # Data Protection & Privacy
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## General Statement { #dpp-statement }
 
@@ -34,7 +34,7 @@ Connect an adequate logging service to meet compliance requirements such as [SAP
 - Messages temporarily written to transaction outbox might contain personal data. The entries are mandatory to operate the system.
 If necessary, applications can process these messages by standard CAP functionality (CDS model `@sap/cds/srv/outbox`).
 
-- Be aware that personal data might be added automatically when using the [managed](../providing-services#managed-data) aspect.
+- Be aware that personal data might be added automatically when using the [managed](../domain-modeling#managed-data) aspect.
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 
@@ -57,7 +57,7 @@ CAP provides several [features](../data-privacy/) to help applications meet DPP-
 
 - The [Personal Data Management (PDM)](../data-privacy/pdm) integration has a configurable **retrieval function**, which can be used to inform data subjects about personal data stored related to them.
 - CAP also provides a *fully model-driven* approach to track **changes in personal data** or **read access to sensitive personal data** in the audit log.
-Having [declared personal data](../data-privacy/introduction#indicate-privacy) in your model, CAP automatically triggers corresponding [audit log events](../data-privacy/audit-log).
+Having [declared personal data](../data-privacy/annotations) in your model, CAP automatically triggers corresponding [audit log events](../data-privacy/audit-logging).
 
 ::: warning
 ❗ So far, applications have to integrate [SAP Data Retention Manager](https://help.sap.com/docs/DATA_RETENTION_MANAGER) to implement an adequate **erasure function** for personal data out of retention period.

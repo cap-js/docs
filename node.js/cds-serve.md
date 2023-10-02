@@ -16,7 +16,7 @@ status: released
 
 
 
-Use `cds.serve()` to construct service providers from the service definitions in corresponding CDS models. 
+Use `cds.serve()` to construct service providers from the service definitions in corresponding CDS models.
 
 Declaration:
 
@@ -126,7 +126,7 @@ cds.serve('all').from(csn)...
 
 Allows to specify the protocol through which to expose the service. Currently supported values are:
 
-* `'rest'` plain http rest protocol without any OData-specific extensions
+* `'rest'` plain HTTP rest protocol without any OData-specific extensions
 * `'odata'` standard OData rest protocol without any Fiori-specific extensions
 * `'fiori'` OData protocol with all Fiori-specific extensions like Draft enabled
 
@@ -205,7 +205,7 @@ srv/cat-service.js   #> service implementation used by default
 
 ## cds. middlewares
 
-For each service served at a cewrtain protocol, the framework registers a configurable set of express middlewares by default like so:
+For each service served at a certain protocol, the framework registers a configurable set of express middlewares by default like so:
 
 ```js
 app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
@@ -275,7 +275,7 @@ By default, the protocols are served at the following path:
 
 ### @protocol
 
-Configures at which protocol(s) a service is served.  
+Configures at which protocol(s) a service is served.
 
 ```cds
 @odata
@@ -290,7 +290,7 @@ service CatalogService {}
 service CatalogService {}
 //> serves CatalogService at: /odata/v4/catalog, /rest/catalog and /graphql
 
-@protocol: { kind: 'odata', path: 'some/path' }
+@protocol: [{ kind: 'odata', path: 'some/path' }]
 service CatalogService {}
 //> serves CatalogService at: /odata/v4/some/path
 ```
@@ -318,4 +318,3 @@ service CatalogService {}
 ```
 
 Be aware that using an absolute path will disallow serving the service at multiple protocols.
-

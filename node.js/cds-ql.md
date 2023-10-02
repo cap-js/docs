@@ -162,7 +162,7 @@ SELECT ID from Books where ID=?
 dbc.run (sql, [201])
 ```
 
-The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragements, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
+The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
 
 ```js
 let input = 201 //> might be entered by end users
@@ -513,7 +513,7 @@ try {
 
 The `options` argument is optional; currently supported is:
 
-* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn’t specified, the database-specific default behavior applies.
+* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
 
 All acquired locks are released when the current transaction is finished, that is, committed  or rolled back.
 
@@ -809,4 +809,3 @@ function SELECT.from (
 ### .where() {.method}
 
 [As in SELECT.where](#where) {.learn-more}
-

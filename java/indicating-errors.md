@@ -12,13 +12,13 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Overview
 
 The CAP Java SDK provides two different ways to indicate errors:
 - By throwing an exception: This completely aborts the event processing and rollbacks the transaction.
-- By using the [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API: This adds errors, warnings, info, or success messages to the currently processed request, but doesn’t affect the event processing or the transaction.
+- By using the [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API: This adds errors, warnings, info, or success messages to the currently processed request, but doesn't affect the event processing or the transaction.
 
 The message texts for both exceptions and the Messages API can use formatting and localization.
 
@@ -26,7 +26,7 @@ The message texts for both exceptions and the Messages API can use formatting an
 
 Any exception that is thrown by an event handler method aborts the processing of the current event and causes any active transaction to be rolled back.
 To indicate further details about the error, such as a suggested mapping to an HTTP response code, the CAP Java SDK provides a generic unchecked exception class, called [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html).
-It’s recommended to use this exception class, when throwing an exception in an event handler.
+It's recommended to use this exception class, when throwing an exception in an event handler.
 
 When creating a new instance of `ServiceException` you can specify an [ErrorStatus](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ErrorStatus.html) object, through which an internal error code and a mapping to an HTTP status code can be indicated.
 An enum [ErrorStatuses](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ErrorStatuses.html) exists, which lists many useful HTTP error codes already.
@@ -45,7 +45,7 @@ The OData V4 adapter turns all exceptions into an OData error response to indica
 
 ## Messages
 
-The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn’t affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../java/development/properties#cds-errors-combined) to `false`.
+The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn't affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../java/development/properties#cds-errors-combined) to `false`.
 
 The `Messages` interface provides a logger-like API to collect these messages. Additional optional details can be added to the [Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Message.html) using a builder API.
 You can access the `Messages` API from the Event Context:
@@ -66,7 +66,7 @@ messages.error("The book is no longer available").code("BNA").longTextUrl("/help
 
 The OData V4 adapter collects these messages and writes them into the `sap-messages` HTTP header by default.
 However, when an OData V4 error response is returned, because the request was aborted by an exception, the messages are instead written into the `details` section of the error response.
-Writing the messages into explicitly modeled messages properties isn’t yet supported.
+Writing the messages into explicitly modeled messages properties isn't yet supported.
 
 SAP Fiori uses these messages to display detailed information on the UI. The style how a message appears on the UI depends on the severity of the message.
 
@@ -88,7 +88,7 @@ If the CDS property [`cds.errors.combined`](../java/development/properties#cds-e
 ## Formatting and Localization
 
 Texts passed to both `ServiceException` and the `Messages` API can be formatted and localized.
-By default you can use [SLF4J's messaging formatting style](http://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
+By default you can use [SLF4J's messaging formatting style](https://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
 
 ```java
 // message with placeholders
@@ -102,17 +102,18 @@ You can localize these strings, by putting them into property files and passing 
 When running your application on Spring, the CAP Java SDK integrates with [Spring's support for handling text resource bundles](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization). This handling by default expects translated texts in a `messages.properties` file under `src/main/resources`.
 
 The texts defined in the resource bundles can be formatted based on the syntax defined by `java.text.MessageFormat`.
-When the message or exception text is sent to the client it’s localized using the client's locale, as described [here](../guides/i18n#user-locale).
+When the message or exception text is sent to the client it's localized using the client's locale, as described [in the Localization Cookbook](../guides/i18n#user-locale).
 
-`messages.properties`
-```
+::: code-group
+```properties [messages.properties]
 my.message.key = This is a localized message with {0} parameters
 ```
 
-`messages_de.properties`
-```
+```properties [messages_de.properties]
 my.message.key = Das ist ein übersetzter Text mit {0} Parametern
 ```
+:::
+
 
 ```java
 // localized message with placeholders
@@ -131,13 +132,13 @@ As of CAP Java 1.10.0, you can extract the available default messages as a resou
     jar -f cds-services-utils-<VERSION>.jar -x cds-messages-template.properties
     ```
     ::: tip
-    \<VERSION> is the version of CAP Java you’re using in your project.
+    \<VERSION> is the version of CAP Java you're using in your project.
     :::
 
 1. Rename the extracted file `cds-messages-template.properties` appropriately (for example, to `cds-messages.properties`) and move it to the resource directory of your application.
 1. In your Spring Boot application, you have to register this additional [resource bundle](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization) accordingly.
 
-> Now, you’re able to customize the stack error messages in your application.
+> Now, you're able to customize the stack error messages in your application.
 
 With new CAP Java versions, there could be also new or changed error messages in the stack. To identify these changes, export `cds-messages-template.properties` from the new CAP Java version and compare it with the previous version using a diff tool.
 

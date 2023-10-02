@@ -33,7 +33,7 @@ cds bind also supports Cloud Foundry _user-provided_ services.
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding db to Cloud Foundry managed service my-hana:my-hana-key with kind hana.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -94,7 +94,7 @@ Binds your local CAP application to the user provided service instance `my-user-
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Cloud Foundry...
 [bind] - Binding my-ups to Cloud Foundry user provided service my-user-provided-service.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
@@ -119,7 +119,7 @@ The command uses your current Kubernetes context. That is your current server an
 
 To list all **Service Bindings** in your current Kubernetes context, you can use the `kubectl get servicebindings` command:
 
-```
+```log
 NAME                  SERVICE-INSTANCE      SECRET-NAME           STATUS   AGE
 cpapp-xsuaa-binding   cpapp-xsuaa           cpapp-xsuaa-secret    Ready    11s
 ```
@@ -132,7 +132,7 @@ cds bind -2 cpapp-xsuaa-binding --on k8s
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding uaa to Kubernetes service binding cpapp-xsuaa-binding with kind xsuaa
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
@@ -173,7 +173,7 @@ Alternatively, you can bind to Kubernetes **Secrets**.
 
 You can use the `kubectl get secrets` command to list all secrets in your current Kubernetes context:
 
-```
+```log
 NAME                                    TYPE                                  DATA   AGE
 cap-hdi-container                       Opaque                                11     44h
 ```
@@ -188,7 +188,7 @@ cds bind -2 cap-hdi-container --on k8s --kind hana
 
 Output:
 
-```
+```log
 [bind] - Retrieving data from Kubernetes...
 [bind] - Binding db to Kubernetes secret cap-hdi-container with kind hana
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
@@ -239,10 +239,6 @@ Example output:
 }
 ```
 
-::: warning
-Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are resolved by `cds serve` or `cds exec`.
-:::
-
 ### Run Arbitrary Commands with Service Bindings
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other applications with cloud service bindings from local, then you can use the [`exec` sub command](#cds-bind-exec) of `cds bind`.
@@ -250,13 +246,13 @@ With `cds bind` you avoid storing credentials on your hard disk. If you need to 
 For example, you can run the approuter from the `approuter` child directory:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- npm start --prefix approuter
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- npm start --prefix approuter
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' npm start --prefix approuter
 ```
 :::
@@ -264,13 +260,13 @@ cds bind --exec '--' npm start --prefix approuter
 This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
 :::
@@ -385,7 +381,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 If you want to test your application with a real SAP HANA database, do the following steps.
 
-**Preconditions**{.warning-title}<br />
+**Preconditions**<br />
 You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
 :::
 

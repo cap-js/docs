@@ -15,7 +15,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 <!--- % include links.md %} -->
 
 ## Introduction
@@ -60,6 +60,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     ```
 ::: tip
 For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
+In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
 ## Starting a New Project { #new-project}
@@ -121,7 +122,7 @@ CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP S
 
 The generated project has the following folder structure:
 
-```
+```txt
 <PROJECT-ROOT>/
 |-- db/
     `-- data-model.cds
@@ -171,7 +172,7 @@ mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
 This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
-```
+```txt
 <PROJECT-ROOT>/
 `-- integration-tests/
     `-- src/test/java/

@@ -22,14 +22,16 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 ## Create a Project
 
 <div class="impl node">
 
 ```sh
-cds init hello-world --add samples
+cds init hello-world --add tiny-sample
 cd hello-world
+npm install
 ```
 
 </div>
@@ -64,8 +66,6 @@ service say {
 
 ... for example, using [Node.js](../node.js/) express.js handlers style.
 
-</div>
-
 ::: code-group
 
 ```js [srv/world.js]
@@ -86,13 +86,13 @@ module.exports = class say {
 ```
 :::
 
-> That has limited flexibility, for example, you can register only one handler per event. { .impl .node}
+> That has limited flexibility, for example, you can register only one handler per event.
+
+</div>
 
 <div class="impl java">
 
 ... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
-
-</div>
 
 ::: code-group
 
@@ -122,28 +122,35 @@ public class HelloHandler implements EventHandler {
 ```
 :::
 
+</div>
+
 
 ## Run it
+
 ... for example, from your command line in the root directory of your "Hello World":
 
-::: code-group
 
-```sh [Node.js]
+<div class="impl node">
+
+```sh
 cds watch
 ```
 
-```sh [Java]
+</div>
+
+<div class="impl java">
+
+```sh
 cd srv
 mvn cds:watch
 ```
 
-:::
-
+</div>
 
 ## Consume it
 ... for example, from your browser:<br>
 
-<http://localhost:4004/say/hello(to='world')>  { .impl .node}
+<http://localhost:4004/odata/v4/say/hello(to='world')>  { .impl .node}
 
 <http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
 

@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  This section describes how to register event handlers on services. In CAP everything that happens at runtime is an <a href="../about/#events">event</a> that is sent to a <a href="../about/#services">service</a>.
+  This section describes how to register event handlers on services. In CAP everything that happens at runtime is an event that is sent to a service.
   With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 redirect_from: java/srv-impl
 status: released
@@ -14,7 +14,8 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+This section describes how to register event handlers on services. In CAP everything that happens at runtime is an [event](../about/#events) that is sent to a [service](../about/#services).
+With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
 
 ## Introduction to Event Handlers
 
@@ -43,7 +44,7 @@ Events are processed in three phases that are executed consecutively: `Before`, 
 The CAP Java SDK provides an annotation for each event phase ([`@Before`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/Before.html), [`@On`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/On.html), and [`@After`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/handler/annotations/After)).
 These [annotations](#handlerannotations) can be used on event handler methods to indicate which phase of the event processing the method handles.
 
-It’s possible to register multiple event handlers for each event phase. Handlers within the same event phase are never executed concurrently.
+It's possible to register multiple event handlers for each event phase. Handlers within the same event phase are never executed concurrently.
 In case concurrency is desired, it needs to be explicitly implemented within an event handler.
 Note that by default there is no guaranteed order in which the handlers of the same phase are called.
 
@@ -62,7 +63,7 @@ The processing of the `Before` phase is completed when one of the following cond
 
 ### On { #on}
 
-The `On` phase is started after the `Before` phase, as long as no return value is yet provided and no exception occurred. It’s meant to implement the core processing of the event.
+The `On` phase is started after the `Before` phase, as long as no return value is yet provided and no exception occurred. It's meant to implement the core processing of the event.
 There can be an arbitrary number of `On` handlers per event, although as soon as the first `On` handler successfully completes the event processing, all remaining `On` handlers are skipped.
 
 The `On` phase is completed when one of the following conditions applies:
@@ -70,7 +71,7 @@ The `On` phase is completed when one of the following conditions applies:
   In this case, any remaining registered `On` handlers are skipped and execution continues with the `After` phase.
 - A handler throws an exception. In this case, event processing is terminated immediately.
 
-In case of synchronous events, if after the `On` phase, no handler completed the event processing, it’s considered an error and the event processing is aborted with an exception.
+In case of synchronous events, if after the `On` phase, no handler completed the event processing, it's considered an error and the event processing is aborted with an exception.
 However when registering an `On` handler for an asynchronous event it is not recommended to complete the event processing, as other handlers might not get notified of the event anymore.
 In that case CAP ensures to auto-complete the event, once all `On` handlers have been executed.
 
@@ -179,7 +180,7 @@ For actions or functions defined in the CDS model the [CAP Java SDK Maven Plugin
 ## Event Handler Classes { #handlerclasses}
 
 Event handler classes contain one or multiple event handler methods. You can use them to group event handlers, for example for a specific service.
-The class can also define arbitrary methods, which aren’t event handler methods, to provide functionality reused by multiple event handlers.
+The class can also define arbitrary methods, which aren't event handler methods, to provide functionality reused by multiple event handlers.
 
 In Spring Boot, event handler classes are Spring beans. This enables you to use the full range of Spring Boot features in your event handlers, such as [Dependency Injection](https://www.baeldung.com/spring-dependency-injection) or [Scopes](https://www.baeldung.com/spring-bean-scopes).
 
@@ -226,15 +227,15 @@ Event handler methods need to be annotated with one of the following annotations
 The annotation defines, during which [phase](#phases) of the event processing the event handler is called.
 
 Each of these annotations can define the following attributes:
-- `service`: The services the event handler is registered on. It’s optional, if a `@ServiceName` annotation is specified on class-level.
+- `service`: The services the event handler is registered on. It's optional, if a `@ServiceName` annotation is specified on class-level.
 
 - `serviceType`: The type of services the event handler is registered on, for example, `ApplicationService.class`. Can be used together with `service = "*"` to register an event handler on all services of a certain type.
 
 - `event`: The events the event handler is registered on. The event handler is invoked in case any of the events specified matches the current event. Use `*` to match any event.
-  It’s optional, if the event can be inferred through a [Event Context argument](#contextarguments) in the handler signature.
+  It's optional, if the event can be inferred through a [Event Context argument](#contextarguments) in the handler signature.
 
 - `entity`: The target entities the event handler is registered on. The event handler is invoked in case any of the entities specified matches the current entity. Use `*` to match any entity.
-  It’s optional, if the entity can be inferred through a [POJO-based argument](#pojoarguments) in the handler signature. If no value is specified or can be inferred it defaults to `*`.
+  It's optional, if the entity can be inferred through a [POJO-based argument](#pojoarguments) in the handler signature. If no value is specified or can be inferred it defaults to `*`.
 
 ::: tip
 The interfaces of different service types provide String constants for the events they support (see for example the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html)).
@@ -257,7 +258,7 @@ It is recommended to use these constants with the `event` or `entity` attributes
 ## Event Handler Method Signatures { #handlersignature}
 
 The most basic signature of an event handler method is `public void process(EventContext context)`. However event-specific Event Context and entity data arguments and certain return values are supported as well and can be freely combined.
-It is even valid for event handler methods to have no arguments at all. Handler methods don’t necessarily have to be public methods. They can also be methods with protected, private, or package visibility.
+It is even valid for event handler methods to have no arguments at all. Handler methods don't necessarily have to be public methods. They can also be methods with protected, private, or package visibility.
 
 ### Event Context Arguments { #contextarguments}
 

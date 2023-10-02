@@ -49,7 +49,7 @@ We **recommend** using the caret form, that is, `^1.0.2` to add your dependencie
 
 Let's explain this by looking at counter examples.
 
-Let's assume that you’ve developed a reuse package that others can use in their projects, and you also use a reuse package. For whatever reason, you decided to violate the previous rules and use exact dependencies in your _package.json_ as follows:
+Let's assume that you've developed a reuse package that others can use in their projects, and you also use a reuse package. For whatever reason, you decided to violate the previous rules and use exact dependencies in your _package.json_ as follows:
 
 ```json
 "name": "@sap/your-reuse-package",
@@ -64,7 +64,7 @@ Let's assume that you’ve developed a reuse package that others can use in thei
 The effect would be as follows:
 
 1. Consuming projects would get duplicate versions of each package that they also use directly, for example, `@sap/cds`, `@sap/foundation`, and `express`.
-2. Consuming projects wouldn’t receive important fixes for the packages used in your implementations unless you also provide an update.
+2. Consuming projects wouldn't receive important fixes for the packages used in your implementations unless you also provide an update.
 3. It wouldn't be possible to reuse CDS models from common reuse packages (for example, would already fail for `@sap/cds/common`).
 
 Therefore, the rules when publishing packages for reuse are:
@@ -130,7 +130,7 @@ A good approach is to also provide certain features in combination with third-pa
 
 As providers of evolving SDKs we provide major feature updates, enhancements, and improvements in 6-12 month release cycles. These updates come with an increment of major release numbers.
 
-At the same time, we can’t maintain and support unlimited numbers of branches with fixes. The following rules apply:
+At the same time, we can't maintain and support unlimited numbers of branches with fixes. The following rules apply:
 
 * Fixes and nonbreaking enhancements are made available frequently in upstream release branches (current _major_).
 * Critical fixes also reach recent majors in a 2-month grace period.
@@ -197,7 +197,7 @@ Consult [OpenUI5 Content Security Policy documentation](https://openui5.hana.ond
 Protect against cross-side request forgery (CSRF) attacks by enabling CSRF token handling either through the _App Router_ or by adding it manually.
 ::: tip
 For a SAPUI5 (SAP Fiori/SAP Fiori Elements) application developer, CSRF token handling is transparent.
-There’s no need to program or to configure anything in additional. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
+There's no need to program or to configure anything in additional. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
 :::
 
 [Learn more about CSRF tokens and SAPUI5 in the **Cross-Site Scripting** documentation.](https://sapui5.hana.ondemand.com/#/topic/91f0bd316f4d1014b6dd926db0e91070){.learn-more}
@@ -361,7 +361,7 @@ In rare cases, throwing a new error is necessary, for example, if the original e
 ### Further Readings
 
 The following articles might be of interest:
-- [Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+- [Error Handling in Node.js](https://web.archive.org/web/20220417042018/https://www.joyent.com/node-js/production/design/errors)
 - [Let It Crash](https://wiki.c2.com/?LetItCrash)
 - [Don't Catch Exceptions](https://wiki.c2.com/?DontCatchExceptions)
 - [Report And Die](https://wiki.c2.com/?ReportAndDie)

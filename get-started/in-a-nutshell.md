@@ -2,7 +2,7 @@
 shorty: in a Nutshell
 synopsis: >
   Get started with CAP in a minimalistic setup.
-#notebook: true
+notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
@@ -16,10 +16,12 @@ Using a minimal setup
 
 This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 
-## ⓪ Preliminaries
+## Preliminaries
 
 1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
 
@@ -45,7 +47,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 
 
-## ① Jumpstart a Project { #start-a-project}
+## 1. Jumpstart a Project { #start-a-project}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 1. Create a new project using `cds init`
@@ -106,7 +108,7 @@ So, let's go on adding some CDS model as follows...
 
 
 
-## ② Capture Domain Models { #domain-models }
+## 2. Capture Domain Models { #domain-models }
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -194,7 +196,7 @@ cds db/schema.cds -2 sql
 
 
 
-## ③ Providing Services { #defining-services}
+## 3. Providing Services { #defining-services}
 
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
@@ -276,7 +278,7 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
-```java
+```log
 c.s.c.services.impl.ServiceCatalogImpl : Registered service AdminService
 c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 ```
@@ -287,6 +289,7 @@ As you can see in the log output, the two service definitions have been compiled
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
 :::
 
+<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -306,7 +309,7 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 
 ### Compiling APIs (Optional) { #repl}
 
-You can also compile service definitions explicitly, for example to an [OData model](http:/docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
+You can also compile service definitions explicitly, for example to an [OData model](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
 
 ```sh
 cds srv/cat-service.cds -2 edmx
@@ -315,7 +318,7 @@ cds srv/cat-service.cds -2 edmx
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 
-## ④ Using Databases {#databases}
+## 4. Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 
@@ -366,7 +369,7 @@ ID,name
 % include _code from='bookshop:db/init.js' %}
 [learn more about using `cds.ql` for reading and writing data](../node.js/cds-ql){ .learn-more}  -->
 
-After you’ve added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
+After you've added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
 ```log
 [cds] - connect to db { database: ':memory:' }
@@ -385,7 +388,7 @@ After you’ve added these files, `cds watch` restarts the server with output, t
 
 <div class="impl java">
 
-After you’ve added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
+After you've added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
 ```log
 c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Authors.csv
@@ -401,14 +404,14 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
-- _[…/Authors?$search=Bro](http://localhost:4004/admin/Authors?$search=Bro)_ {.impl .node}
-- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:4004/odata/v4/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Authors?$search=Bro](http://localhost:4004/odata/v4/admin/Authors?$search=Bro)_ {.impl .node}
+- _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/odata/v4/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
 - _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
 - _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
-> Use [_Alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
+> Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
 > Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
@@ -447,7 +450,7 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## ⑤ Adding/Serving UIs {#adding-serving-uis}
+## 5. Adding/Serving UIs {#adding-serving-uis}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -477,7 +480,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
 
 
-## ⑥ Adding Custom Logic {#adding-custom-logic}
+## 6. Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
@@ -530,7 +533,8 @@ Service implementations essentially consist of one or more event handlers.
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
-```js
+::: code-group
+```js [srv/cat-service.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
@@ -541,6 +545,7 @@ module.exports = function (){
   })
 }
 ```
+:::
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 
@@ -648,7 +653,7 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
+- [Adding Custom Logic](../guides/providing-services#custom-logic)
 
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 

@@ -1,13 +1,13 @@
 ---
 label: Configuration
 synopsis: >
-  Learn here about using <code>cds.env</code> to specify and access configuration options for the Node.js runtimes as well as the <code>@sap/cds-dk</code> CLI commands.
+  Learn here about using cds.env to specify and access configuration options for the Node.js runtimes as well as the @sap/cds-dk CLI commands.
 status: released
 ---
 
 # Project-Specific Configurations
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## CLI `cds env` Command {#cli}
@@ -95,7 +95,7 @@ As depicted in the figure below `cds.env` provides one-stop convenient and trans
 | 3 | [_./.cdsrc.json_](#project-settings) | static project settings
 | 4 | [_./package.json_](#project-settings) | static project settings &rarr; `{"cds":{ ... }}`
 | 5 | [_./.cdsrc-private.json_](#private-project-settings) | user-specific project config |
-| 6 | [_./default-env.json_](#process-env) | *deprecated see cds bind*
+| 6 | [_./default-env.json_](#process-env) | *deprecated, see cds bind*
 | 7 | [_./.env_](#process-env)  | user-specific project env (lines of `name=value`)
 | 8 | [`process.env.CDS_CONFIG`](#env-cds-config) | runtime settings from shell or cloud
 | 9 | [`process.env`](#process-env) | runtime env vars from shell or cloud
@@ -208,7 +208,7 @@ of required services in `requires` — most frequently your primary database con
 under `requires.db`.
 
 ::: tip
-The settings described here are part of your project's static content and delivery. They’re checked in to your git repos and used also in productive deployments. **Don’t** add environment-specific options as static settings but use one of the [dynamic process environment options](#process-env) for that.
+The settings described here are part of your project's static content and delivery. They're checked in to your git repos and used also in productive deployments. **Don't** add environment-specific options as static settings but use one of the [dynamic process environment options](#process-env) for that.
 :::
 
 ### In _./package.json_
@@ -423,14 +423,14 @@ cds run --profile my-custom-profile
 or
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 CDS_ENV=my-custom-profile cds run
 ```
-```cmd
+```cmd [Windows]
 set CDS_ENV=my-custom-profile
 cds run
 ```
-```powershell
+```powershell [Powershell]
 $Env:CDS_ENV=my-custom-profile
 cds run
 ```

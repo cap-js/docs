@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "allowJs": true,
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "types": ["node", "vite/client"]
   },
   "include": [
     ".vitePress/**/*.ts",

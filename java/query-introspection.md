@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  API to introspect <a href="../cds/cql">CDS Query Language (CQL)</a> statements in Java.
+  API to introspect CDS Query Language (CQL) statements in Java.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## Introduction
@@ -136,15 +136,15 @@ CdsEntity item  = result.targetEntity(); // OrderItems
 
 ### Extracting Filter Values
 
-A non-complex filter predicate might map (restrict) some element to a particular _filter value_. If some filter values can be _unambiguously_ determined, the `CqnAnalyzer` can extract these filter values and return them as a `Map`. A filterd data set will contain only data that matches the filter values.
+A non-complex filter predicate might map (restrict) some element to a particular _filter value_. If some filter values can be _unambiguously_ determined, the `CqnAnalyzer` can extract these filter values and return them as a `Map`. A filtered data set will contain only data that matches the filter values.
 
 Examples:
 
 ```sql
 WHERE name = 'Sue'
 WHERE name = 'Bob' AND age = 50
-WHERE name = 'Alice' AND (age = 25 OR and age = 35)
-WHERE name = 'Alice' AND age = 25 OR name = 'Alice' and age = 35
+WHERE name = 'Alice' AND (age = 25 OR age = 35)
+WHERE name = 'Alice' AND age = 25 OR name = 'Alice' AND age = 35
 ```
 
 The first example above maps `name` to `Sue`. The second example maps `name` to 'Bob' and `age` to 50. In the third example only `name` is unambigously mapped to 'Alice' but a value for `age` can't be extracted. The fourth example is equivalent to the third.
@@ -159,7 +159,7 @@ Map<String, Object> targetKeys  = result.targetKeys();
 Integer itemId = (Integer) targetKeys.get("ID");   // 1
 ```
 
-To extract all filter values of the target entity including nonkey values, the `targetValues` method can be used:
+To extract all filter values of the target entity including non-key values, the `targetValues` method can be used:
 
 ```java
 Map<String, Object> filterValues = result.targetValues();
@@ -370,7 +370,7 @@ for (Map<String, Object> book : books) {
 
 The output will be:
 
-```
+```txt
 Catweazle	no match
 The Raven	match
 Dracula		no match

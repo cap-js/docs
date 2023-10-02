@@ -2,7 +2,7 @@
 label: Middlewares
 synopsis: >
    Learn about default middlewares and all the options of customization.
-layout: node-js
+# layout: node-js
 status: released
 ---
 <!--- Migrated: @external/node.js/Middlewares/0-index.md -> @external/node.js/middlewares.md -->

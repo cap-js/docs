@@ -21,9 +21,9 @@ CAP Node.js servers a bootstrapped through a [built-in `server.js` module](#buil
 ## CLI Command `cds serve`
 
 A Node.js CAP server process is usually started with the `cds serve` CLI command,
-with `cds run` and `cds watch` as convenience variants. 
+with `cds run` and `cds watch` as convenience variants.
 
-**For deployment**, when the `@sap/cds-dk` package providing the `cds` CLI executable is not available, use the `cds-serve` binary provided by the `@sap/cds` package: 
+**For deployment**, when the `@sap/cds-dk` package providing the `cds` CLI executable is not available, use the `cds-serve` binary provided by the `@sap/cds` package:
 
 ```json
 {
@@ -64,7 +64,7 @@ cds.server = module.exports = async function (options) {
   await cds.serve ('all') .from(csn) .in (app)
   await cds.emit ('served', cds.services)
 
-  // launch http server
+  // launch HTTP server
   cds .emit ('launching', app)
   const port = o.port ?? process.env.PORT || 4004
   const server = app.server = app.listen(port) .once ('listening', ()=>
@@ -179,6 +179,7 @@ cds.on('served', (services)=>{
 })
 ```
 
+This event supports _asynchronous_ event handlers.
 
 
 ### listening {.event}
@@ -191,10 +192,36 @@ A one-time event, emitted when the server has been started and is listening to i
 
 A one-time event, emitted when the server is closed and/or the process finishes.  Listeners can execute cleanup tasks.
 
+This event supports _asynchronous_ event handlers.
 
 
+### Event Handlers
 
+#### Synchronous vs. asynchronous
 
+Unless otherwise noted, event handlers execute **synchronously** in the order they are registered.
+This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous) contract.
+
+In other words this asynchronous handler code does **not work** as expected:
+
+```js
+cds.on ('bootstrap', async ()=> {
+  await asyncCode() // [!code error] // will NOT be awaited
+}
+```
+
+You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
+
+```js
+let done
+cds.on('bootstrap', ()=> {
+  done = asyncCode()
+}
+cds.on('served', async ()=> {
+  await moreCode()
+  await done
+})
+```
 
 
 ## See Also...

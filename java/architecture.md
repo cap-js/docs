@@ -84,7 +84,7 @@ CAP Java makes use of [features](#standard-modules) itself to provide optional f
 
 ## Stack Configuration { #stack_configuration}
 
- As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can’t only choose among modules prepared for different environments. You can also include optional or custom extensions.
+ As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can choose among modules prepared for different environments and in addition also include optional or custom extensions.
  Which set of modules is active at runtime is a matter of compile time and runtime configuration.
 
  At compile time, you can assemble modules from the different layers:
@@ -95,7 +95,7 @@ CAP Java makes use of [features](#standard-modules) itself to provide optional f
 
 ### Module Configuration
 
-All CAP Java SDK modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). They've group id `com.sap.cds`.
+All CAP Java SDK modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). They've `groupId` `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds. It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
 
 ```xml
@@ -116,8 +116,8 @@ Beside the Java libraries (Jars) reflecting the modularized functionality, the g
 </dependencyManagement>
 ```
 
-::: tip
-Importing `cds-services-bom` into the DependencyManagement of your project ensures that all cds-module versions are in sync.
+::: tip Keep Versions in Sync
+Importing `cds-services-bom` into the DependencyManagement of your project ensures that versions of all CAP modules are in sync.
 :::
 
 The actual Maven dependencies specified in your `pom` need to cover all libraries that are necessary to run the web application: An application framework, a protocol adapter, and the CAP Java SDK.
@@ -152,22 +152,22 @@ The dependencies of a Spring Boot application with OData V4 endpoints could look
 	</dependency>
 </dependencies>
 ```
-::: tip
+::: tip API Modules w/o scope `dependency`
 Only API modules without dependency scope should be added (they gain `compile` scope by default) such as `cds-services-api` or `cds4j-api`.
-All other dependencies should have a dedicated scope e.g. `runtime` or `test` to prevent misuse.
+All other dependencies should have a dedicated scope, like `runtime` or `test` to prevent misuse.
 :::
 
 You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`),
 instead you can define your own application context if required.
 Similarly, you're free to configure multiple adapters including custom implementations that map any specific web service protocol.
 
-::: tip
-It's highly recommended to configure `cds-framework-spring-boot` as application framework
-as it provides you with a lot of out of the box [integration with CAP](./development/#spring-boot-integration)
-and enhanced features such as dependency injection and auto configuration.
+::: tip Recommended Application Framework
+We highly recommended to configure `cds-framework-spring-boot` as application framework.
+It provides you with a lot of [integration with CAP](./development/#spring-boot-integration) out of the box,
+as well as enhanced features, such as dependency injection and auto configuration.
 :::
 
-Additional application features you want to use are added as additional dependencies. For instance
+Additional application features you want to use are added as additional dependencies. The following is required to make your application multitenancy aware.
 
 ```xml
 <dependencies>
@@ -180,10 +180,10 @@ Additional application features you want to use are added as additional dependen
 </dependencies>
 ```
 
-is required to make your application multitenancy-aware.
+
 
 Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. If a chosen feature misses the required environment at runtime, the feature won't be activated. Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
-For instance, the authentication feature `cds-feature-hana` requires a valid `hana`-binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.
+For instance, the authentication feature `cds-feature-hana` requires a valid `hana` binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.
 
 ### CAP Java Standard Modules { #standard-modules }
 
@@ -209,7 +209,7 @@ CAP Java comes with a rich set of prepared modules in all different layers of th
 * `cds-feature-hana`:  Makes your application aware of SAP HANA data sources.
 * `cds-feature-xsuaa`:  Adds [XSUAA](https://github.com/SAP/cloud-security-xsuaa-integration)-based authentication to your application.
 * `cds-feature-identity`: Adds [Identity Services](https://github.com/SAP/cloud-security-xsuaa-integration) integration covering IAS to your application.
-* `cds-feature-mt`:  Makes your application multitenant-aware.
+* `cds-feature-mt`:  Makes your application multitenant aware.
 * `cds-feature-enterprise-messaging`:  Connects your application to SAP Event Mesh.
 * `cds-feature-remote-odata`: Adds [Remote Service](remote-services#remote-services) support.
 

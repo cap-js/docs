@@ -920,7 +920,9 @@ public class FooServiceImpl implements EventHandler {...}
 
 Within your custom implementations, you can register event handlers like that:
 
-```js
+::: code-group
+
+```js [Node.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
@@ -929,9 +931,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
-
-```js
+```Java
 @Component
 @ServiceName("BookshopService")
 public class BookshopServiceImpl implements EventHandler {
@@ -941,6 +941,10 @@ public class BookshopServiceImpl implements EventHandler {
   @After(event="READ", entity="Books") public void onReadBooks (EventContext req) {...}
 }
 ```
+
+:::
+
+[Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
 
 [Learn more about **adding event handlers in Java**.](../java/provisioning-api#handlerclasses){.learn-more}
 

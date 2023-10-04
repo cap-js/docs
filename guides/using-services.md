@@ -993,7 +993,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {
@@ -1648,7 +1648,7 @@ This list specifies the properties for application defined destinations.
 | `queries`                  | Map of URL parameters                     |
 | `forwardAuthToken`         | [Forward auth token](#forward-auth-token) |
 
-[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v2/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
+[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
 [HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){.learn-more .impl .java}
 
 #### Authentication Types

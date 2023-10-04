@@ -14,12 +14,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 One of the key [CAP design principles](../about/#open-and-opinionated) is to be an opinionated but yet open framework. Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java SDK.
-The [modular architecture](#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](#stack_configuration) and custom extensions.
+The [stack architecture](#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](#stack_configuration) and custom extensions.
 
 
 ## Stack Architecture { #modular_architecture}
 
-### Architecture Overview
+### Overview
 
 One of the basic design principle of the CAP Java SDK is to keep orthogonal functionality separated in independent components. The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
 Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services. Hence, the application is [platform **and** service agnostic](../about/#agnostic-approach).
@@ -248,4 +248,3 @@ An example of a CAP application with OData V4 on Cloud Foundry environment:
 		</dependency>
 </dependencies>
 ```
-

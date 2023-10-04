@@ -54,7 +54,7 @@ The individual dependencies can be explicitly added in the `pom.xml` file of you
 Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies.
 
 In addition, your application needs to be bound to corresponding service instances depending on your scenario.  The following list describes which service needs to be bound depending on the tokens your applications should accept:
-   * only accept tokens issued by XSUAA --> bind it to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+   * only accept tokens issued by XSUAA --> bind your application to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
    * only accept tokens issued by IAS --> bind your application to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
    * accept tokens issued by XSUAA and IAS --> bind your application to service instances of both types.
 

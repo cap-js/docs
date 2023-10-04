@@ -51,10 +51,12 @@ To enable your application for XSUAA or IAS-authentication the following depende
 
 The individual dependencies can be explicitly added in the `pom.xml` file of your service.
 
-In addition, your application needs to be bound to corresponding service instances depending on your scenario. If your application should:
-   * only accept tokens issued by XSUAA, bind your application to a [XSUAA service instance](../guides/authorization#xsuaa-configuration)
-   * only accept tokens issued by IAS, bind your application to a [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
-   * accept tokens issued by XSUAA and IAS, bind your application to service instances of both types.
+Recommended alternative is to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies.
+
+In addition, your application needs to be bound to corresponding service instances depending on your scenario.  The following list describes which service needs to be bound depending on the tokens your applications should accept:
+   * only accept tokens issued by XSUAA --> bind it to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+   * only accept tokens issued by IAS --> bind your application to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
+   * accept tokens issued by XSUAA and IAS --> bind your application to service instances of both types.
 
 ::: tip
 CAP Java picks only a single binding of each type. If you have multiple XSUAA or IAS bindings, choose a specific binding with property `cds.security.xsuaa.binding`respectively `cds.security.identity.binding`.
@@ -64,7 +66,7 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 ### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
 CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). As the spring-xsuaa library is deprecated, it is recommended to move to `cds-feature-identity`.
 
-To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` and follow the description in [Configure XSUAA and IAS Authentication]{.#xsuaa-ias}.  
+To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` and follow the description in [Configure XSUAA and IAS Authentication]{#xsuaa-ias}.  
 ::: tip
 If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`. Otherwise, `cds-feature-xsuaa` will take priority over `cds-feature-identity` for backward compatibility. 
 :::

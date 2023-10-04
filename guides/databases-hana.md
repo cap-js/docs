@@ -57,7 +57,7 @@ For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ::: tip
 
-The [modules](../java/architecture#available-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
+The [modules](../java/architecture#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
 
 :::
 

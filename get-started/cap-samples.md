@@ -219,7 +219,23 @@ This set of samples cover several distinct use cases.
 
 <div class="impl java">
 
-[Samples for **Java**](https://github.com/SAP-samples/cloud-cap-samples-java), and
+The main sample application for CAP Java is the [Bookshop](https://github.com/SAP-samples/cloud-cap-samples-java). In this sample app we showcase most of the CAP Java features. Additionally, there is the [CAP SFlight](https://github.com/SAP-samples/cap-sflight) which runs on both stacks, CAP Java and CAP node.js.
+
+
+| Feature              | Showcased in                                |
+|----------------------|---------------------------------------------|
+|Domain Modeling       |  Introduces the essential tasks in the development of CAP-based services as also covered in the [Getting Started](in-a-nutshell) guide. More advanced examples for domain modeling can be found in the [SFlight model](https://github.com/SAP-samples/cap-sflight/blob/main/db/schema.cds) as well as in the [Bookshop model](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds).|
+|Providing Services    |  See different examples how domain models can be exposed as outbound services (defaults to OData V4). The [TravelService in CAP SFlight](https://github.com/SAP-samples/cap-sflight/blob/main/srv/travel-service.cds) does a straight forward projection of the Travel entity plus annotations for authorization. The [AdminService in the Bookshop](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/admin-service.cds) shows a bit more advanced service exposere of entities plus the extension of existing entities via predefined annoations.|
+|Consuming Services    |         |
+|Databases             |         |
+|Messaging             |         |
+|Authorization         |         |
+|Localization          |         |
+|Localized Data        |         |
+|Temporal Data         |         |
+|Media Data            |         |
+|Data Privacy          |         |
+
 ### Bookshop { #bookshop-java}
 
 The [bookshop-java is a sample application modeling a bookshop. From a domain point of view the bookshop offers

@@ -1,16 +1,10 @@
 ---
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
+redirect_from: node.js/services
 ---
 
 # Core Services
-
-
-
-::: tip
-This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
-:::
-
 
 
 [[toc]]
@@ -266,7 +260,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -452,7 +446,7 @@ class BooksService extends cds.ApplicationService {
 }
 ```
 
-Ensure to call `super.init()` to allow subclassses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
+Ensure to call `super.init()` to allow subclasses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
 
 
 
@@ -513,7 +507,7 @@ class BooksService extends cds.ApplicationService {
 
 - **`.on`** handlers actually fulfill requests, e.g. by reading/writing data from/to databases
 - **`.before`** handlers run before the `.on` handlers, frequently for validating inbound data
-- **`.after`** handlers run before the `.on` handlers, frequently to enrich outbound data
+- **`.after`** handlers run after the `.on` handlers, frequently to enrich outbound data
 
 **Argument `event`** can be one of:
 
@@ -703,7 +697,7 @@ function srv.on (event, handler: (
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
+Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchronous requests, but work slightly different:
 
 1. They are usually registered 'from the outside', not as part of a service's implementation.
 2. They receive only a single argument: `msg`, an instance of [`cds.Event`](./events.md#cds-request); no `next`.
@@ -942,7 +936,7 @@ await db.run (tx => {
 
 > Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
@@ -1026,7 +1020,7 @@ Promise.seq = handlers => async function next(){
 }()
 ```
 
-All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occured. In addition, note that...
+All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occurred. In addition, note that...
 
 - **`before`** handlers are always executed *concurrently*
 - **`on`** handlers are executed...
@@ -1037,6 +1031,77 @@ All matching `before`, `on`, and `after` handlers are executed in corresponding 
 In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
+<!-- ## Streaming API {#srv-stream } -->
+
+### srv. stream (column) {.method}
+
+```ts
+async function srv.stream (column: string)
+  return : {
+    from(entity: CSN Definition | string): {
+      where(filter: any): ReadableStream // from node:stream
+  }
+}
+```
+
+This method allows streaming binary data properties.
+It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
+
+```js
+const stream = srv.stream().from('T', { ID: 1 }, a => a.data)
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T', { ID: 1 })
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T').where({ ID: 1 })
+stream.pipe(process.stdout)
+```
+
+::: warning
+Streaming is currently limited to [database services](databases).
+:::
+
+
+
+### srv. stream (query)  {.method}
+
+```ts
+async function srv.stream (query: CQN) : ReadableStream
+```
+
+This is a variant of `srv.stream`, which accepts a [`SELECT` query](../cds/cqn) as input and returns a Promise resolving to result stream when the query matched to an existing row in the database. The query is expected to select a single column and a single data row. Otherwise, an error is thrown.
+
+```js
+const stream = await srv.stream( SELECT('image').from('Foo',111) )
+stream.pipe(process.stdout)
+```
+
+
+
+### srv. foreach (entity) {.method}
+
+```ts
+function foreach(
+  query: CQN, callback: (row: object) => void
+)
+```
+
+Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
+
+_**Common Usages:**_
+
+```js
+cds.foreach (SELECT.from('Foo'), each => console.log(each))
+cds.foreach ('Foo', each => console.log(each))
+```
+{.indent}
+
+> As depicted in the second line, a plain entity name can be used for the `entity` argument in which case it's expanded to a `SELECT * from ...`.
 
 
 
@@ -1079,20 +1144,20 @@ As an alternative to [`srv.run(query)`](#srv-run-query) you can use these conven
 
 - srv. **read** (entity, ...) {.method}
 - srv. **create** (entity, ...) {.method}
-- srv. **insert** (entity, ...) {.method}
-- srv. **upsert** (entity, ...) {.method}
+- srv. **insert** (...).into(entity) {.method}
+- srv. **upsert** (...).into(entity) {.method}
 - srv. **update** (entity, ...) {.method}
 - srv. **delete** (entity, ...) {.method}
 
 Essentially, they start constructing *bound* [`cds.ql` query objects](cds-ql) as follows:
 
 ```js
-srv.read('Books',...)...   --> SELECT.from ('Books',...)...
-srv.create('Books',...)... --> INSERT.into ('Books',...)...
-srv.insert('Books',...)... --> INSERT.into ('Books',...)...
-srv.upsert('Books',...)... --> UPSERT.into ('Books',...)...
-srv.update('Books',...)... --> UPDATE.entity ('Books',...)...
-srv.delete('Books',...)... --> DELETE.from ('Books',...)...
+srv.read('Books',...)...         --> SELECT.from ('Books',...)...
+srv.create('Books',...)...       --> INSERT.into ('Books',...)...
+srv.insert(...).into('Books')... --> INSERT.into ('Books',...)...
+srv.upsert(...).into('Books')... --> UPSERT.into ('Books',...)...
+srv.update('Books',...)...       --> UPDATE.entity ('Books',...)...
+srv.delete('Books',...)...       --> DELETE.from ('Books',...)...
 ```
 
 You can further construct the queries using the `cds.ql` fluent APIs, and then `await` them for execution thru `this.run()`. Here are some examples:

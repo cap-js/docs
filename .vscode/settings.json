@@ -5,6 +5,3 @@
     "**/CONTRIBUTING.md": true,
     "**/LICENSE*": true,
     "**/node_modules/": true
-  },
-  "github-enterprise.uri": "https://github.tools.sap"
-}

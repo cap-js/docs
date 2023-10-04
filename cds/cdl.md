@@ -5,7 +5,6 @@ synopsis: >
 #permalink: /cds/cdl/
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
-outline: [1,3]
 ---
 
 <!--@include: ../links.md-->
@@ -148,7 +147,8 @@ type EmailAddress : { kind:String; address:String; }
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
-::: danger
+
+::: warning
 Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
@@ -156,18 +156,19 @@ Filter expressions, [instance-based authorization](../guides/authorization#insta
 
 For arrayed types the `null` and `not null` constraints apply to the _members_ of the collections. The default is `not null` indicating that the collections can't hold `null` values.
 
-::: danger
+::: warning
 An empty collection is represented by an empty JSON array. A `null` value is invalid for an element with arrayed type.
 :::
 
-In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`. The collection `email` must not be `null`!
+In the following example the collection `emails` may hold members that are `null`. It may also hold a member where the element `kind` is `null`.
+The collection `emails` itself must not be `null`!
 
 ```cds
 entity Bar {
     emails      : many {
         kind    : String null;
         address : String not null;
-    } null;
+    } null;  // -> collection emails may hold null values, overwriting default
 }
 ```
 
@@ -254,12 +255,7 @@ entity ![Entity] {
 
 <span id="calculated-fields"/>
 
-### Calculated Elements (beta) {#calculated-elements}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+### Calculated Elements {#calculated-elements}
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -271,7 +267,7 @@ When reading a calculated element, the result of the expression is returned.
 Calculated elements with a value expression come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
-#### On-read (beta)
+#### On-read
 
 ```cds
 entity Employees {
@@ -313,7 +309,6 @@ in queries. Some restrictions apply:
 
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
-* Referencing localized elements is not allowed.
 * A calculated element can't be key.
 
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
@@ -322,12 +317,11 @@ A calculated element can be *used* in every location where an expression can occ
 * as the foreign key of a managed association
 * in a query together with nested projections (inline/expand)
 
-::: warning Temporary Restriction in the Node.js Runtime
-Currently, an OData request or a custom query can't directly access a calculated element in the entity
-where it is defined. It must always be accessed using a view/projection.
+::: warning
+ For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
-#### On-write (beta)
+#### On-write
 
 Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
 by adding the keyword `stored`. A type specification is mandatory.
@@ -356,7 +350,7 @@ CREATE TABLE Employees (
   name NVARCHAR GENERATED ALWAYS AS (firstName || ' ' || lastName)
 );
 ```
-For the definition of calculated elements on-write, the same restrictions apply as for the on-read variant.
+For the definition of calculated elements on-write, all the on-read variant's restrictions apply and referencing localized elements isn't allowed.
 In addition, there are restrictions that depend on the particular database. Currently all databases
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
@@ -757,6 +751,74 @@ GET /Teams?$expand=members($expand=user)
 to get all users of all teams.
 
 
+### Publish Associations in Projections {#publish-associations}
+
+As associations are first class citizens, you can put them into the select list
+of a view or projection ("publish") like regular elements. A `select *` includes all associations.
+If you need to rename an association, you can provide an alias.
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  ID,
+  addresses
+}
+```
+
+The effective signature of the projection contains an association `addresses` with the same
+properties as association `addresses` of entity `Employees`.
+
+#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
+:::
+
+When publishing an unmanaged association in a view or projection, you can add a filter condition.
+The ON condition of the resulting association is the ON condition of the original
+association plus the filter condition, combined with `and`.
+
+Example:
+```cds
+entity P_Authors as projection on Authors {
+  *,
+  books[stock > 0] as availableBooks
+};
+```
+
+In this example, in addition to `books` projection `P_Authors` has a new association `availableBooks`
+that points only to those books where `stock > 0`.
+
+If the filter condition effectively reduces the cardinality of the association
+to one, you should make this explicit in the filter by adding a `1:` before the condition:
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  *,
+  addresses[1: kind='home'] as homeAddress  // homeAddress is to-one
+}
+```
+
+An association that has been published with a filter is read-only. It must not be
+used to modify the target entity.
+
+Filters usually are provided only for to-many associations, which usually are unmanaged.
+Thus publishing with a filter is almost exclusively used for unmanaged associations.
+Nevertheless you can also publish a managed association with a filter. This will automatically
+turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly published.
+
+Example:
+```cds
+entity P_Books as projection on Books {
+  author.ID as authorID,  // needed for ON condition of deadAuthor
+  author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
+};
+```
+
+
 ## Annotations
 
 This section describes how to add Annotations to model definitions written in CDL, focused on the common syntax options, and fundamental concepts. Find additional information in the [OData Annotations](../advanced/odata#annotations) guide.
@@ -942,7 +1004,7 @@ and they would show up as follows in a parsed model (&rarr; see [CSN](./csn)):
 
 Annotations are inherited from types and base types to derived types, entities, and elements as well as from elements of underlying entities in case of views.
 
-For examples, given this view definition:
+For example, given this view definition:
 
 ```cds
 using Books from './bookshop-model';
@@ -965,7 +1027,9 @@ The rules are:
 
 3. An explicit **cast** in the select clause cuts off the inheritance, for example, as for `genre` in our previous example.
 
-
+::: tip
+Propagation of annotations can be stopped via value `null`, for example, `@anno: null`.
+:::
 
 ### The `annotate` Directive
 {#annotate}
@@ -1434,7 +1498,7 @@ service MyOrders {
 ```
 
 ::: tip
-The notion of actions and functions in CDS adopts that of [OData](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
+The notion of actions and functions in CDS adopts that of [OData](https://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html#_Toc372793737); actions and functions on service-level are _unbound_ ones.
 :::
 
 
@@ -1623,11 +1687,11 @@ Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/a
 In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
 Hence, the same rules apply:
 
-- Relative path resolution
+- Relative path resolution<br>
   Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references
+- Resolving absolute references<br>
   Names starting with `/` are resolved absolute to the file system.
-- Resolving module references
+- Resolving module references<br>
   Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
    - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
    - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
@@ -1675,7 +1739,7 @@ unless it is a doc comment.
 ### Doc Comments — `/**  */`
 {#doc-comment}
 
-A multi-line comment of the form `/**  */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
+A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
 
 ```cds
 /**
@@ -1712,3 +1776,7 @@ cds compile foo.cds --docs
 // in JavaScript:
 cds.compile(..., { docs: true })
 ```
+
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::

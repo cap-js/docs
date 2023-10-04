@@ -9,7 +9,7 @@ status: released
 
 # Performance Modeling
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Avoid UNION
 
@@ -388,7 +388,7 @@ Common patterns:
   - Positional strings, like `A_G___U_I`, with complex internal logic might infer future case statements or complex internal calculations. Better use compositions of type here as well.
   - If you encounter UNION statements in your legacy model, we strongly suggest to re-model as described in the section on [Polymorphism](#polymorphism).
   - If you encounter CASE statements in your legacy model, we strongly suggest to re-model as described in the section on [Calculated Fields](#calculated-fields).
-  - Omit unnecessary abstraction views. When you are porting an "ABAP" CDS Model starting with the corresponding Virtual Data Model (VDM), C_Views and I_Views don’t serve a purpose anymore. Please design your entities for optimized persistence, and your service layer for optimized processing. CAP already has a separation of concerns between the "DB" layer (persistency model) and the "SRV" layer (service / consumption model), there is no need to insert additional and unnecessary further abstraction layers. For example, the public interface layer with views like `I_COSTCENTER` will be replaced by the CDS services from which the OData consumption services are generated.
+  - Omit unnecessary abstraction views. When you are porting an "ABAP" CDS Model starting with the corresponding Virtual Data Model (VDM), C_Views and I_Views don't serve a purpose anymore. Please design your entities for optimized persistence, and your service layer for optimized processing. CAP already has a separation of concerns between the "DB" layer (persistency model) and the "SRV" layer (service / consumption model), there is no need to insert additional and unnecessary further abstraction layers. For example, the public interface layer with views like `I_COSTCENTER` will be replaced by the CDS services from which the OData consumption services are generated.
   - Legacy systems often have convoluted or overly complex data structures just to satisfy multiple processing requirements or use-cases with the same data structure. In CAP there is no need to create overly complex service entities, since you can use bound and unbound ACTIONs and FUNCTIONs for more complex data manipulation. Keep service entities as simple as possible and make them serve one purpose only, and rather create multiple simple entities instead of a complex one.
 
 **Summary:**

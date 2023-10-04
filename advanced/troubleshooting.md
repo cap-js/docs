@@ -9,7 +9,7 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 # Troubleshooting
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## General { #cds}
 
@@ -107,7 +107,7 @@ restart
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 
 
-### Why do I loose registered event handlers?
+### Why do I lose registered event handlers?
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 
@@ -131,7 +131,7 @@ cds.on('served', async ()=>{
 })
 ```
 
-### My app isn’t showing up in Dynatrace
+### My app isn't showing up in Dynatrace
 
 Make sure that:
 - Your app's start script is `cds run` instead of `npx cds run`.
@@ -139,7 +139,7 @@ Make sure that:
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates, that the settings of the pool containing the database clients don’t match the application's needs. There are two possible root causes.
+This error indicates, that the settings of the pool containing the database clients don't match the application's needs. There are two possible root causes.
 
 |  | Explanation |
 | --- | ---- |
@@ -175,7 +175,7 @@ module.exports = cds.server
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Most probably, this error is caused by the destination timeout of the AppRouter.
+| _Root Cause_ | Most probably, this error is caused by the destination timeout of the App Router.
 | _Solution_ | Set your own `timeout` configuration of [@sap/approuter](https://www.npmjs.com/package/@sap/approuter#destinations).
 
 ### Why does the server crash with `No service definition found for <srv-name>`?
@@ -200,8 +200,8 @@ A new option `privilegedUser()` can be leveraged when [defining](../java/request
 
 ### How can I expose custom REST APIs with CAP?
 
-From time to time you might want to expose additional REST APIs in your CAP application, that aren’t covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
-In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you’ll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
+From time to time you might want to expose additional REST APIs in your CAP application, that aren't covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
+In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you'll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
 
 ### How can I build a CAP Java application without SQL database?
 
@@ -274,7 +274,7 @@ sqlite>
 
 If you want to test further, use _.help_ command to see all available commands in _sqlite3_.
 
-In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It’s available as an extension for VS Code and integrated in SAP Business Application Studio.
+In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
 ## SAP HANA { #hana}
@@ -316,7 +316,7 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 ### How Do I Resolve Service Creation Errors?
 
-- If there’s more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
+- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
 - On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
 
@@ -376,7 +376,7 @@ You can disable the database clustering for the update.
 | _Solution_ | To install it, follow these [instructions](https://help.sap.com/docs/SAP_DATA_SERVICES/e54136ab6a4a43e6a370265bf0a2d744/c049e28431ee4e8280cd6f5d1a8937d8.html). If this doesn't solve the problem, also set the environment variables as [described here](https://help.sap.com/docs/SAP_HANA_PLATFORM/e7e79e15f5284474b965872bf0fa3d63/463d3ceeb7404eca8762dfe74e9cff62.html).
 
 
-#### Deployment fails ---
+#### Deployment fails —
 + _Failed to get connection for database_
 + _Connection failed (RTE:[300015] SSL certificate validation failed_
 + _Cannot create SSL engine: Received invalid SSL Record Header_
@@ -385,6 +385,13 @@ You can disable the database clustering for the update.
 | --- | ---- |
 | _Root Cause_ | Your SAP HANA Cloud instance is stopped. |
 | _Solution_ | [Start your SAP HANA Cloud instance.](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/fe8cbc3a13b4425990880bac3a5d50d9.html)
+
+#### Deployment fails — SSL certificate validation failed: error code: 337047686
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The `@sap/hana-client` can't verify the certificate because of missing system toolchain dependencies. |
+| _Solution_ | Make sure [`ca-certificates`](https://packages.ubuntu.com/focal/ca-certificates) is installed on your Docker container.
 
 #### Deployment fails — _Cannot create SSL engine: Received invalid SSL Record Header_
 
@@ -397,14 +404,14 @@ You can disable the database clustering for the update.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your configuration isn’t properly set. |
+| _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
 #### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your IP isn’t part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
+| _Root Cause_ | Your IP isn't part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
@@ -431,8 +438,6 @@ This error occurs if all of the following applies:
 ### How do I pass additional HDI deployment options to the multitenancy tenant deployment of the `cds-mtx` library
 
 You can add a subset of the [HDI deploy options](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html) using the environment variable `HDI_DEPLOY_OPTIONS`.\
-To avoid side effects, the allowed options are restricted to `[ 'undeploy', 'path_parameter','include_filter','exclude_filter',
-'write_timeout', 'connection_timeout', 'trace', 'lock_container_timeout','working_set' ]`.
 
 When making use of these parameters, for example `exclude_filter`, please always check if the parameters are consistent with your CDS build configuration to
 avoid deployment problems. For example, make sure to not exclude generated SAP HANA tables that are needed by generated views.
@@ -526,7 +531,7 @@ This is the same issue as with the installation error above.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your file isn’t UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
+| _Root Cause_ | Your file isn't UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
 | _Solution_ | Make sure, you execute `cds compile` in a command prompt that encodes in UTF-8 when piping output into a file.
 
 [You can find related information on **Stack Overflow**.](https://stackoverflow.com/questions/40098771/changing-powershells-default-output-encoding-to-utf-8){.learn-more}
@@ -624,69 +629,28 @@ Mixing them together is not trivial, therefore only some special cases are suppo
 
 ## MTX (legacy)
 
-This refers to potential problems with [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis).
+This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
 
-### How Do I Setup a Sidecar with AppRouter? { #mtx-as-sidecar-with-approuter}
+### How do I set up MTX with App Router? { #mtx-as-sidecar-with-approuter}
 
 See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
 
-### I get a 401 error, when logging in to MTX-Sidecar through AppRouter { #mtx-sidecar-approuter-401}
+### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
 
-1. Enable token forwarding in AppRouter, for example using _mta.yaml_:
+See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
 
-   ```yaml
-     - name: approuter
-       requires:
-         - name: mtx-sidecar
-           group: destinations
-           properties:
-             name: mtx-sidecar
-             url: ~{url}
-             forwardAuthToken: true
-   ```
+When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
 
-2. Configure a route to MTX-Sidecar without authentication, so that the MTX-Sidecar can handle authentication and authorization.
+```sh
+cds login … -s <subdomain>
+```
 
-   In _xs-app.json_, add the following entry:
+Alternatively, without login:
 
-   ```json
-   "routes": [
-     {
-   	   "source": "^/extend/(.*)",
-   	   "destination": "mtx-sidecar",
-   	   "target": "$1",
-   	   "authenticationType": "none"
-     }
-   ]
-   ```
+```sh
+cds extend … -s <subdomain>
+```
 
-   Make the following adjustments:
-   - `source` reflects the URL path to be used for the login and extending the SaaS app.
-     Based on the previous example, it would be:
-
-     ```sh
-     cds login … <AppRouter URL>/extend
-     ```
-
-   - `destination` is the name of the destination pointing to MTX as defined in [mta.yaml](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/8aeea65eb9d64267b554f64a3db8a349.html)
-     or [manifest.yml](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3cc788ebc00e40a091505c6b3fa485e7.html#destinations), e.g.:
-
-     ```yaml
-     modules:
-       - name: sidecar
-         provides:
-           - name: mtx-sidecar
-             properties:
-               url: ${default-url}
-     ```
-
-3. When logging in, specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
-
-   ```sh
-   cds login … -s <subdomain>
-   ```
-
-Alternatively, use the options mentioned with `cds extend` without login.
 
 ## CAP on Kyma
 

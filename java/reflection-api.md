@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## The CDS Model
 
@@ -192,7 +192,7 @@ CAP Java does not make any assumption _how_ the set of enabled features (_active
 
 Features are modeled in CDS by dividing up CDS code concerning separate features into separate subfolders of a common `fts` folder of your project, as shown by the following example:
 
-```
+```txt
 |-- [db]
 |   |-- my-model.cds
 |   `-- ...
@@ -217,7 +217,7 @@ The database schema resulting from CDS build at design time contains *all* featu
 
 ### The Model Provider Service
 
-![feature-toggles.drawio](../assets/feature-toggles.drawio.svg)
+![This graphic is explained in the accompanying text.](../assets/feature-toggles.drawio.svg)
 
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 

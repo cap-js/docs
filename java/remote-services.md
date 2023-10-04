@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 ## Enabling Remote Services
@@ -131,7 +131,7 @@ When loading destinations from SAP BTP Destination Service, you can specify a [d
 
 These strategies can be set in the destination configuration of the _Remote Service_:
 
-```
+```yml
 cds:
   remote.services:
   - name: "API_BUSINESS_PARTNER"

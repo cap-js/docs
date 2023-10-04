@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Providing Services
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 [[toc]]
 
@@ -22,7 +22,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   .best-practice::before { content: 'Best Practice:  '; color: teal }
 </style>
 
-## Introduction — Core Concepts {#introduction}
+## Intro: Core Concepts {#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -30,100 +30,27 @@ The following sections give a brief overview of CAP's core concepts.
 
 A CAP application commonly provides services defined in CDS models and served by the CAP runtimes. Every active thing in CAP is a service. They embody the behavioral aspects of a domain in terms of exposed entities, actions, and events.
 
-![service-centric-paradigm.drawio](assets/providing-services/service-centric-paradigm.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-centric-paradigm.drawio.svg)
 
 ### Ubiquitous Events
 
 At runtime, everything happening is in response to events. CAP features a ubiquitous notion of events, which represent both, *requests* coming in through **synchronous** APIs, as well as **asynchronous** *event messages*, blurring the line between both worlds.
 
-![services-events.drawio](assets/providing-services/services-events.drawio.svg)
+![This graphic shows that consumers send events to services and that there are hooks, so that event handlers can react on those events.](assets/providing-services/services-events.drawio.svg)
 
 ### Event Handlers
 
 Service providers basically react on events in event handlers, plugged in to respective hooks provided by the core service runtimes.
 
-### Generic Providers {#generic-providers-intro}
-
-The CAP runtimes provide sets of event handlers for common tasks as documented hereinafter.
 
 
 
 
-### Single-Purposed Services {.best-practice}
+
+## Service Definitions
 
 
-We strongly recommend designing your services for single use cases.
-Services in CAP are cheap, so there's no need to save on them.
-
-
-#### **DON'T:**{.bad} Single Services Exposing All Entities 1:1
-
-The anti-pattern to that are single services exposing all underlying entities in your app in a 1:1 fashion. While that may save you some thoughts in the beginning, it's likely that it will result in lots of headaches in the long run:
-
-* They open huge entry doors to your clients with only few restrictions
-* Individual use-cases aren't reflected in your API design
-* You have to add numerous checks on a per-request basis...
-* Which have to reflect on the actual use cases in complex and expensive evaluations
-
-
-#### **DO:**{.good} One Service Per Use Case
-
-For example, let's assume that we have a domain model defining *Books* and *Authors* more or less as above, and then we add *Orders*. We could define the following services:
-
-```cds
-using { my.domain as my } from './db/schema';
-```
-
-```cds
-/** Serves end users browsing books and place orders */
-service CatalogService {
-  @readonly entity Books as select from my.Books {
-    ID, title, author.name as author
-  };
-  @requires: 'authenticated-user'
-  @insertonly entity Orders as projection on my.Orders;
-}
-```
-
-```cds
-/** Serves registered users managing their account and their orders */
-@requires: 'authenticated-user'
-service UsersService {
-  @restrict: [{ grant: 'READ', where: 'buyer = $user' }] // limit to own ones
-  @readonly entity Orders as projection on my.Orders;
-  action cancelOrder ( ID:Orders.ID, reason:String );
-}
-```
-
-```cds
-/** Serves administrators managing everything */
-@requires: 'authenticated-user'
-service AdminService {
-  entity Books   as projection on my.Books;
-  entity Authors as projection on my.Authors;
-  entity Orders  as projection on my.Orders;
-}
-```
-
-These services serve different use cases and are tailored for each.
-Note, for example, that we intentionally don't expose the `Authors` entity
-to end users.
-
-### Late-Cut Microservices {.best-practice}
-
-Compared to Microservices, CAP services are 'Nano'. As shown in the previous sections, you should design your application as a set of loosely coupled, single-purposed services, which can all be served embedded in a single-server process at first (that is, a monolith).
-
-Yet, given such loosely coupled services, and enabled by CAP's uniform way to define and consume services, you can decide later on to separate, deploy, and run your services as separate microservices, even without changing your models or code.
-
-This flexibility allows you to, again, focus on solving your domain problem first, and avoid the efforts and costs of premature microservice design and DevOps overhead, at least in the early phases of development.
-
-
-
-
-## Modeling Services in CDS {#modeling-services}
-
-
-### Services Provide APIs to Consumers {#all-in-one-definitions}
+### Services as APIs
 
 In its most basic form, a service definition simply declares the data entities and operations it serves. For example:
 
@@ -149,11 +76,11 @@ service BookshopService {
 
 This definition effectively defines the API served by `BookshopService`.
 
-![service-apis.drawio](assets/providing-services/service-apis.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-apis.drawio.svg)
 
 Simple service definitions like that are all we need to run full-fledged servers out of the box, served by CAP's generic runtimes, without any implementation coding required.
 
-### Services Act as Facades {#services-as-facades}
+### Services as Facades
 
 In contrast to the all-in-one definition above, services usually expose views, aka projections, on underlying domain model entities:
 
@@ -168,10 +95,10 @@ service BookshopService {
 
 This way, services become facades to encapsulated domain data, exposing different aspects tailored to respective use cases.
 
-![service-as-facades.drawio](assets/providing-services/service-as-facades.drawio.svg)
+![This graphic is explained in the accompanying text.](assets/providing-services/service-as-facades.drawio.svg)
 
 
-### Serving Denormalized Views
+### Denormalized Views
 
 Instead of exposing access to underlying data in a 1:1 fashion, services frequently expose denormalized views, tailored to specific use cases.
 
@@ -217,7 +144,7 @@ service Zoo {
 [Learn more about Auto-Exposed Entities in the CDS reference docs.](../cds/cdl#auto-expose){.learn-more}
 
 
-### Auto-Redirected Associations
+### Redirected Associations
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -233,11 +160,11 @@ service AdminService {
 
 
 
-## Generic Service Providers {#generic-providers}
+## Generic Providers
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealth of generic implementations, which serve most requests automatically, with out-of-the-box solutions to recurring tasks such as search, pagination, or input validation — the majority of this guide focuses on these generic features.
 
-In effect, a service definition [as introduced above](#modeling-services) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Adding Custom Logic](#adding-custom-logic) picks that up.
+In effect, a service definition [as introduced above](#service-definitions) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Custom Logic](#custom-logic) picks that up.
 
 
 ### Serving CRUD Requests {#serving-crud}
@@ -254,27 +181,36 @@ This comprises read and write operations like that:
 
 <br>
 
+::: warning No filtering and sorting for virtual elements
+CAP runtimes delegate filtering and sorting to the database. Therefore
+filtering and sorting is not available for `virtual` elements.
+:::
 
-### Serving Documents
+
+### Deep Reads / Writes
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data.
 The runtimes provide generic handlers for serving deeply nested document structures out of the box as documented in here.
 
 
-### – Deep `READ`
+#### Deep `READ`
 
 You can read deeply nested documents by *expanding* along associations or compositions.
 For example, like this in OData:
 
+:::code-group
 ```http
 GET .../Orders?$expand=header($expand=items)
 ```
-
-same using [`cds.ql` in Node.js](../node.js/cds-ql):
-
-```js
-SELECT.from ('Orders', o => o.`*`, o.header (h => h.`*`, h.items('*')))
+```js[cds.ql]
+SELECT.from ('Orders', o => {
+  o.ID, o.title, o.header (h => {
+    h.ID, h.status, h.items('*')
+  })
+})
 ```
+[Learn more about `cds.ql`](../node.js/cds-ql){.learn-more}
+:::
 
 Both would return an array of nested structures as follows:
 
@@ -294,10 +230,11 @@ Both would return an array of nested structures as follows:
 
 
 
-### – Deep `INSERT`
+#### Deep `INSERT`
 
 Create a parent entity along with child entities in a single operation, for example, like that:
 
+:::code-group
 ```http
 POST .../Orders {
   ID:1, title: 'new order', header: { // to-one
@@ -309,6 +246,7 @@ POST .../Orders {
   }
 }
 ```
+:::
 
 Note that Associations and Compositions are handled differently in (deep) inserts and updates:
 
@@ -325,10 +263,11 @@ POST .../Books {
 
 
 
-### – Deep `UPDATE`
+#### Deep `UPDATE`
 
 Deep `UPDATE` of the deeply nested documents look very similar to deep `INSERT`:
 
+:::code-group
 ```http
 PUT .../Orders/1 {
   title: 'changed title of existing order', header: {
@@ -340,6 +279,7 @@ PUT .../Orders/1 {
   }]
 }
 ```
+:::
 
 Depending on existing data, child entities will be created, updated, or deleted as follows:
 
@@ -353,14 +293,15 @@ Omitted compositions have no effect, whether during `PATCH` or during `PUT`. Tha
 
 
 
-### – Deep `DELETE`
+#### Deep `DELETE`
 
 Deleting a root of a composition hierarchy results in a cascaded delete of all nested children.
 
+:::code-group
 ```sql
 DELETE .../Orders/1  -- would also delete all headers and items
 ```
-
+:::
 
 
 
@@ -401,7 +342,7 @@ CAP runtimes will automatically fill in `Orders.ID` with a new uuid, as well as 
 
 
 
-### Searching Textual Data {#searching-data}
+### Searching Data
 
 
 CAP runtimes provide out-of-the-box support for advanced search of a given text in all textual elements of an entity including nested entities along composition hierarchies.
@@ -414,9 +355,9 @@ GET .../Books?$search=Heights
 
 That would basically search for occurrences of `"Heights"` in all text fields of Books, that is, in `title` and `descr` using database-specific `contains` operations (for example, using `like '%Heights%'` in standard SQL).
 
-#### Using the `@cds.search` Annotation {#using-cds-search-annotation}
+#### The `@cds.search` Annotation {#cds-search}
 
-By default all elements of type `String` of an entity are searched. Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
+By default search is limited to the elements of type `String` of an entity that aren't [calculated](../cds/cdl#calculated-elements) or [virtual](../cds/cdl#virtual-elements). Yet, sometimes you may want to deviate from this default and specify a different set of searchable elements, or to extend the search to associated entities. Use the `@cds.search` annotation to do so. The general usage is:
 
 ```cds
 @cds.search: {
@@ -431,7 +372,7 @@ entity E { }
 
 [Learn more about the syntax of annotations.](../cds/cdl#annotations){.learn-more}
 
-#### Restrict to Certain Elements Only
+#### Including Fields
 
 ```cds
 @cds.search: { title }
@@ -440,16 +381,7 @@ entity Books { ... }
 
 Searches the `title` element only.
 
-#### Exclude Elements from Being Searched
-
-```cds
-@cds.search: { isbn: false }
-entity Books { ... }
-```
-
-Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
-
-#### Extend Search to *Associated* Entities
+##### Extend Search to *Associated* Entities
 
 ```cds
 @cds.search: { author }
@@ -465,7 +397,7 @@ Searches all elements of the `Books` entity, as well as all searchable elements 
 Extending the search to associated entities is currently only supported on the Java runtime.
 :::
 
-#### Extend to Individual Elements in Associated Entities
+##### Extend to Individual Elements in Associated Entities
 
 ```cds
 @cds.search: { author.name }
@@ -478,10 +410,24 @@ Searches only in the element `name` of the associated `Authors` entity.
 Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
 :::
 
-## Pagination & Sorting {#pagination-sorting}
+
+#### Excluding Fields
+
+```cds
+@cds.search: { isbn: false }
+entity Books { ... }
+```
+
+Searches all elements of type `String` excluding the element `isbn`, which leaves the `title` and `descr` elements to be searched.
+
+::: tip
+You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
+:::
+
+### Pagination & Sorting
 
 
-### Implicit Pagination
+#### Implicit Pagination
 
 By default, the generic handlers for READ requests automatically **truncate** result sets to a size of 1,000 records max.
 If there are more entries available, a link is added to the response allowing clients to fetch the next page of records.
@@ -508,10 +454,10 @@ GET .../Books?$skiptoken=1000
 
 On firing this query, you get the second set of 1,000 records with a link to the next page, and so on, until the last page is returned, with the response not containing a `nextLink`.
 ::: warning
-Per OData specification for [Server Side Paging](http://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging), the value of the `nextLink` returned by the server must not be interpreted or changed by the clients.
+Per OData specification for [Server Side Paging](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_ServerDrivenPaging), the value of the `nextLink` returned by the server must not be interpreted or changed by the clients.
 :::
 
-### Reliable Pagination
+#### Reliable Pagination
 
 > Note: This feature is available only for OData V4 endpoints.
 
@@ -532,7 +478,7 @@ The feature can be enabled with the following [configuration options](../node.js
 - Node.js: `cds.query.limit.reliablePaging`
 
 
-### Paging Limits
+#### Paging Limits
 
 
 You can configure default and maximum page size limits in your [project configuration](../node.js/cds-env#project-settings) as follows:
@@ -552,7 +498,7 @@ You can configure default and maximum page size limits in your [project configur
 - The **default limit** defines the number of items that are retrieved if no `$top` was specified.
 
 
-#### Annotation `@cds.query.limit` {#annotation-cds-query-limit}
+##### Annotation `@cds.query.limit` {#annotation-cds-query-limit}
 
 You can override the defaults by applying the `@cds.query.limit` annotation on the service or entity level, as follows:
 
@@ -589,7 +535,7 @@ service AdminService {
 }
 ```
 
-#### Precedence
+##### Precedence
 
 The closest limit applies, that means, an entity-level limit overrides that of its service, and a service-level limit overrides the global setting. The value `0` disables the respective limit at the respective level.
 
@@ -604,7 +550,7 @@ service CatalogService {
 ```
 
 
-### Implicit Sorting
+#### Implicit Sorting
 
 
 Paging requires implied sorting, otherwise records might be skipped accidentally when reading follow-up pages.
@@ -660,6 +606,95 @@ SELECT ... from my_Books ORDER BY
 
 
 
+
+
+### Concurrency Control
+
+CAP runtimes support different ways to avoid lost-update situations as documented in the following.
+
+Use _optimistic locking_ to _detect_ concurrent modification of data _across requests_. The implementation relies on [ETags](#etag).
+
+Use _pessimistic locking_ to _protect_ data from concurrent modification by concurrent _transactions_. CAP leverages database locks for [pessimistic locking](#select-for-update).
+
+#### Conflict Detection Using ETags {#etag}
+
+The CAP runtimes support optimistic concurrency control and caching techniques using ETags.
+An ETag identifies a specific version of a resource found at a URL.
+
+Enable ETags by adding the `@odata.etag` annotation to an element to be used to calculate an ETag value as follows:
+
+```cds
+using { managed } from '@sap/cds/common';
+entity Foo : managed {...}
+annotate Foo with { modifiedAt @odata.etag }
+```
+
+> The value of an ETag element should uniquely change with each update per row.
+> The `modifiedAt` element from the [pre-defined `managed` aspect](../cds/common#aspect-managed) is a good candidate, as this is automatically updated.
+> You could also use update counters or UUIDs, which are recalculated on each update.
+
+You use ETags when updating, deleting, or invoking the action bound to an entity by using the ETag value in an `If-Match` or `If-None-Match` header.
+The following examples represent typical requests and responses:
+
+```http
+POST Employees { ID:111, name:'Name' }
+> 201 Created {'@odata.etag': 'W/"2000-01-01T01:10:10.100Z"',...}
+//> Got new ETag to be used for subsequent requests...
+```
+
+```http
+GET Employees/111
+If-None-Match: "2000-01-01T01:10:10.100Z"
+> 304 Not Modified // Record was not changed
+```
+
+```http
+GET Employees/111
+If-Match: "2000-01-01T01:10:10.100Z"
+> 412 Precondition Failed // Record was changed by another user
+```
+
+```http
+UPDATE Employees/111
+If-Match: "2000-01-01T01:10:10.100Z"
+> 200 Ok {'@odata.etag': 'W/"2000-02-02T02:20:20.200Z"',...}
+//> Got new ETag to be used for subsequent requests...
+```
+
+```http
+UPDATE Employees/111
+If-Match: "2000-02-02T02:20:20.200Z"
+> 412 Precondition Failed // Record was modified by another user
+```
+
+```http
+DELETE Employees/111
+If-Match: "2000-02-02T02:20:20.200Z"
+> 412 Precondition Failed // Record was modified by another user
+```
+
+If the ETag validation detects a conflict, the request typically needs to be retried by the client. Hence, optimistic concurrency should be used if conflicts occur rarely.
+
+#### Pessimistic Locking {#select-for-update}
+
+_Pessimistic locking_ allows you to lock the selected records so that other transactions are blocked from changing the records in any way.
+
+Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be read or updated in a concurrent transaction.
+
+Use _shared_ locks if you only need to prevent the entity data to be updated in a concurrent transaction, but don't want to block concurrent read operations.
+
+The records are locked until the end of the transaction by commit or rollback statement.
+
+[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
+
+[Learn more about using the `Select.lock()` method in the Java runtime.](../java/query-api#write-lock){.learn-more}
+::: warning
+Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
+:::
+
+
+
+
 ## Input Validation
 
 CAP runtimes automatically validate user input, controlled by the following annotations.
@@ -688,7 +723,7 @@ service Sue {
 }
 ```
 
-In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unneccessary request rountrips:
+In addition to server-side input validation as introduced above, this adds a corresponding `@FieldControl` annotation to the EDMX so that OData / Fiori clients would enforce a valid entry, thereby avoiding unnecessary request roundtrips:
 
 ```xml
 <Annotations Target="Sue.Books/title">
@@ -756,16 +791,16 @@ Add `@assert.target` annotation to the service definition as previously mentione
 
 ```cds
 entity Books {
-    key ID : UUID;
-    title  : String;
-    author : Association to Authors @assert.target;
-  }
+  key ID : UUID;
+  title  : String;
+  author : Association to Authors @assert.target;
+}
 
-  entity Authors {
-    key ID : UUID;
-    name   : String;
-    books  : Association to many Books on books.author = $self;
-  }
+entity Authors {
+  key ID : UUID;
+  name   : String;
+  books  : Association to many Books on books.author = $self;
+}
 ```
 
 **HTTP Request** — *assume that an author with the ID `"796e274a-c3de-4584-9de2-3ffd7d42d646"` doesn't exist in the database*
@@ -842,173 +877,9 @@ entity Foo {
 
 
 
-## Managed Data
+## Custom Logic
 
 
-Use the annotations `@cds.on.insert` and `@cds.on.update` to signify elements to be auto-filled by the generic handlers upon insert and update.
-For example, you could add fields to track who created and updated data records and when.
-
-
-### Using `@cds.on.insert/update` Annotations Individually
-
-```cds
-entity Foo { //...
-   createdAt  : Timestamp @cds.on.insert: $now;
-   createdBy  : User      @cds.on.insert: $user;
-   modifiedAt : Timestamp @cds.on.insert: $now  @cds.on.update: $now;
-   modifiedBy : User      @cds.on.insert: $user @cds.on.update: $user;
-}
-```
-[Learn more about the syntax of annotations.](../cds/cdl#annotations){.learn-more}
-
-These **rules** apply:
-
-- Data is auto-filled, that is, data is ignored if provided in the request payload.
-- Data can be filled with initial data, for example, through `.csv` files.
-- Data can be set explicitly in custom handlers. For example:
-```js
-Foo.modifiedBy = req.user.id
-Foo.modifiedAt = new Date()
-```
-::: tip
-In effect, values for these elements are handled automatically and are write-protected for external service clients.
-:::
-::: warning
-Upon `Upsert` the generic handlers for `@cds.on.update` are executed but the handlers for `@cds.on.insert` are not.
-:::
-
-
-### Using aspect _`managed`_
-
-You can also use the [pre-defined aspect `managed`](../cds/common#aspect-managed) from [@sap/cds/common](../cds/common) to get the very same as by the definition above:
-
-```cds
-using { managed } from '@sap/cds/common';
-entity Foo : managed { /*...*/ }
-```
-[Learn more about `@sap/cds/common`](../cds/common){.learn-more}
-
-
-### Pseudo Variables `$user` and `$now`
-
-The pseudo variables used in the annotations are resolved as follows:
-
-- `$now` is replaced by the current server time (in UTC)
-  + The value of `$now` is stable for the current transaction
-- `$user` is the current user's ID as obtained from the authentication middleware
-  + `$user.<attr>` is replaced by the value of the respective attribute of the current user
-- `$uuid` is replaced by a version 4 UUID
-
-[Learn more about **Authentication** in Node.js.](../node.js/authentication){.learn-more}
-[Learn more about **Authentication** in Java.](../java/security#authentication){.learn-more}
-
-### Differences to `defaults`
-
-Note the differences to [defaults](../cds/cdl#default-values), for example, given this model:
-
-```cds
-entity Foo { //...
-  managed   : Timestamp @cds.on.insert: $now;
-  defaulted : Timestamp default $now;
-}
-```
-
-While both behave identical `INSERT`s on database-level operations, they differ for `CREATE` requests on higher-level service providers: Values for `managed` in the request payload will be ignored, while provided values for `defaulted` will be written to the database.
-
-
-
-## Concurrency Control
-
-CAP runtimes support different ways to avoid lost-update situations as documented in the following.
-
-Use _optimistic locking_ to _detect_ concurrent modification of data _across requests_. The implementation relies on [ETags](#etag).
-
-Use _pessimistic locking_ to _protect_ data from concurrent modification by concurrent _transactions_. CAP leverages database locks for [pessimistic locking](#select-for-update).
-
-### Conflict Detection Using ETags {#etag}
-
-The CAP runtimes support optimistic concurrency control and caching techniques using ETags.
-An ETag identifies a specific version of a resource found at a URL.
-
-Enable ETags by adding the `@odata.etag` annotation to an element to be used to calculate an ETag value as follows:
-
-```cds
-using { managed } from '@sap/cds/common';
-entity Foo : managed {...}
-annotate Foo with { modifiedAt @odata.etag }
-```
-
-> The value of an ETag element should uniquely change with each update per row.
-> The `modifiedAt` element from the [pre-defined `managed` aspect](../cds/common#aspect-managed) is a good candidate, as this is automatically updated.
-> You could also use update counters or UUIDs, which are recalculated on each update.
-
-You use ETags when updating, deleting, or invoking the action bound to an entity by using the ETag value in an `If-Match` or `If-None-Match` header.
-The following examples represent typical requests and responses:
-
-```http
-POST Employees { ID:111, name:'Name' }
-> 201 Created {'@odata.etag': 'W/"2000-01-01T01:10:10.100Z"',...}
-//> Got new ETag to be used for subsequent requests...
-```
-
-```http
-GET Employees/111
-If-None-Match: "2000-01-01T01:10:10.100Z"
-> 304 Not Modified // Record was not changed
-```
-
-```http
-GET Employees/111
-If-Match: "2000-01-01T01:10:10.100Z"
-> 412 Precondition Failed // Record was changed by another user
-```
-
-```http
-UPDATE Employees/111
-If-Match: "2000-01-01T01:10:10.100Z"
-> 200 Ok {'@odata.etag': 'W/"2000-02-02T02:20:20.200Z"',...}
-//> Got new ETag to be used for subsequent requests...
-```
-
-```http
-UPDATE Employees/111
-If-Match: "2000-02-02T02:20:20.200Z"
-> 412 Precondition Failed // Record was modified by another user
-```
-
-```http
-DELETE Employees/111
-If-Match: "2000-02-02T02:20:20.200Z"
-> 412 Precondition Failed // Record was modified by another user
-```
-
-If the ETag validation detects a conflict, the request typically needs to be retried by the client. Hence, optimistic concurrency should be used if conflicts occur rarely.
-
-### Pessimistic Locking {#select-for-update}
-
-_Pessimistic locking_ allows you to lock the selected records so that other transactions are blocked from changing the records in any way.
-
-Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be read or updated in a concurrent transaction.
-
-Use _shared_ locks if you only need to prevent the entity data to be updated in a concurrent transaction, but don't want to block concurrent read operations.
-
-The records are locked until the end of the transaction by commit or rollback statement.
-
-[Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
-
-[Learn more about using the `Select.lock()` method in the Java runtime.](../java/query-api#write-lock){.learn-more}
-::: warning
-Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
-:::
-
-
-
-
-## Adding Custom Logic
-
-
-
-### Examples for Custom Logic
 
 As most standard tasks and use cases are covered by [generic service providers](#generic-providers), the need to add service implementation code is greatly reduced and minified, and hence the quantity of individual boilerplate coding.
 
@@ -1020,12 +891,9 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 - Triggering follow-up actions, for example calling other services or emitting outbound events in response to inbound events
 - And more... In general, all the things not (yet) covered by generic handlers
 
-The following sections give an overview how to do so, which links to respective deep dives in the reference documentations for [Java](../java/) and [Node.js](https://nodejs.org).
 
-### Providing Custom Implementations
- {#service-impls}
 
-**In Node.js**, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file:
+**In Node.js**, the easiest way to add custom implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file:
 
 ```sh
 ./srv
@@ -1035,8 +903,6 @@ The following sections give an overview how to do so, which links to respective 
 ```
 
 [Learn more about providing service implementations in Node.js.](../node.js/core-services#implementing-services){.learn-more}
-
-
 
 **In Java**, you'd assign `EventHandler` classes using dependency injection as follows:
 
@@ -1048,11 +914,15 @@ public class FooServiceImpl implements EventHandler {...}
 
 [Learn more about Event Handler classes in Java.](../java/provisioning-api#handlerclasses){.learn-more}
 
-### Registering Event Handlers
 
-Given [assigned implementation classes/modules](#service-impls), you can register individual event handlers for each potential event, on different hooks of the event processing cycle, for example:
 
-```js
+### Custom Event Handlers
+
+Within your custom implementations, you can register event handlers like that:
+
+::: code-group
+
+```js [Node.js]
 const cds = require('@sap/cds')
 module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
@@ -1061,9 +931,7 @@ module.exports = function (){
   this.after ('READ',`Books`, (each)=>{...})
 }
 ```
-[Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
-
-```js
+```Java
 @Component
 @ServiceName("BookshopService")
 public class BookshopServiceImpl implements EventHandler {
@@ -1074,9 +942,15 @@ public class BookshopServiceImpl implements EventHandler {
 }
 ```
 
+:::
+
+[Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
+
 [Learn more about **adding event handlers in Java**.](../java/provisioning-api#handlerclasses){.learn-more}
 
-### Hooks for Event Handlers → `on`, `before`, `after`
+
+
+### Hooks: `on`, `before`, `after`
 
 In essence, event handlers are functions/method registered to be called when a certain event occurs, with the event being a custom operation, like `submitOrder`, or a CRUD operation on a certain entity, like `READ Books`; in general following this scheme:
 
@@ -1092,9 +966,11 @@ CAP allows to plug in event handlers to these different hooks, that is phases du
 
 `before` and `after` handlers are *listeners*: all registered listeners are invoked in parallel. If one vetoes / throws an error the request fails.
 
+
+
 ### Within Event Handlers {#handler-impls}
 
-Event handlers all get a uniform _Request_/_Event Message_ context object as their primary argument, which, among others, provides access to the following:
+Event handlers all get a uniform _Request_/_Event Message_ context object as their primary argument, which, among others, provides access to the following information:
 
 - The `event` name — that is, a CRUD method name, or a custom-defined one
 - The `target` entity, if any
@@ -1104,16 +980,13 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 - The `tenant` using your SaaS application, if enabled
 
 [Learn more about **implementing event handlers in Node.js**.](../node.js/events#cds-request){.learn-more}
- [Learn more about **implementing event handlers in Java**.](../java/provisioning-api#eventcontext){.learn-more}
+[Learn more about **implementing event handlers in Java**.](../java/provisioning-api#eventcontext){.learn-more}
 
 
 
-## Custom Actions & Functions {#custom-actions-functions }
+## Actions & Functions
 
 In addition to common CRUD operations, you can declare domain-specific custom operations as shown below. These custom operations always need custom implementations in corresponding events handlers.
-
-
-### Modeling in CDS
 
 You can define actions and functions in CDS models like that:
 ```cds
@@ -1133,24 +1006,22 @@ service Sue {
 
 [Learn more about modeling actions and functions in CDS.](../cds/cdl#actions){.learn-more}
 
-### Actions vs Functions
 
-The differentiation between Actions and Functions stems from the OData specifications and in essence is as follows:
 
-- **Actions** are meant for operations, which add or modify data in the server; they are called through `POST` request with the arguments passed in `application/json` bodies.
-- **Functions** are meant for operations, which only retrieve data from the server; they are called through `GET` requests with the arguments passed in the URL path.
+The differentiation between *Actions* and *Functions* as well as *bound* and *unbound* stems from the OData specifications, and in essence is as follows:
 
-### Bound vs Unbound
+- **Actions** modify data in the server
+- **Functions** retrieve data
+- **Unbound** actions/functions are like plain unbound functions in JavaScript.
+- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript.
 
-Also from OData stems the concept of bound and unbound actions and functions:
-
-- **Bound** actions/functions are similar to class methods in Java, with the first implicit argument always being the bound  entity's primary key.
-- **Unbound** actions/functions are like functions in JavaScript.
-::: tip
+::: tip Prefer *Unbound* Actions/Functions
 From CDS perspective we recommend **preferring unbound** actions/functions, as these are much more straightforward to implement and invoke.
 :::
 
-### Implementing Actions or Functions
+
+
+### Implementing Actions / Functions
 
 In general, implement actions or functions like that:
 
@@ -1180,7 +1051,7 @@ module.exports = class Sue extends cds.Service {
 
 
 
-### Calling Actions or Functions
+### Calling Actions / Functions
 
 **HTTP Requests** to call the actions/function declared above look like that:
 
@@ -1192,7 +1063,7 @@ GET .../sue/Foo(2)/Sue.getStock()     // bound function
 POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
-> Note: You always need to add the `()` for functions, even if no arguments are required. For reasons of compliance with the OData standard, bound actions/functions always need to be prefixed with the service's name.
+> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`. For convenience, however, the Node.js runtime also allows calling bound actions/functions without prefixing them with the service name.
 
 <br>
 
@@ -1207,7 +1078,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   await srv.send('stock',{id:2})
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
-  await srv.send('order','Foo',{id:2,x:3})
+  //for passing the params property, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1228,3 +1100,81 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
 > Note: Even with that typed APIs, always pass the target entity name as second argument for bound actions/functions.
+
+
+
+<br><br>
+
+
+
+# Best Practices
+
+
+
+## Single-Purposed Services {.best-practice}
+
+
+We strongly recommend designing your services for single use cases.
+Services in CAP are cheap, so there's no need to save on them.
+
+
+#### **DON'T:**{.bad} Single Services Exposing All Entities 1:1
+
+The anti-pattern to that are single services exposing all underlying entities in your app in a 1:1 fashion. While that may save you some thoughts in the beginning, it's likely that it will result in lots of headaches in the long run:
+
+* They open huge entry doors to your clients with only few restrictions
+* Individual use-cases aren't reflected in your API design
+* You have to add numerous checks on a per-request basis...
+* Which have to reflect on the actual use cases in complex and expensive evaluations
+
+
+#### **DO:**{.good} One Service Per Use Case
+
+For example, let's assume that we have a domain model defining *Books* and *Authors* more or less as above, and then we add *Orders*. We could define the following services:
+
+```cds
+using { my.domain as my } from './db/schema';
+```
+
+```cds
+/** Serves end users browsing books and place orders */
+service CatalogService {
+  @readonly entity Books as select from my.Books {
+    ID, title, author.name as author
+  };
+  @requires: 'authenticated-user'
+  @insertonly entity Orders as projection on my.Orders;
+}
+```
+
+```cds
+/** Serves registered users managing their account and their orders */
+@requires: 'authenticated-user'
+service UsersService {
+  @restrict: [{ grant: 'READ', where: 'buyer = $user' }] // limit to own ones
+  @readonly entity Orders as projection on my.Orders;
+  action cancelOrder ( ID:Orders.ID, reason:String );
+}
+```
+
+```cds
+/** Serves administrators managing everything */
+@requires: 'authenticated-user'
+service AdminService {
+  entity Books   as projection on my.Books;
+  entity Authors as projection on my.Authors;
+  entity Orders  as projection on my.Orders;
+}
+```
+
+These services serve different use cases and are tailored for each.
+Note, for example, that we intentionally don't expose the `Authors` entity
+to end users.
+
+## Late-Cut Microservices {.best-practice}
+
+Compared to Microservices, CAP services are 'Nano'. As shown in the previous sections, you should design your application as a set of loosely coupled, single-purposed services, which can all be served embedded in a single-server process at first (that is, a monolith).
+
+Yet, given such loosely coupled services, and enabled by CAP's uniform way to define and consume services, you can decide later on to separate, deploy, and run your services as separate microservices, even without changing your models or code.
+
+This flexibility allows you to, again, focus on solving your domain problem first, and avoid the efforts and costs of premature microservice design and DevOps overhead, at least in the early phases of development.

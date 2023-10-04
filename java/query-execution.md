@@ -1,5 +1,5 @@
 ---
-synopsis: API to execute <a href="../cds/cql">CQL</a> statements on services accepting CQN queries.
+synopsis: API to execute CQL statements on services accepting CQN queries.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -12,7 +12,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Query Execution { #queries}
 
@@ -155,7 +155,7 @@ In the following example, a book with `ID` 1 is selected and locked until the tr
 // Finish transaction
 ```
 
-The `lock()` method has an optional parameter `timeout` that indicates the maximum number of seconds to wait for the lock acquisition. If a lock can't be obtained within the `timeout`, a `CdsLockTimeoutException` is thrown. If `timeout` isn’t specified, a database-specific default timeout will be used.
+The `lock()` method has an optional parameter `timeout` that indicates the maximum number of seconds to wait for the lock acquisition. If a lock can't be obtained within the `timeout`, a `CdsLockTimeoutException` is thrown. If `timeout` isn't specified, a database-specific default timeout will be used.
 
 The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock should be set.
 
@@ -180,11 +180,11 @@ long updateCount = service.run(update).rowCount();
 
 ### Working with Structured Documents
 
-It’s possible to work with structured data as the insert, update, and delete operations cascade along *compositions*.
+It's possible to work with structured data as the insert, update, and delete operations cascade along *compositions*.
 
 #### Cascading over Associations { #cascading-over-associations}
 
-By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-modeling#_5-add-compositions) only. For associations, this can be enabled using the `@cascade` annotation.
+By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-modeling#compositions) only. For associations, this can be enabled using the `@cascade` annotation.
 ::: warning
 Cascading operations over associations isn't considered good practice and should be avoided.
 :::
@@ -277,7 +277,7 @@ entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on O
 
 ### Using I/O Streams in Queries
 
-As described in section [Predefined Types](./data#predefined-types) it’s possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
+As described in section [Predefined Types](./data#predefined-types) it's possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
 
 Entity `Books` has an additional annotated element `coverImage : LargeBinary`:
 

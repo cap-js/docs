@@ -13,54 +13,74 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 <!--- % include links.md %} -->
 
 ## Database Support { #database-support}
 
-The CAP Java SDK has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-### SAP HANA (Cloud)
+Write operations through views are supported by the CAP runtime as described in [Resolvable Views](query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
 
-SAP HANA is supported as the CAP standard database and recommended for productive use with needs for schema evolution and multitenancy. Some salient points to note with SAP HANA are:
+### SAP HANA Cloud
 
-1. Views are supported as described in [Resolvable Views](query-execution#updatable-views), else any operation on views are defaulted to SAP HANA, which has limitations as described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
-2. Shared locks are supported on SAP HANA Cloud only
+SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy.
+
+1. Write operations through views that can't be resolved by the CAP runtime are passed through to SAP HANA Cloud. Limitations are described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
+
+2. [Shared locks](../java/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
+
+3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`) a statement-wide collation is added that can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
+
+```cds
+entity Books : cuid {
+    title        : localized String(111);
+    descr        : localized String(1111);
+    @cds.collate : false // [!code focus]
+    isbn         : String(40);  // does not require locale-specific sorting // [!code focus]
+}
+```
+
+:::tip Disable Statement-Wide Collation
+To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
+:::
 
 ### PostgreSQL
 
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and supports most of the CAP features. Known limitations are:
 
-1. CAP can create an _initial_ database schema only. There is no automatic schema evolution.
-2. No locale specific sorting. The sort order of queries behaves as configured on the database.
-3. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
-4. The CDS type `UInt8` can't be used with PostgreSQL, as there is no `TINYINT`. Use `Int16` instead.
+1. No locale specific sorting. The sort order of queries behaves as configured on the database.
+2. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
+3. The CDS type `UInt8` can't be used with PostgreSQL, as there's no `TINYINT`. Use `Int16` instead.
+4. [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) aren't yet supported on PostgreSQL.
 
 ### H2 Database
 
-[H2](https://www.h2database.com/html/main.html) is one of the recommended in-memory databases for local development. There’s no production support for H2 from CAP and there are the following support limitations:
+[H2](https://www.h2database.com/html/main.html) is one of the recommended in-memory databases for local development. There's no production support for H2 from CAP and there are the following support limitations:
 
-1. [Localization](../guides/localized-data#behind-the-scenes) is supported for the locales configured in [cds.sql.supportedLocales](../java/development/properties#cds-sql-supportedLocales). Ensure that the corresponding localized views are generated by setting the `i18n.for_sql` property as shown in the [Localized Data guide](../guides/localized-data#resolving-localized-texts-via-views).
-2. H2 only supports database level collation. Lexicographical sorting on character-based columns isn’t supported.
-3. Case-insensitive comparison isn’t yet supported.
-4. Currently, only [as-of-now queries](../guides/temporal-data#as-of-now-queries) with temporal data are supported.
-5. By default, views aren’t updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
-6. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](http://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
-7. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
-8. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
+1. H2 only supports database level collation. Lexicographical sorting on character-based columns isn't supported.
+2. Case-insensitive comparison isn't yet supported.
+3. By default, views aren't updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
+4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
+5. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
+6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
+
+::: warning
+Support for localized and temporal data via session context variables requires H2 v2.2.x or later.
+:::
 
 ### SQLite
 
-CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When working with Java, it’s [recommended](../guides/databases-sqlite?impl-variant=java#sqlite-in-production) to use SQLite only for development and testing purposes.
+CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When working with Java, it's [recommended](../guides/databases-sqlite?impl-variant=java#sqlite-in-production) to use SQLite only for development and testing purposes.
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
-1. `RIGHT` and `FULL OUTER JOIN` isn’t supported.
+1. `RIGHT` and `FULL OUTER JOIN` isn't supported.
 2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
-3. SQLite has only limited support for concurrent database access. You’re advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
+3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
 4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
 5. SQLite doesn't support [pessimistic locking](query-execution#pessimistic-locking).
-6. Streaming of large object data isn’t supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
+6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
 7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
 8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
 9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
@@ -100,13 +120,13 @@ cds:
 
 ### SAP HANA
 
-SAP HANA can be configured when running locally as well as when running productively in the cloud. The datasource is auto-configured based on available service bindings in the `VCAP_SERVICES` environment variable or locally the _default-env.json_. This only works if an application profile is used, that doesn’t explicitly configure a datasource using `spring.datasource.url`. Such an explicit configuration always takes precedence over service bindings from the environment.
+SAP HANA can be configured when running locally as well as when running productively in the cloud. The datasource is auto-configured based on available service bindings in the `VCAP_SERVICES` environment variable or locally the _default-env.json_. This only works if an application profile is used, that doesn't explicitly configure a datasource using `spring.datasource.url`. Such an explicit configuration always takes precedence over service bindings from the environment.
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
-### PostgreSQL
+### PostgreSQL { #postgresql-1 }
 
-CAP Java provides limited support for [PostgreSQL](https://www.postgresql.org/). The major limitation is that CAP can only create an _initial_ database schema but there is no automatic schema evolution.
+PostgreSQL can be configured when running locally as well as when running productively in the cloud. Similar to HANA, the datasource is auto-configured based on available service bindings, if the feature `cds-feature-postgresql` is added.
 
 #### Initial Database Schema
 
@@ -127,13 +147,14 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 ```
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+
 ::: warning
-Automatic schema deployment is not suitable for productive use. Consider using production-ready tools like Flyway or Liquibase.
+Automatic schema deployment isn't suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in the [Database guide for PostgreSQL](../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
 :::
 
-#### Configure the PostgreSQL Database
+#### Configure the Connection Data Explicitly { #postgres-connection }
 
-Configure the connection data of your PostgreSQL database in the _application.yaml_:
+If you don't have a compatible PostgreSQL service binding in your application environment, you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
 
 ```yaml
 ---
@@ -143,7 +164,7 @@ spring:
     url: <url>
     username: <user>
     password: <password>
-    driver-class-name: org.postgres.Driver
+    driver-class-name: org.postgresql.Driver
 ```
 
 ### H2
@@ -166,7 +187,12 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](http://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+
+The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
+```sh
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
+```
 
 ### SQLite
 
@@ -188,13 +214,21 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 </execution>
 ```
 
-Also, you need to enable compiler support for session context variables in _.cdsrc.json_:
+
+Enable support for [session context variables](../guides/databases-sqlite#session-variables)
+
+- First enable compiler support in _.cdsrc.json_:
 
 ```json
 {"cdsc": { "betterSqliteSessionVariables": true }}
 ```
 
-In addition, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
+- Then, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
+
+The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
+```sh
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
+```
 
 #### File-Based Storage
 
@@ -212,9 +246,6 @@ spring:
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 #### In-Memory Storage
@@ -229,16 +260,12 @@ spring:
   sql:
     init:
       mode: always
-    supportedLocales: "*"
   datasource:
     url: "jdbc:sqlite:file::memory:?cache=shared"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
 ## Persistence Services
@@ -467,4 +494,3 @@ cds:
     tenant-independent:
       dataSource: "tenantIndependentDataSource"
 ```
-

@@ -11,7 +11,7 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 <!-- #### Content -->
@@ -57,7 +57,7 @@ You have the following configuration options:
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry,  is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 In order to enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
 :::
 
@@ -71,7 +71,7 @@ In order to enable the persistence for the outbox, you need to add the service `
     }
 ```
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 Be aware that you need to migrate the database schemas of all tenants after you've enhanced your model with an outbox version from `@sap/cds`  version 6.0.0 or later.
 :::
 
@@ -91,4 +91,3 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 To manually delete entries in the `cds.outbox.Messages` table, you can either
 expose it in a service or programmatically modify it using the `cds.outbox.Messages`
 database entity.
-

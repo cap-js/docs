@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # Common Utility Functions
 
 
@@ -125,7 +129,7 @@ if (dir) {
 }
 ```
 
-Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursivels resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
+Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursively resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
 
 
 
@@ -139,7 +143,7 @@ let file = isdir ('package.json')
 let json = fs.readFileSync (file,'utf8')
 ```
 
-Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursivels resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
+Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursively resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
 
 
 
@@ -152,7 +156,7 @@ const { read } = cds.utils
 let pkg = await read ('package.json')
 ```
 
-Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root). The iplementation uses `utf8` encoding by default. If the file is a `.json` file, the read content is automatically `JSON.parse`d.
+Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root). The implementation uses `utf8` encoding by default. If the file is a `.json` file, the read content is automatically `JSON.parse`d.
 
 
 

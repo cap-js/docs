@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 
 
@@ -108,7 +108,7 @@ aspect OrderItems {
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){ .learn-more}
 
 In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
-![ent-rel.drawio](./assets/entrel.drawio.svg)
+![This graphic is explained in the accompanying text.](./assets/entrel.drawio.svg)
 
 ::: tip
 Use [Managed Compositions of Aspects](../guides/domain-modeling#composition-of-aspects) to model unidirectional one-to-many compositions.
@@ -216,7 +216,7 @@ author.put("books", Arrays.asList(book1, book2));
 
 In CAP Java data is represented in maps. To simplify data access in custom code, CAP Java additionally provides generated [accessor interfaces](#typed-access) which extend [CdsData](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CdsData.html), enhancing the `Map` interface with path access to nested data and build-in serialization to JSON.
 
-![accessor.drawio](./assets/accessor.drawio.svg)
+![This graphic is explained in the accompanying text.](./assets/accessor.drawio.svg)
 
 The `Row`s of a [query result](./query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
@@ -418,7 +418,7 @@ For all structured types of the CDS model, accessor interfaces can be generated 
 
 #### Renaming Elements in Java
 
-Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn’t affected by this annotation.
+Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.
 
 See the following example:
 

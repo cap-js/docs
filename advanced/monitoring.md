@@ -6,7 +6,7 @@ status: released
 
 # Monitoring
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 ## Dynatrace
 
@@ -24,8 +24,8 @@ To track database requests for the Node.js runtime, you need to add the `@dynatr
 
 #### Known Issues
 
-If a Node.js application is started via `npm`, the _OneAgent_ isn’t properly injected into the service.
-In this case, you won’t see your service in Dynatrace but the logs will show that it was installed and injected properly.
+If a Node.js application is started via `npm`, the _OneAgent_ isn't properly injected into the service.
+In this case, you won't see your service in Dynatrace but the logs will show that it was installed and injected properly.
 
 1. Add an environment variable to your service:
 

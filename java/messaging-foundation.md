@@ -14,7 +14,7 @@ status: released
   const Beta = () => h('i',    { class: 'beta'                            }, ['beta'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); }
+  .ga   { color: var(--vp-c-green-1); }
   .na   { color: #fff; font-size:90%; }
   .beta { color: #aaa; font-size:90%; }
 </style>
@@ -27,11 +27,11 @@ status: released
   }
 </style>
 
-<div v-html="$frontmatter?.synopsis" />
+{{ $frontmatter.synopsis }}
 
 In contrast, the nature of synchronous communication between services can be disadvantageous depending on the desired information flow, for example, sender and receiver need to be available at the time of the request. The sender needs to know the receiver and how to call it, and that communication per request is usually point-to-point only.
 
-In the following, we provide a basic introduction to publish-subscribe-based messaging and then explain how to use it in CAP. If you’re already familiar with publish-subscribe-based messaging, feel free to skip the following introduction section.
+In the following, we provide a basic introduction to publish-subscribe-based messaging and then explain how to use it in CAP. If you're already familiar with publish-subscribe-based messaging, feel free to skip the following introduction section.
 
 ::: tip
 The described messaging features are available from version `cds.java@1.19.0`.
@@ -39,7 +39,7 @@ The described messaging features are available from version `cds.java@1.19.0`.
 
 ## Pub-Sub Messaging
 
-In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they’re interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
+In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they're interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
 <img src="./assets/messaging_foundation.png" width="700px">
 
@@ -47,7 +47,7 @@ CAP makes sending and receiving messages easy by providing an API agnostic from 
 
 CAP provides support for different message brokers by providing several messaging services implementing the API for different message brokers. Messaging support as such is built into the core of CAP, as well as a "file-based message broker" for local testing, that mocks a message broker and persists messages to a file on the local file system. Support for other message brokers can be added by including separate Maven dependencies specifically for that broker. See [Supported Message Brokers](#supported-message-brokers) for more details.
 
-In the following, we’ll first describe how to send and receive messages in general, before we explain more complex scenarios and configuration options.
+In the following, we'll first describe how to send and receive messages in general, before we explain more complex scenarios and configuration options.
 
 
 ## Sending
@@ -82,14 +82,14 @@ messagingService.emit(context);
 
 As shown in the example, there are two flavors of sending messages with the messaging service:
 
-- Directly using the `emit` method of the technical messaging service API. This is a convenient way of sending messages, in case you shouldn’t need the context object as such and quickly want to send a message with given topic and payload.
+- Directly using the `emit` method of the technical messaging service API. This is a convenient way of sending messages, in case you shouldn't need the context object as such and quickly want to send a message with given topic and payload.
 
 - A CAP messaging service is also a normal CAP service, and as such provides an EventContext-based `emit` method. Using the standard way of creating and dispatching a context via `emit` can also be used to send a message. As shown, create a `TopicMessageEventContext` with the desired topic (in terms of CAP the topic represents an event) for the message, set the payload of the message, and emit the context.
 
 In section [CDS-Declared Events](#cds-declared-events), we show how to declare events in CDS models and by this let CAP generate EventContext interfaces especially tailored for the defined payload, that allows type safe access to the payload.
 
 ::: tip
-The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there’s also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
+The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
 :::
 
 
@@ -371,7 +371,7 @@ In the Cloud Foundry environment, you can create service instances for message b
 If you want to use message broker services you created in the Cloud Foundry environment while testing on your local machine, then you need to manually provide binding information when starting your application. How this works will be explained in the following section.
 :::
 
-As a prerequisite of using message brokers from the Cloud Foundry environment, you need to include the Maven dependency for CAP’s Cloud Foundry support to your _pom.xml_ file, as well as the dependency for the desired message broker, and a dependency for a messaging adapter if you not only want to send, but also receive messages.
+As a prerequisite of using message brokers from the Cloud Foundry environment, you need to include the Maven dependency for CAP's Cloud Foundry support to your _pom.xml_ file, as well as the dependency for the desired message broker, and a dependency for a messaging adapter if you not only want to send, but also receive messages.
 
 
 #### Maven Dependency for Cloud Foundry Support:
@@ -441,7 +441,7 @@ In some scenarios you need to deal with multiple message brokers, and thus have 
 
 In such scenarios, the "Composite Messaging Service" can be used, which allows you to later on change the routing of messages to/from different brokers by the means of pure configuration, without the need of changing your code.
 
-Let’s start with a configuration example (excerpt from _application.yaml_):
+Let's start with a configuration example (excerpt from _application.yaml_):
 
 ```yaml
 cds:
@@ -470,7 +470,7 @@ messagingService.emit("My/Destination/Messaging/B", "raw message payload to em-i
 As you can see in the configuration, the usage and routing of two messaging services is defined (`em-instance-01`, and `em-instance-02`), each with different topics that should be routed via the service (for example, topic `My/Destination/Messaging/A` will be sent/received via `em-instance-01`, and topic `My/Destination/Messaging/B` will be sent/received via `em-instance-02`). The composite service uses the routing configuration in order to dispatch messages as well as subscriptions to the appropriate messaging service. As shown in the sample code, you can simply use the composite message service and submit messages to topics as desired. The messages will be routed to according messaging services as defined in the configuration automatically. To change the routing of messages you can simply change the configuration, without the need of changing your code.
 
 ::: tip
-If you emit messages with a topic to the composite messaging service that isn’t defined in its routing configuration, then the delivery will fail. Consider careful review of your configuration, when you start sending/receiving messages from/to new topics.
+If you emit messages with a topic to the composite messaging service that isn't defined in its routing configuration, then the delivery will fail. Consider careful review of your configuration, when you start sending/receiving messages from/to new topics.
 :::
 
 Example for receiving messages with a given topic via the composite messaging service:
@@ -504,10 +504,10 @@ cds:
           name: "my-custom-queue"
 ```
 
-If a queue with the given name already exists on the broker, then this queue will be used. If a queue with that name doesn’t exist yet, it will be created.
+If a queue with the given name already exists on the broker, then this queue will be used. If a queue with that name doesn't exist yet, it will be created.
 
 ::: tip
-Depending on the used message broker, there can be restrictions to what names can be used for queues. Check the documentation of the used broker to ensure you’re using a valid name. See [Syntax for Naming Queues, Topics, and Topic Patterns](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/72ac1fad2dd34c4886d672e66b22b54b.html) in the SAP Event Mesh documentation for more details.
+Depending on the used message broker, there can be restrictions to what names can be used for queues. Check the documentation of the used broker to ensure you're using a valid name. See [Syntax for Naming Queues, Topics, and Topic Patterns](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/72ac1fad2dd34c4886d672e66b22b54b.html) in the SAP Event Mesh documentation for more details.
 :::
 
 At the time of queue creation, configuration parameters can be passed to the queue. As options and parameters that can be set for a queue depend on the used message broker, custom key value pairs can be defined that will be passed as queue configuration to the broker at time of queue creation. Check the documentation of the used message broker to see which options can be set. Here is an example:
@@ -683,7 +683,7 @@ If a broker supports the message acknowledgement and a message is not acknowledg
 
 Consider the following scenario: You send messages with a certain topic in your application. Now, you are also registering an `@On` handler for the same event or message topic in the same application. In such a situation the message will be sent to the broker, and once it is received back from the message broker, your registered handler will be called.
 
-If you want to consume the message purely local, and prevent the message from being sent out to the message broker, you need to register your handler with a higher priority than the default handler that sends out the message, and set the message’s context to completed, so it won’t be processed further (and thus sent out by the default handler).
+If you want to consume the message purely local, and prevent the message from being sent out to the message broker, you need to register your handler with a higher priority than the default handler that sends out the message, and set the message's context to completed, so it won't be processed further (and thus sent out by the default handler).
 
 You can register your handler with a higher priority than the default handler like this:
 
@@ -860,4 +860,3 @@ When using a CAP messaging service directly to emit the raw message payload as a
 [Learn more about **CloudEvents**.](../guides/messaging/#cloudevents){.learn-more}
 
 <span id="aftercloudevents" />
-

@@ -1,7 +1,7 @@
 ---
 shorty: Class <code>cds</code><i>.Service
-layout: node-js
-status: released
+# layout: node-js
+# status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 ---
 
@@ -580,7 +580,7 @@ srv.on('READ','Books', (req)=> [ ... ])
 ```js
 srv.on('READ','Books', ()=> SELECT.from(Books))
 ```
-4. Call `next` as in [express.js](http:/expressjs.com) to delegate to handlers down the chain:
+4. Call `next` as in [express.js](https://expressjs.com) to delegate to handlers down the chain:
 ```js
 srv.on('READ','Books', (req,next)=>{
   if (...) return SELECT.from(Books) //> ... handle req my own
@@ -616,7 +616,7 @@ srv.on('READ','Books', SELECT.from(Books))
 
 ####  <i>  Multiple handlers for same events </i>
 
-Arbitrary numbers of handlers for the same events can be registered. Those registered with `.on` are executed in order of their registration, while those registered with `.before` or `.after` the execution order isn’t guaranteed; they might be executed in parallel.
+Arbitrary numbers of handlers for the same events can be registered. Those registered with `.on` are executed in order of their registration, while those registered with `.before` or `.after` the execution order isn't guaranteed; they might be executed in parallel.
 
 ```js
 cds.serve('cat-service') .with (function(){
@@ -627,7 +627,7 @@ cds.serve('cat-service') .with (function(){
 
 ####  <i>  Single handlers for multiple events </i>
 
-Omit the `<entity>` argument to register handlers for all entities. Or add handlers for all events as well as [standard express.js middlewares](http://expressjs.com/en/guide/writing-middleware.html) with method `.use`:
+Omit the `<entity>` argument to register handlers for all entities. Or add handlers for all events as well as [standard express.js middlewares](https://expressjs.com/en/guide/writing-middleware.html) with method `.use`:
 
 ```js
 cds.serve('cat-service') .with (function(){
@@ -641,7 +641,7 @@ cds.serve('cat-service') .with (function(){
 
 #### srv.on  <i>  ('error', (err, req) => {}) </i> {#srv-on-error}
 
-Using the special event name `error`, you can register a custom error handler that is invoked whenever an error will be returned to the client. The handler receives the error object `err` and the respective request object `req`. Only synchroneous modifications of the error object are allowed.
+Using the special event name `error`, you can register a custom error handler that is invoked whenever an error will be returned to the client. The handler receives the error object `err` and the respective request object `req`. Only synchronous modifications of the error object are allowed.
 
 **Examples:**
 
@@ -755,7 +755,7 @@ this.after('READ','Books', (books,req)=>{
 ```
 
 
-**Only modifications are allowed.** That is, replacing the result like in the following example isn’t possible:
+**Only modifications are allowed.** That is, replacing the result like in the following example isn't possible:
 
 ```js
 this.after('READ','Books', (books)=>{
@@ -1007,7 +1007,7 @@ _**Common Usages:**_
 
 <div class="indent" markdown="1">
 
-`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if neccessary:
+`srv.send` can be used in a manner similar to [`srv.emit`](#srv-send) to send requests using [HTTP methods](events#method) and additional request `headers` if necessary:
 
 ```js
 const srv = await cds.connect.to('SomeService')
@@ -1070,7 +1070,7 @@ These methods are _HTTP method-style_ counterparts to the [_CRUD-style_ convenie
 As with these, the returned queries can be executed with `await`.
 For invoking actions or functions, do not use `.post()` or `.get()` but see [Actions API](#srv-action).
 
-REST and OData services support these basic http methods, which are mapped to their CRUD counterpart as documented in the following. They can be used to construct data queries as with the CRUD variants as well as be used to send plain HTTP requests.
+REST and OData services support these basic HTTP methods, which are mapped to their CRUD counterpart as documented in the following. They can be used to construct data queries as with the CRUD variants as well as be used to send plain HTTP requests.
 
 _**Common Usages:**_
 

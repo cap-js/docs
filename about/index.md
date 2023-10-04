@@ -61,12 +61,12 @@ On top of open source technologies, CAP mainly adds:
 
 ### Agnostic Design <wbr/> &rarr; *Safeguarding Investments* {#agnostic-approach}
 
-Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today’s technologies, which might soon become obsolete. **CAP avoids such lock-ins** through **higher-level concepts and APIs**, which abstract low-level platform features and protocols to a large extent. In particular, this applies to things like:
+Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. **CAP avoids such lock-ins** through **higher-level concepts and APIs**, which abstract low-level platform features and protocols to a large extent. In particular, this applies to things like:
 
 - Platform-specific deployment approaches and techniques
 - Platform-specific identity providers and authentication strategies
 - On/Off-boarding of tenants in SaaS solutions and tenant isolation
-- Synchronous protocols like *REST*, *OData*, or *GraphQL* <sup>1</sup>
+- Synchronous protocols like *REST*, *OData*, or *GraphQL*
 - Asynchronous channels and brokers like *SAP Event Mesh*, *MQ*, or *Kafka* <sup>1</sup>
 - Different database technologies including *SQL* and *NoSQL*
 
@@ -84,7 +84,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
 
@@ -104,7 +104,7 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
 The figure below illustrates the prevalent use of CDS models (in the left column), which fuel generic runtimes, like the CAP service runtimes or databases.
 
-![](../assets/core-concepts.drawio.svg)
+![CDS models are used to define domain models, service models and UI markup. You can add custom code on top of them.](../assets/core-concepts.drawio.svg)
 Anatomy of a Typical Application{.caption}
 
 <br>
@@ -198,7 +198,7 @@ Following is an excerpt of generic features provided:
 ###### Automatically Serving Requests
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#serving-documents)
+- [Serving Nested Documents](../guides/providing-services#deep-reads-writes)
 - [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
@@ -214,7 +214,7 @@ Following is an excerpt of generic features provided:
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services#managed-data)
+- [Managed Data](../guides/domain-modeling#managed-data)
 - [Localized Data](../guides/localized-data)
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
@@ -238,7 +238,7 @@ All data access in CAP is through dynamic queries, which allows clients to reque
 
 <div>
 
-**[CQL](../cds/cql)** is CDS’s advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
+**[CQL](../cds/cql)** is CDS's advanced query language. It enhances standard SQL with elements to easily query deeply nested **object graphs** and **document structures**. For example, here's a query in CQL:
 
 ```sql
 SELECT ID, addresses.country.name from Employees
@@ -283,7 +283,7 @@ $expand=Items(
 
 **Queries are first-order objects** – using [CQN](../cds/cqn) as a plain object notation – sent
 to **local** services directly,
-to **remote** services through protocols like *OData* or *GraphQL*<sup>1</sup>,
+to **remote** services through protocols like *OData* or *GraphQL*,
 or to **database** services, which translate them to native database queries for optimized execution with **late materialization**.
 
 </div>
@@ -446,11 +446,11 @@ Instead of talking to message brokers, services in CAP simply emit events on the
 ## Jumpstart & Grow-as-you-go {#grow-as-you-go}
  <!-- label='Grow as You Go' -->
 
-Following the principle of **convention over configuration**, there’s no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
+Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
 
 CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP greatly facilitates **integration scenarios** by simply importing an API from, say, an SAP S/4 backend or from SAP API Hub and running mocks for this locally.
 
-Over time, you **add things gradually**, only when they’re needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
+Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
 
 Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
 
@@ -471,5 +471,5 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ---
 
 <div markdown="1" style="font-size:90%; color:#666">
-<sup>1</sup> *GraphQL* and *Kafka* aren't supported out of the box today, but might be added in future.
+<sup>1</sup> *Kafka* isn't supported out of the box today, but might be added in future.
 </div>

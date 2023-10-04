@@ -1,5 +1,4 @@
 ---
-outline: [1,3]
 status: released
 synopsis: Start with a minimal setup and a grow-as-you-go approach.
 ---
@@ -60,7 +59,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 5. Install Java & Maven
 
-- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed.
+- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed [as described here](https://cap.cloud.sap/docs/java/getting-started#local).
 
 
 ### 6. Install Visual Studio Code
@@ -129,7 +128,7 @@ bookshop/        # Your project's root folder
 
 ### Minimal Configuration
 
-Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that:
 
@@ -203,7 +202,7 @@ Whenever we add content, `cds watch` would react immediately, for example, by bo
 
 ### Mocked Platform Services
 
-The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in 'inner loop' mode.
+The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in an 'inner loop' mode.
 
 Following are the defaults used automatically in *production*, or *development* mode.
 
@@ -216,7 +215,7 @@ Following are the defaults used automatically in *production*, or *development* 
 
 
 
-::: tip Stay in Inner Loop Development
+::: tip Stay in [Inner Loop Development](https://www.getambassador.io/docs/telepresence/latest/concepts/devloop)
 
 ... as much as possible to benefit from **accelerated development** at **minimized costs**. Use the full near-production setup only when you need it, for example for integration tests before releases.
 

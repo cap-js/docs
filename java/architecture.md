@@ -79,7 +79,7 @@ The CQN execution engine is responsible for processing the passed CQN events and
 ### Application Features { #application-features}
 
 The overall architecture of the CAP Java SDK allows additional components to be plugged in at runtime. This plugin mechanism makes the architecture open for future extensions and allows context-based configuration. It also enables you to override standard behavior with custom-defined logic in all different layers. Customer components or [extension modules](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/comment-page-1/#comment-674200) that are registered by the runtime can bring custom adapters, custom services or just custom handlers for existing services.
-CAP Java makes use of [features](#feature-list) itself to provide optional functionality, examples are [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) integration.
+CAP Java makes use of [features](#standard-modules) itself to provide optional functionality, examples are [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) integration.
 
 
 ## Stack Configuration { #stack_configuration}
@@ -157,13 +157,13 @@ Only API modules without dependency scope should be added (they gain `compile` s
 All other dependencies should have a dedicated scope e.g. `runtime` or `test` to prevent misuse.
 :::
 
-You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`), 
-instead you can define your own application context if required. 
+You are not obliged to choose one of the prepared application frameworks (identifiable by `artifactId` prefix `cds-framework`),
+instead you can define your own application context if required.
 Similarly, you're free to configure multiple adapters including custom implementations that map any specific web service protocol.
 
 ::: tip
-It's highly recommended to configure `cds-framework-spring-boot` as application framework 
-as it provides you with a lot of out of the box [integration with CAP](./development/#spring-boot-integration) 
+It's highly recommended to configure `cds-framework-spring-boot` as application framework
+as it provides you with a lot of out of the box [integration with CAP](./development/#spring-boot-integration)
 and enhanced features such as dependency injection and auto configuration.
 :::
 
@@ -185,24 +185,24 @@ is required to make your application multitenancy-aware.
 Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. If a chosen feature misses the required environment at runtime, the feature won't be activated. Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
 For instance, the authentication feature `cds-feature-hana` requires a valid `hana`-binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.
 
-### CAP Java Standard Modules
+### CAP Java Standard Modules { #standard-modules }
 
 CAP Java comes with a rich set of prepared modules in all different layers of the stack:
 
-#### Application Frameworks
+**Application Frameworks**:
 * `cds-framework-spring`:  Makes your application a Spring Boot application.
 * `cds-framework-plain`:  Adds support to run as plain Java Servlet-based application.
 
-#### Protocol adapters
+**Protocol adapters**:
 * `cds-adapter-odata-v4`:  Auto-exposes Application Services as OData V4 endpoints.
 * `cds-adapter-odata-v2`:  Auto-exposes Application Services as OData V2 endpoints.
 * `cds-adapter-api`:  Generic protocol adapter interface to be implemented by customer adapters.
 
-#### Runtime (mandatory)
+**Runtime (mandatory)**:
 * `cds-services-api`:  Interface of the CAP Java SDK. Custom handler or adapter code needs to compile against.
 * `cds-services-impl`:  Implementation of the CAP Java SDK.
 
-#### Application features { #feature-list }
+**Application features**:
 
 * `cds-feature-cloudfoundry`:  Makes your application aware of SAP BTP, Cloud Foundry environment.
 * `cds-feature-k8s`: [Service binding support for SAP BTP, Kyma Runtime](./development/#kubernetes-service-bindings).

@@ -107,7 +107,7 @@ cds:
 
 Supported pool types for single tenant scenarios are `hikari`, `tomcat`, and `dbcp2`. For a multitenant scenario `hikari`, `tomcat`, and `atomikos` are supported. The corresponding pool dependencies need to be available on the classpath. You can find an overview of the available pool properties in the respective documentation of the pool. For example, properties supported by Hikari can be found [here](https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby).
 
-It is also possible to configure the database connection itself. For Hikari this can be achieved by using the `data-source-properties` section. Properties defined here are passed to the respective JDBC driver, which is responsible to establish the actual database connection. The following example sets such a [SAP HANA-specific configuration](https://help.sap.com/docs/SAP_HANA_PLATFORM/0eec0d68141541d1b07893a39944924e/109397c2206a4ab2a5386d494f4cf75e.html?locale=en-US):
+It is also possible to configure the database connection itself. For Hikari this can be achieved by using the `data-source-properties` section. Properties defined here are passed to the respective JDBC driver, which is responsible to establish the actual database connection. The following example sets such a [SAP HANA-specific configuration](https://help.sap.com/docs/SAP_HANA_PLATFORM/0eec0d68141541d1b07893a39944924e/109397c2206a4ab2a5386d494f4cf75e.html):
 
 ```yaml
 cds:

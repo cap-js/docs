@@ -21,7 +21,7 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.2.0',
+  java_services: '2.3.0',
   java_cds4j: '2.3.0'
 }
 

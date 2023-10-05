@@ -286,14 +286,14 @@ cds build
 ```
 
 ::: details What `cds build` does…
-1. Compiles the model into _gen/db/pg/csn.json_.
-2. Copies required `.csv` files into _gen/db/pg/data_.
-3. Adds a _gen/db/package.json_ with this content:
+1. Compiles the model into _gen/pg/db/csn.json_.
+2. Copies required `.csv` files into _gen/pg/db/data_.
+3. Adds a _gen/pg/package.json_ with this content:
    ```json
    {
      "dependencies": {
-       "@sap/cds": "*",
-       "@cap-js/postgres": "*" <!-- REVISIT: should we really use * deps here? in contrast to our own best practices -->
+       "@sap/cds": "^7",
+       "@cap-js/postgres": "^1"
      },
      "scripts": {
        "start": "cds-deploy"
@@ -319,7 +319,7 @@ cds add postgres
 ::: details See what this does…
 1. Adds `@cap-js/postgres` dependency to your _package.json_ `dependencies`.
 2. Sets up deployment descriptors such as _mta.yaml_ to use a PostgreSQL instance deployer application.
-3. Wires up the PostgreSQL service and app to your main CAP service.<!-- TODO: More detail here? -->
+3. Wires up the PostgreSQL service to your deployer app and CAP backend.
 :::
 
 ### Deploy

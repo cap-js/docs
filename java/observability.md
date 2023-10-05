@@ -171,9 +171,9 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 
 ### Logging Service { #logging-service}
 
-The platform offers a central application logging service to which the application log output can be streamed to. Operators can analyze the log output by means of higher-level tools.
+The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING/Cloud/en-US) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
 
-In Cloud Foundry environment, the service `application-logs` offers an ELK stack (Elasticsearch/Logstash/Kibana). To get connected with the logging service, the application needs to be bound against a corresponding service instance. To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
+To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
 ```xml
 <dependency>
@@ -219,10 +219,10 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
 
-## Monitoring and Tracing { #monitoring-and-tracing}
+## Monitoring and Profiling { #monitoring-and-profiling}
 
 Connect your productive application to a [monitoring](#monitoring) tool in order to identify resource bottlenecks at an early stage and to take appropriate countermeasurements.
-Sometimes it is necessary to use a [tracing](#tracing) tool that allows much deeper insights to track down resource consumption issues.
+Sometimes it is necessary to use a [profiling](#profiling) tool that allows much deeper insights to track down resource consumption issues.
 
 
 ### Monitoring { #monitoring}
@@ -230,30 +230,32 @@ Sometimes it is necessary to use a [tracing](#tracing) tool that allows much dee
 When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities.
 In addition, call-graphs can be reconstructed and visualized that represent the flow of web requests within the components and services.
 
-On SAP BTP, [Dynatrace](https://www.dynatrace.com/support/help) is positioned as monitoring solution for productive applications and services.
+[SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml) can be used to perform [Health Monitoring](https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring/health-monitoring-setup-configuration/health-monitoring-for-sap-btp-cf.html) and other valuable use cases.
+
+Additionally 3rd Party tools like [Dynatrace](https://www.dynatrace.com/support/help) can be used as monitoring solution on SAP BTP.
 You can add a Dynatrace connection to your CAP Java application by [additional configuration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
 
-### Tracing { #tracing}
+### Profiling { #profiling}
 
-To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused tracing tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance JVM Garbage Collection), but they come with an additional overhead and therefore shouldn't be constantly active. Hence, they need to meet following requirements:
+To minimize overhead at runtime, monitoring information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. In such a situation, the use of more focused profiling tools can be an option. Typically, such tools are capable of focusing a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and therefore shouldn't be constantly active. Hence, they need to meet following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users
 * Not interfering or even blocking business requests
 
-How can dedicated Java tracing tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
+How can dedicated Java tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
 
 <img src="./assets/remote-tracing.png" width="600px">
 
-As authorized operator, you can access the container and start tools [locally](#tracing-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections (for example, JVM diagnostic tools such as `jcmd`). Alternatively, additional JVM configuration is required as prerequisite (JMX).
-A bunch of tools also support [remote](#tracing-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote tracing tool via an ssh tunnel.
+As authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections (for example, JVM diagnostic tools such as `jcmd`). Alternatively, additional JVM configuration is required as prerequisite (JMX).
+A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
 
-#### Local Tools { #tracing-local}
+#### Local Tools { #profiling-local}
 
 Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch GC events and read Java properties etc.
-The SAP JVM comes with additional handy tracing tools: `jvmmon` and `jvmprof`. The latter for instance provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
+The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter for instance provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
 
-#### Remote Profiler Tools { #tracing-remote}
+#### Remote Profiler Tools { #profiling-remote}
 
 It's even more convenient to interact with the JVM with a frontend client running on a local machine. As already mentioned, a remote daemon as the endpoint of an ssh tunnel is required. Some representative tools are:
 
@@ -261,7 +263,7 @@ It's even more convenient to interact with the JVM with a frontend client runnin
 
 - [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) is popular Java profiler available for different platforms and IDEs.
 
-#### Remote JMX-Based Tools { #tracing-jmx}
+#### Remote JMX-Based Tools { #profiling-jmx}
 
 Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the property:
 
@@ -438,7 +440,7 @@ management.endpoint.flyway.enabled=false
 
 turns off `flyway` actuator.
 
-Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#health-indicators). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](#tracing-jmx).
+Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#health-indicators). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](#profiling-jmx).
 
 
 #### CDS Actuator { #cds-actuator }

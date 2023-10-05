@@ -390,6 +390,8 @@ SAP Fiori supports edit sessions with draft states stored on the server, so user
 
 [Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){.learn-more}
 
+[For details about the draft flow in SAP Fiori elements, see **SAP Fiori elements > Draft Handling**](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d){.learn-more}
+
 
 ### Enabling Draft with `@odata.draft.enabled`
 
@@ -405,6 +407,8 @@ annotate AdminService.Books with @odata.draft.enabled;
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
 :::
 
+### Difference between Compositions and Associations
+Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 

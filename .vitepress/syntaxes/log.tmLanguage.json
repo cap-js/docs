@@ -48,7 +48,7 @@
       "match": "^(?:\\[.*?\\]|\\$) (cds) (.*)$",
       "captures": {
         "1": {
-          "name": "constant.other.key"
+          "name": "entity.name.type"
         },
         "2": {
           "name": "string"

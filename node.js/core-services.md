@@ -260,7 +260,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -936,7 +936,7 @@ await db.run (tx => {
 
 > Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 

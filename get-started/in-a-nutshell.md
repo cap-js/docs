@@ -16,10 +16,12 @@ Using a minimal setup
 
 This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 [[toc]]
 
 
-## ⓪ Preliminaries
+## Preliminaries
 
 1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
 
@@ -45,7 +47,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 
 
-## ① Jumpstart a Project { #start-a-project}
+## 1. Jumpstart a Project { #start-a-project}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 1. Create a new project using `cds init`
@@ -106,7 +108,7 @@ So, let's go on adding some CDS model as follows...
 
 
 
-## ② Capture Domain Models { #domain-models }
+## 2. Capture Domain Models { #domain-models }
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -194,7 +196,7 @@ cds db/schema.cds -2 sql
 
 
 
-## ③ Providing Services { #defining-services}
+## 3. Providing Services { #defining-services}
 
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
@@ -316,7 +318,7 @@ cds srv/cat-service.cds -2 edmx
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 
-## ④ Using Databases {#databases}
+## 4. Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 
@@ -448,7 +450,7 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## ⑤ Adding/Serving UIs {#adding-serving-uis}
+## 5. Adding/Serving UIs {#adding-serving-uis}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -478,7 +480,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
 
 
-## ⑥ Adding Custom Logic {#adding-custom-logic}
+## 6. Adding Custom Logic {#adding-custom-logic}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
@@ -651,7 +653,7 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
 - [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
+- [Adding Custom Logic](../guides/providing-services#custom-logic)
 
 [**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 

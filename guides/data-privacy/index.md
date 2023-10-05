@@ -7,13 +7,7 @@ synopsis: >
 status: released
 ---
 
-<!--
 
-TODOs:
-- sequence of chapters
-- right-hand menu
-
--->
 
 # Managing Data Privacy
 
@@ -71,7 +65,7 @@ The first and frequently only task to do as an application developer is to ident
 
 The **Transparancy** obligation, requests to be able to report with whom data stored about an individual is shared and where that came from (e.g., [EU GDPR Article 15(1)(c,g)](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02016R0679-20160504&qid=1692819634946#tocId22)).
 
-The [SAP Audit Log Service](https://help.sap.com/docs/personal-data-manager?locale=en-US) stores all audit logs for a tenant in a common, compliant data store and allows auditors to search through and retrieve the respective logs when necessary.
+The [SAP Audit Log Service](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-logging-in-cloud-foundry-environment) stores all audit logs for a tenant in a common, compliant data store and allows auditors to search through and retrieve the respective logs when necessary.
 
 [Learn more in the *Audit Logging* guide](audit-logging) {.learn-more}
 
@@ -81,7 +75,7 @@ The [SAP Audit Log Service](https://help.sap.com/docs/personal-data-manager?loca
 
 The [**Right of Access** to personal data](https://en.wikipedia.org/wiki/Right_of_access_to_personal_data) "gives people the right to access their personal data and information about how this personal data is being processed".
 
-The [SAP Personal Data Manager](https://help.sap.com/docs/personal-data-manager?locale=en-US) allows you to inform individuals about the data you have stored regarding them.
+The [SAP Personal Data Manager](https://help.sap.com/docs/personal-data-manager) allows you to inform individuals about the data you have stored regarding them.
 
 [Learn more in the *Personal Data Management* guide](pdm) {.learn-more}
 
@@ -91,6 +85,6 @@ The [SAP Personal Data Manager](https://help.sap.com/docs/personal-data-manager?
 
 The [**Right to be Forgotten**](https://en.wikipedia.org/wiki/Right_to_be_forgotten) gives people "the right to request erasure of personal data related to them on any one of a number of grounds [...]".
 
-The [SAP Data Retention Manager](https://help.sap.com/docs/data-retention-manager?locale=en-US) allows you to manage retention and residence rules to block or destroy personal data.
+The [SAP Data Retention Manager](https://help.sap.com/docs/data-retention-manager) allows you to manage retention and residence rules to block or destroy personal data.
 
 <!-- [Learn more in the *Data Retention Management* guide](drm) {.learn-more} -->

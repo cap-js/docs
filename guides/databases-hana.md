@@ -5,7 +5,7 @@ impl-variants: true
 
 # Using SAP HANA Cloud for Production
 
-
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 [[toc]]
 
@@ -57,7 +57,7 @@ For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ::: tip
 
-The [modules](../java/architecture#available-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
+The [modules](../java/architecture#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
 
 :::
 

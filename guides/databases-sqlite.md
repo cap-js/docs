@@ -703,8 +703,8 @@ For example, given that definition:
 
 ```cds
 entity Foo {
-  virtual foo : Integer;
-  bar : Integer;
+  foo : Integer;
+  virtual bar : Integer;
 }
 ```
 

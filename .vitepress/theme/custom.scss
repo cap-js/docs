@@ -233,6 +233,9 @@ aside.VPSidebar {
         &.collapsed {
           padding-bottom: 1px;
         }
+        .text {
+          font-weight: 500;
+        }
       }
       &.level-1 {
         padding-left: 15px;

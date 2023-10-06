@@ -300,9 +300,9 @@ cds build
      }
    }
    ```
-:::
 
 > **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable isn't available.
+:::
 
 Finally, package and deploy the application, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 

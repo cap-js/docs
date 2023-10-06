@@ -73,6 +73,23 @@ Users on macOS must first run a command (*Shell Command: Install 'code' command 
 
 :::
 
+2.5 Initialise dependencies in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics) 
+
+Install all the dependencies into your system. 
+
+::: code-group
+
+```sh [Node.js]
+npm install
+```
+
+```sh [Java]
+/shrug
+```
+
+:::
+
+
 3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
 ::: code-group

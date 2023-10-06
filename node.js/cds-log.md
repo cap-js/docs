@@ -372,11 +372,15 @@ The default log formatter does exactly that, prepending the list of arguments wi
 
 ## Logging in Production
 
-In production, DevOps typically consume application logs via dashboards such as Kibana or Grafana. Hence, the log output needs to be formatted in a way that enables the respective dashboard technology to optimally support the user, for example, filtering for logs of specific levels, modules, status, etc.
+The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics). 
+
+To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
+
+Additionally, the log output needs to be formatted in a way that enables the respective dashboard technology to optimally support the user, for example, filtering for logs of specific levels, modules, status, etc.
 
 The Kibana-friendly log formatter constructs a loggable object from the passed arguments as well as [cds.context](events#cds-event-context) and the headers of the incoming request (if available).
 
-Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alternatively, it can be [activated](cds-env#cds-env) via `cds.env.features.kibana_formatter = true`. In the future, the Kibana-friendly formatter will become the default when running in SAP BTP and bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/APPLICATION_LOGGING/ee8e8a203e024bbb8c8c2d03fce527dc/68454d44ad41458788959485a24305e2.html).
+Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alternatively, it can be [activated](cds-env#cds-env) via `cds.env.features.kibana_formatter = true`. In the future, the Kibana-friendly formatter will become the default when running in SAP BTP and bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING).
 
 The following screenshot shows the log output for the rejection in the previous example with the Kibana-friendly log formatter.
 
@@ -399,6 +403,6 @@ if (!cds.context) cds.context = { id }
 req.headers['x-correlation-id'] = cds.context.id
 ```
 
-The following screenshot shows an example for log correlation in Kibana .
+The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING/Cloud/en-US).
 
 ![Default Formatter Output](assets/correlation.png)

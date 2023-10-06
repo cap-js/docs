@@ -279,7 +279,7 @@ cds deploy --profile pg
 
 ### With a Deployer App
 
-When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
+When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
 cds build

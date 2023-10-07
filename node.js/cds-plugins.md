@@ -27,7 +27,7 @@ cds.on('served', ()=>{ ... })
 
 :::
 
-Sometimes `cds-plugin.js` files can also be empty, for example if you plugin only registers new settings.
+Sometimes `cds-plugin.js` files can also be empty, for example if your plugin only registers new settings.
 
 
 
@@ -72,12 +72,12 @@ This property refers to a module that implements the plugin machinery in cds, by
 1. For all entries in your *package.json*'s `dependencies` and `devDependencies` ...
 2. Select all target packages having a `cds-plugin.js` file in their roots ...
 3. Add all target packages' `cds` entry in their *package.json* to [`cds.env`](cds-env)
-4. Load all target packages'  `cds-plugin.js` module
+4. Load all target packages' `cds-plugin.js` module
 
 The plugin mechanism is activated by adding this to CLI commands:
 
 ```js
-await cds.plugin
+await cds.plugins
 ```
 
 Currently, the following commands support plugins: `cds-serve`, `cds watch`, `cds run`, `cds env`, `cds deploy`, `cds build`, `cds.test()`.

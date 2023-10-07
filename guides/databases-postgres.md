@@ -304,13 +304,8 @@ cds build
 > **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable isn't available.
 :::
 
-Finally, package and deploy the application, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
-## Step-by-Step Instructions
-
-Here's a step-by-step guide to add PostgreSQL to an existing project and deploy it to SAP BTP. We assume there are service definitions and data models in _/srv_ and _/db_.
-
-### Add Postgres configuration
+### Add Postgres Deployment Configuration
 
 ```sh
 cds add postgres

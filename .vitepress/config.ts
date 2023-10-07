@@ -147,7 +147,7 @@ const config:UserConfig<CapireThemeConfig> = {
       {
         id: 'log',
         scopeName: 'text.log',
-        path: join(__dirname, 'syntaxes/log.tmLanguage.json'),
+        path: join(__dirname, 'syntaxes/log.tmLanguage.json'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
         aliases: ['log', 'logs']
       }
     ],

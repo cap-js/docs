@@ -157,7 +157,7 @@ At this point, you are done with your application. Let's set up the SAP Personal
 
 Next, we will briefly detail the integration to SAP Personal Data Manager.
 A more comprehensive guide, incl. tutorials, is currently under development.
-For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager?locale=en-US).
+For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager).
 
 
 

@@ -80,18 +80,18 @@ Following properties provide access to the classes and prototypes of [linked CSN
 
 ## Core Classes
 
-### [cds.Service](core-services#core-services) {.class}
+### [cds. Service](core-services#core-services) {.class}
 
-- [cds.ApplicationService](app-services) {.class}
-- [cds.RemoteService](remote-services) {.class}
-- [cds.MessagingService](messaging) {.class}
-- [cds.DatabaseService](databases) {.class}
-- [cds.SQLService](databases) {.class}
+- [cds. ApplicationService](app-services) {.class}
+- [cds. RemoteService](remote-services) {.class}
+- [cds. MessagingService](messaging) {.class}
+- [cds. DatabaseService](databases) {.class}
+- [cds. SQLService](databases) {.class}
 
-### [cds.EventContext](events#cds-event-context) {.class}
-### [cds.Event](events#cds-event) {.class}
-### [cds.Request](events#cds-request) {.class}
-### [cds.User](authentication#cds-user) {.class}
+### [cds. EventContext](events#cds-event-context) {.class}
+### [cds. Event](events#cds-event) {.class}
+### [cds. Request](events#cds-request) {.class}
+### [cds. User](authentication#cds-user) {.class}
 
 
 

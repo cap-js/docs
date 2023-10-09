@@ -8,6 +8,39 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 impl-variants: true
 ---
 
+<style scoped lang="scss">
+  ol {
+  margin-left: 10px;
+  counter-reset: my-counter;
+  li {
+    counter-increment: my-counter;
+    list-style: none;
+    &::before {
+      content: counter(my-counter);
+      color: var(--vp-c-text-1);
+      background-color: var(--vp-code-bg);
+      width: 20px;
+      height: 20px;
+      background-size: 20px;
+      line-height: 22px;
+      border-radius: 50%;
+      font-weight: 400;
+      text-align: center;
+      font-size: 12px;
+      vertical-align: middle;
+      display: inline-block;
+      position: relative;
+      top: -2px;
+      left: -30px;
+      margin-right: -20px;
+    }
+    p {
+      display: inline;
+    }
+  }
+}
+</style>
+
 # Getting Started in a Nutshell
 
 Using a minimal setup
@@ -52,59 +85,59 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 1. Create a new project using `cds init`
 
-::: code-group
-```sh [Node.js]
-cds init bookshop
-```
-```sh [Java]
-cds init bookshop --add java
-```
-:::
+   ::: code-group
+   ```sh [Node.js]
+   cds init bookshop
+   ```
+   ```sh [Java]
+   cds init bookshop --add java
+   ```
+   :::
 
 2. Open the project in VS Code
 
-```sh
-code bookshop
-```
+   ```sh
+   code bookshop
+   ```
 
-::: details **Note:** VS Code CLI on macOS needs extra setup
+   ::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+   Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
 
-:::
+   :::
 
 3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
-::: code-group
+   ::: code-group
 
-```sh [Node.js]
-cds watch
-```
+   ```sh [Node.js]
+   cds watch
+   ```
 
-```sh [Java]
-cd srv && mvn cds:watch
-```
+   ```sh [Java]
+   cd srv && mvn cds:watch
+   ```
 
-:::
+   :::
 
-::: details `cds watch` is waiting for things to come...
+   ::: details `cds watch` is waiting for things to come...
 
-```log
-[dev] cds w
+   ```log
+   [dev] cds w
 
-cds serve all --with-mocks --in-memory?
-live reload enabled for browsers
+   cds serve all --with-mocks --in-memory?
+   live reload enabled for browsers
 
-      ___________________________
+         ___________________________
 
-   No models found in db/,srv/,app/,schema,services. // [!code focus]
-   Waiting for some to arrive... // [!code focus]
+     No models found in db/,srv/,app/,schema,services. // [!code focus]
+     Waiting for some to arrive... // [!code focus]
 
-```
+   ```
 
-So, let's go on adding some CDS model as follows...
+   So, let's go on adding some CDS model as follows...
 
-:::
+   :::
 
 
 

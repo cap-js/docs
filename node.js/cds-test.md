@@ -39,7 +39,7 @@ describe(()=>{
   const test = cds.test(__dirname+'/..')
 })
 ```
-This launches a CDS server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
+This launches a server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
 ::: warning  Don't use `process.chdir()`!
 Doing so in Jest tests may leave test containers in failed state, leading to failing subsequent tests. Use [`cds.test.in()`](#test-in-folder) instead.
@@ -332,7 +332,7 @@ beforeEach (async()=>{
 
 
 
-### test .log() {.method}
+### test. log() {.method}
 
 Allows to capture console output in the current test scope. The method returns an object to control the captured logs:
 

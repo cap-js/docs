@@ -40,7 +40,7 @@ Example:
 }
 ```
 ::: tip We **recommend** using the caret form such as `^1.0.2`
-They are the default for `npm install`, as that clearly capture the minimum patch version.
+Caret form is the default for `npm install`, as that format clearly captures the minimum patch version.
 :::
 
 ### Keep Open Ranges When *Publishing* for Reuse {#publish }

@@ -5,14 +5,43 @@ synopsis: >
 redirect_from: java/overview
 status: released
 ---
-<!--- Migrated: @external/java/010-Getting-Started/0-index.md -> @external/java/getting-started.md -->
 
 # Getting Started
 
-<style scoped>
+<style scoped lang="scss">
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
+  ol {
+  margin-left: 10px;
+  counter-reset: my-counter;
+  li {
+    counter-increment: my-counter;
+    list-style: none;
+    &::before {
+      content: counter(my-counter);
+      color: var(--vp-c-text-1);
+      background-color: var(--vp-code-bg);
+      width: 20px;
+      height: 20px;
+      background-size: 20px;
+      line-height: 22px;
+      border-radius: 50%;
+      font-weight: 400;
+      text-align: center;
+      font-size: 12px;
+      vertical-align: middle;
+      display: inline-block;
+      position: relative;
+      top: -2px;
+      left: -30px;
+      margin-right: -20px;
+    }
+    p {
+      display: inline;
+    }
+  }
+}
 </style>
 
 {{ $frontmatter.synopsis }}
@@ -43,7 +72,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
+1. Install the CDS tools (`cds-dk`) by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
 2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 

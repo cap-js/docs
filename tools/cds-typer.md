@@ -11,11 +11,12 @@ status: released
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
 ## Quickstart using VS Code {#cds-typer-vscode}
-1. Make sure you have the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. In your project's root, execute `cds add typer`.
-3. Install the newly added dev-dependency using `npm i`.
-4. Saving any _.cds_ file of your model from VSCode triggers the type generation process.
-5. Model types now have to be imported to service implementation files by traditional imports of the generated files:
+1. Make sure you have the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
+2. See that cds-typer is enabled in your VS Code settings (CDS > Type Generator > Enabled).
+3. In your project's root, execute `cds add typer`.
+4. Install the newly added dev-dependency using `npm i`.
+5. Saving any _.cds_ file of your model from VS Code triggers the type generation process.
+6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
 ```js
 //  without cds-typer
@@ -32,7 +33,7 @@ service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
 
 The extension will automatically trigger the type generator whenever you hit _save_ on a _.cds_ file that is part of your model. That ensures that the generated type information stays in sync with your model. If you stick to the defaults, saving a _.cds_ file will have the type generator emit [its type files](#emitted-type-files) into the directory _@cds-models_ in your project's root.
 
-Opening your VSCode settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process. Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
+Opening your VS Code settings and typing "`cds type generator`" into the search bar will reveal several options to configure the type generation process. Output, warnings, and error messages of the process can be found in the output window called "`CDS`".
 
 :::
 
@@ -102,13 +103,27 @@ service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
 
 Using anything but lambda functions for either CRUD handler or action implementation will make it impossible for the LSP to infer the parameter types.
 
-You can remedy this by specifying the expected type yourself via [JSDoc](https://jsdoc.app/):
+You can remedy this by specifying the expected type with one of the following options.
+
+Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 
 ```js
 service.on('READ', Books, readBooksHandler)
 
 /** @param {{ data: import('#cds-models/sap/capire/Bookshop').Books }} req */
 function readBooksHandler (req) {
+  // req.data is now properly known to be of type Books again
+}
+```
+
+Using `import type` in TypeScript projects:
+
+```ts
+import type { Books } from '#cds-models/sap/capire/bookshop'
+
+service.on('READ', Books, readBooksHandler)
+
+function readBooksHandler (req: {{ data: Books }}) {
   // req.data is now properly known to be of type Books again
 }
 ```
@@ -234,7 +249,7 @@ This will consider referencing properties in generated types that are not explic
 
 ## Usage Options
 
-Besides using the [SAP CDS Language Support extension for VSCode](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line and programmatically.
+Besides using the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line and programmatically.
 
 ### Command Line Interface (CLI) {#typer-cli}
 
@@ -333,7 +348,7 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 ## Integrate Into Your Multitarget Application
-Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well. 
+Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well.
 
 ::: code-group
 ```yaml [mta.yaml]

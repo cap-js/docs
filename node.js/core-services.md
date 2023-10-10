@@ -1,6 +1,7 @@
 ---
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
+redirect_from: node.js/services
 ---
 
 # Core Services
@@ -259,7 +260,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -782,8 +783,8 @@ return : result of this.dispatch(req)
 
 Use this method to send synchronous requests to a service for execution.
 
--  `method` can be a HTTP method, or a name of a custom action or function
--  `path` can be an arbitrary URL, starting with a leading `'/'`
+-  `method` can be an HTTP method, or a name of a custom action or function
+-  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string
 
 Examples:
 
@@ -935,7 +936,7 @@ await db.run (tx => {
 
 > Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
@@ -1030,6 +1031,77 @@ All matching `before`, `on`, and `after` handlers are executed in corresponding 
 In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
+<!-- ## Streaming API {#srv-stream } -->
+
+### srv. stream (column) {.method}
+
+```ts
+async function srv.stream (column: string)
+  return : {
+    from(entity: CSN Definition | string): {
+      where(filter: any): ReadableStream // from node:stream
+  }
+}
+```
+
+This method allows streaming binary data properties.
+It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
+
+```js
+const stream = srv.stream().from('T', { ID: 1 }, a => a.data)
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T', { ID: 1 })
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T').where({ ID: 1 })
+stream.pipe(process.stdout)
+```
+
+::: warning
+Streaming is currently limited to [database services](databases).
+:::
+
+
+
+### srv. stream (query)  {.method}
+
+```ts
+async function srv.stream (query: CQN) : ReadableStream
+```
+
+This is a variant of `srv.stream`, which accepts a [`SELECT` query](../cds/cqn) as input and returns a Promise resolving to result stream when the query matched to an existing row in the database. The query is expected to select a single column and a single data row. Otherwise, an error is thrown.
+
+```js
+const stream = await srv.stream( SELECT('image').from('Foo',111) )
+stream.pipe(process.stdout)
+```
+
+
+
+### srv. foreach (entity) {.method}
+
+```ts
+function foreach(
+  query: CQN, callback: (row: object) => void
+)
+```
+
+Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
+
+_**Common Usages:**_
+
+```js
+cds.foreach (SELECT.from('Foo'), each => console.log(each))
+cds.foreach ('Foo', each => console.log(each))
+```
+{.indent}
+
+> As depicted in the second line, a plain entity name can be used for the `entity` argument in which case it's expanded to a `SELECT * from ...`.
 
 
 
@@ -1053,7 +1125,7 @@ srv.patch('/Books',...)   -->  srv.send('PATCH','/Books',...)
 srv.delete('/Books',...)  -->  srv.send('DELETE','/Books',...)
 ```
 
-You can also use them as REST-style variants to run queries by omitting the leading slash in the `path` argument, or by passing a reflected entity definition instead. In that case they start constructing *bound* [`cds.ql` query objects](cds-ql), as their [CRUD-style counterparts](#crud-style-api):
+Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent unmodified to a service. Omitting the leading slash, or passing a reflected entity definition instead, constructs *bound* [`cds.ql` query objects](cds-ql), equivalent to [CRUD-style API](#crud-style-api):
 
 ```js
 await srv.get(Books,201)

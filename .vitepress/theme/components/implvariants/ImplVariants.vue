@@ -14,11 +14,22 @@ const knownImplVariants = ['node', 'java']
 onMounted(() => {
   if (!supportsVariants.value)  return
   let check = currentCheckState()
-  setClass(check)
-  // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query.
+  // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query anymore.
   const variantNew = check ? 'java' : 'node'
   localStorage.setItem('impl-variant', variantNew)
+
+  setClass(check)
+
+  // Scroll hash element into view. Needed on first page load if variant is changed by query param.
+  scrollTo(window.location.hash?.slice(1))
 })
+
+function scrollTo(id) {
+  const elem = document.getElementById(id)
+  if (elem) {
+    setTimeout(() => { elem?.scrollIntoView(true) }, 20)
+  }
+}
 
 function currentCheckState() {
   const url = new URL(window.location)
@@ -38,8 +49,9 @@ function setClass(check) {
     container.title = check ? 'Java content. Toggle to see Node.js.' : 'Node.js content. Toggle to see Java.'
   }
 
-  markStatus()
+  markOutlineItems()
   toggleContent(check ? 'java' : 'node')
+
 }
 
 function useVariant() {
@@ -88,41 +100,26 @@ watchEffect(() => {
 })
 
 function toggleContent(variant, initial) {
-  const query = knownImplVariants.map(v => '.impl.'+v).join(',')
-  const all = document.querySelectorAll(query)
-  all.forEach(element => {
-    const on = element.classList.contains(variant)
-    element.style.display = on ? '' : 'none'
-  })
+  const htmlClassList = document.documentElement.classList
+  knownImplVariants.forEach(v => htmlClassList.remove(v))
+  htmlClassList.add(variant)
 }
 
-function markStatus() {
+// Only mark outline items here, as these are not part of the generated HTML,
+// but are created on the fly with JS.
+// All other DOM content is handled at build time on MD level (see md-attrs-propagate.ts)
+function markOutlineItems() {
   const hashes = {}
   const impls = document.querySelectorAll('.impl.node, .impl.java')
   for (let each of impls) {
     hashes['#' + each.id] = each
-    let level = level4(each);
-    if (!level) continue
-    let classes = each.classList
-    while ((each = each.nextElementSibling) && level4(each) > level) {
-      if (each.id) hashes['#' + each.id] = each
-      markClasses(each, classes)
-    }
   }
-  const allHeaderIDs = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')].map(h => h.id)
-  const anchors = document.querySelectorAll('li > a')
+  const anchors = document.querySelectorAll('li > a.outline-link')
   for (const a of anchors) {
     const li = a.parentElement
     if (li.firstChild !== a)  continue
     const target = hashes[a.hash]
     if (target)  markClasses(li, target.classList)
-    // also hide all items w/o a link target on this page, i.e. target that was removed during build
-    else if (a.pathname === window.location.pathname && allHeaderIDs.indexOf(a.hash.slice(1)) < 0)
-      li.style.display = 'none'
-  }
-
-  function level4(node) {
-    return node.tagName.match(/^H(\d)$/) ? RegExp.$1 : 99
   }
 }
 

@@ -1,7 +1,7 @@
 ---
 label: Configuration
 synopsis: >
-  Learn here about using <code>cds.env</code> to specify and access configuration options for the Node.js runtimes as well as the <code>@sap/cds-dk</code> CLI commands.
+  Learn here about using cds.env to specify and access configuration options for the Node.js runtimes as well as the @sap/cds-dk CLI commands.
 status: released
 ---
 
@@ -423,14 +423,14 @@ cds run --profile my-custom-profile
 or
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 CDS_ENV=my-custom-profile cds run
 ```
-```cmd
+```cmd [Windows]
 set CDS_ENV=my-custom-profile
 cds run
 ```
-```powershell
+```powershell [Powershell]
 $Env:CDS_ENV=my-custom-profile
 cds run
 ```

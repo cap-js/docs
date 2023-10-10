@@ -13,6 +13,8 @@ impl-variants: true
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 {{ $frontmatter.synopsis }}
 
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+
 
 [[toc]]
 
@@ -163,7 +165,7 @@ Put CSV files into `db/data` to fill your database with initial data.
 
 <div markdown="1" class="impl node">
 
-For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors, and *Genres* as follows:
+For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors*, and *Genres* as follows:
 
 ```zsh
 bookshop/
@@ -180,7 +182,7 @@ bookshop/
 
 <div markdown="1" class="impl java">
 
-For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors, and *Genres* as follows:
+For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors*, and *Genres* as follows:
 
 ```zsh
 db/
@@ -199,7 +201,7 @@ The **filenames** are expected to match fully qualified names of respective enti
 
 ### Using `.csv` Files
 
-The **content of these files is standard CSV content with the column titles corresponding to declared element names, like for `Books`:
+The **content** of these files is standard CSV content with the column titles corresponding to declared element names, like for `Books`:
 
 ::: code-group
 
@@ -595,13 +597,18 @@ Find here a collection of resources on selected databases and their reference do
 
 ## Database Constraints {#db-constraints}
 
-The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables.
+The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 
 Enable generation of foreign key constraints on the database with:
 
 ```js
 cds.features.assert_integrity = 'db'
 ```
+
+::: warning Database constraints are not supported for H2
+Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.
+:::
+
 With that switched on, foreign key constraints are generated for managed to-one associations. For example, given this model:
 
 ```cds

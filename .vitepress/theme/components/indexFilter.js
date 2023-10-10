@@ -9,6 +9,7 @@ export default (pages, basePath) => {
   return pages
     .map(p => {
       p.url = p.url.replaceAll('@external/', '').replace(/\/index$/, '/')
+      p.url = join(base, p.url)
       return p
     })
     .filter(p => {

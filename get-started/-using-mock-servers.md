@@ -79,7 +79,7 @@ This ***(a)*** allows you to separate and parallelize work loads and ***(b)*** r
 
 When we save the file we created in the former step, the `cds` watcher in the terminal immediately reacts, showing this output:
 
-```
+```sh
 [cds](cds) - connect to datasource - sqlite::memory:
 [cds](cds) - serving CatalogService at /browse
 [cds](cds) - service definitions loaded from:
@@ -179,7 +179,7 @@ module.exports = (db)=>{
 
 ###### Mock Custom Responses
 
-To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#adding-custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
+To extend the mock server with custom logic, you can [create a custom handler](../guides/providing-services#custom-logic). To do so, create a `.js` file with the same name next to the imported service definition file, in our case `srv/external/API_BUSINESS_PARTNER.js`. Add the custom logic there:
 
 ```js
 module.exports = cds.service.impl (srv => {
@@ -209,7 +209,7 @@ GET http://localhost:4004/api-business-partner/A_BusinessPartnerAddress(Business
 
 ###### Reset Mock Data at Runtime
 
-To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#custom-actions-functions).
+To reset the mock data at runtime without restarting the mock server, define an [unbound action](../guides/providing-services#actions-functions).
 
 > When using `cds watch`, executing `rs` in the terminal with the running watch command will restart the mock server and reset the mock data without the need of an unbound action.
 

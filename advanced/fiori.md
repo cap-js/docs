@@ -390,6 +390,8 @@ SAP Fiori supports edit sessions with draft states stored on the server, so user
 
 [Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){.learn-more}
 
+[For details about the draft flow in SAP Fiori elements, see **SAP Fiori elements > Draft Handling**](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d){.learn-more}
+
 
 ### Enabling Draft with `@odata.draft.enabled`
 
@@ -405,6 +407,8 @@ annotate AdminService.Books with @odata.draft.enabled;
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
 :::
 
+### Difference between Compositions and Associations
+Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
@@ -427,7 +431,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java
@@ -542,7 +546,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services#custom-actions-functions){.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services#actions-functions){.learn-more}
 
 
 We're going to look at three things.

@@ -241,7 +241,7 @@ Following is an index of the features currently covered by CAP, with status and 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 
 
-### Extensibility { .impl.internal}
+### Extensibility {.impl .internal}
 
 |                                                                                          |      |
 |------------------------------------------------------------------------------------------|:----:|

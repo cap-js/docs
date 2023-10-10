@@ -784,7 +784,7 @@ return : result of this.dispatch(req)
 Use this method to send synchronous requests to a service for execution.
 
 -  `method` can be a HTTP method, or a name of a custom action or function
--  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string. 
+-  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string
 
 Examples:
 

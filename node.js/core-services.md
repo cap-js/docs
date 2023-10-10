@@ -1125,7 +1125,7 @@ srv.patch('/Books',...)   -->  srv.send('PATCH','/Books',...)
 srv.delete('/Books',...)  -->  srv.send('DELETE','/Books',...)
 ```
 
-Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent to a service unmodified. Omitting the leading slash or passing a reflected entity definition instead, leads to construction of *bound* [`cds.ql` query objects](cds-ql), equivalent to [CRUD-style API](#crud-style-api):
+Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent to a service unmodified. Omitting the leading slash or passing a reflected entity definition instead, constructs *bound* [`cds.ql` query objects](cds-ql), equivalent to [CRUD-style API](#crud-style-api):
 
 ```js
 await srv.get(Books,201)

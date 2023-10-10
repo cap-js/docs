@@ -362,7 +362,7 @@ The new database services guarantee identical behavior of these logic operators:
 - `==`, `=` — with `= null` being translated to `is null`
 - `!=`,  `<>`  — with `!=` translated to `IS NOT` in SQLite
 
-* `<`, `>`, `<=`, `>=` — are supported as is in standard SQL
+* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
 
 Especially, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves portability of your code.
 

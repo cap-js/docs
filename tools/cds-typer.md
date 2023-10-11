@@ -249,7 +249,7 @@ This will consider referencing properties in generated types that are not explic
 
 ## Usage Options
 
-Besides using the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line and programmatically.
+Besides using the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line.
 
 ### Command Line Interface (CLI) {#typer-cli}
 
@@ -315,16 +315,6 @@ OPTIONS
 
     Prints the version of this tool.
 ```
-:::
-
-### Programmatically
-
-`cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
-
-::: warning Could alter CSN!
-
-Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
-
 :::
 
 ## Integrate Into TypeScript Projects

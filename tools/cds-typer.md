@@ -74,7 +74,7 @@ Note that your entities will expose additional capabilities in the context of CQ
 The CRUD handlers `before`, `on`, and `after` accept generated types:
 
 ```js
-// the paylod is known to contain Books inside the respective handlers
+// the payload is known to contain Books inside the respective handlers
 service.before('READ', Books, req => { … }
 service.on('READ', Books, req => { … }
 service.after('READ', Books, req => { … }

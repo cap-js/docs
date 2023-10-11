@@ -144,6 +144,10 @@ type Priority: String enum {
 
 entity Tickets {
   priority: Priority;
+  status: String enum {
+    ASSIGNED = 'A';
+    UNASSIGNED = 'U';
+  }
   …
 }
 ```
@@ -154,7 +158,10 @@ const { Ticket, Priority } = require('…')
 service.before('CREATE', Ticket, (req) => {
   req.data.priority = Priority.LOW  // [!code focus]
   //         /                 \  // [!code focus]
-  // inferred type: Priority    suggests LOW, MEDIUM, HIGH  // [!code focus]
+  // inferred as: Priority      suggests LOW, MEDIUM, HIGH  // [!code focus]
+  req.data.status = Ticket.status.UNASSIGNED  // [!code focus]
+  //         /                   \  // [!code focus]
+  // inferred as: Tickets_status  suggests ASSIGNED, UNASSIGNED  // [!code focus]
 })
 
 ```
@@ -316,6 +323,11 @@ OPTIONS
     Prints the version of this tool.
 ```
 :::
+
+### Version Control
+The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the typer [as facet](#typer-facet){.learn-more} will therefore generate an appropriate entry in your project's `.gitignore` file.
+You can safely remove and recreate the types at any time.
+We especially suggest deleting all generated types when switching between development branches to avoid unexpected behaviour from lingering types.
 
 ## Integrate Into TypeScript Projects
 The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration.

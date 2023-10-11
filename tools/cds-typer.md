@@ -74,7 +74,7 @@ Note that your entities will expose additional capabilities in the context of CQ
 The CRUD handlers `before`, `on`, and `after` accept generated types:
 
 ```js
-// the paylod is known to contain Books inside the respective handlers
+// the payload is known to contain Books inside the respective handlers
 service.before('READ', Books, req => { … }
 service.on('READ', Books, req => { … }
 service.after('READ', Books, req => { … }
@@ -144,6 +144,10 @@ type Priority: String enum {
 
 entity Tickets {
   priority: Priority;
+  status: String enum {
+    ASSIGNED = 'A';
+    UNASSIGNED = 'U';
+  }
   …
 }
 ```
@@ -154,7 +158,10 @@ const { Ticket, Priority } = require('…')
 service.before('CREATE', Ticket, (req) => {
   req.data.priority = Priority.LOW  // [!code focus]
   //         /                 \  // [!code focus]
-  // inferred type: Priority    suggests LOW, MEDIUM, HIGH  // [!code focus]
+  // inferred as: Priority      suggests LOW, MEDIUM, HIGH  // [!code focus]
+  req.data.status = Ticket.status.UNASSIGNED  // [!code focus]
+  //         /                   \  // [!code focus]
+  // inferred as: Tickets_status  suggests ASSIGNED, UNASSIGNED  // [!code focus]
 })
 
 ```
@@ -249,7 +256,7 @@ This will consider referencing properties in generated types that are not explic
 
 ## Usage Options
 
-Besides using the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line and programmatically.
+Besides using the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds), you have the option to use `cds-typer` on the command line.
 
 ### Command Line Interface (CLI) {#typer-cli}
 
@@ -317,15 +324,10 @@ OPTIONS
 ```
 :::
 
-### Programmatically
-
-`cds-typer` can also be used programmatically in your Node.js app to consume CSN from either an in-memory structure (`compileFromCSN(…)`) or from _.cds_ files (`compileFromFile(…)`). Refer to the [source code](https://github.com/cap-js/cds-typer/blob/main/lib/compile.js) for more information on the API.
-
-::: warning Could alter CSN!
-
-Applying `cds-typer` to an in-memory CSN structure may be impure, meaning that it could alter the CSN. If you use the type generator this way, you may want to apply it as last step of your tool chain.
-
-:::
+### Version Control
+The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the [typer as facet](#typer-facet) will generate an appropriate entry in your project's `.gitignore` file.
+You can safely remove and recreate the types at any time.
+We especially suggest deleting all generated types when switching between development branches to avoid unexpected behavior from lingering types.
 
 ## Integrate Into TypeScript Projects
 The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration.

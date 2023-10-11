@@ -325,7 +325,7 @@ OPTIONS
 :::
 
 ### Version Control
-The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the typer [as facet](#typer-facet){.learn-more} will therefore generate an appropriate entry in your project's `.gitignore` file.
+The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the typer [as facet](#typer-facet){.learn-more} will generate an appropriate entry in your project's `.gitignore` file.
 You can safely remove and recreate the types at any time.
 We especially suggest deleting all generated types when switching between development branches to avoid unexpected behavior from lingering types.
 

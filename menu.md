@@ -41,6 +41,7 @@
 - [Localized Data](guides/localized-data)
 - [Temporal Data](guides/temporal-data)
 - [Media Data](guides/media-data)
+- [Change Tracking](guides/change-tracking/)
 - [Data Privacy](guides/data-privacy/)
   - [Annotating Personal Data](guides/data-privacy/annotations)
   - [Automatic Audit Logging](guides/data-privacy/audit-logging)

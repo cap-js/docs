@@ -17,41 +17,35 @@ _The following is mainly written from a Node.js perspective._ <!--For Java's per
 
 In this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add change tracking to.
 
-To start with change tracking, we first need to identify the entities and elements that should be change tracked.
+To start with change tracking, we first need to identify what should be change-tracked.
 
 ## Annotate Change Records
 
-Following the best practice of separation of concerns, we annotate our domain model in a separate file _srv/change-tracking.cds_, which we add to our project with the following content:
+Following the [best practice of separation of concerns](../guides/domain-modeling#separation-of-concerns), we annotate our domain model in a separate file _srv/change-tracking.cds_ as follows:
 
 ::: code-group
 
 ```cds [srv/change-tracking.cds]
-using { ProcessorService as srv } from '@capire/incidents';
+using { ProcessorService as my } from '@capire/incidents';
 
-annotate srv.Incidents with @changelog: [customer.name, createdAt] {
+annotate my.Incidents @changelog: [ customer.name, createdAt ] {
   customer @changelog: [ customer.name ];
   title  @changelog;
   status @changelog;
 }
 
-annotate srv.Conversations with @changelog.keys: [author, timestamp] {
+annotate my.Conversations @changelog: [ author, timestamp ] {
   message  @changelog;
 }
 ```
 
 :::
 
-Entities and elements are annotated with `@changelog`.
-
-The underlying structure of how the Change Tracking data model is stored is as follows:
-
-The main entity `ChangeLog` contains the `changes` property, which is a `Composition of many Changes`. These changes contain all the detailed information on the changes performed in a draft event and are stored in `Changes`.
-
-The view `ChangeView` provides a summary of all of detailed change records. Here, the `Object ID` and `Parent Object ID` are meaningful and human-readable string patterns which we have annotated above when setting the identifiers. Note, that by implementing Object ID and parent Object ID, change history could be displayed in hierarchy.
+By adding the annotation `@changelog`, we already change-track both entities and elements. Only for definitions that are not uniquely mapped, for example when referring to a type `enum` or `Association`, an extra array of identifiers can be provided to make the resulting **Object ID** *human-readable* in the [*Change History* view](#change-history-view). Otherwise, the respective unique IDs will be used which can be very cryptic, so we advise against this.
 
 ## Adding the Plugin { #setup }
 
-To enable change tracking, simply add the  [`@cap-js/change-tracking`](https://www.npmjs.com/package/@cap-js/change-tracking) plugin package to your project like so:
+To enable change tracking, simply add the [`@cap-js/change-tracking`](https://www.npmjs.com/package/@cap-js/change-tracking) plugin package to your project like so:
 
 ```sh
 npm add @cap-js/change-tracking
@@ -59,7 +53,7 @@ npm add @cap-js/change-tracking
 
 ## Test-drive Locally
 
-With the steps above, we have successfully set up change tracking for our reference application. Let's see that in action…
+With the steps above, we have successfully set up change tracking for our reference application. Let's see that in action.
 
 1. **Start the server** as usual:
 
@@ -80,18 +74,16 @@ With the steps above, we have successfully set up change tracking for our refere
     node_modules/@sap/cds/common.cds
   ```
 
-  Any change you make on the records which you have change-tracked will now be persisted in a database table `sap.changelog.ChangeLog`.
-  For convenience, a Fiori view is also available as described in the next section.
+2. **Make a change** on your change-tracked elements:
+  Any change you make on the records which you have change-tracked will now be persisted in a database table `sap.changelog.ChangeLog` and a pre-defined view with Fiori elements annotations is available through `sap.changelog.ChangeView` as described in the next section.
 
-## Fiori facet for Change History
+## Change History view
 
-If you have a Fiori Element application, you wil see that the CDS plugin automatically generates and appends a facet `sap.changelog.ChangeView` to the Object Page of your change-tracked entity. In the UI, this provides you with the *Change History* table which helps you to view and search the stored change records of your modeled entities.
+If you have a Fiori Element application, the CDS plugin automatically provides and generates a view `sap.changelog.ChangeView`, the facet of which is added to the Object Page of your change-tracked entities/elements. In the UI, this corresponds to the *Change History* table which helps you to view and search the stored change records of your modeled entities.
 
-<img src="./assets/ChangeHistoryTable.png" style="zoom:111%;" />
+### Customizing
 
-### Configuring the facet
-
-The Fiori facet from above can be easily configured and adjusted to your own needs my simply changing or extending it in your service. For example, let's assume we only want to show the first 4 columns in equal spacing, we would annotate as follows:
+The view can be easily adapted and configured to your own needs by simply changing or extending it. For example, let's assume we only want to show the first 4 columns in equal spacing, we would annotate as follows:
 
 ```cds
 annotate sap.changelog.ChangeView with @(
@@ -103,8 +95,6 @@ annotate sap.changelog.ChangeView with @(
   ]
 );
 ```
-In the UI, the *Change History* table now looks as desired:
-
-<img src="./assets/ChangeHistoryTableCustom.png" style="zoom:111%;" />
+In the UI, the *Change History* table now contains 4 equally-spaced columns with the desired properties.
 
 For more information and examples on adding Fiori Annotations, see [Adding SAP Fiori Annotations](http://localhost:5173/docs/advanced/fiori#fiori-annotations).

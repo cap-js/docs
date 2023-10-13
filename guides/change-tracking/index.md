@@ -81,6 +81,8 @@ With the steps above, we have successfully set up change tracking for our refere
 
 If you have a Fiori Element application, the CDS plugin automatically provides and generates a view `sap.changelog.ChangeView`, the facet of which is added to the Object Page of your change-tracked entities/elements. In the UI, this corresponds to the *Change History* table which helps you to view and search the stored change records of your modeled entities.
 
+The **Field**/**Object Type** columns will provide *human-readable* properties when the respective element/entity is annotated with a localized `@Common.Label'.
+
 ### Customizing
 
 The view can be easily adapted and configured to your own needs by simply changing or extending it. For example, let's assume we only want to show the first 4 columns in equal spacing, we would annotate as follows:

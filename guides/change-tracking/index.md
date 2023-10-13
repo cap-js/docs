@@ -28,7 +28,7 @@ Following the best practice of separation of concerns, we annotate our domain mo
 ```cds [srv/change-tracking.cds]
 using { ProcessorService as srv } from '@capire/incidents';
 
-annotate srv.Incidents with @changelog.keys: [customer.name, createdAt] {
+annotate srv.Incidents with @changelog: [customer.name, createdAt] {
   customer @changelog: [ customer.name ];
   title  @changelog;
   status @changelog;
@@ -41,11 +41,9 @@ annotate srv.Conversations with @changelog.keys: [author, timestamp] {
 
 :::
 
-Entities are annotated with `@changelog.keys:` followed by a list of identifiers that uniquely describe a change set, while elements are annotated with `@changelog` only.
+Entities and elements are annotated with `@changelog`.
 
 The underlying structure of how the Change Tracking data model is stored is as follows:
-
-<img src="./assets/DataModel.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
 
 The main entity `ChangeLog` contains the `changes` property, which is a `Composition of many Changes`. These changes contain all the detailed information on the changes performed in a draft event and are stored in `Changes`.
 

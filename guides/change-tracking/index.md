@@ -21,7 +21,7 @@ To start with change tracking, we first need to identify what should be change-t
 
 ## Annotate Change Records
 
-Following the [best practice of separation of concerns](../guides/domain-modeling#separation-of-concerns), we annotate our domain model in a separate file _srv/change-tracking.cds_ as follows:
+Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotate our domain model in a separate file _srv/change-tracking.cds_ as follows:
 
 ::: code-group
 

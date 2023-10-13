@@ -15,7 +15,7 @@ _The following is mainly written from a Node.js perspective._ <!--For Java's per
 [[toc]]
 
 
-In this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add change tracking to.
+In this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add change tracking to.
 
 To start with change tracking, we first need to identify the entities and elements that should be change tracked.
 

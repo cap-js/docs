@@ -5,6 +5,7 @@ status: released
 ---
 
 # Extending CAP Java 
+
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -27,7 +28,7 @@ Starting with the 2.2 release CDS models, CSV import data and i18n files can now
 
 Your models need to be placed in the `resources/cds` folder of the reuse package under a unique module directory (for example, leveraging group ID and artifact ID): `src/main/resources/cds/com.sap.capire/bookshop/`.
 
-Projects wanting to import the content simply add a Maven dependency to the reuse package to their `pom.xml` in the <dependencies> section.
+Projects wanting to import the content simply add a Maven dependency to the reuse package to their `pom.xml` in the `<dependencies>` section.
 
 ```xml
 
@@ -72,9 +73,18 @@ This technique can be used indepently or together with one or more of the techni
 
 ### Protocol Adapter
 
-In CAP Java the protocol adapter is the mechanism to implement inbound communication from other service to the CAP service in development. The task of a protocol adapter is to develop any
+In CAP Java the protocol adapter is the mechanism to implement inbound communication from other service to the CAP service in development. The task of a protocol adapter is to translate any incoming requests (protocol) to CQL statements that then can be executed on local services. CAP Java comes with 2 OData protocol adapters (OData V2 and V4) but can be extended with custom implementations. 
+
+(add details about the interfaces that can be implemented)
 
 ### Remote Service Adapter
 
+The remote service adapters are basically the counterpart of the protocol adapters. They take CQL statements issued locally on remote services and transform them according to the protocol of the corresponding remote service. 
+
 ### Handlers for custom types and annotations
 
+Besides extending the capabilities for in- and outbound requests it is also possible to extend the behaviour of event and request handling *inside* the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
+
+### Putting it all together
+
+So, there are various ways to extend the CAP Java framework. You can use one or more of the mentioned techniques and combine them in one or more Maven modules. This totally depends on your needs and requirements.

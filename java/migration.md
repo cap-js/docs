@@ -371,6 +371,10 @@ result.rowCount(2);  // 0 matches with ID 0
 
 The default value of CDS Property `cds.security.authentication.normalizeProviderTenant` is changed to `true`. With this change, the provider tenant is normalized and set to `null` in the UserInfo by default. If you have subscribed the provider tenant to your application you need to disable this feature.
 
+#### Vitrual elements
+
+The values for elements annotated with the annotation `@Core.Computed: true`, notably, virtual elements are no longer retained after CQN statement execution. Previously this was the case only for `Upsert` statement. Their values are no longer available in the `Result` of the CQN statement and are not available in the `@After` handlers.
+
 ### Lean Draft
 
 The property `cds.drafts.associationsToInactiveEntities` has been removed. It enabled a feature, which caused associations to other draft documents to combine active and inactive versions of the association target. This mixing of inactive and active data is no longer supported.

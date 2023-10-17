@@ -35,14 +35,13 @@ Welcome to cds repl v6.8.0
 
 Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents.
 
-- [cds. models](./cds-facade.md) {.property}
-  - [cds. resolve()](./cds-compile.md#cds-resolve) {.method}
-  - [cds. load()](./cds-facade.md) {.method}
-  - [cds. parse()](./cds-compile.md#cds-parse) {.method}
+- [cds. model](cds-facade#cds-model) {.property}
+  - [cds. resolve()](cds-compile#cds-resolve) {.method}
+  - [cds. load()](cds-compile#cds-load) {.method}
+  - [cds. parse()](cds-compile#cds-parse) {.method}
   - [cds. compile](cds-compile) {.method}
   - [cds. linked()](cds-reflect) {.method}
-  - [cds. deploy()](./cds-facade.md) {.method}
-- [cds. server](cds-serve) {.property}
+- [cds. server](cds-server) {.property}
 - [cds. serve()](cds-serve) {.method}
   - cds. services {.property}
   - cds. middlewares {.property}
@@ -80,18 +79,18 @@ Following properties provide access to the classes and prototypes of [linked CSN
 
 ## Core Classes
 
-### [cds.Service](core-services#core-services) {.class}
+### [cds. Service](core-services#core-services) {.class}
 
-- [cds.ApplicationService](app-services) {.class}
-- [cds.RemoteService](remote-services) {.class}
-- [cds.MessagingService](messaging) {.class}
-- [cds.DatabaseService](databases) {.class}
-- [cds.SQLService](databases) {.class}
+- [cds. ApplicationService](app-services) {.class}
+- [cds. RemoteService](remote-services) {.class}
+- [cds. MessagingService](messaging) {.class}
+- [cds. DatabaseService](databases) {.class}
+- [cds. SQLService](databases) {.class}
 
-### [cds.EventContext](events#cds-event-context) {.class}
-### [cds.Event](events#cds-event) {.class}
-### [cds.Request](events#cds-request) {.class}
-### [cds.User](authentication#cds-user) {.class}
+### [cds. EventContext](events#cds-event-context) {.class}
+### [cds. Event](events#cds-event) {.class}
+### [cds. Request](events#cds-request) {.class}
+### [cds. User](authentication#cds-user) {.class}
 
 
 

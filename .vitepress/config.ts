@@ -21,14 +21,13 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.2.0',
-  java_cds4j: '2.2.0'
+  java_services: '2.3.0',
+  java_cds4j: '2.3.0'
 }
 
 const localSearchOptions = {
   provider: 'local',
   options: {
-    exclude: (relativePath:string) => relativePath.includes('/customization-old'),
     miniSearch: {
       options: {
         tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
@@ -148,7 +147,7 @@ const config:UserConfig<CapireThemeConfig> = {
       {
         id: 'log',
         scopeName: 'text.log',
-        path: join(__dirname, 'syntaxes/log.tmLanguage.json'),
+        path: join(__dirname, 'syntaxes/log.tmLanguage.json'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
         aliases: ['log', 'logs']
       }
     ],

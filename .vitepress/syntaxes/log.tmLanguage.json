@@ -6,8 +6,24 @@
   ],
   "patterns": [
     {
+      "name": "punctuation.definition.list.begin.markdown",
+      "match": "cd mtx/sidecar"
+    },
+    {
+      "name": "punctuation.definition.list.begin.markdown",
+      "match": "live reload enabled for browsers"
+    },
+    {
+      "name": "punctuation.definition.list.begin.markdown",
+      "match": "cds serve all --with-mocks --in-memory\\?"
+    },
+    {
+      "name": "punctuation.definition.list.begin.markdown",
+      "match": "^\\s*___________________________"
+    },
+    {
       "name": "comment.indented",
-      "match": "^\\s+(.*)"
+      "match": "^\\s+(?!___________________________)(.*)"
     },
     {
       "begin": "\\{",
@@ -48,7 +64,7 @@
       "match": "^(?:\\[.*?\\]|\\$) (cds) (.*)$",
       "captures": {
         "1": {
-          "name": "constant.other.key"
+          "name": "entity.name"
         },
         "2": {
           "name": "string"

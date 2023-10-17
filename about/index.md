@@ -65,7 +65,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 
 - Platform-specific deployment approaches and techniques
 - Platform-specific identity providers and authentication strategies
-- On/Off-boarding of tenants in SaaS solutions and tenant isolation
+- On-/Offboarding of tenants in SaaS solutions and tenant isolation
 - Synchronous protocols like *REST*, *OData*, or *GraphQL*
 - Asynchronous channels and brokers like *SAP Event Mesh*, *MQ*, or *Kafka* <sup>1</sup>
 - Different database technologies including *SQL* and *NoSQL*

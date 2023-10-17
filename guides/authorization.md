@@ -99,13 +99,28 @@ It's frequently required to define access rules that aren't based on an applicat
 
 The following predefined pseudo roles are currently supported by CAP:
 
-* `authenticated-user` refers to (named or unnamed) users who have presented a valid authentication claim such as a logon token.
-* `system-user` denotes an unnamed user used for technical communication.
+* `authenticated-user` refers to named or unnamed users who have presented a valid authentication claim such as a logon token.
+* [`system-user` denotes an unnamed user used for technical communication.](#system-user)
+* [`internal-user` is dedicated to distinguish application internal communication.](#internal-user)
 * `any` refers to all users including anonymous ones (that means, public access without authentication).
 
-The pseudo role `system-user` allows you to separate _internal_ access by technical users from _external_ access by business users. The technical user can come from a SaaS or the PaaS tenant. Such technical user requests typically run in a _privileged_ mode without any restrictions on an instance level. For example, an action that implements a data replication into another system needs to access all entities of subscribed SaaS tenants and can't be exposed to any business user. Note that `system-user` also implies `authenticated-user`.
+#### system-user
+The pseudo role `system-user` allows you to separate access by _technical_ users from access by _business_ users. Note that the technical user can come from a SaaS or the PaaS tenant. Such technical user requests typically run in a _privileged_ mode without any restrictions on an instance level. For example, an action that implements a data replication into another system needs to access all entities of subscribed SaaS tenants and can’t be exposed to any business user. Note that `system-user` also implies `authenticated-user`.
+
 ::: tip
 For XSUAA or IAS authentication, the request user is attached with the pseudo role `system-user` if the presented JWT token has been issued with grant type `client_credentials` or `client_x509` for a trusted client application.
+:::
+
+#### internal-user
+Pseudo-role `internal-user` allows to define application endpoints that can be accessed exclusively by the own PaaS tenant (technical communication). The advantage is that similar to `system-user` no technical CAP roles need to be defined to protect such internal endpoints. However, in contrast to `system-user`, the endpoints protected by this pseudo-role do not allow requests from any external technical clients. Hence is suitable for **technical intra-application communication**, see [Security > Application Zone](../guides/security/overview#application-zone). 
+
+::: tip
+For XSUAA or IAS authentication, the request user is attached with the pseudo role `internal-user` if the presented JWT token has been issued with grant type `client_credentials` or `client_x509` on basis of the **identical** XSUAA or IAS service instance.
+:::
+
+::: warning
+All technical clients that have access to the application's XSUAA or IAS service instance can call your service endpoints as `internal-user`. 
+**Refrain from sharing this service instance with untrusted clients**, for instance by passing services keys or [SAP BTP Destination Service](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/create-destinations-from-scratch) instances.
 :::
 
 ### Mapping User Claims

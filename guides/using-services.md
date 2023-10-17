@@ -125,7 +125,7 @@ cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
-```powershell [Powershell]
+```powershell  [Powershell]
 cds compile srv -s OrdersService -2 edmx -o dest/
 ```
 :::
@@ -202,7 +202,7 @@ When importing the specification files, the `kind` is set according to the follo
 | OpenAPI     |  `rest`       |
 | AsyncAPI     |  `odata`       |
 
-[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#special-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#odata-type-mappings){.learn-more}
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
@@ -389,7 +389,7 @@ First install the required packages:
 
 <!-- TODO: No fixed major version numbers? -->
 ```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/util@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
 ```
 
 Then start the CAP application with the mocked remote service only:
@@ -993,7 +993,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {
@@ -1015,7 +1015,7 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
 
 The `selectionStrategy` property controls how a [destination is resolved](#destination-resolution).
 
-If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?locale=en-US&q=URL.headers).
+If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?q=URL.headers).
 
 ##### Use Destinations with Java {.impl .java}
 
@@ -1648,7 +1648,7 @@ This list specifies the properties for application defined destinations.
 | `queries`                  | Map of URL parameters                     |
 | `forwardAuthToken`         | [Forward auth token](#forward-auth-token) |
 
-[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v2/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
+[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
 [HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){.learn-more .impl .java}
 
 #### Authentication Types

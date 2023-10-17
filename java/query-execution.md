@@ -184,7 +184,7 @@ It's possible to work with structured data as the insert, update, and delete ope
 
 #### Cascading over Associations { #cascading-over-associations}
 
-By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-modeling#_5-add-compositions) only. For associations, this can be enabled using the `@cascade` annotation.
+By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-modeling#compositions) only. For associations, this can be enabled using the `@cascade` annotation.
 ::: warning
 Cascading operations over associations isn't considered good practice and should be avoided.
 :::

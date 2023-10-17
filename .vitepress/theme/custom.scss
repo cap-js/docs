@@ -30,7 +30,7 @@
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
     img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
-    .VPHome img, .avatar img, img.ignore-dark { filter:none }
+    .VPHome img, .avatar-img, img.ignore-dark { filter:none }
     img.mute-dark { filter:brightness(0.6) }
   }
 }
@@ -193,13 +193,14 @@ main {
     }
   }
 
-  img {
+  img:not(.avatar-img) {
     margin: 30px auto;
   }
 
   .good { color:teal }
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
   .constructor::before { content: 'Constructor: '; color: #999 }
+  .annotation::before { content: 'Annotation: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
   .method::before { content: 'Method: '; color: #999 }
   .event::before { content: 'Event: '; color: #999 }
@@ -209,9 +210,11 @@ main {
     margin-top: 5em;
     // font-size: 22px;
   }
+  h4.annotation + h4.annotation,
   h4.property + h4.property,
   h4.event + h4.event,
   h4.method + h4.method,
+  h3.annotation + h3.annotation,
   h3.property + h3.property,
   h3.event + h3.event,
   h3.class + h3.class,
@@ -224,17 +227,23 @@ main {
 aside.VPSidebar {
   .group {
     padding-top: 5px !important;
-    .VPSidebarItem.level-0 {
-      padding-bottom: 11px;
-      &.collapsed {
-        padding-bottom: 1px;
+    .VPSidebarItem {
+      &.level-0 {
+        padding-bottom: 11px;
+        &.collapsed {
+          padding-bottom: 1px;
+        }
+        .text {
+          font-weight: 500;
+        }
       }
-      .VPSidebarItem.level-1 {
+      &.level-1 {
         padding-left: 15px;
         h2, h3, p {
           padding: 2px 0;
         }
       }
+      .caret { height: inherit; }
     }
   }
 }

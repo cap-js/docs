@@ -46,7 +46,7 @@ before upgrading to v2 &rarr; find respective hints in the following sections.
 
 ### Fix ambiguous `redirects`
 
-When there's no unique target for [**_auto-redirection_**](../guides/providing-services#auto-redirected-associations),
+When there's no unique target for [**_auto-redirection_**](../guides/providing-services#redirected-associations),
 compiler v1 'silently' skipped respective associations with a warning.
 Yet, many ignored these warnings, which lead to hard-to-detect subsequent errors.
 Therefore, we raised that to an error-level message with compiler v2.

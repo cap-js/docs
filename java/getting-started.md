@@ -43,7 +43,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
+1. Install the CDS tools (`cds-dk`) by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
 2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 

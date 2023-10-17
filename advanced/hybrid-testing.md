@@ -1,7 +1,7 @@
 ---
 label: Hybrid Testing
 synopsis: >
-  How to locally test your application with real cloud services
+  How to locally test your application with real cloud services.
 permalink: advanced/hybrid-testing
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html and https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -246,13 +246,13 @@ With `cds bind` you avoid storing credentials on your hard disk. If you need to 
 For example, you can run the approuter from the `approuter` child directory:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- npm start --prefix approuter
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- npm start --prefix approuter
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' npm start --prefix approuter
 ```
 :::
@@ -260,13 +260,13 @@ cds bind --exec '--' npm start --prefix approuter
 This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
 :::

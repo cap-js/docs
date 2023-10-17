@@ -255,12 +255,7 @@ entity ![Entity] {
 
 <span id="calculated-fields"/>
 
-### Calculated Elements (beta) {#calculated-elements}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+### Calculated Elements {#calculated-elements}
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -272,7 +267,7 @@ When reading a calculated element, the result of the expression is returned.
 Calculated elements with a value expression come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
-#### On-read (beta)
+#### On-read
 
 ```cds
 entity Employees {
@@ -326,7 +321,7 @@ A calculated element can be *used* in every location where an expression can occ
  For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
-#### On-write (beta)
+#### On-write
 
 Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
 by adding the keyword `stored`. A type specification is mandatory.
@@ -605,6 +600,14 @@ key element `address_ID` being added automatically upon activation to a SQL data
 
 > For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
 
+If the target has a single primary key, a default value can be provided.
+This default applies to the generated foreign key element `address_ID`:
+
+```cds
+entity Employees {
+  address : Association to Addresses default 17;
+}
+```
 
 ### To-many Associations
 
@@ -754,6 +757,74 @@ GET /Teams?$expand=members($expand=user)
 ```
 
 to get all users of all teams.
+
+
+### Publish Associations in Projections {#publish-associations}
+
+As associations are first class citizens, you can put them into the select list
+of a view or projection ("publish") like regular elements. A `select *` includes all associations.
+If you need to rename an association, you can provide an alias.
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  ID,
+  addresses
+}
+```
+
+The effective signature of the projection contains an association `addresses` with the same
+properties as association `addresses` of entity `Employees`.
+
+#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
+:::
+
+When publishing an unmanaged association in a view or projection, you can add a filter condition.
+The ON condition of the resulting association is the ON condition of the original
+association plus the filter condition, combined with `and`.
+
+Example:
+```cds
+entity P_Authors as projection on Authors {
+  *,
+  books[stock > 0] as availableBooks
+};
+```
+
+In this example, in addition to `books` projection `P_Authors` has a new association `availableBooks`
+that points only to those books where `stock > 0`.
+
+If the filter condition effectively reduces the cardinality of the association
+to one, you should make this explicit in the filter by adding a `1:` before the condition:
+
+Example:
+```cds
+entity P_Employees as projection on Employees {
+  *,
+  addresses[1: kind='home'] as homeAddress  // homeAddress is to-one
+}
+```
+
+An association that has been published with a filter is read-only. It must not be
+used to modify the target entity.
+
+Filters usually are provided only for to-many associations, which usually are unmanaged.
+Thus publishing with a filter is almost exclusively used for unmanaged associations.
+Nevertheless you can also publish a managed association with a filter. This will automatically
+turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly published.
+
+Example:
+```cds
+entity P_Books as projection on Books {
+  author.ID as authorID,  // needed for ON condition of deadAuthor
+  author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
+};
+```
 
 
 ## Annotations

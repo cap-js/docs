@@ -21,7 +21,7 @@ In order to automate audit logging, personal data management, and data retention
 
 ## Reference App Sample { #annotated-model }
 
-In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to.
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
 
 
 
@@ -34,7 +34,7 @@ Following the [best practice of separation of concerns](../domain-modeling#separ
 ::: code-group
 
 ```cds [srv/data-privacy.cds]
-using { sap.capire.incidents as db } from '@capire/incidents';
+using { sap.capire.incidents as db } from './processor-service';
 
 annotate db.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',

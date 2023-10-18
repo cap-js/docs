@@ -45,6 +45,7 @@
   - [Annotating Personal Data](guides/data-privacy/annotations)
   - [Automatic Audit Logging](guides/data-privacy/audit-logging)
   - [Personal Data Management](guides/data-privacy/pdm)
+- [Notifications](guides/notifications/)
 
 ### [Advanced](advanced/)
 

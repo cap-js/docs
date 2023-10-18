@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Find here common solutions to frequently occurring issues.
-permalink: advanced/troubleshooting
 redirect_from:
   - advanced/troubleshooting
   - resources/troubleshooting

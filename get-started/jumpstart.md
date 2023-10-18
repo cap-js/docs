@@ -41,7 +41,7 @@ Choose the **LTS** version, via the left-hand side button:
 ```sh
 npm add -g @sap/cds-dk
 ```
-[Running into problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
+[Running into problems? &rarr; See the troubleshooting guide.](troubleshooting#npm-installation){.learn-more}
 
 
 ### 3. Install Git

@@ -5,15 +5,14 @@ redirect_from:
   - get-started/dev-tools
   - get-started/tools
 status: released
+# outline: 2
 ---
 <!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}
 
-<!--- % include links.md %} -->
-<!--- % include _toc levels="2,3" %} -->
-
+[[toc]]
 
 
 

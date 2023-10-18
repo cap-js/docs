@@ -14,22 +14,26 @@ _The following is mainly written from a Node.js perspective._ <!--For Java's per
 
 [[toc]]
 
-<!-- should use https://github.com/cap-js/incidents-app-->
-In this guide, we use the [Incidents Management reference sample app](https://github.tools.sap/cap/incidents-mgmt.git) as the base to add notifications to.
+In this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add notifications to.
 
 ## Adding the Plugin { #setup }
 
 To be able to publish Business Notifications, simply add the [`@cap-js/notifications`](https://www.npmjs.com/package/@cap-js/notifications) plugin package to your project like so:
 
 ```sh
-npm add @cap-js/notifications
+cds add notifications
 ```
 
-::: Details Behind the Scenes…
+::: details Behind the Scenes…
 
 [CDS Plugin Packages](../../node.js/cds-plugins) are self-contained extensions. They not only include the relevant code but also bring their own default configuration. In our case, next to bringing the respective code, the plugin does the following:
 
-1. Sets `cds.requires.notifications: true` in `cds.env`, equivalent to:
+1. Adding the `@cap-js/notifications` package:
+   ```sh
+   npm add @cap-js/notifications
+   ```
+
+2. Sets `cds.requires.notifications: true` in `cds.env`, equivalent to:
     ```json
     {
       "cds": {
@@ -40,7 +44,7 @@ npm add @cap-js/notifications
     }
     ```
 
-2. Which in turn activates the `notifications` configuration **presets**:
+3. Which in turn activates the `notifications` configuration **presets**:
     ```jsonc
     {
        "notifications": {
@@ -63,6 +67,8 @@ npm add @cap-js/notifications
 
 **The preset uses profile-specific configurations** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
 
+::: code-group
+
 ```sh [w/o profile]
 cds env requires.notifications
 ```
@@ -70,10 +76,11 @@ cds env requires.notifications
 ```sh [production profile]
 cds env requires.notifications --profile production
 ```
+:::
 
 **Adding Notification Types:**
 
-To start with notifications, we first need to identify what notifications types we want to publish.
+Before sending notifications, we first need to identify what notification types we want to publish.
 
 Execute the following command to add `notifications` configuration: `cds add notifications`
 

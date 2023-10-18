@@ -1,0 +1,40 @@
+---
+status: released
+---
+
+<script setup>
+  import PluginRow from '../.vitepress/theme/components/PluginRow.vue';
+</script>
+
+# CDS Plugin Packages
+
+The `cds-plugin` technique allows to provide extension packages with auto-configuration.
+
+[[toc]]
+
+## List of Plugin Packages
+
+<table>
+  <thead>
+    <th>Plugin</th>
+    <th colspan="2">Supported Stacks</th>
+    <th>Open Source</th>
+    <th>Capabilities</th>
+  </thead>
+  <tbody>
+    <PluginRow
+      name="audit-logging"
+      url_node="https://www.npmjs.com/package/@cap-js/audit-logging"
+      repo="https://github.com/cap-js/audit-logging"
+      hasNode=true
+      capabilities="Integration to the SAP Audit Log service, Out-of-the-box personal data-related audit logging based on annotations"
+    />
+    <PluginRow
+      name="change-tracking"
+      url_node="https://www.npmjs.com/package/@cap-js/change-tracking"
+      repo="https://github.com/cap-js/change-tracking"
+      hasNode=true
+      capabilities="Out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities"
+    />
+  </tbody>
+</table>

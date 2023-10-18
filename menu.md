@@ -59,6 +59,8 @@
 - [Performance Modeling](advanced/performance-modeling)
 - [Troubleshooting](advanced/troubleshooting)
 
+### [CDS Plugins](cds-plugins/)
+
 ### [Tools](tools/)
 - [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
 - [SAP Business Application Studio](tools/index#bastudio)

@@ -11,9 +11,10 @@ status: released
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
 ## Quickstart using VS Code {#cds-typer-vscode}
-1. Make sure you have the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. See that cds-typer is enabled in your VS Code settings (CDS > Type Generator > Enabled).
-3. In your project's root, execute `cds add typer`.
+
+1. In your project's root, execute `cds add typer`.
+2. Make sure you have the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
+3. See that cds-typer is enabled in your VS Code settings (CDS → Type Generator → Enabled).
 4. Install the newly added dev-dependency using `npm i`.
 5. Saving any _.cds_ file of your model from VS Code triggers the type generation process.
 6. Model types now have to be imported to service implementation files by traditional imports of the generated files:

@@ -23,8 +23,7 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
   </thead>
   <tbody>
     <PluginRow name="attachments" />
-    <PluginRow
-      name="audit-logging"
+    <PluginRow name="audit-logging"
       repo="https://github.com/cap-js/audit-logging"
       :stacks="[
         { id: 'node', url: 'https://www.npmjs.com/package/@cap-js/audit-logging' },
@@ -35,8 +34,7 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
         'Out-of-the-box personal data-related audit logging based on annotations'
       ]"
     />
-    <PluginRow
-      name="change-tracking"
+    <PluginRow name="change-tracking"
       repo="https://github.com/cap-js/change-tracking"
       :stacks="[
         { id: 'node', url: 'https://www.npmjs.com/package/@cap-js/change-tracking' },

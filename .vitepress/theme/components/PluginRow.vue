@@ -3,10 +3,10 @@
     <tr>
         <td class="col-name">{{ name }}</td>
         <td :colspan="stackIDs.length">
-            <td class="col-stack" v-for="stack of stacks">
+            <td class="col-stack" v-for="stack in stacks">
                 <a :class="stack.id" :href="stack.url">
-                    <IconNode v-if="stack.id==='node'"/>
-                    <IconJava v-if="stack.id==='java'"/>
+                    <IconNode v-show="stack.id==='node'"/>
+                    <IconJava v-show="stack.id==='java'"/>
                 </a>
             </td>
         </td>
@@ -33,7 +33,7 @@ import IconJava from './implvariants/IconJava.vue'
 import IconNode from './implvariants/IconNode.vue'
 
 type Stack = {
-    id: 'node' | 'java';
+    id: string; // TODO: Add validation via 'node' | 'java';
     url: string;
 }
 

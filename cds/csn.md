@@ -17,6 +17,8 @@ CSN (pronounced as "_Season_") is a notation for compact representations of CDS 
 
 It's similar to [JSON Schema] but goes beyond JSON's abilities, in order to capture full-blown _Entity-Relationship Models_ and [Extensions](#aspects). This makes CSN models a perfect source to generate target models, such as [OData/EDM](../advanced/odata) or [OpenAPI] interfaces, as well as persistence models for SQL or NoSQL databases.
 
+[[toc]]
+
 
 ## Anatomy
 
@@ -612,7 +614,7 @@ Services are definitions with _kind =`'service'`_:
 
 
 
-### Actions / Functions { .h2}
+### Actions / Functions
 
 Entity definitions (for _bound_ actions/functions) can have an additional property `actions`.
 The keys of these `actions` are the (local) names of actions/functions.

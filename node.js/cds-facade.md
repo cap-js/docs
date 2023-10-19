@@ -15,13 +15,11 @@ const cds = require('@sap/cds')
 let csn = cds.compile(`entity Foo {}`)
 ```
 
-::: tip
-
-Use `cds repl` to try out things, for example like this to :
-
-```console
+::: tip Use `cds repl` to try out things
+For example, like this to get the compiled CSN for an entity `Foo`:
+```js
 [dev] cds repl
-Welcome to cds repl v6.8.0
+Welcome to cds repl v 7.3.0
 > cds.compile(`entity Foo { key ID : UUID }`)
 { definitions: {
   Foo: { kind: 'entity', elements: { ID: { key: true, type: 'cds.UUID' } } }

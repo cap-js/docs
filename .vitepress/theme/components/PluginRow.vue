@@ -2,18 +2,13 @@
 <template>
     <tr>
         <td>{{ name }}</td>
-        <td class="first-col node">
-            <a class="node" :href="url_node" v-show="hasNode==='true'">
-                <IconNode/>
-            </a>
+        <td colspan="2">
+            <td class="stack" v-for="stack of stacks">
+                <a :class="stack.id" :href="stack.url" :title="Node.js">
+                    <IconNode v-show="stack.id==='node'"/>
+                </a>
+            </td>
         </td>
-        <td class="last-col java">
-            <a :href="url_java" v-show="hasJava==='true'">
-                <IconJava/>
-            </a>
-        </td>
-        <!-- TODO: Fix colspans, should not need this next column -->
-        <td class="last-col"></td>
         <td class="github-col">
             <a class="github" :href="repo">
                 <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24">
@@ -38,12 +33,8 @@ import IconNode from './implvariants/IconNode.vue'
 export default {
     props: {
         name: String,
-        url_node: String,
-        url_java: String,
         repo: String,
-        hasNode: String,
-        hasJava: String,
-        //capabilities: String
+        stacks: Array,
         capabilities: Array
     },
     components: { IconJava, IconNode }
@@ -57,15 +48,10 @@ export default {
 }
 .java {
     color: #f89820;
-    opacity: 0.5;
     fill: white;
 }
-.first-col {
-    border-right: none;
-    padding-right: 0;
-}
-.last-col {
-    border-left: none;
+.stack {
+    border: 0;
 }
 .github {
     color: white;

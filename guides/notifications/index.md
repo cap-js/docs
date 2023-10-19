@@ -109,14 +109,13 @@ Sample: If you want to send the notification when the new incident is reported, 
 
 ## Using the Plugin {#usage}
 
-1. **Create a `server.js` file** in the root of your project.
-
-2. **Connecting to the service:**
+1. **Connecting to the service:**
+   In the handler files, connect to the notifications plugin by:
     ```js
     const notification = await cds.connect.to('notifications');
     ```
 
-3. **Sending notifications:**
+2. **Sending notifications:**
   
     There are 3 ways of sending notifications.
 

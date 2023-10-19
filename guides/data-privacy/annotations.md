@@ -21,7 +21,7 @@ In order to automate audit logging, personal data management, and data retention
 
 ## Reference App Sample { #annotated-model }
 
-In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) with some data model extensions (see below) as the base to add data privacy and audit logging to.
 
 <img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" />
 

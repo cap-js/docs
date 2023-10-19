@@ -27,14 +27,19 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
       url_node="https://www.npmjs.com/package/@cap-js/audit-logging"
       repo="https://github.com/cap-js/audit-logging"
       hasNode=true
-      capabilities="Integration to the SAP Audit Log service, Out-of-the-box personal data-related audit logging based on annotations"
+      :capabilities="[
+        'Integration to the SAP Audit Log service',
+        'Out-of-the-box personal data-related audit logging based on annotations'
+      ]"
     />
     <PluginRow
       name="change-tracking"
       url_node="https://www.npmjs.com/package/@cap-js/change-tracking"
       repo="https://github.com/cap-js/change-tracking"
       hasNode=true
-      capabilities="Out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities"
+      :capabilities="[
+        'Out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities'
+      ]"
     />
   </tbody>
 </table>

@@ -24,11 +24,11 @@
                 </svg>
             </a>
         </td>
-        <td>{{ capabilities }}</td>
-        <!-- How can we make this a list? of items instead?
-        <ul>
-            <li v-for="capability in capabilities">{{ capability }}</li>
-        </ul-->
+        <td>
+            <ul>
+                <li v-for="capability in capabilities">{{ capability }}</li>
+            </ul>
+        </td>
     </tr>
 </template>
 
@@ -43,8 +43,8 @@ export default {
         repo: String,
         hasNode: String,
         hasJava: String,
-        capabilities: String
-        //capabilities: Array
+        //capabilities: String
+        capabilities: Array
     },
     components: { IconJava, IconNode }
 }

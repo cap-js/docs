@@ -264,7 +264,7 @@ With the steps above, we have successfully set up `@cap-js/notifications` plugin
 
 2. [Enable Notifications for Custom Apps on SAP BTP Cloud Foundry](https://help.sap.com/docs/build-work-zone-standard-edition/sap-build-work-zone-standard-edition/enabling-notifications-for-custom-apps-on-sap-btp-cloud-foundry?locale=en-US)
 
-### Deploy to Cloud Foundry
+### Deploy Sample application to Cloud Foundry
 
 1. Make the following changes in the file `incidents-app/app/incidents/webapp/manifest.json`:
 

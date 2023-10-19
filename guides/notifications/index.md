@@ -76,7 +76,7 @@ cds add notifications
     cds env requires.notifications --profile production
   ```
 
-4. If the project contains `mta.yaml` file, then following content deployement job configuration is added which creates/updates the notification types during deployment.
+4. If the project contains `mta.yaml` file, then following content deployment job configuration is added which creates/updates the notification types during deployment.
   ```yaml
   modules:
     - name: notification-content-deployment

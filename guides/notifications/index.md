@@ -66,8 +66,8 @@ cds add notifications
   - `outbox` — whether to use transactional outbox or not
 
   **The preset uses profile-specific configurations** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
-::: code-group
 
+::: code-group
   ```sh [w/o profile]
   cds env requires.notifications
   ```
@@ -78,31 +78,29 @@ cds add notifications
 
 4. If the project contains `mta.yaml` file, then following content deployement job configuration is added which creates/updates the notification types during deployment.
   <img src="./assets/content_deployment.png" style="zoom:100%;" />
+
+5. In the project root directory, it generates a `notificationtype.json` with a template for custom notification type.
 :::
 
-**Adding Notification Types:**
+**Adding Custom Notification Types:**
 
-Before sending notifications, we first need to identify what notification types we want to publish.
+If you want to send custom notifications in your application, you can add the notification types in the `notificationtype.json` file.
 
-Execute the following command to add `notifications` configuration: `cds add notifications`
-
-On executing the command, it creates a file `notificationtypes.json` in the root directory of the project. This file will contain the `notification types` which we want to use in our application. 
-
-Example: The content of the `notificationtypes.json` file to create a `Notification Type` to publish a `notification` whenever a `new incident is created` would look like:
+Sample: If you want to send the notification when the new incident is reported, you can modify the `notificationtypes.json` as below:
 
 ```jsonc
 [
   {
-    "NotificationTypeKey": "IncidentResolved",
+    "NotificationTypeKey": "IncidentReported",
     "NotificationTypeVersion": "1",
     "Templates": [
       {
         "Language": "en",
-        "TemplatePublic": "Incident Resolved",
-        "TemplateSensitive": "Incident '{{name}}' Resolved",
-        "TemplateGrouped": "Incident Status Update",
+        "TemplatePublic": "Incident Reported",
+        "TemplateSensitive": "Incident '{{name}}' Reported",
+        "TemplateGrouped": "New Incidents",
         "TemplateLanguage": "mustache",
-        "Subtitle": "Incident '{{name}}' from '{{customer}}' resolved by Jarvis."
+        "Subtitle": "Incident '{{name}}' reported by '{{customer}}'."
       }
     ]
   }

@@ -2,11 +2,11 @@
 <template>
     <tr>
         <td class="col-name">{{ name }}</td>
-        <td colspan="2">
-            <td class="stack" v-for="stack of stacks">
+        <td :colspan="stackIDs.length">
+            <td class="col-stack" v-for="stack of stacks">
                 <a :class="stack.id" :href="stack.url">
-                    <IconNode v-show="stack.id==='node'"/>
-                    <IconJava v-show="stack.id==='java'"/>
+                    <IconNode v-if="stack.id==='node'"/>
+                    <IconJava v-if="stack.id==='java'"/>
                 </a>
             </td>
         </td>
@@ -28,17 +28,28 @@
     </tr>
 </template>
 
-<script>
+<script lang="ts">
 import IconJava from './implvariants/IconJava.vue'
 import IconNode from './implvariants/IconNode.vue'
+
+type Stack = {
+    id: 'node' | 'java';
+    url: string;
+}
+
 export default {
     props: {
-        name: String,
-        repo: String,
-        stacks: Array,
-        capabilities: Array
+        name: String,          // Regsitered name of the plugin (without the scope, i.e. @cap-js, etc.)
+        repo: String,          // Open source repostory link
+        stacks: Array<Stack>,  // Supported stacks (Choose from ['node', 'java'])
+        capabilities: Array    // List of capabilities for CAP projects (i.e. features the user wants for their project)
     },
-    components: { IconJava, IconNode }
+    components: { IconJava, IconNode },
+    data () {
+        return {
+            stackIDs: ['node', 'java']
+        }
+    }
 }
 </script>
 
@@ -49,12 +60,8 @@ export default {
     padding: 0;
 }
 .java {
-    color: #f89820;
-    fill: white;
+    fill: #f89820;
     padding: 0;
-}
-.stack {
-    border: 0;
 }
 .github {
     color: white;
@@ -64,5 +71,8 @@ export default {
 }
 .col-name {
     white-space: nowrap;
+}
+.col-stack {
+    border: 0;
 }
 </style>

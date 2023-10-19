@@ -178,7 +178,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 
 There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid mode](#cds-deploy-hana), meaning running your services locally and connecting to your database in the cloud, or running your [whole application](deployment/) on SAP Business Technology Platform. This is possible either in trial accounts or in productive accounts.
 
-To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../advanced/troubleshooting#get-hana) to learn about your options.
+To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../get-started/troubleshooting#get-hana) to learn about your options.
 
 ### Prepare for Production { #configure-hana .impl .node }
 
@@ -222,7 +222,7 @@ Behind the scenes, `cds deploy` does the following:
 [Learn more about the deployment using HDI.](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/1b567b05e53c4cb9b130026cb2e7302d.html){.learn-more}
 [Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
 
-If you run into issues, see the [Troubleshooting](../advanced/troubleshooting#hana) guide.
+If you run into issues, see the [Troubleshooting](../get-started/troubleshooting#hana) guide.
 
 ### Using `cf deploy` or `cf push` { .impl .node }
 
@@ -572,4 +572,4 @@ If you need to remove deployed CSV files, also add this entry:
 
 :::
 
-*See this [troubleshooting](../advanced/troubleshooting#hana-csv) entry for more information.*{.learn-more}
+*See this [troubleshooting](../get-started/troubleshooting#hana-csv) entry for more information.*{.learn-more}

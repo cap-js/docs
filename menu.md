@@ -59,7 +59,7 @@
 - [Native SAP HANA](advanced/hana)
 - [Performance Modeling](advanced/performance-modeling)
 
-### [CDS Plugins](cds-plugins/)
+### [CDS Plugin Packages](cds-plugin-packages/)
 
 ### [Tools](tools/)
 - [Command Line Interface (CLI)](tools/index#command-line-interface-cli)

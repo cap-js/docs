@@ -1,16 +1,17 @@
 
 <template>
     <tr>
-        <td>{{ name }}</td>
+        <td class="col-name">{{ name }}</td>
         <td colspan="2">
             <td class="stack" v-for="stack of stacks">
-                <a :class="stack.id" :href="stack.url" title="Node.js">
+                <a :class="stack.id" :href="stack.url">
                     <IconNode v-show="stack.id==='node'"/>
+                    <IconJava v-show="stack.id==='java'"/>
                 </a>
             </td>
         </td>
-        <td class="github-col">
-            <a class="github" :href="repo">
+        <td class="col-github">
+            <a class="github" :href="repo" v-show="repo">
                 <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24">
                 <path
                     fill="currentColor"
@@ -50,6 +51,7 @@ export default {
 .java {
     color: #f89820;
     fill: white;
+    padding: 0;
 }
 .stack {
     border: 0;
@@ -57,7 +59,10 @@ export default {
 .github {
     color: white;
 }
-.github-col {
-    padding: 5%;
+.col-github {
+    padding: 5.3%;
+}
+.col-name {
+    white-space: nowrap;
 }
 </style>

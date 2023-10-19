@@ -16,12 +16,15 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
 
 <table>
   <thead>
-    <th>Plugin</th>
+    <th>Name</th>
     <th colspan="2">Supported Stacks</th>
     <th>Open Source</th>
     <th>Capabilities</th>
   </thead>
   <tbody>
+    <PluginRow
+      name="attachments"
+    />
     <PluginRow
       name="audit-logging"
       repo="https://github.com/cap-js/audit-logging"
@@ -44,6 +47,15 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
       :capabilities="[
         'Out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities'
       ]"
+    />
+    <PluginRow
+      name="graphql"
+    />
+    <PluginRow
+      name="messaging"
+    />
+    <PluginRow
+      name="notifications"
     />
   </tbody>
 </table>

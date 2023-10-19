@@ -4,7 +4,7 @@
         <td>{{ name }}</td>
         <td colspan="2">
             <td class="stack" v-for="stack of stacks">
-                <a :class="stack.id" :href="stack.url" :title="Node.js">
+                <a :class="stack.id" :href="stack.url" title="Node.js">
                     <IconNode v-show="stack.id==='node'"/>
                 </a>
             </td>
@@ -45,6 +45,7 @@ export default {
 .node {
     color: #6cc24a;
     fill: white;
+    padding: 0;
 }
 .java {
     color: #f89820;
@@ -57,6 +58,6 @@ export default {
     color: white;
 }
 .github-col {
-    padding: 3%;
+    padding: 5%;
 }
 </style>

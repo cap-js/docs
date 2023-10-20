@@ -1426,7 +1426,7 @@ resources:
 
 ### 4. Adjust the `xs-security.json` security descriptor
 
-For multi tenant applications it must be ensured that the `xs-security.json` security descriptor contains only the basic necessary declarations
+For multi tenant applications it must be ensured that the `xs-security.json` security descriptor contains only the basic necessary declarations. For single tenant applications the XSUAA service instances and this file are no longer needed when using AMS.
 
 ::: code-group
 ````yaml [xs-security.json]

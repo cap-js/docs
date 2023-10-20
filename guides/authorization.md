@@ -970,50 +970,496 @@ req.user.is ("my.app.admin")
 - [Developing Security Artifacts in SAP BTP](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html)
 - [Maintaining Application Security in XS Advanced](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/35d910ee7c7a445a950b6aad989a5a26.html)
 
-## Role Assignments with AMS { #ams-configuration}
+<!-- TODO: "Location" - BEGIN
+    It actually makes more sense to re-locate the following lines to document ./java/security.md
+-->
 
-SAP BTP applications using AMS and the identity services instead of XSUAA for authorization management can generate AMS policies out of teh CAP model and bind their application with the identity broker to AMS instead of XSUAA. The role assignment is then done in the SAP Cloud Identity Administrator Console. 
-The user role assignment is then transferred to the application via a download mechanism of the authorization information.
+## Role Assignments with IAS and AMS - Java based { #ams-configuration-java}
 
-### 1. Creating AMS policies from CAP roles
+CAP applications using the Identity Authentication Service (IAS) for authentication can manage authorizations with the Authorization Management Service (AMS). Perform the following steps for Java based CAP applications:
 
-To derive policies from the CDS model you need to install the AMS tools:
+1. Enhance your `srv/pom.xml` and `integration-tests/pom.xml` files 
+2. Configure authentication-type `ias` for your business application gateway
+3. Prepare your `mta.yaml` deployment descriptor file
+4. Adjust the `xs-security.json` security descriptor
 
-```sh
-npm i @sap/ams
-npm i --save-dev @sap/ams-dev
-```
-In your application the following settings are necessary:
+### 1. Enhance your `srv/pom.xml` and `integration-tests/pom.xml` files
 
-*manifest.yaml* (Needed to deploy the AMS sidecar togeteer with our app)
-```sh
----
-applications:
-  - name: your-app-name
-   ...
-    buildpacks:
-      - https://github.com/SAP/cloud-authorization-buildpack/releases/latest/download/opa_buildpack.zip
-      - ...
-   ...
-    env:
-      AMS_DCL_ROOT: "/ams/dcl"
+#### 1.1 Set additional properties
+
+Specify the versions for AMS and the CAP Client Tools, respectively. You only need to set the first property for the `integration-tests/pom.xml` file
+
+::: code-group
+```xml [srv/pom.xml - integration-tests/pom.xml]
+...
+<properties>
+    ...
+    <sap.cloud.security.ams.version>0.14.0-SNAPSHOT</sap.cloud.security.ams.version>
+    <cloud-authorization-cap-client-tools.version>0.7.2</cloud-authorization-cap-client-tools.version>
+    ...
+</properties>
 ...
 ```
+:::
 
-*package.json* (Needed to run tne AMS plugin in CDS)
-```sh
+#### 1.2 Add necessary dependencies
+
+1.2.1 Integrate your application with the Identity Authentication Service (IAS)
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<dependency>
+    <groupId>com.sap.cloud.security</groupId>
+    <artifactId>resourceserver-security-spring-boot-starter</artifactId>
+</dependency>
+...
+```
+:::
+
+1.2.2 Add the Authorization Management Service (AMS)
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<dependency>
+    <groupId>com.sap.cloud.security.ams.client</groupId>
+    <artifactId>java-ams</artifactId>
+    <version>${sap.cloud.security.ams.version}</version>
+</dependency>
+...
+```
+:::
+
+1.2.3 Integrate CAP with AMS
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<dependency>
+    <groupId>com.sap.cloud.security.ams.client</groupId>
+    <artifactId>cap-support</artifactId>
+    <version>${sap.cloud.security.ams.version}</version>
+</dependency>
+...
+```
+:::
+
+1.2.4 Add the AMS test-library for testing authorization declarations and assignments. Do this also for the `integration-tests/pom.xml` file
+
+::: code-group
+```xml [srv/pom.xml - integration-tests/pom.xml]
+...
+<dependency>
+    <groupId>com.sap.cloud.security.ams.client</groupId>
+    <artifactId>java-ams-test</artifactId>
+    <version>${sap.cloud.security.ams.version}</version>
+    <scope>test</scope>
+</dependency>
+...
+```
+:::
+
+1.2.5 AMS depends on project Lombok
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+</dependency>
+...
+```
+:::
+
+1.2.6 Integrate CAP with XSUAA
+
+This is only necessary if you are developing a multi tenant application and/or reusing services which rely on tokens issued by the XSUAA service
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<dependency>
+    <groupId>com.sap.cloud.security.xsuaa</groupId>
+    <artifactId>xsuaa-spring-boot-starter</artifactId>
+</dependency>
+...
+```
+:::
+
+#### 1.3 Expand the project build
+
+1.3.1 Install the AMS CAP Client Tools.
+
+These are necessary in order to generate CDS declarations into corresponding Data Control Language (DCN) declarations for AMS.
+
+Enhance the installation step of the CDS DK with the additional installation of the CAP Client Tools for AMS. Add the `<npmRegistry>` tag and specify the artifact as an additional argument in the `<arguments>`tag, as depicted in the example below.
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<!-- STEPS TO BUILD CDS MODEL AND GENERATE POJOs -->
+<plugin>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-maven-plugin</artifactId>
+    <version>${cds.services.version}</version>
+    <executions>
+       ...
+        <execution>
+            <id>cds.install-dependencies</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <workingDirectory>..</workingDirectory>
+                <npmRegistry>https://int.repositories.cloud.sap/artifactory/api/npm/build-releases-npm</npmRegistry>
+                <arguments>install @sap/cds-dk@${cds.install-cdsdk.version} @sap/cds-mtxs@^1 @sap/cloud-authorization-cap-client-tools@${cloud-authorization-cap-client-tools.version} --no-save</arguments>
+            </configuration>
+        </execution>
+       ...
+    </executions>
+</plugin>
+...
+```
+:::
+
+1.3.2 Add the build step to generate CDS declarations into DCL
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>3.0.0</version>
+    <executions>
+        <execution>
+            <id>exec.npx.cds2dcl</id>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+                <executable>${cds.npx.executable}</executable>
+                <arguments>
+                    <argument>cds2dcl</argument>
+                    <argument>-s</argument>
+                    <argument>../srv</argument>
+                    <argument>-d</argument>
+                    <argument>../srv/src/main/resources/ams</argument>
+                    <argument>-m</argument>
+                    <argument>../srv/src/main/resources</argument>
+                    <argument>-v</argument>
+                </arguments>
+                <environmentVariables>
+                    <PATH>${cds.node.directory}${path.separator}${env.PATH}</PATH>
+                </environmentVariables>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+...
+```
+:::
+
+1.3.3 Compile and assign DCL Declarations
+
+The DCL declarations must then be compiled into the internal format of AMS and also assigned to mock users for local testing. To do this, add the following build step. Do this also for the `integration-tests/pom.xml` file.
+
+::: code-group
+```xml [srv/pom.xml - integration-tests/pom.xml]
+...
+<plugin>
+    <groupId>com.sap.cloud.security.ams.client</groupId>
+    <artifactId>dcl-compiler-plugin</artifactId>
+    <version>${sap.cloud.security.ams.version}</version>
+    <executions>
+        <execution>
+            <id>compile</id>
+            <goals>
+                <goal>compile</goal>
+            </goals>
+            <configuration>
+                <verbose>true</verbose>
+                <sourceDirectory>${project.basedir}/src/main/resources/ams</sourceDirectory>
+            </configuration>
+        </execution>
+        <execution>
+            <id>principalToPolicies</id>
+            <goals>
+                <goal>principalToPolicies</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+                <zoneId>1234</zoneId>
+                <principalId>mock/admin</principalId>
+                <policies>cap.admin (Not restricted)</policies>
+            </configuration>
+        </execution>
+        <execution>
+            <id>principalToPolicies2</id>
+            <goals>
+                <goal>principalToPolicies</goal>
+            </goals>
+            <phase>compile</phase>
+            <configuration>
+                <zoneId>1234</zoneId>
+                <principalId>mock/user</principalId>
+                <policies></policies>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+...
+```
+:::
+
+1.3.4 Assemble Authorization Bundle 
+
+As a final step, the compiled information is assembled into a so called "Authorization Bundle". The Authorization Bundle is the input information for the sidecar component (OPA) which has the responsibility to perform the authorization checks during application runtime
+
+::: code-group
+```xml [srv/pom.xml]
+...
+<plugin>
+    <groupId>com.sap.cloud.security.ams.client</groupId>
+    <artifactId>dcl-compiler-plugin</artifactId>
+    <version>${sap.cloud.security.ams.version}</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>bundle</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+...
+```
+:::
+
+### 2. Configure authentication-type `ias` for your business application gateway
+
+The gateway service of your business application first needs to authenticate your users against the Identity Authentication Service (IAS). It is therefore required to configure your business application gateway to authenticate against IAS. The following json-code snippet demonstrates how this is done using the Application Router (AppRouter) in the `xs-app.json` configuration file
+
+::: code-group
+```json [app/xsapp.json]
 {
-  "name": "your-app-name",
-   ...
-  "dependencies": {
-    "@sap/ams": "^1.11.0",
-    ...
-  },
-  "devDependencies": {
-    "@sap/ams-dev": "^0.5.0",
-    "@sap/cds-dk": "^7",
-    "@sap/cloud-authorization-cap-client-tools": "^0.7.2"
-  },
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      ...
+      "authenticationType": "ias",
+      ...
+    },
   ...
+  ],
+...
 }
 ```
+:::
+
+### 3. Prepare your `mta.yaml` deployment descriptor file
+
+#### 3.1 Server Module - Add the Cloud Authorization Buildpack
+
+The Cloud Authorization Buildpack deploys the sidecar application which performs the AMS authorization checks
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+modules:
+  # ...
+  # --------------------- SERVER MODULE ------------------------
+  - name: yourServerModuleName
+    # ...
+    parameters:
+      # ...
+      buildpacks:
+        # ...
+        - https://github.com/SAP/cloud-authorization-buildpack/releases/latest/download/opa_buildpack.zip
+        # ...
+      # ...
+    # ...
+  # ...
+# ...
+````
+:::
+
+#### 3.2 Server Module - Add additional properties
+
+The server module must know the root directory of the DCL declarations and if it is running against hybrid authentication systems (IAS/XSUAA). The callback URI is required for multi tenant applications.
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+modules:
+  # ...
+  # --------------------- SERVER MODULE ------------------------
+  - name: yourServerModuleName
+    # ...
+    properties:
+      # ...
+      AMS_DCL_ROOT: "/BOOT-INF/classes/ams/"
+      IAS_XSUAA_XCHANGE_ENABLED: true
+      SMS_CALLBACK_BASE_URI: 'yourCallbackApp.theDeploymentDomain'
+      # ...
+    # ...
+  # ...
+# ...
+````
+:::
+
+#### 3.3 Server Module - Re-use service IAS for authentication
+
+The server module requires the IAS service.
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+modules:
+  # ...
+  # --------------------- SERVER MODULE ------------------------
+  - name: yourServerModuleName
+    # ...
+    requires:
+      # ...
+      - name: iasInstanceName
+        parameters:
+          config:
+            credential-type: "X509_GENERATED"
+      # ...
+    # ...
+  # ...
+# ...
+````
+:::
+
+#### 3.4 Gateway Module - Re-use service IAS for authentication
+
+The business application gateway (Approuter) also requires IAS.
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+modules:
+  # ...
+  # --------------------- APPROUTER MODULE ---------------------
+  - name: yourGatewayModuleName
+    # ...
+    requires:
+      # ...
+      - name: iasInstanceName
+      # ...
+    # ...
+  # ...
+# ...
+````
+:::
+
+#### 3.5 Add managed service IAS for authentication
+
+Module requirements with regards to IAS must be fulfilled
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+resources:
+  # ...
+  - name: iasInstanceName
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        authorization:
+          product_label: appDisplayNameinIAS
+        oauth2-configuration:
+          redirect-uris:
+            - https://*.yourDeploymentDomain/login/callback
+            - https://*.yourDeploymentDomain/login/callback?authType=ias
+            - https://*.yourDeploymentDomain/login/callback?scope=openid
+            - https://*.yourDeploymentDomain/login/oauth2/code/*
+            - https://*.internal.yourDeploymentDomain/node/signin-oidc/*
+            - https://bsa-((ID)).yourDeploymentDomain/login/callback?authType=ias
+            - https://bsa-((ID)).yourDeploymentDomain/login/callback
+            - http://localhost:5000/login/callback?authType=ias
+        xsuaa-cross-consumption: true
+        display-name: iasInstanceDisplayName
+        multi-tenant: true
+  # ...
+````
+:::
+
+#### 3.6 Add managed service SMS for subscription management
+
+Add the Subscription Management Service (SMS) for multi tenant applications.
+
+::: code-group
+````yaml [mta.yaml]
+# ...
+resources:
+  # ...
+  - name: smsInstanceName
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: subscription-manager
+      service-plan: provider
+      config:
+        iasServiceInstanceName: iasInstanceName
+        applicationType: application
+        appName: bookshop-mt-saas-((ID))
+        displayName: Bookshop-Mt-((ID))
+        appCallbacks:
+          dependenciesCallbacks:
+            url: https://bookshop-srv-mt-((ID)).yourDeploymentDomain/v1.0/callback/zones/{zoneId}/dependencies
+          subscriptionCallbacks:
+            url: https://bookshop-srv-mt-((ID)).yourDeploymentDomain/v1.0/callback/zones/{zoneId}
+        saasManagerServiceInstanceName: bookshop-mt-((ID))-saas-registry
+        commercialAppName: bookshop-mt-((ID))
+        isDefault: true
+    requires:
+      - name: srv
+  # ...
+````
+:::
+
+### 4. Adjust the `xs-security.json` security descriptor
+
+For multi tenant applications it must be ensured that the `xs-security.json` security descriptor contains only the basic necessary declarations
+
+::: code-group
+````yaml [xs-security.json]
+{
+  "xsappname": "bookshop-java-public",
+  "tenant-mode": "shared",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.mtcallback",
+      "description": "Multi Tenancy Callback Access",
+      "grant-as-authority-to-apps": [
+      	"$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      ]
+    },
+    {
+      "name": "$XSAPPNAME.mtdeployment",
+      "description": "Scope to trigger a re-deployment of the database artifacts"
+    }
+  ],
+  "authorities-inheritance": false,
+  "authorities": [
+    "$XSAPPNAME.mtdeployment"
+  ]
+}
+````
+:::
+
+## Role Assignments with IAS and AMS - NodeJS based { #ams-configuration-node}
+
+### [Setup](https://github.tools.sap/refapps/incidents-mgmt/blob/integrate-ams-doc/documentation/xsuaa-to-ams/1-getting-started-with-ams.md)
+
+### [Implementation](https://github.tools.sap/refapps/incidents-mgmt/blob/integrate-ams-doc/documentation/xsuaa-to-ams/2-implement.md)
+
+### [Deployment](https://github.tools.sap/refapps/incidents-mgmt/blob/integrate-ams-doc/documentation/xsuaa-to-ams/3-deploy-to-btp.md)
+
+<!-- TODO: "Location" - END -->

@@ -129,7 +129,7 @@ Sample: If you want to send the notification when the new incident is reported, 
 1. **Connecting to the service:**
    In the handler files, connect to the notifications plugin by:
     ```js
-    const notification = await cds.connect.to('notifications');
+    const alert = await cds.connect.to('notifications');
     ```
 
 2. **Sending notifications:**
@@ -138,7 +138,7 @@ Sample: If you want to send the notification when the new incident is reported, 
 
     - Example to send a notification of `default notification type with title only`. The default notification type is created by the `cap-js/notifications` plugin.
       ```js
-      notification.notify({
+      alert.notify({
         recipients: recipients,
         priority: priority,
         title: title
@@ -146,7 +146,7 @@ Sample: If you want to send the notification when the new incident is reported, 
       ```
     - Example to send a notification of `default notification type with both title and description`.
       ```js
-      notification.notify({
+      alert.notify({
         recipients: recipients,
         priority: priority,
         title: title,
@@ -155,7 +155,7 @@ Sample: If you want to send the notification when the new incident is reported, 
       ```
     - Example to send a notification of your `custom notification type`, just pass the complete custom notification object to this function.
       ```js
-      notification.notify(customNotificationObject);
+      alert.notify(customNotificationObject);
       ```
 
 ## Sample Code {#sample}
@@ -167,13 +167,13 @@ const cds = require("@sap/cds");
 
 const recipients = ["abc@abc.com"];
 
-let notification;
+let alert;
 
 cds.once("served", (services) => {
 
   let publishNewIncidentAlert = async (data) => {
 
-    notification = notification || await cds.connect.to('notifications');
+    alert = alert || await cds.connect.to('notifications');
     
     const query = data.req ? data.req.query : data.query;
     
@@ -208,7 +208,7 @@ cds.once("served", (services) => {
           Recipients: recipients
         };
 
-        notification.notify(customNotificationObject);
+        alert.notify(customNotificationObject);
       }
     }
   };

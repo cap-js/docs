@@ -22,7 +22,7 @@ However, when processing an HTTP request in a protocol adapter or receiving an a
 
 The CAP Java SDK manages and exposes this kind of information by means of [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) instances. They define a scope that is typically determined by the context of a single HTTP request. The active Request Context can be accessed from the Event Context. However, those two are managed independently, as Event Contexts are passed along event handlers, while Request Contexts are maintained as thread-locals. For example the Persistence Service requires the tenant to be set correctly in the Request Context in order to access the tenant specific persistence.
 
-Inside an event handler, it's guaranteed that a Request Context is available. How to access the exposed information is described in detail in [Accessing Request Contexts](#accessing-requestcontexts).
+Inside an event handler, it's guaranteed that a Request Context is available. How to access the exposed information is described in detail in [Accessing Request Contexts](#reading-requestcontext).
 
 Usually, the protocol adapter opens a *single* Request Context that makes the request's parameters available to CAP services used during request processing. In contrast, an OData `$batch` request sequentially opens *different*  Request Contexts with divergent parameters for the different requests inside the batch. This ensures that Event Handlers triggered by the individual requests only have access to the relevant parameters. 
 
@@ -30,7 +30,7 @@ In general, it's possible to explicitly define (nested) Request Contexts and con
 
 How to propagate Request Context instances to several threads is explained in [Passing Request Contexts to Threads](#threading-requestcontext), and [Registering Global Parameter Providers](#global-providers) shows how you can influence or even override the standard way of retrieving the parameters from the request.
 
-## Accessing Request Contexts { #accessing-requestcontexts}
+## Accessing Request Contexts { #reading-requestcontext}
 
 The Request Context provides information about the request's parameters as well as the current user:
 - [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html): Exposes an API to fetch data of the (authenticated) user such as the logon name, id, CAP roles, and the tenant.

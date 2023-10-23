@@ -124,13 +124,13 @@ When calling CAP Services, it is important to do this in an appropriate Request 
 
 The `RequestContextRunner` API offers convenience methods which allows an easy transition from one scenario to the other.
 
-| Method | Description                                                                                                                          |
-|--------|--------------------------------------------------------------------------------------------------------------------------------------|
+| Method               | Description                                                                                                                          |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | systemUserProvider() | Switches to a technical user targeting the provider account.                                                                         |
-| systemUser() | Switches to a technical user and preserves the tenant from the current `UserInfo` (e.g. down grade of a named user Request Context). |
-| systemUser(tenant) | Switches to a technical user targeting a given subscriber account.                                                                   |
- | anonymousUser() | Switches to an anonymous user.                                                                                                       |
-| privilegedUser() | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
+| systemUser()         | Switches to a technical user and preserves the tenant from the current `UserInfo` (e.g. down grade of a named user Request Context). |
+| systemUser(tenant)   | Switches to a technical user targeting a given subscriber account.                                                                   |
+| anonymousUser()      | Switches to an anonymous user.                                                                                                       |
+| privilegedUser()     | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
 
 <b>Note: </b> The 'RequestContextRunner' API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.   
 

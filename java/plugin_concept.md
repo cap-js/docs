@@ -22,7 +22,9 @@ status: released
 
 Especially when working with larger projects that may consists of many individual CAP Java applications or when building platform services that need to be integrated with CAP applications there is the requirement to extend CAP Java with custom, yet reusable code. In the following sections the different extension points and mechanisms will be explained.
 
-Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules also for Java projects. 
+## Sharing reuasable CDS models via Maven artifacts
+
+Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects. 
 
 Starting with the 2.2 release CDS models, CSV import data and i18n files can now be shared through Maven dependencies in addition to npm packages. This means you can now provide CDS models, CSV files, i18n files and Java code (for example, event handlers) in a single Maven dependency.
 
@@ -81,10 +83,42 @@ In CAP Java the protocol adapter is the mechanism to implement inbound communica
 
 The remote service adapters are basically the counterpart of the protocol adapters. They take CQL statements issued locally on remote services and transform them according to the protocol of the corresponding remote service. 
 
-### Handlers for custom types and annotations
+### Event Handlers for custom types and annotations
 
-Besides extending the capabilities for in- and outbound requests it is also possible to extend the behaviour of event and request handling *inside* the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
+Besides extending the capabilities for in- and outbound requests it is also possible to extend the behaviour of event and request handling *inside* the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations. Inside your reuse module you can define a custom event handler and and a registration hook as plain Java code. Once this module is addded to any CAP Java application as a dependency the contained event handler code will be active automatically.
+
+Such an event handler basically looks like any other CAP Java event handler. Take this one as an example:
+
+```java
+@ServiceName(value = "*", type = ApplicationService.class)
+public class SampleHandler implements EventHandler {
+
+    @After
+    public void handleSample(CdsReadEventContext context) {
+      // any custom Java code using the event context and CQL APIs
+    }
+}
+```
+
+The shown handler code is registered for any entity type on any [application service](link to providing services section). Dependending on the use case the target scope could narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
+
+The real difference to your typical event handler in your application code is the actual handler reigstration code. Although you could use the same `@Componenent` Spring Framework mechanism this is not recommendable because your handler code would then be dependent on Spring and not only on CAP Java. Your code would need to maintain it's own versioned dependency to the Spring Framework or Spring Boot and would need to react to changes in the given frameworks.
+
+So, in order to have a framework independent handler registration the `` interface needs to be implemented like this:
+
+```java
+public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguration {
+
+	@Override
+	public void eventHandlers(CdsRuntimeConfigurer configurer) {
+		configurer.eventHandler(new SampleHandler());
+	}
+
+}
+```
+
+At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. Then, the `eventHandlers` method of each discovered implementation will be called. In our case the method will register the provided `CdsRuntimeConfigurer` with a new instance of the `SampleHandler`. This newly registered handler will be called the same way as all other event handlers of the application.
 
 ### Putting it all together
 
-So, there are various ways to extend the CAP Java framework. You can use one or more of the mentioned techniques and combine them in one or more Maven modules. This totally depends on your needs and requirements.
+So, there are various ways to extend the CAP Java framework. You can use one or more of the mentioned techniques and combine them in one or more Maven modules. This totally depends on your needs and requirements. 

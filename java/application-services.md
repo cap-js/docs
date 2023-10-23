@@ -121,7 +121,7 @@ In case an order item is directly created (for example through a containment nav
 List<Map<String, Object>> readMyEntity(CdsReadEventContext context) {
 	if (CqnAnalyzer.isCountQuery(context.getCqn())) {
 		int count = 100; // determine correct count value
-		return List.of(Collections.singletonMap("count", 100));
+		return List.of(Collections.singletonMap("count", count));
 	}
 	// handle non /$count requests
 }

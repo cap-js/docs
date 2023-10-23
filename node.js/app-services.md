@@ -4,9 +4,8 @@ status: released
 
 # Application Services
 
-
-
 [[toc]]
+
 
 ## Class `cds.ApplicationService`
 

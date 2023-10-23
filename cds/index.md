@@ -1,7 +1,4 @@
 ---
-section: CDS
-# shorty: CDS
-permalink: /cds/
 status: released
 ---
 

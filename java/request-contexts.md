@@ -18,17 +18,19 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ## Overview
 
 When [events](../about/#events) are processed on [services](./consumption-api), [event context](provisioning-api#eventcontext) objects are used to store information related to a specific event.
-However, when processing an HTTP request in a protocol adapter or receiving an asynchronous event from a messaging system not only a single event is triggered. Other services, like the [Persistence Service](./consumption-api#persistenceservice) or additional technical services might be involved in processing. All of these services and their event handler need access to certain overarching metadata, such as user information, the selected locale, the tenant, and its (extended) CDS model or headers and query parameters.
+However, when processing an HTTP request in a protocol adapter or receiving an asynchronous event from a messaging system not only a single event is triggered. Other services, like the [Persistence Service](./consumption-api#persistenceservice) or additional technical services might be involved in processing. All of these services and their event handler need access to certain overarching metadata, such as user information, the selected locale, the tenant, and its (extended) CDS model or headers and query parameters. 
 
-The CAP Java SDK manages and exposes this kind of information by means of [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) instances. They define a scope that is typically determined by the context of a single HTTP request. The active Request Context can be accessed from the Event Context. However, those two are managed independently, as Event Contexts are passed along event handlers, while Request Contexts are maintained as thread-locals.
+The CAP Java SDK manages and exposes this kind of information by means of [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) instances. They define a scope that is typically determined by the context of a single HTTP request. The active Request Context can be accessed from the Event Context. However, those two are managed independently, as Event Contexts are passed along event handlers, while Request Contexts are maintained as thread-locals. For example the Persistence Service requires the tenant to be set correctly in the Request Context in order to access the tenant specific persistence.
 
-Inside an event handler, it's guaranteed that a Request Context is available. How to access the exposed information is described in detail in [Reading Request Contexts](#reading-requestcontext).
+Inside an event handler, it's guaranteed that a Request Context is available. How to access the exposed information is described in detail in [Accessing Request Contexts](#accessing-requestcontexts).
 
-Usually, the protocol adapter opens a *single* Request Context that makes the request's parameters available to CAP services used during request processing. In contrast, an OData `$batch` request sequentially opens *different*  Request Contexts with divergent parameters for the different requests inside the batch. In general, it's possible to explicitly define (nested) Request Contexts and control their scope of validity. All events triggered within the same context also share the same parameters. This is described in detail in [Defining Request Contexts](#defining-requestcontext).
+Usually, the protocol adapter opens a *single* Request Context that makes the request's parameters available to CAP services used during request processing. In contrast, an OData `$batch` request sequentially opens *different*  Request Contexts with divergent parameters for the different requests inside the batch. This ensures that Event Handlers triggered by the individual requests only have access to the relevant parameters. 
+
+In general, it's possible to explicitly define (nested) Request Contexts and control their scope of validity. For example, in some cases an application might be required to break out from the current tenant to access a shared, tenant-independent persistence. All events triggered within the same context also share the same parameters. This is described in detail in [Defining Request Contexts](#defining-requestcontext).
 
 How to propagate Request Context instances to several threads is explained in [Passing Request Contexts to Threads](#threading-requestcontext), and [Registering Global Parameter Providers](#global-providers) shows how you can influence or even override the standard way of retrieving the parameters from the request.
 
-## Reading Request Contexts { #reading-requestcontext}
+## Accessing Request Contexts { #accessing-requestcontexts}
 
 The Request Context provides information about the request's parameters as well as the current user:
 - [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html): Exposes an API to fetch data of the (authenticated) user such as the logon name, id, CAP roles, and the tenant.
@@ -110,10 +112,59 @@ For example, if the request is processed by an HTTP-based protocol adapter, `Par
 [AuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/AuthenticationInfo.html) stores the authentication claims of the authenticated user. For instance, if OAuth2-based authentication is used, this is a JWT token (for example, XSUAA or IAS). You can call `is(Class<? extends AuthenticationInfo>)` to find the concrete `AuthenticationInfo` type.
 [JwtTokenAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/JwtTokenAuthenticationInfo.html) represents a JWT token, whereas [BasicAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/BasicAuthenticationInfo.html) can be observed on requests with basic authentication (e.g. test scenario with mock users). The method `as(Class<? extends AuthenticationInfo>)` helps to perform the downcast to a concrete subtype.
 
-## Defining Request Contexts { #defining-requestcontext}
+## Defining new Request Contexts { #defining-requestcontext}
 
 The CAP Java SDK allows you to create new Request Contexts and define their scope. This helps you to control, which set of parameters is used when events are processed by services.
-To manually add, modify or reset specific attributes within the scope of a new Request Context, you can use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API:
+
+There are a few typical use cases in a CAP-based, multi-tenant application on BTP in which creation of new Request Contexts is necessary. These scenarios are identified by a combination of the user (technical or named) and the tenant (provider or subscribed).
+
+<img src="./assets/requestcontext.png" width="300px">
+
+When calling CAP Services, it is important to do this in an appropriate Request Context. Services might for example trigger HTTP requests to external services by deriving the target tenant from the current Request Context. 
+
+The `RequestContextRunner` API offers convenience methods which allows an easy transition from one scenario to the other.
+
+| Method | Description                                                                                                                          |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------|
+| systemUserProvider() | Switches to a technical user targeting the provider account.                                                                         |
+| systemUser() | Switches to a technical user and preserves the tenant from the current `UserInfo` (e.g. down grade of a named user Request Context). |
+| systemUser(tenant) | Switches to a technical user targeting a given subscriber account.                                                                   |
+ | anonymousUser() | Switches to an anonymous user.                                                                                                       |
+| privilegedUser() | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
+
+<b>Note: </b> The 'RequestContextRunner' API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.   
+
+In the following a few concrete examples are given:
+
+1) Switch to technical user
+<img src="./assets/nameduser.png" width="500px">
+
+The incoming JWT token will trigger creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler will be executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service without propagating the named user <i>JohnDoe</i>. 
+Therefore, the `after` handler needs to create a new Request Context. To achieve this, it is required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context. The code being executed in the passed `java.util.function.Function` is triggered with the `run()` method.   
+
+```java
+@After(entity = Books_.CDS_NAME)
+public void afterHandler(EventContext context){
+    runtime.requestContext().systemUser().run(reqContext -> {
+        // call technical service
+        ...
+    });
+}
+```
+
+2) Switch to a specific tenant
+<img src="./assets/switchtenant.png" width="400px">
+
+The application is using a job scheduler which needs to regularly perform tasks on behalf of a certain tenant. By default, background executions (e.g. in a dedicated thread pool) are not associated to any subscriber tenant and user. In this case, it is necessary to explicitly define a new Request Context based on the subscribed tenant by calling `systemUser(tenantId)`. This will ensure that the Persistence Service will perform the query for the specified tenant.      
+
+```java
+runtime.requestContext().systemUserSubscriber(tenant).run(reqContext -> {
+    return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
+});
+```
+## Modifying Request Contexts { #modifying-requestcontext}
+
+Besides the described common use cases, it is possible to modify parts of an existing Request Context. To manually add, modify or reset specific attributes within the scope of a new Request Context, you can use the [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API.       
 
 ```java
 List<Books> readBooksNotLocalized(EventContext context) {
@@ -125,7 +176,7 @@ List<Books> readBooksNotLocalized(EventContext context) {
 }
 ```
 
-In the example, executing the CQN Select query on the Persistence Service needs to run inside a Request Context without locale in order to retrieve unlocalized data. To achieve this, a new Request Context is explicitly created by calling `requestContext()` on the current `CdsRuntime`. The code being executed in the passed `java.util.function.Function` is triggered with the `run()` method. Before the execution, the newly created context that wraps the functional code, can be modified arbitrarily:
+In the example, executing the CQN Select query on the Persistence Service needs to run inside a Request Context without locale in order to retrieve unlocalized data. Before the execution, the newly created context that wraps the functional code, can be modified arbitrarily:
 
 - `modifyParameters()`: Add, modify, or remove (single) parameters.
 - `clearParameters()`: Resets all parameters.
@@ -133,24 +184,12 @@ In the example, executing the CQN Select query on the Persistence Service needs 
 
 Similarly, it's possible to fully control the `UserInfo` instance provided in the RequestContext. It's guaranteed, that the original parameters aren't touched by the nested `RequestContext`. In addition, all original parameter values, which aren't removed or modified are visible in the nested scope. This enables you to either define the parameters from scratch or just to put a modification layer on top.
 
-A common scenario is to use this API to set the tenant in an asynchronous thread:
-
-```java
-context.getCdsRuntime().requestContext()
-  .modifyUser(u -> u.setTenant("my-tenant-id"))
-  .run(requestContext -> {
-    // queries will be executed in context of my-tenant-id
-    persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
-  });
-```
-
 Some more examples:
 
 - `modifyUser(user -> user.removeRole("read").setTenant(null).run(...)`: Creates a context with a user that is similar to the outer context but without role `read` and tenant.
-- `privilegedUser().run(...)`: Runs with a privileged user, that passes all authorization requirements.
 - `modifyParameters(param -> param.setHeader("MY-HEADER", "my value"))`: Adds a header parameter `MY-HEADER:my value`.
 
-The modifications can be combined arbitrarily in fluent syntax.
+The modifications can be combined arbitrarily in fluent syntax. 
 
 ### Request Context Inheritance
 

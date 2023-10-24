@@ -105,7 +105,7 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 ## Change Tracking
 
-The Change Tracking plugin provides out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked. 
+The Change Tracking plugin provides out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked.
 
 ```cds
 annotate my.Incidents {
@@ -138,10 +138,10 @@ annotate my.Customers with @PersonalData {
 }
 ```
 
-Features: 
+Features:
 
-- Simple, annotation-based usage 
-- Minimized performance impact through asynchroneous logging 
+- Simple, annotation-based usage
+- Minimized performance impact through asynchroneous logging
 - Ultimate resilience through transactional outbox.
 
 Available for:
@@ -153,20 +153,4 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 ## Notifications
 
-
-<div id="calesi" />
-
-
-## Apache Kafka
-
-This plugin provides out-of-the box support for publishing and consuming messages to and from Apache Kafka. The APIs stay the same for both Node.js and Java, but the configuration is different.
-
-Available for:
-
-[![](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 1em"}](../guides/messaging/apache-kafka)
-
-Click on the icon to get detailed instructions. {.learn-more}
-
-
-
-<div id="etc" />
+<div id="internal-plugins" />

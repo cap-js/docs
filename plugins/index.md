@@ -105,7 +105,15 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 ## Change Tracking
 
-The Change Tracking plugin provides out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities.
+The Change Tracking plugin provides out-of-the box support for automatic capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked. 
+
+```cds
+annotate my.Incidents {
+  customer @changelog: [customer.name];
+  title    @changelog;
+  status   @changelog;
+}
+```
 
 ![changes-custom](assets/index/changes-custom.png)
 
@@ -119,8 +127,22 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 ## Audit Logging
 
-The Audit Log plugins provide out-of-the box support for audit logging personal data-related operations with the SAP BTP Audit Logging Service.
-It guarantees **resilience** trough sending logs asynchronously via a **transactional outbox**.
+The Audit Log plugins provide out-of-the box support for audit logging personal data-related operations with the SAP BTP Audit Logging Service. All we need is annotations of respective entities and fields like that:
+
+```cds
+annotate my.Customers with @PersonalData {
+  ID           @PersonalData.FieldSemantics: 'DataSubjectID';
+  name         @PersonalData.IsPotentiallyPersonal;
+  email        @PersonalData.IsPotentiallyPersonal;
+  creditCardNo @PersonalData.IsPotentiallySensitive;
+}
+```
+
+Features: 
+
+- Simple, annotation-based usage 
+- Minimized performance impact through asynchroneous logging 
+- Ultimate resilience through transactional outbox.
 
 Available for:
 
@@ -137,8 +159,7 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 ## Apache Kafka
 
-This plugin provides out-of-the box support for publishing and consuming messages to and from Apache Kafka.
-The APIs stay the same for both Node.js and Java, but the configuration is different.
+This plugin provides out-of-the box support for publishing and consuming messages to and from Apache Kafka. The APIs stay the same for both Node.js and Java, but the configuration is different.
 
 Available for:
 

@@ -216,10 +216,6 @@ OData defines a strict two-fold key structure composed of `@<Vocabulary>.<Term>`
 
 ```cds
 @Common.Label: 'Customer'
-@Common.ValueList: {
-  Label: 'Customers',
-  CollectionPath: 'Customers'
-}
 entity Customers { }
 ```
 
@@ -230,8 +226,6 @@ This is represented in CSN as follows:
   "Customers":{
     "kind": "entity",
     "@Common.Label": "Customer",
-    "@Common.ValueList.Label": "Customers",
-    "@Common.ValueList.CollectionPath": "Customers"
   }
 }}
 ```
@@ -241,18 +235,8 @@ And would render to EDMX as follows:
 ```xml
 <Annotations Target="MyService.Customers">
   <Annotation Term="Common.Label" String="Customer"/>
-  <Annotation Term="Common.ValueList">
-    <Record Type="Common.ValueListType">
-      <PropertyValue Property="Label" String="Customers"/>
-      <PropertyValue Property="CollectionPath" String="Customers"/>
-    </Record>
-  </Annotation>
 </Annotations>
 ```
-
-::: tip
-The value for `@Common.ValueList` is flattened to individual key-value pairs in CSN and 'restructured' to a record for OData exposure in EDMX.
-:::
 
 For each annotated target definition in CSN, the rules for restructuring from CSN sources are:
 

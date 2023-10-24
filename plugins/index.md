@@ -153,4 +153,11 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 ## Notifications
 
+## Attachments
+
+
 <div id="internal-plugins" />
+
+<div id="upcoming-plugins" />
+
+<div id="planned-plugins" />

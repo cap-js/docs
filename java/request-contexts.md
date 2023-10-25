@@ -118,7 +118,7 @@ The CAP Java SDK allows you to create new Request Contexts and define their scop
 
 There are a few typical use cases in a CAP-based, multi-tenant application on BTP in which creation of new Request Contexts is necessary. These scenarios are identified by a combination of the user (technical or named) and the tenant (provider or subscribed).
 
-<img src="./assets/requestcontext.png" width="300px">
+<img src="./assets/requestcontext.drawio.svg" width="300px">
 
 When calling CAP Services, it is important to do this in an appropriate Request Context. Services might for example trigger HTTP requests to external services by deriving the target tenant from the current Request Context. 
 
@@ -137,7 +137,7 @@ The `RequestContextRunner` API offers convenience methods which allows an easy t
 In the following a few concrete examples are given:
 
 1) Switch to technical user
-<img src="./assets/nameduser.png" width="500px">
+<img src="./assets/nameduser.drawio.svg" width="500px">
 
 The incoming JWT token will trigger creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler will be executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service without propagating the named user <i>JohnDoe</i>. 
 Therefore, the `after` handler needs to create a new Request Context. To achieve this, it is required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context. The code being executed in the passed `java.util.function.Function` is triggered with the `run()` method.   
@@ -153,7 +153,7 @@ public void afterHandler(EventContext context){
 ```
 
 2) Switch to a specific tenant
-<img src="./assets/switchtenant.png" width="400px">
+<img src="./assets/switchtenant.drawio.svg" width="400px">
 
 The application is using a job scheduler which needs to regularly perform tasks on behalf of a certain tenant. By default, background executions (e.g. in a dedicated thread pool) are not associated to any subscriber tenant and user. In this case, it is necessary to explicitly define a new Request Context based on the subscribed tenant by calling `systemUser(tenantId)`. This will ensure that the Persistence Service will perform the query for the specified tenant.      
 

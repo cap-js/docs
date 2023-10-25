@@ -21,33 +21,9 @@ In order to automate audit logging, personal data management, and data retention
 
 ## Reference App Sample { #annotated-model }
 
-In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) with some data model extensions (see below) as the base to add data privacy and audit logging to.
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
 
 <img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" />
-
-::: details Data Model Extensions…
-
-In order to showcase sensitive data and data subject details, we need to extend the data model a bit as follows:
-
-```cds [db/extensions.cds]
-using from '@capire/incidents';
-using { cuid, managed } from '@sap/cds/common';
-
-entity sap.capire.incidents.Addresses : cuid, managed {
-  customer      : Association to sap.capire.incidents.Customers;
-  city          : String;
-  postCode      : String;
-  streetAddress : String;
-}
-
-extend sap.capire.incidents.Customers with {
-  creditCardNo : String(16) @assert.format: '^[1-9]\d{15}$';
-  addresses    : Composition of many sap.capire.incidents.Addresses
-                   on addresses.customer = $self;
-};
-```
-
-:::
 
 So, let's annotate the data model to identify personal data.
 In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly.

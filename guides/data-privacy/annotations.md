@@ -31,10 +31,7 @@ In order to showcase sensitive data and data subject details, we need to extend 
 
 ```cds [db/extensions.cds]
 using from '@capire/incidents';
-using {
-  cuid,
-  managed
-} from '@sap/cds/common';
+using { cuid, managed } from '@sap/cds/common';
 
 entity sap.capire.incidents.Addresses : cuid, managed {
   customer      : Association to sap.capire.incidents.Customers;
@@ -61,7 +58,7 @@ Following the [best practice of separation of concerns](../domain-modeling#separ
 ::: code-group
 
 ```cds [srv/data-privacy.cds]
-using {sap.capire.incidents as my} from '../db/extensions';
+using { sap.capire.incidents as my } from '../db/extensions';
 
 annotate my.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',

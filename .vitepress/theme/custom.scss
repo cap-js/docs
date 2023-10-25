@@ -57,8 +57,8 @@ main {
     p {
       line-height: 1.5em
     }
-    ul {
-      padding-left: 2.2em;
+    ul, ol {
+      padding-left: 2.5em;
     }
     .caption {
       text-align: center;
@@ -68,7 +68,8 @@ main {
       line-height: 1.4em
     }
     pre {
-      padding: 16px 0 !important;
+      padding: 12px 0 !important;
+      code { padding: 0 22px !important }
     }
     :not(pre) > code {
       font-style: italic;

@@ -551,7 +551,8 @@ As documented in the [HDI Deployer docs](https://help.sap.com/docs/HANA_CLOUD_DA
 By default, `cds add hana` creates an `undeploy.json` like this:
 
 ::: code-group
-```json [db/src/undeploy.json]
+
+```json [db/undeploy.json]
 [
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
@@ -559,11 +560,13 @@ By default, `cds add hana` creates an `undeploy.json` like this:
 ]
 ```
 
+:::
+
 If you need to remove deployed CSV files, also add this entry:
 
 ::: code-group
 
-```json [db/src/undeploy.json]
+```json [db/undeploy.json]
 [
   ...
   "src/gen/**/*.hdbtabledata"

@@ -6,7 +6,6 @@ redirect_from: node.js/services
 
 # Core Services
 
-
 [[toc]]
 
 

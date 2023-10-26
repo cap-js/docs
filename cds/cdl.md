@@ -722,7 +722,7 @@ aspect OrderItems {
 
 #### Default Target Cardinality
 
-If not otherwise specified, a managed composition of an aspect has the default target cardinality *to many*.
+If not otherwise specified, a managed composition of an aspect has the default target cardinality *to one*.
 
 #### For Many-to-many Relationships
 

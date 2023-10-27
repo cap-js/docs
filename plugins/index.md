@@ -169,12 +169,12 @@ await alert.notify({
 
 Features:
 
-- Supports Email, SMS, and SAP Fiori Launchpad notifications
-- Simple CAP Services-based client API
-- Minimized overhead through asynchronous sending of notifications
-- Ultimate reselience through transactional outbox
+- Simple, backend-agnostic CAP Services-based client API
+- Logging to console in development → fast turnarounds, minimized costs
+- Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates
+- SAP ANS supports Email, SMS, and SAP Fiori Launchpad notifications
 
 Available for:
 

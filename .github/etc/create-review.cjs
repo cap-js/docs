@@ -66,6 +66,9 @@ module.exports = async ({ github, require, exec, core }) => {
             linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Errors-->/g) || []))
         })
 
+    console.log(linterErrors)
+    console.log(spellingMistakes)
+
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')

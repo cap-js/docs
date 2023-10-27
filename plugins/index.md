@@ -158,7 +158,7 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 The Notifications plugin provides integration to the SAP Alert Notifications service, which allows to send notifications to users via email, SMS, or SAP Fiori Launchpad notifications. The alert notification is implemented as a CAP service, which gives us a very simple client API:
 
-```cds
+```js
 let alert = await cds.connect.to ('notifications')
 await alert.notify({
    recipients: [ "alice@wonderland.org" ],

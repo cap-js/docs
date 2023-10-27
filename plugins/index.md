@@ -117,7 +117,7 @@ annotate my.Incidents {
 }
 ```
 
-![changes-custom](assets/index/changes-custom.png)
+![changes](assets/index/changes.png)
 
 Available for:
 

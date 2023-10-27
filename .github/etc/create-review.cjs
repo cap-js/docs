@@ -63,7 +63,7 @@ module.exports = async ({ github, require, exec, core }) => {
         .filter(review => review.body.includes('<!-- Linter Review -->'))
         .forEach(review => {
             spellingMistakes.push(...(review.body.match(/\*(.*) <!--Spelling Mistake-->/g) || []))
-            linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Errors-->/g) || []))
+            linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
         })
 
     console.log(linterErrors)
@@ -183,6 +183,8 @@ module.exports = async ({ github, require, exec, core }) => {
 
             const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->`
 
+            console.log('CREATED FOLLOWING LINT ERROR TEXT: ' + text)
+
             if (!linterErrors.find(el => el === text)) {
                 lintErrorsText += text + '\n'
                 comments.push(comment)
@@ -202,6 +204,8 @@ module.exports = async ({ github, require, exec, core }) => {
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
+
+            console.log('CREATED FOLLOWING SPELLING MISTAKE TEXT: ' + text)
 
             if (spellingMistakes.find(el => el === text)) continue
 

@@ -183,8 +183,7 @@ Available for:
 Click on the icon to get detailed instructions. {.learn-more}
 
 
-## Attachments
-
+<div id="attachments" />
 
 <div id="internal-plugins" />
 

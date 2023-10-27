@@ -50,7 +50,7 @@ module.exports = async ({ github, require, exec, core }) => {
     let lintErrorsText = ''
     let spellingMistakesText = ''
 
-    const result = await octokit.request('PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
+    const result = await github.request('PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
         owner: REPO_OWNER,
         repo: REPO,
         pull_number: PULL_NUMBER

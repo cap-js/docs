@@ -11,22 +11,6 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 {{$frontmatter?.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
-```
-should have a language tag
-```
-
-eror
-
-speling mistake
-
-some content
-
-anoter mistake
-
-```
-missing code fence value
-```
-
 ## req.user &#8594;  cds.**User** <i> class </i> { #cds-user}
 [user]: #cds-user
 [`req.user`]: #cds-user

@@ -60,7 +60,7 @@ module.exports = async ({ github, require, exec, core }) => {
     const spellingMistakes = []
 
     result.data
-        .map(review => review.body.includes('<!-- Linter Review -->'))
+        .filter(review => review.body.includes('<!-- Linter Review -->'))
         .forEach(review => {
             spellingMistakes.add(...review.body.match(/\*(.*) <!--Spelling Mistake-->/g))
             linterErrors.add(...review.body.match(/\*(.*) <!--Linter Errors-->/g))

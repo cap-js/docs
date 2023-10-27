@@ -180,7 +180,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
             const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->\n`
 
-            if (!linterErrors.find(text)) {
+            if (!linterErrors.find(el => el === text)) {
                 lintErrorsText += text
                 comments.push(comment)
             }
@@ -200,7 +200,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->\n`
 
-            if (spellingMistakes.find(text)) continue
+            if (spellingMistakes.find(el => el === text)) continue
 
             // from "[s1, s2, s3]" to [ "s1", "s2", "s3" ]
             const suggestions = suggestionString

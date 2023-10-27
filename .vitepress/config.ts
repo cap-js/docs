@@ -2,7 +2,7 @@ import { UserConfig, DefaultTheme } from 'vitepress'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
-import { sidebar as sideb, nav4 } from './menu'
+import { sidebar, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 import * as MdAttrsPropagate from './lib/md-attrs-propagate'
@@ -72,6 +72,9 @@ const localSearchOptions = {
   }
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
+const menu = sidebar()
+const nav = nav4(menu) as DefaultTheme.NavItem[]
+
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
@@ -79,22 +82,20 @@ const config:UserConfig<CapireThemeConfig> = {
   srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
-    get sidebar() { return sideb('menu.md') },
-    get nav() {
-      const navItems = nav4(config.themeConfig!.sidebar) as DefaultTheme.NavItem[]
-      return [
-           navItems.find  (i => i.text === 'Getting Started'), //@ts-ignore
-        ...navItems.filter(i => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
-            item.items.unshift({ text: 'Overview', link: '/guides/' }) // add extra overview item to navbar
-            return item
-        }),
-        { text: 'Reference', items: [
-          { text: 'CDS',       link: '/cds/' },
-          { text: 'Node.js',   link: '/node.js/' },
-          { text: 'Java',      link: '/java/' },
-        ]},
-      ] as DefaultTheme.NavItem[]
-    },
+    // IMPORTANT: Don't use getters here, as they are called again and again!
+    sidebar: menu,
+    nav: [
+      nav.find(i => i.text === 'Getting Started'),
+      nav.find(i => i.text === 'Cookbook'),
+      { text: 'More...', items: [
+        { text: 'Advanced',  link: '/advanced/' },
+        { text: 'Plugins',   link: '/plugins/' },
+        { text: 'Tools',     link: '/tools/' },
+        { text: 'CDS',       link: '/cds/' },
+        { text: 'Java',      link: '/java/' },
+        { text: 'Node.js',   link: '/node.js/' },
+      ]},
+    ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
@@ -147,7 +148,7 @@ const config:UserConfig<CapireThemeConfig> = {
       {
         id: 'log',
         scopeName: 'text.log',
-        path: join(__dirname, 'syntaxes/log.tmLanguage.json'),
+        path: join(__dirname, 'syntaxes/log.tmLanguage.json'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
         aliases: ['log', 'logs']
       }
     ],

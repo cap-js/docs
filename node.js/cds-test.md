@@ -39,7 +39,7 @@ describe(()=>{
   const test = cds.test(__dirname+'/..')
 })
 ```
-This launches a CDS server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
+This launches a server from the specified target folder in a `beforeAll()` hook, with controlled shutdown when all tests have finished in an `afterAll()` hook.
 
 ::: warning  Don't use `process.chdir()`!
 Doing so in Jest tests may leave test containers in failed state, leading to failing subsequent tests. Use [`cds.test.in()`](#test-in-folder) instead.
@@ -332,7 +332,7 @@ beforeEach (async()=>{
 
 
 
-### test .log() {.method}
+### test. log() {.method}
 
 Allows to capture console output in the current test scope. The method returns an object to control the captured logs:
 
@@ -507,7 +507,7 @@ expect(status).to.equal(200)   //> Do it at the end, if at all // [!code ++]
 
 This makes a difference if there are errors: with the status code check, your test aborts with a useless _Expected: 200, received: xxx_ error, while without it, it fails with a richer error that includes a status text.
 
-Note that by default, Axios yields errors for status codes `< 200` and `>= 300`. This can be [configured](https://github.com/axios/axios#handling-errors), though.
+Note that by default, Axios throws errors for status codes `< 200` and `>= 300`. This can be [configured](https://github.com/axios/axios#handling-errors), though.
 
 
 

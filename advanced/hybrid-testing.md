@@ -1,7 +1,7 @@
 ---
 label: Hybrid Testing
 synopsis: >
-  How to locally test your application with real cloud services
+  How to locally test your application with real cloud services.
 permalink: advanced/hybrid-testing
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html and https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -28,7 +28,7 @@ cds bind -2 my-hana:my-hana-key
 Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
+[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
 [Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:

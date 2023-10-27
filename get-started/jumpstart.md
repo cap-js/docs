@@ -41,7 +41,7 @@ Choose the **LTS** version, via the left-hand side button:
 ```sh
 npm add -g @sap/cds-dk
 ```
-[Running into problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
+[Running into problems? &rarr; See the troubleshooting guide.](troubleshooting#npm-installation){.learn-more}
 
 
 ### 3. Install Git
@@ -117,10 +117,10 @@ The default project structure of CAP projects is as follows:
 
 ```zsh
 bookshop/        # Your project's root folder
-├─ app /         # UI-related content goes here
-├─ srv/          # Service-related content goes here
-├─ db/           # Domain models and database-related content goes here
-├─ package.json  # Contains configuration for cds-dk
+├─ app/          # UI-related content
+├─ srv/          # Service-related content
+├─ db/           # Domain models and database-related content
+├─ package.json  # Configuration for cds + cds-dk
 └─ readme.md     # A readme placeholder
 ```
 

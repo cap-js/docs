@@ -10,7 +10,7 @@ const createWordsWithoutSuggestionsText = (words) => `For the following words no
 const createUnknownWordComment = (word) => `Fix the spelling mistake in "**${word}**" or add it to the **project-words.txt** list.`
 
 const createMissingCodeFencesText = (lines) =>
-    `
+`
 \`\`\`\`suggestion
 ${lines.join('\n')}
 \`\`\`\`
@@ -21,7 +21,7 @@ Please add a language tag. For plain text add \`txt\` as language tag.
 const getNoEmptyLinkText = () => 'No empty links. Please provide a link value.'
 
 const getSpellingCorrectionTip = () =>
-    `
+`
 Generally, for each spelling mistake there are 2 ways to fix it:
 1. Fix the spelling mistake and commit it.
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
@@ -65,9 +65,6 @@ module.exports = async ({ github, require, exec, core }) => {
             spellingMistakes.push(...(review.body.match(/\*(.*) <!--Spelling Mistake-->/g) || []))
             linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
         })
-
-    console.log(linterErrors)
-    console.log(spellingMistakes)
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
@@ -183,8 +180,6 @@ module.exports = async ({ github, require, exec, core }) => {
 
             const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->`
 
-            console.log('CREATED FOLLOWING LINT ERROR TEXT: ' + text)
-
             if (!linterErrors.find(el => el === text)) {
                 lintErrorsText += text + '\n'
                 comments.push(comment)
@@ -204,8 +199,6 @@ module.exports = async ({ github, require, exec, core }) => {
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
-
-            console.log('CREATED FOLLOWING SPELLING MISTAKE TEXT: ' + text)
 
             if (spellingMistakes.find(el => el === text)) continue
 

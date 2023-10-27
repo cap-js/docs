@@ -181,10 +181,10 @@ module.exports = async ({ github, require, exec, core }) => {
                 }
             }
 
-            const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->\n`
+            const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->`
 
             if (!linterErrors.find(el => el === text)) {
-                lintErrorsText += text
+                lintErrorsText += text + '\n'
                 comments.push(comment)
             }
         }
@@ -201,7 +201,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
 
-            const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->\n`
+            const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
 
             if (spellingMistakes.find(el => el === text)) continue
 
@@ -234,7 +234,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 wordsWithoutSuggestions.push(word)
             }
 
-            spellingMistakesText += text
+            spellingMistakesText += text + '\n'
         }
 
         if (wordsWithoutSuggestions.length > 0 && comments.length > 0) {

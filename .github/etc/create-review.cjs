@@ -62,8 +62,8 @@ module.exports = async ({ github, require, exec, core }) => {
     result.data
         .filter(review => review.body.includes('<!-- Linter Review -->'))
         .forEach(review => {
-            spellingMistakes.push(...review.body.match(/\*(.*) <!--Spelling Mistake-->/g))
-            linterErrors.push(...review.body.match(/\*(.*) <!--Linter Errors-->/g))
+            spellingMistakes.push(...(review.body.match(/\*(.*) <!--Spelling Mistake-->/g) || []))
+            linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Errors-->/g) || []))
         })
 
     if (existsSync(markdownlintLogFile)) {

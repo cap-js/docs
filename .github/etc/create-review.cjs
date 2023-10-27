@@ -137,7 +137,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 codeBlockLines[0] = codeBlockLines[0] + 'txt'
 
-                comment = { path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end }
+                comment = { path, body: createMissingCodeFencesText(codeBlockLines), position: start }
             }
 
             if (rule === 'search-replace') {

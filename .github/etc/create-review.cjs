@@ -10,7 +10,7 @@ const createWordsWithoutSuggestionsText = (words) => `For the following words no
 const createUnknownWordComment = (word) => `Fix the spelling mistake in "**${word}**" or add it to the **project-words.txt** list.`
 
 const createMissingCodeFencesText = (lines) =>
-`
+    `
 \`\`\`\`suggestion
 ${lines.join('\n')}
 \`\`\`\`
@@ -21,7 +21,7 @@ Please add a language tag. For plain text add \`txt\` as language tag.
 const getNoEmptyLinkText = () => 'No empty links. Please provide a link value.'
 
 const getSpellingCorrectionTip = () =>
-`
+    `
 Generally, for each spelling mistake there are 2 ways to fix it:
 1. Fix the spelling mistake and commit it.
 2. The word is incorrectly reported as misspelled &#8594; put the word on the **project-words.txt** list, located in the root project directory.
@@ -50,6 +50,22 @@ module.exports = async ({ github, require, exec, core }) => {
     let lintErrorsText = ''
     let spellingMistakesText = ''
 
+    const result = await octokit.request('PUT /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
+        owner: REPO_OWNER,
+        repo: REPO,
+        pull_number: PULL_NUMBER
+    })
+
+    const linterErrors = []
+    const spellingMistakes = []
+
+    result.data
+        .map(review => review.body.includes('<!-- Linter Review -->'))
+        .forEach(review => {
+            spellingMistakes.add(...review.match(/\*(.*) <!--Spelling Mistake-->/g))
+            linterErrors.add(...review.match(/\*(.*) <!--Linter Errors-->/g))
+        })
+
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')
@@ -67,11 +83,12 @@ module.exports = async ({ github, require, exec, core }) => {
             [(test)[link.de]]
 
         */
-        for(let [error, path, pointer, rule, description, details, context] of matches) {
+        for (let [error, path, pointer, rule, description, details, context] of matches) {
             let contextText = ''
+            let comment;
 
             if (rule === 'MD011/no-reversed-links') {
-                const detailValue = details.slice(1,-1)
+                const detailValue = details.slice(1, -1)
 
                 contextText = `[Context: "${detailValue}"]`
 
@@ -87,7 +104,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 const commentBody = createSuggestionText(suggestion)
 
-                comments.push({ path, position, body: commentBody })
+                comment = { path, position, body: commentBody }
             }
 
             if (rule === 'MD042/no-empty-links') {
@@ -101,7 +118,7 @@ module.exports = async ({ github, require, exec, core }) => {
                     continue
                 }
 
-                comments.push({ path, position, body: getNoEmptyLinkText() })
+                comment = { path, position, body: getNoEmptyLinkText() }
             }
 
             if (rule === 'MD040/fenced-code-language') {
@@ -117,7 +134,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 codeBlockLines[0] = codeBlockLines[0] + 'txt'
 
-                comments.push({ path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end })
+                comment = { path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end }
             }
 
             if (rule === 'search-replace') {
@@ -136,7 +153,7 @@ module.exports = async ({ github, require, exec, core }) => {
                         continue
                     }
 
-                    comments.push({ path, position, body: getInvalidUrlText(text, link.slice(1, -1)) })
+                    comment = { path, position, body: getInvalidUrlText(text, link.slice(1, -1)) }
                 }
 
                 if (ruleName === 'custom-containers-requires-type') {
@@ -157,11 +174,16 @@ module.exports = async ({ github, require, exec, core }) => {
                     description = 'container type should be specified'
                     contextText = `[Context: "${affectedLine}"]`
 
-                    comments.push({ path, position, body: createSuggestContainerTypeText(correctedLine) })
+                    comment = { path, position, body: createSuggestContainerTypeText(correctedLine) }
                 }
             }
 
-            lintErrorsText += `* **${path}**${pointer} ${description} ${contextText}\n`
+            const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->\n`
+
+            if (!linterErrors.find(text)) {
+                lintErrorsText += text
+                comments.push(comment)
+            }
         }
     }
 
@@ -174,7 +196,11 @@ module.exports = async ({ github, require, exec, core }) => {
 
         const wordsWithoutSuggestions = []
 
-        for (const [error, path, pointer , word, context, suggestionString] of matches) {
+        for (const [error, path, pointer, word, context, suggestionString] of matches) {
+
+            const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->\n`
+
+            if (spellingMistakes.find(text)) continue
 
             // from "[s1, s2, s3]" to [ "s1", "s2", "s3" ]
             const suggestions = suggestionString
@@ -205,7 +231,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 wordsWithoutSuggestions.push(word)
             }
 
-            spellingMistakesText += `* **${path}**${pointer} Unknown word "**${word}**"\n`
+            spellingMistakesText += text
         }
 
         if (wordsWithoutSuggestions.length > 0 && comments.length > 0) {
@@ -227,6 +253,8 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     if (body) {
+        body = '<!-- Linter Review -->\n' + body
+
         await github.rest.pulls.createReview({
             owner: REPO_OWNER,
             repo: REPO,

@@ -162,7 +162,7 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications to send notifications via email, Slack, Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
 
-```cds
+```js
 let alert = await cds.connect.to ('notifications')
 await alert.notify({
    recipients: [ ...supporters ],
@@ -175,7 +175,7 @@ Features:
 
 - CAP Services-based programmatic client API → simple, backend-agnostic
 - Logging to console in development → fast turnarounds, minimized costs
-- Sending to [SAP Alert Notification Service](https://discovery-center.cloud.sap/serviceCatalog/alert-notification)
+- Sending to [SAP Alert Notification Service](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) in production
 - Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates

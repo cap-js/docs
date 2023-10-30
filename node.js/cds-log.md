@@ -380,7 +380,7 @@ Additionally, the log output needs to be formatted in a way that enables the res
 
 The Kibana-friendly log formatter constructs a loggable object from the passed arguments as well as [cds.context](events#cds-event-context) and the headers of the incoming request (if available).
 
-Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alternatively, it can be [activated](cds-env#cds-env) via `cds.env.features.kibana_formatter = true`. In the future, the Kibana-friendly formatter will become the default when running in SAP BTP and bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING).
+Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alternatively, it can be [activated](cds-env#cds-env) via `cds.env.features.kibana_formatter = true`. In the future, the Kibana-friendly formatter will become the default when running in SAP BTP and bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
 
 The following screenshot shows the log output for the rejection in the previous example with the Kibana-friendly log formatter.
 

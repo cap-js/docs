@@ -11,9 +11,10 @@ status: released
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
 ## Quickstart using VS Code {#cds-typer-vscode}
-1. Make sure you have the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
-2. See that cds-typer is enabled in your VS Code settings (CDS > Type Generator > Enabled).
-3. In your project's root, execute `cds add typer`.
+
+1. In your project's root, execute `cds add typer`.
+2. Make sure you have the [SAP CDS Language Support extension for VS Code](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) installed.
+3. See that cds-typer is enabled in your VS Code settings (CDS > Type Generator > Enabled).
 4. Install the newly added dev-dependency using `npm i`.
 5. Saving any _.cds_ file of your model from VS Code triggers the type generation process.
 6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
@@ -391,13 +392,13 @@ _tsconfig.json_, as we do not want to interfere with your configuration.
 The emitted types are bundled into a directory which contains a nested directory structure that mimics the namespaces of your CDS model. For the sake of brevity, we will assume them to be in a directory called _@cds-models_ in your project's root in the following sections.
 For example, the sample model contains a namespace `sap.capire.bookshop`. You will therefore find the following file structure after the type generation has finished:
 
-```txt
-@cds-models
-└───sap
-    └───capire
-        └───bookshop
-              index.js
-              index.ts
+```zsh
+@cds-models/
+└── sap/
+    └── capire/
+        └── bookshop/
+            ├── index.js
+            └── index.ts
 ```
 
 Each _index.ts_ file will contain type information for one namespace. For each entity belonging to that namespace, you will find two exports, a singular and a plural form:
@@ -416,27 +417,24 @@ The plural form exists as a convenience to refer to a collection of multiple ent
 You could import these types by using absolute paths, but there is a more convenient way for doing so which will be described in the next section.
 
 ## Subpath Imports
-Adding type support via `cds add typer` includes adding [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). Per default, the facet adds a mapping of `#cds-models/` to the default path your model's types are assumed to be generated to (_\<project root\>/@cds-models/_). If you are generating your types to another path and want to use subpath imports, you will have to adjust this setting in your _package.json_ **and** _jsconfig.json_/ _tsconfig.json_ accordingly.
+
+Adding type support via `cds add typer` includes configuring [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). The facet adds a mapping of `#cds-models/` to the default path your model's types are assumed to be generated to (_\<project root\>/@cds-models/_). If you are generating your types to another path and want to use subpath imports, you will have to adjust this setting in your _package.json_ **and** _jsconfig.json_/ _tsconfig.json_ accordingly.
 
 Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
 
-```txt
-bookstore
-│   package.json
-│
-└───@cds-models
-│   └───<described in the previous section>
-│
-└───db
-│      schema.cds
-│      …
-│
-└───srv
-│      cat-service.cds
-│      cat-service.js
-│       …
-│
-└─── …
+```zsh
+bookstore/
+├── package.json
+├── @cds-models/
+│   └── ‹described in the previous section›
+├── db/
+│   ├── schema.cds
+│   └── ...
+├── srv/
+│   ├── cat-service.cds
+│   ├── cat-service.js
+│   └── ...
+└── ...
 ```
 
 The following two (equally valid) statements would amount to the same import [from within the catalog service](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/srv/cat-service.js):

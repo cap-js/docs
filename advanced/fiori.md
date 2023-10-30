@@ -49,7 +49,7 @@ To also enable it in cloud deployments, for test or demo purposes maybe, add the
 
 :::
 
-## Adding SAP Fiori Apps to CAP Projects
+## Adding Fiori Apps
 
 As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
 
@@ -71,22 +71,18 @@ The SAP Fiori tools provide advanced support for adding SAP Fiori apps to existi
 
 [Learn more about **how to install SAP Fiori tools**.](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/2d8b1cb11f6541e5ab16f05461c64201.html){.learn-more}
 
-<div id="tools-preview" />
 
-<div id="cds-add-fiori" />
-
-### By Copying from [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
+### From [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
 
 For example, you can copy the [SAP Fiori apps from cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app) as a template and modify the content as appropriate.
 
-<div id="fe-samples-cap" />
 
-### By Copying the [SAP Fiori Elements Sample Service](https://github.com/SAP-samples/fiori-elements-incident-management/tree/sampleSolution)
+### From [Incidents Sample](https://github.com/SAP-samples/fiori-elements-incident-management/tree/sampleSolution)
 
 > This is a sample to create an incident management app with SAP Fiori elements for OData V4.
 
 
-## Adding SAP Fiori Annotations {#fiori-annotations}
+## Fiori Annotations
 
 The main content to add is service definitions annotated with information about how to render respective data.
 
@@ -382,7 +378,7 @@ entity Foo @(Capabilities:{
 Similar recommendations apply to `@mandatory` and others &rarr; see [Common Annotations](../cds/annotations#common-annotations).
 
 
-## Draft-Based Editing {#draft-support}
+## Draft Support
 
 SAP Fiori supports edit sessions with draft states stored on the server, so users can interrupt and continue later on, possibly from different places and devices. CAP, as well as SAP Fiori elements, provide out-of-the-box support for drafts as outlined in the following sections. **We recommend to always use draft** when your application needs data input by end users.
 
@@ -456,7 +452,7 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 [Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
 
-## Value Help Support
+## Value Helps
 
 In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies](odata#annotations), CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
 

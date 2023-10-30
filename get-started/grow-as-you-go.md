@@ -5,15 +5,10 @@ synopsis: Grow your project gradually and learn the next steps.
 
 # Grow As You Go...
 
-As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of *grow as you go* is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development.
+As your project evolves, you would gradually add new features, for example as outlined in the sections below. The idea of *grow as you go* is to keep you focused on your application's domain and functionality, getting fast results in inner-loop development, starting with a minimalistic upfront setup and the simplest possible project structure, and add more features as you go, **only when you really need them**.
 
-Later on, you can easily add configurations, **only when you really need them**.
+[[toc]]
 
-::: tip Intrinsic Cloud Qualities
-
-As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the necessary things, for example for tenant isolation, behind the scenes. Similarly, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer, need to do to enable this.
-
-:::
 
 ## Prepare for Production
 
@@ -44,6 +39,10 @@ If you are creating a SaaS application you also need to add support for tenant s
 ```sh
 cds add multitenancy
 ```
+
+::: tip Intrinsic Cloud Qualities
+As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the necessary things, for example for tenant isolation, behind the scenes. Similarly, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer, need to do to enable this.
+:::
 
 
 

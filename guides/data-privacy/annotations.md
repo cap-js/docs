@@ -21,22 +21,22 @@ In order to automate audit logging, personal data management, and data retention
 
 ## Reference App Sample { #annotated-model }
 
-In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/SAP-samples/cap-sample-incidents-mgmt) as the base to add data privacy and audit logging to.
-
-
+In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
 
 <img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" />
 
-So, let's annotate the data model to identify personal data. In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly. All found entities are classified as either *Data Subjects*, *Subject Details* or *Related Data Objects*.
+So, let's annotate the data model to identify personal data.
+In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly.
+All found entities are classified as either *Data Subjects*, *Subject Details* or *Related Data Objects*.
 
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotate our domain model in a separate file *srv/data-privacy.cds*, which we add to our project and fill it with the following content:
 
 ::: code-group
 
 ```cds [srv/data-privacy.cds]
-using { sap.capire.incidents as db } from '@capire/incidents';
+using { sap.capire.incidents as my } from '../db/extensions';
 
-annotate db.Customers with @PersonalData : {
+annotate my.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubject'
 } {
@@ -48,7 +48,7 @@ annotate db.Customers with @PersonalData : {
   creditCardNo @PersonalData.IsPotentiallySensitive;
 };
 
-annotate db.Addresses with @PersonalData: {
+annotate my.Addresses with @PersonalData: {
   EntitySemantics : 'DataSubjectDetails'
 } {
   customer      @PersonalData.FieldSemantics: 'DataSubjectID';
@@ -57,7 +57,7 @@ annotate db.Addresses with @PersonalData: {
   streetAddress @PersonalData.IsPotentiallyPersonal;
 };
 
-annotate db.Incidents with @PersonalData : {
+annotate my.Incidents with @PersonalData : {
   EntitySemantics : 'Other'
 } {
   customer @PersonalData.FieldSemantics: 'DataSubjectID';

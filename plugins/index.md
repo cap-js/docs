@@ -67,7 +67,7 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 1em"}](https://www.npmjs.com/package/@cap-js/graphql)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/@cap-js/graphql)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -80,8 +80,8 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 1em"}](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[![](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 1em"}](../java/migration#v2adapter)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 1em" />](../java/migration#v2adapter)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
@@ -97,7 +97,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 1em"}](https://www.npmjs.com/package/cds-plugin-ui5)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/cds-plugin-ui5)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -121,7 +121,7 @@ annotate my.Incidents {
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em;display:inline; margin:0 1em"}](https://npmjs.com/package/@cap-js/change-tracking)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://npmjs.com/package/@cap-js/change-tracking)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -130,7 +130,7 @@ Click on the icon to get detailed instructions. {.learn-more}
 ## Audit Logging
 [@cap-js/audit-logging](https://www.npmjs.com/package/@cap-js/audit-logging) {.subtitle}
 
-The Audit Log plugin provides out-of-the box support for logging personal data-related operations with the SAP BTP Audit Logging Service. All we need is annotations of respective entities and fields like that:
+The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
 annotate my.Customers with @PersonalData {
@@ -143,48 +143,52 @@ annotate my.Customers with @PersonalData {
 
 Features:
 
-- Simple, annotation-based usage
-- Minimized performance impact through asynchronous logging
-- Ultimate resilience through transactional outbox.
+- Simple, Annotation-based usage → automatically logging personal data-related events
+- CAP Services-based programmatic client API → simple, backend-agnostic
+- Logging to console in development → fast turnarounds, minimized costs
+- Logging to [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service) in production
+- Transactional Outbox → maximised scalability and resilience
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 1em"}](../guides/data-privacy/audit-logging)
-[![](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 1em"}](../java/auditlog)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](../guides/data-privacy/audit-logging)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 1em" />](../java/auditlog)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
 ## Notifications
 
-The Notifications plugin provides integration to the SAP Alert Notifications service, which allows to send notifications to users via email, SMS, or SAP Fiori Launchpad notifications. The alert notification is implemented as a CAP service, which gives us a very simple client API:
+[@cap-js/notifications](https://www.npmjs.com/package/@cap-js/notifications) {.subtitle}
 
-```cds
+The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications to send notifications via email, Slack, Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
+
+```js
 let alert = await cds.connect.to ('notifications')
 await alert.notify({
-   recipients: [ "alice@wonderland.org" ],
-   title: `New incident created by ${customer.name}`,
+   recipients: [ ...supporters ],
+   title: `New incident created by ${customer.info}`,
    description: incident.title
 })
 ```
 
 Features:
 
-- Supports Email, SMS, and SAP Fiori Launchpad notifications
-- Simple CAP Services-based client API
-- Minimized overhead through asynchronous sending of notifications
-- Ultimate reselience through transactional outbox
+- CAP Services-based programmatic client API → simple, backend-agnostic
+- Logging to console in development → fast turnarounds, minimized costs
+- Sending to [SAP Alert Notification Service](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) in production
+- Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates
+- SAP ANS supports Email, Slack, Teams, and SAP Fiori notifications
 
 Available for:
 
-[![](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 1em"}](https://github.com/cap-js/notifications#readme)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://github.com/cap-js/notifications#readme)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
 
-## Attachments
-
+<div id="attachments" />
 
 <div id="internal-plugins" />
 

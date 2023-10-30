@@ -403,6 +403,6 @@ if (!cds.context) cds.context = { id }
 req.headers['x-correlation-id'] = cds.context.id
 ```
 
-The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING/Cloud/en-US).
+The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
 
 ![Default Formatter Output](assets/correlation.png)

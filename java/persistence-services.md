@@ -37,9 +37,10 @@ entity Books : cuid {
     title        : localized String(111);
     descr        : localized String(1111);
     @cds.collate : false // [!code focus]
-    isbn         : String(40);  // does not require locale-specific sorting // [!code focus]
+    isbn         : String(40);  // does not require locale-specific handling // [!code focus]
 }
 ```
+> When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
 :::tip Disable Statement-Wide Collation
 To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.

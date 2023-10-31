@@ -435,7 +435,7 @@ Even though the callback function is executed as a background job, all asynchron
 
 **Arguments:**
 
-* `options` is the same as the `context` argument for `cds.tx()`, plus:
+* `options` is the same as the `ctx` argument for `cds.tx()`, plus:
   * `every: <n>` number of milliseconds to use in `setInterval(fn,n)`
   * `after: <n>` number of milliseconds to use in `setTimeout(fn,n)`
   * if non of both is given `setImmediate(fn)` is used to run the job
@@ -462,11 +462,11 @@ The implementation guarantees decoupled execution from request-handling threads/
 
 - constructing a new root transaction `tx` per run using `cds.tx()`
 - setting that as the background run's continuation's `cds.context`
-- invokes `fn` passing `tx` as argument to it.
+- invoking `fn`, passing `tx` as argument to it.
 
 Think of it as if each run happens in an own thread with own context, with automatic transaction management.
 
-Use argument `options` if you want to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
+The nested context inherits values from `cds.context`. Use the argument `options` if you want to override values, for example to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
 
 
 

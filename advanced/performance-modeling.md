@@ -277,8 +277,8 @@ Typical examples of calculated fields are:
 The following steps show you which option takes precedence over another. Use options one/two as the preferred way and three/four as fallback.
 
 1. Do the calculation on the UI with help of field controls or dedicated custom controls. This applies to all kinds of **String concatenation** and **Formatting**.
-2. Pre-calculate on *write* with help of an event handler.
-3. Some Calculated Fields are dynamic in nature. Do those calculations on the database layer. For example _kanban_ (scheduling system for lean manufacturing), there you typically have dynamic live calculations.
+2. Pre-calculate using CDS [on write](https://pages.github.tools.sap/cap/docs/cds/cdl#on-write) calculated fields.
+3. Some Calculated Fields are dynamic in nature. If possible, calculate them using CDS [on read](https://pages.github.tools.sap/cap/docs/cds/cdl#on-read) calculated fields. 
 4. As a **very last resort**, use event handlers on *read*.
 
 Hints:
@@ -312,35 +312,15 @@ entity OrdersItemsView as projection on OrdersItems {
 ::: code-group
 ```cds [schema.cds]
 extend my.OrdersItems with {
-    itemCategory: String enum{ Small; Medium; Large;};
-    // fill itemCategory at runtime in service.js
+    category: String = case
+       when quantity > 500 then 'Large'
+       when quantity > 100 then 'Medium'
+       else 'Small'
+     end stored;  
 }
 ```
 :::
 
-::: code-group
-```js [service.js]
-...
-// fill itemCategory at runtime
-    this.before (['CREATE', 'UPDATE'], 'my.OrdersItems', async req => {
-      if (req.data.quantity > 500) {req.data.itemCategory = 'Large'}
-        else if (req.data.quantity > 100) {req.data.itemCategory = 'Medium'}
-        else    {req.data.itemCategory = 'Small'}
-    })
-...
-```
-:::
-
-New `OrdersItemsView` without case statement:
-
-::: code-group
-```cds [service.cds]
-entity OrdersItemsView as projection on OrdersItems {
-    *,
-    itemCategory as category
-};
-```
-:::
 
 ## Compositions vs Associations
 From the performance perspective there are some cases, where you have to check out carefully if the general semantic rules of compositions vs associations should be applied.

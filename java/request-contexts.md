@@ -153,7 +153,20 @@ public void afterHandler(EventContext context){
     });
 }
 ```
+### Switching to provider tenant
+<img src="./assets/switchprovidertenant.drawio.svg" width="500px">
 
+The application offers an action for one of its CDS entities. Within the action a communication happens with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. By using the `systemUserProvider()`, the existing user information will be removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service which is secured using the pseudo-role `internal-user`.
+
+```java
+@On(entity = Books_.CDS_NAME)
+public void onAction(AddToOrderContext context){
+    runtime.requestContext().systemUserProvider().run(reqContext -> {
+        // call remote CAP service
+        ...
+    });
+}
+```
 ### Switching to a specific technical tenant
 <img src="./assets/switchtenant.drawio.svg" width="400px">
 

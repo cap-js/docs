@@ -132,15 +132,17 @@ The `RequestContextRunner` API offers convenience methods which allows an easy t
 | anonymousUser()      | Switches to an anonymous user.                                                                                                       |
 | privilegedUser()     | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
 
-<b>Note: </b> The 'RequestContextRunner' API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.   
+::: info Note 
+The [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.   
+:::
 
 In the following a few concrete examples are given:
 
-1) Switch to technical user
+### Switching to technical user
 <img src="./assets/nameduser.drawio.svg" width="500px">
 
 The incoming JWT token will trigger creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler will be executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service without propagating the named user <i>JohnDoe</i>. 
-Therefore, the `after` handler needs to create a new Request Context. To achieve this, it is required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context. The code being executed in the passed `java.util.function.Function` is triggered with the `run()` method.   
+Therefore, the `after` handler needs to create a new Request Context. To achieve this, it is required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:   
 
 ```java
 @After(entity = Books_.CDS_NAME)
@@ -152,13 +154,13 @@ public void afterHandler(EventContext context){
 }
 ```
 
-2) Switch to a specific tenant
+### Switching to a specific technical tenant
 <img src="./assets/switchtenant.drawio.svg" width="400px">
 
 The application is using a job scheduler which needs to regularly perform tasks on behalf of a certain tenant. By default, background executions (e.g. in a dedicated thread pool) are not associated to any subscriber tenant and user. In this case, it is necessary to explicitly define a new Request Context based on the subscribed tenant by calling `systemUser(tenantId)`. This will ensure that the Persistence Service will perform the query for the specified tenant.      
 
 ```java
-runtime.requestContext().systemUserSubscriber(tenant).run(reqContext -> {
+runtime.requestContext().systemUser(tenant).run(reqContext -> {
     return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
 });
 ```

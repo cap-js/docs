@@ -158,7 +158,7 @@ cds:
 
 The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
 
-<div id="handler-v2"/>
+<div id="handler-mt-v2"/>
 
 ### Custom AuditLog Handler
 

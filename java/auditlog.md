@@ -133,6 +133,30 @@ logging:
   level:
     com.sap.cds.auditlog: DEBUG
 ```
+### AuditLog v2 Handler { #handler-v2 .impl.internal}
+
+Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `pom.xml` of the CAP Java project:
+
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-auditlog-v2</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+Also a service binding to the AuditLog v2 service has to be added to the CAP Java application, then this handler is activated. The Auditlog v2 handler supports the `premium` plan of the AuditLog Service as described [here](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?#prerequisites-for-using-the-audit-log-write-api-for-customers).
+
+<div id="handler-service-plans"/>
+
+If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/development/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
+
+```yaml
+cds:
+  auditlog.v2.enabled: false
+```
+
+The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
 
 <div id="handler-v2"/>
 

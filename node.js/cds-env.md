@@ -21,9 +21,9 @@ Here's a brief intro how to use it:
 ```sh
 cds env               #> shortcut to `cds env ls`
 cds env ls            #> lists all settings in properties format
-cds env ls folders    #> lists the `requires.sql` settings
+cds env ls folders    #> lists the `folders` settings
 cds env get           #> prints all settings in JSON-like format
-cds env get folders   #> prints the `requires.sql` settings
+cds env get folders   #> prints the `folders` settings
 cds env get defaults  #> prints defaults only
 cds env ?             #> get help
 ```

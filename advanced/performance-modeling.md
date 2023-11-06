@@ -278,7 +278,7 @@ The following steps show you which option takes precedence over another. Use opt
 
 1. Do the calculation on the UI with help of field controls or dedicated custom controls. This applies to all kinds of **String concatenation** and **Formatting**.
 2. Pre-calculate using CDS [on write](../cds/cdl#on-write) calculated fields.
-3. Some Calculated Fields are dynamic in nature. If possible, calculate them using CDS [on read](../cds/cdl#on-read) calculated fields. 
+3. Some calculations are dynamic in nature. If possible, use CDS [on read](../cds/cdl#on-read) calculated fields. 
 4. As a **very last resort**, use event handlers on *read*.
 
 Hints:

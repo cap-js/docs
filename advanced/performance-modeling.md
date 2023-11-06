@@ -277,8 +277,8 @@ Typical examples of calculated fields are:
 The following steps show you which option takes precedence over another. Use options one/two as the preferred way and three/four as fallback.
 
 1. Do the calculation on the UI with help of field controls or dedicated custom controls. This applies to all kinds of **String concatenation** and **Formatting**.
-2. Pre-calculate using CDS [on write](https://pages.github.tools.sap/cap/docs/cds/cdl#on-write) calculated fields.
-3. Some Calculated Fields are dynamic in nature. If possible, calculate them using CDS [on read](https://pages.github.tools.sap/cap/docs/cds/cdl#on-read) calculated fields. 
+2. Pre-calculate using CDS [on write](../cds/cdl#on-write) calculated fields.
+3. Some Calculated Fields are dynamic in nature. If possible, calculate them using CDS [on read](../cds/cdl#on-read) calculated fields. 
 4. As a **very last resort**, use event handlers on *read*.
 
 Hints:

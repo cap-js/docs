@@ -218,7 +218,7 @@ Following is an index of the features currently covered by CAP, with status and 
 |--------------------------------------------------------------------------------------------------|:----:|:-------:|:----:|
 | [Serving Fiori UIs](../advanced/fiori)                                                           | <X/> |  <X/>   | <X/> |
 | [Fiori Annotations in CDS](../advanced/fiori#fiori-annotations)                                  | <X/> |  <X/>   | <X/> |
-| [Advanced Value Help](../advanced/fiori#value-help-support)                                      | <X/> |  <X/>   | <X/> |
+| [Advanced Value Help](../advanced/fiori#value-helps)                                             | <X/> |  <X/>   | <X/> |
 | [Draft Support](../advanced/fiori#draft-support)                                                 | <X/> |  <X/>   | <X/> |
 | [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                           | <X/> |  <X/>   | <X/> |
 | [Support for Fiori Analytics](../advanced/analytics)                                             | <X/> |  <D/>   | <X/> |

@@ -24,7 +24,7 @@ impl-variants: true
       background-size: 20px;
       line-height: 22px;
       border-radius: 50%;
-      font-weight: 400;
+      font-weight: 500;
       text-align: center;
       font-size: 12px;
       vertical-align: middle;
@@ -80,7 +80,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 
 
-## 1. Jumpstart a Project { #start-a-project}
+## Jumpstart a Project { #start-a-project}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 1. Create a new project using `cds init`
@@ -141,7 +141,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 
 
-## 2. Capture Domain Models { #domain-models }
+## Capture Domain Models { #domain-models }
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -186,7 +186,7 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 [Learn more about **CDS Modeling Languages**.](../cds/){ .learn-more}
 
 
-### Deployed to Databases Automatically {#deployed-in-memory}
+### Automatically Deployed to Databases {#deployed-in-memory}
 
 <div class="impl node">
 
@@ -229,7 +229,7 @@ cds db/schema.cds -2 sql
 
 
 
-## 3. Providing Services { #defining-services}
+## Declaring Services {#services}
 
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
@@ -351,7 +351,7 @@ cds srv/cat-service.cds -2 edmx
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 
-## 4. Using Databases {#databases}
+## Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 
@@ -483,7 +483,7 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## 5. Adding/Serving UIs {#adding-serving-uis}
+## Adding/Serving UIs {#uis}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -491,7 +491,7 @@ Simply add an _index.html_ file into the _app/_ folder, to replace the generic i
 
 ### Vue.js UIs {#vue .impl .node}
 
-For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#defining-services). {.impl .node}
+For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#services). {.impl .node}
 
 ![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/in-a-nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
 
@@ -513,7 +513,7 @@ query options, such as `$select`, `$expand`, `$search`, and many more.
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
 
 
-## 6. Adding Custom Logic {#adding-custom-logic}
+## Adding Custom Logic
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.

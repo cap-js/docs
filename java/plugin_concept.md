@@ -107,6 +107,11 @@ The real difference to your typical event handler in your application code is th
 So, in order to have a framework independent handler registration the `` interface needs to be implemented like this:
 
 ```java
+package com.sap.example.cds;
+
+import com.sap.cds.services.runtime.CdsRuntimeConfiguration;
+import com.sap.cds.services.runtime.CdsRuntimeConfigurer;
+
 public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguration {
 
 	@Override
@@ -117,7 +122,15 @@ public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguratio
 }
 ```
 
-At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. Then, the `eventHandlers` method of each discovered implementation will be called. In our case the method will register the provided `CdsRuntimeConfigurer` with a new instance of the `SampleHandler`. This newly registered handler will be called the same way as all other event handlers of the application.
+At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
+
+```
+com.sap.example.cds.SampleHandlerRuntimeConfiguration
+```
+
+With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfiguration` to load our new, generic EventHandler for all read events on all entities of all services. For realistic usecases the handler configuration can be more concise, of course. Consult the CAP [Java EventHandler documentation](https://cap.cloud.sap/docs/java/provisioning-api#handlerclasses) for more details.
+
+A complete end-to-end example for reusable event handlers can be found in this [blog post](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/).
 
 ### Putting it all together
 

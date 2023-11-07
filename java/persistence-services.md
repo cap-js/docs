@@ -153,8 +153,6 @@ Advise the CDS Compiler to avoid generating superfluous localized views in _.cds
 { "cdsc": { "fewerLocalizedViews": true } }
 ```
 
-
-
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
 ::: warning
@@ -236,13 +234,15 @@ Advise the CDS Compiler to
 * enable support for [session context variables](../guides/databases-sqlite#session-variables) and
 * avoid generating superfluous localized views
 
+by this configuration in _.cdsrc.json_:
+
 ```json
 {
     "cdsc": {
         "betterSqliteSessionVariables": true,
         "fewerLocalizedViews": true
     }
-* avoid generating superfluous localized views in _.cdsrc.json_:
+}
 ```
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:

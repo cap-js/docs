@@ -73,16 +73,6 @@ using { CatalogService } from 'com.sap.capire/bookshop';
 
 This technique can be used indepently or together with one or more of the techniques described on this page.
 
-### Protocol Adapter
-
-In CAP Java the protocol adapter is the mechanism to implement inbound communication from other service to the CAP service in development. The task of a protocol adapter is to translate any incoming requests (protocol) to CQL statements that then can be executed on local services. CAP Java comes with 2 OData protocol adapters (OData V2 and V4) but can be extended with custom implementations. 
-
-(add details about the interfaces that can be implemented)
-
-### Remote Service Adapter
-
-The remote service adapters are basically the counterpart of the protocol adapters. They take CQL statements issued locally on remote services and transform them according to the protocol of the corresponding remote service. 
-
 ### Event Handlers for custom types and annotations
 
 Besides extending the capabilities for in- and outbound requests it is also possible to extend the behaviour of event and request handling *inside* the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations. Inside your reuse module you can define a custom event handler and and a registration hook as plain Java code. Once this module is addded to any CAP Java application as a dependency the contained event handler code will be active automatically.
@@ -128,9 +118,22 @@ At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/
 com.sap.example.cds.SampleHandlerRuntimeConfiguration
 ```
 
-With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfiguration` to load our new, generic EventHandler for all read events on all entities of all services. For realistic usecases the handler configuration can be more concise, of course. Consult the CAP [Java EventHandler documentation](https://cap.cloud.sap/docs/java/provisioning-api#handlerclasses) for more details.
+With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfiguration` to load our new, generic EventHandler for all read events on all entities of all services. For realistic usecases the handler configuration can be more concise, of course.
+
+[Learn more about event handling in our EventHandler documentation](https://cap.cloud.sap/docs/java/provisioning-api){.learn-more}
 
 A complete end-to-end example for reusable event handlers can be found in this [blog post](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/).
+
+### Protocol Adapter
+
+In CAP Java, the protocol adapter is the mechanism to implement inbound communication from other service to the CAP service in development. The task of a protocol adapter is to translate any incoming requests (protocol) to CQL statements that then can be executed on local services. CAP Java comes with 2 OData protocol adapters (OData V2 and V4) but can be extended with custom implementations. In this section we'll have a deeper look on how such a protocol adapter can be built and registered with the CAP Java runtime.
+
+Usually, a protocol adapter comes in 2 parts. The adapter itself (in most cases an implementation of the HttpServlet interface) and a factory class that creates an instance of the adapter as well as providing information about the paths to which the protocol adapter (the servlet) needs to be registered.
+
+
+
+(add details about the interfaces that can be implemented)
+
 
 ### Putting it all together
 

@@ -112,7 +112,6 @@ In case an order item is directly created (for example through a containment nav
 
 `READ` event handlers must return the data that was read, either as an `Iterable<Map>` or [Result](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html) object created via the [ResultBuilder](#result-builder-read). For queries with inline count, a `Result` object _must_ be used as the inline count is obtained from the `Result` interface.
 
-#### /$count Results
 
 `READ` event handlers are also called, for OData `/$count` requests. These requests determine the total amount of entity instances of a specific entity. When handling these requests in a custom `@On` event handler a `Map` with a single key `count` needs to be returned as a result:
 

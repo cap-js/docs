@@ -248,7 +248,7 @@ Define the mock users in a Spring profile, which may be only active during testi
 ```yaml
 ---
 spring:
-  profiles: test
+  config.activate.on-profile: test
 cds:
   security:
     mock:
@@ -316,7 +316,7 @@ A `tenants` section allows to specify additional configuration for the _mock ten
 ```yaml
 ---
 spring:
-  profiles: test
+  config.activate.on-profile: test
 cds:
   security:
     mock:

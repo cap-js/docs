@@ -147,7 +147,7 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 </execution>
 ```
 
-Advise the CDS Compiler to avoid generating superflous localized views in _.cdsrc.json_:
+Advise the CDS Compiler to avoid generating superfluous localized views in _.cdsrc.json_:
 
 ```json
 { "cdsc": { "fewerLocalizedViews": true } }

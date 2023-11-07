@@ -234,7 +234,7 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 Advise the CDS Compiler to
 
 * enable support for [session context variables](../guides/databases-sqlite#session-variables) and
-* avoid generating superflous localized views in _.cdsrc.json_:
+* avoid generating superflous localized views
 
 ```json
 {

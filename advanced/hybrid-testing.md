@@ -222,7 +222,7 @@ cds env get requires.db.credentials --profile hybrid --resolve-bindings
 
 Example output:
 
-```json
+```js
 {
   url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
   host: 'bdb9ac0f20cb46b494e6742047c4f99a.hana.eu10.hanacloud.ondemand.com',

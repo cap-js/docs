@@ -160,7 +160,7 @@ If you don't have a compatible PostgreSQL service binding in your application en
 ```yaml
 ---
 spring:
-  profiles: postgres
+  config.activate.on-profile: postgres
   datasource:
     url: <url>
     username: <user>
@@ -238,7 +238,7 @@ The database content is stored in a file, `sqlite.db` as in the following exampl
 ```yaml
 ---
 spring:
-  profiles: sqlite
+  config.activate.on-profile: sqlite
   sql:
     init:
       mode: never
@@ -257,7 +257,7 @@ The database content is stored in-memory only. The schema initialization done by
 ```yaml
 ---
 spring:
-  profiles: default
+  config.activate.on-profile: default
   sql:
     init:
       mode: always

@@ -233,7 +233,9 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 | Platform service             | URL                         | Authorization                                                                                          |
 |------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|
-| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | Technical role `mtcallback`                     |
+
+<!-- Add learn more link for mtcallback as soon as available in MTX Guide -->
 
 </div>
 

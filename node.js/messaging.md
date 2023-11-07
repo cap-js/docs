@@ -11,6 +11,8 @@ status: released
 
 {{$frontmatter?.synopsis}}
 
+[[toc]]
+
 <!--- % include links-for-node.md %} -->
 <!--- % include _chapters toc="2,3" %} -->
 

@@ -242,7 +242,7 @@ Advise the CDS Compiler to
         "betterSqliteSessionVariables": true,
         "fewerLocalizedViews": true
     }
-}
+* avoid generating superfluous localized views in _.cdsrc.json_:
 ```
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:

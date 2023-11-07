@@ -196,7 +196,7 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-Advise the CDS Compiler to avoid generating superflous localized views in _.cdsrc.json_:
+Advise the CDS Compiler to avoid generating superfluous localized views in _.cdsrc.json_:
 
 ```json
 { "cdsc": { "fewerLocalizedViews": true } }

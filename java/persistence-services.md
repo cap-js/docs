@@ -121,9 +121,26 @@ cds:
 
 ### SAP HANA
 
+#### Service Bindings
+
 SAP HANA can be configured when running locally as well as when running productively in the cloud. The datasource is auto-configured based on available service bindings in the `VCAP_SERVICES` environment variable or locally the _default-env.json_. This only works if an application profile is used, that doesn't explicitly configure a datasource using `spring.datasource.url`. Such an explicit configuration always takes precedence over service bindings from the environment.
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
+
+#### SQL Optimization Mode
+
+By default, CAP Java generates SQL in `legacy` _optimization mode_, which is compatible with SAP HANA Cloud Edition as well as with HANA 2.x (HANA as a Service). If your deployment target is SAP HANA Cloud Edition you can also specifiy the optimization mode `hex`. In `hex` mode, CAP generates SQL that will _only_ run on the [HEX engine](https://help.sap.com/docs/SAP_HANA_PLATFORM/9de0171a6027400bb3b9bee385222eff/3861d0908ef14e8bbec1d76ea871ac0f.html#sap-hana-execution-engine-(hex)) of SAP HANA Cloud Edition:
+
+```yaml
+cds:
+  sql:
+    hana:
+      optimizationMode: hex
+```
+
+:::tip
+Use the [hints](.../java/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+:::
 
 ### PostgreSQL { #postgresql-1 }
 

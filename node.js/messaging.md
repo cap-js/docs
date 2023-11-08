@@ -129,7 +129,7 @@ this.after(['CREATE', 'UPDATE', 'DELETE'], 'Reviews', async (_, req) => {
 ```
 ::: tip
 The messages are sent once the transaction is successful.
-Per default, a persistent outbox is used.See [Messaging - Outbox](./outbox) for more information.
+Per default, a persistent outbox is used. See [Messaging - Outbox](./outbox) for more information.
 :::
 
 ## Receiving Events

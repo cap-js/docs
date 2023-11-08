@@ -1516,7 +1516,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑤ Add Qualities
+## ⑥ Add Qualities
 
 <div id="inaddqualities" />
 

@@ -411,7 +411,7 @@ You can disable the database clustering for the update.
 | _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
-#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {#connection-failed-89008}
 
 |  | Explanation |
 | --- | ---- |
@@ -420,7 +420,7 @@ You can disable the database clustering for the update.
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
 
 |  | Explanation |
 | --- | ---- |

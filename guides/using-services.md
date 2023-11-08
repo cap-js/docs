@@ -1494,6 +1494,25 @@ With the value `alwaysProvider` you can ensure that the destination is always re
 }
 ```
 
+For named destinations, you can additionally instruct CAP to withhold the request's JWT from SAP Cloud SDK by setting `forwardAuthToken` to `false`:
+
+```jsonc
+"cds": {
+  "requires": {
+    "API_BUSINESS_PARTNER": {
+      /* ... */
+      "credentials": {
+        "destination": "S4HANA",
+        /* ... */
+        "forwardAuthToken": false
+      }
+    }
+  }
+}
+```
+
+This can be beneficial when the authentication flow does not require a JWT (cf. [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval)). For example, ...
+
 </div>
 
 <div class="impl java">
@@ -1516,7 +1535,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑤ Add Qualities
+## ⑥ Add Qualities
 
 <div id="inaddqualities" />
 

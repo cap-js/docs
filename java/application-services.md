@@ -112,6 +112,19 @@ In case an order item is directly created (for example through a containment nav
 
 `READ` event handlers must return the data that was read, either as an `Iterable<Map>` or [Result](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html) object created via the [ResultBuilder](#result-builder-read). For queries with inline count, a `Result` object _must_ be used as the inline count is obtained from the `Result` interface.
 
+`READ` event handlers are also called, for OData `/$count` requests. These requests determine the total amount of entity instances of a specific entity. When handling these requests in a custom `@On` event handler a `Map` with a single key `count` needs to be returned as a result:
+
+```java
+@On(entity = MyEntity_.CDS_NAME)
+List<Map<String, Object>> readMyEntity(CdsReadEventContext context) {
+	if (CqnAnalyzer.isCountQuery(context.getCqn())) {
+		int count = 100; // determine correct count value
+		return List.of(Collections.singletonMap("count", count));
+	}
+	// handle non /$count requests
+}
+```
+
 ### UPDATE and DELETE Results
 
 `UPDATE` and `DELETE` statements have an optional filter condition (where clause) which determines the entities to be updated/deleted. Handlers _must_ return a `Result` object with the number of entities that match this filter condition and have been updated/deleted. Use the [ResultBuilder](#result-builder) to create the `Result` object.

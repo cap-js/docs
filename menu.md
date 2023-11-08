@@ -103,7 +103,7 @@
 - [Messaging](java/messaging-foundation)
 - [Advanced Concepts](java/advanced)
 - [Audit Logging](java/auditlog)
-- [Outbox](java/outbox)
+- [Transactional Outbox](java/outbox)
 - [Development](java/development/)
   - [CDS Properties](java/development/properties)
 - [Observability](java/observability)

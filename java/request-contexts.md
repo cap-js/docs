@@ -118,7 +118,7 @@ The CAP Java SDK allows you to create new Request Contexts and define their scop
 
 There are a few typical use cases in a CAP-based, multitenant application on SAP BTP in which creation of new Request Contexts is necessary. These scenarios are identified by a combination of the user (technical or named) and the tenant (provider or subscribed).
 
-<img src="./assets/requestcontext.drawio.svg"  alt="A named user can switch to a technical user in the same/subscriber tenant using the systemUser() mehtod. Also, a named user can switch to a technical user in the provider tenant using the systemUserProvider() method. In addition technical users provider/subscriber tenants can switch to technical users on provider/subscriber tenants. ">
+<img src="./assets/requestcontext.drawio.svg"  alt="A named user can switch to a technical user in the same/subscriber tenant using the systemUser() method. Also, a named user can switch to a technical user in the provider tenant using the systemUserProvider() method. In addition technical users provider/subscriber tenants can switch to technical users on provider/subscriber tenants using the methods systemUserProvider() or systemUser(tenant). ">
 
 When calling CAP Services, it's important to call them in an appropriate Request Context. Services might, for example,  trigger HTTP requests to external services by deriving the target tenant from the current Request Context.
 

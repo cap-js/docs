@@ -514,15 +514,15 @@ If you don't know the API endpoint, have a look at section [Regions and API Endp
     }
     ```
 
-    >If your running in BAS, you can alternatively [create a new run configuration](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/cdbc00244452483e9582a4f486b42d64.html), connecting the `uaa` to your XSUAA service instance.
+    >If your running in BAS, you can alternatively [create a new run configuration](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/cdbc00244452483e9582a4f486b42d64.html), connecting the `auth` to your XSUAA service instance.
 
     >In that case you need to add the environment variable `cds_requires_auth_kind=xsuaa` to the run configuration.
 
 3. Check authentication configuration:
 ```sh
-cds env list requires.uaa --resolve-bindings --profile hybrid
+cds env list requires.auth --resolve-bindings --profile hybrid
 ```
-This prints the full `uaa` configuration including the credentials.
+This prints the full `auth` configuration including the credentials.
 
 
 ### Set Up the Roles for the Application { #auth-in-cockpit}
@@ -536,7 +536,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png)
+   ![Create role collections in SAP BTP cockpit](./assets/create-role-collection.png)
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.
@@ -564,13 +564,13 @@ The resulting JWT token is sent to the application where it's used to enforce au
 3. In your project folder run:
 
     ::: code-group
-    ```sh
+    ```sh [Mac/Linux]
     cds bind --exec -- npm start --prefix app
     ```
-    ```cmd
+    ```cmd [Windows]
     cds bind --exec -- npm start --prefix app
     ```
-    ```powershell
+    ```powershell [Powershell]
     cds bind --exec '--' npm start --prefix app
     ```
     :::

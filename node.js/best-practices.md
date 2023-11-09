@@ -361,7 +361,7 @@ In rare cases, throwing a new error is necessary, for example, if the original e
 ### Further Readings
 
 The following articles might be of interest:
-- [Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+- [Error Handling in Node.js](https://web.archive.org/web/20220417042018/https://www.joyent.com/node-js/production/design/errors)
 - [Let It Crash](https://wiki.c2.com/?LetItCrash)
 - [Don't Catch Exceptions](https://wiki.c2.com/?DontCatchExceptions)
 - [Report And Die](https://wiki.c2.com/?ReportAndDie)

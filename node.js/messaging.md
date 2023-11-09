@@ -11,6 +11,8 @@ status: released
 
 {{$frontmatter?.synopsis}}
 
+[[toc]]
+
 <!--- % include links-for-node.md %} -->
 <!--- % include _chapters toc="2,3" %} -->
 
@@ -296,7 +298,7 @@ Example:
 }
 ```
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 When using `enterprise-messaging-shared` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
 :::
 

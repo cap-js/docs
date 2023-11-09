@@ -16,11 +16,13 @@ impl-variants: true
   const X = () => h('span', { class: 'x',  title: 'Not supported' },  ['✗'] )
 </script>
 <style scoped>
-  .y  { color: var(--vp-c-green); font-weight:900; }
-  .x  { color: var(--vp-c-red);   font-weight:900; }
+  .y  { color: var(--vp-c-green-1); font-weight:900; }
+  .x  { color: var(--vp-c-red-1);   font-weight:900; }
 </style>
 
 # Consuming Services
+
+>This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
 
 [[toc]]
 
@@ -90,7 +92,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## ① Get and Import an External Service API { #external-service-api }
+## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
 
@@ -123,7 +125,7 @@ cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 cds compile srv -s OrdersService -2 edmx > OrdersService.edmx
 ```
 
-```powershell [Powershell]
+```powershell  [Powershell]
 cds compile srv -s OrdersService -2 edmx -o dest/
 ```
 :::
@@ -132,11 +134,11 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 [You can try it with the orders sample in cap/samples.](https://github.com/SAP-samples/cloud-cap-samples/tree/master/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
-::: warning
-**Don't just copy the CDS file for a remote CAP service**, for example from a different application. There are issues to use them to call remote services:<br>
-- The effective service API depends on the used protocol.<br>
-- CDS files often use includes, which can't be resolved anymore.<br>
-- CAP creates unneeded database tables and views for all entities in the file.<br>
+::: warning Don't just copy the CDS file for a remote CAP service
+Simply copying CDS files from a different application comes with the following issues:
+- The effective service API depends on the used protocol.
+- CDS files often use includes, which can't be resolved anymore.
+- CAP creates unneeded database tables and views for all entities in the file.
 :::
 
 ### Import API Definition { #import-api}
@@ -200,7 +202,7 @@ When importing the specification files, the `kind` is set according to the follo
 | OpenAPI     |  `rest`       |
 | AsyncAPI     |  `odata`       |
 
-[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#special-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#odata-type-mappings){.learn-more}
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
@@ -234,7 +236,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## ② Local Mocking {#local-mocking}
+## Local Mocking {#local-mocking}
 
 When developing your application, you can mock the remote service.
 
@@ -387,7 +389,7 @@ First install the required packages:
 
 <!-- TODO: No fixed major version numbers? -->
 ```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/util@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
 ```
 
 Then start the CAP application with the mocked remote service only:
@@ -467,7 +469,7 @@ For example:
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
-## ③ Execute Queries {#execute-queries}
+## Execute Queries {#execute-queries}
 
 You can send requests to remote services using CAP's powerful querying API.
 
@@ -594,7 +596,7 @@ For Java, you can use the `HttpClient` API to implement your custom requests. Th
 
 [Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
-## ④ Integrate and Extend {#integrate-and-extend}
+## Integrate and Extend {#integrate-and-extend}
 
 By creating projections on remote service entities and using associations, you can create services that combine data from your local service and remote services.
 
@@ -899,9 +901,7 @@ You need additional logic, if remote entities are in the game. The following tab
 
 #### Transient Access vs. Replication
 
-::: tip
-The _Integrate and Extend_ chapter shows only techniques for transient access.
-:::
+> This chapter shows only techniques for transient access.
 
 The following matrix can help you to find the best approach for your scenario:
 
@@ -923,7 +923,7 @@ The following matrix can help you to find the best approach for your scenario:
 > <sup>4</sup> Depends on the connectivity and performance of the remote system. <br>
 
 
-## ⑤ Connect and Deploy {#connect-and-deploy}
+## Connect and Deploy {#connect-and-deploy}
 
 <!--
 ### Connect to Business Services on SAP BTP
@@ -993,7 +993,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v2/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {
@@ -1015,7 +1015,7 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
 
 The `selectionStrategy` property controls how a [destination is resolved](#destination-resolution).
 
-If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?locale=en-US&q=URL.headers).
+If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?q=URL.headers).
 
 ##### Use Destinations with Java {.impl .java}
 
@@ -1454,9 +1454,11 @@ With the destination service, you can access destinations in your provider accou
 
 Customers want to see business partners from, for example, their SAP S/4 HANA system.
 
-As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service.
+As provider, you need to define a name for a destination, which enables access to systems of the subscriber of your application. In addition, your multitenant application or service needs to have a dependency to the destination service. For destinations in an on-premise system, the connectivity service must be bound.
 
 The subscriber needs to create a destination with that name in their subscriber account, for example, pointing to their SAP S/4HANA system.
+
+
 
 
 
@@ -1514,7 +1516,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑤ Add Qualities
+## Add Qualities
 
 <div id="inaddqualities" />
 
@@ -1646,7 +1648,7 @@ This list specifies the properties for application defined destinations.
 | `queries`                  | Map of URL parameters                     |
 | `forwardAuthToken`         | [Forward auth token](#forward-auth-token) |
 
-[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v2/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
+[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .impl .node}
 [HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){.learn-more .impl .java}
 
 #### Authentication Types

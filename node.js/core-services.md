@@ -6,7 +6,6 @@ redirect_from: node.js/services
 
 # Core Services
 
-
 [[toc]]
 
 
@@ -260,7 +259,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -783,8 +782,8 @@ return : result of this.dispatch(req)
 
 Use this method to send synchronous requests to a service for execution.
 
--  `method` can be a HTTP method, or a name of a custom action or function
--  `path` can be an arbitrary URL, starting with a leading `'/'`
+-  `method` can be an HTTP method, or a name of a custom action or function
+-  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string
 
 Examples:
 
@@ -936,7 +935,7 @@ await db.run (tx => {
 
 > Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
@@ -1033,7 +1032,7 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 
 <!-- ## Streaming API {#srv-stream } -->
 
-### srv.stream (column) {.method}
+### srv. stream (column) {.method}
 
 ```ts
 async function srv.stream (column: string)
@@ -1068,7 +1067,7 @@ Streaming is currently limited to [database services](databases).
 
 
 
-### srv.stream (query)  {.method}
+### srv. stream (query)  {.method}
 
 ```ts
 async function srv.stream (query: CQN) : ReadableStream
@@ -1083,7 +1082,7 @@ stream.pipe(process.stdout)
 
 
 
-### srv.foreach (entity) {.method}
+### srv. foreach (entity) {.method}
 
 ```ts
 function foreach(
@@ -1125,7 +1124,7 @@ srv.patch('/Books',...)   -->  srv.send('PATCH','/Books',...)
 srv.delete('/Books',...)  -->  srv.send('DELETE','/Books',...)
 ```
 
-You can also use them as REST-style variants to run queries by omitting the leading slash in the `path` argument, or by passing a reflected entity definition instead. In that case they start constructing *bound* [`cds.ql` query objects](cds-ql), as their [CRUD-style counterparts](#crud-style-api):
+Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent unmodified to a service. Omitting the leading slash, or passing a reflected entity definition instead, constructs *bound* [`cds.ql` query objects](cds-ql), equivalent to [CRUD-style API](#crud-style-api):
 
 ```js
 await srv.get(Books,201)

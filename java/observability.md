@@ -280,7 +280,7 @@ to your application configuration. In addition, to enable remote access add the 
 -Dcom.sun.management.jmxremote.ssl=false
 ```
 
-::: warning _❗ Attention_{.warning-title}
+::: warning _❗ Attention_
 Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
 :::
 
@@ -365,7 +365,7 @@ It might be advantageous to expose information on detail level. This is an optio
 management.endpoint.health.show-details: always
 ```
 
-::: warning _❗ Attention_{.warning-title}
+::: warning _❗ Attention_
 A public health check endpoint may neither disclose system internal data (for example, health indicator details) nor introduce significant resource consumption (for example, doing synchronous database request).
 :::
 

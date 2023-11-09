@@ -115,7 +115,7 @@ By default, not all events are send asynchronously via (persistent) outbox.
 * All other events are stored to persistent outbox, if available. The in-memory outbox acts as a fallback otherwise.
 
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 * It is up to the application developer to make sure that audit log events stored in the persistent outbox don't violate given **compliances rules**.
 For instance, it might be appropriate not to persist audit log events triggered by users who have operator privileges. Such logs could be modified on DB level by the same user afterwards.
 * For technical reasons, the AuditLog service temporarily stores audit log events enhanced with personal data such as the request's _user_ and _tenant_.

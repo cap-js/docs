@@ -3,12 +3,13 @@ import { join } from 'node:path'
 
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []
-  items = items.map(item => { return { ...item, link: item.link.replace(/\.md$/, '') }})
-  const itemLinks = items.map(item => join(base, item.link))
+  items = items.map(item => { return { ...item, link: item.link?.replace(/\.md$/, '') }})
+  const itemLinks = items.map(item => join(base, item.link||''))
 
   return pages
     .map(p => {
-      p.url = p.url.replaceAll('@external/', '').replace(/\/index$/, '/')
+      p.url = p.url?.replaceAll('@external/', '')?.replace(/\/index$/, '/') || ''
+      p.url = join(base, p.url)
       return p
     })
     .filter(p => {

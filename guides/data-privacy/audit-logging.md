@@ -171,7 +171,7 @@ Here is what you need to do additionally,  to integrate with SAP Audit Log Servi
 
 There are two options to access audit logs:
 
-1. Create an instance of service `auditlog-management` to retrieve audit logs via REST API, see [Audit Log Retrieval API Usage for the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-retrieval-api-usage-for-subaccounts-in-cloud-foundry-environment?locale=en-US).
+1. Create an instance of service `auditlog-management` to retrieve audit logs via REST API, see [Audit Log Retrieval API Usage for the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-retrieval-api-usage-for-subaccounts-in-cloud-foundry-environment).
 2. Use the SAP Audit Log Viewer, see [Audit Log Viewer for the Cloud Foundry Environment](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-viewer-for-cloud-foundry-environment).
 
 
@@ -227,7 +227,7 @@ Further, the service has pre-defined event payloads for the four event types:
 1. _Security event log_
 1. _Configuration change log_
 
-These payloads are based on [SAP Audit Log Service's REST API](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?locale=en-US), which maximizes performance by omitting any intermediate data structures.
+These payloads are based on [SAP Audit Log Service's REST API](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers), which maximizes performance by omitting any intermediate data structures.
 
 ```cds
 namespace sap.auditlog;
@@ -480,7 +480,7 @@ As always, custom implementations need to be configured in `cds.requires.<>.impl
 
 By default, all log messages are sent through a transactional outbox. This means, when sent, log messages are first stored in a local outbox table, which acts like a queue for outbound messages. Only when requests are fully and successfully processed, these messages are forwarded to the audit log service.
 
-![Transactional Outbox.drawio](./assets/Transactional-Outbox.drawio.svg)
+![This graphic is explained in the accompanying text.](./assets/Transactional-Outbox.drawio.svg)
 
 This provides an ultimate level of resiliency, plus additional benefits:
 

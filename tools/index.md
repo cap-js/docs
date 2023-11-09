@@ -5,15 +5,14 @@ redirect_from:
   - get-started/dev-tools
   - get-started/tools
 status: released
+# outline: 2
 ---
 <!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}
 
-<!--- % include links.md %} -->
-<!--- % include _toc levels="2,3" %} -->
-
+[[toc]]
 
 
 
@@ -269,7 +268,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 ### Prerequisites
 
-* You have followed the instructions in [Local Setup](../get-started/).
+* You have followed the instructions in [Local Setup](../get-started/jumpstart).
 * You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
 <div id="beforedocker" />

@@ -112,7 +112,7 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 
 ```xml
 <execution>
-	<id>cds</id>
+	<id>schema.sql</id>
 	<goals>
 		<goal>cds</goal>
 	</goals>
@@ -153,7 +153,7 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 
 ```xml
 <execution>
-	<id>cds</id>
+	<id>schema.sql</id>
 	<goals>
 		<goal>cds</goal>
 	</goals>
@@ -180,7 +180,7 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 
 ```xml [srv/pom.xml]
 <execution>
-	<id>cds</id>
+	<id>schema.sql</id>
 	<goals>
 		<goal>cds</goal>
 	</goals>

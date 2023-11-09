@@ -92,7 +92,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## ① Get and Import an External Service API { #external-service-api }
+## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
 
@@ -236,7 +236,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## ② Local Mocking {#local-mocking}
+## Local Mocking {#local-mocking}
 
 When developing your application, you can mock the remote service.
 
@@ -469,7 +469,7 @@ For example:
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
-## ③ Execute Queries {#execute-queries}
+## Execute Queries {#execute-queries}
 
 You can send requests to remote services using CAP's powerful querying API.
 
@@ -596,7 +596,7 @@ For Java, you can use the `HttpClient` API to implement your custom requests. Th
 
 [Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
-## ④ Integrate and Extend {#integrate-and-extend}
+## Integrate and Extend {#integrate-and-extend}
 
 By creating projections on remote service entities and using associations, you can create services that combine data from your local service and remote services.
 
@@ -1516,7 +1516,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑥ Add Qualities
+## Add Qualities
 
 <div id="inaddqualities" />
 

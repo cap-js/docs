@@ -114,7 +114,7 @@ public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguratio
 
 At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
 
-```
+```txt
 com.sap.example.cds.SampleHandlerRuntimeConfiguration
 ```
 
@@ -126,14 +126,112 @@ A complete end-to-end example for reusable event handlers can be found in this [
 
 ### Protocol Adapter
 
-In CAP Java, the protocol adapter is the mechanism to implement inbound communication from other service to the CAP service in development. The task of a protocol adapter is to translate any incoming requests (protocol) to CQL statements that then can be executed on local services. CAP Java comes with 2 OData protocol adapters (OData V2 and V4) but can be extended with custom implementations. In this section we'll have a deeper look on how such a protocol adapter can be built and registered with the CAP Java runtime.
+In CAP Java, the protocol adapter is the mechanism to implement inbound communication (another service or the UI) to the CAP service in development. The task of a protocol adapter is to translate any incoming requests of a defined protocol to CQL statements that then can be executed on locally defined CDS services. CAP Java comes with 3 protocol adapters (OData V2 and V4, and HCQL) but can be extended with custom implementations. In this section we'll have a deeper look on how such a protocol adapter can be built and registered with the CAP Java runtime.
 
-Usually, a protocol adapter comes in 2 parts. The adapter itself (in most cases an implementation of the HttpServlet interface) and a factory class that creates an instance of the adapter as well as providing information about the paths to which the protocol adapter (the servlet) needs to be registered.
+Usually, a protocol adapter comes in 2 parts. The adapter itself (in most cases an extension of the HttpServlet abstract class) and a factory class that creates an instance of the adapter as well as providing information about the paths to which the protocol adapter (the servlet) needs to be registered. The factory interface is called `ServletAdapterFactory` and implementations of that factory will be loaded with the same `ServiceLoader` approach as described above in the event handler section.
+
+This is an example implementation of the `ServletAdapterFactory`:
+
+```java
+public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAware {
+
+  // a short key identifying the protocol that's being served by the new protocol adapter e.g. odata-v4, hcql, ..
+	static final String PROTOCOL_KEY = "protocol-key"; 
+
+	private CdsRuntime runtime;
+
+	@Override
+	public void setCdsRuntime(CdsRuntime runtime) {
+
+    /*
+     * In case the protocol adapter needs the CdsRuntime the factory can implement CdsRuntimeAware and will 
+     * be provided with a CdsRuntime via this method. The create() method below can then use the provided
+     * runtime for the protocol adapter.
+     */
+		this.runtime = runtime;
+	}
+
+	@Override
+	public Object create() {
+    // Create and return the protocol adapter
+    return new SampleAdater(runtime);
+	}
+
+	@Override
+	public boolean isEnabled() {
+    // Determines if the protocol adapter is enabled
+	}
+
+	@Override
+	public String getBasePath() {
+    // Return the base path 
+	}
+
+	@Override
+	public String[] getMappings() {
+    /*
+     * Return all paths to which the protocol adapter is going to be mapped. Usually, this will be each CDS service
+     * with either it's canonical or annotated path prefixed with the base path of the protocol adapter (see above).
+     */
+		
+	}
+
+	@Override
+	public UrlResourcePath getServletPath() {
+		/*
+     * use the UrlResourcePathBuilder to build and return a UrlResourcePath containing the basePath (see above)
+     * and all paths being registered for the protocol key of the new protocol adapter
+     */
+	}
+
+}
+```
+
+With the factory in place we can start to build the actual protocol adapter. As mentioned before, most adapters will implement HTTP connectivity and will therefore be an extension of the Jakarta `HttpServlet` class. Based on the incoming request path the protocol adapter needs to determine the corresponding CDS `ApplicationService`. Parts of the request path together with potential request parameters (this depends on the protocol to be implemented) then need to be mapped to a CQL statement which is then executed on the previously selected CDS `ApplicationService`.
+
+```java
+public class SampleAdapter extends HttpServlet {
 
 
+	private final CdsRuntime runtime;
 
-(add details about the interfaces that can be implemented)
+	public CdsHcqlServlet(CdsRuntime runtime) {
+		this.runtime = runtime;
+    // see below for further details
+    
+	}
 
+	@Override
+	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // see below for further details
+
+
+  }
+}
+```
+
+As mentioned above, a protocol adapter maps incoming requests to CQL statements and executes them on the right `ApplicationService` according to the `HttpRequest` path. In order to have all relevant `ApplicationServices` ready at runtime you can call `runtime.getServiceCatalog().getServices(ApplicationService.class)` in the adapter's constructor to load all `ApplicationServices` and then select the ones relevant for this protocol adapter and then have them ready (in e.g. a Map) for serving requests in `service()`.
+     
+When handling incoming requests at runtime, you need to extract the request path and parameters from the incoming HttpServletRequest. Then, you can use CQL API from the `cds4j-api` module to create CQL corresponding to the extracted data. This statement then needs to be executed with `ApplicationService.run()`. The returned result then needs to be mapped to the result format that is suitable for the protocol handled by the adapter. For REST it would be some canonical JSON serialization of the returned objects.
+
+So, take a REST request like
+
+```http
+GET /CatalogService/Books?id=100
+```
+
+This would result in something like this:
+
+```java
+CqnSelect select = Select.from("Books").byId(100);
+```
+
+The `CqnSelect` statement can then be executed with the right (previously selected) `ApplicationService` and then written to HttpServletResponse as a String serialization.
+
+```java
+String resposePayload = applicationService.run(select).toJson();
+response.getWriter().write();
+```
 
 ### Putting it all together
 

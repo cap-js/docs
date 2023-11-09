@@ -139,7 +139,7 @@ cds:
 ```
 
 :::tip
-Use the [hints](.../java/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+Use the [hints](../java/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 :::
 
 ### PostgreSQL { #postgresql-1 }

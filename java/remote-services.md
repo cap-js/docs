@@ -120,10 +120,6 @@ In this case, the destination with name `s4-business-partner-api` would be obtai
 Given that this destination holds the URL `https://s4.sap.com`, the resulting service URL for OData requests would be `https://s4.sap.com/sap/opu/odata/sap/API_BUSINESS_PARTNER`.
 
 The `type` property defines the protocol used by the remote API. The CAP Java SDK currently supports `odata-v4` (default) or `odata-v2`.
-::: warning
-When using SAP S/4HANA On-Premise via Cloud Connector with a non-default sap-client, you might observe 401 Unauthorized errors.
-This is a known issue and can be avoided by adding an additional property `URL.headers.sap-client` with the value of the sap-client to the destination in the SAP BTP Destination Service's configuration.
-:::
 
 #### Configuring Destination Strategies
 
@@ -279,36 +275,25 @@ DefaultHttpDestination
 #### OAuth2 Client Credentials { #oauth2-client-credentials}
 
 ```java
-DefaultHttpDestination httpDestination = DefaultHttpDestination
-    .builder("https://example.org")
-    .name("my-destination").build();
-
 ClientCredentials clientCredentials =
     new ClientCredentials("clientid", "clientsecret");
-ClientCredentialsHttpDestination clientCredentialsHttpDestination =
-    new ClientCredentialsHttpDestination(
-        httpDestination,
-        clientCredentials,
-        URI.create("https://xsuaa.url"),
-        new XsuaaService()
-    );
+
+OAuth2DestinationBuilder
+        .forTargetUrl("https://example.org")
+        .withTokenEndpoint("https://xsuaa.url")
+        .withClient(clientCredentials, OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT)
+        .build();
 ```
 
 #### User Token Authentication { #user-token-authentication}
 
 ```java
-DefaultHttpDestination httpDestination = DefaultHttpDestination
-    .builder("https://example.org")
-    .name("my-destination").build();
-
 ClientCredentials clientCredentials =
     new ClientCredentials("clientid", "clientsecret");
-ClientCredentialsHttpDestination clientCredentialsHttpDestination =
-    new ClientCredentialsHttpDestination(
-        httpDestination,
-        clientCredentials,
-        ClientCredentialsGrantType.USER_TOKEN,
-        URI.create("https://xsuaa.url"),
-        new XsuaaService()
-    );
+
+OAuth2DestinationBuilder
+        .forTargetUrl("https://example.org")
+        .withTokenEndpoint("https://xsuaa.url")
+        .withClient(clientCredentials, OnBehalfOf.NAMED_USER_CURRENT_TENANT)
+        .build();
 ```

@@ -92,7 +92,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 ::: code-group
 ```xml [srv/pom.xml]
 <execution>
-	<id>cds</id>
+	<id>schema.sql</id>
 	<goals>
 		<goal>cds</goal>
 	</goals>

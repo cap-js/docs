@@ -145,7 +145,7 @@ In the following a few concrete examples are given:
 
 <img src="./assets/nameduser.drawio.svg"  alt="The graphic is explained in the accompanying text.">
 
-The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service without propagating the named user <i>JohnDoe</i>.
+The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service using a technical user without propagating the named user <i>JohnDoe</i>.
 Therefore, the `after` handler needs to create a new Request Context. To achieve this, it's required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:
 
 ```java

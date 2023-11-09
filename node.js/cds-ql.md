@@ -287,14 +287,14 @@ const [one] = await SELECT.from (Authors)
 ### .elements {.property}
 
 
-The CSN outline of the selected elements as an object. Key is the selected element or alias , value is the CSN definition:
+The CSN outline of the selected elements as an object. Key is the selected element or alias, value is the CSN definition:
 
-A query like 
+Let's assume the following query:
 ```js
 SELECT.from('sap.capire.bookshop.Books').columns('ID', 'title')
 ```
 
-is represented within `.elements` as:
+This query is represented within `.elements` as:
 
 ```js
 {
@@ -309,7 +309,7 @@ is represented within `.elements` as:
 }
 ```
 
-This is useful for custom implementation that acts on the selection of specific elements.
+This is useful for custom implementations that act on the selection of specific elements.
 
 
 

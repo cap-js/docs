@@ -21,9 +21,9 @@ Here's a brief intro how to use it:
 ```sh
 cds env               #> shortcut to `cds env ls`
 cds env ls            #> lists all settings in properties format
-cds env ls folders    #> lists the `requires.sql` settings
+cds env ls folders    #> lists the `folders` settings
 cds env get           #> prints all settings in JSON-like format
-cds env get folders   #> prints the `requires.sql` settings
+cds env get folders   #> prints the `folders` settings
 cds env get defaults  #> prints defaults only
 cds env ?             #> get help
 ```
@@ -308,9 +308,9 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
     For each file and folder, a new property is added to the configuration with its name. For a file the property value is the string content of the file. But if a file contains a parsable JSON string starting with `[` or `{` character, it is parsed and added as a substructure.
     For a directory an object is added and the algorithm continues there.
 
-    ```yaml    /etc/secrets/cds/requires/uaa/kind: xsuaa
-    /etc/secrets/cds/requires/uaa/credentials/clientid: capapp
-    /etc/secrets/cds/requires/uaa/credentials/clientsecret: dlfed4XYZ
+    ```yaml    /etc/secrets/cds/requires/auth/kind: xsuaa
+    /etc/secrets/cds/requires/auth/credentials/clientid: capapp
+    /etc/secrets/cds/requires/auth/credentials/clientsecret: dlfed4XYZ
     /etc/secrets/cds/requires/db:
       { kind: "hana", "credentials": { "user": "hana-user" } }
     ```
@@ -423,14 +423,14 @@ cds run --profile my-custom-profile
 or
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 CDS_ENV=my-custom-profile cds run
 ```
-```cmd
+```cmd [Windows]
 set CDS_ENV=my-custom-profile
 cds run
 ```
-```powershell
+```powershell [Powershell]
 $Env:CDS_ENV=my-custom-profile
 cds run
 ```

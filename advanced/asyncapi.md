@@ -21,26 +21,6 @@ status: released
 
 You can convert events in CDS models to the [AsyncAPI specification](https://www.asyncapi.com), a widely adopted standard used to describe and document message-driven asynchronous APIs.
 
-## CDS Type to AsyncAPI Mapping { #mapping}
-
-| CDS Type                               | AsyncAPI Supported Types                                                                            |
-|----------------------------------------|-----------------------------------------------------------------------------------------------------|
-| `UUID`                                 | `{ "type": "string", "format": "uuid" }`                                                            |
-| `Boolean`                              | `{ "type": "boolean" }`                                                                             |
-| `Integer`                              | `{ "type": "integer" }`                                                                             |
-| `Integer64`                            | `{ "type": "string", "format": "int64" }`                                                           |
-| `Decimal`, `{precision, scale}`        | `{ "type": "string", "format": "decimal", "formatPrecision": <precision>, "formatScale": <scale> }` |
-| `Decimal`, without scale               | `{ "type": "string", "format": "decimal", "formatPrecision": <precision> }`                         |
-| `Decimal`, without precision and scale | `{ "type": "string", "format": "decimal" }`                                                         |
-| `Double`                               | `{ "type": "number" }`                                                                              |
-| `Date`                                 | `{ "type": "string", "format": "date" }`                                                            |
-| `Time`                                 | `{ "type": "string", "format": "partial-time" }`                                                    |
-| `DateTime`                             | `{ "type": "string", "format": "date-time" }`                                                       |
-| `Timestamp`                            | `{ "type": "string", "format": "date-time" }`                                                       |
-| `String`                               | `{ "type": "string", "maxLength": length }`                                                         |
-| `Binary`                               | `{ "type": "string", "maxLength": length }`                                                         |
-| `LargeBinary`                          | `{ "type": "string" }`                                                                              |
-| `LargeString`                          | `{ "type": "string" }`                                                                              |
 
 ## Usage from CLI { #cli}
 
@@ -128,3 +108,26 @@ service CatalogService {
   event SampleEntity.Changed.v1 : projection on CatalogService.SampleEntity;
 }
 ```
+
+## Type Mapping { #mapping}
+
+CDS Type to AsyncAPI Mapping
+
+| CDS Type                               | AsyncAPI Supported Types                                                                            |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `UUID`                                 | `{ "type": "string", "format": "uuid" }`                                                            |
+| `Boolean`                              | `{ "type": "boolean" }`                                                                             |
+| `Integer`                              | `{ "type": "integer" }`                                                                             |
+| `Integer64`                            | `{ "type": "string", "format": "int64" }`                                                           |
+| `Decimal`, `{precision, scale}`        | `{ "type": "string", "format": "decimal", "formatPrecision": <precision>, "formatScale": <scale> }` |
+| `Decimal`, without scale               | `{ "type": "string", "format": "decimal", "formatPrecision": <precision> }`                         |
+| `Decimal`, without precision and scale | `{ "type": "string", "format": "decimal" }`                                                         |
+| `Double`                               | `{ "type": "number" }`                                                                              |
+| `Date`                                 | `{ "type": "string", "format": "date" }`                                                            |
+| `Time`                                 | `{ "type": "string", "format": "partial-time" }`                                                    |
+| `DateTime`                             | `{ "type": "string", "format": "date-time" }`                                                       |
+| `Timestamp`                            | `{ "type": "string", "format": "date-time" }`                                                       |
+| `String`                               | `{ "type": "string", "maxLength": length }`                                                         |
+| `Binary`                               | `{ "type": "string", "maxLength": length }`                                                         |
+| `LargeBinary`                          | `{ "type": "string" }`                                                                              |
+| `LargeString`                          | `{ "type": "string" }`                                                                              |

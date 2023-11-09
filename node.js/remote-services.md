@@ -11,6 +11,8 @@ status: released
 
 Class `cds.RemoteService` is a service proxy class to consume remote services via different [protocols](protocols), like OData or plain REST.
 
+[[toc]]
+
 <!--- % include links-for-node.md %} -->
 <!--- % include _chapters toc="2,3" %} -->
 

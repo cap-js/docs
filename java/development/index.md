@@ -252,9 +252,9 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | Java | 17 | 17 |
 | @sap/cds-dk | 6 | latest |
 | @sap/cds-compiler | 3 | latest |
-| Spring Boot | 3.0 | 3.0 |
+| Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 4.13 | latest |
+| SAP Cloud SDK | 4.24 | latest |
 | Java Logging | 3.7 | latest |
 
 ::: warning
@@ -284,15 +284,15 @@ This section describes various options to create a CAP Java project from scratch
 Use the following command line to create a project from scratch with the CDS Maven archetype:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```cmd
+```cmd [Windows]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```powershell
+```powershell [Powershell]
 mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-DarchetypeGroupId=com.sap.cds `-DarchetypeVersion=RELEASE
 ```
 :::
@@ -448,7 +448,7 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 #### Local Development for Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas?impl-variant=java#local-mtx) for more information.
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
 
 <div id="afterlocaldev" />
 

@@ -1,15 +1,19 @@
 ---
 synopsis: >
   Find here common solutions to frequently occurring issues.
-permalink: advanced/troubleshooting
-redirect_from: resources/troubleshooting
+redirect_from:
+  - advanced/troubleshooting
+  - resources/troubleshooting
 status: released
+outline: 2
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d2ee648522044ea19d3b5126c29692b5.html
 ---
 
 # Troubleshooting
 
 {{ $frontmatter.synopsis }}
+
+[[toc]]
 
 ## General { #cds}
 
@@ -407,7 +411,7 @@ You can disable the database clustering for the update.
 | _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
-#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {#connection-failed-89008}
 
 |  | Explanation |
 | --- | ---- |
@@ -416,7 +420,7 @@ You can disable the database clustering for the update.
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
 
 |  | Explanation |
 | --- | ---- |

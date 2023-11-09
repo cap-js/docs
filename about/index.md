@@ -65,7 +65,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 
 - Platform-specific deployment approaches and techniques
 - Platform-specific identity providers and authentication strategies
-- On/Off-boarding of tenants in SaaS solutions and tenant isolation
+- On-/Offboarding of tenants in SaaS solutions and tenant isolation
 - Synchronous protocols like *REST*, *OData*, or *GraphQL*
 - Asynchronous channels and brokers like *SAP Event Mesh*, *MQ*, or *Kafka* <sup>1</sup>
 - Different database technologies including *SQL* and *NoSQL*
@@ -84,9 +84,9 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#adding-custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
 
 
 ### Key Concepts & Paradigms
@@ -198,7 +198,7 @@ Following is an excerpt of generic features provided:
 ###### Automatically Serving Requests
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#serving-documents)
+- [Serving Nested Documents](../guides/providing-services#deep-reads-writes)
 - [Serving Media Data](../guides/media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 
@@ -214,7 +214,7 @@ Following is an excerpt of generic features provided:
 ###### Enterprise Best Practices
 
 - [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/providing-services#managed-data)
+- [Managed Data](../guides/domain-modeling#managed-data)
 - [Localized Data](../guides/localized-data)
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)

@@ -244,10 +244,10 @@ GET Employees?sap-valid-from=date'2016-01-01'
 $expand=jobs($select=validFrom,role,dept/name)
 ```
 ::: warning
-> Time-series queries aren't supported on SQLite due to the lack of *session_context* variables.
+Time-series queries aren't supported on SQLite due to the lack of *session_context* variables.
 :::
 ::: tip
-> Writing temporal data must be done in custom handlers.
+Writing temporal data must be done in custom handlers.
 :::
 
 ### Transitive Temporal Data

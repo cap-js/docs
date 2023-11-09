@@ -49,7 +49,7 @@ function fileToUrlPath(file: string, siteConfig:SiteConfig):string {
 }
 
 export function generate(outDir: string, base: string, links: Record<string, string>) {
-  // create a classic html page w/ redirect for welcome page of VSCode plugin
+  // create a classic html page w/ redirect for welcome page of VS Code plugin
   generateReleaseLatest(outDir, base, links)
 
   links = sortObject(links)

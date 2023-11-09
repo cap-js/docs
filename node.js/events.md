@@ -7,7 +7,6 @@ status: released
 # Events and Requests
 
 
-
 [[toc]]
 
 
@@ -128,7 +127,7 @@ A unique string identifying the current tenant, or `undefined` if not in multite
 
 A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
-[Learn more in the **Managed Data** guide.](../guides/providing-services#managed-data){.learn-more}
+[Learn more in the **Managed Data** guide.](../guides/domain-modeling#managed-data){.learn-more}
 
 
 
@@ -207,7 +206,16 @@ The events `succeeded` , `failed` and `done` are emitted *after* the current tra
 
 To veto requests, either use the `req.before('commit')` hook, or service-level `before` `COMMIT` handlers.
 
-To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](./cds-tx).
+To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manual transactions](./cds-tx#manual-transactions), preferably a variant with automatic commit/ rollback.
+
+Example:
+```js
+req.on('done', () => {
+  await cds.tx(() => {
+    await UPDATE `Stats` .set `views = views + 1` .where `book_ID = ${book.ID}`
+  })
+})
+```
 
 Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. If at least one of the requests in the changeset fails, following the atomicity property ("all or nothing"), all requests fail.
 
@@ -429,7 +437,7 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` in order to not be purged.
 
 
-### req. diff() {.method}
+### req. diff() (beta) {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).

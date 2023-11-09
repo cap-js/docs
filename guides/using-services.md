@@ -923,7 +923,7 @@ The following matrix can help you to find the best approach for your scenario:
 > <sup>4</sup> Depends on the connectivity and performance of the remote system. <br>
 
 
-## ⑤ Connect and Deploy {#connect-and-deploy}
+## Connect and Deploy {#connect-and-deploy}
 
 <!--
 ### Connect to Business Services on SAP BTP

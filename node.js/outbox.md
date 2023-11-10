@@ -17,7 +17,7 @@ To solve this problem, an outbox is used internally to defer the emit of message
 <span id="ininmemoryoutbox" />
 
 
-## Persistent Outbox (Default)
+## Persistent Outbox (Default) {#persistent-outbox}
 
 Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
 as for other operations, therefore transactional consistency is guaranteed.
@@ -173,4 +173,3 @@ Add the model path accordingly:
 ```
 
 Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/jumpstart#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
-

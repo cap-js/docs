@@ -157,7 +157,7 @@ public void afterHandler(EventContext context){
     });
 }
 ```
-### Switching to Technical Provider Tenant
+### Switching to Technical Provider Tenant {#switching-to-provider-tenant}
 
 <img src="./assets/switchprovidertenant.drawio.svg" alt="The graphic is explained in the accompanying text.">
 

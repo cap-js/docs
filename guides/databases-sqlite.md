@@ -782,3 +782,13 @@ Having said this, there can indeed be scenarios where SQLite might also be used 
 ::: warning
 SQLite only has limited support for concurrent database access due to its very coarse lock granularity. This makes it badly suited for applications with high concurrency.
 :::
+
+If your application is only used as a proxy for example for S4/HANA without any own database artifacts, you can leverage SQLite in production to avoid issues. For that require `@cap-js/sqlite` as a normal dependency in your package.json file and set `cds.env.requires.db` to `sqlite`, because else SQlite is not used in production. 
+
+```json
+"cds": {
+  "requires": {
+    "db": "sqlite"
+  }
+}
+```

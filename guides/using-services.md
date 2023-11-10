@@ -1494,24 +1494,26 @@ With the value `alwaysProvider` you can ensure that the destination is always re
 }
 ```
 
-For named destinations, you can additionally instruct CAP to withhold the request's JWT from SAP Cloud SDK by setting `forwardAuthToken` to `false`:
+Further, you can instruct CAP to withhold the request's JWT from SAP Cloud SDK by setting destination option `jwt` to `null`:
 
 ```jsonc
 "cds": {
   "requires": {
-    "API_BUSINESS_PARTNER": {
+    "SERVICE_FOR_PROVIDER": {
       /* ... */
       "credentials": {
-        "destination": "S4HANA",
         /* ... */
-        "forwardAuthToken": false
+      },
+      "destinationOptions": {
+        "jwt": null
       }
     }
   }
 }
 ```
 
-This can be beneficial when the authentication flow does not require a JWT (cf. [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval)). For example, ...
+Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level.
+Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>
 

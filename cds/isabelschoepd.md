@@ -1,5 +1,5 @@
 ---
-status: released
+status: @IsabelSchoepd alias @github.com
 ---
 
 # Core Data Services (CDS)

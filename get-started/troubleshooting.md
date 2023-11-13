@@ -324,37 +324,6 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 - On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
 
-### I get errors with response code 429 from the service-manager service when subscribing a tenant
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
-  ```json
-  "cds": {
-    "mtx": {
-      "provisioning": {
-        "instancemanageroptions": {
-          "polling_interval_millis": 3000
-        }
-      }
-    }
-  }
-  ```
-
-### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can disable the database clustering for the update.
-  ```json
-  "cds": {
-    "mtx": {
-      "jobs": {
-        "clusterbydb": false
-      }
-    }
-  }
-  ```
-  This setting requires at least `@sap/cds-mtx@2.6.2`.
-
 
 ### How Do I Resolve Deployment Errors?
 
@@ -655,6 +624,34 @@ Alternatively, without login:
 cds extend … -s <subdomain>
 ```
 
+### I get errors with response code 429 from the service-manager service when subscribing a tenant
+
+You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
+  ```json
+  "cds": {
+    "mtx": {
+      "provisioning": {
+        "instancemanageroptions": {
+          "polling_interval_millis": 3000
+        }
+      }
+    }
+  }
+  ```
+
+### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
+
+You can disable the database clustering for the update.
+  ```json
+  "cds": {
+    "mtx": {
+      "jobs": {
+        "clusterbydb": false
+      }
+    }
+  }
+  ```
+This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 ## CAP on Kyma
 

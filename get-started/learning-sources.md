@@ -127,10 +127,7 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 - [Build a Business Application Using CAP for Node.js](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
 - [Build a Business Application Using CAP for Java](https://developers.sap.com/mission.cap-java-app.html)
--
-- By Enablement Teams
-- TechEd Hands-Ons
-
+- [AD264 - Build Extensions with SAP Cloud Application Programming Model (CAP)](https://github.com/SAP-samples/teched2023-AD264/)
 
 
 ## Videos

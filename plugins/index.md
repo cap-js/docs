@@ -18,12 +18,6 @@ These plugins are created and maintained in close collaboration and shared owner
       font-style: italic;
       margin: -44px 0 40px;
    }
-   main img:not(.avatar-img).plugin-node  {
-      height:2.5em; display:inline; margin:0 0.2em;
-   }
-   main img:not(.avatar-img).plugin-java  {
-      height:3em; display:inline; margin:0 0.2em;
-   }
    main .vp-doc a:has(> img) {
       display: inline-flex;
       align-items: center;

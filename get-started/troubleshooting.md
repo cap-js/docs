@@ -123,7 +123,9 @@ cds.on('served', async ()=>{
 
 ### My app isn't showing up in Dynatrace
 
-Make sure that you have the `@dynatrace/oneagent-sdk` in the `dependencies` of your _package.json_.
+Make sure that:
+- Your app's start script is `cds-serve` instead of `npx cds run`.
+- You have the dependency `@dynatrace/oneagent-sdk` in your _package.json_.
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 

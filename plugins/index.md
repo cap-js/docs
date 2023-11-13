@@ -32,7 +32,7 @@ These plugins are created and maintained in close collaboration and shared owner
    main .vp-doc a:has(> img):hover {
       opacity: 0.7;
    }
-   main .vp-doc a:has(> .plugin-node):not(:last-child) {
+   main .vp-doc a:has(> img):not(:last-child) {
       margin-right: 1em;
    }
 </style>

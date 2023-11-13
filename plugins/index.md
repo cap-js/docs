@@ -35,9 +35,6 @@ These plugins are created and maintained in close collaboration and shared owner
    main .vp-doc a:has(> .plugin-node):not(:last-child) {
       margin-right: 1em;
    }
-   .vp-doc a[target='_blank']:hover::after {
-      text-decoration: underline;
-   }
 </style>
 
 

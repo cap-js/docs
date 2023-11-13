@@ -205,8 +205,9 @@ Actions or functions are handled - just like CRUD events - using event handlers.
 Actions and functions are therefore implemented through event handlers. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined,
 which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion).
 
-The [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces are providing Java methods for actions and functions modeled on the service. The methods give direct access to the parameters and it can be called by custom Java code to trigger actions or functions. If the action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
 
+Beside that, the `cds-maven-plugin` generates also event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
 If an action or function is bound to an entity, the entity needs to be specified while registering the event handler.
 For bound actions or functions the Event Context interface provides a [CqnSelect](query-api#select) statement, which targets the entity the action or function was triggered on.
 
@@ -227,6 +228,22 @@ service CatalogService {
         book : Association to Books;
         stars: Integer;
     }
+}
+```
+
+Generated service specific Java interface:
+
+```java
+@CdsName(CatalogService_.CDS_NAME)
+public interface CatalogService extends CqnService {
+  @CdsName(ReviewContext.CDS_NAME)
+  Reviews review(Books_ ref, @CdsName(ReviewContext.STARS) Integer stars);
+
+  interface Application extends ApplicationService, CatalogService {
+  }
+
+  interface Remote extends RemoteService, CatalogService {
+  }
 }
 ```
 

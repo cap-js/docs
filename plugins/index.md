@@ -81,7 +81,7 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](https://www.npmjs.com/package/@cap-js/graphql)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](https://www.npmjs.com/package/@cap-js/graphql)
 
 
 
@@ -93,8 +93,8 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" class="plugin-java" />](../java/migration#v2adapter)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" />](../java/migration#v2adapter)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
@@ -110,7 +110,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](https://www.npmjs.com/package/cds-plugin-ui5)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](https://www.npmjs.com/package/cds-plugin-ui5)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -134,7 +134,7 @@ annotate my.Incidents {
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](https://npmjs.com/package/@cap-js/change-tracking)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](https://npmjs.com/package/@cap-js/change-tracking)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -164,8 +164,8 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](../guides/data-privacy/audit-logging)
-[<img src="../assets/logos/java.svg" class="plugin-java" />](../java/auditlog)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](../guides/data-privacy/audit-logging)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" />](../java/auditlog)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
@@ -196,7 +196,7 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" class="plugin-node" />](https://github.com/cap-js/notifications#readme)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" />](https://github.com/cap-js/notifications#readme)
 
 Click on the icon to get detailed instructions. {.learn-more}
 

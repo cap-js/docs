@@ -17,23 +17,9 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 ## General { #cds}
 
-### How Do I Resolve Installation Issues with Node.js and NPM? { #npm-installation}
-
-##### Check the registry settings of your npm configuration
-
-Make sure that you don't have old registry entries anymore for `@sap:registry` in your _.npmrc_. Just execute:
-
-```sh
-npm config delete "@sap:registry"
-```
-
-Type `npm config list` to check the configuration, which is stored in a file _.npmrc_ in the user's home directory. There, no `@sap:registry` should appear.
-
-[Learn more about the move to **npmjs.org** in the blog post by DJ Adams.](https://blogs.sap.com/2020/07/02/sap-npm-packages-now-on-npmjs.org/){.learn-more}
-
 ##### Check the Node.js version { #node-version}
 
-Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `16`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
+Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `20`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
 ```sh
 node -v
@@ -124,7 +110,7 @@ cds.on('served', ()=>{
 })
 ```
 
-It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very heard to detect and resolve issues with handler registrations. So, for example, don't do this:
+It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very hard to detect and resolve issues with handler registrations. So, for example, don't do this:
 
 #### DON'T:
 
@@ -137,18 +123,16 @@ cds.on('served', async ()=>{
 
 ### My app isn't showing up in Dynatrace
 
-Make sure that:
-- Your app's start script is `cds run` instead of `npx cds run`.
-- You have the dependency `@dynatrace/oneagent-sdk` in your _package.json_.
+Make sure that you have the `@dynatrace/oneagent-sdk` in the `dependencies` of your _package.json_.
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates, that the settings of the pool containing the database clients don't match the application's needs. There are two possible root causes.
+This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
 | _Root Cause 1_ | The maximum number of database clients in the pool is reached and additional requests wait too long for the next client.
-| _Root Cause 2_ | The amount of time for creating a new connection to the database takes too long.
+| _Root Cause 2_ | The creation of a new connection to the database takes too long.
 | _Solution_ | Adapt `max` or `acquireTimeoutMillis` with more appropriate values, according to the [documentation](../node.js/databases#databaseservice-configuration).
 
 Always make sure that database transactions are either committed or rolled back. This can work in two ways:

@@ -308,24 +308,6 @@ public interface ReviewEventContext extends EventContext {
 }
 ```
 
-Event Handler implementation:
-
-```java
-@Component
-@ServiceName(CatalogService_.CDS_NAME)
-public class CatalogServiceHandler implements EventHandler {
-
-    @On(event = "review", entity = Books_.CDS_NAME)
-    public void reviewAction(ReviewEventContext context) {
-        CqnSelect selectBook = context.getCqn();
-        Integer stars = context.getStars();
-        Reviews review = [...] // create the review
-        context.setResult(review);
-    }
-
-}
-```
-
 ::: tip
 The unused methods `setCqn(CqnSelect)`, `setStars(Integer)`, and `getResult()` are useful when [triggering the event](consumption-api#customevents) on the service.
 :::

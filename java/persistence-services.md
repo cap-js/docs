@@ -129,13 +129,11 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### SQL Optimization Mode
 
-By default, CAP Java generates SQL in `legacy` _optimization mode_, which is compatible with SAP HANA Cloud Edition as well as with HANA 2.x (HANA as a Service). If your deployment target is SAP HANA Cloud Edition you can also specifiy the optimization mode `hex`. In `hex` mode, CAP generates SQL that will _only_ run on the [HEX engine](https://help.sap.com/docs/SAP_HANA_PLATFORM/9de0171a6027400bb3b9bee385222eff/3861d0908ef14e8bbec1d76ea871ac0f.html#sap-hana-execution-engine-(hex)) of SAP HANA Cloud Edition:
+By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
+To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/SAP_HANA_PLATFORM/9de0171a6027400bb3b9bee385222eff/3861d0908ef14e8bbec1d76ea871ac0f.html#sap-hana-execution-engine-(hex)) in SAP HANA Cloud, set the [CDS property](../development/properties#cds-properties):
 
 ```yaml
-cds:
-  sql:
-    hana:
-      optimizationMode: hex
+cds.sql.hana.optimizationMode: hex
 ```
 
 :::tip

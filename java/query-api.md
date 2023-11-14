@@ -1212,7 +1212,7 @@ The Query Builder API supports using expressions in many places. Expressions con
 
 ### Entity References {#entity-refs}
 
-Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method. The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
+Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an untyped and a typed version using the generated [model interfaces](../java/advanced#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
 import com.sap.cds.ql.CQL;

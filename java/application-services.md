@@ -259,7 +259,7 @@ Now, the review action can be easily called from custom handler code:
   ...
   private void someCustomMethod() {
     String bookId = "myBookId";
-    Books_ ref = CQL.entity(Books_.class).matching(Books.create(bookId));
+    Books_ ref = CQL.entity(Books_.class).filter(b -> b.ID().eq(bookId));
     this.catService.review(ref, 5);
   }
   ...

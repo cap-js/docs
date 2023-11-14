@@ -240,9 +240,9 @@ List<Books> books = dataStore.execute(query).listOf(Books.class);	// After execu
 
 ## Runtime Views { #runtimeviews}
 
-The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model. These include SQL views for CDS [views and projections](../cds/cdl#views-and-projections), which means adding or changing CDS views requires a deployment of the database schema changes.
+The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
 
-To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler doesn't generate corresponding SQL views and the CDS views are resolved by the CAP Java runtime.
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
 
 ```cds
 entity Books {
@@ -273,7 +273,7 @@ WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
 ::: tip
-Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on), constant values and expressions such as *case when* are currently ignored.
+Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
 
 Complex views using aggregations, *union*, *join* or *subqueries* in from are not yet supported.
 :::

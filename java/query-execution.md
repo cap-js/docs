@@ -275,6 +275,45 @@ entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
 entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
 
+## Runtime Views { #runtimeviews}
+
+The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
+
+```cds
+entity Books {
+  key id     : UUID;
+      title  : String;
+      stock  : Integer;
+      author : Association to one Authors;
+}
+@cds.persistence.skip // [!code focus]
+entity BooksWithLowStock as projection on Books { // [!code focus]
+    id, title, author.name as author // [!code focus]
+} where stock < 10; // [!code focus]
+```
+
+At runtime, CAP Java resolves queries against runtime views until an entity is reached that isn't annotated with *@cds.persistence.skip*. For example, the CQL query
+
+```sql
+Select BooksWithLowStock where author = 'Kafka'
+```
+
+is executed against SQL databases as
+
+```SQL
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
+  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+WHERE B.STOCK < 10 AND A.NAME = ?
+```
+
+::: tip
+Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+
+Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
+:::
+
 ### Using I/O Streams in Queries
 
 As described in section [Predefined Types](./data#predefined-types) it's possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.

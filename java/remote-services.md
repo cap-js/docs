@@ -282,7 +282,7 @@ OAuth2DestinationBuilder
         .forTargetUrl("https://example.org")
         .withTokenEndpoint("https://xsuaa.url")
         .withClient(clientCredentials, OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT)
-        .name("my-destination")
+        .withProperties(Collections.singletonMap("name", "my-destination"))
         .build();
 ```
 

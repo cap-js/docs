@@ -265,7 +265,7 @@ Now, the review action can be easily called from custom handler code:
   ...
 ```
 
-Event Handler implementation:
+Event handler implementation:
 
 ```java
 @Component
@@ -283,7 +283,7 @@ public class CatalogServiceHandler implements EventHandler {
 }
 ```
 
-Beside that, the `cds-maven-plugin` generates also event-specific Event Context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
+Besides that, the `cds-maven-plugin` generates also event-specific event context interfaces for the action or function, based on its CDS model definition. These Event Context interfaces give direct access to the parameters and the return value of the action or function.
 If an action or function is bound to an entity, the entity needs to be specified while registering the event handler.
 For bound actions or functions the Event Context interface provides a [CqnSelect](query-api#select) statement, which targets the entity the action or function was triggered on.
 

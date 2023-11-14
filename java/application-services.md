@@ -249,7 +249,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces are providing Java methods for actions and functions modeled on the service. These methods allow direct access to the action / functions parameters and they can be easily called by custom Java code to trigger them. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
 
-The corresponding generated Java service interface for the CDS model above:
+For the CDS model above, the corresponding generated Java service interface will look like the following:
 
 ```java
 @CdsName(CatalogService_.CDS_NAME)
@@ -309,6 +309,18 @@ public interface ReviewEventContext extends EventContext {
     Reviews getResult();
 
 }
+```
+
+To trigger the action or function, the event context needs to be filled with the parameter values and emitted on the service:
+
+```java
+    ReviewEventContext context = ReviewEventContext.create();
+    context.setCqn(Select.from(BOOKS).byId("myBookId"));
+    context.setStars(review.getRating());
+
+    this.catService.emit(context);
+
+    Reviews result = context.getResult();
 ```
 
 ::: tip

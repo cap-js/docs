@@ -237,3 +237,43 @@ Select<Books_> query = Select.from(Books_.class)			// Note the usage of model in
 
 List<Books> books = dataStore.execute(query).listOf(Books.class);	// After executing the query the result can be converted to a typed representation List of Books.
 ```
+
+## Runtime Views { #runtimeviews}
+
+The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model. These include SQL views for CDS [views and projections](../cds/cdl#views-and-projections), which means adding or changing CDS views requires a deployment of the database schema changes.
+
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler doesn't generate corresponding SQL views and the CDS views are resolved by the CAP Java runtime.
+
+```cds
+entity Books {
+  key id     : UUID;
+      title  : String;
+      stock  : Integer;
+      author : Association to one Authors;
+}
+
+@cds.persistence.skip // [!code focus]
+entity BooksWithLowStock as projection on Books { // [!code focus]
+    id, title, author.name as author // [!code focus]
+} where stock < 10; // [!code focus]
+```
+
+At runtime, CAP Java resolves queries against runtime views until an entity is reached that isn't annotated with *@cds.persistence.skip*. For example, the CQL query
+
+```sql
+Select BooksWithLowStock where author = 'Kafka'
+```
+
+is executed against SQL databases as
+
+```SQL
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
+  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+WHERE B.STOCK < 10 AND A.NAME = ?
+```
+
+::: tip
+Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on), constant values and expressions such as *case when* are currently ignored.
+
+Complex views using aggregations, *union*, *join* or *subqueries* in from are not yet supported.
+:::

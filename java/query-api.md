@@ -1215,14 +1215,17 @@ The Query Builder API supports using expressions in many places. Expressions con
 Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method. The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
-import static com.sap.cds.ql.CQL.entity;
+import com.sap.cds.ql.CQL;
 
-// bookshop.Books[year = 2020].author
+// bookshop.Books[year = 2020].author // [!code focus]
+Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).author(); // [!code focus]
+
+// or as untyped entity ref
 StructuredType<?> authors =
-   entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
+   CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name }
-Select.from(authors).columns("name");
+// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+Select.from(authors).columns("name"); // [!code focus]
 ```
 
 You can also get [entity references](query-execution#entity-refs) from the result of a CDS QL statement to address an entity via its key values in other statements.

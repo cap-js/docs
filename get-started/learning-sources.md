@@ -139,12 +139,12 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 - [Surviving and Thriving with the SAP Cloud Application Programming Model - <br> a Series of Blog Post by Max Streifeneder (2023). ](https://blogs.sap.com/tag/captricks/)
 - [Multitenant SaaS applications on SAP BTP using CAP? Tried-and-True! - <br> by Martin Frick (2022).](https://blogs.sap.com/2022/10/19/multitenant-saas-applications-on-sap-btp-using-cap-tried-and-true/)
 
-## Courses
+## Courses {.impl .beta}
 
 - OpenSAP
 -
 
-## CAP Plugins
+## CAP Plugins {.impl .beta}
 
 - CAP community
 

@@ -16,7 +16,7 @@ Domain Models capture the static, data-related aspects of a problem domain in te
 
 ### Capture Intent — *What, not How!*
 
-CDS focuses on *conceptual modelling*: we want to capure intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
+CDS focuses on *conceptual modelling*: we want to capture intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
 
 For example, given an entity definition like that:
 

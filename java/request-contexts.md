@@ -120,7 +120,7 @@ There are a few typical use cases in a CAP-based, multitenant application on SAP
 
 <img src="./assets/requestcontext.drawio.svg"  alt="A named user can switch to a technical user in the same/subscriber tenant using the systemUser() method. Also, a named user can switch to a technical user in the provider tenant using the systemUserProvider() method. In addition technical users provider/subscriber tenants can switch to technical users on provider/subscriber tenants using the methods systemUserProvider() or systemUser(tenant). ">
 
-When calling CAP Services, it's important to call them in an appropriate Request Context. Services might, for example, trigger HTTP requests to external services by deriving the target tenant from the current Request Context. It
+When calling CAP Services, it's important to call them in an appropriate Request Context. Services might, for example, trigger HTTP requests to external services by deriving the target tenant from the current Request Context.
 
 The `RequestContextRunner` API offers convenience methods that allow an easy transition from one scenario to the other.
 
@@ -136,7 +136,7 @@ The `RequestContextRunner` API offers convenience methods that allow an easy tra
 The [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context is based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.
 :::
 
-Whether a new Request Context is necessary, depends on the capabilities of the service that needs to be called. A switch from a named user to a technical user in the Request Context is only necessary if the service supports both ways of authentication. An example for this is the Audit Log Service. If the service only supports communication with a technical user, there is no switch required. For example, the Persistence Service is always using a technical user, but honors the tenant set on the Request Context. 
+Whether a new Request Context is necessary depends on the capabilities of the service that needs to be called. A switch from a named user to a technical user in the Request Context is only necessary if the service supports both ways of authentication. An example for this is the Audit Log Service. If the service only supports communication with a technical user, there is no switch required. For example, the Persistence Service is always using a technical user, but honors the tenant set on the Request Context. 
 
 In the following a few concrete examples are given:
 - [Switching to a Specific Technical Tenant](#switching-to-a-specific-technical-tenant)

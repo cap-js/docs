@@ -7,10 +7,8 @@ status: released
 
 In here, we collected several interesting learning resources for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety but they are well prepared sources we can recommend for your learning. From the short description we provide for every resources, you're hopefully able to tell if that fits to the need you're currently having.
 
-:::info
-We're just getting started with this page.
-
-Feel free to add/propose resources that helped you and also to improve the descriptions.
+::: tip Contributions Welcome...
+We're just getting started with this page. Please help us in that endeavour by adding/proposing resources that helped you and also to improve the descriptions.
 
 :::
 
@@ -82,7 +80,7 @@ Available for:
 
 ### Incidents Mgmt {.github}
 
-A reference sample application for CAP and development recommendations provided by the SAP BTP Developer Guide.
+A reference sample application for CAP and the SAP BTP Developer Guide.
 
 Available for:
 
@@ -90,13 +88,9 @@ Available for:
 
 
 
-### SFlight Fiori {.github}
+### SFlight Fiori App {.github}
 
-The purpose of this sample app is to:
-
-- Demonstrate SAP Fiori annotations
-- Demonstrate and compare SAP Fiori features on various stacks (CAP Node.js, CAP Java SDK, ABAP)
-- Run UI test suites on various stacks
+This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.com/what-is-sflight-and-the-flight-and-booking-data-model-for-abap) sample app in ABAP. It is a great source for how to add SAP Fiori applications to a CAP project, including adding UI test suites on various stacks.
 
 Available for:
 
@@ -105,7 +99,7 @@ Available for:
 
 
 
-### Star Wars {.github}
+### Star Wars App {.github}
 
 SWAPI - the Star Wars API. This sample is based upon the sample at [swapi.dev](https://swapi.dev) which in turn was based upon [swapi.co](https://swapi.dev/about). The original source can be found at https://github.com/Juriy/swapi.
 
@@ -114,6 +108,8 @@ The projects described above have fallen out of maintenance but still offered th
 Available for:
 
 - [](https://github.com/SAP-samples/cloud-cap-hana-swapi) {._nodejs}
+
+
 
 ### BTP SaaS App {.github}
 
@@ -125,19 +121,26 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 ## Tutorials
 
+- [TechEd 2023 Hands-On Session AD264 – Build Extensions with CAP](https://github.com/SAP-samples/teched2023-AD264/)
 - [Build a Business Application Using CAP for Node.js](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
 - [Build a Business Application Using CAP for Java](https://developers.sap.com/mission.cap-java-app.html)
-- [AD264 - Build Extensions with SAP Cloud Application Programming Model (CAP)](https://github.com/SAP-samples/teched2023-AD264/)
+- [CAP Service Intefration CodeJam](https://github.com/sap-samples/cap-service-integration-codejam) by DJ Adams
+
 
 
 ## Videos
 
-- [Devtoberfest Session about Hybrid Testing and Alternative DBs by Thomas Jung.](https://youtu.be/vqub4vJbZX8?si=j5ZkPR6vPb59iBBy)
+- [Hybrid Testing and Alternative DBs](https://youtu.be/vqub4vJbZX8?si=j5ZkPR6vPb59iBBy) <br> by Thomas Jung
+- [Consume External Services](https://youtu.be/rWQFbXFEr1M) <br> by Thomas Jung
+- [Building a CAP app in 60 min](https://youtu.be/zoJ7umKZKB4) <br> by Martin Stenzig
+- [Integrating an external API into a CAP service](https://youtu.be/T_rjax3VY2E) <br> by DJ Adams
+
+
 
 ## Blogs
 
-- [Surviving and Thriving with the SAP Cloud Application Programming Model - <br> a Series of Blog Post by Max Streifeneder (2023). ](https://blogs.sap.com/tag/captricks/)
-- [Multitenant SaaS applications on SAP BTP using CAP? Tried-and-True! - <br> by Martin Frick (2022).](https://blogs.sap.com/2022/10/19/multitenant-saas-applications-on-sap-btp-using-cap-tried-and-true/)
+- [Surviving and Thriving with the SAP Cloud Application Programming Model](https://blogs.sap.com/tag/captricks/)  <br> by Max Streifeneder (2023)
+- [Multitenant SaaS applications on SAP BTP using CAP? Tried-and-True!](https://blogs.sap.com/2022/10/19/multitenant-saas-applications-on-sap-btp-using-cap-tried-and-true/) <br> by Martin Frick (2022)
 
 <!-- ## Courses
 

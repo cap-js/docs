@@ -188,6 +188,16 @@ module.exports = cds.server
 
 A new option `privilegedUser()` can be leveraged when [defining](../java/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/consumption-api) either in a request thread regardless of the original user's authorizations or in a background thread.
 
+### Why do I get a "User should not exist" error during build time?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | You've [explicitly configured a mock](../java/security#explicitly-defined-mock-users) user with a name that is already used by a [preconfigured mock user](../java/security#preconfigured-mock-users).
+| _Solution_ | Rename the mock user and build your project again.
+
+
+
+
 ### How can I expose custom REST APIs with CAP?
 
 From time to time you might want to expose additional REST APIs in your CAP application, that aren't covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.

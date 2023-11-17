@@ -247,7 +247,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 ### Trigger Action or Function
 
-As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces are providing Java methods for actions and functions modeled on the service. These methods allow direct access to the action / functions parameters and they can be easily called by custom Java code to trigger them. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces are providing Java methods for actions and functions modeled on the service. These methods allow direct access to the action or functions parameters and they can be easily called by custom Java code to trigger them. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
 
 For the CDS model above, the corresponding generated Java service interface looks like the following:
 

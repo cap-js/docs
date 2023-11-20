@@ -40,8 +40,8 @@ Choose the **LTS** version, via the left-hand side button:
 
 ```sh
 npm add -g @sap/cds-dk
+cds #> run the installed CLI
 ```
-[Running into problems? &rarr; See the troubleshooting guide.](troubleshooting#npm-installation){.learn-more}
 
 
 ### 3. Install Git
@@ -103,12 +103,10 @@ Then open it in Visual Studio Code:
 code bookshop
 ```
 
-::: details **Note:** VS Code CLI on macOS needs extra setup
 
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Find detailed instructions in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
-
-:::
-
+   ::: details **Note:** VS Code CLI on macOS needs extra setup
+   In order to start VSCode via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+   :::
 
 
 ### Project Structure

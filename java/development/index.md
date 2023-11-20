@@ -448,7 +448,7 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 #### Local Development for Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas?impl-variant=java#local-mtx) for more information.
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
 
 <div id="afterlocaldev" />
 

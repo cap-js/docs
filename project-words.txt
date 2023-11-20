@@ -3,3 +3,5 @@ unlocalized
 undiscloses
 isdir
 Undeploying
+SWAPI
+SusaaS

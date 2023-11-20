@@ -124,7 +124,7 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 - [TechEd 2023 Hands-On Session AD264 – Build Extensions with CAP](https://github.com/SAP-samples/teched2023-AD264/)
 - [Build a Business Application Using CAP for Node.js](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
 - [Build a Business Application Using CAP for Java](https://developers.sap.com/mission.cap-java-app.html)
-- [CAP Service Intefration CodeJam](https://github.com/sap-samples/cap-service-integration-codejam) by DJ Adams
+- [CAP Service Integration CodeJam](https://github.com/sap-samples/cap-service-integration-codejam) by DJ Adams
 
 
 

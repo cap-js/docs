@@ -257,7 +257,7 @@ The CAP Java SDK uses various dependencies that are also used by the application
 | SAP Cloud SDK | 4.24 | latest |
 | Java Logging | 3.7 | latest |
 
-<sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommened.
+<sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommended.
 
 ::: warning
 The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.

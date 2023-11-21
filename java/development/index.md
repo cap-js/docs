@@ -249,7 +249,7 @@ The CAP Java SDK uses various dependencies that are also used by the application
 
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
-| Java | 17 | 17 |
+| Java | 17 | 21 |
 | @sap/cds-dk | 6 | latest |
 | @sap/cds-compiler | 3 | latest |
 | Spring Boot | 3.0 | latest |

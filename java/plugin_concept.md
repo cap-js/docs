@@ -22,7 +22,7 @@ Especially when working with larger projects that may consists of many individua
 
 In the following sections the different extension points and mechanisms will be explained.
 
-## Sharing Reuasable CDS Models via Maven artifacts
+## Sharing Reusable CDS Models via Maven artifacts
 
 Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects. 
 

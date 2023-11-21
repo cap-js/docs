@@ -308,7 +308,7 @@ It supports the following command-line options:
 | `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
 | `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[17\|20]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
 
 ### Maven Build Options
 

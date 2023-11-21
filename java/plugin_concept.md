@@ -100,7 +100,7 @@ The shown handler code is registered for any entity type on any [ApplicationServ
 
 The real difference to your typical event handler in your application code is the actual handler registration code. Although you could use the same `@Componenent` Spring Framework mechanism this is not recommendable because your handler code would then be dependent on Spring and not only on CAP Java. Your code would need to maintain it's own versioned dependency to the Spring Framework or Spring Boot and would need to react to changes in the given frameworks.
 
-So, in order to have a framework independent handler registration the `` interface needs to be implemented like this:
+So, in order to have a framework independent handler registration the `CdsRuntimeConfiguration` interface needs to be implemented like this:
 
 ```java
 package com.sap.example.cds;

@@ -284,6 +284,35 @@ const [one] = await SELECT.from (Authors)
 
 
 
+### .elements {.property}
+
+
+The CSN outline of the selected elements as an object. Key is the selected element or alias, value is the CSN definition:
+
+Let's assume the following query:
+```js
+SELECT.from('sap.capire.bookshop.Books').columns('ID', 'title')
+```
+
+This query is represented within `.elements` as:
+
+```js
+{
+  ID: number { key: true, type: 'cds.Integer' },
+  title: string {
+    '@mandatory': true,
+    localized: true,
+    type: 'cds.String',
+    length: 111,
+    '@Common.FieldControl': { '#': 'Mandatory' }
+  }
+}
+```
+
+This is useful for custom implementations that act on the selection of specific elements.
+
+
+
 ### .distinct {.property}
 
 Start the query with `SELECT.distinct` to skip duplicates as in SQL:

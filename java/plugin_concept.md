@@ -75,13 +75,13 @@ using { CatalogService } from 'com.sap.capire/bookshop';
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}
 
-This technique can be used indepently or together with one or more of the techniques described on this page.
+This technique can be used independently or together with one or more of the techniques described on this page.
 
 ## Event Handlers for custom types and annotations
 
 Besides extending the capabilities for inbound requests it is also possible to extend the behaviour of event handling during request handling of the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
 
-Inside your reuse module you can define a custom event handler and and a registration hook as plain Java code. Once this module is added to any CAP Java application as a dependency the contained event handler code will be active automatically.
+Inside your reuse module you can define a custom event handler and a registration hook as plain Java code. Once this module is addded to any CAP Java application as a dependency the contained event handler code will be active automatically.
 
 Such an event handler basically looks like any other CAP Java event handler. Take this one as an example:
 

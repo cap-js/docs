@@ -64,14 +64,15 @@ Additionally the new `resolve` goal from the CDS Maven Plugin needs to be added,
   </executions>
 </plugin>
 ```
+> Please be ware that the module that uses the reuse module needs to be a Maven module itself or a submodule to a Maven module that declares the dependency to the Maven module. Usually you would declare the dependency in the `srv` module of your CAP Java project and use the reuse model in the service's CDS files then. In case you need to make sure that your `db` module is a Maven module and include it to the project's parent `pom.xml` file.
 
-In CDS files the reuse models can then be referred to using the standard `using` directive:
+When your Maven build is set up correctly you can use the reuse models in your CDS files using the standard `using` directive:
 
 ```cds
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 
-> Note that [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This will be fixed soon.
+> Note that the location syntax differs from the usual syntax and adheres to the groupId/artifactId syntax defined above. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This will be fixed soon.
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}
 

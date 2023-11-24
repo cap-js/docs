@@ -74,7 +74,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
     const diffs = {}
     data.forEach(obj => {
-        diffs[obj.filename] = obj
+        diffs[obj.filename.replace('./', '')] = obj
     })
 
     if (existsSync(markdownlintLogFile)) {
@@ -97,6 +97,8 @@ module.exports = async ({ github, require, exec, core }) => {
         for (let [error, path, pointer, rule, description, details, context] of matches) {
             let contextText = ''
             let comment;
+
+            if (!fileIsInDiff(path)) continue
 
             if (rule === 'MD011/no-reversed-links') {
                 const detailValue = details.slice(1, -1)
@@ -209,6 +211,8 @@ module.exports = async ({ github, require, exec, core }) => {
 
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
 
+            if (!fileIsInDiff(path)) continue
+
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
 
             if (spellingMistakes.find(el => el === text)) continue
@@ -278,15 +282,13 @@ module.exports = async ({ github, require, exec, core }) => {
         })
     }
 
-    function getDiff(file) {
-        const filePath = file.replace('./', '')
-
-        return diffs[filePath]
+    function fileIsInDiff(file) {
+        return typeof diffs[file] !== 'undefined'
     }
 
     async function findPositionInDiff(context, file) {
         console.log('Find position in diff in file ' + file + ' and context: ' + context)
-        const diff = getDiff(file)
+        const diff = diffs[file]
 
         if (!diff) return { position: -1 }
 
@@ -307,7 +309,7 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findCodeBlockInDiff(lines, file) {
-        const diff = getDiff(file)
+        const diff = diffs[file]
 
         if (!diff) return { position: -1 }
 

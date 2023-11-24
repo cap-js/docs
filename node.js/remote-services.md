@@ -78,8 +78,8 @@ For more advanced scenarios, you can further customize the CSRF-token handling w
 
 Here, the CSRF-token handling is customized at a more granular level:
 
- - `method`: Specifies the HTTP method for fetching the CSRF token. The default is `head`.
- - `url`: Defines the URL for fetching the CSRF token. The default is the resource path without parameters.
+ - `method`: The HTTP method for fetching the CSRF token. The default is `head`.
+ - `url`: The URL for fetching the CSRF token. The default is the resource path without parameters.
 
 Global configuration `cds.env.features.fetch_csrf = true` is deprecated.
 

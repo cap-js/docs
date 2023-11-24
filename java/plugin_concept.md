@@ -238,7 +238,7 @@ public class SampleAdapter extends HttpServlet {
 
 	private final CdsRuntime runtime;
 
-	public CdsHcqlServlet(CdsRuntime runtime) {
+	public SampleAdapter(CdsRuntime runtime) {
 		this.runtime = runtime;
         // see below for further details
 	}

@@ -108,7 +108,7 @@
   - [CDS Properties](java/development/properties)
 - [Observability](java/observability)
 - [Migration](java/migration)
-- [CAP Java Plugins](java/plugin_concept)
+- [Building Plugins](java/plugin_concept)
 
 ### [Node.js](node.js/)
 

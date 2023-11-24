@@ -34,7 +34,9 @@ Class `cds.RemoteService` is a service proxy class to consume remote services vi
 
 ### CSRF-Token Handling
 
-If the remote system you want to consume requires it, you can enable the new CSRF-token handling of `@sap-cloud-sdk/core` via configuration options: `csrf: true/false` and `csrfInBatch: true/false`. These options allow to configure CSRF-token handling for each remote service separately. Global configuration `cds.env.features.fetch_csrf = true` is deprecated.
+If the remote system you want to consume requires it, you can enable the new CSRF-token handling of `@sap-cloud-sdk/core` via configuration options `csrf` and `csrfInBatch`. These options allow to configure CSRF-token handling for each remote service separately.
+
+#### Basic Configuration
 
 ```json
 "cds": {
@@ -48,6 +50,39 @@ If the remote system you want to consume requires it, you can enable the new CSR
     }
 }
 ```
+
+In this example, CSRF handling is enabled for the `API_BUSINESS_PARTNER` service, for regular requests (`csrf: true`) and requests made within batch operations (`csrfInBatch: true`).
+
+#### Advanced Configuration
+
+For more advanced scenarios, you can further customize the CSRF-token handling with additional parameters:
+
+```json
+"cds": {
+    "requires": {
+        "API_BUSINESS_PARTNER": {
+            "kind": "odata",
+            "model": "srv/external/API_BUSINESS_PARTNER",
+            "csrf": {
+              "method": "get",
+              "url": "..."
+            },
+            "csrfInBatch": {
+              "method": "get",
+              "url": "..."
+            }
+        }
+    }
+}
+```
+
+Here, the CSRF-token handling is customized at a more granular level:
+
+ - `method`: Specifies the HTTP method for fetching the CSRF token. The default is `head`.
+ - `url`: Defines the URL for fetching the CSRF token. The default is the resource path without parameters.
+
+Global configuration `cds.env.features.fetch_csrf = true` is deprecated.
+
 ::: tip
 See [Using Destinations](../guides/using-services#using-destinations) for more details on destination configuration.
 :::

@@ -80,11 +80,38 @@ This technique can be used independently or together with one or more of the tec
 
 ## Event Handlers for custom types and annotations
 
-Besides extending the capabilities for inbound requests it is also possible to extend the behaviour of event handling during request handling of the CAP Java runtime. Meaning that you can define custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
+In CAP Java event handler are not tightly coupled to the request handling or any other runtime components. Thus it is easily possible to package event handlers in modules in order to provide common but custom functionality to CAP Java applications. You can achieve this by defining custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
 
-Inside your reuse module you can define a custom event handler and a registration hook as plain Java code. Once this module is added to any CAP Java application as a dependency the contained event handler code will be active automatically.
+In most of the cases a reuse module for a CAP Java application can be a plain Maven project without further dependencies or special project layout. Since you need to use or implement CAP Java extension points it's required to define the following dependencies:
 
-Such an event handler basically looks like any other CAP Java event handler. Take this one as an example:
+```xml
+<properties>
+    <cds.services.version>2.4.0</cds.services.version>
+</properties>
+
+<dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.sap.cds</groupId>
+        <artifactId>cds-services-bom</artifactId>
+        <version>${cds.services.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>com.sap.cds</groupId>
+        <artifactId>cds-services-api</artifactId>
+    </dependency>
+</dependencies>
+```
+
+Inside your reuse module you can define a custom event handler and a registration hook as plain Java code. Once this module deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code will be active automatically once your CAP Java application is started along with the new reuse module.
+
+The heart of the reuse module - the event handler basically looks like any other CAP Java event handler. Take this one as an example:
 
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)
@@ -133,7 +160,7 @@ With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfigu
 
 A complete end-to-end example for reusable event handlers can be found in this [blog post](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/).
 
-## Custom Protocol Adapters
+## Custom Protocol Adapters {#protocol-adapter}
 
 In CAP Java, the protocol adapter is the mechanism to implement inbound communication (another service or the UI) to the CAP service in development. The task of a protocol adapter is to translate any incoming requests of a defined protocol to CQL statements that then can be executed on locally defined CDS services. CAP Java comes with 3 protocol adapters (OData V2 and V4, and HCQL) but can be extended with custom implementations. In this section we'll have a deeper look on how such a protocol adapter can be built and registered with the CAP Java runtime.
 

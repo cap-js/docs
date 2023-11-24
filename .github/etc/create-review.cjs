@@ -278,7 +278,7 @@ module.exports = async ({ github, require, exec, core }) => {
         })
     }
 
-    async function getDiff(file) {
+    function getDiff(file) {
         const filePath = file.replace('./', '')
 
         return diffs[filePath]
@@ -286,7 +286,10 @@ module.exports = async ({ github, require, exec, core }) => {
 
     async function findPositionInDiff(context, file) {
         console.log('Find position in diff in file ' + file + ' and context: ' + context)
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
+
+        if (!diff) return { position: -1 }
+
         console.log('Got Diff: ')
         console.log(diff)
         const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
@@ -304,7 +307,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findCodeBlockInDiff(lines, file) {
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
+
+        if (!diff) return { position: -1 }
 
         let start = -1
         let end = -1

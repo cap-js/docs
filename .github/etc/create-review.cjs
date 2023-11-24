@@ -66,6 +66,17 @@ module.exports = async ({ github, require, exec, core }) => {
             linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
         })
 
+    const { data } = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
+        owner: REPO_OWNER,
+        repo: REPO,
+        pull_number: PULL_NUMBER
+    })
+
+    const diffs = {}
+    data.forEach(obj => {
+        diffs[obj.filename] = obj
+    })
+
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')
@@ -268,20 +279,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function getDiff(file) {
-        let diff = ''
-        const opts = {
-            listeners: {
+        const filePath = file.replace('./', '')
 
-                stdout: (data) => {
-                    diff += data.toString();
-                }
-            },
-            cwd: BASE_DIR
-        }
-
-        await exec.exec(`git diff ${BASE_SHA} ${SHA} -- ${file}`, [], opts)
-
-        return diff.split('\n')
+        return diffs[filePath]
     }
 
     async function findPositionInDiff(context, file) {

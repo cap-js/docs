@@ -209,6 +209,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 .split(',')
                 .filter(Boolean) // remove empty strings
 
+
             const { line, position } = await findPositionInDiff(context, path)
 
             if (!line || position < 0) {
@@ -284,8 +285,10 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findPositionInDiff(context, file) {
+        console.log('Find position in diff in file ' + file + ' and context: ' + context)
         const diff = await getDiff(file)
-
+        console.log('Got Diff: ')
+        console.log(diff)
         const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
         const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')) && !line.includes('<!--'))
 

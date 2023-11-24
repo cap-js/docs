@@ -66,7 +66,7 @@ module.exports = async ({ github, require, exec, core }) => {
             linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
         })
 
-    const { data } = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
+    const { data } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
         owner: REPO_OWNER,
         repo: REPO,
         pull_number: PULL_NUMBER

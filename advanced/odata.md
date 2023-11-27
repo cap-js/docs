@@ -182,9 +182,9 @@ entity Books {
 ```
 
 ::: warning
-This annotation affects the client side facing API only, there is no automatic data modification of any kind (like truncation, converstion, etc.) done
-behind the scenes. It is in your responsibility to perform all required modifications on the data stream. If you are not doing the required conversions,
-it is possible to "cast" any scalar CDS type into any (in-)compatible EDM type:
+This annotation affects the client side facing API only, there is no automatic data modification of any kind (like rounding, truncation, conversion, etc.) 
+behind the scenes. It is in your responsibility to perform all required modifications on the data stream such that the values match their type in the API. 
+If you are not doing the required conversions, it is possible to "cast" any scalar CDS type into any (in-)compatible EDM type:
 
 ```cds
 entity Foo {

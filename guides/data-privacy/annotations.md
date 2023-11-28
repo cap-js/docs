@@ -82,7 +82,7 @@ Learn more about these annotations in the [@PersonalData OData vocabulary](https
 
 The entity-level annotation `@PersonalData.EntitySemantics` signifies relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the following graphic.
 
-<img src="./assets/Data-Subjects.drawio.svg" alt="Shows the connections between the entities in the sample app. In addition via color coding it makes clear how entites are annotated: customers are data subject, addresses are data subject details and incidents are other." style="zoom:111%;" />
+<img src="./assets/Data-Subjects.drawio.svg" alt="Shows the connections between the entities in the sample app. In addition via color coding it makes clear how entities are annotated: customers are data subject, addresses are data subject details and incidents are other." style="zoom:111%;" />
 
 The following table provides some further details.
 

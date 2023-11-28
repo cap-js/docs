@@ -66,10 +66,6 @@ For more advanced scenarios, you can further customize the CSRF-token handling w
             "csrf": {
               "method": "get",
               "url": "..."
-            },
-            "csrfInBatch": {
-              "method": "get",
-              "url": "..."
             }
         }
     }

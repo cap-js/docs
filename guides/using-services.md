@@ -1513,6 +1513,7 @@ Further, you can instruct CAP to withhold the request's JWT from SAP Cloud SDK b
 ```
 
 Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level.
+In rare cases, these defaults are not suitable, for example when the request to the upstream server does not depend on the current user.
 Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>

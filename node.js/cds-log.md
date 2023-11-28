@@ -396,8 +396,6 @@ The following screenshot shows the log output for the rejection in the previous 
 The SAP Application Logging Service offers [differnt plans with different quotas](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/service-plans-and-quotas). Please make sure the plan you use is sufficient, i.e., no logs are being dropped (this information is available in Kibana). As soon as logs are dropped, you cannot reliably assess what is going on in your app.
 :::
 
-https://help.sap.com/docs/application-logging-service/sap-application-logging-service/service-plans-and-quotas
-
 
 #### *SAP Application Logging Service Custom Fields* { #als-custom-fields }
 

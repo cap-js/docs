@@ -386,7 +386,7 @@ Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.featu
 
 Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
 1. Running on Cloud Foundry: `tenant_subdomain`, `CF_INSTANCE_IP` and information from `VCAP_APPLICATION`
-1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): custom fields as described in [SAP Application Logging Service Custom Fields](#als-custom-fields)
+1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [SAP Application Logging Service Custom Fields](#als-custom-fields)
 
 The following screenshot shows the log output for the rejection in the previous example with the JSON log formatter including the two aspects.
 

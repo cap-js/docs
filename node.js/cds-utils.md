@@ -37,8 +37,8 @@ let id = uuid() // generates a new UUID
 
 
 
-### decodeURI() {.method}
-### decodeURIComponent() {.method}
+### decodeURI (*uri*) {.method}
+### decodeURIComponent (*uri*) {.method}
 
 These are 'safe' variants for `decodeURI` and `decodeURIComponent` which in case of non-decodable input return the input string instead of throwing `URIErrors`. This allows simplifying our code.
 

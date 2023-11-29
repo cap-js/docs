@@ -30,7 +30,7 @@ SAP HANA Cloud is the CAP standard database recommended for productive use with 
 
 2. [Shared locks](../java/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
 
-3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`) a statement-wide collation is added, which can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
+3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`), a statement-wide collation is added, which can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
 
 ```cds
 entity Books : cuid {

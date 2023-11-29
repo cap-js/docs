@@ -111,7 +111,7 @@ In most of the cases a reuse module for a CAP Java application can be a plain Ma
 
 Inside your reuse module you can define a custom event handler and a registration hook as plain Java code. Once this module deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code will be active automatically once your CAP Java application is started along with the new reuse module.
 
-The heart of the reuse module - the event handler basically looks like any other CAP Java event handler. Take this one as an example:
+The heart of the reuse module, the event handler basically looks like any other CAP Java event handler. Take this one as an example:
 
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)
@@ -126,7 +126,24 @@ public class SampleHandler implements EventHandler {
 
 The shown handler code is registered for any entity type on any [ApplicationService](../guides/providing-services). Dependending on the use case the target scope could narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
 
-The real difference to your typical event handler in your application code is the actual handler registration code. Although you could use the same `@Componenent` Spring Framework mechanism this is not recommendable because your handler code would then be dependent on Spring and not only on CAP Java. Your code would need to maintain it's own versioned dependency to the Spring Framework or Spring Boot and would need to react to changes in the given frameworks.
+[Learn more about event handling in our EventHandler documentation](provisioning-api){.learn-more}
+
+Of course this handler code looks just the same as any other custom or builtin CAP Java handler. The only difference here is that you need to think a bit more about the provisioning of the handler. When you write a custom handler as part of (in the package of) a CAP Java application you can annotate the handler's class with `@Component` and Spring Boot's component scan will pick up the class during startup of the Application Context.
+
+When you provide your custom handler as part of an reuse library external to you application things change a bit. At first you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extention points.
+
+The decision between the two is pretty straightforward: In case your handler depdends on other Spring components e.g. relies on dependency injection you should use the the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/persistence-services) or a service via it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
+
+If your custom handler is pretty much isolated and is for example only performing validation based on provided data or performing a calculation you can stick with the [CAP Java ServiceLoader approach](#service-loader) which is described in the follwing section.
+
+### Load Plugin Code via ServiceLoaders {#service-loader}
+At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
+
+```txt
+com.sap.example.cds.SampleHandlerRuntimeConfiguration
+```
+
+With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfiguration` to load our new, generic EventHandler for all read events on all entities of all services. For realistic usecases the handler configuration can be more concise, of course.
 
 So, in order to have a framework independent handler registration the `CdsRuntimeConfiguration` interface needs to be implemented like this:
 
@@ -145,18 +162,15 @@ public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguratio
 
 }
 ```
-### Load Plugin Code via ServiceLoaders {#service-loader}
-At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
 
-```txt
-com.sap.example.cds.SampleHandlerRuntimeConfiguration
-```
+### Load Plugin Code with the Spring Component Model {#spring-autoconfiguration}
 
-With this code we instrument the CAP Java's ServiceLoader for `CdsRuntimeConfiguration` to load our new, generic EventHandler for all read events on all entities of all services. For realistic usecases the handler configuration can be more concise, of course.
+In case your reuse module depends on other components managed as part of the Spring ApplicationContext (having an @Autowired annotation in your class is a good hint for that) you need to register your plugin as a Spring component itself. The most straight forward (but not recommended) way is to annotate the plugin class itself with `@Component`.
 
+This is, however, error-prone: [Spring Boot's component scan](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html) is by default scanning downward from the package in which the main `Application` class is declared. Meaning that you need to place the plugin either in a sub-package or the same package as the `Application` class. This would hamper the reuse aspect of the plugin as it would only work applications in a specific package. You could customize the component scan of the application using your plugin but this is also error-prone as you explicitly have to remember to change the `@ComponentScan` annotation each time you include a plugin.
 
+Due to those complications it's best practice to use the `AutoConfiguration` mechanism provided by Spring Boot in reuse modules that ship Spring components. For further details please refer to the [Spring Boot reference documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.auto-configuration).
 
-[Learn more about event handling in our EventHandler documentation](provisioning-api){.learn-more}
 
 A complete end-to-end example for reusable event handlers can be found in this [blog post](https://blogs.sap.com/2023/05/16/how-to-build-reusable-plugin-components-for-cap-java-applications/).
 

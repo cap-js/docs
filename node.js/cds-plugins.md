@@ -33,7 +33,7 @@ Sometimes `cds-plugin.js` files can also be empty, for example if your plugin on
 
 ## Auto-Configuration
 
-Plugins can also add new config settings, thereby providing auto configuration. Simply add a `cds` section to your *package.json* file, as you would do in a project's *package.json*.
+Plugins can also add new configuration settings, thereby providing auto configuration. Simply add a `cds` section to your *package.json* file, as you would do in a project's *package.json*.
 
 For example, this is the configuration provided by the new SQLite service package `@cap-js/sqlite`:
 
@@ -61,7 +61,7 @@ For example, this is the configuration provided by the new SQLite service packag
 
 :::
 
-In effect this automatically configures a required `db` service using the `sql` preset. This preset is configred below to use the `sqlite` preset in development. The `sqlite` preset is in turn configured below, to use the plugin package's main as implementation.
+In effect this automatically configures a required `db` service using the `sql` preset. This preset is configured below to use the `sqlite` preset in development. The `sqlite` preset is in turn configured below, to use the plugin package's main as implementation.
 
 
 

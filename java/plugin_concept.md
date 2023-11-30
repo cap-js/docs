@@ -91,9 +91,9 @@ This technique can be used independently or together with one or more of the tec
 
 ## Event Handlers for custom types and annotations
 
-In CAP Java event handler are not tightly coupled to the request handling or any other runtime components. Thus it is easily possible to package event handlers in modules in order to provide common but custom functionality to CAP Java applications. You can achieve this by defining custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
+In CAP Java, event handlers are not tightly coupled to the request handling or any other runtime components. Thus it is easily possible to package event handlers in external libraries (e.g. plugins) in order to provide common but custom functionality to CAP Java applications. You can achieve this by defining custom handlers that react on model characteristics (common types or annotations) or also on entity values e.g. validations.
 
-In most of the cases a reuse module for a CAP Java application can be a plain Maven project without further dependencies or special project layout. Since you need to use or implement CAP Java extension points it's required to define the following dependencies:
+In most of the cases an event handler plugin for a CAP Java application can be a plain Maven project without further dependencies or special project layout. Since you need to use or implement CAP Java extension points it's required to define the following dependencies:
 
 ```xml
 <properties>
@@ -120,9 +120,9 @@ In most of the cases a reuse module for a CAP Java application can be a plain Ma
 </dependencies>
 ```
 
-Inside your reuse module you can define a custom event handler and a registration hook as plain Java code. Once this module deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code will be active automatically once your CAP Java application is started along with the new reuse module.
+Inside your plugin module you can define a custom event handler and a registration hook as plain Java code. Once this module deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code will be active automatically once your CAP Java application is started along with the new reuse module.
 
-The heart of the reuse module, the event handler basically looks like any other CAP Java event handler. Take this one as an example:
+The heart of the plugin module, the event handler, basically looks like any other CAP Java event handler. Take this one as an example:
 
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)

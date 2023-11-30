@@ -30,7 +30,7 @@ When building CAP Java plugin modules you need to keep in mind that the generate
 
 ### Maven GroupId and Java packages
 
-Of course it's up to your project / plugin how you call the corresponding Maven GroupId and Java packages. In order to avoid confusion and also to make responsiblities clear `com.sap.cds` for GroupId and Java package names are reserved for components maintained by the CAP Java team and must not be used for external plugins. This rule also includes sub-structures to `com.sap.cds` like `com.sap.cds.foo.plugin`.
+Of course it's up to your project / plugin how you call the corresponding Maven GroupId and Java packages. In order to avoid confusion and also to make responsibilities clear `com.sap.cds` for GroupId and Java package names are reserved for components maintained by the CAP Java team and must not be used for external plugins. This rule also includes sub-structures to `com.sap.cds` like `com.sap.cds.foo.plugin`.
 
 
 ## Sharing Reusable CDS Models via Maven artifacts

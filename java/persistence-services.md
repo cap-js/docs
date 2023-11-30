@@ -42,7 +42,7 @@ entity Books : cuid {
 ```
 > When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
-:::tip Disable Collation
+:::tip Disable Collating
 To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 

@@ -22,6 +22,17 @@ Especially when working with larger projects that may consists of many individua
 
 In the following sections the different extension points and mechanisms will be explained.
 
+## General Considerations
+
+### Java version
+
+When building CAP Java plugin modules you need to keep in mind that the generated Java byte code of the plugin has to be compatible with the Java byte code version of the potential consumers of the plugin. To be on the safe side we recommend to use *Java 17* as this is anyways the minimum Java version for CAP Java (for 2.x release) applications. In case you deviate from this you need to check and align with the potential consumers of the plugin.
+
+### Maven GroupId and Java packages
+
+Of course it's up to your project / plugin how you call the corresponding Maven GroupId and Java packages. In order to avoid confusion and also to make responsiblities clear `com.sap.cds` for GroupId and Java package names are reserved for components maintained by the CAP Java team and must not be used for external plugins. This rule also includes sub-structures to `com.sap.cds` like `com.sap.cds.foo.plugin`.
+
+
 ## Sharing Reusable CDS Models via Maven artifacts
 
 Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects. 

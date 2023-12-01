@@ -213,6 +213,8 @@ module.exports = async ({ github, require, exec, core }) => {
 
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
 
+            console.log(path, pointer, word, context)
+            console.log(`is ${fileIsInDiff(path) ? '' : 'not'} in diff`)
             if (!fileIsInDiff(path)) continue
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
@@ -285,8 +287,7 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     function fileIsInDiff(file) {
-        console.log(`check if ${file} is in diff.`)
-        return typeof diffs[file] !== 'undefined'
+        return typeof diffs[file.replace('./', '')] !== 'undefined'
     }
 
     async function findPositionInDiff(context, file) {

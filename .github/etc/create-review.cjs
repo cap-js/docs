@@ -76,6 +76,8 @@ module.exports = async ({ github, require, exec, core }) => {
     data.forEach(obj => {
         diffs[obj.filename.replace('./', '')] = obj
     })
+    console.log('----DIFFS----')
+    console.log(diffs)
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')

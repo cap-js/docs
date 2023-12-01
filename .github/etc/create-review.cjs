@@ -69,15 +69,16 @@ module.exports = async ({ github, require, exec, core }) => {
     const { data } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
         owner: REPO_OWNER,
         repo: REPO,
-        pull_number: PULL_NUMBER
+        pull_number: PULL_NUMBER,
+        headers: {
+            accept: 'application/vnd.github.diff'
+        }
     })
 
     const diffs = {}
     data.forEach(obj => {
         diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
     })
-    console.log('----DIFFS----')
-    console.log(diffs)
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
@@ -212,9 +213,6 @@ module.exports = async ({ github, require, exec, core }) => {
         const wordsWithoutSuggestions = []
 
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
-
-            console.log(path, pointer, word, context)
-            console.log(`is ${fileIsInDiff(path) ? '' : 'not'} in diff`)
             if (!fileIsInDiff(path)) continue
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
@@ -295,17 +293,12 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findPositionInDiff(context, file) {
-        console.log('Find position in diff in file ' + file + ' and context: ' + context)
         const diff = getDiff(file)
 
         if (!diff) return { position: -1 }
 
-        console.log('Got Diff: ')
-        console.log(diff)
         const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
         const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')) && !line.includes('<!--'))
-        console.log('idxToStartingCoutingFrom: ' + idxToStartingCoutingFrom)
-        console.log('idxOfLineToSearch: ' + idxOfLineToSearch)
         // context does not exist in diff --> errors is in file with diff, but errors was not introduced with current PR
         if (idxToStartingCoutingFrom === -1 || idxOfLineToSearch === -1) {
             return { position: -1 }

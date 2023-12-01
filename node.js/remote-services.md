@@ -61,8 +61,7 @@ For more advanced scenarios, you can further customize the CSRF-token handling w
 "cds": {
     "requires": {
         "API_BUSINESS_PARTNER": {
-            "kind": "odata",
-            "model": "srv/external/API_BUSINESS_PARTNER",
+            [...]
             "csrf": {  // [!code focus]
               "method": "get",  // [!code focus]
               "url": "..."  // [!code focus]

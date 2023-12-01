@@ -285,6 +285,7 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     function fileIsInDiff(file) {
+        console.log(`check if ${file} is in diff.`)
         return typeof diffs[file] !== 'undefined'
     }
 

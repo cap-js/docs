@@ -287,12 +287,16 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     function fileIsInDiff(file) {
-        return typeof diffs[file.replace('./', '')] !== 'undefined'
+        return typeof getDiff(file) !== 'undefined'
+    }
+
+    function getDiff(file) {
+        return diffs[file.replace('./', '')]
     }
 
     async function findPositionInDiff(context, file) {
         console.log('Find position in diff in file ' + file + ' and context: ' + context)
-        const diff = diffs[file]
+        const diff = getDiff(file)
 
         if (!diff) return { position: -1 }
 
@@ -313,7 +317,7 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findCodeBlockInDiff(lines, file) {
-        const diff = diffs[file]
+        const diff = getDiff(file)
 
         if (!diff) return { position: -1 }
 

@@ -55,7 +55,7 @@ In this example, CSRF handling is enabled for the `API_BUSINESS_PARTNER` service
 
 #### Advanced Configuration
 
-For more advanced scenarios, you can further customize the CSRF-token handling with additional parameters:
+Actually `csrf: true` is a convenient preset. If needed, you can further customize the CSRF-token handling with additional parameters:
 
 ```json
 "cds": {

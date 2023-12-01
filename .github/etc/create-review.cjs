@@ -74,7 +74,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
     const diffs = {}
     data.forEach(obj => {
-        diffs[obj.filename.replace('./', '')] = obj.patch
+        diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
     })
     console.log('----DIFFS----')
     console.log(diffs)

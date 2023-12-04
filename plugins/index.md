@@ -14,12 +14,20 @@ These plugins are created and maintained in close collaboration and shared owner
 [[toc]]
 
 <style>
-   h2 : {
-      border-top: 1px solid #ddd;
-   }
-   h2 + .subtitle {
+   main .vp-doc h2 + .subtitle {
       font-style: italic;
       margin: -44px 0 40px;
+   }
+   main .vp-doc a:has(> img) {
+      display: inline-flex;
+      align-items: center;
+      transition: opacity 0.2s;
+   }
+   main .vp-doc a:has(> img):hover {
+      opacity: 0.7;
+   }
+   main .vp-doc a:has(> img):not(:last-child) {
+      margin-right: 1em;
    }
 </style>
 
@@ -67,9 +75,8 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/@cap-js/graphql)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/graphql)
 
-Click on the icon to get detailed instructions. {.learn-more}
 
 
 
@@ -80,12 +87,12 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 1em" />](../java/migration#v2adapter)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java.js logo"/>](../java/migration#v2adapter)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
-See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) {.learn-more}
+See also [_Advanced →> OData APIs → V2 Support_](../advanced/odata#v2-support) {.learn-more}
 
 
 
@@ -97,7 +104,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://www.npmjs.com/package/cds-plugin-ui5)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://www.npmjs.com/package/cds-plugin-ui5)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -117,11 +124,11 @@ annotate my.Incidents {
 }
 ```
 
-![changes-custom](assets/index/changes-custom.png)
+![Change history table in an SAP Fiori UI.](assets/index/changes.png)
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://npmjs.com/package/@cap-js/change-tracking)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://npmjs.com/package/@cap-js/change-tracking)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -151,8 +158,8 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](../guides/data-privacy/audit-logging)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 1em" />](../java/auditlog)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](../guides/data-privacy/audit-logging)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/auditlog)
 
 Click on the icons to get detailed instructions. {.learn-more}
 
@@ -160,7 +167,7 @@ Click on the icons to get detailed instructions. {.learn-more}
 
 [@cap-js/notifications](https://www.npmjs.com/package/@cap-js/notifications) {.subtitle}
 
-The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications to send notifications via email, Slack, Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
+The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications via email, Slack, Microsoft Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
 
 ```js
 let alert = await cds.connect.to ('notifications')
@@ -179,11 +186,11 @@ Features:
 - Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates
-- SAP ANS supports Email, Slack, Teams, and SAP Fiori notifications
+- SAP ANS supports email, Slack, Microsoft Teams, and SAP Fiori notifications
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 1em" />](https://github.com/cap-js/notifications#readme)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications#readme)
 
 Click on the icon to get detailed instructions. {.learn-more}
 

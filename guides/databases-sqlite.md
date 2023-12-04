@@ -121,7 +121,7 @@ Finally, configure the DB connection in the non-productive `default` profile:
 ```yaml
 ---
 spring:
-  profiles: default
+  config.activate.on-profile: default
   sql:
     init:
       mode: always
@@ -206,7 +206,7 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 ```yaml
 ---
 spring:
-  profiles: sqlite
+  config.activate.on-profile: sqlite
   datasource:
     url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC

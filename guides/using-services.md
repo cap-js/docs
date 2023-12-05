@@ -1474,9 +1474,7 @@ Using the tenant of the request's JWT token means reading from the **subscriber 
 
 <div class="impl node">
 
-You can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
-
-With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+You can change the destination lookup behavior as follows:
 
 ```jsonc
 "cds": {
@@ -1487,12 +1485,18 @@ With the value `alwaysProvider` you can ensure that the destination is always re
         /* ... */
       },
       "destinationOptions": {
-        "selectionStrategy": "alwaysProvider"
+        "selectionStrategy": "alwaysProvider",
+        "jwt": null
       }
     }
   }
 }
 ```
+
+
+Setting the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js) to `alwaysProvider`, you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+
+Set the destination option `jwt` to `null`, if you don't want to pass the request's JWT to SAP Cloud SDK. Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level. In rare cases, these defaults are not suitable, for example when the request to the upstream server does not depend on the current user. Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>
 

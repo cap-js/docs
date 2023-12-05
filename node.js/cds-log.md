@@ -404,28 +404,7 @@ Some header values shall not appear in logs, for example when pertaining to auth
 
 ### Custom Fields { #als-custom-fields }
 
-To show additional information (that is, information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service), it needs to be provided in the following form:
-
-```js
-{
-  [...],
-  '#cf': {
-    strings: [
-      { k: '<key>', v: '<value>', i: <index> },
-      [...]
-    ]
-  }
-}
-```
-
-The information is rendered as follows:
-
-```txt
-custom.string.key0: <key>
-custom.string.value0: <value>
-```
-
-Up to 20 custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. The drawback, next to it being cumbersome, is that the indexes should be kept stable.
+To show additional information (that is, information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service), it needs to be provided as custom fields.
 
 By default, the JSON formatter uses the following custom fields configuration (configurable via [cds.env](cds-env)):
 
@@ -439,6 +418,37 @@ By default, the JSON formatter uses the following custom fields configuration (c
   }
 }
 ```
+
+Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. The drawback, next to it being cumbersome, is that the indexes should be kept stable.
+
+::: details Background
+
+The SAP Application Logging Service requires the following formatting of custom field content inside the JSON object that shall be logged:
+
+```js
+{
+  [...],
+  '#cf': {
+    strings: [
+      { k: '<key>', v: '<value>', i: <index> },
+      [...]
+    ]
+  }
+}
+```
+
+That is, a generic collection of key-value-pairs that are treated as opaque strings.
+
+The information is then rendered as follows:
+
+```txt
+custom.string.key0: <key>
+custom.string.value0: <value>
+```
+
+Hence, in order to analyze, for example, the SQL statements leading to errors, you'd need to look at field `custom.string.value0` (given the default of `cds.env.log.als_custom_fields`).
+
+:::
 
 ::: tip
 Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.

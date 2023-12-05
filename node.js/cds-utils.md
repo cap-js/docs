@@ -40,7 +40,7 @@ let id = uuid() // generates a new UUID
 ### decodeURI (*uri*) {.method}
 ### decodeURIComponent (*uri*) {.method}
 
-These are 'safe' variants for `decodeURI` and `decodeURIComponent` which in case of non-decodable input return the input string instead of throwing `URIErrors`. This allows simplifying our code.
+These are 'safe' variants for [`decodeURI`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI) and [`decodeURIComponent`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) which in case of non-decodable input return the input string instead of throwing `URIErrors`. This allows simplifying our code.
 
 For example given we have to handle input like this:
 ```js

@@ -5,15 +5,14 @@ redirect_from:
   - get-started/dev-tools
   - get-started/tools
 status: released
+# outline: 2
 ---
 <!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}
 
-<!--- % include links.md %} -->
-<!--- % include _toc levels="2,3" %} -->
-
+[[toc]]
 
 
 
@@ -252,9 +251,9 @@ A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.vis
 
 The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
 
-* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "CAP Notebook button" on the *right-hand-side* of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
+* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
-   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888">
+   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 
@@ -269,7 +268,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 ### Prerequisites
 
-* You have followed the instructions in [Local Setup](../get-started/).
+* You have followed the instructions in [Local Setup](../get-started/jumpstart).
 * You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
 <div id="beforedocker" />

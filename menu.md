@@ -10,6 +10,7 @@
 - [Getting Started In a Nutshell](get-started/in-a-nutshell)
 - [Hello World!](get-started/hello-world)
 - [Grow As You Go](get-started/grow-as-you-go)
+- [Troubleshooting](get-started/troubleshooting)
 
 ### [Cookbook](guides/)
 
@@ -57,7 +58,6 @@
 - [Hybrid Testing](advanced/hybrid-testing)
 - [Native SAP HANA](advanced/hana)
 - [Performance Modeling](advanced/performance-modeling)
-- [Troubleshooting](advanced/troubleshooting)
 
 ### [Tools](tools/)
 - [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
@@ -138,6 +138,7 @@
 - [cds. i18n](node.js/cds-i18n)
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
+- [Transactional Outbox](node.js/outbox)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)

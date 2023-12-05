@@ -7,7 +7,6 @@ status: released
 # Events and Requests
 
 
-
 [[toc]]
 
 
@@ -207,7 +206,16 @@ The events `succeeded` , `failed` and `done` are emitted *after* the current tra
 
 To veto requests, either use the `req.before('commit')` hook, or service-level `before` `COMMIT` handlers.
 
-To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manually-managed transactions](./cds-tx).
+To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manual transactions](./cds-tx#manual-transactions), preferably a variant with automatic commit/ rollback.
+
+Example:
+```js
+req.on('done', () => {
+  await cds.tx(() => {
+    await UPDATE `Stats` .set `views = views + 1` .where `book_ID = ${book.ID}`
+  })
+})
+```
 
 Additional note about OData: For requests that are part of a changeset, the events are emitted once the entire changeset was completed. If at least one of the requests in the changeset fails, following the atomicity property ("all or nothing"), all requests fail.
 

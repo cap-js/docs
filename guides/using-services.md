@@ -92,7 +92,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## ① Get and Import an External Service API { #external-service-api }
+## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
 
@@ -236,7 +236,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## ② Local Mocking {#local-mocking}
+## Local Mocking {#local-mocking}
 
 When developing your application, you can mock the remote service.
 
@@ -469,7 +469,7 @@ For example:
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
-## ③ Execute Queries {#execute-queries}
+## Execute Queries {#execute-queries}
 
 You can send requests to remote services using CAP's powerful querying API.
 
@@ -596,7 +596,7 @@ For Java, you can use the `HttpClient` API to implement your custom requests. Th
 
 [Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
-## ④ Integrate and Extend {#integrate-and-extend}
+## Integrate and Extend {#integrate-and-extend}
 
 By creating projections on remote service entities and using associations, you can create services that combine data from your local service and remote services.
 
@@ -923,7 +923,7 @@ The following matrix can help you to find the best approach for your scenario:
 > <sup>4</sup> Depends on the connectivity and performance of the remote system. <br>
 
 
-## ⑤ Connect and Deploy {#connect-and-deploy}
+## Connect and Deploy {#connect-and-deploy}
 
 <!--
 ### Connect to Business Services on SAP BTP
@@ -1474,9 +1474,7 @@ Using the tenant of the request's JWT token means reading from the **subscriber 
 
 <div class="impl node">
 
-You can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
-
-With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+You can change the destination lookup behavior as follows:
 
 ```jsonc
 "cds": {
@@ -1487,12 +1485,18 @@ With the value `alwaysProvider` you can ensure that the destination is always re
         /* ... */
       },
       "destinationOptions": {
-        "selectionStrategy": "alwaysProvider"
+        "selectionStrategy": "alwaysProvider",
+        "jwt": null
       }
     }
   }
 }
 ```
+
+
+Setting the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js) to `alwaysProvider`, you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+
+Set the destination option `jwt` to `null`, if you don't want to pass the request's JWT to SAP Cloud SDK. Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level. In rare cases, these defaults are not suitable, for example when the request to the upstream server does not depend on the current user. Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>
 
@@ -1516,7 +1520,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑤ Add Qualities
+## Add Qualities
 
 <div id="inaddqualities" />
 

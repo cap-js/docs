@@ -25,7 +25,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 Find here a reference of all CDS concepts and features in the form of compact examples.
 The examples are given in **_CDL_**, a human-readable syntax for defining models, and **_CQL_**, an extension of SQL to write queries.
 
-<!-- [[toc]] -->
+[[toc]]
 
 
 <br>
@@ -722,7 +722,7 @@ aspect OrderItems {
 
 #### Default Target Cardinality
 
-If not otherwise specified, a managed composition of an aspect has the default target cardinality *to many*.
+If not otherwise specified, a managed composition of an aspect has the default target cardinality *to-one*.
 
 #### For Many-to-many Relationships
 

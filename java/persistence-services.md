@@ -37,9 +37,10 @@ entity Books : cuid {
     title        : localized String(111);
     descr        : localized String(1111);
     @cds.collate : false // [!code focus]
-    isbn         : String(40);  // does not require locale-specific sorting // [!code focus]
+    isbn         : String(40);  // does not require locale-specific handling // [!code focus]
 }
 ```
+> When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
 :::tip Disable Statement-Wide Collation
 To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
@@ -120,9 +121,24 @@ cds:
 
 ### SAP HANA
 
+#### Service Bindings
+
 SAP HANA can be configured when running locally as well as when running productively in the cloud. The datasource is auto-configured based on available service bindings in the `VCAP_SERVICES` environment variable or locally the _default-env.json_. This only works if an application profile is used, that doesn't explicitly configure a datasource using `spring.datasource.url`. Such an explicit configuration always takes precedence over service bindings from the environment.
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
+
+#### SQL Optimization Mode
+
+By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
+To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/SAP_HANA_PLATFORM/9de0171a6027400bb3b9bee385222eff/3861d0908ef14e8bbec1d76ea871ac0f.html#sap-hana-execution-engine-(hex)) in SAP HANA Cloud, set the [CDS property](development/properties#cds-properties):
+
+```yaml
+cds.sql.hana.optimizationMode: hex
+```
+
+:::tip
+Use the [hints](../java/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+:::
 
 ### PostgreSQL { #postgresql-1 }
 
@@ -159,7 +175,7 @@ If you don't have a compatible PostgreSQL service binding in your application en
 ```yaml
 ---
 spring:
-  profiles: postgres
+  config.activate.on-profile: postgres
   datasource:
     url: <url>
     username: <user>
@@ -237,7 +253,7 @@ The database content is stored in a file, `sqlite.db` as in the following exampl
 ```yaml
 ---
 spring:
-  profiles: sqlite
+  config.activate.on-profile: sqlite
   sql:
     init:
       mode: never
@@ -256,7 +272,7 @@ The database content is stored in-memory only. The schema initialization done by
 ```yaml
 ---
 spring:
-  profiles: default
+  config.activate.on-profile: default
   sql:
     init:
       mode: always
@@ -366,7 +382,7 @@ At runtime you need to ensure to access the tenant-dependent entities through th
 
 #### Local Development and Testing with MTX
 
-In case you are testing your multitenant application locally with the setup described in [Local Development and Testing](../guides/deployment/as-saas?impl-variant=java#local-mtx) of the "Deploy as Multitenant SaaS Application" cookbook you need to perform additional steps to create an in-memory tenant-independent datasource.
+In case you are testing your multitenant application locally with the setup described in [Local Development and Testing](../guides/multitenancy/#test-locally), you need to perform additional steps to create an in-memory tenant-independent datasource.
 
 To create an in-memory datasource, initialized with the SQL schema, add the following configuration to your Spring Boot application:
 

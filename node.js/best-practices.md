@@ -140,7 +140,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 
 ### Additional Advice
 
-**Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to NPM.  Unlike _package-lock.json_, it _does_ get packaged and published to NPM registries.  See the [NPM documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
+**Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to npm.  Unlike _package-lock.json_, it _does_ get packaged and published to npm registries.  See the [npm documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
 
 
 <div id="prerelease-sap" />

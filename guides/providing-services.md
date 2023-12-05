@@ -521,7 +521,7 @@ service AdminService {
 }
 ```
 
-`@cds.query.limit` can be used as shorthand if no maximum limit needs to be specified at the same level.
+`@cds.query.limit` can be used as shorthand if no default limit needs to be specified at the same level.
 
 ```cds
 @cds.query.limit: 100

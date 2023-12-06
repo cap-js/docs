@@ -1267,6 +1267,11 @@ cds bind --exec -- mvn spring-boot:run \
 [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
 
 
+::: tip
+If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration in an `.env` file. See [Connecting to External Systems From the Business Application Studio](https://sap.github.io/cloud-sdk/docs/js/guides/bas) for more details.
+:::
+
+
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}
 
 If your application consists of microservices and you use one (or more) as a remote service as described in this guide, you can leverage the same XSUAA instance. In that case, you don't need an SAP BTP destination at all.

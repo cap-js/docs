@@ -408,16 +408,15 @@ To show additional information (that is, information that is not included in the
 
 By default, the JSON formatter uses the following custom fields configuration (configurable via [cds.env](cds-env)):
 
-```js
+```jsonc
 {
-  log: {
-    als_custom_fields: { //> <key>: <index>
-      query: 0, //> sql
-      target: 1, details: 2 //> generic validations
+  "log": {
+    "als_custom_fields": { //> <key>: <index>
+      "query": 0, //> sql
+      "target": 1, "details": 2 //> generic validations
     }
   }
 }
-```
 
 Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. The drawback, next to it being cumbersome, is that the indexes should be kept stable.
 

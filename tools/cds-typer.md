@@ -469,3 +469,18 @@ class CatalogService extends cds.ApplicationService { init(){
   const { Book } = require('#cds-models/sap/capire/bookshop')
 })
 ```
+
+In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expressions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions): 
+
+```ts
+// ❌ works during design time, but will cause runtime errors
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ✅ works during design time, but is fully erased during runtime
+import type { Book } from '#cds-models/sap/capire/bookshop'
+
+class CatalogService extends cds.ApplicationService { async init(){
+  // ✅ works both at design time and at runtime
+  const { Book } = await import('#cds-models/sap/capire/bookshop')
+})
+```

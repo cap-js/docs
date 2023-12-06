@@ -411,8 +411,9 @@ By default, the JSON formatter uses the following custom fields configuration (c
 ```jsonc
 {
   "log": {
-    "als_custom_fields": { //> <key>: <index>
-      "query": 0, //> sql
+    "als_custom_fields": {
+      // <key>: <index>
+      "query": 0,               //> sql
       "target": 1, "details": 2 //> generic validations
     }
   }
@@ -447,13 +448,7 @@ custom.string.value0: <value>
 
 Hence, in order to analyze, for example, the SQL statements leading to errors, you'd need to look at field `custom.string.value0` (given the default of `cds.env.log.als_custom_fields`).
 
-:::
-
-::: tip
-Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
-:::
-
-With the default settings and in a more practical example, the log would look something like this:
+In a more practical example, the log would look something like this:
 
 ```log
 msg: SQL Error: Unknown column "IDONTEXIST" in table "DUMMY"
@@ -463,6 +458,12 @@ custom.string.value0: SELECT IDONTEXIST FROM DUMMY
 ```
 
 Without the additional custom field `query` and it's respective value, it would first be necessary to reproduce the issue locally to know what the faulty statement is.
+
+:::
+
+::: tip
+Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
+:::
 
 
 ## Request Correlation { #node-observability-correlation }

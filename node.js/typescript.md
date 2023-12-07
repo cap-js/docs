@@ -134,14 +134,13 @@ Never code against paths inside `@sap/cds/apis/`:
 import { ... } from '@sap/cds/apis/events' // [!code --]
 ```
 
-::: tip Help us improve the types
+### Community
+
+#### Help us improve the types
 
 We invite you to contribute and help us complete the typings as appropriate.  Find the [sources on GitHub](https://github.com/cap-js/cds-types) and open a pull request or an issue.
 
 Still, as `@sap/cds` is a JavaScript library, typings aren't always up to date. You should expect a delay for typings related to the latest release, even gaps, and errors.
-
-:::
-
 
 
 

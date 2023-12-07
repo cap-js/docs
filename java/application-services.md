@@ -204,7 +204,7 @@ Actions or functions are handled - just like CRUD events - using event handlers.
 
 ### Implement Event Handler
 
-The CAP Java runtime doesn't provide any default `On` handlers. Actions and functions are therefore implemented through event handlers. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined, which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion). If an action or function is __bound to an entity__, the entity needs to be specified while registering the event handler. The following example shows how to implement an event handler for an action:
+The CAP Java runtime doesn't provide any default `On` handlers for actions and functions. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined, which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion). If an action or function is __bound to an entity__, the entity needs to be specified while registering the event handler. The following example shows how to implement an event handler for an action:
 
 Given this CDS model:
 

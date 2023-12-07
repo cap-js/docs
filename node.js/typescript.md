@@ -117,13 +117,19 @@ function myHandler(req) { }
 ```
 
 
-::: warning Import types through the [`cds` facade class](../node.js/cds-facade) only
-Never code against paths inside `@sap/cds/apis/`:
+Import types through the [`cds` facade class](../node.js/cds-facade) only:
+
+##### **Good:** {.good}
+
 ```ts
-import { ... } from '@sap/cds/apis/events' // [!code --]  // DON'T
-import { ... } from '@sap/cds' // [!code ++]  // DO
+import { ... } from '@sap/cds' // [!code ++]
 ```
-:::
+
+##### **Bad:** {.bad}
+```ts
+import { ... } from '@sap/cds/apis/events' // [!code --]
+```
+> Never code against paths inside `@sap/cds/apis/`.
 
 ::: tip Help us improve the types
 

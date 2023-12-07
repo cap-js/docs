@@ -308,7 +308,7 @@ Now, just call the review action from custom handler code:
   ...
 ```
 
-To trigger the action or function, the event context needs to be filled with the parameter values and emitted on the service:
+Alternatively the event context can be used to trigger the action or function. This approach is really usefull for a generic use case, where typed interfaces don't work. Therefore the event context needs to be filled with the parameter values and emitted on the service:
 
 ```java
     ReviewEventContext context = ReviewEventContext.create();

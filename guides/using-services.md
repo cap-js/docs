@@ -666,6 +666,7 @@ If you receive `404` errors, check if the request contains fields that don't exi
 This works when accessing the entity directly. Additional work is required to support [navigation](#handle-navigations-across-local-and-remote-entities) and [expands](#handle-expands-across-local-and-remote-entities) from or to a remote entity.
 
 Instead of exposing the remote service's entity unchanged, you can [model your own projection](#model-projections). For example, you can define a subset of fields and change their names.
+
 ::: tip
 CAP does the magic that maps the incoming query, according to your projections, to the remote service and maps back the result.
 :::
@@ -1239,6 +1240,10 @@ Run your application with the Destination service:
 cds watch --profile hybrid
 ```
 
+::: tip
+If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration in an `.env` file. See [Connecting to External Systems From the Business Application Studio](https://sap.github.io/cloud-sdk/docs/js/guides/bas) for more details.
+:::
+
 #### Run a Java Application with a Destination {.impl .java}
 
 Add a new profile `hybrid` to your _application.yaml_ file that configures the destination for the remote service.
@@ -1265,11 +1270,6 @@ cds bind --exec -- mvn spring-boot:run \
 ```
 
 [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
-
-
-::: tip
-If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration in an `.env` file. See [Connecting to External Systems From the Business Application Studio](https://sap.github.io/cloud-sdk/docs/js/guides/bas) for more details.
-:::
 
 
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}

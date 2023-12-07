@@ -1005,7 +1005,8 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
           /* ... */
         },
         "destinationOptions": {
-          "selectionStrategy": "alwaysSubscriber"
+          "selectionStrategy": "alwaysSubscriber",
+          "useCache": true
         }
       }
     }
@@ -1014,6 +1015,8 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
 ```
 
 The `selectionStrategy` property controls how a [destination is resolved](#destination-resolution).
+
+The `useCache` option controls whether the SAP Cloud SDK caches the destination. Read [Destination Cache](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination-cache#destination-cache) to learn more about how the cache works.
 
 If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?q=URL.headers).
 
@@ -1474,9 +1477,7 @@ Using the tenant of the request's JWT token means reading from the **subscriber 
 
 <div class="impl node">
 
-You can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
-
-With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+You can change the destination lookup behavior as follows:
 
 ```jsonc
 "cds": {
@@ -1487,12 +1488,18 @@ With the value `alwaysProvider` you can ensure that the destination is always re
         /* ... */
       },
       "destinationOptions": {
-        "selectionStrategy": "alwaysProvider"
+        "selectionStrategy": "alwaysProvider",
+        "jwt": null
       }
     }
   }
 }
 ```
+
+
+Setting the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js) to `alwaysProvider`, you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+
+Set the destination option `jwt` to `null`, if you don't want to pass the request's JWT to SAP Cloud SDK. Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level. In rare cases, these defaults are not suitable, for example when the request to the upstream server does not depend on the current user. Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>
 

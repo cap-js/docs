@@ -133,7 +133,7 @@ logging:
   level:
     com.sap.cds.auditlog: DEBUG
 ```
-### AuditLog v2 Handler { #handler-v2 .impl.internal}
+### AuditLog v2 Handler { #handler-v2}
 
 Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `pom.xml` of the CAP Java project:
 

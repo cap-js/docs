@@ -116,6 +116,7 @@ Types are available even in JavaScript through [JSDoc comments](https://jsdoc.ap
 function myHandler(req) { }
 ```
 
+### Type Imports
 
 Import types through the [`cds` facade class](../node.js/cds-facade) only:
 
@@ -126,10 +127,12 @@ import { ... } from '@sap/cds' // [!code ++]
 ```
 
 ##### **Bad:** {.bad}
+
+Never code against paths inside `@sap/cds/apis/`:
+
 ```ts
 import { ... } from '@sap/cds/apis/events' // [!code --]
 ```
-> Never code against paths inside `@sap/cds/apis/`.
 
 ::: tip Help us improve the types
 

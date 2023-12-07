@@ -46,7 +46,7 @@ Also add the last line to your user profile, for example, `~/.profile`, so that 
 
 ##### Check if your environment variables are properly set on Windows
 
-Global NPM installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
+Global npm installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
 
 ```sh
 C:\Users\<your-username>\AppData\Roaming\npm

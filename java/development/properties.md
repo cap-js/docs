@@ -4,7 +4,7 @@ status: released
 ---
 
 <script setup>
-import { data } from './properties.data.js'
+import { data } from './properties.data.ts'
 const { properties, version } = data
 </script>
 

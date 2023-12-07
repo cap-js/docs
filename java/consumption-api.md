@@ -100,7 +100,7 @@ public class CatalogServiceAPI {
 }
 ```
 
-For actions and functions, the `cds-maven-plugin` generates specific interfaces for services in the CDS mdel. These service interfaces provide Java methods each action and function, which can be used to trigger the corresponding event.
+The `cds-maven-plugin` generates specific interfaces for services in the CDS model. These service interfaces provide Java methods for each action and function, which can be used to trigger the corresponding event.
 For further details, see [Trigger Action or Function](./application-services#trigger-action-or-function).
 
 ## Services Accepting CQN Queries { #cdsservices}

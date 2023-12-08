@@ -47,7 +47,7 @@ Application Services are created with the fully qualified name of their CDS defi
 ApplicationService adminService = catalog.getService(ApplicationService.class, "AdminService");
 ```
 
-As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allow direct access to the action's or function's parameters. These specific interfaces can also be used to access the service:
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allows easily calling actions and functions with their parameters. These specific interfaces can also be used to get access to the service:
 
 ```java
 AdminService adminService = catalog.getService(AdminService.class, "AdminService");

@@ -1738,7 +1738,6 @@ ENDS WITH
 The `matchesPattern` predicate is applied to a String value and tests if it matches a given regular expression.
 
 The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
-For example, the SAP HANA uses the Perl Compatible Regular Expressions and the embedded databases like SQLite and H2 use the Java implementation of regular expressions. They are compatible with regard to the most of the features, but you may still discover some differences.
 
 For example, following code matches title of the book that contains word "CAP" in the title:
 

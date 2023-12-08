@@ -256,9 +256,9 @@ The event handler registration and implementation is as follows:
 public class CatalogServiceHandler implements EventHandler {
 
     @On(event = "review", entity = Books_.CDS_NAME)
-    public void reviewAction(EventContext context) {
+    public void reviewAction(ReviewEventContext context) {
         CqnSelect selectBook = context.getCqn();
-        Integer stars = context.get("stars");
+        Integer stars = context.getStars();
         Reviews review = [...] // create the review
         context.setResult(review);
     }

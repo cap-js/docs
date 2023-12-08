@@ -311,9 +311,9 @@ Now, just call the review action from custom handler code:
 Alternatively, the event context can be used to trigger the action or function. This approach is useful for generic use cases, where typed interfaces are not available. The event context needs to be filled with the parameter values and emitted on the service:
 
 ```java
-    ReviewEventContext context = ReviewEventContext.create();
-    context.setCqn(Select.from(BOOKS).byId("myBookId"));
-    context.setStars(review.getRating());
+    EventContext context = EventContext.create("review", Books_.CDS_NAME);
+    context.put("cqn", Select.from(BOOKS).byId("myBookId"));
+    context.put("rating", review.getRating());
 
     this.catService.emit(context);
 

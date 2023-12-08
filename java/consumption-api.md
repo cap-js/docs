@@ -90,7 +90,7 @@ public class EventHandlerClass implements EventHandler {
 }
 ```
 ::: tip
-For the injection of specific service interfaces the annotation `@Qualifier` is not required.
+For the injection of specific service interfaces the annotation `@Qualifier` is usually not required.
 :::
 
 ## Services Accepting CQN Queries { #cdsservices}

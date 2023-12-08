@@ -69,40 +69,6 @@ public class EventHandlerClass implements EventHandler {
 }
 ```
 
-### Triggering Custom Events { #customevents}
-
-Services can be extended with custom events, for example through [Actions and Functions](application-services#actions).
-In that case, the custom event can be triggered by passing the corresponding Event Context to the `emit` method of the service.
-In case of model-defined actions and functions, the CDS Maven Plugin is capable of generating Event Context interfaces.
-Alternatively developers can always define their own custom event contexts.
-
-In addition developers can define their own API layer around the `emit` method, to make it more convenient to trigger the custom event.
-The following example shows how this can be achieved for the [action example from the Application Services chapter](application-services#actions) in a Spring Boot application.
-
-```java
-import static bookshop.Bookshop_.BOOKS;
-
-@Component
-public class CatalogServiceAPI {
-
-    @Autowired
-    @Qualifier(CatalogService_.CDS_NAME)
-    CqnService catalogService; // get access to the service
-
-    public Reviews review(String bookId, Integer stars) {
-        ReviewEventContext context = ReviewEventContext.create();
-        context.setCqn(Select.from(BOOKS).byId(bookId)); // set target entity
-        context.setStars(stars); // set input parameters
-        catalogService.emit(context); // emit the event
-        return context.getResult(); // return the result
-    }
-
-}
-```
-
-The `cds-maven-plugin` generates specific interfaces for services in the CDS model. These service interfaces provide Java methods for each action and function, which can be used to trigger the corresponding event.
-For further details, see [Trigger Action or Function](./application-services#trigger-action-or-function).
-
 ## Services Accepting CQN Queries { #cdsservices}
 
 The most used services in CAP are the CQN-based services. The most prominent of these are the Application Service, Persistence Service, and Remote Service.

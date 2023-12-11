@@ -1169,7 +1169,7 @@ annotate TravelService.Travel with @UI.LineItem: [
 ```
 
 ::: tip
-Only direct annotations, not propagated ones, can be extended using `...`.
+Only direct annotations can be extended using `...`. It's not supported to extend propagated annotations, for example, from aspects or types.
 :::
 
 <br>

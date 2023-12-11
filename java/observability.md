@@ -171,9 +171,11 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 
 ### Logging Service { #logging-service}
 
-The platform offers a central application logging service to which the application log output can be streamed to. Operators can analyze the log output by means of higher-level tools.
+The Business Technology Platform offers several central services to which the application log output can be streamed to. Operators can analyze the log output by means of higher-level tools.
 
-In Cloud Foundry environment, the service `application-logs` offers an ELK stack (Elasticsearch/Logstash/Kibana). To get connected with the logging service, the application needs to be bound against a corresponding service instance. To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
+In Cloud Foundry environment, applications can decide between the service `application-logs` which offers an ELK stack (Elasticsearch/Logstash/Kibana) and the service `cloud-logging` which is based on Open Search. To get connected with one of the logging services, the application needs to be bound against a corresponding service instance. A comparison of both services can be found [here](https://pages.github.tools.sap/perfx/cloud-logging-service/features/).
+
+To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
 ```xml
 <dependency>
@@ -470,3 +472,41 @@ public class AppActuator {
 }
 ```
 The `AppActuator` bean registers an actuator with name `app` that exposes a simple version string.
+
+## Open Telemetry
+
+[Open Telemetry](https://opentelemetry.io/) is an open source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability services.
+
+CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging service 
+
+The [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) is used to:
+
+- auto-instrument the application to produce additional spans for [various libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)  
+- collect distributed traces and metrics and send them to a configured Open Telemetry backend (e.g. SAP BTP Cloud Logging service) 
+
+In addition, it is possible to provide manual instrumentation from within a CAP Java application (e.g. from a custom event handler) using the [Open Telemetry Java API}(https://opentelemetry.io/docs/instrumentation/java/manual/).
+
+### Configuration
+
+1) Create a 
+```json
+{
+  "ines"
+}
+```
+
+```yaml
+- name: bookshop-srv
+  ...
+  properties:
+    ...
+    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-3.8.0.jar']"
+```
+
+For troubleshooting purposes, you can increase the log level of tha Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_JAVA_OPTS` argument.
+
+::: tip
+It is possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
+:::
+
+### Custom Instrumentation

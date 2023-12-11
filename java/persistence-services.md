@@ -46,7 +46,7 @@ entity Books : cuid {
 To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
-4. The SAP HANA supports PCRE (Perl Compatible Regular Expressions) for regular expression matching. If you need to match a string against a regular expression, consider using lazy (ungreedy) quantifiers in the pattern or the option `U`. This can make match faster.
+4. The SAP HANA supports _PCRE_ (Perl Compatible Regular Expressions) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
 
 ### PostgreSQL
 

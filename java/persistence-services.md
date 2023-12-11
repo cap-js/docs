@@ -162,11 +162,14 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 </execution>
 ```
 
-Advise the CDS Compiler to avoid generating superfluous localized views in _.cdsrc.json_:
+Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
 
-```json
+::: code-group
+```json [.cdsrc.json]
 { "cdsc": { "fewerLocalizedViews": true } }
 ```
+:::
+
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
@@ -209,11 +212,15 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-Advise the CDS Compiler to avoid generating superfluous localized views in _.cdsrc.json_:
+Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
 
-```json
+::: code-group
+```json [.cdsrc.json]
 { "cdsc": { "fewerLocalizedViews": true } }
 ```
+:::
+
+
 
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
@@ -244,14 +251,13 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 
 #### CDS Compiler Configuration
 
-Advise the CDS Compiler to
+You have the following configuration options:
 
-* enable support for [session context variables](../guides/databases-sqlite#session-variables) and
-* avoid generating superfluous localized views
+* `betterSqliteSessionVariables`: enable support for [session context variables](../guides/databases-sqlite#session-variables)
+* `fewerLocalizedView`: don't generate localized views that CAP Java doesn't need
 
-by this configuration in _.cdsrc.json_:
-
-```json
+::: code-group
+```json [.cdsrc.json]
 {
     "cdsc": {
         "betterSqliteSessionVariables": true,
@@ -259,6 +265,8 @@ by this configuration in _.cdsrc.json_:
     }
 }
 ```
+:::
+
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```sh

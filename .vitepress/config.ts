@@ -1,4 +1,5 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
+import type { LanguageInput, IRawGrammar } from 'shikiji'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
@@ -21,8 +22,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.3.0',
-  java_cds4j: '2.3.0'
+  java_services: '2.4.1',
+  java_cds4j: '2.4.1'
 }
 
 const localSearchOptions = {
@@ -74,6 +75,11 @@ const localSearchOptions = {
 
 const menu = sidebar()
 const nav = nav4(menu) as DefaultTheme.NavItem[]
+const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
+  const src = await fs.readFile(join(__dirname, file))
+  const grammar:IRawGrammar = JSON.parse(src.toString())
+  return { name, aliases: [name, alias], ...grammar }
+}
 
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
@@ -121,36 +127,11 @@ const config:UserConfig<CapireThemeConfig> = {
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    // theme: {
-    //   light: 'github-light',
-    //   dark: 'github-dark'
-    // },
-    // lineNumbers: true,
     languages: [
-      {
-        id: 'cds',
-        scopeName: 'source.cds',
-        path: join(__dirname, 'syntaxes/cds.tmLanguage.json'), // from https://github.com/SAP/cds-textmate-grammar
-        aliases: ['cds']
-      },
-      {
-        id: 'csvs',
-        scopeName: 'text.scsv',
-        path: join(__dirname, 'syntaxes/scsv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
-        aliases: ['csv', 'csvs']
-      },
-      {
-        id: 'csvc',
-        scopeName: 'text.csv',
-        path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
-        aliases: ['csvc']
-      },
-      {
-        id: 'log',
-        scopeName: 'text.log',
-        path: join(__dirname, 'syntaxes/log.tmLanguage.json'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
-        aliases: ['log', 'logs']
-      }
+      await loadSyntax('syntaxes/cds.tmLanguage.json',  'cds'), // from https://github.com/SAP/cds-textmate-grammar
+      await loadSyntax('syntaxes/scsv.tmLanguage.json', 'csv', 'csvs'), // from https://github.com/mechatroner/vscode_rainbow_csv
+      await loadSyntax('syntaxes/csv.tmLanguage.json',  'csvc'), // from https://github.com/mechatroner/vscode_rainbow_csv
+      await loadSyntax('syntaxes/log.tmLanguage.json',  'log', 'logs'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
     ],
     toc: {
       level: [2,3]

@@ -99,13 +99,48 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 The package `@sap/cds` is shipped with TypeScript declarations. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
 
-::: warning
-As `@sap/cds` is a JavaScript library, typings aren't always up to date. You should expect a delay for typings related to the latest release, even gaps, and errors.
-:::
+Use them like this:
 
-::: tip
-We invite you to contribute and help us complete the typings as appropriate. Sounds interesting? Reach out to us.
-:::
+```ts
+import { Request } from '@sap/cds'
+
+function myHandler(req: Request) { }
+```
+
+Types are available even in JavaScript through [JSDoc comments](https://jsdoc.app/):
+
+```js
+/**
+ * @param { import('@sap/cds').Request } req
+ */
+function myHandler(req) { }
+```
+
+### Type Imports
+
+Import types through the [`cds` facade class](../node.js/cds-facade) only:
+
+##### **Good:** {.good}
+
+```ts
+import { ... } from '@sap/cds' // [!code ++]
+```
+
+##### **Bad:** {.bad}
+
+Never code against paths inside `@sap/cds/apis/`:
+
+```ts
+import { ... } from '@sap/cds/apis/events' // [!code --]
+```
+
+### Community
+
+#### Help us improve the types
+
+We invite you to contribute and help us complete the typings as appropriate.  Find the [sources on GitHub](https://github.com/cap-js/cds-types) and open a pull request or an issue.
+
+Still, as `@sap/cds` is a JavaScript library, typings aren't always up to date. You should expect a delay for typings related to the latest release, even gaps, and errors.
 
 
 

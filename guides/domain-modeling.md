@@ -2,6 +2,7 @@
 synopsis: >
   Most projects start with capturing the essential objects of their domain in a respective domain model.
   Find here an introduction to the basics of domain modeling with CDS, complemented with recommended best practices.
+redirect_from: guides/domain-models
 status: released
 ---
 
@@ -15,7 +16,7 @@ Domain Models capture the static, data-related aspects of a problem domain in te
 
 ### Capture Intent — *What, not How!*
 
-CDS focuses on *conceptual modelling*: we want to capure intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
+CDS focuses on *conceptual modelling*: we want to capture intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
 
 For example, given an entity definition like that:
 
@@ -191,7 +192,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 :::
 
-In general always prefer conciseness, comprehensibility and readability, and avoid overly lenghty names, probably dictated by overly strict systematics:
+In general always prefer conciseness, comprehensibility and readability, and avoid overly lengthy names, probably dictated by overly strict systematics:
 
 ::: tip Prefer *Concise* Names
 

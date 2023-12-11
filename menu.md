@@ -69,6 +69,7 @@
 - [CDS Editors](tools/index#cds-editor)
 - [CDS Lint](tools/index#cds-lint)
 - [CDS Typer](tools/cds-typer)
+- [cds add](tools/cds-add)
 
 ### [CDS](cds/)
 

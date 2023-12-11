@@ -1739,7 +1739,7 @@ The `matchesPattern` predicate is applied to a String value and tests if it matc
 
 The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
 
-For example, following code matches title of the book that contains word "CAP" in the title:
+For example, following code matches title of the book that contains the word "CAP" in the title:
 
 ```java
 Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));

@@ -1150,7 +1150,7 @@ Example: Insert a new entry after `BeginDate`.
 
 ```cds
 @UI.LineItem: [
-    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel',  Label: '{i18n>AcceptTravel}'   },
+    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel', Label: '{i18n>AcceptTravel}' },
     { Value: TravelID,  Label: 'ID'    },
     { Value: BeginDate, Label: 'Begin' },
     { Value: EndDate,   Label: 'End'   }
@@ -1168,7 +1168,9 @@ annotate TravelService.Travel with @UI.LineItem: [
 ];
 ```
 
-
+::: tip
+Only direct annotations, not propagated ones, can be extended using `...`.
+:::
 
 <br>
 

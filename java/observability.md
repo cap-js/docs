@@ -473,40 +473,109 @@ public class AppActuator {
 ```
 The `AppActuator` bean registers an actuator with name `app` that exposes a simple version string.
 
-## Open Telemetry
+## Open Telemetry { #open-telemetry }
 
-[Open Telemetry](https://opentelemetry.io/) is an open source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability services.
+[Open Telemetry](https://opentelemetry.io/) is an open source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability frontends which offer a wide set of capabilities to analyze the current state or failures of an application. On the Business Technology Platform for example [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered for these purposes.
 
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging service 
+CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service. By attaching the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) to the CAP Java application, the application will automatically benefit from the following features:
 
-The [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) is used to:
+- auto-instrumentation of the application on deployment to produce additional spans for [various libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)  
+- additional spans for CAP-specific capabilities
+- collection of distributed traces and metrics and forwarding to a bound SAP BTP Cloud Logging instance
 
-- auto-instrument the application to produce additional spans for [various libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)  
-- collect distributed traces and metrics and send them to a configured Open Telemetry backend (e.g. SAP BTP Cloud Logging service) 
+Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.  
 
-In addition, it is possible to provide manual instrumentation from within a CAP Java application (e.g. from a custom event handler) using the [Open Telemetry Java API}(https://opentelemetry.io/docs/instrumentation/java/manual/).
+In addition, it is possible to provide manual instrumentation from within a CAP Java application (e.g. from a custom event handler) using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/).
 
 ### Configuration
 
-1) Create a 
-```json
-{
-  "ines"
-}
-```
+1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it is important to enable the Open Telemetry capabilities by passing the following parameter: 
+    ```json
+    {
+      "ingest_otlp": true
+    }
+    ```
 
-```yaml
-- name: bookshop-srv
-  ...
-  properties:
-    ...
-    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-3.8.0.jar']"
-```
+2) Add the following maven dependency to the `pom.xml` of your CAP Java application:
+    ```json
+    <dependency>
+      <groupId>com.sap.hcp.cf.logging</groupId>
+      <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
+      <version>3.8.0</version>
+    </dependency>
+    ```
+   
+3) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. mta.yaml).
 
-For troubleshooting purposes, you can increase the log level of tha Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_JAVA_OPTS` argument.
+   ```yaml
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-<version>.jar']"
+   ```
+
+   Make sure that you replace the `<version>` tag with the same version that you have added to your maven dependencies in the previous step. 
+   For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
 ::: tip
 It is possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
 ### Custom Instrumentation
+
+Using the Open Telemetry Java API, it is possible to provide additional observability signals from within an CAP Java application. This might include additional spans as well as metrics.
+
+It is required to add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
+   ```json
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-api</artifactId>
+    </dependency>
+   ```
+
+There is no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
+
+The following example will produce an additional span when the `@After` handler is executed. The Open Telemetry API will automatically ensure that the span is correctly added to the current span hierarchy. Span attributes allows an application to associate additional data to the span which helps in identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This will mark the span as erroneous and will help to analyze failures. It is important to close the span in any case. Otherwise, the span will not be recorded and will be lost.    
+
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+  Tracer tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+
+  @After(entity = Books_.CDS_NAME)
+  public void afterAddReview(AddReviewContext context) {
+      Span childSpan = tracer.spanBuilder("setBookRating").startSpan();
+      childSpan.setAttribute("book.title", context.getResult().getTitle());
+      childSpan.setAttribute("book.id", context.getResult().getBookId());
+      childSpan.setAttribute("book.rating", context.getResult().getRating());
+      
+      try(Scope scope = childSpan.makeCurrent()) {
+        ratingCalculator.setBookRating(context.getResult().getBookId());
+      } catch (Throwable t) {
+         childSpan.recordException(t);
+         throw t;
+      } finally {
+         childSpan.end();
+      }
+  }
+}
+```
+
+Similarly, it is possible to record metrics during execution of e.g. a custom event handler. The following example manages a metric `reviewCounter` which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry frontend as dimension for aggregating values of this metric.    
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+  Metric tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+
+  @After(entity = Books_.CDS_NAME)
+  public void afterAddReview(AddReviewContext context) {
+     ratingCalculator.setBookRating(context.getResult().getBookId());
+     
+     LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
+     counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
+  }
+}
+```

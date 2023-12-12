@@ -44,12 +44,14 @@ jobs:
       run: |
         echo "DIFF_FILES=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- '*.md' | xargs)" >> "$GITHUB_OUTPUT"
     - name: Run cspell
+      if: steps.changes.outputs.DIFF_FILES != ''
       id: cspell
       continue-on-error: true
       working-directory: docs/@external
       run: |
         npx cspell --no-progress --show-suggestions --show-context ${{ steps.changes.outputs.DIFF_FILES }} >> ${{ github.workspace }}/docs/@external/CSPELL.log
     - name: Run markdownlint
+      if: steps.changes.outputs.DIFF_FILES != ''
       id: markdownlint
       continue-on-error: true
       working-directory: docs/@external

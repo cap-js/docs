@@ -249,13 +249,15 @@ The CAP Java SDK uses various dependencies that are also used by the application
 
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
-| Java | 17 | 17 |
+| Java | 17 | 21<sup>1</sup> |
 | @sap/cds-dk | 6 | latest |
 | @sap/cds-compiler | 3 | latest |
 | Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
 | SAP Cloud SDK | 4.24 | latest |
 | Java Logging | 3.7 | latest |
+
+<sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommended.
 
 ::: warning
 The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
@@ -308,7 +310,7 @@ It supports the following command-line options:
 | `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
 | `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[17\|20]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
 
 ### Maven Build Options
 

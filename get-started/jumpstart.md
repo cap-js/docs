@@ -42,8 +42,6 @@ Choose the **LTS** version, via the left-hand side button:
 npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
-[Running into problems? &rarr; See the troubleshooting guide.](troubleshooting#npm-installation){.learn-more}
-
 
 
 ### 3. Install Git
@@ -61,7 +59,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 5. Install Java & Maven
 
-- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed [as described here](https://cap.cloud.sap/docs/java/getting-started#local).
+- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed [as described here](../java/getting-started#local).
 
 
 ### 6. Install Visual Studio Code

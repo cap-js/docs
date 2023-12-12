@@ -7,13 +7,13 @@ const url = `https://repo1.maven.org/maven2/com/sap/cds/cds-services-api/${versi
 
 export default defineLoader({
   async load() {
-    let properties = await fetchProperties()
-    properties = massageProperties(properties)
+    let props = await fetchProperties()
+    const properties = massageProperties(props)
     return { properties, version }
   }
 })
 
-async function fetchProperties() {
+async function fetchProperties(): Promise<JavaSdkProperties[]> {
   // console.debug(`\n  fetching properties of CDS Java ${version}`)
   const resp = await fetch(url)
   const jar = await resp.arrayBuffer()
@@ -27,22 +27,39 @@ async function fetchProperties() {
   })
 }
 
-
-function massageProperties(properties) {
-  return properties.map(({ name, header, type, default:defaultValue, doc }) => {
-    return {
-      name: name.replaceAll(/<(index|key)>/g, '<i>&lt;$1&gt;</i>'),  // decorate special <key> and <index> names
-      type,
-      description: md2Html(doc),
-      defaultValue: defaultValue ? `<code>${defaultValue}</code>` : '',
-      header,
-      anchor: name.replaceAll('.', '-')
-    }
-  })
+function massageProperties(properties: JavaSdkProperties[]): OurProperties[] {
+  return properties.map(({ name, header, type, default:defaultValue, doc }) => ({
+    // @ts-ignore
+    name: name.replaceAll(/<(index|key)>/g, '<i>&lt;$1&gt;</i>'),  // decorate special <key> and <index> names
+    type,
+    description: md2Html(doc),
+    defaultValue: defaultValue ? `<code>${defaultValue}</code>` : '',
+    header,
+    // @ts-ignore
+    anchor: name.replaceAll('.', '-')
+  }))
 }
 
-function md2Html(string) {
+function md2Html(string:string) {
   return string
+    // @ts-ignore
     .replaceAll(/`(.*?)`/g, '<code>$1</code>')
     .replaceAll(/(https?:\/\/.*?)(\s)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>$2')
+}
+
+type JavaSdkProperties = {
+  name: string,
+  header: string,
+  type: string,
+  default: string,
+  doc: string
+}
+
+type OurProperties = {
+  name: string,
+  header: string,
+  type: string,
+  description: string,
+  defaultValue: string,
+  anchor: string
 }

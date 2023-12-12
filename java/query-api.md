@@ -1212,17 +1212,20 @@ The Query Builder API supports using expressions in many places. Expressions con
 
 ### Entity References {#entity-refs}
 
-Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method. The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
+Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../java/advanced#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
-import static com.sap.cds.ql.CQL.entity;
+import com.sap.cds.ql.CQL;
 
-// bookshop.Books[year = 2020].author
+// bookshop.Books[year = 2020].author // [!code focus]
+Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).author(); // [!code focus]
+
+// or as untyped entity ref
 StructuredType<?> authors =
-   entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
+   CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name }
-Select.from(authors).columns("name");
+// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+Select.from(authors).columns("name"); // [!code focus]
 ```
 
 You can also get [entity references](query-execution#entity-refs) from the result of a CDS QL statement to address an entity via its key values in other statements.
@@ -1729,6 +1732,36 @@ ENDS WITH
 </td>
 </tr>
 </table>
+
+#### `matchesPattern` Predicate {#matches-pattern}
+
+The `matchesPattern` predicate is applied to a String value and tests if it matches a given regular expression.
+
+The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
+
+For example, following code matches title of the book that contains the word "CAP" in the title:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
+```
+
+::: tip
+As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
+::::
+
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between: 
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+```
+
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.  
+
+For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern(CQL.val("^CAP.+$"), CQL.val("i")));
+```
 
 #### `anyMatch/allMatch` Predicate {#any-match}
 

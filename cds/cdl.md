@@ -1106,6 +1106,13 @@ to an error in the future when the implementation is improved.
 Using an expression as annotation value only makes sense if the evaluator of the annotation is
 prepared to deal with the new CSN representation.
 Currently the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
+
+```cds
+entity Orders @(restrict: [
+    { grant: 'READ', to: 'Auditor', where: (AuditBy = $user.id) }
+  ]) {/*...*/}
+```
+
 More annotations are going to follow in upcoming releases.
 
 Of course you can use this feature also in your custom annotations, where you control the code that evaluates

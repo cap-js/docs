@@ -1019,7 +1019,7 @@ the first path step is resolved as element of the entity. For an annotation assi
 to an entity element, the first path step is resolved as the annotated element or its siblings.
 If the annotation is assigned to a subelement of a structured element, the top level
 elements of the entity can be accessed via `$self`.
-A parameter `par` of a parmetrized entity can be accessed like in a query with `:par`.
+A parameter `par` of a parametrized entity can be accessed like in a query with `:par`.
 If a path cannot be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`

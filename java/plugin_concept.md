@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  A collection of different mechanisms that can be used to build plugins for CAP Java. 
+  A collection of different mechanisms that can be used to build plugins for CAP Java.
 status: released
 ---
 
@@ -18,7 +18,7 @@ status: released
 <!-- #### Content -->
 <!--- % include _chapters toc="2,3" %} -->
 
-Especially when working with larger projects that may consists of many individual CAP Java applications or when building platform services that need to be integrated with CAP applications there is the requirement to extend CAP Java with custom, yet reusable code. 
+Especially when working with larger projects that may consists of many individual CAP Java applications or when building platform services that need to be integrated with CAP applications there is the requirement to extend CAP Java with custom, yet reusable code.
 
 In the following sections the different extension points and mechanisms will be explained.
 
@@ -35,7 +35,7 @@ Of course it's up to your project / plugin how you call the corresponding Maven 
 
 ## Sharing Reusable CDS Models via Maven artifacts
 
-Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects. 
+Prior to the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects.
 
 Starting with the 2.2 release CDS models, CSV import data and i18n files can now be shared through Maven dependencies in addition to npm packages. This means you can now provide CDS models, CSV files, i18n files and Java code (for example, event handlers) in a single Maven dependency.
 
@@ -135,20 +135,20 @@ public class SampleHandler implements EventHandler {
 }
 ```
 
-The shown handler code is registered for any entity type on any [ApplicationService](../guides/providing-services). Dependending on the use case the target scope could narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
+The shown handler code is registered for any entity type on any [ApplicationService](../guides/providing-services). Dependending on the use case the target scope could be narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
 
 [Learn more about event handling in our EventHandler documentation](provisioning-api){.learn-more}
 
 Of course this handler code looks just the same as any other custom or builtin CAP Java handler. The only difference here is that you need to think a bit more about the provisioning of the handler. When you write a custom handler as part of (in the package of) a CAP Java application you can annotate the handler's class with `@Component` and Spring Boot's component scan will pick up the class during startup of the Application Context.
 
-When you provide your custom handler as part of an reuse library external to you application things change a bit. At first you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extention points.
+When you provide your custom handler as part of a reuse library, external to your application, things change a bit. At first you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extension points.
 
-The decision between the two is pretty straightforward: In case your handler depends on other Spring components e.g. relies on dependency injection you should use the the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/persistence-services) or a service via it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
+The decision between the two is pretty straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/persistence-services) or to a service using it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
 
 If your custom handler is pretty much isolated and is for example only performing validation based on provided data or performing a calculation you can stick with the [CAP Java ServiceLoader approach](#service-loader) which is described in the follwing section.
 
 ### Load Plugin Code via ServiceLoaders {#service-loader}
-At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
+At runtime, CAP Java uses the [`ServiceLoader`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html) mechanism to load all implementations of the `CdsRuntimeConfiguration` interface from the application's ClassPath. In order to qualify as a contributor for a given ServiceLoader-enabled interface we need to place a plain text file named like the fully qualified name of the interface in the directory `src/main/resources/META-INF/services` of our reuse model containing the name of the implementing class(es). For the above implemented `CdsRuntimeConfiguration` we need to create a file `src/main/resources/META-INF/services/CdsRuntimeConfiguration` with the following content:
 
 ```txt
 com.sap.example.cds.SampleHandlerRuntimeConfiguration
@@ -201,7 +201,7 @@ public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAw
    * by the new protocol adapter e.g. odata-v4, hcql, ..
    */
 
-	static final String PROTOCOL_KEY = "protocol-key"; 
+	static final String PROTOCOL_KEY = "protocol-key";
 
 	private CdsRuntime runtime;
 
@@ -230,7 +230,7 @@ public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAw
 
 	@Override
 	public String getBasePath() {
-    // Return the base path 
+    // Return the base path
 	}
 
 	@Override
@@ -241,7 +241,7 @@ public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAw
      * with either it's canonical or annotated path prefixed with
      * the base path of the protocol adapter (see above).
      */
-		
+
 	}
 
 	@Override
@@ -276,7 +276,7 @@ public class SampleAdapter extends HttpServlet {
 ```
 
 As mentioned above, a protocol adapter maps incoming requests to CQL statements and executes them on the right [`ApplicationService`](https://cap.cloud.sap/docs/java/application-services) according to the `HttpServletRequest`'s request-path. In order to have all relevant `ApplicationServices` ready at runtime you can call `runtime.getServiceCatalog().getServices(ApplicationService.class)` in the adapter's constructor to load all `ApplicationServices` and then select the ones relevant for this protocol adapter and then have them ready (in e.g. a Map) for serving requests in `service()`.
-     
+
 When handling incoming requests at runtime, you need to extract the request path and parameters from the incoming HttpServletRequest. Then, you can use CQL API from the `cds4j-api` module to [create CQL](https://cap.cloud.sap/docs/java/query-api) corresponding to the extracted information. This statement then needs to be executed with [`ApplicationService.run()`](https://cap.cloud.sap/docs/java/query-execution). The returned result then needs to be mapped to the result format that is suitable for the protocol handled by the adapter. For REST it would be some canonical JSON serialization of the returned objects.
 
 So, a REST request like

@@ -1733,6 +1733,36 @@ ENDS WITH
 </tr>
 </table>
 
+#### `matchesPattern` Predicate {#matches-pattern}
+
+The `matchesPattern` predicate is applied to a String value and tests if it matches a given regular expression.
+
+The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
+
+For example, following code matches title of the book that contains the word "CAP" in the title:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
+```
+
+::: tip
+As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
+::::
+
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between: 
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+```
+
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.  
+
+For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern(CQL.val("^CAP.+$"), CQL.val("i")));
+```
+
 #### `anyMatch/allMatch` Predicate {#any-match}
 
 The `anyMatch` and `allMatch` predicates are applied to an association and test if _any_ instance/_all_ instances of the associated entity set match a given filter condition. They are supported in filter conditions of [Select](#select), [Update](#update) and [Delete](#delete) statements.

@@ -173,10 +173,8 @@ Use `req.data` for modifications as shown below:
 
 ```js
 this.before ('UPDATE',Books, req => {
-  // DO:
-  req.data.author = 'Schmidt'
-  // DON'T:
-  req.query.UPDATE.data.author = 'Schmidt'
+  req.data.author = 'Schmidt'  // [!code ++]
+  req.query.UPDATE.data.author = 'Schmidt'  // [!code --]
 })
 ```
 

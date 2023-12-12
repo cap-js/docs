@@ -46,6 +46,8 @@ entity Books : cuid {
 To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../java/development/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
+4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
+
 ### PostgreSQL
 
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and supports most of the CAP features. Known limitations are:
@@ -65,6 +67,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
 5. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
+7. For regular expressions, H2's implementation is compatible with Java's: the matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.  
 
 ::: warning
 Support for localized and temporal data via session context variables requires H2 v2.2.x or later.
@@ -85,6 +88,7 @@ CAP does support most of the major features on SQLite, although there are a few 
 7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
 8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
 9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
+10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ## Datasources
 

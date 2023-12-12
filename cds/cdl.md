@@ -259,12 +259,11 @@ entity ![Entity] {
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
+This can be either a value expression or an expression that resolves to an association.
 
-Today CAP CDS only supports calculated elements with a value expression.
-They are read-only, no value must be provided for them in a WRITE operation.
-When reading a calculated element, the result of the expression is returned.
-
-Calculated elements with a value expression come in two variants: "on-read" and "on-write".
+Calculated elements with a value expression are read-only, no value must be provided for
+them in a WRITE operation. When reading such a calculated element, the result of the
+expression is returned. They come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
 #### On-read
@@ -357,7 +356,22 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-<div id="concept-alce" />
+#### Association-like calculated elements (beta)
+
+A calculated element can also define a refined association, like in this example:
+
+```cds
+entity Employees {
+  addresses : Association to many Addresses;
+  homeAddress = addresses [1: kind='home'];
+}
+```
+
+For such a calculated element, no explicit type can be specified.
+Only a single association can occur in the expression, and a filter must be specified.
+
+The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
+
 
 ### Default Values
 
@@ -1277,7 +1291,7 @@ Example: Insert a new entry after `BeginDate`.
 
 ```cds
 @UI.LineItem: [
-    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel',  Label: '{i18n>AcceptTravel}'   },
+    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel', Label: '{i18n>AcceptTravel}' },
     { Value: TravelID,  Label: 'ID'    },
     { Value: BeginDate, Label: 'Begin' },
     { Value: EndDate,   Label: 'End'   }
@@ -1295,7 +1309,9 @@ annotate TravelService.Travel with @UI.LineItem: [
 ];
 ```
 
-
+::: tip
+Only direct annotations can be extended using `...`. It's not supported to extend propagated annotations, for example, from aspects or types.
+:::
 
 <br>
 

@@ -29,9 +29,8 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 <div class="impl node">
 
 ```sh
-cds init hello-world --add tiny-sample
+cds init hello-world
 cd hello-world
-npm install
 ```
 
 </div>
@@ -39,7 +38,7 @@ npm install
 <div class="impl java">
 
 ```sh
-cds init hello-world --add java,samples
+cds init hello-world --add java
 cd hello-world
 ```
 

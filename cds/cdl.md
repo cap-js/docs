@@ -356,7 +356,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements (beta)
+#### Association-like calculated elements (beta) {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 

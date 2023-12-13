@@ -355,11 +355,10 @@ cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
 
 Add an `on` condition to express the relation:
 
-<!-- cds-mode: ignore -->
 ::: code-group
 ```cds [srv/external/API_BUSINESS_PARTNER-new.cds]
 entity API_BUSINESS_PARTNER.A_BusinessPartner {
-  ...
+  // ...
   to_BusinessPartnerAddress :
       Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress
       on to_BusinessPartnerAddress.BusinessPartner = BusinessPartner;

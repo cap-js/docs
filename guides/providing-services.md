@@ -502,7 +502,7 @@ You can configure default and maximum page size limits in your [project configur
 
 You can override the defaults by applying the `@cds.query.limit` annotation on the service or entity level, as follows:
 
-<!-- cds-mode: ignore -->
+<!-- cds-mode: ignore, because it shows expected format, not CDS snippet -->
 ```cds
 @cds.query.limit: { default?, max? } | Number
 ```

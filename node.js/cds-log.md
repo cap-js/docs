@@ -367,7 +367,7 @@ During development, we want concise, human-readable output in the console, with 
 
 The *plain log formatter* does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
 
-![Plain Formatter Output](./assets/plain-formatter-output.png)
+![The screenshot is explained in the accompanying text.](./assets/plain-formatter-output.png)
 
 The plain log formatter is the default formatter in non-production.
 
@@ -386,27 +386,27 @@ Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.featu
 
 Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
 1. Running on Cloud Foundry: `tenant_subdomain`, `CF_INSTANCE_IP` and information from `VCAP_APPLICATION`
-1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [SAP Application Logging Service Custom Fields](#als-custom-fields)
+1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [Custom Fields](#als-custom-fields)
 
 The following screenshot shows the log output for the rejection in the previous example with the JSON log formatter including the two aspects.
 
-![JSON Formatter Output](assets/json-formatter-output.png)
+![The screenshot is explained in the accompanying text.](assets/json-formatter-output.png)
 
 ::: warning
-The SAP Application Logging Service offers [differnt plans with different quotas](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/service-plans-and-quotas). Please make sure the plan you use is sufficient, i.e., no logs are being dropped (this information is available in Kibana). As soon as logs are dropped, you cannot reliably assess what is going on in your app.
+The SAP Application Logging Service offers [different plans with different quotas](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/service-plans-and-quotas). Please make sure the plan you use is sufficient, that is, no logs are being dropped so that the information is available in Kibana. As soon as logs are dropped, you cannot reliably assess what is going on in your app.
 :::
 
 
 ### Header Masking
 
-Some header values shall not appear in logs, for example when pertaining to authorization. Config `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked (that is, printed as `***`). The default config is `['/authorization/i', '/cookie/i']`.
+Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i']`.
 
 
 ### Custom Fields { #als-custom-fields }
 
-To show additional information (that is, information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service), it needs to be provided as custom fields.
+Information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service can be shown as additional information. This information needs to be provided as custom fields.
 
-By default, the JSON formatter uses the following custom fields configuration (configurable via [cds.env](cds-env)):
+By default, the JSON formatter uses the following custom fields configuration, which is configurable using [cds.env](cds-env#cds-env):
 
 ```jsonc
 {
@@ -419,11 +419,11 @@ By default, the JSON formatter uses the following custom fields configuration (c
   }
 }
 
-Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. The drawback, next to it being cumbersome, is that the indexes should be kept stable.
+Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. Besides being a manual task, it has the drawback that the indexes should be kept stable.
 
 ::: details Background
 
-The SAP Application Logging Service requires the following formatting of custom field content inside the JSON object that shall be logged:
+The SAP Application Logging Service requires the following formatting of custom field content inside the JSON object that is logged:
 
 ```js
 {

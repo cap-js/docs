@@ -963,7 +963,7 @@ action doSomething returns @before {
 Values can be literals, references, or expressions. Expressions are explained in more detail in the next section.
 If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @aFlag //= true, if no value is given
 @aBoolean: false
@@ -1010,14 +1010,14 @@ and the behavior of expressions in OData annotations will change.
 :::
 
 In order to use an expression as an annotation value, it must be enclosed in parentheses:
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @anExpression: ( foo.bar * 11 )
 ```
 
 Syntactically, the same expressions are supported as in a select item or in the where clause of a query,
 except subqueries. The expression can of course also be a single reference or a simple value:
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @aRefExpr: ( foo.bar )
 @aValueExpr: ( 11 )
@@ -1077,7 +1077,7 @@ all elements used in an annotation expression must be projected without renaming
 Thus, for the time being we recommend to use the feature mainly in top-level projections.
 
 Example:
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @Foo1 : (a)
 @Foo2 : (a + b)
@@ -1111,7 +1111,7 @@ Using an expression as annotation value only makes sense if the evaluator of the
 prepared to deal with the new CSN representation.
 Currently the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
 
-<!-- cds-mode: ignore -->
+<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 entity Orders @(restrict: [
     { grant: 'READ', to: 'Auditor', where: (AuditBy = $user.id) }

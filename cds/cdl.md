@@ -1047,7 +1047,7 @@ is checked by the compiler.
 In CSN, the expression is represented as a record with two properties:
 * A string representation of the expression is stored in property `=`.
 * A tokenized representation of the expression is stored in one of the properties
-`xpr`, `ref`, `val`, `func`, or `list` (like if the expression was written in a query).
+`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
 
 ```json
 {

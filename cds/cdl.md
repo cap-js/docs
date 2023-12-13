@@ -704,7 +704,7 @@ entity Orders {
     product : Association to Products;
     quantity : Integer;
   }
-}
+};
 ```
 
 Managed Compositions are mostly syntactical sugar: Behind the scenes, they are unfolded to the [unmanaged equivalent as shown above](#compositions)
@@ -714,7 +714,10 @@ You can safely use this name at other places, for example to define an associati
 
 <!-- cds-mode: ignore -->
 ```cds
+entity Orders { 
+  // …
   specialItem : Association to Orders.Items;
+};
 ```
 
 
@@ -940,7 +943,6 @@ Parameters in view definitions:
 
 Actions/functions including their parameters and result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 @before action doSomething @inner (
   @before param @(inner) : String @after
@@ -949,9 +951,8 @@ Actions/functions including their parameters and result:
 
 Or in case of a structured result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
-action doSomething returns @before {
+action doSomething() returns @before {
   @before resultElem @inner : String @after;
 };
 ```
@@ -1075,7 +1076,6 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 Actions, functions, their parameters and `returns` can be annotated:
 
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 service SomeService {
   entity SomeEntity { key id: Integer } actions

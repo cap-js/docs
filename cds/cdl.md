@@ -259,12 +259,11 @@ entity ![Entity] {
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
+This can be either a value expression or an expression that resolves to an association.
 
-Today CAP CDS only supports calculated elements with a value expression.
-They are read-only, no value must be provided for them in a WRITE operation.
-When reading a calculated element, the result of the expression is returned.
-
-Calculated elements with a value expression come in two variants: "on-read" and "on-write".
+Calculated elements with a value expression are read-only, no value must be provided for
+them in a WRITE operation. When reading such a calculated element, the result of the
+expression is returned. They come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
 #### On-read
@@ -357,7 +356,22 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-<div id="concept-alce" />
+#### Association-like calculated elements (beta)
+
+A calculated element can also define a refined association, like in this example:
+
+```cds
+entity Employees {
+  addresses : Association to many Addresses;
+  homeAddress = addresses [1: kind='home'];
+}
+```
+
+For such a calculated element, no explicit type can be specified.
+Only a single association can occur in the expression, and a filter must be specified.
+
+The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
+
 
 ### Default Values
 
@@ -690,7 +704,7 @@ entity Orders {
     product : Association to Products;
     quantity : Integer;
   }
-}
+};
 ```
 
 Managed Compositions are mostly syntactical sugar: Behind the scenes, they are unfolded to the [unmanaged equivalent as shown above](#compositions)
@@ -700,7 +714,10 @@ You can safely use this name at other places, for example to define an associati
 
 <!-- cds-mode: ignore -->
 ```cds
+entity Orders { 
+  // …
   specialItem : Association to Orders.Items;
+};
 ```
 
 
@@ -926,7 +943,6 @@ Parameters in view definitions:
 
 Actions/functions including their parameters and result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 @before action doSomething @inner (
   @before param @(inner) : String @after
@@ -935,9 +951,8 @@ Actions/functions including their parameters and result:
 
 Or in case of a structured result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
-action doSomething returns @before {
+action doSomething() returns @before {
   @before resultElem @inner : String @after;
 };
 ```
@@ -1061,7 +1076,6 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 Actions, functions, their parameters and `returns` can be annotated:
 
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 service SomeService {
   entity SomeEntity { key id: Integer } actions

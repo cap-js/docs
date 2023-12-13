@@ -169,7 +169,14 @@ The name of the incoming event, which can be one of:
 
 Contains the event data. For example, the HTTP body for `CREATE` or `UPDATE` requests, or the payload of an asynchronous event message.
 
+Use `req.data` for modifications as shown below:
 
+```js
+this.before ('UPDATE',Books, req => {
+  req.data.author = 'Schmidt'  // [!code ++]
+  req.query.UPDATE.data.author = 'Schmidt'  // [!code --]
+})
+```
 
 ### . headers {.property}
 

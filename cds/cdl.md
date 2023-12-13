@@ -1100,7 +1100,7 @@ The propagated annotation `@Foo3` is invalid, as element `c` of `E` has not been
 This results in a compiler error. To make it work, you would have to explicitly overwrite annotations
 `@Foo2` and `@Foo3` at `P`.
 
-The compiler is going to take care of renamings and rewrite references in propagated annotations
+The compiler is going to take care of renamed elements and rewrites references in propagated annotations
 in a later release. The CSN representation of propagated annotation expressions may change even
 if today no error is issued. Propagated annotation expressions that today are accepted may lead
 to an error in the future when the implementation is improved.

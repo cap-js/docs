@@ -1003,7 +1003,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 
 ::: warning
 Expressions in annotation values are released as beta feature.
-We provide an early preview for the functionality to allow you to experiment with it and provide feedback.
+We provide an early preview of this functionality to allow you to experiment with it and provide feedback.
 The behavior may change in later releases, in particular:
 the behavior and the CSN representation of paths in propagated annotations will change,
 and the behavior of expressions in OData annotations will change.
@@ -1109,7 +1109,7 @@ to an error in the future when the implementation is improved.
 
 Using an expression as annotation value only makes sense if the evaluator of the annotation is
 prepared to deal with the new CSN representation.
-Currently the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
+Currently, the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
 
 <!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
@@ -1120,7 +1120,7 @@ entity Orders @(restrict: [
 
 More annotations are going to follow in upcoming releases.
 
-Of course you can use this feature also in your custom annotations, where you control the code that evaluates
+Of course, you can use this feature also in your custom annotations, where you control the code that evaluates
 the annotations.
 
 #### OData Annotations

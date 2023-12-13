@@ -993,7 +993,7 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
 ```
 
 ::: tip
-In contrast to references in expressions (see next section), plain references aren't checked or resolved
+In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked or resolved
 by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
 For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
@@ -1026,8 +1026,8 @@ except subqueries. The expression can of course also be a single reference or a 
 Some advantage of using expressions as "first class" annotation values are:
 * syntax and references are checked by the compiler
 * code completion
-* (planned for a later release) automatic path rewriting in propagated annotations (see below)
-* (planned for a later release) automatic translation of expressions in OData annotations (see below)
+* (planned) [automatic path rewriting in propagated annotations](#propagation)
+* (planned) [automatic translation of expressions in OData annotations](#odata-annotations)
 
 #### Name resolution
 
@@ -1066,7 +1066,7 @@ In CSN, the expression is represented as a record with two properties:
 }
 ```
 
-Note the different CSN representations for a plain value `"@anInteger": 11` and a value written
+Note the different CSN representations for a [plain value `"@anInteger": 11`](#annotation-values) and a value written
 as expression `@aValueExpr: ( 11 )`, respectively.
 
 #### Propagation
@@ -1100,10 +1100,12 @@ The propagated annotation `@Foo3` is invalid, as element `c` of `E` has not been
 This results in a compiler error. To make it work, you would have to explicitly overwrite annotations
 `@Foo2` and `@Foo3` at `P`.
 
+::: details Outlook on future releases
 The compiler is going to take care of renamed elements and rewrites references in propagated annotations
 in a later release. The CSN representation of propagated annotation expressions may change even
 if today no error is issued. Propagated annotation expressions that today are accepted may lead
 to an error in the future when the implementation is improved.
+:::
 
 #### CDS Annotations
 

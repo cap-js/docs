@@ -513,11 +513,11 @@ The limit definitions for `CatalogService` and `AdminService` in the following e
 @cds.query.limit.default: 20
 @cds.query.limit.max: 100
 service CatalogService {
-  [...]
+  // ...
 }
 @cds.query.limit: { default: 20, max: 100 }
 service AdminService {
-  [...]
+  // ...
 }
 ```
 

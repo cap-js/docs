@@ -374,7 +374,7 @@ The plain log formatter is the default formatter in non-production.
 
 ## Logging in Production
 
-The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics). 
+The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
 
 To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
 
@@ -431,11 +431,11 @@ The SAP Application Logging Service requires the following formatting of custom 
 
 ```js
 {
-  [...],
+  ...,
   '#cf': {
     strings: [
       { k: '<key>', v: '<value>', i: <index> },
-      [...]
+      ...
     ]
   }
 }
@@ -456,7 +456,7 @@ In a more practical example, the log would look something like this:
 
 ```log
 msg: SQL Error: Unknown column "IDONTEXIST" in table "DUMMY"
-[...]
+...
 custom.string.key0: query
 custom.string.value0: SELECT IDONTEXIST FROM DUMMY
 ```

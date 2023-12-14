@@ -1079,26 +1079,26 @@ Thus, for the time being we recommend to use the feature mainly in top-level pro
 Example:
 <!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
-@Foo1 : (a)
-@Foo2 : (a + b)
-@Foo3 : (a + c)
-entity E {
-  a : Integer;
-  b : Integer;
-  c : Integer;
+@MyLength : (length)
+@MyArea : (length * depth)
+@MyHeight : (height)
+entity Block {
+  length : Integer;
+  depth : Integer;
+  height : Integer;
 }
 
-entity P as projection on E {
-  a,
-  b as x
+entity Rectangle as projection on Block {
+  length,
+  depth as width
 }
 ```
 
-All three annotations are propagated to the projection `P`. The propagated `@Foo1` is still valid.
-The propagated annotation `@Foo2` is invalid, as the referenced element `b` has been renamed to `x`.
-The propagated annotation `@Foo3` is invalid, as element `c` of `E` has not been projected at all.
+All three annotations are propagated to the projection `Rectangle`. The propagated `@MyLength` is still valid.
+The propagated annotation `MyArea` is invalid, as the referenced element `depth` has been renamed to `width`.
+The propagated annotation `MyHeight` is invalid, as element `height` of `Block` has not been projected at all.
 This results in a compiler error. To make it work, you would have to explicitly overwrite annotations
-`@Foo2` and `@Foo3` at `P`.
+`@MyArea` and `@MyHeight` at `Rectangle`.
 
 ::: details Outlook on future releases
 The compiler is going to take care of renamed elements and rewrites references in propagated annotations

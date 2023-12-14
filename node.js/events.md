@@ -217,8 +217,8 @@ To do something which requires databases in `succeeded`/`failed` handlers, use `
 
 Example:
 ```js
-req.on('done', () => {
-  await cds.tx(() => {
+req.on('done', async () => {
+  await cds.tx(async () => {
     await UPDATE `Stats` .set `views = views + 1` .where `book_ID = ${book.ID}`
   })
 })

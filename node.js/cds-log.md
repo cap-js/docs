@@ -365,9 +365,11 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 
 During development, we want concise, human-readable output in the console, with clickable stack traces in case of errors. You should not be overloaded with information that is additionally obfuscated by a bad rendering. Hence, [console.log()](https://nodejs.org/api/console.html#console_console_log_data_args), that makes use of [util.format()](https://nodejs.org/api/util.html#util_util_format_format_args) out of the box, with raw arguments is a good choice.
 
-The default log formatter does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the default log formatter.
+The *plain log formatter* does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
 
-![Default Formatter Output](./assets/default-formatter-output.png)
+![The screenshot is explained in the accompanying text.](./assets/plain-formatter-output.png)
+
+The plain log formatter is the default formatter in non-production.
 
 
 ## Logging in Production
@@ -378,15 +380,95 @@ To get connected with the SAP BTP Application Logging Service, the application n
 
 Additionally, the log output needs to be formatted in a way that enables the respective dashboard technology to optimally support the user, for example, filtering for logs of specific levels, modules, status, etc.
 
-The Kibana-friendly log formatter constructs a loggable object from the passed arguments as well as [cds.context](events#cds-event-context) and the headers of the incoming request (if available).
+The *JSON log formatter* constructs a loggable object from the passed arguments as well as [cds.context](events#cds-event-context) and the headers of the incoming request (if available).
 
-Kibana-friendly log formatting can be added using `cds add kibana-logging`. Alternatively, it can be [activated](cds-env#cds-env) via `cds.env.features.kibana_formatter = true`. In the future, the Kibana-friendly formatter will become the default when running in SAP BTP and bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
+The JSON log formatter is the default formatter in production.
 
-The following screenshot shows the log output for the rejection in the previous example with the Kibana-friendly log formatter.
+::: tip
+Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.features.kibana_formatter = true` are no longer needed. If you want to opt-out of the JSON formatter in production, set `cds.env.log.format = 'plain'`.
+:::
 
-![Kibana-friendly Formatter Output](assets/kibana-formatter-output.png){adapt}
+Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
+1. Running on Cloud Foundry: `tenant_subdomain`, `CF_INSTANCE_IP` and information from `VCAP_APPLICATION`
+1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [Custom Fields](#als-custom-fields)
 
-<div  id="beforerequestcorrel" />
+The following screenshot shows the log output for the rejection in the previous example with the JSON log formatter including the two aspects.
+
+![The screenshot is explained in the accompanying text.](assets/json-formatter-output.png)
+
+::: warning
+The SAP Application Logging Service offers [different plans with different quotas](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/service-plans-and-quotas). Please make sure the plan you use is sufficient, that is, no logs are being dropped so that the information is available in Kibana. As soon as logs are dropped, you cannot reliably assess what is going on in your app.
+:::
+
+
+### Header Masking
+
+Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i']`.
+
+
+### Custom Fields { #als-custom-fields }
+
+Information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service can be shown as additional information. This information needs to be provided as custom fields.
+
+By default, the JSON formatter uses the following custom fields configuration, which is configurable using [cds.env](cds-env#cds-env):
+
+```jsonc
+{
+  "log": {
+    "als_custom_fields": {
+      // <key>: <index>
+      "query": 0,               //> sql
+      "target": 1, "details": 2 //> generic validations
+    }
+  }
+}
+
+Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. Besides being a manual task, it has the drawback that the indexes should be kept stable.
+
+::: details Background
+
+The SAP Application Logging Service requires the following formatting of custom field content inside the JSON object that is logged:
+
+```js
+{
+  [...],
+  '#cf': {
+    strings: [
+      { k: '<key>', v: '<value>', i: <index> },
+      [...]
+    ]
+  }
+}
+```
+
+That is, a generic collection of key-value-pairs that are treated as opaque strings.
+
+The information is then rendered as follows:
+
+```txt
+custom.string.key0: <key>
+custom.string.value0: <value>
+```
+
+Hence, in order to analyze, for example, the SQL statements leading to errors, you'd need to look at field `custom.string.value0` (given the default of `cds.env.log.als_custom_fields`).
+
+In a more practical example, the log would look something like this:
+
+```log
+msg: SQL Error: Unknown column "IDONTEXIST" in table "DUMMY"
+[...]
+custom.string.key0: query
+custom.string.value0: SELECT IDONTEXIST FROM DUMMY
+```
+
+Without the additional custom field `query` and it's respective value, it would first be necessary to reproduce the issue locally to know what the faulty statement is.
+
+:::
+
+::: tip
+Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
+:::
+
 
 ## Request Correlation { #node-observability-correlation }
 

@@ -777,6 +777,6 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readab
 
 ::: tip Try to avoid direct reads of BLOBs
 
-Even if we support direct reading of BLOBs, as shown in the fourth line above, you should generally refrain from using that option. The reason is that BLOBs hold potentially large amounts of data and handling them can be resourse consuming. If you allows it, consider using non-large `Binary` elements instead, which are returned as it is.
+Even if we support direct reading of BLOBs, as shown in the fourth line above, you should generally refrain from using that option. The reason is that BLOBs hold potentially large amounts of data and handling them can be resource consuming. If you allows it, consider using non-large `Binary` elements instead, which are returned as it is.
 
 :::

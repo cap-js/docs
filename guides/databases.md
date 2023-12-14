@@ -761,3 +761,22 @@ In case of conflicts, follow these steps to provide different models for differe
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
 There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.
+
+## Node.js Runtime Handling BLOBs
+
+Formerly, `LargeBinary` elements, a.k.a. BLOBs, always got served as any other column. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them. In this case the BLOB properties are returned as readable.
+
+For example:
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
+```
+
+::: tip Try to avoid direct reads of BLOBs
+
+Even if we support direct reading of BLOBs, as shown in the fourth line above, you should generally refrain from using that option. The reason is that BLOBs hold potentially large amounts of data and handling them can be resourse consuming. If you allows it, consider using non-large `Binary` elements instead, which are returned as it is.
+
+:::

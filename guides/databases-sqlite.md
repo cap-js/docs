@@ -688,36 +688,6 @@ Generic application service handlers use *SELECT.localized* to request localized
 
 :::
 
-
-
-
-
-<!-- ### New Streaming API {.impl .node}
-
-TODO: New STREAM event, ...
-
--->
-
-### Skipped BLOBs {.impl .node}
-
-Formerly, `LargeBinary` elements, a.k.a. BLOBs, always got served as any other column. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them.
-
-For example:
-
-```js
-SELECT.from(Books)          //> [{ ID, title, ..., image }] // [!code --]
-SELECT.from(Books)          //> [{ ID, title, ... }]
-SELECT('image').from(Books) //> [{ image }]
-```
-
-::: tip Avoid direct reads of BLOBs
-
-Even if we still support direct reads, as shown in the third line above, you should generally refrain from using that option. One reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such a thing, consider using non-large `Binary` elements instead.
-
-:::
-
-
-
 ### Skipped Virtuals {.impl .node}
 
 In contrast to their former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.

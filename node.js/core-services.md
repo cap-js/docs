@@ -1034,6 +1034,10 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 
 ### srv. stream (column) {.method}
 
+::: warning
+This API is deprecated and will be removed with the next release. Please use `SELECT` instead.
+:::
+
 ```ts
 async function srv.stream (column: string)
   return : {
@@ -1068,6 +1072,10 @@ Streaming is currently limited to [database services](databases).
 
 
 ### srv. stream (query)  {.method}
+
+::: warning
+This API is deprecated and will be removed with the next release. Please use `SELECT` instead.
+:::
 
 ```ts
 async function srv.stream (query: CQN) : ReadableStream

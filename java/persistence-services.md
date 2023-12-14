@@ -24,13 +24,13 @@ Write operations through views are supported by the CAP runtime as described in 
 
 ### SAP HANA Cloud
 
-SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy.
+SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy. Noteworthy:
 
 1. Write operations through views that can't be resolved by the CAP runtime are passed through to SAP HANA Cloud. Limitations are described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
 
 2. [Shared locks](../java/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
 
-3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`) a statement-wide collation is added that can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
+3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`), a statement-wide collation is added, which can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
 
 ```cds
 entity Books : cuid {
@@ -166,6 +166,15 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 </execution>
 ```
 
+Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
+
+::: code-group
+```json [.cdsrc.json]
+{ "cdsc": { "fewerLocalizedViews": true } }
+```
+:::
+
+
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
 ::: warning
@@ -207,6 +216,16 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
+Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
+
+::: code-group
+```json [.cdsrc.json]
+{ "cdsc": { "fewerLocalizedViews": true } }
+```
+:::
+
+
+
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
@@ -234,16 +253,24 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 </execution>
 ```
 
+#### CDS Compiler Configuration
 
-Enable support for [session context variables](../guides/databases-sqlite#session-variables)
+You have the following configuration options:
 
-- First enable compiler support in _.cdsrc.json_:
+* `betterSqliteSessionVariables`: enable support for [session context variables](../guides/databases-sqlite#session-variables)
+* `fewerLocalizedView`: don't generate localized views that CAP Java doesn't need
 
-```json
-{"cdsc": { "betterSqliteSessionVariables": true }}
+::: code-group
+```json [.cdsrc.json]
+{
+    "cdsc": {
+        "betterSqliteSessionVariables": true,
+        "fewerLocalizedViews": true
+    }
+}
 ```
+:::
 
-- Then, in the _application.yaml_ file, set `cds.sql.supportedLocales: "*"` to advise the runtime to use session context variables.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```sh

@@ -61,7 +61,7 @@ Actually `csrf: true` is a convenient preset. If needed, you can further customi
 "cds": {
     "requires": {
         "API_BUSINESS_PARTNER": {
-            [...]
+            ...
             "csrf": {  // [!code focus]
               "method": "get",  // [!code focus]
               "url": "..."  // [!code focus]

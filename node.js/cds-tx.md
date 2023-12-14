@@ -466,7 +466,7 @@ The implementation guarantees decoupled execution from request-handling threads/
 
 Think of it as if each run happens in an own thread with own context, with automatic transaction management.
 
-By default, the nested context inherits all values from `cds.context`, especially user and tenant. Use the argument `options` if you want to override values, for example to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
+By default, the nested context inherits all values except `timestamp` from `cds.context`, especially user and tenant. Use the argument `options` if you want to override values, for example to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
 
 
 

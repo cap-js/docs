@@ -175,6 +175,7 @@ Further, it adds the API as an external service to your _package.json_. You use 
 
 </div>
 
+::: details Options and flags in _.cdsrc.json_
 Alternatively, you can set the options and flags for `cds import` in your _.cdsrc.json_:
 
 ```json
@@ -192,6 +193,7 @@ Now run `cds import <filename>`
 - `--as` only supports these formats: "csn","cds", and "json"
 - `--force` is applicable only in combination with `--as` option. By default the `--force` flag is set to false.
   > If set to true, existing CSN/CDS files from previous imports are overwritten.
+:::
 
 When importing the specification files, the `kind` is set according to the following mapping:
 
@@ -355,11 +357,10 @@ cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
 
 Add an `on` condition to express the relation:
 
-<!-- cds-mode: ignore -->
 ::: code-group
 ```cds [srv/external/API_BUSINESS_PARTNER-new.cds]
 entity API_BUSINESS_PARTNER.A_BusinessPartner {
-  ...
+  // ...
   to_BusinessPartnerAddress :
       Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress
       on to_BusinessPartnerAddress.BusinessPartner = BusinessPartner;
@@ -625,9 +626,8 @@ CAP automatically tries to delegate queries to database entities, which don't ex
 
 To avoid this error, you need to handle projections. Write a handler function to delegate a query to the remote service and run the incoming query on the external service.
 
-<div class="impl node">
-
-```js
+::: code-group
+```js [Node.js]
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 
@@ -636,13 +636,8 @@ module.exports = cds.service.impl(async function() {
   });
 });
 ```
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
 
-</div>
-
-<div class="impl java">
-
-```java
+```java [Java]
 @Component
 @ServiceName(RiskService_.CDS_NAME)
 public class RiskServiceHandler implements EventHandler {
@@ -657,7 +652,10 @@ public class RiskServiceHandler implements EventHandler {
 }
 ```
 
-</div>
+:::
+
+[For Node.js, get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
+
 
 ::: warning
 If you receive `404` errors, check if the request contains fields that don't exist in the service and start with the name of an association. `cds import` adds an empty keys declaration (`{ }`) to each association. Without this declaration, foreign keys for associations are generated in the runtime model, that don't exist in the real service. To solve this problem, you need to reimport the external service definition using `cds import`.
@@ -849,7 +847,6 @@ Navigations allow to address items via an association from a different entity:
 ```http
 GET /service/risks/Risks(20466922-7d57-4e76-b14c-e53fd97dcb11)/supplier
 ```
-<!-- I Thought we remove all Notes examples?-->
 
 The CQN consists of a `from` condition with 2 values for `ref`. The first `ref` selects the record of the source entity of the navigation. The second `ref` selects the name of the association, to navigate to the target entity.
 
@@ -955,7 +952,7 @@ Create a destination using one or more of the following options.
 
 - **Create a destination to your application:** If you need a destination to your application, for example, to call it from a different application, then you can automatically create it in the MTA deployment.
 
-##### Use Destinations with Node.js
+##### Use Destinations with Node.js {.impl .node}
 
 In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks like this:
 

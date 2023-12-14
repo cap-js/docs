@@ -489,14 +489,21 @@ In addition, it's possible to provide manual instrumentation from within a CAP J
 
 ### Configuration
 
-1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing the following parameter:
-    ```json
-    {
-      "ingest_otlp": true
-    }
+1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing the parameter `ingest_otlp` in addition to the other config. The following snippet shows an example how to add this to a mta.yaml descriptor:
+    ```yaml
+    ...
+	resources:	
+	  - name: cloud-logging-instance
+	    type: org.cloudfoundry.managed-service
+	    parameters:
+	      service: cloud-logging
+	      service-plan: standard
+	      config:
+	        ingest_otlp: true
+    ...
     ```
 
-2) Add the following maven dependency to the `pom.xml` of your CAP Java application:
+3) Add the following maven dependency to the `pom.xml` of your CAP Java application:
     ```json
     <dependency>
       <groupId>com.sap.hcp.cf.logging</groupId>
@@ -505,7 +512,7 @@ In addition, it's possible to provide manual instrumentation from within a CAP J
     </dependency>
     ```
 
-3) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. mta.yaml).
+4) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. mta.yaml).
 
    ```yaml
    - name: <srv-module>

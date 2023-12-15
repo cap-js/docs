@@ -988,7 +988,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 ### Update with Expressions (beta) {#update-expressions}
 
-In addition to the update data with plain Java values, you can also update with CQL expressions via the `set` method, e.g. to decrease the stock of Book 101 by 1:
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition or alternatively you can use the `set` method to specify the new value as a `CqnValue`, which can even be an expression. This allows, for example, to decrease the stock of Book 101 by 1:
 
 ```java
 Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));

@@ -986,6 +986,25 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
+### Update with Expressions (beta) {#update-expressions}
+
+In addition to the update data with plain Java values, you can also update with CQL expressions via the `set` method, e.g. to decrease the stock of Book 101 by 1:
+
+```java
+Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+```
+
+You can also combine update data with expressions:
+
+```java
+import static com.sap.cds.ql.CQL.get;
+import static com.sap.cds.ql.CQL.param;
+
+Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
+   .data("available", true) // [!code focus]
+   .set("stock", get("stock").plus(param("addStock"))); // [!code focus]
+```
+
 ### Deep Update { #deep-update}
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.

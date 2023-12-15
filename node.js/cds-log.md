@@ -422,6 +422,7 @@ By default, the JSON formatter uses the following custom fields configuration, w
     }
   }
 }
+```
 
 Up to 20 such custom fields can be provided using this mechanism. The advantage of this approach is that the additional information can be indexed. Besides being a manual task, it has the drawback that the indexes should be kept stable.
 

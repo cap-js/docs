@@ -230,6 +230,8 @@ Sometimes it is necessary to use a [profiling](#profiling) tool that allows much
 When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities.
 In addition, call-graphs can be reconstructed and visualized that represent the flow of web requests within the components and services.
 
+CAP supports [Open Telemetry](https://www.opentelemetry.io) for reporting signals like distributed traces, logs and metrics into Open Telemetry-compliant solutions. SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration). 
+
 [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml) can be used to perform [Health Monitoring](https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring/health-monitoring-setup-configuration/health-monitoring-for-sap-btp-cf.html) and other valuable use cases.
 
 Additionally 3rd Party tools like [Dynatrace](https://www.dynatrace.com/support/help) can be used as monitoring solution on SAP BTP.
@@ -488,7 +490,9 @@ Spans and traces that are produced out-of-the-box include HTTP requests as well 
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
-### Configuration
+<img src="./assets/screenshot_otel_trace.png" width="500px">
+
+### Configuration { #open-telemetry-configuration }
 
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
@@ -529,6 +533,18 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 ::: tip
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
+
+### CAP-specific Instrumentation
+
+Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It is possible to selectively activate specific spans by changing the log level for the respective component.
+
+| Logger Name | Required Level | Description                                     |
+|-------------|----------------|-------------------------------------------------|
+| com.sap.cds.otel.span.RequestContext | DEBUG | Spans for each Request Context. |
+| com.sap.cds.otel.span.ChangeSetContext | DEBUG | Spans for each Change Set Context. |
+| com.sap.cds.otel.span.Emit | DEBUG | Spans for dispatching events in the CAP runtime. |
+
+For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
 
 ### Custom Instrumentation
 

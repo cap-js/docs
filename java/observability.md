@@ -560,12 +560,12 @@ class CatalogServiceHandler implements EventHandler {
       childSpan.setAttribute("book.rating", context.getResult().getRating());
 
       try(Scope scope = childSpan.makeCurrent()) {
-        ratingCalculator.setBookRating(context.getResult().getBookId());
+          ratingCalculator.setBookRating(context.getResult().getBookId());
       } catch (Throwable t) {
-         childSpan.recordException(t);
-         throw t;
+          childSpan.recordException(t);
+          throw t;
       } finally {
-         childSpan.end();
+          childSpan.end();
       }
   }
 }

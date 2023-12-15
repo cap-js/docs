@@ -194,7 +194,7 @@ During local development, you might want to stick to the (human-readable) standa
 	<springProfile name="cloud">
 		<!-- logback configuration of ConsoleAppender according
 		     to cf-java-logging-support documentation -->
-		[...]
+		...
 	</springProfile>
 	<springProfile name="!cloud">
 		<include resource="org/springframework/boot/logging/logback/base.xml"/>

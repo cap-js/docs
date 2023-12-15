@@ -58,7 +58,7 @@ CDS services which are only meant for *internal* usage, shouldn't be exposed via
 ```cds
 @protocol: 'none'
 service InternalService {
-  [...]
+  ...
 }
 ```
 The `InternalService` service can only receive events sent by in-process handlers.
@@ -199,17 +199,17 @@ Access to auto-exposed entities needs to be controlled in a specific way. Consid
 context db {
   @cds.autoexpose
   entity Categories : cuid { // explicitly auto-exposed (by @cds.autoexpose)
-    [...]
+    ...
   }
 
   entity Issues : cuid { // implicitly auto-exposed (by composition)
     category: Association to Categories;
-    [...]
+    ...
   }
 
   entity Components : cuid { // explicitly exposed (by projection)
     issues: Composition of many Issues;
-    [...]
+    ...
   }
 }
 

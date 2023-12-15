@@ -982,7 +982,7 @@ To be able to migrate the backend from the *Classic Java Runtime* without making
 
 	```json
 	{
-		[...]
+		...
 		"odata": {
 			"version": "v2"
 		}

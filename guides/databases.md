@@ -764,7 +764,7 @@ There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code
 
 ## Node.js Runtime Handling BLOBs
 
-Formerly, `LargeBinary` elements, a.k.a. BLOBs, always got served as any other column. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them. In this case the BLOB properties are returned as readable.
+Formerly, `LargeBinary` elements, a.k.a. BLOBs, always were returned as any other data type. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. In this case the BLOB properties are returned as readable streams.
 
 For example:
 
@@ -777,6 +777,6 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readab
 
 ::: tip Try to avoid direct reads of BLOBs
 
-Even if we support direct reading of BLOBs, as shown in the fourth line above, you should generally refrain from using that option. The reason is that BLOBs hold potentially large amounts of data and handling them can be resource consuming. If you allows it, consider using non-large `Binary` elements instead, which are returned as it is.
+BLOBs hold potentially large amounts of data and handling them can be resource consuming (especially requiring the large amount of `LargeBinary` elements). Please consider using non-large `Binary` data type instead, which are returned as it is.
 
 :::

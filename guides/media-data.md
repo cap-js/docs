@@ -185,7 +185,8 @@ GET $filter=ID eq binary'Q0FQIE5vZGUuanM='
 
 - The usage of binary data in some advanced constructs like the `$apply` query option and `/any()` might be limited.
 - On SQLite, binary strings are stored as plain strings, whereas a buffer is stored as binary data. As a result, if in
-a CDS query, a binary string is used to query data stored as binary, this wouldn't work. Please note, that SQLite doesn't support streaming. That means, that LargeBinary fields are read as a whole (not in chunks) and stored in memory, which can impact performance.
+a CDS query, a binary string is used to query data stored as binary, this wouldn't work. 
+- Please note, that SQLite doesn't support streaming. That means, that LargeBinary fields are read as a whole (not in chunks) and stored in memory, which can impact performance.
 - SAP HANA Database Client for Node.js (HDB) and SAP HANA Client for Node.js (`@sap/hana-client`) packages handle
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.

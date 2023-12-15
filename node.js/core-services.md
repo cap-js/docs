@@ -1035,7 +1035,7 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 ### srv. stream (column) {.method}
 
 ::: warning
-This API is deprecated and will be removed with the next release. Please use `SELECT` instead.
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
 :::
 
 ```ts
@@ -1065,16 +1065,10 @@ const stream = srv.stream('data').from('T').where({ ID: 1 })
 stream.pipe(process.stdout)
 ```
 
-::: warning
-Streaming is currently limited to [database services](databases).
-:::
-
-
-
 ### srv. stream (query)  {.method}
 
 ::: warning
-This API is deprecated and will be removed with the next release. Please use `SELECT` instead.
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
 :::
 
 ```ts
@@ -1088,7 +1082,9 @@ const stream = await srv.stream( SELECT('image').from('Foo',111) )
 stream.pipe(process.stdout)
 ```
 
-
+::: warning
+This API is limited to [database services](databases).
+:::
 
 ### srv. foreach (entity) {.method}
 

@@ -479,17 +479,18 @@ The `AppActuator` bean registers an actuator with name `app` that exposes a simp
 
 CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service. By attaching the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) to the CAP Java application, the application automatically benefits from the following features:
 
-- auto-instrumentation of the application on deployment to produce additional spans for [various libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
-- additional spans for CAP-specific capabilities
-- collection of distributed traces and metrics and forwarding to a bound SAP BTP Cloud Logging instance
+- out of the box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
+- additional traces for CAP-specific capabilities
+- automatic forwarding of telemetry signals (logs, traces or metrics) to SAP BTP Cloud Logging or Dynatrace
+- full setup of Open Telemetry relevant configuration, including span hierarchy and OT collectors
 
 Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
 
-In addition, it's possible to provide manual instrumentation from within a CAP Java application using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, from a custom event handler.
+In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
 ### Configuration
 
-1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing the parameter `ingest_otlp` in addition to the other config. The following snippet shows an example how to add this to a mta.yaml descriptor:
+1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
     ...
 	resources:	
@@ -503,16 +504,16 @@ In addition, it's possible to provide manual instrumentation from within a CAP J
     ...
     ```
 
-3) Add the following maven dependency to the `pom.xml` of your CAP Java application:
+2) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
     ```json
     <dependency>
       <groupId>com.sap.hcp.cf.logging</groupId>
       <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
-      <version>3.8.0</version>
+      <version>${java-logging-version}</version>
     </dependency>
     ```
 
-4) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. mta.yaml).
+3) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. _mta.yaml_).
 
    ```yaml
    - name: <srv-module>

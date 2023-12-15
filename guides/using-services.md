@@ -956,7 +956,7 @@ Create a destination using one or more of the following options.
 
 - **Create a destination to your application:** If you need a destination to your application, for example, to call it from a different application, then you can automatically create it in the MTA deployment.
 
-##### Use Destinations with Node.js
+##### Use Destinations with Node.js {.impl .node}
 
 In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks like this:
 
@@ -1209,7 +1209,7 @@ Your local application needs access to an XSUAA and Destination service instance
 
     [Learn more about `cds bind`.](../advanced/hybrid-testing#services-on-cloud-foundry){.learn-more}
 
-#### Run a Node.js Application with a Destination
+#### Run a Node.js Application with a Destination {.impl .node}
 
 Add the destination for the remote service to the `hybrid` profile in the _.cdsrc-private.json_ file:
 
@@ -1270,6 +1270,10 @@ cds bind --exec -- mvn spring-boot:run \
 ```
 
 [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
+
+::: tip
+If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration to your destination environment variable. See [Reach On-Premise Service from the SAP Business Application Studio](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#reach-on-premise-service-from-the-sap-business-application-studio) for more details.
+:::
 
 
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}

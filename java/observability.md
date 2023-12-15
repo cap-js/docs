@@ -541,7 +541,7 @@ Instrumentations for CAP-specific components are disabled by default so that no 
 | Logger Name | Required Level | Description                                     |
 |-------------|----------------|-------------------------------------------------|
 | com.sap.cds.otel.span.RequestContext | DEBUG | Spans for each Request Context. |
-| com.sap.cds.otel.span.ChangeSetContext | DEBUG | Spans for each Change Set Context. |
+| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each Change Set Context. |
 | com.sap.cds.otel.span.Emit | DEBUG | Spans for dispatching events in the CAP runtime. |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).

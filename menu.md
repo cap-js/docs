@@ -108,6 +108,7 @@
   - [CDS Properties](java/development/properties)
 - [Observability](java/observability)
 - [Migration](java/migration)
+- [Building Plugins](java/plugins)
 
 ### [Node.js](node.js/)
 

@@ -392,6 +392,6 @@ For instance, you might want to run internal service calls in privileged mode th
 ```java
 cdsRuntime.requestContext().privilegedUser().run(privilegedContext -> {
 	assert privilegedContext.getUserInfo().isPrivileged();
-	// [...] Service calls in this scope pass generic authorization handler
+	// ... Service calls in this scope pass generic authorization handler
 });
 ```

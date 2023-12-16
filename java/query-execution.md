@@ -178,7 +178,7 @@ Result updateResult = service.run(update);
 
 The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../guides/domain-modeling#managed-data) and foreign key values.
 
-The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html#rowCount()) of the update `Result` indicates how many rows where updated during the statment execution:
+The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html#rowCount()) of the update `Result` indicates how many rows where updated during the statement execution:
 
 
 ```java

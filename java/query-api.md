@@ -988,7 +988,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 ### Update with Expressions (beta) {#update-expressions}
 
-The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new value as a `CqnValue`, which can even be an expression. This allows, for example, to decrease the stock of Book 101 by 1:
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
 
 ```java
 Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
@@ -1416,6 +1416,10 @@ Scalar functions are values that are calculated from other values. This calculat
     Select.from("bookshop.Authors")
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
+
+#### Arithmetic Expressions
+
+Arithmetic Expressions are captured by scalar functions as well:
 
 * Plus
 

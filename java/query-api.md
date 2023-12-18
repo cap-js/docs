@@ -988,7 +988,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 
 ### Update with Expressions (beta) {#update-expressions}
 
-The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition or alternatively you can use the `set` method to specify the new value as a `CqnValue`, which can even be an expression. This allows, for example, to decrease the stock of Book 101 by 1:
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new value as a `CqnValue`, which can even be an expression. This allows, for example, to decrease the stock of Book 101 by 1:
 
 ```java
 Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
@@ -1768,13 +1768,13 @@ Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
 As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
 ::::
 
-In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between: 
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
 
 ```java
 Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
 ```
 
-The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.  
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
 
 For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
 

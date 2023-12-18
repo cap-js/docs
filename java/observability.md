@@ -230,7 +230,7 @@ Sometimes it is necessary to use a [profiling](#profiling) tool that allows much
 When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities.
 In addition, call-graphs can be reconstructed and visualized that represent the flow of web requests within the components and services.
 
-CAP supports [Open Telemetry](https://www.opentelemetry.io) for reporting signals like distributed traces, logs and metrics into Open Telemetry-compliant solutions. SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration). 
+CAP supports [Open Telemetry](https://www.opentelemetry.io) for reporting signals like distributed traces, logs and metrics into Open Telemetry-compliant solutions. SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration).
 
 [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml) can be used to perform [Health Monitoring](https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring/health-monitoring-setup-configuration/health-monitoring-for-sap-btp-cf.html) and other valuable use cases.
 
@@ -490,14 +490,14 @@ Spans and traces that are produced out-of-the-box include HTTP requests as well 
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
-<img src="./assets/screenshot_otel_trace.png" width="500px">
+<img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
 ### Configuration { #open-telemetry-configuration }
 
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
     ...
-	resources:	
+	resources:
 	  - name: cloud-logging-instance
 	    type: org.cloudfoundry.managed-service
 	    parameters:
@@ -517,7 +517,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
     </dependency>
     ```
 
-3) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. _mta.yaml_).
+3) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
 
    ```yaml
    - name: <srv-module>
@@ -550,7 +550,7 @@ For specific steps to change the log level, please refer to the respective secti
 
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
-It's required to add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
+Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
    ```json
     <dependency>
       <groupId>io.opentelemetry</groupId>
@@ -560,7 +560,7 @@ It's required to add a dependency to the Open Telemetry Java API in the `pom.xml
 
 There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
 
-The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps in identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span won't be recorded and is lost.
+The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span won't be recorded and is lost.
 
 ```java
 @Component
@@ -587,7 +587,7 @@ class CatalogServiceHandler implements EventHandler {
 }
 ```
 
-Similarly, it's possible to record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
+Similarly, you can record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
 
 ```java
 @Component

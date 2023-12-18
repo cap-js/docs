@@ -230,6 +230,8 @@ Sometimes it is necessary to use a [profiling](#profiling) tool that allows much
 When connected to a monitoring tool, applications can report information about memory, CPU, and network usage, which forms the basis for resource consumption overview and reporting capabilities.
 In addition, call-graphs can be reconstructed and visualized that represent the flow of web requests within the components and services.
 
+CAP supports [Open Telemetry](https://www.opentelemetry.io) for reporting signals like distributed traces, logs and metrics into Open Telemetry-compliant solutions. SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration). 
+
 [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml) can be used to perform [Health Monitoring](https://support.sap.com/en/alm/sap-cloud-alm/operations/expert-portal/health-monitoring/health-monitoring-setup-configuration/health-monitoring-for-sap-btp-cf.html) and other valuable use cases.
 
 Additionally 3rd Party tools like [Dynatrace](https://www.dynatrace.com/support/help) can be used as monitoring solution on SAP BTP.
@@ -472,3 +474,133 @@ public class AppActuator {
 }
 ```
 The `AppActuator` bean registers an actuator with name `app` that exposes a simple version string.
+
+## Open Telemetry { #open-telemetry }
+
+[Open Telemetry](https://opentelemetry.io/) is an open source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On the Business Technology Platform, for example,  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as front end for these purposes.
+
+CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service. By attaching the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) to the CAP Java application, the application automatically benefits from the following features:
+
+- out of the box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
+- additional traces for CAP-specific capabilities
+- automatic forwarding of telemetry signals (logs, traces or metrics) to SAP BTP Cloud Logging or Dynatrace
+- full setup of Open Telemetry relevant configuration, including span hierarchy and OT collectors
+
+Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
+
+In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
+
+<img src="./assets/screenshot_otel_trace.png" width="500px">
+
+### Configuration { #open-telemetry-configuration }
+
+1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
+    ```yaml
+    ...
+	resources:	
+	  - name: cloud-logging-instance
+	    type: org.cloudfoundry.managed-service
+	    parameters:
+	      service: cloud-logging
+	      service-plan: standard
+	      config:
+	        ingest_otlp: true
+    ...
+    ```
+
+2) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
+    ```json
+    <dependency>
+      <groupId>com.sap.hcp.cf.logging</groupId>
+      <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
+      <version>${java-logging-version}</version>
+    </dependency>
+    ```
+
+3) Configure your application to enable the Open Telemetry Java Agent by adding or adapt the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor (e.g. _mta.yaml_).
+
+   ```yaml
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-<version>.jar']"
+   ```
+
+   Make sure that you replace the `<version>` tag with the same version that you've added to your maven dependencies in the previous step.
+   For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
+
+::: tip
+It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
+:::
+
+### CAP-specific Instrumentation
+
+Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It is possible to selectively activate specific spans by changing the log level for the respective component.
+
+| Logger Name | Required Level | Description                                     |
+|-------------|----------------|-------------------------------------------------|
+| `com.sap.cds.otel.span.RequestContext` | `DEBUG` | Spans for each Request Context. |
+| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each Change Set Context. |
+| `com.sap.cds.otel.span.Emit` | `DEBUG` | Spans for dispatching events in the CAP runtime. |
+
+For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
+
+### Custom Instrumentation
+
+Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
+
+It's required to add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
+   ```json
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-api</artifactId>
+    </dependency>
+   ```
+
+There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
+
+The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps in identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span won't be recorded and is lost.
+
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+  Tracer tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+
+  @After(entity = Books_.CDS_NAME)
+  public void afterAddReview(AddReviewContext context) {
+      Span childSpan = tracer.spanBuilder("setBookRating").startSpan();
+      childSpan.setAttribute("book.title", context.getResult().getTitle());
+      childSpan.setAttribute("book.id", context.getResult().getBookId());
+      childSpan.setAttribute("book.rating", context.getResult().getRating());
+
+      try(Scope scope = childSpan.makeCurrent()) {
+          ratingCalculator.setBookRating(context.getResult().getBookId());
+      } catch (Throwable t) {
+          childSpan.recordException(t);
+          throw t;
+      } finally {
+          childSpan.end();
+      }
+  }
+}
+```
+
+Similarly, it's possible to record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
+
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+  Metric tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+
+  @After(entity = Books_.CDS_NAME)
+  public void afterAddReview(AddReviewContext context) {
+     ratingCalculator.setBookRating(context.getResult().getBookId());
+
+     LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
+     counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
+  }
+}
+```

@@ -13,7 +13,7 @@ These plugins are created and maintained in close collaboration and shared owner
 
 [[toc]]
 
-<style>
+<style scoped>
    main .vp-doc h2 + .subtitle {
       font-style: italic;
       margin: -44px 0 40px;

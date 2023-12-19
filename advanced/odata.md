@@ -217,22 +217,25 @@ OData defines a strict two-fold key structure composed of `@<Vocabulary>.<Term>`
 
 ```cds
 @Common.Label: 'Customer'
-@Common.ValueList: {
-  Label: 'Customers',
-  CollectionPath: 'Customers'
+@UI.HeaderInfo: {
+  TypeName       : 'Customer',
+  TypeNamePlural : 'Customers',
+  Title          : { Value : name }
 }
-entity Customers { }
+entity Customers { /* ... */ }
 ```
 
 This is represented in CSN as follows:
 
-```json
+```jsonc
 {"definitions":{
   "Customers":{
     "kind": "entity",
     "@Common.Label": "Customer",
-    "@Common.ValueList.Label": "Customers",
-    "@Common.ValueList.CollectionPath": "Customers"
+    "@UI.HeaderInfo.TypeName": "Customer",
+    "@UI.HeaderInfo.TypeNamePlural": "Customers",
+    "@UI.HeaderInfo.Title.Value": {"=": "name"},
+    /* ... */
   }
 }}
 ```
@@ -242,17 +245,23 @@ And would render to EDMX as follows:
 ```xml
 <Annotations Target="MyService.Customers">
   <Annotation Term="Common.Label" String="Customer"/>
-  <Annotation Term="Common.ValueList">
-    <Record Type="Common.ValueListType">
-      <PropertyValue Property="Label" String="Customers"/>
-      <PropertyValue Property="CollectionPath" String="Customers"/>
+  <Annotation Term="UI.HeaderInfo">
+    <Record Type="UI.HeaderInfoType">
+      <PropertyValue Property="TypeName" String="Customer"/>
+      <PropertyValue Property="TypeNamePlural" String="Customers"/>
+      <PropertyValue Property="Title">
+        <Record Type="UI.DataField">
+          <PropertyValue Property="Value" Path="name"/>
+        </Record>
+      </PropertyValue>
     </Record>
   </Annotation>
 </Annotations>
 ```
 
 ::: tip
-The value for `@Common.ValueList` is flattened to individual key-value pairs in CSN and 'restructured' to a record for OData exposure in EDMX.
+The value for `@UI.HeaderInfo` is flattened to individual key-value pairs in CSN and 'restructured'
+to a record for OData exposure in EDMX.
 :::
 
 For each annotated target definition in CSN, the rules for restructuring from CSN sources are:

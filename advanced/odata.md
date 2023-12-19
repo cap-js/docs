@@ -259,6 +259,11 @@ And would render to EDMX as follows:
 </Annotations>
 ```
 
+::: tip
+The value for `@UI.HeaderInfo` is flattened to individual key-value pairs in CSN and 'restructured'
+to a record for OData exposure in EDMX.
+:::
+
 For each annotated target definition in CSN, the rules for restructuring from CSN sources are:
 
 1. Annotations with a single-identifier key are skipped (as OData annotations always have a `@Vocabulary.Term...` key signature).

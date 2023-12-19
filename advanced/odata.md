@@ -216,16 +216,25 @@ OData defines a strict two-fold key structure composed of `@<Vocabulary>.<Term>`
 
 ```cds
 @Common.Label: 'Customer'
-entity Customers { }
+@UI.HeaderInfo: {
+  TypeName       : 'Customer',
+  TypeNamePlural : 'Customers',
+  Title          : { Value : name }
+}
+entity Customers { /* ... */ }
 ```
 
 This is represented in CSN as follows:
 
-```json
+```jsonc
 {"definitions":{
   "Customers":{
     "kind": "entity",
     "@Common.Label": "Customer",
+    "@UI.HeaderInfo.TypeName": "Customer",
+    "@UI.HeaderInfo.TypeNamePlural": "Customers",
+    "@UI.HeaderInfo.Title.Value": {"=": "name"},
+    /* ... */
   }
 }}
 ```
@@ -235,6 +244,17 @@ And would render to EDMX as follows:
 ```xml
 <Annotations Target="MyService.Customers">
   <Annotation Term="Common.Label" String="Customer"/>
+  <Annotation Term="UI.HeaderInfo">
+    <Record Type="UI.HeaderInfoType">
+      <PropertyValue Property="TypeName" String="Customer"/>
+      <PropertyValue Property="TypeNamePlural" String="Customers"/>
+      <PropertyValue Property="Title">
+        <Record Type="UI.DataField">
+          <PropertyValue Property="Value" Path="name"/>
+        </Record>
+      </PropertyValue>
+    </Record>
+  </Annotation>
 </Annotations>
 ```
 

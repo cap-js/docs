@@ -47,6 +47,12 @@ Application Services are created with the fully qualified name of their CDS defi
 ApplicationService adminService = catalog.getService(ApplicationService.class, "AdminService");
 ```
 
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allows easily calling actions and functions with their parameters. These specific interfaces can also be used to get access to the service:
+
+```java
+AdminService adminService = catalog.getService(AdminService.class, "AdminService");
+```
+
 Technical services, like the Persistence Service have a `DEFAULT_NAME` constant defined in their interface:
 
 ```java
@@ -69,36 +75,23 @@ public class EventHandlerClass implements EventHandler {
 }
 ```
 
-### Triggering Custom Events { #customevents}
-
-Services can be extended with custom events, for example through [Actions and Functions](application-services#actions).
-In that case, the custom event can be triggered by passing the corresponding Event Context to the `emit` method of the service.
-In case of model-defined actions and functions, the CDS Maven Plugin is capable of generating Event Context interfaces.
-Alternatively developers can always define their own custom event contexts.
-
-In addition developers can define their own API layer around the `emit` method, to make it more convenient to trigger the custom event.
-The following example shows how this can be achieved for the [action example from the Application Services chapter](application-services#actions) in a Spring Boot application.
+Instead of the generic service interface, also the more specific service interfaces can be injected:
 
 ```java
-import static bookshop.Bookshop_.BOOKS;
-
 @Component
-public class CatalogServiceAPI {
+public class EventHandlerClass implements EventHandler {
 
     @Autowired
-    @Qualifier(CatalogService_.CDS_NAME)
-    CqnService catalogService; // get access to the service
+    private PersistenceService db;
 
-    public Reviews review(String bookId, Integer stars) {
-        ReviewEventContext context = ReviewEventContext.create();
-        context.setCqn(Select.from(BOOKS).byId(bookId)); // set target entity
-        context.setStars(stars); // set input parameters
-        catalogService.emit(context); // emit the event
-        return context.getResult(); // return the result
-    }
+    @Autowired
+    private AdminService adminService;
 
 }
 ```
+::: tip
+For the injection of specific service interfaces the annotation `@Qualifier` is usually not required.
+:::
 
 ## Services Accepting CQN Queries { #cdsservices}
 

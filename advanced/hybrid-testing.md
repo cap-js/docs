@@ -28,7 +28,7 @@ cds bind -2 my-hana:my-hana-key
 Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
+[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#connection-failed-89008){.learn-more}
 [Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:

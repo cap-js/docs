@@ -29,7 +29,7 @@ import com.sap.cds.reflect.CdsModel;
 @On(event = "READ", entity = "my.catalogservice.books")
 public void readBooksVerify(EventContext context) {
     CdsModel model = context.getModel();
-   [...]
+   ...
 }
 ```
 

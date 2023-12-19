@@ -92,7 +92,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## ① Get and Import an External Service API { #external-service-api }
+## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
 
@@ -175,6 +175,7 @@ Further, it adds the API as an external service to your _package.json_. You use 
 
 </div>
 
+::: details Options and flags in _.cdsrc.json_
 Alternatively, you can set the options and flags for `cds import` in your _.cdsrc.json_:
 
 ```json
@@ -192,6 +193,7 @@ Now run `cds import <filename>`
 - `--as` only supports these formats: "csn","cds", and "json"
 - `--force` is applicable only in combination with `--as` option. By default the `--force` flag is set to false.
   > If set to true, existing CSN/CDS files from previous imports are overwritten.
+:::
 
 When importing the specification files, the `kind` is set according to the following mapping:
 
@@ -236,7 +238,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## ② Local Mocking {#local-mocking}
+## Local Mocking {#local-mocking}
 
 When developing your application, you can mock the remote service.
 
@@ -355,11 +357,10 @@ cds import ~/Downloads/API_BUSINESS_PARTNER.edmx --keep-namespace \
 
 Add an `on` condition to express the relation:
 
-<!-- cds-mode: ignore -->
 ::: code-group
 ```cds [srv/external/API_BUSINESS_PARTNER-new.cds]
 entity API_BUSINESS_PARTNER.A_BusinessPartner {
-  ...
+  // ...
   to_BusinessPartnerAddress :
       Association to many API_BUSINESS_PARTNER.A_BusinessPartnerAddress
       on to_BusinessPartnerAddress.BusinessPartner = BusinessPartner;
@@ -469,7 +470,7 @@ For example:
 
 [Try out the example application.](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java){.learn-more}
 
-## ③ Execute Queries {#execute-queries}
+## Execute Queries {#execute-queries}
 
 You can send requests to remote services using CAP's powerful querying API.
 
@@ -596,7 +597,7 @@ For Java, you can use the `HttpClient` API to implement your custom requests. Th
 
 [Learn more about using destinations.](#use-destinations-with-java){.learn-more}
 
-## ④ Integrate and Extend {#integrate-and-extend}
+## Integrate and Extend {#integrate-and-extend}
 
 By creating projections on remote service entities and using associations, you can create services that combine data from your local service and remote services.
 
@@ -625,9 +626,8 @@ CAP automatically tries to delegate queries to database entities, which don't ex
 
 To avoid this error, you need to handle projections. Write a handler function to delegate a query to the remote service and run the incoming query on the external service.
 
-<div class="impl node">
-
-```js
+::: code-group
+```js [Node.js]
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 
@@ -636,13 +636,8 @@ module.exports = cds.service.impl(async function() {
   });
 });
 ```
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
 
-</div>
-
-<div class="impl java">
-
-```java
+```java [Java]
 @Component
 @ServiceName(RiskService_.CDS_NAME)
 public class RiskServiceHandler implements EventHandler {
@@ -657,7 +652,10 @@ public class RiskServiceHandler implements EventHandler {
 }
 ```
 
-</div>
+:::
+
+[For Node.js, get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
+
 
 ::: warning
 If you receive `404` errors, check if the request contains fields that don't exist in the service and start with the name of an association. `cds import` adds an empty keys declaration (`{ }`) to each association. Without this declaration, foreign keys for associations are generated in the runtime model, that don't exist in the real service. To solve this problem, you need to reimport the external service definition using `cds import`.
@@ -666,6 +664,7 @@ If you receive `404` errors, check if the request contains fields that don't exi
 This works when accessing the entity directly. Additional work is required to support [navigation](#handle-navigations-across-local-and-remote-entities) and [expands](#handle-expands-across-local-and-remote-entities) from or to a remote entity.
 
 Instead of exposing the remote service's entity unchanged, you can [model your own projection](#model-projections). For example, you can define a subset of fields and change their names.
+
 ::: tip
 CAP does the magic that maps the incoming query, according to your projections, to the remote service and maps back the result.
 :::
@@ -849,7 +848,6 @@ Navigations allow to address items via an association from a different entity:
 ```http
 GET /service/risks/Risks(20466922-7d57-4e76-b14c-e53fd97dcb11)/supplier
 ```
-<!-- I Thought we remove all Notes examples?-->
 
 The CQN consists of a `from` condition with 2 values for `ref`. The first `ref` selects the record of the source entity of the navigation. The second `ref` selects the name of the association, to navigate to the target entity.
 
@@ -923,7 +921,7 @@ The following matrix can help you to find the best approach for your scenario:
 > <sup>4</sup> Depends on the connectivity and performance of the remote system. <br>
 
 
-## ⑤ Connect and Deploy {#connect-and-deploy}
+## Connect and Deploy {#connect-and-deploy}
 
 <!--
 ### Connect to Business Services on SAP BTP
@@ -955,7 +953,7 @@ Create a destination using one or more of the following options.
 
 - **Create a destination to your application:** If you need a destination to your application, for example, to call it from a different application, then you can automatically create it in the MTA deployment.
 
-##### Use Destinations with Node.js
+##### Use Destinations with Node.js {.impl .node}
 
 In your _package.json_, a configuration for the `API_BUSINESS_PARTNER` looks like this:
 
@@ -1005,7 +1003,8 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
           /* ... */
         },
         "destinationOptions": {
-          "selectionStrategy": "alwaysSubscriber"
+          "selectionStrategy": "alwaysSubscriber",
+          "useCache": true
         }
       }
     }
@@ -1014,6 +1013,8 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
 ```
 
 The `selectionStrategy` property controls how a [destination is resolved](#destination-resolution).
+
+The `useCache` option controls whether the SAP Cloud SDK caches the destination. Read [Destination Cache](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination-cache#destination-cache) to learn more about how the cache works.
 
 If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?q=URL.headers).
 
@@ -1208,7 +1209,7 @@ Your local application needs access to an XSUAA and Destination service instance
 
     [Learn more about `cds bind`.](../advanced/hybrid-testing#services-on-cloud-foundry){.learn-more}
 
-#### Run a Node.js Application with a Destination
+#### Run a Node.js Application with a Destination {.impl .node}
 
 Add the destination for the remote service to the `hybrid` profile in the _.cdsrc-private.json_ file:
 
@@ -1239,6 +1240,10 @@ Run your application with the Destination service:
 cds watch --profile hybrid
 ```
 
+::: tip
+If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration in an `.env` file. See [Connecting to External Systems From the Business Application Studio](https://sap.github.io/cloud-sdk/docs/js/guides/bas) for more details.
+:::
+
 #### Run a Java Application with a Destination {.impl .java}
 
 Add a new profile `hybrid` to your _application.yaml_ file that configures the destination for the remote service.
@@ -1265,6 +1270,10 @@ cds bind --exec -- mvn spring-boot:run \
 ```
 
 [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#run-arbitrary-commands-with-service-bindings){.learn-more}
+
+::: tip
+If you are developing in the Business Application Studio and want to connect to an on-premise system, you will need to do so via Business Application Studio's built-in proxy, for which you need to add configuration to your destination environment variable. See [Reach On-Premise Service from the SAP Business Application Studio](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/destination-service#reach-on-premise-service-from-the-sap-business-application-studio) for more details.
+:::
 
 
 ### Connect to an Application Using the Same XSUAA (Forward Authorization Token) {#forward-auth-token}
@@ -1474,9 +1483,7 @@ Using the tenant of the request's JWT token means reading from the **subscriber 
 
 <div class="impl node">
 
-You can change the destination lookup behavior using the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js).
-
-With the value `alwaysProvider` you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+You can change the destination lookup behavior as follows:
 
 ```jsonc
 "cds": {
@@ -1487,12 +1494,18 @@ With the value `alwaysProvider` you can ensure that the destination is always re
         /* ... */
       },
       "destinationOptions": {
-        "selectionStrategy": "alwaysProvider"
+        "selectionStrategy": "alwaysProvider",
+        "jwt": null
       }
     }
   }
 }
 ```
+
+
+Setting the [`selectionStrategy`](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination#multi-tenancy) property for the [destination options](#use-destinations-with-node-js) to `alwaysProvider`, you can ensure that the destination is always read from your provider subaccount. With that you ensure that a subscriber cannot overwrite your destination.
+
+Set the destination option `jwt` to `null`, if you don't want to pass the request's JWT to SAP Cloud SDK. Passing the request's JWT to SAP Cloud SDK has implications on, amongst others, the effective defaults for selection strategy and isolation level. In rare cases, these defaults are not suitable, for example when the request to the upstream server does not depend on the current user. Please see [Authentication and JSON Web Token (JWT) Retrieval](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#authentication-and-json-web-token-jwt-retrieval) for more details.
 
 </div>
 
@@ -1516,7 +1529,7 @@ Read more in the full reference of all [supported retrieval strategy values](htt
 </div>
 
 
-## ⑤ Add Qualities
+## Add Qualities
 
 <div id="inaddqualities" />
 

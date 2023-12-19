@@ -182,7 +182,8 @@ entity Books {
 ```
 
 ::: warning
-It is possible to "cast" any scalar CDS type into any (in-)compatible EDM type:
+This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API. 
+If you are not doing the required conversions, you can "cast" any scalar CDS type into any incompatible EDM type:
 
 ```cds
 entity Foo {
@@ -198,7 +199,7 @@ This translates into the following OData API contract:
 <Property Name="str" Type="Edm.Decimal" Scale="floating" DefaultValue="17.4"/>
 ```
 
-The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings. There is no automatic data conversion behind the scenes.
+The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings.
 :::
 
 

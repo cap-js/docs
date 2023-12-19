@@ -3,3 +3,7 @@ unlocalized
 undiscloses
 isdir
 Undeploying
+SWAPI
+SusaaS
+IDONTEXIST
+HCQL

@@ -108,6 +108,7 @@
   - [CDS Properties](java/development/properties)
 - [Observability](java/observability)
 - [Migration](java/migration)
+- [Building Plugins](java/plugins)
 
 ### [Node.js](node.js/)
 
@@ -138,6 +139,7 @@
 - [cds. i18n](node.js/cds-i18n)
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
+- [Transactional Outbox](node.js/outbox)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)

@@ -10,35 +10,36 @@ impl-variants: true
 
 <style scoped lang="scss">
   ol {
-  margin-left: 10px;
-  counter-reset: my-counter;
-  li {
-    counter-increment: my-counter;
-    list-style: none;
-    &::before {
-      content: counter(my-counter);
-      color: var(--vp-c-text-1);
-      background-color: var(--vp-code-bg);
-      width: 20px;
-      height: 20px;
-      background-size: 20px;
-      line-height: 22px;
-      border-radius: 50%;
-      font-weight: 500;
-      text-align: center;
-      font-size: 12px;
-      vertical-align: middle;
-      display: inline-block;
-      position: relative;
-      top: -2px;
-      left: -30px;
-      margin-right: -20px;
-    }
-    p {
-      display: inline;
+    margin-left: 10px;
+    counter-reset: my-counter;
+    li {
+      counter-increment: my-counter;
+      list-style: none;
+      margin-top: 30px;
+      &::before {
+        content: counter(my-counter);
+        color: var(--vp-c-text-1);
+        background-color: var(--vp-code-bg);
+        width: 25px;
+        height: 25px;
+        background-size: 25px;
+        line-height: 27px;
+        border-radius: 50%;
+        font-weight: 600;
+        text-align: center;
+        font-size: 15px;
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        top: -2px;
+        left: -36px;
+        margin-right: -25px;
+      }
+      p {
+        display: inline;
+      }
     }
   }
-}
 </style>
 
 # Getting Started in a Nutshell
@@ -56,11 +57,7 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 ## Preliminaries
 
-1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
-
-2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
-
-3. **Option: Download from GitHub** – Instead of going for this hand-on step-by-step experience, you can get the final sample content from GitHub. If you choose to do so clone the repo as follows:
+The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
 
 ::: code-group
 
@@ -76,14 +73,16 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 :::
 
-> Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide.
+> When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide. 
 
 
 
-## Jumpstart a Project { #start-a-project}
+## Jumpstart a Project {#jumpstart}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-1. Create a new project using `cds init`
+**Prerequisite:** Assumed you've installed Node.js, `@sap/cds-dk`, and Visual Studio Code as described in the [_Jumpstart_ guide](jumpstart)....
+
+2. Create a new project using `cds init`
 
    ::: code-group
    ```sh [Node.js]
@@ -94,19 +93,17 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
    ```
    :::
 
-2. Open the project in VS Code
+3. Open the project in VS Code
 
    ```sh
    code bookshop
    ```
 
    ::: details **Note:** VS Code CLI on macOS needs extra setup
-
-   Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
-
+   In order to start VSCode via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
    :::
 
-3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+4. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
    ::: code-group
 
@@ -124,15 +121,15 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
    ```log
    [dev] cds w
-
+   
    cds serve all --with-mocks --in-memory?
    live reload enabled for browsers
-
+   
          ___________________________
-
+   
      No models found in db/,srv/,app/,schema,services. // [!code focus]
      Waiting for some to arrive... // [!code focus]
-
+   
    ```
 
    So, let's go on adding some CDS model as follows...
@@ -141,7 +138,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
 
 
-## Capture Domain Models { #domain-models }
+## Capture Domain Models {#domain-models}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
@@ -210,7 +207,7 @@ compilation and reload of the CAP Java application. The embedded database of the
 
 ### Compiling Models (Optional) {#cli}
 
-We can also test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
+We can optionally test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
 
 ```sh
 cds db/schema.cds
@@ -229,7 +226,7 @@ cds db/schema.cds -2 sql
 
 
 
-## Declaring Services {#services}
+## Providing Services {#services}
 
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
@@ -283,6 +280,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 [Learn more about **Defining Services**.](../guides/providing-services){ .learn-more}
 
 
+
 ### Served to OData out of the box
 
 <div class="impl node">
@@ -297,13 +295,6 @@ This time `cds watch` reacted with additional output like this:
 ```
 
 As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
-
-<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
-
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"} {.impl .node}
-
-> User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
 
 </div>
 
@@ -330,14 +321,44 @@ Both services defined above contain security annotations that restrict access to
 </dependency>
 ```
 
-<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
+</div>
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome_java.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
+::: tip 
+
+CAP-based services are full-fledged OData services out of the box. Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. 
+
+:::
+
+You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
+
+- http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
+
+[Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
+
+
+
+### Generic *index.html* Pages
+
+<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
+Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
+
+<div class="impl node">
+
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"} 
+
+> User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
+
+</div>
+
+<div class="impl java">
+
+<img src="./assets/in-a-nutshell/welcome_java.png" alt="Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use." style="zoom:40%;" />
 
 > User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
 
 </div>
+
+
 
 
 ### Compiling APIs (Optional) { #repl}
@@ -483,34 +504,28 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## Adding/Serving UIs {#uis}
+## Serving UIs {#uis}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
 
 
-### Vue.js UIs {#vue .impl .node}
-
-For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#services). {.impl .node}
-
-![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/in-a-nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
-
-
 ### SAP Fiori UIs {#fiori}
 
-Besides, being usable from any UI frontends using standard AJAX requests, CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori draft.
+CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori Draft.
 
 ![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/in-a-nutshell/fiori-app.png){.mute-dark}
 
 [Learn more about **Serving Fiori UIs**.](../advanced/fiori){.learn-more}
 
 
-### Using OData Protocol
+### Vue.js UIs {#vue .impl .node}
 
-As CAP-based services are full-fledged OData services out of the box, you can use advanced
-query options, such as `$select`, `$expand`, `$search`, and many more.
+Besides Fiori UIs, CAP services can be consumed from any UI frontends using standard AJAX requests.
+For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#services). {.impl .node}
 
-[Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
+![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/in-a-nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
+
 
 
 ## Adding Custom Logic

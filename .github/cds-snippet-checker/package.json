@@ -12,6 +12,6 @@
     "check": "node check-cds-snippets.js"
   },
   "dependencies": {
-    "@sap/cds-compiler": "^4.2.0"
+    "@sap/cds-compiler": "^4.4"
   }
 }

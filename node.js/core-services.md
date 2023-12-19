@@ -99,10 +99,10 @@ const db = await cds.connect.to('db')
 
 ## Implementing Services
 
-By default `cds.serve` creates an instance of `cds.ApplicationService` for each service definition it finds. Each instance provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. In the next sections, you can learn:
+By default `cds.serve` creates an instance of `cds.ApplicationService` for each service definition it finds. Each instance provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. In the next sections, you can learn the following:
 
 - **How** to provide custom implementations?
-- **Where**, i.e. in which files, to add the implementation?
+- **Where**, that is, in which files, to add the implementation?
 
 
 

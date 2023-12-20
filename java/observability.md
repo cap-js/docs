@@ -70,7 +70,7 @@ A `ServiceException` thrown in handler code and indicating a server error (that 
 :::
 
 
-### Logging Configuration with Spring Boot { #logging-configuration}
+### Spring Boot Logging Config { #logging-configuration}
 
 To set up a logging system, a concrete logging framework has to be chosen and, if necessary, corresponding SLF4j adapters.
 In case your application runs on Spring Boot and you make use of Spring starter packages, **you most likely don't have to add any explicit dependency**, as the bundle `spring-boot-starter-logging` is part of all Spring Boot starters. It provides `logback` as default logging framework and in addition adapters for the most common logging frameworks (`log4j` and `jul`).
@@ -412,7 +412,7 @@ Metrics are mainly referring to operational information about various resources 
 Actuators form an open framework, which can be enhanced by libraries (see [CDS Actuator](#cds-actuator)) as well as the application (see [Custom Actuators](#custom-actuators)) with additional information.
 
 
-### Spring Boot Actuators and Metrics { #spring-boot-actuators }
+### Spring Boot Actuators { #spring-boot-actuators }
 
 [Spring Boot Actuators](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) are designed to provide a set of out-of-the box supportability features, that help to make your application observable in production.
 
@@ -534,7 +534,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
-### CAP-specific Instrumentation
+### CAP Instrumentation
 
 Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It is possible to selectively activate specific spans by changing the log level for the respective component.
 
@@ -551,12 +551,12 @@ For specific steps to change the log level, please refer to the respective secti
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
 Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
-   ```json
-    <dependency>
-      <groupId>io.opentelemetry</groupId>
-      <artifactId>opentelemetry-api</artifactId>
-    </dependency>
-   ```
+```yaml
+<dependency>
+   <groupId>io.opentelemetry</groupId>
+   <artifactId>opentelemetry-api</artifactId>
+</dependency>
+```
 
 There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
 

@@ -192,7 +192,7 @@ As entities represent not only data types, but also data sets, from which we can
 
 :::
 
-In general always prefer conciseness, comprehensibility and readability, and avoid overly lenghty names, probably dictated by overly strict systematics:
+In general always prefer conciseness, comprehensibility and readability, and avoid overly lengthy names, probably dictated by overly strict systematics:
 
 ::: tip Prefer *Concise* Names
 

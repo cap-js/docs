@@ -55,7 +55,23 @@ Many properties of cds are references to submodules, which are lazy-loaded on fi
 - [cds. test](cds-test) {.property}
 - [cds. utils](cds-utils) {.property}
 
+<br>
 
+Import classes and functions through the facade object only:
+
+##### **Good:** {#import-good .good}
+
+```ts
+const { Request } = require('@sap/cds') // [!code ++]
+```
+
+##### **Bad:** {#import-bad .bad}
+
+Never code against paths inside `@sap/cds/`:
+
+```ts
+const Request = require('@sap/cds/lib/.../Request') // [!code --]
+```
 
 ## Builtin Types & Classes
 

@@ -84,6 +84,34 @@ Further configuration depends on whether you run SQLite as an [in-memory databas
 
 ## Deployment
 
+<div class="impl java">
+
+### Initial Database Schema
+
+Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+
+[Learn more about creating an initial database schema](/java/persistence-services#initial-database-schema-1){.learn-more}
+
+</div>
+
+
 ### In-Memory Databases
 
 <div markdown="1" class="impl node">
@@ -114,11 +142,10 @@ Using in-memory databases is the most recommended option for test drives and tes
 <div markdown="1" class="impl java">
 
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
 
-Finally, configure the DB connection in the non-productive `default` profile:
-
-```yaml
+::: code-group
+```yaml [application.yaml]
 ---
 spring:
   config.activate.on-profile: default
@@ -132,6 +159,8 @@ spring:
       maximum-pool-size: 1
       max-lifetime: 0
 ```
+:::
+
 
 [Learn how to configure an in-memory SQLite database.](../java/persistence-services#in-memory-storage){.learn-more}
 
@@ -286,7 +315,7 @@ The following is an overview of advanced features supported by the new database 
 
 ### Path Expressions & Filters {.impl .node}
 
-The new database service provides **full support** for all kinds of [path expressions](https://cap.cloud.sap/docs/cds/cql#path-expressions), including [infix filters](https://cap.cloud.sap/docs/cds/cql#with-infix-filters) and [exists predicates](https://cap.cloud.sap/docs/cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
+The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
 
 ```sh
 cds repl --profile better-sqlite

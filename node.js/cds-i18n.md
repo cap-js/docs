@@ -16,12 +16,12 @@ Example:
 // i18n/messages_en.properties
 MULTIPLE_ERRORS=Multiple errors occurred.
 
-[...]
+...
 
 // i18n/messages_de.properties
 MULTIPLE_ERRORS=Es sind mehrere Fehler aufgetreten.
 
-[...]
+...
 ```
 
 { style="padding: 0 33px"}
@@ -37,7 +37,7 @@ Example:
 // i18n/messages_en.properties
 ORDER_EXCEEDS_STOCK=The order of {0} books exceeds the stock by {1}
 
-[...]
+...
 
 // srv/catalog-service.js
 const cds = require('@sap/cds')

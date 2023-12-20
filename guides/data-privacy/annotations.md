@@ -23,7 +23,7 @@ In order to automate audit logging, personal data management, and data retention
 
 In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
 
-<img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" />
+<img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" alt="Shows the connections between the entities in the sample app." />
 
 So, let's annotate the data model to identify personal data.
 In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly.
@@ -82,7 +82,7 @@ Learn more about these annotations in the [@PersonalData OData vocabulary](https
 
 The entity-level annotation `@PersonalData.EntitySemantics` signifies relevant entities as *Data Subject*, *Data Subject Details*, or *Other* in data privacy terms, as depicted in the following graphic.
 
-<img src="./assets/Data-Subjects.drawio.svg" alt="Data Subjects.drawio" style="zoom:111%;" />
+<img src="./assets/Data-Subjects.drawio.svg" alt="Shows the connections between the entities in the sample app. In addition via color coding it makes clear how entities are annotated: customers are data subject, addresses are data subject details and incidents are other." style="zoom:111%;" />
 
 The following table provides some further details.
 

@@ -17,7 +17,7 @@ We're just getting started with this page. Please help us in that endeavour by a
 
 
 
-<style>
+<style scoped>
 
   h3.github::before {
     content: "";

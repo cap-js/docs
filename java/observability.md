@@ -70,7 +70,7 @@ A `ServiceException` thrown in handler code and indicating a server error (that 
 :::
 
 
-### Spring Boot Logging Config { #logging-configuration}
+### Spring Boot Logging Configuration { #logging-configuration}
 
 To set up a logging system, a concrete logging framework has to be chosen and, if necessary, corresponding SLF4j adapters.
 In case your application runs on Spring Boot and you make use of Spring starter packages, **you most likely don't have to add any explicit dependency**, as the bundle `spring-boot-starter-logging` is part of all Spring Boot starters. It provides `logback` as default logging framework and in addition adapters for the most common logging frameworks (`log4j` and `jul`).

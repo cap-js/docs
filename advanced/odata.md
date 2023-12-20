@@ -1080,7 +1080,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
     ::: code-group
     ```json [package.json]
     {...
-    "cds" {
+    "cds" : {
       "cov2ap" : {
         "plugin" : true
         }

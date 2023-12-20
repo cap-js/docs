@@ -80,7 +80,7 @@ The composition `texts` points to all translated texts for the given entity, whe
 Third, views are generated in SQL DDL to easily read localized texts with an equivalent fallback:
 
 ```cds
-entity localized.Books as SELECT from Books {*,
+entity localized.Books as select from Books {*,
   coalesce (localized.title, title) as title,
   coalesce (localized.descr, descr) as descr
 };
@@ -122,14 +122,14 @@ The following view definitions preserve the `localized` association in the view,
 **Preferred -** Exclude elements that mustn't be exposed:
 
 ```cds
-entity OpenBookView as SELECT from Books {*}
+entity OpenBookView as select from Books {*}
   excluding {price, currency};
 ```
 
 Include the `localized` association:
 
 ```cds
-entity ClosedBookView as SELECT from Books {ID, title, descr, localized};
+entity ClosedBookView as select from Books {ID, title, descr, localized};
 ```
 
 
@@ -381,8 +381,8 @@ The definition of books has a `currency` element that is effectively an associat
 Upon unfolding, all associations to other entities with localized texts are automatically redirected as follows:
 
 ```cds
-entity localized.Currencies as SELECT from Currencies AS c {* /*...*/};
-entity localized.Books as SELECT from Books AS p mixin {
+entity localized.Currencies as select from Currencies AS c {* /*...*/};
+entity localized.Books as select from Books AS p mixin {
   // association is redirected to localized.Currencies
   country : Association to localized.Currencies on country = p.country;
 } into {* /*...*/};

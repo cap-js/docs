@@ -471,9 +471,9 @@ The entity signature is inferred from the projection.
 Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL](./cql) query including all query clauses.
 
 ```cds
-entity Foo1 as SELECT from Bar; //> implicit {*}
-entity Foo2 as SELECT from Employees { * };
-entity Foo3 as SELECT from Employees LEFT JOIN Bar on Employees.ID=Bar.ID {
+entity Foo1 as select from Bar; //> implicit {*}
+entity Foo2 as select from Employees { * };
+entity Foo3 as select from Employees LEFT JOIN Bar on Employees.ID=Bar.ID {
   foo, bar as car, sum(boo) as moo
 } where exists (
   SELECT 1 as anyXY from SomeOtherEntity as soe where soe.x = y
@@ -515,7 +515,7 @@ The `key` property is only inherited if all of the following applies:
 For example, the following definition:
 
 ```cds
-entity SomeView as SELECT from Employees {
+entity SomeView as select from Employees {
   ID,
   name,
   job.title as jobTitle
@@ -539,7 +539,7 @@ Use a CDL cast to set an element's type, if one of the following conditions appl
 + The query column is an expression (no inferred type is computed).
 
 ```cds
-entity SomeView as SELECT from Employees {
+entity SomeView as select from Employees {
   ID : Integer64,
   name : LargeString,
   'SAP SE' as company : String
@@ -714,7 +714,7 @@ You can safely use this name at other places, for example to define an associati
 
 <!-- cds-mode: ignore -->
 ```cds
-entity Orders { 
+entity Orders {
   // …
   specialItem : Association to Orders.Items;
 };
@@ -927,7 +927,7 @@ Columns in a view definition's query:
 
 <!-- cds-mode: ignore, because it shows only partial CDS -->
 ```cds
-… as SELECT from Foo {
+… as select from Foo {
   @before expr as alias @inner : String,
   …
 }
@@ -1172,7 +1172,7 @@ For example, given this view definition:
 
 ```cds
 using Books from './bookshop-model';
-entity BooksList as SELECT from Books {
+entity BooksList as select from Books {
   ID, genre : Genre, title,
   author.name as author
 };
@@ -1496,7 +1496,7 @@ service SomeService { ... }
 ### Exposed Entities
 
 The entities exposed by a service are most frequently projections on entities from underlying data models.
-Standard view definitions, using [`as SELECT from`](#views) or [`as projection on`](#as-projection-on), can be used for
+Standard view definitions, using [`as select from`](#views) or [`as projection on`](#as-projection-on), can be used for
 exposing entities.
 
 ```cds

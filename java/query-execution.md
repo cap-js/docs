@@ -187,7 +187,7 @@ CqnUpdate update = ...
 long rowCount = service.run(update).rowCount();
 ```
 
-If no rows are touched the execution is successful but the row count is 0.  
+If no rows are touched the execution is successful but the row count is 0.
 
 :::warning
 The setters of an [update with expressions](../java/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
@@ -287,7 +287,7 @@ Example of a view that can't be resolved:
 ```cds
 // Unsupported
 entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
-entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
+entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
 
 ## Runtime Views { #runtimeviews}

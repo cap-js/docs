@@ -31,11 +31,15 @@ You still need to `await` these operations, because messages might be stored in 
 The `cds.outboxed` function can also be called with optional configuration options.
 
 ```js
-const outboxed = cds.outboxed(srv, { kind: 'in-memory-outbox' })
+const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
 ```
 
 ::: tip
 One you outboxed a service, you cannot override the configuration options again.
+:::
+
+::: warning
+The persistent outbox can only be used if it's enabled globally with `cds.requires.outbox = true`.
 :::
 
 

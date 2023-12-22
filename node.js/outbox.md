@@ -10,7 +10,7 @@ status: released
 # Transactional Outbox
 
 Often, remote operations should be delayed until the main transaction succeeded. Otherwise they're also triggered in case of a rollback.
-To solve this problem, an outbox is used internally to defer remote operations until the success of the current transaction.
+To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
 
 Every CAP service can be _outboxed_, that means dispatching events becomes _asynchronous_. 
 

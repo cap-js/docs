@@ -35,7 +35,7 @@ const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
 ```
 
 ::: tip
-One you outboxed a service, you cannot override the configuration options again.
+Once you outboxed a service, you cannot override its outbox configuration options again.
 :::
 
 ::: warning

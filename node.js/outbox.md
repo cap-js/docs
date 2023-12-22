@@ -35,11 +35,11 @@ const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
 ```
 
 ::: warning
-Once you outboxed a service, you cannot override its outbox configuration options again.
+The persistent outbox can only be used if it's enabled globally with `cds.requires.outbox = true` because it requires a dedicated database table.
 :::
 
 ::: warning
-The persistent outbox can only be used if it's enabled globally with `cds.requires.outbox = true` because it requires a dedicated database table.
+Once you outboxed a service, you cannot override its outbox configuration options again.
 :::
 
 

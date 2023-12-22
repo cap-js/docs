@@ -25,7 +25,7 @@ await outboxed.send('someEvent', { some: 'message' }) // asynchronous
 ```
 
 ::: tip
-You still need to `await` these operations, because messages might be stored in a database first, in your main transaction.
+You still need to `await` these operations, because messages might be stored in a database first, inside your main transaction.
 :::
 
 The `cds.outboxed` function can also be called with optional configuration options.

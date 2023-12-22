@@ -7,11 +7,56 @@ status: released
 ---
 <!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
-
 # Transactional Outbox
 
 Usually the emit of messages should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
 To solve this problem, an outbox is used internally to defer the emit of messages until the success of the current transaction.
+
+Every CAP service can be _outboxed_, that means dispatching events becomes _asynchronous_. 
+
+Programmatically, you can get the outboxed service with
+
+```js
+const srv = await cds.connect.to('yourService')
+const outboxed = cds.outboxed(srv)
+
+await outboxed.emit('someEvent', { some: 'message' }) // asynchronous
+await outboxed.send('someEvent', { some: 'message' }) // asynchronous
+```
+
+::: tip
+You still need to `await` these operations, because messages might be stored in a database first, in your main transaction.
+:::
+
+You can also configure services to be outboxed:
+
+```json
+{
+  "requires": {
+    "yourService": {
+      "kind": "odata",
+      "outbox": true
+    }
+  }
+}
+```
+
+::: tip
+Some services are outboxed by default, these include [cds.MessagingService](messaging) and `cds.AuditLogService` services.
+:::
+
+You're encouraged to enable the [persistent outbox](#persistent-outbox) with
+
+```json
+{
+  "requires": {
+    "outbox": true
+  }
+}
+```
+
+to get transactional safety because messages are first stored in the database, together with the main transaction.
+If the operation fails due to temporary issues, the message will remain in the database and the operation is retried after an exponential backoff.
 
 
 <span id="ininmemoryoutbox" />
@@ -19,11 +64,20 @@ To solve this problem, an outbox is used internally to defer the emit of message
 
 ## Persistent Outbox (Default) {#persistent-outbox}
 
+You can enable it globally for all outboxed services with:
+
+```json
+{
+  "requires": {
+    "outbox": true
+  }
+}
+```
+
 Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
 as for other operations, therefore transactional consistency is guaranteed.
 
-The persistent outbox is globally enabled for all deferrable services (for example for [cds.MessagingService](messaging) and `cds.AuditLogService`).
-You can set the global outbox configuration, the defaults are:
+You can use the following configuration options, the defaults are:
 
 ```json
 {
@@ -108,6 +162,17 @@ Example:
 
 ## In-Memory Outbox
 
+You can enable it globally for all outboxed services with:
+
+```json
+{
+  "requires": {
+    "outbox": {
+      "kind": "in-memory-outbox"
+    }
+  }
+}
+```
 Messages are emitted when the current transaction is successful. Until then, messages are only kept in memory.
 This is similar to the following code if done manually:
 ```js

@@ -34,7 +34,7 @@ The `cds.outboxed` function can also be called with optional configuration optio
 const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
 ```
 
-::: tip
+::: warning
 Once you outboxed a service, you cannot override its outbox configuration options again.
 :::
 

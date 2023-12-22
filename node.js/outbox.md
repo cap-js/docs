@@ -180,7 +180,6 @@ cds.context.on('succeeded', () => this.emit(msg))
 ```
 ::: warning
 The message is lost if its emit fails, there is no retry mechanism.
-The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 :::
 
 ## Immediate Emit

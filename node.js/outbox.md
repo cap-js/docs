@@ -44,7 +44,7 @@ Once you outboxed a service, you cannot override its outbox configuration option
 
 
 
-You can also configure services to be outboxed:
+You can also configure services to be outboxed by default:
 
 ```json
 {

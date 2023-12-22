@@ -42,7 +42,7 @@ You can also configure services to be outboxed:
 ```
 
 ::: tip
-Some services are outboxed by default, these include [cds.MessagingService](messaging) and `cds.AuditLogService` services.
+Some services are outboxed by default, these include [cds.MessagingService](messaging) and `cds.AuditLogService`.
 :::
 
 You're encouraged to enable the [persistent outbox](#persistent-outbox) with

@@ -61,7 +61,7 @@ You can also configure services to be outboxed by default:
 Some services are outboxed by default, these include [cds.MessagingService](messaging) and `cds.AuditLogService`.
 :::
 
-For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox) with
+For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox) with:
 
 ```json
 {

@@ -28,6 +28,18 @@ await outboxed.send('someEvent', { some: 'message' }) // asynchronous
 You still need to `await` these operations, because messages might be stored in a database first, in your main transaction.
 :::
 
+The `cds.outboxed` function can also be called with optional configuration options.
+
+```js
+const outboxed = cds.outboxed(srv, { kind: 'in-memory-outbox' })
+```
+
+::: tip
+One you outboxed a service, you cannot override the configuration options again.
+:::
+
+
+
 You can also configure services to be outboxed:
 
 ```json

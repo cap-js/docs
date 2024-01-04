@@ -82,6 +82,7 @@ Available for:
 
 
 ## OData v2 Proxy
+
 [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) {.subtitle}
 
 The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
@@ -99,6 +100,7 @@ See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) {.
 
 
 ## UI5 Dev Server
+
 [cds-plugin-ui5](https://www.npmjs.com/package/cds-plugin-ui5) {.subtitle}
 
 The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (UI5 freestyle or Fiori elements) tooling-based projects into the CDS server via the UI5 tooling express middlewares. It allows to serve dynamic UI5 resources, including TypeScript implementations for UI5 controls, which get transpiled to JavaScript by the plugin automatically.
@@ -111,8 +113,8 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 
 
-
 ## Change Tracking
+
 [@cap-js/change-tracking](https://npmjs.com/package/@cap-js/change-tracking) {.subtitle}
 
 The Change Tracking plugin provides out-of-the box support for automated capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked.
@@ -136,6 +138,7 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 
 ## Audit Logging
+
 [@cap-js/audit-logging](https://www.npmjs.com/package/@cap-js/audit-logging) {.subtitle}
 
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
@@ -163,6 +166,8 @@ Available for:
 [<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/auditlog)
 
 Click on the icons to get detailed instructions. {.learn-more}
+
+
 
 ## Notifications
 
@@ -194,6 +199,36 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications#readme)
 
 Click on the icon to get detailed instructions. {.learn-more}
+
+
+
+## Telemetry (Beta)
+
+[@cap-js/telemetry](https://npmjs.com/package/@cap-js/telemetry) {.subtitle}
+
+The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
+Simply add the plugin to your dependencies via `npm add @cap-js/telemetry` and you will find telemetry output written to the console like so:
+
+```
+[odata] - GET /odata/v4/processor/Incidents 
+[telemetry] - elapsed times:
+    0.00 →   2.85 =   2.85 ms  GET /odata/v4/processor/Incidents
+    0.47 →   1.24 =   0.76 ms    ProcessorService - READ ProcessorService.Incidents
+    0.78 →   1.17 =   0.38 ms      db - READ ProcessorService.Incidents
+    0.97 →   1.06 =   0.09 ms        @cap-js/sqlite - prepare SELECT json_object('ID',ID,'createdAt',createdAt,'creat…
+    1.10 →   1.13 =   0.03 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'createdAt',createdAt,'crea…
+    1.27 →   1.88 =   0.61 ms    ProcessorService - READ ProcessorService.Incidents.drafts
+    1.54 →   1.86 =   0.32 ms      db - READ ProcessorService.Incidents.drafts
+    1.74 →   1.78 =   0.04 ms        @cap-js/sqlite - prepare SELECT json_object('ID',ID,'DraftAdministrativeData_Dra…
+    1.81 →   1.85 =   0.04 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'DraftAdministrativeData_Dr…
+```
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://npmjs.com/package/@cap-js/telemetry)
+
+Click on the icon to get detailed instructions. {.learn-more}
+
 
 
 <div id="attachments" />

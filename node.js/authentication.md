@@ -404,6 +404,14 @@ module.exports = function custom_auth (req, res, next) {
 }
 ```
 
+The TypeScript equivalent has to use the default export.
+
+```ts
+export default function custom_auth(req: any, res: any, next: any) {
+  // do your custom authentication ...
+}
+```
+
 [If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
 
 

@@ -207,7 +207,7 @@ Click on the icon to get detailed instructions. {.learn-more}
 [@cap-js/telemetry](https://npmjs.com/package/@cap-js/telemetry) {.subtitle}
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
-Simply add the plugin to your project via `npm add @cap-js/telemetry` and you will find telemetry output written to the console like so:
+Simply add the plugin to your project and you will find telemetry output written to the console like so:
 
 ```txt
 [odata] - GET /odata/v4/processor/Incidents

@@ -373,7 +373,7 @@ class CatalogServiceHandler implements EventHandler {
 ### Dynatrace { #dynatrace }
 
 [Dynatrace](https://www.dynatrace.com/support/help) is a comprehensive platform that delivers analytics and automation based on monitoring events sent by the backend services.
-It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace sercvice.
+It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
 

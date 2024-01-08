@@ -149,7 +149,7 @@ const config:UserConfig<CapireThemeConfig> = {
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 4000 // chunk for local search index dominates
+      chunkSizeWarningLimit: 5000 // chunk for local search index dominates
     }
   },
   transformHtml(code, id, ctx) {

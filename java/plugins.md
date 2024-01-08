@@ -228,7 +228,7 @@ public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAw
 	@Override
 	public Object create() {
     // Create and return the protocol adapter
-    return new SampleAdater(runtime);
+    return new SampleAdapter(runtime);
 	}
 
 	@Override

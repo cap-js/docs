@@ -906,7 +906,7 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 
 **In Java**, you'd assign `EventHandler` classes using dependency injection as follows:
 
-```js
+```Java
 @Component
 @ServiceName("org.acme.Foo")
 public class FooServiceImpl implements EventHandler {...}

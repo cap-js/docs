@@ -190,7 +190,7 @@ A complete end-to-end example for reusable event handlers can be found in this [
 
 ## Custom Protocol Adapters {#protocol-adapter}
 
-In CAP, the protocol adapter is the mechanism to implement inbound communication (from another service or the UI) to the CAP service in development. You can read more about protocol adapters in our [architecture documentation](java/architecture#protocol-adapters).
+In CAP, the protocol adapter is the mechanism to implement inbound communication (from another service or the UI) to the CAP service in development. You can read more about protocol adapters in our [architecture documentation](architecture#protocol-adapters).
 
 Usually, a protocol adapter comes in 2 parts:
 

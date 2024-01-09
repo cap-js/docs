@@ -33,17 +33,17 @@ When building CAP Java plugin modules, you need to keep in mind that the generat
 Of course, it's up to your project / plugin how you call the corresponding Maven GroupId and Java packages. To avoid confusion and also to make responsibilities clear `com.sap.cds` for GroupId and Java package names are reserved for components maintained by the CAP Java team and must not be used for external plugins. This rule also includes substructures to `com.sap.cds` like `com.sap.cds.foo.plugin`.
 
 
-## Sharing Reusable CDS Models via Maven Artifacts
+## Share CDS Models via Maven Artifacts
 
 Before the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects.
 
 Starting with the 2.2 release CDS models, CSV import data and i18n files can now be shared through Maven dependencies in addition to npm packages. This means you can now provide CDS models, CSV files, i18n files, and Java code (for example, event handlers) in a single Maven dependency.
 
-### Create the Reuse Model in a New Maven Artifact
+### Create the CDS Model in a New Maven Artifact
 
 Simply create a plain Maven Java project and place your CDS models in the `main/resources/cds` folder of the reuse package under a unique module directory (for example, leveraging group ID and artifact ID): `src/main/resources/cds/com.sap.capire/bookshop/`. With `com.sap.capire` being the group ID and `bookshop` being the artifact ID.
 
-### Reference the Reuse Model in an Existing CAP Java Project
+### Reference the New CDS Model in an Existing CAP Java Project
 
 Projects wanting to import the content simply add a Maven dependency to the reuse package to their _srv/pom.xml_ in the `<dependencies>` section.
 
@@ -190,7 +190,7 @@ A complete end-to-end example for reusable event handlers can be found in this [
 
 ## Custom Protocol Adapters {#protocol-adapter}
 
-In CAP Java, the protocol adapter is the mechanism to implement inbound communication (another service or the UI) to the CAP service in development. The task of a protocol adapter is to translate any incoming requests of a defined protocol to CQL statements that then can be executed on locally defined CDS services. CAP Java comes with 3 protocol adapters (OData V2 and V4, and HCQL) but can be extended with custom implementations. In this section, you have a deeper look on how such a protocol adapter can be built and registered with the CAP Java runtime.
+In CAP, the protocol adapter is the mechanism to implement inbound communication (from another service or the UI) to the CAP service in development. You can read more about protocol adapters in our [architecture documentation](architecture#protocol-adapters--protocol-adapters).
 
 Usually, a protocol adapter comes in 2 parts:
 

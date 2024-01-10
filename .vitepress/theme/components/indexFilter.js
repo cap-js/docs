@@ -17,6 +17,7 @@ export default (pages, basePath) => {
       if (item)  p.title = item.text
       return !!item
     })
+    .filter(p => !p.url.endsWith(basePath))
     .sort((p1, p2) => itemLinks.indexOf(p1.url) - itemLinks.indexOf(p2.url))
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object

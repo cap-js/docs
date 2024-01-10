@@ -296,7 +296,7 @@ Note, that
 - `@protocol.path` has precedence over `@path`.
 - the default protocol is OData V4.
 - `odata` is a shortcut for `odata-v4`.
-- `@protocol: none` will treat the service as _internal_.
+- `@protocol: 'none'` will treat the service as _internal_.
 
 ### @path
 

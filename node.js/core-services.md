@@ -58,7 +58,7 @@ cds.services = await cds.serve('all').from(cds.model).in(cds.app)
 
 ## Required Services
 
-In addition to provided services, your applications commonly need to consume *required services*. Most prominent example for that is the primary database `cds.db`. Others could be application services provided by other enterprise applications or micro services, or other platform services, such as secondary databases or message brokers.
+In addition to provided services, your applications often need to consume other services as *required services*. The most prominent example for that is the primary database `cds.db`. Other examples include the application services provided by other enterprise applications, or micro services, and other platform services, such as secondary databases or message brokers.
 
 
 
@@ -99,16 +99,16 @@ const db = await cds.connect.to('db')
 
 ## Implementing Services
 
-By default `cds.serve` creates instances of `cds.ApplicationService` for each found service definition, which provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. Learn below about:
+By default `cds.serve` creates an instance of `cds.ApplicationService` for each service definition it finds. Each instance provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. In the next sections, you can learn the following:
 
 - **How** to provide custom implementations?
-- **Where**, that is, in which files, to put that?
+- **Where**, that is, in which files, to add the implementation?
 
 
 
 #### In sibling `.js` files, next to `.cds` sources
 
-The easiest way to add custom service implementations is to simply place an equally named `.js` file next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
+The easiest way to add custom service implementations is to simply place a `.js` file with the same name next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
 
 ```zsh
 bookshop/
@@ -122,7 +122,7 @@ bookshop/
 
 ::: details Alternatively in subfolders `lib/` or `handlers/`...
 
- In addition to direct neighbourhood you can place your impl files also in nested subfolders `lib/` or `handlers/` like that:
+ In addition to adding the implementation in a neighbouring file you can place them in nested subfolders called `lib/` or `handlers/`, for example:
 
 ```zsh
 bookshop/

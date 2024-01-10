@@ -217,7 +217,6 @@ cds.middlewares.before = [
   context,
   trace,
   auth,
-  ctx_auth,
   ctx_model
 ]
 ```
@@ -230,11 +229,7 @@ This middleware initializes [cds.context](events#cds-context) and starts the con
 
 ### . auth() {.method}
 
-[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
-
-### . ctx_auth() {.method}
-
-This middleware adds user and tenant identified by authentication middleware to [cds.context](events#cds-context).
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy and subsequently adds the user and tenant identified by that strategy to [cds.context](events#cds-context).
 
 ### . ctx_model() {.method}
 
@@ -301,7 +296,7 @@ Note, that
 - `@protocol.path` has precedence over `@path`.
 - the default protocol is OData V4.
 - `odata` is a shortcut for `odata-v4`.
-- `@protocol: none` will treat the service as _internal_.
+- `@protocol: 'none'` will treat the service as _internal_.
 
 ### @path
 

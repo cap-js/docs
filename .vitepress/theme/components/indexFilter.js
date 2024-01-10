@@ -1,7 +1,7 @@
 const { base, themeConfig: { sidebar }} = global.VITEPRESS_CONFIG.site
 import { join } from 'node:path'
 
-export default (pages, basePath) => {
+export default (pages, basePath, _filter) => {
   let items = findInItems(basePath, sidebar) || []
   items = items.map(item => { return { ...item, link: item.link?.replace(/\.md$/, '') }})
   const itemLinks = items.map(item => join(base, item.link||''))
@@ -17,6 +17,7 @@ export default (pages, basePath) => {
       if (item)  p.title = item.text
       return !!item
     })
+    .filter(_filter)
     .sort((p1, p2) => itemLinks.indexOf(p1.url) - itemLinks.indexOf(p2.url))
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object

@@ -6,6 +6,6 @@ const basePath = basename(__dirname)
 
 export default createContentLoader(`**/${basePath}/**/*.md`, {
   transform(rawData) {
-    return filter(rawData, `/${basePath}/`)
+    return filter(rawData, `/${basePath}/`, p => p.title !== 'Overview')
   }
 })

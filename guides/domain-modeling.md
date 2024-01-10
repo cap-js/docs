@@ -119,7 +119,7 @@ Even though domain models should abstract from technical implementations, don't 
 
 #### Prefer Flat Models
 
-While CDS provides great support, you should always think twice before using structured types. Some technologies you or your customers might not integrate with those out of the box. Moreover, flat structures are easier to understand and consume.
+While CDS provides great support, you should always think twice before using structured types. Some technologies you or your customers use might not integrate with those out of the box. Moreover, flat structures are easier to understand and consume.
 
 ##### **Good:** {.good}
 

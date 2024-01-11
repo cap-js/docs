@@ -39,12 +39,12 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)   | `cds init <project>`       |
-| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
+| [Add a feature to an existing project](../tools/cds-add)                        | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
-| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart) | `cds watch`                |
+| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart)       | `cds watch`                |
 | [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
 | Inspect effective configuration                                                 | `cds env`                  |
 | Prepare for deployment                                                          | `cds build`                |
@@ -260,3 +260,39 @@ Following is an index of the features currently covered by CAP, with status and 
 | Runtime API for In-App Extensibility                                                     | <D/> |
 | [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                     | <D/> |
 | Propagating Extensions across (µ) Services                                               | <O/> |
+
+### `cds add` {.impl .internal}
+
+|  | Node.js | Java |
+|------------------------------------------------------|:-------:|:----:|
+| `hana`                                                 |  <X/>   | <X/> |
+| `postgres`                                     |  <X/><sup>1</sup>   | <X/> |
+| `h2`                                     |  <Na/>   | <X/> |
+| `multitenancy`                              |  <X/>   | <X/> |
+| `toggles`                                   |  <X/>   | <X/> |
+| `extensibility`                                   |  <X/>   | <X/> |
+| `application-logging`                                   |  <X/><sup>1</sup>   | <O/> |
+| `audit-logging`                                   |  <O/>   | <O/> |
+| `html5-repo`                                   |  <X/><sup>2</sup>   | <X/><sup>2</sup> |
+| `approuter`                                   |  <X/>   | <X/> |
+| `connectivity`                                   |  <X/>   | <X/> |
+| `data`                                   |  <X/>   | <X/> |
+| `destination`                                   |  <X/>   | <X/> |
+| `enterprise-messaging`                                   |  <X/>   | <O/> |
+| `enterprise-messaging-shared`                                   |  <X/>   | <O/> |
+| `redis-messaging`                                   |  <X/><sup>1</sup>   | <O/> |
+| `local-messaging`                                   |  <X/>   | <O/> |
+| `file-based-messaging`                                   |  <X/>   | <O/> |
+| `helm`                                   |  <X/>   | <X/> |
+| `helm-unified-runtime`                                   |  <X/>   | <X/> |
+| `mta`                                   |  <X/>   | <X/> |
+| `notifications`                                   |  <X/>   | <O/> |
+| `pipeline`                                   |  <X/>   | <X/> |
+| `sample`                                   |  <X/>   | <O/> |
+| `tiny-sample`                                   |  <X/>   | <X/> |
+| `sqlite`                                   |  <X/>   | <X/> |
+| `typer`                                   |  <X/>   | <Na/> |
+| `xsuaa`                                   |  <X/>   | <X/> |
+
+> <sup>1</sup> Only for Cloud Foundry <br>
+> <sup>2</sup> Only for Kyma <br>

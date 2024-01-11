@@ -60,21 +60,20 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
       const [tokens, idx] = args
       const token = tokens[idx]
       if (token.meta?.classes) {
-        const classes = token.meta?.classes as string
         // delete classes in token.attrs as these would be rendered in addition,
         // leading to 'Duplicate attribute' errors
         deleteAttr('class', token.attrs)
 
         let result:string = original(...args)
-        const classExistsInResult = (classes: any, result: any) => {
-          const resultClasses = result.match(/class="([^"]*)"/)
-          if (!resultClasses || resultClasses.length < 2) return false
-          const resultClassList = resultClasses[1].split(/\s+/)
-          return classes.split(' ').some((cls: any) => resultClassList.includes(cls))
+        const hasClass = (classes: any, result: any) => {
+          const match = result.match(/class="([^"]*)"/)
+          if (!match || match.length < 2) return false
+          const existing = match[1].split(/\s+/)
+          return classes.split(' ').some((cls: any) => existing.includes(cls))
         }
 
         // Usage in your code
-        if (!classExistsInResult(token.meta.classes, result)) {
+        if (!hasClass(token.meta.classes, result)) {
           if (result.includes(' class="')) { // `class` attribute existing -> augment
             result = result.replace(' class="', ` class="${token.meta.classes} `)
           } else { // no `class` attribute -> set one

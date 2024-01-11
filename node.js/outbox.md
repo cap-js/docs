@@ -7,12 +7,18 @@ status: released
 ---
 <!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
-# Transactional Outbox
+# Outboxing with `cds.outboxed`
+
+## Overview
 
 Often, remote operations should be delayed until the main transaction succeeded. Otherwise they're also triggered in case of a rollback.
 To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
 
 Every CAP service can be _outboxed_, that means event dispatching becomes _asynchronous_. 
+
+### Outboxing a Service
+
+#### cds.outboxed(srv) {.method}
 
 Programmatically, you can get the outboxed service with
 
@@ -42,7 +48,7 @@ The persistent outbox can only be used if it's enabled globally with `cds.requir
 Once you outboxed a service, you cannot override its outbox configuration options again.
 :::
 
-
+#### Per Configuration
 
 You can also configure services to be outboxed by default:
 
@@ -63,20 +69,10 @@ You can also configure services to be outboxed by default:
 Some services are outboxed by default, these include [cds.MessagingService](messaging) and `cds.AuditLogService`.
 :::
 
-For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox) with:
-
-```json
-{
-  "requires": {
-    "outbox": true
-  }
-}
-```
-
-<span id="ininmemoryoutbox" />
+For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox).
 
 
-## Persistent Outbox (Default) {#persistent-outbox}
+### Persistent Outbox (Default) {#persistent-outbox}
 
 You can enable it globally for all outboxed services with:
 
@@ -132,18 +128,17 @@ The respective message is then updated and the `attempts` field is set to `maxAt
 Your database model is automatically extended by the entity `cds.outbox.Messages`, as follows:
 
 ```cds
-using cuid from '@sap/cds/common';
-
 namespace cds.outbox;
 
-entity Messages : cuid {
-  timestamp: Timestamp;
-  target: String;
-  msg: LargeString;
-  attempts: Integer default 0;
-  partition: Integer default 0;
-  lastError: LargeString;
-  lastAttemptTimestamp: Timestamp @cds.on.update : $now;
+entity Messages {
+  key ID                   : UUID;
+      timestamp            : Timestamp;
+      target               : String;
+      msg                  : LargeString;
+      attempts             : Integer default 0;
+      partition            : Integer default 0;
+      lastError            : LargeString;
+      lastAttemptTimestamp : Timestamp @cds.on.update: $now;
 }
 ```
 ::: tip
@@ -174,7 +169,7 @@ Example:
 }
 ```
 
-## In-Memory Outbox
+### In-Memory Outbox
 
 You can enable it globally for all outboxed services with:
 
@@ -196,7 +191,7 @@ cds.context.on('succeeded', () => this.emit(msg))
 The message is lost if its emit fails, there is no retry mechanism.
 :::
 
-## Immediate Emit
+### Immediate Emit
 
 To disable deferred emitting for a particular service, you can set the `outbox` option of your service to `false`:
 

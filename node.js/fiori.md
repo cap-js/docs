@@ -86,6 +86,19 @@ To prevent inconsistency, the entities with draft are locked for modifications b
 cds.drafts.cancellationTimeout=1h
 ```
 
+### Old Draft Deletion
+
+Old inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following application configuration property:
+
+```properties
+cds.fiori.deletionTimeout=true
+```
+
+You can set the property
+- to a number of days like '30d' 
+- to a number of milliseconds like 100000 
+- to true in order to obtain the default timeout of 30 days.
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:

@@ -59,7 +59,7 @@ class Receiver extends cds.Service { async init() {
 }}
 ```
 
-::: tip
+::: tip Emitters vs Receivers
 **Emitters** usually emit messages to *themselves* to inform *potential* listeners about certain events.
 **Receivers** connect to *Emitters* to register handlers to such emitted events.
 :::
@@ -571,7 +571,7 @@ usually in combination with `cloudevents` format, as in this excerpt from a _pac
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 
-::: tip
+::: tip Read the guide
 Find additional information about deploying SAP Event Mesh on SAP BTP in this guide:
 [&rarr; **_Using SAP Event Mesh in BTP_**](./event-mesh)
 :::
@@ -610,7 +610,7 @@ const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
 S4Bupa.on ('BusinessPartner.Changed', msg => {...})
 ```
 
-::: tip
+::: tip Read the guide
 Find more detailed information specific to receiving events from SAP S/4HANA in this separate guide:
 [&rarr; **_Receiving Events from SAP S/4HANA_**](./s4)
 :::

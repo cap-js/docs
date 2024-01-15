@@ -416,9 +416,9 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
-The Maven plugin can generate the accessor interfaces in two different styles: by default the accessor interfaces are generated so that the properties of an entity can be read and changed with the getter and the setter methods that mimic the Java Bean API or a way the properties are defined in the common ORM frameworks.
+By default, the accessor interfaces are generated so that the properties of an entity can be read and changed with the getter and the setter methods that mimic the Java Bean API or a way the properties are defined in the common ORM frameworks.
 
-Following is the example of the Java Bean style:
+Following is the example of the interface generated with the default style:
 
 ```java
     Authors authors = Authors.create("...");
@@ -429,7 +429,7 @@ Following is the example of the Java Bean style:
     books.setTitle("Wuthering Heights");
 ```
 
-You can also switch the generation mode to the _fluent_ style, which generates accessor interfaces in the style of the Fluent API pattern. In this mode, the getter methods are named after the property names and the setter methods return the accessor interface itself to enable chained calls. 
+You can also generate accessor interfaces in the style of the _Fluent Interface_ pattern. So that the getter methods are named after the property names and the setter methods return the accessor interface itself to enable chained calls. 
 
 Following is the example of the fluent style:
 
@@ -438,7 +438,7 @@ Following is the example of the fluent style:
    Books.create().author(authors).title("Wuthering Heights");
 ```
 
-The generation mode is configured by the property `<methodStyle>` of the goal [cds:generate](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the CDS Maven Plugin and affects all entities and event contexts in your services. The generation mode does not affect the way how the accessor interfaces are used by CAP in the CQN statements or in the event handlers. The event contexts and accessor interfaces delivered by the CAP itself always follow the Java Bean style.
+The generation mode is configured by the property [`<methodStyle>`](../assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` of the CDS Maven Plugin and affects all entities and event contexts in your services. The generation mode does not affect the way how the accessor interfaces are used by CAP in the CQN statements or in the event handlers, so you can choose the way that is suitable for you. The event contexts and accessor interfaces delivered by the CAP itself always follow the Java Bean style.
 
 ::: warning
 If you use the fluent style generation and have a custom action or a function in your service, you have to explicitly set the event context as completed by explicitly calling the method `setCompleted()` in comparison to the Java Bean style where the event context is completed automatically when you call `setResult()` method. 

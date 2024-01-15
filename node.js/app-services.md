@@ -11,7 +11,7 @@ status: released
 
 Class `cds.ApplicationService` is the default service provider implementation, adding generic handlers as introduced in the Cookbook guides on [Providing Services](../guides/providing-services), [Localized Data](../guides/localized-data.md) and [Temporal Data](../guides/temporal-data.md).
 
-For example, given a service definition like that, without an :
+Take this service definition for example:
 
 ```cds
 service AdminService {

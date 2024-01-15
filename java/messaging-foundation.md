@@ -129,12 +129,12 @@ Example:
 
 ```cds
 service ReviewService {
-  [...]
+  // ...
   event reviewed : {
     subject: String;
     rating: Decimal(2,1)
   }
-  [...]
+  // ...
 }
 ```
 
@@ -183,13 +183,13 @@ Example:
 
 ```cds
 service ReviewService {
-  [...]
+  // ...
   @topic: 'sap.cap.reviews.v1.ReviewService.changed.v1'
   event reviewed : {
     subject: String;
     rating: Decimal(2,1)
   }
-  [...]
+  // ...
 }
 ```
 
@@ -409,10 +409,10 @@ Example:
 ```json
 {
   "VCAP_SERVICES": {
-    [...]
+    ...
   },
   "VCAP_APPLICATION": {
-    [...]
+    ...
   }
 }
 ```
@@ -478,12 +478,12 @@ Example for receiving messages with a given topic via the composite messaging se
 ```java
 @On(service = MessagingService.COMPOSITE_NAME, event = "My/Destination/Messaging/A")
 public void receiveA(TopicMessageEventContext context) {
-  [...]
+  ...
 }
 
 @On(service = MessagingService.COMPOSITE_NAME, event = "My/Destination/Messaging/B")
 public void receiveB(TopicMessageEventContext context) {
-  [...]
+  ...
 }
 ```
 
@@ -711,14 +711,14 @@ Before a CAP messaging service finally submits the topic of an event message to 
 Example (excerpt from _application.yaml_):
 
 ```yaml
-[...]
+...
 cds:
   messaging.services:
     messaging-em:
       kind: enterprise-messaging
       publishPrefix: '$namespace/'
       subscribePrefix: '$namespace/'
-[...]
+...
 ```
 
 `publishPrefix` will prefix the topic when sending messages, while `subscribePrefix` will prefix the topic when subscriptions to a topic are made. If a service is only sending events, defining `publishPrefix` would be sufficient. If a service is only receiving events, defining `subscribePrefix` would be sufficient.

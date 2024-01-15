@@ -986,6 +986,25 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
+### Update with Expressions (beta) {#update-expressions}
+
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
+
+```java
+Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+```
+
+You can also combine update data with expressions:
+
+```java
+import static com.sap.cds.ql.CQL.get;
+import static com.sap.cds.ql.CQL.param;
+
+Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
+   .data("available", true) // [!code focus]
+   .set("stock", get("stock").plus(param("addStock"))); // [!code focus]
+```
+
 ### Deep Update { #deep-update}
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
@@ -1398,6 +1417,10 @@ Scalar functions are values that are calculated from other values. This calculat
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
 
+#### Arithmetic Expressions
+
+Arithmetic Expressions are captured by scalar functions as well:
+
 * Plus
 
     Function `plus` creates an arithmetic expression to add a specified value to this value.
@@ -1732,6 +1755,36 @@ ENDS WITH
 </td>
 </tr>
 </table>
+
+#### `matchesPattern` Predicate {#matches-pattern}
+
+The `matchesPattern` predicate is applied to a String value and tests if it matches a given regular expression.
+
+The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
+
+For example, following code matches title of the book that contains the word "CAP" in the title:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
+```
+
+::: tip
+As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
+::::
+
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+```
+
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
+
+For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern(CQL.val("^CAP.+$"), CQL.val("i")));
+```
 
 #### `anyMatch/allMatch` Predicate {#any-match}
 

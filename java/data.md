@@ -429,7 +429,7 @@ Following is the example of the interface generated with the default style:
     books.setTitle("Wuthering Heights");
 ```
 
-You can also generate accessor interfaces in the style of the _Fluent Interface_ pattern. So that the getter methods are named after the property names and the setter methods return the accessor interface itself to enable chained calls. 
+You can also generate accessor interfaces in the style of the _Fluent Interface_ pattern. In this mode, the getter methods are named after the property names and the setter methods return the accessor interface itself to enable chained calls. 
 
 Following is the example of the fluent style:
 

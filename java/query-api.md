@@ -758,6 +758,16 @@ import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
 
+Not every database entity exposed via the CDS entity can be locked with the `lock()` clause. Databases require that the target of such statements is represented by a single table or a view that is based on a single table without aggregation, joining or coalescence of values and the statement itself must not introduce aggregations, for example, by adding `groupBy()` clauses. Some databases might have additional restrictions or limitations specific to them.  
+
+There are few notable examples of such restrictions: 
+
+* You cannot use `lock()` and `distinct()` in the same statement.
+* Localized entities can be locked only if you manually reset the locale via dedicated request context without the locale as described here [Modifying Request Context](./request-contexts#modifying-requestcontext). 
+* Entities that contains "on-read" caclulated elements can't be locked when the statement contains statement that references them. Only non-calculated part of the entity can be used in the statement.
+
+As a general rule, prefer the statements that select primary keys with a simple conditions, such as `byId` or `matching`, to select the target entity set for locking.
+
 ## Insert
 
 The [Insert](../cds/cqn#insert) statement inserts new data into a target entity set.

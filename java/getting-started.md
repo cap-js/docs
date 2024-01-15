@@ -68,7 +68,7 @@ In older workspaces it might be necessary to explicitly set the JDK to version 1
 
 Take the following steps to set up a new CAP Java application based on Spring Boot from scratch. As a prerequisite, you've set up your [development environment](#local).
 
-### Run the CAP Java Maven Archetype
+### Run the Maven Archetype
 
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 

@@ -234,7 +234,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment/) |  <X/>   | <X/> |
 | Deploy to/run on _Kubernetes_<sup>1</sup>                                      |  <D/>   | <D/> |
 | [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                 |  <X/>   | <X/> |
-| [SaaS on-/offboarding](../guides/guides/multitenancy/)                          |  <X/>   | <X/> |
+| [SaaS on-/offboarding](../guides/multitenancy/)                          |  <X/>   | <X/> |
 | [Multitenancy](../guides/multitenancy/)                                        |  <X/>   | <X/> |
 | Health checks                                                                  |  <O/>   | <X/> |
 

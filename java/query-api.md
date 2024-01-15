@@ -764,7 +764,7 @@ There are few notable examples of such restrictions:
 
 * You cannot use `lock()` and `distinct()` in the same statement.
 * Localized entities can be locked only if you manually reset the locale via dedicated request context without the locale as described here [Modifying Request Context](./request-contexts#modifying-requestcontext). 
-* Entities that contains "on-read" caclulated elements can't be locked when the statement contains statement that references them. Only non-calculated part of the entity can be used in the statement.
+* Entities that contains "on-read" calculated elements can't be locked when the statement contains statement that references them. Only non-calculated part of the entity can be used in the statement.
 
 As a general rule, prefer the statements that select primary keys with a simple conditions, such as `byId` or `matching`, to select the target entity set for locking.
 

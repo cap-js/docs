@@ -17,17 +17,22 @@ We're just getting started with this page. Please help us in that endeavour by a
 
 
 
-<style>
+<style scoped>
 
   h3.github::before {
     content: "";
     background: url(./assets/github.svg) no-repeat 0 0;
-    background-size: 40px;
-    height: 40px;
-    width: 40px;
+    background-size: 30px;
+    height: 30px;
+    width: 30px;
+    margin-top: -4px;
     margin-right: 11px;
     vertical-align: middle;
     display: inline-block;
+  }
+
+  .dark h3.github::before, .dark li._nodejs a::before, .dark li._java a::before {
+    filter: brightness(.884) invert(1) hue-rotate(177deg);
   }
 
   li._nodejs {

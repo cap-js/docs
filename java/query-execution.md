@@ -170,13 +170,28 @@ The CQN API allows to manipulate data by executing insert, update, delete, or up
 The [update](./query-api) operation can be executed as follows:
 
 ```java
-Map<String, Object> book = new HashMap<>();
-book.put("title", "CAP");
+Map<String, Object> book = Map.of("title", "CAP");
 
-CqnUpdate update = Update.entity("bookshop.Books").data(book).where(b -> b.get("ID").eq(101));
-long updateCount = service.run(update).rowCount();
+CqnUpdate update = Update.entity("bookshop.Books").data(book).byId(101);
+Result updateResult = service.run(update);
 ```
 
+The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../guides/domain-modeling#managed-data) and foreign key values.
+
+The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html#rowCount()) of the update `Result` indicates how many rows where updated during the statement execution:
+
+
+```java
+CqnUpdate update = ...
+
+long rowCount = service.run(update).rowCount();
+```
+
+If no rows are touched the execution is successful but the row count is 0.
+
+:::warning
+The setters of an [update with expressions](../java/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
+:::
 
 ### Working with Structured Documents
 
@@ -272,7 +287,7 @@ Example of a view that can't be resolved:
 ```cds
 // Unsupported
 entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
-entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
+entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
 
 ## Runtime Views { #runtimeviews}

@@ -248,14 +248,14 @@ The CAP Java SDK uses various dependencies that are also used by the application
 ### Active Version 2.x { #dependencies-version-2 }
 
 | Dependency | Minimum Version | Recommended Version |
-| --- | --- |---------------------|
-| Java | 17 | 21<sup>1</sup>      |
-| @sap/cds-dk | 6 | latest              |
-| @sap/cds-compiler | 3 | latest              |
-| Spring Boot | 3.0 | latest              |
-| XSUAA | 3.0 | latest              |
-| SAP Cloud SDK | 4.24 | latest<sup>2</sup>  |
-| Java Logging | 3.7 | latest              |
+| --- | --- | --- |
+| Java | 17 | 21<sup>1</sup> |
+| @sap/cds-dk | 6 | latest |
+| @sap/cds-compiler | 3 | latest |
+| Spring Boot | 3.0 | latest |
+| XSUAA | 3.0 | latest |
+| SAP Cloud SDK | 4.24 | latest<sup>2</sup> |
+| Java Logging | 3.7 | latest |
 
 <sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommended.
 <sup>2</sup> Refer necessary steps for [adoption of Cloud SDK 5](../migration.md#cloudsdk)  

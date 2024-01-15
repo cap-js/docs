@@ -416,6 +416,34 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
+The Maven plugin can generate the accessor interfaces in two different styles: by default the accessor interfaces are generated so that the properties of an entity can be read and changed with the getter and the setter methods that mimic the Java Bean API or a way the properties are defined in the common ORM frameworks.
+
+Following is the example of the Java Bean style:
+
+```java
+    Authors authors = Authors.create("...");
+    authors.setName("Emily Brontë");
+	
+    Books books = Books.create();
+    books.setAuthor(authors);
+    books.setTitle("Wuthering Heights");
+```
+
+You can also switch the generation mode to the _fluent_ style, which generates accessor interfaces in the style of the Fluent API pattern. In this mode, the getter methods are named after the property names and the setter methods return the accessor interface itself to enable chained calls. 
+
+Following is the example of the fluent style:
+
+```java
+   Authors authors = Authors.create("...").name("Emily Brontë");
+   Books.create().author(authors).title("Wuthering Heights");
+```
+
+The generation mode is configured by the property `<methodStyle>` of the [CDS Maven Plugin](./advanced#staticmodel) and affects all entities and event contexts in your services. The generation mode does not affect the way how the accessor interfaces are used by CAP in the CQN statements or in the event handlers. The event contexts and accessor interfaces delivered by the CAP itself always follow the Java Bean style.
+
+::: warning
+If you use the fluent style generation and have a custom action or a function in your service, you have to explicitly set the event context as completed by explicitly calling the method `setCompleted()` in comparison to the Java Bean style where the event context is completed automatically when you call `setResult()` method. 
+
+
 #### Renaming Elements in Java
 
 Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.

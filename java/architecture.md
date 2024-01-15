@@ -92,7 +92,7 @@ CAP Java makes use of [features](#standard-modules) itself to provide optional f
  * The core [service providers](#service-providers)
  * [Application features](#application-features) to optionally extend the application or adapt to a specific environment
 
-### Wiring Modules
+### Wiring Modules { #module-configuration }
 
 All CAP Java SDK modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). They've `groupId` `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds. It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:

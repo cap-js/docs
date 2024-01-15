@@ -6,7 +6,7 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
-# Modular Architecture
+# Open Architecture
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -14,12 +14,10 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 One of the key [CAP design principles](../about/#open-and-opinionated) is to be an opinionated but yet open framework. Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java SDK.
-The [stack architecture](#modular_architecture) reflects this requirement, allowing fine-grained [stack configuration](#stack_configuration) and custom extensions.
+Section [Architecture Overview](#modular_architecture) explains how the basic architecture of CAP Java meets this requirement, allowing a fine-grained stack [Configuration](#stack_configuration) and extensions with custom modules.
 
 
-## Stack Architecture { #modular_architecture}
-
-### Overview
+## Architecture Overview { #modular_architecture}
 
 One of the basic design principle of the CAP Java SDK is to keep orthogonal functionality separated in independent components. The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
 Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services. Hence, the application is [platform **and** service agnostic](../about/#agnostic-approach).
@@ -60,7 +58,6 @@ As all other components in the different layers of the CAP Java SDK are decouple
 
 ### Protocol Adapters { #protocol-adapters}
 
-
 The CAP runtime is based on an [event](../about/#events) driven approach. Generally, [Service](../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../guides/providing-services#event-handlers). During execution, services can send events to other service providers and consume the results. The native query language in CAP is [CQN](../cds/cqn), which is accepted by all services that deal with data query and manipulation. Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../about/#querying)) afterwards. Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java SDK. Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. Such application-specific protocols can easily be implemented by means of Spring RestControllers.
 
 The modular architecture allows to add custom protocol adapters in a convenient manner, which can be plugged into the stack at runtime. Note that different endpoints can be served by different protocol adapters at the same time.
@@ -84,9 +81,9 @@ The overall architecture of the CAP Java SDK allows additional components to be 
 
 CAP Java makes use of [features](#standard-modules) itself to provide optional functionality, examples are [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) integration.
 
-## Stack Configuration { #stack_configuration}
+## Configuration { #stack_configuration}
 
- As outlined in section [Modular Architecture](#modular_architecture), the CAP Java SDK is highly flexible. You can choose among modules prepared for different environments and in addition also include optional or custom extensions.
+ As outlined in section [Architecture Overview](#modular_architecture), the CAP Java SDK is highly flexible. You can choose among modules prepared for different environments and in addition also include optional or custom extensions.
  Which set of modules is active at runtime is a matter of compile time and runtime configuration.
 
  At compile time, you can assemble modules from the different layers:
@@ -95,7 +92,7 @@ CAP Java makes use of [features](#standard-modules) itself to provide optional f
  * The core [service providers](#service-providers)
  * [Application features](#application-features) to optionally extend the application or adapt to a specific environment
 
-### Module Configuration
+### Wiring Modules
 
 All CAP Java SDK modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). They've `groupId` `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds. It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
@@ -186,7 +183,7 @@ Additional application features you want to use are added as additional dependen
 Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. If a chosen feature misses the required environment at runtime, the feature won't be activated. Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
 For instance, the authentication feature `cds-feature-hana` requires a valid `hana` binding in the environment. Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for SQLite.
 
-### CAP Java Standard Modules { #standard-modules }
+### Standard Modules { #standard-modules }
 
 CAP Java comes with a rich set of prepared modules in all different layers of the stack:
 
@@ -248,3 +245,9 @@ An example of a CAP application with OData V4 on Cloud Foundry environment:
 		</dependency>
 </dependencies>
 ```
+
+### Custom Modules { #custom-modules }
+
+The plugin plugin technique for the [standard modules](#standard-modules) can be used for custom modules in the same way.
+By adding an additional dependency in the application project to the custom Maven module, the loaded module automatically adds functionality (usually handlers or providers) or extensions to the CDS model. 
+Find details and examples in the [documentation](../java/plugins).

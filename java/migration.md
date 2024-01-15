@@ -1053,6 +1053,6 @@ CAP Java 2.6.0 and higher is compatible with Cloud SDK in version 4 and 5. For r
 	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
 	<artifactId>connectivity-apache-httpclient4</artifactId>
 </dependency>
-	```
+```
 
 It is highly recommended to use at least version 5.2.0 of Cloud SDK.

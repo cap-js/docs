@@ -86,14 +86,14 @@ app.listen()
 
 This uses these defaults for all options:
 
-| Option | Description | Default |
-| ------ | ----------- | ------- |
-| cds.serve ... | which services to construct |  `'all'` services
-| <i>&#8627;</i>.from  | models to load definitions from | `'./srv'` folder
-| <i>&#8627;</i>.in  | express app to mount to | — none —
-| <i>&#8627;</i>.to  | client protocol to serve to | `'fiori'`
-| <i>&#8627;</i>.at  | endpoint path to serve at | [`@path`](#path) or `.name`
-| <i>&#8627;</i>.with  | implementation function | `@impl` or `._source`.js
+| Option               | Description                     | Default                     |
+|----------------------|---------------------------------|-----------------------------|
+| cds.serve ...        | which services to construct     | `'all'` services            |
+| <i>&#8627;</i> .from | models to load definitions from | `'./srv'` folder            |
+| <i>&#8627;</i> .in   | express app to mount to         | — none —                    |
+| <i>&#8627;</i> .to   | client protocol to serve to     | `'fiori'`                   |
+| <i>&#8627;</i> .at   | endpoint path to serve at       | [`@path`](#path) or `.name` |
+| <i>&#8627;</i> .with | implementation function         | `@impl` or `._source`.js    |
 
 Alternatively you can construct services individually, also from other models, and also mount them yourself, as document in the subsequent sections on individual fluent API options.
 

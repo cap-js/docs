@@ -131,7 +131,7 @@ Learn more about user model and identity providers here:
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
-- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/as-saas) on basis of platform-injected service bindings.
+- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/to-cf) on basis of platform-injected service bindings.
 - CAP offers consumption of [Remote Services](../using-services) on basis of [SAP BTP destinations](../using-services#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.

@@ -92,7 +92,7 @@ This uses these defaults for all options:
 | <i>&#8627;</i>.from  | models to load definitions from | `'./srv'` folder
 | <i>&#8627;</i>.in  | express app to mount to | — none —
 | <i>&#8627;</i>.to  | client protocol to serve to | `'fiori'`
-| <i>&#8627;</i>.at  | endpoint path to serve at | `@path` or `.name`
+| <i>&#8627;</i>.at  | endpoint path to serve at | [`@path`](#path) or `.name`
 | <i>&#8627;</i>.with  | implementation function | `@impl` or `._source`.js
 
 Alternatively you can construct services individually, also from other models, and also mount them yourself, as document in the subsequent sections on individual fluent API options.
@@ -144,7 +144,7 @@ cds.serve('CatalogService').at('/cat')
 cds.serve('all').at('/cat') //> error
 ```
 
-**If omitted**, the mount point is determined from annotation `@path`, if present, or from the service's lowercase name, excluding trailing _Service_.
+**If omitted**, the mount point is determined from annotation [`@path`](#path), if present, or from the service's lowercase name, excluding trailing _Service_.
 
 ```cds
 service MyService @(path:'/cat'){...}  //> served at: /cat

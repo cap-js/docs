@@ -267,6 +267,7 @@ Following is an index of the features currently covered by CAP, with status and 
 |------------------------------------------------------|:-------:|:----:|
 | `hana`                                                 |  <X/>   | <X/> |
 | `postgres`                                     |  <X/><sup>1</sup>   | <X/><sup>1</sup> |
+| `liquibase`                                     |  <Na/>   | <X/> |
 | `h2`                                     |  <Na/>   | <X/> |
 | `multitenancy`                              |  <X/>   | <X/> |
 | `toggles`                                   |  <X/>   | <X/> |

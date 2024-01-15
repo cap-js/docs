@@ -442,7 +442,7 @@ The generation mode is configured by the property `<methodStyle>` of the [CDS Ma
 
 ::: warning
 If you use the fluent style generation and have a custom action or a function in your service, you have to explicitly set the event context as completed by explicitly calling the method `setCompleted()` in comparison to the Java Bean style where the event context is completed automatically when you call `setResult()` method. 
-
+:::
 
 #### Renaming Elements in Java
 

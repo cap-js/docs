@@ -61,14 +61,14 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Editors/IDE Support      | Application Studio | VS Code | Eclipse |
-|--------------------------|:------------------:|:-------:|:-------:|
-| CDS Syntax Highlighting  |        <X/>        |  <X/>   |  <X/>   |
-| CDS Code Completion      |        <X/>        |  <X/>   |  <X/>   |
-| CDS Prettifier           |        <X/>        |  <X/>   |  <X/>   |
-| Advanced Debug/Run Tools |        <X/>        |         |         |
-| Project Explorer         |        <X/>        |         |         |
-| ...                      |                    |         |         |
+| Editors/IDE Support      | Application Studio | VS Code |
+|--------------------------|:------------------:|:-------:|
+| CDS Syntax Highlighting  |        <X/>        |  <X/>   |
+| CDS Code Completion      |        <X/>        |  <X/>   |
+| CDS Prettifier           |        <X/>        |  <X/>   |
+| Advanced Debug/Run Tools |        <X/>        |         |
+| Project Explorer         |        <X/>        |         |
+| ...                      |                    |         |
 
 
 ### CDS Language & Compiler

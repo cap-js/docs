@@ -763,7 +763,7 @@ Not every database entity exposed via the CDS entity can be locked with the `loc
 There are few notable examples of such restrictions: 
 
 * You cannot use `lock()` and `distinct()` in the same statement.
-* Localized entities can be locked only if you manually reset the locale via dedicated request context without the locale as described here [Modifying Request Context](./request-contexts#modifying-requestcontext). 
+* Localized entities can be locked only if you manually reset the locale via dedicated request context without the locale as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext). 
 * Entities that contains "on-read" calculated elements can't be locked when the statement references them in the select list or filter.
 
 As a general rule, prefer the statements that select primary keys with a simple conditions, such as `byId` or `matching`, to select the target entity set for locking.

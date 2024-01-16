@@ -421,12 +421,12 @@ By default, the accessor interfaces are generated so that the properties of an e
 Following is the example uses accessor interfaces that have been generated with the default (JavaBeans) style:
 
 ```java
-    Authors authors = Authors.create("...");
-    authors.setName("Emily Brontë");
+    Authors author = Authors.create();
+    author.setName("Emily Brontë");
 	
-    Books books = Books.create();
-    books.setAuthor(authors);
-    books.setTitle("Wuthering Heights");
+    Books book = Books.create();
+    book.setAuthor(authors);
+    book.setTitle("Wuthering Heights");
 ```
 
 Alternatively, you can generate accessor interfaces in _fluent style_: In this mode, the read methods are named after the property names. The write methods return the accessor interface itself to enable fluent chaining. 

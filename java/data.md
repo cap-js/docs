@@ -418,7 +418,7 @@ For all structured types of the CDS model, accessor interfaces can be generated 
 
 By default, the accessor interfaces are generated so that the properties of an entity can be read and changed with the getter and the setter methods that mimic the Java Bean API or a way the properties are defined in the common ORM frameworks.
 
-Following is the example of the interface generated with the default style:
+Following is the example uses accessor interfaces that have been generated with the default (JavaBeans) style:
 
 ```java
     Authors authors = Authors.create("...");

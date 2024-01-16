@@ -86,7 +86,7 @@ await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 `cds.test()` uses the standard authentication strategy in development mode, which is the [mocked authentication](../node.js/authentication#mocked). To configure it, use `cds.requires.auth` in the `package.json` file or directly in your test file like so:
 
 ```js
-cds.requires.auth.users.foo = {
+cds.env.requires.auth.users.foo = {
   password: 'bar',
   roles: { admin: true, ['cds.Subscriber']: true },
   attr: { name: 'Foo' }

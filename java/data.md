@@ -440,10 +440,6 @@ Following is the example of the fluent style:
 
 The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` of the CDS Maven Plugin and affects all entities and event contexts in your services. The generation mode does not affect the way how the accessor interfaces are used by CAP in the CQN statements or in the event handlers, so you can choose the way that is suitable for you. The event contexts and accessor interfaces delivered by the CAP itself always follow the Java Bean style.
 
-::: warning
-If you use the fluent style generation and have a custom action or a function in your service, you have to explicitly set the event context as completed by explicitly calling the method `setCompleted()` in comparison to the Java Bean style where the event context is completed automatically when you call `setResult()` method. 
-:::
-
 #### Renaming Elements in Java
 
 Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.

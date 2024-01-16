@@ -434,8 +434,8 @@ Alternatively, you can generate accessor interfaces in _fluent style_: In this m
 Following is the example of the fluent style:
 
 ```java
-   Authors authors = Authors.create("...").name("Emily Brontë");
-   Books.create().author(authors).title("Wuthering Heights");
+   Authors author = Authors.create().name("Emily Brontë");
+   Books.create().author(author).title("Wuthering Heights");
 ```
 
 The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` of the CDS Maven Plugin and affects all entities and event contexts in your services. The generation mode does not affect the way how the accessor interfaces are used by CAP in the CQN statements or in the event handlers, so you can choose the way that is suitable for you. The event contexts and accessor interfaces delivered by the CAP itself always follow the Java Bean style.

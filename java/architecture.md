@@ -248,6 +248,6 @@ An example of a CAP application with OData V4 on Cloud Foundry environment:
 
 ### Custom Modules { #custom-modules }
 
-The plugin plugin technique for the [standard modules](#standard-modules) can be used for custom modules in the same way.
+The plugin technique for the [standard modules](#standard-modules) can be used for custom modules in the same way.
 By adding an additional dependency in the application project to the custom Maven module, the loaded module automatically adds functionality (usually handlers or providers) or extensions to the CDS model. 
 Find details and examples in the [documentation](../java/plugins).

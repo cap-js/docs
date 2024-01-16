@@ -442,7 +442,9 @@ The generation mode is configured by the property [`<methodStyle>`](./assets/cds
 
 The style of the interfaces is the matter of personal taste and you can select one that is best for you.
 
-The way the interfaces are generated does not affect how the entities represented by them are handled by CAP and does not change the way how the event contexts and entities delivered by the CAP looks like. Such interfaces from CAP are always modelled in the default JavaBeans style.
+The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
+
+Moreover, it does not change the way how the event contexts and entities delivered by the CAP looks like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 
 #### Renaming Elements in Java
 

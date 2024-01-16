@@ -758,13 +758,13 @@ import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
 
-Not every database entity exposed via the CDS entity can be locked with the `lock()` clause. Databases require that the target of such statements is represented by a single table or a view that is based on a single table without aggregation, joining or coalescence of values and the statement itself must not introduce aggregations, for example, by adding `groupBy()` clauses. Some databases might have additional restrictions or limitations specific to them.  
+Not every entity exposed via the CDS entity can be locked with the `lock()` clause. Databases require that the target of such statements is represented by a single table or by a view that is simple enough so that the database can unambiguously identify which rows must be locked. Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
 
-There are few notable examples of such restrictions: 
+There are few notable examples of such restrictions:
 
-* You cannot use `lock()` and `distinct()` in the same statement.
-* Localized entities can be locked only if you manually reset the locale via dedicated request context without the locale as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext). 
-* Entities that contains "on-read" calculated elements can't be locked when the statement references them in the select list or a filter. 
+* You cannot use `lock()` together with `distinct()` or `groupBy()`.
+* Localized entities can be locked only if you query is executed without a locale as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Entities that contains "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 
 As a general rule, prefer the statements that select primary keys with a simple conditions, such as `byId` or `matching`, to select the target entity set for locking.
 

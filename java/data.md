@@ -416,7 +416,7 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
-By default, the accessor interfaces prodive the setter and getter methods inspired by the JavaBeans specification and the way used by the common ORM frameworks.
+By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification and the way used by the common ORM frameworks.
 
 Following example uses accessor interfaces that have been generated with the default (JavaBeans) style:
 

@@ -82,6 +82,23 @@ await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 [Learn more in GET/PUT/POST.](#http-bound) {.learn-more}
 
 
+#### Authenticated Endpoints
+`cds.test()` uses [mocked authentication](https://pages.github.tools.sap/cap/docs/node.js/authentication#mocked). To configure authentication, you can utilize `cds.requires.auth` in the `package.json` file or directly in your test file like so:
+
+```js
+cds.requires.auth.users.foo = {
+  password: 'bar',
+  roles: { admin: true, ['cds.Subscriber']: true },
+  attr: { name: 'Foo' }
+}
+```
+
+After configuring the authentication, you can set the user for an authenticated request like this:
+
+```js
+await GET('/admin/Books', { auth: { username: 'foo', password: 'bar' } })
+```
+
 
 ### Using Jest or Mocha
 

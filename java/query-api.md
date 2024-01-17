@@ -762,7 +762,8 @@ Not every entity exposed via the CDS entity can be locked with the `lock()` clau
 
 There are few notable examples of such restrictions:
 
-* You cannot use `lock()` together with `distinct()` or `groupBy()`.
+* You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
+* You cannot use the `lock()` in a statement with the subquery as a source.
 * Localized entities can be locked only if you query is executed without a locale as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
 * Entities that contains "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 

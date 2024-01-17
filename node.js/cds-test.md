@@ -181,7 +181,7 @@ To write tests that run in [*Mocha*](https://mochajs.org) as well as in [*Jest*]
 :::warning Using `chai` requires these dependencies added to your project:
 
 ```sh
-npm add -D chai chai-as-promised chai-subset jest
+npm add -D chai@4 chai-as-promised chai-subset jest
 ```
 
 :::

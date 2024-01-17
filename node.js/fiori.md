@@ -39,10 +39,10 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 
 ### Handlers Registration {#draft-support}
 
-Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities. 
+Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities.
 Please note that draft-enabled entities must follow a specific draft choreography.
 
-The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.  
+The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.
 
   ```js
   // only active entities
@@ -71,18 +71,18 @@ Additionally, you can add your logic to the draft-specific events as follows:
   ```
 
 - The `CANCEL` event is triggered when you cancel the draft. In this case, the draft entity is deleted and the active entity isn't changed.
-- The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created. 
+- The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created.
 - The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Note, that composition children of the active entity will also be updated or created.
 
 ::: info Compatibility flag
-    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
+For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
 :::
 
 ### Draft Locks
 
 To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
 
-```json
+```properties
 cds.drafts.cancellationTimeout=1h
 ```
 

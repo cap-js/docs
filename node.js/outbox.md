@@ -46,6 +46,16 @@ const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
 Once you outboxed a service, you cannot override its outbox configuration options again.
 :::
 
+### cds.unboxed(srv) {.method}
+
+Use this on an outboxed service to get back the original service:
+
+```js
+const unboxed = cds.unboxed(srv)
+```
+
+This is useful if your service is outboxed per configuration.
+
 ### Per Configuration
 
 You can also configure services to be outboxed by default:

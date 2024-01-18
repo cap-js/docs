@@ -179,8 +179,6 @@ Deploy your application:
 cf create-service-push
 ```
 
-For multitenant-specific information, refer to our [Multitenancy Guide](../deployment/as-saas).
-
 
 
 ### Subscribe to SAP Personal Data Manager Service

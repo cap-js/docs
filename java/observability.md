@@ -253,13 +253,15 @@ CAP Java applications can easily be configured to connect to SAP BTP Cloud Loggi
 - automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
 - full setup of Open Telemetry relevant configuration, including span hierarchy and OT collectors
 
-Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific execution of CQN statements or indivicual requests inside a OData $batch request. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
+Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific execution of CQN statements or individual requests inside a OData $batch request. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
 <img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
 #### Configuration of CLoud Logging Service { #open-telemetry-configuration-cls }
+
+Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
 
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
@@ -303,7 +305,7 @@ It's possible to suppress auto-instrumentation for specific libraries as describ
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application.
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
 
 1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)**.

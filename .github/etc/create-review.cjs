@@ -39,7 +39,7 @@ const createSuggestContainerTypeText = (suggestion) => createSuggestionText(sugg
 
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
-    const { join } = require('path')
+    const { join, extname } = require('path')
     const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA, REPO, REPO_OWNER } = process.env
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
@@ -76,10 +76,10 @@ module.exports = async ({ github, require, exec, core }) => {
     })
 
     const diffs = {}
-    data.forEach(obj => {
-        console.log(obj)
-        diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
-    })
+    data.filter(obj => extname(obj.filename.endsWith) === '.md')
+        .forEach(obj => {
+            diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
+        })
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
@@ -290,7 +290,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     function getDiff(file) {
-        return diffs[file.replace('./', '')]
+        const k = file.replace('./', '')
+        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}.`)
+        return diffs[k]
     }
 
     async function findPositionInDiff(context, file) {

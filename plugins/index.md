@@ -83,7 +83,7 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    
 3. Bind the platform service.
 
-   > → audit logs are written to Audit Log V2 service.
+   > → audit logs are written to SAP Audit Log service.
    
 
 

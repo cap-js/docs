@@ -125,7 +125,7 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+                const link = context.match(/\[Context: "(\[.*?)"\]/)[1]
 
                 contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 

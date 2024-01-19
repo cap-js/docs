@@ -429,22 +429,22 @@ Following example uses accessor interfaces that have been generated with the def
     book.setTitle("Wuthering Heights");
 ```
 
-Alternatively, you can generate accessor interfaces in _fluent style_. In this mode, the getter methods are named after the property names and the setter methods return the accessor interface itself to enable fluent chaining.
+Alternatively, you can generate accessor interfaces in _fluent style_. In this mode, the getter methods are named after the property names. To enable fluent chaining, the setter methods return the accessor interface itself.
 
-Following is the example of the fluent style:
+Following is an example of the fluent style:
 
 ```java
    Authors author = Authors.create().name("Emily Brontë");
    Books.create().author(author).title("Wuthering Heights");
 ```
 
-The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` of the CDS Maven Plugin and affects all entities and event contexts in your services. The default value is the `BEAN`, which represents the JavaBeans-style of interfaces.
+The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
 
-The style of the interfaces is the matter of personal taste and you can select one that is best for you.
+The style of the interfaces depends on your preference. Select the one that is best for you.
 
 The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
 
-Moreover, it does not change the way how the event contexts and entities delivered by the CAP looks like. Such interfaces from CAP are always modelled in the default JavaBeans style.
+Moreover, it doesn't change the way how event contexts and entities, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 
 #### Renaming Elements in Java
 

@@ -22,16 +22,17 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 ## Create a Project
 
 <div class="impl node">
 
 ```sh
-cds init hello-world --add tiny-sample
+cds init hello-world
 cd hello-world
-npm install
 ```
 
 </div>
@@ -39,7 +40,7 @@ npm install
 <div class="impl java">
 
 ```sh
-cds init hello-world --add java,samples
+cds init hello-world --add java
 cd hello-world
 ```
 

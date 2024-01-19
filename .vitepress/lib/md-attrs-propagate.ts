@@ -45,7 +45,7 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
     })
   })
 
-  // intercept all container open renderes, like `container_tip_open`
+  // intercept all container open renderers, like `container_tip_open`
   // because these add additional divs, which need to be instrumented as well
   const { rules } = md.renderer
   // console.log('rules', rules)
@@ -60,13 +60,20 @@ export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
       const [tokens, idx] = args
       const token = tokens[idx]
       if (token.meta?.classes) {
-        const classes = token.meta?.classes as string
         // delete classes in token.attrs as these would be rendered in addition,
         // leading to 'Duplicate attribute' errors
         deleteAttr('class', token.attrs)
 
         let result:string = original(...args)
-        if (!classes.split(' ').some(cls => result.includes(cls))) { // some of classes already set?
+        const hasClass = (classes: any, result: any) => {
+          const match = result.match(/class="([^"]*)"/)
+          if (!match || match.length < 2) return false
+          const existing = match[1].split(/\s+/)
+          return classes.split(' ').some((cls: any) => existing.includes(cls))
+        }
+
+        // Usage in your code
+        if (!hasClass(token.meta.classes, result)) {
           if (result.includes(' class="')) { // `class` attribute existing -> augment
             result = result.replace(' class="', ` class="${token.meta.classes} `)
           } else { // no `class` attribute -> set one

@@ -39,7 +39,7 @@ const createSuggestContainerTypeText = (suggestion) => createSuggestionText(sugg
 
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
-    const { join } = require('path')
+    const { join, extname } = require('path')
     const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA, REPO, REPO_OWNER } = process.env
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
@@ -66,6 +66,21 @@ module.exports = async ({ github, require, exec, core }) => {
             linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
         })
 
+    const { data } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
+        owner: REPO_OWNER,
+        repo: REPO,
+        pull_number: PULL_NUMBER,
+        headers: {
+            accept: 'application/vnd.github.diff'
+        }
+    })
+
+    const diffs = {}
+    data.filter(obj => extname(obj.filename) === '.md')
+        .forEach(obj => {
+            diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
+        })
+
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
             .split('\n')
@@ -86,6 +101,8 @@ module.exports = async ({ github, require, exec, core }) => {
         for (let [error, path, pointer, rule, description, details, context] of matches) {
             let contextText = ''
             let comment;
+
+            if (!fileIsInDiff(path)) continue
 
             if (rule === 'MD011/no-reversed-links') {
                 const detailValue = details.slice(1, -1)
@@ -108,7 +125,12 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+                let link = context.match(/\[Context: "(\[.*?)"\]/)[1]
+
+                // if the context is too long, markdownlint-cli will truncate the string and append "..." at the end
+                if (link.endsWith('...')) {
+                    link = link.substring(0, link.length - 3)
+                }
 
                 contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 
@@ -197,6 +219,7 @@ module.exports = async ({ github, require, exec, core }) => {
         const wordsWithoutSuggestions = []
 
         for (const [error, path, pointer, word, context, suggestionString] of matches) {
+            if (!fileIsInDiff(path)) continue
 
             const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
 
@@ -208,6 +231,7 @@ module.exports = async ({ github, require, exec, core }) => {
                 .replace(/ /g, '')
                 .split(',')
                 .filter(Boolean) // remove empty strings
+
 
             const { line, position } = await findPositionInDiff(context, path)
 
@@ -266,29 +290,23 @@ module.exports = async ({ github, require, exec, core }) => {
         })
     }
 
-    async function getDiff(file) {
-        let diff = ''
-        const opts = {
-            listeners: {
+    function fileIsInDiff(file) {
+        return typeof getDiff(file) !== 'undefined'
+    }
 
-                stdout: (data) => {
-                    diff += data.toString();
-                }
-            },
-            cwd: BASE_DIR
-        }
-
-        await exec.exec(`git diff ${BASE_SHA} ${SHA} -- ${file}`, [], opts)
-
-        return diff.split('\n')
+    function getDiff(file) {
+        const k = file.replace('./', '')
+        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}.`)
+        return diffs[k]
     }
 
     async function findPositionInDiff(context, file) {
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
+
+        if (!diff) return { position: -1 }
 
         const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
         const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')) && !line.includes('<!--'))
-
         // context does not exist in diff --> errors is in file with diff, but errors was not introduced with current PR
         if (idxToStartingCoutingFrom === -1 || idxOfLineToSearch === -1) {
             return { position: -1 }
@@ -300,7 +318,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findCodeBlockInDiff(lines, file) {
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
+
+        if (!diff) return { position: -1 }
 
         let start = -1
         let end = -1

@@ -63,7 +63,6 @@
 - [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
 - [SAP Business Application Studio](tools/index#bastudio)
 - [Visual Studio Code](tools/index#vscode)
-- [Eclipse](tools/index#eclipse)
 - [IntelliJ](tools/index#intellij)
 - [Docker](tools/index#docker)
 - [CDS Editors](tools/index#cds-editor)
@@ -108,6 +107,7 @@
   - [CDS Properties](java/development/properties)
 - [Observability](java/observability)
 - [Migration](java/migration)
+- [Building Plugins](java/plugins)
 
 ### [Node.js](node.js/)
 

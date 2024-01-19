@@ -236,7 +236,7 @@ In addition you might want to remove the H2 dependency, which is included in the
 
 If you don't want to exclude dependencies completely, but make sure that an in-memory H2 database **isn't** used, you can disable Spring Boot's `DataSource` auto-configuration, by annotating the `Application.java` class with `@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)`. In that mode CAP Java however can still react on explicit data source configurations or database bindings.
 
-### What to Do About Maven-Related Errors in Eclipse's Problems View? { #eclipse}
+### What to Do About Maven-Related Errors in Eclipse's Problems View?
 
 - In _Problems_ view, execute _Quick fix_ from the context menu if available. If Eclipse asks you to install additional Maven Eclipse plug-ins to overcome the error, do so.
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.

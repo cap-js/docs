@@ -13,7 +13,9 @@ impl-variants: true
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 {{ $frontmatter.synopsis }}
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 
 [[toc]]

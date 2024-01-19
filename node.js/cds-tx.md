@@ -117,7 +117,7 @@ If you're using the database SQLite, it leads to deadlocks when two transactions
 
 ## Background Jobs
 
-Background jobs are tasks to be executed *outside of the current transaction*, possibly also with other users, and maybe repeatedly. Use `cds.spawn()` to to so:
+Background jobs are tasks to be executed *outside of the current transaction*, possibly also with other users, and maybe repeatedly. Use `cds.spawn()` to do so:
 
 ```js
 // run in current tenant context but with privileged user

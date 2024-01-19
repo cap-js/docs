@@ -21,7 +21,7 @@ status: released
 
 ## Logging { #logging}
 
-When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using [Messages API](indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
+When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
 
 
 ### Logging Façade { #logging-facade}
@@ -77,7 +77,7 @@ In case your application runs on Spring Boot and you use the Spring starter pack
 
 Similarly, no specific log output configuration is required for local development, as per default, log messages are written to the console in human-readable form, which contains timestamp, thread, and logger component information. To customize the log output, for instance to add some application-specific information, you can create corresponding configuration files (such as `logback-spring.xml` for logback) to the classpath and Spring picks it automatically. Consult the documentation of the dedicated logging framework to learn about the configuration file format.
 
-All logs are written which have a log level greater or equal the configured log level of the corresponding logger object.
+All logs are written that have a log level greater or equal to the configured log level of the corresponding logger object.
 The following log levels are available:
 
 | Level    | Use case
@@ -93,9 +93,10 @@ With Spring Boot, there are different convenient ways to configure log levels in
 
 #### At Compile Time { #logging-configuration-compiletime}
 
-The log levels can be configured in the _application.yaml_ file:
+The following log levels can be configured:
 
-```sh
+::: code-group
+```sh [srv/src/main/resources/application.yaml]
 # Set new default level
 logging.level.root: WARN
 
@@ -105,6 +106,7 @@ logging.level.my.loggers.order.Consolidation: INFO
 # Turn off all loggers matching org.springframework.*:
 logging.level.org.springframework: OFF
 ```
+:::
 
 Note that loggers are organized in packages, for instance `org.springframework` controls all loggers that match the name pattern `org.springframework.*`.
 
@@ -161,7 +163,7 @@ CAP Java SDK has useful built-in loggers that help to track runtime behavior:
 | `com.sap.cds.messaging`  | Logs messaging configuration and messaging events
 | `com.sap.cds.remote.odata`  | Logs request handling for remote OData calls
 | `com.sap.cds.remote.wire`  | Logs communication of remote OData calls
-| `com.sap.cds.auditlog`  | Writes audit log events to application log
+| `com.sap.cds.auditlog`  | Logs audit log events
 
 Most of the loggers are used on DEBUG level by default as they produce quite some log output. It's convenient to control loggers on package level, for example, `com.sap.cds.security` covers all loggers that belong to this package (namely `com.sap.cds.security.authentication` and `com.sap.cds.security.authorization`).
 
@@ -171,7 +173,7 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 
 ### Logging Service { #logging-service}
 
-The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics, and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
+The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics, and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
 
 To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
@@ -183,11 +185,11 @@ To get connected with the SAP BTP Application Logging Service, the application n
 </dependency>
 ```
 
-By default, the library appends additional fields to the log output such as correlation id or Cloud Foundry space. To instrument incoming HTTP requests, a servlet filter needs to be created as. See [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets) for more details.
+By default, the library appends additional fields to the log output such as correlation id or Cloud Foundry space. To instrument incoming HTTP requests, a servlet filter needs to be created. See [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets) for more details.
 
-During local development, you might want to stick to the (human-readable) standard log line format. This boils down to have different logger configurations for different Spring profiles. The following sample configuration (file `resources/logback-spring.xml`) outlines how you can achieve this. `cf-java-logging-support` is only active for profile `cloud`, since all other profiles are configured with the standard logback output format:
-
-```xml
+During local development, you might want to stick to the (human-readable) standard log line format. This boils down to have different logger configurations for different Spring profiles. The following sample configuration outlines how you can achieve this. `cf-java-logging-support` is only active for profile `cloud`, since all other profiles are configured with the standard logback output format:
+::: code-group
+```xml [srv/src/main/resources/logback-spring.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration debug="false" scan="false">
@@ -201,6 +203,7 @@ During local development, you might want to stick to the (human-readable) standa
 	</springProfile>
 </configuration>
 ```
+:::
 
 ::: tip
 For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](./multitenancy#app-log-support).

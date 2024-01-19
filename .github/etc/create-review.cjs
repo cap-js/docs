@@ -125,7 +125,12 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                const link = context.match(/\[Context: "(\[.*?)"\]/)[1]
+                let link = context.match(/\[Context: "(\[.*?)"\]/)[1]
+
+                // if the context is too long, markdownlint-cli will truncate the string and append "..." at the end
+                if (link.endsWith('...')) {
+                    link = link.substring(0, link.length - 3)
+                }
 
                 contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 

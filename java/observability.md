@@ -142,7 +142,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "DEBUG"
   http://<app-url>/actuator/loggers/my.loggers.oder.consolidation
 ```
 
-[Learn more about Spring actuators and security aspects in section **Metrics**.](#metrics){ .learn-more}
+[Learn more about Spring actuators and security aspects in section **Metrics**.](#spring-boot-actuators){ .learn-more}
 
 #### Predefined Loggers { #predefined-loggers}
 

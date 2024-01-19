@@ -76,7 +76,7 @@ module.exports = async ({ github, require, exec, core }) => {
     })
 
     const diffs = {}
-    data.filter(obj => extname(obj.filename.endsWith) === '.md')
+    data.filter(obj => extname(obj.filename) === '.md')
         .forEach(obj => {
             diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
         })

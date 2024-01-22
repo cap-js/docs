@@ -86,6 +86,21 @@ To prevent inconsistency, the entities with draft are locked for modifications b
 cds.drafts.cancellationTimeout=1h
 ```
 
+### SAP Fiori Elements Mass Edit
+
+Mass editing allows users to change multiple objects with the same editable properties without
+creating drafts for each row. Add this to your cds configuration to enable this feature and bypass draft restrictions:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "bypass_draft": true
+    }
+  }
+}
+```
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:

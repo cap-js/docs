@@ -244,16 +244,16 @@ SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-te
 
 ### Open Telemetry { #open-telemetry }
 
-[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On the Business Technology Platform, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
+[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
 
 CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service. By attaching the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) to the CAP Java application, the application automatically benefits from the following features:
 
-- out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
-- additional traces for CAP-specific capabilities
-- automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
-- full setup of Open Telemetry relevant configuration, including span hierarchy and OT collectors
+- Out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
+- Additional traces for CAP-specific capabilities
+- Automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
+- Full setup of Open Telemetry relevant configuration, including span hierarchy and Open Telemetry collectors
 
-Spans and traces that are produced out of the box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
+Spans and traces that are produced out of the box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics, like CPU and memory utilization.
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
@@ -308,7 +308,7 @@ Instrumentations for CAP-specific components are disabled by default so that no 
 | Logger Name | Required Level | Description                                     |
 |-------------|----------------|-------------------------------------------------|
 | `com.sap.cds.otel.span.RequestContext` | `DEBUG` | Spans for each Request Context. |
-| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each Change Set Context. |
+| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each ChangeSet Context. |
 | `com.sap.cds.otel.span.Emit` | `DEBUG` | Spans for dispatching events in the CAP runtime. |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
@@ -385,7 +385,7 @@ How to configure a Dynatrace connection to your CAP Java application is describe
 <!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
-Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including GC statistics and so on. 
+Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
 Similar to [health checks](#spring-health-checks), Spring Boot comes with a bunch of built-in metrics based on the [Spring Actuator](#spring-boot-actuators) framework.
 Actuators form an open framework, which can be enhanced by libraries (see [CDS Actuator](#cds-actuator)) as well as the application (see [Custom Actuators](#custom-actuators)) with additional information.
 
@@ -422,7 +422,7 @@ Depending on the configuration, exposed actuators can have HTTP or [JMX](https:/
 
 CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides information about:
 
-- The version and commit id of the currently used `cds-services` library
+- The version and commit ID of the currently used `cds-services` library
 - All services registered in the service catalog
 - Security configuration (authentication type and so on)
 - Loaded features such as `cds-feature-xsuaa`
@@ -453,7 +453,7 @@ The `AppActuator` bean registers an actuator with name `app` that exposes a simp
 <!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/observabilityavailability.md -->
 ### Availability { #availability}
 
-This section describes how to set up an endpoint for availability or health check. At first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:
+This section describes how to set up an endpoint for availability or health check. At a first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:
 
 - Authentication (for example, Basic or OAuth2) increases security but introduces higher configuration and maintenance effort.
 - Only low resource consumption can be introduced. If you provide a public endpoint, only low overhead is accepted to avoid denial-of-service attacks.
@@ -517,7 +517,7 @@ It might be advantageous to expose information on a detailed level. This configu
 management.endpoint.health.show-details: always
 ```
 
-::: warning _❗ Attention_
+::: warning Be mindful about data exposure and resource consumption
 A public health check endpoint may neither disclose system internal data (for example, health indicator details) nor introduce significant resource consumption (for example, doing synchronous database request).
 :::
 
@@ -556,7 +556,7 @@ As this highly depends on the configuration capabilities of the client services,
 
 To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
 In such a situation, the use of more focused profiling tools can be an option. 
-Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and therefore shouldn't be constantly active. Hence, they need to meet the following requirements:
+Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users
@@ -566,12 +566,12 @@ How can dedicated Java tools access the running services in a secure manner? The
 
 <img src="./assets/remote-tracing.png" width="600px">
 
-As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections (for example, JVM diagnostic tools such as `jcmd`). Alternatively, additional JVM configuration is required as a prerequisite (JMX).
+As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections, for example, JVM diagnostic tools such as `jcmd`. Alternatively, additional JVM configuration is required as a prerequisite (JMX).
 A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
 
 ### Local Tools { #profiling-local}
 
-Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch GC events and read Java properties and so on.
+Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
 The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
 
 ### Remote Tools { #profiling-remote}
@@ -601,7 +601,7 @@ In addition, to enable remote access, add the following JVM parameters to open J
 -Dcom.sun.management.jmxremote.ssl=false
 ```
 
-::: warning _❗ Attention_
+::: warning Don't use public endpoints with JMX/MBeans
 Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
 :::
 

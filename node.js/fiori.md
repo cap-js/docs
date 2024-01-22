@@ -101,6 +101,11 @@ creating drafts for each row. Add this to your cds configuration to enable this 
 }
 ```
 
+:::warning
+Be aware that this feature creates an additional entry point to your application. Custom handlers might require
+adaptations because the handlers are triggered with delta payloads instead of the complete business object.
+:::
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:

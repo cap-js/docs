@@ -90,7 +90,7 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java.js logo"/>](../java/migration#v2adapter)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/migration#v2adapter)
 
 Click on the icons to get detailed instructions. {.learn-more}
 

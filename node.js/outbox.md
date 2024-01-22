@@ -65,9 +65,7 @@ You can also configure services to be outboxed by default:
   "requires": {
     "yourService": {
       "kind": "odata",
-      "outbox": {
-        "kind": "persistent-outbox"
-      }
+      "outbox": true
     }
   }
 }

@@ -454,7 +454,7 @@ Ensure to call `super.init()` to allow subclasses to register their handlers. Do
 ### srv. prepend() {.method}
 
 ```tsx
-async function srv.prepend(()=>{...})
+function srv.prepend(()=>{...})
 ```
 
 Sometimes, you need to register handlers to run before handlers registered by others before. Use srv.prepend() to do so ´, for example like this:

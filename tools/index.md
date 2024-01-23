@@ -619,7 +619,7 @@ Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package
 
 <div>
 
-<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+<img src="./assets/cdslint.svg" alt="CDS Lint logo" width="130px" class="ignore-dark" />
 
 </div>
 

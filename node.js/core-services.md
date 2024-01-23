@@ -454,7 +454,7 @@ Ensure to call `super.init()` to allow subclasses to register their handlers. Do
 ### srv. prepend() {.method}
 
 ```tsx
-async function srv.prepend(()=>{...})
+function srv.prepend(()=>{...})
 ```
 
 Sometimes, you need to register handlers to run before handlers registered by others before. Use srv.prepend() to do so ´, for example like this:
@@ -772,7 +772,7 @@ Error handlers are invoked whenever an error occurs during event processing of *
 
 ```ts
 async function srv.send (
-  method   : string | { method, path?, data?, headers? },
+  method   : string | { method, path?, data?, headers? } | { query, headers? },
   path?    : string,
   data?    : object | any,
   headers? : object
@@ -811,6 +811,10 @@ let req = new cds.Request (
   : { method, path, data, headers }
 )
 return this.dispatch(req)
+```
+Use this method instead of [`srv.run(query)`](#srv-run-query), if headers should be added to the request object. For example:
+```js
+await srv.send({ query: SELECT.from('Books'), headers: { some: 'header' } })
 ```
 
 *See also [REST-Style Convenience API](#rest-style-api) below* {.learn-more}

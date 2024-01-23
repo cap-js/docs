@@ -60,8 +60,31 @@ For Node.js all these plugins are implemented using the [`cds-plugin`](../node.j
 
    > → audit logs are written to Audit Log service in production.
 
+## As Plugin for CAP Java
 
+The [CAP Java plugin technique](../java/plugins) makes use of _jar_-files which are distributed as Maven packages.
+By adding an additional Maven dependency to the project, the plugin automatically adds functionality or extensions to the CDS model. 
+For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 
+1. Add the Maven dependency (in _srv/pom.xml_):
+   ```xml
+	<dependency>
+	  <groupId>com.sap.cds</groupId>
+	  <artifactId>cds-feature-auditlog-v2</artifactId>
+	  <scope>runtime</scope>
+	</dependency>
+   ```
+2. Add annotations to your model:
+
+   ```cds
+   annotate Customer with @PersonalData ...;
+   ```
+   > → audit logs are written to console in dev mode.
+   
+3. Bind the platform service.
+
+   > → audit logs are written to SAP Audit Log service.
+   
 
 
 ## GraphQL Adapter
@@ -90,7 +113,7 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java.js logo"/>](../java/migration#v2adapter)
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/migration#v2adapter)
 
 Click on the icons to get detailed instructions. {.learn-more}
 

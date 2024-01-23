@@ -246,14 +246,14 @@ SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-te
 
 [Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On the Business Technology Platform, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
 
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. By configuring Open Telemetry support with one of these service in a CAP Java application, the application automatically benefits from the following features:
+CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
 
 - out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
 - additional traces for CAP-specific capabilities
 - automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
 - full setup of Open Telemetry relevant configuration, including span hierarchy and OT collectors
 
-Spans and traces that are produced out-of-the-box include HTTP requests as well as CAP-specific execution of CQN statements or individual requests inside a OData $batch request. Metrics that are automatically provided include standard JVM metrics like CPU and memory utilization.
+Spans and traces that are produced out of the box, include HTTP requests as well as CAP-specific execution of CQN statements or individual requests inside an OData $batch request. Metrics that are automatically provided, include standard JVM metrics like CPU and memory utilization.
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 

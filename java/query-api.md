@@ -750,13 +750,28 @@ Select.from("bookshop.Books").byId(1).lock(5);
 Update.entity("bookshop.Books").data("price", 18).byId(1);
 ```
 
-To set a _shared_ (read) lock specify the lock mode `SHARED` in the lock method:
+To set a _shared_ (read) lock, specify the lock mode `SHARED` in the lock method:
 
 ```java
 import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
+
+Not every entity exposed via a CDS entity can be locked with the `lock()` clause. To use the `lock()` clause, databases require that the target of such statements is represented by one of the following:
+- a single table 
+- a simple view, so that the database can unambiguously identify which rows to lock
+
+Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
+
+There are few notable examples of such restrictions:
+
+* You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
+* You cannot use the `lock()` in a statement with the subquery as a source.
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
+
+As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
 
 ## Insert
 

@@ -161,7 +161,7 @@ module.exports = cds.server
 
 [Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){.learn-more}
 
-### Why are long running requests rejected with status `502` after 30 seconds even though the application continues processing the request?
+### Why are long running requests rejected with status `504` after 30 seconds even though the application continues processing the request?
 
 |  | Explanation |
 | --- | ---- |

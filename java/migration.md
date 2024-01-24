@@ -1055,5 +1055,5 @@ CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For
 </dependency>
 ```
 
-In case your application makes use of Cloud SDK integration (`cds-integration-cloud-sdk`), no code changes in custom code should be necessary.
+In case your application uses the Cloud SDK integration package (`cds-integration-cloud-sdk`), no code changes in your custom code should be necessary.
 

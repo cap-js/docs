@@ -440,7 +440,7 @@ Following is an example of the fluent style:
 
 The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
 
-Once, when starting a project, select the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
+Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
 
 The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
 

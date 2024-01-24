@@ -83,15 +83,7 @@ await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 
 
 #### Authenticated Endpoints
-`cds.test()` uses the standard authentication strategy in development mode, which is the [mocked authentication](../node.js/authentication#mocked). To configure it, use `cds.requires.auth` in the _package.json_ file or directly in your test file as follows:
-
-```js
-cds.env.requires.auth.users.foo = {
-  password: 'bar',
-  roles: { admin: true, ['cds.Subscriber']: true },
-  attr: { name: 'Foo' }
-}
-```
+`cds.test()` uses the standard authentication strategy in development mode, which is the [mocked authentication](../node.js/authentication#mocked). To configure it, use `cds.requires.auth` in the _package.json_ file as described in the documenation for the mocked authentication.
 
 After configuring the authentication, you can set the user for an authenticated request like this:
 

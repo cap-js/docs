@@ -1046,7 +1046,7 @@ After rebuilding and restarting your application, your Application Services are 
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. If you want to upgrade your CAP Java application to Cloud SDK 5, it is necessary to add the following maven dependency to your CAP Java application:
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommended to use at least version `5.2.0` of Cloud SD. To upgrade your CAP Java application to Cloud SDK 5, add the following maven dependency to your CAP Java application:
 
 ```xml
 <dependency>

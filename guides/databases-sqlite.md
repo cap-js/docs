@@ -420,7 +420,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
 > <sup>1</sup> Argument `n` is optional.
-> These functions are only supported at runtime using the database service, but not in CDS files.
+> These functions are only supported within runtime queries, but not in CDS files.
 
 The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
 

@@ -39,7 +39,7 @@ const createSuggestContainerTypeText = (suggestion) => createSuggestionText(sugg
 
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
-    const { join } = require('path')
+    const { join, extname } = require('path')
     const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA, REPO, REPO_OWNER } = process.env
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
@@ -76,9 +76,10 @@ module.exports = async ({ github, require, exec, core }) => {
     })
 
     const diffs = {}
-    data.forEach(obj => {
-        diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
-    })
+    data.filter(obj => extname(obj.filename) === '.md')
+        .forEach(obj => {
+            diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
+        })
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
@@ -124,7 +125,12 @@ module.exports = async ({ github, require, exec, core }) => {
             }
 
             if (rule === 'MD042/no-empty-links') {
-                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+                let link = context.match(/\[Context: "(\[.*?)"\]/)[1]
+
+                // if the context is too long, markdownlint-cli will truncate the string and append "..." at the end
+                if (link.endsWith('...')) {
+                    link = link.substring(0, link.length - 3)
+                }
 
                 contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 
@@ -289,7 +295,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     function getDiff(file) {
-        return diffs[file.replace('./', '')]
+        const k = file.replace('./', '')
+        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}.`)
+        return diffs[k]
     }
 
     async function findPositionInDiff(context, file) {

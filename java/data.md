@@ -416,6 +416,36 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
+By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification.
+
+Following example uses accessor interfaces that have been generated with the default (JavaBeans) style:
+
+```java
+    Authors author = Authors.create();
+    author.setName("Emily Brontë");
+
+    Books book = Books.create();
+    book.setAuthor(authors);
+    book.setTitle("Wuthering Heights");
+```
+
+Alternatively, you can generate accessor interfaces in _fluent style_. In this mode, the getter methods are named after the property names. To enable fluent chaining, the setter methods return the accessor interface itself.
+
+Following is an example of the fluent style:
+
+```java
+   Authors author = Authors.create().name("Emily Brontë");
+   Books.create().author(author).title("Wuthering Heights");
+```
+
+The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
+
+Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
+
+The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
+
+Moreover, it doesn't change the way how event contexts and entities, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
+
 #### Renaming Elements in Java
 
 Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.

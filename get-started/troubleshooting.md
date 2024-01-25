@@ -161,7 +161,7 @@ module.exports = cds.server
 
 [Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){.learn-more}
 
-### Why are long running requests rejected with status `502` after 30 seconds even though the application continues processing the request?
+### Why are long running requests rejected with status `504` after 30 seconds even though the application continues processing the request?
 
 |  | Explanation |
 | --- | ---- |
@@ -195,8 +195,28 @@ A new option `privilegedUser()` can be leveraged when [defining](../java/request
 | _Root Cause_ | You've [explicitly configured a mock](../java/security#explicitly-defined-mock-users) user with a name that is already used by a [preconfigured mock user](../java/security#preconfigured-mock-users).
 | _Solution_ | Rename the mock user and build your project again.
 
+### Why do I get an "Error on server start"?
 
+There could be a mismatch between your locally installed Node.js version and the version that is used by the `cds-maven-plugin`. The result is an error similar to the following:
 
+```sh
+❗️ ERROR on server start: ❗️
+Error: The module '/home/user/....node'
+was compiled against a different Node.js version using
+```
+
+To fix this, either switch the Node.js version using a Node version manager, or add the Node version to your _pom.xml_ as follows:
+
+```xml
+<properties>
+		<!-- ... -->
+		<cds.install-node.nodeVersion>v20.11.0</cds.install-node.nodeVersion>
+		<!-- ... -->
+	</properties>
+
+```
+
+[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
 
 ### How can I expose custom REST APIs with CAP?
 
@@ -236,7 +256,7 @@ In addition you might want to remove the H2 dependency, which is included in the
 
 If you don't want to exclude dependencies completely, but make sure that an in-memory H2 database **isn't** used, you can disable Spring Boot's `DataSource` auto-configuration, by annotating the `Application.java` class with `@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)`. In that mode CAP Java however can still react on explicit data source configurations or database bindings.
 
-### What to Do About Maven-Related Errors in Eclipse's Problems View? { #eclipse}
+### What to Do About Maven-Related Errors in Eclipse's Problems View?
 
 - In _Problems_ view, execute _Quick fix_ from the context menu if available. If Eclipse asks you to install additional Maven Eclipse plug-ins to overcome the error, do so.
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.

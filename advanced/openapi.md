@@ -45,22 +45,9 @@ In Node.js apps, the standard Swagger UI can be served with the help of the [`cd
 npm add --save-dev cds-swagger-ui-express
 ```
 
-You need a [`server.js`](../node.js/cds-serve#custom-server-js) file to integrate it in the bootstrap process:
-
-```js
-const cds = require ('@sap/cds')
-module.exports = cds.server
-
-if (process.env.NODE_ENV !== 'production') {
-  const cds_swagger = require ('cds-swagger-ui-express')
-  cds.on ('bootstrap', app => app.use (cds_swagger()) )
-}
-```
-
 Swagger UI is then served at `$api-docs/...`.  Just follow the _Open API preview_ links on the index page:
 ![A screenshot showing the link to the Swagger UI.](assets/swagger-link.png){style="margin:5px auto;width:50%" .adapt}
 
-[Learn more about the `cds-swagger-ui-express`.](https://www.npmjs.com/package/cds-swagger-ui-express){.learn-more}
 
 #### Embedded in Java
 

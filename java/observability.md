@@ -246,20 +246,22 @@ SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-te
 
 [Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
 
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service. By attaching the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) to the CAP Java application, the application automatically benefits from the following features:
+CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
 
 - Out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
 - Additional traces for CAP-specific capabilities
 - Automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
 - Full setup of Open Telemetry relevant configuration, including span hierarchy and Open Telemetry collectors
 
-Spans and traces that are produced out of the box include HTTP requests as well as CAP-specific Request Context and ChangeSet Context. Metrics that are automatically provided include standard JVM metrics, like CPU and memory utilization.
+Spans and traces that are produced out of the box, include HTTP requests as well as CAP-specific execution of CQN statements or individual requests inside an OData $batch request. Metrics that are automatically provided, include standard JVM metrics like CPU and memory utilization.
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
 <img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
-#### Configuration { #open-telemetry-configuration }
+#### Configuration of CLoud Logging Service { #open-telemetry-configuration-cls }
+
+Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
 
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
@@ -301,15 +303,25 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
+#### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
+
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
+
+1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
+2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)**.
+3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
+
 #### CAP Instrumentation
 
 Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for the respective component.
 
-| Logger Name | Required Level | Description                                     |
-|-------------|----------------|-------------------------------------------------|
-| `com.sap.cds.otel.span.RequestContext` | `DEBUG` | Spans for each Request Context. |
+| Logger Name                              | Required Level | Description                                     |
+|------------------------------------------|----------------|-------------------------------------------------|
+| `com.sap.cds.otel.span.OData`            | `INFO`         | Spans for individual requests of a OData $batch request. |
+| `com.sap.cds.otel.span.CQN`              | `INFO`         | Spans for executed CQN statement.                        |
+| `com.sap.cds.otel.span.RequestContext`   | `DEBUG` | Spans for each Request Context. |
 | `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each ChangeSet Context. |
-| `com.sap.cds.otel.span.Emit` | `DEBUG` | Spans for dispatching events in the CAP runtime. |
+| `com.sap.cds.otel.span.Emit`             | `DEBUG` | Spans for dispatching events in the CAP runtime. |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
 

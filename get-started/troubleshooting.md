@@ -195,8 +195,28 @@ A new option `privilegedUser()` can be leveraged when [defining](../java/request
 | _Root Cause_ | You've [explicitly configured a mock](../java/security#explicitly-defined-mock-users) user with a name that is already used by a [preconfigured mock user](../java/security#preconfigured-mock-users).
 | _Solution_ | Rename the mock user and build your project again.
 
+### Why do I get an "Error on server start"?
 
+There could be a mismatch between your locally installed Node.js version and the version that is used by the `cds-maven-plugin`. The result is an error similar to the following:
 
+```sh
+❗️ ERROR on server start: ❗️
+Error: The module '/home/user/....node'
+was compiled against a different Node.js version using
+```
+
+To fix this, either switch the Node.js version using a Node version manager, or add the Node version to your _pom.xml_ as follows:
+
+```xml
+<properties>
+		<!-- ... -->
+		<cds.install-node.nodeVersion>v20.11.0</cds.install-node.nodeVersion>
+		<!-- ... -->
+	</properties>
+
+```
+
+[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
 
 ### How can I expose custom REST APIs with CAP?
 

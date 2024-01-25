@@ -233,7 +233,7 @@ In addition, call-graphs can be reconstructed and visualized that represent the 
 CAP Java integrates with the following monitoring tools:
 
 - [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions. 
-SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration).
+SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
 
 - [Dynatrace](#dynatrace) provides sophisticated features to monitor a solution on SAP BTP.
 

@@ -263,37 +263,37 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### `cds add`
 
-|  | Node.js | Java |
-|------------------------------------------------------|:-------:|:----:|
-| `hana`                                                 |  <X/>   | <X/> |
-| `postgres`                                     |  <X/><sup>1</sup>   | <X/><sup>1</sup> |
-| `liquibase`                                     |  <Na/>   | <X/> |
-| `h2`                                     |  <Na/>   | <X/> |
-| `multitenancy`                              |  <X/>   | <X/> |
-| `toggles`                                   |  <X/>   | <X/> |
-| `extensibility`                                   |  <X/>   | <X/> |
-| `application-logging`                                   |  <X/><sup>1</sup>   | <O/> |
-| `audit-logging`                                   |  <O/>   | <O/> |
-| `html5-repo`                                   |  <X/><sup>2</sup>   | <X/><sup>2</sup> |
-| `approuter`                                   |  <X/>   | <X/> |
-| `connectivity`                                   |  <X/>   | <X/> |
-| `data`                                   |  <X/>   | <X/> |
-| `destination`                                   |  <X/>   | <X/> |
-| `enterprise-messaging`                                   |  <X/>   | <O/> |
-| `enterprise-messaging-shared`                                   |  <X/>   | <O/> |
-| `redis-messaging`                                   |  <X/><sup>1</sup>   | <O/> |
-| `local-messaging`                                   |  <X/>   | <O/> |
-| `file-based-messaging`                                   |  <X/>   | <O/> |
-| `helm`                                   |  <X/>   | <X/> |
-| `helm-unified-runtime`                                   |  <X/>   | <X/> |
-| `mta`                                   |  <X/>   | <X/> |
-| `notifications`                                   |  <X/>   | <O/> |
-| `pipeline`                                   |  <X/>   | <X/> |
-| `sample`                                   |  <X/>   | <O/> |
-| `tiny-sample`                                   |  <X/>   | <X/> |
-| `sqlite`                                   |  <X/>   | <X/> |
-| `typer`                                   |  <X/>   | <Na/> |
-| `xsuaa`                                   |  <X/>   | <X/> |
+| Feature                           | Node.js | Java |
+|-----------------------------------|:-------:|:----:|
+| `hana`                            |  <X/>   | <X/> |
+| `postgres`                        |  <X/><sup>1</sup>   | <X/><sup>1</sup> |
+| `liquibase`                       |  <Na/>  | <X/> |
+| `h2`                              |  <Na/>  | <X/> |
+| `multitenancy`                    |  <X/>   | <X/> |
+| `toggles`                         |  <X/>   | <X/> |
+| `extensibility`                   |  <X/>   | <X/> |
+| `application-logging`             |  <X/><sup>1</sup>   | <O/> |
+| `audit-logging`                   |  <O/>   | <O/> |
+| `html5-repo`                      |  <X/><sup>2</sup>   | <X/><sup>2</sup> |
+| `approuter`                       |  <X/>   | <X/> |
+| `connectivity`                    |  <X/>   | <X/> |
+| `data`                            |  <X/>   | <X/> |
+| `destination`                     |  <X/>   | <X/> |
+| `enterprise-messaging`            |  <X/>   | <O/> |
+| `enterprise-messaging-shared`     |  <X/>   | <O/> |
+| `redis-messaging`                 |  <X/><sup>1</sup>   | <O/> |
+| `local-messaging`                 |  <X/>   | <O/> |
+| `file-based-messaging`            |  <X/>   | <O/> |
+| `helm`                            |  <X/>   | <X/> |
+| `helm-unified-runtime`            |  <X/>   | <X/> |
+| `mta`                             |  <X/>   | <X/> |
+| `notifications`                   |  <X/>   | <O/> |
+| `pipeline`                        |  <X/>   | <X/> |
+| `sample`                          |  <X/>   | <O/> |
+| `tiny-sample`                     |  <X/>   | <X/> |
+| `sqlite`                          |  <X/>   | <X/> |
+| `typer`                           |  <X/>   | <Na/> |
+| `xsuaa`                           |  <X/>   | <X/> |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 > <sup>2</sup> Only for Kyma <br>

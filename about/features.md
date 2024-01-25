@@ -261,7 +261,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                     | <D/> |
 | Propagating Extensions across (µ) Services                                               | <O/> |
 
-### `cds add` {.impl .internal}
+### `cds add`
 
 |  | Node.js | Java |
 |------------------------------------------------------|:-------:|:----:|

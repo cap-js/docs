@@ -91,7 +91,7 @@ You can set the user for an authenticated request like this:
 await GET('/admin/Books', { auth: { username: 'alice', password: '' } })
 ```
 
-[Learn how to explicitly configure mock user in your _package.json_ file.](../node.js/authentication#mocked){.learn-more}
+[Learn how to explicitly configure mock users in your _package.json_ file.](../node.js/authentication#mocked){.learn-more}
 
 ### Using Jest or Mocha
 

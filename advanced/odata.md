@@ -1000,7 +1000,7 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 
 ::: warning
 The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
+The Node.js runtime supports the feature only for the REST Adapter when using parameters and return types of actions and functions.
 :::
 
 

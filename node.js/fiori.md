@@ -101,6 +101,27 @@ configuration to enable this feature and bypass draft restrictions:
 }
 ```
 
+You can then create active instances directly:
+
+```http
+POST /Books
+
+{
+  "ID": 123,
+  "IsActiveEntity": true
+}
+```
+
+and modify them directly:
+
+```http
+PATCH /Books(ID=123,IsActiveEntity=true)
+
+{
+  "title": "How to be more active"
+}
+```
+
 This feature is required to enable SAP Fiori Elements Mass Edit, allowing users to change multiple objects with the
 same editable properties without creating drafts for each row.
 

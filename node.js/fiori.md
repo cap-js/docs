@@ -105,7 +105,7 @@ This feature is required to enable SAP Fiori Elements Mass Edit, allowing users 
 same editable properties without creating drafts for each row.
 
 :::warning
-Note that this feature creates an additional entry point to your application. Custom handlers are triggered with delta
+Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
 :::
 

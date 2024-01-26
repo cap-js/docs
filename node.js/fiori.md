@@ -88,7 +88,7 @@ cds.drafts.cancellationTimeout=1h
 
 ### Bypassing Draft Restrictions
 
-It is possible to create or modify active instances directly, without creating a draft first. Add this to your cds
+Creating or modifying active instances directly is possible without creating a draft first. Add this to your cds
 configuration to enable this feature and bypass draft restrictions:
 
 ```json
@@ -107,7 +107,6 @@ same editable properties without creating drafts for each row.
 :::warning
 Note that this feature creates an additional entry point to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
-
 :::
 
 ### Differences to Previous Version

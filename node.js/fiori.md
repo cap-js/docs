@@ -86,10 +86,11 @@ To prevent inconsistency, the entities with draft are locked for modifications b
 cds.drafts.cancellationTimeout=1h
 ```
 
-### Bypassing Draft Restrictions
+### Bypassing the SAP Fiori Draft Flow
 
-Creating or modifying active instances directly is possible without creating a draft first. Add this to your cds
-configuration to enable this feature and bypass draft restrictions:
+Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
+
+To enable this feature, set this feature flag in your configuration:
 
 ```json
 {

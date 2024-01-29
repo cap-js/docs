@@ -194,7 +194,7 @@ We'd go on by adding CDS domain models and service definitions, as well as custo
 
 ::: tip Served out of the box...
 
-Whenever we add content, `cds watch` would react immediately, for example, by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically, without need for time-consuming builds and deployments.
+Whenever we add content, `cds watch` reacts immediately, for example, by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically — without a need for time-consuming builds and deployments.
 
 :::
 

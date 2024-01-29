@@ -267,7 +267,7 @@ cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 
 ### Run CAP Java Apps with Service Bindings
 
-Start your CAP Java application with `cds bind --exec` with remote service bindings:
+Start your CAP Java application with `cds bind --exec` to use remote service bindings:
 
 ```sh
 cds bind --exec mvn spring-boot:run
@@ -364,7 +364,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 ### Destinations
 
-Learn how to [connect to remote services from local](../guides/using-services#connect-to-remote-services-locally) using SAP BTP destinations.
+Learn how to [connect to remote services locally](../guides/using-services#connect-to-remote-services-locally) using SAP BTP destinations.
 
 ### Authentication and Authorization using XSUAA
 

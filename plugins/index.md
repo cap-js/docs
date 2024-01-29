@@ -97,6 +97,12 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 @graphql service MyService { ... }
 ```
 
+:::details Issues and questions
+
+Use the [repository](https://www.npmjs.com/package/@cap-js/graphql) to raise issues and ask questions.
+
+:::
+
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/graphql)
@@ -110,6 +116,13 @@ Available for:
 
 The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
 
+:::details Issues and questions
+
+Node.js: Use the [repository](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) to raise issues and ask questions.
+
+Java: Use the community to [ask a question](../resources/ask-question-vscode).
+
+:::
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)

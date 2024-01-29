@@ -246,7 +246,7 @@ Simply add the plugin to your project and you will find telemetry output written
   1.81 → 1.85 = 0.04 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'DraftAdministrativeData_Dr…
 ```
 
-In addition to the default console output, there are predefined kinds for exporting telemetry data to Dynatrace and Jaeger.  The [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service is coming soon.
+In addition to the default console output, there are predefined kinds for exporting telemetry data to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging), Dynatrace, and Jaeger.
 
 Available for:
 

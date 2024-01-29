@@ -215,8 +215,8 @@ service ReviewsService {}
 { "cds": {
   "requires": {
     "db": "sqlite",
-    "reviews" : {
-      "service": ReviewsService
+    "reviews" : {                  // lookup name
+      "service": "ReviewsService"  // service definition's name
     }
   }
 }}
@@ -233,16 +233,16 @@ cds.env.requires.ReviewsService  //> undefined
 ```js
 cds.requires.db                  //> the effective config for db
 cds.requires.reviews             //> the effective config for reviews
-cds.requires.ReviewsService      //> same as above
+cds.requires.ReviewsService      //> same as cds.requires.reviews
 ```
 
 The additional entries are useful for code that needs to securely access the service by cds definition name.
 
-Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like behave different than `cds.env.requires:
+Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like `Object.keys()` behave different than for `cds.env.requires`:
 
 ```js
 Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
-Object.keys(cds.env.requires) //> [ 'ReviewsService' ]
+Object.keys(cds.requires)     //> [ 'ReviewsService' ]
 ```
 
 

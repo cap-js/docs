@@ -325,9 +325,9 @@ Both services defined above contain security annotations that restrict access to
 
 </div>
 
-::: tip
+::: tip CAP-based services are full-fledged OData services out of the box
 
-CAP-based services are full-fledged OData services out of the box. Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
+Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
 
 :::
 

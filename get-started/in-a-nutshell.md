@@ -283,7 +283,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 
 
-### Served to OData out of the box
+### Served to OData Out of the Box
 
 <div class="impl node">
 
@@ -334,8 +334,8 @@ http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=
 :::
 
 
-
-[Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
+[Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
+[Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 
 

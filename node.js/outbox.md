@@ -154,7 +154,8 @@ for example to expose it in a service.
 
 ::: warning
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The user id is stored to recreate the correct context.
+- The user id is stored to recreate the correct context, but user roles and attributes are not stored, the emitting service must not use this information.
+- A global database transaction is used when dispatching the events, therefore the emitting service must not perform any database modifications.
 :::
 
 

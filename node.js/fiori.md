@@ -127,7 +127,7 @@ You can set the property
 
     ::: info Special case: "Editing Status: All"
     In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
-    The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
+    The individual results are then combined behind the scenes.
     :::
 
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.

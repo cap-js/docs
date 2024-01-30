@@ -1492,6 +1492,8 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+Learn more about [`@path` in Node.js](../node.js/cds-serve#cds-protocols) and in [Java](../java/application-services#configure-path-and-protocol).
+
 
 ### Exposed Entities
 

@@ -290,13 +290,13 @@ service CatalogService @(path:'/browse') { // [!code focus]
 This time `cds watch` reacted with additional output like this:
 
 ```log
-[cds] - serving AdminService { at: '/admin' }
-[cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
+[cds] - serving AdminService { at: '/odata/v4/admin' }
+[cds] - serving CatalogService { at: '/odata/v4/browse', impl: 'bookshop/srv/cat-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
 ```
 
-As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
+As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/admin_ and _/odata/v4/browse_.
 
 </div>
 
@@ -311,9 +311,8 @@ c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 
 As you can see in the log output, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/AdminService_ and _/odata/v4/browse_.
 
-::: warning
-Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
-:::
+::: warning Add the dependency to spring-boot-security-starter
+Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the _srv/pom.xml_ in order to activate mock user and authentication support:
 
 <!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
 ```xml
@@ -323,14 +322,17 @@ Both services defined above contain security annotations that restrict access to
 </dependency>
 ```
 
+:::
+
 </div>
 
-::: tip CAP-based services are full-fledged OData services out of the box
+You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
 
-Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
+http://localhost:4004/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
 
-http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
+::: info CAP-based services are full-fledged OData services out of the box
 
+Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. 
 :::
 
 

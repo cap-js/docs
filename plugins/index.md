@@ -85,7 +85,12 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 
    > → audit logs are written to SAP Audit Log service.
    
+## Support for Plugins
 
+|    |    |
+| --- | --- |
+| Node.js | Click the Node.js icon for the plugin to find the repository and open an issue there. 
+| Java | Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda). 
 
 ## GraphQL Adapter
 
@@ -96,15 +101,10 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 ```cds
 @graphql service MyService { ... }
 ```
-:::details Issues and questions
-
-Use the [repository](https://www.npmjs.com/package/@cap-js/graphql) to raise issues and ask questions.
-
-:::
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/graphql)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js/graphql)
 
 
 
@@ -118,20 +118,10 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/migration#v2adapter)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js-community/odata-v2-adapter)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Click on the icons to get detailed instructions. {.learn-more}
-
-See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) {.learn-more}
-
-:::details Issues and questions
-
-Node.js: Use the [repository](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) to raise issues and ask questions.
-
-Java: Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda).
-
-:::
+See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
 
 
 ## UI5 Dev Server
@@ -139,12 +129,6 @@ Java: Use the community to [ask a question](https://community.sap.com/t5/forums/
 [cds-plugin-ui5](https://www.npmjs.com/package/cds-plugin-ui5) {.subtitle}
 
 The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (UI5 freestyle or Fiori elements) tooling-based projects into the CDS server via the UI5 tooling express middlewares. It allows to serve dynamic UI5 resources, including TypeScript implementations for UI5 controls, which get transpiled to JavaScript by the plugin automatically.
-
-:::details Issues and questions
-
-Use the [repository](https://github.com/ui5-community/ui5-ecosystem-showcase/issues) to raise issues and ask questions.
-
-:::
 
 Available for:
 
@@ -170,18 +154,9 @@ annotate my.Incidents {
 
 ![Change history table in an SAP Fiori UI.](assets/index/changes.png)
 
-:::details Issues and questions
-
-Use the [repository](https://github.com/cap-js/change-tracking/issues) to raise issues and ask questions.
-
-:::
-
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/change-tracking)
-
-Click on the icon to get detailed instructions. {.learn-more}
-
 
 
 ## Audit Logging
@@ -217,10 +192,10 @@ Java: Use the community to [ask a question](https://community.sap.com/t5/forums/
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](../guides/data-privacy/audit-logging)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/auditlog)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/audit-logging)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Click on the icons to get detailed instructions. {.learn-more}
+Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging) and in [Java](../java/auditlog) {.learn-more}
 
 
 
@@ -249,17 +224,10 @@ Features:
 - Automatic lifecycle management of notification templates
 - SAP ANS supports email, Slack, Microsoft Teams, and SAP Fiori notifications
 
-:::details Issues and questions
-
-Use the [repository](https://github.com/cap-js/notifications/issues) to raise issues and ask questions.
-
-:::
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications#readme)
-
-Click on the icon to get detailed instructions. {.learn-more}
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications)
 
 
 
@@ -286,18 +254,9 @@ Simply add the plugin to your project and you will find telemetry output written
 
 In addition to the default console output, there are predefined kinds for exporting telemetry data to Dynatrace and Jaeger.  The [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service is coming soon.
 
-:::details Issues and questions
-
-Use the [repository](https://github.com/cap-js/telemetry/issues) to raise issues and ask questions.
-
-:::
-
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
-
-Click on the icon to get detailed instructions. {.learn-more}
-
 
 
 <div id="attachments" />

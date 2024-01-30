@@ -325,15 +325,15 @@ Both services defined above contain security annotations that restrict access to
 
 </div>
 
-::: tip
+::: tip CAP-based services are full-fledged OData services out of the box
 
-CAP-based services are full-fledged OData services out of the box. Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
+Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
+
+http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
 
 :::
 
-You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
 
-- http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
 
 [Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
 

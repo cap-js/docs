@@ -8,8 +8,8 @@ synopsis: Start with a minimal setup and a grow-as-you-go approach.
 
 CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
-> Looking for other ways to setup and start projects?
-> See the Get Started menu in the left-hand-side sidebar.
+> Looking for other ways to set up and start projects?
+> See the _Get Started_ menu in the left-hand sidebar.
 
 [[toc]]
 

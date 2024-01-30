@@ -750,13 +750,28 @@ Select.from("bookshop.Books").byId(1).lock(5);
 Update.entity("bookshop.Books").data("price", 18).byId(1);
 ```
 
-To set a _shared_ (read) lock specify the lock mode `SHARED` in the lock method:
+To set a _shared_ (read) lock, specify the lock mode `SHARED` in the lock method:
 
 ```java
 import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
+
+Not every entity exposed via a CDS entity can be locked with the `lock()` clause. To use the `lock()` clause, databases require that the target of such statements is represented by one of the following:
+- a single table 
+- a simple view, so that the database can unambiguously identify which rows to lock
+
+Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
+
+There are few notable examples of such restrictions:
+
+* You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
+* You cannot use the `lock()` in a statement with the subquery as a source.
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
+
+As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
 
 ## Insert
 
@@ -984,6 +999,25 @@ Furthermore, you can use filters in [path expressions](#path-expressions) to spe
 ```java
 Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
+```
+
+### Update with Expressions (beta) {#update-expressions}
+
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
+
+```java
+Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+```
+
+You can also combine update data with expressions:
+
+```java
+import static com.sap.cds.ql.CQL.get;
+import static com.sap.cds.ql.CQL.param;
+
+Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
+   .data("available", true) // [!code focus]
+   .set("stock", get("stock").plus(param("addStock"))); // [!code focus]
 ```
 
 ### Deep Update { #deep-update}
@@ -1398,6 +1432,10 @@ Scalar functions are values that are calculated from other values. This calculat
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
 
+#### Arithmetic Expressions
+
+Arithmetic Expressions are captured by scalar functions as well:
+
 * Plus
 
     Function `plus` creates an arithmetic expression to add a specified value to this value.
@@ -1749,13 +1787,13 @@ Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
 As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
 ::::
 
-In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between: 
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
 
 ```java
 Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
 ```
 
-The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.  
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
 
 For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
 

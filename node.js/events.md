@@ -13,15 +13,15 @@ status: released
 
 ## cds. context {.property}
 
-This property provides seemingly static access to the current  [`cds.EventContext`], that is the current `tenant`, `user` , `locale`, etc. from wherever you are in your code. For example:
+This property provides seemingly static access to the current  [`cds.EventContext`], that is, the current `tenant`, `user` , `locale`, and so on, from wherever you are in your code. For example:
 
 ```js
 let { tenant, user } = cds.context
 ```
 
-Usually that context is set by inbound middlewares.
+Usually that context is set by inbound middleware.
 
-The property is realised as a so-called continuation-local variable, implemented using [Node.js' async local storage](https://nodejs.org/api/async_context.html) technique, and a getter/setter pair: The getter is a shortcut for[`getStore()`](https://nodejs.org/api/async_context.html#asynclocalstoragegetstore). The setter coerces values into valid instances of [`cds.EventContext`]. For example:
+The property is realized as a so-called continuation-local variable, implemented using [Node.js' async local storage](https://nodejs.org/api/async_context.html) technique, and a getter/setter pair: The getter is a shortcut for[`getStore()`](https://nodejs.org/api/async_context.html#asynclocalstoragegetstore). The setter coerces values into valid instances of [`cds.EventContext`]. For example:
 
 ```js
 cds.context = { tenant:'t1', user:'u2' }
@@ -32,7 +32,7 @@ ctx.tenant === 't1'              //> true
 ctx.user.id === 'u2'             //> true
 ```
 
-If a transaction object is assigned, it's `tx.context` will be used, hence `cds.context = tx` acts as a convenience shortcut for `cds.context = tx.context`:
+If a transaction object is assigned, its `tx.context` is used, hence `cds.context = tx` acts as a convenience shortcut for `cds.context = tx.context`:
 
 ```js
 let tx = cds.context = cds.tx({ ... })
@@ -57,7 +57,7 @@ Prefer local  `req`  objects in your handlers for accessing event context proper
 
 
 
-Instances of this class represent the invocation context of incoming requests and event messages, such as `tenant`, `user` and `locale`. Classes [`cds.Event`] and [`cds.Request`] inherit from it and hence provide acccess to the event context properties:
+Instances of this class represent the invocation context of incoming requests and event messages, such as `tenant`, `user`, and `locale`. Classes [`cds.Event`] and [`cds.Request`] inherit from it and hence provide access to the event context properties:
 
 ```js
 this.on ('*', req => {
@@ -102,15 +102,15 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 - `x-vcap-request-id` header
 - a newly created UUID
 
-On outgoing HTTP messages it is propagated as `x-correlation-id` header.
+On outgoing HTTP messages, it's propagated as `x-correlation-id` header.
 
-For inbound [CloudEvents](https://cloudevents.io) messages it taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
+For inbound [CloudEvents](https://cloudevents.io) messages, it's taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
 
 
 
 ### . locale {.property}
 
-The current user's preferred locale, usually taken from HTTP Accept-Language header of incoming requests and resolve to [_normalized_](../guides/i18n#normalized-locales).
+The current user's preferred locale, taken from the HTTP Accept-Language header of incoming requests and resolved to [_normalized_](../guides/i18n#normalized-locales).
 
 
 
@@ -119,13 +119,13 @@ The current user's preferred locale, usually taken from HTTP Accept-Language hea
 
 ### . tenant {.property}
 
-A unique string identifying the current tenant, or `undefined` if not in multitenancy mode. In case of multitenant operation, this string is used for tenant isolation, for example as keys in the database connection pools.
+A unique string identifying the current tenant, or `undefined` if not in multitenancy mode. In the case of multitenant operation, this string is used for tenant isolation, for example as keys in the database connection pools.
 
 
 
 ### . timestamp {.property}
 
-A constant timestamp for the current request being processed,as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
+A constant timestamp for the current request being processed, as an instance of [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). The CAP framework uses that to fill in values for the CDS pseudo variable `$now`, with the guaranteed same value.
 
 [Learn more in the **Managed Data** guide.](../guides/domain-modeling#managed-data){.learn-more}
 
@@ -169,7 +169,7 @@ The name of the incoming event, which can be one of:
 
 Contains the event data. For example, the HTTP body for `CREATE` or `UPDATE` requests, or the payload of an asynchronous event message.
 
-Use `req.data` for modifications as shown below:
+Use `req.data` for modifications as shown in the following:
 
 ```js
 this.before ('UPDATE',Books, req => {
@@ -180,7 +180,7 @@ this.before ('UPDATE',Books, req => {
 
 ### . headers {.property}
 
-Provides access to headers of the event message or request. In case of asynchronous event messages, it's the headers information sent by the event source. For HTTP requests it's the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
+Provides access to headers of the event message or request. In the case of asynchronous event messages, it's the headers information sent by the event source. For HTTP requests it's the [standard Node.js request headers](https://nodejs.org/api/http.html#http_message_headers).
 
 
 
@@ -206,14 +206,14 @@ req.on('done', () => {...}) // request succeeded/failed, after all
 ```
 
 ::: danger
-The events `succeeded` , `failed` and `done` are emitted *after* the current transaction ended. Hence, they **run outside framework-managed transactions**, and handlers can't veto the commit anymore.
+The events `succeeded` , `failed`, and `done` are emitted *after* the current transaction ended. Hence, they **run outside framework-managed transactions**, and handlers can't veto the commit anymore.
 :::
 
 
 
 To veto requests, either use the `req.before('commit')` hook, or service-level `before` `COMMIT` handlers.
 
-To do something which requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manual transactions](./cds-tx#manual-transactions), preferably a variant with automatic commit/ rollback.
+To do something that requires databases in `succeeded`/`failed` handlers, use `cds.spawn()`, or one of the other options of [manual transactions](./cds-tx#manual-transactions). Preferably use a variant with automatic commit/ rollback.
 
 Example:
 ```js
@@ -251,7 +251,7 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
 
 ::: warning
-Please refrain from using internal properties of that object, that is the ones starting with '_'. They might be removed in any future release without notice.
+Please refrain from using internal properties of that object, that is, the ones starting with '_'. They might be removed in any future release without notice.
 :::
 
 
@@ -276,7 +276,7 @@ The HTTP method of the incoming request:
 
 Refers to the current request's target entity definition, if any; `undefined` for unbound actions/functions and events. The returned definition is a [linked](cds-reflect#cds-reflect) definition as reflected from the [CSN](../cds/csn) model.
 
-In case of OData navigation requests along associations, `msg.target` refers to the last target.
+For OData navigation requests along associations, `msg.target` refers to the last target.
 For example:
 
 | OData Request     | `req.target`         |
@@ -296,7 +296,7 @@ For example:
 ### . path {.property}
 
 Captures the full canonicalized path information of incoming requests with navigation.
-If requests without navigation, `req.path` is identical to [`req.target.name`](#target) (or [`req.entity`](#entity), which is a shortcut for that).
+For requests without navigation, `req.path` is identical to [`req.target.name`](#target) (or [`req.entity`](#entity), which is a shortcut for that).
 
 Examples based on [cap/samples/bookshop AdminService](https://github.com/sap-samples/cloud-cap-samples/tree/master/bookshop/srv/admin-service.cds):
 
@@ -321,7 +321,7 @@ This is a convenience shortcut to [`msg.target.name`](#target).
 
 ### . params {.property}
 
-Provides access to parameters in URL paths as an [*iterable*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol) with the contents matching the positional occurrence of parameters in the url path. In case of compound parameters, the respective entry is the key value pairs as given in the URL.
+Provides access to parameters in URL paths as an [*iterable*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol) with the contents matching the positional occurrence of parameters in the url path. In the case of compound parameters, the respective entry is the key value pairs as given in the URL.
 <!-- If the respective resource has a single key predicate called `ID`, the value is returned directly. -->
 
 For example, the parameters in an HTTP request like that:
@@ -345,12 +345,12 @@ const [ author, book ] = req.params
 
 ### . query {.property}
 
-Captures the incoming request as a [CQN](../cds/cqn) query object. For example, an HTTP request like `GET http://.../Books` would be captured as follows:
+Captures the incoming request as a [CQN query](cds-ql#class-cds-ql-query). For example, an HTTP request like `GET http://.../Books` is captured as follows:
 ```js
 req.query = {SELECT:{from:{ref:['Books']}}}
 ```
 
-If bound custom operations `req.query` contains the query to the entity, on which the bound custom operation is called. For unbound custom operations `req.query` contains an empty object.
+If bound custom operations `req.query` contains the query to the entity, on which the bound custom operation is called. For unbound custom operations, `req.query` contains an empty object.
 
 ### . subject {.property}
 
@@ -371,14 +371,14 @@ It's available for CRUD events and bound actions.
 ### req. reply() {.method}
 [`req.reply`]: #req-reply
 
-Stores the given `results` in `req.results`, which will then be sent back to the client, rendered in a protocol-specific way.
+Stores the given `results` in `req.results`, which is then sent back to the client, rendered in a protocol-specific way.
 
 
 
 ### req. reject() {.method}
 [`req.reject`]: #req-reject
 
-Rejects the request with the given HTTP response code and single message. Additionally, `req.reject` throws an error based on the passed arguments. Hence, no additional code and handlers will be executed once `req.reject` has been invoked.
+Rejects the request with the given HTTP response code and single message. Additionally, `req.reject` throws an error based on the passed arguments. Hence, no additional code and handlers is executed once `req.reject` has been invoked.
 
 [Arguments are the same as for `req.error`](#req-error){.learn-more}
 
@@ -393,7 +393,7 @@ Rejects the request with the given HTTP response code and single message. Additi
 [`req.info`]: #req-msg
 [`req.error`]: #req-msg
 
-Use these methods to collect messages or errors and return them in the request response to the caller. The method variants reflect different severity levels, use them as follows:
+Use these methods to collect messages or errors and return them in the request response to the caller. The method variants reflect different severity levels. Use them as follows:
 
 ####  <i>  Variants </i>
 
@@ -439,16 +439,16 @@ Additional properties can be added as well, for example to be used in [custom er
 
 ####  <i>  Error Sanitization </i>
 
-In production, errors should never disclose any internal information that could be used by malicious actors. Hence, we sanitize all server-side errors thrown by CAP framework. That is, all errors with a 5xx status code (the default status code is 500) are returned to the client with only the respective generic message (example: `500 Internal Server Error`). Errors defined by app developers are not sanitized and returned to the client unchanged.
+In production, errors should never disclose any internal information that could be used by malicious actors. Hence, we sanitize all server-side errors thrown by the CAP framework. That is, all errors with a 5xx status code (the default status code is 500) are returned to the client with only the respective generic message (example: `500 Internal Server Error`). Errors defined by app developers aren't sanitized and returned to the client unchanged.
 
-Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` in order to not be purged.
+Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
 ### req. diff() (beta) {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).
-> This will trigger database requests.
+> This triggers database requests.
 
 ```js
 const diff = await req.diff()

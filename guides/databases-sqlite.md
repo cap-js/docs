@@ -22,7 +22,9 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 </div>
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 [[toc]]
 
@@ -317,8 +319,8 @@ The following is an overview of advanced features supported by the new database 
 
 The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
 
-```sh
-cds repl --profile better-sqlite
+```js
+// $ cds repl --profile better-sqlite
 var { server } = await cds.test('bookshop'), { Books, Authors } = cds.entities
 await INSERT.into (Books) .entries ({ title: 'Unwritten Book' })
 await INSERT.into (Authors) .entries ({ name: 'Upcoming Author' })
@@ -395,6 +397,7 @@ The new database services guarantee identical behavior of these logic operators:
 
 In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
+> These operators are available for runtime queries, but not in CDS files.
 
 
 ### Standard Functions {.impl .node}
@@ -417,6 +420,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
 > <sup>1</sup> Argument `n` is optional.
+> These functions are only supported within runtime queries, but not in CDS files.
 
 The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
 

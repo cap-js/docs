@@ -22,7 +22,9 @@ impl-variants: true
 
 # Consuming Services
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 [[toc]]
 

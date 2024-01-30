@@ -112,6 +112,8 @@ GET ../Authors(201)/image
 
 > The media data is streamed automatically.
 
+[Learn more about returning a custom streaming object (Node.js - beta).](../node.js/best-practices#custom-streaming-beta){.learn-more}
+
 ## Creating a Media Resource
 
 As a first step, create an entity without media data using a POST request to the entity. After creating the entity, you can insert a media property using the PUT method. The MIME type is passed in the `Content-Type` header. Here are some sample requests:

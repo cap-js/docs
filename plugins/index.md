@@ -182,14 +182,6 @@ Features:
 - Logging to [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service) in production
 - Transactional Outbox → maximised scalability and resilience
 
-:::details Issues and questions
-
-Node.js: Use the [repository](https://github.com/cap-js/audit-logging) to raise issues and ask questions.
-
-Java: Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda).
-
-:::
-
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/audit-logging)

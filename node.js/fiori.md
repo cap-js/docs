@@ -100,10 +100,11 @@ Inactive drafts can be deleted automatically after a timeout. You can configure 
 }
 ```
 
-You can set the property
-- to a number of days like `'30d'` or hours `'72h'`
-- to a number of milliseconds like `1000`
-- to `true` in order to obtain the default timeout of 30 days
+You can set the property to one of the following:
+- `true` in order to obtain the default timeout of 30 days
+- number of days like `'30d'` 
+- number of hours like `'72h'`
+- number of milliseconds like `1000`
 
 ### Differences to Previous Version
 

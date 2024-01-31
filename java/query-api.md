@@ -1016,12 +1016,9 @@ Update.entity(BOOKS).byId(101).set(b -> b.stock(), s -> s.minus(1));
 You can also combine update data with expressions:
 
 ```java
-import static com.sap.cds.ql.CQL.get;
-import static com.sap.cds.ql.CQL.param;
-
-Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
-   .data("available", true) // [!code focus]
-   .set(b -> b.stock(), s -> s.plus(param("addStock"))); // [!code focus]
+Update.entity(BOOKS).where(b -> b.stock().eq(0))
+   .data("available", true)
+   .set(b -> b.stock(), s -> s.plus(CQL.param("addStock")));
 ```
 
 ### Deep Update { #deep-update}

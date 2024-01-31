@@ -337,7 +337,7 @@ You can even use advanced query options, such as `$select`, `$expand`, `$search`
 |   |   |
 | --- | ---|
 | Node.js | http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
-| Java | http://localhost:4004/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
+| Java | http://localhost:8080/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
 
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}

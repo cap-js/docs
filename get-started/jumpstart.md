@@ -104,9 +104,9 @@ code bookshop
 ```
 
 
-   ::: details **Note:** VS Code CLI on macOS needs extra setup
-   In order to start VSCode via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
-   :::
+::: details **Note:** VS Code CLI on macOS needs extra setup
+In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+:::
 
 
 ### Project Structure
@@ -148,7 +148,7 @@ For example you could override the defaults for the project structure like that:
 
 ::: tip Convention over Configuration
 
-We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configurations or override the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configuration or override the defaults if you really need to do so.
 
 :::
 

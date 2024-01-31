@@ -106,6 +106,7 @@ You can then create active instances directly:
 
 ```http
 POST /Books
+
 {
   "ID": 123,
   "IsActiveEntity": true
@@ -116,6 +117,7 @@ You can modify them directly:
 
 ```http
 PATCH /Books(ID=123,IsActiveEntity=true)
+
 {
   "title": "How to be more active"
 }

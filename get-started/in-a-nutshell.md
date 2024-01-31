@@ -192,7 +192,7 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 As soon as you save your file, the still running `cds watch` reacts immediately with new output like this:
 
 ```log
-[cds] - connect to db { database: ':memory:' }
+[cds] - connect to db > sqlite { database: ':memory:' }
 /> successfully deployed to in-memory database.
 ```
 
@@ -291,7 +291,7 @@ This time `cds watch` reacted with additional output like this:
 
 ```log
 [cds] - serving AdminService { at: '/odata/v4/admin' }
-[cds] - serving CatalogService { at: '/odata/v4/browse', impl: 'bookshop/srv/cat-service.js' }
+[cds] - serving CatalogService { at: '/browse' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
 ```
@@ -326,15 +326,18 @@ Both services defined above contain security annotations that restrict access to
 
 </div>
 
-You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
 
-http://localhost:4004/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title
-
-::: info CAP-based services are full-fledged OData services out of the box
+::: tip CAP-based services are full-fledged OData services out of the box
 
 Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. 
 :::
 
+You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
+
+|   |   |
+| --- | ---|
+| Node.js | http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
+| Java | http://localhost:4004/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
 
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
@@ -404,10 +407,6 @@ ID,title,author_ID,stock
 252,Eleonora,150,555
 271,Catweazle,170,22
 ```
-:::
-
-::: code-group
-
 ```csvc [db/data/sap.capire.bookshop-Authors.csv]
 ID,name
 101,Emily Brontë
@@ -462,7 +461,7 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[…/Books?$select=ID,title](http://localhost:4004/odata/v4/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
 - _[…/Authors?$search=Bro](http://localhost:4004/odata/v4/admin/Authors?$search=Bro)_ {.impl .node}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/odata/v4/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
 - _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
@@ -481,11 +480,28 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 
 ### Deploying Persistent Databases
 
-We can also use persistent instead of in-memory databases. For example, still with SQLite:
+We can also use persistent instead of in-memory databases. For example, still with SQLite, add the following configuration:
+
+> Add sqlite config from SQLite DB Guide
+> cds init could update @cap.js/sqlite dependency to ^1.4
+
+::: code-group
+
+   ```json [package.json]
+   "cds": { "requires": {
+      "db": {
+         "kind": "sqlite",
+         "credentials": { "url": "db.sqlite" } // [!code focus]
+      }
+   }}
+   ```
+
+:::
+
+Then deploy:
 
 ```sh
-npm add sqlite3 -D
-cds deploy --to sqlite:my.sqlite
+cds deploy
 ```
 
 The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.sqlite_. This is also recorded in the _package.json_.
@@ -496,6 +512,7 @@ To see what that did, use the `sqlite3` CLI with the newly created database:
 sqlite3 my.sqlite .dump
 sqlite3 my.sqlite .tables
 ```
+[Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 
 You could also deploy to a provisioned SAP HANA database using this variant:
 
@@ -692,7 +709,29 @@ public class SubmitOrderHandler implements EventHandler {
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
-Or submit orders until you see the error messages. {.impl .node}
+### Sample HTTP Request {.impl .node}
+
+Or submit orders until you see the error messages.
+
+::: code-group
+``` [test.http]
+### 
+# Create Order
+
+POST http://localhost:4004/browse/submitOrder
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+    
+      "book": 201,
+      "quantity": 2
+    
+}
+
+
+```
+:::
 
 
 ## Summary and Next Steps

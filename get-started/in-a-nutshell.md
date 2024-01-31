@@ -347,7 +347,7 @@ You can even use advanced query options, such as `$select`, `$expand`, `$search`
 ### Generic *index.html* Pages
 
 <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
+Open _<http://localhost:4004>_ / _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
 
 <div class="impl node">
 
@@ -476,9 +476,7 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 
-<div class="impl node">
-
-### Deploying Persistent Databases
+### Deploying Persistent Databases {.impl .node}
 
 We can also use persistent instead of in-memory databases. For example, still with SQLite, add the following configuration:
 
@@ -519,8 +517,6 @@ You could also deploy to a provisioned SAP HANA database using this variant:
 ```sh
 cds deploy --to hana
 ```
-</div>
-
 
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 

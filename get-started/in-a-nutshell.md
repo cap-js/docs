@@ -256,7 +256,7 @@ So, let's go on feeding it with two service definitions for different use cases:
 - An `AdminService` for administrators to maintain `Books` and `Authors`
 - A `CatalogService` for end users to browse and order `Books`
 
-Create the following two files in folder _./srv_ and fill them wih this content:
+Create the following two files in folder _./srv_ and fill them with this content:
 
 ::: code-group
 ```cds [srv/admin-service.cds]
@@ -336,10 +336,9 @@ Without adding any provider implementation code, they translate OData request in
 
 You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
 
-|   |   |
-| --- | ---|
-| Node.js | http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
-| Java | http://localhost:8080/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title |
+http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title {.impl .node}
+
+http://localhost:8080/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title {.impl .java}
 
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
@@ -727,6 +726,8 @@ public class SubmitOrderHandler implements EventHandler {
 	public void onSubmitOrder(SubmitOrderContext context) {
 		Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
 		Books book = persistenceService.run(byId).single().as(Books.class);
+    if (context.getQuantity() > book.getStock())
+            throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
 		book.setStock(book.getStock() - context.getQuantity());
 
 		persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
@@ -770,6 +771,8 @@ public class SubmitOrderHandler implements EventHandler {
     public void onSubmitOrder(SubmitOrderContext context) {
         Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
         Books book = persistenceService.run(byId).single().as(Books.class);
+        if (context.getQuantity() > book.getStock())
+            throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
         book.setStock(book.getStock() - context.getQuantity());
 
         persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));

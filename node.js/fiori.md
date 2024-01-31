@@ -113,7 +113,7 @@ POST /Books
 }
 ```
 
-and modify them directly:
+You can modify them directly:
 
 ```http
 PATCH /Books(ID=123,IsActiveEntity=true)

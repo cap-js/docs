@@ -123,13 +123,13 @@ As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by defa
 
 ```log
 ...
-[cds] - connect to db > sqlite { url: ':memory:' } //[!code focus]
+[cds] - connect to db > sqlite { url: ':memory:' } // [!code focus]
   > init from db/init.js
   > init from db/data/sap.capire.bookshop-Authors.csv
   > init from db/data/sap.capire.bookshop-Books.csv
   > init from db/data/sap.capire.bookshop-Books.texts.csv
   > init from db/data/sap.capire.bookshop-Genres.csv
-/> successfully deployed to in-memory database. //[!code focus]
+/> successfully deployed to in-memory database. // [!code focus]
 ...
 ```
 
@@ -197,7 +197,7 @@ You can also use persistent SQLite databases. In this case, the schema is initia
    { "cds": { "requires": {
       "db": {
          "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } //[!code focus]
+         "credentials": { "url": "db.sqlite" } // [!code focus]
       }
    }}}
    ```
@@ -272,7 +272,7 @@ While drop-create is most appropriate for development, it isn't suitable for dat
       "db": {
          "kind": "sqlite",
          "credentials": { "url": "db.sqlite" },
-         "schema_evolution": "auto" //[!code focus]
+         "schema_evolution": "auto" // [!code focus]
       }
    }}}
    ```

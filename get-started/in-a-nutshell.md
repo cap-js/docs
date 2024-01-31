@@ -622,16 +622,54 @@ module.exports = function (){
 
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 
-```java
+::: code-group
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
 @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-public void addDiscountIfApplicable(List<Books> books) {
-	for (Books book : books) {
-		if (book.getStock() > 111) {
-			book.setTitle(book.getTitle() + " -- 11% discount!");
+	public void addDiscountIfApplicable(List<Books> books) {
+		for (Books book : books) {
+			if (book.getStock() != null && book.getStock() > 111) {
+				book.setTitle(book.getTitle() + " -- 11% discount!");
+			}
+		}
+	}
+```
+:::
+
+:::details Code including imports
+::: code-group
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
+package customer.bookshop.handlers;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.sap.cds.services.cds.CqnService;
+import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.After;
+import com.sap.cds.services.handler.annotations.ServiceName;
+
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+public class CatalogHandler implements EventHandler {
+	@After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+	public void addDiscountIfApplicable(List<Books> books) {
+		for (Books book : books) {
+			if (book.getStock() != null && book.getStock() > 111) {
+				book.setTitle(book.getTitle() + " -- 11% discount!");
+			}
 		}
 	}
 }
+
+
 ```
+:::
+
 
 [Learn more about **event handlers** in the  CAP Java documentation.](../java/provisioning-api#handlerclasses){.learn-more}
 
@@ -671,7 +709,8 @@ module.exports = async function (){
 
 <div class="impl java">
 
-```java
+::: code-group
+```java [srv/src/main/java/customer/bookshop/handlers/SubmitOrderHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 public class SubmitOrderHandler implements EventHandler {
@@ -694,6 +733,53 @@ public class SubmitOrderHandler implements EventHandler {
 	}
 }
 ```
+:::
+
+:::details Code including imports
+::: code-group
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
+package customer.bookshop.handlers;
+
+import org.springframework.stereotype.Component;
+
+import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Update;
+import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.On;
+import com.sap.cds.services.handler.annotations.ServiceName;
+import com.sap.cds.services.persistence.PersistenceService;
+
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+import cds.gen.catalogservice.SubmitOrderContext;
+
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+public class SubmitOrderHandler implements EventHandler {
+
+    private final PersistenceService persistenceService;
+
+    public SubmitOrderHandler(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+    }
+
+    @On()
+    public void onSubmitOrder(SubmitOrderContext context) {
+        Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
+        Books book = persistenceService.run(byId).single().as(Books.class);
+        book.setStock(book.getStock() - context.getQuantity());
+
+        persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
+
+        context.setCompleted();
+    }
+}
+
+
+```
+:::
+
 </div>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
@@ -707,14 +793,14 @@ public class SubmitOrderHandler implements EventHandler {
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
-### Sample HTTP Request {.impl .node}
+### Sample HTTP Request
 
-Or submit orders until you see the error messages.
+Or submit orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
 ::: code-group
-``` [test.http]
+```http [Node.js]
 ### 
-# Create Order
+# Submit Order
 
 POST http://localhost:4004/browse/submitOrder
 Content-Type: application/json
@@ -728,6 +814,21 @@ Authorization: Basic alice:
 }
 
 
+```
+```http [Java]
+### 
+# Submit Order
+
+POST http://localhost:8080/odata/v4/browse/submitOrder
+Content-Type: application/json
+Authorization: Basic authenticated:
+
+{
+
+      "book": 201,
+      "quantity": 2
+
+}
 ```
 :::
 

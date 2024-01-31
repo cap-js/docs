@@ -345,6 +345,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
+### Reading `LargeBinary` / BLOB {.impl .node}
+
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
+```
+
+[Read more about custom streaming in Node.js.](../node.js/best-practices/#custom-streaming-beta){.learn-more}
+
+
 ## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
@@ -764,22 +778,3 @@ In case of conflicts, follow these steps to provide different models for differe
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
 There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.
-
-## Node.js Runtime Handling BLOBs
-
-Formerly, `LargeBinary` elements, a.k.a. BLOBs, always were returned as any other data type. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. In this case the BLOB properties are returned as readable streams.
-
-For example:
-
-```js
-SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
-SELECT.from(Books)          //> [{ ID, title, ... }]
-SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
-SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
-```
-
-::: tip Try to avoid direct reads of BLOBs
-
-BLOBs hold potentially large amounts of data and handling them can be resource consuming (especially requiring the large amount of `LargeBinary` elements). Please consider using non-large `Binary` data type instead, which are returned as it is.
-
-:::

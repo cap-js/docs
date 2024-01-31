@@ -106,7 +106,6 @@ You can then create active instances directly:
 
 ```http
 POST /Books
-
 {
   "ID": 123,
   "IsActiveEntity": true
@@ -117,7 +116,6 @@ You can modify them directly:
 
 ```http
 PATCH /Books(ID=123,IsActiveEntity=true)
-
 {
   "title": "How to be more active"
 }
@@ -130,6 +128,9 @@ same editable properties without creating drafts for each row.
 Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
 :::
+
+### Garbage Collection of Stale Drafts
+
 
 ### Differences to Previous Version
 

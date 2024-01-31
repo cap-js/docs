@@ -296,7 +296,7 @@ This time `cds watch` reacted with additional output like this:
 [cds] - server listening on { url: 'http://localhost:4004' }
 ```
 
-As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/admin_ and _/odata/v4/browse_.
+As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/admin_ and _/browse_.
 
 </div>
 

@@ -440,7 +440,7 @@ Developers can use the [`@assert`](../providing-services#input-validation) annot
 
 - With respect to **output encoding**, CAP OData adapters have proper URI encoding for all resource locations in place.
 Moreover, OData validates the JSON response according to the given EDMX schema.
-In addition, client-side protection is given by [SAPUI5](https://community.sap.com/topics/ui5) standard controls
+In addition, client-side protection is given by [SAPUI5](https://pages.community.sap.com/topics/ui5) standard controls
 
 - Applications should meet basic [Content Security Policy (CSP)](https://www.w3.org/TR/CSP2/) compliance rules to further limit the attack vector on client side.
 CSP-compatible browsers only load resources from web locations that are listed in the allowlist defined by the server.

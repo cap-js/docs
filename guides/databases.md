@@ -406,7 +406,7 @@ service CatalogService {
 Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
 
 ```sh
-cds compile srv/cat-service --to sqlite > schema.sql
+cds compile srv/cat-service --to sql > schema.sql
 ```
 
 Output:

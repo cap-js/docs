@@ -306,7 +306,7 @@ cds bind -2 bookshop-db:my-custom-key
 
 ### With CDS Service and Kind
 
-If `kind` or CDS service` cannot be determined automatically by `cds bind`, you need to specify it:
+If `kind` or CDS service cannot be determined automatically by `cds bind`, you need to specify it:
 
 ```sh
 cds bind credstore -2 my-credstore --kind credstore

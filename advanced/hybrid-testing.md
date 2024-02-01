@@ -275,18 +275,11 @@ cds bind --exec mvn spring-boot:run
 
 ### Bindings from a Cloud Application
 
-Instead of binding to specific cloud services, you can run your application with all supported service bindings of an application on the SAP BTP, Cloud Foundry environment:
+Instead of binding to specific cloud services, you can bind to all supported service bindings of an application running on the SAP BTP Cloud Foundry environment:
 
 ```sh
-cds bind --to-app bookshop-srv
+cds bind --to-app-services bookshop-srv
 ```
-
-<!-- For example, you can use the following syntax with `bash` or similar shells:
-
-```sh
-VCAP_SERVICES=$(cf env <CF-APP-NAME> | perl -0pe '/VCAP_SERVICES:(.*?)VCAP_APPLICATION:/smg; $_=$1') cds watch --profile hybrid
-``` -->
-
 
 ## `cds bind` Usage { #cds-bind-usage}
 

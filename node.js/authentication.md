@@ -414,6 +414,7 @@ type Req = Request & { user: cds.User, tenant: string };
 export default function custom_auth(req: Req, res: Response, next: NextFunction) {
   // do your custom authentication ...
 }
+```
 
 [If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
 

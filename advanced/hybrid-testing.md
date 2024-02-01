@@ -13,8 +13,6 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 
 **Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud.
 
-<!-- `cds bind` connects your locally running application to services in the cloud. Afterwards, you can run your application with the `hybrid` profile to activate service bindings — simply switch between local mocks or remote cloud service by setting or omitting the `profile` parameter. -->
-
 ## Bind to Cloud Services
 
 ### Services on Cloud Foundry

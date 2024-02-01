@@ -86,6 +86,51 @@ To prevent inconsistency, the entities with draft are locked for modifications b
 cds.drafts.cancellationTimeout=1h
 ```
 
+### Bypassing the SAP Fiori Draft Flow
+
+Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
+
+To enable this feature, set this feature flag in your configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "bypass_draft": true
+    }
+  }
+}
+```
+
+You can then create active instances directly:
+
+```http
+POST /Books
+
+{
+  "ID": 123,
+  "IsActiveEntity": true
+}
+```
+
+You can modify them directly:
+
+```http
+PATCH /Books(ID=123,IsActiveEntity=true)
+
+{
+  "title": "How to be more active"
+}
+```
+
+This feature is required to enable [SAP Fiori Elements Mass Edit](https://sapui5.hana.ondemand.com/sdk/#/topic/965ef5b2895641bc9b6cd44f1bd0eb4d.html), allowing users to change multiple objects with the
+same editable properties without creating drafts for each row.
+
+:::warning
+Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
+payloads rather than the complete business object.
+:::
+
 ### Garbage Collection of Stale Drafts
 
 Inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following configuration:

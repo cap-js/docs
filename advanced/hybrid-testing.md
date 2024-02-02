@@ -33,7 +33,7 @@ Output:
 
 ```log
 [bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding db to Cloud Foundry managed service bookshop-db:boookshop-db-key with kind hana.
+[bind] - Binding db to Cloud Foundry managed service bookshop-db:bookshop-db-key with kind hana.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid

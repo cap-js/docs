@@ -356,7 +356,7 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
 SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
 ```
 
-[Read more about custom streaming in Node.js.](../node.js/best-practices/#custom-streaming-beta){.learn-more}
+[Read more about custom streaming in Node.js.](../node.js/best-practices#custom-streaming-beta){.learn-more}
 
 
 ## Generating DDL Files {#generating-sql-ddl}

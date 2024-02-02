@@ -1492,8 +1492,6 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
-Learn more about [`@path` in Node.js](../node.js/cds-serve#cds-protocols) and in [Java](../java/application-services#configure-path-and-protocol).
-
 
 ### Exposed Entities
 
@@ -1715,6 +1713,15 @@ service MyOrders { ...
   }
 }
 ```
+
+An event can also be defined as projection on an entity, type, or another event.
+Only the effective signature of the projection is relevant.
+```cds
+service MyOrders { ...
+  event OrderCanceledNarrow : projection on OrderCanceled { orderID }
+}
+```
+
 
 ### Extending Services {#extend-service}
 

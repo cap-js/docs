@@ -39,7 +39,7 @@ Output:
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-For most commonly used services, CAP can automatically infer the the service type and kind — in our example, the `db` CDS service is bound and set to the `hana` kind without additional parameters.
+For most commonly used services, CAP can automatically infer the service type and kind — in our example, the `db` CDS service is bound and set to the `hana` kind without additional parameters.
 
 ::: code-group
 ```json {5}[.cdsrc-private.json]

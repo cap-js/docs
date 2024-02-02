@@ -142,7 +142,7 @@ The binding information is stored in the _.cdsrc-private.json_ file of your proj
           "type": "k8s",
           "name": "bookshop-auth-binding",
           "cluster": "https://apiserver.d9a6204.kyma-stage.shoot.live.k8s-hana.ondemand.com",
-          "instance": "boookshop-auth",
+          "instance": "bookshop-auth",
           "namespace": "dev",
           "secret": "bookshop-auth-secret",
           "resolved": false,

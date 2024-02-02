@@ -227,7 +227,7 @@ Note that (iii) through (v) are specific to TypeScript, while (i) and (ii) can a
 
 ## Fine Tuning
 ### Singular/ Plural
-The generated types offer both a singular and plural form for convenience. The derivation of these names uses a heuristic that assumes entities are named with an English noun in plural form, following the [best practice guide](https://cap.cloud.sap/docs/guides/domain-modeling#pluralize-entity-names).
+The generated types offer both a singular and plural form for convenience. The derivation of these names uses a heuristic that assumes entities are named with an English noun in plural form, following the [best practice guide](../guides/domain-modeling#naming-conventions).
 
 Naturally, this best practice can't be enforced on every model. Even for names that do follow best practices, the heuristic can fail. If you find that you would like to specify custom identifiers for singular or plural forms, you can do so using the `@singular` or `@plural` annotations.
 
@@ -445,7 +445,7 @@ const { Books } = require('../@cds-models/sap/capire/bookshop')
 const { Books } = require('#cds-models/sap/capire/bookshop')
 ```
 
-These imports will behave like [`cds.entities('sap.capire.bookshop')`](https://pages.github.tools.sap/cap/docs/node.js/cds-reflect#entities) during runtime, but offer you code completion and type hinting at design time:
+These imports will behave like [`cds.entities('sap.capire.bookshop')`](../node.js/cds-reflect#entities) during runtime, but offer you code completion and type hinting at design time:
 
 ```js
 class CatalogService extends cds.ApplicationService { init(){
@@ -467,5 +467,20 @@ const { Book } = require('#cds-models/sap/capire/bookshop')
 class CatalogService extends cds.ApplicationService { init(){
   // ✅ works both at design time and at runtime
   const { Book } = require('#cds-models/sap/capire/bookshop')
+})
+```
+
+In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions): 
+
+```ts
+// ❌ works during design time, but will cause runtime errors
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ✅ works during design time, but is fully erased during runtime
+import type { Book } from '#cds-models/sap/capire/bookshop'
+
+class CatalogService extends cds.ApplicationService { async init(){
+  // ✅ works both at design time and at runtime
+  const { Book } = await import('#cds-models/sap/capire/bookshop')
 })
 ```

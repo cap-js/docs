@@ -17,23 +17,9 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 ## General { #cds}
 
-### How Do I Resolve Installation Issues with Node.js and NPM? { #npm-installation}
-
-##### Check the registry settings of your npm configuration
-
-Make sure that you don't have old registry entries anymore for `@sap:registry` in your _.npmrc_. Just execute:
-
-```sh
-npm config delete "@sap:registry"
-```
-
-Type `npm config list` to check the configuration, which is stored in a file _.npmrc_ in the user's home directory. There, no `@sap:registry` should appear.
-
-[Learn more about the move to **npmjs.org** in the blog post by DJ Adams.](https://blogs.sap.com/2020/07/02/sap-npm-packages-now-on-npmjs.org/){.learn-more}
-
 ##### Check the Node.js version { #node-version}
 
-Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `16`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
+Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `20`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
 ```sh
 node -v
@@ -60,7 +46,7 @@ Also add the last line to your user profile, for example, `~/.profile`, so that 
 
 ##### Check if your environment variables are properly set on Windows
 
-Global NPM installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
+Global npm installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
 
 ```sh
 C:\Users\<your-username>\AppData\Roaming\npm
@@ -115,7 +101,7 @@ Ports can be explicitly set with the `PORT` environment variable or the `--port`
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 
-#### DO:
+#### DO:{.good}
 
 ```js
 cds.on('served', ()=>{
@@ -124,9 +110,9 @@ cds.on('served', ()=>{
 })
 ```
 
-It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very heard to detect and resolve issues with handler registrations. So, for example, don't do this:
+It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very hard to detect and resolve issues with handler registrations. So, for example, don't do this:
 
-#### DON'T:
+#### DON'T:{.bad}
 
 ```js
 cds.on('served', async ()=>{
@@ -138,17 +124,17 @@ cds.on('served', async ()=>{
 ### My app isn't showing up in Dynatrace
 
 Make sure that:
-- Your app's start script is `cds run` instead of `npx cds run`.
+- Your app's start script is `cds-serve` instead of `npx cds run`.
 - You have the dependency `@dynatrace/oneagent-sdk` in your _package.json_.
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates, that the settings of the pool containing the database clients don't match the application's needs. There are two possible root causes.
+This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
 | _Root Cause 1_ | The maximum number of database clients in the pool is reached and additional requests wait too long for the next client.
-| _Root Cause 2_ | The amount of time for creating a new connection to the database takes too long.
+| _Root Cause 2_ | The creation of a new connection to the database takes too long.
 | _Solution_ | Adapt `max` or `acquireTimeoutMillis` with more appropriate values, according to the [documentation](../node.js/databases#databaseservice-configuration).
 
 Always make sure that database transactions are either committed or rolled back. This can work in two ways:
@@ -175,7 +161,7 @@ module.exports = cds.server
 
 [Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){.learn-more}
 
-### Why are long running requests rejected with status `502` after 30 seconds even though the application continues processing the request?
+### Why are long running requests rejected with status `504` after 30 seconds even though the application continues processing the request?
 
 |  | Explanation |
 | --- | ---- |
@@ -201,6 +187,36 @@ module.exports = cds.server
 ### How can I make sure that a user passes all authorization checks?
 
 A new option `privilegedUser()` can be leveraged when [defining](../java/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/consumption-api) either in a request thread regardless of the original user's authorizations or in a background thread.
+
+### Why do I get a "User should not exist" error during build time?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | You've [explicitly configured a mock](../java/security#explicitly-defined-mock-users) user with a name that is already used by a [preconfigured mock user](../java/security#preconfigured-mock-users).
+| _Solution_ | Rename the mock user and build your project again.
+
+### Why do I get an "Error on server start"?
+
+There could be a mismatch between your locally installed Node.js version and the version that is used by the `cds-maven-plugin`. The result is an error similar to the following:
+
+```sh
+❗️ ERROR on server start: ❗️
+Error: The module '/home/user/....node'
+was compiled against a different Node.js version using
+```
+
+To fix this, either switch the Node.js version using a Node version manager, or add the Node version to your _pom.xml_ as follows:
+
+```xml
+<properties>
+		<!-- ... -->
+		<cds.install-node.nodeVersion>v20.11.0</cds.install-node.nodeVersion>
+		<!-- ... -->
+	</properties>
+
+```
+
+[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
 
 ### How can I expose custom REST APIs with CAP?
 
@@ -240,7 +256,7 @@ In addition you might want to remove the H2 dependency, which is included in the
 
 If you don't want to exclude dependencies completely, but make sure that an in-memory H2 database **isn't** used, you can disable Spring Boot's `DataSource` auto-configuration, by annotating the `Application.java` class with `@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)`. In that mode CAP Java however can still react on explicit data source configurations or database bindings.
 
-### What to Do About Maven-Related Errors in Eclipse's Problems View? { #eclipse}
+### What to Do About Maven-Related Errors in Eclipse's Problems View?
 
 - In _Problems_ view, execute _Quick fix_ from the context menu if available. If Eclipse asks you to install additional Maven Eclipse plug-ins to overcome the error, do so.
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
@@ -285,7 +301,7 @@ In case you want a visual interface tool to work with SQLite, you can use [SQLTo
 
 ### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? { #get-hana}
 
-To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://community.sap.com/topics/hana/cloud) for more details.
+To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://pages.community.sap.com/topics/hana/cloud) for more details.
 
 ::: tip
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.
@@ -323,37 +339,6 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 - If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
 - On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
-
-### I get errors with response code 429 from the service-manager service when subscribing a tenant
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
-  ```json
-  "cds": {
-    "mtx": {
-      "provisioning": {
-        "instancemanageroptions": {
-          "polling_interval_millis": 3000
-        }
-      }
-    }
-  }
-  ```
-
-### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can disable the database clustering for the update.
-  ```json
-  "cds": {
-    "mtx": {
-      "jobs": {
-        "clusterbydb": false
-      }
-    }
-  }
-  ```
-  This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 
 ### How Do I Resolve Deployment Errors?
@@ -593,6 +578,17 @@ Use `cf create-service-push --push-as-subprocess` to execute `cf push` in a sub-
 
 [See `cf create-service-push --help` for further CLI details or visit the Create-Service-Push GitHub repository.](https://github.com/dawu415/CF-CLI-Create-Service-Push-Plugin){.learn-more}
 
+### Deployment Crashes With "No space left on device" Error
+
+If on deployment to Cloud Foundry, a module crashes with the error message `Cannot mkdir: No space left on device` then the solution is to adjust the space available to that module in the `mta.yaml` file. Adjust the `disk-quota` parameter.
+
+```sh
+    parameters:
+      disk-quota: 512M
+      memory: 256M
+```
+[Learn more about this error in KBA 3310683](https://userapps.support.sap.com/sap/support/knowledge/en/3310683){.learn-more}
+
 ### How Can I Get Logs From My Application in Cloud Foundry? { #cflogs-recent}
 
 The SAP BTP cockpit is not meant to analyze a huge amount of logs. You should use the Cloud Foundry CLI.
@@ -655,6 +651,34 @@ Alternatively, without login:
 cds extend … -s <subdomain>
 ```
 
+### I get errors with response code 429 from the service-manager service when subscribing a tenant
+
+You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
+  ```json
+  "cds": {
+    "mtx": {
+      "provisioning": {
+        "instancemanageroptions": {
+          "polling_interval_millis": 3000
+        }
+      }
+    }
+  }
+  ```
+
+### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
+
+You can disable the database clustering for the update.
+  ```json
+  "cds": {
+    "mtx": {
+      "jobs": {
+        "clusterbydb": false
+      }
+    }
+  }
+  ```
+This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 ## CAP on Kyma
 

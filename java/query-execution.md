@@ -170,13 +170,28 @@ The CQN API allows to manipulate data by executing insert, update, delete, or up
 The [update](./query-api) operation can be executed as follows:
 
 ```java
-Map<String, Object> book = new HashMap<>();
-book.put("title", "CAP");
+Map<String, Object> book = Map.of("title", "CAP");
 
-CqnUpdate update = Update.entity("bookshop.Books").data(book).where(b -> b.get("ID").eq(101));
-long updateCount = service.run(update).rowCount();
+CqnUpdate update = Update.entity("bookshop.Books").data(book).byId(101);
+Result updateResult = service.run(update);
 ```
 
+The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../guides/domain-modeling#managed-data) and foreign key values.
+
+The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html#rowCount()) of the update `Result` indicates how many rows where updated during the statement execution:
+
+
+```java
+CqnUpdate update = ...
+
+long rowCount = service.run(update).rowCount();
+```
+
+If no rows are touched the execution is successful but the row count is 0.
+
+:::warning
+The setters of an [update with expressions](../java/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
+:::
 
 ### Working with Structured Documents
 
@@ -272,8 +287,47 @@ Example of a view that can't be resolved:
 ```cds
 // Unsupported
 entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
-entity Orders as SELECT from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
+entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
+
+## Runtime Views { #runtimeviews}
+
+The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
+
+```cds
+entity Books {
+  key id     : UUID;
+      title  : String;
+      stock  : Integer;
+      author : Association to one Authors;
+}
+@cds.persistence.skip // [!code focus]
+entity BooksWithLowStock as projection on Books { // [!code focus]
+    id, title, author.name as author // [!code focus]
+} where stock < 10; // [!code focus]
+```
+
+At runtime, CAP Java resolves queries against runtime views until an entity is reached that isn't annotated with *@cds.persistence.skip*. For example, the CQL query
+
+```sql
+Select BooksWithLowStock where author = 'Kafka'
+```
+
+is executed against SQL databases as
+
+```SQL
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
+  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+WHERE B.STOCK < 10 AND A.NAME = ?
+```
+
+::: tip
+Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+
+Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
+:::
 
 ### Using I/O Streams in Queries
 

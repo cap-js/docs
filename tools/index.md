@@ -251,9 +251,9 @@ A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.vis
 
 The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
 
-* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "CAP Notebook button" on the *right-hand-side* of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
+* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
-   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888">
+   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 
@@ -262,14 +262,6 @@ The cell inputs/outputs are especially useful at later points in time when the p
 * Start an empty CAP Notebook by creating a _*.capnb_ file.
 
 > Provided that the [**CDS Editor**](#cds-editor) is installed, the CAP Notebook will be rendered automatically as the file is selected.
-
-
-## Eclipse
-
-### Prerequisites
-
-* You have followed the instructions in [Local Setup](../get-started/jumpstart).
-* You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
 
 <div id="beforedocker" />
 
@@ -333,7 +325,7 @@ cds run
 The editor powered by the CDS language server implementation, provides source code validation including diagnostics, like error messages and warnings.
 
 The following features are available for all editors based on our language server implementation for CDS in
-SAP Business Application Studio, Visual Studio Code, and Eclipse. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview) and for Eclipse at [SAP Development Tools](https://tools.hana.ondemand.com/#cloud-vscodecds).
+SAP Business Application Studio and Visual Studio Code. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
 
 [Short video about the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
@@ -374,7 +366,7 @@ Use...
 - many options, configurable using
   - settings file
   - command line switches
-  - config UI with simulation of options for VS Code and Eclipse
+  - config UI with simulation of options for VS Code
   - JSON schema for textual support
 - also for markdown in doc comments
 
@@ -627,7 +619,7 @@ Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package
 
 <div>
 
-<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+<img src="./assets/cdslint.svg" alt="CDS Lint logo" width="130px" class="ignore-dark" />
 
 </div>
 

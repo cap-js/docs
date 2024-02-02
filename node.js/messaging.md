@@ -303,7 +303,7 @@ When using `enterprise-messaging-shared` in a multitenant scenario, only the pro
 :::
 
 ::: tip
-You need to install the latest version of the NPM package `@sap/xb-msg-amqp-v100`.
+You need to install the latest version of the npm package `@sap/xb-msg-amqp-v100`.
 :::
 
 ::: tip
@@ -415,7 +415,7 @@ There are no queues:
 - Messages are lost when consumers are not available.
 - All instances receive the messages independently.
 ::: tip
-You need to install the latest version of the NPM package `redis`.
+You need to install the latest version of the npm package `redis`.
 :::
 
 

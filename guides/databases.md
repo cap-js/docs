@@ -13,7 +13,9 @@ impl-variants: true
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 {{ $frontmatter.synopsis }}
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 
 [[toc]]
@@ -343,6 +345,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
+### Reading `LargeBinary` / BLOB {.impl .node}
+
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
+```
+
+[Read more about custom streaming in Node.js.](../node.js/best-practices/#custom-streaming-beta){.learn-more}
+
+
 ## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
@@ -473,7 +489,7 @@ ON Books.author_ID = author.ID;
 <div class="impl java">
 
 ```sh
-cds compile srv/cat-service --to sql --dialect h2 > schema.sql
+cds compile srv/cat-service --to sql > schema.sql
 ```
 
 Output:
@@ -687,6 +703,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SAP HANA SQL Reference Guide for SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/28bcd6af3eb6437892719f7c27a8a285.html)
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](https://www.h2database.com/html/advanced.html#keywords)
+* [PostgreSQL SQL Key Words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
 
 [There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 

@@ -37,13 +37,13 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto">
+<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" alt="The graphic is explained in the accompanying text.">
 
 <div id="logos" style="text-align:center;">
-  <img src="../assets/logos/nodejs.svg" style="height:40px" />
-  <img src="../assets/logos/express.png" style="height:30px" />
-  <img src="../assets/logos/java.svg" style="height:44px"/>
-  <img src="../assets/logos/spring.svg" style="height:25px" />
+  <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />
+  <img src="../assets/logos/express.png" style="height:30px" alt="Express logo"/>
+  <img src="../assets/logos/java.svg" style="height:44px" alt="Java logo"/>
+  <img src="../assets/logos/spring.svg" style="height:25px" alt="spring logo" />
 </div>
 
 <style scoped>
@@ -86,7 +86,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
 | **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](./related#cqrs) or [Event Sourcing](./related#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio), and [Visual Studio Code](../tools/#vscode) or [Eclipse](../java/getting-started#eclipse). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio) or [Visual Studio Code](../tools/#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
 
 
 ### Key Concepts & Paradigms

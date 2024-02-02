@@ -41,7 +41,7 @@ The described messaging features are available from version `cds.java@1.19.0`.
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they're interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
-<img src="./assets/messaging_foundation.png" width="700px">
+<img src="./assets/messaging_foundation.png" width="700px" alt="The graphic is explained in the accompanying text.">
 
 CAP makes sending and receiving messages easy by providing an API agnostic from specific message brokers, and taking care of broker-specific mechanics like connection handling, protocols to use, creating queues, subscriptions, etc. The API seamlessly blends into the common event API of CAP services, so that event messages can be sent using `emit` and handlers to execute when receiving event messages can be declared with the `@On` annotation.
 
@@ -129,12 +129,12 @@ Example:
 
 ```cds
 service ReviewService {
-  [...]
+  // ...
   event reviewed : {
     subject: String;
     rating: Decimal(2,1)
   }
-  [...]
+  // ...
 }
 ```
 
@@ -183,13 +183,13 @@ Example:
 
 ```cds
 service ReviewService {
-  [...]
+  // ...
   @topic: 'sap.cap.reviews.v1.ReviewService.changed.v1'
   event reviewed : {
     subject: String;
     rating: Decimal(2,1)
   }
-  [...]
+  // ...
 }
 ```
 
@@ -409,10 +409,10 @@ Example:
 ```json
 {
   "VCAP_SERVICES": {
-    [...]
+    ...
   },
   "VCAP_APPLICATION": {
-    [...]
+    ...
   }
 }
 ```
@@ -478,12 +478,12 @@ Example for receiving messages with a given topic via the composite messaging se
 ```java
 @On(service = MessagingService.COMPOSITE_NAME, event = "My/Destination/Messaging/A")
 public void receiveA(TopicMessageEventContext context) {
-  [...]
+  ...
 }
 
 @On(service = MessagingService.COMPOSITE_NAME, event = "My/Destination/Messaging/B")
 public void receiveB(TopicMessageEventContext context) {
-  [...]
+  ...
 }
 ```
 
@@ -711,14 +711,14 @@ Before a CAP messaging service finally submits the topic of an event message to 
 Example (excerpt from _application.yaml_):
 
 ```yaml
-[...]
+...
 cds:
   messaging.services:
     messaging-em:
       kind: enterprise-messaging
       publishPrefix: '$namespace/'
       subscribePrefix: '$namespace/'
-[...]
+...
 ```
 
 `publishPrefix` will prefix the topic when sending messages, while `subscribePrefix` will prefix the topic when subscriptions to a topic are made. If a service is only sending events, defining `publishPrefix` would be sufficient. If a service is only receiving events, defining `subscribePrefix` would be sufficient.

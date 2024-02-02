@@ -263,7 +263,7 @@ cds:
           additional:
             email: myviewer@crazycars.com
           features:
-	    - cruise
+	          - cruise
             - park
 
         - name: Privileged-User
@@ -271,17 +271,10 @@ cds:
           privileged: true
           features:
             - "*"
-
-        - name: System
-          password: system-pass
-          system-user: true
-          roles:
-            - mtcallback
 ```
 
 - Mock user with name `Viewer-User` is a typical business user with SaaS-tenant `CrazyCars` who has assigned role `Viewer` and user attribute `Country` (`$user.Country` evaluates to value list `[GER, FR]`). This user also has the additional attribute `email`, which can be retrieved with `UserInfo.getAdditionalAttribute("email")`. The [features](../java/reflection-api#feature-toggles) `cruise` and `park` are enabled for this mock user.
 - `Privileged-User` is a user running in privileged mode. Such a user is helpful in tests that bypasses all authorization handlers.
-- Technical user `System` can be used, for example, to simulate SaaS registry calls for tenant provisioning in a multitenancy scenario.
 
 Property `cds.security.mock.enabled = false` disables any mock user configuration.
 
@@ -399,6 +392,6 @@ For instance, you might want to run internal service calls in privileged mode th
 ```java
 cdsRuntime.requestContext().privilegedUser().run(privilegedContext -> {
 	assert privilegedContext.getUserInfo().isPrivileged();
-	// [...] Service calls in this scope pass generic authorization handler
+	// ... Service calls in this scope pass generic authorization handler
 });
 ```

@@ -750,13 +750,28 @@ Select.from("bookshop.Books").byId(1).lock(5);
 Update.entity("bookshop.Books").data("price", 18).byId(1);
 ```
 
-To set a _shared_ (read) lock specify the lock mode `SHARED` in the lock method:
+To set a _shared_ (read) lock, specify the lock mode `SHARED` in the lock method:
 
 ```java
 import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
+
+Not every entity exposed via a CDS entity can be locked with the `lock()` clause. To use the `lock()` clause, databases require that the target of such statements is represented by one of the following:
+- a single table 
+- a simple view, so that the database can unambiguously identify which rows to lock
+
+Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
+
+There are few notable examples of such restrictions:
+
+* You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
+* You cannot use the `lock()` in a statement with the subquery as a source.
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
+
+As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
 
 ## Insert
 
@@ -986,6 +1001,26 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
+### Update with Expressions {#update-expressions}
+
+The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
+
+```java
+// dynamic
+Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+
+// static
+Update.entity(BOOKS).byId(101).set(b -> b.stock(), s -> s.minus(1));
+```
+
+You can also combine update data with expressions:
+
+```java
+Update.entity(BOOKS).where(b -> b.stock().eq(0))
+   .data("available", true)
+   .set(b -> b.stock(), s -> s.plus(CQL.param("addStock")));
+```
+
 ### Deep Update { #deep-update}
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
@@ -1212,17 +1247,20 @@ The Query Builder API supports using expressions in many places. Expressions con
 
 ### Entity References {#entity-refs}
 
-Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method. The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
+Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../java/advanced#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
-import static com.sap.cds.ql.CQL.entity;
+import com.sap.cds.ql.CQL;
 
-// bookshop.Books[year = 2020].author
+// bookshop.Books[year = 2020].author // [!code focus]
+Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).author(); // [!code focus]
+
+// or as untyped entity ref
 StructuredType<?> authors =
-   entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
+   CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name }
-Select.from(authors).columns("name");
+// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+Select.from(authors).columns("name"); // [!code focus]
 ```
 
 You can also get [entity references](query-execution#entity-refs) from the result of a CDS QL statement to address an entity via its key values in other statements.
@@ -1394,6 +1432,10 @@ Scalar functions are values that are calculated from other values. This calculat
     Select.from("bookshop.Authors")
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
+
+#### Arithmetic Expressions
+
+Arithmetic Expressions are captured by scalar functions as well:
 
 * Plus
 
@@ -1729,6 +1771,36 @@ ENDS WITH
 </td>
 </tr>
 </table>
+
+#### `matchesPattern` Predicate {#matches-pattern}
+
+The `matchesPattern` predicate is applied to a String value and tests if it matches a given regular expression.
+
+The regular expressions are evaluated on the database. Therefore, the supported syntax of the regular expression and the options you can use depends on the database you are using.
+
+For example, following code matches title of the book that contains the word "CAP" in the title:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("CAP"));
+```
+
+::: tip
+As a general rule, consider regular expressions as a last resort. They are powerful, but also complex and hard to read. For simple string operations, prefer other simpler functions like `contains`.
+::::
+
+In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+```
+
+The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
+
+For example, the following code matches that the title of the book begins with the word "CAP" while ignoring the case of the letters:
+
+```java
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern(CQL.val("^CAP.+$"), CQL.val("i")));
+```
 
 #### `anyMatch/allMatch` Predicate {#any-match}
 

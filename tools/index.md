@@ -263,14 +263,6 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 > Provided that the [**CDS Editor**](#cds-editor) is installed, the CAP Notebook will be rendered automatically as the file is selected.
 
-
-## Eclipse
-
-### Prerequisites
-
-* You have followed the instructions in [Local Setup](../get-started/jumpstart).
-* You have installed Eclipse, Spring Tools, and our Eclipse plugin, see [Add the SAP Cloud Business Application Tools for Eclipse](../java/getting-started#eclipse).
-
 <div id="beforedocker" />
 
 ## Docker
@@ -333,7 +325,7 @@ cds run
 The editor powered by the CDS language server implementation, provides source code validation including diagnostics, like error messages and warnings.
 
 The following features are available for all editors based on our language server implementation for CDS in
-SAP Business Application Studio, Visual Studio Code, and Eclipse. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview) and for Eclipse at [SAP Development Tools](https://tools.hana.ondemand.com/#cloud-vscodecds).
+SAP Business Application Studio and Visual Studio Code. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
 
 [Short video about the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
@@ -374,7 +366,7 @@ Use...
 - many options, configurable using
   - settings file
   - command line switches
-  - config UI with simulation of options for VS Code and Eclipse
+  - config UI with simulation of options for VS Code
   - JSON schema for textual support
 - also for markdown in doc comments
 
@@ -627,7 +619,7 @@ Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package
 
 <div>
 
-<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+<img src="./assets/cdslint.svg" alt="CDS Lint logo" width="130px" class="ignore-dark" />
 
 </div>
 

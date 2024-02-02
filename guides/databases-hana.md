@@ -5,7 +5,9 @@ impl-variants: true
 
 # Using SAP HANA Cloud for Production
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 [[toc]]
 
@@ -556,7 +558,8 @@ By default, `cds add hana` creates an `undeploy.json` like this:
 [
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
-  "src/gen/**/*.hdbconstraint"
+  "src/gen/**/*.hdbconstraint",
+  "src/gen/**/*_drafts.hdbtable"
 ]
 ```
 

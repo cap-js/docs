@@ -1714,6 +1714,15 @@ service MyOrders { ...
 }
 ```
 
+An event can also be defined as projection on an entity, type, or another event.
+Only the effective signature of the projection is relevant.
+```cds
+service MyOrders { ...
+  event OrderCanceledNarrow : projection on OrderCanceled { orderID }
+}
+```
+
+
 ### Extending Services {#extend-service}
 
 You can [extend](#extend) services with additional entities and actions much as you would add new entities to a context:

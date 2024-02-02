@@ -86,6 +86,71 @@ To prevent inconsistency, the entities with draft are locked for modifications b
 cds.drafts.cancellationTimeout=1h
 ```
 
+### Bypassing the SAP Fiori Draft Flow
+
+Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
+
+To enable this feature, set this feature flag in your configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "bypass_draft": true
+    }
+  }
+}
+```
+
+You can then create active instances directly:
+
+```http
+POST /Books
+
+{
+  "ID": 123,
+  "IsActiveEntity": true
+}
+```
+
+You can modify them directly:
+
+```http
+PATCH /Books(ID=123,IsActiveEntity=true)
+
+{
+  "title": "How to be more active"
+}
+```
+
+This feature is required to enable [SAP Fiori Elements Mass Edit](https://sapui5.hana.ondemand.com/sdk/#/topic/965ef5b2895641bc9b6cd44f1bd0eb4d.html), allowing users to change multiple objects with the
+same editable properties without creating drafts for each row.
+
+:::warning
+Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
+payloads rather than the complete business object.
+:::
+
+### Garbage Collection of Stale Drafts
+
+Inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "draft_deletion_timeout": true
+    }
+  }
+}
+```
+
+You can set the property to one of the following:
+- `true` in order to obtain the default timeout of 30 days
+- number of days like `'30d'` 
+- number of hours like `'72h'`
+- number of milliseconds like `1000`
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:
@@ -108,7 +173,7 @@ cds.drafts.cancellationTimeout=1h
 
     ::: info Special case: "Editing Status: All"
     In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
-    The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
+    The individual results are then combined behind the scenes.
     :::
 
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.

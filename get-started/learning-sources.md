@@ -135,6 +135,7 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 ## Videos
 
+- [Back to basics: CAP Node.js](https://www.youtube.com/playlist?list=PL6RpkC85SLQBHPdfHQ0Ry2TMdsT-muECx) <br> by DJ Adams
 - [Hybrid Testing and Alternative DBs](https://youtu.be/vqub4vJbZX8?si=j5ZkPR6vPb59iBBy) <br> by Thomas Jung
 - [Consume External Services](https://youtu.be/rWQFbXFEr1M) <br> by Thomas Jung
 - [Building a CAP app in 60 min](https://youtu.be/zoJ7umKZKB4) <br> by Martin Stenzig

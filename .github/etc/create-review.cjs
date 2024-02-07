@@ -35,9 +35,11 @@ const getInvalidUrlText = (text, link) => {
 
 const escapeMarkdownlink = (link) => link.replace(/(\[|\(|\]|\))/g, "\\$1")
 
+const createSuggestContainerTypeText = (suggestion) => createSuggestionText(suggestion) + 'You have to specify a container type. Possible values: **info**, **tip**, **warning**, **danger**, **details**, **code-group**, **raw**.'
+
 module.exports = async ({ github, require, exec, core }) => {
     const { readFileSync, existsSync } = require('fs')
-    const { join } = require('path')
+    const { join, extname } = require('path')
     const { SHA, BASE_DIR, BASE_SHA, PULL_NUMBER, HEAD_SHA, REPO, REPO_OWNER } = process.env
 
     const cspellLogFile = join(BASE_DIR, 'CSPELL.log')
@@ -47,6 +49,37 @@ module.exports = async ({ github, require, exec, core }) => {
     let body = ''
     let lintErrorsText = ''
     let spellingMistakesText = ''
+
+    const result = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
+        owner: REPO_OWNER,
+        repo: REPO,
+        pull_number: PULL_NUMBER
+    })
+
+    const linterErrors = []
+    const spellingMistakes = []
+
+    result.data
+        .filter(review => review.body.includes('<!-- Linter Review -->'))
+        .forEach(review => {
+            spellingMistakes.push(...(review.body.match(/\*(.*) <!--Spelling Mistake-->/g) || []))
+            linterErrors.push(...(review.body.match(/\*(.*) <!--Linter Error-->/g) || []))
+        })
+
+    const { data } = await github.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/files', {
+        owner: REPO_OWNER,
+        repo: REPO,
+        pull_number: PULL_NUMBER,
+        headers: {
+            accept: 'application/vnd.github.diff'
+        }
+    })
+
+    const diffs = {}
+    data.filter(obj => extname(obj.filename) === '.md')
+        .forEach(obj => {
+            diffs[obj.filename.replace('./', '')] = obj.patch.split('\n')
+        })
 
     if (existsSync(markdownlintLogFile)) {
         const matches = readFileSync(markdownlintLogFile, 'utf-8')
@@ -65,11 +98,14 @@ module.exports = async ({ github, require, exec, core }) => {
             [(test)[link.de]]
 
         */
-        for(let [error, path, pointer, rule, description, details, context] of matches) {
+        for (let [error, path, pointer, rule, description, details, context] of matches) {
             let contextText = ''
+            let comment;
+
+            if (!fileIsInDiff(path)) continue
 
             if (rule === 'MD011/no-reversed-links') {
-                const detailValue = details.slice(1,-1)
+                const detailValue = details.slice(1, -1)
 
                 contextText = `[Context: "${detailValue}"]`
 
@@ -85,11 +121,16 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 const commentBody = createSuggestionText(suggestion)
 
-                comments.push({ path, position, body: commentBody })
+                comment = { path, position, body: commentBody }
             }
 
             if (rule === 'MD042/no-empty-links') {
-                const link = context.match(/\[Context: "(\[.*?\]\(\))"/)[1]
+                let link = context.match(/\[Context: "(\[.*?)"\]/)[1]
+
+                // if the context is too long, markdownlint-cli will truncate the string and append "..." at the end
+                if (link.endsWith('...')) {
+                    link = link.substring(0, link.length - 3)
+                }
 
                 contextText = `[Context: "${escapeMarkdownlink(link)}"]`
 
@@ -99,7 +140,7 @@ module.exports = async ({ github, require, exec, core }) => {
                     continue
                 }
 
-                comments.push({ path, position, body: getNoEmptyLinkText() })
+                comment = { path, position, body: getNoEmptyLinkText() }
             }
 
             if (rule === 'MD040/fenced-code-language') {
@@ -115,7 +156,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 codeBlockLines[0] = codeBlockLines[0] + 'txt'
 
-                comments.push({ path, body: createMissingCodeFencesText(codeBlockLines), start_line: start, line: end })
+                comment = { path, body: createMissingCodeFencesText(codeBlockLines), position: start }
             }
 
             if (rule === 'search-replace') {
@@ -134,11 +175,37 @@ module.exports = async ({ github, require, exec, core }) => {
                         continue
                     }
 
-                    comments.push({ path, position, body: getInvalidUrlText(text, link.slice(1, -1)) })
+                    comment = { path, position, body: getInvalidUrlText(text, link.slice(1, -1)) }
+                }
+
+                if (ruleName === 'custom-containers-requires-type') {
+                    const [, row, column] = pointer.split(':')
+
+                    const affectedLine = getLineFromFile(path, +row)
+
+                    const containerType = suggestContainerType(affectedLine) || 'info'
+
+                    const { line, position } = await findPositionInDiff(affectedLine, path)
+
+                    if (!line || position < 0) {
+                        continue
+                    }
+
+                    const correctedLine = `::: ${containerType} ${affectedLine.split(':::').slice(1).join('').trim()}`
+
+                    description = 'container type should be specified'
+                    contextText = `[Context: "${affectedLine}"]`
+
+                    comment = { path, position, body: createSuggestContainerTypeText(correctedLine) }
                 }
             }
 
-            lintErrorsText += `* **${path}**${pointer} ${description} ${contextText}\n`
+            const text = `* **${path}**${pointer} ${description} ${contextText} <!--Linter Error-->`
+
+            if (!linterErrors.find(el => el === text)) {
+                lintErrorsText += text + '\n'
+                comments.push(comment)
+            }
         }
     }
 
@@ -151,7 +218,12 @@ module.exports = async ({ github, require, exec, core }) => {
 
         const wordsWithoutSuggestions = []
 
-        for (const [error, path, pointer , word, context, suggestionString] of matches) {
+        for (const [error, path, pointer, word, context, suggestionString] of matches) {
+            if (!fileIsInDiff(path)) continue
+
+            const text = `* **${path}**${pointer} Unknown word "**${word}**" <!--Spelling Mistake-->`
+
+            if (spellingMistakes.find(el => el === text)) continue
 
             // from "[s1, s2, s3]" to [ "s1", "s2", "s3" ]
             const suggestions = suggestionString
@@ -160,11 +232,15 @@ module.exports = async ({ github, require, exec, core }) => {
                 .split(',')
                 .filter(Boolean) // remove empty strings
 
+
             const { line, position } = await findPositionInDiff(context, path)
 
             if (!line || position < 0) {
                 continue
             }
+
+            // Github requires that no path starts with './', but cspell provides the paths exactly in this format
+            const properlyStructuredPath = path.replace(/^\.\//, '')
 
             if (suggestions.length > 0) {
                 // replace word with first suggestions and remove first "+" sign
@@ -172,21 +248,21 @@ module.exports = async ({ github, require, exec, core }) => {
 
                 const commentBody = createCspellSuggestionText(suggestion, suggestions.slice(1))
 
-                comments.push({ path, position, body: commentBody })
+                comments.push({ path: properlyStructuredPath, position, body: commentBody })
             } else {
-                comments.push({ path, position, body: createUnknownWordComment(word) })
+                comments.push({ path: properlyStructuredPath, position, body: createUnknownWordComment(word) })
 
                 wordsWithoutSuggestions.push(word)
             }
 
-            spellingMistakesText += `* **${path}**${pointer} Unknown word "**${word}**"\n`
+            spellingMistakesText += text + '\n'
         }
 
-        if (wordsWithoutSuggestions.length > 0) {
+        if (wordsWithoutSuggestions.length > 0 && comments.length > 0) {
             spellingMistakesText += `\n${createWordsWithoutSuggestionsText(wordsWithoutSuggestions)}\n`
         }
 
-        if (matches.length > 0) {
+        if (matches.length > 0 && comments.length > 0) {
             spellingMistakesText += `${getSpellingCorrectionTip()}\n`
         }
 
@@ -201,6 +277,8 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     if (body) {
+        body = '<!-- Linter Review -->\n' + body
+
         await github.rest.pulls.createReview({
             owner: REPO_OWNER,
             repo: REPO,
@@ -212,29 +290,23 @@ module.exports = async ({ github, require, exec, core }) => {
         })
     }
 
-    async function getDiff(file) {
-        let diff = ''
-        const opts = {
-            listeners: {
+    function fileIsInDiff(file) {
+        return typeof getDiff(file) !== 'undefined'
+    }
 
-                stdout: (data) => {
-                    diff += data.toString();
-                }
-            },
-            cwd: BASE_DIR
-        }
-
-        await exec.exec(`git diff ${BASE_SHA} ${SHA} -- ${file}`, [], opts)
-
-        return diff.split('\n')
+    function getDiff(file) {
+        const k = file.replace('./', '')
+        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}.`)
+        return diffs[k]
     }
 
     async function findPositionInDiff(context, file) {
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
 
-        const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@'))
-        const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')))
+        if (!diff) return { position: -1 }
 
+        const idxToStartingCoutingFrom = diff.findIndex(line => line.startsWith('@@') && !line.includes('<!--'))
+        const idxOfLineToSearch = diff.findIndex(line => line.trim().startsWith('+') && line.replace(/ /g, '').includes(context.replace(/ /g, '')) && !line.includes('<!--'))
         // context does not exist in diff --> errors is in file with diff, but errors was not introduced with current PR
         if (idxToStartingCoutingFrom === -1 || idxOfLineToSearch === -1) {
             return { position: -1 }
@@ -246,7 +318,9 @@ module.exports = async ({ github, require, exec, core }) => {
     }
 
     async function findCodeBlockInDiff(lines, file) {
-        const diff = await getDiff(file)
+        const diff = getDiff(file)
+
+        if (!diff) return { position: -1 }
 
         let start = -1
         let end = -1
@@ -279,5 +353,13 @@ module.exports = async ({ github, require, exec, core }) => {
         const endIdx = lines.findIndex((el, idx) => idx >= startIdx && /`{3,}/.test(el.trim()))
 
         return lines.slice(startIdx - 1, endIdx + 1)
+    }
+
+    function suggestContainerType(line) {
+        return (line.toLowerCase().match(/(info|tip|warning|danger|details|code-group|raw)/) || [])[0]
+    }
+
+    function getLineFromFile(file, lineNumber) {
+        return readFileSync(join(BASE_DIR, file), 'utf-8').split(/\n\r?/)[lineNumber - 1]
     }
 }

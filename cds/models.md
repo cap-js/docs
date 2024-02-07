@@ -129,4 +129,4 @@ You can add any other frontend instead of using [CDL](./cdl); it's just about ge
 
 ## Processing Models
 
-All model processing and compilation steps, which can be applied subsequently just work on the basis of plain CSN objects. There’s no assumption about and no lock-in to a specific source format.
+All model processing and compilation steps, which can be applied subsequently just work on the basis of plain CSN objects. There's no assumption about and no lock-in to a specific source format.

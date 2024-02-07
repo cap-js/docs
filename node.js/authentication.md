@@ -69,12 +69,9 @@ User-related attributes, for example, from JWT tokens
 These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
 
 
-
-
 ### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
 
 [Use `req/msg.tenant` instead.](events#tenant){.learn-more}
-
 
 
 ### <i>DEPRECATED:</i> user.locale <i> : string </i> {#user-locale}
@@ -96,6 +93,22 @@ this.before('*', function (req) {
   )
 })
 ```
+
+Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, i.e., `const user = cds.User.privileged`.
+
+
+### cds.**User.Anonymous** <i> class </i> { #anonymous-user }
+
+Class `cds.User.Anonymous` allows you to instantiate an anonymous user (`const user = new cds.User.Anonymous`), for example in a [custom authentication](#custom) implementation.
+
+Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, i.e., `const user = cds.User.anonymous`.
+
+
+### cds.**User.default** { #default-user }
+
+If a request couldn't be authenticated, for example due to a missing authorization header, the framework will use `cds.User.default` as fallback.
+
+By default, `cds.User.default` points to `cds.User.Anonymous`. However, you can override this, for example to be `cds.User.Privileged` in tests, or to be any other class that returns an instance of `cds.User`.
 
 
 ### <i> Authorization Enforcement </i> {.h2 #enforcement }
@@ -131,16 +144,17 @@ cds.serve ('CustomerService') .with (function(){
 })
 ```
 
+
 ## Authentication Strategies {#strategies}
 
-CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`xsuaa`](#xsuaa) in production.
+CAP ships with a few prebuilt authentication strategies, used by default: [`mocked`](#mocked) during development and [`jwt`](#jwt) in production.
 You can override these defaults and configure the authentication strategy to be used through the `cds.requires.auth` [config option in `cds.env`](./cds-env), for example:
 
 ::: code-group
 ```json [package.json]
 "cds": {
   "requires": {
-    "auth": "xsuaa"
+    "auth": "jwt"
   }
 }
 ```
@@ -153,7 +167,7 @@ Run `cds env get requires.auth` in your project root to find out the effective c
 
 ### Dummy Authentication {.h2 #dummy }
 
-This strategy creates a user that passes all authorization checks. It’s meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
+This strategy creates a user that passes all authorization checks. It's meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
 
 **Configuration:** Choose this strategy as follows:
 
@@ -166,6 +180,7 @@ This strategy creates a user that passes all authorization checks. It’s meant 
 }
 ```
 :::
+
 
 ### Mocked Authentication {.h2 #mocked }
 
@@ -205,6 +220,7 @@ You can optionally configure users as follows:
 }
 ```
 :::
+
 
 #### Pre-defined Mock Users {#mock-users}
 
@@ -283,11 +299,6 @@ In contrast to [mocked authentication](#mocked), no default users are automatica
 
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['User Account and Authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
-```sh
-npm add passport
-```
-
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
 npm add @sap/xssec
@@ -312,7 +323,6 @@ npm add @sap/xssec
 
 Authentication kind `xsuaa` is a logical extension of kind [`jwt`](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
 
-
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
 npm add @sap/xssec
@@ -333,7 +343,7 @@ npm add @sap/xssec
 [See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
 ::: warning
-It’s recommended to only use this authentication kind if it’s necessary for your use case, as it denotes a lock-in to SAP BTP.
+It's recommended to only use this authentication kind if it's necessary for your use case, as it denotes a lock-in to SAP BTP.
 :::
 
 
@@ -342,11 +352,6 @@ It’s recommended to only use this authentication kind if it’s necessary for 
 This is an additional authentication strategy using the [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) that can be used in production. User identity and user attributes are provided at runtime, by a bound instance of the IAS service. This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
 To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
-
-**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
-```sh
-npm add passport
-```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -366,8 +371,7 @@ npm add @sap/xssec
 :::
 
 
-### Custom Authentication {#custom }
-
+### Custom Authentication { #custom }
 
 You can configure an own implementation by specifying an own `impl` as follows:
 
@@ -379,8 +383,11 @@ You can configure an own implementation by specifying an own `impl` as follows:
 }
 ```
 
-Essentially, custom authentication middlewares must do two things. First, they must [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`. Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
+Essentially, custom authentication middlewares must do two things:
 
+First, they _must_ [fulfill the `req.user` contract](#cds-user) by assigning an instance of `cds.User` or a look-alike to the incoming request at `req.user`.
+
+Second, if running in a multitenant environment, `req.tenant` must be set to a string identifying the tenant that is addressed by the incoming request.
 
 ```js
 module.exports = function custom_auth (req, res, next) {
@@ -397,7 +404,27 @@ module.exports = function custom_auth (req, res, next) {
 }
 ```
 
+The TypeScript equivalent has to use the default export.
+
+```ts
+import cds from "@sap/cds";
+import {Request, Response, NextFunction} from "express";
+type Req = Request & { user: cds.User, tenant: string };
+
+export default function custom_auth(req: Req, res: Response, next: NextFunction) {
+  // do your custom authentication ...
+}
+```
+
 [If you want to customize the user ID, please also have a look at this example.](./middlewares#customization-of-req-user){.learn-more}
+
+
+## Authentication Enforced in Production
+
+In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitely get `@requires: 'authenticated-user'`.
+
+This can be disabled via feature flag `cds.env.requires.auth.restrict_all_services: false`, or by using [mocked authentication](#mocked) explicitly in production.
+
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}
 
@@ -409,7 +436,7 @@ The following steps assume you've set up the [**Cloud Foundry Command Line Inter
 ```sh
 cf l -a <api-endpoint>
 ```
-If you don’t know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
+If you don't know the API endpoint, have a look at section [Regions and API Endpoints Available for the Cloud Foundry Environment](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/350356d1dc314d3199dca15bd2ab9b0e.html#loiof344a57233d34199b2123b9620d0bb41).
 
 2. Go to the project you have created in [Getting started in a Nutshell](../get-started/in-a-nutshell).
 
@@ -484,15 +511,15 @@ If you don’t know the API endpoint, have a look at section [Regions and API En
     }
     ```
 
-    >If your running in BAS, you can alternatively [create a new run configuration](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/cdbc00244452483e9582a4f486b42d64.html), connecting the `uaa` to your XSUAA service instance.
+    >If your running in BAS, you can alternatively [create a new run configuration](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/cdbc00244452483e9582a4f486b42d64.html), connecting the `auth` to your XSUAA service instance.
 
     >In that case you need to add the environment variable `cds_requires_auth_kind=xsuaa` to the run configuration.
 
 3. Check authentication configuration:
 ```sh
-cds env list requires.uaa --resolve-bindings --profile hybrid
+cds env list requires.auth --resolve-bindings --profile hybrid
 ```
-This prints the full `uaa` configuration including the credentials.
+This prints the full `auth` configuration including the credentials.
 
 
 ### Set Up the Roles for the Application { #auth-in-cockpit}
@@ -506,7 +533,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 2. Navigate to your subaccount and then choose *Security* > *Role Collections*.
 3. Choose *Create New Role Collection*:
 
-   ![Create role collections](./assets/create-role-collection.png)
+   ![Create role collections in SAP BTP cockpit](./assets/create-role-collection.png)
 
 4. Enter a *Name* for the role collection, for example `BookshopAdmin`, and choose *Create*.
 5. Choose your new role collection to open it and switch to *Edit* mode.
@@ -517,7 +544,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 ### Running Approuter
 
 The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
-The resulting JWT token is sent to the application where it’s used to enforce authorization and check the user's roles.
+The resulting JWT token is sent to the application where it's used to enforce authorization and check the user's roles.
 
 1. Add approuter in the `app` folder of your project:
 
@@ -534,13 +561,13 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 3. In your project folder run:
 
     ::: code-group
-    ```sh
+    ```sh [Mac/Linux]
     cds bind --exec -- npm start --prefix app
     ```
-    ```cmd
+    ```cmd [Windows]
     cds bind --exec -- npm start --prefix app
     ```
-    ```powershell
+    ```powershell [Powershell]
     cds bind --exec '--' npm start --prefix app
     ```
     :::
@@ -551,7 +578,7 @@ The resulting JWT token is sent to the application where it’s used to enforce 
 
     > Usually the approuter is started using `npm start` in the `app` folder. But you need to provide the `VCAP_SERVICES` variable with the XSUAA credentials. With the `cds bind --exec` command you can launch an arbitrary command with the `VCAP_SERVICES` variable filled with your `cds bind` service bindings.
 
-    Since it only serves static files or delegates to the backend service, you can keep the server running. It doesn’t need to be restarted after you have changed files.
+    Since it only serves static files or delegates to the backend service, you can keep the server running. It doesn't need to be restarted after you have changed files.
 
 4. Make sure that your CAP application is running as well with the `hybrid` profile:
 

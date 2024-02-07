@@ -21,6 +21,10 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP
 
 </div>
 
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
+
 [[toc]]
 
 
@@ -92,7 +96,7 @@ You can use Docker to run a PostgreSQL database locally as follows:
 
 1. Install and run [Docker Desktop](https://www.docker.com)
 
-2. Create a file like that:
+2. Create the following file in your project root directory:
    ::: code-group
 
    ```yaml [pg.yml]
@@ -171,7 +175,8 @@ If you don't use the default credentials and want to use just `cds deploy`, you 
     "db": {
       "kind": "postgres",
       "credentials": {
-        "host": "localhost", "port": 5432,
+        "host": "localhost",
+        "port": 5432,
         "user": "postgres",
         "password": "postgres",
         "database": "postgres"
@@ -276,40 +281,47 @@ cds deploy --profile pg
 
 ### With a Deployer App
 
-When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app, which you can construct as follows:
+When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
-1. Create a new folder named `gen/pg/db`:
-   ```sh
-   mkdir -p gen/pg/db
-   ```
+```sh
+cds build
+```
 
-2. Generate a precompiled cds model:
-   ```sh
-   cds compile '*' > gen/pg/db/csn.json
-   ```
-
-3. Add required `.csv` files, for example:
-   ```sh
-   cp -r db/data gen/pg/db/data
-   ```
-
-4. Add a *package.json* to `gen/pg` with this content:
-   ::: code-group
-   ```json [gen/pg/package.json]
+::: details What `cds build` does…
+1. Compiles the model into _gen/pg/db/csn.json_.
+2. Copies required `.csv` files into _gen/pg/db/data_.
+3. Adds a _gen/pg/package.json_ with this content:
+   ```json
    {
      "dependencies": {
-       "@sap/cds": "*",
-       "@cap-js/postgres": "*"
+       "@sap/cds": "^7",
+       "@cap-js/postgres": "^1"
      },
      "scripts": {
        "start": "cds-deploy"
      }
    }
    ```
-   :::
-   > **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable isn't available.
 
-5. Finally, package and deploy that, for example using [MTA-based deployment](deployment/to-cf#build-mta).
+> **Note the dash in `cds-deploy`**, which is required as we don't use `@cds-dk` for deployment and runtime, so the `cds` CLI executable isn't available.
+:::
+
+
+### Add Postgres Deployment Configuration
+
+```sh
+cds add postgres
+```
+
+::: details See what this does…
+1. Adds `@cap-js/postgres` dependency to your _package.json_ `dependencies`.
+2. Sets up deployment descriptors such as _mta.yaml_ to use a PostgreSQL instance deployer application.
+3. Wires up the PostgreSQL service to your deployer app and CAP backend.
+:::
+
+### Deploy
+
+You can package and deploy that application, for example using [MTA-based deployment](deployment/to-cf#build-mta).
 
 ## Automatic Schema Evolution { #schema-evolution }
 

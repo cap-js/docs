@@ -4,7 +4,7 @@ status: released
 ---
 
 <script setup>
-import { data } from './properties.data.js'
+import { data } from './properties.data.ts'
 const { properties, version } = data
 </script>
 
@@ -42,7 +42,7 @@ In property files `<index>` should be replaced with a number and `<key>` with an
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
   }
 
-  tr:hover .header-anchor, tr .header-anchor:focus { opacity: 1; }
+  tr:hover .header-anchor, tr .header-anchor:focus { opacity: 1; margin-top: -11px; }
   td.group { font-weight:600; }
   th.anchor, td.anchor { border-right:none; }
   th.prop,   td.prop { border-left:none; padding-left:0px;}

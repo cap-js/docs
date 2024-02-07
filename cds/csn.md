@@ -15,7 +15,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CSN (pronounced as "_Season_") is a notation for compact representations of CDS models — tailored to serve as an optimized format to share and interpret models with minimal footprint and dependencies.
 
-It’s similar to [JSON Schema] but goes beyond JSON's abilities, in order to capture full-blown _Entity-Relationship Models_ and [Extensions](#aspects). This makes CSN models a perfect source to generate target models, such as [OData/EDM](../advanced/odata) or [OpenAPI] interfaces, as well as persistence models for SQL or NoSQL databases.
+It's similar to [JSON Schema] but goes beyond JSON's abilities, in order to capture full-blown _Entity-Relationship Models_ and [Extensions](#aspects). This makes CSN models a perfect source to generate target models, such as [OData/EDM](../advanced/odata) or [OpenAPI] interfaces, as well as persistence models for SQL or NoSQL databases.
+
+[[toc]]
 
 
 ## Anatomy
@@ -523,7 +525,7 @@ This format applies to type/entity-level annotations as well as to element-level
 }})
 ```
 
-Annotations are used to add custom information to definitions, the prefixed `@` acts as a protection against conflicts with built-in/standard properties. They’re flat lists of key-value pairs, with keys being fully qualified property names and values being represented as introduced in the section [Literals and Expressions](#literals).
+Annotations are used to add custom information to definitions, the prefixed `@` acts as a protection against conflicts with built-in/standard properties. They're flat lists of key-value pairs, with keys being fully qualified property names and values being represented as introduced in the section [Literals and Expressions](#literals).
 
 
 
@@ -612,7 +614,7 @@ Services are definitions with _kind =`'service'`_:
 
 
 
-### Actions / Functions { .h2}
+### Actions / Functions
 
 Entity definitions (for _bound_ actions/functions) can have an additional property `actions`.
 The keys of these `actions` are the (local) names of actions/functions.
@@ -685,4 +687,4 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 })
 ```
 
-This data must be written and handled by the application, there’s no out-of-the-box support for this by CAP.
+This data must be written and handled by the application, there's no out-of-the-box support for this by CAP.

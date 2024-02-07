@@ -49,7 +49,7 @@ To also enable it in cloud deployments, for test or demo purposes maybe, add the
 
 :::
 
-## Adding SAP Fiori Apps to CAP Projects
+## Adding Fiori Apps
 
 As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
 
@@ -71,22 +71,18 @@ The SAP Fiori tools provide advanced support for adding SAP Fiori apps to existi
 
 [Learn more about **how to install SAP Fiori tools**.](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/2d8b1cb11f6541e5ab16f05461c64201.html){.learn-more}
 
-<div id="tools-preview" />
 
-<div id="cds-add-fiori" />
-
-### By Copying from [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
+### From [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
 
 For example, you can copy the [SAP Fiori apps from cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app) as a template and modify the content as appropriate.
 
-<div id="fe-samples-cap" />
 
-### By Copying the [SAP Fiori Elements Sample Service](https://github.com/SAP-samples/fiori-elements-incident-management/tree/sampleSolution)
+### From [Incidents Sample](https://github.com/SAP-samples/fiori-elements-incident-management/tree/sampleSolution)
 
 > This is a sample to create an incident management app with SAP Fiori elements for OData V4.
 
 
-## Adding SAP Fiori Annotations {#fiori-annotations}
+## Fiori Annotations
 
 The main content to add is service definitions annotated with information about how to render respective data.
 
@@ -148,9 +144,9 @@ Maintaining OData annotations in _.cds_ files is accelerated by the SAP Fiori to
 -   Quick view of vocabulary information
 -   Internationalization support
 
-These assisting features are provided for [OData annotations in CDS syntax](../advanced/odata#annotations) and can’t be used yet for the [core data services common annotations](../cds/annotations).
+These assisting features are provided for [OData annotations in CDS syntax](../advanced/odata#annotations) and can't be used yet for the [core data services common annotations](../cds/annotations).
 
-The [@sap/ux-cds-odata-language-server-extension](https://www.npmjs.com/package/@sap/ux-cds-odata-language-server-extension) module doesn’t require any manual installation. The latest version is fetched by default from [npmjs.com](https://npmjs.com) as indicated in the user preference setting **CDS > Contributions: Registry**.
+The [@sap/ux-cds-odata-language-server-extension](https://www.npmjs.com/package/@sap/ux-cds-odata-language-server-extension) module doesn't require any manual installation. The latest version is fetched by default from [npmjs.com](https://npmjs.com) as indicated in the user preference setting **CDS > Contributions: Registry**.
 
 [Learn more about the **CDS extension for VS Code**.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
@@ -210,7 +206,7 @@ Use code completion to add and change individual values (word-based completion) 
    };
    ```
 
-    > For each record type, two kinds of micro-snippets are provided: one containing only mandatory properties and one containing all properties defined for this record \(full record\). Usually you need just a subset of properties. So, you either select a full record and then remove the properties you don’t need, or add the record containing only required properties and then add the remaining properties.
+    > For each record type, two kinds of micro-snippets are provided: one containing only mandatory properties and one containing all properties defined for this record \(full record\). Usually you need just a subset of properties. So, you either select a full record and then remove the properties you don't need, or add the record containing only required properties and then add the remaining properties.
 
 6.  Use code completion to add values for the annotation properties.
 
@@ -276,7 +272,7 @@ Use code completion to add and change individual values (word-based completion) 
 
 ### Diagnostics
 
-The CDS OData Language Server validates OData annotations in _.cds_ files against the service metadata and OData vocabularies. It also checks provided string content for language-dependent annotation values and warns you if the format doesn’t match the internationalization (i18n) key reference. It shows you that this string is hard coded and won’t change based on the language setting in your application. See [Internationalization support](#internationalization-support) for more details.
+The CDS OData Language Server validates OData annotations in _.cds_ files against the service metadata and OData vocabularies. It also checks provided string content for language-dependent annotation values and warns you if the format doesn't match the internationalization (i18n) key reference. It shows you that this string is hard coded and won't change based on the language setting in your application. See [Internationalization support](#internationalization-support) for more details.
 
 Validation is performed when you open a _.cds_ file and then is retriggered with each change to the relevant files.
 
@@ -287,7 +283,7 @@ You can view the diagnostic messages by hovering over the highlighted part in th
 
 ### Navigation to Referenced Annotations
 
-CDS OData Language Server enables quick navigation to the definition of referenced annotations. For example, if your annotation file contains a `DataFieldForAnnotation` record referencing an `Identification` annotation defined in the service file, you can view which file it’s defined in and what fields or labels this annotation contains. You can even update the `Identification` annotation or add comments.
+CDS OData Language Server enables quick navigation to the definition of referenced annotations. For example, if your annotation file contains a `DataFieldForAnnotation` record referencing an `Identification` annotation defined in the service file, you can view which file it's defined in and what fields or labels this annotation contains. You can even update the `Identification` annotation or add comments.
 
 You can navigate to the referenced annotation using the [Peek Definition](#peek-definition) and [Go To Definition](#go-to-definition) features.
 
@@ -296,7 +292,7 @@ You can navigate to the referenced annotation using the [Peek Definition](#peek-
 
 #### Peek Definition { #peek-definition}
 
-Peek Definition lets you preview and update the referenced annotation without switching away from the code that you’re writing. It’s triggered when your cursor is inside the referenced annotation value.
+Peek Definition lets you preview and update the referenced annotation without switching away from the code that you're writing. It's triggered when your cursor is inside the referenced annotation value.
 - Using a keyboard: choose <kbd class="space">⌥</kbd> + <kbd>F12</kbd> (macOS) or <kbd>Alt</kbd> + <kbd>F12</kbd> (other platforms)
 - Using a mouse: right-click and select **Peek Definition**
 If an annotation is defined in multiple sources, all these sources are listed. You can select which one you want to view or update. Annotation layering isn't considered.
@@ -304,7 +300,7 @@ If an annotation is defined in multiple sources, all these sources are listed. Y
 
 #### Go to Definition { #go-to-definition}
 
-Go To Definition lets you navigate to the source of the referenced annotation and opens the source file scrolled to the respective place in a new tab. It’s triggered when your cursor is inside the referenced annotation value.
+Go To Definition lets you navigate to the source of the referenced annotation and opens the source file scrolled to the respective place in a new tab. It's triggered when your cursor is inside the referenced annotation value.
 
 Place your cursor inside the path referencing the annotation term segment or translatable string value, and trigger Go to Definition:
 
@@ -333,7 +329,7 @@ To view the quick info for each suggestion in the code completion list, either p
 
 #### Internationalization Support
 
-When you open an annotation file, all language-dependent string values are checked against the _i18n.properties_ file. Each value that doesn’t represent a valid reference to the existing text key in the _i18n.properties_ file, is indicated with a warning. A Quick Fix action is suggested to generate a text key in i18n file and substitute your string value with the reference to that entry.
+When you open an annotation file, all language-dependent string values are checked against the _i18n.properties_ file. Each value that doesn't represent a valid reference to the existing text key in the _i18n.properties_ file, is indicated with a warning. A Quick Fix action is suggested to generate a text key in i18n file and substitute your string value with the reference to that entry.
 
 
 ### Prefer `@title` and `@description`
@@ -382,13 +378,15 @@ entity Foo @(Capabilities:{
 Similar recommendations apply to `@mandatory` and others &rarr; see [Common Annotations](../cds/annotations#common-annotations).
 
 
-## Draft-Based Editing {#draft-support}
+## Draft Support
 
 SAP Fiori supports edit sessions with draft states stored on the server, so users can interrupt and continue later on, possibly from different places and devices. CAP, as well as SAP Fiori elements, provide out-of-the-box support for drafts as outlined in the following sections. **We recommend to always use draft** when your application needs data input by end users.
 
 [For details and guidelines, see **SAP Fiori Design Guidelines for Draft**.](https://experience.sap.com/fiori-design-web/draft-handling/){.learn-more}
 
 [Find a working end-to-end version in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori){.learn-more}
+
+[For details about the draft flow in SAP Fiori elements, see **SAP Fiori elements > Draft Handling**](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d){.learn-more}
 
 
 ### Enabling Draft with `@odata.draft.enabled`
@@ -405,6 +403,8 @@ annotate AdminService.Books with @odata.draft.enabled;
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
 :::
 
+### Difference between Compositions and Associations
+Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
@@ -414,7 +414,7 @@ Annotate the underlying base entity in the base model with `@fiori.draft.enabled
 annotate sap.capire.bookshop.Books with @fiori.draft.enabled;
 ```
 
-> Background: SAP Fiori drafts require single keys of type `UUID`, which isn’t the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
+> Background: SAP Fiori drafts required single keys of type `UUID`, which isn't the case by default for the automatically generated `_texts` entities (&rarr; [see the _Localized Data_ guide for details](../guides/localized-data#behind-the-scenes)). The `@fiori.draft.enabled` annotation tells the compiler to add such a technical primary key element named `ID_texts`.
 
 ::: warning
 Adding the annotation `@fiori.draft.enabled` won't work if the corresponding `_texts` entities contain any entries, because existing entries don't have a value for the new key field `ID_texts`.
@@ -427,7 +427,7 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services#adding-custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
 ###### ... in Java
@@ -452,7 +452,7 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 [Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
 
-## Value Help Support
+## Value Helps
 
 In addition to supporting the standard `@Common.ValueList` annotations as defined in the [OData Vocabularies](odata#annotations), CAP provides advanced, convenient support for Value Help as understood and supported by SAP Fiori.
 
@@ -542,7 +542,7 @@ Here is an example showing how this ends up as OData `Common.ValueList` annotati
 
 In our SFLIGHT sample application, we showcase how to use actions covering the definition in your CDS model, the needed custom code and the UI implementation.
 
-[Learn more about Custom Actions & Functions.](../guides/providing-services#custom-actions-functions){.learn-more}
+[Learn more about Custom Actions & Functions.](../guides/providing-services#actions-functions){.learn-more}
 
 
 We're going to look at three things.

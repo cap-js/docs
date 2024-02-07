@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # CDS Plugin Packages
 
 
@@ -23,13 +27,13 @@ cds.on('served', ()=>{ ... })
 
 :::
 
-Sometimes `cds-plugin.js` files can also be empty, for example if you plugin only registers new settings.
+Sometimes `cds-plugin.js` files can also be empty, for example if your plugin only registers new settings.
 
 
 
 ## Auto-Configuration
 
-Plugins can also add new config settings, thereby providing auto configuration. Simply add a `cds` section to your *package.json* file, as you would do in a project's *package.json*.
+Plugins can also add new configuration settings, thereby providing auto configuration. Simply add a `cds` section to your *package.json* file, as you would do in a project's *package.json*.
 
 For example, this is the configuration provided by the new SQLite service package `@cap-js/sqlite`:
 
@@ -57,7 +61,7 @@ For example, this is the configuration provided by the new SQLite service packag
 
 :::
 
-In effect this automatically configures a required `db` service using the `sql` preset. This preset is configred below to use the `sqlite` preset in development. The `sqlite` preset is in turn configured below, to use the plugin package's main as implementation.
+In effect this automatically configures a required `db` service using the `sql` preset. This preset is configured below to use the `sqlite` preset in development. The `sqlite` preset is in turn configured below, to use the plugin package's main as implementation.
 
 
 
@@ -68,13 +72,14 @@ This property refers to a module that implements the plugin machinery in cds, by
 1. For all entries in your *package.json*'s `dependencies` and `devDependencies` ...
 2. Select all target packages having a `cds-plugin.js` file in their roots ...
 3. Add all target packages' `cds` entry in their *package.json* to [`cds.env`](cds-env)
-4. Load all target packages'  `cds-plugin.js` module
+4. Load all target packages' `cds-plugin.js` module
 
 The plugin mechanism is activated by adding this to CLI commands:
 
 ```js
-await cds.plugin
+await cds.plugins
 ```
 
 Currently, the following commands support plugins: `cds-serve`, `cds watch`, `cds run`, `cds env`, `cds deploy`, `cds build`, `cds.test()`.
 
+<div id="cds-plugins-belowProperty" />

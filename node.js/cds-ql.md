@@ -284,6 +284,35 @@ const [one] = await SELECT.from (Authors)
 
 
 
+### .elements {.property}
+
+
+The CSN outline of the selected elements as an object. Key is the selected element or alias, value is the CSN definition:
+
+Let's assume the following query:
+```js
+SELECT.from('sap.capire.bookshop.Books').columns('ID', 'title')
+```
+
+This query is represented within `.elements` as:
+
+```js
+{
+  ID: number { key: true, type: 'cds.Integer' },
+  title: string {
+    '@mandatory': true,
+    localized: true,
+    type: 'cds.String',
+    length: 111,
+    '@Common.FieldControl': { '#': 'Mandatory' }
+  }
+}
+```
+
+This is useful for custom implementations that act on the selection of specific elements.
+
+
+
 ### .distinct {.property}
 
 Start the query with `SELECT.distinct` to skip duplicates as in SQL:
@@ -513,7 +542,7 @@ try {
 
 The `options` argument is optional; currently supported is:
 
-* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn’t specified, the database-specific default behavior applies.
+* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
 
 All acquired locks are released when the current transaction is finished, that is, committed  or rolled back.
 
@@ -809,4 +838,3 @@ function SELECT.from (
 ### .where() {.method}
 
 [As in SELECT.where](#where) {.learn-more}
-

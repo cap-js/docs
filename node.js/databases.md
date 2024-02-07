@@ -2,13 +2,15 @@
 label: Databases
 synopsis: >
   Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
-# layout: node-js
 status: released
 ---
 
-# Databases
+# Database Services
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter?.synopsis" />
+
+[[toc]]
+
 
 ## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 
@@ -40,7 +42,7 @@ This method is called automatically by the framework on the first query, so **yo
   - `affectedRows`: the number inserted (root) entries or the number of affectedRows in case of INSERT into SELECT
   - `valueOf()`: returns `affectedRows` such that comparisons like `result > 0` can be used
     ::: tip
-    `===` can’t be used as it also compares the type
+    `===` can't be used as it also compares the type
     :::
 
 

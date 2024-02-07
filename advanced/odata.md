@@ -16,9 +16,9 @@ status: released
   const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
 </script>
 <style scoped>
-  .ga   { color: var(--vp-c-green-dark); font-weight:900;}
+  .ga   { color: var(--vp-c-green-2); font-weight:900;}
   .na   { color: #aaa; font-size:90%; }
-  .prog { color: var(--vp-c-green-dark); font-size:90%; font-weight:500; }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
   .plan { color: #089; font-size:90% }
 </style>
 
@@ -70,7 +70,7 @@ System query options can also be applied to an [expanded navigation property](ht
 | [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
 
 
-## PATCH Entity Collection with Mass Data { #odata-patch-collection }
+## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
 
 With OData v4, you can [update a collection of entities](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateaCollectionofEntities) with a _single_ PATCH request.
 The resource path of the request targets the entity collection and the body of the request is given as a [delta payload](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads):
@@ -182,7 +182,8 @@ entity Books {
 ```
 
 ::: warning
-It is possible to "cast" any scalar CDS type into any (in-)compatible EDM type:
+This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API. 
+If you are not doing the required conversions, you can "cast" any scalar CDS type into any incompatible EDM type:
 
 ```cds
 entity Foo {
@@ -198,13 +199,13 @@ This translates into the following OData API contract:
 <Property Name="str" Type="Edm.Decimal" Scale="floating" DefaultValue="17.4"/>
 ```
 
-The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings. There is no automatic data conversion behind the scenes.
+The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings.
 :::
 
 
 ## OData Annotations { #annotations}
 
-The following sections explain how to add OData annotations to CDS models and how they’re mapped to EDMX outputs.
+The following sections explain how to add OData annotations to CDS models and how they're mapped to EDMX outputs.
 Only annotations defined in the vocabularies mentioned in section [Annotation Vocabularies](#vocabularies) are
 considered in the translation.
 
@@ -216,22 +217,25 @@ OData defines a strict two-fold key structure composed of `@<Vocabulary>.<Term>`
 
 ```cds
 @Common.Label: 'Customer'
-@Common.ValueList: {
-  Label: 'Customers',
-  CollectionPath: 'Customers'
+@UI.HeaderInfo: {
+  TypeName       : 'Customer',
+  TypeNamePlural : 'Customers',
+  Title          : { Value : name }
 }
-entity Customers { }
+entity Customers { /* ... */ }
 ```
 
 This is represented in CSN as follows:
 
-```json
+```jsonc
 {"definitions":{
   "Customers":{
     "kind": "entity",
     "@Common.Label": "Customer",
-    "@Common.ValueList.Label": "Customers",
-    "@Common.ValueList.CollectionPath": "Customers"
+    "@UI.HeaderInfo.TypeName": "Customer",
+    "@UI.HeaderInfo.TypeNamePlural": "Customers",
+    "@UI.HeaderInfo.Title.Value": {"=": "name"},
+    /* ... */
   }
 }}
 ```
@@ -241,17 +245,23 @@ And would render to EDMX as follows:
 ```xml
 <Annotations Target="MyService.Customers">
   <Annotation Term="Common.Label" String="Customer"/>
-  <Annotation Term="Common.ValueList">
-    <Record Type="Common.ValueListType">
-      <PropertyValue Property="Label" String="Customers"/>
-      <PropertyValue Property="CollectionPath" String="Customers"/>
+  <Annotation Term="UI.HeaderInfo">
+    <Record Type="UI.HeaderInfoType">
+      <PropertyValue Property="TypeName" String="Customer"/>
+      <PropertyValue Property="TypeNamePlural" String="Customers"/>
+      <PropertyValue Property="Title">
+        <Record Type="UI.DataField">
+          <PropertyValue Property="Value" Path="name"/>
+        </Record>
+      </PropertyValue>
     </Record>
   </Annotation>
 </Annotations>
 ```
 
 ::: tip
-The value for `@Common.ValueList` is flattened to individual key-value pairs in CSN and 'restructured' to a record for OData exposure in EDMX.
+The value for `@UI.HeaderInfo` is flattened to individual key-value pairs in CSN and 'restructured'
+to a record for OData exposure in EDMX.
 :::
 
 For each annotated target definition in CSN, the rules for restructuring from CSN sources are:
@@ -337,7 +347,7 @@ Rendering a `null` value must be done as dynamic expression:
 
 ### Records
 
-> The `@Some` annotation isn’t a valid term definition. The following example illustrates the rendering of record values.
+> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
 
 Record-like source structures are mapped to `<Record>` nodes in EDMX, with primitive types translated analogously to the above:
 
@@ -417,7 +427,7 @@ To overwrite the default, use an explicit `$Type` like shown previously.
 
 ### Collections
 
-> The `@Some` annotation isn’t a valid term definition. The following example illustrates the rendering of collection values.
+> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
 
 Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as direct elements of the array, these elements are wrapped into individual primitive child nodes of the resulting collection as is. The rules for records and collections are applied recursively:
 
@@ -446,7 +456,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ### References
 
->  The `@Some` annotation isn’t a valid term definition. The following example illustrates the rendering of reference values.
+>  The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
 References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
 
@@ -615,7 +625,7 @@ In general, back ends and SAP Fiori UIs understand or even expect OData V4 annot
 
 If necessary, CDS automatically translates OData V4 annotations to
 OData V2 SAP extensions when invoked with `v2` as the OData version.
-This means that you shouldn’t have to deal with this at all.
+This means that you shouldn't have to deal with this at all.
 
 Nevertheless, in case you need to do so, you can add `sap:...` attribute-style annotations as follows:
 
@@ -803,7 +813,7 @@ GET /Books?$apply=
 
 This request filters all books, keeping only books by Bram Stroker. From these books, `concat` calculates (1) the total count of books *and* (2) the count of books per year. The result is heterogeneous.
 
-The `concat` transformation must be the last of the apply pipeline. If `concat` is used, then `$apply` can’t be used in combination with other system query options.
+The `concat` transformation must be the last of the apply pipeline. If `concat` is used, then `$apply` can't be used in combination with other system query options.
 
 
 #### `skip`, `top`, and `orderby`
@@ -834,7 +844,7 @@ This query groups the 500 most expensive books by author name and determines the
 
 ### Custom Aggregates
 
-Instead of explicitly using an expression with an aggregation method in the `aggregate` transformation, the client can use a _custom aggregate_. A custom aggregate can be considered as a virtual property that aggregates the input set. It’s calculated on the server side. The client doesn't know _How_ the custom aggregate is calculated.
+Instead of explicitly using an expression with an aggregation method in the `aggregate` transformation, the client can use a _custom aggregate_. A custom aggregate can be considered as a virtual property that aggregates the input set. It's calculated on the server side. The client doesn't know _How_ the custom aggregate is calculated.
 
 They can only be used for the special case when a default aggregation method can be specified declaratively on the server side for a measure.
 
@@ -854,7 +864,7 @@ entity Books as projection on bookshop.Books {
 };
 ```
 
-With this definition, it’s now possible to use the custom aggregate `stock` in an `aggregate` transformation:
+With this definition, it's now possible to use the custom aggregate `stock` in an `aggregate` transformation:
 
 ```http
 GET /Books?$apply=aggregate(stock) HTTP/1.1
@@ -885,7 +895,7 @@ entity Sales {
 
 The CAP Java SDK exposes all properties annotated with `@Semantics.currencyCode` or `@Semantics.unitOfMeasure` as a [custom aggregate](../advanced/odata#custom-aggregates) with the property's name that returns:
 
-* The property's value if it’s unique within a group of dimensions
+* The property's value if it's unique within a group of dimensions
 * `null` otherwise
 
 A custom aggregate for a currency code or unit of measure should be also exposed by the `@Aggregation.CustomAggregate` annotation. Moreover, a property for a monetary amount or a measured quantity should be annotated with `@Semantics.amount.currencyCode` or `@Semantics.quantity.unitOfMeasure` to reference the corresponding property that holds the amount's currency code or the quantity's unit of measure, respectively.
@@ -996,14 +1006,14 @@ The Node.js runtime supports the feature only in REST Adapter as well as for par
 
 ## Singletons
 
-A singleton is a special one-element entity introduced in OData V4. It can be addressed directly by its name from the service root without specifying the entity’s keys.
+A singleton is a special one-element entity introduced in OData V4. It can be addressed directly by its name from the service root without specifying the entity's keys.
 
 Annotate an entity with `@odata.singleton` or `@odata.singleton.nullable`, to use it as a singleton within a service, for example:
 
 ```cds
 service Sue {
   @odata.singleton entity MySingleton {
-    key id : String; // can be omitted
+    key id : String; // can be omitted in OData v4.01
     prop : String;
     assoc : Association to myEntity;
   }
@@ -1070,7 +1080,7 @@ For Node.js projects, add the proxy as express.js middleware as follows:
     ::: code-group
     ```json [package.json]
     {...
-    "cds" {
+    "cds" : {
       "cov2ap" : {
         "plugin" : true
         }

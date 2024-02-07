@@ -1,5 +1,4 @@
 ---
-outline: [1,3]
 status: released
 synopsis: Start with a minimal setup and a grow-as-you-go approach.
 ---
@@ -9,8 +8,8 @@ synopsis: Start with a minimal setup and a grow-as-you-go approach.
 
 CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
-> Looking for other ways to setup and start projects?
-> See the Get Started menu in the left-hand-side sidebar.
+> Looking for other ways to set up and start projects?
+> See the _Get Started_ menu in the left-hand sidebar.
 
 [[toc]]
 
@@ -41,8 +40,8 @@ Choose the **LTS** version, via the left-hand side button:
 
 ```sh
 npm add -g @sap/cds-dk
+cds #> run the installed CLI
 ```
-[Running into problems? &rarr; See the troubleshooting guide.](../advanced/troubleshooting#npm-installation){.learn-more}
 
 
 ### 3. Install Git
@@ -60,7 +59,7 @@ If not, download and run the appropriate installer from [git-scm.com](https://gi
 
 ### 5. Install Java & Maven
 
-- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed [as described here](https://cap.cloud.sap/docs/java/getting-started#local).
+- **If you want to go for CAP Java projects**, ensure you have [Java](https://sapmachine.io) and [Maven](https://maven.apache.org/download.cgi) installed [as described here](../java/getting-started#local).
 
 
 ### 6. Install Visual Studio Code
@@ -104,12 +103,10 @@ Then open it in Visual Studio Code:
 code bookshop
 ```
 
+
 ::: details **Note:** VS Code CLI on macOS needs extra setup
-
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Find detailed instructions in [VS Code's macOS setup guide](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
-
+In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
 :::
-
 
 
 ### Project Structure
@@ -118,10 +115,10 @@ The default project structure of CAP projects is as follows:
 
 ```zsh
 bookshop/        # Your project's root folder
-├─ app /         # UI-related content goes here
-├─ srv/          # Service-related content goes here
-├─ db/           # Domain models and database-related content goes here
-├─ package.json  # Contains configuration for cds-dk
+├─ app/          # UI-related content
+├─ srv/          # Service-related content
+├─ db/           # Domain models and database-related content
+├─ package.json  # Configuration for cds + cds-dk
 └─ readme.md     # A readme placeholder
 ```
 
@@ -129,7 +126,7 @@ bookshop/        # Your project's root folder
 
 ### Minimal Configuration
 
-Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you’d have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
+Following the [convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) paradigm, CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
 
 For example you could override the defaults for the project structure like that:
 
@@ -151,7 +148,7 @@ For example you could override the defaults for the project structure like that:
 
 ::: tip Convention over Configuration
 
-We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configurations or override the defaults if you really need to do so.
+We recommend to stay with CAP's conventions to benefit from things just working out of the box. Only add configuration or override the defaults if you really need to do so.
 
 :::
 
@@ -190,22 +187,22 @@ live reload enabled for browsers
 
 :::
 
-We'd go on by adding CDS domain models and service definitions, as well as custom logic, as outlined in these sample project guides:
+We continue by adding CDS domain models and service definitions, as well as custom logic, as outlined in these sample project guides:
 
 -  [*Hello World!*](hello-world)
 - *[Getting Started in a Nutshell](in-a-nutshell)*
 
 ::: tip Served out of the box...
 
-Whenever we add content, `cds watch` would react immediately, for example, by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically, without need for time-consuming builds and deployments.
+Whenever we add content, `cds watch` reacts immediately, for example, by bootstrapping an in-memory SQLite database, filling it with initial data, and serving services to OData automatically, without need for time-consuming builds and deployments.
 
 :::
 
 ### Mocked Platform Services
 
-The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in 'inner loop' mode.
+The rapid development experience, with minimum setup and fast turn-around times, is enabled by the CAP runtimes providing local stand-ins for common platform services. These allow us to run fully functional servers locally during development, in an 'inner loop' mode.
 
-Following are the defaults used automatically in *production*, or *development* mode.
+These are the defaults used automatically in *production*, or *development* mode.
 
 | Production             | Development                      |
 | ---------------------- | -------------------------------- |
@@ -216,9 +213,9 @@ Following are the defaults used automatically in *production*, or *development* 
 
 
 
-::: tip Stay in Inner Loop Development
+::: tip Stay in [Inner Loop Development](https://www.getambassador.io/docs/telepresence/latest/concepts/devloop)
 
-... as much as possible to benefit from **accelerated development** at **minimized costs**. Use the full near-production setup only when you need it, for example for integration tests before releases.
+... as much as possible to benefit from **accelerated development** at **minimized cost**. Use the full 'near-production' setup only when you need it, for example for integration tests before releases.
 
 :::
 
@@ -226,18 +223,18 @@ Following are the defaults used automatically in *production*, or *development* 
 
 A CDS service definition is all CAP needs to serve fully-functional OData services, with extensive database access included out of the box. This also allows us to mock remote services in service integration scenarios.
 
-For example, assumed we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP Business Accelerator Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating that into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
+For example, assuming we want to integrate Business Partners from S/4, we do so by importing a service API, for example, the [EDMX from SAP Business Accelerator Hub](https://api.sap.com/api/API_BUSINESS_PARTNER), and translating it into a CDS service definition using `cds import`. As we now have a service definition we can just serve this by CAP as a mock implementation instead of always having to use the remote S/4 service during development. This again greatly speeds up development turn-around times.
 
 A step-by-step walkthrough can be found in our [TechEd 2022 sample](https://github.com/SAP-samples/teched2022-AD265).{.learn-more}
 
 ## Speed up Your Pipelines
 
-We strongly recommend to use the mocked services setup not only in development but also for functional tests in your test pipelines to speed them up by magnitudes.
+We strongly recommend using the mocked services setup, not only in development, but also for functional tests in your test pipelines to speed them up by orders of magnitude.
 
 Not only are inner-loop pipeline tests much faster, they also mean there's less complex setups, less dependency on high availability, and no risks your tests are considered denial of service attacks by used services.
 
 ::: tip Overall, using inner-loop tests...
 
-helps speeding up your test runs by magnitudes, makes them more robust, and not the least: helps to minimize costs. Make use of that as much as possible and only use the full monty for *real* integration tests.
+helps speed up your test runs by orders of magnitude, makes them more robust, and last but not least: helps to minimize costs. Make use of them as much as possible and only use the full monty for *real* integration tests.
 
 :::

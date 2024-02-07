@@ -28,7 +28,7 @@ This section describes how to configure applications. CAP Java applications can 
 
 For a first introduction, have a look at our [sample application](https://github.com/sap-samples/cloud-cap-samples-java) and the [configuration profiles](https://github.com/SAP-samples/cloud-cap-samples-java/blob/master/srv/src/main/resources/application.yaml) we added there.
 
-Now, that you’re familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
+Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
 ### Service Bindings on SAP BTP, Kyma Runtime {#kubernetes-service-bindings}
 
@@ -106,7 +106,7 @@ The parameters `plan` and `tags` are optional.
 
 ## Spring Boot Integration { #spring-boot-integration}
 
-This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn’t supported.
+This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn't supported.
 Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
 
 As Spring Boot not only is widely accepted but also most popular application framework, CAP Java SDK comes with a seamless integration of Spring Boot as described in the following sections.
@@ -187,15 +187,15 @@ If you want to compile your application as a native executable the following bou
 
     ::: tip
     Many runtime hints for reflection, JDK proxy usage, and resources are contributed automatically to the Native Image build.
-    This includes 
+    This includes
     - Required reflection for event handler classes defined in application code.
     - JDK proxies for interfaces generated from the application's CDS model by the CDS Maven Plugin.
     :::
 
 3. Spring Boot automatically defines and fixes all bean definitions of your application at build time. If you have bean definitions that are created based on conditions on externalized configuration or profiles, you need to supply these triggers to the Native Image build.
 
-    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build. 
-    
+    CAP Java also creates various bean definitions based on service bindings. Therefore, you need to provide the metadata of expected service bindings at runtime already during build time. This is similar to the information you define in deployment descriptors (for example `mta.yaml` or Helm charts). This information is also required to be supplied to the Native Image build.
+
     The Spring Boot Maven Plugin allows you to [configure the Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.aot.conditions) that are used during the Native Image build. You can supply information to the Native Image Build in a `native-build-env.json`, which you can configure together with the Spring profile. For example you can provide information to the Native image build in the `native-build-env.json` which you can configure together with the spring profile in the `srv/pom.xml`:
 
     ::: code-group
@@ -249,18 +249,22 @@ The CAP Java SDK uses various dependencies that are also used by the application
 
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
-| Java | 17 | 17 |
+| Java | 17 | 21<sup>1</sup> |
 | @sap/cds-dk | 6 | latest |
 | @sap/cds-compiler | 3 | latest |
-| Spring Boot | 3.0 | 3.0 |
+| Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 4.13 | latest |
+| SAP Cloud SDK | 4.24 | latest<sup>2</sup> |
 | Java Logging | 3.7 | latest |
 
+<sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommended.
+
+<sup>2</sup> Cloud SDK 5 is recommended. Refer to necessary steps for [adoption of Cloud SDK 5](../migration.md#cloudsdk5)  
+
 ::: warning
-The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x. 
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
 You have two options:
-* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material) 
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
 * Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
 :::
 
@@ -284,15 +288,15 @@ This section describes various options to create a CAP Java project from scratch
 Use the following command line to create a project from scratch with the CDS Maven archetype:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```cmd
+```cmd [Windows]
 mvn archetype:generate -DarchetypeArtifactId=cds-services-archetype -DarchetypeGroupId=com.sap.cds -DarchetypeVersion=RELEASE
 ```
 
-```powershell
+```powershell [Powershell]
 mvn archetype:generate `-DarchetypeArtifactId=cds-services-archetype `-DarchetypeGroupId=com.sap.cds `-DarchetypeVersion=RELEASE
 ```
 :::
@@ -308,7 +312,7 @@ It supports the following command-line options:
 | `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
 | `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[17\|20]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
 
 ### Maven Build Options
 
@@ -448,7 +452,7 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 #### Local Development for Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Deploy as SaaS_ guide](../../guides/deployment/as-saas?impl-variant=java#local-mtx) for more information.
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
 
 <div id="afterlocaldev" />
 

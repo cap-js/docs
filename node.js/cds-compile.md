@@ -192,7 +192,7 @@ Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-oda
 * Either choose exactly one, for example, `{service:'Catalog'}`
 * Choose to return EDM objects for all, that means, `{service:'all'}`
 
-In case of the latter, a generator is returned that yields `[ edm, {name} ]` for each service.
+In case of the latter, a generator is returned that yields `[ edm, {file, suffix} ]` for each service.
 For example, use it as follows:
 
 ```js
@@ -203,7 +203,7 @@ console.log (edm)
 ```js
 // for all services
 let all = cds.compile.to.edm (csn, {service:'all'})
-for (let [edm,{name}] of all)  console.log (name,edm)
+for (let [edm,{file,suffix}] of all)  console.log (file,suffix,edm)
 ```
 
 
@@ -296,7 +296,7 @@ const csn = await cds.load(['db','srv'])
 
 > The given filenames are resolved using [`cds.resolve()`](#cds-resolve).
 >
->  Note: It’s recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
+>  Note: It's recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
 
 
 

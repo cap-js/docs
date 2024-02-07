@@ -136,7 +136,7 @@ function printErrorForSnippet(snippet, messages) {
  * @param {object} snippet
  */
 function compileSnippet(snippet) {
-  const options = { messages: snippet.messages };
+  const options = { messages: snippet.messages, betaMode: true };
 
   const compile = () => {
     try {

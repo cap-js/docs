@@ -11,6 +11,10 @@ impl-variants: true
 
 {{ $frontmatter.synopsis }}
 
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
+
 ## Secure Communications { #secure-communications }
 
 
@@ -127,7 +131,7 @@ Learn more about user model and identity providers here:
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
-- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/as-saas) on basis of platform-injected service bindings.
+- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/to-cf) on basis of platform-injected service bindings.
 - CAP offers consumption of [Remote Services](../using-services) on basis of [SAP BTP destinations](../using-services#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.
@@ -231,7 +235,9 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 | Platform service             | URL                         | Authorization                                                                                          |
 |------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------|
-| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | [Technical role](../deployment/as-saas#xsuaa-mt-configuration) `mtcallback`                     |
+| Multitenancy (SaaS Registry) | `/mt/v1.0/subscriptions/**` | Technical role `mtcallback`                     |
+
+<!-- Add learn more link for mtcallback as soon as available in MTX Guide -->
 
 </div>
 
@@ -245,7 +251,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 <div id="auth-callback-endpoints-more" />
 
-Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
+Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 
 | CAP service | URL | Authorization
 | ----------- | --- | -------------
@@ -254,7 +260,7 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
 | [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
 
-> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone))
+> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 
 Authentication for a CAP sidecar needs to be configured just like any other CAP application.
@@ -362,7 +368,7 @@ Attackers can send malicious input data in a regular request to make the server 
 Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based on user input:
 
 <div class="impl java">
-  
+
 ```java
 String entity = <from user input>;
 String column = <from user input>;
@@ -373,7 +379,7 @@ Select.from(entity).columns(b -> b.get(column));
 </div>
 
 <div class="impl node">
-  
+
 ```js
 const entity = <from user input>
 const column = <from user input>
@@ -434,7 +440,7 @@ Developers can use the [`@assert`](../providing-services#input-validation) annot
 
 - With respect to **output encoding**, CAP OData adapters have proper URI encoding for all resource locations in place.
 Moreover, OData validates the JSON response according to the given EDMX schema.
-In addition, client-side protection is given by [SAPUI5](https://community.sap.com/topics/ui5) standard controls
+In addition, client-side protection is given by [SAPUI5](https://pages.community.sap.com/topics/ui5) standard controls
 
 - Applications should meet basic [Content Security Policy (CSP)](https://www.w3.org/TR/CSP2/) compliance rules to further limit the attack vector on client side.
 CSP-compatible browsers only load resources from web locations that are listed in the allowlist defined by the server.
@@ -566,8 +572,8 @@ The adapters also transform the HTTP requests into a corresponding CQN statement
 Access control is performed on basis of CQN level according to the CDS model and hence HTTP Verb Tampering attacks are avoided. Also HTTP method override, using `X-Http-Method-Override` or `X-Http-Method` header, is not accepted by the runtime.
 
 The OData protocol allows to encode field values in query parameters of the request URL or in the response headers. This is, for example, used to specify:
-- [Sorting](../providing-services#using-cds-search-annotation)
 - [Pagination (implicit sort order)](../providing-services#pagination-sorting)
+- [Searching Data](../providing-services#searching-data)
 - Filtering
 
 ::: warning

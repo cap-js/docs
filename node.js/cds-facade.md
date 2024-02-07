@@ -15,13 +15,11 @@ const cds = require('@sap/cds')
 let csn = cds.compile(`entity Foo {}`)
 ```
 
-::: tip
-
-Use `cds repl` to try out things, for example like this to :
-
-```console
+::: tip Use `cds repl` to try out things
+For example, like this to get the compiled CSN for an entity `Foo`:
+```js
 [dev] cds repl
-Welcome to cds repl v6.8.0
+Welcome to cds repl v 7.3.0
 > cds.compile(`entity Foo { key ID : UUID }`)
 { definitions: {
   Foo: { kind: 'entity', elements: { ID: { key: true, type: 'cds.UUID' } } }
@@ -35,14 +33,13 @@ Welcome to cds repl v6.8.0
 
 Many properties of cds are references to submodules, which are lazy-loaded on first access to minimize bootstrapping time and memory consumption. The submodules are documented in separate documents.
 
-- [cds. models](./cds-facade.md) {.property}
-  - [cds. resolve()](./cds-compile.md#cds-resolve) {.method}
-  - [cds. load()](./cds-facade.md) {.method}
-  - [cds. parse()](./cds-compile.md#cds-parse) {.method}
+- [cds. model](cds-facade#cds-model) {.property}
+  - [cds. resolve()](cds-compile#cds-resolve) {.method}
+  - [cds. load()](cds-compile#cds-load) {.method}
+  - [cds. parse()](cds-compile#cds-parse) {.method}
   - [cds. compile](cds-compile) {.method}
   - [cds. linked()](cds-reflect) {.method}
-  - [cds. deploy()](./cds-facade.md) {.method}
-- [cds. server](cds-serve) {.property}
+- [cds. server](cds-server) {.property}
 - [cds. serve()](cds-serve) {.method}
   - cds. services {.property}
   - cds. middlewares {.property}
@@ -58,7 +55,23 @@ Many properties of cds are references to submodules, which are lazy-loaded on fi
 - [cds. test](cds-test) {.property}
 - [cds. utils](cds-utils) {.property}
 
+<br>
 
+Import classes and functions through the facade object only:
+
+##### **Good:** {#import-good .good}
+
+```ts
+const { Request } = require('@sap/cds') // [!code ++]
+```
+
+##### **Bad:** {#import-bad .bad}
+
+Never code against paths inside `@sap/cds/`:
+
+```ts
+const Request = require('@sap/cds/lib/.../Request') // [!code --]
+```
 
 ## Builtin Types & Classes
 
@@ -80,18 +93,18 @@ Following properties provide access to the classes and prototypes of [linked CSN
 
 ## Core Classes
 
-### [cds.Service](core-services#core-services) {.class}
+### [cds. Service](core-services#core-services) {.class}
 
-- [cds.ApplicationService](app-services) {.class}
-- [cds.RemoteService](remote-services) {.class}
-- [cds.MessagingService](messaging) {.class}
-- [cds.DatabaseService](databases) {.class}
-- [cds.SQLService](databases) {.class}
+- [cds. ApplicationService](app-services) {.class}
+- [cds. RemoteService](remote-services) {.class}
+- [cds. MessagingService](messaging) {.class}
+- [cds. DatabaseService](databases) {.class}
+- [cds. SQLService](databases) {.class}
 
-### [cds.EventContext](events#cds-event-context) {.class}
-### [cds.Event](events#cds-event) {.class}
-### [cds.Request](events#cds-request) {.class}
-### [cds.User](authentication#cds-user) {.class}
+### [cds. EventContext](events#cds-event-context) {.class}
+### [cds. Event](events#cds-event) {.class}
+### [cds. Request](events#cds-request) {.class}
+### [cds. User](authentication#cds-user) {.class}
 
 
 
@@ -190,16 +203,49 @@ Provides access to the effective configuration of the current process, transpare
 
 ### cds. requires {.property}
 
-... is a convenience shortcut to [`cds.env.requires`](#cds-env).
+... is an overlay and convenience shortcut to [`cds.env.requires`](#cds-env), with additional entries for services with names different from the service definition's name in cds models. For example, given this service definition:
 
-```console
-[dev] cds repl
-> cds.requires.auth // [!code focus]
-{
-  kind: 'basic-auth',
-  # ... as above
-}
+```cds
+service ReviewsService {}
 ```
+
+... and this configuration:
+
+```jsonc
+{ "cds": {
+  "requires": {
+    "db": "sqlite",
+    "reviews" : {                  // lookup name
+      "service": "ReviewsService"  // service definition's name
+    }
+  }
+}}
+```
+
+You can access the entries as follows:
+
+```js
+cds.env.requires.db              //> the effective config for db
+cds.env.requires.reviews         //> the effective config for reviews
+cds.env.requires.ReviewsService  //> undefined
+```
+
+```js
+cds.requires.db                  //> the effective config for db
+cds.requires.reviews             //> the effective config for reviews
+cds.requires.ReviewsService      //> same as cds.requires.reviews
+```
+
+The additional entries are useful for code that needs to securely access the service by cds definition name.
+
+Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like `Object.keys()` behave different than for `cds.env.requires`:
+
+```js
+Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
+Object.keys(cds.requires)     //> [ 'ReviewsService' ]
+```
+
+
 
 
 
@@ -208,7 +254,7 @@ Provides access to the effective configuration of the current process, transpare
 A dictionary and cache of all instances of [`cds.Service`](core-services) constructed through [`cds.serve()`](cds-serve),
 or connected to by [`cds.connect()`](cds-connect).
 
-It’s an *iterable* object, so can be accessed in the following ways:
+It's an *iterable* object, so can be accessed in the following ways:
 
 ```js
 let { CatalogService, db } = cds.services

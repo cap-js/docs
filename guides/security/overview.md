@@ -51,7 +51,7 @@ Find more about BTP platform security here:
 
 [SAP BTP Security](https://help.sap.com/docs/btp/sap-business-technology-platform/security-e129aa20c78c4a9fb379b9803b02e5f6){.learn-more}
 [SAP BTP Security Recommendations](https://help.sap.com/docs/btp/sap-btp-security-recommendations-c8a9bb59fe624f0981efa0eff2497d7d/sap-btp-security-recommendations){.learn-more}
-[SAP BTP Security (Community)](https://community.sap.com/topics/btp-security){.learn-more}
+[SAP BTP Security (Community)](https://pages.community.sap.com/topics/btp-security){.learn-more}
 
 
 <div id="security-deploy-sap" />
@@ -130,7 +130,7 @@ CAP requires a dedicated [platform environment](#platform-environment) to integr
 The following diagram provides a high-level overview about the security-relevant aspects of a deployed CAP application in a cloud environment:
 
 <!-- TODO: Redraw as .drawio.svg -->
-<img src="./assets/cap-security-architecture-overview.png" width="600px">
+<img src="./assets/cap-security-architecture-overview.png" width="600px" alt="This TAM graphic is explained in the accompanying text.">
 
 To serve a business request, different runtime components are involved: a request, issued by a UI or technical client ([public zone](#public-zone)), is forwarded by a gateway or ingress router to the CAP application. In case of an UI request, an [Application Router](https://help.sap.com/docs/btp/sap-business-technology-platform/application-router) instance acts as a proxy. The CAP application might make use of a CAP sidecar. All application components ([application zone](#application-zone)) might make use of platform services such as database or identity service ([platform zone](#platform-zone)).
 

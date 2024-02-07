@@ -1,10 +1,12 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
+import type { LanguageInput, IRawGrammar } from 'shikiji'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
-import { sidebar as sideb, nav4 } from './menu'
+import { sidebar, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
+import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
@@ -20,14 +22,13 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.1.1',
-  java_cds4j: '2.1.1'
+  java_services: '2.6.0',
+  java_cds4j: '2.6.0'
 }
 
 const localSearchOptions = {
   provider: 'local',
   options: {
-    exclude: (relativePath) => relativePath.includes('/customization-old'),
     miniSearch: {
       options: {
         tokenize: text => text.split( /[\n\r #%*,=/:;?[\]{}()&]+/u ), // simplified charset: removed [-_.@] and non-english chars (diacritics etc.)
@@ -72,29 +73,35 @@ const localSearchOptions = {
   }
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
+const menu = sidebar()
+const nav = nav4(menu) as DefaultTheme.NavItem[]
+const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
+  const src = await fs.readFile(join(__dirname, file))
+  const grammar:IRawGrammar = JSON.parse(src.toString())
+  return { name, aliases: [name, alias], ...grammar }
+}
+
 const config:UserConfig<CapireThemeConfig> = {
   title: 'CAPire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
-  srcExclude: ['**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/PARKED-*.md'],
+  srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
   themeConfig: {
     logo: '/assets/logos/cap.svg',
-    get sidebar() { return sideb('menu.md') },
-    get nav() {
-      const navItems = nav4(config.themeConfig!.sidebar) as DefaultTheme.NavItem[]
-      return [
-           navItems.find  (i => i.text === 'Getting Started'), //@ts-ignore
-        ...navItems.filter(i => i.text === 'Cookbook').map((item:DefaultTheme.NavItemWithChildren) => {
-            item.items.unshift({ text: 'Overview', link: 'guides/' }) // add extra overview item to navbar
-            return item
-        }),
-        { text: 'Reference', items: [
-          { text: 'CDS',       link: 'cds/' },
-          { text: 'Node.js',   link: 'node.js/' },
-          { text: 'Java',      link: 'java/' },
-        ]},
-      ] as DefaultTheme.NavItem[]
-    },
+    // IMPORTANT: Don't use getters here, as they are called again and again!
+    sidebar: menu,
+    nav: [
+      nav.find(i => i.text === 'Getting Started'),
+      nav.find(i => i.text === 'Cookbook'),
+      { text: 'More...', items: [
+        { text: 'Advanced',  link: '/advanced/' },
+        { text: 'Plugins',   link: '/plugins/' },
+        { text: 'Tools',     link: '/tools/' },
+        { text: 'CDS',       link: '/cds/' },
+        { text: 'Java',      link: '/java/' },
+        { text: 'Node.js',   link: '/node.js/' },
+      ]},
+    ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {
       message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
@@ -107,52 +114,31 @@ const config:UserConfig<CapireThemeConfig> = {
     socialLinks: [
       {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
-    outline: [1,3],
+    outline: [2,3],
     capire: { versions: latestVersions, gotoLinks: [] }
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
     ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }]
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }],
+    ['script', {}, ` const variant = localStorage.getItem('impl-variant') ?? 'node'; document.documentElement.classList.add(variant)`]
   ],
   lastUpdated: true,
   cleanUrls: true,
   ignoreDeadLinks: true, // TODO enable again to fix links from here to internal content
   markdown: {
-    // theme: {
-    //   light: 'github-light',
-    //   dark: 'github-dark'
-    // },
-    // lineNumbers: true,
     languages: [
-      {
-        id: 'cds',
-        scopeName: 'source.cds',
-        path: join(__dirname, 'syntaxes/cds.tmLanguage.json'), // from https://github.com/SAP/cds-textmate-grammar
-        aliases: ['cds']
-      },
-      {
-        id: 'csvs',
-        scopeName: 'text.scsv',
-        path: join(__dirname, 'syntaxes/scsv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
-        aliases: ['csv', 'csvs']
-      },
-      {
-        id: 'csvc',
-        scopeName: 'text.csv',
-        path: join(__dirname, 'syntaxes/csv.tmLanguage.json'), // from https://github.com/mechatroner/vscode_rainbow_csv
-        aliases: ['csvc']
-      },
-      {
-        id: 'log',
-        scopeName: 'text.log',
-        path: join(__dirname, 'syntaxes/log.tmLanguage.json'),
-        aliases: ['log', 'logs']
-      }
+      await loadSyntax('syntaxes/cds.tmLanguage.json',  'cds'), // from https://github.com/SAP/cds-textmate-grammar
+      await loadSyntax('syntaxes/scsv.tmLanguage.json', 'csv', 'csvs'), // from https://github.com/mechatroner/vscode_rainbow_csv
+      await loadSyntax('syntaxes/csv.tmLanguage.json',  'csvc'), // from https://github.com/mechatroner/vscode_rainbow_csv
+      await loadSyntax('syntaxes/log.tmLanguage.json',  'log', 'logs'), // find here mappings from color -> tm language key https://github.com/shikijs/shiki/blob/main/packages/shiki/themes/github-dark.json
     ],
     toc: {
       level: [2,3]
-    }
+    },
+    config: md => {
+      MdAttrsPropagate.install(md)
+    },
   },
   sitemap: {
     hostname: siteURL.href
@@ -163,7 +149,7 @@ const config:UserConfig<CapireThemeConfig> = {
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 4000 // chunk for local search index dominates
+      chunkSizeWarningLimit: 5000 // chunk for local search index dominates
     }
   },
   transformHtml(code, id, ctx) {

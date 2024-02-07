@@ -1,6 +1,6 @@
 {
   "name": "@cap-js/docs",
-  "version": "0.8.0",
+  "version": "0.40.0",
   "description": "Capire on VitePress",
   "type": "module",
   "scripts": {
@@ -18,8 +18,8 @@
   "repository": "cap-js/docs",
   "homepage": "https://cap.cloud.sap/",
   "devDependencies": {
-    "@types/adm-zip": "^0.5.0",
-    "@typescript-eslint/parser": "^5.59.11",
+    "@types/adm-zip": ">=0.5.0",
+    "@typescript-eslint/parser": "^6",
     "adm-zip": "^0.5.10",
     "cspell": "^7.0.1",
     "css-select": "^5.1.0",
@@ -28,9 +28,9 @@
     "gray-matter": "^4.0.3",
     "html2notebook": "^1.2.1",
     "htmlparser2": "^9.0.0",
-    "markdownlint-cli": "^0.35.0",
+    "markdownlint-cli": ">=0.35.0",
     "markdownlint-rule-search-replace": "^1.1.1",
     "sass": "^1.62.1",
-    "vitepress": "^1.0.0-rc.4"
+    "vitepress": "^1.0.0-rc.40"
   }
 }

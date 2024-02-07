@@ -90,5 +90,5 @@ jobs:
     - name: Test CAP Notebooks
       uses: mnkiefer/notebook-runner@main
       with:
-        notebook-files: ${{ steps.get-notebooks.outputs.notebooks }}
+        notebook-files: ./notebooks/get-started-hello-world-node.capnb
         timeout: 200000

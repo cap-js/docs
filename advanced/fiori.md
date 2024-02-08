@@ -494,7 +494,7 @@ this column usually isn't part of it.
 
 Deployment (for PostgreSQL) has recently been improved to handle this. For each entry, the values of
 the original key elements are used to generate a hash value which is then used as value for
-`ID_texts`. It is important the the generated value is stable, so that upon redeploment the same values
+`ID_texts`. It is important the the generated value is stable, so that upon redeployment the same values
 for `ID_texts` are produced.
 
 Today Fiori can also deal with composite keys with non-UUID types. For an entity with such a key,

@@ -130,7 +130,7 @@ same editable properties without creating drafts for each row.
 Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
 
-Custom handlers need to take care that a draft entity doesn't exist, if a bound action/function is called on active entity.
+Custom handlers need to take care that a draft entity doesn't exist, if a bound action/function is called on an active entity.
 :::
 
 ### Garbage Collection of Stale Drafts

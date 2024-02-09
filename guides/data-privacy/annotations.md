@@ -34,7 +34,7 @@ Following the [best practice of separation of concerns](../domain-modeling#separ
 ::: code-group
 
 ```cds [srv/data-privacy.cds]
-using { sap.capire.incidents as my } from '../db/extensions';
+using { sap.capire.incidents as my } from '../db/schema';
 
 annotate my.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',

@@ -521,7 +521,7 @@ class BooksService extends cds.ApplicationService {
 **Argument `entity`** can be one of:
 
 - A `CSN definition`  of an entity served by this service → as obtained from [`this.entities`](#entities)
-- A `string` matching the name of an entity served by this service
+- A `string` matching the name of an entity served by this service, → see [draft support](./fiori#draft-support)
 - A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths
 - The string `'*'` to register the given handler for *all* potential entities / paths

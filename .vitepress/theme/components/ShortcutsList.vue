@@ -95,9 +95,6 @@ function onKeyDown(event) {
     event.preventDefault()
     cmd.run(event)
   }
-  if (event.shiftKey && visible.value) {
-    showHiddenCommands.value = !showHiddenCommands.value
-  }
 }
 
 function DOMCommand(name, idQuerySel, keys=[], hidden=false, runFn=undefined) {
@@ -141,6 +138,8 @@ function commandsFromConfig() {
           if (el?.textContent) {
             url.href = url.href.replace('${secondaryFilePath}', el.textContent)
           }
+          // if still unresolved placeholders, stop here
+          if (url.href.match(/\$\{.*?\}/g)) return
         }
         window.open(url, '_blank');
       },

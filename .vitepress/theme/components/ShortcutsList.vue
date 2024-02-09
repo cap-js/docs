@@ -8,7 +8,7 @@
         </div>
         <div id="shortcuts-list" class="modal-body">
           <table>
-            <tr v-for="cmd in enabledCommands()" :key="cmd.name">
+            <tr v-for="cmd in activeCommands()" :key="cmd.name">
               <td>{{ cmd.name }}</td>
               <td class="keybinding">
                 <template v-for="(key, i) in cmd.keys" :key="key">
@@ -44,6 +44,7 @@ const commands = ref([
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
   DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
+  { name:'Edit Secondary File on Github', keys:[ref('E')], hidden:true, run: openSecondaryEditLink },
   ...commandsFromConfig(),
   { name:'Show keyboard shortcuts', keys:[ref('?')], run: () => { visible.value = !visible.value } },
   { name:'Close dialog', keys:[ref('Escape')], hidden:true, run: () => visible.value = false },
@@ -66,7 +67,7 @@ watch(visible, isVisible => {
   }
 })
 
-function enabledCommands() {
+function activeCommands() {
   return commands.value.filter(cmd => !cmd.hidden && ('enabled' in cmd ? cmd.enabled() : true))
 }
 
@@ -113,6 +114,10 @@ function commandsFromConfig() {
           url.hash = window.location.hash
         } else { // local URLs
           url.href = url.href.replace('${filePath}', page.value.filePath)
+          const filePath = secondaryFile()
+          if (filePath) {
+            url.href = url.href.replace('${secondaryFilePath}', filePath)
+          }
         }
         window.open(url, '_blank');
       },
@@ -120,6 +125,29 @@ function commandsFromConfig() {
       hidden: !!link.hidden
     }
   })
+}
+
+function openSecondaryEditLink() {
+  const filePath = secondaryFile()
+  if (filePath) {
+    const { pattern = '' } = theme.value.editLink || {}
+    let url
+    if (typeof pattern === 'function') {
+      url = pattern(Object.assign({}, page.value, { filePath }))
+    } else {
+      url = pattern.replace(/:path/g, filePath)
+    }
+    if (url) {
+      window.open(url, '_blank')
+    }
+  }
+}
+
+function secondaryFile() {
+  const el = document.getElementById('secondary-file')
+  if (el) {
+    return el.textContent
+  }
 }
 
 </script>

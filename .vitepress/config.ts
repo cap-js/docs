@@ -11,7 +11,7 @@ import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
     versions: { [key: string]: string },
-    gotoLinks: { href:string, key:string, name?:string }[]
+    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[]
   }
 }
 
@@ -174,5 +174,13 @@ const config:UserConfig<CapireThemeConfig> = {
 if (process.env.VITE_CAPIRE_PREVIEW) {
   config.head!.push(['meta', { name: 'robots', content: 'noindex,nofollow' }])
 }
+
+if (process.env.NODE_ENV !== 'production') {
+  // open in VS Code
+  const srcDir = resolve(__dirname, '..')
+  let href = 'vscode://' + join('file', srcDir, '${filePath}').replaceAll(/\\/g, '/').replace('@external/', '')
+  config.themeConfig!.capire!.gotoLinks!.push({ href, key: 'o', name: 'VS Code' })
+}
+
 
 export default config

@@ -122,7 +122,6 @@ PATCH /Books(ID=123,IsActiveEntity=true)
   "title": "How to be more active"
 }
 ```
-Calling custom operations as bound functions or actions on active entity
 This feature is required to enable [SAP Fiori Elements Mass Edit](https://sapui5.hana.ondemand.com/sdk/#/topic/965ef5b2895641bc9b6cd44f1bd0eb4d.html), allowing users to change multiple objects with the
 same editable properties without creating drafts for each row.
 

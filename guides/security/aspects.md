@@ -251,7 +251,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 <div id="auth-callback-endpoints-more" />
 
-Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
+Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 
 | CAP service | URL | Authorization
 | ----------- | --- | -------------
@@ -260,7 +260,7 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
 | [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
 
-> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone))
+> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 
 Authentication for a CAP sidecar needs to be configured just like any other CAP application.
@@ -440,7 +440,7 @@ Developers can use the [`@assert`](../providing-services#input-validation) annot
 
 - With respect to **output encoding**, CAP OData adapters have proper URI encoding for all resource locations in place.
 Moreover, OData validates the JSON response according to the given EDMX schema.
-In addition, client-side protection is given by [SAPUI5](https://community.sap.com/topics/ui5) standard controls
+In addition, client-side protection is given by [SAPUI5](https://pages.community.sap.com/topics/ui5) standard controls
 
 - Applications should meet basic [Content Security Policy (CSP)](https://www.w3.org/TR/CSP2/) compliance rules to further limit the attack vector on client side.
 CSP-compatible browsers only load resources from web locations that are listed in the allowlist defined by the server.

@@ -8,12 +8,12 @@
         </div>
         <div id="shortcuts-list" class="modal-body">
           <table>
-            <tr v-for="cmd in enabledCommands()" :key="cmd.name">
+            <tr v-for="cmd in activeCommands" :key="cmd.name">
               <td>{{ cmd.name }}</td>
               <td class="keybinding">
-                <template v-for="(key, i) in cmd.keys" :key="key">
+                <template v-for="(key, i) in cmd.keyStrings" :key="key">
                   <span v-if="i > 0"> or </span>
-                  <kbd>{{ key.length ? `${key[0].value} ${key[1].value}` : key.value }}</kbd>
+                  <kbd>{{ key }}</kbd>
                 </template>
               </td>
             </tr>
@@ -25,32 +25,48 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { computed, reactive, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 
 const { site, theme, page } = useData()
 const metaKey = ref('Meta')
+const keyStrokesSearch = [[metaKey, ref('K')], ref('/')]
+const formattedStrokes = { Escape: 'Esc' }
 
 onMounted(() => {
-  metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? `⌘` : `Ctrl`
+  const metaFormatted = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? `⌘` : `Ctrl`
+  formattedStrokes[metaKey.value] = metaFormatted
+  metaKey.value = metaFormatted
   document.addEventListener('keydown', onKeyDown)
 })
 onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
 
-const keyStrokesSearch = [[metaKey, ref('K')], ref('/')]
+const visible = ref(false)
+const dialog = ref(null) // must match to ref="dialog" from template
 const querySelectorSearchInput = 'input[class=search-input]'
-const commands = ref([
+
+const showHiddenCommands = ref(false)
+const commands = reactive([
   { name:'Search', keys:keyStrokesSearch }, // VP search has the actual logic
-  DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', '.'),
-  DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', 'v'),
-  DOMCommand('Edit on Github', 'div.edit-link > a', 'e'),
+  DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', ['.']),
+  DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', ['v']),
+  DOMCommand('Edit on Github', 'div.edit-link > a', ['e']),
+  DOMCommand('Edit Secondary File on Github', 'secondary-file', ['E'], true, openSecondaryEditLink ),
   ...commandsFromConfig(),
   { name:'Show keyboard shortcuts', keys:[ref('?')], run: () => { visible.value = !visible.value } },
   { name:'Close dialog', keys:[ref('Escape')], hidden:true, run: () => visible.value = false },
 ])
 
-const visible = ref(false)
-const dialog = ref(null) // must match to ref="dialog" from template
+const activeCommands = computed(() => {
+  return commands
+    .filter(cmd => (showHiddenCommands.value || !cmd.hidden) && ('enabled' in cmd ? cmd.enabled() : true))
+    .map(cmd => {
+      cmd.keyStrings = cmd.keys.map(stroke => stroke.length
+        ? `${formattedStrokes[stroke[0].value]||stroke[0].value} ${formattedStrokes[stroke[1].value]||stroke[1].value}`
+        : formattedStrokes[stroke.value]||stroke.value)
+      return cmd
+    })
+})
 
 // Close when the user clicks anywhere outside of the dialog.
 // This is not a true 'modal' behavior, but still more convenient than not.
@@ -66,14 +82,14 @@ watch(visible, isVisible => {
   }
 })
 
-function enabledCommands() {
-  return commands.value.filter(cmd => !cmd.hidden && ('enabled' in cmd ? cmd.enabled() : true))
-}
-
 function onKeyDown(event) {
   if (document.activeElement === document.querySelectorAll(querySelectorSearchInput)[0])  return // search is active
   if (event.altKey || event.ctrlKey || event.metaKey)  return // only simple keys for now
-  const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k.value === event.key))
+  if (event.key === 'Shift' && visible.value) {
+    showHiddenCommands.value = !showHiddenCommands.value
+    return
+  }
+  const cmd = commands.find(cmd => !!cmd.keys.find(k => k.value === event.key))
   const enabled = cmd && cmd.run && ('enabled' in cmd ? cmd.enabled() : true)
   if (enabled)  {
     event.preventDefault()
@@ -81,7 +97,7 @@ function onKeyDown(event) {
   }
 }
 
-function DOMCommand(name, idQuerySel, ...keys) {
+function DOMCommand(name, idQuerySel, keys=[], hidden=false, runFn=undefined) {
   const enabled = () => {
     let element = document.getElementById(idQuerySel)
     if (element)  return element
@@ -90,13 +106,18 @@ function DOMCommand(name, idQuerySel, ...keys) {
     const sel = document.querySelectorAll(idQuerySel)
     if (sel.length)  return sel[0]
   }
-  return {name, keys: keys.map(k => k.value ? k : ref(k)), enabled, run: () => {
-    let element = enabled()
-    if (element) {
-      element.hash = window.location.hash
-      element.click()
+  return {
+    name, hidden, enabled,
+    keys: keys.map(k => k.value ? k : ref(k)),
+    run: () => {
+      const element = enabled()
+      if (element) {
+        if (runFn) return runFn(element)
+        element.hash = window.location.hash
+        element.click()
+      }
     }
-  }}
+  }
 }
 
 function commandsFromConfig() {
@@ -113,13 +134,35 @@ function commandsFromConfig() {
           url.hash = window.location.hash
         } else { // local URLs
           url.href = url.href.replace('${filePath}', page.value.filePath)
+          const el = document.getElementById('secondary-file')
+          if (el?.textContent) {
+            url.href = url.href.replace('${secondaryFilePath}', el.textContent)
+          }
+          // if still unresolved placeholders, stop here
+          if (url.href.match(/\$\{.*?\}/g)) return
         }
         window.open(url, '_blank');
       },
       keys: [ref(link.key)],
       hidden: !!link.hidden
     }
-  })
+  }).sort((c1, c2) => c1.name.localeCompare(c2.name))
+}
+
+function openSecondaryEditLink(element) {
+  const filePath = element.textContent
+  if (filePath) {
+    const { pattern = '' } = theme.value.editLink || {}
+    let url
+    if (typeof pattern === 'function') {
+      url = pattern(Object.assign({}, page.value, { filePath }))
+    } else {
+      url = pattern.replace(/:path/g, filePath)
+    }
+    if (url) {
+      window.open(url, '_blank')
+    }
+  }
 }
 
 </script>

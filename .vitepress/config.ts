@@ -1,5 +1,5 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
-import type { LanguageInput, IRawGrammar } from 'shikiji'
+import type { LanguageInput, RawGrammar } from 'shiki'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
@@ -77,7 +77,7 @@ const menu = sidebar()
 const nav = nav4(menu) as DefaultTheme.NavItem[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
-  const grammar:IRawGrammar = JSON.parse(src.toString())
+  const grammar:RawGrammar = JSON.parse(src.toString())
   return { name, aliases: [name, alias], ...grammar }
 }
 

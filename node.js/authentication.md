@@ -70,9 +70,9 @@ These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authoriza
 
 ### user.tokenInfo<i>.\<x\> : object </i> {#user-token-info}
 
-Parsed jwt token info provided by `@sap/xssec`.
+Parsed JWT token info provided by `@sap/xssec`.
 
-> **Note:** This API is only available for `@sap/xssec` based authentication kinds.
+> **Note:** This API is only available for `@sap/xssec`-based authentication kinds.
 
 
 ### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}

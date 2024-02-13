@@ -481,8 +481,6 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 
 We can also use persistent instead of in-memory databases. For example, still with SQLite, add the following configuration:
 
-> Add sqlite config from SQLite DB Guide
-> cds init could update @cap.js/sqlite dependency to ^1.4
 
 ::: code-group
 

@@ -51,7 +51,8 @@ mvn archetype:generate -DgroupId=com.sap.capire -DartifactId=bookshop -Darchetyp
 
 After the creation you'll need to maintain the plugin versions as well as the desired Java language version (we recommend version 17).
 
-::: warning Please make sure that your plugin / reuse model project is neither created as a CAP Java project nor as a plain Spring Boot project.
+::: warning Only plain Maven Java projects
+Please make sure that your plugin / reuse model project is neither created as a CAP Java project nor as a plain Spring Boot project.
 :::
 
 ### Reference the New CDS Model in an Existing CAP Java Project

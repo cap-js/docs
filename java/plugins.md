@@ -22,6 +22,10 @@ Especially, when working with larger projects that may consist of many individua
 
 In the following sections, the different extension points and mechanisms are explained.
 
+::: info The CAP node.js runtime offers a [plugin mechanism](../node.js/cds-plugins), too.
+
+:::
+
 ## General Considerations
 
 ### Java Version

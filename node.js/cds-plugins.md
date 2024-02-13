@@ -10,6 +10,9 @@ The `cds-plugin` technique allows to provide extension packages with auto-config
 
 [[toc]]
 
+::: info The CAP Java runtime offers a [plugin mechanism](../java/plugins), too.
+
+:::
 
 
 ## Add a `cds-plugin.js`

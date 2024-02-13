@@ -301,7 +301,7 @@ In case you want a visual interface tool to work with SQLite, you can use [SQLTo
 
 ### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? { #get-hana}
 
-To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://community.sap.com/topics/hana/cloud) for more details.
+To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://pages.community.sap.com/topics/hana/cloud) for more details.
 
 ::: tip
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.

@@ -152,10 +152,10 @@ In your CDS model, you can refer to the entity `cds.outbox.Messages` using the p
 for example to expose it in a service.
 
 
-::: warning
+#### Known Limitations 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The user id is stored to recreate the correct context.
-:::
+- The emitting service must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
+- The emitting service must not perform any database modifications, because a global database transaction is used when dispatching the events.
 
 
 ## In-Memory Outbox
@@ -176,7 +176,7 @@ This is similar to the following code if done manually:
 ```js
 cds.context.on('succeeded', () => this.emit(msg))
 ```
-::: warning
+::: warning No retry mechanism
 The message is lost if its emit fails, there is no retry mechanism.
 :::
 

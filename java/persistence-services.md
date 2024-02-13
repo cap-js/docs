@@ -134,7 +134,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 #### SQL Optimization Mode
 
 By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
-To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/SAP_HANA_PLATFORM/9de0171a6027400bb3b9bee385222eff/3861d0908ef14e8bbec1d76ea871ac0f.html#sap-hana-execution-engine-(hex)) in SAP HANA Cloud, set the [CDS property](development/properties#cds-properties):
+To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud, set the [CDS property](development/properties#cds-properties):
 
 ```yaml
 cds.sql.hana.optimizationMode: hex

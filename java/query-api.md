@@ -1001,23 +1001,24 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
-### Update with Expressions (beta) {#update-expressions}
+### Update with Expressions {#update-expressions}
 
 The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
 
 ```java
+// dynamic
 Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+
+// static
+Update.entity(BOOKS).byId(101).set(b -> b.stock(), s -> s.minus(1));
 ```
 
 You can also combine update data with expressions:
 
 ```java
-import static com.sap.cds.ql.CQL.get;
-import static com.sap.cds.ql.CQL.param;
-
-Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
-   .data("available", true) // [!code focus]
-   .set("stock", get("stock").plus(param("addStock"))); // [!code focus]
+Update.entity(BOOKS).where(b -> b.stock().eq(0))
+   .data("available", true)
+   .set(b -> b.stock(), s -> s.plus(CQL.param("addStock")));
 ```
 
 ### Deep Update { #deep-update}

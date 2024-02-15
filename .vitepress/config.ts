@@ -1,5 +1,5 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
-import type { LanguageInput, IRawGrammar } from 'shikiji'
+import type { LanguageInput, RawGrammar } from 'shiki'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
@@ -11,7 +11,7 @@ import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
     versions: { [key: string]: string },
-    gotoLinks: { href:string, key:string, name?:string }[]
+    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[]
   }
 }
 
@@ -77,7 +77,7 @@ const menu = sidebar()
 const nav = nav4(menu) as DefaultTheme.NavItem[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
-  const grammar:IRawGrammar = JSON.parse(src.toString())
+  const grammar:RawGrammar = JSON.parse(src.toString())
   return { name, aliases: [name, alias], ...grammar }
 }
 
@@ -174,5 +174,13 @@ const config:UserConfig<CapireThemeConfig> = {
 if (process.env.VITE_CAPIRE_PREVIEW) {
   config.head!.push(['meta', { name: 'robots', content: 'noindex,nofollow' }])
 }
+
+if (process.env.NODE_ENV !== 'production') {
+  // open in VS Code
+  const srcDir = resolve(__dirname, '..')
+  let href = 'vscode://' + join('file', srcDir, '${filePath}').replaceAll(/\\/g, '/').replace('@external/', '')
+  config.themeConfig!.capire!.gotoLinks!.push({ href, key: 'o', name: 'VS Code' })
+}
+
 
 export default config

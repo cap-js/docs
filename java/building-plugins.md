@@ -4,7 +4,7 @@ synopsis: >
 status: released
 ---
 
-# Building CAP Java Plugins
+# Building Plugins
 
 <style scoped>
   h1:before {

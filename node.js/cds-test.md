@@ -91,7 +91,7 @@ You can set the user for an authenticated request like this:
 await GET('/admin/Books', { auth: { username: 'alice', password: '' } })
 ```
 
-This is the same as setting the HTTP `Authorization` header with basic authentication:
+This is the same as setting the HTTP `Authorization` header with values for basic authentication:
 
 ::: code-group
 ```http [test.http]

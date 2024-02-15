@@ -57,6 +57,10 @@ The examples are provided for `on` handlers, but the same is true for `before` a
 
 It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
 
+:::warning
+If a bound action/function is called on an active entity, custom handlers need to take care that a draft entity doesn't exist.
+:::
+
 Additionally, you can add your logic to the draft-specific events as follows:
 
   ```js
@@ -129,8 +133,6 @@ same editable properties without creating drafts for each row.
 :::warning
 Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
-
-Custom handlers need to take care that a draft entity doesn't exist, if a bound action/function is called on an active entity.
 :::
 
 ### Garbage Collection of Stale Drafts

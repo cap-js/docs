@@ -23,6 +23,7 @@ CDS ships with a prebuilt model *`@sap/cds/common`* that provides common types a
 [ISO 3166-3]: https://en.wikipedia.org/wiki/ISO_3166-3
 [ISO 4217]: https://en.wikipedia.org/wiki/ISO_4217
 [ISO/IEC 15897]: https://en.wikipedia.org/wiki/ISO/IEC_15897
+[tzdata]: https://en.wikipedia.org/wiki/Tz_database
 [localized data]: ../guides/localized-data
 [temporal data]: ../guides/temporal-data
 
@@ -131,7 +132,7 @@ _@sap/cds/common_ provides predefined easy-to-use types for _Countries_, _Curren
 ### Type `Country`
 [`Country`]: #country
 
-The reuse type `Country` is defined in _@sap/cds/common_ as a simple managed [Association](cdl#associations) to the [code list](#code-lists) for countries as follows:
+The reuse type `Country` is defined in _@sap/cds/common_ as a simple managed [Association](cdl#associations) to the [code list](#code-lists) for [countries](#entity-countries) as follows:
 
 ```cds
 type Country : Association to sap.common.Countries;
@@ -165,6 +166,8 @@ CREATE TABLE Addresses (
 
 ### Type `Currency`
 
+The type for an association to [Currencies](#entity-currencies).
+
 ```cds
 type Currency : Association to sap.common.Currencies;
 ```
@@ -173,8 +176,20 @@ type Currency : Association to sap.common.Currencies;
 
 ### Type `Language`
 
+The type for an association to [Languages](#entity-languages).
+
 ```cds
 type Language : Association to sap.common.Languages;
+```
+
+[It's the same as for `Country`.](#type-country){ .learn-more}
+
+### Type `TimeZone`
+
+The type for an association to [TimeZones](#entity-timezones).
+
+```cds
+type TimeZone : Association to sap.common.TimeZones;
 ```
 
 [It's the same as for `Country`.](#type-country){ .learn-more}
@@ -236,6 +251,16 @@ entity sap.common.Languages : CodeList {
 }
 ```
 [Learn more on **normalized locales**.](../guides/i18n#normalized-locales){ .learn-more}
+
+### Entity `TimeZones`
+
+The code list entity for time zones is meant to be used with _Area/Location_ names as defined in the [IANA time zone database][tzdata] as primary keys. Examples are `America/Argentina/Buenos_Aires`, `Europe/Berlin`, or `Etc/UTC`.
+
+```cds
+entity sap.common.TimeZones : CodeList {
+  key code : String(100); //> for example, Europe/Berlin
+}
+```
 
 
 ### SQL Persistence
@@ -428,7 +453,7 @@ You can use Excel or similar tools to maintain these files. For example, the fol
 
 ### Using Prebuilt Content Package {#prebuilt-data}
 
-Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, and `Languages`.
+Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, `Languages`, and `TimeZones`.
 
 Add it your project:
 

@@ -192,6 +192,9 @@ main {
       font-style: italic;
       a { color: darkcyan }
     }
+    &[open] {
+      padding: 11px 14px 11px;
+    }
   }
 
   img:not(.avatar-img) {

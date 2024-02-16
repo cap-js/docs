@@ -68,6 +68,12 @@ The role names correspond to the values of [`@requires` and the `@restrict.grant
 User-related attributes, for example, from JWT tokens
 These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
 
+### user.tokenInfo<i>.\<x\> : object </i> {#user-token-info}
+
+Parsed JWT token info provided by `@sap/xssec`.
+
+> **Note:** This API is only available for `@sap/xssec`-based authentication kinds.
+
 
 ### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
 

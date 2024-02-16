@@ -340,7 +340,7 @@ By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the install
 This should be done at least with every **major update** of `@sap/cds-dk`.
 :::
 
-<div id="xmake-troubleshooting" />
+<div id="in-maven-build" />
 
 
 ### Increased Developer Efficiency with Spring Boot Devtools

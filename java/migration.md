@@ -63,7 +63,7 @@ Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring S
 
 Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
 
-CAP Java 2.0 itself requires updated [dependency versions](./development/#dependencies-version-2) of:
+CAP Java 2.0 itself requires updated [dependency versions](./versions#dependencies-version-2) of:
 - `@sap/cds-dk`
 - `@sap/cds-compiler`
 - XSUAA library

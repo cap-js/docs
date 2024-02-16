@@ -147,7 +147,7 @@ Following example shows how BOM poms of `com.sap.cds`, `com.sap.cloud.sdk`, and 
 
 Regular [updates and patches](#versions) of CAP Java keeps your project in sync with the most recent Free and Open Source Software (FOSS) dependency versions.
 
-However, a security vulnerability could be published in between CAP Java releases and in turn prevent your application from being released due to failing security scans. 
+However, a security vulnerability could be published, by one of your dependencies, in between CAP Java releases and in turn prevent your application from being released due to failing security scans. 
 In this case, applications have the following options:
 
 - Wait for the next monthly CAP Java release with fixed dependencies.

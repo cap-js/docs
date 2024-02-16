@@ -29,8 +29,8 @@ Hence, the version identifier follows the pattern `MAJOR.MINOR.PATCH`:
 - **Major versions** are delivered every year or even several years and might introduce [incompatible changes](../releases/schedule#cap-java) (e.g. `2.0.0`).
 Upcoming major versions are announced early.
 
-- **Minor versions** are delivered on a [monthly basis](../releases/schedule#minor) (e.g. `2.7.0` replacing `2.6.4`). 
-New features are announced in [CAP Release notes](https://pages.github.tools.sap/cap/docs/releases/).
+- **Minor versions** are delivered on a [monthly basis](/releases/schedule#minor) (e.g. `2.7.0` replacing `2.6.4`). 
+New features are announced in [CAP Release notes](/releases/).
 
 - **Patch versions** containing critical bugfixes are delivered [on demand](../releases/schedule#patch) (e.g. `2.7.1` replacing `2.7.0`). **Patches do not contain new features**.
 
@@ -171,30 +171,4 @@ In this case, applications have the following options:
 
 Make sure that the updated version is compatible. When consuming a new CAP Java version, this extra dependency can be removed again.
 
-
-#### Updating Dependencies Automatically
-
-Updating FOSS dependencies can be automated using the [Renovate](https://github.tools.sap/OSPO/renovate-controller) bot.
-
-Additionally, it can be used to update the explicitly specified [`@sap/cds-dk` version](#using-a-specific-cds-dk-version) in `pom.xml`.
-
-::: code-group
-```xml [pom.xml]
-<properties>
-  […]
-  <cds.services.version>2.2.0</cds.services.version>
-  <spring.boot.version>3.1.3</spring.boot.version>
-  <cds.install-cdsdk.version>7.2.0</cds.install-cdsdk.version>
-</properties>
-```
-:::
-
-With Renovate's default configuration, pull requests to update Maven dependencies are opened automatically.
-This includes `cds-services` and `spring-boot`. However, `@sap/cds-dk` and Node.js are not Maven dependencies and are not checked.
-
-To have Renovate automatically open pull requests when new versions of `@sap/cds-dk` or Node.js are available, you can specify `regexManagers` in the `renovate.json` configuration file.
-
-<div id="renovate-bot-config" />
-
-More documentation is available in [OSPO/renovate-controller](https://github.tools.sap/OSPO/renovate-controller).
-
+<div id="in-update-versions" />

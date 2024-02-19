@@ -58,7 +58,7 @@ The examples are provided for `on` handlers, but the same is true for `before` a
 It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
 
 :::warning
-If a bound action/function is called on an active entity, custom handlers need to take care that a draft entity doesn't exist.
+If a bound action/function modifies an active entity instance, custom handlers need to take care that a draft entity doesn't exist, otherwise all changes are overridden when saving the draft.
 :::
 
 Additionally, you can add your logic to the draft-specific events as follows:

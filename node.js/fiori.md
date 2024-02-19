@@ -57,6 +57,10 @@ The examples are provided for `on` handlers, but the same is true for `before` a
 
 It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
 
+:::warning Bound actions/functions modifying active entity instances
+If a bound action/function modifies an active entity instance, custom handlers need to take care that a draft entity doesn't exist, otherwise all changes are overridden when saving the draft.
+:::
+
 Additionally, you can add your logic to the draft-specific events as follows:
 
   ```js
@@ -126,7 +130,7 @@ PATCH /Books(ID=123,IsActiveEntity=true)
 This feature is required to enable [SAP Fiori Elements Mass Edit](https://sapui5.hana.ondemand.com/sdk/#/topic/965ef5b2895641bc9b6cd44f1bd0eb4d.html), allowing users to change multiple objects with the
 same editable properties without creating drafts for each row.
 
-:::warning
+:::warning Additional entry point
 Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
 :::

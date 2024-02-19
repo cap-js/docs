@@ -241,43 +241,6 @@ Note, that SFlight's native executable is built and configured to use SAP HANA a
 Alternatively you can make corresponding adaptations in `native-build-env.json` and `srv/pom.xml` to build the native executable for a different set of service bindings and profile.
 :::
 
-## Minimum Dependency Versions
-
-The CAP Java SDK uses various dependencies that are also used by the applications themselves. If the applications decide to manage the versions of these dependencies, it's helpful to know the minimum versions of these dependencies that the CAP Java SDK requires. The following table lists these minimum versions for various common dependencies, based on the latest release.
-
-### Active Version 2.x { #dependencies-version-2 }
-
-| Dependency | Minimum Version | Recommended Version |
-| --- | --- | --- |
-| Java | 17 | 21<sup>1</sup> |
-| @sap/cds-dk | 6 | latest |
-| @sap/cds-compiler | 3 | latest |
-| Spring Boot | 3.0 | latest |
-| XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 4.24 | latest<sup>2</sup> |
-| Java Logging | 3.7 | latest |
-
-<sup>1</sup> When using the SAP Business Application Studio JDK 17 is recommended.
-
-<sup>2</sup> Cloud SDK 5 is recommended. Refer to necessary steps for [adoption of Cloud SDK 5](../migration.md#cloudsdk5)  
-
-::: warning
-The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
-You have two options:
-* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
-* Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
-:::
-
-### Maintenance Version 1.34.x (LTS)
-
-| Dependency | Minimum Version | Recommended Version |
-| --- | --- | --- |
-| Java | 8 | 17 |
-| @sap/cds-dk | 4 | 6 |
-| @sap/cds-compiler | 2 | 3 |
-| Spring Boot | 2.7 | 2.7 |
-| XSUAA | 2.13 | latest |
-| SAP Cloud SDK | 4.10 | latest |
 
 ## Building CAP Java Applications
 
@@ -377,6 +340,9 @@ By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the install
 This should be done at least with every **major update** of `@sap/cds-dk`.
 :::
 
+<div id="in-maven-build" />
+
+
 ### Increased Developer Efficiency with Spring Boot Devtools
 You can speed up your development turnaround by adding the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) dependency to your CAP Java application. Just add this dependency to the `pom.xml` of your `srv` module:
 
@@ -454,7 +420,6 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
 
-<div id="afterlocaldev" />
 
 ## Testing CAP Java Applications
 

@@ -4,10 +4,14 @@ status: released
 
 # CAP Plugins & Enhancements
 
-Following is a curated list of plugins that are available for the SAP Cloud Application Programming Model (CAP) which provide integration with BTP services and technologies, or other SAP products.
+Following is a curated list of plugins that are available for the SAP Cloud Application Programming Model (CAP) which provide integration with SAP BTP services and technologies, or other SAP products.
 
 ::: tip Maintained by CAP and SAP
 These plugins are created and maintained in close collaboration and shared ownership of CAP development teams and other SAP and BTP development teams.
+:::
+
+:::info Community Plugins
+As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP Community](https://github.com/cap-js-community) repository and browse the available plugins.
 :::
 
 
@@ -85,7 +89,12 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 
    > → audit logs are written to SAP Audit Log service.
    
+## Support for Plugins
 
+|    |    |
+| --- | --- |
+| Node.js | Click the Node.js icon for the plugin to find the repository and open an issue there. 
+| Java | Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda). 
 
 ## GraphQL Adapter
 
@@ -99,7 +108,7 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/graphql)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js/graphql)
 
 
 
@@ -110,16 +119,13 @@ Available for:
 
 The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
 
+
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/migration#v2adapter)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js-community/odata-v2-adapter)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Click on the icons to get detailed instructions. {.learn-more}
-
-See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) {.learn-more}
-
-
+See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
 
 
 ## UI5 Dev Server
@@ -130,7 +136,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://www.npmjs.com/package/cds-plugin-ui5)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
 Click on the icon to get detailed instructions. {.learn-more}
 
@@ -154,10 +160,7 @@ annotate my.Incidents {
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://npmjs.com/package/@cap-js/change-tracking)
-
-Click on the icon to get detailed instructions. {.learn-more}
-
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/change-tracking)
 
 
 ## Audit Logging
@@ -185,10 +188,10 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](../guides/data-privacy/audit-logging)
-[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](../java/auditlog)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/audit-logging)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Click on the icons to get detailed instructions. {.learn-more}
+Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging) and in [Java](../java/auditlog) {.learn-more}
 
 
 
@@ -217,11 +220,10 @@ Features:
 - Automatic lifecycle management of notification templates
 - SAP ANS supports email, Slack, Microsoft Teams, and SAP Fiori notifications
 
+
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications#readme)
-
-Click on the icon to get detailed instructions. {.learn-more}
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/notifications)
 
 
 
@@ -246,14 +248,11 @@ Simply add the plugin to your project and you will find telemetry output written
   1.81 → 1.85 = 0.04 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'DraftAdministrativeData_Dr…
 ```
 
-In addition to the default console output, there are predefined kinds for exporting telemetry data to Dynatrace and Jaeger.  The [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service is coming soon.
+In addition to the default console output, there are predefined kinds for exporting telemetry data to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging), Dynatrace, and Jaeger.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://npmjs.com/package/@cap-js/telemetry)
-
-Click on the icon to get detailed instructions. {.learn-more}
-
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
 
 
 <div id="attachments" />

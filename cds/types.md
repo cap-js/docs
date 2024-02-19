@@ -31,7 +31,7 @@ The following built-in types are provided:
 | `Timestamp` | _µs_ precision <sup>(4)</sup> | `'2021-06-27T14:52:23.123Z'` |  _TIMESTAMP_  |
 | `String` | (length ) <sup>(5)</sup> | `'hello world'` | _NVARCHAR_  |
 | `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
-| `LargeBinary` |  | | _BLOB_  |
+| `LargeBinary` |  | | _BLOB_ |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
 
 
@@ -49,7 +49,6 @@ The following built-in types are provided:
 > <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. The default length is 5000 for SAP HANA and 255 for all other SQL backends. Note that default lengths are only applied on database level. Specify fixed lengths to get length checks on service level and/or inbound data.
 
 > <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
-
 
 ### See also...
 

@@ -169,7 +169,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
    ```log
    [cds] - done > wrote output to:
       ...
-      gen/db/src/sap.capire.bookshop.Books.hdbindex //[!code focus]
+      gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
    ```
 
 

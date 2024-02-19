@@ -101,7 +101,7 @@ Ports can be explicitly set with the `PORT` environment variable or the `--port`
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 
-#### DO:
+#### DO:{.good}
 
 ```js
 cds.on('served', ()=>{
@@ -112,7 +112,7 @@ cds.on('served', ()=>{
 
 It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very hard to detect and resolve issues with handler registrations. So, for example, don't do this:
 
-#### DON'T:
+#### DON'T:{.bad}
 
 ```js
 cds.on('served', async ()=>{
@@ -301,7 +301,7 @@ In case you want a visual interface tool to work with SQLite, you can use [SQLTo
 
 ### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? { #get-hana}
 
-To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://community.sap.com/topics/hana/cloud) for more details.
+To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://pages.community.sap.com/topics/hana/cloud) for more details.
 
 ::: tip
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.
@@ -580,7 +580,7 @@ Use `cf create-service-push --push-as-subprocess` to execute `cf push` in a sub-
 
 ### Deployment Crashes With "No space left on device" Error
 
-If on deployment to Cloud Foundry, a module crashes with the error message `Cannot mkdir: No space left on device` then the solution is to adjust the space available to that module in the `mta.yaml` file. Adjust the `disk-quota` parameter. 
+If on deployment to Cloud Foundry, a module crashes with the error message `Cannot mkdir: No space left on device` then the solution is to adjust the space available to that module in the `mta.yaml` file. Adjust the `disk-quota` parameter.
 
 ```sh
     parameters:

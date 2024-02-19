@@ -345,7 +345,7 @@ const [ author, book ] = req.params
 
 ### . query {.property}
 
-Captures the incoming request as a [CQN](../cds/cqn) query object. For example, an HTTP request like `GET http://.../Books` is captured as follows:
+Captures the incoming request as a [CQN query](cds-ql#class-cds-ql-query). For example, an HTTP request like `GET http://.../Books` is captured as follows:
 ```js
 req.query = {SELECT:{from:{ref:['Books']}}}
 ```

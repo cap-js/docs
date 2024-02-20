@@ -184,12 +184,12 @@ type Language : Association to sap.common.Languages;
 
 [It's the same as for `Country`.](#type-country){ .learn-more}
 
-### Type `TimeZone`
+### Type `Timezone`
 
-The type for an association to [TimeZones](#entity-timezones).
+The type for an association to [Timezones](#entity-timezones).
 
 ```cds
-type TimeZone : Association to sap.common.TimeZones;
+type Timezone : Association to sap.common.Timezones;
 ```
 
 [It's the same as for `Country`.](#type-country){ .learn-more}
@@ -252,15 +252,20 @@ entity sap.common.Languages : CodeList {
 ```
 [Learn more on **normalized locales**.](../guides/i18n#normalized-locales){ .learn-more}
 
-### Entity `TimeZones`
+### Entity `Timezones`
 
-The code list entity for time zones is meant to be used with _Area/Location_ names as defined in the [IANA time zone database][tzdata] as primary keys. Examples are `America/Argentina/Buenos_Aires`, `Europe/Berlin`, or `Etc/UTC`.
+The code list entity for time zones is meant to be used with primary keys like _Area/Location_, as defined in the [IANA time zone database][tzdata].
+Examples are `America/Argentina/Buenos_Aires`, `Europe/Berlin`, or `Etc/UTC`.
 
 ```cds
-entity sap.common.TimeZones : CodeList {
+entity sap.common.Timezones : CodeList {
   key code : String(100); //> for example, Europe/Berlin
 }
 ```
+
+[Learn more about time zones in Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) {.learn-more}
+
+[Learn more about time zones in Java](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/ZoneId.html) {.learn-more}
 
 
 ### SQL Persistence
@@ -453,7 +458,7 @@ You can use Excel or similar tools to maintain these files. For example, the fol
 
 ### Using Prebuilt Content Package {#prebuilt-data}
 
-Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, `Languages`, and `TimeZones`.
+Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, `Languages`, and `Timezones`.
 
 Add it your project:
 

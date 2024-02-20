@@ -1013,7 +1013,7 @@ Annotate an entity with `@odata.singleton` or `@odata.singleton.nullable`, to us
 ```cds
 service Sue {
   @odata.singleton entity MySingleton {
-    key id : String; // can be omitted
+    key id : String; // can be omitted in OData v4.01
     prop : String;
     assoc : Association to myEntity;
   }

@@ -521,7 +521,7 @@ class BooksService extends cds.ApplicationService {
 **Argument `entity`** can be one of:
 
 - A `CSN definition`  of an entity served by this service → as obtained from [`this.entities`](#entities)
-- A `string` matching the name of an entity served by this service
+- A `string` matching the name of an entity served by this service → see [draft support](./fiori#draft-support)
 - A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths
 - The string `'*'` to register the given handler for *all* potential entities / paths
@@ -1038,6 +1038,10 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 
 ### srv. stream (column) {.method}
 
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
+
 ```ts
 async function srv.stream (column: string)
   return : {
@@ -1065,13 +1069,11 @@ const stream = srv.stream('data').from('T').where({ ID: 1 })
 stream.pipe(process.stdout)
 ```
 
-::: warning
-Streaming is currently limited to [database services](databases).
-:::
-
-
-
 ### srv. stream (query)  {.method}
+
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
 
 ```ts
 async function srv.stream (query: CQN) : ReadableStream
@@ -1084,7 +1086,9 @@ const stream = await srv.stream( SELECT('image').from('Foo',111) )
 stream.pipe(process.stdout)
 ```
 
-
+::: warning
+This API is limited to [database services](databases).
+:::
 
 ### srv. foreach (entity) {.method}
 

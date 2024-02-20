@@ -112,6 +112,8 @@ GET ../Authors(201)/image
 
 > The media data is streamed automatically.
 
+[Learn more about returning a custom streaming object (Node.js - beta).](../node.js/best-practices#custom-streaming-beta){.learn-more}
+
 ## Creating a Media Resource
 
 As a first step, create an entity without media data using a POST request to the entity. After creating the entity, you can insert a media property using the PUT method. The MIME type is passed in the `Content-Type` header. Here are some sample requests:
@@ -185,7 +187,8 @@ GET $filter=ID eq binary'Q0FQIE5vZGUuanM='
 
 - The usage of binary data in some advanced constructs like the `$apply` query option and `/any()` might be limited.
 - On SQLite, binary strings are stored as plain strings, whereas a buffer is stored as binary data. As a result, if in
-a CDS query, a binary string is used to query data stored as binary, this wouldn't work.
+a CDS query, a binary string is used to query data stored as binary, this wouldn't work. 
+- Please note, that SQLite doesn't support streaming. That means, that LargeBinary fields are read as a whole (not in chunks) and stored in memory, which can impact performance.
 - SAP HANA Database Client for Node.js (HDB) and SAP HANA Client for Node.js (`@sap/hana-client`) packages handle
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.

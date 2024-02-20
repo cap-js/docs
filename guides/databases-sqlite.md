@@ -123,13 +123,13 @@ As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by defa
 
 ```log
 ...
-[cds] - connect to db > sqlite { url: ':memory:' } //[!code focus]
+[cds] - connect to db > sqlite { url: ':memory:' } // [!code focus]
   > init from db/init.js
   > init from db/data/sap.capire.bookshop-Authors.csv
   > init from db/data/sap.capire.bookshop-Books.csv
   > init from db/data/sap.capire.bookshop-Books.texts.csv
   > init from db/data/sap.capire.bookshop-Genres.csv
-/> successfully deployed to in-memory database. //[!code focus]
+/> successfully deployed to in-memory database. // [!code focus]
 ...
 ```
 
@@ -197,7 +197,7 @@ You can also use persistent SQLite databases. In this case, the schema is initia
    { "cds": { "requires": {
       "db": {
          "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } //[!code focus]
+         "credentials": { "url": "db.sqlite" } // [!code focus]
       }
    }}}
    ```
@@ -272,7 +272,7 @@ While drop-create is most appropriate for development, it isn't suitable for dat
       "db": {
          "kind": "sqlite",
          "credentials": { "url": "db.sqlite" },
-         "schema_evolution": "auto" //[!code focus]
+         "schema_evolution": "auto" // [!code focus]
       }
    }}}
    ```
@@ -691,36 +691,6 @@ SELECT.from(Books)       // reads plain data
 Generic application service handlers use *SELECT.localized* to request localized data from the database. Hence, CAP services automatically serve localized data as before.
 
 :::
-
-
-
-
-
-<!-- ### New Streaming API {.impl .node}
-
-TODO: New STREAM event, ...
-
--->
-
-### Skipped BLOBs {.impl .node}
-
-Formerly, `LargeBinary` elements, a.k.a. BLOBs, always got served as any other column. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them.
-
-For example:
-
-```js
-SELECT.from(Books)          //> [{ ID, title, ..., image }] // [!code --]
-SELECT.from(Books)          //> [{ ID, title, ... }]
-SELECT('image').from(Books) //> [{ image }]
-```
-
-::: tip Avoid direct reads of BLOBs
-
-Even if we still support direct reads, as shown in the third line above, you should generally refrain from using that option. One reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such a thing, consider using non-large `Binary` elements instead.
-
-:::
-
-
 
 ### Skipped Virtuals {.impl .node}
 

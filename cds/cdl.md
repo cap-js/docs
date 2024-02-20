@@ -1211,6 +1211,7 @@ annotate Bar with @title:'Bar';
 
 You can also directly annotate a single element:
 ```cds
+annotate Foo:existingField @title: 'Simple Field';
 annotate Foo:nestedStructField.existingField @title:'Nested Field';
 ```
 

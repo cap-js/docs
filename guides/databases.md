@@ -750,7 +750,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author //[!code focus]
+  CONSTRAINT Books_author // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT
@@ -797,7 +797,7 @@ CREATE TABLE Books_texts (
   ID INTEGER NOT NULL,
   title NVARCHAR(5000),
   PRIMARY KEY(locale, ID),
-  CONSTRAINT Books_texts_texts //[!code focus]
+  CONSTRAINT Books_texts_texts // [!code focus]
     FOREIGN KEY(ID)
     REFERENCES Books(ID)
     ON UPDATE RESTRICT

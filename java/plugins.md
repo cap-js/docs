@@ -43,6 +43,18 @@ Starting with the 2.2 release CDS models, CSV import data and i18n files can now
 
 Simply create a plain Maven Java project and place your CDS models in the `main/resources/cds` folder of the reuse package under a unique module directory (for example, leveraging group ID and artifact ID): `src/main/resources/cds/com.sap.capire/bookshop/`. With `com.sap.capire` being the group ID and `bookshop` being the artifact ID.
 
+You can simplify the creation of such a **plain Maven Java** project by calling the following Maven archetype command:
+
+```shell
+mvn archetype:generate -DgroupId=com.sap.capire -DartifactId=bookshop -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+
+After the creation you'll need to maintain the plugin versions as well as the desired Java language version (we recommend version 17).
+
+::: warning Only plain Maven Java projects
+Please make sure that your plugin / reuse model project is neither created as a CAP Java project nor as a plain Spring Boot project.
+:::
+
 ### Reference the New CDS Model in an Existing CAP Java Project
 
 Projects wanting to import the content simply add a Maven dependency to the reuse package to their _srv/pom.xml_ in the `<dependencies>` section.

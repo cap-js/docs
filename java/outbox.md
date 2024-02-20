@@ -42,6 +42,8 @@ Once the transaction succeeds, the messages are read from the database table and
 
 To configure the persistent outbox you can use the `outbox.persistent` section in the _application.yaml_:
 
+!!TODO: Describe new Configuration!!
+
 ```yaml
 cds:
   outbox:
@@ -84,6 +86,16 @@ Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base mode
 ::: tip
 Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 :::
+
+## Generic Outbox
+
+### Outboxing Arbitrary CAP Services
+
+TODO
+
+### Technical Outbox API
+
+TODO
 
 
 #### Troubleshooting

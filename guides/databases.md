@@ -172,7 +172,7 @@ For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/clou
 ```zsh
 bookshop/
 ├─ db/
-│ └─ data/ #> place your .csv files here
+│ ├─ data/ # place your .csv files here
 │ │ ├─ sap.capire.bookshop-Authors.csv
 │ │ ├─ sap.capire.bookshop-Books.csv
 │ │ ├─ sap.capire.bookshop-Books.texts.csv
@@ -188,12 +188,12 @@ For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-
 
 ```zsh
 db/
-└─ data/ #> place your .csv files here
+├─ data/ # place your .csv files here
 │ ├─ my.bookshop-Authors.csv
 │ ├─ my.bookshop-Books.csv
 │ ├─ my.bookshop-Books.texts.csv
-│ └─ my.bookshop-Genres.csv
-| └─ ...
+│ ├─ my.bookshop-Genres.csv
+│ └─ ...
 └─ index.cds
 ```
 </div>

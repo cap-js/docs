@@ -23,9 +23,6 @@ status: released
 Usually the emit of messages should be delayed until the main transaction succeeded, otherwise recipients will also receive messages in case of a rollback.
 To solve this problem, a transactional outbox can be used to defer the emit of messages until the success of the current transaction.
 
-The transactional outbox is a part of the CAP technical services for [Messaging](./messaging-foundation) and [AuditLog](./auditlog).
-
-
 ## In-Memory Outbox (Default) { #in-memory}
 
 The in-memory outbox is used per default and the messages are emitted when the current transaction is successful. Until then, messages are kept in memory.
@@ -39,25 +36,6 @@ Once the transaction succeeds, the messages are read from the database table and
 
 - If an emit was successful, the respective message is deleted from the database table.
 - If an emit wasn't successful, there will be a retry after some (exponentially growing) waiting time. After a maximum number of attempts, the message is ignored for processing and remains in the database table. Even if the app crashes the messages can be redelivered after successful application startup.
-
-To configure the persistent outbox you can use the `outbox.persistent` section in the _application.yaml_:
-
-!!TODO: Describe new Configuration!!
-
-```yaml
-cds:
-  outbox:
-    persistent:
-      enabled: true
-      maxAttempts: 10
-      storeLastError: true
-```
-
-You have the following configuration options:
-- `enabled` (default `true`): Persistent outbox enablement.
-- `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
-- `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
-of an entry,  is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
 ::: warning _❗ Warning_
 In order to enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
@@ -83,11 +61,73 @@ In case of MT scenario make sure that the required configuration is also done in
 Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base model. You need to update the tenant models after deployment. You don't need to update MTX Sidecar in this case.
 :::
 
+CAP Java by default provides two persistent outbox services:
+
+-  `OutboxService.PERSISTENT_ORDERED_NAME` which is used by messaging services and
+-  `OutboxService.PERSISTENT_UNORDERED_NAME` which is used by the AuditLog service.
+
+The default configuration for both outboxes can be overridden using the `outbox.services` section in the _application.yaml_:
+
+```yaml
+cds:
+  outbox:
+    services:
+      DefaultOutboxOrdered:
+        maxAttempts: 10
+        storeLastError: true
+      DefaultOutboxUnordered:
+        maxAttempts: 10
+        storeLastError: true
+```
+
+You have the following configuration options:
+- `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
+- `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
+of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
+
+::: warning _❗ Warning_
+The configuration section `outbox.persistent` in the _application.yaml_ is deprecated. If it is still available in the
+_application.yaml_ it will be taken as a default, if none of the afrementioned outboxes are configured specificially:
+
+```yaml
+cds:
+  outbox:
+    persistent:
+      enabled: true
+      maxAttempts: 10
+      storeLastError: true
+```
+
+If `enabled` (default `true`) is set to `false`, no persistent outbox will be created.
+:::
+
 ::: tip
 Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 :::
 
 ## Generic Outbox
+
+::: tip
+The generic outbox is supported starting with version `com.sap.cds:cds-services-bom:2.7.0`.
+:::
+
+### Configuring Custom Outboxes
+
+Custom outboxes can be configured using the `outbox.services` section in the _application.yaml_:
+
+```yaml
+cds:
+  outbox:
+    services:
+      MyCustomOutbox1:
+        maxAttempts: 5
+        storeLastError: false
+      MyOtherCustomOutbox:
+        maxAttempts: 10
+        storeLastError: true
+```
+
+
 
 ### Outboxing Arbitrary CAP Services
 
@@ -98,7 +138,7 @@ TODO
 TODO
 
 
-#### Troubleshooting
+## Troubleshooting
 
 To manually delete entries in the `cds.outbox.Messages` table, you can either
 expose it in a service or programmatically modify it using the `cds.outbox.Messages`

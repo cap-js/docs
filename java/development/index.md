@@ -61,12 +61,12 @@ Add the `cds-feature-k8s` feature in the _pom.xml_ file of your CAP application 
 
 ```xml
 <dependencies>
-	<!-- Features -->
-	<dependency>
-		<groupId>com.sap.cds</groupId>
-		<artifactId>cds-feature-k8s</artifactId>
-		<scope>runtime</scope>
-	</dependency>
+    <!-- Features -->
+    <dependency>
+        <groupId>com.sap.cds</groupId>
+        <artifactId>cds-feature-k8s</artifactId>
+        <scope>runtime</scope>
+    </dependency>
 </dependencies>
 ```
 
@@ -122,10 +122,10 @@ In addition, for activating the Spring integration of CAP Java SDK, the followin
 
 ```xml
 <dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-framework-spring-boot</artifactId>
-	<version>${revision}</version>
-	<scope>runtime</scope>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-framework-spring-boot</artifactId>
+    <version>${revision}</version>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -133,9 +133,9 @@ It might be easier to use the CDS starter bundle `cds-starter-spring-boot-odata`
 
 ```xml
 <dependency>
-	<groupId>com.sap.cds</groupId>
-	<artifactId>cds-starter-spring-boot-odata</artifactId>
-	<version>${revision}</version>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-spring-boot-odata</artifactId>
+    <version>${revision}</version>
 </dependency>
 ```
 
@@ -534,8 +534,8 @@ public class CatalogServiceHandlerTest {
         CatalogServiceHandler handler = new CatalogServiceHandler(db);
         handler.discountBooks(Stream.of(book1, book2));
 
-        assertEquals("Book 1", book1.getTitle(), "Book 1 was discounted");
-        assertEquals("Book 2 -- 11% discount", book2.getTitle(), "Book 2 was not discounted");
+        Assertions.assertEquals("Book 1", book1.getTitle(), "Book 1 was discounted");
+        Assertions.assertEquals("Book 2 -- 11% discount", book2.getTitle(), "Book 2 was not discounted");
     }
 }
 ```
@@ -552,24 +552,39 @@ Whenever possible, mocking dependencies and just testing the pure processing log
 
 To verify the proper discount application in our example, we can run a `Select` statement against the `CatalogService` and assert the result as follows, using a well-known dataset:
 
-```java
+```java{25-32}
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+import com.sap.cds.Result;
+import com.sap.cds.ql.Select;
+import com.sap.cds.services.cds.CqnService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class CatalogServiceTest {
+class CatalogServiceTest {
 
     @Autowired
     @Qualifier(CatalogService_.CDS_NAME)
     private CqnService catalogService;
 
     @Test
-    public void discountApplied() {
-        Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));
+    void discountApplied() {// [!code focus]
+        Result result = catalogService.run(Select.from(Books_.class).byId("51061ce3-ddde-4d70-a2dc-6314afbcc73e"));// [!code focus]
 
-        // book with title "The Raven" and a stock quantity of > 111
-        Books book = result.single(Books.class);
+        // book with title "The Raven" and a stock quantity of > 111// [!code focus]
+        Books book = result.single(Books.class);// [!code focus]
 
-        assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");
-    }
+        assertEquals("The Raven -- 11% discount", book.getTitle(), "Book was not discounted");// [!code focus]
+    }//[!code focus]
 }
 ```
 
@@ -594,7 +609,7 @@ public class CatalogServiceTest {
         context.setQuantity(2);
         catalogService.emit(context);
 
-        assertEquals(22 - context.getQuantity(), context.getResult().getStock());
+        Assertions.assertEquals(22 - context.getQuantity(), context.getResult().getStock());
     }
 }
 ```
@@ -618,7 +633,7 @@ public class CatalogServiceTest {
         context.setQuantity(30);
         catalogService.emit(context);
 
-        assertThrows(ServiceException.class, () -> catalogService.emit(context), context.getQuantity() + " exceeds stock for book");
+        Assertions.assertThrows(ServiceException.class, () -> catalogService.emit(context), context.getQuantity() + " exceeds stock for book");
     }
 }
 ```
@@ -647,16 +662,16 @@ public class CatalogServiceITest {
 
     @Test
     public void discountApplied() throws Exception {
-        mockMvc.perform(get(booksURI + "?$filter=stock gt 200&top=1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.value[0].title").value(containsString("11% discount")));
+        mockMvc.perform(MockMvcRequestBuilders.get(booksURI + "?$filter=stock gt 200&top=1"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.value[0].title").value(Matchers.containsString("11% discount")));
     }
 
     @Test
     public void discountNotApplied() throws Exception {
-        mockMvc.perform(get(booksURI + "?$filter=stock lt 100&top=1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.value[0].title").value(not(containsString("11% discount"))));
+        mockMvc.perform(MockMvcRequestBuilders.get(booksURI + "?$filter=stock lt 100&top=1"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.value[0].title").value(Assertions.not(Matchers.containsString("11% discount"))));
     }
 }
 ```

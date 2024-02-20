@@ -5,10 +5,10 @@ impl-variants: true
 
 # Using SQLite for Development {#sqlite}
 
-CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend to make use of this option during development and testing as much as possible.
+CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend using this option as much as possible during development and testing.
 
 <div markdown="1" class="impl node">
-  
+
 ::: tip New SQLite Service
 This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
 :::
@@ -17,10 +17,14 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl java">
 
-[Learn more about features and limitations of SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about the features and limitations of using CAP with SQlite.](../java/persistence-services#sqlite){.learn-more}
+
 
 </div>
 
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 [[toc]]
 
@@ -35,9 +39,9 @@ Run this to use SQLite for development:
 npm add @cap-js/sqlite -D
 ```
 
-### Auto-wired Configuration
+### Auto-Wired Configuration {.impl .node}
 
-The `@cap-js/sqlite` uses `cds-plugin` technique to auto-configure your application to use an in-memory SQLite database for development.
+The `@cap-js/sqlite` package uses the `cds-plugin` technique to auto-configure your application for using an in-memory SQLite database for development.
 
 You can inspect the effective configuration using `cds env`:
 
@@ -55,7 +59,7 @@ Output:
 }
 ```
 
-[See also the general information on installing database packages](databases#setup-configuration){.learn-more}
+[See also the general information on installing database packages.](databases#setup-configuration){.learn-more}
 
 </div>
 
@@ -78,32 +82,60 @@ To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 </dependency>
 ```
 
-The further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
+Further configuration depends on whether you run SQLite as an [in-memory database](#in-memory-databases) or as a [file-based](#persistent-databases) database.
 
 ## Deployment
+
+<div class="impl java">
+
+### Initial Database Schema
+
+Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+
+[Learn more about creating an initial database schema](/java/persistence-services#initial-database-schema-1){.learn-more}
+
+</div>
+
 
 ### In-Memory Databases
 
 <div markdown="1" class="impl node">
 
 
-As stated above `@cap-js/sqlite` uses an in-memory SQLite database by default. For example, you can see this in the log output when starting your application, with `cds watch`:
+As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by default. For example, when starting your application with `cds watch`, you can see this in the log output:
 
 ```log
 ...
-[cds] - connect to db > sqlite { url: ':memory:' } //[!code focus]
+[cds] - connect to db > sqlite { url: ':memory:' } // [!code focus]
   > init from db/init.js
   > init from db/data/sap.capire.bookshop-Authors.csv
   > init from db/data/sap.capire.bookshop-Books.csv
   > init from db/data/sap.capire.bookshop-Books.texts.csv
   > init from db/data/sap.capire.bookshop-Genres.csv
-/> successfully deployed to in-memory database. //[!code focus]
+/> successfully deployed to in-memory database. // [!code focus]
 ...
 ```
 
 ::: tip
 
-Using in-memory databases is most recommended for test drives and for test pipelines. 
+Using in-memory databases is the most recommended option for test drives and test pipelines.
 
 :::
 
@@ -112,14 +144,13 @@ Using in-memory databases is most recommended for test drives and for test pipel
 <div markdown="1" class="impl java">
 
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`. 
+The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
 
-Finally, configure the DB connection in the non-productive `default` profile:
-
-```yaml
+::: code-group
+```yaml [application.yaml]
 ---
 spring:
-  profiles: default
+  config.activate.on-profile: default
   sql:
     init:
       mode: always
@@ -129,12 +160,11 @@ spring:
     hikari:
       maximum-pool-size: 1
       max-lifetime: 0
-cds:
-  sql:
-    supportedLocales: "*"
 ```
+:::
 
-[Learn how to configure an in-memory SQLite database](../java/persistence-services#in-memory-storage){.learn-more}
+
+[Learn how to configure an in-memory SQLite database.](../java/persistence-services#in-memory-storage){.learn-more}
 
 </div>
 
@@ -167,7 +197,7 @@ You can also use persistent SQLite databases. In this case, the schema is initia
    { "cds": { "requires": {
       "db": {
          "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } //[!code focus]
+         "credentials": { "url": "db.sqlite" } // [!code focus]
       }
    }}}
    ```
@@ -180,16 +210,16 @@ You can also use persistent SQLite databases. In this case, the schema is initia
    cds deploy
    ```
 
-This will...:
+This will:
 
 1. Create a database file with the given name.
 2. Create the tables and views according to your CDS model.
-3. Fill in initial data from provided _.csv_ files.
+3. Fill in initial data from the provided _.csv_ files.
 
 <div markdown="1" class="impl node">
 
 
-With that in place, when starting the server it will use this prepared database instead of bootstrapping an in-memory one:
+With that in place, the server will use this prepared database instead of bootstrapping an in-memory one upon startup:
 
 ```log
 ...
@@ -207,34 +237,31 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 ```yaml
 ---
 spring:
-  profiles: sqlite
+  config.activate.on-profile: sqlite
   datasource:
     url: "jdbc:sqlite:sqlite.db"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
-cds:
-  sql:
-    supportedLocales: "*"
 ```
 
-[Learn how to configure a file based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
+[Learn how to configure a file-based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
 
 </div>
 
-::: tip Re-deploy on changes
+::: tip Redeploy on changes
 
-Remember to always re-deploy your database whenever you made changes to your models or your data. Just run `cds deploy` again to do so.
+Remember to always redeploy your database whenever you change your models or your data. Just run `cds deploy` again to do so.
 
 :::
 
 ### Drop-Create Schema
 
-When running `cds deploy` repeatedly it will always drop-create all tables and views. This is **most appropriate for development** as schema changes are very frequent and broad during development.
+When you redeploy your database, it will always drop-create all tables and views. This is **most suitable for development environments**, where schema changes are very frequent and broad.
 
 ### Schema Evolution
 
-While drop-create is most appropriate for development, it isn't for database upgrades in production, as all customer data would be lost. To avoid this `cds deploy` also supports automatic schema evolution, which you can use as follows...
+While drop-create is most appropriate for development, it isn't suitable for database upgrades in production, as all customer data would be lost. To avoid this, `cds deploy` also supports automatic schema evolution, which you can use as follows:
 
 1. Enable automatic schema evolution in your `db` configuration:
 
@@ -245,7 +272,7 @@ While drop-create is most appropriate for development, it isn't for database upg
       "db": {
          "kind": "sqlite",
          "credentials": { "url": "db.sqlite" },
-         "schema_evolution": "auto" //[!code focus]
+         "schema_evolution": "auto" // [!code focus]
       }
    }}}
    ```
@@ -260,11 +287,11 @@ While drop-create is most appropriate for development, it isn't for database upg
 
 
 
-[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there equally apply to SQLite with persistent databases](databases-postgres#schema-evolution) {.learn-more}
+[Learn more about automatic schema evolution in the PostgreSQL guide. <br>The information in there is also applicable to SQLite with persistent databases.](databases-postgres#schema-evolution) {.learn-more}
 
 
 
-## Features 
+## Features
 
 <div markdown="1" class="impl java">
 
@@ -276,24 +303,24 @@ CAP supports most of the major features on SQLite:
 * [Comparison Operators](../java/query-api#comparison-operators)
 * [Predicate Functions](../java/query-api#predicate-functions)
 
-[Learn about features and limitations of SQLite](../java/persistence-services#sqlite){.learn-more}
+[Learn about features and limitations of SQLite.](../java/persistence-services#sqlite){.learn-more}
 
 </div>
 
 <div markdown="1" class="impl node">
 
-Following is an overview of advanced features supported by the new database service(s).
+The following is an overview of advanced features supported by the new database services.
 
-> These apply to all new database services, SQLiteService, HANAService, and PostgresService.
+> These apply to all new database services, including SQLiteService, HANAService, and PostgresService.
 
 
 
 ### Path Expressions & Filters {.impl .node}
 
-The new database service provides **full support** for all kinds of [path expressions](https://cap.cloud.sap/docs/cds/cql#path-expressions), including [infix filters](https://cap.cloud.sap/docs/cds/cql#with-infix-filters), and [exists predicates](https://cap.cloud.sap/docs/cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
+The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
 
-```sh
-cds repl --profile better-sqlite
+```js
+// $ cds repl --profile better-sqlite
 var { server } = await cds.test('bookshop'), { Books, Authors } = cds.entities
 await INSERT.into (Books) .entries ({ title: 'Unwritten Book' })
 await INSERT.into (Authors) .entries ({ name: 'Upcoming Author' })
@@ -320,9 +347,9 @@ await SELECT `from ${Authors} { books.genre.name }`
 
 ### Optimized Expands {.impl .node}
 
-The old database service implementation(s) translated deep reads, i.e., SELECTs with expands, into several database queries and collected the individual results into deep result structures. The new service uses `json_object` functions and alike to instead do that in one single query, with sub selects, which greatly improves performance.
+The old database service implementation(s) used to translate deep reads, that is, SELECTs with expands, into several database queries and collect the individual results into deep result structures. The new service uses `json_object` and other similar functions to instead do that in one single query, with sub selects, which greatly improves performance.
 
-Example:
+For example:
 
 ```sql
 SELECT.from(Authors, a => {
@@ -334,7 +361,7 @@ SELECT.from(Authors, a => {
 })
 ```
 
-Required three queries with three roundtrips to the database, now only one query is required.
+While this used to require three queries with three roundtrips to the database, now only one query is required.
 
 
 
@@ -342,7 +369,7 @@ Required three queries with three roundtrips to the database, now only one query
 
 ### Localized Queries {.impl .node}
 
-With the old implementation when running queries like `SELECT.from(Books)` would always return localized data, without being able to easily read the non-localized data. The new service does only what you asked for, offering new `SELECT.localized` options:
+With the old implementation, running queries like `SELECT.from(Books)` would always return localized data, without being able to easily read the non-localized data. The new service does only what you asked for, offering new `SELECT.localized` options:
 
 ```js
 let books = await SELECT.from(Books)       //> non-localized data
@@ -361,20 +388,21 @@ SELECT.one.localized(Books)
 
 ### Standard Operators {.impl .node}
 
-The new database services guarantees identical behavior of these logic operators:
+The new database services guarantee identical behavior of these logic operators:
 
 - `==`, `=` — with `= null` being translated to `is null`
 - `!=`,  `<>`  — with `!=` translated to `IS NOT` in SQLite
 
-* `<`, `>`, `<=`, `>=` — are supported as is in standard SQL
+* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
 
-Especially the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves portability of your code.
+In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
+> These operators are available for runtime queries, but not in CDS files.
 
 
 ### Standard Functions {.impl .node}
 
-A specified set of standard functions is now supported in a **database-agnostic**, hence portable way and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
+A specified set of standard functions is now supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
 
 * `concat(x,y,...)` — concatenates the given strings
 * `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
@@ -391,17 +419,18 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `session_context(v)` — with standard variable names → [see below](#session-variables)
 * `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
-> <sup>1</sup> Argument `n` is optional
+> <sup>1</sup> Argument `n` is optional.
+> These functions are only supported within runtime queries, but not in CDS files.
 
-The db service implementation translates these to the best-possible native SQL functions, thus enhancing the extend of **portable** queries.
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
 
-For example, this CQL query:
+CQL query:
 
 ```sql
 SELECT from Books where search((title,descr),'y')
 ```
 
-gets translated to this native SQLite query:
+Translated native SQLite query:
 
 ```sql
 SELECT * from sap_capire_bookshop_Books
@@ -411,17 +440,17 @@ SELECT * from sap_capire_bookshop_Books
 
 > Note: only single values are supported for the second argument `y`.
 
-::: warning
+::: warning Case-sensitive
 
-**Note** that usage is **case-sensitive**, which means you have to write these functions exactly as given above; all-uppercase usages are not supported.
+You have to write these functions exactly as given; all-uppercase usages aren't supported.
 
 :::
 
 
 
-### HANA Functions {.impl .node}
+### SAP HANA Functions {.impl .node}
 
-In addition to the standard functions, which all new database services will support, the new SQLite service also supports these common HANA functions, to further increase the scope for portable testing:
+In addition to the standard functions, which all new database services support, the new SQLite service also supports these common SAP HANA functions, to further increase the scope for portable testing:
 
 - `years_between`
 - `months_between`
@@ -429,7 +458,7 @@ In addition to the standard functions, which all new database services will supp
 - `seconds_between`
 - `nano100_between`
 
-With open source and the new db service architecture we also have methods in place to enhance this list by custom implementation.
+With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
 
 > Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
 
@@ -439,7 +468,7 @@ With open source and the new db service architecture we also have methods in pla
 
 ### Session Variables {.impl .node}
 
-The new SQLite service can leverage  [*better-sqlite*](https://www.npmjs.com/package/better-sqlite3)'s user-defined functions to support *session context* variables. In particular, the pseudo variables `$user.id`, `$user.locale`,  `$valid.from`, and `$valid.to` are available in native SQL queries like so:
+The new SQLite service can leverage  [*better-sqlite*](https://www.npmjs.com/package/better-sqlite3)'s user-defined functions to support *session context* variables. In particular, the pseudo variables `$user.id`, `$user.locale`,  `$valid.from`, and `$valid.to` are available in native SQL queries as shown below:
 
 ```sql
 SELECT session_context('$user.id')
@@ -448,11 +477,11 @@ SELECT session_context('$valid.from')
 SELECT session_context('$valid.to')
 ```
 
-Amongst other, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
+Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
 
 ::: tip Portable API
 
-The API as shown below with function `session_context()` and the specific pseudo variable names is supported by **all** new database services, that is, for *SQLite*, *PostgreSQL* and *HANA*. This allows you to write respective code once and run it on all these databases.
+The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*. This allows you to write respective code once and run it on all these databases.
 
 :::
 
@@ -460,50 +489,113 @@ The API as shown below with function `session_context()` and the specific pseudo
 
 ### Using Lean Draft {.impl .node}
 
-The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, nothing of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single cheap selects.
+The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, none of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.
 
 
 
 ### Consistent Timestamps {.impl .node}
 
-Values for elements of type `DateTime`  and `Timestamp` are now handled in a consistent way across all new database services, except for timestamp precisions, along these lines:
+Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all new database services along these lines:
 
-1. **Allowed input values** — as values you can either provide `Date` objects or ISO 8601 Strings in Zulu time zone, with correct number of fractional digits (0 for DateTimes, up to 7 for Timestamps). 
-2. **Comparisons** — comparing DateTime with DataTime elements is possible with plain `=`,  `<`, `>`, `<=`, `>=` operators, as well as Timestamp with Timestamp elements. When comparing with values, the values have to be provided as stated above. 
+:::tip *Timestamps* = `Timestamp` as well as `DateTime`
 
-**IMPORTANT:** While HANA and PostgreSQL provide native datetime and timestamp types, which allow you to provide arbitrary number of fractional digits. SQLite doesn't and the best we can do is storing such values as ISO Strings. In order to support comparisons, you must ensure to always provide the correct number of digits when ingesting string values. For example: 
+When we say *Timestamps*, we mean elements of type `Timestamp` as well as `DateTime`. Although they have different precision levels, they are essentially the same type. `DateTime` elements have seconds precision, while `Timestamp` elements have milliseconds precision in SQLite, and microsecond precision in SAP HANA and PostgreSQL.
+
+:::
+
+
+
+#### Writing Timestamps
+
+When writing data using INSERT, UPSERT or UPDATE, you can provide values for `DateTime` and `Timestamp` elements as JavaScript  `Date` objects or ISO 8601 Strings. All input is normalized to ensure `DateTime` and `Timestamp` values can be safely compared. In case of SAP HANA and PostgreSQL, they're converted to native types. In case of SQLite, they're stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
+
+For example:
 
 ```js
 await INSERT.into(Books).entries([
-  { title:'A', createdAt: '2022-11-11T11:11:11Z' },      // wrong
-  { title:'B', createdAt: '2022-11-11T11:11:11.000Z' },  // correct
-  { title:'C', createdAt: '2022-11-11T11:11:11.123Z' },
-})
-let books = await SELECT('title').from(Books).orderBy('createdAt')
-console.log(books) //> would return [{title:'B'},{title:'C'},{title:'A'}]
+  { createdAt: new Date },                       //> stored .toISOString()
+  { createdAt: '2022-11-11T11:11:11Z' },         //> padded with .000Z
+  { createdAt: '2022-11-11T11:11:11.123Z' },     //> stored as is
+  { createdAt: '2022-11-11T11:11:11.1234563Z' }, //> truncated to .123Z
+  { createdAt: '2022-11-11T11:11:11+02:00' },    //> converted to zulu time
+])
 ```
 
-The order is wrong because of the `'Z'` in A being at the wrong position. 
 
-::: tip Prefer using `Date` objects
 
-Unless the data came in through an OData layer which applies respective data input processing, prefer using Date objects instead of string literals to avoid situations as illustrated above. 
+#### Reading Timestamps
 
-For example, the above would be fixed by changing the INSERT to: 
+Timestamps are returned as they're stored in a normalized way, with milliseconds precision, as supported by the JavaScript `Date` object. For example, the entries inserted previously would return the following:
 
 ```js
-await INSERT.into(Books).entries([
-  { title:'A', createdAt: new Date('2022-11-11T11:11:11Z') },
-  { title:'B', createdAt: new Date('2022-11-11T11:11:11.000Z') },
-  { title:'C', createdAt: new Date('2022-11-11T11:11:11.123Z') },
-})
+await SELECT('createdAt').from(Books).where({title:null})
+```
+
+```js
+[
+  { createdAt: '2023-08-10T14:24:30.798Z' },
+  { createdAt: '2022-11-11T11:11:11.000Z' },
+  { createdAt: '2022-11-11T11:11:11.123Z' },
+  { createdAt: '2022-11-11T11:11:11.123Z' },
+  { createdAt: '2022-11-11T09:11:11.000Z' }
+]
+```
+
+`DateTime` elements are returned with seconds precision, with all fractional second digits truncated. That is, if the `createdAt` in our examples was a `DateTime`, the previous query would return this:
+
+```js
+[
+  { createdAt: '2023-08-10T14:24:30Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T11:11:11Z' },
+  { createdAt: '2022-11-11T09:11:11Z' }
+]
+```
+
+
+
+#### Comparing DateTimes & Timestamps
+
+You can safely compare DateTimes & Timestamps with each other and with input values. The input values have to be `Date` objects or ISO 8601 Strings in Zulu timezone with three fractional digits.
+
+For example, all of these would work:
+
+```js
+SELECT.from(Foo).where `someTimestamp = anotherTimestamp`
+SELECT.from(Foo).where `someTimestamp = someDateTime`
+SELECT.from(Foo).where `someTimestamp = ${new Date}`
+SELECT.from(Foo).where `someTimestamp = ${req.timestamp}`
+SELECT.from(Foo).where `someTimestamp = ${'2022-11-11T11:11:11.123Z'}`
+```
+
+While these would fail, because the input values don't comply to the rules:
+
+```js
+SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11+02:00'}` // non-Zulu time zone
+SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digit fractions
+```
+
+> This is because we can never reliably infer the types of input to `where` clause expressions. Therefore, that input will not receive any normalisation, but be passed down as is as plain string.
+
+:::tip Always ensure proper input in `where` clauses
+
+Either use strings strictly in `YYYY-MM-DDThh:mm:ss.fffZ` format, or `Date` objects, as follows:
+
+```js
+SELECT.from(Foo).where ({ createdAt: '2022-11-11T11:11:11.000Z' })
+SELECT.from(Foo).where ({ createdAt: new Date('2022-11-11T11:11:11Z') })
 ```
 
 :::
 
+The rules regarding Timestamps apply to all comparison operators: `=`, `<`, `>`, `<=`, `>=`.
+
+
+
 ### Improved Performance {.impl .node}
 
-The combination of the above-mentioned improvements commonly leads to significant performance improvements. For example displaying the list page of Travels in [cap/sflight](https://github.com/SAP-samples/cap-sflight) took **>250ms** in the past, and **~15ms** now.
+The combination of the above-mentioned improvements commonly leads to significant performance improvements. For example, displaying the list page of Travels in [cap/sflight](https://github.com/SAP-samples/cap-sflight) took **>250ms** in the past, and **~15ms** now.
 
 
 
@@ -513,17 +605,17 @@ The combination of the above-mentioned improvements commonly leads to significan
 
 
 
-While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the new implementation. While not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case find instructions about how to resolve this in the following sections.
+While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the new implementation. While not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case, you can find instructions about how to resolve this in the following sections.
 
-> These apply to all new database services, SQLiteService, HANAService, and PostgresService.
+> These apply to all new database services: SQLiteService, HANAService, and PostgresService.
 
 
 
 ### Use Old and New in Parallel {.impl .node}
 
-During migration you may want to occasionally run and test your app with both, the new SQLite service and the old one. Do so as follows...
+During migration, you may want to occasionally run and test your app with both the new SQLite service and the old one. You can accomplish this as follows:
 
-1. Add the new service with `--no-save`
+1. Add the new service with `--no-save`:
    ```sh
    npm add @cap-js/sqlite --no-save
    ```
@@ -555,9 +647,9 @@ During migration you may want to occasionally run and test your app with both, t
 
 ### Avoid UNIONs and JOINs {.impl .node}
 
-Many advanced features supported by the new database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding UNIONs and JOINs to the equation — at least the effort and overhead is hardly matched by generated value. Therefore we dropped support of UNIONs and JOINs in CQN queries.
+Many advanced features supported by the new database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding UNIONs and JOINs to the equation — at least the effort and overhead is hardly matched by generated value. Therefore, we dropped support of UNIONs and JOINs in CQN queries.
 
-For example, this means queries like that are deprecated / not supported any longer:
+For example, this means queries like these are deprecated / not supported any longer:
 
 ```js
 SELECT.from(Books).join(Authors,...)
@@ -565,15 +657,15 @@ SELECT.from(Books).join(Authors,...)
 
 Mitigations:
 
-1. Use [path expressions](#path-expressions-filters) instead of joins — actually the former lack of support for path expressions was the most common reason for having to use joins at all.
+1. Use [path expressions](#path-expressions-filters) instead of joins. (The former lack of support for path expressions was the most common reason for having to use joins at all.)
 
-2. Use plain SQL queries like that:
+2. Use plain SQL queries like so:
 
    ```js
    await db.run(`SELECT from ${Books} join ${Authors} ...`)
    ```
 
-3. Use helper views modelled in CDS, which still supports all complex UNIONs and JOINs, then use this view via `cds.ql`.
+3. Use helper views modeled in CDS, which still supports all complex UNIONs and JOINs, then use this view via `cds.ql`.
 
 
 
@@ -581,13 +673,13 @@ Mitigations:
 
 ### Fixed Localized Data {.impl .node}
 
-Formerly, when reading data using cds.ql, it *always* returned localized data. For example:
+Formerly, when reading data using `cds.ql`, this *always* returned localized data. For example:
 
 ```js
 SELECT.from(Books)       // always read from localized.Books instead
 ```
 
-This was not only wrong, but also expensive. Localized data is an application layer concept. Database services should return, what was asked for, nothing else. → Use [*Localized Queries*](#localized-queries) if you really want to read localized data from the database:
+This wasn't only wrong, but also expensive. Localized data is an application layer concept. Database services should return what was asked for, and nothing else. → Use [*Localized Queries*](#localized-queries) if you really want to read localized data from the database:
 
 ```js
 SELECT.localized(Books)  // reads localized data
@@ -600,56 +692,26 @@ Generic application service handlers use *SELECT.localized* to request localized
 
 :::
 
-
-
-
-
-### New Streaming API {.impl .node}
-
-TODO: New STREAM event, ...
-
-
-
-### Skipped BLOBs {.impl .node}
-
-Formerly `LargeBinary` elements, aka BLOBs, always got served as any other column. Now they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them.
-
-For example:
-
-```js
-SELECT.from(Books)          //> [{ ID, title, ..., image }] // [!code --]
-SELECT.from(Books)          //> [{ ID, title, ... }]
-SELECT('image').from(Books) //> [{ image }]
-```
-
-::: tip Avoid direct reads of BLOBs
-
-Even if we still support direct reads as shown in line three above, you should generally refrain from using that option. Reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such thing, consider using non-large `Binary` elements instead.
-
-:::
-
-
-
 ### Skipped Virtuals {.impl .node}
 
-In contrast to former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.
+In contrast to their former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.
 
-::: details Reasoning...
+::: details Reasoning
 
-Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values, for virtual elements. This behavior was removed, as it provides very little value, if at all.
+Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values for virtual elements. This behavior was removed, as it provides very little value, if at all.
 
 :::
 
-For example given that definition:
+For example, given this definition:
 
 ```cds
 entity Foo {
-  virtual foo : Integer;
-  bar : Integer;
+  foo : Integer;
+  virtual bar : Integer;
 }
 ```
 
-Behavior changed like that:
+The behaviour has changed to:
 
 ```js
 SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
@@ -657,16 +719,24 @@ SELECT.from('Foo')         //> [{ foo:1 }, ...]
 SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
+### <> Operator {.impl .node}
 
+Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
+* The operator `<>` now works as specified in the SQL standard.
+* `name != 'John'` is translated as before to `name <> 'John' OR name is null`.
+
+
+::: warning
+This is a breaking change in regard to the previous implementation.
+:::
 
 ### Miscellaneous {.impl .node}
 
 - Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
 - CQNs with subqueries require table aliases to refer to elements of outer queries.
 - Table aliases must not contain dots.
-- CQNs with an empty columns array now throws an error.
-- `*` is not a column reference, use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
-- Operator `<>` works as specified in SQL standard, `name != 'John'` translates to `name <> 'John' OR name is null`.
+- CQNs with an empty columns array now throw an error.
+- `*` isn't a column reference. Use `columns: ['*']` instead of `columns: [{ref:'*'}]`.
 - Column names in CSVs must map to physical column names:
 
 ```csvc
@@ -678,11 +748,11 @@ ID;title;author.ID;currency.code // [!code --]
 
 ### Adopt Lean Draft  {.impl .node}
 
-As mentioned [above](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*.
+As mentioned in [Using Lean Draft](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*.
 
-When using the new service the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori.draft_compat` in case you run into problems.
+When using the new service, the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori.draft_compat` in case you run into problems.
 
-More detailed documentation for that will follow soon.
+More detailed documentation for that is coming.
 
 
 
@@ -690,7 +760,7 @@ More detailed documentation for that will follow soon.
 
 ### Finalizing Migration  {.impl .node}
 
-When you finished migration remove the old [*sqlite3* driver](https://www.npmjs.com/package/sqlite3) :
+When you have finished migration, remove the old [*sqlite3* driver](https://www.npmjs.com/package/sqlite3) :
 
 ```sh
 npm rm sqlite3
@@ -706,12 +776,12 @@ npm add @cap-js/sqlite --save
 
 ## SQLite in Production?
 
-As stated in the beginning, SQLite is mostly intended to speed up development, not for production. This is not because of limited warranties or lack of support, it's only because of suitability. A major criterion is this:
+As stated in the beginning, SQLite is mostly intended to speed up development, but is not fit for production. This is not because of limited warranties or lack of support, but rather because of suitability.
 
-Cloud applications usually are served by server clusters, in which each server is connected to a shared database. SQLite could only be used in such setups with the persistent database file accessed through a network file system; but this is rarely available and slow. Hence an enterprise client-server database is the better choice for that.
+A major criterion is this: cloud applications are usually served by server clusters, in which each server is connected to a shared database. SQLite could only be used in such setups with the persistent database file accessed through a network file system. This is rarely available and results in slow performance. Hence, an enterprise client-server database is a more fitting choice for these scenarios.
 
-Having said this, there can indeed be scenarios where SQLite might be used also in production, such as using SQLite as in-memory caches. → [Find a detailed list of criteria on the sqlite.org website](https://www.sqlite.org/whentouse.html).
+Having said this, there can indeed be scenarios where SQLite might also be used in production, such as using SQLite as in-memory caches. → [Find a detailed list of criteria on the sqlite.org website](https://www.sqlite.org/whentouse.html).
 
 ::: warning
-SQLite has only limited support for concurrent database access due to it's very coarse lock granularity. This makes it badly suited for applications with high concurrency.
-::: 
+SQLite only has limited support for concurrent database access due to its very coarse lock granularity. This makes it badly suited for applications with high concurrency.
+:::

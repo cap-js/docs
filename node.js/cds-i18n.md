@@ -1,10 +1,14 @@
+---
+status: released
+---
+
 # Localization / i18n
 
-## 
+##
 
 ### Generic Errors
 
-You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren’t model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../guides/i18n#where-to-place-text-bundles) for more details.
+You can provide localized error messages for a [growing number of runtime errors](#list-of-generic-texts). To do so, they simply need to provide `messages_<locale>.properties` files into one of the valid, model-unrelated text bundles folders. That is, as these texts aren't model related, the properties files are only searched for in the folders listed in `cds.env.i18n.folders` and not next to any model. The first matching file is used. See [Where to Place Text Bundles?](../guides/i18n#where-to-place-text-bundles) for more details.
 
 Example:
 
@@ -12,12 +16,12 @@ Example:
 // i18n/messages_en.properties
 MULTIPLE_ERRORS=Multiple errors occurred.
 
-[...]
+...
 
 // i18n/messages_de.properties
 MULTIPLE_ERRORS=Es sind mehrere Fehler aufgetreten.
 
-[...]
+...
 ```
 
 { style="padding: 0 33px"}
@@ -33,7 +37,7 @@ Example:
 // i18n/messages_en.properties
 ORDER_EXCEEDS_STOCK=The order of {0} books exceeds the stock by {1}
 
-[...]
+...
 
 // srv/catalog-service.js
 const cds = require('@sap/cds')
@@ -57,7 +61,7 @@ module.exports = (srv) => {
 
 Find the current list of generic runtime texts:
 
-```
+```txt
 400=Bad Request
 401=Unauthorized
 403=Forbidden
@@ -89,4 +93,3 @@ fulfill the request
 
 MULTIPLE_ERRORS=Multiple errors occurred. See the details for more information.
 ```
-

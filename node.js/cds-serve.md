@@ -86,14 +86,14 @@ app.listen()
 
 This uses these defaults for all options:
 
-| Option | Description | Default |
-| ------ | ----------- | ------- |
-| cds.serve ... | which services to construct |  `'all'` services
-| <i>&#8627;</i>.from  | models to load definitions from | `'./srv'` folder
-| <i>&#8627;</i>.in  | express app to mount to | — none —
-| <i>&#8627;</i>.to  | client protocol to serve to | `'fiori'`
-| <i>&#8627;</i>.at  | endpoint path to serve at | `@path` or `.name`
-| <i>&#8627;</i>.with  | implementation function | `@impl` or `._source`.js
+| Option               | Description                     | Default                     |
+|----------------------|---------------------------------|-----------------------------|
+| cds.serve ...        | which services to construct     | `'all'` services            |
+| <i>&#8627;</i> .from | models to load definitions from | `'./srv'` folder            |
+| <i>&#8627;</i> .in   | express app to mount to         | — none —                    |
+| <i>&#8627;</i> .to   | client protocol to serve to     | `'fiori'`                   |
+| <i>&#8627;</i> .at   | endpoint path to serve at       | [`@path`](#path) or `.name` |
+| <i>&#8627;</i> .with | implementation function         | `@impl` or `._source`.js    |
 
 Alternatively you can construct services individually, also from other models, and also mount them yourself, as document in the subsequent sections on individual fluent API options.
 
@@ -144,7 +144,7 @@ cds.serve('CatalogService').at('/cat')
 cds.serve('all').at('/cat') //> error
 ```
 
-**If omitted**, the mount point is determined from annotation `@path`, if present, or from the service's lowercase name, excluding trailing _Service_.
+**If omitted**, the mount point is determined from annotation [`@path`](#path), if present, or from the service's lowercase name, excluding trailing _Service_.
 
 ```cds
 service MyService @(path:'/cat'){...}  //> served at: /cat
@@ -205,7 +205,7 @@ srv/cat-service.js   #> service implementation used by default
 
 ## cds. middlewares
 
-For each service served at a cewrtain protocol, the framework registers a configurable set of express middlewares by default like so:
+For each service served at a certain protocol, the framework registers a configurable set of express middlewares by default like so:
 
 ```js
 app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
@@ -217,7 +217,6 @@ cds.middlewares.before = [
   context,
   trace,
   auth,
-  ctx_auth,
   ctx_model
 ]
 ```
@@ -230,11 +229,7 @@ This middleware initializes [cds.context](events#cds-context) and starts the con
 
 ### . auth() {.method}
 
-[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
-
-### . ctx_auth() {.method}
-
-This middleware adds user and tenant identified by authentication middleware to [cds.context](events#cds-context).
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy and subsequently adds the user and tenant identified by that strategy to [cds.context](events#cds-context).
 
 ### . ctx_model() {.method}
 
@@ -301,7 +296,7 @@ Note, that
 - `@protocol.path` has precedence over `@path`.
 - the default protocol is OData V4.
 - `odata` is a shortcut for `odata-v4`.
-- `@protocol: none` will treat the service as _internal_.
+- `@protocol: 'none'` will treat the service as _internal_.
 
 ### @path
 

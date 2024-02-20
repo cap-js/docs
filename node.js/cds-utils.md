@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # Common Utility Functions
 
 
@@ -33,10 +37,10 @@ let id = uuid() // generates a new UUID
 
 
 
-### decodeURI() {.method}
-### decodeURIComponent() {.method}
+### decodeURI (*uri*) {.method}
+### decodeURIComponent (*uri*) {.method}
 
-These are 'safe' variants for `decodeURI` and `decodeURIComponent` which in case of non-decodable input return the input string instead of throwing `URIErrors`. This allows simplifying our code.
+These are 'safe' variants for [`decodeURI`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI) and [`decodeURIComponent`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent) which in case of non-decodable input return the input string instead of throwing `URIErrors`. This allows simplifying our code.
 
 For example given we have to handle input like this:
 ```js
@@ -125,7 +129,7 @@ if (dir) {
 }
 ```
 
-Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursivels resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
+Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursively resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
 
 
 
@@ -139,7 +143,7 @@ let file = isdir ('package.json')
 let json = fs.readFileSync (file,'utf8')
 ```
 
-Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursivels resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
+Returns `undefined` or a fully resolved absolute filename of the existing directory, including recursively resolving symbolic links. Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root),
 
 
 
@@ -152,7 +156,7 @@ const { read } = cds.utils
 let pkg = await read ('package.json')
 ```
 
-Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root). The iplementation uses `utf8` encoding by default. If the file is a `.json` file, the read content is automatically `JSON.parse`d.
+Relative fileames are resolved in relation to [`cds.root`](cds-facade#cds-root). The implementation uses `utf8` encoding by default. If the file is a `.json` file, the read content is automatically `JSON.parse`d.
 
 
 

@@ -32,7 +32,7 @@ const newPath = ref()
 const root = ref('/')
 
 onMounted(async () => {
-  const redirects = await fetch(withBase('redirects.json'))
+  const redirects = await fetch(withBase('/redirects.json'))
   const redirectTo = await redirects.json()
   newPath.value = target(path)
   if (newPath.value) {
@@ -40,7 +40,7 @@ onMounted(async () => {
     if (newPath.value.startsWith('http')) {
       newURL = new URL(newPath.value)
     } else {
-      newPath.value = withBase(newPath.value)
+      newPath.value = withBase('/'+newPath.value)
       newURL = new URL(window.location.toString())
       newURL.pathname = newPath.value
     }
@@ -106,17 +106,13 @@ onMounted(async () => {
 
 .link {
   display: inline-block;
-  border: 1px solid var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand-3);
   border-radius: 16px;
   padding: 3px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-brand);
+  color: var(--vp-c-brand-1);
   transition: border-color 0.25s, color 0.25s;
 }
 
-.link:hover {
-  border-color: var(--vp-c-brand-dark);
-  color: var(--vp-c-brand-dark);
-}
 </style>

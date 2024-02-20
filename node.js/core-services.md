@@ -1,17 +1,10 @@
 ---
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
+redirect_from: node.js/services
 ---
 
 # Core Services
-
-
-
-::: tip
-This is an overhauled documentation for `cds.Service`→ find the old one [here](services.md).
-:::
-
-
 
 [[toc]]
 
@@ -65,7 +58,7 @@ cds.services = await cds.serve('all').from(cds.model).in(cds.app)
 
 ## Required Services
 
-In addition to provided services, your applications commonly need to consume *required services*. Most prominent example for that is the primary database `cds.db`. Others could be application services provided by other enterprise applications or micro services, or other platform services, such as secondary databases or message brokers.
+In addition to provided services, your applications often need to consume other services as *required services*. The most prominent example for that is the primary database `cds.db`. Other examples include the application services provided by other enterprise applications, or micro services, and other platform services, such as secondary databases or message brokers.
 
 
 
@@ -106,16 +99,16 @@ const db = await cds.connect.to('db')
 
 ## Implementing Services
 
-By default `cds.serve` creates instances of `cds.ApplicationService` for each found service definition, which provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. Learn below about:
+By default `cds.serve` creates an instance of `cds.ApplicationService` for each service definition it finds. Each instance provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. In the next sections, you can learn the following:
 
 - **How** to provide custom implementations?
-- **Where**, that is, in which files, to put that?
+- **Where**, that is, in which files, to add the implementation?
 
 
 
 #### In sibling `.js` files, next to `.cds` sources
 
-The easiest way to add custom service implementations is to simply place an equally named `.js` file next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
+The easiest way to add custom service implementations is to simply place a `.js` file with the same name next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
 
 ```zsh
 bookshop/
@@ -129,7 +122,7 @@ bookshop/
 
 ::: details Alternatively in subfolders `lib/` or `handlers/`...
 
- In addition to direct neighbourhood you can place your impl files also in nested subfolders `lib/` or `handlers/` like that:
+ In addition to adding the implementation in a neighbouring file you can place them in nested subfolders called `lib/` or `handlers/`, for example:
 
 ```zsh
 bookshop/
@@ -266,7 +259,7 @@ await srv.read ('GET','/Books/206')
 await srv.send ('submitOrder', { book:206, quantity:1 })
 ```
 
-[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-or-functions):
+[Using typed APIs for actions and functions](../guides/providing-services#calling-actions-functions):
 
 ```js
 await srv.submitOrder({ book:206, quantity:1 })
@@ -452,7 +445,7 @@ class BooksService extends cds.ApplicationService {
 }
 ```
 
-Ensure to call `super.init()` to allow subclassses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
+Ensure to call `super.init()` to allow subclasses to register their handlers. Do that after your registrations to go before the ones from subclasses, or before to have theirs go before yours.
 
 
 
@@ -461,7 +454,7 @@ Ensure to call `super.init()` to allow subclassses to register their handlers. D
 ### srv. prepend() {.method}
 
 ```tsx
-async function srv.prepend(()=>{...})
+function srv.prepend(()=>{...})
 ```
 
 Sometimes, you need to register handlers to run before handlers registered by others before. Use srv.prepend() to do so ´, for example like this:
@@ -513,7 +506,7 @@ class BooksService extends cds.ApplicationService {
 
 - **`.on`** handlers actually fulfill requests, e.g. by reading/writing data from/to databases
 - **`.before`** handlers run before the `.on` handlers, frequently for validating inbound data
-- **`.after`** handlers run before the `.on` handlers, frequently to enrich outbound data
+- **`.after`** handlers run after the `.on` handlers, frequently to enrich outbound data
 
 **Argument `event`** can be one of:
 
@@ -528,7 +521,7 @@ class BooksService extends cds.ApplicationService {
 **Argument `entity`** can be one of:
 
 - A `CSN definition`  of an entity served by this service → as obtained from [`this.entities`](#entities)
-- A `string` matching the name of an entity served by this service
+- A `string` matching the name of an entity served by this service → see [draft support](./fiori#draft-support)
 - A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths
 - The string `'*'` to register the given handler for *all* potential entities / paths
@@ -703,7 +696,7 @@ function srv.on (event, handler: (
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchrounous requests, but work slightly different:
+Handlers for asynchronous events, as emitted by [`srv.emit()`](#srv-emit-event), are registered in the same way as [`.on(request)`](#srv-on-request) handlers for synchronous requests, but work slightly different:
 
 1. They are usually registered 'from the outside', not as part of a service's implementation.
 2. They receive only a single argument: `msg`, an instance of [`cds.Event`](./events.md#cds-request); no `next`.
@@ -779,7 +772,7 @@ Error handlers are invoked whenever an error occurs during event processing of *
 
 ```ts
 async function srv.send (
-  method   : string | { method, path?, data?, headers? },
+  method   : string | { method, path?, data?, headers? } | { query, headers? },
   path?    : string,
   data?    : object | any,
   headers? : object
@@ -789,8 +782,8 @@ return : result of this.dispatch(req)
 
 Use this method to send synchronous requests to a service for execution.
 
--  `method` can be a HTTP method, or a name of a custom action or function
--  `path` can be an arbitrary URL, starting with a leading `'/'`
+-  `method` can be an HTTP method, or a name of a custom action or function
+-  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string
 
 Examples:
 
@@ -818,6 +811,10 @@ let req = new cds.Request (
   : { method, path, data, headers }
 )
 return this.dispatch(req)
+```
+Use this method instead of [`srv.run(query)`](#srv-run-query), if headers should be added to the request object. For example:
+```js
+await srv.send({ query: SELECT.from('Books'), headers: { some: 'header' } })
 ```
 
 *See also [REST-Style Convenience API](#rest-style-api) below* {.learn-more}
@@ -942,7 +939,7 @@ await db.run (tx => {
 
 > Without the enclosing  `db.run(...)` the two INSERTs would be executed in two separate transactions, if that code would have run without an outer tx in place already.
 
-This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single all operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
+This method is also used by [`srv.dispatch()`](#srv-dispatch-event) to ensure single operations happen within a transaction. All subsequent nested operations started from within an event handler, will all be nested transactions to the root transaction started by the outermost service operation.
 
 [Learn more about transactions and `tx<srv>` transaction objects in `cds.tx` docs](cds-tx) {.learn-more}
 
@@ -1026,7 +1023,7 @@ Promise.seq = handlers => async function next(){
 }()
 ```
 
-All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occured. In addition, note that...
+All matching `before`, `on`, and `after` handlers are executed in corresponding phases, with the next phase being started only if no `req.errors` have occurred. In addition, note that...
 
 - **`before`** handlers are always executed *concurrently*
 - **`on`** handlers are executed...
@@ -1037,6 +1034,81 @@ All matching `before`, `on`, and `after` handlers are executed in corresponding 
 In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
+<!-- ## Streaming API {#srv-stream } -->
+
+### srv. stream (column) {.method}
+
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
+
+```ts
+async function srv.stream (column: string)
+  return : {
+    from(entity: CSN Definition | string): {
+      where(filter: any): ReadableStream // from node:stream
+  }
+}
+```
+
+This method allows streaming binary data properties.
+It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
+
+```js
+const stream = srv.stream().from('T', { ID: 1 }, a => a.data)
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T', { ID: 1 })
+stream.pipe(process.stdout)
+```
+
+```js
+const stream = srv.stream('data').from('T').where({ ID: 1 })
+stream.pipe(process.stdout)
+```
+
+### srv. stream (query)  {.method}
+
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
+
+```ts
+async function srv.stream (query: CQN) : ReadableStream
+```
+
+This is a variant of `srv.stream`, which accepts a [`SELECT` query](../cds/cqn) as input and returns a Promise resolving to result stream when the query matched to an existing row in the database. The query is expected to select a single column and a single data row. Otherwise, an error is thrown.
+
+```js
+const stream = await srv.stream( SELECT('image').from('Foo',111) )
+stream.pipe(process.stdout)
+```
+
+::: warning
+This API is limited to [database services](databases).
+:::
+
+### srv. foreach (entity) {.method}
+
+```ts
+function foreach(
+  query: CQN, callback: (row: object) => void
+)
+```
+
+Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
+
+_**Common Usages:**_
+
+```js
+cds.foreach (SELECT.from('Foo'), each => console.log(each))
+cds.foreach ('Foo', each => console.log(each))
+```
+{.indent}
+
+> As depicted in the second line, a plain entity name can be used for the `entity` argument in which case it's expanded to a `SELECT * from ...`.
 
 
 
@@ -1060,7 +1132,7 @@ srv.patch('/Books',...)   -->  srv.send('PATCH','/Books',...)
 srv.delete('/Books',...)  -->  srv.send('DELETE','/Books',...)
 ```
 
-You can also use them as REST-style variants to run queries by omitting the leading slash in the `path` argument, or by passing a reflected entity definition instead. In that case they start constructing *bound* [`cds.ql` query objects](cds-ql), as their [CRUD-style counterparts](#crud-style-api):
+Leading slash in the `path` argument results in the same behaviour as in `srv.send()`: `path` is sent unmodified to a service. Omitting the leading slash, or passing a reflected entity definition instead, constructs *bound* [`cds.ql` query objects](cds-ql), equivalent to [CRUD-style API](#crud-style-api):
 
 ```js
 await srv.get(Books,201)
@@ -1079,20 +1151,20 @@ As an alternative to [`srv.run(query)`](#srv-run-query) you can use these conven
 
 - srv. **read** (entity, ...) {.method}
 - srv. **create** (entity, ...) {.method}
-- srv. **insert** (entity, ...) {.method}
-- srv. **upsert** (entity, ...) {.method}
+- srv. **insert** (...).into(entity) {.method}
+- srv. **upsert** (...).into(entity) {.method}
 - srv. **update** (entity, ...) {.method}
 - srv. **delete** (entity, ...) {.method}
 
 Essentially, they start constructing *bound* [`cds.ql` query objects](cds-ql) as follows:
 
 ```js
-srv.read('Books',...)...   --> SELECT.from ('Books',...)...
-srv.create('Books',...)... --> INSERT.into ('Books',...)...
-srv.insert('Books',...)... --> INSERT.into ('Books',...)...
-srv.upsert('Books',...)... --> UPSERT.into ('Books',...)...
-srv.update('Books',...)... --> UPDATE.entity ('Books',...)...
-srv.delete('Books',...)... --> DELETE.from ('Books',...)...
+srv.read('Books',...)...         --> SELECT.from ('Books',...)...
+srv.create('Books',...)...       --> INSERT.into ('Books',...)...
+srv.insert(...).into('Books')... --> INSERT.into ('Books',...)...
+srv.upsert(...).into('Books')... --> UPSERT.into ('Books',...)...
+srv.update('Books',...)...       --> UPDATE.entity ('Books',...)...
+srv.delete('Books',...)...       --> DELETE.from ('Books',...)...
 ```
 
 You can further construct the queries using the `cds.ql` fluent APIs, and then `await` them for execution thru `this.run()`. Here are some examples:

@@ -3,12 +3,13 @@ import { join } from 'node:path'
 
 export default (pages, basePath) => {
   let items = findInItems(basePath, sidebar) || []
-  items = items.map(item => { return { ...item, link: item.link.replace(/\.md$/, '') }})
-  const itemLinks = items.map(item => item.link)
+  items = items.map(item => { return { ...item, link: item.link?.replace(/\.md$/, '') }})
+  const itemLinks = items.map(item => join(base, item.link||''))
 
   return pages
     .map(p => {
-      p.url = p.url.replaceAll('@external/', '').replace(/\/index$/, '/')
+      p.url = p.url?.replaceAll('@external/', '')?.replace(/\/index$/, '/') || ''
+      p.url = join(base, p.url)
       return p
     })
     .filter(p => {
@@ -16,11 +17,12 @@ export default (pages, basePath) => {
       if (item)  p.title = item.text
       return !!item
     })
+    .filter(p => !p.url.endsWith(basePath))
     .sort((p1, p2) => itemLinks.indexOf(p1.url) - itemLinks.indexOf(p2.url))
     .map(p => {
       // this data is inlined in each index page, so sparsely construct the final object
       return {
-        url : join(base, p.url),
+        url: p.url,
         title: p.title,
         frontmatter: {
           synopsis: p.frontmatter.synopsis

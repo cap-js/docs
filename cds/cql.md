@@ -1,5 +1,5 @@
 ---
-layout: cds-ref
+# layout: cds-ref
 shorty: Query Language
 synopsis: >
   Documents the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
@@ -55,8 +55,8 @@ For example, assume the following definitions:
 
 ```cds
 entity Foo { foo : String; bar : String; car : String; }
-entity Bar as SELECT from Foo excluding { bar };
-entity Boo as SELECT from Foo { foo, car };
+entity Bar as select from Foo excluding { bar };
+entity Boo as select from Foo { foo, car };
 ```
 
 A `SELECT * from Bar` would result into the same as a query of `Boo`:
@@ -149,7 +149,7 @@ WHERE author.name='Emily Brontë'
 ```
 
 ::: tip
-All column references get qualified &rarr; in contrast to plain SQL joins there’s no risk of ambiguous or conflicting column names.
+All column references get qualified &rarr; in contrast to plain SQL joins there's no risk of ambiguous or conflicting column names.
 :::
 
 ### With Infix Filters
@@ -250,7 +250,7 @@ Define an unmanaged association directly in the select list of the query to add 
 In contrast to mixins, these association definitions are also possible in projections.
 
 ```cds
-entity BookReviews as SELECT from Reviews {
+entity BookReviews as select from Reviews {
   ...,
   subject as bookID,
   book : Association to Books on book.ID = bookID

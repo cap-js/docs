@@ -2,6 +2,7 @@
 synopsis: >
   Most projects start with capturing the essential objects of their domain in a respective domain model.
   Find here an introduction to the basics of domain modeling with CDS, complemented with recommended best practices.
+redirect_from: guides/domain-models
 status: released
 ---
 
@@ -11,9 +12,11 @@ Domain Models capture the static, data-related aspects of a problem domain in te
 
 [[toc]]
 
-## Capture Intent → What, not How
+## Introduction
 
-CDS focuses on *conceptual modelling*: we want to capure intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
+### Capture Intent — *What, not How!*
+
+CDS focuses on *conceptual modelling*: we want to capture intent, not imperative implementations — that is: What, not How. Not only does that keep domain models concise and comprehensible, it also allows us to provide optimized generic implementations.
 
 For example, given an entity definition like that:
 
@@ -62,11 +65,15 @@ type Genre : String enum {
 
 
 
+### Aspect-oriented Modeling
+
+CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Aspects](#aspects) below.
+
 ### Fueling Generic Providers
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
-![cds-fueling-generic-providers.drawio](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg)
+![This graphic is explained in the accompanying text.](./assets/domain-modeling/cds-fueling-generic-providers.drawio.svg)
 
 The more we succeeded in capturing intent over imperative implementations, the more we can provide optimized generic implementations.
 
@@ -84,6 +91,14 @@ We use CDS as our ubiquitous modelling language, with CDS Aspects giving us the 
 
 As CDS models are used to fuel generic providers — the database as well as application services — we ensure the models are applied in the implementation. And as coding is minimized we can more easily refine and revise our models, without having to refactor large boilerplate code based.
 
+
+
+
+
+## Best Practices
+
+
+
 ### Keep it Simple, Stupid
 
 Domain modeling is a means to an end; your clients and consumers are the ones who have to understand and work with your models the most, much more than you as their creator. Keep that in mind and understand the task of domain modeling as a service to others.
@@ -96,73 +111,106 @@ As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php
 
 ::: warning **Avoid overly abstract models**
 
-Even though domain models should abstract from technical implementations, don’t overstress this and balance it with ease of adoption. For example if the vast majority of your clients use relational databases, don't try to overly abstract from that, as that would have all suffer from common denominator syndromes.
+Even though domain models should abstract from technical implementations, don't overstress this and balance it with ease of adoption. For example if the vast majority of your clients use relational databases, don't try to overly abstract from that, as that would have all suffer from common denominator syndromes.
 
 :::
 
-### Aspect-oriented Modeling
-
-CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Add Secondary Aspects](#aspects) below.
 
 
+#### Prefer Flat Models
 
-## ① Define Domain Entities
+While CDS provides great support, you should always think twice before using structured types. Some technologies you or your customers use might not integrate with those out of the box. Moreover, flat structures are easier to understand and consume.
 
-Entities represent a domain's data. When translated to persistence models, especially relational ones, entities become tables.
-
-### With Typed Elements
-
- Entity definitions essentially declare structured types with named and typed elements, plus the [primary key](#primary-key) elements used to identify entries.
+##### **Good:** {.good}
 
 ```cds
-entity name {
-   key element1 : Type;
-       element2 : Type;
-   ...
+entity Contacts {
+  isCompany : Boolean;
+  company   : String;
+  title     : String;
+  firstname : String;
+  lastname  : String;
 }
 ```
 
-[Learn more about entity definitions](../cds/cdl.md#entity-and-type-definitions){.learn-more}
-
-### As Projections of Others
-
-In addition, borrowing powerful view building from SQL, we can declare entities as (denormalized) views on other entities:
+##### **Bad:** {.bad}
 
 ```cds
-entity ProjectedEntity as select from BaseEntity {
-   element1, element2 as name, /*...*/
-};
+entity Contacts {
+  isCompany   : Boolean;
+  companyData : CompanyDetails;
+  personData  : PersonDetails;
+}
+type CompanyDetails {
+  name : String;
+}
+type PersonDetails {
+  titles : AcademicTitles;
+  name   : PersonName;
+}
+type PersonName : {
+  first  : String;
+  last   : String;
+}
+type AcademicTitles : {
+  primary   : String;
+  secondary : String;
+}
 ```
 
-[Learn more about views and projections](../cds/cdl.md#views-and-projections){.learn-more}
+
+
+### Separation of Concerns
+
+As highlighted with a few samples in the chapter above, always strive to keep your core domain model clean, concise and comprehensible.
+
+CDS Aspects help you to do so, by decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
+
+We strongly recommend to make use of that as much as possible.
+
+
 
 ### Naming Conventions
 
 We recommend adopting the following simple naming conventions as commonly used in many communities, for example, Java, JavaScript, C, SQL, etc.
 
-#### Capitalize *Type / Entity* Names
-
 To easily distinguish type / entity names  from elements names we recommend to...
+
+::: tip Capitalize *Type / Entity* Names
 
 * Start **_entity_** and **_type_** names with capital letters — e.g., `Authors`
 * Start **_elements_** with a lowercase letter — e.g., `name`
 
-#### Pluralize *Entity* Names
+:::
 
 As entities represent not only data types, but also data sets, from which we can read from, we recommend following common SQL convention:
+
+::: tip Pluralize *Entity* Names
 
 * Use **plural** form for **_entities_** — e.g., `Authors`
 * Use **singular** form for **_types_** — e.g., `Genre`
 
-#### Prefer *Concise* Names
+:::
 
-- Don't repeat contexts &rarr; e.g. `Author.name` instead of `Author.authorName`
+In general always prefer conciseness, comprehensibility and readability, and avoid overly lengthy names, probably dictated by overly strict systematics:
+
+::: tip Prefer *Concise* Names
+
+- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
 - Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
-### Using Namespaces
+:::
 
-You can use [namespaces](../cds/cdl#namespaces) to help getting to unique names without bloating your code with fully qualified names. For example:
+
+
+## Core Concepts
+
+
+
+### Namespaces
+
+You can use [namespaces](../cds/cdl#namespaces) to get to unique names without bloating your code with fully qualified names. For example:
 
 ```cds
 namespace foo.bar;
@@ -183,91 +231,47 @@ Note:
 - **Namespaces are optional** — use namespaces if your models might be reused in other projects; otherwise, you can go without namespaces.
 - The **reverse domain name** approach works well for choosing namespaces.
 
-
-
 ::: warning
 
 Avoid short-lived ingredients in namespaces, or names in general, such as your current organization's name, or project code names.
 
 :::
 
-## ② Using Data Types
 
-### Standard Built-in Types
 
-CDS comes with a small set of built-in types:
+### Domain Entities
 
-- `UUID`,
-- `Boolean`,
-- `Date`, `Time`, `DateTime`, `Timestamp`
-- `Integer`, `UInt8`, `Int16`, `Int32`, `Int64`
-- `Double`, `Decimal`
-- `String`, `LargeString`
-- `Binary`, `LargeBinary`
+Entities represent a domain's data. When translated to persistence models, especially relational ones, entities become tables.
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
-
-### Common Reuse Types
-
-In addition, a set of common reuse types and aspects is provided with package [_`@sap/cds/common`_](../cds/common.md), such as:
-
-- Types `Country`, `Currency`, `Language` with corresponding value list entities
-- Aspects `cuid`, `managed`, `temporal`
-
-For example, usage is as simple as this:
+Entity definitions essentially declare structured types with named and typed elements, plus the [primary key](#primary-keys) elements used to identify entries.
 
 ```cds
-using { Country } from '@sap/cds/common';
-entity Addresses : managed { //> using reuse aspect
-  street  : String;
-  town    : String;
-  country : Country; //> using reuse type
+entity name {
+   key element1 : Type;
+       element2 : Type;
+   ...
 }
 ```
 
-[Learn more about reuse types provided by _`@sap/cds/common`_.](../cds/common.md){.learn-more}
+[Learn more about entity definitions](../cds/cdl.md#entity-and-type-definitions){.learn-more}
 
-::: tip **Use common reuse types and aspects**...
 
-... to keep models concise, and benefitting from improved interoperability, proven best practices, and out-of-the-box support through generic implementations in CAP runtimes.
-:::
 
-### Custom-defined Types
+#### Views / Projections
 
-Declare custom-defined types to increase semantic expressiveness of your models, or to share details and annotations as follows:
+Borrowing powerful view building from SQL, we can declare entities as (denormalized) views on other entities:
 
 ```cds
-type User : String; //> merely for increasing expressiveness
-type Genre : String enum { Mystery; Fiction; ... }
-type DayOfWeek : Number @assert.range:[1,7];
+entity ProjectedEntity as select from BaseEntity {
+   element1, element2 as name, /*...*/
+};
 ```
 
+[Learn more about views and projections](../cds/cdl.md#views-and-projections){.learn-more}
 
 
-#### Use Custom Types Reasonably
 
-Avoid overly excessive use of custom-defined types. They’re valuable when you have a decent **reuse ratio**. Without reuse, your models just become harder to read and understand, as one always has to look up respective type definitions, as in the following example:
-
-```cds
-using { sap.capire.bookshop.types } from './types';
-namespace sap.capire.bookshop;
-entity Books {
-  key ID : types.BookID;
-  name : types.BookName;
-  descr : types.BookDescr;
-  ...
-}
-```
-
-```cds
-// types.cds
-namespace sap.capire.bookshop.types;
-type BookID : UUID;
-type BookName : String;
-type BookDescr : String;
-```
-
-## ③ Add Primary Keys {#primary-key}
+### Primary Keys
 
 Use the keyword `key` to signify one or more elements that form an entity's primary key:
 
@@ -278,24 +282,24 @@ entity Books {
 }
 ```
 
-#### Do: {.good}
+##### Do: {.good}
 
 - [Prefer ***simple***, ***technical*** primary keys](#prefer-simple-technical-keys)
 - [Prefer ***canonic*** primary keys](#prefer-canonic-keys)
 - [Prefer ***UUIDs*** for primary keys](#prefer-uuids-for-keys)
 
-#### Don't: {.bad}
+##### Don't: {.bad}
 
 - Don't use binary data as keys!
 - [Don't interpret UUIDs!](#don-t-interpret-uuids)
 
-### Prefer Simple, Technical Keys
+#### Prefer Simple, Technical Keys
 
 While you can use arbitrary combinations of fields as primary keys, keep in mind that primary keys are frequently used in joins all over the place. And the more fields there are to compare for a join the more you'll suffer from poor performance. So prefer primary keys consisting of single fields only.
 
 Moreover, primary keys should be immutable, that means once assigned on creation of a record they should not change subsequently, as that would break references you might have handed out. Think of them as a fingerprint of a record.
 
-### Prefer Canonic Keys
+#### Prefer Canonic Keys
 
 We recommend using canonically named and typed primary keys, as promoted [by aspect `cuid` from @sap/cds/common](../cds/common.md#aspect-cuid).
 
@@ -312,11 +316,11 @@ entity Authors : cuid { ... }
 
 This eases the implementation of generic functions that can apply the same ways of addressing instances across different types of entities.
 
-### Prefer UUIDs for Keys
+#### Prefer UUIDs for Keys
 
-While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](http://wiki.c2.com/?PrematureOptimization) by at least considering these points:
+While UUIDs certainly come with an overhead and a performance penalty when looking at single databases, they have several advantages when we consider the total bill. So, you can avoid [the evil of premature optimization](https://wiki.c2.com/?PrematureOptimization) by at least considering these points:
 
-* **UUIDs are universal** — that means that they’re unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
+* **UUIDs are universal** — that means that they're unique across every system in the world, while sequences are only unique in the source system's boundaries. Whenever you want to exchange data with other systems you'd anyways add something to make your records 'universally' addressable.
 
 * **UUIDs allow distributed seeds** — for example, in clients. In contrast, database sequences or other sequential generators always need a central service, for example, a single database instance and schema. This becomes even more a problem in distributed landscape topologies.
 
@@ -353,7 +357,91 @@ On the same note, converting UUID values obtained as strings from the database i
 
 [See also: Mapping UUIDs to SQL](../advanced/hana#mapping-uuids-to-sql) {.learn-more}
 
-## ④ Add Associations {#associations}
+
+
+
+
+### Data Types
+
+#### Standard Built-in Types
+
+CDS comes with a small set of built-in types:
+
+- `UUID`,
+- `Boolean`,
+- `Date`, `Time`, `DateTime`, `Timestamp`
+- `Integer`, `UInt8`, `Int16`, `Int32`, `Int64`
+- `Double`, `Decimal`
+- `String`, `LargeString`
+- `Binary`, `LargeBinary`
+
+[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
+
+#### Common Reuse Types
+
+In addition, a set of common reuse types and aspects is provided with package [_`@sap/cds/common`_](../cds/common.md), such as:
+
+- Types `Country`, `Currency`, `Language` with corresponding value list entities
+- Aspects `cuid`, `managed`, `temporal`
+
+For example, usage is as simple as this:
+
+```cds
+using { Country } from '@sap/cds/common';
+entity Addresses : managed { //> using reuse aspect
+  street  : String;
+  town    : String;
+  country : Country; //> using reuse type
+}
+```
+
+[Learn more about reuse types provided by _`@sap/cds/common`_.](../cds/common.md){.learn-more}
+
+::: tip **Use common reuse types and aspects**...
+
+... to keep models concise, and benefitting from improved interoperability, proven best practices, and out-of-the-box support through generic implementations in CAP runtimes.
+:::
+
+#### Custom-defined Types
+
+Declare custom-defined types to increase semantic expressiveness of your models, or to share details and annotations as follows:
+
+```cds
+type User : String; //> merely for increasing expressiveness
+type Genre : String enum { Mystery; Fiction; ... }
+type DayOfWeek : Number @assert.range:[1,7];
+```
+
+
+
+#### Use Custom Types Reasonably
+
+Avoid overly excessive use of custom-defined types. They're valuable when you have a decent **reuse ratio**. Without reuse, your models just become harder to read and understand, as one always has to look up respective type definitions, as in the following example:
+
+```cds
+using { sap.capire.bookshop.types } from './types';
+namespace sap.capire.bookshop;
+entity Books {
+  key ID : types.BookID;
+  name : types.BookName;
+  descr : types.BookDescr;
+  ...
+}
+```
+
+```cds
+// types.cds
+namespace sap.capire.bookshop.types;
+type BookID : UUID;
+type BookName : String;
+type BookDescr : String;
+```
+
+
+
+
+
+### Associations
 
 Use _Associations_ to capture relationships between entities.
 
@@ -368,7 +456,7 @@ entity Authors { ...
 
 [Learn more about Associations in the _CDS Language Reference_](../cds/cdl#associations){ .learn-more}
 
-### Managed :1 Associations
+#### Managed :1 Associations
 
 The association `Books:author` in the sample above is a so-called *managed* association, with foreign key columns and on conditions added automatically behind the scenes.
 
@@ -395,7 +483,7 @@ For the sake of conciseness and comprehensibility of your models always prefer *
 
 :::
 
-### To-Many Associations
+#### To-Many Associations
 
 Simply add the `many` qualifier keyword to indicate a to-many cardinality:
 
@@ -415,9 +503,9 @@ entity Authors { ...
 
 > The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
 
-### Many-to-Many Associations
+#### Many-to-Many Associations
 
-CDS currently doesn’t provide dedicated support for _many-to-many_ associations. Unless we add some, you have to resolve _many-to-many_ associations into two _one-to-many_ associations using a link entity to connect both. For example:
+CDS currently doesn't provide dedicated support for _many-to-many_ associations. Unless we add some, you have to resolve _many-to-many_ associations into two _one-to-many_ associations using a link entity to connect both. For example:
 
 ```cds
 entity Projects { ...
@@ -427,7 +515,7 @@ entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
 entity Members { // link table
-  key project : Association to Project;
+  key project : Association to Projects;
   key user : Association to Users;
 }
 ```
@@ -445,7 +533,7 @@ entity Users { ...
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
 
-## ⑤ Add Compositions
+### Compositions
 
 Compositions represent contained-in relationships. CAP runtimes provide these special treatments to Compositions out of the box:
 
@@ -453,7 +541,7 @@ Compositions represent contained-in relationships. CAP runtimes provide these sp
 - **Cascaded Delete** is when deleting Composition roots
 - **Composition** targets are **auto-exposed** in service interfaces
 
-### Modeling Document Structures
+#### Modeling Document Structures
 
 Compositions are used to model document structures. For example, in the following definition of `Orders`, the `Orders:Items` composition refers to the `OrderItems` entity, with the entries of the latter being fully dependent objects of `Orders`.
 
@@ -470,7 +558,7 @@ entity OrderItems { // to be accessed through Orders only
 
 [Learn more about Compositions in the _CDS Language Reference_](../cds/cdl#compositions){ .learn-more}
 
-### Composition of Aspects
+#### Composition of Aspects
 
 We can use anonymous inline aspects to rewrite the above with less noise as follows:
 
@@ -487,7 +575,7 @@ entity Orders { ...
 
 Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above.
 
-## ⑥ Add Secondary Aspects {#aspects}
+## Aspects
 
 CDS's [Aspects](../cds/cdl.md#aspects) provide powerful mechanisms to separate concerns. It allows decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
 
@@ -512,7 +600,7 @@ aspect NamedAspect { someAdditionalField : String }
 extend Books with NamedAspect;
 ```
 
-We can also apply named aspects as **includes** in an inheritence-like syntax:
+We can also apply named aspects as **includes** in an inheritance-like syntax:
 
 ```cds
 entity Books : NamedAspect { ... }
@@ -526,77 +614,11 @@ Consumers always see the merged effective models, with the separation into aspec
 
 :::
 
-### Managed Data
 
-Package `@sap/cds/common` provides a pre-defined aspect `managed` for managed data, which is defined as follows:
 
-```cds
-/**
- * Aspect to capture changes by user and name
- */
-aspect managed {
-  createdAt  : Timestamp @cds.on.insert : $now;
-  createdBy  : User      @cds.on.insert : $user;
-  modifiedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
-  modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
-}
-```
+### Authorization
 
-We use that as includes when defining our core domain entities:
-
-```cds
-using { managed } from '@sap/cds/common';
-entity Books : managed { ... }
-entity Authors : managed { ... }
-```
-
-With this we keep our core domain model clean and comprehensible.
-
-### Localized Data
-
-Business applications frequently need localized data, for example to display books titles and descriptions in the user's preferred language. With CDS we simply use the `localized` qualifier to tag respective text fields in your as follows.
-
-#### **Do:** {.good}
-
-```cds
-entity Books { ...
-  title : localized String;
-  descr : localized String;
-}
-```
-
-#### **Don't:** {.bad}
-
-In contrast to that, this is what you would have to do without CAP's `localized` support:
-
-```cds
-entity Books {
-  key ID : UUID;
-   title : String;
-   descr : String;
-   texts : Composition of many Books.texts on texts.book = $self;
-   ...
-}
-
-entity Books.texts {
-  key locale : Locale;
-  key ID : UUID;
-  title  : String;
-  descr  : String;
-}
-```
-
-Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out of the box.
-
-::: tip
-By generating `.texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility.
-:::
-
-[Learn more in the **Localized Data** guide.](./localized-data){.learn-more}
-
-### Authorization Model
-
-CAP supports out-of-the-box authorization by annotating services and entites with `@requires` and `@restrict` annotations like that:
+CAP supports out-of-the-box authorization by annotating services and entities with `@requires` and `@restrict` annotations like that:
 
 ```cds
 entity Books @(restrict: [
@@ -635,7 +657,7 @@ annotate Authors with @restrict: [
 
 
 
-### UI-related Annotations
+### Fiori Annotations
 
 Similarly to authorization annotations we would frequently add annotations which are related to UIs, starting with `@title`s used for field or column labels in UIs, or specific Fiori annotations in `@UI`, `@Common`, etc. vocabularies.
 
@@ -688,53 +710,130 @@ annotate my.Books with @(
 };
 ```
 
-# Best Practices
 
-## Separation of Concerns
 
-As highlighted with a few samples in the chapter above, always strive to keep your core domain model clean, concise and comprehensible.
 
-CDS Aspects help you to do so, by decomposing models and definitions into separate files with potentially different life cycles, contributed by different _people_.
 
-We strongly recommend to make use of that as much as possible.
+### Localized Data
 
-## Prefer Flat Models
+Business applications frequently need localized data, for example to display books titles and descriptions in the user's preferred language. With CDS we simply use the `localized` qualifier to tag respective text fields in your as follows.
 
-While CDS provides great support for structured types, you should always think twice before using this, as several technologies that you or your customers might want to integrate with, may have difficulties with this. Moreover, flat structures are easier to understand and consume.
-
-#### **Good:** {.good}
+#### **Do:** {.good}
 
 ```cds
-entity Contacts {
-  isCompany : Boolean;
-  company   : String;
-  title     : String;
-  firstname : String;
-  lastname  : String;
+entity Books { ...
+  title : localized String;
+  descr : localized String;
 }
 ```
 
-#### **Bad:** {.bad}
+#### **Don't:** {.bad}
+
+In contrast to that, this is what you would have to do without CAP's `localized` support:
 
 ```cds
-entity Contacts {
-  isCompany   : Boolean;
-  companyData : CompanyDetails;
-  personData  : PersonDetails;
+entity Books {
+  key ID : UUID;
+   title : String;
+   descr : String;
+   texts : Composition of many Books.texts on texts.book = $self;
+   ...
 }
-type CompanyDetails {
-  name : String;
-}
-type PersonDetails {
-  titles : AcademicTitles;
-  name   : PersonName;
-}
-type PersonName : {
-  first  : String;
-  last   : String;
-}
-type AcademicTitles : {
-  primary   : String;
-  secondary : String;
+
+entity Books.texts {
+  key locale : Locale;
+  key ID : UUID;
+  title  : String;
+  descr  : String;
 }
 ```
+
+Essentially, this is also what CAP generates behind the scenes, plus many more things to ease working with localized data and serving it out of the box.
+
+::: tip
+By generating `.texts` entities and associations behind the scenes, CAP's **out-of-the-box support** for `localized` data avoids polluting your models with doubled numbers of entities, and detrimental effects on comprehensibility.
+:::
+
+[Learn more in the **Localized Data** guide.](./localized-data){.learn-more}
+
+
+
+
+
+## Managed Data
+
+
+
+### `@cds.on.insert` {.annotation}
+
+### `@cds.on.update` {.annotation}
+
+Use the annotations `@cds.on.insert` and `@cds.on.update` to signify elements to be auto-filled by the generic handlers upon insert and update. For example, you could add fields to track who created and updated data records and when:
+
+```cds
+entity Foo { //...
+   createdAt  : Timestamp @cds.on.insert: $now;
+   createdBy  : User      @cds.on.insert: $user;
+   modifiedAt : Timestamp @cds.on.insert: $now  @cds.on.update: $now;
+   modifiedBy : User      @cds.on.insert: $user @cds.on.update: $user;
+}
+```
+
+[Learn more about pseudo variables `$now` and `$user` below.](#pseudo-variables	){.learn-more}
+
+These **rules** apply:
+
+- Data *cannot* be filled in from external clients → payloads are cleansed
+- Data *can* be filled in from custom handlers or from `.csv` files
+
+::: details Note the differences to [defaults](../cds/cdl#default-values)...
+
+... for example, given this model:
+
+```cds
+entity Foo { //...
+  managed   : Timestamp @cds.on.insert: $now;
+  defaulted : Timestamp default $now;
+}
+```
+
+While both behave identical for database-level `INSERT`s, they differ for `CREATE` requests on higher-level service providers: Values for `managed` in the request payload will be ignored, while provided values for `default` will be written to the database.
+
+:::
+
+::: tip In Essence:
+
+Managed data fields are filled in automatically and are write-protected for externa clients.
+:::
+
+::: warning Limitations
+In case of `UPSERT` operations, the handlers for `@cds.on.update` are executed, but not the ones for `@cds.on.insert`.
+:::
+
+
+### Aspect _`managed`_
+
+You can also use the [pre-defined aspect `managed`](../cds/common#aspect-managed) from [@sap/cds/common](../cds/common) to get the very same as by the definition above:
+
+```cds
+using { managed } from '@sap/cds/common';
+entity Foo : managed { /*...*/ }
+```
+
+[Learn more about `@sap/cds/common`](../cds/common){.learn-more}
+
+With this we keep our core domain model clean and comprehensible.
+
+
+
+## Pseudo Variables
+
+The pseudo variables used in the annotations above are resolved as follows:
+
+- `$now` is replaced by the current server time (in UTC)
+- `$user` is the current user's ID as obtained from the authentication middleware
+- `$user.<attr>` is replaced by the value of the respective attribute of the current user
+- `$uuid` is replaced by a version 4 UUID
+
+[Learn more about **Authentication** in Node.js.](../node.js/authentication){.learn-more}
+[Learn more about **Authentication** in Java.](../java/security#authentication){.learn-more}

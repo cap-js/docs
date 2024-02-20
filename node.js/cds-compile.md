@@ -59,7 +59,7 @@ let csn = await cds.compile ('file:db')
 
 ### Single in-memory sources
 
-If a single string, not starting with `file:`  is passed as first argument, it is interpreted as a CDL source string and compiled to CSN synchroneously:
+If a single string, not starting with `file:`  is passed as first argument, it is interpreted as a CDL source string and compiled to CSN synchronously:
 
 ```js
 let csn = cds.compile (`
@@ -185,14 +185,14 @@ Renders the given model to a formatted JSON  or YAML string.
 ### .to .edmx() {.method}
 
 
-Compiles and returns an OData v4 [EDM](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
+Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
 
 Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-odata) above, with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
 
 * Either choose exactly one, for example, `{service:'Catalog'}`
 * Choose to return EDM objects for all, that means, `{service:'all'}`
 
-In case of the latter, a generator is returned that yields `[ edm, {name} ]` for each service.
+In case of the latter, a generator is returned that yields `[ edm, {file, suffix} ]` for each service.
 For example, use it as follows:
 
 ```js
@@ -203,7 +203,7 @@ console.log (edm)
 ```js
 // for all services
 let all = cds.compile.to.edm (csn, {service:'all'})
-for (let [edm,{name}] of all)  console.log (name,edm)
+for (let [edm,{file,suffix}] of all)  console.log (file,suffix,edm)
 ```
 
 
@@ -296,7 +296,7 @@ const csn = await cds.load(['db','srv'])
 
 > The given filenames are resolved using [`cds.resolve()`](#cds-resolve).
 >
->  Note: It’s recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
+>  Note: It's recommended to omit file suffixes to leverage automatic loading from precompiled _[CSN](../cds/csn)_ files instead of _[CDL](../cds/cdl.md)_ sources.
 
 
 

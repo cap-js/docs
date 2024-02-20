@@ -22,13 +22,16 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
+::: info This guide is available for Node.js and Java.
+Press <kbd>v</kbd> to switch, or use the toggle.
+:::
 
 ## Create a Project
 
 <div class="impl node">
 
 ```sh
-cds init hello-world --add samples
+cds init hello-world
 cd hello-world
 ```
 
@@ -37,7 +40,7 @@ cd hello-world
 <div class="impl java">
 
 ```sh
-cds init hello-world --add java,samples
+cds init hello-world --add java
 cd hello-world
 ```
 
@@ -64,8 +67,6 @@ service say {
 
 ... for example, using [Node.js](../node.js/) express.js handlers style.
 
-</div>
-
 ::: code-group
 
 ```js [srv/world.js]
@@ -86,7 +87,9 @@ module.exports = class say {
 ```
 :::
 
-> That has limited flexibility, for example, you can register only one handler per event. { .impl .node}
+> That has limited flexibility, for example, you can register only one handler per event.
+
+</div>
 
 <div class="impl java">
 
@@ -124,21 +127,26 @@ public class HelloHandler implements EventHandler {
 
 
 ## Run it
+
 ... for example, from your command line in the root directory of your "Hello World":
 
-::: code-group
 
-```sh [Node.js]
+<div class="impl node">
+
+```sh
 cds watch
 ```
 
-```sh [Java]
+</div>
+
+<div class="impl java">
+
+```sh
 cd srv
 mvn cds:watch
 ```
 
-:::
-
+</div>
 
 ## Consume it
 ... for example, from your browser:<br>

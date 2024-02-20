@@ -63,12 +63,19 @@ Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring S
 
 Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
 
-CAP Java 2.0 itself requires updated [dependency versions](./development/#dependencies-version-2) of:
+CAP Java 2.0 itself requires updated [dependency versions](./versions#dependencies-version-2) of:
 - `@sap/cds-dk`
 - `@sap/cds-compiler`
 - XSUAA library
 - SAP Cloud SDK
 - Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
+
+::: warning
+The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
+You have two options:
+* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
+* Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
+:::
 
 ### API Cleanup
 
@@ -291,7 +298,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Removed Annotations Overview
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#cds-search).
 
 ### Changed Behavior
 
@@ -450,7 +457,7 @@ Rename the service module folder to your preferred name and adjust also the `<mo
 ```
 
 ::: tip
-If you’ve changed the service module folder name, you have to consider this in the next steps.
+If you've changed the service module folder name, you have to consider this in the next steps.
 :::
 
 ### Copy the CDS Model
@@ -506,7 +513,7 @@ Therefore, copy and replace the whole `cds` section from your classic _package.j
 ```
 
 ::: tip
-If there’s also a `<CLASSIC-PROJECT-ROOT>/.cdsrc.json` in your classic project to configure the CDS build, copy this file to the new project.
+If there's also a `<CLASSIC-PROJECT-ROOT>/.cdsrc.json` in your classic project to configure the CDS build, copy this file to the new project.
 :::
 
 You can validate the final CDS configuration by executing a CDS command in the root folder of the new project:
@@ -522,7 +529,7 @@ Further details about effective CDS configuration can be found in section [Effec
 
 #### First Build and Deployment
 
-After you’ve copied all your CDS files, maintained additional dependencies and configured the CDS build,
+After you've copied all your CDS files, maintained additional dependencies and configured the CDS build,
 you can try to build your new CAP Java project the first time.
 Therefore, execute the following Maven command in the root folder of your new CAP Java project:
 
@@ -583,7 +590,7 @@ Usually the event handler classes and tests are located in these folders:
 | Test classes  | `<CLASSIC-PROJECT-ROOT>/srv/src/test/java/**` | `<NEW-PROJECT-ROOT>/srv/src/test/java/**` |
 
 Copy your Java class files (`*.java`) manually from the classic project to corresponding locations in the new project.
-It’s important that you re-create the same subfolder structure in the new project as it is in the classic project.
+It's important that you re-create the same subfolder structure in the new project as it is in the classic project.
 The subfolder structure reflects the Java package names of your Java classes.
 
 ##### Annotations
@@ -640,7 +647,7 @@ The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In ca
 ##### Event Handler Signatures
 
 The basic signature of an event handler method is `void process(EventContext context)`.
-However, it doesn’t provide the highest level of comfort. Event handler signatures can vary on three levels:
+However, it doesn't provide the highest level of comfort. Event handler signatures can vary on three levels:
 - EventContext arguments
 - POJO-based arguments
 - Return type
@@ -675,10 +682,10 @@ Also replace the classic handler return types with the corresponding new impleme
 
 ### Delete Obsolete Files
 
-There are numerous files in your classic project, which aren’t required and supported anymore in the new project.
+There are numerous files in your classic project, which aren't required and supported anymore in the new project.
 Don't copy any of the following files to the new project:
 
-```
+```txt
 <PROJECT-ROOT>/
 |-- db/
 |   |-- .build.js
@@ -744,7 +751,7 @@ To make use of authentication and authorization with JWT tokens issued by XSUAA 
 </dependency>
 ```
 
-This feature provides utilities to access information in JWT tokens, but doesn’t activate authentication by default. Therefore, as in the classic CAP Java Runtime, activate authentication by adding a variant of the [XSUAA library](https://github.com/SAP/cloud-security-xsuaa-integration) suitable for your application (depending on if you use Spring, Spring Boot, plain Java) as described in the following sections.
+This feature provides utilities to access information in JWT tokens, but doesn't activate authentication by default. Therefore, as in the classic CAP Java Runtime, activate authentication by adding a variant of the [XSUAA library](https://github.com/SAP/cloud-security-xsuaa-integration) suitable for your application (depending on if you use Spring, Spring Boot, plain Java) as described in the following sections.
 
 ##### Spring Boot
 
@@ -758,7 +765,7 @@ Activate Spring security with XSUAA authentication by adding the following Maven
 </dependency>
 ```
 
-Maintaining a `spring-security.xml` file or a custom `WebSecurityConfigurerAdapter` or `SecurityFilterChain` isn’t necessary anymore because the new CAP Java SDK runtime *autoconfigures* authentication in the Spring context according to your CDS model:
+Maintaining a `spring-security.xml` file or a custom `WebSecurityConfigurerAdapter` or `SecurityFilterChain` isn't necessary anymore because the new CAP Java SDK runtime *autoconfigures* authentication in the Spring context according to your CDS model:
 
 - Endpoints exposed by the CDS model annotated with `@restrict` are automatically authenticated.
 - Endpoints exposed by the CDS model *not* annotated with `@restrict` are public by definition and hence not authenticated.
@@ -873,7 +880,7 @@ catalogService.run(query);
 |Update|`dsHandler.executeUpdate(request.getData(), request.getKeys(), true)`|`catalogService.run(event.getCqn())` or `catalogService.run(Update.entity("Books").data(book))`|
 |Delete| `dsHandler.executeDelete(request.getEntityMetadata().getName(), request.getKeys())` |`catalogService.run(event.getCqn())` or `catalogService.run(Delete.from("Books").where(b -> b.get("ID").eq(42)))`|
 
-As you can see in *New CAP Java SDK* it’s possible to either directly execute a CQN of the event, or you can construct and execute your own custom query.
+As you can see in *New CAP Java SDK* it's possible to either directly execute a CQN of the event, or you can construct and execute your own custom query.
 
 [See section **Query Builder API** for more details.](./query-api){.learn-more}
 
@@ -975,7 +982,7 @@ To be able to migrate the backend from the *Classic Java Runtime* without making
 
 	```json
 	{
-		[...]
+		...
 		"odata": {
 			"version": "v2"
 		}
@@ -1036,3 +1043,16 @@ After rebuilding and restarting your application, your Application Services are 
 <!-- TODO: Move this to "Development" section -->
 
 <span id="afterenablingodata" />
+
+## Cloud SDK 4 to 5 { #cloudsdk5 }
+
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.2.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you  don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+
+```xml
+<dependency>
+	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+	<artifactId>connectivity-apache-httpclient4</artifactId>
+</dependency>
+```
+
+

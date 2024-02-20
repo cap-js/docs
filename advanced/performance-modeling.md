@@ -23,8 +23,7 @@ In general, there are two use cases for UNIONs:
 UNIONs in views come with a performance penalty and complex modelling.
 :::
 
-::: tip
-**Rules of Thumb:**
+::: tip Rules of Thumb:
 - If you can't change your data model, you might have to use UNION to collect semantically close data.
 - The effort of transforming data structures to avoid UNION has the benefit of better performance as well as easier modelling and less complex application code.
 - Starting a new model, you should never need to use UNION. See [Polymorphism](#polymorphism).
@@ -110,8 +109,7 @@ entity Fruit : apple, banana, cherry, mango, cuid, managed {
 
 This results in a single, sparsely populated DB table, which is not an issue using modern databases with variable page sizes. The optimizer will take care of it.
 
-::: tip
-**Rules of Thumb:**
+::: tip Rules of Thumb:
 - Come up with a good **general** approach. You get less specific associations and a less complicated model.
 - The normalized or de-normalized `Fruit` entities have the advantage that there is only one associations to `Vendor` to be provided.
 :::
@@ -277,8 +275,8 @@ Typical examples of calculated fields are:
 The following steps show you which option takes precedence over another. Use options one/two as the preferred way and three/four as fallback.
 
 1. Do the calculation on the UI with help of field controls or dedicated custom controls. This applies to all kinds of **String concatenation** and **Formatting**.
-2. Pre-calculate on *write* with help of an event handler.
-3. Some Calculated Fields are dynamic in nature. Do those calculations on the database layer. For example _kanban_ (scheduling system for lean manufacturing), there you typically have dynamic live calculations.
+2. Pre-calculate using CDS [on write](../cds/cdl#on-write) calculated fields.
+3. Some calculations are dynamic in nature. If possible, use CDS [on read](../cds/cdl#on-read) calculated fields.
 4. As a **very last resort**, use event handlers on *read*.
 
 Hints:
@@ -312,35 +310,15 @@ entity OrdersItemsView as projection on OrdersItems {
 ::: code-group
 ```cds [schema.cds]
 extend my.OrdersItems with {
-    itemCategory: String enum{ Small; Medium; Large;};
-    // fill itemCategory at runtime in service.js
+    category: String = case
+       when quantity > 500 then 'Large'
+       when quantity > 100 then 'Medium'
+       else 'Small'
+     end stored;
 }
 ```
 :::
 
-::: code-group
-```js [service.js]
-...
-// fill itemCategory at runtime
-    this.before (['CREATE', 'UPDATE'], 'my.OrdersItems', async req => {
-      if (req.data.quantity > 500) {req.data.itemCategory = 'Large'}
-        else if (req.data.quantity > 100) {req.data.itemCategory = 'Medium'}
-        else    {req.data.itemCategory = 'Small'}
-    })
-...
-```
-:::
-
-New `OrdersItemsView` without case statement:
-
-::: code-group
-```cds [service.cds]
-entity OrdersItemsView as projection on OrdersItems {
-    *,
-    itemCategory as category
-};
-```
-:::
 
 ## Compositions vs Associations
 From the performance perspective there are some cases, where you have to check out carefully if the general semantic rules of compositions vs associations should be applied.
@@ -357,8 +335,7 @@ In general, go for **associations** in the following cases:
  - Relationships are likely to change over time.
  - Individual entities should have individual life-cycles.
 
-::: tip
-**Rule of Thumb:**
+::: tip Rule of Thumb:
 
 Your arm is composed to your body, your smart phone is associated to you, because it could belong to somebody else tomorrow ...
 :::
@@ -375,8 +352,7 @@ In legacy systems you find emulations for data types like string-encoded boolean
 In addition, legacy systems often used UNIONs to save hard drive space, avoid database JOINs, or to accommodate new features without basic refactoring of the existing models. Don't take over such patterns into newly implemented applications.
 
 
-::: tip
-**Rules of Thumb**
+::: tip Rules of Thumb:
 - Each conversion, case statement, or unnecessary data parsing is causing a performance impact and should therefore be avoided.
 - With each conversion to a native data type, you have the opportunity to simplify the model, simplify the application logic, and improve performance from the start.
 :::
@@ -388,7 +364,7 @@ Common patterns:
   - Positional strings, like `A_G___U_I`, with complex internal logic might infer future case statements or complex internal calculations. Better use compositions of type here as well.
   - If you encounter UNION statements in your legacy model, we strongly suggest to re-model as described in the section on [Polymorphism](#polymorphism).
   - If you encounter CASE statements in your legacy model, we strongly suggest to re-model as described in the section on [Calculated Fields](#calculated-fields).
-  - Omit unnecessary abstraction views. When you are porting an "ABAP" CDS Model starting with the corresponding Virtual Data Model (VDM), C_Views and I_Views don’t serve a purpose anymore. Please design your entities for optimized persistence, and your service layer for optimized processing. CAP already has a separation of concerns between the "DB" layer (persistency model) and the "SRV" layer (service / consumption model), there is no need to insert additional and unnecessary further abstraction layers. For example, the public interface layer with views like `I_COSTCENTER` will be replaced by the CDS services from which the OData consumption services are generated.
+  - Omit unnecessary abstraction views. When you are porting an "ABAP" CDS Model starting with the corresponding Virtual Data Model (VDM), C_Views and I_Views don't serve a purpose anymore. Please design your entities for optimized persistence, and your service layer for optimized processing. CAP already has a separation of concerns between the "DB" layer (persistency model) and the "SRV" layer (service / consumption model), there is no need to insert additional and unnecessary further abstraction layers. For example, the public interface layer with views like `I_COSTCENTER` will be replaced by the CDS services from which the OData consumption services are generated.
   - Legacy systems often have convoluted or overly complex data structures just to satisfy multiple processing requirements or use-cases with the same data structure. In CAP there is no need to create overly complex service entities, since you can use bound and unbound ACTIONs and FUNCTIONs for more complex data manipulation. Keep service entities as simple as possible and make them serve one purpose only, and rather create multiple simple entities instead of a complex one.
 
 **Summary:**

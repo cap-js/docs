@@ -1,6 +1,6 @@
 ---
 index: 53
-layout: cookbook
+# layout: cookbook
 synopsis: >
   CAP provides out-of-the-box support for declaring and serving date-effective entities with application-controlled validity, in particular to serve as-of-now and time-travel queries.
 status: released
@@ -212,7 +212,7 @@ The result set would be:
 ]
 ```
 ::: warning
-Time-travel queries aren’t supported on SQLite due to the lack of *session_context* variables.
+Time-travel queries aren't supported on SQLite due to the lack of *session_context* variables.
 :::
 
 ### Time-Period Queries
@@ -244,10 +244,10 @@ GET Employees?sap-valid-from=date'2016-01-01'
 $expand=jobs($select=validFrom,role,dept/name)
 ```
 ::: warning
-> Time-series queries aren’t supported on SQLite due to the lack of *session_context* variables.
+Time-series queries aren't supported on SQLite due to the lack of *session_context* variables.
 :::
 ::: tip
-> Writing temporal data must be done in custom handlers.
+Writing temporal data must be done in custom handlers.
 :::
 
 ### Transitive Temporal Data

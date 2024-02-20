@@ -1,9 +1,11 @@
 ---
 synopsis: >
   Find here common solutions to frequently occurring issues.
-permalink: advanced/troubleshooting
-redirect_from: resources/troubleshooting
+redirect_from:
+  - advanced/troubleshooting
+  - resources/troubleshooting
 status: released
+outline: 2
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d2ee648522044ea19d3b5126c29692b5.html
 ---
 
@@ -11,25 +13,13 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
 ## General { #cds}
-
-### How Do I Resolve Installation Issues with Node.js and NPM? { #npm-installation}
-
-##### Check the registry settings of your npm configuration
-
-Make sure that you don't have old registry entries anymore for `@sap:registry` in your _.npmrc_. Just execute:
-
-```sh
-npm config delete "@sap:registry"
-```
-
-Type `npm config list` to check the configuration, which is stored in a file _.npmrc_ in the user's home directory. There, no `@sap:registry` should appear.
-
-[Learn more about the move to **npmjs.org** in the blog post by DJ Adams.](https://blogs.sap.com/2020/07/02/sap-npm-packages-now-on-npmjs.org/){.learn-more}
 
 ##### Check the Node.js version { #node-version}
 
-Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `16`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
+Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `20`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
 ```sh
 node -v
@@ -56,7 +46,7 @@ Also add the last line to your user profile, for example, `~/.profile`, so that 
 
 ##### Check if your environment variables are properly set on Windows
 
-Global NPM installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
+Global npm installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
 
 ```sh
 C:\Users\<your-username>\AppData\Roaming\npm
@@ -107,11 +97,11 @@ restart
 Ports can be explicitly set with the `PORT` environment variable or the `--port` argument.  See `cds help run` for more.
 
 
-### Why do I loose registered event handlers?
+### Why do I lose registered event handlers?
 
 Node.js allows extending existing services, for example in mashup scenarios. This is commonly done on bootstrap time in `cds.on('served', ...)` handlers like so:
 
-#### DO:
+#### DO:{.good}
 
 ```js
 cds.on('served', ()=>{
@@ -120,9 +110,9 @@ cds.on('served', ()=>{
 })
 ```
 
-It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very heard to detect and resolve issues with handler registrations. So, for example, don't do this:
+It is important to note that by Node.js `emit` are synchronous operations, so, **avoid _any_ `await` operations** in there, as that might lead to race conditions. In particular, when registering additional event handlers with a service, as shown in the snippet above, this could lead to very hard to detect and resolve issues with handler registrations. So, for example, don't do this:
 
-#### DON'T:
+#### DON'T:{.bad}
 
 ```js
 cds.on('served', async ()=>{
@@ -131,20 +121,20 @@ cds.on('served', async ()=>{
 })
 ```
 
-### My app isn’t showing up in Dynatrace
+### My app isn't showing up in Dynatrace
 
 Make sure that:
-- Your app's start script is `cds run` instead of `npx cds run`.
+- Your app's start script is `cds-serve` instead of `npx cds run`.
 - You have the dependency `@dynatrace/oneagent-sdk` in your _package.json_.
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates, that the settings of the pool containing the database clients don’t match the application's needs. There are two possible root causes.
+This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
 | _Root Cause 1_ | The maximum number of database clients in the pool is reached and additional requests wait too long for the next client.
-| _Root Cause 2_ | The amount of time for creating a new connection to the database takes too long.
+| _Root Cause 2_ | The creation of a new connection to the database takes too long.
 | _Solution_ | Adapt `max` or `acquireTimeoutMillis` with more appropriate values, according to the [documentation](../node.js/databases#databaseservice-configuration).
 
 Always make sure that database transactions are either committed or rolled back. This can work in two ways:
@@ -171,11 +161,11 @@ module.exports = cds.server
 
 [Watch the video to learn more about **Best Practices for CAP Node.js Apps**.](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s){.learn-more}
 
-### Why are long running requests rejected with status `502` after 30 seconds even though the application continues processing the request?
+### Why are long running requests rejected with status `504` after 30 seconds even though the application continues processing the request?
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Most probably, this error is caused by the destination timeout of the AppRouter.
+| _Root Cause_ | Most probably, this error is caused by the destination timeout of the App Router.
 | _Solution_ | Set your own `timeout` configuration of [@sap/approuter](https://www.npmjs.com/package/@sap/approuter#destinations).
 
 ### Why does the server crash with `No service definition found for <srv-name>`?
@@ -198,10 +188,40 @@ module.exports = cds.server
 
 A new option `privilegedUser()` can be leveraged when [defining](../java/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/consumption-api) either in a request thread regardless of the original user's authorizations or in a background thread.
 
+### Why do I get a "User should not exist" error during build time?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | You've [explicitly configured a mock](../java/security#explicitly-defined-mock-users) user with a name that is already used by a [preconfigured mock user](../java/security#preconfigured-mock-users).
+| _Solution_ | Rename the mock user and build your project again.
+
+### Why do I get an "Error on server start"?
+
+There could be a mismatch between your locally installed Node.js version and the version that is used by the `cds-maven-plugin`. The result is an error similar to the following:
+
+```sh
+❗️ ERROR on server start: ❗️
+Error: The module '/home/user/....node'
+was compiled against a different Node.js version using
+```
+
+To fix this, either switch the Node.js version using a Node version manager, or add the Node version to your _pom.xml_ as follows:
+
+```xml
+<properties>
+		<!-- ... -->
+		<cds.install-node.nodeVersion>v20.11.0</cds.install-node.nodeVersion>
+		<!-- ... -->
+	</properties>
+
+```
+
+[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
+
 ### How can I expose custom REST APIs with CAP?
 
-From time to time you might want to expose additional REST APIs in your CAP application, that aren’t covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
-In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you’ll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
+From time to time you might want to expose additional REST APIs in your CAP application, that aren't covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
+In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you'll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
 
 ### How can I build a CAP Java application without SQL database?
 
@@ -236,7 +256,7 @@ In addition you might want to remove the H2 dependency, which is included in the
 
 If you don't want to exclude dependencies completely, but make sure that an in-memory H2 database **isn't** used, you can disable Spring Boot's `DataSource` auto-configuration, by annotating the `Application.java` class with `@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class)`. In that mode CAP Java however can still react on explicit data source configurations or database bindings.
 
-### What to Do About Maven-Related Errors in Eclipse's Problems View? { #eclipse}
+### What to Do About Maven-Related Errors in Eclipse's Problems View?
 
 - In _Problems_ view, execute _Quick fix_ from the context menu if available. If Eclipse asks you to install additional Maven Eclipse plug-ins to overcome the error, do so.
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
@@ -274,14 +294,14 @@ sqlite>
 
 If you want to test further, use _.help_ command to see all available commands in _sqlite3_.
 
-In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It’s available as an extension for VS Code and integrated in SAP Business Application Studio.
+In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
 ## SAP HANA { #hana}
 
 ### How to Get an SAP HANA Cloud Instance for SAP BTP, Cloud Foundry environment? { #get-hana}
 
-To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://community.sap.com/topics/hana/cloud) for more details.
+To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://pages.community.sap.com/topics/hana/cloud) for more details.
 
 ::: tip
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.
@@ -316,40 +336,9 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 ### How Do I Resolve Service Creation Errors?
 
-- If there’s more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
+- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
 - On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
-
-### I get errors with response code 429 from the service-manager service when subscribing a tenant
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
-  ```json
-  "cds": {
-    "mtx": {
-      "provisioning": {
-        "instancemanageroptions": {
-          "polling_interval_millis": 3000
-        }
-      }
-    }
-  }
-  ```
-
-### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
-> This is valid for the 'old' MTX Services package `@sap/cds-mtx`.
-
-You can disable the database clustering for the update.
-  ```json
-  "cds": {
-    "mtx": {
-      "jobs": {
-        "clusterbydb": false
-      }
-    }
-  }
-  ```
-  This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 
 ### How Do I Resolve Deployment Errors?
@@ -376,7 +365,7 @@ You can disable the database clustering for the update.
 | _Solution_ | To install it, follow these [instructions](https://help.sap.com/docs/SAP_DATA_SERVICES/e54136ab6a4a43e6a370265bf0a2d744/c049e28431ee4e8280cd6f5d1a8937d8.html). If this doesn't solve the problem, also set the environment variables as [described here](https://help.sap.com/docs/SAP_HANA_PLATFORM/e7e79e15f5284474b965872bf0fa3d63/463d3ceeb7404eca8762dfe74e9cff62.html).
 
 
-#### Deployment fails ---
+#### Deployment fails —
 + _Failed to get connection for database_
 + _Connection failed (RTE:[300015] SSL certificate validation failed_
 + _Cannot create SSL engine: Received invalid SSL Record Header_
@@ -385,6 +374,13 @@ You can disable the database clustering for the update.
 | --- | ---- |
 | _Root Cause_ | Your SAP HANA Cloud instance is stopped. |
 | _Solution_ | [Start your SAP HANA Cloud instance.](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/fe8cbc3a13b4425990880bac3a5d50d9.html)
+
+#### Deployment fails — SSL certificate validation failed: error code: 337047686
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The `@sap/hana-client` can't verify the certificate because of missing system toolchain dependencies. |
+| _Solution_ | Make sure [`ca-certificates`](https://packages.ubuntu.com/focal/ca-certificates) is installed on your Docker container.
 
 #### Deployment fails — _Cannot create SSL engine: Received invalid SSL Record Header_
 
@@ -397,19 +393,19 @@ You can disable the database clustering for the update.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your configuration isn’t properly set. |
+| _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
-#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {#connection-failed-89008}
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your IP isn’t part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
+| _Root Cause_ | Your IP isn't part of the filtering you configured when you created an SAP HANA Cloud instance. This error can also happen if you exceed the [maximum number of simultaneous connections to SAP HANA Cloud (1000)](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20a760537519101497e3cfe07b348f3c.html). |
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_
+#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
 
 |  | Explanation |
 | --- | ---- |
@@ -431,8 +427,6 @@ This error occurs if all of the following applies:
 ### How do I pass additional HDI deployment options to the multitenancy tenant deployment of the `cds-mtx` library
 
 You can add a subset of the [HDI deploy options](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html) using the environment variable `HDI_DEPLOY_OPTIONS`.\
-To avoid side effects, the allowed options are restricted to `[ 'undeploy', 'path_parameter','include_filter','exclude_filter',
-'write_timeout', 'connection_timeout', 'trace', 'lock_container_timeout','working_set' ]`.
 
 When making use of these parameters, for example `exclude_filter`, please always check if the parameters are consistent with your CDS build configuration to
 avoid deployment problems. For example, make sure to not exclude generated SAP HANA tables that are needed by generated views.
@@ -526,7 +520,7 @@ This is the same issue as with the installation error above.
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your file isn’t UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
+| _Root Cause_ | Your file isn't UTF-8 encoded. If you executed `cds compile` with Windows PowerShell, the encoding of your _xs-security.json_ file is wrong.
 | _Solution_ | Make sure, you execute `cds compile` in a command prompt that encodes in UTF-8 when piping output into a file.
 
 [You can find related information on **Stack Overflow**.](https://stackoverflow.com/questions/40098771/changing-powershells-default-output-encoding-to-utf-8){.learn-more}
@@ -584,6 +578,17 @@ Use `cf create-service-push --push-as-subprocess` to execute `cf push` in a sub-
 
 [See `cf create-service-push --help` for further CLI details or visit the Create-Service-Push GitHub repository.](https://github.com/dawu415/CF-CLI-Create-Service-Push-Plugin){.learn-more}
 
+### Deployment Crashes With "No space left on device" Error
+
+If on deployment to Cloud Foundry, a module crashes with the error message `Cannot mkdir: No space left on device` then the solution is to adjust the space available to that module in the `mta.yaml` file. Adjust the `disk-quota` parameter.
+
+```sh
+    parameters:
+      disk-quota: 512M
+      memory: 256M
+```
+[Learn more about this error in KBA 3310683](https://userapps.support.sap.com/sap/support/knowledge/en/3310683){.learn-more}
+
 ### How Can I Get Logs From My Application in Cloud Foundry? { #cflogs-recent}
 
 The SAP BTP cockpit is not meant to analyze a huge amount of logs. You should use the Cloud Foundry CLI.
@@ -624,69 +629,56 @@ Mixing them together is not trivial, therefore only some special cases are suppo
 
 ## MTX (legacy)
 
-This refers to potential problems with [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis).
+This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
 
-### How Do I Setup a Sidecar with AppRouter? { #mtx-as-sidecar-with-approuter}
+### How do I set up MTX with App Router? { #mtx-as-sidecar-with-approuter}
 
 See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
 
-### I get a 401 error, when logging in to MTX-Sidecar through AppRouter { #mtx-sidecar-approuter-401}
+### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
 
-1. Enable token forwarding in AppRouter, for example using _mta.yaml_:
+See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
 
-   ```yaml
-     - name: approuter
-       requires:
-         - name: mtx-sidecar
-           group: destinations
-           properties:
-             name: mtx-sidecar
-             url: ~{url}
-             forwardAuthToken: true
-   ```
+When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
 
-2. Configure a route to MTX-Sidecar without authentication, so that the MTX-Sidecar can handle authentication and authorization.
+```sh
+cds login … -s <subdomain>
+```
 
-   In _xs-app.json_, add the following entry:
+Alternatively, without login:
 
-   ```json
-   "routes": [
-     {
-   	   "source": "^/extend/(.*)",
-   	   "destination": "mtx-sidecar",
-   	   "target": "$1",
-   	   "authenticationType": "none"
-     }
-   ]
-   ```
+```sh
+cds extend … -s <subdomain>
+```
 
-   Make the following adjustments:
-   - `source` reflects the URL path to be used for the login and extending the SaaS app.
-     Based on the previous example, it would be:
+### I get errors with response code 429 from the service-manager service when subscribing a tenant
 
-     ```sh
-     cds login … <AppRouter URL>/extend
-     ```
+You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
+  ```json
+  "cds": {
+    "mtx": {
+      "provisioning": {
+        "instancemanageroptions": {
+          "polling_interval_millis": 3000
+        }
+      }
+    }
+  }
+  ```
 
-   - `destination` is the name of the destination pointing to MTX as defined in [mta.yaml](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/8aeea65eb9d64267b554f64a3db8a349.html)
-     or [manifest.yml](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/3cc788ebc00e40a091505c6b3fa485e7.html#destinations), e.g.:
+### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
 
-     ```yaml
-     modules:
-       - name: sidecar
-         provides:
-           - name: mtx-sidecar
-             properties:
-               url: ${default-url}
-     ```
-
-3. When logging in, specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
-
-   ```sh
-   cds login … -s <subdomain>
-   ```
-
-Alternatively, use the options mentioned with `cds extend` without login.
+You can disable the database clustering for the update.
+  ```json
+  "cds": {
+    "mtx": {
+      "jobs": {
+        "clusterbydb": false
+      }
+    }
+  }
+  ```
+This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 ## CAP on Kyma
 

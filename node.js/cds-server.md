@@ -46,30 +46,28 @@ Its implementation essentially is as follows:
 
 ```js
 const cds = require('@sap/cds')
-cds.server = module.exports = async function (options) {
+module.exports = async function cds_server() {
 
-  const app = cds.app = o.app || require('express')()
+  // prepare express app
+  const app = cds.app = require('express')()
   cds.emit ('bootstrap', app)
 
-  // load model from all sources
-  const csn = await cds.load('*')
-  cds.model = cds.compile.for.nodejs(csn)
+  // load and prepare models
+  const csn = await cds.load('*') .then (cds.minify)
+  cds.model = cds.compile.for.nodejs (csn)
   cds.emit ('loaded', cds.model)
 
-  // connect to prominent required services
-  if (cds.requires.db)  cds.db = await cds.connect.to ('db')
-  if (cds.requires.messaging)    await cds.connect.to ('messaging')
+  // connect to essential framework services
+  if (cds.requires.db) cds.db = await cds.connect.to ('db') .then (_init)
+  if (cds.requires.messaging)   await cds.connect.to ('messaging')
 
-  // serve own services as declared in model
-  await cds.serve ('all') .from(csn) .in (app)
+  // serve all services declared in models
+  await cds.serve ('all') .in (app)
   await cds.emit ('served', cds.services)
 
-  // launch HTTP server
-  cds .emit ('launching', app)
-  const port = o.port ?? process.env.PORT || 4004
-  const server = app.server = app.listen(port) .once ('listening', ()=>
-    cds.emit('listening', { server, url: `http://localhost:${port}` })
-  )
+  // start http server
+  const port = o.port || process.env.PORT || 4004
+  return app.server = app.listen (port)
 }
 ```
 
@@ -179,6 +177,7 @@ cds.on('served', (services)=>{
 })
 ```
 
+This event supports _asynchronous_ event handlers.
 
 
 ### listening {.event}
@@ -191,10 +190,36 @@ A one-time event, emitted when the server has been started and is listening to i
 
 A one-time event, emitted when the server is closed and/or the process finishes.  Listeners can execute cleanup tasks.
 
+This event supports _asynchronous_ event handlers.
 
 
+### Event Handlers
 
+#### Synchronous vs. asynchronous
 
+Unless otherwise noted, event handlers execute **synchronously** in the order they are registered.
+This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous) contract.
+
+In other words this asynchronous handler code does **not work** as expected:
+
+```js
+cds.on ('bootstrap', async ()=> {
+  await asyncCode() // [!code error] // will NOT be awaited
+}
+```
+
+You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
+
+```js
+let done
+cds.on('bootstrap', ()=> {
+  done = asyncCode()
+}
+cds.on('served', async ()=> {
+  await moreCode()
+  await done
+})
+```
 
 
 ## See Also...

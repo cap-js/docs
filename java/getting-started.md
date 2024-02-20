@@ -21,7 +21,7 @@ status: released
 ## Introduction
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
 
-The CAP Java SDK enables developing CAP applications in Java. While the [SAP Business Application Studio](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) provides excellent support to develop CAP Java applications, you can also develop locally with your tool of choice, for example Eclipse or Visual Studio Code.
+The CAP Java SDK enables developing CAP applications in Java. While the [SAP Business Application Studio](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) provides excellent support to develop CAP Java applications, you can also develop locally with Visual Studio Code.
 
 The CAP Java SDK supports lean application design by its modular architecture, that means you pick the required features and add them to your application dependencies on demand.
 
@@ -43,7 +43,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk)` by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
+1. Install the CDS tools (`cds-dk`) by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
 
 2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
@@ -60,6 +60,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     ```
 ::: tip
 For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
+In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
 ## Starting a New Project { #new-project}
@@ -67,7 +68,7 @@ For a preconfigured environment, use [SAP Business Application Studio](../tools/
 
 Take the following steps to set up a new CAP Java application based on Spring Boot from scratch. As a prerequisite, you've set up your [development environment](#local).
 
-### Run the CAP Java Maven Archetype
+### Run the Maven Archetype { #run-the-cap-java-maven-archetype }
 
 Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
 
@@ -121,7 +122,7 @@ CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP S
 
 The generated project has the following folder structure:
 
-```
+```txt
 <PROJECT-ROOT>/
 |-- db/
     `-- data-model.cds
@@ -171,7 +172,7 @@ mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
 This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
-```
+```txt
 <PROJECT-ROOT>/
 `-- integration-tests/
     `-- src/test/java/
@@ -195,31 +196,9 @@ mvn spring-boot:run
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
 :::
 
-## Using Eclipse { #eclipse}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
-
-### Install Eclipse
-
-Install the [Eclipse IDE for Enterprise Java developers](https://www.eclipse.org/downloads/packages/release/2020-03/r/eclipse-ide-enterprise-java-developers-includes-incubating-components).
-
-
 ### Add *Spring Tools 4*
 
 Install the [*Spring Tools 4*](https://spring.io/tools) Eclipse plugin, that makes development of Spring applications more convenient. From the Eclipse Marketplace (*Help > Eclipse Marketplace...*), search and install *Spring Tools 4*.
-
-### Add the *SAP Cloud Business Application Tools for Eclipse*
-
-Install the Eclipse plugin called _SAP Cloud Business Application Tools for Eclipse_ that supports convenient editing of CDS files.
-
-1. In Eclipse open *Help > Install New Software...*.
-
-1. From [SAP Development Tools > Getting Started with the Eclipse Tools for SAP Cloud Application Programming Model](https://tools.hana.ondemand.com/#cloud-eclipsecds), add the URL of the tools update site for your Eclipse release.
-
-1. Select *SAP Cloud Business Application Tools* > *SAP Cloud Business Application Tools for Eclipse*.
-
-1. Click *Next* and *Finish*, accept the license agreement and warning about unsigned content, restart Eclipse.
-
-<div id="eclipse-sap" />
 
 ### Import the Project
 

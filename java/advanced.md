@@ -44,7 +44,7 @@ Invoking a `connect()` method creates an instance of the Data Store API.
 ## The CDS Data Store { #cdsdatastore}
 
 The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](./consumption-api#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn’t based on events and event handlers.
+The CDS Data Store is used to implement the [Persistence Service](./consumption-api#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
 
 The `CdsDataStore` API is similar to the [`CqnService` API](./query-execution#queries). The only difference is, that the `run` method is called `execute`:
 

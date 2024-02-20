@@ -1,7 +1,7 @@
 ---
 label: Hybrid Testing
 synopsis: >
-  How to locally test your application with real cloud services
+  How to locally test your application with real cloud services.
 permalink: advanced/hybrid-testing
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html and https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -28,7 +28,7 @@ cds bind -2 my-hana:my-hana-key
 Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
 cds bind also supports Cloud Foundry _user-provided_ services.
 
-[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](troubleshooting#deployment-fails-—-connection-failed-rte-89008-socket-closed-by-peer){.learn-more}
+[Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#connection-failed-89008){.learn-more}
 [Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:
@@ -222,7 +222,7 @@ cds env get requires.db.credentials --profile hybrid --resolve-bindings
 
 Example output:
 
-```json
+```js
 {
   url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
   host: 'bdb9ac0f20cb46b494e6742047c4f99a.hana.eu10.hanacloud.ondemand.com',
@@ -239,10 +239,6 @@ Example output:
 }
 ```
 
-::: warning
-Only `cds watch` and `cds env` (the latter with the `--resolve-bindings` option) resolve cloud bindings. Bindings are resolved by `cds serve` or `cds exec`.
-:::
-
 ### Run Arbitrary Commands with Service Bindings
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other applications with cloud service bindings from local, then you can use the [`exec` sub command](#cds-bind-exec) of `cds bind`.
@@ -250,13 +246,13 @@ With `cds bind` you avoid storing credentials on your hard disk. If you need to 
 For example, you can run the approuter from the `approuter` child directory:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- npm start --prefix approuter
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- npm start --prefix approuter
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' npm start --prefix approuter
 ```
 :::
@@ -264,13 +260,13 @@ cds bind --exec '--' npm start --prefix approuter
 This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
 
 ::: code-group
-```sh
+```sh [Mac/Linux]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```cmd
+```cmd [Windows]
 cds bind --exec -- node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
-```powershell
+```powershell [Powershell]
 cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 ```
 :::
@@ -385,7 +381,7 @@ Most of the following use cases are shown for Node.js, but can be easily adapted
 
 If you want to test your application with a real SAP HANA database, do the following steps.
 
-**Preconditions**{.warning-title}<br />
+**Preconditions**<br />
 You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
 :::
 

@@ -1,23 +1,25 @@
 ---
 shorty: Compiler v2
 synopsis: >
-  CDS compiler version 2 (cv2) brings numerous improvements, which allow us to significantly streamline model processing going forward.
-  All projects are recommended to upgrade as soon as possible, as the former version will only receive critical fixes after cv2 is
-  released.
-layout: cds-ref
+  This document describes the upgrade to compiler version 2, released March 2021. As both compiler version 1 and version 2 are out of maintenance by now,
+  we expect that all projects have already upgraded. If in doubt, run `cds v` to find out which version of the CAP modules you have in use.
+
+# layout: cds-ref
 redirect_from: releases/compiler-v2
 status: released
 ---
+
+<!-- Keep this page, as _many_ links point to it! -->
 
 # Upgrade to Compiler v2
 
 {{ $frontmatter.synopsis }}
 
+CDS compiler version 2 brings numerous improvements, which allow us to significantly streamline model processing going forward.
 Changes mostly affect internal implementations of the compiler and nonpublic parts of the artifacts produced by the compiler (CSN, EDMX, ...), hence are unlikely to be observed by users of CDS.
 
 Nevertheless, there are a few changes that you as a user should notice and that can require adaptation of your models and/or code.
 This section describes these changes and what is necessary to migrate your application to compiler v2. For a complete list of all changes, refer to the compiler's changelog.
-
 
 <style scoped>
   h3 {
@@ -44,7 +46,7 @@ before upgrading to v2 &rarr; find respective hints in the following sections.
 
 ### Fix ambiguous `redirects`
 
-When there's no unique target for [**_auto-redirection_**](../guides/providing-services#auto-redirected-associations),
+When there's no unique target for [**_auto-redirection_**](../guides/providing-services#redirected-associations),
 compiler v1 'silently' skipped respective associations with a warning.
 Yet, many ignored these warnings, which lead to hard-to-detect subsequent errors.
 Therefore, we raised that to an error-level message with compiler v2.
@@ -137,7 +139,7 @@ entity Bar { b: Foo.a; }
 
 Compiling this would produce this error with compiler v2 or warning with compiler v1:
 
-Artifact “Foo.a” hasn’t been found
+Artifact “Foo.a” hasn't been found
 {.error.danger}
 <!-- TODO -->
 Replace the dot before "a" by a colon.
@@ -336,7 +338,7 @@ Compiling this produces errors of this form in compiler v2 or warnings in compil
 A type, an element, or a service entity is expected here
 {.error.danger}
 
-Entity type must be from the current service ‘S’
+Entity type must be from the current service 'S'
 {.error.warning}
 
 ::: tip **Fix Option 1**<br>
@@ -635,7 +637,7 @@ CAP Java supports using CDS models that have been compiled with the CDS complier
 
 For every entity that has *localized* elements the CDS compiler [behind the scenes](../guides/localized-data#behind-the-scenes) generates a corresponding "texts" entity that holds the translated texts. The name of this entity changes with CDS compiler v2.
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 With compiler v1 the "texts" entity is generated with the suffix `_texts`, while the compiler v2 uses the suffix `.texts`!
 :::
 
@@ -710,7 +712,7 @@ CAP Java allows to [provide initial data](../guides/databases#providing-initial-
 mv bookshop-Books_texts.csv bookshop-Books.texts.csv
 ```
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 If a CSV file has already been deployed to a productive SAP HANA schema it can't be renamed any longer. To support this situation cds deploy as well as the CSV data loader in CAP Java still suppport CSV files with a `_texts` suffix.
 :::
 
@@ -753,7 +755,7 @@ In this example, the return type of the `cancel` function is automatically expos
 
 With compiler v1 this change was also reflected in the CSN. With compiler v2 this is not the case any longer.
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 If types are used in a service that are defined outside of the service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change when upgrading from compiler v1 to v2!
 :::
 
@@ -799,7 +801,7 @@ Your custom coded needs to be adapted accordingly. This will not be necessary if
 
 ### Interfaces for Inline Defined Types
 
-CDS allows to use anonymous inline defined types in a service, for example as items types of an arryed type or as a return type of a function:
+CDS allows to use anonymous inline defined types in a service, for example as items types of an arrayed type or as a return type of a function:
 
 ```cds
 service hr {
@@ -835,7 +837,7 @@ OData, however, does not support anonymous types. Hence, the compiler will autom
 
 In this example the compiler generated the type `Person_emails` in the OData service `hr`.
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 If an inline defined type is used in a service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change (an inner interface is generated) when upgrading from compiler v1 to v2!
 :::
 

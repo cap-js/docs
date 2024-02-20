@@ -10,9 +10,42 @@ Along with additional SAP-specific pages the content is published to https://cap
 
 ## Support, Feedback, Contributing
 
-This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/SAP/cap-js/docs/issues) and [pull requests](https://github.com/SAP/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
+This project is open to feature requests/suggestions, bug reports, etc. via [GitHub issues](https://github.com/cap-js/docs/issues) and [pull requests](https://github.com/cap-js/docs/pulls). Contribution and feedback are encouraged and always welcome.
 
 See our [contribution guidelines](CONTRIBUTING.md) for information about how to contribute, the project structure, as well as additional contribution information.
+
+## Running Locally
+
+If you contribute often to the documentation it's best to create your own fork, clone it to your local machine.
+
+```sh
+git clone https://github.com/cap-js/docs   # or whatever your fork's URL is
+```
+
+Install the dependencies:
+
+```sh
+npm run setup
+```
+
+Start the local server:
+
+```sh
+npm run start
+```
+
+This will respond with:
+```
+  vitepress v1...
+
+  ➜  Local:   http://localhost:5173/docs/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+```
+
+Once this is running, if you are reading this documentation at https://cap.cloud.sap/,
+- press <kbd>l</kbd> to open the page on _localhost_
+- and then press <kbd>o</kbd> to open the page in your local VS Code
 
 ## Code of Conduct
 
@@ -20,4 +53,4 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 ## Licensing
 
-Copyright 2023 SAP SE or an SAP affiliate company and CAP contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/cap-js/docs).
+Copyright 2023-2024 SAP SE or an SAP affiliate company and CAP contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/cap-js/docs).

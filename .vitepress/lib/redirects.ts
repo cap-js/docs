@@ -22,6 +22,12 @@ export function collect(file:string, frontmatter:Record<string, any>, siteConfig
     froms = (typeof froms === 'string') ? [froms] : froms
     froms.forEach(from => links[from] = urlPath)
   }
+
+  // keep URL for release notes that were moved to archive, e.g. releases/jun22 -> releases/archive/2022/jun22
+  for (const result of urlPath.matchAll(/releases\/archive\/.*?\/(.*)/g)) {
+    const from = `releases/${result[1]}`
+    links[from] = urlPath
+  }
 }
 
 function fileToUrlPath(file: string, siteConfig:SiteConfig):string {
@@ -43,7 +49,7 @@ function fileToUrlPath(file: string, siteConfig:SiteConfig):string {
 }
 
 export function generate(outDir: string, base: string, links: Record<string, string>) {
-  // create a classic html page w/ redirect for welcome page of VSCode plugin
+  // create a classic html page w/ redirect for welcome page of VS Code plugin
   generateReleaseLatest(outDir, base, links)
 
   links = sortObject(links)

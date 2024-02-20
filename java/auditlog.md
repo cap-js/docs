@@ -115,7 +115,7 @@ By default, not all events are send asynchronously via (persistent) outbox.
 * All other events are stored to persistent outbox, if available. The in-memory outbox acts as a fallback otherwise.
 
 
-::: warning _❗ Warning_{.warning-title}
+::: warning _❗ Warning_
 * It is up to the application developer to make sure that audit log events stored in the persistent outbox don't violate given **compliances rules**.
 For instance, it might be appropriate not to persist audit log events triggered by users who have operator privileges. Such logs could be modified on DB level by the same user afterwards.
 * For technical reasons, the AuditLog service temporarily stores audit log events enhanced with personal data such as the request's _user_ and _tenant_.
@@ -133,8 +133,32 @@ logging:
   level:
     com.sap.cds.auditlog: DEBUG
 ```
+### AuditLog v2 Handler { #handler-v2}
 
-<div id="handler-v2"/>
+Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `pom.xml` of the CAP Java project:
+
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-auditlog-v2</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+Also a service binding to the AuditLog v2 service has to be added to the CAP Java application, then this handler is activated. The Auditlog v2 handler supports the `premium` plan of the AuditLog Service as described [here](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?#prerequisites-for-using-the-audit-log-write-api-for-customers).
+
+<div id="handler-service-plans"/>
+
+If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/development/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
+
+```yaml
+cds:
+  auditlog.v2.enabled: false
+```
+
+The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
+
+<div id="handler-mt-v2"/>
 
 ### Custom AuditLog Handler
 
@@ -187,3 +211,4 @@ class CustomAuditLogHandler implements EventHandler {
 ```
 
 [Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){.learn-more}
+

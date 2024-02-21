@@ -157,6 +157,14 @@ Outbox services support outboxing of arbitrary CAP services. Typical use cases a
 service calls, but also supports calls to CAP services of an microservice to decouple them from
 the business logic flow.
 
+The following example shows how to outbox a CAP Java remote service:
+
+```java
+OutboxService myCustomOutbox1 = ...;
+RemoteService remoteService = ...;
+RemoteService outboxedRemoteService = myCustomOutbox1.outboxed(remoteService);
+```
+
 
 
 ::: tip

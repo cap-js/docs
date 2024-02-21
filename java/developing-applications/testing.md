@@ -14,8 +14,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 
-## Testing CAP Java Applications
-
 This section describes some best practices and recommendations for testing CAP Java applications.
 
 As described in [Modular Architecture](../architecture#modular_architecture), a CAP Java application consists of weakly coupled components, which enables you to define your test scope precisely and focus on parts that need a high test coverage.
@@ -26,7 +24,7 @@ Typical areas that require testing are the [services](../consumption-api#cdsserv
 Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
 :::
 
-### Best Practices
+## Sample Testee
 
 To illustrate this, the following examples demonstrate some of the recommended ways of testing. All the examples are taken from the [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/) in a simplified form, so definitely have a look at this as well.
 
@@ -97,14 +95,14 @@ The method `onSubmitOrder` is registered to the `On` phase of a `SubmitOrder` ev
 
 Whereas `discountBooks` is registered to the `After` phase of a `read` event on the `Books` entity and applies a discount information to a book's title if the stock quantity is larger than 111.
 
-#### Event Handler Layer Testing
+## Event Handler Layer Testing
 
 Out of these two handler methods `discountBooks` doesn't actually depend on the `PersistenceService`.
 
 That allows us to verify its behavior in a unit test by creating a `CatalogServiceHandler` instance with the help of a `PersistenceService` mock to invoke the handler method on, as demonstrated below:
 
 ::: tip
-For mocking, you can use [Mockito](https://site.mockito.org/), which is already included with the `spring-boot-starter-test` "Starter".
+For mocking, you can use [Mockito](https://site.mockito.org/), which is already included with the `spring-boot-starter-test` starter bundle.
 :::
 
 ```java
@@ -139,7 +137,7 @@ You can find a variant of this sample code also in our [CAP Java bookshop sample
 
 Whenever possible, mocking dependencies and just testing the pure processing logic of an implementation allows you to ignore the integration bits and parts of an event handler, which is a solid first layer of your testing efforts.
 
-#### Service Layer Testing
+## Service Layer Testing
 
 [Application Services](../application-services) that are backed by an actual service definition within the `CdsModel` implement an interface, which extends the `Service` interface and offers a common `CQN execution API` for `CRUD` events. This API can be used to run `CQN` statements directly against the service layer, which can be used for testing, too.
 
@@ -220,7 +218,7 @@ public class CatalogServiceTest {
 For a more extensive version of the previous `CatalogServiceTest` snippets, have a look at our [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/test/java/my/bookshop/CatalogServiceTest.java).
 :::
 
-#### API Integration Testing
+## Integration Testing
 
 Integration tests enable us to verify the behavior of a custom event handler execution doing a roundtrip starting at the protocol adapter layer and going through the whole CAP architecture until it reaches the service and event handler layer and then back again through the protocol adapter.
 

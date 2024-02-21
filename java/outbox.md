@@ -87,7 +87,7 @@ of an entry, is stored. The error is stored in the element `lastError` of the en
 
 ::: warning _❗ Warning_
 The configuration section `outbox.persistent` in the _application.yaml_ is deprecated. If it is still available in the
-_application.yaml_ it will be taken as a default, if none of the aforementioned outboxes have custom configurations:
+_application.yaml_ it will be taken as a default, if none of the aforementioned outboxes configured explicitly:
 
 ```yaml
 cds:
@@ -154,22 +154,37 @@ public class MySpringComponent {
 ### Outboxing Arbitrary CAP Services
 
 Outbox services support outboxing of arbitrary CAP services. Typical use cases are remote OData
-service calls, but also supports calls to CAP services of an microservice to decouple them from
-the business logic flow.
+service calls, but also supports calls to other CAP services to decouple them from the business logic flow.
 
-The following example shows how to outbox a CAP Java remote service:
+The API `OutboxService.outboxed(Service)` is used to wrap services with outbox handling. Events triggered
+on the wrapper are stored in the outbox first, and executed asynchronously. Relevant information from
+the `RequestContext` is stored with the event data, however the user context is downgraded to a system user context.
+
+The following example shows how to outbox a CAP Java service:
 
 ```java
 OutboxService myCustomOutbox1 = ...;
-RemoteService remoteService = ...;
-RemoteService outboxedRemoteService = myCustomOutbox1.outboxed(remoteService);
+Service service = ...;
+Service outboxedService = myCustomOutbox1.outboxed(service);
 ```
 
+The outboxed service should be cached, if it is frequently used as outboxing a service is an
+expensive operation. Any service that implements the interface `com.sap.cds.services.Service`
+or an inherited interface can be outboxed. Each call to the outboxed service is asynchronuously
+executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
 
+::: warning _❗ Warning_
+All calls to `run` methods of a service that implements the interface `com.sap.cds.services.cds.CqnService`
+return null since they are executed asynchronuously. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
+should not be called since the result will be lost because of the asynchronuous behaviour of outboxed services.
+:::
+
+A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed
+service are executed synchronuously without storing the event in an outbox.
 
 ::: tip
 Avoid to use one of the default outbox services when outboxing arbitrary CAP services. Configure
-and use custom outboxes instead to avoid delays in outbox entry processing in the case that errors
+and use custom outboxes instead to avoid delays in outbox entry processing for the case that errors
 occur during processing.
 :::
 
@@ -183,3 +198,8 @@ TODO
 To manually delete entries in the `cds.outbox.Messages` table, you can either
 expose it in a service or programmatically modify it using the `cds.outbox.Messages`
 database entity.
+
+::: tip
+Avoid to read all entries of the `cds.outbox.Messages` table at once as the size of an entry is unpredictable
+as it depends on the size of the payload, use paging logic instead.
+:::

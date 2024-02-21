@@ -262,11 +262,6 @@ entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on O
 ```
 
 ## Concurreny Control
-<style scoped>
-  h1:before {
-    content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
-  }
-</style>
 
 Concurreny control allows to protect your data against unexpected concurrent changes.
 

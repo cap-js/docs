@@ -265,7 +265,7 @@ entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on O
 
 Concurreny control allows to protect your data against unexpected concurrent changes.
 
-### Optimisitic Concurreny Control {#optimistic}
+### Optimistic Concurreny Control {#optimistic}
 
 Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on a version value - the _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the versioned entity.
 
@@ -288,7 +288,7 @@ entity Order : cuid {
 
 #### The ETag Predicate {#etag-predicate}
 
-An ETag can also be used programatically in custom code. Use the `CqnEtagPredicate` to specifiy the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.etag` or the `StructuredType.etag` methods.
+An ETag can also be used programatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.etag` or the `StructuredType.etag` methods.
 
 ```java
 PersistenceService db = ...
@@ -304,7 +304,7 @@ if (rs.rowCount() == 0) {
 
 In the example above, an `Order` is updated. The update is protected with a specified ETag value (the expected last modification timestamp). The update is executed only if the expectation is met.
 
-:::warning
+::: warning 
 No exception is thrown if an ETag validation does not match but the execution of the update (or delete) will succeed. Instead, the application has to check the `rowCount` of the `Result`. The value 0 indicates that no row was updated (or deleted).
 :::
 
@@ -318,7 +318,7 @@ The new ETag value can be provided in the update data.
 
 A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime will automatically handle the `@cds.on.update` annoation and will set a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
 
-It is also possible, but not recommened, that the new ETag value is provided by custom code in a `@Before`-update handler.
+It is also possible, but not recommend, that the new ETag value is provided by custom code in a `@Before`-update handler.
 
 :::warning
 If an ETag element is annotated `@cds.on.update` and custom code explicitly sets a value for this element the runtime will _not_ generated a new value upon update but the value, which comes from the custom code will be used.

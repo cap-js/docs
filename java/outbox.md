@@ -170,17 +170,17 @@ Service outboxedService = myCustomOutbox1.outboxed(service);
 
 The outboxed service should be cached, if it is frequently used as outboxing a service is an
 expensive operation. Any service that implements the interface `com.sap.cds.services.Service`
-or an inherited interface can be outboxed. Each call to the outboxed service is asynchronuously
+or an inherited interface can be outboxed. Each call to the outboxed service is asynchronously
 executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
 
 ::: warning _❗ Warning_
 All calls to `run` methods of a service that implements the interface `com.sap.cds.services.cds.CqnService`
-return null since they are executed asynchronuously. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
-should not be called since the result will be lost because of the asynchronuous behaviour of outboxed services.
+return null since they are executed asynchronously. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
+should not be called since the result will be lost because of the asynchronous behaviour of outboxed services.
 :::
 
 A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed
-service are executed synchronuously without storing the event in an outbox.
+service are executed synchronously without storing the event in an outbox.
 
 ::: tip
 Avoid to use one of the default outbox services when outboxing arbitrary CAP services. Configure

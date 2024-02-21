@@ -153,7 +153,17 @@ public class MySpringComponent {
 
 ### Outboxing Arbitrary CAP Services
 
-TODO
+Outbox services support outboxing of arbitrary CAP services. Typical use cases are remote OData
+service calls, but also supports calls to CAP services of an microservice to decouple them from
+the business logic flow.
+
+
+
+::: tip
+Avoid to use one of the default outbox services when outboxing arbitrary CAP services. Configure
+and use custom outboxes instead to avoid delays in outbox entry processing in the case that errors
+occur during processing.
+:::
 
 ### Technical Outbox API
 

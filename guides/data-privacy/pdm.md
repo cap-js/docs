@@ -69,12 +69,12 @@ service PDMService @(path: '/pdm') {
 
   // annotations for Personal Data Manager - Search Fields
   annotate Customers with @(Communication.Contact: {
-      n    : {
-          surname: lastName,
-          given  : firstName
-      },
-      email: EMailAddress //how to use the type here?
-  });
+        n    : {
+            surname: lastName,
+            given  : firstName
+        },
+        email: [{address: email}]
+    });
 
   };
 
@@ -141,14 +141,9 @@ Follow the wizard to create your subscription.
 
 ### Build and Deploy Your Application
 
-:::info Working Notes
-- Rework to MTA Deployment
-- Adapt sample
-:::
-
 The Personal Data Manager can't connect to your application running locally. Therefore, you need to deploy your application. 
 
-The general deployment is described in detail in [Deploy Using Manifest Files](../deployment/to-cf). Here's for short what you need to do.
+The general deployment is described in detail in [Deploy to Cloud Foundry guide](../deployment/to-cf). Here's for short what you need to do.
 
 ### Prepare for Deployment
 

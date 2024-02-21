@@ -127,7 +127,29 @@ cds:
         storeLastError: true
 ```
 
+Afterwards it's possible to get the outbox instances in the source code from the service catalog:
 
+```java
+OutboxService myCustomOutbox1 = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox1");
+OutboxService myOtherCustomOutbox = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyOtherCustomOutbox");
+```
+
+Alternatively it's possible to inject them into a Spring component:
+
+```java
+@Component
+public class MySpringComponent {
+  private final OutboxService myCustomOutbox1;
+  private final OutboxService myOtherCustomOutbox;
+
+  public MySpringComponent(@Qualifier("MyCustomOutbox1") OutboxService myCustomOutbox1;
+    @Qualifier("MyOtherCustomOutbox") OutboxService myOtherCustomOutbox) {
+
+    this.myCustomOutbox1 = myCustomOutbox1;
+    this.myOtherCustomOutbox = myOtherCustomOutbox;
+  }
+}
+```
 
 ### Outboxing Arbitrary CAP Services
 

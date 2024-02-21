@@ -169,7 +169,7 @@ Trace : {
 }
 ```
 
-For example, [`cds-plugins`](cds-serve) can use that to plugin to different parts of the framework for different commands being executed.
+For example, [`cds-plugins`](cds-serve) can use that to plug into different parts of the framework for different commands being executed.
 
 
 
@@ -180,7 +180,7 @@ Provides access to the effective configuration of the current process, transpare
 
 ```console
 [dev] cds repl
-> cds.env.requires.auth // [!code focus]
+> cds.env.requires.auth # [!code focus]
 {
   kind: 'basic-auth',
   strategy: 'mock',
@@ -225,15 +225,17 @@ service ReviewsService {}
 You can access the entries as follows:
 
 ```js
-cds.env.requires.db              //> the effective config for db
-cds.env.requires.reviews         //> the effective config for reviews
-cds.env.requires.ReviewsService  //> undefined
+[dev] cds repl
+>cds.env.requires.db              //> the effective config for db
+>cds.env.requires.reviews         //> the effective config for reviews
+>cds.env.requires.ReviewsService  //> undefined
 ```
 
 ```js
-cds.requires.db                  //> the effective config for db
-cds.requires.reviews             //> the effective config for reviews
-cds.requires.ReviewsService      //> same as cds.requires.reviews
+[dev] cds repl
+>cds.requires.db                  //> the effective config for db
+>cds.requires.reviews             //> the effective config for reviews
+>cds.requires.ReviewsService      //> same as cds.requires.reviews
 ```
 
 The additional entries are useful for code that needs to securely access the service by cds definition name.
@@ -241,8 +243,9 @@ The additional entries are useful for code that needs to securely access the ser
 Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like `Object.keys()` behave different than for `cds.env.requires`:
 
 ```js
-Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
-Object.keys(cds.requires)     //> [ 'ReviewsService' ]
+[dev] cds repl
+>Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
+>Object.keys(cds.requires)     //> [ 'ReviewsService' ]
 ```
 
 

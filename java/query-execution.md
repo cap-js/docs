@@ -293,7 +293,9 @@ An ETag can also be used programatically in custom code. Use the `CqnEtagPredica
 ```java
 PersistenceService db = ...
 Instant expectedLastModification = ... 
-CqnUpdate update = Update.entity(ORDER).entry(newData).where(o -> o.id().eq(85).etag(expectedLastModification));
+CqnUpdate update = Update.entity(ORDER).entry(newData)
+                         .where(o -> o.id().eq(85).and(
+                                     o.etag(expectedLastModification)));
 
 Result rs = db.execute(update);
 
@@ -376,6 +378,10 @@ for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
 }
 ```
+
+:::tip
+If an [ETag predicate](#etag-predicate) is explicitly specified it overrules a version value given in the data.
+:::
 
 ### Pessimistic Locking { #pessimistic-locking}
 

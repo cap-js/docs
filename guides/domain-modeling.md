@@ -387,7 +387,7 @@ In addition, a set of common reuse types and aspects is provided with package [_
 For example, usage is as simple as this:
 
 ```cds
-using { Country } from '@sap/cds/common';
+using { Country, managed } from '@sap/cds/common';
 entity Addresses : managed { //> using reuse aspect
   street  : String;
   town    : String;

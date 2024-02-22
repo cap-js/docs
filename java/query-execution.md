@@ -128,13 +128,9 @@ CqnSelect query = Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_S
 Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and therefore **must not** contain external input!
 :::
 
-
-
-
 ### Data Manipulation
 
 The CQN API allows to manipulate data by executing insert, update, delete, or upsert statements.
-
 
 #### Update
 
@@ -261,17 +257,17 @@ entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
 entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
 
-## Concurreny Control
+## Concurrency Control
 
-Concurreny control allows to protect your data against unexpected concurrent changes.
+ConcuConcurrencyrreny control allows to protect your data against unexpected concurrent changes.
 
-### Optimistic Concurreny Control {#optimistic}
+### Optimistic Concurrency Control {#optimistic}
 
-Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on a version value - the _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the versioned entity.
+Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on a _version_ value - the _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the versioned entity.
 
 #### Optimistic Concurrency Control in OData
 
-In the [OData protocol](../guides/providing-services#etag), the implementation relies on ETags. 
+In the [OData protocol](../guides/providing-services#etag), the implementation relies on `ETags` and `If-Match` headers in the HTTP request. 
 
 The `@odata.etag` annotation indicates to the OData protocol adapter that the value of an annotated element should be [used as the ETag for conflict detection](../guides/providing-services#etag):
 
@@ -288,7 +284,7 @@ entity Order : cuid {
 
 #### The ETag Predicate {#etag-predicate}
 
-An ETag can also be used programatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.etag` or the `StructuredType.etag` methods.
+An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.etag` or the `StructuredType.etag` methods.
 
 ```java
 PersistenceService db = ...
@@ -320,10 +316,10 @@ The new ETag value can be provided in the update data.
 
 A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime will automatically handle the `@cds.on.update` annoation and will set a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
 
-It is also possible, but not recommend, that the new ETag value is provided by custom code in a `@Before`-update handler.
+It is also possible, but not recommended, that the new ETag value is provided by custom code in a `@Before`-update handler.
 
 :::warning
-If an ETag element is annotated `@cds.on.update` and custom code explicitly sets a value for this element the runtime will _not_ generated a new value upon update but the value, which comes from the custom code will be used.
+If an ETag element is annotated `@cds.on.update` and custom code explicitly sets a value for this element the runtime will _not_ generate a new value upon update but the value, which comes from the custom code will be used.
 ::: 
 
 #### Runtime Managed Versions

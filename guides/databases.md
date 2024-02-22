@@ -677,6 +677,8 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 
 The following rules apply:
 
+- The value of the annotation must be a [string literal](../cds/cdl#multiline-literals).
+
 - The compiler doesn't check or process the provided SQL snippets in any way. You're responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
 
 - If you refer to a column name in the annotation, you need to take care of
@@ -688,9 +690,6 @@ The following rules apply:
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
-
-
-
 
 
 ### Reserved Words

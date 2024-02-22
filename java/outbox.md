@@ -63,8 +63,8 @@ Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base mode
 
 CAP Java by default provides two persistent outbox services:
 
--  `DefaultOutboxOrdered` (technical id `OutboxService.PERSISTENT_ORDERED_NAME`) which sequentially processes the messages according to the stored order and
--  `DefaultOutboxUnordered` (technical id `OutboxService.PERSISTENT_UNORDERED_NAME`) which processes the messages in arbitrary order and thus also allows parallelization.
+-  `OutboxService.PERSISTENT_ORDERED_NAME` which is used by default by messaging services and
+-  `OutboxService.PERSISTENT_UNORDERED_NAME` which is used by default by the AuditLog service.
 
 The default configuration for both outboxes can be overridden using the `outbox.services` section in the _application.yaml_:
 
@@ -107,10 +107,6 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 
 ## Generic Outbox
 
-::: tip
-The generic outbox is supported starting with version `com.sap.cds:cds-services-bom:2.7.0`.
-:::
-
 ### Configuring Custom Outboxes
 
 Custom outboxes can be configured using the `outbox.services` section in the _application.yaml_:
@@ -151,13 +147,25 @@ public class MySpringComponent {
 }
 ```
 
-### Outboxing CAP Service Events
+<<<<<<< Updated upstream
+### Outboxing Arbitrary CAP Services
+=======
+::: warning _❗ Warning_
+Removing a custom outbox from the `outbox.services` section in the _application.yaml_ doesn't remove the
+entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and won't get
+processed anymore.
 
-Outbox services support outboxing of arbitrary CAP service events. Typical use cases are remote OData
-service calls, but also calls to other CAP services are supported in order to decouple from business logic flow.
+Before removing a custom outbox, it must be ensured that there a no unprocessed entries left.
+:::
+
+### Outboxing CAP Service Events
+>>>>>>> Stashed changes
+
+Outbox services support outboxing of arbitrary CAP services. Typical use cases are remote OData
+service calls, but also supports calls to other CAP services to decouple them from the business logic flow.
 
 The API `OutboxService.outboxed(Service)` is used to wrap services with outbox handling. Events triggered
-on the wrapper are stored in the outbox first and are executed asynchronously later. Relevant information from
+on the wrapper are stored in the outbox first, and executed asynchronous. Relevant information from
 the `RequestContext` is stored with the event data, however the user context is downgraded to a system user context.
 
 The following example shows how to outbox a CAP Java service:
@@ -170,16 +178,20 @@ Service outboxedService = myCustomOutbox1.outboxed(service);
 
 The outboxed service should be cached, if it is frequently used as outboxing a service is an
 expensive operation. Any service that implements the interface `com.sap.cds.services.Service`
-or an inherited interface can be outboxed. Each call to the outboxed service is asynchronously
+or an inherited interface can be outboxed. Each call to the outboxed service is asynchronous
 executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
 
 ::: warning _❗ Warning_
 All calls to `run` methods of a service that implements the interface `com.sap.cds.services.cds.CqnService`
-return null since they are executed asynchronously. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
+<<<<<<< Updated upstream
+return null since they are executed asynchronous. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
 should not be called since the result will be lost because of the asynchronous behaviour of outboxed services.
+=======
+return null since they are executed asynchronously.
+>>>>>>> Stashed changes
 :::
 
-A service wrapped by an outbox can be unboxed by calling `OutboxService.unboxed(Service)`. Method calls to the unboxed
+A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.
 
 ::: tip
@@ -190,7 +202,47 @@ occur during processing.
 
 ### Technical Outbox API
 
-TODO
+The generic outbox provides the technical API `OutboxService.submit(String event, OutboxMessage)` that can
+be used to outbox custom events.
+When submitting a custom event, an `OutboxMessage` needs to be provided that can contain parameters for the
+event. As the `OutboxMessage` instance is serialized an stored in the database, all data provided in that message
+must be serializable/deserializable. The following example shows the submit of a custom event to an outbox:
+
+```java
+OutboxService outboxService;
+
+OutboxMessage message = OutboxMessage.create();
+Map<String, Object> parameters = new HashMap<>();
+parameters.put("name", "John");
+parameters.put("lastname", "Doe");
+message.setParams(parameters);
+
+outboxService.submit("myEvent", message);
+```
+
+A handler for the custom event must be registered on the outbox service instance do the processing of the
+event as shown in the following example:
+
+```java
+OutboxService outboxService;
+
+outboxService.on("myEvent", null, (ctx) -> {
+  OutboxMessageEventContext context = ctx.as(OutboxMessageEventContext.class);
+  OutboxMessage message = context.getMessage();
+  Map<String, Object> params = message.getParams();
+  String name = (String) param.get("name");
+  String lastname = (String) param.get("lastname");
+
+  // Perform task for myEvent
+
+  ctx.setCompleted();
+});
+```
+
+It must be made sure that the handler is setting the context to completed before returning.
+Also the handler shall only be registered once on the outbox service.
+
+[Learn more about event handlers.](./provisioning-api){.learn-more}
 
 
 ## Troubleshooting

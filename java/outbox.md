@@ -147,9 +147,6 @@ public class MySpringComponent {
 }
 ```
 
-<<<<<<< Updated upstream
-### Outboxing Arbitrary CAP Services
-=======
 ::: warning _❗ Warning_
 Removing a custom outbox from the `outbox.services` section in the _application.yaml_ doesn't remove the
 entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and won't get
@@ -159,7 +156,6 @@ Before removing a custom outbox, it must be ensured that there a no unprocessed 
 :::
 
 ### Outboxing CAP Service Events
->>>>>>> Stashed changes
 
 Outbox services support outboxing of arbitrary CAP services. Typical use cases are remote OData
 service calls, but also supports calls to other CAP services to decouple them from the business logic flow.
@@ -183,12 +179,7 @@ executed, if the API method internally calls the method `com.sap.cds.services.Se
 
 ::: warning _❗ Warning_
 All calls to `run` methods of a service that implements the interface `com.sap.cds.services.cds.CqnService`
-<<<<<<< Updated upstream
-return null since they are executed asynchronous. The method `com.sap.cds.services.cds.CqnService.run(CqnSelect, ...)`
-should not be called since the result will be lost because of the asynchronous behaviour of outboxed services.
-=======
 return null since they are executed asynchronously.
->>>>>>> Stashed changes
 :::
 
 A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed

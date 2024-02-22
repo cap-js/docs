@@ -307,7 +307,7 @@ No exception is thrown if an ETag validation does not match but the execution of
 :::
 
 :::warning
-No ETag checks are execute when an upsert is executed.
+No ETag checks are executed when an upsert is executed.
 :::
 
 #### Providing new ETag Values with Update Data
@@ -324,7 +324,7 @@ If an ETag element is annotated `@cds.on.update` and custom code explicitly sets
 
 #### Runtime Managed Versions
 
-CAP Java also to store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage it's value.
+CAP Java also to store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
 ```cds
 entity Order : cuid {
@@ -337,11 +337,11 @@ entity Order : cuid {
 
 Additionally to elements of type `Timestamp` and `UUID`, `@cds.java.version` supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
 
-Version elements can be used with an [ETag predicate](#etag-predicate) to programatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be for [conflict detection](../guides/providing-services#etag) in OData.
+Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be for [conflict detection](../guides/providing-services#etag) in OData.
 
 ##### Expected Version from Data
 
-If the update data contains a value for a version element this values is used as the _expected_ value for the version. This allows to very conveniently use version elements in programatic flow:
+If the update data contains a value for a version element this values is used as the _expected_ value for the version. This allows to use version elements in programmatic flow conveniently:
 
 ```java
 PersistenceService db = ...

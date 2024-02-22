@@ -63,7 +63,7 @@ Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base mode
 
 CAP Java by default provides two persistent outbox services:
 
--  `OutboxService.PERSISTENT_ORDERED_NAME` which is used by default by messaging services and
+-  `DefaultOutboxOrdered` (technical id `OutboxService.PERSISTENT_ORDERED_NAME`) which sequentially processes the messages according to the stored order and
 -  `DefaultOutboxUnordered` (technical id `OutboxService.PERSISTENT_UNORDERED_NAME`) which processes the messages in arbitrary order and thus also allows parallelization.
 
 The default configuration for both outboxes can be overridden using the `outbox.services` section in the _application.yaml_:

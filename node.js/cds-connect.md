@@ -191,7 +191,7 @@ _**Arguments:**_
 
 _**Caching:**_
 
-Service instances are cached in [`cds.services`](cds-facade#cds-services), thus subsequent connects with the same service name return the initially connected one. As services constructed by [`cds.serve`] are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
+Service instances are cached in [`cds.services`](cds-facade#cds-services), thus subsequent connects with the same service name return the initially connected one. As services constructed by [`cds.serve`](cds-serve#cds-serve) are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
 
 If _ad-hoc_ options are provided, the instance is not cached.
 

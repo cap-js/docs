@@ -267,7 +267,7 @@ entity Departments : temporal {/*...*/}
 When reading employees with all history since 2016, for example:
 
 ```cds
-GET Employees?$sap-valid-from=date'2016-01-01'
+GET Employees?sap-valid-from=date'2016-01-01'
 $expand=jobs(
   $select=validFrom,role&$expand=dept(
     $select=validFrom,name

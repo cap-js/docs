@@ -259,7 +259,7 @@ entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on O
 
 ## Concurrency Control
 
-ConcuConcurrencyrreny control allows to protect your data against unexpected concurrent changes.
+Concurrency control allows to protect your data against unexpected concurrent changes.
 
 ### Optimistic Concurrency Control {#optimistic}
 
@@ -324,7 +324,7 @@ If an ETag element is annotated `@cds.on.update` and custom code explicitly sets
 
 #### Runtime Managed Versions
 
-CAP Java also to store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage it's value.
+CAP Java also to store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
 ```cds
 entity Order : cuid {
@@ -341,7 +341,7 @@ Version elements can be used with an [ETag predicate](#etag-predicate) to progra
 
 ##### Expected Version from Data
 
-If the update data contains a value for a version element this values is used as the _expected_ value for the version. This allows to very conveniently use version elements in programatic flow:
+If the update data contains a value for a version element this values is used as the _expected_ value for the version. This allows to use version elements in programmatic flow conveniently:
 
 ```java
 PersistenceService db = ...

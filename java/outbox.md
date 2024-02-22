@@ -157,7 +157,7 @@ Outbox services support outboxing of arbitrary CAP service events. Typical use c
 service calls, but also calls to other CAP services are supported in order to decouple from business logic flow.
 
 The API `OutboxService.outboxed(Service)` is used to wrap services with outbox handling. Events triggered
-on the wrapper are stored in the outbox first, and executed asynchronously. Relevant information from
+on the wrapper are stored in the outbox first and are executed asynchronously later. Relevant information from
 the `RequestContext` is stored with the event data, however the user context is downgraded to a system user context.
 
 The following example shows how to outbox a CAP Java service:
@@ -179,7 +179,7 @@ return null since they are executed asynchronously. The method `com.sap.cds.serv
 should not be called since the result will be lost because of the asynchronous behaviour of outboxed services.
 :::
 
-A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed
+A service wrapped by an outbox can be unboxed by calling `OutboxService.unboxed(Service)`. Method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.
 
 ::: tip

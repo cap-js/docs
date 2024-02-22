@@ -39,17 +39,18 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)   | `cds init <project>`       |
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
 | Add a feature to an existing project                                            | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
-| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart) | `cds watch`                |
+| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart)       | `cds watch`                |
 | [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
 | Inspect effective configuration                                                 | `cds env`                  |
 | Prepare for deployment                                                          | `cds build`                |
 | Deploy to databases or cloud                                                    | `cds deploy`               |
 | Login to multitenant SaaS application                                           | `cds login <app-url>`      |
+| Upgrade tenant(s) subscribed to a multitenant SaaS app to its latest base model.| `cds upgrade`              |
 | Logout from multitenant SaaS application                                        | `cds logout`               |
 | Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
 | Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |

@@ -267,7 +267,7 @@ Use _optimistic_ concurrency control to detect concurrent modification of data _
 
 #### Optimistic Concurrency Control in OData
 
-In the [OData protocol](../guides/providing-services#etag), the implementation relies on `ETags` and `If-Match` headers in the HTTP request. 
+In the [OData protocol](../guides/providing-services#etag), the implementation relies on `ETag` and `If-Match` headers in the HTTP request. 
 
 The `@odata.etag` annotation indicates to the OData protocol adapter that the value of an annotated element should be [used as the ETag for conflict detection](../guides/providing-services#etag):
 
@@ -284,14 +284,14 @@ entity Order : cuid {
 
 #### The ETag Predicate {#etag-predicate}
 
-An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.etag` or the `StructuredType.etag` methods.
+An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.eTag` or the `StructuredType.eTag` methods.
 
 ```java
 PersistenceService db = ...
 Instant expectedLastModification = ... 
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
-                                     o.etag(expectedLastModification)));
+                                     o.eTag(expectedLastModification)));
 
 Result rs = db.execute(update);
 

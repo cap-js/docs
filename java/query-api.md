@@ -1646,10 +1646,10 @@ The [ETag predicate](../java/query-execution#etag-predicate) specifies expected 
 Instant expectedLastModification = ... ;
 Update.entity(ORDER)
       .entry(newData)
-      .where(o -> o.id().eq(85).and(o.etag(expectedLastModification)));
+      .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
 ```
 
-You can also use the `etag` methods of the `CQL` interface to construct an ETag predicate in [tree style](#cql-helper-interface):
+You can also use the `eTag` methods of the `CQL` interface to construct an ETag predicate in [tree style](#cql-helper-interface):
 
 ```java
 import static com.sap.cds.ql.CQL.*;
@@ -1657,7 +1657,7 @@ import static com.sap.cds.ql.CQL.*;
 Instant expectedLastModification = ... ;
 Update.entity(ORDER)
       .entry(newData)
-      .where(and(get("id").eq(85), etag(expectedLastModification)));
+      .where(and(get("id").eq(85), eTag(expectedLastModification)));
 ```
 
 #### `Logical Operators` {#logical-operators}

@@ -89,8 +89,6 @@ of an entry, is stored. The error is stored in the element `lastError` of the en
 Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 :::
 
-## Generic Outbox
-
 ### Configuring Custom Outboxes { #custom-outboxes}
 
 Custom outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
@@ -156,8 +154,8 @@ CqnService remoteS4 = ...;
 Service outboxedService = myCustomOutbox1.outboxed(service);
 ```
 
-The outboxed service should be cached, if it is frequently used as outboxing a service is an
-expensive operation. Any service that implements the interface `com.sap.cds.services.Service`
+The outboxed service can be cached; caching them is thread-safe.
+Any service that implements the interface `com.sap.cds.services.Service`
 or an inherited interface can be outboxed. Each call to the outboxed service is asynchronous
 executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
 
@@ -169,9 +167,8 @@ A service wrapped by an outbox can be unboxed by calling the API `OutboxService.
 service are executed synchronously without storing the event in an outbox.
 
 ::: tip
-Avoid to use one of the default outbox services when outboxing arbitrary CAP services. Configure
-and use custom outboxes instead to avoid delays in outbox entry processing for the case that errors
-occur during processing.
+The default outbox services can be used for outboxing arbitrary CAP services. If you detect scaling issue,
+you can define custom outboxes that can be used for outboxing.
 :::
 
 ### Outboxing Custom CAP Service Events
@@ -269,10 +266,10 @@ outboxedCustomService.emit(customEventContext);
 ### Technical Outbox API
 
 The generic outbox provides the technical API `OutboxService.submit(String event, OutboxMessage)` that can
-be used to outbox custom events.
-When submitting a custom event, an `OutboxMessage` needs to be provided that can contain parameters for the
-event. As the `OutboxMessage` instance is serialized an stored in the database, all data provided in that message
-must be serializable/deserializable. The following example shows the submit of a custom event to an outbox:
+be used to outbox custom messages.
+When submitting a custom message, an `OutboxMessage` needs to be provided that can contain parameters for the
+event. As the `OutboxMessage` instance is serialized and stored in the database, all data provided in that message
+must be serializable deserializable to JSON. The following example shows the submission of a custom message to an outbox:
 
 ```java
 OutboxService outboxService;
@@ -286,8 +283,8 @@ message.setParams(parameters);
 outboxService.submit("myEvent", message);
 ```
 
-A handler for the custom event must be registered on the outbox service instance do the processing of the
-event as shown in the following example:
+A handler for the custom message must be registered on the outbox service instance to perform do the processing of the
+message as shown in the following example:
 
 ```java
 OutboxService outboxService;

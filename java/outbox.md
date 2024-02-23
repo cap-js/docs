@@ -107,7 +107,7 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 
 ## Generic Outbox
 
-### Configuring Custom Outboxes
+### Configuring Custom Outboxes { #custom-outboxes}
 
 Custom outboxes can be configured using the `outbox.services` section in the _application.yaml_:
 

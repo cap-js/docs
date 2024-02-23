@@ -203,7 +203,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> To speed up development. Not for productive use! <br>
 
-> You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
+> Note: You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 
 <!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
 | [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |

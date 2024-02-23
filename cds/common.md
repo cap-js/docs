@@ -198,7 +198,7 @@ type Timezone : Association to sap.common.Timezones;
 
 As seen in the previous section, the reuse types `Country`, `Currency`, and `Language` are defined as associations to respective code list entities. They act as code list tables for respective elements in your domain model.
 
-> You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
+> Note: You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
 
 #### Namespace: `sap.common`
 

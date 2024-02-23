@@ -152,7 +152,7 @@ Removing a custom outbox from the `outbox.services` section in the _application.
 entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and won't get
 processed anymore.
 
-Before removing a custom outbox, it must be ensured that there a no unprocessed entries left.
+Before removing a custom outbox, it must be ensured that there are no unprocessed entries left.
 :::
 
 ### Outboxing CAP Service Events

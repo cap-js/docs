@@ -347,7 +347,7 @@ Rendering a `null` value must be done as dynamic expression:
 
 ### Records
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
 
 Record-like source structures are mapped to `<Record>` nodes in EDMX, with primitive types translated analogously to the above:
 
@@ -427,7 +427,7 @@ To overwrite the default, use an explicit `$Type` like shown previously.
 
 ### Collections
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
 
 Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as direct elements of the array, these elements are wrapped into individual primitive child nodes of the resulting collection as is. The rules for records and collections are applied recursively:
 
@@ -456,7 +456,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ### References
 
->  The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
 References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
 

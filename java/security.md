@@ -60,17 +60,56 @@ In addition, your application needs to be bound to corresponding service instanc
    * accept tokens issued by XSUAA and IAS --> bind your application to service instances of both types.
 
 ::: tip Specify Binding
-CAP Java picks only a single binding of each type. If you have multiple XSUAA or IAS bindings, choose a specific binding with property `cds.security.xsuaa.binding`respectively `cds.security.identity.binding`.
+CAP Java picks only a single binding of each type. If you have multiple XSUAA or IAS bindings, choose a specific binding with property `cds.security.xsuaa.binding` respectively `cds.security.identity.binding`.
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
 ### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
-CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). As the spring-xsuaa library is deprecated, it is recommended to move to `cds-feature-identity`.
+CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). 
+As the spring-xsuaa library is deprecated, it is recommended to move to `cds-feature-identity`.
 
-To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` and follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
-::: tip Backward Compatibility: Exclude Dependencies When Using Bundles
-If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`. Otherwise, `cds-feature-xsuaa` will take priority over `cds-feature-identity` for backward compatibility.
+To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` as `cds-feature-xsuaa` will take priority over `cds-feature-identity` for backward compatibility.
+If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`:
+
+::: code-group
+
+```xml [srv/pom.xml (cds-starter-cloudfoundry)]
+<dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-cloudfoundry</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>com.sap.cds</groupId>
+            <artifactId>cds-feature-xsuaa</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+```xml [srv/pom.xml (cds-starter-k8s)]
+<dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-k8s</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>com.sap.cds</groupId>
+            <artifactId>cds-feature-xsuaa</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
 :::
+
+After that follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 

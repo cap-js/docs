@@ -34,7 +34,7 @@ Alternatively, you can even configure test on integration level to be executed l
 
 The following diagram illustrates the modular stack architecture and highlights the generic components:
 
-<img src="./assets/modularized-architecture.png" width="600px" alt="The graphic is explained in the accompanying text.">
+<img src="./developing-applications/assets/modularized-architecture.png" width="600px" alt="The graphic is explained in the accompanying text.">
 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
 
@@ -249,6 +249,6 @@ An example of a CAP application with OData V4 on Cloud Foundry environment:
 ### Custom Modules { #custom-modules }
 
 The plugin technique for the [standard modules](#standard-modules) can be used for custom modules in the same way.
-By adding an additional dependency in the application project to the custom Maven module, the loaded module automatically adds functionality (usually handlers or providers) or extensions to the CDS model. 
+By adding an additional dependency in the application project to the custom Maven module, the loaded module automatically adds functionality (usually handlers or providers) or extensions to the CDS model.
 
 [Learn more about the CAP Java plugin technique.](../java/plugins){ .learn-more}

@@ -759,7 +759,7 @@ Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
 
 Not every entity exposed via a CDS entity can be locked with the `lock()` clause. To use the `lock()` clause, databases require that the target of such statements is represented by one of the following:
-- a single table 
+- a single table
 - a simple view, so that the database can unambiguously identify which rows to lock
 
 Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.

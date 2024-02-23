@@ -9,7 +9,7 @@ synopsis: How to publish APIs in different formats
 
 
 <script setup>
-import { data as pages } from './index.data.js'
+import { data as pages } from './index.data.ts'
 </script>
 
 <br>

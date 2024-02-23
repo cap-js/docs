@@ -9,51 +9,40 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Hybrid Testing { #hybrid-testing}
 
-## Introduction
+CAP enables you to run and test your CAP application using a local SQLite database and mocks to a large extent. However, you might want to test with actual cloud services at some point.
 
-You can easily test your CAP application using a local database and mock ups. But at some point, you're going to want to test with real cloud services. Of course, you can always deploy your application to the cloud.
-
-With  **hybrid testing** capabilities, you can stay in your local development environment and avoid the long turnaround times of cloud deployment, and you can selectively decide which services you want to use from the cloud.
-
-Use the `cds bind` command to connect your application to services on the cloud. Start your application with the `hybrid` profile to use these service bindings. You can switch between local mock configuration and cloud service configuration by simply setting or omitting the profile parameter.
+**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud.
 
 ## Bind to Cloud Services
 
 ### Services on Cloud Foundry
 
 ```sh
-cds bind -2 my-hana:my-hana-key
+cds bind -2 bookshop-db
 ```
 
-Binds your local CAP application to the service key `my-hana-key` of the service instance `my-hana`, using your currently targeted Cloud Foundry space. The service instance `my-hana` is a _managed_ service.
-cds bind also supports Cloud Foundry _user-provided_ services.
+Binds your local CAP application to the service `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
+
+::: tip `cds bind` automatically creates a service key for you
+If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
+:::
 
 [Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#connection-failed-89008){.learn-more}
-[Learn how to bind to user-provided services on Cloud Foundry.](#binding-user-provided-services){.learn-more}
 
 Output:
 
 ```log
 [bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding db to Cloud Foundry managed service my-hana:my-hana-key with kind hana.
+[bind] - Binding db to Cloud Foundry managed service bookshop-db:bookshop-db-key with kind hana.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-**Note:** The service key needs to be created beforehand as it is not created by default when using _mta_ deployment.
+For most commonly used services, CAP can automatically infer the service type and kind — in our example, the `db` CDS service is bound and set to the `hana` kind without additional parameters.
 
-::: tip
-You can omit `:my-hana-key` here, because the key name is just the name of the instance with `-key` added.
-:::
-
-In many cases, CAP knows which CDS service and kind to use for a cloud service. Like in the previous example, the `db` CDS service gets bound and set to the `hana` kind, because the given service instance is of type `hana` with plan `hdi-shared`.
-
-[Learn how to bind to arbitrary cloud services.](#with-cds-service-and-kind){.learn-more}
-
-The binding information is stored in the _.cdsrc-private.json_ file of your project in the `requires` section:
-
-```json
+::: code-group
+```json {5}[.cdsrc-private.json]
 {
   "requires": {
     "[hybrid]": {
@@ -64,8 +53,8 @@ The binding information is stored in the _.cdsrc-private.json_ file of your proj
           "apiEndpoint": "https://api.sap.hana.ondemand.com",
           "org": "your-cf-org",
           "space": "your-cf-space",
-          "instance": "my-hana",
-          "key": "my-hana-key",
+          "instance": "bookshop-db",
+          "key": "bookshop-db-key",
           "vcap": {
             "label": "hana",
             "plan": "hdi-shared"
@@ -77,12 +66,13 @@ The binding information is stored in the _.cdsrc-private.json_ file of your proj
   }
 }
 ```
+:::
 
 Bindings are assigned to the `hybrid` profile by default.
 
-Note that no credentials are saved. Only the information about **where the credentials can be obtained** is stored on your machine.
-
-[All `cds bind` command line options](#cds-bind-usage){.learn-more}
+::: tip No credentials are saved on-disk
+Only the information about **where the credentials can be obtained** is stored on your machine.
+:::
 
 #### User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
@@ -90,7 +80,7 @@ Note that no credentials are saved. Only the information about **where the crede
 cds bind my-ups -2 my-user-provided-service
 ```
 
-Binds your local CAP application to the user provided service instance `my-user-provided-service`, using your currently targeted Cloud Foundry space. The service name `my-ups` is optional - it has to match the service name used in the CDS `required` services configuration.
+Binds your local CAP application to the user provided service instance `my-user-provided-service`. The service name `my-ups` has to match the service name used in the CDS `requires` service configuration.
 
 Output:
 
@@ -110,7 +100,7 @@ Output:
 You can bind to **Service Bindings** of Open Service Broker service instances, such as SAP BTP services, on your Kubernetes cluster and to plain Kubernetes **Secrets** by adding the `--on k8s` option to the `cds bind` command:
 
 ```sh
-cds bind -2 <service binding or secret> --on k8s
+cds bind -2 ‹service binding or secret› --on k8s
 ```
 
 The command uses your current Kubernetes context. That is your current server and namespace. You need to be logged in as a precondition.
@@ -120,21 +110,21 @@ The command uses your current Kubernetes context. That is your current server an
 To list all **Service Bindings** in your current Kubernetes context, you can use the `kubectl get servicebindings` command:
 
 ```log
-NAME                  SERVICE-INSTANCE      SECRET-NAME           STATUS   AGE
-cpapp-xsuaa-binding   cpapp-xsuaa           cpapp-xsuaa-secret    Ready    11s
+NAME                   SERVICE-INSTANCE  SECRET-NAME           STATUS  AGE
+bookshop-auth-binding  bookshop-auth     bookshop-auth-secret  Ready   11s
 ```
 
 Use the service binding name for the `-2` option:
 
 ```sh
-cds bind -2 cpapp-xsuaa-binding --on k8s
+cds bind -2 bookshop-auth-binding --on k8s
 ```
 
 Output:
 
 ```log
 [bind] - Retrieving data from Kubernetes...
-[bind] - Binding uaa to Kubernetes service binding cpapp-xsuaa-binding with kind xsuaa
+[bind] - Binding uaa to Kubernetes service binding bookshop-auth-binding with kind xsuaa
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
@@ -142,18 +132,19 @@ Output:
 
 The binding information is stored in the _.cdsrc-private.json_ file of your project in the `requires` section:
 
-```json
+::: code-group
+```json [.cdsrc-private.json]
 {
   "requires": {
     "[hybrid]": {
       "auth": {
         "binding": {
           "type": "k8s",
-          "name": "cpapp-xsuaa-binding",
+          "name": "bookshop-auth-binding",
           "cluster": "https://apiserver.d9a6204.kyma-stage.shoot.live.k8s-hana.ondemand.com",
-          "instance": "cpapp-xsuaa",
+          "instance": "bookshop-auth",
           "namespace": "dev",
-          "secret": "cpapp-xsuaa-secret",
+          "secret": "bookshop-auth-secret",
           "resolved": false,
           "vcap": {
             "label": "xsuaa",
@@ -166,6 +157,7 @@ The binding information is stored in the _.cdsrc-private.json_ file of your proj
   }
 }
 ```
+:::
 
 #### Bind to Kubernetes Secrets
 
@@ -175,7 +167,7 @@ You can use the `kubectl get secrets` command to list all secrets in your curren
 
 ```log
 NAME                                    TYPE                                  DATA   AGE
-cap-hdi-container                       Opaque                                11     44h
+bookshop-db                       Opaque                                11     44h
 ```
 
 Use the secret name for the `-2` option.
@@ -183,21 +175,21 @@ Use the secret name for the `-2` option.
 You need to provide either the service argument or the `--kind` option as well, because secrets have no service metadata.
 
 ```sh
-cds bind -2 cap-hdi-container --on k8s --kind hana
+cds bind -2 bookshop-db --on k8s --kind hana
 ```
 
 Output:
 
 ```log
 [bind] - Retrieving data from Kubernetes...
-[bind] - Binding db to Kubernetes secret cap-hdi-container with kind hana
+[bind] - Binding db to Kubernetes secret bookshop-db with kind hana
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-::: warning
-If a service binding with the same name exists, `cds bind` will connect to the service binding instead.
+::: warning Service bindings take precedence
+If a service binding with the same name as the Kubernetes secret exists, `cds bind` will connect to the service binding instead.
 :::
 
 ## Run with Service Bindings
@@ -211,8 +203,8 @@ cds watch --profile hybrid
 ```
 
 It will resolve the cloud bindings in your configuration:
-1. **Bindings to Cloud Foundry:** The credentials are downloaded from the service key of the Cloud Foundry API endpoint, org, and space that were targeted when `cds bind` was being called. This requires you to be logged in to the correct Cloud Foundry API endpoint.
-2. **Bindings to Kubernetes:** The credentials are downloaded from the service bindings and secrets of the Kubernetes cluster and namespace that were in the current context when `cds bind` was being called.
+1. **Bindings to Cloud Foundry:** The credentials are downloaded from the service key of the Cloud Foundry API endpoint, org, and space that were targeted when `cds bind` was called. This requires you to be logged in to the correct Cloud Foundry API endpoint.
+2. **Bindings to Kubernetes:** The credentials are downloaded from the service bindings and secrets of the Kubernetes cluster and namespace that were in the current context when `cds bind` was called.
 
 You can also resolve and display credentials using the `cds env` command:
 
@@ -241,9 +233,9 @@ Example output:
 
 ### Run Arbitrary Commands with Service Bindings
 
-With `cds bind` you avoid storing credentials on your hard disk. If you need to start other applications with cloud service bindings from local, then you can use the [`exec` sub command](#cds-bind-exec) of `cds bind`.
+With `cds bind` you avoid storing credentials on your hard disk. If you need to start other local applications with cloud service bindings, you can use the `exec` option.
 
-For example, you can run the approuter from the `approuter` child directory:
+For example, you can run the approuter from an `approuter` child directory:
 
 ::: code-group
 ```sh [Mac/Linux]
@@ -257,7 +249,7 @@ cds bind --exec '--' npm start --prefix approuter
 ```
 :::
 
-This works by building up a `VCAP_SERVICES` variable from the bindings in the chosen profiles (default: `hybrid`). You can run the following command to print the content of the generated `VCAP_SERVICES` variable:
+This works by constructing a `VCAP_SERVICES` environment variable. You can output the content of this variable as follows:
 
 ::: code-group
 ```sh [Mac/Linux]
@@ -273,9 +265,7 @@ cds bind --exec '--' node -e 'console.log(process.env.VCAP_SERVICES)'
 
 ### Run CAP Java Apps with Service Bindings
 
-Start your CAP Java application with the [`cds bind --exec` command](#cds-bind-exec) to use the service bindings.
-
-For example:
+Start your CAP Java application with `cds bind --exec` to use remote service bindings:
 
 ```sh
 cds bind --exec mvn spring-boot:run
@@ -283,19 +273,11 @@ cds bind --exec mvn spring-boot:run
 
 ### Bindings from a Cloud Application
 
-Instead of binding to specific cloud services, you can run your application with all service bindings of an application on the SAP BTP, Cloud Foundry environment.
-
-::: tip
-But you need to have (1) your application deployed, and (2) be logged in to your Cloud Foundry space using the `cf` command line.
-:::
-
-For example, you can use the following syntax with `bash` or similar shells:
+Instead of binding to specific cloud services, you can bind to all supported service bindings of an application running on the SAP BTP Cloud Foundry environment:
 
 ```sh
-VCAP_SERVICES=$(cf env <CF-APP-NAME> | perl -0pe '/VCAP_SERVICES:(.*?)VCAP_APPLICATION:/smg; $_=$1') cds watch --profile hybrid
+cds bind --to-app-services bookshop-srv
 ```
-
-Your profile should have the `kind` settings to use the bound services, for example `requires.db = hana`.
 
 ## `cds bind` Usage { #cds-bind-usage}
 
@@ -304,20 +286,18 @@ Your profile should have the `kind` settings to use the bound services, for exam
 The shortest way to use `cds bind` is to specify only the Cloud Foundry service instance name:
 
 ```sh
-cds bind -2 my-hana
+cds bind -2 bookshop-db
 ```
-
-This implies that a service key exists with the suffix `-key`. In this example: `my-hana-key`.
 
 You can specify a different key after a colon ("`:`"):
 
 ```sh
-cds bind -2 my-hana:my-different-key
+cds bind -2 bookshop-db:my-custom-key
 ```
 
 ### With CDS Service and Kind
 
-If `kind` or CDS `service` cannot be determined automatically by `cds bind`, you need to specify it:
+If `kind` or CDS service cannot be determined automatically by `cds bind`, you need to specify it:
 
 ```sh
 cds bind credstore -2 my-credstore --kind credstore
@@ -373,85 +353,13 @@ The `--profile` parameter must follow `exec` directly.
 
 Most of the following use cases are shown for Node.js, but can be easily adapted for Java.
 
-<!--
-
-@TODO: will be added back once "cds deploy --bind" is available
-
-### HANA
-
-If you want to test your application with a real SAP HANA database, do the following steps.
-
-**Preconditions**<br />
-You need to have access to a SAP HANA Cloud instance from your Cloud Foundry space and the instance is configured to be accessible from your computer's IP.
-:::
-
-1. Log into your desired Cloud Foundry org and space
-
-2. Deploy HANA data base content:
-
-    > **TODO: Concept** - Since the HDI container and service key might not exists, it is more convenient to add the bind option to the `cds deploy` command. By this `cds bind` knows not to save the credentials into _default-env.json_ file. Without the `--bind` option, it still saved the _default-env.json_ file but should add a deprecation warning that this will be removed in future.
-
-    ```sh
-    cds deploy --to hana --bind
-    ```
-
-    HDI container and service key is automatically created if it doesn't exists yet. See `cds deploy` documentation for further information.
-
-    The `--bind` option creates a service binding to the HDI container in the `hybrid` profile. You can choose a different profile with the `--profile` option.
-
-3. Run your CAP service with HANA data base:
-
-    ```sh
-    cds watch --profile hybrid
-    ```
-
-
-> **TODO:** How to handle subsequent `cds deploy` commands? Should we detect the `hybrid` profile and re-use the binding for the deployment. This needs to be thought to the end...
-
--->
-
 ### Destinations
 
-Learn how to [connect to remote services from local
-](../guides/using-services#connect-to-remote-services-locally) using SAP BTP destinations.
+Learn how to [connect to remote services locally](../guides/using-services#connect-to-remote-services-locally) using SAP BTP destinations.
 
 ### Authentication and Authorization using XSUAA
 
 Learn how to do hybrid testing using the XSUAA service in the [CAP Node.js authentication documentation](../node.js/authentication#xsuaa-setup).
-
-<!--
-
-Needs to be tested -> Next release
-
-### CAP Java Multi-Tenancy
-
-This example assumes that XSUAA is used for authentication. However, this will require a subscription of the application using SaaS registry. Otherwise you won't be able to login. Alternatively, the approuter is not setup as SaaS but as ordinary application.
-
-Bind to XSUAA and Service Manager:
-
-```sh
-cds bind -2 cpapp-xsuaa,cpapp-service-manager
-```
-
-Run Java CAP service with cloud service bindings:
-
-```sh
-cds bind --exec -- mvn spring-boot:run -Dmtx.url=http://localhost:4004
-```
-
-If MTX is setup as an sub project with an own _package.json_, you need to run it using `cds bind --exec` to use the bindings from the main project:
-
-```sh
-cds bind --exec cds watch mtx
-```
-
-Run approuter with cloud service bindings:
-
-```sh
-cds bind --exec -- "npm start --prefix approuter"
-```
-
--->
 
 ### Integration Tests
 

@@ -204,11 +204,11 @@ Using literals in CDS models is commonly used, for example, to set default value
 [Learn more about literals and their representation in CSN.](./csn#literals){.learn-more}
 
 
-#### Multiline String Literals
+#### String Literals
 {#multiline-literals}
 
 String literals enclosed in single ticks, for example `'string'`,
-are limited to a single line.
+are limited to a single line. A single tick `'` inside the literal is escaped by doubling it: `'it''s escaped`.
 
 Use string literals enclosed in single or triple **backticks** for multiline strings. Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). Only for string literals inside triple backticks, indentation is stripped and tagging is possible.
 

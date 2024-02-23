@@ -66,7 +66,7 @@ CAP Java by default provides two persistent outbox services:
 -  `OutboxService.PERSISTENT_ORDERED_NAME` which is used by default by messaging services and
 -  `OutboxService.PERSISTENT_UNORDERED_NAME` which is used by default by the AuditLog service.
 
-The default configuration for both outboxes can be overridden using the `outbox.services` section in the _application.yaml_:
+The default configuration for both outboxes can be overridden using the `cds.outbox.services` section, for example in the _application.yaml_:
 
 ```yaml
 cds:
@@ -85,22 +85,6 @@ You have the following configuration options:
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
-::: warning _❗ Warning_
-The configuration section `outbox.persistent` in the _application.yaml_ is deprecated. If it is still available in the
-_application.yaml_ it will be taken as a default, if none of the aforementioned outboxes configured explicitly:
-
-```yaml
-cds:
-  outbox:
-    persistent:
-      enabled: true
-      maxAttempts: 10
-      storeLastError: true
-```
-
-If `enabled` (default `true`) is set to `false`, no persistent outbox will be created.
-:::
-
 ::: tip
 Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 :::
@@ -109,7 +93,7 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
-Custom outboxes can be configured using the `outbox.services` section in the _application.yaml_:
+Custom outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
 
 ```yaml
 cds:
@@ -123,7 +107,7 @@ cds:
         storeLastError: true
 ```
 
-Afterwards it's possible to get the outbox instances in the source code from the service catalog:
+Afterwards you can access the outbox instances from the service catalog:
 
 ```java
 OutboxService myCustomOutbox1 = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox1");
@@ -148,7 +132,7 @@ public class MySpringComponent {
 ```
 
 ::: warning _❗ Warning_
-Removing a custom outbox from the `outbox.services` section in the _application.yaml_ doesn't remove the
+Removing a custom outbox from the `cds.outbox.services` section doesn't remove the
 entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and won't get
 processed anymore.
 
@@ -168,7 +152,7 @@ The following example shows how to outbox a CAP Java service:
 
 ```java
 OutboxService myCustomOutbox1 = ...;
-Service service = ...;
+CqnService remoteS4 = ...;
 Service outboxedService = myCustomOutbox1.outboxed(service);
 ```
 
@@ -178,11 +162,10 @@ or an inherited interface can be outboxed. Each call to the outboxed service is 
 executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
 
 ::: warning _❗ Warning_
-All calls to `run` methods of a service that implements the interface `com.sap.cds.services.cds.CqnService`
-return null since they are executed asynchronously.
+All calls to `CqnService.run` methods will return null since they are executed asynchronously.
 :::
 
-A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`; method calls to the unboxed
+A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`. Method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.
 
 ::: tip

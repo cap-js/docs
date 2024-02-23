@@ -97,7 +97,7 @@ Custom outboxes can be configured using the `cds.outbox.services` section, for e
 cds:
   outbox:
     services:
-      MyCustomOutbox1:
+      MyCustomOutbox:
         maxAttempts: 5
         storeLastError: false
       MyOtherCustomOutbox:
@@ -108,7 +108,7 @@ cds:
 Afterwards you can access the outbox instances from the service catalog:
 
 ```java
-OutboxService myCustomOutbox1 = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox1");
+OutboxService myCustomOutbox = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox");
 OutboxService myOtherCustomOutbox = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyOtherCustomOutbox");
 ```
 
@@ -117,14 +117,10 @@ Alternatively it's possible to inject them into a Spring component:
 ```java
 @Component
 public class MySpringComponent {
-  private final OutboxService myCustomOutbox1;
-  private final OutboxService myOtherCustomOutbox;
+  private final OutboxService myCustomOutbox;
 
-  public MySpringComponent(@Qualifier("MyCustomOutbox1") OutboxService myCustomOutbox1;
-    @Qualifier("MyOtherCustomOutbox") OutboxService myOtherCustomOutbox) {
-
-    this.myCustomOutbox1 = myCustomOutbox1;
-    this.myOtherCustomOutbox = myOtherCustomOutbox;
+  public MySpringComponent(@Qualifier("MyCustomOutbox") OutboxService myCustomOutbox) {
+    this.myCustomOutbox = myCustomOutbox;
   }
 }
 ```
@@ -149,9 +145,9 @@ the `RequestContext` is stored with the event data, however the user context is 
 The following example shows how to outbox a CAP Java service:
 
 ```java
-OutboxService myCustomOutbox1 = ...;
+OutboxService myCustomOutbox = ...;
 CqnService remoteS4 = ...;
-Service outboxedService = myCustomOutbox1.outboxed(service);
+CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
 The outboxed service can be cached; caching them is thread-safe.

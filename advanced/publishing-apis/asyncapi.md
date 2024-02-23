@@ -12,6 +12,7 @@ status: released
     table {
       min-width: fit-content;
       width: max-content;
+      position: relative; z-index: 10; /* make the wide table flow over the aside section on the right */
     }
   }
 </style>
@@ -56,17 +57,17 @@ Use presets to add configuration for the AsyncAPI export tooling.
 ```
 :::
 
-Term | Preset Target | AsyncAPI field | Remarks
------|-------------------|-------------- | ------------
-`merged.title` | Service | info.title | Mandatory when `--asyncapi:merged` flag is given. `title` from here is used in the generated AsyncAPI document.
-`merged.version` | Service | info.version | Mandatory when `--asyncapi:merged` flag is given. `version` from here is used in the generated AsyncAPI document
-`merged.description` | Service | info.description | Optional when `--asyncapi:merged` flag is given. `description` from here is used in the generated AsyncAPI document.
-`merged.short_text` | Service | x-sap-shortText | Optional when `--asyncapi:merged` flag is given. The value from here is used in the generated AsyncAPI document.
-`application_namespace` | Document | x-sap-application-namespace | Mandatory
-`event_spec_version` | Event | x-sap-event-spec-version |
-`event_source` | Event | x-sap-event-source |
-`event_source_params` | Event | x-sap-event-source-parameters |
-`event_characteristics` | Event | x-sap-event-characteristics |
+| Term                    | Preset Target | AsyncAPI field                | Remarks                                                                                                                  |
+|-------------------------|---------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `merged.title`          | Service       | info.title                    | Mandatory when `--asyncapi:merged` flag is given.<br> `title` from here is used in the generated AsyncAPI document.      |
+| `merged.version`        | Service       | info.version                  | Mandatory when `--asyncapi:merged` flag is given.<br> `version` from here is used in the generated AsyncAPI document     |
+| `merged.description`    | Service       | info.description              | Optional when `--asyncapi:merged` flag is given.<br> `description` from here is used in the generated AsyncAPI document. |
+| `merged.short_text`     | Service       | x-sap-shortText               | Optional when `--asyncapi:merged` flag is given.<br> The value from here is used in the generated AsyncAPI document.     |
+| `application_namespace` | Document      | x-sap-application-namespace   | Mandatory                                                                                                                |
+| `event_spec_version`    | Event         | x-sap-event-spec-version      |                                                                                                                          |
+| `event_source`          | Event         | x-sap-event-source            |                                                                                                                          |
+| `event_source_params`   | Event         | x-sap-event-source-parameters |                                                                                                                          |
+| `event_characteristics` | Event         | x-sap-event-characteristics   |                                                                                                                          |
 
 ## Annotations { #annotations}
 
@@ -76,20 +77,20 @@ Use annotations to add configuration for the AsyncAPI export tooling.
 Annotations will take precedence over [presets](#presets).
 :::
 
-Term (`@AsyncAPI.`)| Annotation Target | AsyncAPI field | Remarks
------|-------------------|-------------- | ----------
-`Title` | Service | info.title | Mandatory
-`SchemaVersion` | Service | info.version | Mandatory
-`Description` | Service | info.description |
-`StateInfo` | Service | x-sap-stateInfo |
-`ShortText` | Service | x-sap-shortText |
-`EventSpecVersion` | Event | x-sap-event-spec-version |
-`EventSource` | Event | x-sap-event-source |
-`EventSourceParams` | Event | x-sap-event-source-parameters |
-`EventCharacteristics` | Event | x-sap-event-characteristics |
-`EventStateInfo` | Event | x-sap-stateInfo |
-`EventSchemaVersion` | Event | x-sap-event-version |
-`EventType` | Event | | Optional; The value from this annotation will be used to overwrite the default event type in the AsyncAPI document.
+| Term (`@AsyncAPI.`)    | Annotation Target | AsyncAPI field                | Remarks                                                                                                                 |
+|------------------------|-------------------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `Title`                | Service           | info.title                    | Mandatory                                                                                                               |
+| `SchemaVersion`        | Service           | info.version                  | Mandatory                                                                                                               |
+| `Description`          | Service           | info.description              |                                                                                                                         |
+| `StateInfo`            | Service           | x-sap-stateInfo               |                                                                                                                         |
+| `ShortText`            | Service           | x-sap-shortText               |                                                                                                                         |
+| `EventSpecVersion`     | Event             | x-sap-event-spec-version      |                                                                                                                         |
+| `EventSource`          | Event             | x-sap-event-source            |                                                                                                                         |
+| `EventSourceParams`    | Event             | x-sap-event-source-parameters |                                                                                                                         |
+| `EventCharacteristics` | Event             | x-sap-event-characteristics   |                                                                                                                         |
+| `EventStateInfo`       | Event             | x-sap-stateInfo               |                                                                                                                         |
+| `EventSchemaVersion`   | Event             | x-sap-event-version           |                                                                                                                         |
+| `EventType`            | Event             |                               | Optional; The value from this annotation will be used to<br> overwrite the default event type in the AsyncAPI document. |
 
 For example:
 

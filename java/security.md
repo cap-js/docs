@@ -109,7 +109,7 @@ If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter
 
 :::
 
-After that follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
+Now follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 

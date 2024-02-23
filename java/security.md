@@ -68,7 +68,7 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). 
 As the spring-xsuaa library is deprecated, it is recommended to move to `cds-feature-identity`.
 
-To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` as `cds-feature-xsuaa` will take priority over `cds-feature-identity` for backward compatibility.
+As `cds-feature-xsuaa` still takes priority over `cds-feature-identity` for backward compatibility, remove all existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter`.
 If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`:
 
 ::: code-group

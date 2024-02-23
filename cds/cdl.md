@@ -142,7 +142,7 @@ type EmailAddresses : many { kind:String; address:String; }
 type EmailAddress : { kind:String; address:String; }
 ```
 
-> Note: Keywords `many` and `array of` are mere syntax variants with identical semantics and implementations.
+> Keywords `many` and `array of` are mere syntax variants with identical semantics and implementations.
 
 When deployed to SQL databases, such fields are mapped to [LargeString](types) columns and the data is stored denormalized as JSON array.
 With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
@@ -251,7 +251,7 @@ entity ![Entity] {
 }
 ```
 
-> Note: You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
+> You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
 
@@ -640,7 +640,7 @@ entity Addresses {
 }
 ```
 
-> Note: The backlink can be any managed to-one association on the _many_ side pointing back to the _one_ side.
+> The backlink can be any managed to-one association on the _many_ side pointing back to the _one_ side.
 
 
 ### Many-to-many Associations

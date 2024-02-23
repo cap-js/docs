@@ -92,6 +92,11 @@ In section [CDS-Declared Events](#cds-declared-events), we show how to declare e
 The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
 :::
 
+::: tip
+It is possible to configure a [custom outbox](./outbox#custom-outboxes) for a messaging service by setting the property
+`cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This especially makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels).
+:::
+
 
 ## Receiving
 
@@ -668,7 +673,7 @@ The way how unsuccessfully delivered messages are treated, fully depends on the 
 Not all messaging brokers provide the acknowledgement support. This means, the result of the error handler has no effect for the messaging broker.
 
 | Messaging Broker                                       | Support |         Cause          |
-|--------------------------------------------------------|:-------:|:----------------------:|
+| ------------------------------------------------------ | :-----: | :--------------------: |
 | [File Base Messaging](#local-testing)                  |  <Na/>  |                        |
 | [Event Mesh](#configuring-sap-event-mesh-support)      |  <X/>   | removed from the queue |
 | [Message Queuing](#configuring-sap-event-mesh-support) |  <X/>   | removed from the queue |

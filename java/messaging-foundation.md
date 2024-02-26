@@ -94,7 +94,7 @@ The messages are sent once the transaction is successful. Per default, an in-mem
 
 ::: tip
 It is possible to configure a [custom outbox](./outbox#custom-outboxes) for a messaging service by setting the property
-`cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This especially makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels).
+`cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels) in particular.
 :::
 
 

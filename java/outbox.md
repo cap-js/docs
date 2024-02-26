@@ -169,11 +169,11 @@ you can define custom outboxes that can be used for outboxing.
 
 ## Technical Outbox API
 
-Each outbox service provides the technical API `OutboxService.submit(String, OutboxMessage)` that can
-be used to outbox custom messages.
+Outbox services provides the technical API `OutboxService.submit(String, OutboxMessage)` that can
+be used to send custom messages via outbox.
 When submitting a custom message, an `OutboxMessage` needs to be provided that can contain parameters for the
 event. As the `OutboxMessage` instance is serialized and stored in the database, all data provided in that message
-must be serializable/deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
+must be serializable and deserializable to respectively from JSON. The following example shows the submission of a custom message to an outbox:
 
 ```java
 OutboxService outboxService;
@@ -220,5 +220,5 @@ database entity.
 
 ::: tip
 Avoid to read all entries of the `cds.outbox.Messages` table at once as the size of an entry is unpredictable
-as it depends on the size of the payload, use paging logic instead.
+and depends on the size of the payload. Prefer paging logic instead.
 :::

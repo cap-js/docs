@@ -259,7 +259,7 @@ entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on O
 
 ## Concurrency Control
 
-Concurrency control allows to protect your data against unexpected concurrent changes.
+Concurrency control allows protecting your data against unexpected concurrent changes.
 
 ### Optimistic Concurrency Control {#optimistic}
 
@@ -284,7 +284,7 @@ entity Order : cuid {
 
 #### The ETag Predicate {#etag-predicate}
 
-An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. You can create an ETag predicate using the `CQL.eTag` or the `StructuredType.eTag` methods.
+An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. ETag checks are not executed on upsert. You can create an ETag predicate using the `CQL.eTag` or the `StructuredType.eTag` methods.
 
 ```java
 PersistenceService db = ...
@@ -300,31 +300,22 @@ if (rs.rowCount() == 0) {
 }
 ```
 
-In the example above, an `Order` is updated. The update is protected with a specified ETag value (the expected last modification timestamp). The update is executed only if the expectation is met.
+In the previous example, an `Order` is updated. The update is protected with a specified ETag value (the expected last modification timestamp). The update is executed only if the expectation is met.
 
-::: warning 
+::: warning Application has to check the result
 No exception is thrown if an ETag validation does not match but the execution of the update (or delete) will succeed. Instead, the application has to check the `rowCount` of the `Result`. The value 0 indicates that no row was updated (or deleted).
 :::
 
-:::warning
-No ETag checks are executed when an upsert is executed.
-:::
 
 #### Providing new ETag Values with Update Data
 
-The new ETag value can be provided in the update data.
+A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime automatically handles the `@cds.on.update` annotation and sets a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
 
-A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime will automatically handle the `@cds.on.update` annoation and will set a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
+We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used. 
 
-It is also possible, but not recommended, that the new ETag value is provided by custom code in a `@Before`-update handler.
+#### Runtime-Managed Versions
 
-:::warning
-If an ETag element is annotated `@cds.on.update` and custom code explicitly sets a value for this element the runtime will _not_ generate a new value upon update but the value, which comes from the custom code will be used.
-::: 
-
-#### Runtime Managed Versions
-
-CAP Java also to store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
+CAP Java also stores ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
 ```cds
 entity Order : cuid {
@@ -335,13 +326,13 @@ entity Order : cuid {
 }
 ```
 
-Additionally to elements of type `Timestamp` and `UUID`, `@cds.java.version` supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
+Additionally, to elements of type `Timestamp` and `UUID`, `@cds.java.version` supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
 
-Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be for [conflict detection](../guides/providing-services#etag) in OData.
+Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be used for [conflict detection](../guides/providing-services#etag) in OData.
 
 ##### Expected Version from Data
 
-If the update data contains a value for a version element this values is used as the _expected_ value for the version. This allows to use version elements in programmatic flow conveniently:
+If the update data contains a value for a version element, this value is used as the _expected_ value for the version. This allows using version elements in a programmatic flow conveniently:
 
 ```java
 PersistenceService db = ...
@@ -358,7 +349,7 @@ if (rs.rowCount() == 0) {
 }
 ```
 
-During the execution of the update statement it is asserted that the `version` has the same value as the `version` which was read previously and hence no concurrent modification occurred.
+During the execution of the update statement it's asserted that the `version` has the same value as the `version`, which was read previously and hence no concurrent modification occurred.
 
 The same convenience can be used in bulk operations. Here the individual update counts need to be introspected.
 
@@ -375,9 +366,8 @@ for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
 }
 ```
 
-:::tip
-If an [ETag predicate](#etag-predicate) is explicitly specified it overrules a version value given in the data.
-:::
+> If an [ETag predicate is explicitly specified](#providing-new-etag-values-with-update-data), it overrules a version value given in the data.
+
 
 ### Pessimistic Locking { #pessimistic-locking}
 

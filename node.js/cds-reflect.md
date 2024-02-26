@@ -359,21 +359,58 @@ All linked entity definitions are instances of this class, which primarily provi
 
 #### . keys {.property}
 
-A getter returning a cached object with an entity definition's declared primary keys by name. The returned object adheres to the specification of [CSN Definitions][defs].
-
 
 #### . associations {.property}
 
-A getter returning a cached object of all Associations from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
-
 #### . compositions {.property}
 
-A getter returning a cached object of all Compositions from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
+These properties are convenient shortcuts to access an entity definition's declared key, association or composition elements. Their values are *iterable* objects which allow both, access by relative name as well as iterating through all definitions. For example, given a service definition like that: 
+
+```cds
+entity Books {
+  key ID : UUID;
+  author : Association to Authors;
+  pages  : Composition of Pages;
+}
+```
+
+And got a reference to the entity definition, e.g. like that:
+
+```js
+let { Books } = cds.linked(model).definitions
+```
+
+You can reflect the respective elements in any of these ways: 
+
+```js
+let { ID } = Books.keys, { author, pages } = Books.associations
+```
+
+```js
+let [ ID ] = Books.keys, [ author, pages ] = Books.associations
+```
+
+```js
+for (let each of Books.keys) console.log (each.name) 
+//> ID
+for (let each of Books.associations) console.log (each.name) 
+//> author
+//> pages
+```
+
+```js
+[ ...Books.associations ].map(e => e.name) 
+//> [ 'author', 'pages' ]
+[ ...Books.compositions ].map(e => e.name) 
+//> [ 'pages' ]
+```
+
+
 
 
 #### . texts {.property}
 
-Returns the linked definition's fully qualified name + `'.texts'` to easily refer to the texts entity containing translations for `localized` elements, if any.
+If the entity has localized elements, this property is a reference to the respective `.texts` entity. If not, this property is undefined
 
 [Learn more about **Localized Data**](../guides/localized-data){.learn-more}
 
@@ -408,6 +445,10 @@ class cds.entity extends cds.type {...}
 
 This is the base class of a  struct elements, types, aspects, and entities.
 
+#### . is_struct {.property}
+
+
+
 #### . elements {.property}
 
 The entity's declared elements as [documented in the CSN Specification](../cds/csn#entity-definitions). { .indent}
@@ -419,6 +460,49 @@ The entity's declared elements as [documented in the CSN Specification](../cds/c
 ```tsx
 class cds.type extends any {...}
 ```
+
+
+
+#### . entities {.property}
+
+#### . types {.property}
+
+#### . events {.property}
+
+#### . operations {.property}
+
+These properties are convenience shortcuts to access a service definition's exposed *entity*, *type*, *event*, *action* or *function* definitions. Their values are *iterable* objects which allow both, access by relative name as well as iterating through all definitions. For example, given a service definition like that: 
+
+```cds
+service Sue {
+  entity Foo {}
+  entity Bar {}
+}
+```
+
+And got a reference to the service definition, e.g. like that:
+
+```js
+let { Sue } = cds.linked(model).definitions
+```
+
+You can reflect the entities in any of these ways: 
+
+```js
+let { Foo, Bar } = Sue.entities
+```
+
+```js
+let [ Foo, Bar ] = Sue.entities	
+```
+
+```js
+for (let each of Sue.entities) console.log (each.name) 
+//> Sue.Foo
+//> Sue.Bar
+```
+
+
 
 
 

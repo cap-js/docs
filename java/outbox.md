@@ -63,8 +63,8 @@ Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base mode
 
 CAP Java by default provides two persistent outbox services:
 
--  `OutboxService.PERSISTENT_ORDERED_NAME` which is used by default by messaging services and
--  `OutboxService.PERSISTENT_UNORDERED_NAME` which is used by default by the AuditLog service.
+-  `DefaultOutboxOrdered` which is used by default by messaging services and
+-  `DefaultOutboxUnordered` which is used by default by the AuditLog service.
 
 The default configuration for both outboxes can be overridden using the `cds.outbox.services` section, for example in the _application.yaml_:
 

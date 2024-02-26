@@ -132,7 +132,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Inbound Protocol Support                              | CDS <sup>1</sup> |      Node.js      |       Java        |
 |-------------------------------------------------------|:----------------:|:-----------------:|:-----------------:|
-| [REST/OpenAPI](../advanced/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
+| [REST/OpenAPI](/advanced/publishing-apis/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
 | [OData V2](../advanced/odata#v2-support) <sup>2</sup> |       <X/>       | <X/> <sup>3</sup> |       <X/>        |
 | OData V4                                              |       <X/>       |       <X/>        |       <X/>        |
 | OData V4 for APIs                                     |       <D/>       |       <D/>        |       <D/>        |
@@ -203,7 +203,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> To speed up development. Not for productive use! <br>
 
-> You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
+> Note: You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 
 <!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
 | [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |

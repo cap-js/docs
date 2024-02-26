@@ -91,7 +91,7 @@ Persistent outbox is supported starting with these version: `@sap/cds: 5.7.0`,  
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
-Custom outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
+Custom persistent outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
 
 ```yaml
 cds:
@@ -169,11 +169,11 @@ you can define custom outboxes that can be used for outboxing.
 
 ### Technical Outbox API
 
-The generic outbox provides the technical API `OutboxService.submit(String event, OutboxMessage)` that can
+Each outbox service provides the technical API `OutboxService.submit(String, OutboxMessage)` that can
 be used to outbox custom messages.
 When submitting a custom message, an `OutboxMessage` needs to be provided that can contain parameters for the
 event. As the `OutboxMessage` instance is serialized and stored in the database, all data provided in that message
-must be serializable deserializable to JSON. The following example shows the submission of a custom message to an outbox:
+must be serializable/deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
 
 ```java
 OutboxService outboxService;
@@ -187,7 +187,7 @@ message.setParams(parameters);
 outboxService.submit("myEvent", message);
 ```
 
-A handler for the custom message must be registered on the outbox service instance to perform do the processing of the
+A handler for the custom message must be registered on the outbox service instance to perform the processing of the
 message as shown in the following example:
 
 ```java

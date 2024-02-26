@@ -132,7 +132,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Inbound Protocol Support                              | CDS <sup>1</sup> |      Node.js      |       Java        |
 |-------------------------------------------------------|:----------------:|:-----------------:|:-----------------:|
-| [REST/OpenAPI](../advanced/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
+| [REST/OpenAPI](/advanced/publishing-apis/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
 | [OData V2](../advanced/odata#v2-support) <sup>2</sup> |       <X/>       | <X/> <sup>3</sup> |       <X/>        |
 | OData V4                                              |       <X/>       |       <X/>        |       <X/>        |
 | OData V4 for APIs                                     |       <D/>       |       <D/>        |       <D/>        |

@@ -133,7 +133,7 @@ processed anymore.
 Before removing a custom outbox, it must be ensured that there are no unprocessed entries left.
 :::
 
-### Outboxing CAP Service Events
+## Outboxing CAP Service Events
 
 Outbox services support outboxing of arbitrary CAP services. Typical use cases are remote OData
 service calls, but also supports calls to other CAP services to decouple them from the business logic flow.
@@ -167,7 +167,7 @@ The default outbox services can be used for outboxing arbitrary CAP services. If
 you can define custom outboxes that can be used for outboxing.
 :::
 
-### Technical Outbox API
+## Technical Outbox API
 
 Each outbox service provides the technical API `OutboxService.submit(String, OutboxMessage)` that can
 be used to outbox custom messages.

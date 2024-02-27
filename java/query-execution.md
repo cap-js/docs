@@ -315,7 +315,7 @@ We do not recommend providing a new ETag value by custom code in a `@Before`-upd
 
 #### Runtime-Managed Versions
 
-CAP Java also stores ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
+Alternatively, you can store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
 ```cds
 entity Order : cuid {

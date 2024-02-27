@@ -204,11 +204,11 @@ Using literals in CDS models is commonly used, for example, to set default value
 [Learn more about literals and their representation in CSN.](./csn#literals){.learn-more}
 
 
-#### Multiline String Literals
+#### String Literals
 {#multiline-literals}
 
 String literals enclosed in single ticks, for example `'string'`,
-are limited to a single line.
+are limited to a single line. A single tick `'` inside the literal is escaped by doubling it: `'it''s escaped`.
 
 Use string literals enclosed in single or triple **backticks** for multiline strings. Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). Only for string literals inside triple backticks, indentation is stripped and tagging is possible.
 
@@ -251,7 +251,7 @@ entity ![Entity] {
 }
 ```
 
->You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
+> You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
 
@@ -612,7 +612,7 @@ entity Employees {
 This example is equivalent to the [unmanaged example above](#unmanaged-associations), with the foreign
 key element `address_ID` being added automatically upon activation to a SQL database.
 
-> For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
 
 If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:
@@ -670,7 +670,7 @@ entity Emp2Addr {
 
 ### Compositions
 
-Compositions constitute document structures through 'contained-in' relationships.
+Compositions constitute document structures through _contained-in_ relationships.
 They frequently show up in to-many header-child scenarios.
 
 ```cds
@@ -686,8 +686,9 @@ entity Orders.Items {
 }
 ```
 
-> Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a contained-in relationship so the same syntax and rules apply in their base form.
-
+:::info Contained-in relationship
+Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
+:::
 
 ### Managed Compositions of Aspects {#managed-compositions}
 
@@ -1211,6 +1212,7 @@ annotate Bar with @title:'Bar';
 
 You can also directly annotate a single element:
 ```cds
+annotate Foo:existingField @title: 'Simple Field';
 annotate Foo:nestedStructField.existingField @title:'Nested Field';
 ```
 

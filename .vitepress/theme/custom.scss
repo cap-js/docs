@@ -121,6 +121,10 @@ main {
 
       background: var(--vp-code-block-bg);
     }
+
+    .line-numbers-wrapper {
+      padding-top: 13px; // align with code line height
+    }
   }
 
   // Table of Contents
@@ -225,6 +229,7 @@ main {
   h3.method + h3.method {
     margin-top: 0
   }
+
 }
 
 // Menu Sidebar
@@ -322,8 +327,8 @@ html.node .java {
 
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
-  div[class^='language-']:hover,
-  div[class^='language-']:focus,
+  div[class*='language-']:hover,
+  div[class*='language-']:focus,
   pre.log:hover,
   pre.log:focus {
     min-width: fit-content;

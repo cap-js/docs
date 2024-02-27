@@ -263,7 +263,7 @@ Concurrency control allows protecting your data against unexpected concurrent ch
 
 ### Optimistic Concurrency Control {#optimistic}
 
-Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on a _version_ value - the _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the versioned entity.
+Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on an _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the entity.
 
 #### Optimistic Concurrency Control in OData
 
@@ -303,7 +303,7 @@ if (rs.rowCount() == 0) {
 In the previous example, an `Order` is updated. The update is protected with a specified ETag value (the expected last modification timestamp). The update is executed only if the expectation is met.
 
 ::: warning Application has to check the result
-No exception is thrown if an ETag validation does not match but the execution of the update (or delete) will succeed. Instead, the application has to check the `rowCount` of the `Result`. The value 0 indicates that no row was updated (or deleted).
+No exception is thrown if an ETag validation does not match. Instead, the execution of the update (or delete) succeeds but doesn't apply any changes. Ensure that the application checks the `rowCount` of the `Result` and implement your error handling. If the value of `rowCount` is 0, that indicates that no row was updated (or deleted).
 :::
 
 
@@ -326,7 +326,7 @@ entity Order : cuid {
 }
 ```
 
-Additionally, to elements of type `Timestamp` and `UUID`, `@cds.java.version` supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
+Compared to `@cds.on.update`, which allows for ETag elements with type `Timestamp` or `UUID` only, `@cds.java.version` additionally supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
 
 Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be used for [conflict detection](../guides/providing-services#etag) in OData.
 

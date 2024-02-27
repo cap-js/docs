@@ -1,11 +1,10 @@
 ---
 synopsis: >
-  Find here information on how to configure applications, different supported databases, spring boot integration, and the CDS Maven Plugin.
+  This section shows how CAP Java is smoothly integrated with Spring Boot.
 status: released
-uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
-# Development
+# Spring Boot Integration
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -22,22 +21,20 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 <!-- [Learn more about CDS properties to configure the CAP Java SDK.](properties){.learn-more} -->
 
-
-## Spring Boot Integration { #spring-boot-integration}
-
 This section describes the [Spring Boot](https://spring.io/projects/spring-boot) integration of the CAP Java SDK. Classic Spring isn't supported.
-Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
+Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend. 
+Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
 
 As Spring Boot not only is widely accepted but also most popular application framework, CAP Java SDK comes with a seamless integration of Spring Boot as described in the following sections.
 
-### Spring Dependencies
+## Integration Configuration
 
 To make your web application ready for Spring Boot, you need to make sure that the following Spring dependencies are referenced in your `pom.xml` (group ID `org.springframework.boot`):
 * `spring-boot-starter-web`
 * `spring-boot-starter-jdbc`
 * `spring-boot-starter-security` (optional)
 
-In addition, for activating the Spring integration of CAP Java SDK, the following runtime dependency is required:
+In addition, for activating the Spring integration of CAP Java, the following runtime dependency is required:
 
 ```xml
 <dependency>
@@ -58,9 +55,14 @@ It might be easier to use the CDS starter bundle `cds-starter-spring-boot-odata`
 </dependency>
 ```
 
-### Spring Features
+::: tip
+If you refreign from adding explicit Spring or Spring Boot dependencies in your service configuration,
+the CDS integration libraries transitively retrieve the recommended Spring Boot version for the current CAP Java version.
+:::
 
-Beside the common Spring features such as dependency injection and a sophisticated test framework, the following features are available in Spring CAP applications:
+## Integration Features
+
+Beside the common Spring features such as dependency injection and a sophisticated [test framework](./testing), the following features are available in Spring CAP applications:
 
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).
@@ -75,7 +77,7 @@ None of the listed features will be available out of the box in case you choose 
 :::
 
 
-### Spring Beans Exposed by the Runtime { #exposed-beans}
+## CDS Spring Beans { #exposed-beans}
 
 | Bean              | Description                      | Example
 | :---------------------------------------------------- | :----------------------------------------------------- | :----------------------------------------------------- |

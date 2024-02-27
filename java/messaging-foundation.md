@@ -33,10 +33,6 @@ In contrast, the nature of synchronous communication between services can be dis
 
 In the following, we provide a basic introduction to publish-subscribe-based messaging and then explain how to use it in CAP. If you're already familiar with publish-subscribe-based messaging, feel free to skip the following introduction section.
 
-::: tip
-The described messaging features are available from version `cds.java@1.19.0`.
-:::
-
 ## Pub-Sub Messaging
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they're interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
@@ -88,8 +84,11 @@ As shown in the example, there are two flavors of sending messages with the mess
 
 In section [CDS-Declared Events](#cds-declared-events), we show how to declare events in CDS models and by this let CAP generate EventContext interfaces especially tailored for the defined payload, that allows type safe access to the payload.
 
-::: tip
-The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
+::: tip Using an outbox
+The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a [persistent outbox](./outbox#persistent). 
+
+You can configure a [custom outbox](./outbox#custom-outboxes) for a messaging service by setting the property
+`cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This specifically makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels).
 :::
 
 
@@ -668,7 +667,7 @@ The way how unsuccessfully delivered messages are treated, fully depends on the 
 Not all messaging brokers provide the acknowledgement support. This means, the result of the error handler has no effect for the messaging broker.
 
 | Messaging Broker                                       | Support |         Cause          |
-|--------------------------------------------------------|:-------:|:----------------------:|
+| ------------------------------------------------------ | :-----: | :--------------------: |
 | [File Base Messaging](#local-testing)                  |  <Na/>  |                        |
 | [Event Mesh](#configuring-sap-event-mesh-support)      |  <X/>   | removed from the queue |
 | [Message Queuing](#configuring-sap-event-mesh-support) |  <X/>   | removed from the queue |

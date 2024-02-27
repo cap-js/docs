@@ -474,32 +474,32 @@ class cds.type extends any {...}
 These properties are convenience shortcuts to access a service definition's exposed *entity*, *type*, *event*, *action* or *function* definitions. Their values are *iterable* objects which allow both, access by relative name as well as iterating through all definitions. For example, given a service definition like that: 
 
 ```cds
-service Sue {
-  entity Foo {}
-  entity Bar {}
+service CatalogService {
+  entity Books {}
+  entity Authors {}
 }
 ```
 
 And got a reference to the service definition, e.g. like that:
 
 ```js
-let { Sue } = cds.linked(model).definitions
+let { CatalogService } = cds.linked(model).definitions
 ```
 
 You can reflect the entities in any of these ways: 
 
 ```js
-let { Foo, Bar } = Sue.entities
+let { Books, Authors } = CatalogService.entities
 ```
 
 ```js
-let [ Foo, Bar ] = Sue.entities	
+let [ Books, Authors ] = CatalogService.entities	
 ```
 
 ```js
-for (let each of Sue.entities) console.log (each.name) 
-//> Sue.Foo
-//> Sue.Bar
+for (let each of CatalogService.entities) console.log (each.name) 
+//> CatalogService.Books
+//> CatalogService.Authors
 ```
 
 

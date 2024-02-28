@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  Presents a set of recommended tools that help to understand the current status of running CAP services.
+   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
 <!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
@@ -48,11 +48,11 @@ Logger logger = LoggerFactory.getLogger("my.loggers.order.consolidation");
 
 @After(event = CqnService.EVENT_READ)
 public void readAuthors(List<Orders> orders) {
-	orders.forEach(order -> {
-		logger.debug("Consolidating order {}", order);
-		consolidate(order);
-	});
-	logger.info("Consolidated {} orders", orders.size());
+   orders.forEach(order -> {
+      logger.debug("Consolidating order {}", order);
+      consolidate(order);
+   });
+   logger.info("Consolidated {} orders", orders.size());
 }
 ```
 
@@ -179,9 +179,9 @@ To get connected with the SAP BTP Application Logging Service, the application n
 
 ```xml
 <dependency>
-	<groupId>com.sap.hcp.cf.logging</groupId>
-	<artifactId>cf-java-logging-support-logback</artifactId>
-	<version>${logging.support.version}</version>
+   <groupId>com.sap.hcp.cf.logging</groupId>
+   <artifactId>cf-java-logging-support-logback</artifactId>
+   <version>${logging.support.version}</version>
 </dependency>
 ```
 
@@ -193,14 +193,14 @@ During local development, you might want to stick to the (human-readable) standa
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration debug="false" scan="false">
-	<springProfile name="cloud">
-		<!-- logback configuration of ConsoleAppender according
-		     to cf-java-logging-support documentation -->
-		...
-	</springProfile>
-	<springProfile name="!cloud">
-		<include resource="org/springframework/boot/logging/logback/base.xml"/>
-	</springProfile>
+   <springProfile name="cloud">
+      <!-- logback configuration of ConsoleAppender according
+           to cf-java-logging-support documentation -->
+      ...
+   </springProfile>
+   <springProfile name="!cloud">
+      <include resource="org/springframework/boot/logging/logback/base.xml"/>
+   </springProfile>
 </configuration>
 ```
 :::
@@ -219,7 +219,7 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 - Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
 - Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
 
-By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 
+By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively,
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
 
@@ -232,12 +232,12 @@ In addition, call-graphs can be reconstructed and visualized that represent the 
 
 CAP Java integrates with the following monitoring tools:
 
-- [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions. 
-SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
+- [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions.
+  SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
 
 - [Dynatrace](#dynatrace) provides sophisticated features to monitor a solution on SAP BTP.
 
-- [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level. 
+- [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
 
 - [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
 
@@ -259,7 +259,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 <img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
-#### Configuration of CLoud Logging Service { #open-telemetry-configuration-cls }
+#### Configuration of Cloud Logging Service { #open-telemetry-configuration-cls }
 
 Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
 
@@ -275,9 +275,45 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 	      config:
 	        ingest_otlp: true
     ...
-    ```
+    ``` 
+2) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
+3) Define additional environment variables to tell the agent extension to use Cloud Logging Service.
 
-2) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
+   ```yaml
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       OTEL_METRICS_EXPORTER: cloud-logging
+       OTEL_TRACES_EXPORTER: cloud-logging    
+   ```
+
+
+#### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
+
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
+
+1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
+2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
+3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
+4) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
+5) Define an additional environment variable to tell the agent extension to use Dynatrace.
+
+   ```yaml
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       OTEL_METRICS_EXPORTER: dynatrace 
+   ```
+   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
+
+
+#### Configure Agent Extension { #agent-extension }
+
+There is a set of common configuration steps for Open Telemetry which apply to Cloud Logging Service and Dynatrace. This includes configuring an Open Telemetry Agent Extension library(https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension) which provides out-of-the box configuration of the required credentials taken from the service bindings. The library provides sophisticated configuration possibilities which are not described here. Refer to the official documentation for a complete list.
+
+1) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
     ```json
     <dependency>
       <groupId>com.sap.hcp.cf.logging</groupId>
@@ -286,7 +322,8 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
     </dependency>
     ```
 
-3) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
+   Make sure that you are using at least version `3.8.2` of `cf-java-logging-support-opentelemetry-agent-extension`.
+2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
 
    ```yaml
    - name: <srv-module>
@@ -303,25 +340,19 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
-#### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
-
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
-
-1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
-2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)**.
-3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
-
 #### CAP Instrumentation
 
 Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for the respective component.
 
-| Logger Name                              | Required Level | Description                                     |
-|------------------------------------------|----------------|-------------------------------------------------|
-| `com.sap.cds.otel.span.OData`            | `INFO`         | Spans for individual requests of a OData $batch request. |
-| `com.sap.cds.otel.span.CQN`              | `INFO`         | Spans for executed CQN statement.                        |
-| `com.sap.cds.otel.span.RequestContext`   | `DEBUG` | Spans for each Request Context. |
-| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each ChangeSet Context. |
-| `com.sap.cds.otel.span.Emit`             | `DEBUG` | Spans for dispatching events in the CAP runtime. |
+| Logger Name                                    | Required Level | Description                                                |
+|------------------------------------------------|----------------|------------------------------------------------------------|
+| `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
+| `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
+| `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
+| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft gargabe collection.       |
+| `com.sap.cds.otel.span.RequestContext`         | `DEBUG`        | Spans for each Request Context.                            |
+| `com.sap.cds.otel.span.ChangeSetContext`       | `DEBUG`        | Spans for each ChangeSet Context.                          |
+| `com.sap.cds.otel.span.Emit`                   | `DEBUG`        | Spans for dispatching events in the CAP runtime.           |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
 
@@ -372,15 +403,15 @@ Similarly, you can record metrics during execution of, for example, a custom eve
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-  Metric tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+   Metric meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
 
-  @After(entity = Books_.CDS_NAME)
-  public void afterAddReview(AddReviewContext context) {
-     ratingCalculator.setBookRating(context.getResult().getBookId());
+   @After(entity = Books_.CDS_NAME)
+   public void afterAddReview(AddReviewContext context) {
+      ratingCalculator.setBookRating(context.getResult().getBookId());
 
-     LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
-     counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
-  }
+      LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
+      counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
+   }
 }
 ```
 
@@ -397,7 +428,7 @@ How to configure a Dynatrace connection to your CAP Java application is describe
 <!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
-Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
+Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on.
 Similar to [health checks](#spring-health-checks), Spring Boot comes with a bunch of built-in metrics based on the [Spring Actuator](#spring-boot-actuators) framework.
 Actuators form an open framework, which can be enhanced by libraries (see [CDS Actuator](#cds-actuator)) as well as the application (see [Custom Actuators](#custom-actuators)) with additional information.
 
@@ -407,8 +438,8 @@ To add actuator support in your application, add the following dependency:
 
 ```xml
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
 
@@ -450,12 +481,12 @@ Similar to [Custom Health Indicators](#custom-health-indicators), you can add ap
 @ConditionalOnClass(Endpoint.class)
 @Endpoint(id = "app", enableByDefault = true)
 public class AppActuator {
-	@ReadOperation
-	public Map<String, Object> info() {
-		Map<String, Object> info = new LinkedHashMap<>();
-		info.put("Version", "1.0.0");
-		return info;
-	}
+   @ReadOperation
+   public Map<String, Object> info() {
+      Map<String, Object> info = new LinkedHashMap<>();
+      info.put("Version", "1.0.0");
+      return info;
+   }
 }
 ```
 The `AppActuator` bean registers an actuator with name `app` that exposes a simple version string.
@@ -479,8 +510,8 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 
 ```xml
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
 
@@ -488,17 +519,17 @@ By default, Spring exposes the *aggregated* health status on web endpoint `/actu
 
 ```yaml
 management:
-  endpoint:
-    health:
-      show-components: always # shows individual indicators
-  endpoints:
-    web:
-      exposure:
-        include: health # only expose /health as web endpoint
-  health:
-     defaults.enabled: false # turn off all indicators by default
-     ping.enabled: true
-     db.enabled: true
+   endpoint:
+      health:
+         show-components: always # shows individual indicators
+   endpoints:
+      web:
+         exposure:
+            include: health # only expose /health as web endpoint
+   health:
+      defaults.enabled: false # turn off all indicators by default
+      ping.enabled: true
+      db.enabled: true
 ```
 
 The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
@@ -511,15 +542,15 @@ Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up
 
 ```json
 {
-  "status": "UP",
-  "components": {
-    "db": {
-      "status": "UP"
-    },
-    "ping": {
-      "status": "UP"
-    }
-  }
+   "status": "UP",
+   "components": {
+      "db": {
+         "status": "UP"
+      },
+      "ping": {
+         "status": "UP"
+      }
+   }
 }
 ```
 
@@ -544,15 +575,15 @@ In case your application relies on additional, mandatory services not covered by
 @ConditionalOnEnabledHealthIndicator("crypto")
 public class CryptoHealthIndicator implements HealthIndicator {
 
-    @Autowired
-    CryptoService cryptoService;
+   @Autowired
+   CryptoService cryptoService;
 
-    @Override
-    public Health health() {
-        Health.Builder status = cryptoService.isAvailalbe() ?
+   @Override
+   public Health health() {
+      Health.Builder status = cryptoService.isAvailalbe() ?
               Health.up() : Health.down();
-        return status.build();
-    }
+      return status.build();
+   }
 }
 ```
 
@@ -566,8 +597,8 @@ As this highly depends on the configuration capabilities of the client services,
 
 ## Profiling { #profiling}
 
-To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
-In such a situation, the use of more focused profiling tools can be an option. 
+To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues.
+In such a situation, the use of more focused profiling tools can be an option.
 Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 
 * Switchable at runtime

@@ -179,9 +179,9 @@ To get connected with the SAP BTP Application Logging Service, the application n
 
 ```xml
 <dependency>
-   <groupId>com.sap.hcp.cf.logging</groupId>
-   <artifactId>cf-java-logging-support-logback</artifactId>
-   <version>${logging.support.version}</version>
+	<groupId>com.sap.hcp.cf.logging</groupId>
+	<artifactId>cf-java-logging-support-logback</artifactId>
+	<version>${logging.support.version}</version>
 </dependency>
 ```
 
@@ -193,14 +193,14 @@ During local development, you might want to stick to the (human-readable) standa
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration debug="false" scan="false">
-   <springProfile name="cloud">
-      <!-- logback configuration of ConsoleAppender according
-           to cf-java-logging-support documentation -->
-      ...
-   </springProfile>
-   <springProfile name="!cloud">
-      <include resource="org/springframework/boot/logging/logback/base.xml"/>
-   </springProfile>
+	<springProfile name="cloud">
+		<!-- logback configuration of ConsoleAppender according
+		     to cf-java-logging-support documentation -->
+		...
+	</springProfile>
+	<springProfile name="!cloud">
+		<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	</springProfile>
 </configuration>
 ```
 :::
@@ -266,14 +266,14 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml
     ...
-	resources:
-	  - name: cloud-logging-instance
-	    type: org.cloudfoundry.managed-service
-	    parameters:
-	      service: cloud-logging
-	      service-plan: standard
-	      config:
-	        ingest_otlp: true
+    resources:
+      - name: cloud-logging-instance
+        type: org.cloudfoundry.managed-service
+        parameters:
+          service: cloud-logging
+          service-plan: standard
+          config:
+            ingest_otlp: true
     ...
     ``` 
 2) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
@@ -306,7 +306,7 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
        ...
        OTEL_METRICS_EXPORTER: dynatrace 
    ```
-   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
+   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.
 
 
 #### Configure Agent Extension { #agent-extension }
@@ -415,7 +415,6 @@ class CatalogServiceHandler implements EventHandler {
 }
 ```
 
-
 ### Dynatrace { #dynatrace }
 
 [Dynatrace](https://www.dynatrace.com/support/help) is a comprehensive platform that delivers analytics and automation based on monitoring events sent by the backend services.
@@ -438,8 +437,8 @@ To add actuator support in your application, add the following dependency:
 
 ```xml
 <dependency>
-   <groupId>org.springframework.boot</groupId>
-   <artifactId>spring-boot-starter-actuator</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
 
@@ -481,12 +480,12 @@ Similar to [Custom Health Indicators](#custom-health-indicators), you can add ap
 @ConditionalOnClass(Endpoint.class)
 @Endpoint(id = "app", enableByDefault = true)
 public class AppActuator {
-   @ReadOperation
-   public Map<String, Object> info() {
-      Map<String, Object> info = new LinkedHashMap<>();
-      info.put("Version", "1.0.0");
-      return info;
-   }
+	@ReadOperation
+	public Map<String, Object> info() {
+		Map<String, Object> info = new LinkedHashMap<>();
+		info.put("Version", "1.0.0");
+		return info;
+	}
 }
 ```
 The `AppActuator` bean registers an actuator with name `app` that exposes a simple version string.
@@ -510,8 +509,8 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 
 ```xml
 <dependency>
-   <groupId>org.springframework.boot</groupId>
-   <artifactId>spring-boot-starter-actuator</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
 
@@ -519,17 +518,17 @@ By default, Spring exposes the *aggregated* health status on web endpoint `/actu
 
 ```yaml
 management:
-   endpoint:
-      health:
-         show-components: always # shows individual indicators
-   endpoints:
-      web:
-         exposure:
-            include: health # only expose /health as web endpoint
-   health:
-      defaults.enabled: false # turn off all indicators by default
-      ping.enabled: true
-      db.enabled: true
+  endpoint:
+    health:
+      show-components: always # shows individual indicators
+  endpoints:
+    web:
+      exposure:
+        include: health # only expose /health as web endpoint
+  health:
+     defaults.enabled: false # turn off all indicators by default
+     ping.enabled: true
+     db.enabled: true
 ```
 
 The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
@@ -542,15 +541,15 @@ Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up
 
 ```json
 {
-   "status": "UP",
-   "components": {
-      "db": {
-         "status": "UP"
-      },
-      "ping": {
-         "status": "UP"
-      }
-   }
+  "status": "UP",
+  "components": {
+    "db": {
+      "status": "UP"
+    },
+    "ping": {
+      "status": "UP"
+    }
+  }
 }
 ```
 
@@ -575,15 +574,15 @@ In case your application relies on additional, mandatory services not covered by
 @ConditionalOnEnabledHealthIndicator("crypto")
 public class CryptoHealthIndicator implements HealthIndicator {
 
-   @Autowired
-   CryptoService cryptoService;
+    @Autowired
+    CryptoService cryptoService;
 
-   @Override
-   public Health health() {
-      Health.Builder status = cryptoService.isAvailalbe() ?
+    @Override
+    public Health health() {
+        Health.Builder status = cryptoService.isAvailalbe() ?
               Health.up() : Health.down();
-      return status.build();
-   }
+        return status.build();
+    }
 }
 ```
 
@@ -658,4 +657,3 @@ Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX cl
 
 - [JConsole](https://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
 - [OpenJDK Mission Control](https://github.com/openjdk/jmc), which can be installed separately.
-

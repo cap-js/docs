@@ -13,7 +13,7 @@ status: released
 
 As of CAP Java 2.7.0, the change tracking feature is available. You can use this feature to track the changes of your entities and display them in the UI.
 
-### Using Change Tracking
+### Enabling change tracking
 
 To use the change tracking feature, you need to enable it in your `pom.xml` file. Add the following dependency to your project:
 
@@ -27,7 +27,7 @@ To use the change tracking feature, you need to enable it in your `pom.xml` file
 
 You POM also must include the goal to resolve the CDS model delivered from the feature. See [Reference the New CDS Model in an Existing CAP Java Project](./plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
-### Annotating Entities
+### Annotating entities
 
 To capture changes, you need to extend your entities with a technical aspect and annotate the entity 
 the annotation `@changelog` that will mark the elements whose changes are to be logged.
@@ -122,49 +122,14 @@ not be formatted per user locale or some requirements e.g. different units of me
 You should consider this when you decide what to include in the identifier.
 :::
 
-### What is change tracked?
-
-The change tracking feature tracks the changes of all modifying operations that are executed on the entity via CQN statements, 
-that includes the statements that you execute via custom code as well. It supports all kinds of modifying operations 
-including the deep and the bulk updates. Changes made through native SQL, JDBC or other means that bypasses the CAP Java runtime are not tracked.
-
-Every modifying operation that is executed via the CQN requires an additional reads to retrieve the old state 
-of the entity and the new state after the modifying operation.
-
-Then they are compared and stored within the change log. Nature of the change is determined by comparing the old and new 
-values of the entity: data that were not present in the old values are considered as added, data that are not present in 
-the new values are considered as deleted. Elements that are present in both old and new values but have different values 
-are considered as modified. This also works across compositions. Deep changes are tracked as well. If you delete the parent entity, all child 
-entities are also tracked as deleted. The same applies for the updates and the inserts.
-
-The level where you annotate your elements is very important: if you annotate the elements on the domain level,
-that means that every change made through every projection of the entity will be tracked. If you annotate the elements
-on the projection level, only the changes made through that projection will be tracked.
-
-In case of the `Books` example above, the changes made through the `Books` projection will be tracked, but the changes
-made on the domain entity will not be. That can be beneficial if you have a projection that is used for data replication
-or mass changes where change tracking can be very expensive operation.
-
-The changes of the entity are always associated with the projection that was the root of the modifying operation. 
-Technically, it is the source of the modifying statement that is executed on the entity. Changes made through different projections 
-will be associated with the respective projection names. But every entity is able to see own changes from all projections 
-of all services.
-
-This aspect is also important for compositions that include child entities that are also can be change tracked. If your child entity
-changes independently of the parent entity, the changes will be associated with the child entity and not with the parent entity
-and will not be visible from it.
-
-When you decide how to annotate your elements, you should consider not only the structure of it but also the way it is changed 
-in your applications including your custom code e.g. actions or functions.
-
 ### Displaying changes in the UI
 
-The change tracking feature does not impose any restrictions on how you display the change logs in the UI, but delivers 
-you the components that you can use to display the changes together with the main entity on an object page as one of the 
+The change tracking feature does not impose any restrictions on how you display the change logs in the UI, but delivers
+you the components that you can use to display the changes together with the main entity on an object page as one of the
 possible ways of doing so.
 
-If you want to display the change log together with the overview of your entity, you need to add the facet 
-to the object page that will display the changes: 
+If you want to display the change log together with the overview of your entity, you need to add the facet
+to the object page that will display the changes:
 
 ```cds
 annotate Bookshop.Books with @(
@@ -183,8 +148,39 @@ annotate Bookshop.Books with @(
 
 The definition of this facet is delivered from the change tracking feature and can be re-used for all entities.
 
-If you want to have a common UI for all changes, you need to expose the change log as a projection and define 
+If you want to have a common UI for all changes, you need to expose the change log as a projection and define
 your own presentation for it as the changes are exposed only as part of the change tracked entity.
+
+### What is change tracked?
+
+The change tracking feature tracks the changes of all modifying operations that are executed on the entity via CQN statements, 
+that includes the statements that you execute via custom code as well. It supports all kinds of modifying operations 
+including the deep and the bulk updates. Changes made through native SQL, JDBC or other means that bypasses the CAP Java runtime are not tracked. 
+Modifications that are forwarded to remote applications via Remote OData are not tracked as well.  
+
+The level where you annotate your elements is very important: if you annotate the elements on the domain level,
+that means that every change made through every projection of the entity will be tracked. If you annotate the elements
+on the projection level, only the changes made through that projection will be tracked.
+
+In case of the `Books` example above, the changes made through the `Books` projection will be tracked, but the changes
+made on the domain entity will not be. That can be beneficial if you have a service that is used for data replication
+or mass changes where change tracking can be very expensive operation, and you do not want to generate changes from such operations.
+
+When you decide how to annotate your elements, you should consider not only the structure of it but also the way it is changed
+in your applications including your custom code e.g. actions or functions. Otherwise, you might miss some changes or the change logs 
+will be very hard to trace back to the origin of the change. 
+
+### How change tracking feature identifies the changes?
+
+Every modifying operation that is executed via the CQN requires an additional reads to retrieve the old state 
+of the entity and the new state after the modifying operation.
+
+Then they are compared and stored within the change log. Nature of the change is determined by comparing the old and new 
+values of the entity: data that were not present in the old values are considered as added, data that are not present in 
+the new values are considered as deleted. Elements that are present in both old and new values but have different values 
+are considered as modified. This also works across compositions.
+
+Each change detected by the change tracking feature is stored in the change log as a separate entry in the change log.
 
 ### How change logs are stored?
 

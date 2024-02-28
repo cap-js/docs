@@ -1,6 +1,6 @@
 ---
 synopsis: >
-   Presents a set of recommended tools that help to understand the current status of running CAP services.
+  Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
 <!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
@@ -48,11 +48,11 @@ Logger logger = LoggerFactory.getLogger("my.loggers.order.consolidation");
 
 @After(event = CqnService.EVENT_READ)
 public void readAuthors(List<Orders> orders) {
-   orders.forEach(order -> {
-      logger.debug("Consolidating order {}", order);
-      consolidate(order);
-   });
-   logger.info("Consolidated {} orders", orders.size());
+	orders.forEach(order -> {
+		logger.debug("Consolidating order {}", order);
+		consolidate(order);
+	});
+	logger.info("Consolidated {} orders", orders.size());
 }
 ```
 
@@ -219,7 +219,7 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 - Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
 - Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
 
-By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively,
+By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
 
@@ -232,32 +232,15 @@ In addition, call-graphs can be reconstructed and visualized that represent the 
 
 CAP Java integrates with the following monitoring tools:
 
-- [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions.
-  SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
+- [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions. 
+SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
 
 - [Dynatrace](#dynatrace) provides sophisticated features to monitor a solution on SAP BTP.
 
-- [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
+- [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level. 
 
 - [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
 
-
-### Open Telemetry { #open-telemetry }
-
-[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
-
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
-
-- Out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
-- Additional traces for CAP-specific capabilities
-- Automatic forwarding of telemetry signals (logs, traces, or metrics) to SAP BTP Cloud Logging or Dynatrace
-- Full setup of Open Telemetry relevant configuration, including span hierarchy and Open Telemetry collectors
-
-Spans and traces that are produced out of the box, include HTTP requests as well as CAP-specific execution of CQN statements or individual requests inside an OData $batch request. Metrics that are automatically provided, include standard JVM metrics like CPU and memory utilization.
-
-In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
-
-<img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
 #### Configuration of Cloud Logging Service { #open-telemetry-configuration-cls }
 
@@ -306,7 +289,7 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
        ...
        OTEL_METRICS_EXPORTER: dynatrace 
    ```
-   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.
+   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
 
 
 #### Configure Agent Extension { #agent-extension }
@@ -415,6 +398,7 @@ class CatalogServiceHandler implements EventHandler {
 }
 ```
 
+
 ### Dynatrace { #dynatrace }
 
 [Dynatrace](https://www.dynatrace.com/support/help) is a comprehensive platform that delivers analytics and automation based on monitoring events sent by the backend services.
@@ -427,7 +411,7 @@ How to configure a Dynatrace connection to your CAP Java application is describe
 <!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
-Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on.
+Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
 Similar to [health checks](#spring-health-checks), Spring Boot comes with a bunch of built-in metrics based on the [Spring Actuator](#spring-boot-actuators) framework.
 Actuators form an open framework, which can be enhanced by libraries (see [CDS Actuator](#cds-actuator)) as well as the application (see [Custom Actuators](#custom-actuators)) with additional information.
 
@@ -596,8 +580,8 @@ As this highly depends on the configuration capabilities of the client services,
 
 ## Profiling { #profiling}
 
-To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues.
-In such a situation, the use of more focused profiling tools can be an option.
+To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
+In such a situation, the use of more focused profiling tools can be an option. 
 Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 
 * Switchable at runtime

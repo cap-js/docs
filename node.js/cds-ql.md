@@ -511,6 +511,9 @@ SELECT ... .orderBy ('a.name', 'b desc')
 SELECT ... .orderBy ({ref:['a','name']}, {ref:['b'],sort:'desc'})
 ```
 
+::: warning
+When using $apply with groupby and only a subset of keys is included, it can lead to the result not being uniquely sorted anymore.
+:::
 
 
 ### .limit() {.method}

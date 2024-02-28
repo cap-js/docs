@@ -11,7 +11,7 @@ status: released
   }
 </style>
 
-As of CAP Java 2.7.0, the change tracking feature is available. With this feature you can track and store the changes inside your entities. 
+As of CAP Java 2.7.0, the change tracking feature is available. You can use this feature to track the changes of your entities and display them in the UI.
 
 ### Using Change Tracking
 

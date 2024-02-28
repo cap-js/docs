@@ -111,6 +111,7 @@
 - [Messaging](java/messaging-foundation)
 - [Advanced Concepts](java/advanced)
 - [Audit Logging](java/auditlog)
+- [Change Tracking](java/change-tracking)
 - [Transactional Outbox](java/outbox)
 - [Development](java/development/)
   - [CDS Properties](java/development/properties)

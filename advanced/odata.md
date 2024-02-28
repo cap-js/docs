@@ -347,7 +347,7 @@ Rendering a `null` value must be done as dynamic expression:
 
 ### Records
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
 
 Record-like source structures are mapped to `<Record>` nodes in EDMX, with primitive types translated analogously to the above:
 
@@ -427,7 +427,7 @@ To overwrite the default, use an explicit `$Type` like shown previously.
 
 ### Collections
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
 
 Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as direct elements of the array, these elements are wrapped into individual primitive child nodes of the resulting collection as is. The rules for records and collections are applied recursively:
 
@@ -456,7 +456,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ### References
 
->  The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
 References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
 
@@ -1000,7 +1000,7 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 
 ::: warning
 The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
+The Node.js runtime supports the feature only for the REST Adapter.
 :::
 
 
@@ -1013,7 +1013,7 @@ Annotate an entity with `@odata.singleton` or `@odata.singleton.nullable`, to us
 ```cds
 service Sue {
   @odata.singleton entity MySingleton {
-    key id : String; // can be omitted
+    key id : String; // can be omitted in OData v4.01
     prop : String;
     assoc : Association to myEntity;
   }

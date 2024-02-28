@@ -77,7 +77,7 @@ Therefore, the rules when publishing packages for reuse are:
 * **Do** an *npm update* before publishing and test thoroughly.
   (&rarr; ideally automated in your CI/CD pipeline).
 * **Do** the vulnerability checks for your software and all open-source software used by you **or by packages you used** (&rarr; [Minimize Usage of Open Source Packages](#oss)).
-* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v7/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
+* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v10/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
 
 ::: tip
 If both your package and a consuming package reuse the same CDS models, loading those models would fail because it's impossible to automatically merge the two versions, nor is it possible to load two independent versions. The reason for this is that it's reusing models that share the **same** single definitions.

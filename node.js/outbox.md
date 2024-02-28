@@ -7,23 +7,93 @@ status: released
 ---
 <!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
+# Outboxing with `cds.outboxed`
 
-# Transactional Outbox
+## Overview
 
-Usually the emit of messages should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
-To solve this problem, an outbox is used internally to defer the emit of messages until the success of the current transaction.
+Often, remote operations should be delayed until the main transaction succeeded. Otherwise, the remote operations are also triggered in case of a rollback.
+To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
 
+Every CAP service can be _outboxed_, that means event dispatching becomes _asynchronous_. 
 
-<span id="ininmemoryoutbox" />
+## Outboxing a Service
+
+### cds.outboxed(srv) {.method}
+
+Programmatically, you can get the outboxed service with
+
+```js
+const srv = await cds.connect.to('yourService')
+const outboxed = cds.outboxed(srv)
+
+await outboxed.emit('someEvent', { some: 'message' }) // asynchronous
+await outboxed.send('someEvent', { some: 'message' }) // asynchronous
+```
+
+::: tip
+You still need to `await` these operations. Then the messages are stored in the database, together with the main transaction.
+:::
+
+The `cds.outboxed` function can also be called with optional configuration options.
+
+```js
+const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
+```
+
+> The persistent outbox can only be used if it's enabled globally with `cds.requires.outbox = true` because it requires a dedicated database table.
+
+::: warning One-time configuration
+Once you outboxed a service, you cannot override its outbox configuration options again.
+:::
+
+### cds.unboxed(srv) {.method}
+
+Use this on an outboxed service to get back the original service:
+
+```js
+const unboxed = cds.unboxed(srv)
+```
+
+This is useful if your service is outboxed per configuration.
+
+### Per Configuration
+
+You can also configure services to be outboxed by default:
+
+```json
+{
+  "requires": {
+    "yourService": {
+      "kind": "odata",
+      "outbox": true
+    }
+  }
+}
+```
+
+::: tip Outboxed by default
+Some services are outboxed by default, these include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
+:::
+
+For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox).
 
 
 ## Persistent Outbox (Default) {#persistent-outbox}
 
+You can enable it globally for all outboxed services with:
+
+```json
+{
+  "requires": {
+    "outbox": true
+  }
+}
+```
+
 Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
 as for other operations, therefore transactional consistency is guaranteed.
 
-The persistent outbox is globally enabled for all deferrable services (for example for [cds.MessagingService](messaging) and `cds.AuditLogService`).
-You can set the global outbox configuration, the defaults are:
+You can use the following configuration options:
 
 ```json
 {
@@ -61,61 +131,53 @@ The respective message is then updated and the `attempts` field is set to `maxAt
 :::
 
 
-Your database model is automatically extended by the entity `cds.outbox.Messages`, as follows:
+Your database model is automatically extended by the entity `cds.outbox.Messages`:
 
 ```cds
-using cuid from '@sap/cds/common';
-
 namespace cds.outbox;
 
-entity Messages : cuid {
-  timestamp: Timestamp;
-  target: String;
-  msg: LargeString;
-  attempts: Integer default 0;
-  partition: Integer default 0;
-  lastError: LargeString;
-  lastAttemptTimestamp: Timestamp @cds.on.update : $now;
+entity Messages {
+  key ID                   : UUID;
+      timestamp            : Timestamp;
+      target               : String;
+      msg                  : LargeString;
+      attempts             : Integer default 0;
+      partition            : Integer default 0;
+      lastError            : LargeString;
+      lastAttemptTimestamp : Timestamp @cds.on.update: $now;
 }
 ```
-::: tip
+
 In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`,
 for example to expose it in a service.
-:::
 
-::: warning
+
+#### Known Limitations 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The user id is stored to recreate the correct context.
-:::
+- The emitting service must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
+- The emitting service must not perform any database modifications, because a global database transaction is used when dispatching the events.
 
-To overwrite the outbox configuration for a particular service, you can specify the `outbox` option.
 
-Example:
+## In-Memory Outbox
+
+You can enable it globally for all outboxed services with:
 
 ```json
 {
   "requires": {
-    "messaging": {
-      "kind": "enterprise-messaging",
-      "outbox": {
-        "maxAttempts": 10,
-        "chunkSize": 10
-      }
+    "outbox": {
+      "kind": "in-memory-outbox"
     }
   }
 }
 ```
-
-## In-Memory Outbox
-
 Messages are emitted when the current transaction is successful. Until then, messages are only kept in memory.
 This is similar to the following code if done manually:
 ```js
 cds.context.on('succeeded', () => this.emit(msg))
 ```
-::: warning
+::: warning No retry mechanism
 The message is lost if its emit fails, there is no retry mechanism.
-The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 :::
 
 ## Immediate Emit

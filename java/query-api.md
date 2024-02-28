@@ -750,7 +750,7 @@ Select.from("bookshop.Books").byId(1).lock(5);
 Update.entity("bookshop.Books").data("price", 18).byId(1);
 ```
 
-To set a _shared_ (read) lock specify the lock mode `SHARED` in the lock method:
+To set a _shared_ (read) lock, specify the lock mode `SHARED` in the lock method:
 
 ```java
 import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
@@ -758,16 +758,20 @@ import static com.sap.cds.ql.cqn.CqnLock.Mode.SHARED;
 Select.from("bookshop.Books").byId(1).lock(SHARED);
 ```
 
-Not every entity exposed via the CDS entity can be locked with the `lock()` clause. Databases require that the target of such statements is represented by a single table or by a view that is simple enough so that the database can unambiguously identify which rows must be locked. Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
+Not every entity exposed via a CDS entity can be locked with the `lock()` clause. To use the `lock()` clause, databases require that the target of such statements is represented by one of the following:
+- a single table 
+- a simple view, so that the database can unambiguously identify which rows to lock
+
+Views that use joins, aggregate data, include calculated or coalesced fields cannot be locked. Some databases might have additional restrictions or limitations specific to them.
 
 There are few notable examples of such restrictions:
 
 * You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
 * You cannot use the `lock()` in a statement with the subquery as a source.
-* Localized entities can be locked only if you query is executed without a locale as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
-* Entities that contains "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 
-As a general rule, prefer the statements that select primary keys with a simple conditions, such as `byId` or `matching`, to select the target entity set for locking.
+As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
 
 ## Insert
 
@@ -997,23 +1001,24 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
-### Update with Expressions (beta) {#update-expressions}
+### Update with Expressions {#update-expressions}
 
 The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
 
 ```java
+// dynamic
 Update.entity(BOOKS).byId(101).set("stock", CQL.get("stock").minus(1));
+
+// static
+Update.entity(BOOKS).byId(101).set(b -> b.stock(), s -> s.minus(1));
 ```
 
 You can also combine update data with expressions:
 
 ```java
-import static com.sap.cds.ql.CQL.get;
-import static com.sap.cds.ql.CQL.param;
-
-Update.entity(BOOKS).where(b -> b.stock().eq(0)) // [!code focus]
-   .data("available", true) // [!code focus]
-   .set("stock", get("stock").plus(param("addStock"))); // [!code focus]
+Update.entity(BOOKS).where(b -> b.stock().eq(0))
+   .data("available", true)
+   .set(b -> b.stock(), s -> s.plus(CQL.param("addStock")));
 ```
 
 ### Deep Update { #deep-update}
@@ -1632,6 +1637,28 @@ BETWEEN
 </td>
 </tr>
 </table>
+
+#### `ETag Predicate` {#etag-predicate}
+
+The [ETag predicate](../java/query-execution#etag-predicate) specifies expected ETag values for [conflict detection](../java/query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
+
+```java
+Instant expectedLastModification = ... ;
+Update.entity(ORDER)
+      .entry(newData)
+      .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
+```
+
+You can also use the `eTag` methods of the `CQL` interface to construct an ETag predicate in [tree style](#cql-helper-interface):
+
+```java
+import static com.sap.cds.ql.CQL.*;
+
+Instant expectedLastModification = ... ;
+Update.entity(ORDER)
+      .entry(newData)
+      .where(and(get("id").eq(85), eTag(expectedLastModification)));
+```
 
 #### `Logical Operators` {#logical-operators}
 

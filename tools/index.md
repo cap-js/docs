@@ -27,7 +27,7 @@ npm i -g @sap/cds-dk
 
 ### `cds version`
 
-Use `cds version` to get information about your installed package version
+Use `cds version` to get information about your installed package version:
 
 <pre class="log">
 <i>$</i> cds version
@@ -54,7 +54,7 @@ Use `cds version` to get information about your installed package version
 
 ### `cds help`
 
-Use `cds help` to see an overview of all commands
+Use `cds help` to see an overview of all commands:
 
 <pre class="log">
 <i>$</i> cds help
@@ -94,7 +94,7 @@ COMMANDS
 </pre>
 
 
-Use `cds help <command>` or `cds <command> ?` to get specific help
+Use `cds help <command>` or `cds <command> ?` to get specific help:
 
 <pre class="log">
 <i>$</i> cds watch --help
@@ -296,27 +296,24 @@ docker build -t cds .
 ### Run a Service in a Container
 
 1. Run a container that is based on the image:
-```sh
-docker run --publish 4004:4004 -it cds sh
-```
-> You see a `$ ` command prompt from _inside_ the container.
+   ```sh
+   docker run --publish 4004:4004 -it cds sh
+   ```
+   > You see a `$` command prompt from _inside_ the container.
 
 1. Move to the home directory:
-```sh
-cd
-```
-
+   ```sh
+   cd
+   ```
 1. Write a simple cds file:
-```sh
-echo 'service CatalogService { entity Books { key ID: UUID; } }' \
-    > services.cds
-```
-
+   ```sh
+   echo 'service CatalogService { entity Books { key ID: UUID; } }' \
+       > services.cds
+   ```
 1. Run the service:
-```sh
-cds run
-```
-
+   ```sh
+   cds run
+   ```
 1. Open [http://localhost:4004](http://localhost:4004) in a browser to test the application. You forwarded the port `4004` when running the container, which allows you to access the application as if it would run locally.
 
 
@@ -397,7 +394,7 @@ Use...
 **Translation support**
 
 - Properties, JSON, and CSV files
-- Navigate to translation definitions from translation IDs like ```'{i18n>customerName}'```.
+- Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`.
 - Show translations on hover.
 - Quickfix to maintain missing translations
 
@@ -580,7 +577,7 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 
 
-## CDS Lint & ESlint {#cds-lint}
+## CDS Lint & ESLint {#cds-lint}
 
 <style lang="scss" scoped>
   .emoji {
@@ -619,7 +616,7 @@ Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package
 
 <div>
 
-<img src="./assets/cdslint.svg" alt="CDS Lint" width="130px" class="ignore-dark" />
+<img src="./assets/cdslint.svg" alt="CDS Lint logo" width="130px" class="ignore-dark" />
 
 </div>
 

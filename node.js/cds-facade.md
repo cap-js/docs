@@ -203,16 +203,49 @@ Provides access to the effective configuration of the current process, transpare
 
 ### cds. requires {.property}
 
-... is a convenience shortcut to [`cds.env.requires`](#cds-env).
+... is an overlay and convenience shortcut to [`cds.env.requires`](#cds-env), with additional entries for services with names different from the service definition's name in cds models. For example, given this service definition:
 
-```console
-[dev] cds repl
-> cds.requires.auth // [!code focus]
-{
-  kind: 'basic-auth',
-  # ... as above
-}
+```cds
+service ReviewsService {}
 ```
+
+... and this configuration:
+
+```jsonc
+{ "cds": {
+  "requires": {
+    "db": "sqlite",
+    "reviews" : {                  // lookup name
+      "service": "ReviewsService"  // service definition's name
+    }
+  }
+}}
+```
+
+You can access the entries as follows:
+
+```js
+cds.env.requires.db              //> the effective config for db
+cds.env.requires.reviews         //> the effective config for reviews
+cds.env.requires.ReviewsService  //> undefined
+```
+
+```js
+cds.requires.db                  //> the effective config for db
+cds.requires.reviews             //> the effective config for reviews
+cds.requires.ReviewsService      //> same as cds.requires.reviews
+```
+
+The additional entries are useful for code that needs to securely access the service by cds definition name.
+
+Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like `Object.keys()` behave different than for `cds.env.requires`:
+
+```js
+Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
+Object.keys(cds.requires)     //> [ 'ReviewsService' ]
+```
+
+
 
 
 

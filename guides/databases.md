@@ -172,7 +172,7 @@ For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/clou
 ```zsh
 bookshop/
 ├─ db/
-│ └─ data/ #> place your .csv files here
+│ ├─ data/ # place your .csv files here
 │ │ ├─ sap.capire.bookshop-Authors.csv
 │ │ ├─ sap.capire.bookshop-Books.csv
 │ │ ├─ sap.capire.bookshop-Books.texts.csv
@@ -188,12 +188,12 @@ For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-
 
 ```zsh
 db/
-└─ data/ #> place your .csv files here
+├─ data/ # place your .csv files here
 │ ├─ my.bookshop-Authors.csv
 │ ├─ my.bookshop-Books.csv
 │ ├─ my.bookshop-Books.texts.csv
-│ └─ my.bookshop-Genres.csv
-| └─ ...
+│ ├─ my.bookshop-Genres.csv
+│ └─ ...
 └─ index.cds
 ```
 </div>
@@ -345,6 +345,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
+### Reading `LargeBinary` / BLOB {.impl .node}
+
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
+```
+
+[Read more about custom streaming in Node.js.](../node.js/best-practices#custom-streaming-beta){.learn-more}
+
+
 ## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
@@ -352,17 +366,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
 
+You can also do this manually with the CLI command `cds compile --to <dialect>`.
+
 </div>
 
 <div markdown="1" class="impl java">
 
 When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
+[Learn more about adding an inital database schema.](../java/persistence-services#initial-database-schema){.learn-more}
+
 </div>
 
-You can also do this manually with the CLI command `cds compile --to <dialect>`.
+### Using `cds compile`
 
-### Using `cds compile -2 <dialect>`
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -405,8 +422,11 @@ service CatalogService {
 
 Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
 
+<div class="impl node">
+
+
 ```sh
-cds compile srv/cat-service --to sqlite > schema.sql
+cds compile srv/cat-service --to sql --dialect sqlite > schema.sql
 ```
 
 Output:
@@ -463,8 +483,101 @@ ON Books.author_ID = author.ID;
 
 :::
 
+</div>
+
+
+<div class="impl java">
+
+```sh
+cds compile srv/cat-service --to sql > schema.sql
+```
+
+Output:
+
+::: code-group
+
+```sql [schema.sql]
+CREATE TABLE sap_capire_bookshop_Books (
+  createdAt TIMESTAMP(7),
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP(7),
+  modifiedBy NVARCHAR(255),
+  ID INTEGER NOT NULL,
+  title NVARCHAR(111),
+  descr NVARCHAR(1111),
+  author_ID INTEGER,
+  genre_ID INTEGER,
+  stock INTEGER,
+  price DECFLOAT,
+  currency_code NVARCHAR(3),
+  image BINARY LARGE OBJECT,
+  PRIMARY KEY(ID)
+);
+CREATE TABLE sap_capire_bookshop_Books (
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  author_ID NVARCHAR(36),
+  price_amount DECIMAL,
+  price_currency_code NVARCHAR(3),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_capire_bookshop_Authors (
+  ID NVARCHAR(36) NOT NULL,
+  name NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_common_Currencies (
+  name NVARCHAR(255),
+  descr NVARCHAR(1000),
+  code NVARCHAR(3) NOT NULL,
+  symbol NVARCHAR(5),
+  minorUnit SMALLINT,
+  PRIMARY KEY(code)
+);
+
+CREATE TABLE sap_capire_bookshop_Books_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books_0.createdAt,
+  Books_0.modifiedAt,
+  Books_0.ID,
+  Books_0.title,
+  Books_0.author,
+  Books_0.genre_ID,
+  Books_0.stock,
+  Books_0.price,
+  Books_0.currency_code,
+  Books_0.image
+FROM CatalogService_Books AS Books_0;
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books.ID,
+  Books.title,
+  Books.descr,
+  author.name AS author,
+  Books.price_amount,
+  Books.price_currency_code
+FROM sap_capire_bookshop_Books AS Books
+LEFT JOIN sap_capire_bookshop_Authors AS author
+ON Books.author_ID = author.ID;
+
+--- some more technical views skipped ...
+```
+
+:::
+
+</div>
+
 ::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
 :::
 
 
@@ -564,6 +677,8 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 
 The following rules apply:
 
+- The value of the annotation must be a [string literal](../cds/cdl#multiline-literals).
+
 - The compiler doesn't check or process the provided SQL snippets in any way. You're responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
 
 - If you refer to a column name in the annotation, you need to take care of
@@ -575,9 +690,6 @@ The following rules apply:
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
-
-
-
 
 
 ### Reserved Words
@@ -637,7 +749,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author //[!code focus]
+  CONSTRAINT Books_author // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT
@@ -684,7 +796,7 @@ CREATE TABLE Books_texts (
   ID INTEGER NOT NULL,
   title NVARCHAR(5000),
   PRIMARY KEY(locale, ID),
-  CONSTRAINT Books_texts_texts //[!code focus]
+  CONSTRAINT Books_texts_texts // [!code focus]
     FOREIGN KEY(ID)
     REFERENCES Books(ID)
     ON UPDATE RESTRICT

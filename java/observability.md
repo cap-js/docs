@@ -293,8 +293,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
 
 1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an api token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
-
- 
+<div id="dynatrace-metrics.ingest"/> 
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
 4) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
@@ -351,7 +350,7 @@ Instrumentations for CAP-specific components are disabled by default so that no 
 | `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
-| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garage collection.       |
+| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft gargabe collection.       |
 | `com.sap.cds.otel.span.RequestContext`         | `DEBUG`        | Spans for each Request Context.                            |
 | `com.sap.cds.otel.span.ChangeSetContext`       | `DEBUG`        | Spans for each ChangeSet Context.                          |
 | `com.sap.cds.otel.span.Emit`                   | `DEBUG`        | Spans for dispatching events in the CAP runtime.           |
@@ -424,7 +423,7 @@ class CatalogServiceHandler implements EventHandler {
 It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
-
+<div id="dynatrace-setup"/>
 
 
 <!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->

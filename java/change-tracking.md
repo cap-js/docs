@@ -15,7 +15,7 @@ As of CAP Java 2.7.0, the change tracking feature is available. You can use this
 
 ### Enabling change tracking
 
-To use the change tracking feature, you need to enable it in your `pom.xml` file. Add the following dependency to your project:
+To use the change tracking feature, you need to enable it in the `pom.xml` file of your service by adding the following dependency:
 
 ```xml
     <dependency>

@@ -128,42 +128,9 @@ CqnSelect query = Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_S
 Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and therefore **must not** contain external input!
 :::
 
-
-### Pessimistic Locking { #pessimistic-locking}
-
-Use database locks to ensure that data returned by a query isn't modified in a concurrent transaction.
-_Exclusive_ locks block concurrent modification and the creation of any other lock. _Shared_ locks, however, only block concurrent modifications and exclusive locks but allow the concurrent creation of other shared locks.
-
-To lock data:
-1. Start a transaction (either manually or let the framework take care of it).
-2. Query the data and set a lock on it.
-3. Perform the processing and, if an exclusive lock is used, modify the data inside the same transaction.
-4. Commit (or roll back) the transaction, which releases the lock.
-
-To be able to query and lock the data until the transaction is completed, just call a [`lock()`](./query-api#write-lock) method and set an optional parameter `timeout`.
-
-In the following example, a book with `ID` 1 is selected and locked until the transaction is finished. Thus, one can avoid situations when other threads or clients are trying to modify the same data in the meantime:
-
-```java
-// Start transaction
-// Obtain and set a write lock on the book with id 1
-	service.run(Select.from("bookshop.Books").byId(1).lock());
-	...
-// Update the book locked earlier
-	Map<String, Object> data = Collections.singletonMap("title", "new title");
-	service.run(Update.entity("bookshop.Books").data(data).byId(1));
-// Finish transaction
-```
-
-The `lock()` method has an optional parameter `timeout` that indicates the maximum number of seconds to wait for the lock acquisition. If a lock can't be obtained within the `timeout`, a `CdsLockTimeoutException` is thrown. If `timeout` isn't specified, a database-specific default timeout will be used.
-
-The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock should be set.
-
-
 ### Data Manipulation
 
 The CQN API allows to manipulate data by executing insert, update, delete, or upsert statements.
-
 
 #### Update
 
@@ -289,6 +256,148 @@ Example of a view that can't be resolved:
 entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
 entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
 ```
+
+## Concurrency Control
+
+Concurrency control allows protecting your data against unexpected concurrent changes.
+
+### Optimistic Concurrency Control {#optimistic}
+
+Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on an _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the entity.
+
+#### Optimistic Concurrency Control in OData
+
+In the [OData protocol](../guides/providing-services#etag), the implementation relies on `ETag` and `If-Match` headers in the HTTP request. 
+
+The `@odata.etag` annotation indicates to the OData protocol adapter that the value of an annotated element should be [used as the ETag for conflict detection](../guides/providing-services#etag):
+
+{#on-update-example}
+
+```cds
+entity Order : cuid {
+    @odata.etag
+    @cds.on.update : $now @cds.on.insert : $now
+    modifiedAt : Timestamp;
+    product : Association to Product;
+}
+```
+
+#### The ETag Predicate {#etag-predicate}
+
+An ETag can also be used programmatically in custom code. Use the `CqnEtagPredicate` to specify the expected ETag values in an update or delete operation. ETag checks are not executed on upsert. You can create an ETag predicate using the `CQL.eTag` or the `StructuredType.eTag` methods.
+
+```java
+PersistenceService db = ...
+Instant expectedLastModification = ... 
+CqnUpdate update = Update.entity(ORDER).entry(newData)
+                         .where(o -> o.id().eq(85).and(
+                                     o.eTag(expectedLastModification)));
+
+Result rs = db.execute(update);
+
+if (rs.rowCount() == 0) {
+    // order 85 does not exist or was modified concurrently
+}
+```
+
+In the previous example, an `Order` is updated. The update is protected with a specified ETag value (the expected last modification timestamp). The update is executed only if the expectation is met.
+
+::: warning Application has to check the result
+No exception is thrown if an ETag validation does not match. Instead, the execution of the update (or delete) succeeds but doesn't apply any changes. Ensure that the application checks the `rowCount` of the `Result` and implement your error handling. If the value of `rowCount` is 0, that indicates that no row was updated (or deleted).
+:::
+
+
+#### Providing new ETag Values with Update Data
+
+A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime automatically handles the `@cds.on.update` annotation and sets a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
+
+We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used. 
+
+#### Runtime-Managed Versions
+
+Alternatively, you can store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
+
+```cds
+entity Order : cuid {
+    @odata.etag
+    @cds.java.version
+    version : Int32;
+    product : Association to Product;
+}
+```
+
+Compared to `@cds.on.update`, which allows for ETag elements with type `Timestamp` or `UUID` only, `@cds.java.version` additionally supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
+
+Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be used for [conflict detection](../guides/providing-services#etag) in OData.
+
+##### Expected Version from Data
+
+If the update data contains a value for a version element, this value is used as the _expected_ value for the version. This allows using version elements in a programmatic flow conveniently:
+
+```java
+PersistenceService db = ...
+CqnSelect select = Select.from(ORDER).byId(85);
+Order order = db.run(select).single(Order.class);
+
+order.setAmount(5000);
+
+CqnUpdate update = Update.entity(ORDER).entry(order);
+Result rs = db.execute(update);
+
+if (rs.rowCount() == 0) {
+    // order 85 does not exist or was modified concurrently
+}
+```
+
+During the execution of the update statement it's asserted that the `version` has the same value as the `version`, which was read previously and hence no concurrent modification occurred.
+
+The same convenience can be used in bulk operations. Here the individual update counts need to be introspected.
+
+```java
+CqnSelect select = Select.from(ORDER).where(o -> amount().gt(1000));
+List<Order> orders = db.run(select).listOf(Order.class);
+
+orders.forEach(o -> o.setStatus("cancelled"));
+
+Result rs = db.execute(Update.entity(ORDER).entries(orders));
+
+for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
+    // order does not exist or was modified concurrently
+}
+```
+
+> If an [ETag predicate is explicitly specified](#providing-new-etag-values-with-update-data), it overrules a version value given in the data.
+
+
+### Pessimistic Locking { #pessimistic-locking}
+
+Use database locks to ensure that data returned by a query isn't modified in a concurrent transaction.
+_Exclusive_ locks block concurrent modification and the creation of any other lock. _Shared_ locks, however, only block concurrent modifications and exclusive locks but allow the concurrent creation of other shared locks.
+
+To lock data:
+1. Start a transaction (either manually or let the framework take care of it).
+2. Query the data and set a lock on it.
+3. Perform the processing and, if an exclusive lock is used, modify the data inside the same transaction.
+4. Commit (or roll back) the transaction, which releases the lock.
+
+To be able to query and lock the data until the transaction is completed, just call a [`lock()`](./query-api#write-lock) method and set an optional parameter `timeout`.
+
+In the following example, a book with `ID` 1 is selected and locked until the transaction is finished. Thus, one can avoid situations when other threads or clients are trying to modify the same data in the meantime:
+
+```java
+// Start transaction
+// Obtain and set a write lock on the book with id 1
+	service.run(Select.from("bookshop.Books").byId(1).lock());
+	...
+// Update the book locked earlier
+	Map<String, Object> data = Collections.singletonMap("title", "new title");
+	service.run(Update.entity("bookshop.Books").data(data).byId(1));
+// Finish transaction
+```
+
+The `lock()` method has an optional parameter `timeout` that indicates the maximum number of seconds to wait for the lock acquisition. If a lock can't be obtained within the `timeout`, a `CdsLockTimeoutException` is thrown. If `timeout` isn't specified, a database-specific default timeout will be used.
+
+The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock should be set.
 
 ## Runtime Views { #runtimeviews}
 

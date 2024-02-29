@@ -313,7 +313,7 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
 
 #### Configure Agent Extension { #agent-extension }
 
-There is a set of common configuration steps for Open Telemetry which apply to Cloud Logging Service and Dynatrace. This includes configuring an Open Telemetry Agent Extension library(https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension) which provides out-of-the box configuration of the required credentials taken from the service bindings. The library provides sophisticated configuration possibilities which are not described here. Refer to the official documentation for a complete list.
+There is a set of common configuration steps for Open Telemetry which apply to Cloud Logging Service and Dynatrace. This includes configuring an [Open Telemetry Agent Extension library](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension) which provides out-of-the box configuration of the required credentials taken from the service bindings. The library provides sophisticated configuration possibilities which are not described here. Refer to the official documentation for a complete list.
 
 1) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
     ```json

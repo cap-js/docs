@@ -30,7 +30,7 @@ You POM also must include the goal to resolve the CDS model delivered from the f
 ### Annotating entities
 
 To capture changes, you need to extend your entities with a technical aspect and annotate the entity 
-the annotation `@changelog` that will mark the elements whose changes are to be logged.
+with annotation `@changelog` that will mark the elements whose changes are to be logged.
 
 Given the following entity that represents a `Book` on the domain level:
 
@@ -62,7 +62,7 @@ your `srv` module, so you can include it in your `cds` file like this:
 using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
 ```
 
-Then, you have to extend the _domain_ entity with the aspect `changelog.changeTracked` that will store the references 
+Then, you have to **extend the domain entity** with the aspect `changelog.changeTracked` that will store the references 
 between changed entities and their changes:
 
 ```cds
@@ -83,7 +83,7 @@ an association `changes` that will let you consume the change log both programma
 That implies that every projection of the entity `Books` will have this association and the changes will be 
 visible in all of them.
 
-Then, you need to say what elements of the entity you want to track. You can do this by annotating the elements 
+Then, you need to say which elements of the entity you want to track. You can do this by annotating the elements 
 of the entity with the `@changelog` annotation:
 
 ```cds
@@ -94,9 +94,8 @@ annotate Bookshop.Books {
 ```
 
 :::warning
-Do not annotate the elements that are subject to audit logging for both read and write accesses 
+Elements annotated with `@changelog` and which are subject to audit logging, i.e. annotated with `@PersonalData`, are ignored by the change tracking feature.
 (see [Audit Logging](./auditlog) for more information)
-with the `@changelog` annotation. Such elements will never be change tracked and will be ignored by the change tracking feature.
 :::
 
 ### Identifying changes
@@ -153,17 +152,17 @@ your own presentation for it as the changes are exposed only as part of the chan
 
 ### What is change tracked?
 
-The change tracking feature tracks the changes of all modifying operations that are executed on the entity via CQN statements, 
+The feature tracks the changes of all modifying operations executed via CQN statements which are indirectly triggered by adapters or directly by custom code.
 that includes the statements that you execute via custom code as well. It supports all kinds of modifying operations 
 including the deep and the bulk updates. Changes made through native SQL, JDBC or other means that bypasses the CAP Java runtime are not tracked. 
 Modifications that are forwarded to remote applications via Remote OData are not tracked as well.  
 
 The level where you annotate your elements is very important: if you annotate the elements on the domain level,
 that means that every change made through every projection of the entity will be tracked. If you annotate the elements
-on the projection level, only the changes made through that projection will be tracked.
+on the projection level, only the changes made through that projection is tracked.
 
-In case of the `Books` example above, the changes made through the `Books` projection will be tracked, but the changes
-made on the domain entity will not be. That can be beneficial if you have a service that is used for data replication
+In case of the `Books` example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
+made on the domain entity are omitted. That can be beneficial if you have a service that is used for data replication
 or mass changes where change tracking can be very expensive operation, and you do not want to generate changes from such operations.
 
 When you decide how to annotate your elements, you should consider not only the structure of it but also the way it is changed
@@ -172,11 +171,11 @@ will be very hard to trace back to the origin of the change.
 
 ### How change tracking feature identifies the changes?
 
-Every modifying operation that is executed via the CQN requires an additional reads to retrieve the old state 
+Every modifying CQN-based operation requires two additional READ to retrieve the old state 
 of the entity and the new state after the modifying operation.
 
-Then they are compared and stored within the change log. Nature of the change is determined by comparing the old and new 
-values of the entity: data that were not present in the old values are considered as added, data that are not present in 
+The images are compared and differences are stored within the change log. Nature of the change is determined by comparing the old and new 
+values of the entity: data that were not present in the old values are considered as added whereas data that are not present in 
 the new values are considered as deleted. Elements that are present in both old and new values but have different values 
 are considered as modified. This also works across compositions.
 
@@ -188,14 +187,14 @@ The namespace `sap.changelog` defines an entity `Changes` that reflects each cha
 
 Each entry in the `Changes` entity contains the following information:
 
-- the marker that represents the nature of the change: addition, modification or deletion.
+- A marker that represents the nature of the change: addition, modification or deletion.
 - the qualified name of the entity that was changed and the qualified name of the root entity. They depend on the projection that was used to 
   change the entity and reflect the root and a target of the modifying operation. For flat entities, they are the same.
 - the attribute of the target projection that was changed. 
-- the new and old values as a strings. 
+- the new and old values as strings. 
 - the user who made the change and the timestamp of the change.
 - the data type of the changed attribute.
-- the path that contains the primary keys of the entity and names of the attributes from the root to the target.
+- the technical path from the root entity to the tracked target entity.
 
 ### Things to consider when using change tracking
 
@@ -203,7 +202,7 @@ Each entry in the `Changes` entity contains the following information:
   in case of frequent changes. You should consider the retention policy of the change log as it will not be deleted when you delete the entities. 
 - Consider the performance impact. Change tracking needs to execute additional reads during updates to retrieve and compare updated values. 
   This can slow down the update operations and can be very expensive in case of updates that affect a lot of entities.
-- Consider the ways your entities are changed. You might want to track the changes only on the projections that are used for 
-  the user interaction and not on the domain level or for data replication.
+- Consider the ways your entities are changed. You might want to track the changes only on the service projection level that are used for 
+  the user interaction and not on the domain level (for instance during data replication).
 - If you want to expose the complete change log to the user, you need to consider the security implications of this. If your entities have complex access rules, 
   you need to consider how to extend this rules to the change log. 

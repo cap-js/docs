@@ -292,7 +292,9 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 
 Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
 
-1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
+1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an api token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
+
+ 
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
 4) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
@@ -303,7 +305,8 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
      ...
      properties:
        ...
-       OTEL_METRICS_EXPORTER: dynatrace 
+       OTEL_METRICS_EXPORTER: dynatrace
+	   OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
    ```
    For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
 
@@ -321,7 +324,7 @@ There is a set of common configuration steps for Open Telemetry which apply to C
     </dependency>
     ```
 
-   Make sure that you are using at least version `3.8.2` of `cf-java-logging-support-opentelemetry-agent-extension`.
+   Make sure that you are using at least version `3.8.3` of `cf-java-logging-support-opentelemetry-agent-extension`.
 2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
 
    ```yaml

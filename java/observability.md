@@ -378,7 +378,7 @@ Using the Open Telemetry Java API, it's possible to provide additional observabi
 
 Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
 ::: code-group
-```xml [pom.xml]
+```xml [srv/pom.xml]
 <dependency>
    <groupId>io.opentelemetry</groupId>
    <artifactId>opentelemetry-api</artifactId>
@@ -455,7 +455,7 @@ Actuators form an open framework, which can be enhanced by libraries (see [CDS A
 To add actuator support in your application, add the following dependency:
 
 ::: code-group
-```xml [pom.xml]
+```xml [srv/pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>

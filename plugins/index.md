@@ -6,15 +6,6 @@ status: released
 
 Following is a curated list of plugins that are available for the SAP Cloud Application Programming Model (CAP) which provide integration with SAP BTP services and technologies, or other SAP products.
 
-::: tip Maintained by CAP and SAP
-These plugins are created and maintained in close collaboration and shared ownership of CAP development teams and other SAP and BTP development teams.
-:::
-
-:::info Community Plugins
-As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP Community](https://github.com/cap-js-community) repository and browse the available plugins.
-:::
-
-
 [[toc]]
 
 <style scoped>
@@ -91,12 +82,28 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    
 ## Support for Plugins
 
+The regular CAP support process does not apply for plugins. Issues are to be created in the issue page of the respective github repository.
+
 |    |    |
 | --- | --- |
-| Node.js | Click the Node.js icon for the plugin to find the repository and open an issue there. 
+| Node.js | Click the Node.js icon of the plugin in the list below to find the repository and open an issue there. 
 | Java | Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda). 
 
 <div id="internal-support" />
+
+Node.js plugins are available from two sources with different levels of support and maintenance:
+
+[CAP JS](https://github.com/cap-js) plugins are:
+ - created and maintained in close collaboration and shared ownership of CAP development teams and other SAP and BTP development teams
+ - supported like CAP itself
+
+[CAP JS Community](https://github.com/cap-js-community) plugins are:
+ - created and maintained by the community
+ - not directly supported from CAP
+
+:::info Complete list of plugins
+As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the two communities to browse all available plugins.
+:::
 
 ## GraphQL Adapter
 

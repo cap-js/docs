@@ -82,7 +82,7 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    
 ## Support for Plugins
 
-The regular CAP support process does not apply for plugins. Issues are to be created in the issue page of the respective github repository.
+The [regular CAP support process](/resources/#reporting-incidents) does not apply for plugins.
 
 |    |    |
 | --- | --- |

@@ -2,6 +2,7 @@
 synopsis: >
   API to introspect CDS Query Language (CQL) statements in Java.
 status: released
+redirect_from: java/query-introspection
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 

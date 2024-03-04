@@ -2,6 +2,7 @@
 synopsis: >
   This section describes the error handling capabilities provided by the CAP Java SDK.
 status: released
+redirect_from: java/indicating-errors
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 

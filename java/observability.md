@@ -262,8 +262,9 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
 
-1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
-    ```yaml
+1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to an _mta.yaml_ descriptor:
+    ::: code-group
+    ```yaml [mta.yaml]
     ...
     resources:
       - name: cloud-logging-instance
@@ -275,10 +276,12 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
             ingest_otlp: true
     ...
     ``` 
+    :::
 2) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
-3) Define additional environment variables to tell the agent extension to use Cloud Logging Service.
+3) Define additional environment variables to tell the [agent extension](#agent-extension) to use Cloud Logging Service.
 
-   ```yaml
+   ::: code-group
+    ```yaml [mta.yaml]
    - name: <srv-module>
      ...
      properties:
@@ -286,6 +289,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging    
    ```
+   :::
 
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
@@ -299,16 +303,19 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
 4) Configure the Open Telemetry Agent Extension according to the [common configuration](#agent-extension).
-5) Define an additional environment variable to tell the agent extension to use Dynatrace.
+5) Define an additional environment variable to tell the [agent extension](#agent-extension) to use Dynatrace.
 
-   ```yaml
+   ::: code-group
+    ```yaml [mta.yaml]
    - name: <srv-module>
      ...
      properties:
        ...
        OTEL_METRICS_EXPORTER: dynatrace
-	   OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
+       OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
    ```
+   :::
+
    For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
 
 
@@ -317,24 +324,29 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which ne
 There is a set of common configuration steps for Open Telemetry which apply to Cloud Logging Service and Dynatrace. This includes configuring an [Open Telemetry Agent Extension library](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension) which provides out-of-the box configuration of the required credentials taken from the service bindings. The library provides sophisticated configuration possibilities which are not described here. Refer to the official documentation for a complete list.
 
 1) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
-    ```json
+    
+    ::: code-group
+    ```json [pom.xml]
     <dependency>
       <groupId>com.sap.hcp.cf.logging</groupId>
       <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
       <version>${java-logging-version}</version>
     </dependency>
     ```
+    :::
 
    Make sure that you are using at least version `3.8.3` of `cf-java-logging-support-opentelemetry-agent-extension`.
 2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
 
-   ```yaml
+   ::: code-group
+    ```yaml [mta.yaml]
    - name: <srv-module>
      ...
      properties:
        ...
        JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-<version>.jar']"
    ```
+   :::
 
    Make sure that you replace the `<version>` tag with the same version that you've added to your maven dependencies in the previous step.
    For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
@@ -352,7 +364,7 @@ Instrumentations for CAP-specific components are disabled by default so that no 
 | `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
-| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft gargabe collection.       |
+| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garbage collection.       |
 | `com.sap.cds.otel.span.RequestContext`         | `DEBUG`        | Spans for each Request Context.                            |
 | `com.sap.cds.otel.span.ChangeSetContext`       | `DEBUG`        | Spans for each ChangeSet Context.                          |
 | `com.sap.cds.otel.span.Emit`                   | `DEBUG`        | Spans for dispatching events in the CAP runtime.           |
@@ -364,12 +376,14 @@ For specific steps to change the log level, please refer to the respective secti
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
 Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
-```yaml
+::: code-group
+```xml [pom.xml]
 <dependency>
    <groupId>io.opentelemetry</groupId>
    <artifactId>opentelemetry-api</artifactId>
 </dependency>
 ```
+:::
 
 There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
 
@@ -439,12 +453,14 @@ Actuators form an open framework, which can be enhanced by libraries (see [CDS A
 
 To add actuator support in your application, add the following dependency:
 
-```xml
+::: code-group
+```xml [pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
+:::
 
 The following table lists some of the available actuators that might be helpful to understand the internal status of the application:
 
@@ -511,12 +527,14 @@ Conveniently, Spring Boot offers out-of-the-box capabilities to report the healt
 
 To do so, first add a dependency to Spring Actuators, which forms the basis for health indicators:
 
-```xml
+::: code-group
+```xml [pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
+:::
 
 By default, Spring exposes the *aggregated* health status on web endpoint `/actuator/health`, including the result of all registered health indicators. But also the `info` actuator is exposed automatically, which might be not desired for security reasons. It's recommended to **explicitly** control web exposition of actuator components in the application configuration. The following configuration snippet is an example suitable for public visible health check information:
 

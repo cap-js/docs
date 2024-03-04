@@ -158,7 +158,7 @@ long rowCount = service.run(update).rowCount();
 If no rows are touched the execution is successful but the row count is 0.
 
 :::warning
-The setters of an [update with expressions](../java/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
+The setters of an [update with expressions](../java/working-with-cql/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
 :::
 
 ### Working with Structured Documents

@@ -308,7 +308,7 @@ SELECT.from (Authors, a => {
 
 <div markdown="1" class="impl java">
 
-At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
+At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```java
 Select.from(AUTHOR)

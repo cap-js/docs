@@ -55,10 +55,10 @@ In Spring, H2 is automatically initialized as in-memory database when the driver
 
 CAP supports most of the major features on H2:
 
-* [Path Expressions](../java/query-api#path-expressions) & Filters
-* [Expands](../java/query-api#projections)
+* [Path Expressions](../java/working-with-cql/query-api#path-expressions) & Filters
+* [Expands](../java/working-with-cql/query-api#projections)
 * [Localized Queries](../guides/localized-data#read-operations)
-* [Comparison Operators](../java/query-api#comparison-operators)
-* [Predicate Functions](../java/query-api#predicate-functions)
+* [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
+* [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
 [Learn about features and limitations of H2](../java/persistence-services#h2){.learn-more}

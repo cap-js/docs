@@ -297,11 +297,11 @@ While drop-create is most appropriate for development, it isn't suitable for dat
 
 CAP supports most of the major features on SQLite:
 
-* [Path Expressions](../java/query-api#path-expressions) & Filters
-* [Expands](../java/query-api#projections)
+* [Path Expressions](../java/working-with-cql/query-api#path-expressions) & Filters
+* [Expands](../java/working-with-cql/query-api#projections)
 * [Localized Queries](../guides/localized-data#read-operations)
-* [Comparison Operators](../java/query-api#comparison-operators)
-* [Predicate Functions](../java/query-api#predicate-functions)
+* [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
+* [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
 [Learn about features and limitations of SQLite.](../java/persistence-services#sqlite){.learn-more}
 

@@ -687,7 +687,7 @@ The records are locked until the end of the transaction by commit or rollback st
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
 
-[Learn more about using the `Select.lock()` method in the Java runtime.](../java/query-api#write-lock){.learn-more}
+[Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::

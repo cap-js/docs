@@ -234,7 +234,7 @@ In addition, call-graphs can be reconstructed and visualized that represent the 
 CAP Java integrates with the following monitoring tools:
 
 - [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions. 
-SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
+SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-configuration-cls).
 
 - [Dynatrace](#dynatrace) provides sophisticated features to monitor a solution on SAP BTP.
 
@@ -245,9 +245,9 @@ SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-te
 
 ### Open Telemetry { #open-telemetry }
 
-[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
+[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
 
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
+CAP Java applications can easily be configured to connect to SAP Cloud Logging or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
 
 - Out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
 - Additional traces for CAP-specific capabilities
@@ -262,7 +262,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 #### Configuration of CLoud Logging Service { #open-telemetry-configuration-cls }
 
-Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
+Open Telemetry support using SAP Cloud Logging leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
 
 1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
     ```yaml

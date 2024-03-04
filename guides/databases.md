@@ -158,7 +158,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 | **[SQLite](databases-sqlite)**       | `org.xerial:sqlite-jdbc` | Supported for development and CI <br> Recommended for local MTX |
 | **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
-[Learn more about supported databases in CAP Java and their configuration](../java/persistence-services#database-support){ .learn-more}
+[Learn more about supported databases in CAP Java and their configuration](../java/cqn-services/persistence-services#database-support){ .learn-more}
 </div>
 
 ## Providing Initial Data
@@ -374,7 +374,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
-[Learn more about adding an inital database schema.](../java/persistence-services#initial-database-schema){.learn-more}
+[Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
 </div>
 

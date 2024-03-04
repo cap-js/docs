@@ -9,7 +9,7 @@ impl-variants: true
 
 For local development and testing, CAP Java supports the [H2](https://www.h2database.com/) database, which can be configured to run in-memory.
 
-[Learn more about features and limitations of using CAP with H2](../java/persistence-services#h2){.learn-more}
+[Learn more about features and limitations of using CAP with H2](../java/cqn-services/persistence-services#h2){.learn-more}
 
 <div class="impl node">
 
@@ -45,11 +45,11 @@ To use H2, just add a Maven dependency to the H2 JDBC driver:
 </dependency>
 ```
 
-Next, configure the build to [create an initial _schema.sql_ file](../java/persistence-services#initial-database-schema-1) for H2 using `cds deploy --to h2 --dry`.
+Next, configure the build to [create an initial _schema.sql_ file](../java/cqn-services/persistence-services#initial-database-schema-1) for H2 using `cds deploy --to h2 --dry`.
 
 In Spring, H2 is automatically initialized as in-memory database when the driver is present on the classpath.
 
-[Learn more about the configuration of H2 ](../java/persistence-services#h2){.learn-more}
+[Learn more about the configuration of H2 ](../java/cqn-services/persistence-services#h2){.learn-more}
 
 ## Features {.impl .java}
 
@@ -61,4 +61,4 @@ CAP supports most of the major features on H2:
 * [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
 * [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
-[Learn about features and limitations of H2](../java/persistence-services#h2){.learn-more}
+[Learn about features and limitations of H2](../java/cqn-services/persistence-services#h2){.learn-more}

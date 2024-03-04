@@ -530,7 +530,7 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 ::: tip
 <div markdown="1" class="impl java">
 
-In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
+In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/cqn-services/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 

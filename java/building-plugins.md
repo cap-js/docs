@@ -158,7 +158,7 @@ Of course, this handler code looks just the same as any other custom or builtin 
 
 When you provide your custom handler as part of a reuse library, external to your application, things change a bit. At first, you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extension points.
 
-The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/persistence-services) or to a service using it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
+The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/cqn-services/persistence-services) or to a service using it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
 
 If your custom handler is isolated and, for example, only performs a validation based on provided data or a calculation, you can stick with the [CAP Java ServiceLoader approach](#service-loader), which is described in the following section.
 

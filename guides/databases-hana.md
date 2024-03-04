@@ -65,7 +65,7 @@ The [modules](../java/architecture#standard-modules) `cds-starter-cloudfoundry` 
 
 The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
 
-Learn more about the [configuration of an SAP HANA Cloud Database](../java/persistence-services#sap-hana){ .learn-more}
+Learn more about the [configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
 
 </div>
 

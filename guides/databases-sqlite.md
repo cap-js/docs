@@ -17,7 +17,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl java">
 
-[Learn more about the features and limitations of using CAP with SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about the features and limitations of using CAP with SQlite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 
 </div>
@@ -109,7 +109,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 :::
 
 
-[Learn more about creating an initial database schema](/java/persistence-services#initial-database-schema-1){.learn-more}
+[Learn more about creating an initial database schema](/java/cqn-services/persistence-services#initial-database-schema-1){.learn-more}
 
 </div>
 
@@ -164,7 +164,7 @@ spring:
 :::
 
 
-[Learn how to configure an in-memory SQLite database.](../java/persistence-services#in-memory-storage){.learn-more}
+[Learn how to configure an in-memory SQLite database.](../java/cqn-services/persistence-services#in-memory-storage){.learn-more}
 
 </div>
 
@@ -245,7 +245,7 @@ spring:
       maximum-pool-size: 1
 ```
 
-[Learn how to configure a file-based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
+[Learn how to configure a file-based SQLite database](../java/cqn-services/persistence-services#file-based-storage){.learn-more}
 
 </div>
 
@@ -303,7 +303,7 @@ CAP supports most of the major features on SQLite:
 * [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
 * [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
-[Learn about features and limitations of SQLite.](../java/persistence-services#sqlite){.learn-more}
+[Learn about features and limitations of SQLite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 </div>
 

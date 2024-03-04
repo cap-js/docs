@@ -186,7 +186,7 @@ module.exports = cds.server
 
 ### How can I make sure that a user passes all authorization checks?
 
-A new option `privilegedUser()` can be leveraged when [defining](../java/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/consumption-api) either in a request thread regardless of the original user's authorizations or in a background thread.
+A new option `privilegedUser()` can be leveraged when [defining](../java/handlers/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/services) either in a request thread regardless of the original user's authorizations or in a background thread.
 
 ### Why do I get a "User should not exist" error during build time?
 
@@ -221,7 +221,7 @@ To fix this, either switch the Node.js version using a Node version manager, or 
 ### How can I expose custom REST APIs with CAP?
 
 From time to time you might want to expose additional REST APIs in your CAP application, that aren't covered through CAPs existing protocol adapters (for example, OData V4). A common example for this might be a CSV file upload or another type of custom REST endpoint.
-In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you'll be interacting with your services and the database through the [local service consumption API](../java/consumption-api). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
+In that case, you can leverage the powerful capabilities of Spring Web MVC, by implementing your own RestController. From within your RestController implementation, you can fully leverage all CAP Java APIs. Most commonly you'll be interacting with your services and the database through the [local service consumption API](../java/services). To learn more about Spring Web MVC, see the [Spring docs](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc), [Spring Boot docs](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc), and this [tutorial](https://spring.io/guides/gs/serving-web-content/).
 
 ### How can I build a CAP Java application without SQL database?
 

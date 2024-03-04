@@ -225,7 +225,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../authorization#requires) |
 | Index page        |                  | `/index.html`                             | none                                          |
 
-> <sup>1</sup> See [protocols and paths](../../java/application-services#configure-path-and-protocol)
+> <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 
 > <sup>2</sup> No authorization by default
 

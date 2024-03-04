@@ -260,7 +260,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 #### Configure Agent Extension { #agent-extension }
 
-There is a set of common configuration steps for Open Telemetry which apply to Cloud Logging Service and Dynatrace, which includes configuring an [Open Telemetry Agent Extension library](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension). This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities, which you can read about in the [documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension).
+The Open Telemetry Agent Extension library is a common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities, which you can read about in the [Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension).
 
 1) Add the following maven dependency:
     

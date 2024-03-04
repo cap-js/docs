@@ -18,8 +18,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Overview
 
-When [events](../about/#events) are processed on [services](./consumption-api), [event context](provisioning-api#eventcontext) objects are used to store information related to a specific event.
-However, when processing an HTTP request in a protocol adapter or receiving an asynchronous event from a messaging system not only a single event is triggered. Other services, like the [Persistence Service](./consumption-api#persistenceservice) or additional technical services might be involved in processing. All of these services and their event handler need access to certain overarching metadata, such as user information, the selected locale, the tenant, and its (extended) CDS model or headers and query parameters.
+When [events](../../about/#events) are processed on [services](../services), [event context](../event-handlers#eventcontext) objects are used to store information related to a specific event.
+However, when processing an HTTP request in a protocol adapter or receiving an asynchronous event from a messaging system not only a single event is triggered. Other services, like the [Persistence Service](../cqn-services/persistence-services) or additional technical services might be involved in processing. All of these services and their event handler need access to certain overarching metadata, such as user information, the selected locale, the tenant, and its (extended) CDS model or headers and query parameters.
 
 The CAP Java SDK manages and exposes this kind of information by means of [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) instances. They define a scope that is typically determined by the context of a single HTTP request. The active Request Context can be accessed from the Event Context. However, those two are managed independently, as Event Contexts are passed along event handlers, while Request Contexts are maintained as thread-locals. For example, the Persistence Service requires the tenant to be set correctly in the Request Context in order to access the tenant-specific persistence.
 
@@ -39,9 +39,9 @@ The Request Context provides information about the request's parameters as well 
 - [AuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/AuthenticationInfo.html): Exposes an API to retrieve the authentication claims according to the authentication strategy. Can be used for user propagation.
 - [FeatureTogglesInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html): Exposes an API to retrieve activated feature toggles of the request.
 
-In addition, it provides access to the [CDS model](./reflection-api), which specifically can be dependent on tenant information or feature toggles.
+In addition, it provides access to the [CDS model](../working-with-cql/query-introspection), which specifically can be dependent on tenant information or feature toggles.
 
-You can get instances from the [Event Context](./provisioning-api#eventcontext):
+You can get instances from the [Event Context](../event-handlers#eventcontext):
 
 ```java
 @Before(event = CqnService.EVENT_READ)
@@ -108,7 +108,7 @@ public void beforeRead() {
 The same functionality is provided for arbitrary custom interfaces, which are extensions of `UserInfo`.
 
 [ParameterInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/ParameterInfo.html) provides access to request-specific information.
-For example, if the request is processed by an HTTP-based protocol adapter, `ParameterInfo` provides access to the HTTP request information. It exposes the [correlation ID](./observability#correlation-ids), the locale, the headers, and the query parameters of a request.
+For example, if the request is processed by an HTTP-based protocol adapter, `ParameterInfo` provides access to the HTTP request information. It exposes the [correlation ID](../observability#correlation-ids), the locale, the headers, and the query parameters of a request.
 
 [AuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/AuthenticationInfo.html) stores the authentication claims of the authenticated user. For instance, if OAuth2-based authentication is used, this is a JWT token (for example, XSUAA or IAS). You can call `is(Class<? extends AuthenticationInfo>)` to find the concrete `AuthenticationInfo` type.
 [JwtTokenAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/JwtTokenAuthenticationInfo.html) represents a JWT token, but [BasicAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/BasicAuthenticationInfo.html) can be observed on requests with basic authentication (e.g. test scenario with mock users). The method `as(Class<? extends AuthenticationInfo>)` helps to perform the downcast to a concrete subtype.

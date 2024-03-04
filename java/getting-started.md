@@ -70,7 +70,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 ### Run the Maven Archetype { #run-the-cap-java-maven-archetype }
 
-Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
+Use the [CAP Java Maven archetype](./developing-applications/building#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```sh
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE" -DinteractiveMode=true
@@ -140,7 +140,7 @@ The generated folders have the following content:
 | *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./data#typed-access). |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 

@@ -91,7 +91,7 @@ The regular CAP support process does not apply for plugins. Issues are to be cre
 
 <div id="internal-support" />
 
-Node.js plugins are available from two sources with different levels of support and maintenance:
+Node.js plugins are available with two different levels of support and maintenance:
 
 [CAP JS](https://github.com/cap-js) plugins are:
  - created and maintained in close collaboration and shared ownership of CAP development teams and other SAP and BTP development teams

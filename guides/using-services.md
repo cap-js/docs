@@ -236,7 +236,7 @@ To work with remote services, add the following dependency to your Maven project
 </dependency>
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities.](../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities.](../java/developing-applications/properties#cds-remote-services){.learn-more}
 
 </div>
 

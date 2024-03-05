@@ -411,7 +411,7 @@ service InternalService {
 }
 ```
 
-[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](../java/development/properties#cds-application-services-<key>-serve){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](../java/developing-applications/properties#cds-application-services-<key>-serve){.learn-more}
 
 
 ### Configure Endpoints
@@ -442,4 +442,4 @@ cds.application.services.CatalogService.serve.endpoints:
     protocol: 'odata-v2'
 ```
 
-[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](../java/development/properties#cds-application-services-<key>-serve-endpoints){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](../java/developing-applications/properties#cds-application-services-<key>-serve-endpoints){.learn-more}

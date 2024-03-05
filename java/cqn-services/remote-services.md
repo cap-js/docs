@@ -59,7 +59,7 @@ cds:
       type: "odata-v2"
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../java/developing-applications/properties#cds-remote-services){.learn-more}
 
 ### Configuring the CDS Service Definition
 

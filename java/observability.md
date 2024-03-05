@@ -331,7 +331,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. The following steps describe the required configuration:
 
 1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an API token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
 

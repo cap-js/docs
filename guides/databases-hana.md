@@ -46,7 +46,7 @@ Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driv
 
 <div markdown="1" class="impl java">
 
-To use SAP HANA Cloud, [configure a module](../java/architecture#module-configuration), which includes the feature `cds-feature-hana`.
+To use SAP HANA Cloud, [configure a module](../java/developing-applications/building#module-configuration), which includes the feature `cds-feature-hana`.
 For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ```xml
@@ -59,7 +59,7 @@ For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ::: tip
 
-The [modules](../java/architecture#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
+The [modules](../java/developing-applications/building#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
 
 :::
 

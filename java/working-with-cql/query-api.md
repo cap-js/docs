@@ -1642,7 +1642,7 @@ BETWEEN
 
 #### `ETag Predicate` {#etag-predicate}
 
-The [ETag predicate](../java/query-execution#etag-predicate) specifies expected ETag values for [conflict detection](../java/query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
+The [ETag predicate](../java/working-with-cql/query-execution#etag-predicate) specifies expected ETag values for [conflict detection](../java/working-with-cql/query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
 
 ```java
 Instant expectedLastModification = ... ;

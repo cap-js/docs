@@ -1638,6 +1638,28 @@ BETWEEN
 </tr>
 </table>
 
+#### `ETag Predicate` {#etag-predicate}
+
+The [ETag predicate](../java/query-execution#etag-predicate) specifies expected ETag values for [conflict detection](../java/query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
+
+```java
+Instant expectedLastModification = ... ;
+Update.entity(ORDER)
+      .entry(newData)
+      .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
+```
+
+You can also use the `eTag` methods of the `CQL` interface to construct an ETag predicate in [tree style](#cql-helper-interface):
+
+```java
+import static com.sap.cds.ql.CQL.*;
+
+Instant expectedLastModification = ... ;
+Update.entity(ORDER)
+      .entry(newData)
+      .where(and(get("id").eq(85), eTag(expectedLastModification)));
+```
+
 #### `Logical Operators` {#logical-operators}
 
 Predicates can be combined using logical operators:

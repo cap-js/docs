@@ -529,7 +529,7 @@ Conveniently, Spring Boot offers out-of-the-box capabilities to report the healt
 To do so, first add a dependency to Spring Actuators, which forms the basis for health indicators:
 
 ::: code-group
-```xml [pom.xml]
+```xml [srv/pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>

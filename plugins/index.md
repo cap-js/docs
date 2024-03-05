@@ -86,7 +86,7 @@ The [regular CAP support process](/resources/#reporting-incidents) does not appl
 
 |    |    |
 | --- | --- |
-| Node.js | Click the Node.js icon of the plugin in the list below to find the repository and open an issue there. 
+| Node.js | Click the Node.js icon of the plugin in the list below and open an issue on GitHub.
 | Java | Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda). 
 
 <div id="internal-support" />

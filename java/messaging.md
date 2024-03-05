@@ -5,7 +5,7 @@ synopsis: >
 status: released
 redirect_from: java/messaging-foundation
 ---
-<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
+<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging.md -->
 
 <script setup>
   import { h } from 'vue'

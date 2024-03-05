@@ -4,7 +4,7 @@ status: released
 redirect_from: java/query-execution
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/070-Executing-Queries/0-index.md -> @external/java/query-execution.md -->
+<!--- Migrated: @external/java/070-Executing-Queries/0-index.md -> @external/java/working-with-cql/query-execution.md -->
 
 # Executing CQL Statements
 <style scoped>

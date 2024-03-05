@@ -3,7 +3,7 @@ synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
-<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
+<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/operating-applications/observability.md -->
 
 # Observability
 <style scoped>
@@ -394,7 +394,7 @@ How to configure a Dynatrace connection to your CAP Java application is describe
 
 
 
-<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
+<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/operating-applications/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
 Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
@@ -462,7 +462,7 @@ The `AppActuator` bean registers an actuator with name `app` that exposes a simp
 
 
 
-<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/observabilityavailability.md -->
+<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/operating-applications/observabilityavailability.md -->
 ### Availability { #availability}
 
 This section describes how to set up an endpoint for availability or health check. At a first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:

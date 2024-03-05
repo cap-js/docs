@@ -186,7 +186,7 @@ module.exports = cds.server
 
 ### How can I make sure that a user passes all authorization checks?
 
-A new option `privilegedUser()` can be leveraged when [defining](../java/handlers/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/services) either in a request thread regardless of the original user's authorizations or in a background thread.
+A new option `privilegedUser()` can be leveraged when [defining](../java/event-handlers/request-contexts#defining-requestcontext) your own `RequestContext`. Adding this introduces a user, which passes all authorization restrictions. This is useful for scenarios, where a restricted service should be called through the [local service consumption API](../java/services) either in a request thread regardless of the original user's authorizations or in a background thread.
 
 ### Why do I get a "User should not exist" error during build time?
 

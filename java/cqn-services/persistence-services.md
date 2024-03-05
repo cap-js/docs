@@ -34,7 +34,7 @@ SAP HANA Cloud is the CAP standard database recommended for productive use with 
 
 1. Write operations through views that can't be resolved by the CAP runtime are passed through to SAP HANA Cloud. Limitations are described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
 
-2. [Shared locks](../java/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
+2. [Shared locks](../java/working-with-cql/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
 
 3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`), a statement-wide collation is added, which can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
 
@@ -147,7 +147,7 @@ cds.sql.hana.optimizationMode: hex
 ```
 
 :::tip
-Use the [hints](../java/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+Use the [hints](../java/working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 :::
 
 ### PostgreSQL { #postgresql-1 }

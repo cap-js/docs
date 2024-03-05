@@ -31,6 +31,9 @@ To use the change tracking feature, you need to enable it in the `pom.xml` file 
 Your POM also must include the goal to resolve the CDS model delivered from the feature. 
 See [Reference the New CDS Model in an Existing CAP Java Project](./plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
+For the UI part, you also need to enable the feature described 
+here [On-the-fly Localization of EDMX](https://cap.cloud.sap/docs/releases/dec23#on-the-fly-localization-of-edmx).
+
 ### Annotating entities
 
 To capture changes, you need to extend your entities with a technical aspect and annotate the entity 

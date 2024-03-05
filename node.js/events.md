@@ -23,14 +23,14 @@ Usually that context is set by inbound middleware.
 
 The property is realized as a so-called continuation-local variable, implemented using [Node.js' async local storage](https://nodejs.org/api/async_context.html) technique, and a getter/setter pair: The getter is a shortcut for[`getStore()`](https://nodejs.org/api/async_context.html#asynclocalstoragegetstore). The setter coerces values into valid instances of [`cds.EventContext`]. For example:
 
-```log
+```js
 [dev] cds repl
->cds.context = { tenant:'t1', user:'u2' }
->let ctx = cds.context
->ctx instanceof cds.EventContext  //> true
->ctx.user instanceof cds.User     //> true
->ctx.tenant === 't1'              //> true
->ctx.user.id === 'u2'             //> true
+> cds.context = { tenant:'t1', user:'u2' }
+> let ctx = cds.context
+> ctx instanceof cds.EventContext  //> true
+> ctx.user instanceof cds.User     //> true
+> ctx.tenant === 't1'              //> true
+> ctx.user.id === 'u2'             //> true
 ```
 
 If a transaction object is assigned, its `tx.context` is used, hence `cds.context = tx` acts as a convenience shortcut for `cds.context = tx.context`:

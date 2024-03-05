@@ -428,13 +428,14 @@ Examples:
 
 ```js
 [dev] cds repl
->cds.env.folders           // = folders db, srv, app by default
->cds.env.roots             // + schema and services in cwd
->cds.resolve('*',false)    // + models in cds.env.requires
->cds.resolve('*')          // > the resolved existing files
->cds.resolve(['db'])       // > the resolved existing files
->cds.resolve(['db','srv']) // > the resolved existing files
->cds.resolve('none')       // > undefined
+> cds.env.folders           // = folders db, srv, app by default
+> cds.env.roots             // + schema and services in cwd
+> cds.resolve('*',false)    // + models in cds.env.requires
+> cds.resolve('*')          // > the resolved existing files
+> cds.resolve(['db'])       // > the resolved existing files
+> cds.resolve(['db','srv']) // > the resolved existing files
+> cds.resolve('none')       // > undefined
 ```
 > Try this in cds repl launched from your project root to see that in action.
-Note or repl in codeblock? Or both?
+
+*Question:* Note or repl in codeblock? Or both?

@@ -131,7 +131,7 @@ if (major < 6) // code for pre cds6 usage
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
-```log
+```js
 [dev] cds repl
 > cds.home // [!code focus]
 ~/.npm/lib/node_modules/@sap/cds
@@ -178,9 +178,9 @@ For example, [`cds-plugins`](cds-serve) can use that to plug into different part
 
 Provides access to the effective configuration of the current process, transparently from various sources, including the local _package.json_ or _.cdsrc.json_, service bindings and process environments.
 
-```console
+```js
 [dev] cds repl
-> cds.env.requires.auth # [!code focus]
+> cds.env.requires.auth // [!code focus]
 {
   kind: 'basic-auth',
   strategy: 'mock',
@@ -226,16 +226,16 @@ You can access the entries as follows:
 
 ```js
 [dev] cds repl
->cds.env.requires.db              //> the effective config for db
->cds.env.requires.reviews         //> the effective config for reviews
->cds.env.requires.ReviewsService  //> undefined
+> cds.env.requires.db              //> the effective config for db
+> cds.env.requires.reviews         //> the effective config for reviews
+> cds.env.requires.ReviewsService  //> undefined
 ```
 
 ```js
 [dev] cds repl
->cds.requires.db                  //> the effective config for db
->cds.requires.reviews             //> the effective config for reviews
->cds.requires.ReviewsService      //> same as cds.requires.reviews
+> cds.requires.db                  //> the effective config for db
+> cds.requires.reviews             //> the effective config for reviews
+> cds.requires.ReviewsService      //> same as cds.requires.reviews
 ```
 
 The additional entries are useful for code that needs to securely access the service by cds definition name.
@@ -244,8 +244,8 @@ Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all pro
 
 ```js
 [dev] cds repl
->Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
->Object.keys(cds.requires)     //> [ 'ReviewsService' ]
+> Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
+> Object.keys(cds.requires)     //> [ 'ReviewsService' ]
 ```
 
 

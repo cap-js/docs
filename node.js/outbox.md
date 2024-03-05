@@ -27,7 +27,7 @@ const srv = await cds.connect.to('yourService')
 const outboxed = cds.outboxed(srv)
 
 await outboxed.emit('someEvent', { some: 'message' }) // asynchronous
-await outboxed.send('someEvent', { some: 'message' }) // asynchronous
+await outboxed.send('someEvent', { some: 'message' }) // synchronous
 ```
 
 ::: tip

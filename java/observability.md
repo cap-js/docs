@@ -274,7 +274,7 @@ The Open Telemetry Agent Extension library is a common configuration for Open Te
     ```
     :::
 
-   Make sure that you are using at least version `3.8.3` of `cf-java-logging-support-opentelemetry-agent-extension`.
+   Make sure to use at least version `3.8.3`.
 
 2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:
 

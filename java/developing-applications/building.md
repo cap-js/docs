@@ -123,7 +123,7 @@ Plugins are optional modules that adapt runtime behaviour.
 :::
 
 CAP Java makes use of the plugin technique itself to offer optional functionality. 
-Examples are [SAP Event Mesh](./messaging-foundation) and [Audit logging](./auditlog) integration.
+Examples are [SAP Event Mesh](./messaging) and [Audit logging](./auditlog) integration.
 Find a full list of standard plugins in [Standard Modules](#standard-modules).
 
 ## Stack Configuration { #stack_configuration}

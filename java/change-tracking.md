@@ -18,7 +18,7 @@ to the remote services are not tracked.
 
 ## Enabling Change Tracking
 
-To use the change tracking feature, you need to enable it in the `pom.xml` file of your service by adding the following dependency:
+To use the change tracking feature, you need to add a depenendency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) it in the `pom.xml` file of your service like that:
 
 ```xml
 <dependency>
@@ -28,16 +28,15 @@ To use the change tracking feature, you need to enable it in the `pom.xml` file 
 </dependency>
 ```
 
-Your POM also must include the goal to resolve the CDS model delivered from the feature. 
+Your POM must also include the goal to resolve the CDS model delivered from the feature. 
 See [Reference the New CDS Model in an Existing CAP Java Project](./plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
-For the UI part, you also need to enable the feature described 
-here [On-the-fly Localization of EDMX](https://cap.cloud.sap/docs/releases/dec23#on-the-fly-localization-of-edmx).
+For the UI part, you also need to enable the [On-the-fly Localization of EDMX](https://cap.cloud.sap/docs/releases/dec23#on-the-fly-localization-of-edmx).
 
 ### Annotating Entities
 
 To capture changes, you need to extend your entity with a technical aspect and annotate the entity 
-with annotation `@changelog`, which will declare the elements whose changes are to be logged.
+with the annotation `@changelog`, which will declare the elements whose changes are to be logged.
 
 Given the following entity that represents a book on the domain level:
 
@@ -69,7 +68,7 @@ Include the change log model that is provided by this feature:
 using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
 ```
 
-Then, you have to **extend the domain entity** with the aspect `changelog.changeTracked` like this: 
+Extend **the domain entity** with the aspect `changelog.changeTracked` like this: 
 
 ```cds
 extend model.Books with changelog.changeTracked;
@@ -94,7 +93,7 @@ service Bookshop {
 }
 ```
 
-Then, you need to annotate elements of the entity you want to track with the `@changelog` annotation:
+Annotate elements of the entity you want to track with the `@changelog` annotation:
 
 ```cds
 annotate Bookshop.Books {
@@ -111,14 +110,13 @@ Personal data must be handled by the [Audit Logging](./auditlog) service.
 
 The level where you annotate your elements with the annotation `@changelog` is very important. If you annotate
 the elements on the domain level, every change made through every projection of the entity will be tracked.
-If you annotate the elements on the projection level, only the changes made through that projection is tracked.
+If you annotate the elements on the projection level, only the changes made through that projection are tracked.
 
-In case of the `Books` example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
+In case of the books example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
 made on the domain entity are omitted. That can be beneficial if you have a service that is used for data replication
 or mass changes where change tracking can be very expensive operation, and you do not want to generate changes from such operations.
 
-Change tracking also works with the entities that have compositions. If you have a deeply structured document, you can annotate 
-the elements on each level and track the changes made through the deep updates. 
+Change tracking also works with the entities that have compositions and tracks the changes made to the items of the compositions.
 
 For example, if you have an entity that represents the order with a composition that represents the items of the order, 
 you can annotate the elements of both and track the changes made through the order and the items in a deep updates.
@@ -184,6 +182,10 @@ annotate Bookshop.Books with @(
 If you want to have a common UI for all changes, you need to expose the change log as a projection and define
 your own presentation for it as the changes are exposed only as part of the change tracked entity.
 
+The change log will be extended with the texts for your entities from the `@title` annotation of the entity
+and the element. Otherwise, the change log will contain only the technical names of the entities and the elements. 
+Titles will be translated, if they annotated as translatable. See [Externalizing Texts Bundles](../guides/i18n#localization-i18n) for more information.
+
 ## How Changes are stored?
 
 The namespace `sap.changelog` defines an entity `Changes` that reflects each change, so the changes are stored in a flat table for all entities together.
@@ -201,13 +203,13 @@ Each entry in the `Changes` entity contains the following information:
 
 ## Detection of Changes
 
-Every modifying CQN-based operation requires additional READ events to retrieve the old state 
-of the entity and the new state after the modifying operation.
+The change tracking works around the modifying CQL statements (`Insert`, `Upsert`, `Update`, and `Delete`) and 
+requires additional READ events to retrieve the old and the new state of the entity.
 
-The images are compared and differences are stored in the change log. The nature of the change is determined by comparing the old and new 
+These two states are compared and differences are stored in the change log. The nature of the change is determined by comparing the old and new 
 values of the entity: data that were not present in the old values are considered as added whereas data that are not present in 
 the new values are considered as deleted. Elements that are present in both old and new values but have different values 
-are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry in the change log.
+are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry.
 
 In case of the deeply structured documents, for example, entities with the compositions, the change tracking feature detects 
 the changes across complete document and stores them in the change log with the metadata reflecting the structure of the change.

@@ -11,12 +11,12 @@ status: released
   }
 </style>
 
-As of CAP Java 2.7.0, the change tracking feature is available. The feature tracks the changes of all modifying 
-operations executed via CQN statements which are indirectly triggered by the protocol adapters or directly by a custom code. 
+The feature tracks the changes of all modifying operations executed via CQN statements which are indirectly triggered 
+by the protocol adapters or directly by a custom code. 
 Changes made through the native SQL, JDBC or other means that bypass the CAP Java runtime or that are forwarded 
 to the remote services are not tracked.
 
-## Enabling change tracking
+## Enabling Change Tracking
 
 To use the change tracking feature, you need to enable it in the `pom.xml` file of your service by adding the following dependency:
 
@@ -34,10 +34,10 @@ See [Reference the New CDS Model in an Existing CAP Java Project](./plugins#refe
 For the UI part, you also need to enable the feature described 
 here [On-the-fly Localization of EDMX](https://cap.cloud.sap/docs/releases/dec23#on-the-fly-localization-of-edmx).
 
-### Annotating entities
+### Annotating Entities
 
-To capture changes, you need to extend your entities with a technical aspect and annotate the entity 
-with annotation `@changelog` that will mark the elements whose changes are to be logged.
+To capture changes, you need to extend your entity with a technical aspect and annotate the entity 
+with annotation `@changelog`, which will declare the elements whose changes are to be logged.
 
 Given the following entity that represents a book on the domain level:
 
@@ -63,7 +63,7 @@ service Bookshop {
 }
 ```
 
-You need to include the change log model that is delivered to you from the feature like this:
+Include the change log model that is provided by this feature:
 
 ```cds
 using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
@@ -75,7 +75,7 @@ Then, you have to **extend the domain entity** with the aspect `changelog.change
 extend model.Books with changelog.changeTracked;
 ```
 
-This aspect will include the association `changes` that will let you consume the change log both programmatically 
+This aspect will add the association `changes` that will let you consume the change log both programmatically 
 via CQN statements and in the UI. This implies that every projection 
 of the entity `Books` will have this association and the changes will be visible in all of them. 
 
@@ -104,20 +104,41 @@ annotate Bookshop.Books {
 ```
 
 :::warning
-Elements annotated with `@changelog` and which are subject to audit logging, i.e. annotated 
+Elements annotated with `@changelog` and which are also subject to audit logging, i.e. annotated 
 with `@PersonalData` are ignored by the change tracking feature. 
 Personal data must be handled by the [Audit Logging](./auditlog) service.
 :::
 
-The level where you annotate your elements with the annotation `@changelog` is very important: if you annotate
-the elements on the domain level, that means that every change made through every projection of the entity will be tracked.
+The level where you annotate your elements with the annotation `@changelog` is very important. If you annotate
+the elements on the domain level, every change made through every projection of the entity will be tracked.
 If you annotate the elements on the projection level, only the changes made through that projection is tracked.
 
 In case of the `Books` example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
 made on the domain entity are omitted. That can be beneficial if you have a service that is used for data replication
 or mass changes where change tracking can be very expensive operation, and you do not want to generate changes from such operations.
 
-### Identifiers for the changes
+Change tracking also works with the entities that have compositions. If you have a deeply structured document, you can annotate 
+the elements on each level and track the changes made through the deep updates. 
+
+For example, if you have an entity that represents the order with a composition that represents the items of the order, 
+you can annotate the elements of both and track the changes made through the order and the items in a deep updates.
+
+```cds
+entity OrderItems {
+  key ID: UUID;
+  ...
+  quantity: Integer @changelog;
+}
+
+entity Orders {
+  key ID: UUID;
+  customerName: String @changelog;
+  ... 
+  items: Composition of many OrderItems;
+}
+```
+
+### Identifiers for the Changes
 
 You can store some elements of the entity together with the changes in the change log to produce user-friendly identifier. 
 You define this identifier by annotating the entity with the `@changelog` annotation and including the elements you want
@@ -128,6 +149,7 @@ annotate Bookshop.Book with @changelog: [
   title
 ];
 ```
+
 This identifier can contain the elements of the entity or a values of to-one associations that are reachable via path. 
 For example, for a book you can store an author name if you have an association from the book to the author. 
 
@@ -139,7 +161,7 @@ not be formatted per user locale or some requirements e.g. different units of me
 You should consider this when you decide what to include in the identifier.
 :::
 
-### Displaying changes in the UI
+### Displaying Changes in the UI
 
 If you want to display the change log together with the overview of your entity, you need to add the facet
 to the object page that will display the changes:
@@ -162,34 +184,45 @@ annotate Bookshop.Books with @(
 If you want to have a common UI for all changes, you need to expose the change log as a projection and define
 your own presentation for it as the changes are exposed only as part of the change tracked entity.
 
-## Detection of changes
-
-Every modifying CQN-based operation requires additional READ events to retrieve the old state 
-of the entity and the new state after the modifying operation.
-
-The images are compared and differences are stored within the change log. Nature of the change is determined by comparing the old and new 
-values of the entity: data that were not present in the old values are considered as added whereas data that are not present in 
-the new values are considered as deleted. Elements that are present in both old and new values but have different values 
-are considered as modified. This also works across compositions.
-
-Each change detected by the change tracking feature is stored in the change log as a separate entry in the change log.
-
-## How change logs are stored?
+## How Changes are stored?
 
 The namespace `sap.changelog` defines an entity `Changes` that reflects each change, so the changes are stored in a flat table for all entities together.
 
 Each entry in the `Changes` entity contains the following information:
 
 - A marker that represents the nature of the change: addition, modification or deletion.
-- The qualified name of the entity that was changed and the qualified name of the root entity. They depend on the projection that was used to 
+- The qualified name of the entity that was changed and the qualified name of the root entity. They depend on the projection that was used to
   change the entity and reflect the root and a target of the modifying operation. For flat entities, they are the same.
-- The attribute of the target projection that was changed. 
-- The new and old values as strings. 
+- The attribute of the target projection that was changed.
+- The new and old values as strings.
 - The user who made the change and the timestamp of the change.
 - The data type of the changed attribute.
 - The technical path from the root entity to the tracked target entity.
 
-## Things to consider when using change tracking
+## Detection of Changes
+
+Every modifying CQN-based operation requires additional READ events to retrieve the old state 
+of the entity and the new state after the modifying operation.
+
+The images are compared and differences are stored in the change log. The nature of the change is determined by comparing the old and new 
+values of the entity: data that were not present in the old values are considered as added whereas data that are not present in 
+the new values are considered as deleted. Elements that are present in both old and new values but have different values 
+are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry in the change log.
+
+In case of the deeply structured documents, for example, entities with the compositions, the change tracking feature detects 
+the changes across complete document and stores them in the change log with the metadata reflecting the structure of the change.
+
+For example, given the order and item model from above, if you change values for the tracked elements with 
+the deep update e.g. the customer name in the order and the quantity of the item, the change log will contain 
+two entries: one for the order and one for the item. The change log entry for the item will also reflect that 
+the root of the change is an order.
+
+:::warning
+If you change the values of the `OrderItems` entity directly via an OData request or an CQL statement, the change log will 
+contain only one entry for the item and will not be associated with an order. Prefer deep updates for change tracked entities.
+:::
+
+## Things to Consider when Using Change Tracking
 
 - Consider the storage costs of the change log. The change log can grow very fast and can consume a lot of space 
   in case of frequent changes. You should consider the retention policy of the change log as it will not be deleted when you delete the entities. 

@@ -301,15 +301,23 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can pre-empt the default implementation via registering a custom express middleware during bootstrapping as follows:
 
 ```js
 cds.on('bootstrap', app => {
   app.get('/health', (_, res) => {
-    res.status(200).send('OK')
+    res.status(200).send(`I'm fine, thanks for asking`)
   })
 })
 ```
+
+More sophisticated health checks that, for example, check whether databases are available, etc., should use authentication to prevent DoS!
+
+### Liveness vs. Readiness Checks
+
+On both CF and Kubernetes, it is possible to provide two separate endpoints for liveness checks ("are you alive?") and readiness checks ("are you ready for more requests?"). A failure on the former leads to a restart, whereas a failure on the latter only temporarily takes the app instance out of request dispatching rotation. For more details, please check the respective platform's docs.
 
 
 <!--- Migrated: @external/node.js/Best-Practices/41-Error-Handling.md -> @external/node.js/best-practices/error-handling.md -->

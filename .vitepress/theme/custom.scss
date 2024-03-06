@@ -325,9 +325,12 @@ html.node .java {
 }
 
 // mermaid diagrams
+:root {
+  --mermaid-font-family: var(--vp-font-family-base);
+}
 .mermaid .tick {
   text {
-    font-size: 28px !important;
+    font-size: 14px !important;
   }
 }
 .dark {

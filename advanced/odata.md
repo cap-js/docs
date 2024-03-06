@@ -164,7 +164,7 @@ the import of external service APIs, see [Using Services](../guides/using-servic
 
 ```cds
 entity Foo {
-  ...,
+  // ...
   @odata: { Type: 'Edm.GeometryPolygon', SRID: 0 }
   geoCollection : LargeBinary;
 };
@@ -177,7 +177,7 @@ Therefore, you can override the default mapping as follows:
 ```cds
 entity Books {
   key ID : UUID @odata.Type:'Edm.String';
-  ...
+  // ...
 }
 ```
 

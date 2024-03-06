@@ -324,39 +324,6 @@ html.node .java {
   display: none;
 }
 
-// mermaid diagrams
-:root {
-  --mermaid-font-family: var(--vp-font-family-base) !important;
-}
-.mermaid {
-  text {
-    font-family: var(--mermaid-font-family) !important;
-  }
-  .tick text {
-    font-size: 14px !important;
-  }
-}
-.dark {
-  .mermaid {
-    .active0 {
-      fill: var(--vp-button-brand-hover-bg) !important;
-      stroke: var(--vp-button-brand-hover-bg) !important;
-    }
-    .done0 {
-      fill: grey !important;
-      stroke: grey !important;
-    }
-    .section.section0 {
-      fill: var(--vp-c-bg) !important;
-    }
-    .taskText.doneText0 { // doesn't work, too low specificity
-      fill: black !important;
-    }
-    .taskText.activeText0 { // doesn't work, too low specificity
-      fill: black !important;
-    }
-  }
-}
 
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {

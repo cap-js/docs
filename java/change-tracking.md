@@ -18,7 +18,7 @@ to the remote services are not tracked.
 
 ## Enabling Change Tracking
 
-To use the change tracking feature, you need to add a depenendency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) it in the `pom.xml` file of your service like that:
+To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) it in the `pom.xml` file of your service like that:
 
 ```xml
 <dependency>

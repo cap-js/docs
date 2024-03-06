@@ -146,7 +146,7 @@ Click on the icon to get detailed instructions. {.learn-more}
 
 ## Change Tracking
 
-[@cap-js/change-tracking](https://npmjs.com/package/@cap-js/change-tracking) {.subtitle}
+[@cap-js/change-tracking](https://npmjs.com/package/@cap-js/change-tracking) [CAP Java Change Tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) {.subtitle}
 
 The Change Tracking plugin provides out-of-the box support for automated capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked.
 

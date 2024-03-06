@@ -1565,7 +1565,7 @@ service AdminService {
   entity ListOfBooks as projection on my.Books;
   entity Books as projection on my.Books;
   entity Authors as projection on my.Authors;
-  //> which one should AdminService.Authors.books refers to?
+  //> which one should AdminService.Authors.books refer to?
 }
 ```
 
@@ -1575,9 +1575,10 @@ You can use `redirected to` to resolve the ambiguity as follows:
 
 ```cds
 service AdminService {
-  ...
-  entity Authors as projection on my.Authors { *,
-    books : redirected to Books //> resolved ambiguity
+  entity ListOfBooks as projection on my.Books;
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors { *, // [!code focus]
+    books : redirected to Books //> resolved ambiguity // [!code focus]
   };
 }
 ```
@@ -1588,9 +1589,10 @@ Alternatively, you can use the boolean annotation `@cds.redirection.target` with
 
 ```cds
 service AdminService {
-  @cds.redirection.target: true
-  entity ListOfBooks as projection on my.Books;
-  ...
+  @cds.redirection.target: true // [!code focus]
+  entity ListOfBooks as projection on my.Books; // [!code focus]
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors;
 }
 ```
 

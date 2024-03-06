@@ -216,7 +216,7 @@ In general, a request can be handled by unrelated execution units such as intern
 In case you've configured `cf-java-logging-support` as described in [Logging Service](#logging-service) before, *correlation IDs are handled out of the box by the CAP Java SDK*. In particular, this includes:
 
 - Generation of IDs in non-HTTP contexts
-- Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
+- Thread propagation through [Request Contexts](../event-handlers/request-contexts#threading-requestcontext)
 - Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
 
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 

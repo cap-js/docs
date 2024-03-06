@@ -94,8 +94,8 @@
 
 - [Getting Started](java/getting-started)
 - [Modular Architecture](java/architecture)
-- [Services](java/consumption-api)
-- [Event Handlers](java/provisioning-api)
+- [Services](java/services)
+- [Event Handlers](java/event-handlers)
 - [Working with Data](java/data)
 - [Building CQL Statements](java/query-api)
 - [Executing CQL Statements](java/query-execution)

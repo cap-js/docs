@@ -17,10 +17,10 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Handling CRUD Events { #crudevents}
 
-Application Services provide a [CQN query API](consumption-api#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
+Application Services provide a [CQN query API](../services#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
 The processing of these events is usually extended when adding business logic to the Application Service.
 
-The following table lists the static event name constants that exist for these event names on the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html) interface and their corresponding [event-specific Event Context interfaces](./provisioning-api#eventcontext). These constants and interfaces should be used, when registering and implementing event handlers:
+The following table lists the static event name constants that exist for these event names on the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html) interface and their corresponding [event-specific Event Context interfaces](../event-handlers#eventcontext). These constants and interfaces should be used, when registering and implementing event handlers:
 
 | Event | Constant | Event Context |
 | --- | --- | --- |
@@ -38,7 +38,7 @@ public void createBooks(CdsCreateEventContext context, List<Books> books) { }
 ```
 
 ::: tip
-To learn more about the entity data argument `List<Books> books` of the event handler method, have a look at [this section](provisioning-api#pojoarguments).
+To learn more about the entity data argument `List<Books> books` of the event handler method, have a look at [this section](../event-handlers#pojoarguments).
 :::
 
 ### OData Requests
@@ -51,8 +51,8 @@ http(s)://<application_url>/<base_path>/<service_name>
 
 |Parameter | Description
 | --- | --- |
-|`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties](development/properties) for their default values.       |
-|`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../cds/cdl#service-definitions)).        |
+|`<base_path>`     |  For the OData V2 and OData V4 protocol adapters, `<base_path>` can be configured with the application configuration properties `cds.odataV2.endpoint.path` and `cds.odataV4.endpoint.path` respectively. Please see [CDS Properties](../developing-applications/properties) for their default values.       |
+|`<service_name>`     | The name of the Application Service, which by default is the fully qualified name of its definition in the CDS model. However, you can override this default per service by means of the `@path` annotation (see [Service Definitions in CDL](../../cds/cdl#service-definitions)).        |
 
 [Learn more about how OData URLs are configured.](application-services#serve-configuration){.learn-more}
 
@@ -205,7 +205,7 @@ Actions or functions are handled - just like CRUD events - using event handlers.
 
 ### Implement Event Handler
 
-The CAP Java runtime doesn't provide any default `On` handlers for actions and functions. For each action or function an event handler of the [`On`](provisioning-api#on) phase should be defined, which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](provisioning-api#eventcompletion). If an action or function is __bound to an entity__, the entity needs to be specified while registering the event handler. The following example shows how to implement an event handler for an action:
+The CAP Java runtime doesn't provide any default `On` handlers for actions and functions. For each action or function an event handler of the [`On`](../event-handlers#on) phase should be defined, which implements the business logic and provides the return value of the operation, if applicable. The event handler needs to take care of [completing the event processing](../event-handlers#eventcompletion). If an action or function is __bound to an entity__, the entity needs to be specified while registering the event handler. The following example shows how to implement an event handler for an action:
 
 Given this CDS model:
 
@@ -226,7 +226,7 @@ service CatalogService {
 ```
 
 The `cds-maven-plugin` generates event context interfaces for the action or function, based on its CDS model definition. These event context interfaces provide direct access to the parameters and the return value of the action or function.
-For bound actions or functions the event context interface provides a [CqnSelect](query-api#select) statement, which targets the entity the action or function was triggered on.
+For bound actions or functions the event context interface provides a [CqnSelect](../working-with-cql/query-api#select) statement, which targets the entity the action or function was triggered on.
 
 Action-specific event context, generated by the CAP Java SDK Maven Plugin:
 
@@ -269,7 +269,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 ### Trigger Action or Function
 
-As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allow direct access to the action's or function's parameters. You can just call them in custom Java code. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](../developing-applications/building/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allow direct access to the action's or function's parameters. You can just call them in custom Java code. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
 
 Given the same CDS model as in the previous section, the corresponding generated Java service interface looks like the following:
 
@@ -333,10 +333,10 @@ This section summarizes some best practices for implementing event handlers and 
 
 2. Which services should my event handlers usually interact with?
 
-    The CAP Java SDK provides [APIs](consumption-api) that can be used in event handlers to interact with other services.
+    The CAP Java SDK provides [APIs](../services) that can be used in event handlers to interact with other services.
     These other services can be used to request data, that is required by the event handler implementation.
 
-    If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](consumption-api#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
+    If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](../services#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
 
     If you're mashing up your service with another Application Service and also return data from that service to the client, it's a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
     If you do not require this decoupling, you can also access the service's entities directly from the database.
@@ -365,8 +365,8 @@ By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and 
 
 | Protocol | Default base path | CDS Property                                                                      |
 |----------|-------------------|-----------------------------------------------------------------------------------|
-| OData V4 | `/odata/v4`       | [`cds.odataV4.endpoint.path`](./development/properties#cds-odataV4-endpoint-path) |
-| OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](./development/properties#cds-odataV2-endpoint-path) |
+| OData V4 | `/odata/v4`       | [`cds.odataV4.endpoint.path`](../developing-applications/properties#cds-odataV4-endpoint-path) |
+| OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](../developing-applications/properties#cds-odataV2-endpoint-path) |
 
 The following example shows, how to deviate from the defaults:
 ```yaml

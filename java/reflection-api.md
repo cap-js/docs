@@ -286,7 +286,7 @@ This feature toggles provider is automatically registered and used as Spring bea
 #### Defining Feature Toggles for Internal Service Calls
 
 It is not possible to redefine the feature set within an active request context as this would result in a model change.
-However, if there is no active request context such as in a new thread, you can specify the feature set while [Defining Request Contexts](./request-contexts#defining-requestcontext).
+However, if there is no active request context such as in a new thread, you can specify the feature set while [Defining Request Contexts](./event-handlers/request-contexts#defining-requestcontext).
 
 In the following example, a `Callable` is executed in a new thread resulting in an initial request context. In the definition of the request context the feature toggles are defined that will be used for the statement execution:
 
@@ -312,7 +312,7 @@ Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
 
 ### Using Feature Toggles in Custom Code
 
-Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./development/#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
+Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](../spring-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
 
 ```java
 @After

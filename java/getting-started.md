@@ -92,7 +92,7 @@ You can call `cds help init` for more information on the available options.
 
 ### Add a Sample CDS Model
 
-You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
+You can use the [CDS Maven plugin](../developing-applications/building/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addSample
@@ -115,7 +115,7 @@ This commands adds the following dependency to the pom.xml:
 </dependency>
 ```
 ::: tip
-CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./architecture#starter-bundles) for more details.
+CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./developing-applications/building#starter-bundles#starter-bundles) for more details.
 :::
 
 ### Project Layout
@@ -165,7 +165,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 ### Add an Integration Test Module (Optional)
 
-Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
+Optionally, you can use the [CDS Maven plugin](../developing-applications/building/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest

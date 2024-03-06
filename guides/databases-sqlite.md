@@ -66,7 +66,7 @@ Output:
 
 ### Using the Maven Archetype {.impl .java}
 
-When a new CAP Java project is created with the [Maven Archetype](../java/development/#the-maven-archetype),
+When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype),
 you can specify the in-memory database to be used. Use the option `-DinMemoryDatabase=sqlite` to create a project that uses
 SQLite as in-memory database.
 

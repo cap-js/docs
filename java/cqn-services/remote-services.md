@@ -19,7 +19,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Enabling Remote Services
 
-[Remote Services](consumption-api#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
+[Remote Services](../cqn-services#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
 The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
 To enable these capabilities in an application, add the following Maven dependency to your project:
 
@@ -223,7 +223,7 @@ To integrate with SAP BTP Destination Service on Cloud Foundry, add this additio
 
 ## Using Remote Services
 
-_Remote Services_ can be used just like any other [service, that accepts CQN queries](consumption-api#cdsservices):
+_Remote Services_ can be used just like any other [service, that accepts CQN queries](../cqn-services#cdsservices):
 
 ```java
 @Autowired
@@ -237,12 +237,12 @@ ABusinessPartnerAddress address = bupa.run(select)
     .single(ABusinessPartnerAddress.class);
 ```
 ::: tip
-To learn more about how to build and run CQN queries, see sections [Building CQN Queries](query-api) and [Executing CQN Queries](query-execution).
+To learn more about how to build and run CQN queries, see sections [Building CQN Queries](../working-with-cql/query-api) and [Executing CQN Queries](query-execution).
 :::
 
 Keep in mind, that _Remote Services_ are simply clients to remote APIs.
 CAP doesn't automatically forward CQN queries to these services. Developers need to explicitly call and use these _Remote Services_ in their code.
-However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](consumption-api#application-services).
+However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](../cqn-services#application-services).
 ::: warning
 In case data from _Remote Services_ should be combined with data from the database custom coding is required.
 Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and-extend) for more details.

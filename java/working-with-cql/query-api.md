@@ -16,18 +16,18 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-API to fluently build [CQL](../cds/cql) statements in Java.
+API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../cds/cql) statement builders allow to fluently construct [CQL](../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](consumption-api#cdsservices) or the [CDS Data Store](./advanced#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../services#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
 
 ## Concepts
 
 ### The CQL Statement Builders
 
-Use the builder classes `Select`, `Insert`, `Upsert`, `Update`, and `Delete` to construct [CQL](../cds/cql) statements.
-The following example shows a [CQL](../cds/cql) query and how it's constructed with the `Select` builder:
+Use the builder classes `Select`, `Insert`, `Upsert`, `Update`, and `Delete` to construct [CQL](../../cds/cql) statements.
+The following example shows a [CQL](../../cds/cql) query and how it's constructed with the `Select` builder:
 
 ```sql
 -- CQL
@@ -39,7 +39,7 @@ SELECT from bookshop.Books { title } where ID = 101
 Select.from("bookshop.Books").columns("title").byId(101);
 ```
 
-Instead of using strings to refer to CDS entities and elements, you can also build statements using constants and interfaces [generated](./advanced#staticmodel) from the CDS model:
+Instead of using strings to refer to CDS entities and elements, you can also build statements using constants and interfaces [generated](../cqn-services/persistence-services#staticmodel) from the CDS model:
 
 ```java
 import static bookshop.Bookshop_.BOOKS;
@@ -60,7 +60,7 @@ In general, it's recommended to use the static style when implementing business 
 
 ### Lambda Expressions
 
-To construct complex statements, the [CQL](../cds/cql) builders leverage [lambda expressions](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) to fluently compose [expressions](#expressions) and [path expressions](#path-expressions) that are used in the statements' clauses.
+To construct complex statements, the [CQL](../../cds/cql) builders leverage [lambda expressions](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) to fluently compose [expressions](#expressions) and [path expressions](#path-expressions) that are used in the statements' clauses.
 
 ```sql
 -- CQL
@@ -193,7 +193,7 @@ Select.from(BOOKS).byParams("title", "author.name");
 
 ### Parameters
 
-The [CQL](../cds/cql) builders support [parameters](#expr-param) in the `where` clause and in infix filters for [parameterized execution](query-execution#parameterized-execution):
+The [CQL](../../cds/cql) builders support [parameters](#expr-param) in the `where` clause and in infix filters for [parameterized execution](query-execution#parameterized-execution):
 
 The following example selects the books of the `Author` with name 'Jules Verne'.
 
@@ -221,7 +221,7 @@ dataStore.execute(q, singletonMap("ID", 101));
 
 ### Constant and Non-Constant Literal Values
 
-In addition to parameters, the [CQL](../cds/cql) builders also support literal values, which are already known at design time. These can be constructed using `CQL.constant()`  for constant literals and `CQL.val()` for non-constant literals:
+In addition to parameters, the [CQL](../../cds/cql) builders also support literal values, which are already known at design time. These can be constructed using `CQL.constant()`  for constant literals and `CQL.val()` for non-constant literals:
 
 ```java
 import static com.sap.cds.ql.CQL.val;
@@ -770,7 +770,7 @@ There are few notable examples of such restrictions:
 
 * You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
 * You cannot use the `lock()` in a statement with the subquery as a source.
-* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](./request-contexts#modifying-requestcontext).
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](../event-handlers/request-contexts#modifying-requestcontext).
 * Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 
 As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
@@ -953,7 +953,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert { #deep-upsert}
 
-Upsert can operate on deep [document structures](./data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#compositions), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](../cds-data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#compositions), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.
@@ -976,7 +976,7 @@ Use the [Update](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds
 
 The target entity set of the update is specified by the [entity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entity-java.lang.String-) method.
 
-In the following example, the update target is an entity of the [static model](./advanced#staticmodel). The update data is provided as a map to the [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data-java.util.Map-) method, using [accessor interfaces](./data#typed-access) to construct the data in a typed way. The filter condition of the update is constructed from the key values in the update data:
+In the following example, the update target is an entity of the [static model](../cqn-services/persistence-services#staticmodel). The update data is provided as a map to the [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data-java.util.Map-) method, using [accessor interfaces](../cds-data#typed-access) to construct the data in a typed way. The filter condition of the update is constructed from the key values in the update data:
 
 ```java
 import static bookshop.Bookshop_.BOOKS;
@@ -1027,7 +1027,7 @@ Update.entity(BOOKS).where(b -> b.stock().eq(0))
 
 Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
 
-By default, only target entities of [compositions](../guides/domain-modeling#compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](./data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
+By default, only target entities of [compositions](../guides/domain-modeling#compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](../cds-data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 
@@ -1059,7 +1059,7 @@ Do a deep update `Update.entity(ORDERS).data(order)` with the following order da
              {"Id":4, "book":{"ID":400}, "quantity":4}]
 }
 ```
-> Constructed using `CdsData`, `CdsList` and the generated [accessor interfaces](./data#typed-access).
+> Constructed using `CdsData`, `CdsList` and the generated [accessor interfaces](../cds-data#typed-access).
 
 See the result of the updated *Order*:
 
@@ -1249,7 +1249,7 @@ The Query Builder API supports using expressions in many places. Expressions con
 
 ### Entity References {#entity-refs}
 
-Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../java/cqn-services/persistence-services#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
+Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../java/cqn-services/persistence-services#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
 import com.sap.cds.ql.CQL;
@@ -1900,7 +1900,7 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 ## Parsing CQN
 
-[CQL](../cds/cql) queries can also be constructed from a [CQN](../cds/cqn) string<sup>*</sup>:
+[CQL](../../cds/cql) queries can also be constructed from a [CQN](../cds/cqn) string<sup>*</sup>:
 
 ```java
 String cqnQuery = "{'SELECT': {'from': {'ref': ['my.bookshop.Books']},
@@ -1921,7 +1921,7 @@ For `Insert`, `Update`, and `Delete` this is supported as well.
 
 ## CQL Expression Trees { #cql-helper-interface}
 
-As an alternative to fluent API the [CQL](../cds/cql) statement can be built, copied, and modified using [CQL Interface](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html), which allows to build and reuse the parts of the statement.
+As an alternative to fluent API the [CQL](../../cds/cql) statement can be built, copied, and modified using [CQL Interface](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html), which allows to build and reuse the parts of the statement.
 
 ### Composing Predicates
 

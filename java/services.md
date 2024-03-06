@@ -16,15 +16,15 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-[Services](../about/#services) are one of the core concepts of CAP. This section describes how services are represented in the CAP Java SDK and how their event-based APIs can be used. One of the key APIs provided by services is the uniform query API based on [CQN statements](query-api).
+[Services](../about/#services) are one of the core concepts of CAP. This section describes how services are represented in the CAP Java SDK and how their event-based APIs can be used. One of the key APIs provided by services is the uniform query API based on [CQN statements](working-with-cql/query-api).
 
 ## An Event-Based API
 
-Services dispatch events to [Event Handlers](provisioning-api), which implement the behaviour of the service.
+Services dispatch events to [Event Handlers](event-handlers), which implement the behaviour of the service.
 A service can process synchronous as well as asynchronous events and offers a user-friendly API layer around these events.
 
 Every service implements the [Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html) interface, which offers generic event processing capabilities through its [emit(EventContext)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html#emit-com.sap.cds.services.EventContext-) method.
-The [Event Context](provisioning-api#eventcontext) contains information about the event and its parameters.
+The [Event Context](event-handlers#eventcontext) contains information about the event and its parameters.
 The `emit` method takes care of dispatching an Event Context to all event handlers registered on the respective event and is the central API to process asynchronous and synchronous events.
 
 Usually service implementations extend the `Service` interface to provide a custom, user-friendly API layer on top of the `emit()` method. Examples are the [Application Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html), [Persistence Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/persistence/PersistenceService.html), and [Remote Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/RemoteService.html), which offer a common CQN query execution API for their CRUD events.
@@ -33,7 +33,7 @@ However, also technical components are implemented as services, for example the 
 ### Using Services
 
 Often times your Java code needs to interact with other services. The [ServiceCatalog](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceCatalog.html) provides programmatic access to all available services.
-The Service Catalog can be accessed from the [Event Context](provisioning-api#eventcontext) or from the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html).
+The Service Catalog can be accessed from the [Event Context](event-handlers#eventcontext) or from the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html).
 
 ```java
 ServiceCatalog catalog = context.getServiceCatalog();
@@ -48,7 +48,7 @@ Application Services are created with the fully qualified name of their CDS defi
 ApplicationService adminService = catalog.getService(ApplicationService.class, "AdminService");
 ```
 
-As of version 2.4.0, the [CAP Java SDK Maven Plugin](./development/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allows easily calling actions and functions with their parameters. These specific interfaces can also be used to get access to the service:
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](./developing-applications/building#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allows easily calling actions and functions with their parameters. These specific interfaces can also be used to get access to the service:
 
 ```java
 AdminService adminService = catalog.getService(AdminService.class, "AdminService");
@@ -109,4 +109,4 @@ Its API and events are defined in the [ApplicationLifecycleService](https://www.
 You can use these events to register an event handler which performs custom initialization or shutdown logic. 
 In addition the Application Lifecycle Service provides an event to globally adapt the error response handling.
 
-[Learn more about adapting the error response handling in section Indicating Errors.](indicating-errors#errorhandler){.learn-more}
+[Learn more about adapting the error response handling in section Indicating Errors.](./evnet-handlers/indicating-errors#errorhandler){.learn-more}

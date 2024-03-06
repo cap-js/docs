@@ -30,7 +30,7 @@ Not supported for CAP Node.js.
 
 ### Using the Maven Archetype {.impl .java}
 
-When a new CAP Java project is created with the [Maven Archetype](../java/development/#the-maven-archetype) or with `cds init`,
+When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype) or with `cds init`,
 H2 is automatically configured as in-memory database used for development and testing in the `default` profile.
 
 ### Manual Configuration {.impl .java}

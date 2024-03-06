@@ -331,7 +331,7 @@ An [exception](#exceptions) thrown in an event handler will stop the processing 
 
 You can add event handlers using the `@After` phase for the `ERROR_RESPONSE` event to augment or change the error responses:
 - Method `getException()` of [ErrorResponseEventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ErrorResponseEventContext.html) returns the exception that triggered the event.
-- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](./provisioning-api#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
+- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](../event-handlers#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
 
 You can use the exception and the list of events contexts (with service, entity and event name) to selectively apply your custom error response handling. Some exceptions, however, may not be associated with a context and the list of contexts will be empty for them.
 

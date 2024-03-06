@@ -425,7 +425,7 @@ The most helpful getters in `UserInfo` are listed in the following table:
 | `getRoles()` | Returns the roles of the current user |
 | `getAttributeValues(String attribute)` | Returns the value list of the given user attribute. Referred by `$user.<attribute>`. |
 
-It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](./request-contexts) for more details.
+It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](./event-handlers/request-contexts) for more details.
 For instance, you might want to run internal service calls in privileged mode that bypasses authorization checks:
 
 ```java

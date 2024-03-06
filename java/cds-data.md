@@ -62,7 +62,7 @@ To facilitate using legacy CDS models, the following [SAP HANA-specific data typ
 | `hana.BINARY` | `byte[]` |  |
 
 
-> <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./persistence-services#database-support) for more details on database support and limitations.
+> <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./cqn-services/persistence-services#database-support) for more details on database support and limitations.
 
 ::: warning
 The framework isn't responsible for closing the stream when writing to the database. You decide when the stream is to be closed. If you forget to close the stream, the open stream can lead to a memory leak.
@@ -219,7 +219,7 @@ In CAP Java data is represented in maps. To simplify data access in custom code,
 
 ![This graphic is explained in the accompanying text.](./assets/accessor.drawio.svg)
 
-The `Row`s of a [query result](./query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
+The `Row`s of a [query result](./working-with-cqn/query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
 ```java
 Map<String, Object> map = new HashMap<>();
@@ -283,7 +283,7 @@ This section shows examples using structured data in [CQL](../cds/cql) statement
 
 ### Deep Inserts through Compositions and Cascading Associations
 
-*Deep Inserts* create new target entities along compositions and associations that [cascade](./query-execution#cascading-over-associations) the insert operation.
+*Deep Inserts* create new target entities along compositions and associations that [cascade](./working-with-cqn/query-execution#cascading-over-associations) the insert operation.
 In this example an order with a header in status 'open' is created via a deep insert along the `header` composition.
 
 ```java
@@ -335,7 +335,7 @@ Access child entities of a composition using a path expression from the parent e
 
 ### Select Managed Associations
 
-To select the mapping elements of a managed association, simply add the [association](./query-api#managed-associations-on-the-select-list) to the select list:
+To select the mapping elements of a managed association, simply add the [association](./working-with-cqn/query-api#managed-associations-on-the-select-list) to the select list:
 
 ```java
 CqnSelect select = Select.from(BOOKS).byId(123)
@@ -351,7 +351,7 @@ Don't select from and rely on compiler generated foreign key elements of managed
 
 ### Select with Paths in Matching
 
-Paths are also supported in [matching](./query-api#using-matching), for example, to select all *orders* that are in status *canceled*:
+Paths are also supported in [matching](./working-with-cqn/query-api#using-matching), for example, to select all *orders* that are in status *canceled*:
 
 ```java
 Map<String, Object> order = new HashMap<>();
@@ -415,7 +415,7 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 ### Generated Accessor Interfaces {#generated-accessor-interfaces}
 
-For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./advanced#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
+For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](./cqn-services/persistence-services#staticmodel). The generated accessor interfaces allow for hybrid access and easy serialization to JSON.
 
 By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification.
 
@@ -449,7 +449,7 @@ Moreover, it doesn't change the way how event contexts and entities, delivered b
 
 #### Renaming Elements in Java
 
-Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./advanced#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.
+Element names used in the CDS model might conflict with reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) (`class`, `private`, `transient`, etc.). In this case, the `@cds.java.name` annotation must be used to specify an alternative property name that will be used for the generation of accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces. The element name used as key in the underlying map for [dynamic access](#entities-and-structured-types) isn't affected by this annotation.
 
 See the following example:
 
@@ -712,7 +712,7 @@ processor.addGenerator(
 
 ## Media Type Processing { #mediatypeprocessing}
 
-The data for [media type entity properties](../guides/media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./provisioning-api#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
+The data for [media type entity properties](../guides/media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

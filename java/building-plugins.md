@@ -152,7 +152,7 @@ public class SampleHandler implements EventHandler {
 
 The shown handler code is registered for any entity type on any [ApplicationService](../guides/providing-services). Depending on the use case the target scope could be narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
 
-[Learn more about event handling in our EventHandler documentation](provisioning-api){.learn-more}
+[Learn more about event handling in our EventHandler documentation](event-handlers){.learn-more}
 
 Of course, this handler code looks just the same as any other custom or builtin CAP Java handler. The only difference here is that you need to think a bit more about the provisioning of the handler. When you write a custom handler as part of (in the package of) a CAP Java application, you can annotate the handler's class with `@Component`. Then Spring Boot's component scan picks up the class during startup of the Application Context.
 

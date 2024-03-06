@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-One of the key [CAP design principles](../about/#open-and-opinionated) is to be an opinionated but yet open framework. 
+One of the key [CAP design principles](../../about/#open-and-opinionated) is to be an opinionated but yet open framework. 
 Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java runtime stack.
 The [modular architecture](#modular_architecture) reflects this requirement, allowing a fine-grained and flexible [configuration](#stack_configuration) based on standard or custom modules.
   
@@ -25,9 +25,9 @@ The [modular architecture](#modular_architecture) reflects this requirement, all
 One of the basic design principle of the CAP Java is to keep orthogonal functionality separated in independent components. 
 The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
 Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services. 
-Hence, the application is [platform **and** service agnostic](../about/#agnostic-approach).
+Hence, the application is [platform **and** service agnostic](../../about/#agnostic-approach).
 
-For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](./query-api). 
+For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](../working-with-cqn/../working-with-cql/query-api). 
 Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded. 
 Consequently, preparing an application to be deployable in different platform contexts is rather a matter of configuration than of code adaption.
 
@@ -51,9 +51,9 @@ The following diagram illustrates the modular stack architecture and highlights 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
 
 * The mandatory [application framework](#application-framework) defines the runtime basis of your application typically comprising a web server.
-* [Protocol adapters](#protocol-adapters) map protocol-specific web events into [CQN](../cds/cqn) events for further processing.
+* [Protocol adapters](#protocol-adapters) map protocol-specific web events into [CQN](../../cds/cqn) events for further processing.
 * The resulting CQN-events are passed to [service providers](#service-providers) or the mandatory core runtime, which drives the processing of the event.
-* The [CQN execution engine](#cqn-execution-engine) is capable of translating [CQN](../cds/cqn) statements into native statements of a data sink such as a persistence service or remote service.
+* The [CQN execution engine](#cqn-execution-engine) is capable of translating [CQN](../../cds/cqn) statements into native statements of a data sink such as a persistence service or remote service.
 * [Application features](#application-features) are optional application extensions, for instance to add multitenancy capabilities or a platform service integration.
 
 
@@ -79,11 +79,11 @@ Lastly, in case you want to run your application on a 3rd party application fram
 ### Protocol Adapters { #protocol-adapters}
 
 
-The CAP runtime is based on an [event](../about/#events) driven approach. 
-Generally, [Service](../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../guides/providing-services#event-handlers). 
+The CAP runtime is based on an [event](../../about/#events) driven approach. 
+Generally, [Service](../../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../../guides/providing-services#event-handlers). 
 During execution, services can send events to other service providers and consume the results. 
-The native query language in CAP is [CQN](../cds/cqn), which is accepted by all services that deal with data query and manipulation. 
-Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../about/#querying)) afterwards. 
+The native query language in CAP is [CQN](../../cds/cqn), which is accepted by all services that deal with data query and manipulation. 
+Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../../about/#querying)) afterwards. 
 Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. 
 Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java. 
 Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. 
@@ -95,20 +95,20 @@ Note that different endpoints can be served by different protocol adapters at th
 
 ### Service Providers { #service-providers}
 
-Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../about/#domain-modeling). 
+Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../about/#domain-modeling). 
 Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface. 
-As described in CAPs [core concepts](../about/#services), services share the same generic provider interface and are implemented by event handlers. 
+As described in CAPs [core concepts](../../about/#services), services share the same generic provider interface and are implemented by event handlers. 
 The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model. 
-In addition, technical services are offered such as the [Persistence Service](consumption-api#persistenceservice) or [Auditlog Service](auditlog#auditlog-service), which can be consumed in custom service handlers.
+In addition, technical services are offered such as the [Persistence Service](../services#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
 
 In case the generic handler implementation of a specific service doesn't match the requirements, you can extend or replace it with custom handler logic that fits your business needs. 
-See section [Event Handlers](provisioning-api) for more details.
+See section [Event Handlers](../event-handlers) for more details.
 
 
 ### CQN Execution Engine { #cqn-execution-engine}
 
 The CQN execution engine is responsible for processing the passed CQN events and translating them to native statements that get executed in a target persistence service like SAP HANA, PostgreSQL or H2. 
-CQN statements can be built conveniently in a [fluent API](./query-api). In the future, additional targets can be added to the list of supported outbound sources.
+CQN statements can be built conveniently in a [fluent API](../working-with-cqn/../working-with-cql/query-api). In the future, additional targets can be added to the list of supported outbound sources.
 
 
 ### Application Features { #application-features}
@@ -123,7 +123,7 @@ Plugins are optional modules that adapt runtime behaviour.
 :::
 
 CAP Java makes use of the plugin technique itself to offer optional functionality. 
-Examples are [SAP Event Mesh](./messaging) and [Audit logging](./auditlog) integration.
+Examples are [SAP Event Mesh](../messaging) and [Audit logging](../auditlog) integration.
 Find a full list of standard plugins in [Standard Modules](#standard-modules).
 
 ## Stack Configuration { #stack_configuration}
@@ -214,7 +214,7 @@ Similarly, you're free to configure multiple adapters including custom implement
 
 ::: tip Recommended Application Framework
 We highly recommended to configure `cds-framework-spring-boot` as application framework.
-It provides you with a lot of [integration with CAP](./development/#spring-boot-integration) out of the box, as well as enhanced features, such as dependency injection and auto configuration.
+It provides you with a lot of [integration with CAP](../spring-boot-integration#spring-boot-integration) out of the box, as well as enhanced features, such as dependency injection and auto configuration.
 :::
 
 Additional application features (plugins) you want to use can be added as additional dependencies. 
@@ -256,7 +256,7 @@ CAP Java comes with a rich set of prepared modules for all different layers of t
 
 **Application plugins**:
 * `cds-feature-cloudfoundry`:  Makes your application aware of SAP BTP, Cloud Foundry environment.
-* `cds-feature-k8s`: [Service binding support for SAP BTP, Kyma Runtime](./development/#kubernetes-service-bindings).
+* `cds-feature-k8s`: [Service binding support for SAP BTP, Kyma Runtime](../developing-applications/configuring#kubernetes-service-bindings).
 * `cds-feature-jdbc`: Consuming JDBC persistences using the CDS4j JDBC runtime.
 * `cds-feature-hana`:  Makes your application aware of SAP HANA data sources.
 * `cds-feature-postgresql`: Makes your application aware of PostgreSQL data sources.
@@ -265,7 +265,7 @@ CAP Java comes with a rich set of prepared modules for all different layers of t
 * `cds-feature-mt`:  Makes your application multitenant aware.
 * `cds-feature-enterprise-messaging`:  Connects your application to SAP Event Mesh.
 * `cds-feature-kafka`: Benefit from intra-application messaging with Apache Kafka.
-* `cds-feature-remote-odata`: Adds [Remote Service](remote-services#remote-services) support.
+* `cds-feature-remote-odata`: Adds [Remote Service](../remote-services#remote-services) support.
 * `cds-feature-auditlog-v2`: Provides out of the box integration with SAP BTP Auditlog Service V2.
 * `cds-integration-cloud-sdk`: Allows smooth integration with Cloud SDK to connect with remote REST-based services.
 

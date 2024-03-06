@@ -26,7 +26,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-Write operations through views are supported by the CAP runtime as described in [Resolvable Views](query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
+Write operations through views are supported by the CAP runtime as described in [Resolvable Views](../working-with-cqn/query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
 
 ### SAP HANA Cloud
 
@@ -34,7 +34,7 @@ SAP HANA Cloud is the CAP standard database recommended for productive use with 
 
 1. Write operations through views that can't be resolved by the CAP runtime are passed through to SAP HANA Cloud. Limitations are described in the [SAP HANA Cloud documentation](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/20d5fa9b75191014a33eee92692f1702.html#loio20d5fa9b75191014a33eee92692f1702__section_trx_ckh_qdb).
 
-2. [Shared locks](../java/working-with-cql/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
+2. [Shared locks](../working-with-cql/query-execution#pessimistic-locking) are supported on SAP HANA Cloud only.
 
 3. When using `String` elements in locale-specific ordering relations (`>`, `<`, ... , `between`), a statement-wide collation is added, which can have negative impact on the performance. If locale-specific ordering isn't required for specific `String` elements, annotate the element with `@cds.collate: false`.
 
@@ -59,7 +59,7 @@ To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLo
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and supports most of the CAP features. Known limitations are:
 
 1. No locale specific sorting. The sort order of queries behaves as configured on the database.
-2. Write operations through CDS views are only supported for views that can be [resolved](query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
+2. Write operations through CDS views are only supported for views that can be [resolved](../working-with-cqn/query-execution#updatable-views) or are [updatable](https://www.postgresql.org/docs/14/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS) in PostgreSQL.
 3. The CDS type `UInt8` can't be used with PostgreSQL, as there's no `TINYINT`. Use `Int16` instead.
 4. [Multitenancy](../guides/multitenancy/) and [extensibility](../guides/extensibility/) aren't yet supported on PostgreSQL.
 
@@ -69,9 +69,9 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 
 1. H2 only supports database level collation. Lexicographical sorting on character-based columns isn't supported.
 2. Case-insensitive comparison isn't yet supported.
-3. By default, views aren't updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
+3. By default, views aren't updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cqn/query-execution#updatable-views).
 4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
-5. In [pessimistic locking](query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
+5. In [pessimistic locking](../working-with-cqn/query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
 7. For regular expressions, H2's implementation is compatible with Java's: the matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.  
 
@@ -89,10 +89,10 @@ CAP does support most of the major features on SQLite, although there are a few 
 2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
 3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
 4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
-5. SQLite doesn't support [pessimistic locking](query-execution#pessimistic-locking).
+5. SQLite doesn't support [pessimistic locking](../working-with-cqn/query-execution#pessimistic-locking).
 6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
 7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
-8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](query-execution#updatable-views).
+8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cqn/query-execution#updatable-views).
 9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
 10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
@@ -147,7 +147,7 @@ cds.sql.hana.optimizationMode: hex
 ```
 
 :::tip
-Use the [hints](../java/working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 :::
 
 ### PostgreSQL { #postgresql-1 }
@@ -156,7 +156,7 @@ PostgreSQL can be configured when running locally as well as when running produc
 
 #### Initial Database Schema
 
-To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/development/#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/developing-applications/building#cds-maven-plugin) accordingly:
 
 ```xml
 <execution>
@@ -206,7 +206,7 @@ spring:
 
 For local development, [H2](https://www.h2database.com/) can be configured to run in-memory or in the file-based mode.
 
-To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/development/#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/developing-applications/building#cds-maven-plugin) accordingly:
 
 ```xml
 <execution>
@@ -243,7 +243,7 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
 
 #### Initial Database Schema
 
-To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/development/#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../java/developing-applications/building#cds-maven-plugin) accordingly:
 
 ```xml [srv/pom.xml]
 <execution>
@@ -576,9 +576,9 @@ Invoking a `connect()` method creates an instance of the Data Store API.
 ### CDS Data Store { #cdsdatastore}
 
 The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](./consumption-api#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
+The CDS Data Store is used to implement the [Persistence Service](../services#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
 
-The `CdsDataStore` API is similar to the [`CqnService` API](./query-execution#queries). The only difference is, that the `run` method is called `execute`:
+The `CdsDataStore` API is similar to the [`CqnService` API](../working-with-cqn/query-execution#queries). The only difference is, that the `run` method is called `execute`:
 
 ```java
 CdsDataStore dataStore = ...;
@@ -594,7 +594,7 @@ dataStore.setSessionContext(sessionContext);
 ```
 
 ::: tip
-When implementing a CAP application, using the [Persistence Service](./consumption-api#persistenceservice) is preferred over the CDS Data Store.
+When implementing a CAP application, using the [Persistence Service](../services#persistenceservice) is preferred over the CDS Data Store.
 :::
 
 ### Native SQL with JDBC Templates { #jdbctemplate}
@@ -622,15 +622,15 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 
 ### Using CQL with a Static CDS Model { #staticmodel}
 
-The static model and accessor interfaces can be generated using the [CDS Maven Plugin](./development/#cds-maven-plugin).
+The static model and accessor interfaces can be generated using the [CDS Maven Plugin](../developing-applications/building/#cds-maven-plugin).
 
 ::: warning _❗ Warning_
-Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](./data#renaming-elements-in-java) annotation.
+Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation.
 :::
 
 #### Static Model in the Query Builder
 
-The [Query Builder API](./query-api) allows you to dynamically create [CDS Query Language (CQL)](/cds/cql) queries using entity and element names given as strings:
+The [Query Builder API](../working-with-cqn/../working-with-cql/query-api) allows you to dynamically create [CDS Query Language (CQL)](/cds/cql) queries using entity and element names given as strings:
 
 ```java
 Select.from("my.bookshop.Books")

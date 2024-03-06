@@ -16,7 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Profiling { #profiling}
 
-To minimize overhead at runtime, [monitoring](../observability#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
+To minimize overhead at runtime, [monitoring](observability#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
 In such a situation, the use of more focused profiling tools can be an option. 
 Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 

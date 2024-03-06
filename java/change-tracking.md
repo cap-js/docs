@@ -138,7 +138,7 @@ entity Orders {
 }
 ```
 
-### Identifiers for the Changes
+### Identifiers for Changes
 
 You can store some elements of the entity together with the changes in the change log to produce user-friendly identifier. 
 You define this identifier by annotating the entity with the `@changelog` annotation and including the elements you want

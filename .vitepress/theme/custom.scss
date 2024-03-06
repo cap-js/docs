@@ -330,6 +330,7 @@ html.node .java {
 }
 .mermaid .tick {
   text {
+    font-family: var(--mermaid-font-family) !important;
     font-size: 14px !important;
   }
 }

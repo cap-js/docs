@@ -265,7 +265,7 @@ CAP Java comes with a rich set of prepared modules for all different layers of t
 * `cds-feature-mt`:  Makes your application multitenant aware.
 * `cds-feature-enterprise-messaging`:  Connects your application to SAP Event Mesh.
 * `cds-feature-kafka`: Benefit from intra-application messaging with Apache Kafka.
-* `cds-feature-remote-odata`: Adds [Remote Service](../remote-services#remote-services) support.
+* `cds-feature-remote-odata`: Adds [Remote Service](../cqn-services/remote-services#remote-services) support.
 * `cds-feature-auditlog-v2`: Provides out of the box integration with SAP BTP Auditlog Service V2.
 * `cds-integration-cloud-sdk`: Allows smooth integration with Cloud SDK to connect with remote REST-based services.
 

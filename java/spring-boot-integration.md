@@ -62,15 +62,15 @@ the CDS integration libraries transitively retrieve the recommended Spring Boot 
 
 ## Integration Features
 
-Beside the common Spring features such as dependency injection and a sophisticated [test framework](./testing), the following features are available in Spring CAP applications:
+Beside the common Spring features such as dependency injection and a sophisticated [test framework](./developing-applications/testing), the following features are available in Spring CAP applications:
 
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).
 * A number of CAP Java SDK interfaces are exposed as [Spring beans](#exposed-beans) and are available in the Spring application context such as technical services, the `CdsModel`, or the `UserInfo` in current request scope.
-* *Automatic* configuration of XSUAA, IAS, and [mock user authentication](../security#mock-users) by means of Spring security configuration.
+* *Automatic* configuration of XSUAA, IAS, and [mock user authentication](./security#mock-users) by means of Spring security configuration.
 * Integration of `cds`-property section into Spring properties. See section [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config) in the Spring Boot documentation for more details.
-* [The cds actuator](../observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
-* [The DB health check indicator](../observability#spring-health-checks) which also applies to tenant-aware DB connections.
+* [The cds actuator](./operating-applications/observability#spring-boot-actuators) exposing monitoring information about CDS runtime and security.
+* [The DB health check indicator](./operating-applications/observability#spring-health-checks) which also applies to tenant-aware DB connections.
 
 ::: tip
 None of the listed features will be available out of the box in case you choose to pack and deploy your web application as plain Java Servlet in a *war* file.

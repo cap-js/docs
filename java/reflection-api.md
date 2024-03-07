@@ -312,7 +312,7 @@ Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
 
 ### Using Feature Toggles in Custom Code
 
-Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](../spring-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
+Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./spring-boot-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
 
 ```java
 @After

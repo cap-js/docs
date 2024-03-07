@@ -109,4 +109,4 @@ Its API and events are defined in the [ApplicationLifecycleService](https://www.
 You can use these events to register an event handler which performs custom initialization or shutdown logic. 
 In addition the Application Lifecycle Service provides an event to globally adapt the error response handling.
 
-[Learn more about adapting the error response handling in section Indicating Errors.](./evnet-handlers/indicating-errors#errorhandler){.learn-more}
+[Learn more about adapting the error response handling in section Indicating Errors.](./event-handlers/indicating-errors#errorhandler){.learn-more}

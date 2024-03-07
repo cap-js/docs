@@ -21,7 +21,7 @@ status: released
 
 ## Logging { #logging}
 
-When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
+When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](../event-handlers/indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
 
 
 ### Logging Façade { #logging-facade}
@@ -206,7 +206,7 @@ During local development, you might want to stick to the (human-readable) standa
 :::
 
 ::: tip
-For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](./multitenancy#app-log-support).
+For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](../multitenancy#app-log-support).
 :::
 
 ### Correlation IDs
@@ -217,7 +217,7 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 
 - Generation of IDs in non-HTTP contexts
 - Thread propagation through [Request Contexts](../event-handlers/request-contexts#threading-requestcontext)
-- Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
+- Propagation to remote services when called via CloudSDK (for instance [Remote Services](../cqn-services/remote-services) or [MTX sidecar](../multitenancy-classic#mtx-sidecar-server))
 
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
@@ -438,7 +438,7 @@ CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides informa
 - All services registered in the service catalog
 - Security configuration (authentication type and so on)
 - Loaded features such as `cds-feature-xsuaa`
-- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](./persistence-services#datasource-configuration))
+- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](../cqn-services/persistence-services#datasource-configuration))
 
 
 #### Custom Actuators { #custom-actuators }
@@ -561,4 +561,4 @@ The custom `HealthIndicator` for the mandatory `CryptoService` is registered by 
 #### Protected Health Checks { #protected-health-checks}
 
 Optionally, you can configure a protected health check endpoint. On the one hand this gives you higher flexibility with regards to the detail level of the response but on the other hand introduces additional configuration and management efforts (for instance key management).
-As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](security#custom-spring-security-config).
+As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](../security#custom-spring-security-config).

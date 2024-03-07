@@ -200,7 +200,7 @@ Result r = deletedRows(deleteCount).result();
 
 ## Actions and Functions { #actions}
 
-[Actions](../cds/cdl#actions) and [Functions](../cds/cdl#actions) enhance the API provided by an Application Service with custom operations. They have well-defined input parameters and a return value, that are modelled in CDS.
+[Actions](../../cds/cdl#actions) and [Functions](../../cds/cdl#actions) enhance the API provided by an Application Service with custom operations. They have well-defined input parameters and a return value, that are modelled in CDS.
 Actions or functions are handled - just like CRUD events - using event handlers. To trigger an action or function on an Application Service an event with the action's or function's name is emitted on it.
 
 ### Implement Event Handler
@@ -269,7 +269,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 ### Trigger Action or Function
 
-As of version 2.4.0, the [CAP Java SDK Maven Plugin](../developing-applications/building/#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allow direct access to the action's or function's parameters. You can just call them in custom Java code. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
+As of version 2.4.0, the [CAP Java SDK Maven Plugin](../developing-applications/building#cds-maven-plugin) is capable of generating specific interfaces for services in the CDS model. These service interfaces also provide Java methods for actions and functions, which allow direct access to the action's or function's parameters. You can just call them in custom Java code. If an action or function is bound to an entity, the first argument of the method is an entity reference providing the required information to address the entity instance.
 
 Given the same CDS model as in the previous section, the corresponding generated Java service interface looks like the following:
 
@@ -338,10 +338,10 @@ This section summarizes some best practices for implementing event handlers and 
 
     If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](../services#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
 
-    If you're mashing up your service with another Application Service and also return data from that service to the client, it's a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
+    If you're mashing up your service with another Application Service and also return data from that service to the client, it's a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
     If you do not require this decoupling, you can also access the service's entities directly from the database.
 
-    In case you're working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](fiori-drafts#draftservices) to query and interact with drafts.
+    In case you're working with draft-enabled entities and your event handler requires access to draft states, you should use the [Draft Service](../fiori-drafts#draftservices) to query and interact with drafts.
 
 3. How should I implement business or domain logic shared across services?
 
@@ -361,7 +361,7 @@ Configure how application services are served. You can define per service which 
 
 Each protocol adapter has its own and unique base path.
 
-By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and the base paths of both can be configured with [CDS Properties](development/properties) in the _application.yaml_:
+By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and the base paths of both can be configured with [CDS Properties](../developing-applications/properties) in the _application.yaml_:
 
 | Protocol | Default base path | CDS Property                                                                      |
 |----------|-------------------|-----------------------------------------------------------------------------------|
@@ -411,7 +411,7 @@ service InternalService {
 }
 ```
 
-[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](../java/developing-applications/properties#cds-application-services-<key>-serve){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve` configuration possibilities.](../developing-applications/properties#cds-application-services-<key>-serve){.learn-more}
 
 
 ### Configure Endpoints
@@ -442,4 +442,4 @@ cds.application.services.CatalogService.serve.endpoints:
     protocol: 'odata-v2'
 ```
 
-[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](../java/developing-applications/properties#cds-application-services-<key>-serve-endpoints){.learn-more}
+[Learn more about all `cds.application.services.<key>.serve.endpoints` configuration possibilities.](../developing-applications/properties#cds-application-services-<key>-serve-endpoints){.learn-more}

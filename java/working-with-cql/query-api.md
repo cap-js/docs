@@ -80,7 +80,7 @@ The lambda expression `b -> b.year().lt(2000)` defines a predicate that compares
 
 ### Path Expressions
 
-Use path expressions to access elements of [related](../cds/cdl#associations) entities. The following example selects books with authors starting with 'A'.
+Use path expressions to access elements of [related](../../cds/cdl#associations) entities. The following example selects books with authors starting with 'A'.
 
 ```java
 // Java CQL (static)
@@ -94,7 +94,7 @@ Select.from("bookshop.Books")
     .where(b -> b.to("author").get("name").startsWith("A"));
 ```
 
-The CQL query accesses the `name` element of the `Authors` entity, which is reached from `Books` via the `author` [association](../cds/cdl#associations). In the dynamic CQL builders, you can follow associations and compositions using the `to` method or use `get` with a path using a dot to separate the segments.
+The CQL query accesses the `name` element of the `Authors` entity, which is reached from `Books` via the `author` [association](../../cds/cdl#associations). In the dynamic CQL builders, you can follow associations and compositions using the `to` method or use `get` with a path using a dot to separate the segments.
 
 ### Target Entity Sets {#target-entity-sets}
 
@@ -309,7 +309,7 @@ Select.from(youngestAuthors).orderBy("name");
 This subquery selects the youngest authors, which the outer query [sorts](#ordering-and-pagination) by name.
 
 Limitations:
-* The subquery must not expand [to-many associations](../cds/cdl#to-many-associations).
+* The subquery must not expand [to-many associations](../../cds/cdl#to-many-associations).
 * Associations aren't propagated to the outer query and hence can't be used there in path expressions.
 * The outer query can only be defined with the dynamic builder style.
 
@@ -512,7 +512,7 @@ Both queries are equivalent and have the same result: a _flat_ structure:
 
 #### Managed Associations on the Select List
 
-To select the key elements of a [managed to-one association](../cds/cdl#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
+To select the key elements of a [managed to-one association](../../cds/cdl#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
 
 ```java
 // dynamic
@@ -530,7 +530,7 @@ Object authorId = book.get("author.Id"); // path access
 ```
 
 ::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../guides/databases#db-constraints) on the database.
+Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#db-constraints) on the database.
 :::
 
 
@@ -542,7 +542,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 1. Define searchable elements {#searchable-elements}
 
-By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../guides/providing-services#searching-data).
+By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../../guides/providing-services#searching-data).
 
 Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
 
@@ -742,7 +742,7 @@ The pagination isn't stateful. If rows are inserted or removed before a subseque
 
 ### Pessimistic Locking { #write-lock}
 
-Use the `lock()` method to enforce [Pessimistic Locking](../guides/providing-services#select-for-update).
+Use the `lock()` method to enforce [Pessimistic Locking](../../guides/providing-services#select-for-update).
 
 The following example shows how to build a select query with an _exclusive_ (write) lock. The query tries to acquire a lock for a maximum of 5 seconds, as specified by an optional parameter `timeout`:
 
@@ -777,12 +777,12 @@ As a general rule, prefer the statements that select primary keys with a simple 
 
 ## Insert
 
-The [Insert](../cds/cqn#insert) statement inserts new data into a target entity set.
+The [Insert](../../cds/cqn#insert) statement inserts new data into a target entity set.
 An `Insert` statement is created by the [Insert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Insert.html) builder class.
 
 The target of the insert is specified by the `into` method.
 
-As in the following example, the target of the insert can be specified by a fully qualified entity name or by a [CdsEntity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsEntity.html) you obtain from the [Reflection API](../node.js/cds-reflect):
+As in the following example, the target of the insert can be specified by a fully qualified entity name or by a [CdsEntity](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsEntity.html) you obtain from the [Reflection API](../../node.js/cds-reflect):
 
 ```java
 Map<String, Object> book = new HashMap<>();
@@ -890,7 +890,7 @@ On SQL data stores the execution order of the generated insert statements is par
 
 ## Upsert { #upsert}
 
-[Upsert](../cds/cqn#upsert) updates existing entities or inserts new ones if they don't exist in the database.
+[Upsert](../../cds/cqn#upsert) updates existing entities or inserts new ones if they don't exist in the database.
 `Upsert` statements are created with the [Upsert](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Upsert.html) builder and are translated into DB native upsert statements by the CAP runtime whenever possible.
 
 The main use case of upsert is data replication.
@@ -953,7 +953,7 @@ Bulk upserts with entries updating/inserting the same set of elements can be exe
 
 ### Deep Upsert { #deep-upsert}
 
-Upsert can operate on deep [document structures](../cds-data#nested-structures-and-associations) modeled via [compositions](../guides/domain-modeling#compositions), such as an `Order` with many `OrderItems`.
+Upsert can operate on deep [document structures](../cds-data#nested-structures-and-associations) modeled via [compositions](../../guides/domain-modeling#compositions), such as an `Order` with many `OrderItems`.
 Such a _Deep Upsert_ is similar to [Deep Update](#deep-update), but it creates the root entity if it doesn't exist and comes with some [limitations](#upsert) as already mentioned.
 
 The [full set](#deep-update-full-set) and [delta](#deep-update-delta) representation for to-many compositions are supported as well.
@@ -963,7 +963,7 @@ Upsert doesn't allow changing the key of a child of a composition `of one`.
 
 ## Update
 
-Use the [Update](../cds/cqn#update) statement to update existing entities with new data. The update data can be partial (patch semantics), elements without update values keep their old value, except for elements annotated with `@cds.on.update`, which are updated with the annotation value.
+Use the [Update](../../cds/cqn#update) statement to update existing entities with new data. The update data can be partial (patch semantics), elements without update values keep their old value, except for elements annotated with `@cds.on.update`, which are updated with the annotation value.
 
 Depending on the filter condition, the `Update` can target [individual](#update-individual-entities) or [multiple](#searched-update) entity records.
 ::: tip
@@ -1025,9 +1025,9 @@ Update.entity(BOOKS).where(b -> b.stock().eq(0))
 
 ### Deep Update { #deep-update}
 
-Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
+Use deep updates to update _document structures_. A document structure comprises a single root entity and one or multiple related entities that are linked via compositions into a [contained-in-relationship](../../guides/domain-modeling#compositions). Linked entities can have compositions to other entities, which become also part of the document structure.
 
-By default, only target entities of [compositions](../guides/domain-modeling#compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](../cds-data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
+By default, only target entities of [compositions](../../guides/domain-modeling#compositions) are updated in deep updates. Nested data for managed to-one associations is used only to [set the reference](../cds-data#setting-managed-associations-to-existing-target-entities) to the given target entity. This can be changed via the [@cascade](query-execution#cascading-over-associations) annotation.
 
 For to-many compositions there are two ways to represent changes in the nested entities of a structured document: *full set* and *delta*.  In contrast to *full set* representation which describes the target state of the entities explicitly, a change request with *delta* payload describes only the differences that need to be applied to the structured document to match the target state. For instance, in deltas, entities that are not included remain untouched, whereas in full set representation they are deleted.
 
@@ -1171,7 +1171,7 @@ Result result = service.run(update, asList(paramSet1, paramSet2));
 
 ## Delete
 
-The [Delete](../cds/cqn#delete) operation can be constructed as follows:
+The [Delete](../../cds/cqn#delete) operation can be constructed as follows:
 
 ```cds
 // CDS model
@@ -1249,7 +1249,7 @@ The Query Builder API supports using expressions in many places. Expressions con
 
 ### Entity References {#entity-refs}
 
-Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../java/cqn-services/persistence-services#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
+Entity references specify entity sets. They can be used to define the target entity set of a [CQL](../../cds/cql) statement. They can either be defined inline using lambda expressions in the Query Builder (see [Target Entity Sets](#target-entity-sets)) or via the `CQL.entity` method, which is available in an _untyped_ version as well as in a _typed_ version that uses the generated [model interfaces](../cqn-services/persistence-services#model-interfaces). The following example shows an entity reference describing the set of *authors* that have published books in the year 2020:
 
 ```java
 import com.sap.cds.ql.CQL;
@@ -1642,7 +1642,7 @@ BETWEEN
 
 #### `ETag Predicate` {#etag-predicate}
 
-The [ETag predicate](../java/working-with-cql/query-execution#etag-predicate) specifies expected ETag values for [conflict detection](../java/working-with-cql/query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
+The [ETag predicate](query-execution#etag-predicate) specifies expected ETag values for [conflict detection](query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
 
 ```java
 Instant expectedLastModification = ... ;
@@ -1900,7 +1900,7 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 ## Parsing CQN
 
-[CQL](../../cds/cql) queries can also be constructed from a [CQN](../cds/cqn) string<sup>*</sup>:
+[CQL](../../cds/cql) queries can also be constructed from a [CQN](../../cds/cqn) string<sup>*</sup>:
 
 ```java
 String cqnQuery = "{'SELECT': {'from': {'ref': ['my.bookshop.Books']},

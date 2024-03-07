@@ -95,7 +95,7 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../../hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
 
 Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
 
@@ -402,9 +402,9 @@ The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock
 
 ## Runtime Views { #runtimeviews}
 
-The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
 
-To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../../../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
 
 ```cds
 entity Books {
@@ -434,7 +434,7 @@ WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
 ::: tip
-Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+Runtime views are supported for [CDS projections](../../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
 
 Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
 :::
@@ -475,7 +475,7 @@ try (InputStream resource = getResource("IMAGE.PNG")) {
 
 ### Using Native SQL
 
-CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](./advanced#jdbctemplate) for more details.
+CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](../cqn-services/persistence-services#jdbctemplate) for more details.
 
 
 ## Query Result Processing { #result}

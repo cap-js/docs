@@ -16,9 +16,9 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 This section describes some best practices and recommendations for testing CAP Java applications.
 
-As described in [Modular Architecture](../building#starter-bundles#modular_architecture), a CAP Java application consists of weakly coupled components, which enables you to define your test scope precisely and focus on parts that need a high test coverage.
+As described in [Modular Architecture](building#starter-bundles#modular_architecture), a CAP Java application consists of weakly coupled components, which enables you to define your test scope precisely and focus on parts that need a high test coverage.
 
-Typical areas that require testing are the [services](.../services#cdsservices) that dispatch events to [event handlers](.../event-handlers), the event handlers themselves that implement the behaviour of the services, and finally the APIs that the application services define and that are exposed to clients through [OData](.../cqn-services/application-services#odata-requests).
+Typical areas that require testing are the [services](../services#cdsservices) that dispatch events to [event handlers](../event-handlers), the event handlers themselves that implement the behaviour of the services, and finally the APIs that the application services define and that are exposed to clients through [OData](../cqn-services/application-services#odata-requests).
 
 ::: tip
 Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
@@ -139,7 +139,7 @@ Whenever possible, mocking dependencies and just testing the pure processing log
 
 ## Service Layer Testing
 
-[Application Services](.../cqn-services/application-services) that are backed by an actual service definition within the `CdsModel` implement an interface, which extends the `Service` interface and offers a common `CQN execution API` for `CRUD` events. This API can be used to run `CQN` statements directly against the service layer, which can be used for testing, too.
+[Application Services](../cqn-services/application-services) that are backed by an actual service definition within the `CdsModel` implement an interface, which extends the `Service` interface and offers a common `CQN execution API` for `CRUD` events. This API can be used to run `CQN` statements directly against the service layer, which can be used for testing, too.
 
 To verify the proper discount application in our example, we can run a `Select` statement against the `CatalogService` and assert the result as follows, using a well-known dataset:
 

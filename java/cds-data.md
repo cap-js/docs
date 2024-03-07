@@ -219,7 +219,7 @@ In CAP Java data is represented in maps. To simplify data access in custom code,
 
 ![This graphic is explained in the accompanying text.](./assets/accessor.drawio.svg)
 
-The `Row`s of a [query result](./working-with-cqn/query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
+The `Row`s of a [query result](./working-with-cql/query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
 ```java
 Map<String, Object> map = new HashMap<>();
@@ -283,7 +283,7 @@ This section shows examples using structured data in [CQL](../cds/cql) statement
 
 ### Deep Inserts through Compositions and Cascading Associations
 
-*Deep Inserts* create new target entities along compositions and associations that [cascade](./working-with-cqn/query-execution#cascading-over-associations) the insert operation.
+*Deep Inserts* create new target entities along compositions and associations that [cascade](./working-with-cql/query-execution#cascading-over-associations) the insert operation.
 In this example an order with a header in status 'open' is created via a deep insert along the `header` composition.
 
 ```java
@@ -335,7 +335,7 @@ Access child entities of a composition using a path expression from the parent e
 
 ### Select Managed Associations
 
-To select the mapping elements of a managed association, simply add the [association](./working-with-cqn/query-api#managed-associations-on-the-select-list) to the select list:
+To select the mapping elements of a managed association, simply add the [association](./working-with-cql/query-api#managed-associations-on-the-select-list) to the select list:
 
 ```java
 CqnSelect select = Select.from(BOOKS).byId(123)
@@ -351,7 +351,7 @@ Don't select from and rely on compiler generated foreign key elements of managed
 
 ### Select with Paths in Matching
 
-Paths are also supported in [matching](./working-with-cqn/query-api#using-matching), for example, to select all *orders* that are in status *canceled*:
+Paths are also supported in [matching](./working-with-cql/query-api#using-matching), for example, to select all *orders* that are in status *canceled*:
 
 ```java
 Map<String, Object> order = new HashMap<>();
@@ -595,7 +595,7 @@ List<Book> bookList = books.collect(Collectors.toList());
 
 ### Typed Access to Query Results
 
-Typed access through custom or generated accessor interfaces eases the [processing of query result](query-execution#typed-result-processing).
+Typed access through custom or generated accessor interfaces eases the [processing of query result](working-with-cql/query-execution#typed-result-processing).
 
 ## Data Processor { #cds-data-processor}
 

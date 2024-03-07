@@ -74,9 +74,9 @@ Use `CqnVisitor` when element references of the query are:
 
 ## CqnAnalyzer
 
-The [CQL](../cds/cql) introspection API allows to analyze [CQL](../cds/cql) statements and extract values and information on the CDS entities in references.
+The [CQL](../../cds/cql) introspection API allows to analyze [CQL](../../cds/cql) statements and extract values and information on the CDS entities in references.
 
-The [CqnAnalyzer](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnAnalyzer.html) can be constructed from a [CDS model](./reflection-api#the-cds-model):
+The [CqnAnalyzer](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnAnalyzer.html) can be constructed from a [CDS model](../reflection-api#the-cds-model):
 
 ```java
 import com.sap.cds.ql.cqn.CqnAnalyzer;
@@ -85,7 +85,7 @@ CdsModel cdsModel = context.getModel();
 CqnAnalyzer cqnAnalyzer = CqnAnalyzer.create(cdsModel);
 ```
 
-Furthermore, the static `isCountQuery(cqn)` method can be used to check if a [CQL](../cds/cql) query only returns a single count:
+Furthermore, the static `isCountQuery(cqn)` method can be used to check if a [CQL](../../cds/cql) query only returns a single count:
 
 ```java
 // cqn: Select.from("Books").columns(CQL.count().as("bookCount"));
@@ -127,7 +127,7 @@ AnalysisResult result = cqnAnalyzer.analyze(cqn.ref());
 
 ### Resolving CDS Entities
 
-Based on the `AnalysisResult`, information on the CDS entities can be accessed through the [Reflection API](./index):
+Based on the `AnalysisResult`, information on the CDS entities can be accessed through the [Reflection API](../reflection-api):
 <!-- TODO incorrect link? -->
 
 ```java

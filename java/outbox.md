@@ -162,9 +162,7 @@ A service wrapped by an outbox can be unboxed by calling the API `OutboxService.
 service are executed synchronously without storing the event in an outbox.
 
 ::: warning Java Proxy
-A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html) that
-that only provides access to the service instance via the interfaces it implements. It can't be casted to a class implementing
-the specific service. All messaging services and the auditlog services are automatically provided as services wrapped by an outbox.
+A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html). Such a proxy only implements the _interfaces_ of the object they are wrapping. This means an outboxed service proxy can't be casted to the class implementing the underlying service object.
 
 Examples for common service interfaces:
 

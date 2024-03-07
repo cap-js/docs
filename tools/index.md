@@ -263,7 +263,17 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 > Provided that the [**CDS Editor**](#cds-editor) is installed, the CAP Notebook will be rendered automatically as the file is selected.
 
-<div id="beforedocker" />
+## IntelliJ
+
+The CDS language support plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
+
+<!-- This will work once the repo is public -->
+![Code completion in IntelliJ](https://github.com/cap-js/cds-intellij/blob/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png)
+
+See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main/FEATURES.md) and the [installation instructions](https://github.com/cap-js/cds-intellij#requirements) for how to get started.
+
+[Report issues and provide feedback](https://github.com/cap-js/cds-intellij).
+
 
 ## Docker
 

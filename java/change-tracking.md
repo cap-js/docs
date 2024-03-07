@@ -161,6 +161,9 @@ You should consider this when you decide what to include in the identifier.
 
 ### Displaying Changes in the UI
 
+The changes of the entity are exposed as an association `changes` that you can use to display the change log in the UI. 
+By default, the entity `Changes` will also be auto exposed, but it will not be writable via OData requests.   
+
 If you want to display the change log together with the overview of your entity, you need to add the facet
 to the object page that will display the changes:
 
@@ -180,7 +183,8 @@ annotate Bookshop.Books with @(
 ```
 
 If you want to have a common UI for all changes, you need to expose the change log as a projection and define
-your own presentation for it as the changes are exposed only as part of the change tracked entity.
+your own presentation for it as the changes are exposed only as part of the change tracked entity. This projection 
+must be read-only and should not be writable via OData requests.
 
 The change log will be extended with the texts for your entities from the `@title` annotation of the entity
 and the element. Otherwise, the change log will contain only the technical names of the entities and the elements. 

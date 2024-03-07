@@ -165,7 +165,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/change-tracking)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Learn more about change tracking in [Java](../java/change-tracking) {.learn-more}
+[Learn more about change tracking in Java](../java/change-tracking) {.learn-more}
 
 
 ## Audit Logging

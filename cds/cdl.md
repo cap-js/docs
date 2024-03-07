@@ -690,6 +690,12 @@ entity Orders.Items {
 Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
 :::
 
+::: warning Limitations of Compositions of one
+Don't overuse Compositions of one. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori UIs almost never send Draft requests with Compositions of one. In rare cases when it happens, you need to take case of them in a custom handler. 
+- No support for POST requests over navigation with Compositions of one. If you can't avoid this scenario, please fill foreign keys manually in a custom handler. 
+:::
+
 ### Managed Compositions of Aspects {#managed-compositions}
 
 Use managed compositions variant to nicely reflect document structures in your domain models, without the need for separate entities, reverse associations, and unmanaged `on` conditions.

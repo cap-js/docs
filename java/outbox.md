@@ -163,13 +163,6 @@ service are executed synchronously without storing the event in an outbox.
 
 ::: warning Java Proxy
 A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html). Such a proxy only implements the _interfaces_ of the object they are wrapping. This means an outboxed service proxy can't be casted to the class implementing the underlying service object.
-
-Examples for common service interfaces:
-
-- [com.sap.cds.services.auditlog.AuditLogService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/auditlog/AuditLogService.html)
-- [com.sap.cds.services.messaging.MessagingService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/messaging/MessagingService.html)
-- [com.sap.cds.services.cds.CqnService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/cds/CqnService.html)
-- [com.sap.cds.services.cds.RemoteService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/cds/RemoteService.html)
 :::
 
 ::: tip Custom outbox for scaling

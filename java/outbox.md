@@ -161,6 +161,19 @@ All calls to `CqnService.run` methods return null since they're executed asynchr
 A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`. Method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.
 
+::: warning Java Proxy
+A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html) that
+that only provides access to the service instance via the interfaces it implements. It can't be casted to a class implementing
+the specific service. All messaging services and the auditlog services are automatically provided as services wrapped by an outbox.
+
+Examples for common service interfaces:
+
+- [com.sap.cds.services.auditlog.AuditLogService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/auditlog/AuditLogService.html)
+- [com.sap.cds.services.messaging.MessagingService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/messaging/MessagingService.html)
+- [com.sap.cds.services.cds.CqnService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/cds/CqnService.html)
+- [com.sap.cds.services.cds.RemoteService](https://javadoc.io/static/com.sap.cds/cds-services-api/1.23.1/com/sap/cds/services/cds/RemoteService.html)
+:::
+
 ::: tip Custom outbox for scaling
 The default outbox services can be used for outboxing arbitrary CAP services. If you detect a scaling issue,
 you can define custom outboxes that can be used for outboxing.

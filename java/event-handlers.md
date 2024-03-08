@@ -343,7 +343,7 @@ public void changeBooks(List<Books> books) { }
 The mapping between a data accessor interface and an entity, is based on the `@CdsName` annotation of the accessor interface.
 :::
 
-Entity data arguments only work on [CRUD events](cqn-services/application-services#crudevents) of [CQN-based services](./services#cdsservices). In addition they work with the [draft-specific CRUD events](fiori-drafts#draftevents) provided by Draft Services.
+Entity data arguments only work on [CRUD events](cqn-services/application-services#crudevents) of [CQN-based services](./cqn-services#cdsservices). In addition they work with the [draft-specific CRUD events](fiori-drafts#draftevents) provided by Draft Services.
 
 The origin from which the entity data is provided depends on the phase of the event processing.
 During the `Before` and `On` phase it is obtained from the CQN statement. The CQN statement contains the entity data that was provided by the service client.

@@ -427,7 +427,7 @@ We strongly recommend adopting the new CAP Java SDK when starting a new project.
 
 ### OData Protocol Version
 
-The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](./developing-applications/configuring#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
+The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](./developing-applications/building#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
 
 ::: tip
 By default, the CAP Java Runtime comes with protocol adapters for OData V4 and [OData V2 (Beta)](#v2adapter). Therefore, you can migrate your frontend code to new CAP Java SDK without change. In addition, you have the option to move from SAP Fiori Elements V2 to SAP Fiori Elements V4 at any time.
@@ -641,7 +641,7 @@ The new CAP Java SDK introduces new annotations for event handlers. Replace even
 | `@AfterDelete(entity = "yourEntityName")` | `@After(event = CqnService.EVENT_DELETE, entity = "yourEntityName")` |
 
 ::: tip
-The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](./working-with-cql/query-api#using-the-iterator) in custom code.
+The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](./working-with-cql/query-introspection#using-the-iterator) in custom code.
 :::
 
 ##### Event Handler Signatures
@@ -893,7 +893,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./services#persistenceservice){.learn-more}
+[See section **Persistence API** for more details.](./cqn-services#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 

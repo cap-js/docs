@@ -18,7 +18,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Introduction
 
-Handlers of [CQN-based services](../services#cdsservices) often need to understand the incoming CQN statements.
+Handlers of [CQN-based services](../cqn-services#cdsservices) often need to understand the incoming CQN statements.
 
 The statement analysis can be done in two different ways. Depending on the complexity of the statement it can be done using:
 

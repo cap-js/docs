@@ -17,7 +17,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Handling CRUD Events { #crudevents}
 
-Application Services provide a [CQN query API](../services#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
+Application Services provide a [CQN query API](../cqn-services#cdsservices). When running a CQN query on an Application Service CRUD events are triggered.
 The processing of these events is usually extended when adding business logic to the Application Service.
 
 The following table lists the static event name constants that exist for these event names on the [CqnService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CqnService.html) interface and their corresponding [event-specific Event Context interfaces](../event-handlers#eventcontext). These constants and interfaces should be used, when registering and implementing event handlers:
@@ -336,7 +336,7 @@ This section summarizes some best practices for implementing event handlers and 
     The CAP Java SDK provides [APIs](../services) that can be used in event handlers to interact with other services.
     These other services can be used to request data, that is required by the event handler implementation.
 
-    If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](../services#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
+    If you're implementing an event handler of an Application Service, and require additional data of other entities part of that service for validation purposes, it's a good practice to read this data from the database using the [Persistence Service](../cqn-services#persistenceservice). When using the Persistence Service, no user authentication checks are performed.
 
     If you're mashing up your service with another Application Service and also return data from that service to the client, it's a good practice to consume the other service through its service API. This keeps you decoupled from the possibility that the service might be moved into a dedicated micro-service in the future ([late-cut micro services](../../about/#agnostic-approach)) and automatically lets you consume the business or domain logic of that service.
     If you do not require this decoupling, you can also access the service's entities directly from the database.

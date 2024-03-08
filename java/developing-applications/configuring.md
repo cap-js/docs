@@ -17,7 +17,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ## Profiles and Properties
 
 This section describes how to configure applications. 
-CAP Java applications can fully leverage [Spring Boot's](#spring-boot-integration) capabilities for [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config). 
+CAP Java applications can fully leverage [Spring Boot's](../spring-boot-integration) capabilities for [Externalized Configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config). 
 This enables you to define multiple **configuration profiles** for different scenarios, like local development and cloud deployment.
 
 For a first introduction, have a look at our [sample application](https://github.com/sap-samples/cloud-cap-samples-java) and the [configuration profiles](https://github.com/SAP-samples/cloud-cap-samples-java/blob/master/srv/src/main/resources/application.yaml) we added there.

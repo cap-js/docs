@@ -99,7 +99,7 @@ Services have different purposes. For instance, CDS model services provide an in
 Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface. 
 As described in CAPs [core concepts](../../about/#services), services share the same generic provider interface and are implemented by event handlers. 
 The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model. 
-In addition, technical services are offered such as the [Persistence Service](../services#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
+In addition, technical services are offered such as the [Persistence Service](../cqn-services#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
 
 In case the generic handler implementation of a specific service doesn't match the requirements, you can extend or replace it with custom handler logic that fits your business needs. 
 See section [Event Handlers](../event-handlers) for more details.
@@ -116,7 +116,7 @@ CQN statements can be built conveniently in a [fluent API](../working-with-cqn/.
 The CAP Java architecture allows **additional modules to be plugged in at runtime**. 
 This plugin mechanism makes the architecture open for future extensions and allows context-based configuration. 
 It also enables you to override standard behavior with custom-defined logic in all different layers. 
-Custom [plugins](#building-plugins) are automatically loaded by the runtime and can bring CDS models, CDS services, adapters or just handlers for existing services.
+Custom [plugins](../building-plugins) are automatically loaded by the runtime and can bring CDS models, CDS services, adapters or just handlers for existing services.
 
 ::: info
 Plugins are optional modules that adapt runtime behaviour.
@@ -306,7 +306,7 @@ An example of a CAP application with OData V4 on Cloud Foundry environment:
 ```
 
 
-## Generating Projects with Maven
+## Generating Projects with Maven { #the-maven-archetype }
 
 Use the following command line to create a project from scratch with the CDS Maven archetype:
 
@@ -338,7 +338,7 @@ It supports the following command-line options:
 | `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
 
 
-## Building Projects with Maven
+## Building Projects with Maven { #maven-build-options }
 
 You can build and run your application by means of the following Maven command:
 

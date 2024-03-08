@@ -99,7 +99,7 @@ For the remainder of this spec, you see examples in plain JavaScript representat
 * [`extensions`](#aspects) &ndash; an array of unnamed [aspects](#aspects)
 * [`i18n`](#i18n) &ndash; a dictionary of dictionaries of [text translations](#i18n)
 
-> [!TIP] 
+> [!TIP] All properties are optional
 > For example, one model could contain a few definitions, while another one only contains some extensions.
 
 

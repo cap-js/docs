@@ -1539,6 +1539,23 @@ GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
+To expose an entity, it not necessarily has to be lexically enclosed in the service definition.
+An entity's affiliation to a service is established via its fully qualified name.
+If the name of an entity contains the name of a service as prefix, it belongs to/is exposed by that service.
+In the following example, all entities belong to the service.
+
+```cds
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+
+// --- in another file ---
+
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+
 
 ### (Auto-) Redirected Associations {#auto-redirect}
 
@@ -1770,6 +1787,7 @@ entity Bar : Foo {}     //> foo.bar.Bar
 ```
 :::
 
+A namespace is not an object of its own. There is no corresponding definition in CSN.
 
 ### The `context` Directive {#context}
 

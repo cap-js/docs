@@ -120,7 +120,7 @@ The `type` property defines the protocol used by the remote API. The CAP Java SD
 
 The configuration capabilities for the remaining properties is very flexible in CAP. In the following the most common scenarios are described. 
 
-#### Destination-based Scenarios
+#### Destination-based Scenarios { #destination-based-scenarios }
 For destination-based _Remote Services_, CAP leverages the destination capabilities of the SAP Cloud SDK. Relevant information like credentials for authentication and the URL are externalized to a destination.
 
 The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name, that is configured in the _Remote Service_'s destination configuration.

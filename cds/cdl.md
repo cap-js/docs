@@ -691,9 +691,9 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 :::
 
 ::: warning Limitations of Compositions of one
-Don't overuse Compositions of one. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
-- Very limited Draft support. Fiori elements does not support Compositions of one unless you take case of their creation in a custom handler. 
-- No support for POST requests over navigation with Compositions of one. If you can't avoid this scenario, please fill foreign keys manually in a custom handler. 
+Don't overuse compositions of one. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- No support for POST requests over navigation with compositions of one. You must fill in foreign keys manually in a custom handler.
 :::
 
 ### Managed Compositions of Aspects {#managed-compositions}

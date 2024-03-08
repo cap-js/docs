@@ -28,7 +28,7 @@ Event handlers enable you to add custom business logic to your application by ei
 Event handlers are a powerful means to extend CAP. Did you know, that most of the built-in features provided by CAP are implemented using event handlers?
 :::
 
-Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](services#cdsservices).
+Common events are the CRUD events (`CREATE`, `READ`, `UPDATE`, `DELETE`), which are handled by the different kinds of [CQN-based services](cqn-services#cdsservices).
 These events are most typically triggered, when an HTTP-based protocol adapter (for example OData V4) executes a CQN statement on an Application Service to fulfill the HTTP request.
 The CAP Java SDK provides a lot of built-in event handlers (also known as [Generic Providers](../guides/providing-services)) that handle CRUD operations out of the box and implement the handling of many CDS annotations.
 Applications most commonly use event handlers on CRUD events to _extend_ the event processing by using the [`Before`](#before) and [`After`](#after) phase.
@@ -395,7 +395,7 @@ public List<Books> readBooks(CdsReadEventContext context) {
 }
 ```
 
-Event handler methods with return values only work on [CRUD events](cqn-services/application-services#crudevents) of [CQN-based services](services#cdsservices) or the [draft-specific CRUD events](fiori-drafts#draftevents) provided by Draft Services.
+Event handler methods with return values only work on [CRUD events](cqn-services/application-services#crudevents) of [CQN-based services](cqn-services#cdsservices) or the [draft-specific CRUD events](fiori-drafts#draftevents) provided by Draft Services.
 
 ::: tip
 To learn how to build your own Result objects, have a look at the [Result Builder API](cqn-services/application-services#result-builder)

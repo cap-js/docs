@@ -128,19 +128,6 @@ If you're using the SAP BTP Destination Service, this is the name you used when 
 
 [Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}
 
-Consider the following example:
-
-```yaml
-cds:
-  remote.services:
-  - name: "API_BUSINESS_PARTNER"
-    type: "odata-v2"
-    http:
-      suffix: "/sap/opu/odata/sap"
-    destination:
-      name: s4-business-partner-api
-```
-
 ##### Line-of-Business Integration
 In this scenario, the _Remote Service_ is typically running outside the BTP. The URL of the endpoint as well as additional metadata like credentials need to be separately obtained from the service provider and are stored in a destination in the BTP.  
 
@@ -154,6 +141,8 @@ cds:
     destination:
       name: s4-business-partner-api
 ```
+
+Based on this configuration, a destination with name `s4-business-partner-api` will be looked up via the Cloud SDK.
 
 ##### Extension Callback
 This scenario mainly applies to multi-tenant scenarios in which a CAP application wants to offer a callback-mechanism for their subscribers. The subscriber will deploy an endpoint for example as a dedicated CAP application in their subscriber account and stores the necessary URL and credentials in a destination in his account.
@@ -170,10 +159,10 @@ cds:
       retrievalStrategy: "CurrentTenant"
 ```
 
-Based on this configuration, a destination with name `s4-business-partner-api` will be looked up via the Cloud SDK. The additional parameter `retrievalStrategy: CurrentTenant` ensures that the destination will be looked up from the subscriber account if the tenant is correctly set in the Request Context.
+In this configuration, a destination with name `s4-business-partner-api`will be looked up via the Cloud SDK. The additional parameter `retrievalStrategy: CurrentTenant` ensures that the destination will be looked up from the subscriber account if the tenant is correctly set in the Request Context.
 As a pre-requisite for destination lookup in subscriber accounts, the CAP application need to define a dependency to the Destination service for their subscriptions e.g. in the SaaS Registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
 
-Retrieval strategies are part of a of strategies provided by Cloud SDK which is exposed as part of the configuration for _Remote Services_. These strategies offer flexibility to the CAP application to control behavior of destination loading beyond the described scenario. For details refer to section about [destination strategies](#destination-strategies).
+Retrieval strategies are part of a set of strategies provided by Cloud SDK which is exposed as part of the configuration for _Remote Services_. These strategies offer flexibility to the CAP application to control behavior of destination loading beyond the described scenario. For details refer to section about [destination strategies](#destination-strategies).
 
 #### Service Binding-based Scenarios
 Service Binding-based _Remote Services_ are the desired solution if the _Remote Service_ is running on the BTP. The CAP Java SDK will extract the relevant information from the service binding to connect to the _Remote Service_. Service binding-based _Remote Services_ have the advantage over destination-based _Remote Services_ of simpler usage because there is no need to externalize configuration (e.g. credentials) into a destination. Also, aspects like credential rotation is provided out-of-the box.
@@ -227,26 +216,6 @@ static {
 
 The parameter `<tag_biz_partner_svc>` needs to be replaced by the concrete name of the tag provided in the service binding. Alternatively, a check on the service name can be chosen as well. 
 
-### Configuring Destination Strategies { #destination-strategies }
-
-When loading destinations from SAP BTP Destination Service, you can specify a [destination retrieval strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options) and a [token exchange strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#token-exchange-options).
-
-These strategies can be set in the destination configuration of the _Remote Service_:
-
-```yml
-cds:
-  remote.services:
-  - name: "API_BUSINESS_PARTNER"
-    destination:
-      name: "s4-business-partner-api"
-      retrievalStrategy: "AlwaysProvider"
-      tokenExchangeStrategy: "ExchangeOnly"
-```
-
-::: tip
-Values for destination strategies have to be provided in pascal case.
-:::
-
 ## Using Remote Services
 
 _Remote Services_ can be used just like any other [service, that accepts CQN queries](consumption-api#cdsservices):
@@ -272,6 +241,28 @@ However, as _Remote Services_ are based on the common CQN query APIs it's easy t
 ::: warning
 In case data from _Remote Services_ should be combined with data from the database custom coding is required.
 Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and-extend) for more details.
+:::
+
+## Additional Cloud SDK Integration
+
+### Configuring Destination Strategies { #destination-strategies }
+
+When loading destinations from SAP BTP Destination Service, you can specify a [destination retrieval strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options) and a [token exchange strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#token-exchange-options).
+
+These strategies can be set in the destination configuration of the _Remote Service_:
+
+```yml
+cds:
+  remote.services:
+  - name: "API_BUSINESS_PARTNER"
+    destination:
+      name: "s4-business-partner-api"
+      retrievalStrategy: "AlwaysProvider"
+      tokenExchangeStrategy: "ExchangeOnly"
+```
+
+::: tip
+Values for destination strategies have to be provided in pascal case.
 :::
 
 ### Programmatic Destination Registration

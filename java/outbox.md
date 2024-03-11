@@ -221,7 +221,7 @@ An outbox service is calling an error handler in case of a processing error by e
 The event context provides the `ServiceException` that occurred while processing the outbox entry. An outbox error handler
 shall provide an error status after evaluating the exception; possible error status are:
 
-- `OutboxErrorStatus.RETRY`: The outbox retries to reprocess the entry.
+- `OutboxErrorStatus.RETRY`: The outbox tries to reprocess the entry.
 - `OutboxErrorStatus.UNRECOVERABLE`: The error is unrecoverable and the outbox deletes the corresponding entry from the outbox table.
 
 Custom outbox error handlers can be registered for an outbox service:

@@ -83,6 +83,7 @@ You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
+- `ordered` (default `true`): This flag If this flag is enabled, the outbox instance process the entries in the order they have been submitted to it. Otherwise the outbox picks the entries randomly and process them. If the CAP application scales horizontally all application instances process the entries of this outbox.
 
 > Persistent outbox is supported starting with these versions: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 
@@ -214,6 +215,35 @@ Also the handler shall only be registered once on the outbox service.
 
 [Learn more about event handlers.](./event-handlers){.learn-more}
 
+## Handling Outbox Errors
+
+An outbox service is calling an error handler in case of a processing error by emitting an `OutboxErrorEventContext`.
+The event context provides the `ServiceException` that occured while processing the outbox entry. An outbox error handler
+shall provide an error status after evaluating the exception; possible error status are:
+
+- `OutboxErrorStatus.RETRY`: The outbox retries to reprocess the entry.
+- `OutboxErrorStatus.UNRECOVERABLE`: The error is unrecoverable and the outbox deletes the corresponding entry from the outbox table.
+
+Custom outbox error handlers can be registered for an outbox service:
+
+```java
+OutboxService outboxService;
+
+outboxService.on(OutboxService.EVENT_OUTBOX_ERROR, null, ctx -> {
+  OutboxErrorEventContext errorEventContext = ctx.as(OutboxErrorEventContext.class);
+  ServiceException serviceException = errorEventContext.getException();
+
+  // Evaluate exeption to determine the error status
+
+  errorEventContext.setResult(OutboxErrorStatus.RETRY);
+
+  // or if the error is unrecoverable:
+  //errorEventContext.setResult(OutboxErrorStatus.UNRECOVERABLE);
+});
+```
+[Learn more about event handlers.](./event-handlers){.learn-more}
+
+The default outbox error event handler always returns `OutboxErrorStatus.RETRY`.
 
 ## Troubleshooting
 

@@ -51,7 +51,7 @@ Alternatively the AuditLog service can be retrieved from the `ServiceCatalog`:
 ServiceCatalog catalog = context.getServiceCatalog();
 auditLogService = (AuditLogService) catalog.getService(AuditLogService.DEFAULT_NAME);
 ```
-[See section **Using Services** for more details about retrieving services.](./consumption-api#using-services){.learn-more}
+[See section **Using Services** for more details about retrieving services.](./services#using-services){.learn-more}
 
 
 #### Emit Personal Data Access Event { #data-access}
@@ -102,7 +102,7 @@ auditLogService.logSecurityEvent(action, data);
 
 ### Deferred AuditLog Events { #deferred}
 
-Instead of processing the audit log events synchronously in the [audit log handler](#auditlog-handlers), the `AuditLogService` can store the event in the [outbox](./outbox). This is done in the *same* transaction of the business request. Hence, a cancelled business transaction will not send any audit log events that are bound to it. To gain fine-grained control, for example to isolate a specific event from the current transaction, you may refine the transaction scope. See [ChangeSetContext API](./changeset-contexts#defining-changeset-contexts) for more information.
+Instead of processing the audit log events synchronously in the [audit log handler](#auditlog-handlers), the `AuditLogService` can store the event in the [outbox](./outbox). This is done in the *same* transaction of the business request. Hence, a cancelled business transaction will not send any audit log events that are bound to it. To gain fine-grained control, for example to isolate a specific event from the current transaction, you may refine the transaction scope. See [ChangeSetContext API](./event-handlers/changeset-contexts#defining-changeset-contexts) for more information.
 
 As the stored events are processed asynchronously, the business request is also decoupled from the audit log handler which typically sends the events synchronously to a central audit log service. This improves resilience and performance.
 
@@ -149,7 +149,7 @@ Also a service binding to the AuditLog v2 service has to be added to the CAP Jav
 
 <div id="handler-service-plans"/>
 
-If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/development/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
+If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/developing-applications/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
 
 ```yaml
 cds:
@@ -210,5 +210,5 @@ class CustomAuditLogHandler implements EventHandler {
 }
 ```
 
-[Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){.learn-more}
+[Learn more about implementing an event handler in **Event Handler Classes**.](./event-handlers#handlerclasses){.learn-more}
 

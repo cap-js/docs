@@ -66,7 +66,7 @@ For Node.js all these plugins are implemented using the [`cds-plugin`](../node.j
 
 ## As Plugin for CAP Java
 
-The [CAP Java plugin technique](../java/plugins) makes use of _jar_-files which are distributed as Maven packages.
+The [CAP Java plugin technique](../java/building-plugins) makes use of _jar_-files which are distributed as Maven packages.
 By adding an additional Maven dependency to the project, the plugin automatically adds functionality or extensions to the CDS model. 
 For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 

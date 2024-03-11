@@ -565,7 +565,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more .impl .java}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers#handlerclasses){.learn-more .impl .java}
 
 </div>
 
@@ -670,7 +670,7 @@ public class CatalogHandler implements EventHandler {
 :::
 
 
-[Learn more about **event handlers** in the  CAP Java documentation.](../java/provisioning-api#handlerclasses){.learn-more}
+[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers#handlerclasses){.learn-more}
 
 </div>
 
@@ -788,11 +788,11 @@ public class SubmitOrderHandler implements EventHandler {
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
 [Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
 [Learn more about **connecting to services** using `cds.connect`.](../node.js/cds-connect){ .learn-more .impl .node}
-[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){.learn-more .impl .java}
+[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/services){.learn-more .impl .java}
 [Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){ .learn-more .impl .node}
-[Learn more about **reading and writing data** using `cds.ql`.](../java/query-api){ .learn-more .impl .java}
+[Learn more about **reading and writing data** using `cds.ql`.](../java/working-with-cql/query-api){ .learn-more .impl .java}
 [Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/core-services#entities){ .learn-more .impl .node}
-[Learn more about **typed access to data** using the CAP Java SDK.](../java/data#typed-access){ .learn-more .impl .java}
+[Learn more about **typed access to data** using the CAP Java SDK.](../java/cds-data#typed-access){ .learn-more .impl .java}
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 

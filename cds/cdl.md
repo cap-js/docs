@@ -1542,7 +1542,7 @@ GET: /ViewInService(p1=5, p2=true)/Set
 To expose an entity, it's not necessary to be lexically enclosed in the service definition.
 An entity's affiliation to a service is established using its fully qualified name.
 If the name of an entity contains the name of a service as prefix, it belongs to/is exposed by that service.
-In the following example, all entities belong to the same service:
+In the following example, all entities belong to/are exposed by the same service:
 
 ::: code-group
 ```cds [myservice.cds]

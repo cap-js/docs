@@ -83,7 +83,7 @@ You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
-- `ordered` (default `true`): This flag If this flag is enabled, the outbox instance process the entries in the order they have been submitted to it. Otherwise the outbox picks the entries randomly and process them. If the CAP application scales horizontally all application instances process the entries of this outbox.
+- `ordered` (default `true`): If this flag is enabled, the outbox instance process the entries in the order they have been submitted to it. Otherwise the outbox picks the entries randomly and process them. If the CAP application scales horizontally all application instances process the entries of this outbox.
 
 > Persistent outbox is supported starting with these versions: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 

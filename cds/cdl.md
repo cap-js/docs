@@ -1545,6 +1545,29 @@ GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
+To expose an entity, it's not necessary to be lexically enclosed in the service definition. An entity's affiliation to a service is established using its fully qualified name, so you can also use one of the following options:
+
+- Add a namespace.
+- Use the service name as prefix.
+
+In the following example, all entities belong to/are exposed by the same service:
+
+::: code-group
+```cds [myservice.cds]
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+```
+:::
+
+::: code-group
+```cds [another.cds]
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+:::
+
 
 ### (Auto-) Redirected Associations {#auto-redirect}
 
@@ -1776,6 +1799,7 @@ entity Bar : Foo {}     //> foo.bar.Bar
 ```
 :::
 
+A namespace is not an object of its own. There is no corresponding definition in CSN.
 
 ### The `context` Directive {#context}
 

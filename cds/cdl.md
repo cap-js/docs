@@ -1544,17 +1544,21 @@ An entity's affiliation to a service is established via its fully qualified name
 If the name of an entity contains the name of a service as prefix, it belongs to/is exposed by that service.
 In the following example, all entities belong to the service.
 
-```cds
+::: code-group
+```cds [myservice.cds]
 service foo.MyService {
   entity A { /*...*/ };
 }
 entity foo.MyService.B { /*...*/ };
+```
+:::
 
-// --- in another file ---
-
+::: code-group
+```cds [another.cds]
 namespace foo.MyService;
 entity C { /*...*/ };
 ```
+:::
 
 
 ### (Auto-) Redirected Associations {#auto-redirect}

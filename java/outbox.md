@@ -218,7 +218,7 @@ Also the handler shall only be registered once on the outbox service.
 ## Handling Outbox Errors
 
 An outbox service is calling an error handler in case of a processing error by emitting an `OutboxErrorEventContext`.
-The event context provides the `ServiceException` that occured while processing the outbox entry. An outbox error handler
+The event context provides the `ServiceException` that occurred while processing the outbox entry. An outbox error handler
 shall provide an error status after evaluating the exception; possible error status are:
 
 - `OutboxErrorStatus.RETRY`: The outbox retries to reprocess the entry.

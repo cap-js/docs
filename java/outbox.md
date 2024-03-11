@@ -161,6 +161,10 @@ All calls to `CqnService.run` methods return null since they're executed asynchr
 A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`. Method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.
 
+::: warning Java Proxy
+A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html). Such a proxy only implements the _interfaces_ of the object it is wrapping. This means an outboxed service proxy can't be casted to the class implementing the underlying service object.
+:::
+
 ::: tip Custom outbox for scaling
 The default outbox services can be used for outboxing arbitrary CAP services. If you detect a scaling issue,
 you can define custom outboxes that can be used for outboxing.
@@ -208,7 +212,7 @@ outboxService.on("myEvent", null, (ctx) -> {
 You must ensure that the handler is setting the context to completed before returning.
 Also the handler shall only be registered once on the outbox service.
 
-[Learn more about event handlers.](./provisioning-api){.learn-more}
+[Learn more about event handlers.](./event-handlers){.learn-more}
 
 
 ## Troubleshooting

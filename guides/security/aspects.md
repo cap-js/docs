@@ -225,7 +225,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../authorization#requires) |
 | Index page        |                  | `/index.html`                             | none                                          |
 
-> <sup>1</sup> See [protocols and paths](../../java/application-services#configure-path-and-protocol)
+> <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 
 > <sup>2</sup> No authorization by default
 
@@ -266,7 +266,7 @@ and hence has established trust with the CAP application client, for instance gi
 Authentication for a CAP sidecar needs to be configured just like any other CAP application.
 
 ::: warning
-❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **never are included in business roles**.
+❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **are never included in business roles**.
 :::
 
 ### Platform Users { #platform-authz }
@@ -530,7 +530,7 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 ::: tip
 <div markdown="1" class="impl java">
 
-In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
+In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/cqn-services/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 

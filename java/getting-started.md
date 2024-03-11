@@ -70,7 +70,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 ### Run the Maven Archetype { #run-the-cap-java-maven-archetype }
 
-Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
+Use the [CAP Java Maven archetype](./developing-applications/building#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```sh
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE" -DinteractiveMode=true
@@ -92,7 +92,7 @@ You can call `cds help init` for more information on the available options.
 
 ### Add a Sample CDS Model
 
-You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
+You can use the [CDS Maven plugin](developing-applications/building#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addSample
@@ -115,7 +115,7 @@ This commands adds the following dependency to the pom.xml:
 </dependency>
 ```
 ::: tip
-CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./architecture#starter-bundles) for more details.
+CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./developing-applications/building#starter-bundles#starter-bundles) for more details.
 :::
 
 ### Project Layout
@@ -140,7 +140,7 @@ The generated folders have the following content:
 | *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./data#typed-access). |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
@@ -165,7 +165,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 ### Add an Integration Test Module (Optional)
 
-Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
+Optionally, you can use the [CDS Maven plugin](./developing-applications/building#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest

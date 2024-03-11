@@ -212,7 +212,7 @@ outboxService.on("myEvent", null, (ctx) -> {
 You must ensure that the handler is setting the context to completed before returning.
 Also the handler shall only be registered once on the outbox service.
 
-[Learn more about event handlers.](./provisioning-api){.learn-more}
+[Learn more about event handlers.](./event-handlers){.learn-more}
 
 
 ## Troubleshooting

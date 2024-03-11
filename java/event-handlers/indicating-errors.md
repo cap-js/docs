@@ -2,6 +2,7 @@
 synopsis: >
   This section describes the error handling capabilities provided by the CAP Java SDK.
 status: released
+redirect_from: java/indicating-errors
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -45,7 +46,7 @@ The OData V4 adapter turns all exceptions into an OData error response to indica
 
 ## Messages
 
-The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn't affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../java/development/properties#cds-errors-combined) to `false`.
+The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn't affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../developing-applications/properties#cds-errors-combined) to `false`.
 
 The `Messages` interface provides a logger-like API to collect these messages. Additional optional details can be added to the [Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Message.html) using a builder API.
 You can access the `Messages` API from the Event Context:
@@ -82,7 +83,7 @@ messages.throwIfError();
 If there are any collected error messages, this method creates a [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) from _one_ of these error messages.
 The OData V4 adapter turns this exception into an OData error response to indicate the error to the client. The remaining error messages are written into the `details` section of the error response.
 
-If the CDS property [`cds.errors.combined`](../java/development/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
+If the CDS property [`cds.errors.combined`](../developing-applications/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
 
 
 ## Formatting and Localization
@@ -102,7 +103,7 @@ You can localize these strings, by putting them into property files and passing 
 When running your application on Spring, the CAP Java SDK integrates with [Spring's support for handling text resource bundles](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization). This handling by default expects translated texts in a `messages.properties` file under `src/main/resources`.
 
 The texts defined in the resource bundles can be formatted based on the syntax defined by `java.text.MessageFormat`.
-When the message or exception text is sent to the client it's localized using the client's locale, as described [in the Localization Cookbook](../guides/i18n#user-locale).
+When the message or exception text is sent to the client it's localized using the client's locale, as described [in the Localization Cookbook](../../guides/i18n#user-locale).
 
 ::: code-group
 ```properties [messages.properties]
@@ -330,7 +331,7 @@ An [exception](#exceptions) thrown in an event handler will stop the processing 
 
 You can add event handlers using the `@After` phase for the `ERROR_RESPONSE` event to augment or change the error responses:
 - Method `getException()` of [ErrorResponseEventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ErrorResponseEventContext.html) returns the exception that triggered the event.
-- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](./provisioning-api#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
+- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](../event-handlers#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
 
 You can use the exception and the list of events contexts (with service, entity and event name) to selectively apply your custom error response handling. Some exceptions, however, may not be associated with a context and the list of contexts will be empty for them.
 

@@ -3,9 +3,9 @@ synopsis: >
   CAP Messaging provides support for publish-subscribe-based messaging, which is an asynchronous communication pattern well suited for scenarios where a sender wants to send out information to one or many receivers that are potentially unknown and/or unavailable at the time of sending.
 
 status: released
-
+redirect_from: java/messaging-foundation
 ---
-<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
+<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging.md -->
 
 <script setup>
   import { h } from 'vue'

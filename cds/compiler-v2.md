@@ -583,7 +583,7 @@ With compiler v2, these additional types are not reflected in CSN anymore.
 #### Migration
 
 If you've got custom code that evaluates the CSN and uses these types, you need to adapt that code.
-Also in Java, [accessor-](../java/advanced#accessor-interfaces) or [model interfaces](../java/advanced#model-interfaces) generated for these types, will change.
+Also in Java, [accessor-](../java/cqn-services/persistence-services#accessor-interfaces) or [model interfaces](../java/cqn-services/persistence-services#model-interfaces) generated for these types, will change.
 
 
 ### Removed: Property `$syntax`
@@ -756,7 +756,7 @@ In this example, the return type of the `cancel` function is automatically expos
 With compiler v1 this change was also reflected in the CSN. With compiler v2 this is not the case any longer.
 
 ::: warning _❗ Warning_
-If types are used in a service that are defined outside of the service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change when upgrading from compiler v1 to v2!
+If types are used in a service that are defined outside of the service the [generated accessor interface](../java/cds-data#generated-accessor-interfaces) will change when upgrading from compiler v1 to v2!
 :::
 
 If compiler v1 is used CAP Java will generate interfaces using the automatically exposed type from EDMX:
@@ -838,7 +838,7 @@ OData, however, does not support anonymous types. Hence, the compiler will autom
 In this example the compiler generated the type `Person_emails` in the OData service `hr`.
 
 ::: warning _❗ Warning_
-If an inline defined type is used in a service the [generated accessor interface](../java/data#generated-accessor-interfaces) will change (an inner interface is generated) when upgrading from compiler v1 to v2!
+If an inline defined type is used in a service the [generated accessor interface](../java/cds-data#generated-accessor-interfaces) will change (an inner interface is generated) when upgrading from compiler v1 to v2!
 :::
 
 If compiler v1 is used CAP Java generates a *top-level* interface for item type:

@@ -266,7 +266,7 @@ and hence has established trust with the CAP application client, for instance gi
 Authentication for a CAP sidecar needs to be configured just like any other CAP application.
 
 ::: warning
-❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **never are included in business roles**.
+❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **are never included in business roles**.
 :::
 
 ### Platform Users { #platform-authz }

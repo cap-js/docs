@@ -1034,7 +1034,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#configuring-the-destination){.learn-more}
+[Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#configuring-the-target){.learn-more}
 
 #### Use Application Defined Destinations { #app-defined-destinations}
 

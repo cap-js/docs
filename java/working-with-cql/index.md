@@ -1,14 +1,11 @@
 ---
 synopsis: >
-  Learn here about developing a CAP Java application.
+  Learn here about working with CDS CQL.
 
 status: released
-redirect_from: 
-- java/development
-- java/development/
 ---
 
-# Developing CAP Java Applications
+# Working with CDS CQL
 
 {{ $frontmatter.synopsis }}
 

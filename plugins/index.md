@@ -286,6 +286,8 @@ Available for:
 
 The AsyncAPI plugin provides support for AsyncAPI document compilation. You can convert CDS models to the [AsyncAPI specification](https://www.asyncapi.com) by using the CLI command:
 
+```txt
+cds compile <file path> --to asyncapi
 ```
 cds compile <file path> --to asyncapi
 ```

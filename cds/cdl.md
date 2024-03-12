@@ -356,7 +356,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements (beta) {#association-like-calculated-elements}
+#### Association-like calculated elements <Badge type="warning" text="beta" /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -800,7 +800,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+#### Publish Associations with Filter <Badge type="warning" text="beta" /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1007,7 +1007,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values (beta) {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Badge type="warning" text="beta" /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.

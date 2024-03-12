@@ -386,7 +386,7 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming (beta)
+## Custom Streaming <Badge type="warning" text="beta" />
 
 When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.

@@ -444,7 +444,7 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
-### req. diff() (beta) {.method}
+### req. diff() <Badge type="warning" text="beta" /> {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).

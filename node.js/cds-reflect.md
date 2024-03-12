@@ -88,8 +88,7 @@ let [ CatalogService, AdminService ] = m.services
 
 ### . operations() {.method}
 
-These properties / methods provide convenient and cached access to a model's definitions within a given namespace.
-If no namespace is specified, the model's declared namespace is used, if any.
+These properties / methods are convenient shortcuts to access an entity definition's declared key, association or composition elements. Their values are **iterable** objects which allow both, access by relative name as well as iterating through all definitions. For example, given a service definition like that: 
 
 For example:
 
@@ -103,11 +102,22 @@ let csn = CDL`
   }
 `
 let m = cds.linked (csn)
+
+// Object-style access
 let { Books, Authors } = m.entities
 let { ListOfBooks } = m.entities ('my.bookshop.CatalogService')
+
+// Array-style access
+for (let each of m.entities) console.log(each.name)
 ```
 
-The methods each return an object of respective definitions. Object destructuring operators allow to easily access single definitions by name as shown above.
+The methods each return an object of respective definitions. 
+
+The object nature of the results allows access by name, and by object destructuring as shown in the sample code above.  
+
+The iterable  nature allows iterating through the values (instead of having to use `Object.values()` for that).
+
+The function nature allows to optionally specify a namespace to fetch all definitions with prefixed with that. If no namespace is specified, the model's declared namespace is used, if any.
 
 
 
@@ -390,6 +400,8 @@ let { ID } = Books.keys, { author, pages } = Books.associations
 let [ ID ] = Books.keys, [ author, pages ] = Books.associations
 ```
 
+> Note: Orders of definitions could change, so you should always prefer object destructuring over array destructuring. 
+
 ```js
 for (let each of Books.keys) console.log (each.name) 
 //> ID
@@ -493,8 +505,10 @@ let { Books, Authors } = CatalogService.entities
 ```
 
 ```js
-let [ Books, Authors ] = CatalogService.entities	
+let [ Books, Authors ] = CatalogService.entities
 ```
+
+> Note: Orders of definitions could change, so you should always prefer object destructuring over array destructuring. 
 
 ```js
 for (let each of CatalogService.entities) console.log (each.name) 

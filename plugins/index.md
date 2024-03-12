@@ -257,6 +257,45 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
 
 
+
+## OpenAPI
+
+[@cap-js/openapi](https://www.npmjs.com/package/@cap-js/openapi) {.subtitle}
+
+The OpenAPI plugin provides support for OpenAPI document compilation. You can convert CDS models to the [OpenAPI Specification](https://www.openapis.org) by using the CLI command:
+
+```
+cds compile <file path> --to openapi
+```
+
+Learn more about publishing to [OpenAPI](../advanced/publishing-apis/openapi.md).
+
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/openapi)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
+
+
+
+## AsyncAPI
+
+[@cap-js/asyncapi](https://www.npmjs.com/package/@cap-js/openapi) {.subtitle}
+
+The AsyncAPI plugin provides support for AsyncAPI document compilation. You can convert CDS models to the [AsyncAPI specification](https://www.asyncapi.com) by using the CLI command:
+
+```
+cds compile <file path> --to asyncapi
+```
+
+Learn more about publishing to [AsyncAPI](../advanced/publishing-apis/asyncapi.md).
+
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/asyncapi)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
+
 <div id="attachments" />
 
 <div id="internal-plugins" />

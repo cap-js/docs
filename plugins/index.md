@@ -280,7 +280,7 @@ Available for:
 
 ## AsyncAPI
 
-[@cap-js/asyncapi](https://www.npmjs.com/package/@cap-js/openapi) {.subtitle}
+[@cap-js/asyncapi](https://www.npmjs.com/package/@cap-js/asyncapi) {.subtitle}
 
 The AsyncAPI plugin provides support for AsyncAPI document compilation. You can convert CDS models to the [AsyncAPI specification](https://www.asyncapi.com) by using the CLI command:
 

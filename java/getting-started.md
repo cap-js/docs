@@ -85,10 +85,11 @@ Alternatively, you can use the CDS tools to bootstrap a Java project:
 ```sh
 cds init <PROJECT-ROOT> --add java
 ```
+Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
+
 ::: tip
 You can call `cds help init` for more information on the available options.
 :::
-
 
 ### Add a Sample CDS Model
 
@@ -189,40 +190,38 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 To build and run the generated project from the command line, execute:
 
 ```sh
-cd <PROJECT-ROOT>
 mvn spring-boot:run
 ```
 ::: tip
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
 :::
 
-### Add *Spring Tools 4*
+### Supported IDEs
 
-Install the [*Spring Tools 4*](https://spring.io/tools) Eclipse plugin, that makes development of Spring applications more convenient. From the Eclipse Marketplace (*Help > Eclipse Marketplace...*), search and install *Spring Tools 4*.
+CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside you could use any Java IDE supporting the import of Maven projects. But as CDS modeling and editing is a core part of CAP application development we strongly recommend to use an IDE with existing Java support:
 
-### Import the Project
+* [SAP Business Application Studio](/tools/index.md#sap-business-application-studio-bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
+* [Visual Studio Code](/tools/index.md#visual-studio-code-vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
+* [IntelliJ Idea Ultimate](/tools/index.md#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 
-1. Select *File > Import... > Existing Maven Projects*.
 
-2. Select your `PROJECT-ROOT` folder and click *Go*. Finally, select the project that was found.
+### Open the project in your IDE
+
+The rest of this guide is targets IntelliJ Ultimate as your IDE. Nevertheless, the steps should be pretty similar for Visual Studio Code and SAP Business Application Studio.
 
 <span id="inimportproject" />
 
-> To not be distracted by CDS tools-specific folders in Eclipse, you can define resource filters. Open the context menu on the project's root folder and select "Properties". Go to **Resource > Resource Filters** and exclude folders with the name `node_modules`.
+You can open the project by either running `idea .` from the project root or use the `File->Open...` menu. 
 
+### Source Path Configuration and CDS build
 
+1. Open the internal terminal with `option+F12` (Windows: `alt+F12`) and type `mvn compile` to perform a full build of your project. This is needed because the IDE can build the right class path based on the dependencies of the project. But it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
 
-### Compile the Project
-
-1. Right-click on the `pom.xml` file in the project root folder and select *Run as > Maven build*.
-
-2. Enter the string `clean install` to the field labeled with *Goals* and click *Run*. This step compiles your CDS artifacts. Repeat this step once your CDS model changes.
-
-3. Right-click on the root project and select *Maven > Update Project ...*. Make sure *Refresh workspace resources from local filesystem* is selected and choose *Ok*.
+2. In the project exporer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
 
 ### Run and Test the Application
 
-1. Right-click on the project root in the *Package Explorer* and select *Run as > Spring Boot App*.
+1. Push `Ctrl` two times and type "Application". Double click the Application Spring Boot entry to start your CAP Java application.
 
 2. Call the application in your browser at [http://localhost:8080/](http://localhost:8080).
 

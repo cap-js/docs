@@ -80,7 +80,7 @@ Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX cl
 
 
 
-## GraalVM Native Image Support <Badge type="warning" text="beta" />
+## GraalVM Native Image Support <Badge type="warning" text="beta" /> { #graalvm-native-image-support-beta }
 
 Since Spring Boot 3 it's possible to compile Spring Boot applications to stand-alone native executables leveraging GraalVM Native Images.
 Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.

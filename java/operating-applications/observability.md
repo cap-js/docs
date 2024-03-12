@@ -3,7 +3,7 @@ synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
-<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
+<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/operating-applications/observability.md -->
 
 # Observability
 <style scoped>
@@ -21,7 +21,7 @@ status: released
 
 ## Logging { #logging}
 
-When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
+When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](../event-handlers/indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
 
 
 ### Logging Façade { #logging-facade}
@@ -207,7 +207,7 @@ During local development, you might want to stick to the (human-readable) standa
 :::
 
 ::: tip
-For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](./multitenancy#app-log-support).
+For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](../multitenancy#app-log-support).
 :::
 
 ### Correlation IDs
@@ -217,8 +217,8 @@ In general, a request can be handled by unrelated execution units such as intern
 In case you've configured `cf-java-logging-support` as described in [Logging Service](#logging-service) before, *correlation IDs are handled out of the box by the CAP Java SDK*. In particular, this includes:
 
 - Generation of IDs in non-HTTP contexts
-- Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
-- Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
+- Thread propagation through [Request Contexts](../event-handlers/request-contexts#threading-requestcontext)
+- Propagation to remote services when called via CloudSDK (for instance [Remote Services](../cqn-services/remote-services) or [MTX sidecar](../multitenancy-classic#mtx-sidecar-server))
 
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
@@ -444,7 +444,7 @@ How to configure a Dynatrace connection to your CAP Java application is describe
 <div id="dynatrace-setup"/>
 
 
-<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
+<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/operating-applications/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
 Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
@@ -479,7 +479,7 @@ By default, nearly all actuators are active. You can switch off actuators indivi
 management.endpoint.flyway.enabled=false
 ```
 
-Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#spring-health-checks). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](#profiling-jmx).
+Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#spring-health-checks). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](optimizing#profiling-jmx).
 
 
 #### CDS Actuator { #cds-actuator }
@@ -490,7 +490,7 @@ CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides informa
 - All services registered in the service catalog
 - Security configuration (authentication type and so on)
 - Loaded features such as `cds-feature-xsuaa`
-- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](./persistence-services#datasource-configuration))
+- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](../cqn-services/persistence-services#datasource-configuration))
 
 
 #### Custom Actuators { #custom-actuators }
@@ -514,7 +514,7 @@ The `AppActuator` bean registers an actuator with name `app` that exposes a simp
 
 
 
-<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/observabilityavailability.md -->
+<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/operating-applications/observabilityavailability.md -->
 ### Availability { #availability}
 
 This section describes how to set up an endpoint for availability or health check. At a first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:
@@ -615,69 +615,4 @@ The custom `HealthIndicator` for the mandatory `CryptoService` is registered by 
 #### Protected Health Checks { #protected-health-checks}
 
 Optionally, you can configure a protected health check endpoint. On the one hand this gives you higher flexibility with regards to the detail level of the response but on the other hand introduces additional configuration and management efforts (for instance key management).
-As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](security#custom-spring-security-config).
-
-
-## Profiling { #profiling}
-
-To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
-In such a situation, the use of more focused profiling tools can be an option. 
-Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
-
-* Switchable at runtime
-* Use a communication channel not exposed to unauthorized users
-* Not interfering or even blocking business requests
-
-How can dedicated Java tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
-
-<img src="./assets/remote-tracing.png" width="600px">
-
-As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections, for example, JVM diagnostic tools such as `jcmd`. Alternatively, additional JVM configuration is required as a prerequisite (JMX).
-A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
-
-### Local Tools { #profiling-local}
-
-Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
-The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
-
-### Remote Tools { #profiling-remote}
-
-It's even more convenient to interact with the JVM with a frontend client running on a local machine. As already mentioned, a remote daemon as the endpoint of an ssh tunnel is required. Some representative tools are:
-
-- [SAP JVM Profiler](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits) for SAP JVM with [Memory Analyzer](https://www.eclipse.org/mat/) integration. Find a detailed documentation how to set up a secure remote connection on [Profiling an Application Running on SAP JVM](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e7097737709842b7bb1c3b9bf3d688b6.html).
-
-- [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) is a popular Java profiler available for different platforms and IDEs.
-
-### Remote JMX-Based Tools { #profiling-jmx}
-
-Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the following property to your application configuration.:
-
-```sh
-spring.jmx.enabled: true
-```
-
-In addition, to enable remote access, add the following JVM parameters to open JMX on a specific port (for example, 5000) in the local container:
-
-```sh
--Djava.rmi.server.hostname=localhost
--Dcom.sun.management.jmxremote
--Dcom.sun.management.jmxremote.port=<port>
--Dcom.sun.management.jmxremote.rmi.port=<port>
--Dcom.sun.management.jmxremote.authenticate=false
--Dcom.sun.management.jmxremote.ssl=false
-```
-
-::: warning Don't use public endpoints with JMX/MBeans
-Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
-:::
-
-To establish a connection with a remote JMX client, first open an ssh tunnel to the application via `cf` CLI as operator user:
-
-```sh
-cf ssh -N -T -L <local-port>:localhost:<port> <app-name>
-```
-
-Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX clients are:
-
-- [JConsole](https://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
-- [OpenJDK Mission Control](https://github.com/openjdk/jmc), which can be installed separately.
+As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](../security#custom-spring-security-config).

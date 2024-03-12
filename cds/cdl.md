@@ -690,6 +690,12 @@ entity Orders.Items {
 Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
 :::
 
+::: warning Limitations of Compositions of one
+Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+:::
+
 ### Managed Compositions of Aspects {#managed-compositions}
 
 Use managed compositions variant to nicely reflect document structures in your domain models, without the need for separate entities, reverse associations, and unmanaged `on` conditions.
@@ -1539,6 +1545,29 @@ GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
+To expose an entity, it's not necessary to be lexically enclosed in the service definition. An entity's affiliation to a service is established using its fully qualified name, so you can also use one of the following options:
+
+- Add a namespace.
+- Use the service name as prefix.
+
+In the following example, all entities belong to/are exposed by the same service:
+
+::: code-group
+```cds [myservice.cds]
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+```
+:::
+
+::: code-group
+```cds [another.cds]
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+:::
+
 
 ### (Auto-) Redirected Associations {#auto-redirect}
 
@@ -1770,6 +1799,7 @@ entity Bar : Foo {}     //> foo.bar.Bar
 ```
 :::
 
+A namespace is not an object of its own. There is no corresponding definition in CSN.
 
 ### The `context` Directive {#context}
 

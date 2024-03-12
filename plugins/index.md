@@ -264,6 +264,8 @@ Available for:
 
 The OpenAPI plugin provides support for OpenAPI document compilation. You can convert CDS models to the [OpenAPI Specification](https://www.openapis.org) by using the CLI command:
 
+```txt
+cds compile <file path> --to openapi
 ```
 cds compile <file path> --to openapi
 ```

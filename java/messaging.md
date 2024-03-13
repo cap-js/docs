@@ -3,9 +3,9 @@ synopsis: >
   CAP Messaging provides support for publish-subscribe-based messaging, which is an asynchronous communication pattern well suited for scenarios where a sender wants to send out information to one or many receivers that are potentially unknown and/or unavailable at the time of sending.
 
 status: released
-
+redirect_from: java/messaging-foundation
 ---
-<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
+<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging.md -->
 
 <script setup>
   import { h } from 'vue'
@@ -280,7 +280,7 @@ cds:
 
 <span id="beforeredispubsub" />
 
-#### Configuring Redis PubSub Support (beta): { #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support <Badge type="warning" text="beta" />: { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.

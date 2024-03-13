@@ -17,7 +17,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
 
-[Learn more about features and limitations of using CAP with PostgreSQL](../java/persistence-services#postgresql){.learn-more}
+[Learn more about features and limitations of using CAP with PostgreSQL](../java/cqn-services/persistence-services#postgresql){.learn-more}
 
 </div>
 
@@ -140,7 +140,7 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-configured.
 
-You can also explicitly [configure the connection data](../java/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
+You can also explicitly [configure the connection data](../java/cqn-services/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
 ```yaml
@@ -153,7 +153,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 ```
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
-Learn more about the [configuration of a PostgreSQL database](../java/persistence-services#postgresql-1){ .learn-more}
+Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 
 ### Service Bindings for CDS Tooling {.impl .java}
 

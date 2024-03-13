@@ -356,7 +356,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements (beta) {#association-like-calculated-elements}
+#### Association-like calculated elements <Badge type="warning" text="beta" /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -690,6 +690,12 @@ entity Orders.Items {
 Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
 :::
 
+::: warning Limitations of Compositions of one
+Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+:::
+
 ### Managed Compositions of Aspects {#managed-compositions}
 
 Use managed compositions variant to nicely reflect document structures in your domain models, without the need for separate entities, reverse associations, and unmanaged `on` conditions.
@@ -794,7 +800,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+#### Publish Associations with Filter <Badge type="warning" text="beta" /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1001,7 +1007,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values (beta) {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Badge type="warning" text="beta" /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.
@@ -1539,6 +1545,29 @@ GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
+To expose an entity, it's not necessary to be lexically enclosed in the service definition. An entity's affiliation to a service is established using its fully qualified name, so you can also use one of the following options:
+
+- Add a namespace.
+- Use the service name as prefix.
+
+In the following example, all entities belong to/are exposed by the same service:
+
+::: code-group
+```cds [myservice.cds]
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+```
+:::
+
+::: code-group
+```cds [another.cds]
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+:::
+
 
 ### (Auto-) Redirected Associations {#auto-redirect}
 
@@ -1565,7 +1594,7 @@ service AdminService {
   entity ListOfBooks as projection on my.Books;
   entity Books as projection on my.Books;
   entity Authors as projection on my.Authors;
-  //> which one should AdminService.Authors.books refers to?
+  //> which one should AdminService.Authors.books refer to?
 }
 ```
 
@@ -1575,9 +1604,10 @@ You can use `redirected to` to resolve the ambiguity as follows:
 
 ```cds
 service AdminService {
-  ...
-  entity Authors as projection on my.Authors { *,
-    books : redirected to Books //> resolved ambiguity
+  entity ListOfBooks as projection on my.Books;
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors { *, // [!code focus]
+    books : redirected to Books //> resolved ambiguity // [!code focus]
   };
 }
 ```
@@ -1588,9 +1618,10 @@ Alternatively, you can use the boolean annotation `@cds.redirection.target` with
 
 ```cds
 service AdminService {
-  @cds.redirection.target: true
-  entity ListOfBooks as projection on my.Books;
-  ...
+  @cds.redirection.target: true // [!code focus]
+  entity ListOfBooks as projection on my.Books; // [!code focus]
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors;
 }
 ```
 
@@ -1768,6 +1799,7 @@ entity Bar : Foo {}     //> foo.bar.Bar
 ```
 :::
 
+A namespace is not an object of its own. There is no corresponding definition in CSN.
 
 ### The `context` Directive {#context}
 

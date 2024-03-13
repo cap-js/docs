@@ -618,8 +618,8 @@ is translated to:
 ```
 
 A main use case for such dynamic expressions is SAP Fiori,
-but note that Fiori supports dynamic expression only for a few
-[specific annotations](https://sapui5.hana.ondemand.com/sdk/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+but note that Fiori supports dynamic expression only for 
+[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
 
 ### `sap:` Annotations

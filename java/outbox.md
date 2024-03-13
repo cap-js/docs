@@ -167,8 +167,10 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
 ```
 
+::: warning Asynchronous suited API
 The service to be outboxed must provide the same method signatures that are declared in the passed interface.
 The result type is not relevant since outboxed services method calls don't return a result.
+:::
 
 The outboxed service can be cached; caching them is thread-safe.
 Any service that implements the interface `com.sap.cds.services.Service`

@@ -6,6 +6,10 @@ status: released
 
 Following is a curated list of plugins that are available for the SAP Cloud Application Programming Model (CAP) which provide integration with SAP BTP services and technologies, or other SAP products.
 
+::: tip Maintained by CAP and SAP
+The `@cap-js`-scoped plugins are created and maintained in close collaboration and shared ownership of CAP development teams and other SAP development teams.
+:::
+
 [[toc]]
 
 <style scoped>
@@ -82,16 +86,16 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    
 ## Support for Plugins
 
-1. Open an issue in the repository.
+1. Open an issue in the plugin's repository.
 
    This applies to plugins that are already available publicly. If an icon on this page can be clicked, it leads you to the repository.
    :::tip Public helps everyone...
    Prefer public repositories and issues, as it helps everyone using CAP to find solutions quickly.
    :::
 
-2. [Ask a question in the community.]((./ask-question-vscode))
+2. [Ask a question in the community.](./ask-question-vscode)
 
-   This applies to all plugins, mainly if you're not 100% sure that the problem is caused by the plugin.
+   This applies to all plugins, especially those without public repositories. Or if you're not 100% sure that the problem is caused by the plugin.
 
 3. [Open incidents on either the Java oder Node.js component](/resources/#reporting-incidents)
 

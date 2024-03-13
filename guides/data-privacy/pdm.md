@@ -16,7 +16,7 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-::: warning _❗ To follow this cookbook hands-on you need an enterprise account._ <!--  -->
+:::warning To follow this cookbook hands-on you need an enterprise account.
 The SAP Personal Data Manager service is currently only available for [enterprise accounts](https://discovery-center.cloud.sap/missiondetail/3019/3297/). An entitlement in trial accounts is not possible.
 :::
 
@@ -122,12 +122,34 @@ To restrict access to this sensitive data, the `PDMservice` is protected by the 
 At this point, you are done with your application. Let's set up the SAP Personal Data Manager and try it out.
 
 
+<span id="before-pdm" />
 
 ## Connecting SAP Personal Data Manager
 
 Next, we will briefly detail the integration to SAP Personal Data Manager.
 A more comprehensive guide, incl. tutorials, is currently under development.
 For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager).
+
+
+
+### Build and Deploy Your Application
+
+The Personal Data Manager can't connect to your application running locally. Therefore, you first need to deploy your application. In our sample, we added two manifest files using `cds add cf-manifest` and SAP HANA configuration using `cds add hana`.
+
+The general deployment is described in detail in [Deploy Using Manifest Files](../deployment/to-cf).
+
+Make a production build:
+
+```sh
+cds build --production
+```
+
+Deploy your application:
+
+```sh
+cf create-service-push
+```
+
 
 
 ### Subscribe to SAP Personal Data Manager Service
@@ -138,118 +160,6 @@ For further details, see the [SAP Personal Data Manager Developer Guide](https:/
 
 Follow the wizard to create your subscription.
 
-
-### Build and Deploy Your Application
-
-The Personal Data Manager can't connect to your application running locally. Therefore, you need to deploy your application. 
-
-The general deployment is described in detail in [Deploy to Cloud Foundry guide](../deployment/to-cf). Here's for short what you need to do.
-
-### Prepare for Deployment
-
-Add SAP HANA Cloud configuration, as well as an approuter and an _mta.yaml_ to your project:
-
-```sh
-cds add hana,approuter,mta
-```
-
-Add `@sap/xssec` library, to make the authentication work:
-
-```sh
-npm install @sap/xssec
-```
-
-[Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){.learn-more}
-
-### Enhance mta.yaml with DPI
-
-```yaml
-modules:
-  - name: incidents-srv
-    ...
-    requires:
-      ... 
-      - name: incidents-information // [!code ++]
-...
-resources:
-  ... 
-  - name: incidents-information  // [!code ++]
-      type: org.cloudfoundry.managed-service // [!code ++]
-      requires: // [!code ++]
-        - name: srv-api // [!code ++]
-      parameters: // [!code ++]
-        service-name: incidents-information // [!code ++]
-        service: data-privacy-integration-service // [!code ++]
-        service-plan: data-privacy-internal // [!code ++]
-        path: ./pdm-config.json // [!code ++]
-        config: // [!code ++]
-          xs-security:  // [!code ++]
-            xsappname: incidents-information-${org}-$ // [!code ++]{space}                                                     
-            authorities: // [!code ++]
-              - $ACCEPT_GRANTED_AUTHORITIES // [!code ++]
-```
-
-### Configure PDM Service
-
-::: code-group
-```json [pdm-config.json]
-{
-    "dataPrivacyConfiguration": {
-        "configType": "information",
-        "applicationConfiguration": {
-            "applicationName": "incidents-information",
-            "applicationDescription": "DPI NextGen Bookshop CAP Reference Application",
-            "applicationTitle": "DPI NextGen Bookshop"
-        },
-        "informationConfiguration": {
-            "applicationConfiguration": {
-                "dataSubjectDeletionAgent": "retention-manager",
-                "retentionApplicationName": "incidents-retention",
-                "disableDataSubjectCorrection": true,
-                "cacheControl": "no-cache"
-            },
-            "components": [
-                {
-                    "componentName": "incidents-srv",
-                    "componentBaseURL": "~{srv-api/srv-url}",
-                    "serviceEndPoints": [
-                        {
-                            "serviceName": "dpi-service",
-                            "serviceFormat": "odata-v4",
-                            "annotationFormat": "v4",
-                            "serviceEndPoint": "/pdm",
-                            "appPaginationEnabled": true,
-                            "cacheControl": "no-cache"
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-}
-```
-:::
-
-
-### Activate Access Checks in _xs-security.json_
-
-Because we protected the `PDMservice`, we need to establish the security check properly. In particular, you need the _xs-security.json_ file to make the security check active. Add the following scope:
-
-```json
-{
-  "scopes": [
-    {
-      "name": "$XSAPPNAME.PersonalDataManagerUser",
-      "description": "Authority for Personal Data Manager",
-      "grant-as-authority-to-apps": [
-        "$XSSERVICENAME(incidents-information)"
-      ]
-    }
-  ]
-}
-```
-
-Here you define that your personal data manager service instance, called `incidents-information`, is allowed to access your CAP application granting the `PersonalDataManagerUser` role.
 
 
 ### Create Role Collections
@@ -268,6 +178,69 @@ Application identifiers with **!b** are needed for the UI, and identifiers with 
 :::
 
 [Learn more about defining a role collection in SAP BTP cockpit](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/4b20383efab341f181becf0a947a5498.html){.learn-more}
+
+
+
+### Create a Service Instance
+
+You need a configuration file, like the following, to create a service instance for the Personal Data Manager.
+
+`pdm-instance-config.json`
+```json
+{
+  "xs-security": {
+    "xsappname": "incidents-mgmt",
+    "authorities": ["$ACCEPT_GRANTED_AUTHORITIES"]
+  },
+  "fullyQualifiedApplicationName": "incidents-mgmt",
+  "appConsentServiceEnabled": true
+}
+
+
+```
+
+Create a service instance using the SAP BTP cockpit or execute the following command:
+
+```sh
+cf create-service personal-data-manager-service standard incidents-mgmt-pdm -c ./pdm-instance-config.json
+```
+
+
+
+### Bind the Service Instance to Your Application.
+
+With both the application deployed and the SAP Personal Data Manger service set up, you can now bind the service instance of the Personal Data Manager to your application. Use the URL of your application in a configuration file, such as the following example, which you need when binding a service instance.
+
+`pdm-binding-config.json`
+```json
+{
+  "fullyQualifiedApplicationName": "incidents-mgmt",
+  "fullyQualifiedModuleName": "incidents-mgmt-srv",
+  "applicationTitle": "PDM Incidents",
+  "applicationTitleKey": "PDM Incidents",
+  "applicationURL": "https://incidents-mgmt-srv.cfapps.eu10.hana.ondemand.com/", // get the URL from the CF CLI command: cf apps
+  "endPoints": [
+    {
+      "type": "odatav4",
+      "serviceName": "pdm-service",
+      "serviceTitle": "Incidents Management",
+      "serviceTitleKey": "IncidentsManagement",
+      "serviceURI": "pdm",
+      "hasGdprV4Annotations": true,
+      "cacheControl": "no-cache"
+    }
+  ]
+}
+```
+
+Here the `applicationURL`, the `fullyQualifiedModuleName`, and the `serviceURI` have to be those of your Cloud Foundry deployment and your CAP service definition (_services-manifest.yaml_).
+
+Bind the service instance using the SAP BTP cockpit or execute the following command:
+
+```sh
+cf bind-service incidents-mgmt-srv incidents-mgmt-pdm -c ./pdm-binding-config.json
+```
+
 
 
 ## Using the SAP Personal Data Manager Application

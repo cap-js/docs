@@ -1,6 +1,7 @@
 ---
 embed: link
 status: released
+redirect_from: java/development/properties
 ---
 
 <script setup>
@@ -11,7 +12,7 @@ const { properties, version } = data
 # CDS Properties
 
 The following table lists all configuration properties that can be used to configure
-<span class="nowrap">CAP Java SDK {{ version }}</span>.
+<span class="nowrap">CAP Java {{ version }}</span>.
 
 ::: tip
 In property files `<index>` should be replaced with a number and `<key>` with an arbitrary String. In YAML files, you can use standard YAML list and map structures.

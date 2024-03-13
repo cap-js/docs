@@ -3,7 +3,7 @@ synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
 ---
-<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/observability.md -->
+<!--- Migrated: @external/java/700-observability0-index.md -> @external/java/operating-applications/observability.md -->
 
 # Observability
 <style scoped>
@@ -21,7 +21,7 @@ status: released
 
 ## Logging { #logging}
 
-When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
+When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](../event-handlers/indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.
 
 
 ### Logging Façade { #logging-facade}
@@ -173,9 +173,10 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 
 ### Logging Service { #logging-service}
 
-The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics, and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
+The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) 
+and it's recommended successor [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service to which bound Cloud Foundry applications can stream logs. 
 
-To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
+Establishing a connection is the same for both services: The application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
 ```xml
 <dependency>
@@ -206,7 +207,7 @@ During local development, you might want to stick to the (human-readable) standa
 :::
 
 ::: tip
-For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](./multitenancy#app-log-support).
+For an example of how to set up a multitenant aware CAP Java application with enabled logging service support, have a look at section [Multitenancy > Adding Logging Service Support](../multitenancy#app-log-support).
 :::
 
 ### Correlation IDs
@@ -216,8 +217,8 @@ In general, a request can be handled by unrelated execution units such as intern
 In case you've configured `cf-java-logging-support` as described in [Logging Service](#logging-service) before, *correlation IDs are handled out of the box by the CAP Java SDK*. In particular, this includes:
 
 - Generation of IDs in non-HTTP contexts
-- Thread propagation through [Request Contexts](./request-contexts#threading-requestcontext)
-- Propagation to remote services when called via CloudSDK (for instance [Remote Services](./remote-services) or [MTX sidecar](./multitenancy-classic#mtx-sidecar-server))
+- Thread propagation through [Request Contexts](../event-handlers/request-contexts#threading-requestcontext)
+- Propagation to remote services when called via CloudSDK (for instance [Remote Services](../cqn-services/remote-services) or [MTX sidecar](../multitenancy-classic#mtx-sidecar-server))
 
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively, 
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
@@ -233,7 +234,7 @@ In addition, call-graphs can be reconstructed and visualized that represent the 
 CAP Java integrates with the following monitoring tools:
 
 - [Open Telemetry](#open-telemetry) for reporting signals like distributed traces, logs, and metrics into Open Telemetry-compliant solutions. 
-SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-telemetry-configuration-cls).
+SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-configuration-cls).
 
 - [Dynatrace](#dynatrace) provides sophisticated features to monitor a solution on SAP BTP.
 
@@ -241,12 +242,11 @@ SAP BTP Cloud Logging Service is supported with [minimal configuration](#open-te
 
 - [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
 
-
 ### Open Telemetry { #open-telemetry }
 
-[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the  [SAP BTP Cloud Logging service](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
+[Open Telemetry](https://opentelemetry.io/) is an Open Source framework for observability in cloud applications. Applications can collect signals (distributed traces and metrics) and send them to observability front ends that offer a wide set of capabilities to analyze the current state or failures of an application. On SAP BTP, for example, the [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) is offered as a front end for these purposes.
 
-CAP Java applications can easily be configured to connect to SAP BTP Cloud Logging Service or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
+CAP Java applications can easily be configured to connect to SAP Cloud Logging or Dynatrace. In your CAP Java application, you configure one of these services inside the Open Telemetry configuration. Then the application automatically benefits from the following features:
 
 - Out-of-the-box traces and metrics by auto-instrumented [libraries and frameworks](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
 - Additional traces for CAP-specific capabilities
@@ -259,42 +259,35 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 <img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
 
-#### Configuration of CLoud Logging Service { #open-telemetry-configuration-cls }
+#### Configure Java Agent and Extension Library { #agent-extension }
 
-Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
+The Open Telemetry Agent Extension library is a common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities, which you can read about in the [Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension).
 
-1) Bind your CAP Java application to a service instance of `cloud-logging`. On creation of the service instance, it's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to a _mta.yaml_ descriptor:
-    ```yaml
-    ...
-	resources:
-	  - name: cloud-logging-instance
-	    type: org.cloudfoundry.managed-service
-	    parameters:
-	      service: cloud-logging
-	      service-plan: standard
-	      config:
-	        ingest_otlp: true
-    ...
-    ```
-
-2) Add the following maven dependency to the service `pom.xml` of your CAP Java application:
-    ```json
+1) Add the following maven dependency:
+    
+    ::: code-group
+    ```json [srv/pom.xml]
     <dependency>
       <groupId>com.sap.hcp.cf.logging</groupId>
       <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
       <version>${java-logging-version}</version>
     </dependency>
     ```
+    :::
 
-3) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor, for example, _mta.yaml_:
+   Make sure to use at least version `3.8.3`.
 
-   ```yaml
+2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:
+
+   ::: code-group
+    ```yaml [mta.yaml]
    - name: <srv-module>
      ...
      properties:
        ...
        JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-<version>.jar']"
    ```
+   :::
 
    Make sure that you replace the `<version>` tag with the same version that you've added to your maven dependencies in the previous step.
    For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
@@ -303,25 +296,80 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
+#### Configuration of Cloud Logging Service { #open-telemetry-configuration-cls }
+
+Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open Telemetry Java Agent](https://opentelemetry.io/docs/instrumentation/java/automatic/) which needs to be attached to the CAP Java application. The following steps describe how this can be done:
+
+1) Bind your CAP Java application to a service instance of `cloud-logging`. It's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to an _mta.yaml_ descriptor:
+    ::: code-group
+    ```yaml [mta.yaml]
+    ...
+    resources:
+      - name: cloud-logging-instance
+        type: org.cloudfoundry.managed-service
+        parameters:
+          service: cloud-logging
+          service-plan: standard
+          config:
+            ingest_otlp: true
+    ...
+    ``` 
+    :::
+
+2) Define additional environment variables to tell the [agent extension](#agent-extension) to use Cloud Logging Service.
+
+   ::: code-group
+    ```yaml [mta.yaml]
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       OTEL_METRICS_EXPORTER: cloud-logging
+       OTEL_TRACES_EXPORTER: cloud-logging    
+   ```
+   :::
+
+
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent which needs to be attached to the CAP Java application:
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. The following steps describe the required configuration:
 
-1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace).
-2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)**.
+1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an API token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
+
+<div id="dynatrace-metrics-ingest"/> 
+
+2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
+4) Define an additional environment variable to tell the [agent extension](#agent-extension) to use Dynatrace.
+
+   ::: code-group
+    ```yaml [mta.yaml]
+   - name: <srv-module>
+     ...
+     properties:
+       ...
+       OTEL_METRICS_EXPORTER: dynatrace
+       OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
+   ```
+   :::
+
+   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.   
+
+
 
 #### CAP Instrumentation
 
 Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for the respective component.
 
-| Logger Name                              | Required Level | Description                                     |
-|------------------------------------------|----------------|-------------------------------------------------|
-| `com.sap.cds.otel.span.OData`            | `INFO`         | Spans for individual requests of a OData $batch request. |
-| `com.sap.cds.otel.span.CQN`              | `INFO`         | Spans for executed CQN statement.                        |
-| `com.sap.cds.otel.span.RequestContext`   | `DEBUG` | Spans for each Request Context. |
-| `com.sap.cds.otel.span.ChangeSetContext` | `DEBUG` | Spans for each ChangeSet Context. |
-| `com.sap.cds.otel.span.Emit`             | `DEBUG` | Spans for dispatching events in the CAP runtime. |
+| Logger Name                                    | Required Level | Description                                                |
+|------------------------------------------------|----------------|------------------------------------------------------------|
+| `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
+| `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
+| `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
+| `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garbage collection.       |
+| `com.sap.cds.otel.span.RequestContext`         | `DEBUG`        | Spans for each Request Context.                            |
+| `com.sap.cds.otel.span.ChangeSetContext`       | `DEBUG`        | Spans for each ChangeSet Context.                          |
+| `com.sap.cds.otel.span.Emit`                   | `DEBUG`        | Spans for dispatching events in the CAP runtime.           |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
 
@@ -330,12 +378,14 @@ For specific steps to change the log level, please refer to the respective secti
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
 Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
-```yaml
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
    <groupId>io.opentelemetry</groupId>
    <artifactId>opentelemetry-api</artifactId>
 </dependency>
 ```
+:::
 
 There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
 
@@ -372,15 +422,15 @@ Similarly, you can record metrics during execution of, for example, a custom eve
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-  Metric tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+   Metric meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
 
-  @After(entity = Books_.CDS_NAME)
-  public void afterAddReview(AddReviewContext context) {
-     ratingCalculator.setBookRating(context.getResult().getBookId());
+   @After(entity = Books_.CDS_NAME)
+   public void afterAddReview(AddReviewContext context) {
+      ratingCalculator.setBookRating(context.getResult().getBookId());
 
-     LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
-     counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
-  }
+      LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
+      counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
+   }
 }
 ```
 
@@ -391,10 +441,10 @@ class CatalogServiceHandler implements EventHandler {
 It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
+<div id="dynatrace-setup"/>
 
 
-
-<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/observabilitymetrics.md -->
+<!--- Migrated: @external/java/700-observability04-metrics.md -> @external/java/operating-applications/observabilitymetrics.md -->
 ### Spring Boot Actuators { #spring-boot-actuators }
 
 Metrics are mainly referring to operational information about various resources of the running application, such as HTTP sessions and worker threads, JDBC connections, JVM memory including garbage collector statistics and so on. 
@@ -405,12 +455,14 @@ Actuators form an open framework, which can be enhanced by libraries (see [CDS A
 
 To add actuator support in your application, add the following dependency:
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
+:::
 
 The following table lists some of the available actuators that might be helpful to understand the internal status of the application:
 
@@ -427,7 +479,7 @@ By default, nearly all actuators are active. You can switch off actuators indivi
 management.endpoint.flyway.enabled=false
 ```
 
-Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#spring-health-checks). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](#profiling-jmx).
+Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#spring-health-checks). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](optimizing#profiling-jmx).
 
 
 #### CDS Actuator { #cds-actuator }
@@ -438,7 +490,7 @@ CAP Java SDK plugs a CDS-specific actuator `cds`. This actuator provides informa
 - All services registered in the service catalog
 - Security configuration (authentication type and so on)
 - Loaded features such as `cds-feature-xsuaa`
-- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](./persistence-services#datasource-configuration))
+- Database pool statistics (requires `registerMbeans: true` in [Hikari pool configuration](../cqn-services/persistence-services#datasource-configuration))
 
 
 #### Custom Actuators { #custom-actuators }
@@ -462,7 +514,7 @@ The `AppActuator` bean registers an actuator with name `app` that exposes a simp
 
 
 
-<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/observabilityavailability.md -->
+<!--- Migrated: @external/java/700-observability03-availability.md -> @external/java/operating-applications/observabilityavailability.md -->
 ### Availability { #availability}
 
 This section describes how to set up an endpoint for availability or health check. At a first glance, providing such a health check endpoint sounds like a simple task. But some aspects need to be considered:
@@ -477,12 +529,14 @@ Conveniently, Spring Boot offers out-of-the-box capabilities to report the healt
 
 To do so, first add a dependency to Spring Actuators, which forms the basis for health indicators:
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 ```
+:::
 
 By default, Spring exposes the *aggregated* health status on web endpoint `/actuator/health`, including the result of all registered health indicators. But also the `info` actuator is exposed automatically, which might be not desired for security reasons. It's recommended to **explicitly** control web exposition of actuator components in the application configuration. The following configuration snippet is an example suitable for public visible health check information:
 
@@ -561,70 +615,4 @@ The custom `HealthIndicator` for the mandatory `CryptoService` is registered by 
 #### Protected Health Checks { #protected-health-checks}
 
 Optionally, you can configure a protected health check endpoint. On the one hand this gives you higher flexibility with regards to the detail level of the response but on the other hand introduces additional configuration and management efforts (for instance key management).
-As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](security#custom-spring-security-config).
-
-
-## Profiling { #profiling}
-
-To minimize overhead at runtime, [monitoring](#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues. 
-In such a situation, the use of more focused profiling tools can be an option. 
-Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
-
-* Switchable at runtime
-* Use a communication channel not exposed to unauthorized users
-* Not interfering or even blocking business requests
-
-How can dedicated Java tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
-
-<img src="./assets/remote-tracing.png" width="600px">
-
-As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections, for example, JVM diagnostic tools such as `jcmd`. Alternatively, additional JVM configuration is required as a prerequisite (JMX).
-A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
-
-### Local Tools { #profiling-local}
-
-Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
-The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
-
-### Remote Tools { #profiling-remote}
-
-It's even more convenient to interact with the JVM with a frontend client running on a local machine. As already mentioned, a remote daemon as the endpoint of an ssh tunnel is required. Some representative tools are:
-
-- [SAP JVM Profiler](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits) for SAP JVM with [Memory Analyzer](https://www.eclipse.org/mat/) integration. Find a detailed documentation how to set up a secure remote connection on [Profiling an Application Running on SAP JVM](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e7097737709842b7bb1c3b9bf3d688b6.html).
-
-- [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) is a popular Java profiler available for different platforms and IDEs.
-
-### Remote JMX-Based Tools { #profiling-jmx}
-
-Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the following property to your application configuration.:
-
-```sh
-spring.jmx.enabled: true
-```
-
-In addition, to enable remote access, add the following JVM parameters to open JMX on a specific port (for example, 5000) in the local container:
-
-```sh
--Djava.rmi.server.hostname=localhost
--Dcom.sun.management.jmxremote
--Dcom.sun.management.jmxremote.port=<port>
--Dcom.sun.management.jmxremote.rmi.port=<port>
--Dcom.sun.management.jmxremote.authenticate=false
--Dcom.sun.management.jmxremote.ssl=false
-```
-
-::: warning Don't use public endpoints with JMX/MBeans
-Exposing JMX/MBeans via a public endpoint can pose a serious security risk.
-:::
-
-To establish a connection with a remote JMX client, first open an ssh tunnel to the application via `cf` CLI as operator user:
-
-```sh
-cf ssh -N -T -L <local-port>:localhost:<port> <app-name>
-```
-
-Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX clients are:
-
-- [JConsole](https://openjdk.java.net/tools/svc/jconsole/), which is part of the JDK delivery.
-- [OpenJDK Mission Control](https://github.com/openjdk/jmc), which can be installed separately.
-
+As this highly depends on the configuration capabilities of the client services, CAP doesn't come with an auto-configuration. Instead, the application has to provide an explicit security configuration on top as outlined with `ActuatorSecurityConfig` in [Customizing Spring Boot Security Configuration](../security#custom-spring-security-config).

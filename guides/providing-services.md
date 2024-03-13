@@ -687,7 +687,7 @@ The records are locked until the end of the transaction by commit or rollback st
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
 
-[Learn more about using the `Select.lock()` method in the Java runtime.](../java/query-api#write-lock){.learn-more}
+[Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
@@ -912,7 +912,7 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 public class FooServiceImpl implements EventHandler {...}
 ```
 
-[Learn more about Event Handler classes in Java.](../java/provisioning-api#handlerclasses){.learn-more}
+[Learn more about Event Handler classes in Java.](../java/event-handlers#handlerclasses){.learn-more}
 
 
 
@@ -946,7 +946,7 @@ public class BookshopServiceImpl implements EventHandler {
 
 [Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
 
-[Learn more about **adding event handlers in Java**.](../java/provisioning-api#handlerclasses){.learn-more}
+[Learn more about **adding event handlers in Java**.](../java/event-handlers#handlerclasses){.learn-more}
 
 
 
@@ -980,7 +980,7 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 - The `tenant` using your SaaS application, if enabled
 
 [Learn more about **implementing event handlers in Node.js**.](../node.js/events#cds-request){.learn-more}
-[Learn more about **implementing event handlers in Java**.](../java/provisioning-api#eventcontext){.learn-more}
+[Learn more about **implementing event handlers in Java**.](../java/event-handlers#eventcontext){.learn-more}
 
 
 

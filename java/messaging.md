@@ -3,9 +3,9 @@ synopsis: >
   CAP Messaging provides support for publish-subscribe-based messaging, which is an asynchronous communication pattern well suited for scenarios where a sender wants to send out information to one or many receivers that are potentially unknown and/or unavailable at the time of sending.
 
 status: released
-
+redirect_from: java/messaging-foundation
 ---
-<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging-foundation.md -->
+<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging.md -->
 
 <script setup>
   import { h } from 'vue'
@@ -32,10 +32,6 @@ status: released
 In contrast, the nature of synchronous communication between services can be disadvantageous depending on the desired information flow, for example, sender and receiver need to be available at the time of the request. The sender needs to know the receiver and how to call it, and that communication per request is usually point-to-point only.
 
 In the following, we provide a basic introduction to publish-subscribe-based messaging and then explain how to use it in CAP. If you're already familiar with publish-subscribe-based messaging, feel free to skip the following introduction section.
-
-::: tip
-The described messaging features are available from version `cds.java@1.19.0`.
-:::
 
 ## Pub-Sub Messaging
 
@@ -88,8 +84,11 @@ As shown in the example, there are two flavors of sending messages with the mess
 
 In section [CDS-Declared Events](#cds-declared-events), we show how to declare events in CDS models and by this let CAP generate EventContext interfaces especially tailored for the defined payload, that allows type safe access to the payload.
 
-::: tip
-The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a persistent outbox. See [Java - Outbox](./outbox) for more information.
+::: tip Using an outbox
+The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a [persistent outbox](./outbox#persistent). 
+
+You can configure a [custom outbox](./outbox#custom-outboxes) for a messaging service by setting the property
+`cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This specifically makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels).
 :::
 
 
@@ -281,7 +280,7 @@ cds:
 
 <span id="beforeredispubsub" />
 
-#### Configuring Redis PubSub Support (beta): { #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support <Badge type="warning" text="beta" />: { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -668,7 +667,7 @@ The way how unsuccessfully delivered messages are treated, fully depends on the 
 Not all messaging brokers provide the acknowledgement support. This means, the result of the error handler has no effect for the messaging broker.
 
 | Messaging Broker                                       | Support |         Cause          |
-|--------------------------------------------------------|:-------:|:----------------------:|
+| ------------------------------------------------------ | :-----: | :--------------------: |
 | [File Base Messaging](#local-testing)                  |  <Na/>  |                        |
 | [Event Mesh](#configuring-sap-event-mesh-support)      |  <X/>   | removed from the queue |
 | [Message Queuing](#configuring-sap-event-mesh-support) |  <X/>   | removed from the queue |

@@ -87,8 +87,17 @@ For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
 To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
 
 ```properties
-cds.drafts.cancellationTimeout=1h
+cds.fiori.draft_lock_timeout=30min
 ```
+
+You can set the property to one of the following:
+- number of hours like `'1h'` 
+- number of minutes like `'10min'`
+- number of milliseconds like `1000`
+
+::: warning
+`cds.drafts.cancellationTimeout` is deprecated and will be removed in an upcoming release. Please mind that the `cds.fiori.draft_lock_timeout` expects a different value.
+:::
 
 ### Bypassing the SAP Fiori Draft Flow
 

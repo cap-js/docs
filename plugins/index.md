@@ -82,24 +82,24 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    
 ## Support for Plugins
 
-The [regular CAP support process](/resources/#reporting-incidents) does not apply for plugins.
+1. Open an issue in the repository.
 
-|    |    |
-| --- | --- |
-| Node.js | Click the Node.js icon of the plugin in the list below and open an issue on GitHub.
-| Java | Use the community to [ask a question](https://community.sap.com/t5/forums/postpage/board-id/technology-questions/interaction-style/qanda). 
+   This applies to plugins that are already available publicly. If an icon on this page can be clicked, it leads you to the repository.
+   :::tip Public helps everyone...
+   Prefer public repositories and issues, as it helps everyone using CAP to find solutions quickly.
+   :::
+
+2. [Ask a question in the community.]((./ask-question-vscode))
+
+   This applies to all plugins, mainly if you're not 100% sure that the problem is caused by the plugin.
+
+3. [Open incidents on either the Java oder Node.js component](/resources/#reporting-incidents)
+
+   For CAP Node.js, incidents can only be created for `@cap-js`-scoped plugins. Other plugins, including CAP JS Community, are out of scope for incidents.
+   
+
 
 <div id="internal-support" />
-
-Node.js plugins are available with two different levels of support and maintenance:
-
-[CAP JS](https://github.com/cap-js) plugins are:
- - created and maintained in close collaboration and shared ownership of CAP development teams and other SAP and BTP development teams
- - supported like CAP itself
-
-[CAP JS Community](https://github.com/cap-js-community) plugins are:
- - created and maintained by the community
- - not directly supported from CAP
 
 :::info Complete list of plugins
 As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the two communities to browse all available plugins.

@@ -106,7 +106,7 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 <div id="internal-support" />
 
 :::info Complete list of plugins
-As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the two communities to browse all available plugins.
+As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [www.bestofcapjs.org](https://bestofcapjs.org/)
 :::
 
 ## GraphQL Adapter

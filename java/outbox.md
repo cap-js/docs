@@ -159,6 +159,17 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4, AsyncCqnService.class);
 ```
 
+The interface `AsyncCqnService` provides a convenience method to outbox CqnServices directly and wrapping the service with it:
+
+```java
+OutboxService myCustomOutbox = ...;
+CqnService remoteS4 = ...;
+AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
+```
+
+The service to be outboxed must provide the same method signatures that are declared in the passed interface.
+The result type is not relevant since outboxed services method calls don't return a result.
+
 The outboxed service can be cached; caching them is thread-safe.
 Any service that implements the interface `com.sap.cds.services.Service`
 or an inherited interface can be outboxed. Each call to the outboxed service is asynchronously

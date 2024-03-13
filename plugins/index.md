@@ -93,7 +93,7 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    Prefer public repositories and issues, as it helps everyone using CAP to find solutions quickly.
    :::
 
-2. [Ask a question in the community.](./ask-question-vscode)
+2. [Ask a question in the community.](/resources/ask-question-vscode)
 
    This applies to all plugins, especially those without public repositories. Or if you're not 100% sure that the problem is caused by the plugin.
 

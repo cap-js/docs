@@ -617,6 +617,11 @@ is translated to:
 </Annotation>
 ```
 
+A main use case for such dynamic expressions is SAP Fiori,
+but note that Fiori supports dynamic expression only for a few
+[specific annotations](https://sapui5nightly.int.sap.eu2.hana.ondemand.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+
 ### `sap:` Annotations
 
 In general, back ends and SAP Fiori UIs understand or even expect OData V4 annotations. You should use those rather than the OData V2 SAP extensions.

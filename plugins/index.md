@@ -62,16 +62,16 @@ For Node.js all these plugins are implemented using the [`cds-plugin`](../node.j
 ## As Plugin for CAP Java
 
 The [CAP Java plugin technique](../java/building-plugins) makes use of _jar_-files which are distributed as Maven packages.
-By adding an additional Maven dependency to the project, the plugin automatically adds functionality or extensions to the CDS model. 
+By adding an additional Maven dependency to the project, the plugin automatically adds functionality or extensions to the CDS model.
 For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
 
 1. Add the Maven dependency (in _srv/pom.xml_):
    ```xml
-	<dependency>
-	  <groupId>com.sap.cds</groupId>
-	  <artifactId>cds-feature-auditlog-v2</artifactId>
-	  <scope>runtime</scope>
-	</dependency>
+   <dependency>
+     <groupId>com.sap.cds</groupId>
+     <artifactId>cds-feature-auditlog-v2</artifactId>
+     <scope>runtime</scope>
+   </dependency>
    ```
 2. Add annotations to your model:
 
@@ -79,35 +79,40 @@ For [Audit Logging V2](../java/auditlog#handler-v2) it looks like this:
    annotate Customer with @PersonalData ...;
    ```
    > → audit logs are written to console in dev mode.
-   
+
 3. Bind the platform service.
 
    > → audit logs are written to SAP Audit Log service.
-   
+
 ## Support for Plugins
 
-1. Open an issue in the plugin's repository.
+Use one of the support channels below, in this order:
 
-   This applies to plugins that are already available publicly. If an icon on this page can be clicked, it leads you to the repository.
-   :::tip Public helps everyone...
-   Prefer public repositories and issues, as it helps everyone using CAP to find solutions quickly.
-   :::
+1. Open an issue in the **plugin's GitHub repository**.
 
-2. [Ask a question in the community.](/resources/ask-question-vscode)
+   Find the link in the plugin list below (if the plugin has a public repository).
 
-   This applies to all plugins, especially those without public repositories. Or if you're not 100% sure that the problem is caused by the plugin.
+2. Ask a question in the [SAP community](/resources/ask-question-vscode).
 
-3. [Open incidents on either the Java oder Node.js component](/resources/#reporting-incidents)
+   This applies to all plugins, especially those without public repositories. Or if you're not quite sure that the problem is caused by the plugin.
 
-   For CAP Node.js, incidents can only be created for `@cap-js`-scoped plugins. Other plugins, including CAP JS Community, are out of scope for incidents.
-   
+3. Open incidents through [SAP Support Portal](/resources/#reporting-incidents).
+
+   Note that plugins by external parties, like the [CAP JS](https://github.com/cap-js-community/) community, are out of scope for incidents.
+
+:::tip Public channels help everyone.
+Prefer public repositories and issues over private/internal ones, as they help everyone using CAP to find solutions quickly.
+:::
 
 
 <div id="internal-support" />
 
+<br>
+
 :::info Complete list of plugins
-As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [www.bestofcapjs.org](https://bestofcapjs.org/)
+As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [bestofcapjs.org](https://bestofcapjs.org/)
 :::
+
 
 ## GraphQL Adapter
 

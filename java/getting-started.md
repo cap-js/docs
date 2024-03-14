@@ -5,7 +5,6 @@ synopsis: >
 redirect_from: java/overview
 status: released
 ---
-<!--- Migrated: @external/java/010-Getting-Started/0-index.md -> @external/java/getting-started.md -->
 
 # Getting Started
 

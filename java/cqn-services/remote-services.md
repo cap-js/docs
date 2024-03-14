@@ -5,7 +5,6 @@ status: released
 redirect_from: java/remote-services
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/cqn-services/remote-services.md -> @external/java/cqn-services/remote-services.md -->
 
 # Remote Services
 <style scoped>

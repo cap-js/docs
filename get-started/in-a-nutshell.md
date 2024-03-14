@@ -604,7 +604,7 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
-  this.after ('READ','Books', each => {
+  this.after ('each','Books', book => {
     if (each.stock > 111) {
       each.title += ` -- 11% discount!`
     }
@@ -698,7 +698,7 @@ module.exports = async function (){
   })
 
   // Add some discount for overstocked books
-  this.after ('READ','Books', each => {
+  this.after ('each','Books', book => {
     if (each.stock > 111)  each.title += ` -- 11% discount!`
   })
 }

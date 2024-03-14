@@ -399,13 +399,13 @@ FROM Foo (
 
 ## Providing Initial Data
 
-You can provide initial data for the code lists by placing CSV files in a folder called `csv` next to your data models.
+You can provide initial data for the code lists by placing CSV files in a folder called `data` next to your data models.
 
 The following is an example of a `csv` file to provide data for countries:
 
-<!--- % include _code sample='db/csv/sap.common-Countries.csv' %} -->
+<!--- % include _code sample='db/data/sap.common-Countries.csv' %} -->
 ::: code-group
-```csv [db/csv/sap.common-Countries.csv]
+```csv [db/data/sap.common-Countries.csv]
 code;name;descr
 AU;Australia;Commonwealth of Australia
 CA;Canada;Canada
@@ -428,9 +428,9 @@ EU;European Union;European Union
 
 In addition, you can provide translations for the `sap.common.Countries_texts` table as follows:
 
-<!--- % include _code sample='db/csv/sap.common-Countries_texts.csv' %} -->
+<!--- % include _code sample='db/data/sap.common-Countries_texts.csv' %} -->
 ::: code-group
-```csv [db/csv/sap.common-Countries_texts.csv]
+```csv [db/data/sap.common-Countries_texts.csv]
 code;locale;name;descr
 AU;de;Australien;Commonwealth Australien
 CA;de;Kanada;Canada

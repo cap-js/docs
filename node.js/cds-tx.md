@@ -128,7 +128,7 @@ cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, async ()=>{
 
 
 
-## cds. context {.property}
+## cds. context {#event-contexts .property}
 
 Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound HTTP request object.
 
@@ -192,7 +192,7 @@ cds.context.user.id === 'u1'          //> true
 
 
 
-## cds/srv. tx() {.method}
+## cds/srv. tx() {#srv-tx .method}
 
 ```tsx
 function srv.tx ( ctx?, fn? : tx<srv> => {...} ) => Promise

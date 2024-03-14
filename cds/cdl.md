@@ -217,7 +217,7 @@ Use string literals enclosed in single or triple **backticks** for multiline str
     - \u{0055}nicode escape sequences are possible,
       just like common escapes from JavaScript such as
       \r \t \n and more!
-```
+    ```
 
 @data: ```xml
     <main>

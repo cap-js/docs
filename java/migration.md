@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
 <script setup>
   import Cds4j from './components/Cds4jLink.vue'
@@ -728,7 +727,6 @@ Note that to validate incoming data for *single* requests, we recommend to use a
 [See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers#before){.learn-more}
 
 
-<!--- Migrated: @external/java/900-Migration/04-security.md -> @external/java/migration/security.md -->
 ### Security Settings
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
@@ -820,7 +818,6 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 <span id="moreenforcement" />
 
 
-<!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
 ### Data Access and Manipulation
 
 There are several ways of accessing data. The first and most secure way is to use the Application Service through an `CqnService` instance. The second is to use `PersistenceService`, in that case the query execution is done directly against underlying datasource, bypassing all authority checks available on service layer. The third one is to use CDS4J component called `CdsDataStore`, which also executes queries directly.

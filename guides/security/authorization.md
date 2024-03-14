@@ -8,7 +8,6 @@ status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 redirect_from: guides/authorization
 ---
-<!--- Migrated: @external/guides/security/authorization/index.md -> @external/guides/security/authorization/index.md -->
 
 <script setup>
   import { h } from 'vue'

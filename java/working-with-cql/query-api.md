@@ -2,12 +2,11 @@
 synopsis: >
   API to fluently build CQL statements in Java.
 status: released
-redirect_from: 
+redirect_from:
 - java/query-api
 - java/cds-ql
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/060-Building-Queries/0-index.md -> @external/java/query-api.md -->
 
 # Building CQL Statements
 <style scoped>

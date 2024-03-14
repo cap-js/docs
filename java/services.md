@@ -7,7 +7,6 @@ redirect_from:
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/025-Services/0-index.md -> @external/java/services.md -->
 
 # Services
 <style scoped>
@@ -104,9 +103,9 @@ The most used services in CAP are the [CQN-based services](cqn-services) which d
 
 ## Application Lifecycle Service
 
-The Application Lifecycle Service emits events when the `CdsRuntime` is fully initialized, but the application is not started yet, or when the application is stopped. 
-Its API and events are defined in the [ApplicationLifecycleService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ApplicationLifecycleService.html) interface. 
-You can use these events to register an event handler which performs custom initialization or shutdown logic. 
+The Application Lifecycle Service emits events when the `CdsRuntime` is fully initialized, but the application is not started yet, or when the application is stopped.
+Its API and events are defined in the [ApplicationLifecycleService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ApplicationLifecycleService.html) interface.
+You can use these events to register an event handler which performs custom initialization or shutdown logic.
 In addition the Application Lifecycle Service provides an event to globally adapt the error response handling.
 
 [Learn more about adapting the error response handling in section Indicating Errors.](./event-handlers/indicating-errors#errorhandler){.learn-more}

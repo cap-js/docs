@@ -5,7 +5,6 @@ synopsis: >
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/protocols.md -> @external/node.js/protocols.md -->
 
 # Protocol Adapters
 

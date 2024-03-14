@@ -304,7 +304,6 @@ cds.on('bootstrap', app => {
 ```
 
 
-<!--- Migrated: @external/node.js/Best-Practices/41-Error-Handling.md -> @external/node.js/best-practices/error-handling.md -->
 ## Error Handling
 
 Good error handling is important to ensure the correctness and performance of the running app and developer productivity.

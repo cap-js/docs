@@ -9,12 +9,15 @@ status: released
 
 # Outboxing with `cds.outboxed`
 
+[[toc]]
+
+
 ## Overview
 
 Often, remote operations should be delayed until the main transaction succeeded. Otherwise, the remote operations are also triggered in case of a rollback.
 To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
 
-Every CAP service can be _outboxed_, that means event dispatching becomes _asynchronous_. 
+Every CAP service can be _outboxed_, that means event dispatching becomes _asynchronous_.
 
 ## Outboxing a Service
 
@@ -152,7 +155,7 @@ In your CDS model, you can refer to the entity `cds.outbox.Messages` using the p
 for example to expose it in a service.
 
 
-#### Known Limitations 
+#### Known Limitations
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
 - The emitting service must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
 - The emitting service must not perform any database modifications, because a global database transaction is used when dispatching the events.

@@ -35,8 +35,8 @@ For the UI part, you also need to enable the [On-the-fly Localization of EDMX](h
 
 ### Annotating Entities
 
-To capture changes, you need to extend your entity with a technical aspect and annotate the entity 
-with the annotation `@changelog`, which will declare the elements whose changes are to be logged.
+To capture changes for an entity, you need to extend it with a technical aspect and annotate it 
+with the annotation `@changelog` that declares the elements whose changes are to be logged.
 
 Given the following entity that represents a book on the domain level:
 

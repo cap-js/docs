@@ -188,7 +188,7 @@ must be read-only and should not be writable via OData requests.
 
 The change log will be extended with the texts for your entities from the `@title` annotation of the entity
 and the element. Otherwise, the change log will contain only the technical names of the entities and the elements. 
-Titles will be translated, if they annotated as translatable. See [Externalizing Texts Bundles](../guides/i18n#localization-i18n) for more information.
+Titles will be translated, if they are annotated as translatable. See [Externalizing Texts Bundles](../guides/i18n#localization-i18n) for more information.
 
 ## How Changes are Stored
 

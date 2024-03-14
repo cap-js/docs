@@ -190,7 +190,7 @@ The change log will be extended with the texts for your entities from the `@titl
 and the element. Otherwise, the change log will contain only the technical names of the entities and the elements. 
 Titles will be translated, if they annotated as translatable. See [Externalizing Texts Bundles](../guides/i18n#localization-i18n) for more information.
 
-## How Changes are stored?
+## How Changes are Stored
 
 The namespace `sap.changelog` defines an entity `Changes` that reflects each change, so the changes are stored in a flat table for all entities together.
 

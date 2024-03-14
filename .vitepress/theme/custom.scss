@@ -1,12 +1,19 @@
 /* https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
 
-.VPHero {
-  .name { font-weight: 400; font-size: 60px }
-  .text { font-weight: 400 }
-  .tagline { font-weight: 400 }
-  .VPImage {
-    max-width: 444px;
-    max-height: 444px;
+.VPHome {
+  .VPHero {
+    .name { font-weight: 500; font-size: 60px }
+    .text { font-weight: 400 }
+    .tagline { font-weight: 400 }
+    .VPImage {
+      max-width: 444px;
+      max-height: 444px;
+    }
+  }
+  .VPFeatures .icon {
+    font-size: 30px;
+    // width: 60px;
+    // height: 60px;
   }
 }
 

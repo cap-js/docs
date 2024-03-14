@@ -183,7 +183,7 @@
   - [Class cds. entity](node.js/cds-reflect#cds-entity)
   - [Class cds. struct](node.js/cds-reflect#cds-struct)
   - [Class cds. Association](node.js/cds-reflect#cds-association)
-  - [cds. linked. classes](node.js/cds-reflect#cds-builtin-classes)
+  - [cds. linked. classes](node.js/cds-reflect#cds-linked-classes)
 - [cds. server()](node.js/cds-server)
 - [cds. serve()](node.js/cds-serve)
 - [cds. connect()](node.js/cds-connect)

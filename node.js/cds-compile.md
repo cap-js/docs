@@ -124,41 +124,17 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 
 
 
+## cds. compile .to ... {.property}
 
-## cds. compile (...) .to.xyz() {.method}
-
-This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-1).
-
-For example:
+Following are a collection of model processors which take a CSN as input and compile it to a target output. They can be used in two API flavors:
 
 ```js
-let csn = await cds.compile('*')
-let sql = cds.compile.to.sql(csn)
-```
-
-Can also be done like that using this fluent API:
-
-```js
-let sql = await cds.compile('*').to.sql()
-```
-
-As model argument can also be a CSN, we can also use it as a plain fluent API alternative, so these usages are equivalent:
-
-```js
-let sql = cds.compile.to.sql(csn,{dialect:'sqlite'})
-let sql = cds.compile(csn).to.sql({dialect:'sqlite'})
+let sql = cds.compile(csn).to.sql ({dialect:'sqlite'}) //> fluent
+let sql = cds.compile.to.sql (csn,{dialect:'sqlite'}) //> direct
 ```
 
 
-
-
-
-## cds. compile ... {.property}
-
-Following are a collection of model processors which take a CSN as input and compile it to a target output.
-
-
-### .to .json() {.method}
+### .json() {.method}
 
 ```tsx
 function cds.compile.to.json ( options: {
@@ -174,15 +150,15 @@ Option `indents` is the indent as passed to `JSON.stringify`.
 
 
 
-### .to .yaml() {.method}
+### .yaml() {.method}
 
 Renders the given model to a formatted JSON  or YAML string.
 
 
 
-### .to .edm() {.method}
+### .edm() {.method}
 
-### .to .edmx() {.method}
+### .edmx() {.method}
 
 
 Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
@@ -209,9 +185,9 @@ for (let [edm,{file,suffix}] of all)  console.log (file,suffix,edm)
 
 
 
-### .to .hdbtable() {.method}
+### .hdbtable() {.method}
 
-### .to .hdbcds() {.method}
+### .hdbcds() {.method}
 
 
 Generates `hdbtable/view` or `hdbcds` output.
@@ -226,7 +202,7 @@ for (let [src,{file}] of all)
 
 
 
-### .to .sql() {.method}
+### .sql() {.method}
 
 
 Generates SQL DDL statements for the given model.
@@ -247,13 +223,13 @@ let script = cds.compile(csn).to.sql({as:'str'})
 
 
 
-### .to .cdl() {.method}
+### .cdl() {.method}
 
 Reconstructs [CDL](../cds/cdl.md) source code for the given csn model.
 
 
 
-### .to .asyncapi() {.method}
+### .asyncapi() {.method}
 
 
 Convert the CSN file into an AsyncAPI document:

@@ -93,14 +93,11 @@ const config:UserConfig<CapireThemeConfig> = {
     nav: [
       nav.find(i => i.text === 'Getting Started'),
       nav.find(i => i.text === 'Cookbook'),
-      { text: 'More...', items: [
-        { text: 'Advanced',  link: '/advanced/' },
-        { text: 'Plugins',   link: '/plugins/' },
-        { text: 'Tools',     link: '/tools/' },
-        { text: 'CDS',       link: '/cds/' },
-        { text: 'Java',      link: '/java/' },
-        { text: 'Node.js',   link: '/node.js/' },
-      ]},
+      nav.find(i => i.text === 'CDS'),
+      nav.find(i => i.text === 'Node.js'),
+      nav.find(i => i.text === 'Java'),
+      nav.find(i => i.text === 'Tools'),
+      nav.find(i => i.text === 'Plugins'),
     ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {

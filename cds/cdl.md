@@ -54,9 +54,7 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 
 
 
-### Entity Definitions — `define entity`
-{#entities}
-
+### Entity Definitions — `define entity` {#entities}
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -73,9 +71,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions — `define type`
-{#types}
-
+### Type Definitions — `define type` {#types}
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -149,7 +145,7 @@ With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 
 ::: warning
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/security/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values

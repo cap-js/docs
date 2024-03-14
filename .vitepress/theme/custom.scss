@@ -295,21 +295,25 @@ kbd {
   .dark & { background: #222 }
 }
 
+.indent {
+  padding-left: 22px;
+}
+
 .learn-more {
   &, & a { color: #999 !important; .dark & { color: #777 !important }};
   font-style: italic;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-}
 
-.learn-more::before {
-  content: url('/images/learn-more.svg');
-  vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  margin-right: 5px;
+  &::before {
+    content: url('/images/learn-more.svg');
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin-right: 5px;
+  }
 }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */

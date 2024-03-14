@@ -7,7 +7,6 @@ redirect_from:
 status: released
 # outline: 2
 ---
-<!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}

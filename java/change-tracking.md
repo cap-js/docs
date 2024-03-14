@@ -207,9 +207,9 @@ Each entry in the `Changes` entity contains the following information:
 ## Detection of Changes
 
 The change tracking intercepts the modifying CQL statements (`Insert`, `Upsert`, `Update`, and `Delete`) and 
-requires additional READ events to retrieve the old and the new state of the entity.
+requires additional READ events to retrieve the old and the new image of the entity.
 
-These two states are compared and differences are stored in the change log. The nature of the change is determined by comparing the old and new 
+These two images are compared and differences are stored in the change log. The nature of the change is determined by comparing the old and new 
 values of the entity: data that were not present in the old values are considered as added whereas data that are not present in 
 the new values are considered as deleted. Elements that are present in both old and new values but have different values 
 are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry.

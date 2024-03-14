@@ -103,14 +103,13 @@ annotate Bookshop.Books {
 ```
 
 :::warning
-Elements annotated with `@changelog` and which are also subject to audit logging, i.e. annotated 
-with `@PersonalData` are ignored by the change tracking feature. 
-Personal data must be handled by the [Audit Logging](./auditlog) service.
+Elements with [personal data](../guides/data-privacy/annotations#personaldata), i.e. elements that are annotated 
+with @PersonalData and hence subject to audit logging, are ignored by the change tracking.
 :::
 
 The level where you annotate your elements with the annotation `@changelog` is very important. If you annotate
-the elements on the domain level, every change made through every projection of the entity will be tracked.
-If you annotate the elements on the projection level, only the changes made through that projection are tracked.
+the elements on the _domain_ level, every change made through every projection of the entity will be tracked.
+If you annotate the elements on the _service_ level, only the changes made through that projection are tracked.
 
 In case of the books example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
 made on the domain entity are omitted. That can be beneficial if you have a service that is used for data replication
@@ -162,7 +161,7 @@ You should consider this when you decide what to include in the identifier.
 ### Displaying Changes in the UI
 
 The changes of the entity are exposed as an association `changes` that you can use to display the change log in the UI. 
-By default, the entity `Changes` will also be auto exposed, but it will not be writable via OData requests.   
+By default, the entity `Changes` will also be auto-exposed, but it will not be writable via OData requests.   
 
 If you want to display the change log together with the overview of your entity, you need to add the facet
 to the object page that will display the changes:

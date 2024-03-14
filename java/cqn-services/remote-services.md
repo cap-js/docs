@@ -2,9 +2,9 @@
 synopsis: >
   Remote Services are CQN-based clients to remote APIs that a CAP application consumes. This section describes how to configure and use these services.
 status: released
+redirect_from: java/remote-services
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/remote-services.md -> @external/java/remote-services.md -->
 
 # Remote Services
 <style scoped>
@@ -18,7 +18,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Enabling Remote Services
 
-[Remote Services](consumption-api#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
+[Remote Services](../cqn-services#remote-services) accept CQN statements and transform these into API calls on remote endpoints.
 The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
 To enable these capabilities in an application, add the following Maven dependency to your project:
 
@@ -35,9 +35,9 @@ After adding the dependency mentioned above, both libraries integrate seamlessly
 CAP ensures to automatically propagate tenant and user information from the _Request Context_ to the Cloud SDK.
 
 CAP's clear recommendation is to use _Remote Services_ over directly leveraging the SAP Cloud SDK.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 ::: tip
-To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../guides/using-services).
+To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
 :::
 
 ## Configuring Remote Services
@@ -58,7 +58,7 @@ cds:
       type: "odata-v2"
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../developing-applications/properties#cds-remote-services){.learn-more}
 
 ### Configuring the CDS Service Definition
 
@@ -84,7 +84,7 @@ cds:
 ```
 ::: tip
 You can use the `cds import` command to generate a CDS service definition from an EDMX API specification.
-To learn more about this, have a look at section [Importing Service Definitions](../guides/using-services#import-api).
+To learn more about this, have a look at section [Importing Service Definitions](../../guides/using-services#import-api).
 :::
 
 ### Configuring the Destination
@@ -170,7 +170,7 @@ public class DestinationConfiguration implements EventHandler {
 }
 ```
 
-[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){.learn-more}
+[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../../guides/using-services#using-destinations){.learn-more}
 
 Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
@@ -222,7 +222,7 @@ To integrate with SAP BTP Destination Service on Cloud Foundry, add this additio
 
 ## Using Remote Services
 
-_Remote Services_ can be used just like any other [service, that accepts CQN queries](consumption-api#cdsservices):
+_Remote Services_ can be used just like any other [service, that accepts CQN queries](../cqn-services#cdsservices):
 
 ```java
 @Autowired
@@ -236,15 +236,15 @@ ABusinessPartnerAddress address = bupa.run(select)
     .single(ABusinessPartnerAddress.class);
 ```
 ::: tip
-To learn more about how to build and run CQN queries, see sections [Building CQN Queries](query-api) and [Executing CQN Queries](query-execution).
+To learn more about how to build and run CQN queries, see sections [Building CQN Queries](../working-with-cql/query-api) and [Executing CQN Queries](../working-with-cql/query-execution).
 :::
 
 Keep in mind, that _Remote Services_ are simply clients to remote APIs.
 CAP doesn't automatically forward CQN queries to these services. Developers need to explicitly call and use these _Remote Services_ in their code.
-However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](consumption-api#application-services).
+However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](../cqn-services#application-services).
 ::: warning
 In case data from _Remote Services_ should be combined with data from the database custom coding is required.
-Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and-extend) for more details.
+Refer to the [Integrate and Extend guide](../../guides/using-services#integrate-and-extend) for more details.
 :::
 
 ## Code Examples

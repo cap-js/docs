@@ -1,9 +1,9 @@
 ---
 synopsis: API to execute CQL statements on services accepting CQN queries.
 status: released
+redirect_from: java/query-execution
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/070-Executing-Queries/0-index.md -> @external/java/query-execution.md -->
 
 # Executing CQL Statements
 <style scoped>
@@ -16,7 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Query Execution { #queries}
 
-[CDS Query Language (CQL)](./query-api) statements can be executed using the `run` method of any [service that accepts CQN queries](consumption-api.md#cdsservices):
+[CDS Query Language (CQL)](./query-api) statements can be executed using the `run` method of any [service that accepts CQN queries](../cqn-services#cdsservices):
 
 ```java
 CqnService service = ...
@@ -94,7 +94,7 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
 
 Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
 
@@ -143,7 +143,7 @@ CqnUpdate update = Update.entity("bookshop.Books").data(book).byId(101);
 Result updateResult = service.run(update);
 ```
 
-The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../guides/domain-modeling#managed-data) and foreign key values.
+The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../../guides/domain-modeling#managed-data) and foreign key values.
 
 The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/Result.html#rowCount()) of the update `Result` indicates how many rows where updated during the statement execution:
 
@@ -157,7 +157,7 @@ long rowCount = service.run(update).rowCount();
 If no rows are touched the execution is successful but the row count is 0.
 
 :::warning
-The setters of an [update with expressions](../java/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
+The setters of an [update with expressions](../working-with-cql/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
 :::
 
 ### Working with Structured Documents
@@ -166,7 +166,7 @@ It's possible to work with structured data as the insert, update, and delete ope
 
 #### Cascading over Associations { #cascading-over-associations}
 
-By default, *insert*, *update* and *delete* operations cascade over [compositions](../guides/domain-modeling#compositions) only. For associations, this can be enabled using the `@cascade` annotation.
+By default, *insert*, *update* and *delete* operations cascade over [compositions](../../guides/domain-modeling#compositions) only. For associations, this can be enabled using the `@cascade` annotation.
 ::: warning
 Cascading operations over associations isn't considered good practice and should be avoided.
 :::
@@ -194,7 +194,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../guides/databases#db-constraints).
+The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#db-constraints).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}
@@ -233,7 +233,7 @@ Views and projections can be resolved if the following conditions are met:
 - The projection includes all key elements; with the exception of insert operations with generated UUID keys.
 - The projection includes all elements with a `not null` constraint, unless they have a default value.
 - The projection must not include calculated fields when running queries against a remote OData service.
-- The projection must not include [path expressions](../cds/cql#path-expressions) using to-many associations.
+- The projection must not include [path expressions](../../cds/cql#path-expressions) using to-many associations.
 
 For [Insert](./query-api#insert) or [Update](./query-api#update) operations, if the projection contains functions or expressions, these values are ignored. Path expressions navigating *to-one* associations, can be used in projections as shown by the `Header` view in the following example. The `Header` view includes the element `country` from the associated entity `Address`.
 
@@ -246,7 +246,7 @@ entity Header as projection on bookshop.OrderHeader { key ID, address.country as
 ```
 
 If a view is too complex to be resolved by the CDS runtime, the statement remains unmodified. Views that cannot be resolved by the CDS runtime include the use of `join`, `union` and the `where` clause.
-- For the Persistence Service, this means the runtime _attempts_ to execute the write operation on the database view. Whether this execution is possible is [database dependent](persistence-services#database-support).
+- For the Persistence Service, this means the runtime _attempts_ to execute the write operation on the database view. Whether this execution is possible is [database dependent](../cqn-services/persistence-services#database-support).
 - For Application Services and Remote Services, the targeted service will reject the statement.
 
 Example of a view that can't be resolved:
@@ -267,9 +267,9 @@ Use _optimistic_ concurrency control to detect concurrent modification of data _
 
 #### Optimistic Concurrency Control in OData
 
-In the [OData protocol](../guides/providing-services#etag), the implementation relies on `ETag` and `If-Match` headers in the HTTP request. 
+In the [OData protocol](../../guides/providing-services#etag), the implementation relies on `ETag` and `If-Match` headers in the HTTP request.
 
-The `@odata.etag` annotation indicates to the OData protocol adapter that the value of an annotated element should be [used as the ETag for conflict detection](../guides/providing-services#etag):
+The `@odata.etag` annotation indicates to the OData protocol adapter that the value of an annotated element should be [used as the ETag for conflict detection](../../guides/providing-services#etag):
 
 {#on-update-example}
 
@@ -288,7 +288,7 @@ An ETag can also be used programmatically in custom code. Use the `CqnEtagPredic
 
 ```java
 PersistenceService db = ...
-Instant expectedLastModification = ... 
+Instant expectedLastModification = ...
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
@@ -309,11 +309,11 @@ No exception is thrown if an ETag validation does not match. Instead, the execut
 
 #### Providing new ETag Values with Update Data
 
-A convenient option to determine a new ETag value upon update is the [@cds.on.update](../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime automatically handles the `@cds.on.update` annotation and sets a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
+A convenient option to determine a new ETag value upon update is the [@cds.on.update](../../guides/domain-modeling#cds-on-update) annotation as in the [example above](#on-update-example). The CAP Java runtime automatically handles the `@cds.on.update` annotation and sets a new value in the data before the update is executed. Such _managed data_ can be used with ETags of type `Timestamp` or `UUID` only.
 
-We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used. 
+We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used.
 
-#### Runtime-Managed Versions
+#### Runtime-Managed Versions <Badge type="warning" text="beta" />
 
 Alternatively, you can store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
@@ -328,7 +328,7 @@ entity Order : cuid {
 
 Compared to `@cds.on.update`, which allows for ETag elements with type `Timestamp` or `UUID` only, `@cds.java.version` additionally supports all integral types `Uint8`, ... `Int64`. For timestamp, the value is set to `$now` upon update, for elements of type UUID a new UUID is generated, and for elements of integral type the value is incremented.
 
-Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be used for [conflict detection](../guides/providing-services#etag) in OData.
+Version elements can be used with an [ETag predicate](#etag-predicate) to programmatically check an expected ETag value. Moreover, if additionally annotated with `@odata.etag`, they can be used for [conflict detection](../../guides/providing-services#etag) in OData.
 
 ##### Expected Version from Data
 
@@ -401,9 +401,9 @@ The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock
 
 ## Runtime Views { #runtimeviews}
 
-The CDS compiler generates [SQL DDL](../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
 
-To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
+To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
 
 ```cds
 entity Books {
@@ -433,14 +433,14 @@ WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
 ::: tip
-Runtime views are supported for [CDS projections](../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+Runtime views are supported for [CDS projections](../../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
 
 Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
 :::
 
 ### Using I/O Streams in Queries
 
-As described in section [Predefined Types](./data#predefined-types) it's possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
+As described in section [Predefined Types](../cds-data#predefined-types) it's possible to stream the data, if the element is annotated with `@Core.MediaType`. The following example demonstrates how to allocate the stream for element `coverImage`, pass it through the API to an underlying database and close the stream.
 
 Entity `Books` has an additional annotated element `coverImage : LargeBinary`:
 
@@ -474,12 +474,12 @@ try (InputStream resource = getResource("IMAGE.PNG")) {
 
 ### Using Native SQL
 
-CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](./advanced#jdbctemplate) for more details.
+CAP Java doesn't have a dedicated API to execute native SQL Statements. However, when using Spring as application framework you can leverage Spring's features to execute native SQL statements. See [Execute SQL statements with Spring's JdbcTemplate](../cqn-services/persistence-services#jdbctemplate) for more details.
 
 
 ## Query Result Processing { #result}
 
-The result of a query is abstracted by the `Result` interface, which is an iterable of `Row`. A `Row` is a `Map<String, Object>` with additional convenience methods and extends [CdsData](./data#cds-data).
+The result of a query is abstracted by the `Result` interface, which is an iterable of `Row`. A `Row` is a `Map<String, Object>` with additional convenience methods and extends [CdsData](../cds-data#cds-data).
 
 You can iterate over a `Result`:
 
@@ -552,7 +552,7 @@ Avoid using `containsKey` to check for the presence of an element in the result 
 
 ### Typed Result Processing
 
-The element names and their types are checked only at runtime. Alternatively you can use interfaces to get [typed access](data#typed-access) to the result data:
+The element names and their types are checked only at runtime. Alternatively you can use interfaces to get [typed access](../cds-data#typed-access) to the result data:
 
 ```java
 interface Book {
@@ -578,7 +578,7 @@ Map<String, String> titleToDescription =
   result.streamOf(Book.class).collect(Collectors.toMap(Book::getTitle, Book::getDescription));
 ```
 
-For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](./advanced#staticmodel).
+For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](../cqn-services/persistence-services#staticmodel).
 
 
 ### Using Entity References from Result Rows in CDS QL Statements {#entity-refs}
@@ -627,7 +627,7 @@ CqnDelete d = Delete.from(joyce.address())
 
 ### Introspecting the Row Type
 
-The `rowType` method allows to introspect the element names and types of a query's `Result`. It returns a `CdsStructuredType` describing the result in terms of the [Reflection API](reflection-api):
+The `rowType` method allows to introspect the element names and types of a query's `Result`. It returns a `CdsStructuredType` describing the result in terms of the [Reflection API](../reflection-api):
 
 ```java
 CqnSelect query = Select.from(AUTHOR)

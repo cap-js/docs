@@ -102,8 +102,8 @@ You have two options:
 Some SDKs such as CAP Java or Cloud SDK provide a bunch of artifacts with a common version.
 Mixing different versions of SDK artifacts often results in compiler errors or unpredictable runtime issues.
 
-To help keeping the client configuration consistent, SDKs usually provide bill of material (BOM) poms as an optional maven dependency. We strongly recommended to import available BOM poms.
-
+To help keeping the client configuration consistent, SDKs usually provide bill of material (BOM) poms as an optional maven dependency. 
+We strongly recommended to import available BOM poms.
 
 Following example shows how BOM poms of `com.sap.cds`, `com.sap.cloud.sdk`, and `com.sap.cloud.security` can be added to the project's parent `pom.xml`:
 
@@ -169,3 +169,4 @@ In this case, applications have the following options:
 Make sure that the updated version is compatible. When consuming a new CAP Java version, this extra dependency can be removed again.
 
 <div id="in-update-versions" />
+

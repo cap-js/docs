@@ -266,7 +266,7 @@ By enabling the plugin in your project, various telemetry data will be automatic
   1.81 → 1.85 = 0.04 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'DraftAdministrativeData_Dr…
 ```
 
-Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging), Dynatrace, and Jaeger (Node.js only).
+Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) and Dynatrace. Node.js additionally supports Jaeger.
 
 Available for:
 

@@ -1,9 +1,3 @@
-### [About](about/)
-
-- [Related Concepts](about/related)
-- [Features](about/features)
-- [Capire](about/capire)
-- [Glossary](about/glossary)
 
 ### Getting Started
 

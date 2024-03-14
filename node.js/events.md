@@ -246,17 +246,6 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 
 
 
-### . _  {.property}
-
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
-
-::: warning
-Please refrain from using internal properties of that object, that is, the ones starting with '_'. They might be removed in any future release without notice.
-:::
-
-
-
-
 ### . method {.property}
 
 The HTTP method of the incoming request:

@@ -15,6 +15,9 @@ impl-variants: true
 Press <kbd>v</kbd> to switch, or use the toggle.
 :::
 
+[[toc]]
+
+
 ## Secure Communications { #secure-communications }
 
 

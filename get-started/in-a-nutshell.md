@@ -848,6 +848,6 @@ With this getting started guide we introduced many of the basics of CAP, such as
 - [Adding/Serving UIs](../advanced/fiori)
 - [Adding Custom Logic](../guides/providing-services#custom-logic)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
+[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/security/authorization) or [Deploying to SAP BTP](../guides/deployment/).
 
 Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.

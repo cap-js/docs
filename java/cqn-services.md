@@ -27,7 +27,7 @@ Consequently, they only accept CQN statements targeting entities that are define
 
 [Learn more about adding business logic to Application Services.](cqn-services/application-services){.learn-more}
 
-Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/authorization), [input validation](../guides/providing-services#input-validation), [implicit pagination](../guides/providing-services#implicit-pagination) and many more.
+Application Services are automatically augmented with generic providers (built-in event handlers), which handle common aspects such as [authorization](../guides/security/authorization), [input validation](../guides/providing-services#input-validation), [implicit pagination](../guides/providing-services#implicit-pagination) and many more.
 Their default ON event handler delegates CQN statements to the Persistence Service.
 
 [Learn more about these capabilities in our Cookbooks.](../guides/){.learn-more}

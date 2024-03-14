@@ -15,7 +15,7 @@ export type CapireThemeConfig = DefaultTheme.Config & {
   }
 }
 
-const base =  process.env.GH_BASE || '/docs/'
+const base =  process.env.GH_BASE || '/docs'
 const siteURL = new URL(process.env.SITE_HOSTNAME || 'http://localhost:4173/docs')
 if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 
@@ -94,7 +94,7 @@ const config:UserConfig<CapireThemeConfig> = {
       nav.find(i => i.text === 'Getting Started'),
       nav.find(i => i.text === 'Cookbook'),
       nav.find(i => i.text === 'CDS'),
-      nav.find(i => i.text === 'Node.js'),
+      nav.find(i => i.text === 'Node'),
       nav.find(i => i.text === 'Java'),
       nav.find(i => i.text === 'Tools'),
       nav.find(i => i.text === 'Plugins'),

@@ -6,7 +6,7 @@ hero:
   name: Welcome to CAP
   text: The Cloud Application Programming Model
   tagline:
-    Building Cloud-native Applications with Maximized Productivity at Minimized Costs, based on Proven Best Practices Served Out of the Box.
+    Building cloud-native applications with maximized productivity at minimized costs, based on proven best practices served out of the box.
   image: /assets/logos/cap.svg
   actions:
   - theme: brand

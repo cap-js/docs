@@ -1,5 +1,15 @@
 /* https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
 
+.VPHero {
+  .name { font-weight: 400; font-size: 60px }
+  .text { font-weight: 400 }
+  .tagline { font-weight: 400 }
+  .VPImage {
+    max-width: 444px;
+    max-height: 444px;
+  }
+}
+
 :root {
   // add Avenir Next first
   --vp-font-family-base: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif,
@@ -347,7 +357,9 @@ html.node .java {
     overflow: hidden !important;
   }
   // expand navbar to cover wide content (see java/development/properties)
-  .content-body {
-    min-width: 1164px;
-  }
+  // -> effect: ugly jumping navbar between welcome page and docs pages
+  // -> they shall fix that table over there please!
+  // .content-body {
+  //   min-width: 1164px;
+  // }
 }

@@ -192,7 +192,7 @@ Whenever there's user input involved...
 
 
 
-## cds.ql. Query {.class}
+## cds.ql. Query {#class-cds-ql-query .class}
 
 Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#constructing-queries) to construct queries as highlighted below.
 

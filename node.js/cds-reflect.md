@@ -526,7 +526,7 @@ cds.linked(csn).foreach (d => console.log(d.toCDL()))
 
 
 
-## cds. linked. types {.property}
+## cds. linked. types {#cds-builtin-types .property}
 [`cds.builtin.types`]: #cds-builtin-types
 
 

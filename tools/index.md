@@ -444,7 +444,7 @@ Enable to get quickfix proposals for artifact names, like entities, that aren't 
 
 If there are new release notes, this page opens on startup. You can disable this behavior using the *CDS > Release Notes: Show Automatically* (`cds.releaseNotes.showAutomatically`) setting.
 
-##### CAP Notebooks Page { #cap-notebooks-page}
+##### CAP Notebooks Page { #cap-notebooks-page }
 
 1. Press <kbd>F1</kbd>
 1. Open *CDS: Open CAP Notebooks Page*
@@ -660,7 +660,7 @@ Linting:
 
 
 
-## CAP Notebooks { #cap-vscode-notebook}
+## CAP Notebooks { #cap-vscode-notebook }
 
 A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.visualstudio.com/blogs/2021/11/08/custom-notebooks) that serves you as a guide on how to create, navigate, and monitor CAP projects. With this approach, we want to encourage the CAP community to work with CAP in the same explorative manner that scientists work with their data, namely by:
 
@@ -686,7 +686,7 @@ The cell inputs/outputs are especially useful at later points in time when the p
 
 
 
-## Using Docker
+## Using Docker { #docker }
 
 Prerequisite: You have installed [Docker](https://docs.docker.com/get-started/).
 

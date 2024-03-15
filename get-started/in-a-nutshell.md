@@ -513,13 +513,13 @@ Then deploy:
 cds deploy
 ```
 
-The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.sqlite_. This is also recorded in the _package.json_.
+The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./db.sqlite_. This is also recorded in the _package.json_.
 
 To see what that did, use the `sqlite3` CLI with the newly created database:
 
 ```sh
-sqlite3 my.sqlite .dump
-sqlite3 my.sqlite .tables
+sqlite3 db.sqlite .dump
+sqlite3 db.sqlite .tables
 ```
 [Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 

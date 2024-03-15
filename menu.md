@@ -85,7 +85,7 @@
 - [Common Annotations](cds/annotations)
 - [Nature of Models](cds/models)
 
-### [Node.js](node.js/)
+### [Node](node.js/)
 
 - [The cds Facade](node.js/cds-facade)
 - [cds. Services](node.js/core-services)

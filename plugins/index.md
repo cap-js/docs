@@ -96,7 +96,7 @@ Use one of the support channels below, in this order:
 
    This applies to all plugins, especially those without public repositories. Or if you're not quite sure that the problem is caused by the plugin.
 
-3. Open incidents through [SAP Support Portal](/resources/#reporting-incidents).
+3. Open incidents through [SAP Support Portal](/resources/#support-channels).
 
    Note that plugins by external parties, like the [CAP JS](https://github.com/cap-js-community/) community, are out of scope for incidents.
 

@@ -1,17 +1,12 @@
-### [About](about/)
-
-- [Related Concepts](about/related)
-- [Features](about/features)
-- [Capire](about/capire)
-- [Glossary](about/glossary)
 
 ### Getting Started
 
 - [Jumpstart Development](get-started/jumpstart)
 - [Getting Started in a Nutshell](get-started/in-a-nutshell)
-- [Hello World!](get-started/hello-world)
-- [Learning Sources](get-started/learning-sources)
 - [Grow As You Go...](get-started/grow-as-you-go)
+- [Hello World!](get-started/hello-world)
+- [Sample Projects](get-started/samples)
+- [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
 
 ### [Cookbook](guides/)
@@ -76,40 +71,12 @@
 
 - [Performance](advanced/performance-modeling)
 
-### [Plugins](plugins/)
-
-- [GraphQL Adapter](plugins/#graphql-adapter)
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
-- [UI5 Dev Server](plugins/#ui5-dev-server)
-- [Change Tracking](plugins/#change-tracking)
-- [Audit Logging](plugins/#audit-logging)
-- [Notifications](plugins/#notifications)
-- [Telemetry (Beta)](plugins/#telemetry-beta)
-<!-- - [Attachments](plugins/#attachments) -->
-<!-- - [Task Center](plugins/#task-center) -->
-<!-- - [Event Mesh](plugins/#event-mesh) -->
-<!-- - [Event Broker](plugins/#event-broker) -->
-<!-- - [Apache Kafka](plugins/#apache-kafka) -->
-<!-- - [Analytics](plugins/#analytics) -->
-<!-- - [Datasphere](plugins/#datasphere) -->
-<!-- - [Security: AMS](plugins/#security-ams) -->
-<!-- - [CAP Operator 4 Kyma](plugins/#cap-operator-4-kyma) -->
-
-### [Tools](tools/)
-
-- [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
-- [SAP Business Application Studio](tools/index#bastudio)
-- [Visual Studio Code](tools/index#vscode)
-- [IntelliJ](tools/index#intellij)
-- [Docker](tools/index#docker)
-- [CDS Editors](tools/index#cds-editor)
-- [CDS Lint](tools/index#cds-lint)
-- [CDS Typer](tools/cds-typer)
 
 ### [CDS](cds/)
 
 - [Definition Language (CDL)](cds/cdl)
 - [Schema Notation (CSN)](cds/csn)
+
 - [Query Language (CQL)](cds/cql)
 - [Query Notation (CQN)](cds/cqn)
 - [Expressions (CXN)](cds/cxn)
@@ -117,42 +84,6 @@
 - [Common Types and Aspects](cds/common)
 - [Common Annotations](cds/annotations)
 - [Nature of Models](cds/models)
-
-### [Java](java/)
-
-- [Getting Started](java/getting-started)
-- [Versions & Dependencies](java/versions)
-- [Working with CDS Models](java/reflection-api)
-- [Working with CDS Data](java/cds-data)
-- [Working with CDS CQL](java/working-with-cql/)
-  - [Build CQL Statements](java/working-with-cql/query-api)
-  - [Execute CQL Statements](java/working-with-cql/query-execution)
-  - [Introspect CQL Statements](java/working-with-cql/query-introspection)
-- [Services](java/services)
-- [CQN Services](java/cqn-services)
-  - [Persistence Services](java/cqn-services/persistence-services)
-  - [Application Services](java/cqn-services/application-services)
-  - [Remote Services](java/cqn-services/remote-services)
-- [Event Handlers](java/event-handlers)
-  - [Indicating Errors](java/event-handlers/indicating-errors)
-  - [Request Contexts](java/event-handlers/request-contexts)
-  - [ChangeSet Contexts](java/event-handlers/changeset-contexts)
-- [Messaging](java/messaging)
-- [Audit Logging](java/auditlog)
-- [Change Tracking](java/change-tracking)
-- [Transactional Outbox](java/outbox)
-- [Security](java/security)
-- [Spring Boot Integration](java/spring-boot-integration)
-- [Developing Applications](java/developing-applications/)
-  - [Building](java/developing-applications/building)
-  - [Running](java/developing-applications/running)
-  - [Testing](java/developing-applications/testing)
-  - [Configuring](java/developing-applications/configuring)
-  - [CDS Properties](java/developing-applications/properties)
-- [Operating Applications](java/operating-applications/)
-  - [Optimizing](java/operating-applications/optimizing)
-  - [Observability](java/operating-applications/observability)
-- [Migration Guides](java/migration)
 
 ### [Node.js](node.js/)
 
@@ -207,3 +138,69 @@
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
+
+### [Java](java/)
+
+- [Getting Started](java/getting-started)
+- [Versions & Dependencies](java/versions)
+- [Working with CDS Models](java/reflection-api)
+- [Working with CDS Data](java/cds-data)
+- [Working with CDS CQL](java/working-with-cql/)
+  - [Build CQL Statements](java/working-with-cql/query-api)
+  - [Execute CQL Statements](java/working-with-cql/query-execution)
+  - [Introspect CQL Statements](java/working-with-cql/query-introspection)
+- [Services](java/services)
+- [CQN Services](java/cqn-services)
+  - [Persistence Services](java/cqn-services/persistence-services)
+  - [Application Services](java/cqn-services/application-services)
+  - [Remote Services](java/cqn-services/remote-services)
+- [Event Handlers](java/event-handlers)
+  - [Indicating Errors](java/event-handlers/indicating-errors)
+  - [Request Contexts](java/event-handlers/request-contexts)
+  - [ChangeSet Contexts](java/event-handlers/changeset-contexts)
+- [Messaging](java/messaging)
+- [Audit Logging](java/auditlog)
+- [Change Tracking](java/change-tracking)
+- [Transactional Outbox](java/outbox)
+- [Security](java/security)
+- [Spring Boot Integration](java/spring-boot-integration)
+- [Developing Applications](java/developing-applications/)
+  - [Building](java/developing-applications/building)
+  - [Running](java/developing-applications/running)
+  - [Testing](java/developing-applications/testing)
+  - [Configuring](java/developing-applications/configuring)
+  - [CDS Properties](java/developing-applications/properties)
+- [Operating Applications](java/operating-applications/)
+  - [Optimizing](java/operating-applications/optimizing)
+  - [Observability](java/operating-applications/observability)
+- [Migration Guides](java/migration)
+
+### [Tools](tools/)
+
+- [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
+- [SAP Business Application Studio](tools/index#bastudio)
+- [Visual Studio Code](tools/index#vscode)
+- [IntelliJ](tools/index#intellij)
+- [Docker](tools/index#docker)
+- [CDS Editors](tools/index#cds-editor)
+- [CDS Lint](tools/index#cds-lint)
+- [CDS Typer](tools/cds-typer)
+
+### [Plugins](plugins/)
+
+- [GraphQL Adapter](plugins/#graphql-adapter)
+- [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [UI5 Dev Server](plugins/#ui5-dev-server)
+- [Change Tracking](plugins/#change-tracking)
+- [Audit Logging](plugins/#audit-logging)
+- [Notifications](plugins/#notifications)
+- [Telemetry (Beta)](plugins/#telemetry-beta)
+<!-- - [Attachments](plugins/#attachments) -->
+<!-- - [Task Center](plugins/#task-center) -->
+<!-- - [Event Mesh](plugins/#event-mesh) -->
+<!-- - [Event Broker](plugins/#event-broker) -->
+<!-- - [Apache Kafka](plugins/#apache-kafka) -->
+<!-- - [Analytics](plugins/#analytics) -->
+<!-- - [Datasphere](plugins/#datasphere) -->
+<!-- - [Security: AMS](plugins/#security-ams) -->
+<!-- - [CAP Operator 4 Kyma](plugins/#cap-operator-4-kyma) -->

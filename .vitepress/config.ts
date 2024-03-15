@@ -82,7 +82,7 @@ const loadSyntax = async (file:string, name:string, alias:string=name):Promise<L
 }
 
 const config:UserConfig<CapireThemeConfig> = {
-  title: 'CAPire',
+  title: 'cap≽ire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
   srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],

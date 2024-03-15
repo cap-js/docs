@@ -3,9 +3,10 @@
 
 - [Jumpstart Development](get-started/jumpstart)
 - [Getting Started in a Nutshell](get-started/in-a-nutshell)
-- [Hello World!](get-started/hello-world)
-- [Learning Sources](get-started/learning-sources)
 - [Grow As You Go...](get-started/grow-as-you-go)
+- [Hello World!](get-started/hello-world)
+- [Sample Projects](get-started/samples)
+- [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
 
 ### [Cookbook](guides/)

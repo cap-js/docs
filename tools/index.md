@@ -660,7 +660,7 @@ Linting:
 
 
 
-## CAP Notebooks { #cap-vscode-notebook}
+## CAP Notebooks { #cap-notebooks }
 
 A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.visualstudio.com/blogs/2021/11/08/custom-notebooks) that serves you as a guide on how to create, navigate, and monitor CAP projects. With this approach, we want to encourage the CAP community to work with CAP in the same explorative manner that scientists work with their data, namely by:
 

@@ -3,8 +3,7 @@ layout: home
 status: released
 
 hero:
-  name: Welcome to CAP
-  text: The Cloud Application Programming Model
+  name: SAP Cloud Application Programming Model
   tagline:
     Building cloud-native applications with maximized productivity at minimized costs, based on proven best practices served out of the box.
   image: /assets/logos/cap.svg

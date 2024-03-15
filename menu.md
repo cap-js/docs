@@ -85,7 +85,6 @@
 - [Common Annotations](cds/annotations)
 - [Nature of Models](cds/models)
 
-
 ### [Node.js](node.js/)
 
 - [The cds Facade](node.js/cds-facade)
@@ -161,6 +160,7 @@
   - [ChangeSet Contexts](java/event-handlers/changeset-contexts)
 - [Messaging](java/messaging)
 - [Audit Logging](java/auditlog)
+- [Change Tracking](java/change-tracking)
 - [Transactional Outbox](java/outbox)
 - [Security](java/security)
 - [Spring Boot Integration](java/spring-boot-integration)

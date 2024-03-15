@@ -5,10 +5,8 @@
     .name { font-weight: 500; font-size: 60px }
     .text { font-weight: 400 }
     .tagline { font-weight: 400 }
-    .VPImage {
-      max-width: 444px;
-      max-height: 444px;
-    }
+    .VPImage { max-width: 444px; max-height: 444px; }
+    .VPButton { border: none; }
   }
   .VPFeatures .icon {
     font-size: 30px;
@@ -46,9 +44,15 @@
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
-    .VPHome img, .avatar-img, img.ignore-dark { filter:none }
-    img.mute-dark { filter:brightness(0.6) }
+    img, svg.adapt-dark {
+      filter: brightness(.884) invert(1) hue-rotate(177deg)
+    }
+    img.mute-dark {
+      filter:brightness(.884)
+    }
+    img.ignore-dark, .avatar-img, .VPHome img {
+      filter:none
+    }
   }
 }
 
@@ -175,6 +179,11 @@ main {
       .dark & {
         &, & code, & a { color: #ced; }
         background-color: #021;
+      }
+    }
+    &.info {
+      .dark & {
+        background-color: #222;
       }
     }
     &.warning {

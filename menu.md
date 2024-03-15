@@ -177,14 +177,15 @@
 
 ### [Tools](tools/)
 
-- [Command Line Interface (CLI)](tools/index#command-line-interface-cli)
+- [CDS Command Line Interface](tools/index#cli)
 - [SAP Business Application Studio](tools/index#bastudio)
 - [Visual Studio Code](tools/index#vscode)
-- [IntelliJ](tools/index#intellij)
-- [Docker](tools/index#docker)
+- [IntelliJ IDEA](tools/index#intellij)
 - [CDS Editors](tools/index#cds-editor)
 - [CDS Lint](tools/index#cds-lint)
 - [CDS Typer](tools/cds-typer)
+- [CAP Notebooks](tools/index#cap-notebooks-page)
+- [Using Docker](tools/index#docker)
 
 ### [Plugins](plugins/)
 

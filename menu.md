@@ -228,4 +228,3 @@
 - [Audit Logging](plugins/#audit-logging)
 - [Notifications](plugins/#notifications)
 - [Telemetry (Beta)](plugins/#telemetry-beta)
-

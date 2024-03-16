@@ -224,6 +224,7 @@ td, th {
   float: right;
   font-size: 20px;
   font-weight: bold;
+  margin: 5px auto;
 }
 
 .modal-close:hover,

@@ -46,11 +46,10 @@ features:
 
 <style>
 
-/* make hero text a bit wider to avoid unlucky wrapping */
-@media (min-width: 960px) {
-  .VPHero.has-image .main,
-  .VPHero .text {
-    max-width: 620px !important;
+/* make hero text smaller in narrow sizes */
+@media (max-width: 640px) {
+  .VPHome .VPHero .name {
+    font-size: 33px;
   }
 }
 

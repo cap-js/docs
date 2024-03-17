@@ -245,12 +245,9 @@ cds add data
 
 ### Location of CSV Files
 
-CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ subfolder of a CDS file. The file must be part of the compiled model.
+CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ subfolder of a CDS file if that file is part of the compiled model.
 
 The following conventions apply:
-* CSV file location:
-  * _db/data_ and _test/data_ folders, distinguish between sample data and real initial data
-  * _data_ subfolder of any CDS model file
 * Each file contains data for one entity.
 * File names must follow the pattern _namespace-entity.csv_. <br>
   Pattern for nested entities: _namespace-entity.nestedEntity.csv_. <br>
@@ -258,9 +255,7 @@ The following conventions apply:
 * They must start with a header line that lists the needed element names.
 
 ::: details On SAP HANA ...
-
 CSV files located in _db/src/**_ folder and corresponding _hdbtabledata_ files will be treated as native SAP HANA artifacts and deployed as they are.
-
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:

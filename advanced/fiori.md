@@ -440,7 +440,7 @@ If such a `.texts` entity should take part in the draft workflow, this must be e
 on by also adding the annotation `@fiori.draft.enabled` to the main entity.
 This annotation does however not only include the `.texts` entity into the draft tree, but it also
 changes the key of the `.texts`entity.
-At the time draft support was implemented in CAP, Fiori required (TODO is this true?)
+At the time draft support was implemented in CAP, Fiori required
 that a draft enabled entity must have a single key element of type UUID.
 As a `.texts` entity by construction has at least two key elements (the `locale` plus the key elements
 of the main entity), we remove the `key` property from all these elements and add a technical key element

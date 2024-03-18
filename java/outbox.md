@@ -159,7 +159,7 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4, AsyncCqnService.class);
 ```
 
-The interface `AsyncCqnService` provides a convenience method to outbox CqnServices directly and wrapping the service with it:
+The interface `AsyncCqnService` provides a convenience method to outbox CqnServices:
 
 ```java
 OutboxService myCustomOutbox = ...;

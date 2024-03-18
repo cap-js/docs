@@ -12,12 +12,14 @@ status: released
 
 ## Rule Details
 
-Regular entity names should start with uppercase letters.
+According to our [best practices for naming convetions](../../../guides/domain-modeling#naming-conventions) in CDS models, regular entity names should start with uppercase letters.
 
 ### Examples
 
+The following example defines an entity `Books`, which is started on an uppercase letter so the rule is not triggered.
+
 ::: code-group
-<<< @/tools/lint/examples/start-entities-uppercase_correct.cds#snippet{ts:line-numbers} [Correct example]
+<<< @/tools/lint/examples/start-entities-uppercase_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
 :::
 <PlaygroundBadge
   name="start-entities-uppercase"
@@ -25,10 +27,10 @@ Regular entity names should start with uppercase letters.
   :rules="{'@sap/cds/start-entities-uppercase': 'warn'}"
 />
 
-Some more text...
+In the next example, the entity `books`is started on a lowercase letter and so the rule is violated.
 
 ::: code-group
-<<< @/tools/lint/examples/start-entities-uppercase_incorrect.cds#snippet{ts:line-numbers} [Incorrect example]
+<<< @/tools/lint/examples/start-entities-uppercase_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
 :::
 <PlaygroundBadge
   name="start-entities-uppercase"

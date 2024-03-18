@@ -20,7 +20,7 @@ status: released
 ### Examples
 
 ::: code-group
-<<< @/tools/lint/examples/auth-no-empty-restrictions_correct.cds#snippet{ts:line-numbers} [Correct example]
+<<< @/tools/lint/examples/auth-no-empty-restrictions_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"
@@ -29,7 +29,7 @@ status: released
 />
 
 ::: code-group
-<<< @/tools/lint/examples/auth-no-empty-restrictions_incorrect.cds#snippet{ts:line-numbers} [Incorrect example]
+<<< @/tools/lint/examples/auth-no-empty-restrictions_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"

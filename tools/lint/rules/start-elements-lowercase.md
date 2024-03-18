@@ -20,7 +20,7 @@ Regular entity names should start with uppercase letters.
 ### Examples
 
 ::: code-group
-<<< @/tools/lint/examples/start-elements-lowercase_correct.cds#snippet{ts:line-numbers} [Correct example]
+<<< @/tools/lint/examples/start-elements-lowercase_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"
@@ -29,7 +29,7 @@ Regular entity names should start with uppercase letters.
 />
 
 ::: code-group
-<<< @/tools/lint/examples/start-elements-lowercase_incorrect.cds#snippet{ts:line-numbers} [Incorrect example]
+<<< @/tools/lint/examples/start-elements-lowercase_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"

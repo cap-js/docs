@@ -167,7 +167,7 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
 ```
 
-::: warning Asynchronous suited API
+::: tip Asynchronous suited API
 The service to be outboxed must provide the same method signatures that are declared in the passed interface.
 The result type is not relevant since outboxed services method calls don't return a result.
 :::
@@ -236,36 +236,6 @@ You must ensure that the handler is setting the context to completed before retu
 Also the handler shall only be registered once on the outbox service.
 
 [Learn more about event handlers.](./event-handlers){.learn-more}
-
-## Handling Outbox Errors
-
-An outbox service is calling an error handler in case of a processing error by emitting an `OutboxErrorEventContext`.
-The event context provides the `ServiceException` that occurred while processing the outbox entry. An outbox error handler
-shall provide an error status after evaluating the exception; possible error status are:
-
-- `OutboxErrorStatus.RETRY`: The outbox tries to reprocess the entry.
-- `OutboxErrorStatus.UNRECOVERABLE`: The error is unrecoverable and the outbox deletes the corresponding entry from the outbox table.
-
-Custom outbox error handlers can be registered for an outbox service:
-
-```java
-OutboxService outboxService;
-
-outboxService.on(OutboxService.EVENT_OUTBOX_ERROR, null, ctx -> {
-  OutboxErrorEventContext errorEventContext = ctx.as(OutboxErrorEventContext.class);
-  ServiceException serviceException = errorEventContext.getException();
-
-  // Evaluate exeption to determine the error status
-
-  errorEventContext.setResult(OutboxErrorStatus.RETRY);
-
-  // or if the error is unrecoverable:
-  //errorEventContext.setResult(OutboxErrorStatus.UNRECOVERABLE);
-});
-```
-[Learn more about event handlers.](./event-handlers){.learn-more}
-
-The default outbox error event handler always returns `OutboxErrorStatus.RETRY`.
 
 ## Troubleshooting
 

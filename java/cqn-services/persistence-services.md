@@ -19,7 +19,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- % include links.md %} -->
 
 ## Database Support { #database-support}
 
@@ -549,9 +548,6 @@ cds:
 
 
 ## Native SQL
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
 
 ### CDS Data Store Connector { #cdsdatastoreconnector}
 

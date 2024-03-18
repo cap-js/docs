@@ -167,9 +167,8 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
 ```
 
-::: tip Asynchronous suited API
-The service to be outboxed must provide the same method signatures that are declared in the passed interface.
-The result type is not relevant since outboxed services method calls don't return a result.
+::: tip Custom asynchronous suited API
+When defining your own custom asynchronous suited API, the interface must provide the same method signatures as the interface of the outboxed service, except for the return types which should be `void`.
 :::
 
 The outboxed service can be cached; caching them is thread-safe.

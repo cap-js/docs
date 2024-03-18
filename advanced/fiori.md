@@ -436,7 +436,7 @@ Thus the default is that if an entity is draft enabled via `@odata.draft.enabled
 the corresponding `.texts` entity is _not_ part of the draft tree, although it is a composition child of
 the main entity.
 
-If such a `.texts` entity should take part in the draft game, this must be explicitly switched
+If such a `.texts` entity should take part in the draft workflow, this must be explicitly switched
 on by also adding the annotation `@fiori.draft.enabled` to the main entity.
 This annotation does however not only include the `.texts` entity into the draft tree, but it also
 changes the key of the `.texts`entity.

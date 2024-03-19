@@ -242,7 +242,7 @@ In this case the service name will either come from environment variable `VCAP_S
 This will overwrite any information coming from environment variables. The service name `myservice` will be used, the current Cloud Foundry client logon information be be taken to connect to the system.
 
 <i>NEXT MAJOR BEHAVIOUR</i><br>
-The service name will be merged with information coming from environment variables allowing you to use stored logon information to create the new servcie.
+The service name will be merged with information coming from environment variables allowing you to use stored logon information to create the new service.
 
 ##### `cds deploy --vcap-file someEnvFile.json`
 

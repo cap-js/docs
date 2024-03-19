@@ -33,6 +33,7 @@ The following built-in types are provided:
 | `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
 | `LargeBinary` |  | | _BLOB_ |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
+| `Vector` | HANA only | |  _REAL_VECTOR_  |
 
 
 ### Remarks

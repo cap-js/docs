@@ -48,7 +48,7 @@ const { Layout } = DefaultTheme
 <style scoped>
 
 .ImplVariantsInNavbar {
-  padding-left: 32px
+  padding-left: 16px
 }
 
 @media (max-width: 768px) {
@@ -56,5 +56,4 @@ const { Layout } = DefaultTheme
     display: none;
   }
 }
-
 </style>

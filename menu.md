@@ -214,7 +214,7 @@
 - [IntelliJ IDEA](tools/index#intellij)
 - [CDS Editors](tools/index#cds-editor)
 - [CDS Lint](tools/cds-lint)
-  - [Rules Reference](tools/cds-lint-rules)
+  - [Rules Reference](tools/rules)
 - [CDS Typer](tools/cds-typer)
 - [CAP Notebooks](tools/index#cap-notebooks-page)
 - [Using Docker](tools/index#docker)

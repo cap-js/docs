@@ -148,4 +148,4 @@ function toLinesObject(
 .headerless.th {
   display: none;
 }
-</style>
+</style>../../../tools/lint/meta/examples.data.ts

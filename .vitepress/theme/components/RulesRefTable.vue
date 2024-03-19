@@ -1,6 +1,6 @@
 <script lang="ts">
     // @ts-ignore
-    import { data, hasRuleDocs } from '../../../tools/lint/rules/rules.data.ts';
+    import { data } from '../../../tools/rules.data.ts';
 
     export default {
         data() {

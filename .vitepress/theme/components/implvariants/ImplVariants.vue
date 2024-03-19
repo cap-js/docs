@@ -54,9 +54,7 @@ function setClass(check) {
 }
 
 function useVariant() {
-  function toggle(e) {
-    e.preventDefault() // prevent the parent anchor (in the title) from being triggered
-
+  function toggle() {
     let check = currentCheckState()
     setClass((check = !check))
     const variantNew = check ? 'java' : 'node'
@@ -140,7 +138,7 @@ function markClasses(el, classes) {
   <VPSwitch
       class="SwitchImplVariant"
       :aria-checked="checked"
-      @click="toggle">
+      @click.prevent="toggle">
     <IconNode class="icon-node" />
     <IconJava class="icon-java" />
   </VPSwitch>

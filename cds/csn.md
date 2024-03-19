@@ -99,13 +99,13 @@ For the remainder of this spec, you see examples in plain JavaScript representat
 * [`extensions`](#aspects) &ndash; an array of unnamed [aspects](#aspects)
 * [`i18n`](#i18n) &ndash; a dictionary of dictionaries of [text translations](#i18n)
 
-::: tip All properties are optional
-For example, one model could contain a few definitions, while another one only contains some extensions.
-:::
+> [!TIP] All properties are optional
+> For example, one model could contain a few definitions, while another one only contains some extensions.
 
-::: info References are case-sensitive
-All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
-:::
+
+> [!NOTE] References are case-sensitive
+> All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
+
 
 
 

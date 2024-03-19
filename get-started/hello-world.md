@@ -93,7 +93,7 @@ module.exports = class say {
 
 <div class="impl java">
 
-... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
+... for example, using a [CAP Java](../java/event-handlers) custom handler like this:
 
 ::: code-group
 

@@ -124,7 +124,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Managed Data](../guides/domain-modeling#managed-data)                                      | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/operating-applications/observability#logging)] | <Na/> |  <X/>   | <X/> |
 | Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]   | <Na/> |  <X/>   | <X/> |
 
 
@@ -179,9 +179,9 @@ Following is an index of the features currently covered by CAP, with status and 
 |                                                                                                                                                                        |  CDS  | Node.js | Java |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
 | Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
 | Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
 
@@ -195,7 +195,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [SAP HANA Cloud](../guides/databases-hana)         |    <X/>    |  <X/>   | <X/> |
 | [PostgreSQL](../guides/databases-postgres)         |    <X/>    |  <X/>   | <X/> |
 | [SQLite](../guides/databases-sqlite) <sup>1</sup>  |    <X/>    |  <X/>   | <X/> |
-| [H2](../java/persistence-services#h2) <sup>1</sup> |    <X/>    |  <Na/>  | <X/> |
+| [H2](../java/cqn-services/persistence-services#h2) <sup>1</sup> |    <X/>    |  <Na/>  | <X/> |
 | [MongoDB](../guides/databases) out of the box      |   <Na/>    |  <Na/>  | <D/> |
 | Pluggable drivers architecture                     |    <D/>    |  <D/>   | <X/> |
 | Out-of-the-box support for other databases?        |    <C/>    |  <C/>   | <C/> |

@@ -73,11 +73,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 :::
 
 
-
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
-
+<ImplVariantsHint />
 
 
 [[toc]]
@@ -132,15 +128,15 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    ```log
    [dev] cds w
-   
+
    cds serve all --with-mocks --in-memory?
    live reload enabled for browsers
-   
+
          ___________________________
-   
+
      No models found in db/,srv/,app/,schema,services. // [!code focus]
      Waiting for some to arrive... // [!code focus]
-   
+
    ```
 
    So, let's go on adding some CDS model as follows...

@@ -13,11 +13,6 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
-
 ## Logging { #logging}
 
 When tracking down erroneous behavior, *application logs* often provide useful hints to reconstruct the executed program flow and isolate functional flaws. In addition, they help operators and supporters to keep an overview about the status of a deployed application. In contrast, messages created using the [Messages API](../event-handlers/indicating-errors#messages) in custom handlers are reflected to the business user who has triggered the request.

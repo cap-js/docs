@@ -425,7 +425,7 @@ Following example uses accessor interfaces that have been generated with the def
     author.setName("Emily Brontë");
 
     Books book = Books.create();
-    book.setAuthor(authors);
+    book.setAuthor(author);
     book.setTitle("Wuthering Heights");
 ```
 

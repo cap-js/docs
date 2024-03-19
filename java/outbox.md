@@ -13,10 +13,6 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
 ## Concepts
 
 Usually the emit of messages should be delayed until the main transaction succeeded, otherwise recipients also receive messages in case of a rollback.

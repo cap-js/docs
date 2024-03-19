@@ -617,7 +617,7 @@ is translated to:
 </Annotation>
 ```
 
-A main use case for such dynamic expressions is SAP Fiori,
+One of the main use cases for such dynamic expressions is SAP Fiori,
 but note that Fiori supports dynamic expressions only for 
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 

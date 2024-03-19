@@ -19,7 +19,7 @@ export default {
         const description = plugin?.rules[rule]?.meta.docs.description;
         const ruleDocs = path.join(__dirname, `lint/meta/${rule}.md`)
         const hasRuleDocs = fs.existsSync(ruleDocs)
-        const url = hasRuleDocs ? ruleDocs : null
+        const url = hasRuleDocs ? `./lint/meta/${rule}` : null
         const isRecommended = plugin?.rules[rule]?.meta.docs.recommended ? '✅' : '';
         const hasFix = plugin?.rules[rule]?.meta.fixable ? '🔧' : '';
         const hasSuggestions = plugin?.rules[rule]?.meta.hasSuggestions ? '💡' : '';

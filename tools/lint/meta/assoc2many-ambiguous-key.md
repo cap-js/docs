@@ -20,7 +20,7 @@ Ambiguous key with a `TO MANY` relationship since entries could appear multiple 
 ### Examples
 
 ::: code-group
-<<< @/tools/lint/examples/assoc2many-ambiguous-key_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
+<<< @/@external/tools/lint/examples/assoc2many-ambiguous-key_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
 :::
 <PlaygroundBadge
   name="assoc2many-ambiguous-key"
@@ -29,7 +29,7 @@ Ambiguous key with a `TO MANY` relationship since entries could appear multiple 
 />
 
 ::: code-group
-<<< @/tools/lint/examples/assoc2many-ambiguous-key_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
+<<< @/@external/tools/lint/examples/assoc2many-ambiguous-key_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
 :::
 <PlaygroundBadge
   name="assoc2many-ambiguous-key"

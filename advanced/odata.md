@@ -67,7 +67,7 @@ System query options can also be applied to an [expanded navigation property](ht
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
 | [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Badge type="warning" text="beta" /></sup> |
 
 
 ## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
@@ -100,7 +100,7 @@ Content-Type: application/json
 }
 ```
 
-PATCH requests with delta payload are executed using batch delete and [upsert](../java/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
+PATCH requests with delta payload are executed using batch delete and [upsert](../java/working-with-cql/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
 
 Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by annotating the entity with
 
@@ -115,7 +115,7 @@ Limitations:
  * [Added and deleted links](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_IteminaDeltaPayloadResponse) are not supported.
  * The header `Prefer=representation` is not yet supported.
  * The `continue-on-error` preference is not yet supported.
- * The generic CAP handler support for [upsert](../java/query-api#upsert) is limited, for example, audit logging is not supported.
+ * The generic CAP handler support for [upsert](../java/working-with-cql/query-api#upsert) is limited, for example, audit logging is not supported.
 
 
 ## Mapping of CDS Types { #type-mapping}
@@ -164,7 +164,7 @@ the import of external service APIs, see [Using Services](../guides/using-servic
 
 ```cds
 entity Foo {
-  ...,
+  // ...
   @odata: { Type: 'Edm.GeometryPolygon', SRID: 0 }
   geoCollection : LargeBinary;
 };
@@ -177,7 +177,7 @@ Therefore, you can override the default mapping as follows:
 ```cds
 entity Books {
   key ID : UUID @odata.Type:'Edm.String';
-  ...
+  // ...
 }
 ```
 
@@ -347,7 +347,7 @@ Rendering a `null` value must be done as dynamic expression:
 
 ### Records
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
 
 Record-like source structures are mapped to `<Record>` nodes in EDMX, with primitive types translated analogously to the above:
 
@@ -427,7 +427,7 @@ To overwrite the default, use an explicit `$Type` like shown previously.
 
 ### Collections
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
 
 Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as direct elements of the array, these elements are wrapped into individual primitive child nodes of the resulting collection as is. The rules for records and collections are applied recursively:
 
@@ -456,7 +456,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ### References
 
->  The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
 References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
 
@@ -1000,7 +1000,7 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 
 ::: warning
 The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
+The Node.js runtime supports the feature only for the REST Adapter.
 :::
 
 

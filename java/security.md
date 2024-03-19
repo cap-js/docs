@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/security.md -> @external/java/security.md -->
 
 <script setup>
   import { h } from 'vue'
@@ -41,7 +40,7 @@ Without security configured, CDS services are exposed to public. Proper configur
 
 ## Authentication { #authentication}
 
-User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](architecture#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA and IAS](#xsuaa-ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there's a built-in [mock user](#mock-users) support.
+User requests with invalid authentication need to be rejected as soon as possible, to limit the resource impact to a minimum. Ideally, authentication is one of the first steps when processing a request. This is one reason why it's not an integral part of the CAP runtime and needs to be configured on application framework level. In addition, CAP Java is based on a [modular architecture](./developing-applications/building#modular_architecture) and allows flexible configuration of the authentication method. For productive scenarios, [XSUAA and IAS](#xsuaa-ias) authentication is supported out of the box, but a [custom authentication](#custom-authentication) can be configured as well. For the local development and test scenario, there's a built-in [mock user](#mock-users) support.
 
 ### Configure XSUAA and IAS Authentication { #xsuaa-ias}
 To enable your application for XSUAA or IAS-authentication we recommend to use the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, which covers all required dependencies.
@@ -55,22 +54,61 @@ These are the individual dependencies that can be explicitly added in the `pom.x
 :::
 
 In addition, your application needs to be bound to corresponding service instances depending on your scenario.  The following list describes which service needs to be bound depending on the tokens your applications should accept:
-   * only accept tokens issued by XSUAA --> bind your application to an [XSUAA service instance](../guides/authorization#xsuaa-configuration)
+   * only accept tokens issued by XSUAA --> bind your application to an [XSUAA service instance](../guides/security/authorization#xsuaa-configuration)
    * only accept tokens issued by IAS --> bind your application to an [IAS service instance](https://help.sap.com/docs/IDENTITY_AUTHENTICATION)
    * accept tokens issued by XSUAA and IAS --> bind your application to service instances of both types.
 
 ::: tip Specify Binding
-CAP Java picks only a single binding of each type. If you have multiple XSUAA or IAS bindings, choose a specific binding with property `cds.security.xsuaa.binding`respectively `cds.security.identity.binding`.
+CAP Java picks only a single binding of each type. If you have multiple XSUAA or IAS bindings, choose a specific binding with property `cds.security.xsuaa.binding` respectively `cds.security.identity.binding`.
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
 ### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
-CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). As the spring-xsuaa library is deprecated, it is recommended to move to `cds-feature-identity`.
+CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
+We recommend to move to `cds-feature-identity`, as the spring-xsuaa library is deprecated. When moving to `cds-feature-identity`, please keep the following in mind:
 
-To do so, remove existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter` and follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
-::: tip Backward Compatibility: Exclude Dependencies When Using Bundles
-If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`. Otherwise, `cds-feature-xsuaa` will take priority over `cds-feature-identity` for backward compatibility.
+- As `cds-feature-xsuaa` still takes priority over `cds-feature-identity` for backward compatibility, remove all existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter`.
+- If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`.
+
+::: code-group
+
+```xml [srv/pom.xml (cds-starter-cloudfoundry)]
+<dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-cloudfoundry</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>com.sap.cds</groupId>
+            <artifactId>cds-feature-xsuaa</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+```xml [srv/pom.xml (cds-starter-k8s)]
+<dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-starter-k8s</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>com.sap.cds</groupId>
+            <artifactId>cds-feature-xsuaa</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
 :::
+
+Now follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 
@@ -78,7 +116,7 @@ Only if **both, the library dependencies and an XSUAA/IAS service binding are in
 * Protocol adapter endpoints (managed by CAP such as OData V4/V2 or custom protocol adapters)
 * Remaining custom endpoints (not managed by CAP such as custom REST controllers or Spring Actuators)
 
-The security auto configuration authenticates all endpoints by default, unless corresponding CDS model is not explicitly opened to public with [pseudo-role](../guides/authorization#pseudo-roles) `any` (configurable behaviour).
+The security auto configuration authenticates all endpoints by default, unless corresponding CDS model is not explicitly opened to public with [pseudo-role](../guides/security/authorization#pseudo-roles) `any` (configurable behaviour).
 Here's an example of a CDS model and the corresponding authentication configuration:
 
 ```cds
@@ -191,9 +229,9 @@ public class ActuatorSecurityConfig {
 
 ### Custom Authentication { #custom-authentication}
 
-You're free to configure any authentication method according to your needs. CAP isn't bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/authorization#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
+You're free to configure any authentication method according to your needs. CAP isn't bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/security/authorization#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
 
-Hence, if you bring your own authentication, you've to transform the authenticated user and inject as `UserInfo` to the current request. This is done by means of [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) interface that can be implemented as Spring bean as demonstrated in [Registering Global Parameter Providers](../java/request-contexts#global-providers).
+Hence, if you bring your own authentication, you've to transform the authenticated user and inject as `UserInfo` to the current request. This is done by means of [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) interface that can be implemented as Spring bean as demonstrated in [Registering Global Parameter Providers](../java/event-handlers/request-contexts#global-providers).
 More frequently you might have the requirement to just adapt the request's `UserInfo` which is possible with the same interface:
 
 
@@ -235,7 +273,7 @@ In the example, the `CustomUserInfoProvider` defines an overlay on the default X
 By default, CAP Java creates a security configuration, which accepts _mock users_ for test purposes.
 #### Preconfigured Mock Users
 
-For convenience, the runtime creates default mock users reflecting the [pseudo roles](../guides/authorization#pseudo-roles). They are named `authenticated`, `system` and `privileged` and can be used with an empty password. For instance, requests sent during a Spring MVC unit test with annotation `@WithMockUser("authenticated")` will pass authorization checks that require `authenticated-user`. The privileged user will pass any authorization checks. `cds.security.mock.defaultUsers = false` prevents the creation of default mock users at startup.
+For convenience, the runtime creates default mock users reflecting the [pseudo roles](../guides/security/authorization#pseudo-roles). They are named `authenticated`, `system` and `privileged` and can be used with an empty password. For instance, requests sent during a Spring MVC unit test with annotation `@WithMockUser("authenticated")` will pass authorization checks that require `authenticated-user`. The privileged user will pass any authorization checks. `cds.security.mock.defaultUsers = false` prevents the creation of default mock users at startup.
 
 #### Explicitly Defined Mock Users
 
@@ -334,27 +372,27 @@ CAP Java SDK provides a comprehensive authorization service. By defining authori
 
 It's recommended to configure authorization declaratively in the CDS model. If necessary, custom implementations can be built on the [Authorization API](#enforcement-api).
 
-A precise description of the general authorization capabilities in CAP can be found in the [Authorization](../guides/authorization) guide.
+A precise description of the general authorization capabilities in CAP can be found in the [Authorization](../guides/security/authorization) guide.
 
 ### Role-Based Authorization { #role-based-auth}
 
-Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
-More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/authorization#restrict-annotation) to find details about the possibilities.
+Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/security/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
+More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/security/authorization#restrict-annotation) to find details about the possibilities.
 
 
 ### Instance-Based Authorization { #instance-based-auth}
 
-Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/authorization#domain-driven-authorization) built on more complex model constraints.
+Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/security/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/security/authorization#domain-driven-authorization) built on more complex model constraints.
 
 #### Current Limitations
 
 The CAP Java SDK translates the `where`-condition in the `@restrict` annotation to a predicate, which is appended to the `CQN` statement of the request. This applies only to `READ`,`UPDATE`, and `DELETE` events. In the current version, the following limitations apply:
 * For `UPDATE` and `DELETE` events no paths in the `where`-condition are supported.
-* Paths in `where`-conditions with `to-many` associations or compositions can only be used with an [`exists` predicate](../guides/authorization#exists-predicate).
+* Paths in `where`-conditions with `to-many` associations or compositions can only be used with an [`exists` predicate](../guides/security/authorization#exists-predicate).
 * `UPDATE` and `DELETE` requests that address instances that aren't covered by the condition (for example, which aren't visible) aren't rejected, but work on the limited set of instances as expected.
 As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
 
-CAP Java SDK supports [User Attribute Values](../guides/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
+CAP Java SDK supports [User Attribute Values](../guides/security/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
 
 ### Enforcement API & Custom Handlers { #enforcement-api}
 
@@ -379,14 +417,14 @@ The most helpful getters in `UserInfo` are listed in the following table:
 | :---------------------------------------------------- | :----------------------------------------------------- |
 | `getName()`  | Returns the unique (logon) name of the user as configured in the IdP. Referred by `$user` and `$user.name`. |
 | `getTenant()` | Returns the tenant of the user. |
-| `isSystemUser()` | Indicates whether the request has been initiated by a technical service. Refers to [pseudo-role](../guides/authorization#pseudo-roles) `system-user`. |
-| `isAuthenticated()` | True if the current user has been authenticated. Refers to [pseudo-role](../guides/authorization#pseudo-roles) `authenticated-user`. |
+| `isSystemUser()` | Indicates whether the request has been initiated by a technical service. Refers to [pseudo-role](../guides/security/authorization#pseudo-roles) `system-user`. |
+| `isAuthenticated()` | True if the current user has been authenticated. Refers to [pseudo-role](../guides/security/authorization#pseudo-roles) `authenticated-user`. |
 | `isPrivileged()` |  Returns `true` if the current user runs in privileged (that is, unrestricted) mode |
 | `hasRole(String role)` | Checks if the current user has the given role. |
 | `getRoles()` | Returns the roles of the current user |
 | `getAttributeValues(String attribute)` | Returns the value list of the given user attribute. Referred by `$user.<attribute>`. |
 
-It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](./request-contexts) for more details.
+It's also possible to modify the `UserInfo` object for internal calls. See section [Request Contexts](./event-handlers/request-contexts) for more details.
 For instance, you might want to run internal service calls in privileged mode that bypasses authorization checks:
 
 ```java

@@ -1,5 +1,5 @@
 import { UserConfig, DefaultTheme } from 'vitepress'
-import type { LanguageInput, IRawGrammar } from 'shikiji'
+import type { LanguageInput, RawGrammar } from 'shiki'
 import { join, resolve } from 'node:path'
 import { promises as fs } from 'node:fs'
 import { URL } from 'node:url'
@@ -15,15 +15,15 @@ export type CapireThemeConfig = DefaultTheme.Config & {
   }
 }
 
-const base =  process.env.GH_BASE || '/docs/'
+const base =  process.env.GH_BASE || '/docs'
 const siteURL = new URL(process.env.SITE_HOSTNAME || 'http://localhost:4173/docs')
 if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.6.1',
-  java_cds4j: '2.6.1'
+  java_services: '2.7.1',
+  java_cds4j: '2.7.1'
 }
 
 const localSearchOptions = {
@@ -77,12 +77,12 @@ const menu = sidebar()
 const nav = nav4(menu) as DefaultTheme.NavItem[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
-  const grammar:IRawGrammar = JSON.parse(src.toString())
+  const grammar:RawGrammar = JSON.parse(src.toString())
   return { name, aliases: [name, alias], ...grammar }
 }
 
 const config:UserConfig<CapireThemeConfig> = {
-  title: 'CAPire',
+  title: 'cap≽ire',
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
   srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
@@ -91,16 +91,13 @@ const config:UserConfig<CapireThemeConfig> = {
     // IMPORTANT: Don't use getters here, as they are called again and again!
     sidebar: menu,
     nav: [
-      nav.find(i => i.text === 'Getting Started'),
-      nav.find(i => i.text === 'Cookbook'),
-      { text: 'More...', items: [
-        { text: 'Advanced',  link: '/advanced/' },
-        { text: 'Plugins',   link: '/plugins/' },
-        { text: 'Tools',     link: '/tools/' },
-        { text: 'CDS',       link: '/cds/' },
-        { text: 'Java',      link: '/java/' },
-        { text: 'Node.js',   link: '/node.js/' },
-      ]},
+      Object.assign(nav.find(i => i.text === 'Getting Started')!, {text:'Get Started'}),
+      Object.assign(nav.find(i => i.text === 'Cookbook')!, {text:'Guides'}),
+      nav.find(i => i.text === 'CDS'),
+      nav.find(i => i.text === 'Node'),
+      nav.find(i => i.text === 'Java'),
+      nav.find(i => i.text === 'Tools'),
+      nav.find(i => i.text === 'Plugins'),
     ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {

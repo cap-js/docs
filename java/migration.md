@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
 <script setup>
   import Cds4j from './components/Cds4jLink.vue'
@@ -63,7 +62,7 @@ Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring S
 
 Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
 
-CAP Java 2.0 itself requires updated [dependency versions](./development/#dependencies-version-2) of:
+CAP Java 2.0 itself requires updated [dependency versions](./versions#dependencies-version-2) of:
 - `@sap/cds-dk`
 - `@sap/cds-compiler`
 - XSUAA library
@@ -111,7 +110,7 @@ The interfaces <Cds4j link="ql/cqn/CqnLimit.html">CqnLimit</Cds4j> and <Cds4j li
 #### Statement Modification {#modification}
 
 ##### Removal of Deprecated CqnModifier
-The deprecated <Cds4j link="ql/cqn/CqnModifier.html">CqnModifier</Cds4j>, whose default methods make expensive copies of literal values, is removed. Instead, use the <Cds4j latest link="ql/cqn/Modifier.html">Modifier</Cds4j> as documented in [Modifying CQL Statements](query-api#copying-modifying-cql-statements).
+The deprecated <Cds4j link="ql/cqn/CqnModifier.html">CqnModifier</Cds4j>, whose default methods make expensive copies of literal values, is removed. Instead, use the <Cds4j latest link="ql/cqn/Modifier.html">Modifier</Cds4j> as documented in [Modifying CQL Statements](working-with-cql/query-api#copying-modifying-cql-statements).
 
 If your modifier overrides one or more of the `CqnModifier:literal` methods that take `value` and `cdsType` as arguments, override `Modifier:literal(CqnLiteral<?> literal)` instead. You can create new values using `CQL.val(value).type(cdsType);`.
 
@@ -304,7 +303,7 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 #### Immutable Values
 
-The implementations of `Value` are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
+The implementations of `Value` are now immutable. This change makes [copying & modifying CQL statements](./working-with-cql/query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
 
 Changing the type of a value via `Value::type` now returns a new (immutable) value or throws an exception if the type change is not supported:
 
@@ -317,7 +316,7 @@ Value<String>   string = number.type(CdsBaseType.STRING); // number is unchanged
 
 In CDS QL, a [reference](../cds/cxn#references) (_ref_) identifies an entity set or element of a structured type. References can have multiple segments and ref segments can have filter conditions.
 
-The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
+The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This change makes [copying & modifying CQL statements](./working-with-cql/query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
 
 ##### - Set alias or type
 
@@ -347,7 +346,7 @@ With CAP Java 2.0, `null` values are not removed from the result of CDS QL queri
 
 #### Result of Updates Without Matching Entity
 
-The `Result` rows of CDS QL Updates are not cleared anymore if no entity was updated. To find out if the entity has been updated, check the [update count](./query-api#update):
+The `Result` rows of CDS QL Updates are not cleared anymore if no entity was updated. To find out if the entity has been updated, check the [update count](./working-with-cql/query-api#update):
 
 ```Java
 CqnUpdate update = Update.entity(BOOKS).entry(book); // w/ book: {ID: 0, stock: 3}
@@ -356,7 +355,7 @@ Result result = service.run(update);
 long updateCount = result.rowCount(); // 0 matches with ID 0
 ```
 
-For batch updates use `Result::rowCount` with the [batch index](./query-execution#batch-execution):
+For batch updates use `Result::rowCount` with the [batch index](./working-with-cql/query-execution#batch-execution):
 
 ```Java
 // books: [{ID: 251, stock: 11}, {ID: 252, stock: 7}, {ID: 0, stock: 3}]
@@ -427,7 +426,7 @@ We strongly recommend adopting the new CAP Java SDK when starting a new project.
 
 ### OData Protocol Version
 
-The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](architecture#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
+The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](./developing-applications/building#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
 
 ::: tip
 By default, the CAP Java Runtime comes with protocol adapters for OData V4 and [OData V2 (Beta)](#v2adapter). Therefore, you can migrate your frontend code to new CAP Java SDK without change. In addition, you have the option to move from SAP Fiori Elements V2 to SAP Fiori Elements V4 at any time.
@@ -641,7 +640,7 @@ The new CAP Java SDK introduces new annotations for event handlers. Replace even
 | `@AfterDelete(entity = "yourEntityName")` | `@After(event = CqnService.EVENT_DELETE, entity = "yourEntityName")` |
 
 ::: tip
-The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](query-introspection#using-the-iterator) in custom code.
+The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](./working-with-cql/query-introspection#using-the-iterator) in custom code.
 :::
 
 ##### Event Handler Signatures
@@ -667,7 +666,7 @@ You can also get your entities injected by adding an additional argument with on
 - `java.util.stream.Stream<yourEntityType>`
 - `java.util.List<yourEntityType>`
 
-[See section **Event Handler Method Signatures** for more details.](provisioning-api#handlersignature){.learn-more}
+[See section **Event Handler Method Signatures** for more details.](event-handlers#handlersignature){.learn-more}
 
 Also replace the classic handler return types with the corresponding new implementation:
 
@@ -717,7 +716,7 @@ The method annotated with `@EndTransaction` was invoked after all the operations
 
 The new CAP Java SDK doesn't support these annotations anymore. Instead, it supports registering a `ChangeSetListener` at the `ChangeSetContext` supporting hooks for `beforeClose` and `afterClose`.
 
-[See section **Reacting on ChangeSets** for more details.](changeset-contexts#reacting-on-changesets){.learn-more}
+[See section **Reacting on ChangeSets** for more details.](./event-handlers/changeset-contexts#reacting-on-changesets){.learn-more}
 
 To replace the `@InitTransaction` handler, you can use the `beforeClose` method, instead. This method is called at the end of the transaction and can be used, for example, to validate incoming data across multiple requests in an OData batch *before* the transaction is committed. It's possible to cancel the transaction in this phase by throwing an `ServiceException`.
 
@@ -725,15 +724,14 @@ The CAP Java SDK sample application shows how such a validation using the `Chang
 
 Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
-[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){.learn-more}
+[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers#before){.learn-more}
 
 
-<!--- Migrated: @external/java/900-Migration/04-security.md -> @external/java/migration/security.md -->
 ### Security Settings
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/security/authorization). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 
@@ -820,7 +818,6 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 <span id="moreenforcement" />
 
 
-<!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
 ### Data Access and Manipulation
 
 There are several ways of accessing data. The first and most secure way is to use the Application Service through an `CqnService` instance. The second is to use `PersistenceService`, in that case the query execution is done directly against underlying datasource, bypassing all authority checks available on service layer. The third one is to use CDS4J component called `CdsDataStore`, which also executes queries directly.
@@ -835,7 +832,7 @@ To access an Application Service in custom handler and to execute queries, perfo
 	@Resource(name = "CatalogService")
 	private CqnService catalogService;
 ```
-[See section **Services Accepting CQN Queries** for more details.](consumption-api#cdsservices){.learn-more}
+[See section **Services Accepting CQN Queries** for more details.](cqn-services#cdsservices){.learn-more}
 
 2) In each custom handler, replace instance of `DataSourceHandler` as well as `CDSDataSourceHandler` with the `CqnService` instance.
 
@@ -869,7 +866,7 @@ Select query =  Select.from("CatalogService.Books")
 catalogService.run(query);
 ```
 
-[See section **Query Builder API** for more details.](./query-api){.learn-more}
+[See section **Query Builder API** for more details.](./working-with-cql/query-api){.learn-more}
 
 4) Rewrite and execute the CRUD operations (if any).
 
@@ -882,7 +879,7 @@ catalogService.run(query);
 
 As you can see in *New CAP Java SDK* it's possible to either directly execute a CQN of the event, or you can construct and execute your own custom query.
 
-[See section **Query Builder API** for more details.](./query-api){.learn-more}
+[See section **Query Builder API** for more details.](./working-with-cql/query-api){.learn-more}
 
 #### Accessing `PersistenceService`
 
@@ -893,7 +890,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./consumption-api#persistenceservice){.learn-more}
+[See section **Persistence API** for more details.](./cqn-services#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 
@@ -1036,7 +1033,7 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	</dependency>
 	```
 
-4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./application-services#serve-configuration) for more details.
+4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
 
 After rebuilding and restarting your application, your Application Services are exposed as OData V2 and OData V4 in parallel. This way, you can migrate your frontend code iteratively to OData V4.
 

@@ -6,7 +6,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
-<!--- Migrated: @external/guides/53-Temporal-Data/index.md -> @external/guides/temporal-data/index.md -->
 
 # Temporal Data
 
@@ -267,7 +266,7 @@ entity Departments : temporal {/*...*/}
 When reading employees with all history since 2016, for example:
 
 ```cds
-GET Employees?$sap-valid-from=date'2016-01-01'
+GET Employees?sap-valid-from=date'2016-01-01'
 $expand=jobs(
   $select=validFrom,role&$expand=dept(
     $select=validFrom,name

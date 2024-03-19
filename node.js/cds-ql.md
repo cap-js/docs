@@ -825,7 +825,7 @@ DELETE.from('Books').where ({stock:{'<':1}})
 ### from() {.method #delete-from}
 
 ```tsx
-function SELECT.from (
+function DELETE.from (
    entity : string | CSN definition | tagged template string,
    key?   : string | number | object
 )

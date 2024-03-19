@@ -227,7 +227,7 @@ All objects of a linked model containing CSN definitions are instances of this c
 For example, that applies to:
 
 - *`cds.model` [.definitions](#definitions), [.services](#services), [.entities](#entities)*
-- *`cds.service` [.entities](#entities-1), [.events](#events-1), [.actions](#actions-1)*
+- *`cds.service` [.entities](#entities-1), [.events](#events), [.actions](#actions-1)*
 - *`cds.entity`  [.keys](#keys), [.associations](#associations), [.compositions](#compositions), [.actions](#actions)*
 - *`cds.struct` [.elements](#elements)* (hence also *`cds.entity` .elements*)
 - *`cds.Association` [.foreignKeys](#foreignkeys)*

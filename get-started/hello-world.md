@@ -156,5 +156,3 @@ mvn cds:watch
 <http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
 
 You should see the value "Hello world!" being returned.
-
-<!--- % include links.md %} -->

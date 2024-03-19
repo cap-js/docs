@@ -1,5 +1,3 @@
-import * as path from 'path'
-
 // see https://vitepress.dev/guide/routing#dynamic-routes for how this works
 export default {
   async paths() {

@@ -13,11 +13,6 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
-<!--- Migrated: @external/java/355-Outbox/01-service.md -> @external/java/outbox/service.md -->
 ## Concepts
 
 Usually the emit of messages should be delayed until the main transaction succeeded, otherwise recipients also receive messages in case of a rollback.

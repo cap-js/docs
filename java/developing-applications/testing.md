@@ -24,7 +24,7 @@ Typical areas that require testing are the [services](../cqn-services#cdsservice
 Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
 :::
 
-## Sample Testee
+## Sample Tests
 
 To illustrate this, the following examples demonstrate some of the recommended ways of testing. All the examples are taken from the [CAP Java bookshop sample project](https://github.com/SAP-samples/cloud-cap-samples-java/) in a simplified form, so definitely have a look at this as well.
 

@@ -229,7 +229,8 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 
 ## Reacting on Changes
 
-You can write the event handler to observe the change log entries.
+You can write the event handler to observe the change log entries. Keep in mind, that the change log entries 
+are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
 
 ```java
 import cds.gen.sap.changelog.Changes;
@@ -248,7 +249,7 @@ public class ChangeTrackingHandler implements EventHandler {
 }
 ```
 
-Also, you can query the change log entries via CQN statements, as usual.
+You can query the change log entries via CQN statements, as usual.
 
 ## Things to Consider when Using Change Tracking
 

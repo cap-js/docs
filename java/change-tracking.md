@@ -18,7 +18,7 @@ to the remote services aren't tracked.
 
 ## Enabling Change Tracking
 
-To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `pom.xml` file of your service:
+- To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `pom.xml` file of your service:
 
 ```xml
 <dependency>
@@ -28,10 +28,12 @@ To use the change tracking feature, you need to add a dependency to [cds-feature
 </dependency>
 ```
 
-Your POM must also include the goal to resolve the CDS model delivered from the feature. 
+- Your POM must also include the goal to resolve the CDS model delivered from the feature. 
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
-For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/dec23#on-the-fly-localization-of-edmx).
+- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/dec23#on-the-fly-localization-of-edmx).
+
+- If you use the Fiori Elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 
 ### Annotating Entities
 
@@ -224,6 +226,29 @@ the root of the change is an order.
 :::warning Prefer deep updates for change tracked entities
 If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
 :::
+
+## Reacting on Changes
+
+You can write the event handler to observe the change log entries.
+
+```java
+import cds.gen.sap.changelog.Changes;
+
+@Component
+@ServiceName("ChangeTrackingService$Default")
+public class ChangeTrackingHandler implements EventHandler {
+
+	@After(event = "createChanges")
+	void afterCreate(EventContext context) {
+		var result = (Result) context.get("result");
+		result.listOf(Changes.class).forEach(c -> {
+          // Do something with the change log entry
+		});
+	}
+}
+```
+
+Also, you can query the change log entries via CQN statements, as usual.
 
 ## Things to Consider when Using Change Tracking
 

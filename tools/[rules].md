@@ -10,6 +10,7 @@ status: released
 </script>
 
 
-# CDS Lint Rules
+# Rules Reference
 
+<!-- Next line is important, see [rules].paths.ts for how this works -->
 <!-- @content -->

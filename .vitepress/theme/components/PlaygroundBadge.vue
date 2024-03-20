@@ -72,6 +72,11 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
 }
 
+// --- Start logic from https://github.com/ota-meshi/eslint-online-playground ---
+//
+// The following functions used in the above playground source code. We use them to compress
+// our example lint file sources into a URL that takes us to that playground.
+
 function compress(sources: any): string {
   try {
     return utoa(JSON.stringify(sources));
@@ -146,6 +151,7 @@ function toLinesObject(
     ];
   }
 }
+// --- End logic from https://github.com/ota-meshi/eslint-online-playground ---
 </script>
 
 <template>

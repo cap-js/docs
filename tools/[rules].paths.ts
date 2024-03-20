@@ -17,16 +17,27 @@ async function getRules() {
 
     console.debug('Reading CDS Lint sources...')
     let result = `Below you can find all rules in the \`@sap/eslint-plugin-cds\` ESLint plugin.
-  
-For more information or examples on a particular rule, simply click on the rule of interest to navigate to its details page.
-  
-> [!TIP]
-> Rules in ESLint are grouped by type to help you understand their purpose:
-> * ✅  **Recommeded**: If the plugin's *recommended* configuration enables the rule
-> * 🔧  **Fixable**: If problems reported by the rule are automatically fixable (--fix)
-> * 💡  **Has Suggestions**: If problems reported by the rule are manually fixable (editor)
+    
+They are grouped by type, *Model Validation* or *Environment* to help you understand their purpose.
 
-<RulesRefTable/>`
+## Model Validation
+
+> [!TIP]
+> ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
+> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (--fix)<br>
+> 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable (editor)
+> ♻️ &nbsp; **Parsed Model**: If the rule is shown and rerun on file changes (editor)
+
+<RulesRefTable category="Model Validation"/>
+
+## Environment
+
+> [!TIP]
+> ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
+> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (--fix)<br>
+> 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable (editor)
+
+<RulesRefTable category="Environment"/>`
 
     return result
   } catch (e) {

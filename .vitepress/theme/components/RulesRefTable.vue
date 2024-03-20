@@ -1,19 +1,25 @@
+<script setup lang="ts">
+    interface Props {
+      category: "Model Validation" | "Environment" | undefined;
+    }
+    // @ts-ignore
+    withDefaults(defineProps<Props>(), {})
+</script>
+
 <script lang="ts">
     // @ts-ignore
     import { data } from '../../../tools/rules.data.ts';
 
     export default {
         data() {
-            return {
-                data
-            }
+            return data;
         }
     }
 </script>
 
 <template>
     <table class="ref-table">
-        <tr v-for="entry in data">
+        <tr v-for="entry in data[category]">
             <td class="col-prop">
                 <text class="text-prop">{{ entry.isRecommended }}</text>
             </td>
@@ -25,6 +31,11 @@
             <td class="col-prop">
                 <text class="text-prop">
                     {{ entry.hasSuggestions }}
+                </text>
+            </td>
+            <td class="col-prop" v-if="category !== 'Environment'">
+                <text class="text-prop">
+                    {{ entry.model }}
                 </text>
             </td>
             <td class="col-rule">

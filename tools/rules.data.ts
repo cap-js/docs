@@ -5,9 +5,10 @@ process.env.SILENT = 'true'
 
 export default {
   async load() {
-    const data: any = [];
+    const data: any = { "Model Validation": [], "Environment": [] };
     let plugin: any;
       try {
+        // @ts-ignore
         plugin = await import('@sap/eslint-plugin-cds');
       } catch (e) {
         return data
@@ -23,8 +24,9 @@ export default {
         const isRecommended = plugin?.rules[rule]?.meta.docs.recommended ? '✅' : '';
         const hasFix = plugin?.rules[rule]?.meta.fixable ? '🔧' : '';
         const hasSuggestions = plugin?.rules[rule]?.meta.hasSuggestions ? '💡' : '';
-        
-        data.push({ rule, description, url, isRecommended, hasFix, hasSuggestions })
+        const model = plugin?.rules[rule]?.meta?.model === 'parsed' ? '♻️' : '';
+        const category = plugin?.rules[rule]?.meta?.model === 'none' ? "Environment" : "Model Validation";
+        data[category].push({ rule, description, url, isRecommended, hasFix, hasSuggestions, model })
       })  
     return data;
   }

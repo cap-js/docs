@@ -117,7 +117,7 @@ As a pre-requisite for destination lookup in subscriber accounts, the CAP applic
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 
 ### Service Binding Configuration
-If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over destination-based _Remote Services_ is the simpler usage. There is no need to externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
+If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over service-binding-based _Remote Services_ is the simpler usage. There is no need to manually externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
 
 In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
 

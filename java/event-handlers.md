@@ -2,7 +2,7 @@
 synopsis: >
   This section describes how to register event handlers on services. In CAP everything that happens at runtime is an event that is sent to a service.
   With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
-redirect_from: 
+redirect_from:
 - java/srv-impl
 - java/provisioning-api
 status: released
@@ -149,6 +149,24 @@ In case the synchronous event has a return value the `setResult(...)` method of 
 ```java
 context.setResult(myResult);
 ```
+
+### Explicitly proceeding the On handler execution { #proceed-on }
+
+An event handler registered to the [`On`](#on) phase can call `proceed()` on the Event Context to explicitly proceed execution with the remaining registered [`On`](#on) handlers.
+This allows the handler to pre- and post-process the Event Context in a single method, without fully overwriting the core processing of the event.
+It also enables catching and handling exceptions thrown by an underlying handler.
+
+```java
+@On(event = "myEvent")
+void wrapMyEvent(EventContext context) {
+    context.put("param", "Adjusted"); // pre-process
+    context.proceed(); // delegate to underlying handler
+    context.put("result", 42); // post-process
+}
+```
+
+Calling `proceed()` from an [`Before`](#before) or [`After`](#after) event handler is not allowed and will raise an exception.
+If an [`On`](#on) handler has already [completed](#eventcompletion) the event processing, calling `proceed()` does not have any effects.
 
 ### Defining Custom EventContext Interfaces { #customeventcontext}
 

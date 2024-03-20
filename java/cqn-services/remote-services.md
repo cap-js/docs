@@ -134,7 +134,7 @@ cds:
 
 `shared-xsuaa` is the name of the xsuaa service instance both CAP applications are bound to. 
 
-While service bindings typically only provide authentication details, they don´t provide the concrete authentication strategy (e.g. technical/system user or named user flow). Specifically xsuua instances also don´t expose the URL to the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
+While service bindings typically only provide authentication details, they don´t provide the concrete authentication strategy (e.g. technical/system user or named user flow). Specifically xsuaa instances also don´t expose the URL to the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
 
 The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user that is bound to the current Request Context will be used. Regardless if this is a technical/system or named user. The property is optional with default value `currentUser`. Other options are `systemUser`and `systemUserProvider` which allow an explicit switch to a technical user in the current tenant respectively the provider tenant. `systemUserProvider` can be especially used if you need to establish an internal communication channel that is not accessible for subscriber tenants.
 

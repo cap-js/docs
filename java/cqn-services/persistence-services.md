@@ -137,13 +137,13 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### Configure the DDL generation
 
-Advise the CDS Compiler to generate tables without associations_, as they are not used by CAP Java. This also allows to generate fewer localized views:
+Advise the CDS Compiler to generate _tables without associations_, as they are not used by CAP Java. This also allows to generate _fewer localized views_:
 
 ::: code-group
 ```json [.cdsrc.json]
 { 
   "cdsc": { 
-		"withHanaAssociations" : false,
+    "withHanaAssociations" : false,
     "fewerLocalizedViews": true 
   } 
 }
@@ -282,10 +282,10 @@ You have the following configuration options:
 ::: code-group
 ```json [.cdsrc.json]
 {
-    "cdsc": {
-        "betterSqliteSessionVariables": true,
-        "fewerLocalizedViews": true
-    }
+  "cdsc": {
+      "betterSqliteSessionVariables": true,
+      "fewerLocalizedViews": true
+  }
 }
 ```
 :::

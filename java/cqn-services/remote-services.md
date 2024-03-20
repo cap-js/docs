@@ -16,7 +16,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 {{ $frontmatter.synopsis }}
 
 
-[Remote Services](consumption-api#remote-services) accept CQN statements and transform these into API calls on remote endpoints. The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
+The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
 The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 
 Cross-cutting aspects like security are provided by configuration. Applications do not need to provide additional code. The CAP Java SDK leverages the [SAP Cloud SDK](https://sap.github.io/cloud-sdk) and in particular its destination capabilities to cover these aspects. 

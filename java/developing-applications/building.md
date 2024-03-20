@@ -14,34 +14,34 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
   }
 </style>
 
-One of the key [CAP design principles](../../about/#open-and-opinionated) is to be an opinionated but yet open framework. 
+One of the key [CAP design principles](../../about/#open-and-opinionated) is to be an opinionated but yet open framework.
 Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java runtime stack.
 The [modular architecture](#modular_architecture) reflects this requirement, allowing a fine-grained and flexible [configuration](#stack_configuration) based on standard or custom modules.
-  
+
 ## Modular Stack Architecture { #modular_architecture}
 
 ### Overview
 
-One of the basic design principle of the CAP Java is to keep orthogonal functionality separated in independent components. 
+One of the basic design principle of the CAP Java is to keep orthogonal functionality separated in independent components.
 The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
-Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services. 
+Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services.
 Hence, the application is [platform **and** service agnostic](../../about/#agnostic-approach).
 
-For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](../working-with-cqn/../working-with-cql/query-api). 
-Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded. 
+For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](../working-with-cqn/../working-with-cql/query-api).
+Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded.
 Consequently, preparing an application to be deployable in different platform contexts is rather a matter of configuration than of code adaption.
 
 Consequently, CAP Java doesn't determine the technology the application is built on.
-But it comes with a chosen set of industry-proven frameworks that can be consumed easily. 
+But it comes with a chosen set of industry-proven frameworks that can be consumed easily.
 Nevertheless, you can override the defaults separately depending on the demands in your scenario.
 
-Moreover, the fine-grained modularization allows you to assemble a minimum set of components, which is necessary to fulfill the application-specific requirements. 
+Moreover, the fine-grained modularization allows you to assemble a minimum set of components, which is necessary to fulfill the application-specific requirements.
 This reduces resource consumption at runtime as well as maintenance costs significantly.
 
-Another helpful result of the described architecture is that it simplifies local testing massively. 
-Firstly, as components are coupled weakly, you can define the actual test scope precisely and concentrate on the parts that need a high test coverage. 
+Another helpful result of the described architecture is that it simplifies local testing massively.
+Firstly, as components are coupled weakly, you can define the actual test scope precisely and concentrate on the parts that need a high test coverage.
 Components outside of the test scope are replaceable with mocks, which ideally simulate all the possible corner cases.
-Alternatively, you can even configure test on integration level to be executed locally if you replace all dependencies to remote services by local service providers. 
+Alternatively, you can even configure test on integration level to be executed locally if you replace all dependencies to remote services by local service providers.
 A common example for this is to run the application locally on H2 instead of SAP HANA.
 
 The following diagram illustrates the modular stack architecture and highlights the generic components:
@@ -59,76 +59,76 @@ You can recognize five different areas of the stack, which comprise components a
 
 ### Application Framework { #application-framework}
 
-Before starting the development of a new CAP-based application, an appropriate application framework to build on needs to be chosen. 
+Before starting the development of a new CAP-based application, an appropriate application framework to build on needs to be chosen.
 The architecture of the chosen framework not only has a strong impact on the structure of your project, but it also affects efforts for maintenance as well as support capabilities.
-The framework provides the basis of your web application in terms of a runtime container in which your business code can be embedded and executed. 
+The framework provides the basis of your web application in terms of a runtime container in which your business code can be embedded and executed.
 This helps to separate your business logic from common tasks like processing HTTP/REST endpoints including basic web request handling.
-Typically, a framework also provides you with a rich set of generic tools for recurring tasks like configuration, localization, or logging. 
+Typically, a framework also provides you with a rich set of generic tools for recurring tasks like configuration, localization, or logging.
 In addition, some frameworks come with higher-level concepts like dependency injection or sophisticated testing infrastructure.
 
-CAP Java positions [Spring](https://spring.io) or more precisely [Spring Boot](https://spring.io/projects/spring-boot) as the first choice application framework, which is seamlessly integrated. 
-Spring comes as a rich set of industry-proven frameworks, libraries, and tools that greatly simplify custom development. 
+CAP Java positions [Spring](https://spring.io) or more precisely [Spring Boot](https://spring.io/projects/spring-boot) as the first choice application framework, which is seamlessly integrated.
+Spring comes as a rich set of industry-proven frameworks, libraries, and tools that greatly simplify custom development.
 Spring Boot also allows the creation of self-contained applications that are easy to configure and run.
 
-As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, thus you aren't obligated to build on Spring. 
-In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies. 
-In this case, a solution based on plain Java Servlets could be favorable. 
+As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, thus you aren't obligated to build on Spring.
+In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies.
+In this case, a solution based on plain Java Servlets could be favorable.
 Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
 
 
 ### Protocol Adapters { #protocol-adapters}
 
 
-The CAP runtime is based on an [event](../../about/#events) driven approach. 
-Generally, [Service](../../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../../guides/providing-services#event-handlers). 
-During execution, services can send events to other service providers and consume the results. 
-The native query language in CAP is [CQN](../../cds/cqn), which is accepted by all services that deal with data query and manipulation. 
-Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../../about/#querying)) afterwards. 
-Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram. 
-Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java. 
-Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones. 
+The CAP runtime is based on an [event](../../about/#events) driven approach.
+Generally, [Service](../../about/#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../../guides/providing-services#event-handlers).
+During execution, services can send events to other service providers and consume the results.
+The native query language in CAP is [CQN](../../cds/cqn), which is accepted by all services that deal with data query and manipulation.
+Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../../about/#querying)) afterwards.
+Mapping the ingress protocol to CQN essentially summarizes the task of protocol adapters depicted in the diagram.
+Most prominent example is the [OData V4](https://www.odata.org/documentation/) protocol adapter, which is fully supported by the CAP Java.
+Further HTTP-based protocols can be added in future, but often applications require specific protocols, most notably [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) ones.
 Such application-specific protocols can easily be implemented by means of Spring RestControllers.
 
-The modular architecture allows to add custom protocol adapters in a convenient manner, which can be plugged into the stack at runtime. 
+The modular architecture allows to add custom protocol adapters in a convenient manner, which can be plugged into the stack at runtime.
 Note that different endpoints can be served by different protocol adapters at the same time.
 
 
 ### Service Providers { #service-providers}
 
-Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../about/#domain-modeling). 
-Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface. 
-As described in CAPs [core concepts](../../about/#services), services share the same generic provider interface and are implemented by event handlers. 
-The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model. 
-In addition, technical services are offered such as the [Persistence Service](../cqn-services#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
+Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../about/#domain-modeling).
+Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface.
+As described in CAPs [core concepts](../../about/#services), services share the same generic provider interface and are implemented by event handlers.
+The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model.
+In addition, technical services are offered such as the [Persistence Service](../cqn-services/#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
 
-In case the generic handler implementation of a specific service doesn't match the requirements, you can extend or replace it with custom handler logic that fits your business needs. 
-See section [Event Handlers](../event-handlers) for more details.
+In case the generic handler implementation of a specific service doesn't match the requirements, you can extend or replace it with custom handler logic that fits your business needs.
+See section [Event Handlers](../event-handlers/) for more details.
 
 
 ### CQN Execution Engine { #cqn-execution-engine}
 
-The CQN execution engine is responsible for processing the passed CQN events and translating them to native statements that get executed in a target persistence service like SAP HANA, PostgreSQL or H2. 
+The CQN execution engine is responsible for processing the passed CQN events and translating them to native statements that get executed in a target persistence service like SAP HANA, PostgreSQL or H2.
 CQN statements can be built conveniently in a [fluent API](../working-with-cqn/../working-with-cql/query-api). In the future, additional targets can be added to the list of supported outbound sources.
 
 
 ### Application Features { #application-features}
 
-The CAP Java architecture allows **additional modules to be plugged in at runtime**. 
-This plugin mechanism makes the architecture open for future extensions and allows context-based configuration. 
-It also enables you to override standard behavior with custom-defined logic in all different layers. 
+The CAP Java architecture allows **additional modules to be plugged in at runtime**.
+This plugin mechanism makes the architecture open for future extensions and allows context-based configuration.
+It also enables you to override standard behavior with custom-defined logic in all different layers.
 Custom [plugins](../building-plugins) are automatically loaded by the runtime and can bring CDS models, CDS services, adapters or just handlers for existing services.
 
 ::: info
 Plugins are optional modules that adapt runtime behaviour.
 :::
 
-CAP Java makes use of the plugin technique itself to offer optional functionality. 
+CAP Java makes use of the plugin technique itself to offer optional functionality.
 Examples are [SAP Event Mesh](../messaging) and [Audit logging](../auditlog) integration.
 Find a full list of standard plugins in [Standard Modules](#standard-modules).
 
 ## Stack Configuration { #stack_configuration}
 
- As outlined in section [Modular Stack Architecture](#modular_architecture), the CAP Java runtime is highly flexible. 
+ As outlined in section [Modular Stack Architecture](#modular_architecture), the CAP Java runtime is highly flexible.
  You can choose among modules prepared for different environments and in addition also include plugins which are optional extensions.
  Which set of modules and plugins is active at runtime is a matter of compile time and runtime configuration.
 
@@ -140,9 +140,9 @@ Find a full list of standard plugins in [Standard Modules](#standard-modules).
 
 ### Module Dependencies
 
-All CAP Java modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds). 
+All CAP Java modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds).
 They've `groupId` `com.sap.cds`.
-Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds. 
+Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds.
 It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
 
 ```xml
@@ -167,7 +167,7 @@ It basically helps to control the dependency versions of the artifacts and shoul
 Importing `cds-services-bom` into the `dependencyManagement` of your project ensures that versions of all CAP modules are in sync.
 :::
 
-The actual Maven dependencies specified in your `pom` need to cover all modules that are required to run the web application: 
+The actual Maven dependencies specified in your `pom` need to cover all modules that are required to run the web application:
 - The application framework.
 - At least one protocol adapter (in case of inbound requests).
 - The CAP Java runtime.
@@ -217,7 +217,7 @@ We highly recommended to configure `cds-framework-spring-boot` as application fr
 It provides you with a lot of [integration with CAP](../spring-boot-integration#spring-boot-integration) out of the box, as well as enhanced features, such as dependency injection and auto configuration.
 :::
 
-Additional application features (plugins) you want to use can be added as additional dependencies. 
+Additional application features (plugins) you want to use can be added as additional dependencies.
 The following is required to make your application multitenancy aware:
 
 ```xml
@@ -231,10 +231,10 @@ The following is required to make your application multitenancy aware:
 </dependencies>
 ```
 
-Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*. 
-If a chosen feature misses the required environment at runtime, the feature won't be activated. 
+Choosing a feature by adding the Maven dependency *at compile time* enables the application to make use of the feature *at runtime*.
+If a chosen feature misses the required environment at runtime, the feature won't be activated.
 Together with the fact that all features have a built-in default implementation ready for local usage, you can run the application locally with the same set of dependencies as for productive mode.
-For instance, the authentication feature `cds-feature-hana` requires a valid `hana` binding in the environment. 
+For instance, the authentication feature `cds-feature-hana` requires a valid `hana` binding in the environment.
 Hence, during local development without this binding, this feature gets deactivated and the stack falls back to default feature adapted for H2.
 
 #### Standard Modules { #standard-modules }
@@ -360,7 +360,7 @@ It can be used in CAP Java projects to perform the following build tasks:
 - Generate Java classes for type-safe access
 - Clean a CAP Java project from artifacts of the previous build
 
-Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks. 
+Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks.
 To have an example on how you can modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
 See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} for more details.
@@ -386,14 +386,14 @@ You can provide this version by adding the following property to the `properties
 ```
 
 ::: warning
-Make sure to regularly update `@sap/cds-dk` according to [our guidance](../../releases/schedule). 
+Make sure to regularly update `@sap/cds-dk` according to [our guidance](../../releases/schedule).
 
 For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
 :::
 
 #### Maintaining cds-dk
 
-By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the installation of the `@sap/cds-dk`, if the `@sap/cds-dk` is already installed. 
+By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the installation of the `@sap/cds-dk`, if the `@sap/cds-dk` is already installed.
 To update the `@sap/cds-dk` version in your application project do the following:
 
 1. Specify a newer version of `@sap/cds-dk` in your *pom.xml* file.

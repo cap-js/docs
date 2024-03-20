@@ -15,7 +15,7 @@ status: released
 
 ## Rule Details
 
-`@restrict.grant` on service level and for bound/unbound actions and functions is limited to grant: '*'.
+`@restrict.grant` on service level and for bound/unbound actions and functions is limited to `grant: '*'`.
 
 ### Examples
 

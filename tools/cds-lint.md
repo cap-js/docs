@@ -71,9 +71,9 @@ It follows standard ESLint behaviour. If there are no lint errors, there is no o
 
 ### CDS Lint Rules
 
-The **CDS Lint** rules are a set of generic rules based on CAP best practices. A subset of these we consider most essential is part of the *recommended* configuration.
+The **CDS Lint** rules are a set of generic rules based on CAP best practices. 
 
-For a list of *all* rules, please refer to the [Rules Reference](rules).
+[See our Rules Reference page to find out more](rules){ .learn-more}
 
 
 

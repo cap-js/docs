@@ -17,7 +17,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 The CAP Java SDK supports _Remote Services_ for OData V2 and V4 APIs out of the box.
-The CQN query APIs enable [late-cut microservices](../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
+The CQN query APIs enable [late-cut microservices](../../guides/providing-services#late-cut-microservices) and simplified mocking capabilities. Regarding multitenant applications, these APIs keep you extensible, even towards remote APIs. In addition, they free developers from having to map CQN to OData themselves.
 
 Cross-cutting aspects like security are provided by configuration. Applications do not need to provide additional code. The CAP Java SDK leverages the [SAP Cloud SDK](https://sap.github.io/cloud-sdk) and in particular its destination capabilities to cover these aspects. 
 
@@ -93,7 +93,7 @@ If you're using the SAP BTP Destination Service, this is the name you used when 
 
 As a variant to the described scenario, it is possible to enable multi-tenant CAP applications to lookup the BTP Destination from the subaccount of the subscriber tenant instead of the subaccount in which the CAP application is deployed. This allows you to provide tenant-specific callbacks as extension use cases.
 
-The subscriber will deploy the extension for example as a dedicated CAP application in their subscriber account and store the necessary URL and credentials in a BTP destination in his subaccount.
+The subscriber will deploy the extension for example as a dedicated CAP application in its subscriber subaccount and store the necessary URL and credentials in a BTP destination in his subaccount.
 
 ```yaml
 cds:
@@ -107,14 +107,16 @@ cds:
 
 The additional parameter `retrievalStrategy: CurrentTenant` ensures that the destination will be looked up from the subscriber account if the tenant is correctly set in the Request Context.
 
+::: tip
 As a pre-requisite for destination lookup in subscriber accounts, the CAP application need to define a dependency to the Destination service for their subscriptions e.g. in the SaaS Registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
+:::
 
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 
 ### Service Binding Configuratiion
-Service Binding-based _Remote Services_ are the desired solution if the _Remote Service_ is running on the BTP. The CAP Java SDK will extract the relevant information from the service binding to connect to the _Remote Service_. Service binding-based _Remote Services_ have the advantage over destination-based _Remote Services_ of simpler usage. There is no need to externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
+If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over destination-based _Remote Services_ is the simpler usage. There is no need to externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
 
-In this scenario, the remote API is running as another micro service within the the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
+In the following example, the remote API is running as another CAP application within the the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
 
 ```yaml
 cds:
@@ -127,11 +129,11 @@ cds:
       url: https://url-of-the-second-cap-application
 ```
 
-In the given example, `shared-xsuaa` is the name of the xsuaa service instance both micro services are bound to. 
+`shared-xsuaa` is the name of the xsuaa service instance both CAP applications are bound to. 
 
-While service bindings typically only provide authentication details, they don´t provide the concrete authentication strategy (e.g. technical/system user or named user flow). Specifically xsuua instances also don´t expose the URL to the _Remote Service_. Thus, this information need to be explicitly defined in the configuration of the _Remote Service_.
+While service bindings typically only provide authentication details, they don´t provide the concrete authentication strategy (e.g. technical/system user or named user flow). Specifically xsuua instances also don´t expose the URL to the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
 
-The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user that is bound to the current Request Context will be used regardless if this is a technical/system or named user. The property is optional with default value `currentUser`. Other options are `systemUser`and `systemUserProvider` which allow an explicit switch to a technical user in the current tenant respectively the provider tenant. `systemUserProvider` can be especially used if you need to establish an internal communication channel that is not accessible for subscriber tenants.
+The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user that is bound to the current Request Context will be used. Regardless if this is a technical/system or named user. The property is optional with default value `currentUser`. Other options are `systemUser`and `systemUserProvider` which allow an explicit switch to a technical user in the current tenant respectively the provider tenant. `systemUserProvider` can be especially used if you need to establish an internal communication channel that is not accessible for subscriber tenants.
 
 As the URL typically is not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
 
@@ -236,6 +238,50 @@ Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and
 
 ## Additional Cloud SDK Integration
 
+### SAP Cloud SDK Dependencies {#cloud-sdk-dependencies}
+
+The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out of the box.
+In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
+
+It's recommended to add the SAP Cloud SDK BOM to the dependency management section of your application's parent POM.
+If you are also using the CDS Services BOM or the Spring Boot dependencies BOM, it's recommended to add the SAP Cloud SDK BOM after these:
+
+```xml
+<dependencyManagement>
+    <!-- CDS Services BOM -->
+    <!-- Spring Boot dependencies BOM -->
+    <dependencies>
+        <dependency>
+            <groupId>com.sap.cloud.sdk</groupId>
+            <artifactId>sdk-bom</artifactId>
+            <version>use-latest-version-here</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies/){.learn-more}
+
+To enable [programmatic destination registration](#programmatic-destination-registration), add this additional dependency to your project:
+
+```xml
+<dependency>
+    <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+    <artifactId>cloudplatform-connectivity</artifactId>
+</dependency>
+```
+
+To integrate with SAP BTP Destination Service on Cloud Foundry, add this additional dependency to your project:
+
+```xml
+<dependency>
+    <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+    <artifactId>scp-cf</artifactId>
+</dependency>
+```
+
 ### Configuring Destination Strategies { #destination-strategies }
 
 When loading destinations from SAP BTP Destination Service, you can specify a [destination retrieval strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#retrieval-strategy-options) and a [token exchange strategy](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service#token-exchange-options).
@@ -290,50 +336,6 @@ public class DestinationConfiguration implements EventHandler {
 Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
-
-### SAP Cloud SDK Dependencies {#cloud-sdk-dependencies}
-
-The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out of the box.
-In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
-
-It's recommended to add the SAP Cloud SDK BOM to the dependency management section of your application's parent POM.
-If you are also using the CDS Services BOM or the Spring Boot dependencies BOM, it's recommended to add the SAP Cloud SDK BOM after these:
-
-```xml
-<dependencyManagement>
-    <!-- CDS Services BOM -->
-    <!-- Spring Boot dependencies BOM -->
-    <dependencies>
-        <dependency>
-            <groupId>com.sap.cloud.sdk</groupId>
-            <artifactId>sdk-bom</artifactId>
-            <version>use-latest-version-here</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-```
-
-[Learn more about dependency management of **SAP Cloud SDK**.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies/){.learn-more}
-
-To enable [programmatic destination registration](#programmatic-destination-registration), add this additional dependency to your project:
-
-```xml
-<dependency>
-    <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-    <artifactId>cloudplatform-connectivity</artifactId>
-</dependency>
-```
-
-To integrate with SAP BTP Destination Service on Cloud Foundry, add this additional dependency to your project:
-
-```xml
-<dependency>
-    <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-    <artifactId>scp-cf</artifactId>
-</dependency>
-```
 
 ## Service Consumption via Cloud SDK { #service-consumption }
 

@@ -1,3 +1,5 @@
-entity GROUP {}
+// 'GROUP' is a reserved keyword in SQLite
+entity GROUP {} // [!code warning]
 
-entity Order {}
+// 'Order' is a reserved keyword in SQLite
+entity Order {} // [!code warning]

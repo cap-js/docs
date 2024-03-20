@@ -15,7 +15,7 @@ status: released
 
 ## Rule Details
 
-`@restrict.where` must have valid values.
+Checks whether the latest `@sap/cds` version is being used.
 
 ### Examples
 

@@ -4,7 +4,7 @@ import * as path from 'path'
 let data: Record<string, string> = {};
 
 export default {
-  watch: ['./**/**/**/**/**/*'],
+  watch: ['./**/**/**/**/**/**/*'],
   load(watchedFiles: any[]) {
     watchedFiles.forEach((file) => {
       const parsedPath = path.parse(file);

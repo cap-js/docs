@@ -15,7 +15,7 @@ status: released
 
 ## Rule Details
 
-`@restrict.where` must have valid values.
+Checks whether the minimum Node.js version required by `@sap/cds` is achieved.
 
 ### Examples
 

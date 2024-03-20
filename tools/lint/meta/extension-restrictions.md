@@ -22,24 +22,24 @@ Extensions must not violate restrictions set by the extended SaaS app.
 ::: code-group
 <<< ../examples/extension-restrictions/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
-<PlaygroundBadge
+<!--PlaygroundBadge
   name="extension-restrictions"
   kind="correct"
   :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
   :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
   :packages="{'cds': { 'extends': 'base-app' } }"
-/>
+/-->
 
 ::: code-group
 <<< ../examples/extension-restrictions/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
-<PlaygroundBadge
+<!--PlaygroundBadge
   name="extension-restrictions"
   kind="incorrect"
   :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
   :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
   :packages="{'cds': { 'extends': 'base-app' } }"
-/>
+/-->
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.6.0`.

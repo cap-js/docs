@@ -20,11 +20,11 @@ status: released
 ### Examples
 
 ::: code-group
-<<< ../examples/min-node-version/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/min-node-version/correct/package.json#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 
 ::: code-group
-<<< ../examples/min-node-version/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/min-node-version/incorrect/package.json#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 
 

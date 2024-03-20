@@ -92,11 +92,15 @@ The CAP Java SDK obtains the destination for a _Remote Service_ from the `Destin
 
 If you're using the SAP BTP Destination Service, this is the name you used when you defined the destination there. In order to properly resolve the destination from the correct source (e.g. BTP Destination Service, programmatically registered destination), [additional Cloud SDK dependencies](#cloud-sdk-dependencies) will be required.
 
+In multi-tenant scenarios, the BTP Destination Service will try to lookup the destination from the subaccount of the current tenant set on the `RequestContext`. This is not restricted to subscriber tenants, but also includes the provider tenant.
+
+::: tip
+As a pre-requisite for destination lookup in subscriber accounts, the CAP application need to define a dependency to the Destination service for their subscriptions e.g. in the SaaS Registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
+:::
+
 [Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}
 
-As a variant to the described scenario, it is possible to enable multi-tenant CAP applications to lookup the BTP Destination from the subaccount of the subscriber tenant instead of the subaccount in which the CAP application is deployed. This allows you to provide tenant-specific callbacks as extension use cases.
-
-The subscriber will deploy the extension for example as a dedicated CAP application in its subscriber subaccount and store the necessary URL and credentials in a BTP destination in his subaccount.
+As a variant to the described scenario, it is possible to restrict the lookup to either subscriber tenants or the provider tenant. In the following example, it is ensured that the destination is only looked up from the current subscriber tenant by additional parameter `retrievalStrategy: "AlwaysSubscriber"`. Even if the provider tenant contained a destination with the same name, it will be ignored.
 
 ```yaml
 cds:
@@ -105,14 +109,8 @@ cds:
     type: "odata-v2"
     destination:
       name: s4-business-partner-api
-      retrievalStrategy: "CurrentTenant"
+      retrievalStrategy: "AlwaysSubscriber"
 ```
-
-The additional parameter `retrievalStrategy: CurrentTenant` ensures that the destination will be looked up from the subscriber account if the tenant is correctly set in the Request Context.
-
-::: tip
-As a pre-requisite for destination lookup in subscriber accounts, the CAP application need to define a dependency to the Destination service for their subscriptions e.g. in the SaaS Registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
-:::
 
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 

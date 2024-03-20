@@ -15,26 +15,28 @@ status: released
 
 ## Rule Details
 
-Regular entity names should start with uppercase letters.
+Regular element names should start with lowercase letters.
 
 ### Examples
 
 ::: code-group
-<<< ../examples/start-elements-lowercase_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
+<<< ../examples/start-elements-lowercase/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"
   kind="correct"
-  :rules="{'@sap/cds/start-elements-lowercase': 'warn'}"
+  :rules="{'@sap/cds/start-elements-lowercase': ['warn']}"
+  :files="['schema.cds']"
 />
 
 ::: code-group
-<<< ../examples/start-elements-lowercase_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
+<<< ../examples/start-elements-lowercase/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"
   kind="incorrect"
-  :rules="{'@sap/cds/start-elements-lowercase': 'warn'}"
+  :rules="{'@sap/cds/start-elements-lowercase': ['warn']}"
+  :files="['schema.cds']"
 />
 
 ### Version

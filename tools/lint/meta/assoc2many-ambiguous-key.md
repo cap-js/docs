@@ -20,21 +20,23 @@ Ambiguous key with a `TO MANY` relationship since entries could appear multiple 
 ### Examples
 
 ::: code-group
-<<< ../examples/assoc2many-ambiguous-key_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
+<<< ../examples/assoc2many-ambiguous-key/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 <PlaygroundBadge
   name="assoc2many-ambiguous-key"
   kind="correct"
-  :rules="{'@sap/cds/assoc2many-ambiguous-key': ['warn', 'show']}"
+  :rules="{'@sap/cds/assoc2many-ambiguous-key': ['error', 'show']}"
+  :files="['schema.cds']"
 />
 
 ::: code-group
-<<< ../examples/assoc2many-ambiguous-key_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
+<<< ../examples/assoc2many-ambiguous-key/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 <PlaygroundBadge
   name="assoc2many-ambiguous-key"
   kind="incorrect"
-  :rules="{'@sap/cds/assoc2many-ambiguous-key': ['warn', 'show']}"
+  :rules="{'@sap/cds/assoc2many-ambiguous-key': ['error', 'show']}"
+  :files="['schema.cds']"
 />
 
 ### Version

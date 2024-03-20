@@ -12,7 +12,7 @@ export default {
       } catch (e) {
         return data
       }
-      const allRules = Object.keys(plugin?.configs.all.rules);
+      const allRules = Object.keys(plugin?.configs.all.rules).sort();
 
       allRules.forEach((rule: string) => {
         rule = rule.replace('@sap/cds/', '');

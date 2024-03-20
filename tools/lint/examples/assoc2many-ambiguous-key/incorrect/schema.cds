@@ -9,6 +9,8 @@ entity Author {
 }
 
 view AuthorView as select from Author {
-  key ID,
+  // Ambiguous key in 'AuthorView'. Element 'bookIDs' leads to multiple
+  // entries so that key 'ID' is not unique.
+  key ID, // [!code error]
   books.ID as bookIDs
 };

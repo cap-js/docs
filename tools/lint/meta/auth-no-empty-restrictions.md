@@ -15,30 +15,32 @@ status: released
 
 ## Rule Details
 
-'`@restrict` and `@requires` must not be empty.
+`@restrict` and `@requires` must not be empty.
 
 ### Examples
 
 ::: code-group
-<<< ../examples/auth-no-empty-restrictions_correct.cds#snippet{ts:line-numbers} [✅ Correct example]
+<<< ../examples/auth-no-empty-restrictions/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"
   kind="correct"
-  :rules="{'@sap/cds/auth-no-empty-restrictions': ['warn', 'show']}"
+  :rules="{'@sap/cds/auth-no-empty-restrictions': ['error', 'show']}"
+  :files="['schema.cds']"
 />
 
 ::: code-group
-<<< ../examples/auth-no-empty-restrictions_incorrect.cds#snippet{ts:line-numbers} [❌ Incorrect example]
+<<< ../examples/auth-no-empty-restrictions/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"
   kind="incorrect"
-  :rules="{'@sap/cds/auth-no-empty-restrictions': ['warn', 'show']}"
+  :rules="{'@sap/cds/auth-no-empty-restrictions': ['error', 'show']}"
+  :files="['schema.cds']"
 />
 
 ### Version
-This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.
+This rule was introduced in `@sap/eslint-plugin-cds 1.0.1`.
 
 <!--
 ### Resources

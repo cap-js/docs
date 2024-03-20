@@ -1,0 +1,22 @@
+{
+  "requires": {
+    "cds.xt.ExtensibilityService": {
+      "element-prefix": ["x_"],
+      "extension-allowlist": [
+        {
+          "for": [
+            "sap.capire.orders.Orders"
+          ],
+          "kind": "entity",
+          "new-fields": 3
+        },
+        {
+          "for": [
+            "OrdersService"
+          ],
+          "new-entities": 1
+        }
+      ]
+    }
+  }
+}

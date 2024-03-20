@@ -1,0 +1,8 @@
+{
+  "@sap/cds": {
+    "current": "5.1.0",
+    "wanted": "5.1.0",
+    "latest": "5.1.0",
+    "location": "node_modules\\@sap\\cds"
+  }
+}

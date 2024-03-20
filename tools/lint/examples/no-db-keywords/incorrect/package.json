@@ -1,0 +1,9 @@
+{
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "sqlite"
+            }
+        }
+    }
+}

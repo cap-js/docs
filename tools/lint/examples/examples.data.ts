@@ -1,13 +1,18 @@
-import fs from 'node:fs'
-import Path from 'node:path'
+import * as fs from 'fs'
+import * as path from 'path'
 
 let data: Record<string, string> = {};
 
 export default {
-  watch: ['./*'],
+  watch: ['./**/**/*'],
   load(watchedFiles: any[]) {
     watchedFiles.forEach((file) => {
-        data[Path.parse(file).name] = fs.readFileSync(file, 'utf-8')
+      const parsedPath = path.parse(file);
+      const fileName = parsedPath.base
+      const type = path.basename(parsedPath.dir)
+      const rule = path.parse(parsedPath.dir.replace(type, '')).base
+      const key = `${rule}_${type}_${fileName}`;
+        data[key] = fs.readFileSync(file, 'utf-8')
     })
     return data;
   }

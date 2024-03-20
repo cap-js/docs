@@ -3,6 +3,7 @@ interface Props {
   name: string;
   kind: 'correct' | 'incorrect';
   rules?: Record<string, string | number | [string, string | number]> | undefined;
+  files?: Array<string> | undefined;
 }
 // @ts-ignore
 withDefaults(defineProps<Props>(), {})
@@ -27,7 +28,7 @@ const defaultPackageJson = {
     }
 }
 
-function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rules'] ): string {
+function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rules'], files?: Props['files'] ): string {
   const sources = {} as Record<string, string>;
   if (rules) {
     for (const [key, value] of Object.entries(rules)) {
@@ -36,7 +37,10 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   }
   sources[configFileName] = prettyStringify(defaultConfig);
   sources[packageJsonFileName] = prettyStringify(defaultPackageJson);
-  sources[`examples/${name}.cds`] = data[`${name}_${kind}`];
+  for (const file of files || []) {
+    console.log(file, data[`${name}_${kind}_${file}`])
+    sources[`examples/${file}`] = data[`${name}_${kind}_${file}`];
+  }
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
 }
 
@@ -119,7 +123,7 @@ function toLinesObject(
 <template>
   <span class="VPBadge tip">
     <slot>
-      <a :href="link(name, kind, rules)">Open In Playground</a>
+      <a :href="link(name, kind, rules, files)">Open In Playground</a>
     </slot>
   </span>
 </template>

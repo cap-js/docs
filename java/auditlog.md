@@ -210,5 +210,5 @@ class CustomAuditLogHandler implements EventHandler {
 }
 ```
 
-[Learn more about implementing an event handler in **Event Handler Classes**.](./event-handlers#handlerclasses){.learn-more}
+[Learn more about implementing an event handler in **Event Handler Classes**.](./event-handlers/#handlerclasses){.learn-more}
 

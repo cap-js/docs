@@ -135,6 +135,21 @@ SAP HANA can be configured when running locally as well as when running producti
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
+#### Configure the DDL generation
+
+Advise the CDS Compiler to generate tables without associations_, as they are not used by CAP Java. This also allows to generate fewer localized views:
+
+::: code-group
+```json [.cdsrc.json]
+{ 
+  "cdsc": { 
+		"withHanaAssociations" : false,
+    "fewerLocalizedViews": true 
+  } 
+}
+```
+:::
+
 #### SQL Optimization Mode
 
 By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).

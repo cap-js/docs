@@ -14,10 +14,6 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
 Especially, when working with larger projects that may consist of many individual CAP Java applications or when building platform services that need to be integrated with CAP applications there's the requirement to extend CAP Java with custom, yet reusable code.
 
 In the following sections, the different extension points and mechanisms are explained.

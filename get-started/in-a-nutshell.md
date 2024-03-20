@@ -18,21 +18,21 @@ impl-variants: true
       margin-top: 30px;
       &::before {
         content: counter(my-counter);
-        color: var(--vp-c-text-1);
+        color: var(--vp-c-text-2);
         background-color: var(--vp-code-bg);
-        width: 25px;
-        height: 25px;
-        background-size: 25px;
-        line-height: 27px;
+        width: 31px;
+        height: 30px;
+        background-size: 30px;
+        line-height: 31px;
         border-radius: 50%;
         font-weight: 600;
         text-align: center;
-        font-size: 15px;
+        font-size: 16px;
         vertical-align: middle;
         display: inline-block;
         position: relative;
-        top: -2px;
-        left: -36px;
+        top: -1px;
+        left: -40px;
         margin-right: -25px;
       }
       p {
@@ -50,14 +50,9 @@ Using a minimal setup
 
 This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
-
-[[toc]]
 
 
-## Preliminaries
+::: details Optionally clone sample from GitHub ...
 
 The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
 
@@ -73,18 +68,26 @@ npm install
 git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 ```
 
+Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
+
 :::
 
-> Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
+
+<ImplVariantsHint />
+
+
+[[toc]]
 
 
 
-## Jumpstart a Project {#jumpstart}
+
+
+## Jumpstart a CAP Project {#jumpstart}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-**Prerequisite:** Assumed you've installed Node.js, `@sap/cds-dk`, and Visual Studio Code as described in the [_Jumpstart_ guide](jumpstart)...
+Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](../tools/index#cli)* CLI, and *[Visual Studio Code](https://code.visualstudio.com/)* as described in the [_Jumpstart_ guide](jumpstart), ...
 
-2. Create a new project using `cds init`
+1. Create a new project using `cds init`
 
    ::: code-group
    ```sh [Node.js]
@@ -95,7 +98,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
    ```
    :::
 
-3. Open the project in VS Code
+2. Open the project in VS Code
 
    ```sh
    code bookshop
@@ -107,7 +110,7 @@ git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 
    > For Java development in VS Code you need to [install extensions](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack).
 
-4. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
    ::: code-group
 
@@ -187,11 +190,11 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 [Learn more about **CDS Modeling Languages**.](../cds/){ .learn-more}
 
 
-### Automatically Deployed to Databases {#deployed-in-memory}
+### Deployed to Databases {#deployed-in-memory}
 
 <div class="impl node">
 
-As soon as you save your file, the still running `cds watch` reacts immediately with new output like this:
+As soon as you save the *schema.cds* file, the still running `cds watch` reacts immediately with new output like this:
 
 ```log
 [cds] - connect to db > sqlite { database: ':memory:' }
@@ -209,7 +212,7 @@ compilation and reload of the CAP Java application. The embedded database of the
 
 </div>
 
-### Compiling Models (Optional) {#cli}
+### Compiling Models {#cli}
 
 We can optionally test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
 
@@ -253,10 +256,11 @@ After the recent changes, the running CAP Java application is still not exposing
 
 So, let's go on feeding it with two service definitions for different use cases:
 
-- An `AdminService` for administrators to maintain `Books` and `Authors`
-- A `CatalogService` for end users to browse and order `Books`
+An `AdminService` for administrators to maintain `Books` and `Authors`.
 
-Create the following two files in folder _./srv_ and fill them with this content:
+A `CatalogService` for end users to browse and order `Books`.
+
+To do so, create the following two files in folder _./srv_ and fill them with this content:
 
 ::: code-group
 ```cds [srv/admin-service.cds]
@@ -285,7 +289,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 
 
-### Served to OData Out of the Box
+### Served via OData
 
 <div class="impl node">
 
@@ -331,7 +335,7 @@ Both services defined above contain security annotations that restrict access to
 
 ::: tip CAP-based services are full-fledged OData services out of the box
 
-Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses. 
+Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
 :::
 
 You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
@@ -345,7 +349,20 @@ http://localhost:8080/odata/v4/browse/Books?$search=Brontë&$select=title,author
 
 
 
-### Generic *index.html* Pages
+### Generating APIs
+
+We can optionally also compile service definitions explicitly, for example to [OData EDMX metadata documents](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
+
+```sh
+cds srv/cat-service.cds -2 edmx
+```
+
+Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
+While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
+
+
+
+### Generic *index.html*
 
 <!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
 Open _<http://localhost:4004>_ / _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
@@ -369,32 +386,22 @@ Open _<http://localhost:4004>_ / _<http://localhost:8080>_ in your browser and s
 
 
 
-### Compiling APIs (Optional) { #repl}
-
-You can also compile service definitions explicitly, for example to an [OData model](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
-
-```sh
-cds srv/cat-service.cds -2 edmx
-```
-
-Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
-While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 
 ## Using Databases {#databases}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 
-### Using _sqlite_ In-Memory Database {.impl .node}
+### SQLite In-Memory {.impl .node}
 
 As [previously shown](#deployed-in-memory), `cds watch` automatically bootstraps an SQLite in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up development turn-around times, essentially by mocking your target database, for example, SAP HANA. {.impl .node}
 
 [Learn more about mocking options in **Grow as you go**.](./grow-as-you-go){.learn-more .impl .node}
 
-### Using _H2_ In-Memory Database {.impl .java}
+### H2 In-Memory {.impl .java}
 
 As [previously shown](#deployed-in-memory), `mvn cds:watch` automatically bootstraps an H2 in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up turn-around times in local development and furthermore allows self-contained testing. {.impl .java}
 
-### Adding Initial Data in `.csv` Files
+### Adding Initial Data
 
 Now, let's fill your database with initial data by adding a few plain CSV files under _db/data_ like this:
 
@@ -458,7 +465,7 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
-### Querying Through OData Out of the Box
+### Querying via OData
 
 Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
@@ -477,9 +484,10 @@ Now that we've a connected, fully capable SQL database, filled with some initial
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 
-### Deploying Persistent Databases {.impl .node}
 
-We can also use persistent instead of in-memory databases. For example, still with SQLite, add the following configuration:
+### Persistent Databases {.impl .node}
+
+Instead of in-memory databases we can also use persistent ones. For example, still with SQLite, add the following configuration:
 
 
 ::: code-group
@@ -501,13 +509,13 @@ Then deploy:
 cds deploy
 ```
 
-The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.sqlite_. This is also recorded in the _package.json_.
+The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./db.sqlite_. This is also recorded in the _package.json_.
 
 To see what that did, use the `sqlite3` CLI with the newly created database:
 
 ```sh
-sqlite3 my.sqlite .dump
-sqlite3 my.sqlite .tables
+sqlite3 db.sqlite .dump
+sqlite3 db.sqlite .tables
 ```
 [Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 
@@ -520,7 +528,9 @@ cds deploy --to hana
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
+
 ## Serving UIs {#uis}
+
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
@@ -550,7 +560,8 @@ For example, you can [find a simple Vue.js app in **cap/samples**](https://githu
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
-### Providing Service Implementations
+
+### Adding Service Implementations
 
 In Node.js, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file: {.impl .node}
 
@@ -591,7 +602,7 @@ Place the code in your package of choice and use your IDE to generate the needed
 
 
 
-### Adding Custom Event Handlers
+### Adding Event Handlers
 
 Service implementations essentially consist of one or more event handlers.
 
@@ -673,6 +684,8 @@ public class CatalogHandler implements EventHandler {
 [Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers#handlerclasses){.learn-more}
 
 </div>
+
+
 
 ### Consuming Other Services
 
@@ -802,38 +815,32 @@ Or submit orders until you see the error messages. Create a file called _test.ht
 
 ::: code-group
 ```http [Node.js]
-### 
-# Submit Order
-
+### Submit Order
 POST http://localhost:4004/browse/submitOrder
 Content-Type: application/json
 Authorization: Basic alice:
 
 {
-    
-      "book": 201,
-      "quantity": 2
-    
+  "book": 201,
+  "quantity": 2
 }
 
 
 ```
 ```http [Java]
-### 
-# Submit Order
-
+### Submit Order
 POST http://localhost:8080/odata/v4/browse/submitOrder
 Content-Type: application/json
 Authorization: Basic authenticated:
 
 {
-
-      "book": 201,
-      "quantity": 2
-
+  "book": 201,
+  "quantity": 2
 }
 ```
 :::
+
+
 
 
 ## Summary and Next Steps

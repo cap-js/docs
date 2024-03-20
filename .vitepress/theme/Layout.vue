@@ -20,12 +20,14 @@ const { Layout } = DefaultTheme
     <template #not-found>
       <NotFound />
     </template>
-    <template #nav-bar-content-before>
-      <slot name="nav-bar-content-before" />
+    <template #nav-bar-title-after>
+      <slot name="nav-bar-title-after" />
       <div class="ImplVariantsInNavbar">
         <ImplVariants/>
       </div>
-      <slot name="nav-bar-implvariants-after" />
+    </template>
+    <template #nav-bar-content-before>
+      <slot name="nav-bar-content-before" />
     </template>
     <template #nav-bar-content-after>
       <slot name="nav-bar-content-after" />
@@ -48,7 +50,7 @@ const { Layout } = DefaultTheme
 <style scoped>
 
 .ImplVariantsInNavbar {
-  padding-left: 32px
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {
@@ -56,5 +58,4 @@ const { Layout } = DefaultTheme
     display: none;
   }
 }
-
 </style>

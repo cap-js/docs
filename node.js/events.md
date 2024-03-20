@@ -436,7 +436,7 @@ Additionally, the OData protocol specifies which properties an error object may 
 ### req. diff() <Badge type="warning" text="beta" /> {.method}
 [`req.diff`]: #req-diff
 
-Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).
+Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed). Note that the usage of `req.diff` only makes sense in *before* handlers as they are run before the actual change was persisted on the database.
 > This triggers database requests.
 
 ```js

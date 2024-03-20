@@ -4,7 +4,6 @@ synopsis: >
   Find here information about reflecting parsed CDS models in CSN representation.
 status: released
 ---
-<!--- Migrated: @external/node.js/cds-reflect.md -> @external/node.js/cds-reflect.md -->
 
 # Reflecting CDS Models
 
@@ -228,7 +227,7 @@ All objects of a linked model containing CSN definitions are instances of this c
 For example, that applies to:
 
 - *`cds.model` [.definitions](#definitions), [.services](#services), [.entities](#entities)*
-- *`cds.service` [.entities](#entities-1), [.events](#events-1), [.actions](#actions-1)*
+- *`cds.service` [.entities](#entities-1), [.events](#events), [.actions](#actions-1)*
 - *`cds.entity`  [.keys](#keys), [.associations](#associations), [.compositions](#compositions), [.actions](#actions)*
 - *`cds.struct` [.elements](#elements)* (hence also *`cds.entity` .elements*)
 - *`cds.Association` [.foreignKeys](#foreignkeys)*
@@ -279,7 +278,7 @@ Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
 
 [`LinkedDefinition`]: #any
 
-All [`cds.linked`] definitions are instances of this class, or subclasses thereof. It is accessible through [`cds.linked.classes.any`](#cds-builtin-classes).
+All [`cds.linked`] definitions are instances of this class, or subclasses thereof. It is accessible through [`cds.linked.classes.any`](#cds-linked-classes).
 
 ### . is_linked {.property}
 
@@ -439,9 +438,9 @@ The effective foreign keys of [*managed* association](../cds/cdl#managed-associa
 
 
 
-## cds. linked .classes {#cds-builtin-classes .property}
+## cds. linked .classes {#cds-linked-classes .property}
 
-[`cds.builtin.classes`]: #cds-builtin-classes
+[`cds.linked.classes`]: #cds-linked-classes
 
 
 This property gives you access to the very roots of `cds`'s type system. When a model is passed through [`cds.linked`] all definitions effectively become instances of one of these classes.
@@ -493,7 +492,7 @@ Use it like that:
 const cds = require ('@sap/cds')
 
 // simplistic csn2cdl enablement
-cds.builtin.classes .mixin (
+cds.linked.classes .mixin (
   class type {
     toCDL(){ return `${this.kind} ${this.name} : ${this.typeAsCDL()};\n` }
     typeAsCDL(){ return `${this.type.replace(/^cds\./,'')}` }
@@ -526,7 +525,7 @@ cds.linked(csn).foreach (d => console.log(d.toCDL()))
 
 
 
-## cds. linked. types {#cds-builtin-types .property}
+## cds. builtin. types {#cds-builtin-types .property}
 [`cds.builtin.types`]: #cds-builtin-types
 
 
@@ -567,7 +566,7 @@ const { any, context, service ,
   type, scalar, string, number, boolean, date,
   array, struct, entity, event, aspect
   Association, Composition
-} = cds.builtin.classes
+} = cds.linked.classes
 
 const roots = module.exports = {definitions:{
   any: new any,

@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/security.md -> @external/java/security.md -->
 
 <script setup>
   import { h } from 'vue'
@@ -65,7 +64,7 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 :::
 
 ### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
-CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa). 
+CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
 We recommend to move to `cds-feature-identity`, as the spring-xsuaa library is deprecated. When moving to `cds-feature-identity`, please keep the following in mind:
 
 - As `cds-feature-xsuaa` still takes priority over `cds-feature-identity` for backward compatibility, remove all existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter`.

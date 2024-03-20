@@ -5,7 +5,6 @@ redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
 # Outboxing with `cds.outboxed`
 

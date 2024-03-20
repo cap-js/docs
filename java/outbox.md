@@ -165,7 +165,7 @@ The default outbox services can be used for outboxing arbitrary CAP services. If
 you can define custom outboxes that can be used for outboxing.
 :::
 
-## Technical Outbox API
+## Technical Outbox API { #technical-outbox-api }
 
 Outbox services provide the technical API `OutboxService.submit(String, OutboxMessage)` that can
 be used to send custom messages via outbox.
@@ -212,6 +212,14 @@ Also the handler shall only be registered once on the outbox service.
 ## Handling Outbox Errors { #handling-outbox-errors }
 
 Outbox errors can be handled by providing an `On` handler for an outbox and a target service.
+
+
+::: tip
+If a custom `On` handler is publishing the outbox entry, a potential error can be handled there and it
+is not required to implement an additional handler.
+:::
+[Learn mor about the technical outbox API.](#technical-outbox-api){.learn-more}
+
 The handler shall wrap the the handling of an outbox entry by calling the API `EventContext.proceed()`.
 If any other `On` handler is throwing an exception, the exception shall be caught and evaluated whether
 it is an recoverable or an unrecoverable error. In the case of an recoverable error the exception shall be

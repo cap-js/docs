@@ -237,14 +237,14 @@ import cds.gen.sap.changelog.Changes;
 @Component
 @ServiceName("ChangeTrackingService$Default")
 public class ChangeTrackingHandler implements EventHandler {
-
-	@After(event = "createChanges")
-	void afterCreate(EventContext context) {
-		var result = (Result) context.get("result");
-		result.listOf(Changes.class).forEach(c -> {
-          // Do something with the change log entry
-		});
-	}
+	
+  @After(event = "createChanges")
+  void afterCreate(EventContext context) {
+    Result result = (Result) context.get("result");
+	result.listOf(Changes.class).forEach(c -> {
+      // Do something with the change log entry
+	});
+  }
 }
 ```
 

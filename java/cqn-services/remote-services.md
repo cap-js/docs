@@ -22,7 +22,9 @@ The CQN query APIs enable [late-cut microservices](../../guides/providing-servic
 
 Cross-cutting aspects like security are provided by configuration. Applications do not need to provide additional code. The CAP Java SDK leverages the [SAP Cloud SDK](https://sap.github.io/cloud-sdk) and in particular its destination capabilities to cover these aspects. 
 
-Destinations in Cloud SDK are the means to express and define the remote endpoint including authentication details. Cloud SDK destinations provide a high flexibility of different data sources. They can be resolved from BTP Destination Service, BTP Service Bindings or [programmatic destinations](#programmatic-destination-registration), registered by a CAP application in code. The CAP application can choose the best fitting option for their scenario. CAP nicely integrates with Cloud SDK, for example automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK is ensured.
+Destinations in Cloud SDK are the means to express and define connectivity to a remote endpoint including authentication details. Cloud SDK destinations can be created from various sources such as BTP Destination Service or BTP Service Bindings. They can also be defined and registered [programmatically](#programmatic-destination-registration) in code. The application can choose the best fitting option for their scenario. Every Remote Service internally uses a destination for connectivity.
+
+On top of that CAP integrates nicely with Cloud SDK, for example ensuring automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK.
 
 <img src="../assets/remote%20services.drawio.svg" width="700px" class="mute-dark" alt="This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.">
 
@@ -34,7 +36,7 @@ To learn more about how to use _Remote Services_ end to end read the [Consuming 
 
 ## Configuring Remote Services
 
-To enable _Remote Services_ in an application, add the following Maven dependency to your project:
+To enable _Remote Services_ for OData V2 or V4 APIs in an application, add the following Maven dependency to your project:
 
 ```xml
 <dependency>
@@ -114,10 +116,10 @@ As a pre-requisite for destination lookup in subscriber accounts, the CAP applic
 
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 
-### Service Binding Configuratiion
+### Service Binding Configuration
 If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over destination-based _Remote Services_ is the simpler usage. There is no need to externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
 
-In the following example, the remote API is running as another CAP application within the the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
+In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
 
 ```yaml
 cds:
@@ -126,8 +128,8 @@ cds:
     binding:
       name: shared-xsuaa
       onBehalfOf: currentUser
-    options:
-      url: https://url-of-the-second-cap-application
+      options:
+        url: https://url-of-the-second-cap-application
 ```
 
 `shared-xsuaa` is the name of the xsuaa service instance both CAP applications are bound to. 

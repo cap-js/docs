@@ -211,33 +211,45 @@ Also the handler shall only be registered once on the outbox service.
 
 ## Handling Outbox Errors
 
-An outbox service is calling an error handler in case of a processing error by emitting an `OutboxErrorEventContext`.
-The event context provides the `ServiceException` that occurred while processing the outbox entry. An outbox error handler
-shall provide an error status after evaluating the exception; possible error status are:
+Outbox errors can be handled by providing an `On` handler for an outbox and a target service.
+The handler shall wrap the the handling of an outbox entry by calling the API `EventContext.proceed()`.
+If any other `On` handler is throwing an exception, the exception shall be caught and evaluated whether
+it is an recoverable or an unrecoverable error. In the case of an recoverable error the exception shall be
+rethrown such that the outbox tries to reporcess the entry. Otherwise, if the error is unrecoverable,
+the custom `On` handler should not rethrow the exception but handle it according the use case of the
+application; the outbox is then not going to reprocess the entry but delete it from the outbox table.
 
-- `OutboxErrorStatus.RETRY`: The outbox tries to reprocess the entry.
-- `OutboxErrorStatus.UNRECOVERABLE`: The error is unrecoverable and the outbox deletes the corresponding entry from the outbox table.
-
-Custom outbox error handlers can be registered for an outbox service:
+The following example illustrates this approach:
 
 ```java
-OutboxService outboxService;
+@On(service = OutboxService.PERSISTENT_ORDERED_NAME, event = AuditLogService.DEFAULT_NAME)
+void handleAuditLogErrors(OutboxMessageEventContext context) {
+	try {
+		context.proceed();
+	} catch (Exception e) {
+		if (isUnrecoverable(e)) {
+			// it doesn't make sense to retry this message
+			// potentially inform operator to fix this manually
+			revisitOutboxMessage(context);
+		} else {
+			throw e;
+		}
+	}
+}
 
-outboxService.on(OutboxService.EVENT_OUTBOX_ERROR, null, ctx -> {
-  OutboxErrorEventContext errorEventContext = ctx.as(OutboxErrorEventContext.class);
-  ServiceException serviceException = errorEventContext.getException();
+boolean isUnrecoverable(Throwable t) {
+  boolean result;
 
-  // Evaluate exeption to determine the error status
+  // check whether the error is recoverable or not
 
-  errorEventContext.setResult(OutboxErrorStatus.RETRY);
+  return result;
+}
 
-  // or if the error is unrecoverable:
-  //errorEventContext.setResult(OutboxErrorStatus.UNRECOVERABLE);
-});
+void revisitOutboxMessage(OutboxMessageEventContext context) {
+  // inform operator about the failed processing of the outbox entry
+}
 ```
 [Learn more about event handlers.](./event-handlers){.learn-more}
-
-The default outbox error event handler always returns `OutboxErrorStatus.RETRY`.
 
 ## Troubleshooting
 

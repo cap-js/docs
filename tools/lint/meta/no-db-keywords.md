@@ -27,6 +27,7 @@ Avoid using reserved SQL keywords.
   kind="correct"
   :rules="{'@sap/cds/no-db-keywords': ['warn', 'show']}"
   :files="['schema.cds']"
+  :packages="{'cds': { 'requires': {'db': { 'kind': 'sql' } } } }"
 />
 
 ::: code-group
@@ -37,6 +38,7 @@ Avoid using reserved SQL keywords.
   kind="incorrect"
   :rules="{'@sap/cds/no-db-keywords': ['warn', 'show']}"
   :files="['schema.cds']"
+  :packages="{'cds': { 'requires': {'db': { 'kind': 'sqlite' } } } }"
 />
 
 ### Version

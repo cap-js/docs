@@ -4,6 +4,7 @@ interface Props {
   kind: 'correct' | 'incorrect';
   rules?: Record<string, string | number | [string, string | number]> | undefined;
   files?: Array<string> | undefined;
+  packages?: Record<string, string> | undefined;
 }
 // @ts-ignore
 withDefaults(defineProps<Props>(), {})
@@ -28,7 +29,25 @@ const defaultPackageJson = {
     }
 }
 
-function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rules'], files?: Props['files'] ): string {
+function mergeJSONs(target: any, add: any) {
+    const isObject = (obj: unknown) => typeof obj === 'object';
+    Object.entries(add).forEach(([key, addVal]) => {
+        const targetVal = target[key];
+        if (targetVal && isObject(targetVal) && isObject(addVal)) {
+            if ((Array.isArray(targetVal) && Array.isArray(addVal))) {
+                targetVal.push(...addVal);
+                return;
+            }
+            mergeJSONs(targetVal, addVal);
+        } else {
+            target[key] = addVal;
+        }
+    });
+    return target;
+}
+
+function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rules'], files?: Props['files'], packages?: Props['packages'] ): string {
+  let json = {};
   const sources = {} as Record<string, string>;
   if (rules) {
     for (const [key, value] of Object.entries(rules)) {
@@ -36,10 +55,19 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
     }
   }
   sources[configFileName] = prettyStringify(defaultConfig);
-  sources[packageJsonFileName] = prettyStringify(defaultPackageJson);
-  for (const file of files || []) {
-    console.log(file, data[`${name}_${kind}_${file}`])
-    sources[`examples/${file}`] = data[`${name}_${kind}_${file}`];
+  if (packages) {
+    json = mergeJSONs(defaultPackageJson, packages);
+  } else {
+    json = defaultPackageJson;
+  }
+  sources[packageJsonFileName] = prettyStringify(json);
+  if (files) {
+    console.log(data)
+    const example = files.shift();
+    sources[`${example}`] = data[`${name}_${kind}_${example}`];
+    for (const file of files || []) {
+      sources[`${file}`] = data[`${name}_${kind}_${file}`];
+    }
   }
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
 }
@@ -123,7 +151,7 @@ function toLinesObject(
 <template>
   <span class="VPBadge tip">
     <slot>
-      <a :href="link(name, kind, rules, files)">Open In Playground</a>
+      <a :href="link(name, kind, rules, files, packages)">Open In Playground</a>
     </slot>
   </span>
 </template>

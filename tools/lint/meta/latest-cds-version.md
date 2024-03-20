@@ -20,24 +20,13 @@ status: released
 ### Examples
 
 ::: code-group
-<<< ../examples/latest-cds-version/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/latest-cds-version/correct/package.json#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
-<PlaygroundBadge
-  name="latest-cds-version"
-  kind="correct"
-  :rules="{'@sap/cds/latest-cds-version': ['error', 'show']}"
-  :files="['schema.cds']"
-/>
 
 ::: code-group
-<<< ../examples/latest-cds-version/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/latest-cds-version/incorrect/package.json#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
-<PlaygroundBadge
-  name="latest-cds-version"
-  kind="incorrect"
-  :rules="{'@sap/cds/latest-cds-version': ['error', 'show']}"
-  :files="['schema.cds']"
-/>
+
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.4`.

@@ -26,7 +26,8 @@ Extensions must not violate restrictions set by the extended SaaS app.
   name="extension-restrictions"
   kind="correct"
   :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
+  :packages="{'cds': { 'extends': 'base-app' } }"
 />
 
 ::: code-group
@@ -36,7 +37,8 @@ Extensions must not violate restrictions set by the extended SaaS app.
   name="extension-restrictions"
   kind="incorrect"
   :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
+  :packages="{'cds': { 'extends': 'base-app' } }"
 />
 
 ### Version

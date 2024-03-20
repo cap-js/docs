@@ -209,7 +209,7 @@ Also the handler shall only be registered once on the outbox service.
 
 [Learn more about event handlers.](./event-handlers){.learn-more}
 
-## Handling Outbox Errors
+## Handling Outbox Errors { #handling-outbox-errors }
 
 Outbox errors can be handled by providing an `On` handler for an outbox and a target service.
 The handler shall wrap the the handling of an outbox entry by calling the API `EventContext.proceed()`.

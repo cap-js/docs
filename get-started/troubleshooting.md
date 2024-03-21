@@ -15,9 +15,9 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 [[toc]]
 
-## General { #cds}
+## Setup {#setup}
 
-##### Check the Node.js version { #node-version}
+### Check the Node.js version { #node-version}
 
 Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `20`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
 
@@ -31,7 +31,7 @@ For [Cloud Foundry](https://docs.cloudfoundry.org/buildpacks/node/index.html#run
 [Learn more about the release schedule of **Node.js**.](https://github.com/nodejs/release#release-schedule/){.learn-more}
 [Learn about ways to install **Node.js**.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm){.learn-more}
 
-##### Check access permissions on macOS or Linux
+### Check access permissions on macOS or Linux
 
 In case you get error messages like `Error: EACCES: permission denied, mkdir '/usr/local/...'` when installing a global module like `@sap/cds-dk`, configure `npm` to use a different directory for global modules:
 
@@ -44,7 +44,7 @@ Also add the last line to your user profile, for example, `~/.profile`, so that 
 
 [Learn more about other ways to handle this **error**.](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally){.learn-more}
 
-##### Check if your environment variables are properly set on Windows
+### Check if your environment variables are properly set on Windows
 
 Global npm installations are stored in a user-specific directory on your machine. On Windows, this directory usually is:
 
@@ -269,6 +269,33 @@ In recent versions of the JVM (starting with Java 11), the container resource us
  * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
  * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
 
+## OData
+
+### How Do I Generate an OData Response for Error 404?
+
+If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
+
+```js
+let app
+cds.on('bootstrap', a => {
+  app = a
+})
+cds.on('served', () => {
+  app.use((req, res, next) => {
+    // > unhandled request
+    res.status(404).json({ message: 'Not Found' })
+  })
+})
+```
+
+### Why do some requests fail if I set `@odata.draft.enabled` on my entity?
+
+The annotation `@odata.draft.enabled` is very specific to SAP Fiori elements, only some requests are allowed.
+For example it's forbidden to freely add `IsActiveEntity` to `$filter`, `$orderby` and other query options.
+The technical reason for that is that active instances and drafts are stored in two different database tables.
+Mixing them together is not trivial, therefore only some special cases are supported.
+
+
 ## SQLite { #sqlite}
 
 ### How Do I Install SQLite on Windows?
@@ -437,6 +464,61 @@ The _cds runtime_ sets the session variable `APPLICATIONUSER`. This should alway
 
 Do not use a `XS_` prefix.
 
+
+## MTX (legacy)
+
+This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
+
+### How do I set up MTX with App Router? { #mtx-as-sidecar-with-approuter}
+
+See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
+
+### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
+
+See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
+
+When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
+
+```sh
+cds login … -s <subdomain>
+```
+
+Alternatively, without login:
+
+```sh
+cds extend … -s <subdomain>
+```
+
+### I get errors with response code 429 from the service-manager service when subscribing a tenant
+
+You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
+  ```json
+  "cds": {
+    "mtx": {
+      "provisioning": {
+        "instancemanageroptions": {
+          "polling_interval_millis": 3000
+        }
+      }
+    }
+  }
+  ```
+
+### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
+
+You can disable the database clustering for the update.
+  ```json
+  "cds": {
+    "mtx": {
+      "jobs": {
+        "clusterbydb": false
+      }
+    }
+  }
+  ```
+This setting requires at least `@sap/cds-mtx@2.6.2`.
+
+
 ## MTA { #mta}
 
 ### Why Does My MTA Build Fail?
@@ -496,7 +578,9 @@ This approach is only recommended
 
 <div id="sap-make" />
 
-## SAP BTP, Cloud Foundry
+
+
+## CAP on Cloud Foundry
 
 
 ### How Do I Get Started with SAP Business Technology Platform, Cloud Foundry environment?
@@ -601,85 +685,6 @@ cf logs <appname> --recent
 If you omit the option `--recent`, you can run this command in parallel to your deployment and see the logs as they come in.
 :::
 
-## OData
-
-### How Do I Generate an OData Response for Error 404?
-
-If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
-
-```js
-let app
-cds.on('bootstrap', a => {
-  app = a
-})
-cds.on('served', () => {
-  app.use((req, res, next) => {
-    // > unhandled request
-    res.status(404).json({ message: 'Not Found' })
-  })
-})
-```
-
-### Why do some requests fail if I set `@odata.draft.enabled` on my entity?
-
-The annotation `@odata.draft.enabled` is very specific to SAP Fiori elements, only some requests are allowed.
-For example it's forbidden to freely add `IsActiveEntity` to `$filter`, `$orderby` and other query options.
-The technical reason for that is that active instances and drafts are stored in two different database tables.
-Mixing them together is not trivial, therefore only some special cases are supported.
-
-## MTX (legacy)
-
-This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
-
-### How do I set up MTX with App Router? { #mtx-as-sidecar-with-approuter}
-
-See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
-
-### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
-
-See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
-
-When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
-
-```sh
-cds login … -s <subdomain>
-```
-
-Alternatively, without login:
-
-```sh
-cds extend … -s <subdomain>
-```
-
-### I get errors with response code 429 from the service-manager service when subscribing a tenant
-
-You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
-  ```json
-  "cds": {
-    "mtx": {
-      "provisioning": {
-        "instancemanageroptions": {
-          "polling_interval_millis": 3000
-        }
-      }
-    }
-  }
-  ```
-
-### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
-
-You can disable the database clustering for the update.
-  ```json
-  "cds": {
-    "mtx": {
-      "jobs": {
-        "clusterbydb": false
-      }
-    }
-  }
-  ```
-This setting requires at least `@sap/cds-mtx@2.6.2`.
-
 ## CAP on Kyma
 
 ### Pack Command Fails with Error `package.json and package-lock.json aren't in sync`
@@ -691,3 +696,5 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 ::: tip
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
+
+<div id="end" />

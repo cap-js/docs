@@ -54,9 +54,7 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 
 
 
-### Entity Definitions — `define entity`
-{#entities}
-
+### Entity Definitions — `define entity` {#entities}
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -73,9 +71,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions — `define type`
-{#types}
-
+### Type Definitions — `define type` {#types}
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -149,7 +145,7 @@ With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 
 ::: warning
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/security/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values
@@ -356,7 +352,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements (beta) {#association-like-calculated-elements}
+#### Association-like calculated elements <Badge type="warning" text="beta" /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -800,7 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+#### Publish Associations with Filter <Badge type="warning" text="beta" /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1007,7 +1003,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values (beta) {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Badge type="warning" text="beta" /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.

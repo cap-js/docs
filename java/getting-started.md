@@ -5,7 +5,6 @@ synopsis: >
 redirect_from: java/overview
 status: released
 ---
-<!--- Migrated: @external/java/010-Getting-Started/0-index.md -> @external/java/getting-started.md -->
 
 # Getting Started
 
@@ -16,7 +15,6 @@ status: released
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- % include links.md %} -->
 
 ## Introduction
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->

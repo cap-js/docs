@@ -274,7 +274,7 @@ The HTTP method of the incoming request:
 
 ### . target {.property}
 
-Refers to the current request's target entity definition, if any; `undefined` for unbound actions/functions and events. The returned definition is a [linked](cds-reflect#cds-reflect) definition as reflected from the [CSN](../cds/csn) model.
+Refers to the current request's target entity definition, if any; `undefined` for unbound actions/functions and events. The returned definition is a [linked](cds-reflect#linked-csn) definition as reflected from the [CSN](../cds/csn) model.
 
 For OData navigation requests along associations, `msg.target` refers to the last target.
 For example:
@@ -289,7 +289,7 @@ For example:
 
 [See also `req.path` to learn how to access full navigation paths.](#path){.learn-more}
 [See _Entity Definitions_ in the CSN reference.](../cds/csn#entity-definitions){.learn-more}
-[Learn more about linked models and definitions.](cds-reflect#cds-reflect){.learn-more}
+[Learn more about linked models and definitions.](cds-reflect){.learn-more}
 
 
 
@@ -444,10 +444,10 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
-### req. diff() (beta) {.method}
+### req. diff() <Badge type="warning" text="beta" /> {.method}
 [`req.diff`]: #req-diff
 
-Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed).
+Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed). Note that the usage of `req.diff` only makes sense in *before* handlers as they are run before the actual change was persisted on the database.
 > This triggers database requests.
 
 ```js

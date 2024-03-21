@@ -74,7 +74,7 @@ class cds.ApplicationService extends cds.Service {
 
 ### _static_ handle_authorization() {.method}
 
-This method is adding request handlers for initial authorization checks, as documented in the [Authorization guide](../guides/authorization.md).
+This method is adding request handlers for initial authorization checks, as documented in the [Authorization guide](../guides/security/authorization.md).
 
 
 

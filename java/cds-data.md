@@ -324,6 +324,10 @@ Result relatedBooks = service.run(query,
   Map.of("embedding", CdsVector.of(embedding)));
 ```
 
+::: warning
+The `cds.Vector` type is only supported on SAP HANA Cloud (QRC 1/2024 or later).
+:::
+
 
 ## Data in CDS Query Language (CQL)
 

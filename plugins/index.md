@@ -287,6 +287,8 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/cap-operator-plugin)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
+[Learn more about CAP Operator](https://sap.github.io/cap-operator/) {.learn-more}
+
 <div id="attachments" />
 
 <div id="internal-plugins" />

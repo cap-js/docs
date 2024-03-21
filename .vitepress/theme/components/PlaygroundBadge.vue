@@ -62,13 +62,11 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   }
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
-    console.log(data)
-    const example = files.shift();
-    sources[`${example}`] = data[`${name}_${kind}_${example}`];
     for (const file of files || []) {
-      sources[`${file}`] = data[`${name}_${kind}_${file}`];
+      sources[`${file}`] = data[`${name}/${kind}/${file}`];
     }
   }
+  console.log(sources, data)
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
 }
 

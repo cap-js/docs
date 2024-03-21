@@ -1,18 +1,17 @@
 import * as fs from 'fs'
-import * as path from 'path'
 
 let data: Record<string, string> = {};
 
 export default {
-  watch: ['./**/**/**/**/**/**/*'],
+  // Watch files in <rule>/<type>/
+  watch: ['./**/**/**/**/*'],
   load(watchedFiles: any[]) {
     watchedFiles.forEach((file) => {
-      const parsedPath = path.parse(file);
-      const fileName = parsedPath.base
-      const type = path.basename(parsedPath.dir)
-      const rule = path.parse(parsedPath.dir.replace(type, '')).base
-      const key = `${rule}_${type}_${fileName}`;
+      const key = file.replace(`${__dirname}/`, '')
+        .replace('node-modules', 'node_modules')
+      if (key !== 'examples.data.ts') {
         data[key] = fs.readFileSync(file, 'utf-8')
+      }
     })
     return data;
   }

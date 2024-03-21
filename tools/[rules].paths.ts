@@ -37,7 +37,7 @@ Rules with the *inferred* flavor are more powerful, but also slower to execute a
 to be computed. These rules are therefore only run via the command line of (when expliciticly enabled in the editor) on 
 initial load or restart of the ESLint server.
 
->> When explicitly turned on in the editor, the ESLint markup from an incorrect file disappears in the editor on file changes.
+> When explicitly turned on in the editor, the ESLint markup from an incorrect file disappears in the editor on file changes.
 
 > [!TIP]
 > ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>

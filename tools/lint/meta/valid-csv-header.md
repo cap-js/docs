@@ -20,24 +20,24 @@ CSV files for entities must refer to valid element names.
 ### Examples
 
 ::: code-group
-<<< ../examples/valid-csv-header/correct/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/valid-csv-header/correct/db/my.bookshop-Books.csv#snippet{csv:line-numbers} [✅ &nbsp; Correct example]
 :::
-<!--PlaygroundBadge
+<PlaygroundBadge
   name="valid-csv-header"
   kind="correct"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['services.cds', 'data/my.bookshop-Books.csv']"
-/-->
+  :files="['services.cds', 'db/my.bookshop-Books.csv']"
+/>
 
 ::: code-group
-<<< ../examples/valid-csv-header/incorrect/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/valid-csv-header/incorrect/db/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
 :::
-<!--PlaygroundBadge
+<PlaygroundBadge
   name="valid-csv-header"
   kind="incorrect"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['services.cds', 'data/my.bookshop-Books.csv']"
-/-->
+  :files="['services.cds', 'db/my.bookshop-Books.csv']"
+/>
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.3.0`.

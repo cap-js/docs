@@ -232,10 +232,10 @@ To learn more about how to build and run CQN queries, see sections [Building CQN
 
 Keep in mind, that _Remote Services_ are simply clients to remote APIs.
 CAP doesn't automatically forward CQN queries to these services. Developers need to explicitly call and use these _Remote Services_ in their code.
-However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](consumption-api#application-services).
+However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](application-services).
 ::: warning
 In case data from _Remote Services_ should be combined with data from the database custom coding is required.
-Refer to the [Integrate and Extend guide](../guides/using-services#integrate-and-extend) for more details.
+Refer to the [Integrate and Extend guide](../../guides/using-services#integrate-and-extend) for more details.
 :::
 
 ## Cloud SDK Integration

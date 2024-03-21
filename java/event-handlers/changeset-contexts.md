@@ -21,7 +21,7 @@ ChangeSet Contexts are used in the CAP Java SDK as a light-weight abstraction ar
 ChangeSet Contexts only define transactional boundaries, but do not define themselves how a transaction is started, committed or rolled back.
 They are therefore well suited to plug in different kinds of transaction managers to integrate with different kinds of transactional resources.
 
-The currently active ChangeSet Context can be accessed from the [Event Context](../event-handlers#eventcontext):
+The currently active ChangeSet Context can be accessed from the [Event Context](../event-handlers/#eventcontext):
 
 ```java
 context.getChangeSetContext();

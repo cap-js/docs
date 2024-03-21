@@ -276,6 +276,17 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
+## CAP Operator Plugin (Alpha)
+
+[@cap-js/cap-operator-plugin](https://www.npmjs.com/package/@cap-js/cap-operator-plugin) {.subtitle}
+
+The CAP Operator Plugin provides an easy way to generate [CAP Operator](https://sap.github.io/cap-operator/) resources to deploy multitenant CAP Applications.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/cap-operator-plugin)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
+
 <div id="attachments" />
 
 <div id="internal-plugins" />

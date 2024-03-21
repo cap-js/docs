@@ -979,6 +979,11 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
 :::
 
+::: warning
+The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
+The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
+:::
+
 ### Java Type Mapping
 
 #### Simple Types
@@ -1002,11 +1007,6 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 |`{"value": {"name": "Mark Twain"}}`                                | `java.util.Map<String, Object>`      |
 |`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
 
-
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only for the REST Adapter.
-:::
 
 
 ## Singletons

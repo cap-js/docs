@@ -122,7 +122,7 @@ In the following example, the remote API is running as another CAP application w
 ```yaml
 cds:
   remote.services:
-  - name: "API_BUSINESS_PARTNER"
+  - name: "OTHER_CAP_APP"
     binding:
       name: shared-xsuaa
       onBehalfOf: currentUser
@@ -145,7 +145,7 @@ The CAP application requires a service binding to this BTP service in order to c
 ```yaml
 cds:
   remote.services:
-  - name: "API_BUSINESS_PARTNER"
+  - name: "BUSINESS_PARTNER_SERVICE"
     binding:
       name: biz_partner_svc
 ```

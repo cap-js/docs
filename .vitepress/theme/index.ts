@@ -1,10 +1,10 @@
 import DefaultTheme from 'vitepress/theme';
+import { EnhanceAppContext } from 'vitepress';
+import Layout from './Layout.vue';
+import IndexList from './components/IndexList.vue';
+import ImplVariantsHint from './components/implvariants/ImpVariantsHint.vue';
 
 import './custom.scss'
-// @ts-ignore
-import Layout from './Layout.vue';
-// @ts-ignore
-import IndexList from './components/IndexList.vue';
 
 /**
  * @type {import('vitepress/theme')}
@@ -12,7 +12,8 @@ import IndexList from './components/IndexList.vue';
 export default {
   extends: DefaultTheme,
   Layout: Layout,
-  enhanceApp(ctx:any) {
+  enhanceApp(ctx: EnhanceAppContext) {
     ctx.app.component('IndexList', IndexList)
+    ctx.app.component('ImplVariantsHint', ImplVariantsHint)
   }
 }

@@ -7,7 +7,6 @@ redirect_from:
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/025-Services/0-index.md -> @external/java/services.md -->
 
 # Services
 <style scoped>
@@ -20,11 +19,11 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## An Event-Based API
 
-Services dispatch events to [Event Handlers](event-handlers), which implement the behaviour of the service.
+Services dispatch events to [Event Handlers](event-handlers/), which implement the behaviour of the service.
 A service can process synchronous as well as asynchronous events and offers a user-friendly API layer around these events.
 
 Every service implements the [Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html) interface, which offers generic event processing capabilities through its [emit(EventContext)](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/Service.html#emit-com.sap.cds.services.EventContext-) method.
-The [Event Context](event-handlers#eventcontext) contains information about the event and its parameters.
+The [Event Context](event-handlers/#eventcontext) contains information about the event and its parameters.
 The `emit` method takes care of dispatching an Event Context to all event handlers registered on the respective event and is the central API to process asynchronous and synchronous events.
 
 Usually service implementations extend the `Service` interface to provide a custom, user-friendly API layer on top of the `emit()` method. Examples are the [Application Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html), [Persistence Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/persistence/PersistenceService.html), and [Remote Service](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/RemoteService.html), which offer a common CQN query execution API for their CRUD events.
@@ -33,7 +32,7 @@ However, also technical components are implemented as services, for example the 
 ### Using Services
 
 Often times your Java code needs to interact with other services. The [ServiceCatalog](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceCatalog.html) provides programmatic access to all available services.
-The Service Catalog can be accessed from the [Event Context](event-handlers#eventcontext) or from the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html).
+The Service Catalog can be accessed from the [Event Context](event-handlers/#eventcontext) or from the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/CdsRuntime.html).
 
 ```java
 ServiceCatalog catalog = context.getServiceCatalog();
@@ -96,7 +95,7 @@ For the injection of specific service interfaces the annotation `@Qualifier` is 
 
 ## CQN-based Services
 
-The most used services in CAP are the [CQN-based services](cqn-services) which define APIs accepting CQN queries:
+The most used services in CAP are the [CQN-based services](cqn-services/) which define APIs accepting CQN queries:
 
 - [Application Services](cqn-services/application-services) exposed CDS services to clients.
 - [Persistence Services](cqn-services/persistence-services) are CQN-based database clients.
@@ -104,9 +103,9 @@ The most used services in CAP are the [CQN-based services](cqn-services) which d
 
 ## Application Lifecycle Service
 
-The Application Lifecycle Service emits events when the `CdsRuntime` is fully initialized, but the application is not started yet, or when the application is stopped. 
-Its API and events are defined in the [ApplicationLifecycleService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ApplicationLifecycleService.html) interface. 
-You can use these events to register an event handler which performs custom initialization or shutdown logic. 
+The Application Lifecycle Service emits events when the `CdsRuntime` is fully initialized, but the application is not started yet, or when the application is stopped.
+Its API and events are defined in the [ApplicationLifecycleService](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ApplicationLifecycleService.html) interface.
+You can use these events to register an event handler which performs custom initialization or shutdown logic.
 In addition the Application Lifecycle Service provides an event to globally adapt the error response handling.
 
 [Learn more about adapting the error response handling in section Indicating Errors.](./event-handlers/indicating-errors#errorhandler){.learn-more}

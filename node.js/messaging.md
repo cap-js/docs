@@ -5,7 +5,6 @@ redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
 # Messaging
 
@@ -404,7 +403,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <div id="kafka-sap" />
 
-### Redis PubSub (beta)
+### Redis PubSub <Badge type="warning" text="beta" />
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
 :::

@@ -4,7 +4,7 @@ status: released
 
 # Localization / i18n
 
-##
+[[toc]]
 
 ### Generic Errors
 

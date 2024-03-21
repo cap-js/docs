@@ -313,6 +313,17 @@ CqnSelect query = Select.from(BOOKS).where(b -> // [!code focus]
 Result relatedBooks = service.run(query); // [!code focus]
 ```
 
+You can also use parameters for vectors in queries:
+
+```Java
+CqnSelect query = Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), CQL.param("embedding")
+    .type(CdsBaseType.VECTOR)).gt(0.9)
+
+Result relatedBooks = service.run(query,
+  Map.of("embedding", CdsVector.of(embedding)));
+```
+
 
 ## Data in CDS Query Language (CQL)
 

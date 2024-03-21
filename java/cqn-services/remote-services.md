@@ -26,7 +26,7 @@ On top of that CAP integrates nicely with Cloud SDK, for example ensuring automa
 
 <img src="../assets/remote%20services.drawio.svg" width="700px" class="mute-dark" alt="This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.">
 
-CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you cannot leverage CQN-based _Remote Services_, refer to [service consumption with Cloud SDK](#service-consumption) for details.
+CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you cannot leverage CQN-based _Remote Services_, refer to [native consumption with Cloud SDK](#native-consumption) for details.
 
 ::: tip
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
@@ -113,7 +113,8 @@ cds:
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 
 ### Using BTP Reuse Services
-If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over service-binding-based _Remote Services_ is the simpler usage. There is no need to manually externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
+If the credentials for the remote API are available as 
+If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over destination-based _Remote Services_ is the simpler usage. There is no need to manually externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
 
 In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
 
@@ -154,11 +155,13 @@ In most cases, CAP Java SDK does not understand the service binding structure of
 static {
     OAuth2ServiceBindingDestinationLoader.registerPropertySupplier(
         options -> options.getServiceBinding().getTags().contains("<tag_biz_partner_svc>"),
-            XsuaaOAuth2PropertySupplier::new);
+            BizPartnerOAuth2PropertySupplier::new);
 }
 ```
 
-The parameter `<tag_biz_partner_svc>` needs to be replaced by the concrete name of the tag provided in the binding of the BTP Service. Alternatively, a check on the service name can be chosen as well.
+The parameter `<tag_biz_partner_svc>` needs to be replaced by the concrete name of the tag provided in the binding of the BTP Service. Alternatively, a check on the service name can be chosen as well. The class `BizPartnerOAuth2PropertySupplier` needs to be provided by you extending the Cloud SDK base class `DefaultOAuth2PropertySupplier`.
+
+[Learn more about registering OAuth2PropertySupplier in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/service-bindings#customization){.learn-more}
 
 ### Configuring the CDS Service Name
 
@@ -330,37 +333,64 @@ public class DestinationConfiguration implements EventHandler {
 }
 ```
 
-[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../../guides/using-services#using-destinations){.learn-more}
+[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} 
+[Learn more about using destinations](../../guides/using-services#using-destinations){.learn-more}
 
 Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
 
-## Service Consumption via Cloud SDK { #service-consumption }
+## Native Consumption { #native-consumption }
 
-If you need to call an endpoint which you cannot consume as a _Remote Service_ you can fall back to leverage native Cloud SDK APIs. However, usage of CAP´s _Remote Service_ is encouraged whenever possible.
+If you need to call an endpoint which you cannot consume as a _Remote Service_ you can fall back to leverage Cloud SDK APIs. Based on the Cloud SDK´s `HttpClientAccessor` API you can resolve a `HttpClient` which you can use to execute plain http requests against the remote API. 
 
-### Destination-based consumption
+However, this involves low-level operations like payload de-/serialization. Usage of CAP´s _Remote Service_ is encouraged whenever possible to free the developer from these.
 
-Describe `DestinationAccessor` and `HttpClientAccessor`...
+### Using BTP Destinations
 
-### Service Binding-based consumption
-
-Describe `PropertySupplier`, `ServiceBindingDestinationLoader` and `HttpClientAccessor`
+If the URL and credentials of the remote API is configured as a BTP or programmatic destination, you can use Cloud SDK´s `DestinationAccessor` API to load the destination based on its name. In a second step, `HttpClientAccessor` is used to create an instance of `HttpClient`:
 
 ```java
-destination = ServiceBindingDestinationLoader.defaultLoaderChain().getDestination(
-        ServiceBindingDestinationOptions.forService(binding).onBehalfOf(OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT).build());
+HttpDestination destination = DestinationAccessor.getDestination("destinationName").asHttp();
+HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
+...
 ```
 
-## Code Examples
+[Learn more about HttpClientAccessor in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/http-client){.learn-more}
 
-### Register Destinations
+### Using BTP Reuse Services
+
+If the URL and credentials of the remote API is available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it is again possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
+
+```java
+ServiceBinding binding = ...;
+HttpDestination destination = ServiceBindingDestinationLoader.defaultLoaderChain().getDestination(
+        ServiceBindingDestinationOptions.forService(binding).onBehalfOf(OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT).build());
+
+HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
+...
+```
+
+[Find out how to register destinations for different authentication types](#register-destinations){.learn-more}
+[Learn more about HttpClientAccessor in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/http-client){.learn-more}
+
+In order to be able to resolve a service binding into a Cloud SDK destination, a `OAuth2PropertySupplier` needs to be registered with Cloud SDK.
+
+```java
+static {
+    OAuth2ServiceBindingDestinationLoader.registerPropertySupplier(
+        options -> options.getServiceBinding().getTags().contains("<tag_biz_partner_svc>"),
+            BizPartnerOAuth2PropertySupplier::new);
+}
+```
+
+[Learn more about registering OAuth2PropertySupplier in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/service-bindings#customization){.learn-more}
+
+### Register Destinations 
 
 The following example code snippets show how to programmatically register a destination for different authentication types.
 
-#### Basic Authentication
-
+Use the following example if the remote API supports basic authentication:
 ```java
 DefaultHttpDestination
         .builder("https://example.org")
@@ -369,8 +399,7 @@ DefaultHttpDestination
 	.name("my-destination").build();
 ```
 
-#### Token Forwarding
-
+Use the following example if you can directly forward the token from the current security context:
 ```java
 DefaultHttpDestination
         .builder("https://example.org")
@@ -378,8 +407,7 @@ DefaultHttpDestination
 	.name("my-destination").build();
 ```
 
-#### OAuth2 Client Credentials { #oauth2-client-credentials}
-
+Use the following example if you want to call the remote API using a technical user:
 ```java
 ClientCredentials clientCredentials =
         new ClientCredentials("clientid", "clientsecret");
@@ -392,8 +420,7 @@ OAuth2DestinationBuilder
         .build();
 ```
 
-#### User Token Authentication { #user-token-authentication}
-
+Use the following example if you need to exchange the token from the security context (ie. user token exchange): 
 ```java
 ClientCredentials clientCredentials =
         new ClientCredentials("clientid", "clientsecret");

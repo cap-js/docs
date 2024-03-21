@@ -215,7 +215,7 @@
 - [CDS Editors](tools/index#cds-editor)
 - [CDS Lint](tools/index#cds-lint)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/index#cap-notebooks-page)
+- [CAP Notebooks](tools/index#cap-vscode-notebook)
 - [Using Docker](tools/index#docker)
 
 

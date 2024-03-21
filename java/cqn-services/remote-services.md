@@ -213,7 +213,7 @@ Given that this destination holds the URL `https://s4.sap.com`, the resulting se
 
 ## Consuming Remote Services
 
-_Remote Services_ can be used in your CAP application just like any other [service, that accepts CQN queries](../cqn-services#cdsservices):
+_Remote Services_ can be used in your CAP application just like any other [service, that accepts CQN queries](./cqn-services#cdsservices):
 
 ```java
 @Autowired

@@ -5,7 +5,6 @@ status: released
 redirect_from: java/data
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/040-Data/index.md -> @external/java/cds-dataindex.md -->
 
 # Working with Data
 
@@ -426,7 +425,7 @@ Following example uses accessor interfaces that have been generated with the def
     author.setName("Emily Brontë");
 
     Books book = Books.create();
-    book.setAuthor(authors);
+    book.setAuthor(author);
     book.setTitle("Wuthering Heights");
 ```
 
@@ -443,7 +442,7 @@ The generation mode is configured by the property [`<methodStyle>`](./assets/cds
 
 Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
 
-The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
+The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
 
 Moreover, it doesn't change the way how event contexts and entities, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 
@@ -712,7 +711,7 @@ processor.addGenerator(
 
 ## Media Type Processing { #mediatypeprocessing}
 
-The data for [media type entity properties](../guides/media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
+The data for [media type entity properties](../guides/providing-services#serving-media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers/#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

@@ -2,7 +2,7 @@
 synopsis: >
   Persistence Services are CQN-based database clients. This section describes which database types are supported, how datasources to these databases are created and how they are turned into Persistence Services.
 status: released
-redirect_from: 
+redirect_from:
 - java/persistence-services
 - java/cds4j/static-model
 - java/cds4j/typed-access
@@ -10,7 +10,6 @@ redirect_from:
 - java/advanced
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/persistence-services.md -> @external/java/persistence-services.md -->
 
 # Persistence Services
 <style scoped>
@@ -20,7 +19,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- % include links.md %} -->
 
 ## Database Support { #database-support}
 
@@ -73,7 +71,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.
 5. In [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking), _shared_ locks are not supported but an _exclusive_ lock is used instead.
 6. The CDS type `UInt8` can't be used with H2, as there is no `TINYINT`. Use `Int16` instead.
-7. For regular expressions, H2's implementation is compatible with Java's: the matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.  
+7. For regular expressions, H2's implementation is compatible with Java's: the matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ::: warning
 Support for localized and temporal data via session context variables requires H2 v2.2.x or later.
@@ -551,9 +549,6 @@ cds:
 
 ## Native SQL
 
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
 ### CDS Data Store Connector { #cdsdatastoreconnector}
 
 The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
@@ -576,7 +571,7 @@ Invoking a `connect()` method creates an instance of the Data Store API.
 ### CDS Data Store { #cdsdatastore}
 
 The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](../cqn-services#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
+The CDS Data Store is used to implement the [Persistence Service](./index#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
 
 The `CdsDataStore` API is similar to the [`CqnService` API](../working-with-cql/query-execution#queries). The only difference is, that the `run` method is called `execute`:
 
@@ -594,7 +589,7 @@ dataStore.setSessionContext(sessionContext);
 ```
 
 ::: tip
-When implementing a CAP application, using the [Persistence Service](../cqn-services#persistenceservice) is preferred over the CDS Data Store.
+When implementing a CAP application, using the [Persistence Service](./index#persistenceservice) is preferred over the CDS Data Store.
 :::
 
 ### Native SQL with JDBC Templates { #jdbctemplate}

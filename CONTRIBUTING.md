@@ -1,6 +1,6 @@
 # Contributing
 
-## Contributing through Github UI
+## Contributing through GitHub UI
 
 Use the _Edit this page_ button at the bottom of each page.  This will lead you to the source `md` file.
 

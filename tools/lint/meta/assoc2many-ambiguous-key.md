@@ -29,6 +29,8 @@ Ambiguous key with a `TO MANY` relationship since entries could appear multiple 
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/assoc2many-ambiguous-key/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

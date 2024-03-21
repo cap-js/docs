@@ -29,6 +29,8 @@ status: released
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/auth-restrict-grant-service/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

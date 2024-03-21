@@ -30,6 +30,8 @@ Avoid using reserved SQL keywords.
   :packages="{'cds': { 'requires': {'db': { 'kind': 'sql' } } } }"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/no-db-keywords/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

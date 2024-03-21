@@ -29,6 +29,8 @@ Use `@requires` instead of `@restrict.to` in actions and services with unrestric
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/auth-use-requires/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

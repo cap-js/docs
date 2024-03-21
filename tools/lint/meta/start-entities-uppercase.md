@@ -29,6 +29,8 @@ Regular entity names should start with uppercase letters.
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/start-entities-uppercase/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

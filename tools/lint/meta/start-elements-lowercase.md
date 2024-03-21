@@ -29,6 +29,8 @@ Regular element names should start with lowercase letters.
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/start-elements-lowercase/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

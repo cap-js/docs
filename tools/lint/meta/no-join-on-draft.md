@@ -29,6 +29,8 @@ Draft-enabled entities shall not be used in views that make use of `JOIN`.
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/no-join-on-draft/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

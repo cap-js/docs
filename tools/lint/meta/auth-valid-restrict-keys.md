@@ -29,6 +29,8 @@ status: released
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/auth-valid-restrict-keys/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

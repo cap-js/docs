@@ -23,6 +23,8 @@ Checks whether the minimum Node.js version required by `@sap/cds` is achieved.
 <<< ../examples/min-node-version/correct/package.json#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 
+<br>
+
 ::: code-group
 <<< ../examples/min-node-version/incorrect/package.json#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

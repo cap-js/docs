@@ -29,6 +29,8 @@ Should make suggestions for possible missing SQL casts.
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/sql-cast-suggestion/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

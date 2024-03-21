@@ -29,6 +29,8 @@ CSV files for entities must refer to valid element names.
   :files="['services.cds', 'db/my.bookshop-Books.csv']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/valid-csv-header/incorrect/db/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
 :::

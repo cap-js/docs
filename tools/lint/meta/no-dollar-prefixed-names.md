@@ -29,6 +29,8 @@ Names must not start with $ to avoid possible shadowing of reserved variables.
   :files="['schema.cds']"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/no-dollar-prefixed-names/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

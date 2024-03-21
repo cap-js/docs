@@ -30,6 +30,8 @@ Extensions must not violate restrictions set by the extended SaaS app.
   :packages="{'cds': { 'extends': 'base-app' } }"
 />
 
+<br>
+
 ::: code-group
 <<< ../examples/extension-restrictions/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::

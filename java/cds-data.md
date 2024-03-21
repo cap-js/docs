@@ -301,6 +301,18 @@ CdsVector embedding = service.run(Select.from(BOOKS).byId(101)
   .columns(b -> b.embedding())).single(Books.class).getEmbedding();
 ```
 
+To compute the similarity and distance of embeddings in the vector space, you can use the `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean distance) functions in queries:
+
+```Java
+//  Compute vector embedding, e.g. via LangChain4j
+float[] embedding = llm.embed(text).content().vector();
+
+CqnSelect query = Select.from(BOOKS).where(b -> // [!code focus]
+  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)) // [!code focus]
+
+Result relatedBooks = service.run(query); // [!code focus]
+```
+
 
 ## Data in CDS Query Language (CQL)
 

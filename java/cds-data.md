@@ -294,6 +294,12 @@ entity Books : cuid { // [!code focus]
 
 Vector embeddings are typically computed using models tailored to specific use cases, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model.
 
+In CAP Java, vector embeddings are represented by the `CdsVector` type. In CDS QL queries, elements of type `cds.Vector` are not included in select _all_; they must be explicitly added to the select list:
+
+```Java
+CdsVector embedding = service.run(Select.from(BOOKS).byId(101)
+  .columns(b -> b.embedding())).single(Books.class).getEmbedding();
+```
 
 
 ## Data in CDS Query Language (CQL)

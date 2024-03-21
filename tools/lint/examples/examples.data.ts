@@ -7,7 +7,7 @@ let data: Record<string, string> = {};
 
 export default {
   // Watch files in <rule>/<type>/
-  watch: ['./**/**/**/**/*'],
+  watch: ['./**/*'],
   load(watchedFiles: any[]) {
     watchedFiles.forEach((file) => {
       const key = file.replace(`${__dirname}/`, '')

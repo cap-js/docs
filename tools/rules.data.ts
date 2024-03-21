@@ -24,7 +24,7 @@ export default {
         const isRecommended = plugin?.rules[rule]?.meta.docs.recommended ? '✅' : '';
         const hasFix = plugin?.rules[rule]?.meta.fixable ? '🔧' : '';
         const hasSuggestions = plugin?.rules[rule]?.meta.hasSuggestions ? '💡' : '';
-        const model = plugin?.rules[rule]?.meta?.model === 'parsed' ? '♻️' : '';
+        const model = plugin?.rules[rule]?.meta?.model === 'parsed' ? '👀' : '';
         const category = plugin?.rules[rule]?.meta?.model === 'none' ? "Environment" : "Model Validation";
         data[category].push({ rule, description, url, isRecommended, hasFix, hasSuggestions, model })
       })  

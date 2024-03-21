@@ -20,13 +20,11 @@ Checks whether the latest `@sap/cds` version is being used.
 ### Examples
 
 ::: code-group
-<<< ../examples/latest-cds-version/correct/package.json#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
 :::
 
 <br>
 
 ::: code-group
-<<< ../examples/latest-cds-version/incorrect/package.json#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 
 

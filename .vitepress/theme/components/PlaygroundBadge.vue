@@ -22,10 +22,12 @@ const defaultConfig: any = {
 }
 
 const defaultPackageJson = {
+    "dependencies": {
+        "@sap/cds": "^7.0.0",
+    },
     "devDependencies": {
-        "eslint": "latest",
-        "@sap/eslint-plugin-cds": "latest",
-        "@sap/cds-dk": "latest"
+        "eslint": ">=7.0.0",
+        "@sap/eslint-plugin-cds": "^2.6.7", // Get version
     }
 }
 

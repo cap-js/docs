@@ -20,25 +20,25 @@ CSV files for entities must refer to valid element names.
 ### Examples
 
 ::: code-group
-<<< ../examples/valid-csv-header/correct/db/my.bookshop-Books.csv#snippet{csv:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/valid-csv-header/correct/db/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [✅ &nbsp; Correct example]
 :::
 <PlaygroundBadge
   name="valid-csv-header"
   kind="correct"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['services.cds', 'db/my.bookshop-Books.csv']"
+  :files="['db/schema.cds', 'db/data/my.bookshop-Books.csv']"
 />
 
 <br>
 
 ::: code-group
-<<< ../examples/valid-csv-header/incorrect/db/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/valid-csv-header/incorrect/db/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 <PlaygroundBadge
   name="valid-csv-header"
   kind="incorrect"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['services.cds', 'db/my.bookshop-Books.csv']"
+  :files="['db/schema.cds', 'db/data/my.bookshop-Books.csv']"
 />
 
 ### Version

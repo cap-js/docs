@@ -112,11 +112,17 @@ cds:
 
 Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
 
-### Using BTP Reuse Services
-If the credentials for the remote API are available as 
-If the remote API is running on the BTP, it is likely that you can leverage Service Binding-based _Remote Services_. The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage over destination-based _Remote Services_ is the simpler usage. There is no need to manually externalize configuration (e.g. credentials) for example into a BTP destination. Also, aspects like credential rotation is provided out-of-the box.
+### Using BTP Service Bindings { #service-binding-based-scenarios }
 
-In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) xsuaa service instance and, thus, accept JWT tokens issued by the single xsuaa instance.
+If the remote API is running on SAP BTP, it is likely that you can leverage Service Binding-based _Remote Services_. 
+The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the much simpler usage. 
+A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information, the location and optionally parameters. 
+In constrast to BTP destinations in general, it can be created and refreshed by a technical user which allows automatic credential rotation.
+Hence, location and security aspects of remote services is transparent to CAP applications in case of service bindings.
+
+#### Binding to Local Service
+
+In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) XSUAA service instance and, thus, accept JWT tokens issued by the single XSUAA instance.
 
 ```yaml
 cds:
@@ -131,25 +137,37 @@ cds:
 
 `shared-xsuaa` is the name of the xsuaa service instance both CAP applications are bound to. 
 
-While service bindings typically only provide authentication details, they don´t provide the concrete authentication strategy (e.g. technical/system user or named user flow). Specifically xsuaa instances also don´t expose the URL to the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
+While service bindings typically provide authentication details, they don´t provide information about the user propagation strategy (e.g. system user or named user flow). XSUAA instances also can't expose the URL of the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
 
-The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user that is bound to the current Request Context will be used. Regardless if this is a technical/system or named user. The property is optional with default value `currentUser`. Other options are `systemUser`and `systemUserProvider` which allow an explicit switch to a technical user in the current tenant respectively the provider tenant. `systemUserProvider` can be especially used if you need to establish an internal communication channel that is not accessible for subscriber tenants.
+The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user of the current [Request Context](../../event-handlers/request-contexts) will be used - regardless if this is a system user or named user. 
+Following options are available:
+
+- `currentUser` to stick to the user of the current Request Context (default)
+- `systemUser` to explicitly switch to the underlying system user of the current subscriber tenant (technical flow).
+- `systemUserProvider` to explicit switch to the system user of the provider tenant (technical flow).
+
+`systemUserProvider` is especially helpful when you need to establish an internal communication channel that is not accessible for subscriber tenants.
 
 As the URL typically is not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
 
-In a variant of this scenario, the _Remote Service_ is exposed by a BTP Service itself (ie. Re-use service). Typically, this exposure happens by the means of a service broker so that the consuming CAP application can create service instances of the BTP Service.
+#### Binding to a Reuse Service
 
-The CAP application requires a service binding to this BTP service in order to consume the remote API as a _Remote Service_. In contrast to pure xsuaa instances, service instances of BTP Services exposing remote APIs will additionally expose the URL of the remote API in their service binding. Thus, there is no need to explicitly define it as part of the `application.yaml` like in the following example:
+In a variant of this scenario, the _Remote Service_ is exposed by a BTP Service itself which is exposed as reuse service. 
+Typically, this exposure happens by the means of a service broker so that the consuming CAP application can create service instances of the BTP Service.
+
+The CAP application requires a service binding to this BTP service in order to consume the remote API as a _Remote Service_. In contrast to pure XSUAA instances, service instances of BTP Services exposing remote APIs will additionally expose the URL of the remote API in their service binding. 
+Thus, there is no need to explicitly define it as part of the `application.yaml` like in the following example:
 
 ```yaml
 cds:
   remote.services:
-  - name: "BUSINESS_PARTNER_SERVICE"
+  - name: "BizParterService"
     binding:
       name: biz_partner_svc
 ```
 
-In most cases, CAP Java SDK does not understand the service binding structure of the specific BTP Service. As the CAP Java SDK internally leverages Cloud SDK, it is required to contribute a mapping by the means of a Cloud SDK´s `PropertySupplier`. This `PropertySupplier` needs to be registered with the Cloud SDK once for example on application startup.
+In specific cases, SAP Cloud SDK does not understand the service binding structure of the specific BTP Service and it is required to contribute a mapping by the means of a Cloud SDK´s `PropertySupplier`. 
+This `PropertySupplier` needs to be registered with the Cloud SDK once at application startup.
 
 ```java
 static {
@@ -163,7 +181,7 @@ The parameter `<tag_biz_partner_svc>` needs to be replaced by the concrete name 
 
 [Learn more about registering OAuth2PropertySupplier in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/service-bindings#customization){.learn-more}
 
-### Configuring the CDS Service Name
+### Configuring CDS Service Name
 
 As mentioned before, the CDS service definition is, by default, looked up in the CDS model using the name of the _Remote Service_.
 

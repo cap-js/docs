@@ -43,6 +43,7 @@ The [predefined CDS types](../cds/types) are mapped to Java types and as follows
 | `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
 | `cds.Binary`       | `byte[]`               |                                                                          |
 | `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `cds.Vector`       | `com.sap.cds.CdsVector`| for [vector embeddings](#vector-embeddings)                              |
 
 ### SAP HANA-Specific Data Types
 
@@ -275,6 +276,25 @@ person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ::: warning
 Avoid cyclic relationships between CdsData objects when using toJson.
 :::
+
+
+## Vector Embeddings (beta) { #vector-embeddings }
+
+Vector embeddings are numerical representations that capture features and inherent semantics of data, such as text, images and videos.
+They facilitate tasks like semantic search, recommendations, and classification by calculating similarities or distances in the multi-dimensional vector embedding space.
+
+In CDS, such vector embeddings are stored in elements of type `cds.Vector`:
+
+```cds
+entity Books : cuid { // [!code focus]
+  title         : String(111);
+  embedding     : Vector(3072); // vector space w/ 3072 dimensions // [!code focus]
+} // [!code focus]
+```
+
+Vector embeddings are typically computed using models tailored to specific use cases, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model.
+
+
 
 ## Data in CDS Query Language (CQL)
 

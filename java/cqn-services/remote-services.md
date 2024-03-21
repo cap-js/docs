@@ -72,7 +72,7 @@ You can use the `cds import` command to generate a CDS service definition from a
 To learn more about this, have a look at section [Importing Service Definitions](../../guides/using-services#import-api).
 :::
 
-[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../java/developing-applications/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../developing-applications/properties#cds-remote-services){.learn-more}
 
 ### Using BTP Destinations { #destination-based-scenarios }
 If your _Remote Service_ is running outside the BTP, you typically need to separately obtain the URL and additional metadata like credentials from the service provider. You can leverage BTP Destinations or programmatically register a destination with Cloud SDK to persist them for usage in your CAP application.
@@ -226,7 +226,7 @@ ABusinessPartnerAddress address = bupa.run(select)
     .single(ABusinessPartnerAddress.class);
 ```
 ::: tip
-To learn more about how to build and run CQN queries, see sections [Building CQN Queries](query-api) and [Executing CQN Queries](query-execution).
+To learn more about how to build and run CQN queries, see sections [Building CQN Queries](../working-with-cql/query-api) and [Executing CQN Queries](../working-with-cql/query-execution).
 :::
 
 Keep in mind, that _Remote Services_ are simply clients to remote APIs.
@@ -332,7 +332,7 @@ public class DestinationConfiguration implements EventHandler {
 }
 ```
 
-[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../guides/using-services#using-destinations){.learn-more}
+[Find out how to register destinations for different authentication types](#register-destinations){.learn-more} [Learn more about using destinations](../../guides/using-services#using-destinations){.learn-more}
 
 Note that you can leverage Spring Boot's configuration possibilities to inject credentials into the destination configuration.
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).

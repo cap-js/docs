@@ -407,6 +407,7 @@ DefaultHttpDestination
 	.name("my-destination").build();
 ```
 
+{#oauth2-client-credentials}
 Use the following example if you want to call the remote API using a technical user:
 ```java
 ClientCredentials clientCredentials =
@@ -420,7 +421,8 @@ OAuth2DestinationBuilder
         .build();
 ```
 
-Use the following example if you need to exchange the token from the security context (ie. user token exchange): 
+{#user-token-authentication}
+Use the following example if you need to exchange the token from the security context (ie. user token exchange):
 ```java
 ClientCredentials clientCredentials =
         new ClientCredentials("clientid", "clientsecret");

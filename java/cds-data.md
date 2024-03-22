@@ -767,7 +767,7 @@ processor.addGenerator(
 
 ## Media Type Processing { #mediatypeprocessing}
 
-The data for [media type entity properties](../guides/providing-services#serving-media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
+The data for [media type entity properties](../guides/providing-services#serving-media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers/#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

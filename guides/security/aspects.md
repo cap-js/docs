@@ -11,9 +11,7 @@ impl-variants: true
 
 {{ $frontmatter.synopsis }}
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 

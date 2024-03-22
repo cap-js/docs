@@ -253,7 +253,7 @@ Available for:
 [@cap-js/telemetry](https://npmjs.com/package/@cap-js/telemetry) {.subtitle}
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
-Simply add the plugin to your project and you will find telemetry output written to the console as follows:
+By enabling the plugin in your project, various kinds of telemetry data will be automatically collected. For Node.js, you will find telemetry output written to the console as follows:
 
 ```txt
 [odata] - GET /odata/v4/processor/Incidents
@@ -269,12 +269,12 @@ Simply add the plugin to your project and you will find telemetry output written
   1.81 → 1.85 = 0.04 ms        @cap-js/sqlite - stmt.all SELECT json_object('ID',ID,'DraftAdministrativeData_Dr…
 ```
 
-In addition to the default console output, there are predefined kinds for exporting telemetry data to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging), Dynatrace, and Jaeger.
+Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) and Dynatrace. Node.js additionally supports Jaeger.
 
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
-
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
 <div id="attachments" />
 

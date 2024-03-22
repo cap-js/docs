@@ -307,10 +307,6 @@ cds.on('bootstrap', app => {
 
 More sophisticated health checks that, for example, check whether databases are available, etc., should use authentication to prevent DoS!
 
-### Liveness vs. Readiness Checks
-
-On both CF and Kubernetes, it is possible to provide two separate endpoints for liveness checks ("are you alive?") and readiness checks ("are you ready for more requests?"). A failure on the former leads to a restart, whereas a failure on the latter only temporarily takes the app instance out of request dispatching rotation. For more details, please check the respective platform's docs.
-
 
 ## Error Handling
 

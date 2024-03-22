@@ -235,9 +235,9 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment/) |  <X/>   | <X/> |
 | Deploy to/run on _Kubernetes_<sup>1</sup>                                      |  <D/>   | <D/> |
 | [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                 |  <X/>   | <X/> |
-| [SaaS on-/offboarding](../guides/multitenancy/)                          |  <X/>   | <X/> |
+| [SaaS on-/offboarding](../guides/multitenancy/)                                |  <X/>   | <X/> |
 | [Multitenancy](../guides/multitenancy/)                                        |  <X/>   | <X/> |
-| Health checks                                                                  |  <X/>   | <X/> |
+| [Health checks](../guides/deployment/health-checks)                            |  <X/>   | <X/> |
 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 

@@ -1666,10 +1666,10 @@ This list specifies the properties for application defined destinations.
 
 #### Authentication Types
 
-| Authentication Types    |                               Java                                |            Node.js             |
-|-------------------------|:-----------------------------------------------------------------:|:------------------------------:|
-| NoAuthentication        |                               <Y/>                                |              <Y/>              |
-| BasicAuthentication     |                               <Y/>                                |              <Y/>              |
-| TokenForwarding         |                               <Y/>                                | <X/><br>Use `forwardAuthToken` |
-| OAuth2ClientCredentials | [code only](../java/cqn-services/remote-services#oauth2-client-credentials) |              <X/>              |
-| UserTokenAuthentication | [code only](../java/cqn-services/remote-services#user-token-authentication) |              <X/>              |
+| Authentication Types    |                                  Java                                   |            Node.js             |
+|-------------------------|:-----------------------------------------------------------------------:|:------------------------------:|
+| NoAuthentication        |                                  <Y/>                                   |              <Y/>              |
+| BasicAuthentication     |                                  <Y/>                                   |              <Y/>              |
+| TokenForwarding         |                                  <Y/>                                   | <X/><br>Use `forwardAuthToken` |
+| OAuth2ClientCredentials | [code only](../java/cqn-services/remote-services#register-destinations) |              <X/>              |
+| UserTokenAuthentication | [code only](../java/cqn-services/remote-services#register-destinations) |              <X/>              |

@@ -213,7 +213,7 @@ Given that this destination holds the URL `https://s4.sap.com`, the resulting se
 
 ## Consuming Remote Services
 
-_Remote Services_ can be used in your CAP application just like any other [service, that accepts CQN queries](../#cdservices):
+_Remote Services_ can be used in your CAP application just like any other [service, that accepts CQN queries](../index#cdsservices):
 
 ```java
 @Autowired
@@ -386,7 +386,7 @@ static {
 
 [Learn more about registering OAuth2PropertySupplier in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/service-bindings#customization){.learn-more}
 
-### Register Destinations 
+### Register Destinations
 
 The following example code snippets show how to programmatically register a destination for different authentication types.
 
@@ -407,7 +407,6 @@ DefaultHttpDestination
 	.name("my-destination").build();
 ```
 
-{#oauth2-client-credentials}
 Use the following example if you want to call the remote API using a technical user:
 ```java
 ClientCredentials clientCredentials =
@@ -421,7 +420,6 @@ OAuth2DestinationBuilder
         .build();
 ```
 
-{#user-token-authentication}
 Use the following example if you need to exchange the token from the security context (ie. user token exchange):
 ```java
 ClientCredentials clientCredentials =

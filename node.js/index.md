@@ -2,7 +2,6 @@
 section: Node.js
 status: released
 ---
-<!--- Migrated: @external/node.js/index.md -> @external/node.js/index.md -->
 
 # CAP Service SDK for Node.js
 Reference Documentation

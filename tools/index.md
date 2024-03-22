@@ -7,7 +7,6 @@ redirect_from:
 status: released
 # outline: 2
 ---
-<!--- Migrated: @external/tools/0-index.md -> @external/tools.md -->
 
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}
@@ -16,16 +15,16 @@ status: released
 
 
 
-## Command Line Interface (CLI)
-
-### Installed with `@sap/cds-dk`
+## CDS Command Line Interface (CLI) {#cli}
 
 To use `cds` from your command line install `@sap/cds-dk` globally:
 ```sh
 npm i -g @sap/cds-dk
 ```
 
-### `cds version`
+
+
+### *cds version*
 
 Use `cds version` to get information about your installed package version:
 
@@ -52,7 +51,9 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
-### `cds help`
+
+
+### *cds help*
 
 Use `cds help` to see an overview of all commands:
 
@@ -138,12 +139,16 @@ SEE ALSO
   <em>cds serve --help</em> for the different start options.
 </pre>
 
-### `cds init`/`add`
+
+
+### *cds init/add*
 
 * Use `cds init` to create new projects
 * Use `cds add` to gradually add facets to projects
 
-### `cds env`
+
+
+### *cds env*
 
 Use `cds env` to inspect currently effective config settings
 
@@ -157,7 +162,7 @@ Use `cds env` to inspect currently effective config settings
 </pre>
 
 
-### `cds repl`
+### *cds repl*
 
 Use `cds repl` to live-interact with Node.js APIs
 
@@ -187,6 +192,52 @@ If you do this in VS Code's integrated terminal with the 'Auto Attach' feature e
 For example:
 - In VS Code, use the _Debug: Attach to Node Process_ command.
 - In Chrome browser, just open [chrome://inspect](chrome://inspect) and click _Inspect_.
+
+
+
+
+
+## SAP Business Application Studio {#bastudio}
+
+### Setup in BTP
+
+If not already done, [set up SAP Business Application Studio](https://developers.sap.com/tutorials/appstudio-onboarding.html) on SAP BTP.
+
+
+### Setup a Dev Space
+
+1. Open the [SAP BTP cockpit](https://account.hanatrial.ondemand.com/) and choose *SAP Business Application Studio* from the _Quick Tool Access_ section.
+
+1. Choose *Create Dev Space*.
+
+1. Provide a name for your dev space.
+
+1. Choose *Full Stack Cloud Application* as the application type.
+
+   By selecting *Full Stack Cloud Application*, your dev space comes with several extensions out of the box that you need to develop CAP applications. For example, CAP Tools, Java Tools, and MTA Tools are built in. This saves setup time. See [Developer Guide](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) for SAP Business Application Studio for more details.
+
+1. Choose *Create Dev Space*.
+
+   The creation of the dev space takes a while. You see that the status for your dev space changes from *STARTING* to *RUNNING*. See [Dev Space Types](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/4142f786f3d345699c3d5fbebda5ded6.html) for more details.
+
+1. Once the dev space is running, choose the dev space by clicking on the dev space name.
+
+   >You're using a trial version. Any dev space that hasn't been running for 30 days will be deleted. See the full list of [restrictions](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/a45742a719704bdea179b4c4f9afa07f.html).
+
+
+### Features
+
+To learn about the features specific to CAP development in the studio, see the guide [Developing a CAP Application in SAP Business Application Studio](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/8a648174036a458688391c3ad7ee7cd5.html)
+
+
+### Tutorials
+
++ [Combine CAP with SAP HANA Cloud to Create Full-Stack Applications](https://developers.sap.com/mission.hana-cloud-cap.html)
++ [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
+
++ Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
+
+
 
 
 
@@ -241,80 +292,18 @@ Restart the server when you did changes to your code using the *Debug* views res
 ![The green restart button from the debug bar.](assets/vscode/restart.png "The green restart button from the debug bar."){ style="box-shadow: 1px 1px 5px #888888; width:250px;" .ignore-dark}
 
 
-### Run a CAP Notebook { #cap-vscode-notebook}
 
-A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.visualstudio.com/blogs/2021/11/08/custom-notebooks) that serves you as a guide on how to create, navigate, and monitor CAP projects. With this approach, we want to encourage the CAP community to work with CAP in the same explorative manner that scientists work with their data, namely by:
+## IntelliJ
 
-- Visually interacting with their code
-- Playing with REPL-type inputs (notebook input cells)
-- Storing persistent code (notebook output cells)
+The CDS language support plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
 
-The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
+![Code completion in IntelliJ](https://raw.githubusercontent.com/cap-js/cds-intellij/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png){ .ignore-dark style="width:450px"}
 
-* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
+See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main/FEATURES.md) and the [installation instructions](https://github.com/cap-js/cds-intellij#requirements) for how to get started.
 
-   <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
-
-* To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
-
-* Magics, or magic commands, known from [IPython](https://ipython.readthedocs.io/en/stable/interactive/magics.html) are convenient functions to solve common problems. To see which line- and cell-magics can be used within a CAP Notebook, run a code cell with `%quickref`.
-
-* Start an empty CAP Notebook by creating a _*.capnb_ file.
-
-> Provided that the [**CDS Editor**](#cds-editor) is installed, the CAP Notebook will be rendered automatically as the file is selected.
-
-<div id="beforedocker" />
-
-## Docker
+[Report issues and provide feedback](https://github.com/cap-js/cds-intellij).
 
 
-### Prerequisites
-* You have installed [Docker](https://docs.docker.com/get-started/).
-
-### Build an Image
-
-Create a file called `Dockerfile` and add this content for a quick setup:
-
-```docker
-FROM node:lts
-# or use `FROM node:<NODEVERSION>` to match a specific Node version
-# you have installed locally
-
-USER node
-ENV NPM_CONFIG_PREFIX=/home/node/.npm
-ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
-
-RUN npm i -g @sap/cds-dk
-```
-
-Build your first image:
-```sh
-docker build -t cds .
-```
-
-
-### Run a Service in a Container
-
-1. Run a container that is based on the image:
-   ```sh
-   docker run --publish 4004:4004 -it cds sh
-   ```
-   > You see a `$` command prompt from _inside_ the container.
-
-1. Move to the home directory:
-   ```sh
-   cd
-   ```
-1. Write a simple cds file:
-   ```sh
-   echo 'service CatalogService { entity Books { key ID: UUID; } }' \
-       > services.cds
-   ```
-1. Run the service:
-   ```sh
-   cds run
-   ```
-1. Open [http://localhost:4004](http://localhost:4004) in a browser to test the application. You forwarded the port `4004` when running the container, which allows you to access the application as if it would run locally.
 
 
 ## CDS Editors & LSP {#cds-editor}
@@ -464,7 +453,7 @@ Enable to get quickfix proposals for artifact names, like entities, that aren't 
 
 If there are new release notes, this page opens on startup. You can disable this behavior using the *CDS > Release Notes: Show Automatically* (`cds.releaseNotes.showAutomatically`) setting.
 
-##### CAP Notebooks Page { #cap-notebooks-page}
+##### CAP Notebooks Page { #cap-notebooks-page }
 
 1. Press <kbd>F1</kbd>
 1. Open *CDS: Open CAP Notebooks Page*
@@ -542,7 +531,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### Command Line Client for CDS Code Formatter (beta) { #command-line-client-for-cds-code-formatter}
+### CDS Source Formatter <Badge type="warning" text="beta" /> { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
 formatting.
@@ -678,42 +667,88 @@ Linting:
 
 <div id="aftereslintcli" />
 
-## SAP Business Application Studio {#bastudio}
-
-### Set Up SAP Business Application Studio
-
-If not already done, [set up SAP Business Application Studio](https://developers.sap.com/tutorials/appstudio-onboarding.html) on SAP BTP.
 
 
-### Set Up Your Dev Space
+## CAP Notebooks { #cap-vscode-notebook }
 
-1. Open the [SAP BTP cockpit](https://account.hanatrial.ondemand.com/) and choose *SAP Business Application Studio* from the _Quick Tool Access_ section.
+A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.visualstudio.com/blogs/2021/11/08/custom-notebooks) that serves you as a guide on how to create, navigate, and monitor CAP projects. With this approach, we want to encourage the CAP community to work with CAP in the same explorative manner that scientists work with their data, namely by:
 
-1. Choose *Create Dev Space*.
+- Visually interacting with their code
+- Playing with REPL-type inputs (notebook input cells)
+- Storing persistent code (notebook output cells)
 
-1. Provide a name for your dev space.
+The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
 
-1. Choose *Full Stack Cloud Application* as the application type.
+* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
 
-    By selecting *Full Stack Cloud Application*, your dev space comes with several extensions out of the box that you need to develop CAP applications. For example, CAP Tools, Java Tools, and MTA Tools are built in. This saves setup time. See [Developer Guide](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) for SAP Business Application Studio for more details.
+  <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
 
-1. Choose *Create Dev Space*.
+* To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 
-    The creation of the dev space takes a while. You see that the status for your dev space changes from *STARTING* to *RUNNING*. See [Dev Space Types](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/4142f786f3d345699c3d5fbebda5ded6.html) for more details.
+* Magics, or magic commands, known from [IPython](https://ipython.readthedocs.io/en/stable/interactive/magics.html) are convenient functions to solve common problems. To see which line- and cell-magics can be used within a CAP Notebook, run a code cell with `%quickref`.
 
-1. Once the dev space is running, choose the dev space by clicking on the dev space name.
+* Start an empty CAP Notebook by creating a _*.capnb_ file.
 
-   >You're using a trial version. Any dev space that hasn't been running for 30 days will be deleted. See the full list of [restrictions](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/a45742a719704bdea179b4c4f9afa07f.html).
-
-
-### Features
-
-To learn about the features specific to CAP development in the studio, see the guide [Developing a CAP Application in SAP Business Application Studio](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/8a648174036a458688391c3ad7ee7cd5.html)
+> Provided that the [**CDS Editor**](#cds-editor) is installed, the CAP Notebook will be rendered automatically as the file is selected.
 
 
-### Tutorials Using SAP Business Application Studio
 
-+ [Combine CAP with SAP HANA Cloud to Create Full-Stack Applications](https://developers.sap.com/mission.hana-cloud-cap.html)
-+ [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
 
-+ Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
+
+## Using Docker { #docker }
+
+Prerequisite: You have installed [Docker](https://docs.docker.com/get-started/).
+
+#### Build an Image
+
+Create a file called `Dockerfile` and add this content for a quick setup:
+
+```docker
+FROM node:lts
+# or use `FROM node:<NODEVERSION>` to match a specific Node version
+# you have installed locally
+
+USER node
+ENV NPM_CONFIG_PREFIX=/home/node/.npm
+ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
+
+RUN npm i -g @sap/cds-dk
+```
+
+Build your first image:
+
+```sh
+docker build -t cds .
+```
+
+
+#### Run a Service in a Container
+
+1. Run a container that is based on the image:
+
+   ```sh
+   docker run --publish 4004:4004 -it cds sh
+   ```
+
+   > You see a `$` command prompt from _inside_ the container.
+
+1. Move to the home directory:
+
+   ```sh
+   cd
+   ```
+
+1. Write a simple cds file:
+
+   ```sh
+   echo 'service CatalogService { entity Books { key ID: UUID; } }' \
+       > services.cds
+   ```
+
+1. Run the service:
+
+   ```sh
+   cds run
+   ```
+
+1. Open [http://localhost:4004](http://localhost:4004) in a browser to test the application. You forwarded the port `4004` when running the container, which allows you to access the application as if it would run locally.

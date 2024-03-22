@@ -17,6 +17,10 @@ This guide explains how to add one or more SAP Fiori elements apps to a CAP proj
 
 [Learn more about developing SAP Fiori elements and OData V4 (since 1.84.)](https://sapui5.hana.ondemand.com/#/topic/62d3f7c2a9424864921184fd6c7002eb){.learn-more}
 
+
+[[toc]]
+
+
 ## SAP Fiori Preview
 
 For Node.js applications there is a _Fiori preview_ link on the index page.  It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
@@ -179,10 +183,10 @@ Use code completion to add and change individual values (word-based completion) 
 
     ::: tip
     To choose an element of an associated entity, first select the corresponding association from the list and type *. \(period\)*. Elements of associated entity are suggested.
-    
+
     Note: You can add multiple values separated by comma.
     :::
-    
+
    ```cds
    annotate Foo.Bar with @UI : { SelectionFields : [
        description, assignedIndividual.lastName|

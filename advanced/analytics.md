@@ -11,6 +11,9 @@ redirect_from: guides/analytics
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
+
 ## Aggregation
 
 ::: tip

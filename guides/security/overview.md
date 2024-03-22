@@ -10,6 +10,9 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
+
 ## Platform Compliance { #platform-compliance }
 
 CAP applications run in a certain environment, that is, in the context of some platform framework that has specific characteristics.

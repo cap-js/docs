@@ -117,7 +117,7 @@ Retrieval strategies are part of a set of configuration options provided by Clou
 If the remote API is running on SAP BTP, it is likely that you can leverage Service Binding-based _Remote Services_. 
 The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the much simpler usage. 
 A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information, the location and optionally parameters. 
-In constrast to BTP destinations in general, it can be created and refreshed by a technical user which allows automatic credential rotation.
+In contrast to BTP destinations in general, it can be created and refreshed by a technical user which allows automatic credential rotation.
 Hence, location and security aspects of remote services is transparent to CAP applications in case of service bindings.
 
 #### Binding to Local Service

@@ -68,7 +68,6 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
       sources[`${file}`] = data[`${name}/${kind}/${file}`];
     }
   }
-  console.log(sources, data)
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
 }
 

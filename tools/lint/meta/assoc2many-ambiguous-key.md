@@ -27,7 +27,7 @@ In general an [association/composition to/of `MANY`](../../../cds/cdl#to-many-as
 
 #### ✅ &nbsp; Correct example
 
-In the following example, we define a unique association from `Author` to each `Book` with a well defined `ON` condition and backlink, thus satisfying the rule's conditions:
+In the following example, we define a unique association from `Authors` to `Books` with a well-defined `ON` condition and backlink, thus satisfying the rule's conditions:
 
 ::: code-group
 <<< ../examples/assoc2many-ambiguous-key/correct/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
@@ -41,7 +41,7 @@ In the following example, we define a unique association from `Author` to each `
 
 #### ❌ &nbsp; Incorrect example
 
-If we extend this example by creating a `view` on `Author` with a key `ID` and the element `bookIDs` without an `ON` condition, the rule is triggered since the key is no longer unique as `bookIDs` leads to multiple entries:
+If we extend this example by creating a view `AuthorView` with a key `ID` and the element `bookIDs` without an `ON` condition, the rule is triggered since the key is no longer unique and `bookIDs` leads to multiple entries:
 
 ::: code-group
 <<< ../examples/assoc2many-ambiguous-key/incorrect/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]

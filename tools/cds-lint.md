@@ -105,7 +105,7 @@ DEBUG="lint" cds lint .
 
 <pre class="log">
 Linting:
-<span><em>[lint] - eslint --ext ".cds,.csn,.csv" ...</em></span>
+<span>[lint] - eslint --ext ".cds,.csn,.csv" ...</span>
 </pre>
 
 
@@ -117,27 +117,25 @@ The following command automatically adds the settings for the ESLint VS Code ext
 cds add lint
 ```
 
-Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a prompt appears on whether to install the ESLint dependencies:
-
 <pre class="log">
 
-<span><em>Adding feature 'lint'...
+Adding feature 'lint'...
 
 Successfully added features to your project.
 
 
-Almost done - you are missing 2 npm dependencies:
+<span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
 
 (1) ESLint v>=7.0.0
 (2) ESLint plugin for CDS
 
 
-Install dependencies now ? [y/n] y</em></span>
+<text style="color: orange">Install dependencies now</text>? [y/n] y
 
 Successfully added features to your project.
 </pre>
 
-Once confirmed, this will install ESLint, the CDS plugin, as well as add the corresponding configuration for the CDS recommended rules into your project.
+Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a prompt appears on whether to install the ESLint dependencies. Once confirmed, this will install ESLint, the CDS plugin, as well as add the corresponding configuration for the CDS recommended rules into your project.
 
 
 ### CDS Lint in VS Code (optional)  {#cds-lint-vscode}

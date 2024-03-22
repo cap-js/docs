@@ -289,7 +289,7 @@ Available for:
 
 [@cap-js/attachments](https://www.npmjs.com/package/@cap-js/attachments) {.subtitle}
 
-The Attachments plugin provides out-of-the box asset storage and handling by using a predefined `aspect` Attachments. It also provides a CAP-level, easy to use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store). You can extend the domain models like:
+The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
 
 ```cds
 extend my.Incidents with {
@@ -297,12 +297,14 @@ extend my.Incidents with {
 }
 ```
 
+It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+
 Features:
 
-- Supports CRUD opeartions for attachments with SAP Object Store.
-- Automatically adds a `Attachments` table in the application.
+- Supports CRUD operations for attachments with SAP Object Store.
+- Automatically adds the necessary `Attachments` table in the application.
 
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/attachments)
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/attachments)

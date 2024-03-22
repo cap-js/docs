@@ -258,7 +258,7 @@ Refer to the [Integrate and Extend guide](../../guides/using-services#integrate-
 
 ## Cloud SDK Integration
 
-### SAP Cloud SDK Dependencies {#cloud-sdk-dependencies}
+### Maven Dependencies {#cloud-sdk-dependencies}
 
 The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required out of the box.
 In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
@@ -358,7 +358,7 @@ Note that you can leverage Spring Boot's configuration possibilities to inject c
 The same mechanism can also be used for the URL of the destination by also reading it from your application configuration (for example environment variables or _application.yaml_).
 This is especially useful when integrating micro-services, which may have different URLs in productive environments and test environments.
 
-## Native Consumption { #native-consumption }
+## Native Service Consumption { #native-consumption }
 
 If you need to call an endpoint which you cannot consume as a _Remote Service_ you can fall back to leverage Cloud SDK APIs. Based on the Cloud SDK´s `HttpClientAccessor` API you can resolve a `HttpClient` which you can use to execute plain http requests against the remote API. 
 
@@ -376,8 +376,7 @@ HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
 
 [Learn more about HttpClientAccessor in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/http-client){.learn-more}
 
-### Using BTP Reuse Services
-
+### Using BTP Service Bindings
 If the URL and credentials of the remote API is available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it is again possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
 
 ```java

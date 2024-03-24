@@ -137,7 +137,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### Configure the DDL generation
 
-Advise the CDS Compiler to generate _tables without associations_, as they are not used by CAP Java. This also allows to generate _fewer localized views_:
+Advise the CDS Compiler to generate _tables without associations_, as they are not used by CAP Java. This also allows the compiler to generate _fewer localized views_:
 
 ::: code-group
 ```json [.cdsrc.json]

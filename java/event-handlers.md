@@ -150,9 +150,9 @@ In case the synchronous event has a return value the `setResult(...)` method of 
 context.setResult(myResult);
 ```
 
-### Explicitly proceeding the On handler execution { #proceed-on }
+### Explicitly Proceeding the On Handler Execution { #proceed-on }
 
-An event handler registered to the [`On`](#on) phase can call `proceed()` on the Event Context to explicitly proceed execution with the remaining registered [`On`](#on) handlers.
+An event handler registered to the [`On phase`](#on) can call `proceed()` on the Event Context to explicitly proceed executing the remaining registered [`On`](#on) handlers.
 This allows the handler to pre- and post-process the Event Context in a single method, without fully overwriting the core processing of the event.
 It also enables catching and handling exceptions thrown by an underlying handler.
 
@@ -165,8 +165,8 @@ void wrapMyEvent(EventContext context) {
 }
 ```
 
-Calling `proceed()` from an [`Before`](#before) or [`After`](#after) event handler is not allowed and will raise an exception.
-If an [`On`](#on) handler has already [completed](#eventcompletion) the event processing, calling `proceed()` does not have any effects.
+Calling `proceed()` from a [`Before`](#before) or [`After`](#after) event handler is not allowed and will raise an exception.
+If an [`On`](#on) handler has already [completed](#eventcompletion) the event processing, calling `proceed()` will not have any effects.
 
 ### Defining Custom EventContext Interfaces { #customeventcontext}
 

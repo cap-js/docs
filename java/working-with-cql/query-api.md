@@ -19,7 +19,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
 
 ## Concepts
 

@@ -93,7 +93,7 @@ When your Maven build is set up correctly, you can use the reuse models in your 
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 ::: details Different resolution rules
-The location in the `using` directive differs from the [CDS model resolution rules](https://cap.cloud.sap/docs/cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
+The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
 :::
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}
@@ -148,13 +148,13 @@ public class SampleHandler implements EventHandler {
 
 The shown handler code is registered for any entity type on any [ApplicationService](../guides/providing-services). Depending on the use case the target scope could be narrowed to specific entities and/or services. The handler registration applies to the same rules as custom handlers that are directly packaged with a CAP Java application.
 
-[Learn more about event handling in our EventHandler documentation](event-handlers){.learn-more}
+[Learn more about event handling in our EventHandler documentation](event-handlers/){.learn-more}
 
 Of course, this handler code looks just the same as any other custom or builtin CAP Java handler. The only difference here is that you need to think a bit more about the provisioning of the handler. When you write a custom handler as part of (in the package of) a CAP Java application, you can annotate the handler's class with `@Component`. Then Spring Boot's component scan picks up the class during startup of the Application Context.
 
 When you provide your custom handler as part of a reuse library, external to your application, things change a bit. At first, you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extension points.
 
-The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](https://cap.cloud.sap/docs/java/cqn-services/application-services), [`PersistenceService`](https://cap.cloud.sap/docs/java/cqn-services/persistence-services) or to a service using it's [typed service interface](https://cap.cloud.sap/docs/releases/nov23#typed-service-interfaces).
+The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](./cqn-services/application-services), [`PersistenceService`](./cqn-services/persistence-services) or to a service using it's [typed service interface](../releases/nov23#typed-service-interfaces).
 
 If your custom handler is isolated and, for example, only performs a validation based on provided data or a calculation, you can stick with the [CAP Java ServiceLoader approach](#service-loader), which is described in the following section.
 
@@ -291,9 +291,9 @@ public class SampleAdapter extends HttpServlet {
 }
 ```
 
-As mentioned previously, a protocol adapter maps incoming requests to CQL statements and executes them on the right [`ApplicationService`](https://cap.cloud.sap/docs/java/cqn-services/application-services) according to the `HttpServletRequest`'s request-path. In order to have all relevant `ApplicationServices` ready at runtime, you can call `runtime.getServiceCatalog().getServices(ApplicationService.class)` in the adapter's constructor to load all `ApplicationServices`. Then select the ones relevant for this protocol adapter to have them ready, for example in a Map, for serving requests in `service()`.
+As mentioned previously, a protocol adapter maps incoming requests to CQL statements and executes them on the right [`ApplicationService`](./cqn-services/application-services) according to the `HttpServletRequest`'s request-path. In order to have all relevant `ApplicationServices` ready at runtime, you can call `runtime.getServiceCatalog().getServices(ApplicationService.class)` in the adapter's constructor to load all `ApplicationServices`. Then select the ones relevant for this protocol adapter to have them ready, for example in a Map, for serving requests in `service()`.
 
-When handling incoming requests at runtime, you need to extract the request path and parameters from the incoming HttpServletRequest. Then, you can use CQL API from the `cds4j-api` module to [create CQL](https://cap.cloud.sap/docs/java/working-with-cql/query-api) corresponding to the extracted information. This statement then needs to be executed with [`ApplicationService.run()`](https://cap.cloud.sap/docs/java/working-with-cql/query-execution). The returned result then needs to be mapped to the result format that is suitable for the protocol handled by the adapter. For REST, it would be some canonical JSON serialization of the returned objects.
+When handling incoming requests at runtime, you need to extract the request path and parameters from the incoming HttpServletRequest. Then, you can use CQL API from the `cds4j-api` module to [create CQL](./working-with-cql/query-api) corresponding to the extracted information. This statement then needs to be executed with [`ApplicationService.run()`](./working-with-cql/query-execution). The returned result then needs to be mapped to the result format that is suitable for the protocol handled by the adapter. For REST, it would be some canonical JSON serialization of the returned objects.
 
 REST request:
 

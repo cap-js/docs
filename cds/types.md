@@ -33,6 +33,7 @@ The following built-in types are provided:
 | `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
 | `LargeBinary` |  | | _BLOB_ |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
+| `Vector` | (dimensionality) <sup>(7)</sup> | |  _REAL_VECTOR_  |
 
 
 ### Remarks
@@ -49,6 +50,8 @@ The following built-in types are provided:
 > <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. The default length is 5000 for SAP HANA and 255 for all other SQL backends. Note that default lengths are only applied on database level. Specify fixed lengths to get length checks on service level and/or inbound data.
 
 > <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
+
+> <sup>(7)</sup> requires SAP HANA Cloud (QRC 1/2024 or later).
 
 ### See also...
 

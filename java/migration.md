@@ -666,7 +666,7 @@ You can also get your entities injected by adding an additional argument with on
 - `java.util.stream.Stream<yourEntityType>`
 - `java.util.List<yourEntityType>`
 
-[See section **Event Handler Method Signatures** for more details.](event-handlers#handlersignature){.learn-more}
+[See section **Event Handler Method Signatures** for more details.](event-handlers/#handlersignature){.learn-more}
 
 Also replace the classic handler return types with the corresponding new implementation:
 
@@ -724,7 +724,7 @@ The CAP Java SDK sample application shows how such a validation using the `Chang
 
 Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
-[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers#before){.learn-more}
+[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers/#before){.learn-more}
 
 
 ### Security Settings
@@ -832,7 +832,7 @@ To access an Application Service in custom handler and to execute queries, perfo
 	@Resource(name = "CatalogService")
 	private CqnService catalogService;
 ```
-[See section **Services Accepting CQN Queries** for more details.](cqn-services#cdsservices){.learn-more}
+[See section **Services Accepting CQN Queries** for more details.](cqn-services/#cdsservices){.learn-more}
 
 2) In each custom handler, replace instance of `DataSourceHandler` as well as `CDSDataSourceHandler` with the `CqnService` instance.
 
@@ -890,7 +890,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./cqn-services#persistenceservice){.learn-more}
+[See section **Persistence API** for more details.](./cqn-services/#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 

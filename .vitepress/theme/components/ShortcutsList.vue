@@ -115,7 +115,7 @@ function DOMCommand(name, idQuerySel, keys=[], hidden=false, runFn=undefined) {
       const element = enabled()
       if (element) {
         if (runFn) return runFn(element)
-        element.hash = window.location.hash
+        if (window.location.hash && !element.hash)  element.hash = window.location.hash
         element.click()
       }
     }

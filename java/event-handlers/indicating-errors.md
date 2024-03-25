@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  This section describes the error handling capabilities provided by the CAP Java SDK.
+  Learn about the error handling capabilities provided by the CAP Java SDK.
 status: released
 redirect_from: java/indicating-errors
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -331,7 +331,7 @@ An [exception](#exceptions) thrown in an event handler will stop the processing 
 
 You can add event handlers using the `@After` phase for the `ERROR_RESPONSE` event to augment or change the error responses:
 - Method `getException()` of [ErrorResponseEventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/application/ErrorResponseEventContext.html) returns the exception that triggered the event.
-- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](../event-handlers#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
+- Method `getEventContexts()` of [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) contains the list of [event contexts](../event-handlers/#eventcontext), identifying the chain of processed events that led to the error. The first entry in the list is the context closest to the origin of the exception.
 
 You can use the exception and the list of events contexts (with service, entity and event name) to selectively apply your custom error response handling. Some exceptions, however, may not be associated with a context and the list of contexts will be empty for them.
 

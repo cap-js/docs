@@ -238,11 +238,7 @@ In this case the service name will either come from environment variable `VCAP_S
 
 ##### `cds deploy --to hana:myservice`
 
-<i>DEPRECATED BEHAVIOUR</i><br>
 This will overwrite any information coming from environment variables. The service name `myservice` will be used, the current Cloud Foundry client logon information be be taken to connect to the system.
-
-<i>NEXT MAJOR BEHAVIOUR</i><br>
-The service name will be merged with information coming from environment variables allowing you to use stored logon information to create the new service.
 
 ##### `cds deploy --vcap-file someEnvFile.json`
 
@@ -250,12 +246,7 @@ This will take logon information and service name from file `someEnvFile.json` a
 
 ##### `cds deploy --to hana:myservice --vcap-file someEnvFile.json`
 
-<i>DEPRECATED BEHAVIOUR</i><br>
-Using this command line allows you specify a service name, the logon information however comes from the local Cloud Foundry client.
-
-<i>NEXT MAJOR BEHAVIOUR</i><br>
-When specifying both `service name` and `vcap file` the information will be merged hence creating `myservice` in the system specified in `someEnvFile.json`.
-
+This is equivalent to `cds deploy --to hana:myservice` and will ignore information coming from `--vcap-file`. A warning will be printed after deploying.
 
 ### Using `cf deploy` or `cf push` { .impl .node }
 

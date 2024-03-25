@@ -22,9 +22,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 ## Create a Project
 
@@ -93,7 +91,7 @@ module.exports = class say {
 
 <div class="impl java">
 
-... for example, using a [CAP Java](../java/event-handlers) custom handler like this:
+... for example, using a [CAP Java](../java/event-handlers/) custom handler like this:
 
 ::: code-group
 

@@ -124,7 +124,7 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 
 | CDS Type       | OData V4                                |
 | -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>.              |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
 | `Boolean`      | _Edm.Boolean_                           |
 | `UInt8  `      | _Edm.Byte_                              |
 | `Int16`        | _Edm.Int16_                             |
@@ -142,8 +142,11 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 | `Binary`       | _Edm.Binary_                            |
 | `LargeBinary`  | _Edm.Binary_                            |
 | `LargeString`  | _Edm.String_                            |
+| `Vector`       | not supported <sup>(2)</sup>            |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
+
+> <sup>(2)</sup> Type `cds.Vector` must not appear in an OData service
 
 OData V2 has the following differences:
 
@@ -616,6 +619,11 @@ is translated to:
   </Ne>
 </Annotation>
 ```
+
+One of the main use cases for such dynamic expressions is SAP Fiori,
+but note that Fiori supports dynamic expressions only for 
+[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
 
 ### `sap:` Annotations
 

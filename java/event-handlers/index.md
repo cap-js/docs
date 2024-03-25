@@ -150,6 +150,24 @@ In case the synchronous event has a return value the `setResult(...)` method of 
 context.setResult(myResult);
 ```
 
+### Explicitly Proceeding the On Handler Execution { #proceed-on }
+
+An event handler registered to the [`On phase`](#on) can call `proceed()` on the Event Context to explicitly proceed executing the remaining registered [`On`](#on) handlers.
+This allows the handler to pre- and post-process the Event Context in a single method, without fully overwriting the core processing of the event.
+It also enables catching and handling exceptions thrown by an underlying handler.
+
+```java
+@On(event = "myEvent")
+void wrapMyEvent(EventContext context) {
+    context.put("param", "Adjusted"); // pre-process
+    context.proceed(); // delegate to underlying handler
+    context.put("result", 42); // post-process
+}
+```
+
+Calling `proceed()` from a [`Before`](#before) or [`After`](#after) event handler is not allowed and will raise an exception.
+If an [`On`](#on) handler has already [completed](#eventcompletion) the event processing, calling `proceed()` will not have any effects.
+
 ### Defining Custom EventContext Interfaces { #customeventcontext}
 
 In certain cases you might want to define your own custom event-specific Event Context interfaces. Simply define an interface, which extends the general `EventContext` interface.

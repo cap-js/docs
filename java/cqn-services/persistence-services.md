@@ -147,7 +147,7 @@ cds.sql.hana.optimizationMode: hex
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
 ::: warning
-Using the optimization mode `hex` limits to the feature set, which the SAP HANA HEX engine currently supports. Generated SQL is typically compatible with the HEX engine. However, especially when [using native HANA views](../../advanced/hana#create-native-sap-hana-object), some queries might hit a limitation of the HEX engine and are not executable. Use the hint `hdb.NO_USE_HEX_PLAN` to bypass the HEX engine in such a case.
+Generated SQL is typically compatible with the HEX engine. However, when using the `HEX` optimization mode some queries, especially when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), may hit a limitation of the HEX engine and become nonexecutable. This is because the SAP HANA HEX engine has a limited feature set. In such cases, use the hint `hdb.NO_USE_HEX_PLAN` to bypass the HEX engine.
 ::: 
 
 ### PostgreSQL { #postgresql-1 }

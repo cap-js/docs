@@ -43,6 +43,7 @@ The [predefined CDS types](../cds/types) are mapped to Java types and as follows
 | `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
 | `cds.Binary`       | `byte[]`               |                                                                          |
 | `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `cds.Vector`       | `com.sap.cds.CdsVector`| for [vector embeddings](#vector-embeddings)                              |
 
 ### SAP HANA-Specific Data Types
 
@@ -275,6 +276,61 @@ person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ::: warning
 Avoid cyclic relationships between CdsData objects when using toJson.
 :::
+
+
+## Vector Embeddings <Badge type="warning" text="beta" /> { #vector-embeddings }
+
+Vector embeddings are numerical representations that capture features and inherent semantics of unstructured data - such as text, images, or audio. They facilitate tasks like similarity search, recommendations, and Retrieval Augmented Generation (RAG). This improves the results of generative AI (GenAI) by augmenting prompts with relevant data retrieved from a vector datastore such as the [SAP HANA Cloud Vector Engine](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-s-vector-engine-announcement/ba-p/13577010).
+
+Typically vector embeddings are computed using models tailored to a specific use case, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model. Unified LLM consumption across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
+
+In CDS, such vector embeddings are stored in elements of type `cds.Vector`:
+
+```cds
+entity Books : cuid { // [!code focus]
+  title         : String(111);
+  embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
+} // [!code focus]
+```
+
+In CAP Java, vector embeddings are represented by the `CdsVector` type, which allows a unified handling of different vector representations such as `float[]` and `String`:
+
+```Java
+// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+float[] embedding = llm.embed(text).content().vector();
+
+CdsVector v1 = CdsVector.of(embedding); // float[] format
+CdsVector v2 = CdsVector.of("[0.42, 0.73, 0.28, ...]"); // String format
+```
+
+You can use the functions, `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean distance) in queries to compute the similarity or distance of embeddings in the vector space. To use vector embeddings in functions, wrap them using `CQL.vector`:
+
+```Java
+CqnVector v = CQL.vector(embedding);
+
+Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), v).gt(0.9))
+);
+```
+
+You can also use parameters for vectors in queries:
+
+```Java
+CqnSelect query = Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), CQL.param("embedding")
+    .type(CdsBaseType.VECTOR)).gt(0.9)
+
+Result relatedBooks = service.run(query,
+  Map.of("embedding", CdsVector.of(embedding)));
+```
+
+In CDS QL queries, elements of type `cds.Vector` are not included in select _all_ queries. They must be explicitly added to the select list:
+
+```Java
+CdsVector embedding = service.run(Select.from(BOOKS).byId(101)
+  .columns(b -> b.embedding())).single(Books.class).getEmbedding();
+```
+
 
 ## Data in CDS Query Language (CQL)
 

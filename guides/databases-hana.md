@@ -250,6 +250,27 @@ entity Books : cuid { // [!code focus]
 } // [!code focus]
 ```
 
+At runtime, you can use it leveraging the Query API:
+
+::: code-group
+```js [Node.js]
+let embedding; // vector embedding as string '[0.3,0.7,0.1,...]';
+
+let relatedBooks = await SELECT.from('Books')
+  .where`cosine_similarity(embedding, to_real_vector(${embedding})) > 0.9`
+```
+
+```java [Java]
+//  Compute vector embedding, e.g. via LangChain4j
+float[] embedding = llm.embed(text).content().vector();
+
+CqnSelect query = Select.from(BOOKS).where(b -> // [!code focus]
+  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)) // [!code focus]
+
+Result relatedBooks = service.run(query); // [!code focus]
+```
+:::
+
 [Learn more about Vector Embeddings in CAP Java](../java/cds-data#vector-embeddings) {.learn-more}
 
 

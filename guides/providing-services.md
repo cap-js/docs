@@ -928,7 +928,7 @@ module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
   this.on ('CREATE',`Books`, (req)=>{...})
   this.before ('UPDATE',`*`, (req)=>{...})
-  this.after ('READ',`Books`, (each)=>{...})
+  this.after ('READ',`Books`, (req)=>{...})
 }
 ```
 ```Java

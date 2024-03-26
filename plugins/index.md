@@ -143,7 +143,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js-community/odata-v2-adapter)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
+See also [Cookbook > Protocols/APIs > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
 
 
 ## UI5 Dev Server

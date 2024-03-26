@@ -490,6 +490,7 @@ class BooksService extends cds.ApplicationService {
     const { Books, Authors } = this.entities
     this.on ('READ',[Books,Authors], req => {...})
     this.after ('READ',Books, books => {...})
+    this.after ('each',Books, book => {...})
     this.before (['CREATE','UPDATE'],Books, req => {...})
     this.on ('CREATE',Books, req => {...})
     this.on ('UPDATE',Books, req => {...})
@@ -513,6 +514,7 @@ class BooksService extends cds.ApplicationService {
 - `'CREATE'`, `'READ'`, `'UPDATE'`, `'UPSERT'`,`'DELETE'`
 - `'INSERT'`,`'SELECT'` → as aliases for: `'CREATE'`,`'READ'`
 - `'POST'`,`'GET'`,`'PUT'`,`'PATCH'` → as aliases for: `'CREATE'`,`'READ'`,`'UPDATE'`
+- `'each'` → convenience feature to register `.after` `'READ'` handler that runs for each individual result entry
 - Any other string name of a custom action or function – e.g., `'submitOrder'`
 - An `array` of the above to register the given handler for multiple events
 - The string `'*'` to register the given handler for *all* potential events
@@ -601,11 +603,20 @@ Use this method to register handlers to run *after* the `.on` handlers, frequent
 - `results` — the outcomes of the `.on` handler which ran before
 - `req` — an instance of [`cds.Request`](./events.md#cds-request)
 
+As a convenience feature, `.after` handlers that are registered on the event `'each'` are called for each individual result entry on `'READ'`.
+
+::: warning
+Only synchronous functions are allowed for `.after('each', ...)` handlers, as `.forEach` is used to iterate over the results, which expects a synchronous function.
+:::
+
 Examples:
 
 ```js
 this.after ('READ', Books, books => {
   for (let b of books) if (b.stock > 111) b.discount = '11%'
+})
+this.after ('each', Books, book => {
+  if (book.stock > 111) book.discount = '11%'
 })
 ```
 

@@ -549,7 +549,7 @@ Your services are mostly constructed by [`cds.serve()`](cds-serve) based on serv
 ```tsx
 function srv.before (event, entity?, handler: (
   req : cds.Request
-)))
+))
 ```
 
 *Find details on `event` and `entity` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
@@ -593,7 +593,7 @@ The input validation handlers above collect input errors with [`req.error()`](./
 function srv.after (event, entity?, handler: (
   results : object[] | any,
   req     : cds.Request
-)))
+))
 ```
 
 *Find details on `event` and `entity` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
@@ -630,7 +630,7 @@ this.after ('each', Books, book => {
 function srv.on (event, entity?, handler: (
   req  : cds.Request,
   next : function
-)))
+))
 ```
 
 *Find details on `event` and `entity` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
@@ -702,7 +702,7 @@ this.on ('READ',[Books,Authors], req => req.target.data)
 ```tsx
 function srv.on (event, handler: (
   msg : cds.Event
-)))
+))
 ```
 
 *Find details on `event` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}

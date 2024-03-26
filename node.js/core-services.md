@@ -511,7 +511,7 @@ class BooksService extends cds.ApplicationService {
 **Argument `event`** can be one of:
 
 - `'CREATE'`, `'READ'`, `'UPDATE'`, `'UPSERT'`,`'DELETE'`
--  `'INSERT'`,`'SELECT'` → as aliases for: `'CREATE'`,`'READ'`
+- `'INSERT'`,`'SELECT'` → as aliases for: `'CREATE'`,`'READ'`
 - `'POST'`,`'GET'`,`'PUT'`,`'PATCH'` → as aliases for: `'CREATE'`,`'READ'`,`'UPDATE'`
 - Any other string name of a custom action or function – e.g., `'submitOrder'`
 - An `array` of the above to register the given handler for multiple events
@@ -520,7 +520,7 @@ class BooksService extends cds.ApplicationService {
 
 **Argument `entity`** can be one of:
 
-- A `CSN definition`  of an entity served by this service → as obtained from [`this.entities`](#entities)
+- A `CSN definition` of an entity served by this service → as obtained from [`this.entities`](#entities)
 - A `string` matching the name of an entity served by this service → see [draft support](./fiori#draft-support)
 - A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths

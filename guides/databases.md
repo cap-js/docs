@@ -163,7 +163,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 
 ## Providing Initial Data
 
-Put CSV files into `db/data` to fill your database with initial data.
+You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
 <div markdown="1" class="impl node">
 
@@ -245,28 +245,20 @@ cds add data
 
 ### Location of CSV Files
 
-CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ subfolder of a CDS file if that file is part of the compiled model.
+CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
 
-The following conventions apply:
-* Each file contains data for one entity.
-* File names must follow the pattern _namespace-entity.csv_. <br>
-  Pattern for nested entities: _namespace-entity.nestedEntity.csv_. <br>
-  Examples: _my.bookshop-Books.csv_, or _my.bookshop-Books.ISBN.csv_.
-* They must start with a header line that lists the needed element names.
-
-::: details On SAP HANA ...
-CSV files located in _db/src/**_ folder and corresponding _hdbtabledata_ files will be treated as native SAP HANA artifacts and deployed as they are.
+::: details Adding initial data next to your data model
+While the concrete content of the particular CDS model file is irrelevant, it has to be part of your data model. Of course CSV file names must match fully qualified names of respective entity definitions in your CDS models.
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 <div markdown="1" class="impl node">
 
-| Location          | Deployed...          | Purpose                                                  |
-| ----------------- | -------------------- | -------------------------------------------------------- |
-| `db/data`         | always               | initial data for configurations, code lists, and similar |
-| `db/<*.cds>/data` | always               | initial data for configurations, code lists, and similar |
-| `test/data`       | if not in production | sample data for tests and demos                          |
+| Location    | Deployed...          | Purpose                                                  |
+| ------------| -------------------- | -------------------------------------------------------- |
+| `db/data`   | always               | initial data for configurations, code lists, and similar |
+| `test/data` | if not in production | sample data for tests and demos                          |
 
 </div>
 

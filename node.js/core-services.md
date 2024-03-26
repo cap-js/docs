@@ -606,7 +606,7 @@ Use this method to register handlers to run *after* the `.on` handlers, frequent
 As a convenience feature, `.after` handlers that are registered on the event `'each'` are called for each individual result entry on `'READ'`.
 
 ::: warning
-Only synchronous functions are allowed for `.after('each', ...)` handlers, as `.forEach` is used to iterate over the results, which expects a synchronous function.
+Only synchronous functions are allowed for `.after('each', ...)` handlers.
 :::
 
 Examples:

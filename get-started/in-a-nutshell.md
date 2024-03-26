@@ -576,7 +576,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers#handlerclasses){.learn-more .impl .java}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
 </div>
 
@@ -681,7 +681,7 @@ public class CatalogHandler implements EventHandler {
 :::
 
 
-[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers#handlerclasses){.learn-more}
+[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers/#handlerclasses){.learn-more}
 
 </div>
 

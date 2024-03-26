@@ -129,14 +129,14 @@ processed anymore.
 
 ## Outboxing CAP Service Events
 
-Outbox services support outboxing of arbitrary CAP services. A typical use cases is to outbox remote OData
+Outbox services support outboxing of arbitrary CAP services. A typical use case is to outbox remote OData
 service calls, but also calls to other CAP services can be decoupled from the business logic flow.
 
 The API `OutboxService.outboxed(Service)` is used to wrap services with outbox handling. Events triggered
 on the returned wrapper are stored in the outbox first, and executed asynchronously. Relevant information from
 the `RequestContext` is stored with the event data, however the user context is downgraded to a system user context.
 
-The following example shows how to outbox a service:
+The following example shows you how to outbox a service:
 
 ```java
 OutboxService myCustomOutbox = ...;
@@ -149,7 +149,7 @@ Any service that implements the `Service` interface can be outboxed.
 Each call to the outboxed service is asynchronously executed, if the API method internally calls the method `Service.emit(EventContext)`.
 
 ::: warning Asynchronous execution
-If a method has a return value, the method on the outboxed service will always return `null` since it is executed asynchronously.
+If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously.
 A common example for this are the `CqnService.run(...)` methods.
 :::
 
@@ -168,7 +168,7 @@ you can define custom outboxes that can be used for outboxing.
 ## Technical Outbox API { #technical-outbox-api }
 
 Outbox services provide the technical API `OutboxService.submit(String, OutboxMessage)` that can be used to outbox custom messages for an arbitrary event (processing logic).
-When submitting a custom message, an `OutboxMessage` needs to be provided that can contain parameters for the event.
+When submitting a custom message, an `OutboxMessage` that can contain parameters for the event needs to be provided.
 As the `OutboxMessage` instance is serialized and stored in the database, all data provided in that message
 must be serializable and deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
 
@@ -181,7 +181,7 @@ message.setParams(Map.of("name", "John", "lastname", "Doe"));
 outboxService.submit("myEvent", message);
 ```
 
-A handler for the custom message must be registered on the outbox service to perform the processing logic, once the message is published by the outbox again:
+A handler for the custom message must be registered on the outbox service. This handler performs the processing logic when the message is published by the outbox:
 
 ```java
 @On(service = "<OutboxServiceName>", event = "myEvent")
@@ -204,15 +204,15 @@ You must ensure that the handler is completing the context, after executing the 
 ## Handling Outbox Errors { #handling-outbox-errors }
 
 The outbox by default retries publishing a message, if an error occurs during processing, until the message has reached the maximum number of attempts.
-This behaviour makes applications resilient against unavailability of external systems, which are usually targeted during outbox message processing.
+This behavior makes applications resilient against unavailability of external systems, which is a typical use case for outbox message processing.
 
-However there might also be situations in which it is not reasonable to retry publishing a message.
-For example, in case the processed message causes a semantic error - typically a 400 Bad request - on the external system.
+However, there might also be situations in which it is not reasonable to retry publishing a message.
+For example, when the processed message causes a semantic error - typically due to a 400 Bad request - on the external system.
 Outbox messages causing such errors should be removed from the outbox message table before reaching the maximum number of retry attempts and instead application-specific
 counter-measures should be taken to correct the semantic error or ignore the message altogether.
 
-A simple try-catch block around the message processing allows to handle errors:
-- If an error should cause a retry, the original exception should be (re)thrown (default behaviour).
+A simple try-catch block around the message processing can be used to handle errors:
+- If an error should cause a retry, the original exception should be (re)thrown (default behavior).
 - If an error should not cause a retry, the exception should be suppressed and additional steps can be performed.
 
 ```java
@@ -231,8 +231,8 @@ void processMyEvent(OutboxMessageEventContext context) {
 }
 ```
 
-In some situations the original outbox processing logic is not implemented by you. Still the processing needs to be extended with additional error handling.
-In that case wrap the `EventContext.proceed()` method, which executes the underlying processing logic:
+In some situations, the original outbox processing logic is not implemented by you but the processing needs to be extended with additional error handling.
+In that case, wrap the `EventContext.proceed()` method, which executes the underlying processing logic:
 
 ```java
 @On(service = OutboxService.PERSISTENT_ORDERED_NAME, event = AuditLogService.DEFAULT_NAME)

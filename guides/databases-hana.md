@@ -241,7 +241,14 @@ Vector embeddings are numerical representations that capture features and inhere
 
 Typically vector embeddings are computed using models tailored to a specific use case, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model. Unified LLM consumption across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
-In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types).
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+
+```cds
+entity Books : cuid { // [!code focus]
+  title         : String(111);
+  embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
+} // [!code focus]
+```
 
 [Learn more about Vector Embeddings in CAP Java](../java/cds-data#vector-embeddings) {.learn-more}
 

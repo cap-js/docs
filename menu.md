@@ -228,3 +228,4 @@
 - [Audit Logging](plugins/#audit-logging)
 - [Notifications](plugins/#notifications)
 - [Telemetry (Beta)](plugins/#telemetry-beta)
+- [CAP Operator Plugin (Alpha)](plugins/#cap-operator-plugin-alpha)

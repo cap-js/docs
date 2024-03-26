@@ -215,17 +215,12 @@ Outbox errors can be handled by providing an `On` handler for an outbox and a ta
 
 
 ::: tip
-If a custom `On` handler is publishing the outbox entry, a potential error can be handled there and it
-is not required to implement an additional handler.
+If a custom `On` handler is publishing the outbox entry, a potential error can be handled there and it is not required to implement an additional handler.
 :::
-[Learn mor about the technical outbox API.](#technical-outbox-api){.learn-more}
+[Learn more about the technical outbox API.](#technical-outbox-api){.learn-more}
 
-The handler shall wrap the the handling of an outbox entry by calling the API `EventContext.proceed()`.
-If any other `On` handler is throwing an exception, the exception shall be caught and evaluated whether
-it is an recoverable or an unrecoverable error. In the case of an recoverable error the exception shall be
-rethrown such that the outbox tries to reporcess the entry. Otherwise, if the error is unrecoverable,
-the custom `On` handler should not rethrow the exception but handle it according the use case of the
-application; the outbox is then not going to reprocess the entry but delete it from the outbox table.
+To handle the processing of an outbox entry, wrap the call to the API `EventContext.proceed()` with your code.
+In your code, you should check if any other `On` handlers throw an exception. If they throw, catch it and evaluate if it's a recoverable or an unrecoverable error. In case of a recoverable error, you should rethrow the exception, making the outbox reprocess the entry. If the error is unrecoverable, the custom `On` handler should not rethrow the exception but handle it according to the use case of the application. In this case the outbox will not reprocess the entry, it will delete it from the outbox table.
 
 The following example illustrates this approach:
 

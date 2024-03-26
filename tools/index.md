@@ -295,13 +295,13 @@ Restart the server when you did changes to your code using the *Debug* views res
 
 ## IntelliJ
 
-The CDS language support plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
+The [CAP CDS Language Support](https://github.com/cap-js/cds-intellij) plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
 
 ![Code completion in IntelliJ](https://raw.githubusercontent.com/cap-js/cds-intellij/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png){ .ignore-dark style="width:450px"}
 
 See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main/FEATURES.md) and the [installation instructions](https://github.com/cap-js/cds-intellij#requirements) for how to get started.
 
-[Report issues and provide feedback](https://github.com/cap-js/cds-intellij).
+[Report issues and provide feedback](https://github.com/cap-js/cds-intellij/issues).
 
 
 

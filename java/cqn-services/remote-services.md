@@ -127,7 +127,7 @@ In the following example, the remote API is running as another CAP application w
 ```yaml
 cds:
   remote.services:
-  - name: "OTHER_CAP_APP"
+  - name: "OtherCapService"
     binding:
       name: shared-xsuaa
       onBehalfOf: currentUser

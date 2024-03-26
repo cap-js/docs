@@ -5,7 +5,6 @@ synopsis: >
 redirect_from: java/overview
 status: released
 ---
-<!--- Migrated: @external/java/010-Getting-Started/0-index.md -> @external/java/getting-started.md -->
 
 # Getting Started
 
@@ -16,7 +15,6 @@ status: released
 </style>
 
 {{ $frontmatter.synopsis }}
-<!--- % include links.md %} -->
 
 ## Introduction
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html -->
@@ -70,7 +68,7 @@ Take the following steps to set up a new CAP Java application based on Spring Bo
 
 ### Run the Maven Archetype { #run-the-cap-java-maven-archetype }
 
-Use the [CAP Java Maven archetype](./development/#the-maven-archetype) to bootstrap a new CAP Java project:
+Use the [CAP Java Maven archetype](./developing-applications/building#the-maven-archetype) to bootstrap a new CAP Java project:
 
 ```sh
 mvn archetype:generate -DarchetypeArtifactId="cds-services-archetype" -DarchetypeGroupId="com.sap.cds" -DarchetypeVersion="RELEASE" -DinteractiveMode=true
@@ -85,14 +83,15 @@ Alternatively, you can use the CDS tools to bootstrap a Java project:
 ```sh
 cds init <PROJECT-ROOT> --add java
 ```
+Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
+
 ::: tip
 You can call `cds help init` for more information on the available options.
 :::
 
-
 ### Add a Sample CDS Model
 
-You can use the [CDS Maven plugin](./development/#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
+You can use the [CDS Maven plugin](developing-applications/building#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addSample
@@ -115,7 +114,7 @@ This commands adds the following dependency to the pom.xml:
 </dependency>
 ```
 ::: tip
-CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./architecture#starter-bundles) for more details.
+CAP Java also provides a starter bundle for SAP BTP Kyma environment. See [CAP Starter Bundles](./developing-applications/building#starter-bundles#starter-bundles) for more details.
 :::
 
 ### Project Layout
@@ -140,7 +139,7 @@ The generated folders have the following content:
 | *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./data#typed-access). |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
@@ -165,7 +164,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 
 ### Add an Integration Test Module (Optional)
 
-Optionally, you can use the [CDS Maven plugin](./development/#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
+Optionally, you can use the [CDS Maven plugin](./developing-applications/building#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
@@ -189,40 +188,38 @@ This command also creates a new folder *integration-tests/src/test/java*, which 
 To build and run the generated project from the command line, execute:
 
 ```sh
-cd <PROJECT-ROOT>
 mvn spring-boot:run
 ```
 ::: tip
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
 :::
 
-### Add *Spring Tools 4*
+### Supported IDEs
 
-Install the [*Spring Tools 4*](https://spring.io/tools) Eclipse plugin, that makes development of Spring applications more convenient. From the Eclipse Marketplace (*Help > Eclipse Marketplace...*), search and install *Spring Tools 4*.
+CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside you could use any Java IDE supporting the import of Maven projects. But as CDS modeling and editing is a core part of CAP application development we strongly recommend to use an IDE with existing Java support:
 
-### Import the Project
+* [SAP Business Application Studio](/tools/#bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
+* [Visual Studio Code](/tools/#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
+* [IntelliJ Idea Ultimate](/tools/#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 
-1. Select *File > Import... > Existing Maven Projects*.
 
-2. Select your `PROJECT-ROOT` folder and click *Go*. Finally, select the project that was found.
+### Open the project in your IDE
+
+The rest of this guide is targets IntelliJ Ultimate as your IDE. Nevertheless, the steps should be pretty similar for Visual Studio Code and SAP Business Application Studio.
 
 <span id="inimportproject" />
 
-> To not be distracted by CDS tools-specific folders in Eclipse, you can define resource filters. Open the context menu on the project's root folder and select "Properties". Go to **Resource > Resource Filters** and exclude folders with the name `node_modules`.
+You can open the project by either running `idea .` from the project root or use the `File->Open...` menu.
 
+### Source Path Configuration and CDS build
 
+1. Open the internal terminal with `option+F12` (Windows: `alt+F12`) and type `mvn compile` to perform a full build of your project. This is needed because the IDE can build the right class path based on the dependencies of the project. But it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
 
-### Compile the Project
-
-1. Right-click on the `pom.xml` file in the project root folder and select *Run as > Maven build*.
-
-2. Enter the string `clean install` to the field labeled with *Goals* and click *Run*. This step compiles your CDS artifacts. Repeat this step once your CDS model changes.
-
-3. Right-click on the root project and select *Maven > Update Project ...*. Make sure *Refresh workspace resources from local filesystem* is selected and choose *Ok*.
+2. In the project exporer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
 
 ### Run and Test the Application
 
-1. Right-click on the project root in the *Package Explorer* and select *Run as > Spring Boot App*.
+1. Push `Ctrl` two times and type "Application". Double click the Application Spring Boot entry to start your CAP Java application.
 
 2. Call the application in your browser at [http://localhost:8080/](http://localhost:8080).
 

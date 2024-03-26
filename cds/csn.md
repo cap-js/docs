@@ -99,13 +99,13 @@ For the remainder of this spec, you see examples in plain JavaScript representat
 * [`extensions`](#aspects) &ndash; an array of unnamed [aspects](#aspects)
 * [`i18n`](#i18n) &ndash; a dictionary of dictionaries of [text translations](#i18n)
 
-::: tip All properties are optional
-For example, one model could contain a few definitions, while another one only contains some extensions.
-:::
+> [!TIP] All properties are optional
+> For example, one model could contain a few definitions, while another one only contains some extensions.
 
-::: info References are case-sensitive
-All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
-:::
+
+> [!NOTE] References are case-sensitive
+> All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
+
 
 
 
@@ -452,7 +452,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### With Specified `cardinality`
+### With Specified `cardinality` {#assoc-card}
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -472,7 +472,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### With Specified `on` Condition
+### With Specified `on` Condition {#assoc-on}
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -488,7 +488,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### With Specified `keys`
+### With Specified `keys` {#assoc-keys}
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 

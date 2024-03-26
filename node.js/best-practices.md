@@ -7,18 +7,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 ---
 
 # Best Practices
-<!-- <style scoped>
-  h1:before {
-    content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
-  }
-</style> -->
 
 From generic Node.js best practices like dependency management and error handling to CAP-specific topics like transaction handling and testing, this [video](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s) provides some tips and tricks to improve the developer experience and avoid common pitfalls, based on common customer issues. In the following section we explain these best practices.
 
-<!-- #### Content -->
-
-<!--- % include links.md %} -->
-<!--- % include _chapters toc="2,3" %} -->
+[[toc]]
 
 
 ## Managing Dependencies {#dependencies}
@@ -312,7 +304,6 @@ cds.on('bootstrap', app => {
 ```
 
 
-<!--- Migrated: @external/node.js/Best-Practices/41-Error-Handling.md -> @external/node.js/best-practices/error-handling.md -->
 ## Error Handling
 
 Good error handling is important to ensure the correctness and performance of the running app and developer productivity.
@@ -386,9 +377,9 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming (beta)
+## Custom Streaming <Badge type="warning" text="beta" /> { #custom-streaming-beta }
 
-When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
+When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
 
 Example:

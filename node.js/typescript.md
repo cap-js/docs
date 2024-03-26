@@ -8,6 +8,8 @@ redirect_from: get-started/using-typescript
 
 While CAP itself is written in _JavaScript_, it's possible to use _TypeScript_ within your project as outlined here.
 
+[[toc]]
+
 
 ## Enable TypeScript Support
 

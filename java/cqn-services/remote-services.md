@@ -98,7 +98,7 @@ As a pre-requisite for destination lookup in subscriber accounts, the CAP applic
 
 [Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}
 
-As a variant to the described scenario, it is possible to restrict the lookup to either subscriber tenants or the provider tenant. In the following example, it is ensured that the destination is only looked up from the current subscriber tenant by additional parameter `retrievalStrategy: "AlwaysSubscriber"`. Even if the provider tenant contained a destination with the same name, it will be ignored.
+As a variant to the described scenario, it is possible to restrict the lookup to either subscriber tenants or the provider tenant. In the following example, it is ensured that the destination is only looked up from the current subscriber tenant by additional parameter `retrievalStrategy: "AlwaysSubscriber"`. An error would occur at runtime, if the subscriber doesn't define a corresponding destination, even if the provider tenant contained a destination with the same name.
 
 ```yaml
 cds:
@@ -116,7 +116,7 @@ Retrieval strategies are part of a set of configuration options provided by Clou
 
 If the remote API is running on SAP BTP, it is likely that you can leverage Service Binding-based _Remote Services_. 
 The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the much simpler usage. 
-A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information, the location and optionally parameters. 
+A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information and the URL of the service. 
 In contrast to BTP destinations in general, it can be created and refreshed by a technical user which allows automatic credential rotation.
 Hence, location and security aspects of remote services is transparent to CAP applications in case of service bindings.
 
@@ -143,8 +143,8 @@ The parameter `onBehalfOf` in the given example is set to `currentUser` which me
 Following options are available:
 
 - `currentUser` to stick to the user of the current Request Context (default)
-- `systemUser` to explicitly switch to the underlying system user of the current subscriber tenant (technical flow).
-- `systemUserProvider` to explicit switch to the system user of the provider tenant (technical flow).
+- `systemUser` to explicitly switch to the underlying system user of the current subscriber tenant (technical user flow).
+- `systemUserProvider` to explicitly switch to the system user of the provider tenant (technical user flow).
 
 `systemUserProvider` is especially helpful when you need to establish an internal communication channel that is not accessible for subscriber tenants.
 

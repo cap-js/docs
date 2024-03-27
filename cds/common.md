@@ -77,7 +77,7 @@ entity Foo : cuid {...}
 ```cds
 entity Foo {
   key ID : UUID;
-  ...
+  [...]
 }
 ```
 
@@ -101,7 +101,7 @@ entity Foo {
   createdBy  : User      @cds.on.insert : $user;
   modifiedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
-  ...
+  [...]
 }
 ```
 ::: tip

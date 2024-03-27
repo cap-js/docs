@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
-import { computed } from 'vue'
 import ImplVariants from './ImplVariants.vue'
-const { frontmatter } = useData()
-const supportsVariants = computed(() => !!frontmatter.value['impl-variants'])
 </script>
 
 <template>
-  <div class="ImplVariantsMenuItem" v-if="supportsVariants">
+  <div class="ImplVariantsMenuItem">
     <p class="text">
       Node.js / Java Content
     </p>

@@ -124,7 +124,7 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 
 | CDS Type       | OData V4                                |
 | -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>.              |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
 | `Boolean`      | _Edm.Boolean_                           |
 | `UInt8  `      | _Edm.Byte_                              |
 | `Int16`        | _Edm.Int16_                             |
@@ -142,8 +142,11 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 | `Binary`       | _Edm.Binary_                            |
 | `LargeBinary`  | _Edm.Binary_                            |
 | `LargeString`  | _Edm.String_                            |
+| `Vector`       | not supported <sup>(2)</sup>            |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
+
+> <sup>(2)</sup> Type `cds.Vector` must not appear in an OData service
 
 OData V2 has the following differences:
 
@@ -617,6 +620,11 @@ is translated to:
 </Annotation>
 ```
 
+One of the main use cases for such dynamic expressions is SAP Fiori,
+but note that Fiori supports dynamic expressions only for 
+[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+
 ### `sap:` Annotations
 
 In general, back ends and SAP Fiori UIs understand or even expect OData V4 annotations. You should use those rather than the OData V2 SAP extensions.
@@ -974,6 +982,11 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
 :::
 
+::: warning
+The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
+The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
+:::
+
 ### Java Type Mapping
 
 #### Simple Types
@@ -997,11 +1010,6 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 |`{"value": {"name": "Mark Twain"}}`                                | `java.util.Map<String, Object>`      |
 |`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
 
-
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only for the REST Adapter.
-:::
 
 
 ## Singletons

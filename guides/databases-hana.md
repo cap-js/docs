@@ -5,9 +5,7 @@ impl-variants: true
 
 # Using SAP HANA Cloud for Production
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -168,7 +166,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 2. Run cds build again → this time you should see this additional line in the log output:
    ```log
    [cds] - done > wrote output to:
-      ...
+      [...]
       gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
    ```
 
@@ -571,7 +569,7 @@ If you need to remove deployed CSV files, also add this entry:
 
 ```json [db/undeploy.json]
 [
-  ...
+  [...]
   "src/gen/**/*.hdbtabledata"
 ]
 ```

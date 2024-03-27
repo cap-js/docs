@@ -437,5 +437,3 @@ Examples:
 > cds.resolve('none')       // > undefined
 ```
 > Try this in cds repl launched from your project root to see that in action.
-
-*Question:* Note or repl in codeblock? Or both?

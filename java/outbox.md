@@ -78,8 +78,8 @@ You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
+- `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances.
 
-> Persistent outbox is supported starting with these versions: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 
 
 ### Configuring Custom Outboxes { #custom-outboxes}
@@ -143,6 +143,27 @@ OutboxService myCustomOutbox = ...;
 CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
+
+The API `OutboxService.outboxed(Service, Class)` wraps a service with an asynchronous suited API while outboxing it.
+This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
+
+```java
+OutboxService myCustomOutbox = ...;
+CqnService remoteS4 = ...;
+AsyncCqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4, AsyncCqnService.class);
+```
+
+The interface `AsyncCqnService` provides a convenience method to outbox CqnServices:
+
+```java
+OutboxService myCustomOutbox = ...;
+CqnService remoteS4 = ...;
+AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
+```
+
+::: tip Custom asynchronous suited API
+When defining your own custom asynchronous suited API, the interface must provide the same method signatures as the interface of the outboxed service, except for the return types which should be `void`.
+:::
 
 The outboxed service can be cached; caching them is thread-safe.
 Any service that implements the interface `com.sap.cds.services.Service`
@@ -208,7 +229,6 @@ You must ensure that the handler is setting the context to completed before retu
 Also the handler shall only be registered once on the outbox service.
 
 [Learn more about event handlers.](./event-handlers/){.learn-more}
-
 
 ## Troubleshooting
 

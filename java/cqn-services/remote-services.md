@@ -122,7 +122,7 @@ Hence, location and security aspects of remote services is transparent to CAP ap
 
 #### Binding to Local Service
 
-In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the _Remote Service_ are bound to the same (shared) XSUAA service instance and, thus, accept JWT tokens issued by the single XSUAA instance.
+In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the remote API are bound to the same (shared) XSUAA service instance and, thus, accept JWT tokens issued by the single XSUAA instance.
 
 ```yaml
 cds:

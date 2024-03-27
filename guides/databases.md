@@ -248,7 +248,7 @@ cds add data
 CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
 
 ::: details Adding initial data next to your data model
-While the concrete content of the particular CDS model file is irrelevant, it has to be part of your data model. Of course CSV file names must match fully qualified names of respective entity definitions in your CDS models.
+The content of these 'co-located' `.cds` files actually does not matter, but they need to be included in your data model, through a `using` clause in another file for example.
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:

@@ -250,7 +250,7 @@ entity Books : cuid { // [!code focus]
 } // [!code focus]
 ```
 
-At runtime, you can use it leveraging the Query API:
+At runtime, you can use them in queries:
 
 ::: code-group
 ```js [Node.js]

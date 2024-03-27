@@ -80,7 +80,6 @@ You have the following configuration options:
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 - `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances.
 
-> Persistent outbox is supported starting with these versions: `@sap/cds: 5.7.0`,  `@sap/cds-compiler: 2.11.0` (`@sap/cds-dk: 4.7.0`)
 
 
 ### Configuring Custom Outboxes { #custom-outboxes}

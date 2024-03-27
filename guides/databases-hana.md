@@ -261,13 +261,13 @@ let relatedBooks = await SELECT.from('Books')
 ```
 
 ```java [Java]
-//  Compute vector embedding, e.g. via LangChain4j
+// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
 float[] embedding = llm.embed(text).content().vector();
 
-CqnSelect query = Select.from(BOOKS).where(b -> // [!code focus]
-  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)) // [!code focus]
+CqnSelect query = Select.from(BOOKS).where(b -> 
+  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9))
 
-Result relatedBooks = service.run(query); // [!code focus]
+Result relatedBooks = service.run(query);
 ```
 :::
 

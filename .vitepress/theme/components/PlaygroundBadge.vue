@@ -64,6 +64,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   }
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
+    sources['fileName'] = files?.[0];
     for (const file of files || []) {
       sources[`${file}`] = data[`${name}/${kind}/${file}`];
     }
@@ -156,7 +157,7 @@ function toLinesObject(
 <template>
   <span class="VPBadge tip">
     <slot>
-      <a :href="link(name, kind, rules, files, packages)">Open In Playground</a>
+      <a target="_blank" :href="link(name, kind, rules, files, packages)">Open In Playground</a>
     </slot>
   </span>
 </template>

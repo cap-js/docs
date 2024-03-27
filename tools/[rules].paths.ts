@@ -31,15 +31,13 @@ Your standard CDS project configuration turns on a subset of these rules by defa
 Model Validation rules are used to validate CDS models within projects.
 They are used to enforce security, naming conventions, or other best practices.
 
-Note, that while all recommended (&nbsp;✅&nbsp;) model rules are run with the CLI. However, only a number of them are
+Note, that while all recommended (&nbsp;✅&nbsp;) model rules run with the CLI. However, only a number of them are
 enabled and visible in the editor by default (&nbsp;👀&nbsp;).
 ::: details
-The difference is that the rules that are enabled in the editor are faster to execute as they only require the current
-flavor are more powerful, but also slower to execute as they require for the full (project) model
-to be computed. These rules are therefore only run via the command line of (when expliciticly enabled in the editor) on 
-initial load or restart of the ESLint server.
-
-> When explicitly turned on in the editor, the ESLint markup from an incorrect file disappears in the editor on file changes.
+* *In Editor* rules: Rules that are enabled in the editor by default only rely the current file as their rule context. These are quick to execute and
+can react on file changes.
+* *Project-based* rules: Rules that are disabled in the editor by default usually rely on a series of (project) files for their rule context or include
+slow or expensive processes. These are slow to execute and only run with the CLI. 
 :::
 
 > [!TIP]

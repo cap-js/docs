@@ -30,7 +30,7 @@ The [`@requires` annotation](../../../guides/security/authorization#requires--re
 In the following example, the `AdminService` is correctly setup with `@requires` given the `admin` role:
 
 ::: code-group
-<<< ../examples/auth-no-empty-restrictions/correct/srv/admin-service.cds#snippet{ts:line-numbers} [srv/admin-service.cds]
+<<< ../examples/auth-no-empty-restrictions/correct/srv/admin-service.cds#snippet{cds:line-numbers} [srv/admin-service.cds]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"
@@ -39,13 +39,13 @@ In the following example, the `AdminService` is correctly setup with `@requires`
   :files="['srv/admin-service.cds', 'db/schema.cds']"
 />
 
+#### ❌ &nbsp; Incorrect example
+
 If we were to replace the `admin` role by an empty string or provide an empty role array as shown in the next example,
 we now have unrestricted access to that service, which the rule makes us aware of:
 
-#### ❌ &nbsp; Incorrect example
-
 ::: code-group
-<<< ../examples/auth-no-empty-restrictions/incorrect/srv/admin-service.cds#snippet{ts:line-numbers} [srv/admin-service.cds]
+<<< ../examples/auth-no-empty-restrictions/incorrect/srv/admin-service.cds#snippet{cds:line-numbers} [srv/admin-service.cds]
 :::
 <PlaygroundBadge
   name="auth-no-empty-restrictions"

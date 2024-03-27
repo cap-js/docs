@@ -25,8 +25,10 @@ Use `@requires` instead of `@restrict.to` in actions and services with unrestric
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
 ::: code-group
-<<< ../examples/auth-use-requires/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/auth-use-requires/correct/schema.cds#snippet{ts:line-numbers} []
 :::
 <PlaygroundBadge
   name="auth-use-requires"
@@ -35,10 +37,10 @@ Use `@requires` instead of `@restrict.to` in actions and services with unrestric
   :files="['schema.cds']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
 
 ::: code-group
-<<< ../examples/auth-use-requires/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/auth-use-requires/incorrect/schema.cds#snippet{ts:line-numbers} []
 :::
 <PlaygroundBadge
   name="auth-use-requires"

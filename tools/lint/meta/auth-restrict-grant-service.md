@@ -21,36 +21,40 @@ status: released
 
 ## Rule Details
 
-`@restrict.grant` on service level and for bound/unbound actions and functions is limited to `grant: '*'`.
+Restrictions can be defined on different types of CDS resources, but there are some limitations with regards to supported privileges (see [limitations](../../../guides/security/authorization#supported-combinations-with-cds-resources)). Unsupported privilege properties are ignored by the runtime.
+
+An unsupported privilege is that for bound or unbound actions, the `grant` property is implicitly removed (assuming grant: '*' instead). The same also holds for functions. This rule ensures that `@restrict.grant` on service level and for bound/unbound actions and functions is limited to `grant: '*'`.
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
+Let's consider the following example with the `CatalogService` where there function `getViewsCount()` is restricted to the *Admin* role, granting all CDS events:
+
 ::: code-group
-<<< ../examples/auth-restrict-grant-service/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/auth-restrict-grant-service/correct/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]
 :::
 <PlaygroundBadge
   name="auth-restrict-grant-service"
   kind="correct"
   :rules="{'@sap/cds/auth-restrict-grant-service': ['error', 'show']}"
-  :files="['schema.cds']"
+  :files="['srv/cat-service.cds', 'db/schema.cds']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
+
+If we were to slightly modify the above example and use `grant: ['WRITE']` in the privilege of the function, the rule would be
+triggered to inform us that the value of `grant` is limited to `'*'`:
 
 ::: code-group
-<<< ../examples/auth-restrict-grant-service/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/auth-restrict-grant-service/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]
 :::
 <PlaygroundBadge
   name="auth-restrict-grant-service"
   kind="incorrect"
   :rules="{'@sap/cds/auth-restrict-grant-service': ['error', 'show']}"
-  :files="['schema.cds']"
+  :files="['srv/cat-service.cds', 'db/schema.cds']"
 />
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.6.4`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/auth-restrict-grant-service.js)
--->

@@ -257,7 +257,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 <div markdown="1" class="impl node">
 
 | Location    | Deployed...          | Purpose                                                  |
-| ------------| -------------------- | -------------------------------------------------------- |
+| ----------- | -------------------- | -------------------------------------------------------- |
 | `db/data`   | always               | initial data for configurations, code lists, and similar |
 | `test/data` | if not in production | sample data for tests and demos                          |
 

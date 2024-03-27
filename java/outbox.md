@@ -167,8 +167,8 @@ you can define custom outboxes that can be used for outboxing.
 
 ## Technical Outbox API { #technical-outbox-api }
 
-Outbox services provide the technical API `OutboxService.submit(String, OutboxMessage)` that can be used to outbox custom messages for an arbitrary event (processing logic).
-When submitting a custom message, an `OutboxMessage` that can contain parameters for the event needs to be provided.
+Outbox services provide the technical API `OutboxService.submit(String, OutboxMessage)` that can be used to outbox custom messages for an arbitrary event or processing logic.
+When submitting a custom message, an `OutboxMessage` that can optionally contain parameters for the event needs to be provided.
 As the `OutboxMessage` instance is serialized and stored in the database, all data provided in that message
 must be serializable and deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
 

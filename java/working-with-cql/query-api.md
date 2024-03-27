@@ -449,6 +449,11 @@ To expand all first level associations of an entity, use `expand()` on the entit
 ```java
 Select.from(BOOKS).columns(b -> b.expand());
 ```
+
+::: warning
+Avoid using `distinct` in queries with expands, since it only removes duplicate rows from the root entity and isn't defined for expands. Especially the execution of to-many expands typically requires selecting the (unique) keys of the parent entities to correctly map the expanded data to their parent rows. In some cases this can lead to an error which can be resolved by removing `distinct`.
+::::
+
 ##### Optimized Expand Execution {#expand-optimization}
 
 For *to-one expands*:

@@ -13,10 +13,6 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-
-<!-- #### Content -->
-<!--- % include _chapters toc="2,3" %} -->
-
 <!-- ## [CDS Properties](properties/) {.toc-redirect} -->
 
 <!-- [Learn more about CDS properties to configure the CAP Java SDK.](properties){.learn-more} -->
@@ -29,7 +25,7 @@ Hence, the version identifier follows the pattern `MAJOR.MINOR.PATCH`:
 - **Major versions** are delivered every year or even several years and might introduce [incompatible changes](../releases/schedule#cap-java) (for example, `2.0.0`).
 Upcoming major versions are announced early.
 
-- **Minor versions** are delivered on a [monthly basis](/releases/schedule#minor) (for example, `2.7.0` replacing `2.6.4`). 
+- **Minor versions** are delivered on a [monthly basis](/releases/schedule#minor) (for example, `2.7.0` replacing `2.6.4`).
 New features are announced in the [CAP Release notes](/releases/).
 
 - **Patch versions** containing critical bugfixes are delivered [on demand](../releases/schedule#patch) (for example, `2.7.1` replacing `2.7.0`). Patches do not contain new features.
@@ -61,8 +57,8 @@ This version provides applications with a longer time horizon for migrating to a
 
 ### Minimum Versions
 
-CAP Java uses various dependencies that are also used by the applications themselves. 
-If the applications decide to manage the versions of these dependencies, it's helpful to know the minimum versions of these dependencies that CAP Java requires. 
+CAP Java uses various dependencies that are also used by the applications themselves.
+If the applications decide to manage the versions of these dependencies, it's helpful to know the minimum versions of these dependencies that CAP Java requires.
 The following table lists these minimum versions for various common dependencies, based on the latest release:
 
 #### Active Version 2.x { #dependencies-version-2 }
@@ -102,8 +98,8 @@ You have two options:
 Some SDKs such as CAP Java or Cloud SDK provide a bunch of artifacts with a common version.
 Mixing different versions of SDK artifacts often results in compiler errors or unpredictable runtime issues.
 
-To help keeping the client configuration consistent, SDKs usually provide bill of material (BOM) poms as an optional maven dependency. We strongly recommended to import available BOM poms.
-
+To help keeping the client configuration consistent, SDKs usually provide bill of material (BOM) poms as an optional maven dependency.
+We strongly recommended to import available BOM poms.
 
 Following example shows how BOM poms of `com.sap.cds`, `com.sap.cloud.sdk`, and `com.sap.cloud.security` can be added to the project's parent `pom.xml`:
 
@@ -142,12 +138,12 @@ Following example shows how BOM poms of `com.sap.cds`, `com.sap.cloud.sdk`, and 
 ```
 :::
 
-	
+
 ### Update Versions
 
 Regular [updates and patches](#versions) of CAP Java keeps your project in sync with the most recent Free and Open Source Software (FOSS) dependency versions.
 
-However, a security vulnerability could be published, by one of your dependencies, in between CAP Java releases and in turn prevent your application from being released due to failing security scans. 
+However, a security vulnerability could be published, by one of your dependencies, in between CAP Java releases and in turn prevent your application from being released due to failing security scans.
 In this case, applications have the following options:
 
 - Wait for the next monthly CAP Java release with fixed dependencies.
@@ -169,3 +165,4 @@ In this case, applications have the following options:
 Make sure that the updated version is compatible. When consuming a new CAP Java version, this extra dependency can be removed again.
 
 <div id="in-update-versions" />
+

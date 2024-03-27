@@ -78,14 +78,21 @@ const Request = require('@sap/cds/lib/.../Request') // [!code --]
 Following properties provide access to the classes and prototypes of [linked CSNs](cds-reflect).
 
 ### [cds. builtin .types](cds-reflect#cds-builtin-types) {.property}
-### [cds. builtin .classes](cds-reflect#cds-builtin-classes) {.property}
+### [cds. linked .classes](cds-reflect#cds-linked-classes) {.property}
+
+The following top-level properties are convenience shortcuts to their counterparts in `cds.linked.classes`. <br>
+For example:
+
+```js
+cds.entity === cds.linked.classes.entity
+```
 
   - [cds. Association](cds-reflect#cds-association) {.property}
-  - [cds. Composition](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. Composition](cds-reflect#cds-linked-classes) {.property}
   - [cds. entity](cds-reflect#cds-entity) {.property}
-  - [cds. event](cds-reflect#cds-event) {.property}
-  - [cds. type](cds-reflect#cds-type) {.property}
-  - [cds. array](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. event](cds-reflect#cds-linked-classes) {.property}
+  - [cds. type](cds-reflect#cds-linked-classes) {.property}
+  - [cds. array](cds-reflect#cds-linked-classes) {.property}
   - [cds. struct](cds-reflect#cds-struct) {.property}
   - [cds. service](cds-reflect#cds-struct) {.property}
 

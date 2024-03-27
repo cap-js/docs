@@ -17,14 +17,12 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl java">
 
-[Learn more about the features and limitations of using CAP with SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about the features and limitations of using CAP with SQlite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 
 </div>
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -66,7 +64,7 @@ Output:
 
 ### Using the Maven Archetype {.impl .java}
 
-When a new CAP Java project is created with the [Maven Archetype](../java/development/#the-maven-archetype),
+When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype),
 you can specify the in-memory database to be used. Use the option `-DinMemoryDatabase=sqlite` to create a project that uses
 SQLite as in-memory database.
 
@@ -109,7 +107,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 :::
 
 
-[Learn more about creating an initial database schema](/java/persistence-services#initial-database-schema-1){.learn-more}
+[Learn more about creating an initial database schema](/java/cqn-services/persistence-services#initial-database-schema-1){.learn-more}
 
 </div>
 
@@ -164,7 +162,7 @@ spring:
 :::
 
 
-[Learn how to configure an in-memory SQLite database.](../java/persistence-services#in-memory-storage){.learn-more}
+[Learn how to configure an in-memory SQLite database.](../java/cqn-services/persistence-services#in-memory-storage){.learn-more}
 
 </div>
 
@@ -245,7 +243,7 @@ spring:
       maximum-pool-size: 1
 ```
 
-[Learn how to configure a file-based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
+[Learn how to configure a file-based SQLite database](../java/cqn-services/persistence-services#file-based-storage){.learn-more}
 
 </div>
 
@@ -297,13 +295,13 @@ While drop-create is most appropriate for development, it isn't suitable for dat
 
 CAP supports most of the major features on SQLite:
 
-* [Path Expressions](../java/query-api#path-expressions) & Filters
-* [Expands](../java/query-api#projections)
+* [Path Expressions](../java/working-with-cql/query-api#path-expressions) & Filters
+* [Expands](../java/working-with-cql/query-api#projections)
 * [Localized Queries](../guides/localized-data#read-operations)
-* [Comparison Operators](../java/query-api#comparison-operators)
-* [Predicate Functions](../java/query-api#predicate-functions)
+* [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
+* [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
-[Learn about features and limitations of SQLite.](../java/persistence-services#sqlite){.learn-more}
+[Learn about features and limitations of SQLite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 </div>
 

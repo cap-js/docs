@@ -295,7 +295,7 @@ An *anonymous ping* service should be implemented with the least overhead possib
 
 From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
 
-You can pre-empt the default implementation via registering a custom express middleware during bootstrapping as follows:
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
 cds.on('bootstrap', app => {

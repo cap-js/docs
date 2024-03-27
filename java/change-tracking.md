@@ -123,14 +123,14 @@ you can annotate the elements of both and track the changes made through the ord
 ```cds
 entity OrderItems {
   key ID: UUID;
-  ...
+  [...]
   quantity: Integer @changelog;
 }
 
 entity Orders {
   key ID: UUID;
   customerName: String @changelog;
-  ... 
+  [...] 
   items: Composition of many OrderItems;
 }
 ```

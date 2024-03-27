@@ -176,7 +176,7 @@ By default virtual elements are annotated with `@Core.Computed: true`, not writa
 
 ```cds
 entity Employees {
-  ...
+  [...]
   virtual something : String(11);
 }
 ```
@@ -645,7 +645,7 @@ For many-to-many association, follow the common practice of resolving logical ma
 For example:
 
 ```cds
-entity Employees { ...
+entity Employees { [...]
   addresses : Association to many Emp2Addr on addresses.emp = $self;
 }
 entity Emp2Addr {
@@ -749,10 +749,10 @@ If not otherwise specified, a managed composition of an aspect has the default t
 Managed Compositions are handy for [many-to-many relationships](#many-to-many-associations), where a link table usually is private to one side.
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many { key user: Association to Users; }
 }
-entity Users { ...
+entity Users { [...]
   teams: Association to many Teams.members on teams.user = $self;
 }
 ```
@@ -760,7 +760,7 @@ entity Users { ...
 And here's an example of an attributed many-to-many relationship:
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many {
     key user : Association to Users;
     role : String enum { Lead; Member; Collaborator; }
@@ -1414,7 +1414,7 @@ as follows:
 define entity Foo : ManagedObject, AnotherAspect {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1427,7 +1427,7 @@ extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 

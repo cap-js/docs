@@ -669,7 +669,7 @@ The `requires` property lists other models to import definitions from.
 ```js
 ({
   requires:[ '@sap/cds/common', './db/schema' ],
-  ...
+  [...]
 })
 ```
 

@@ -73,7 +73,7 @@ To learn more about this, have a look at section [Importing Service Definitions]
 [Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../developing-applications/properties#cds-remote-services){.learn-more}
 
 ### Using BTP Destinations { #destination-based-scenarios }
-If your _Remote Service_ is running outside the BTP, you typically need to separately obtain the URL and additional metadata like credentials from the service provider. You can leverage BTP Destinations or programmatically register a destination with Cloud SDK to persist them for usage in your CAP application.
+If your _remote API_ is running outside the BTP, you typically need to separately obtain the URL and additional metadata like credentials from the service provider. You can leverage BTP Destinations or programmatically register a destination with Cloud SDK to persist them for usage in your CAP application.
 
 Based on the following configuration, a destination with name `s4-business-partner-api` will be looked up via the Cloud SDK:
 
@@ -117,7 +117,7 @@ Retrieval strategies are part of a set of configuration options provided by Clou
 If the remote API is running on SAP BTP, it is likely that you can leverage Service Binding-based _Remote Services_. 
 The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the much simpler usage. 
 A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information and the URL of the service. 
-In contrast to BTP destinations in general, it can be created and refreshed by a technical user which allows automatic credential rotation.
+In contrast to BTP destinations in general, it can be created and refreshed as part of the application lifecycle (ie. application deployment).
 Hence, location and security aspects of remote services is transparent to CAP applications in case of service bindings.
 
 #### Binding to Local Service

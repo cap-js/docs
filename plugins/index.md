@@ -276,6 +276,8 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
+[Learn more about Open Telemetry in Java](../java/operating-applications/observability#open-telemetry) {.learn-more}
+
 <div id="attachments" />
 
 <div id="internal-plugins" />

@@ -144,6 +144,33 @@ CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
+
+The API `OutboxService.outboxed(Service, Class)` wraps a service with an asynchronous suited API while outboxing it.
+This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
+
+```java
+OutboxService myCustomOutbox = ...;
+CqnService remoteS4 = ...;
+AsyncCqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4, AsyncCqnService.class);
+```
+
+The interface `AsyncCqnService` provides a convenience method to outbox CqnServices:
+
+```java
+OutboxService myCustomOutbox = ...;
+CqnService remoteS4 = ...;
+AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
+```
+
+::: tip Custom asynchronous suited API
+When defining your own custom asynchronous suited API, the interface must provide the same method signatures as the interface of the outboxed service, except for the return types which should be `void`.
+:::
+
+The outboxed service can be cached; caching them is thread-safe.
+Any service that implements the interface `com.sap.cds.services.Service`
+or an inherited interface can be outboxed. Each call to the outboxed service is asynchronously
+executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
+
 The outboxed service is thread-safe and can be cached.
 Any service that implements the `Service` interface can be outboxed.
 Each call to the outboxed service is asynchronously executed, if the API method internally calls the method `Service.emit(EventContext)`.

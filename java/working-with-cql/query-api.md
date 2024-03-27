@@ -451,7 +451,7 @@ Select.from(BOOKS).columns(b -> b.expand());
 ```
 
 ::: warning
-Avoid using `distinct` in queries with expands, since it only removes duplicate rows from the root entity and isn't defined for expands. Especially the execution of to-many expands typically requires selecting the (unique) keys of the parent entities to correctly map the expanded data to their parent rows. In some cases this can lead to an error which can be resolved by removing `distinct`.
+Avoid using `distinct` in queries with expands. `Distinct` removes duplicate rows from the root entity and hence effectively aggregates rows. However, expanding child entities from aggregated rows is not well-defined. Therefore, using `distinct` in queries with expands can lead to an error, which can be resolved by removing `distinct`.
 ::::
 
 ##### Optimized Expand Execution {#expand-optimization}

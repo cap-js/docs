@@ -390,9 +390,9 @@ srv.on('READ', 'Books', (req, next) => {
     const readable = new Readable()
     return {
       value: readable,
-      $mediaContentType = 'image/jpeg',
-      $mediaContentDispositionFilename = 'cover.jpg', // > optional
-      $mediaContentDispositionType = 'inline' // > optional
+      $mediaContentType: 'image/jpeg',
+      $mediaContentDispositionFilename: 'cover.jpg', // > optional
+      $mediaContentDispositionType: 'inline' // > optional
     }
   }
   return next()

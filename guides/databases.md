@@ -160,7 +160,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 
 ## Providing Initial Data
 
-Put CSV files into `db/data` to fill your database with initial data.
+You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
 <div markdown="1" class="impl node">
 
@@ -241,6 +241,16 @@ cds add data
 ```
 
 ### Location of CSV Files
+
+CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
+
+::: details Adding initial data next to your data model
+The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
+:::
+
+::: details On SAP HANA ...
+CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are.
+:::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 

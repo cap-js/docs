@@ -293,15 +293,19 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
 cds.on('bootstrap', app => {
   app.get('/health', (_, res) => {
-    res.status(200).send('OK')
+    res.status(200).send(`I'm fine, thanks for asking`)
   })
 })
 ```
+
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
 
 ## Error Handling
@@ -377,7 +381,7 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming <Badge type="warning" text="beta" /> { #custom-streaming-beta }
+## Custom Streaming <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #custom-streaming-beta }
 
 When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
@@ -390,9 +394,9 @@ srv.on('READ', 'Books', (req, next) => {
     const readable = new Readable()
     return {
       value: readable,
-      $mediaContentType = 'image/jpeg',
-      $mediaContentDispositionFilename = 'cover.jpg', // > optional
-      $mediaContentDispositionType = 'inline' // > optional
+      $mediaContentType: 'image/jpeg',
+      $mediaContentDispositionFilename: 'cover.jpg', // > optional
+      $mediaContentDispositionType: 'inline' // > optional
     }
   }
   return next()

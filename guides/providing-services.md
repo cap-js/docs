@@ -1135,6 +1135,7 @@ You can use the following annotations in the service model to indicate that an e
 `@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
 :::
 
+[Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 
 The following examples show these annotations in action:
 

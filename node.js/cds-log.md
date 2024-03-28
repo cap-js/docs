@@ -4,7 +4,6 @@ shorty: cds.log
 subtocs: false
 status: released
 ---
-<!--- Migrated: @external/node.js/cds-log.md -> @external/node.js/cds-log.md -->
 
 # Minimalistic Logging Facade
 

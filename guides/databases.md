@@ -13,10 +13,7 @@ impl-variants: true
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 {{ $frontmatter.synopsis }}
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
-
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -158,12 +155,12 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 | **[SQLite](databases-sqlite)**       | `org.xerial:sqlite-jdbc` | Supported for development and CI <br> Recommended for local MTX |
 | **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
-[Learn more about supported databases in CAP Java and their configuration](../java/persistence-services#database-support){ .learn-more}
+[Learn more about supported databases in CAP Java and their configuration](../java/cqn-services/persistence-services#database-support){ .learn-more}
 </div>
 
 ## Providing Initial Data
 
-Put CSV files into `db/data` to fill your database with initial data.
+You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
 <div markdown="1" class="impl node">
 
@@ -245,6 +242,16 @@ cds add data
 
 ### Location of CSV Files
 
+CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
+
+::: details Adding initial data next to your data model
+The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
+:::
+
+::: details On SAP HANA ...
+CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are.
+:::
+
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
 <div markdown="1" class="impl node">
@@ -258,7 +265,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 <div markdown="1" class="impl java">
 
-Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
+Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
 ::: code-group
 
@@ -308,7 +315,7 @@ SELECT.from (Authors, a => {
 
 <div markdown="1" class="impl java">
 
-At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
+At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```java
 Select.from(AUTHOR)
@@ -335,7 +342,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 <div markdown="1" class="impl java">
 
-Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/advanced#jdbctemplate) as follows:
+Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/cqn-services/persistence-services#jdbctemplate) as follows:
 
 ```java
 @Autowired
@@ -372,9 +379,9 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 <div markdown="1" class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
-[Learn more about adding an inital database schema.](../java/persistence-services#initial-database-schema){.learn-more}
+[Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
 </div>
 

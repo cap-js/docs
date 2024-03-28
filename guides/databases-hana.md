@@ -5,9 +5,7 @@ impl-variants: true
 
 # Using SAP HANA Cloud for Production
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -46,7 +44,7 @@ Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driv
 
 <div markdown="1" class="impl java">
 
-To use SAP HANA Cloud, [configure a module](../java/architecture#module-configuration), which includes the feature `cds-feature-hana`.
+To use SAP HANA Cloud, [configure a module](../java/developing-applications/building#standard-modules), which includes the feature `cds-feature-hana`.
 For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ```xml
@@ -59,13 +57,13 @@ For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
 
 ::: tip
 
-The [modules](../java/architecture#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
+The [modules](../java/developing-applications/building#standard-modules) `cds-starter-cloudfoundry` and `cds-starter-k8s` include `cds-feature-hana`.
 
 :::
 
 The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
 
-Learn more about the [configuration of an SAP HANA Cloud Database](../java/persistence-services#sap-hana){ .learn-more}
+Learn more about the [configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
 
 </div>
 
@@ -168,7 +166,7 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 2. Run cds build again → this time you should see this additional line in the log output:
    ```log
    [cds] - done > wrote output to:
-      ...
+      [...]
       gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
    ```
 
@@ -236,6 +234,45 @@ See the [Deploying to Cloud Foundry](deployment/) guide for information about ho
 ## Native SAP HANA Features
 
 The HANA Service provides dedicated support for native SAP HANA features as follows.
+
+### Vector Embeddings { #vector-embeddings }
+
+Vector embeddings are numerical representations that capture features and inherent semantics of unstructured data - such as text, images, or audio. They facilitate tasks like similarity search, recommendations, and Retrieval Augmented Generation (RAG). This improves the results of generative AI (GenAI) by augmenting prompts with relevant data retrieved from a vector datastore such as the [SAP HANA Cloud Vector Engine](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-s-vector-engine-announcement/ba-p/13577010).
+
+Typically vector embeddings are computed using models tailored to a specific use case, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model. Unified LLM consumption across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
+
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+
+```cds
+entity Books : cuid { // [!code focus]
+  title         : String(111);
+  embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
+} // [!code focus]
+```
+
+At runtime, you can use them in queries:
+
+::: code-group
+```js [Node.js]
+let embedding; // vector embedding as string '[0.3,0.7,0.1,...]';
+
+let relatedBooks = await SELECT.from('Books')
+  .where`cosine_similarity(embedding, to_real_vector(${embedding})) > 0.9`
+```
+
+```java [Java]
+// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+float[] embedding = llm.embed(text).content().vector();
+
+CqnSelect query = Select.from(BOOKS).where(b -> 
+  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9))
+
+Result relatedBooks = service.run(query);
+```
+:::
+
+[Learn more about Vector Embeddings in CAP Java](../java/cds-data#vector-embeddings) {.learn-more}
+
 
 ### Geospatial Functions
 
@@ -534,7 +571,7 @@ The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) 
 
 ### CSV Data Gets Overridden
 
-HDI deploys CSV data as _.hdbtabledata_, which assumes exclusive ownership of the data. It's overridden with the next application deployment; hence:
+HDI deploys CSV data as _.hdbtabledata_ and assumes exclusive ownership of the data. It's overridden with the next application deployment; hence:
 
 ::: tip
 
@@ -571,7 +608,7 @@ If you need to remove deployed CSV files, also add this entry:
 
 ```json [db/undeploy.json]
 [
-  ...
+  [...]
   "src/gen/**/*.hdbtabledata"
 ]
 ```

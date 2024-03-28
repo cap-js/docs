@@ -54,9 +54,7 @@ Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./c
 
 
 
-### Entity Definitions — `define entity`
-{#entities}
-
+### Entity Definitions — `define entity` {#entities}
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -73,9 +71,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions — `define type`
-{#types}
-
+### Type Definitions — `define type` {#types}
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -149,7 +145,7 @@ With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 
 ::: warning
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/security/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values
@@ -180,7 +176,7 @@ By default virtual elements are annotated with `@Core.Computed: true`, not writa
 
 ```cds
 entity Employees {
-  ...
+  [...]
   virtual something : String(11);
 }
 ```
@@ -356,7 +352,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements (beta) {#association-like-calculated-elements}
+#### Association-like calculated elements <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -649,7 +645,7 @@ For many-to-many association, follow the common practice of resolving logical ma
 For example:
 
 ```cds
-entity Employees { ...
+entity Employees { [...]
   addresses : Association to many Emp2Addr on addresses.emp = $self;
 }
 entity Emp2Addr {
@@ -688,6 +684,12 @@ entity Orders.Items {
 
 :::info Contained-in relationship
 Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
+:::
+
+::: warning Limitations of Compositions of one
+Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
 ### Managed Compositions of Aspects {#managed-compositions}
@@ -747,10 +749,10 @@ If not otherwise specified, a managed composition of an aspect has the default t
 Managed Compositions are handy for [many-to-many relationships](#many-to-many-associations), where a link table usually is private to one side.
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many { key user: Association to Users; }
 }
-entity Users { ...
+entity Users { [...]
   teams: Association to many Teams.members on teams.user = $self;
 }
 ```
@@ -758,7 +760,7 @@ entity Users { ...
 And here's an example of an attributed many-to-many relationship:
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many {
     key user : Association to Users;
     role : String enum { Lead; Member; Collaborator; }
@@ -794,7 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter (beta) {#publish-associations-with-filter}
+#### Publish Associations with Filter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1001,7 +1003,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values (beta) {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.
@@ -1412,7 +1414,7 @@ as follows:
 define entity Foo : ManagedObject, AnotherAspect {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1425,7 +1427,7 @@ extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1538,6 +1540,29 @@ Then the OData request for views with parameters should look like this:
 GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
+
+To expose an entity, it's not necessary to be lexically enclosed in the service definition. An entity's affiliation to a service is established using its fully qualified name, so you can also use one of the following options:
+
+- Add a namespace.
+- Use the service name as prefix.
+
+In the following example, all entities belong to/are exposed by the same service:
+
+::: code-group
+```cds [myservice.cds]
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+```
+:::
+
+::: code-group
+```cds [another.cds]
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+:::
 
 
 ### (Auto-) Redirected Associations {#auto-redirect}
@@ -1770,6 +1795,7 @@ entity Bar : Foo {}     //> foo.bar.Bar
 ```
 :::
 
+A namespace is not an object of its own. There is no corresponding definition in CSN.
 
 ### The `context` Directive {#context}
 

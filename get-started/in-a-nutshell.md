@@ -493,12 +493,12 @@ Instead of in-memory databases we can also use persistent ones. For example, sti
 ::: code-group
 
    ```json [package.json]
-   "cds": { "requires": {
+   { "cds": { "requires": {
       "db": {
          "kind": "sqlite",
          "credentials": { "url": "db.sqlite" } // [!code focus]
       }
-   }}
+   }}}
    ```
 
 :::

@@ -285,7 +285,7 @@ Available for:
 <div id="planned-plugins" />
 
 
-## Attachments
+## Attachments <Badge type="warning" text="beta" title="" />
 
 [@cap-js/attachments](https://www.npmjs.com/package/@cap-js/attachments) {.subtitle}
 

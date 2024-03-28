@@ -224,10 +224,31 @@ Behind the scenes, `cds deploy` does the following:
 
 If you run into issues, see the [Troubleshooting](../get-started/troubleshooting#hana) guide.
 
+#### Deploy Parameters
+
+When using `--to hana` to deploy your app to SAP HANA database you can specify the service name and logon information in several ways.
+
+<br>
+
+`cds deploy --to hana`
+
+In this case the service name will either come from environment variable `VCAP_SERVICES` or will be defaulted from the project name, e.g. `myproject-db` with `myproject-db-key`. If they exist, they will be used otherwise created.
+
+##### `cds deploy --to hana:myservice`
+
+This will overwrite any information coming from environment variables. The service name `myservice` will be used, the current Cloud Foundry client logon information be be taken to connect to the system.
+
+##### `cds deploy --vcap-file someEnvFile.json`
+
+This will take logon information and service name from file `someEnvFile.json` and overwrite any environment variable already set.
+
+##### `cds deploy --to hana:myservice --vcap-file someEnvFile.json`
+
+This is equivalent to `cds deploy --to hana:myservice` and will ignore information coming from `--vcap-file`. A warning will be printed after deploying.
+
 ### Using `cf deploy` or `cf push` { .impl .node }
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
-
 
 
 

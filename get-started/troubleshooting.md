@@ -137,6 +137,12 @@ This error indicates database client pool settings don't match the application's
 | _Root Cause 2_ | The creation of a new connection to the database takes too long.
 | _Solution_ | Adapt `max` or `acquireTimeoutMillis` with more appropriate values, according to the [documentation](../node.js/databases#databaseservice-configuration).
 
+TODOs:
+- Defaults of `max: 100` and `acquireTimeoutMillis: 1000` are pretty high already.
+    - The error includes pool stats (since which cds version?). Check those first!
+- For hana-client, increase `UV_THREADPOOL_SIZE`, e.g., to the pool's `max` (?).
+- Why does `cds.env.requires.db.connection_attempts = 3` seem to help but increasing `acquireTimeoutMillis` doesn't?
+
 Always make sure that database transactions are either committed or rolled back. This can work in two ways:
 1. Couple it to your request (this happens automatically): Once the request is succeeded, the database service commits the transaction. If there was an error in one of the handlers, the database service performs a rollback.
 2. For manual transactions (for example, by writing `const tx = cds.tx()`), you need to perform the commit/rollback yourself: `await tx.commit()`/`await tx.rollback()`.

@@ -179,8 +179,8 @@ console.log (edm)
 ```js
 // for all services
 let all = cds.compile.to.edm (csn, {service:'all'})
-for (let [edm,{file,suffix}] of all)  
-console.log (file,suffix,edm)
+for (let [edm,{file,suffix}] of all)
+  console.log (file,suffix,edm)
 ```
 
 
@@ -198,7 +198,7 @@ For example, use it as follows:
 ```js
 let all = cds.compile.to.hdbtable (csn)
 for (let [src,{file}] of all)
-console.log (file,src)
+  console.log (file,src)
 ```
 
 

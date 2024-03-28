@@ -305,7 +305,7 @@ cds.on('bootstrap', app => {
 })
 ```
 
-More sophisticated health checks that, for example, check whether databases are available, etc., should use authentication to prevent DoS!
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
 
 ## Error Handling

@@ -80,8 +80,6 @@ You have the following configuration options:
 of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 - `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances.
 
-
-
 ### Configuring Custom Outboxes { #custom-outboxes}
 
 Custom persistent outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
@@ -144,8 +142,8 @@ CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
-
-The API `OutboxService.outboxed(Service, Class)` wraps a service with an asynchronous suited API while outboxing it.
+If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods. 
+To improve this the API `OutboxService.outboxed(Service, Class)` can be used, which wraps a service with an asynchronous suited API while outboxing it.
 This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
 
 ```java
@@ -154,7 +152,7 @@ CqnService remoteS4 = ...;
 AsyncCqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4, AsyncCqnService.class);
 ```
 
-The interface `AsyncCqnService` provides a convenience method to outbox CqnServices:
+The method `AsyncCqnService.of()` can be used alternatively to achieve the same for CqnServices:
 
 ```java
 OutboxService myCustomOutbox = ...;
@@ -166,19 +164,9 @@ AsyncCqnService outboxedS4 = AsyncCqnService.of(remoteS4, myCustomOutbox);
 When defining your own custom asynchronous suited API, the interface must provide the same method signatures as the interface of the outboxed service, except for the return types which should be `void`.
 :::
 
-The outboxed service can be cached; caching them is thread-safe.
-Any service that implements the interface `com.sap.cds.services.Service`
-or an inherited interface can be outboxed. Each call to the outboxed service is asynchronously
-executed, if the API method internally calls the method `com.sap.cds.services.Service.emit(EventContext)`.
-
 The outboxed service is thread-safe and can be cached.
 Any service that implements the `Service` interface can be outboxed.
 Each call to the outboxed service is asynchronously executed, if the API method internally calls the method `Service.emit(EventContext)`.
-
-::: warning Asynchronous execution
-If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously.
-A common example for this are the `CqnService.run(...)` methods.
-:::
 
 A service wrapped by an outbox can be unboxed by calling the API `OutboxService.unboxed(Service)`. Method calls to the unboxed
 service are executed synchronously without storing the event in an outbox.

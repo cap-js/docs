@@ -280,11 +280,7 @@ Avoid cyclic relationships between CdsData objects when using toJson.
 
 ## Vector Embeddings <Badge type="warning" text="beta" /> { #vector-embeddings }
 
-Vector embeddings are numerical representations that capture features and inherent semantics of unstructured data - such as text, images, or audio. They facilitate tasks like similarity search, recommendations, and Retrieval Augmented Generation (RAG). This improves the results of generative AI (GenAI) by augmenting prompts with relevant data retrieved from a vector datastore such as the [SAP HANA Cloud Vector Engine](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-s-vector-engine-announcement/ba-p/13577010).
-
-Typically vector embeddings are computed using models tailored to a specific use case, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model. Unified LLM consumption across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
-
-In CDS, such vector embeddings are stored in elements of type `cds.Vector`:
+In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are stored in elements of type `cds.Vector`:
 
 ```cds
 entity Books : cuid { // [!code focus]

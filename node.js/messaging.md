@@ -361,9 +361,8 @@ Example:
 <!-- ``` -->
 If your server is authenticated using [XSUAA](authentication#jwt), you need to grant the scope `$XSAPPNAME.emcallback` to SAP Event Mesh for it to be able to trigger the handshake and send messages.
 
-In _xs-security.json_:
-
-```js
+::: code-group
+```js [xs-security.json]
 {
   ...,
   "scopes": [
@@ -378,6 +377,7 @@ In _xs-security.json_:
   ]
 }
 ```
+:::
 
 Make sure to add this to the service descriptor of your SAP Event Mesh instance:
 

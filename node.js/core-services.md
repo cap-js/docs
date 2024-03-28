@@ -115,8 +115,8 @@ bookshop/
 ├─ srv/
 │ ├─ admin-service.cds
 │ ├─ admin-service.js
-│ ├─ cat-service.cds // [!code focus]
-│ └─ cat-service.js // [!code focus]
+│ ├─ cat-service.cds # [!code focus]
+│ └─ cat-service.js # [!code focus]
 └─ ...
 ```
 
@@ -127,7 +127,7 @@ bookshop/
 ```zsh
 bookshop/
 ├─ srv/
-│ └─ lib/ # or handlers/ // [!code focus]
+│ └─ lib/ # or handlers/ # [!code focus]
 │ │ ├─ admin-service.js
 │ │ └─ cat-service.js
 │ ├─ admin-service.cds

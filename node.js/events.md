@@ -78,14 +78,17 @@ In addition, you can access the current event context from wherever you are in y
 
 ### . http {.property}
 
-If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, in all handlers, even the ones in your database services, you can always access that property like so:
 
 ```js
 this.on ('*', req => {
   let { res } = req.http
+  res.set('Content-Type', 'text/plain')
   res.send('Hello!')
 })
 ```
+
+Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming http request and outgoing http response (for example, in case of an OData batch request).
 
 
 

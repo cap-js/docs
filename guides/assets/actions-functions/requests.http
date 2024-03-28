@@ -1,19 +1,23 @@
+###
 GET http://localhost:4004/sue/sum(x=1,y=2)
+
 ###
 GET http://localhost:4004/sue/stock(id=2)
+
 ###
 POST http://localhost:4004/sue/add
 Content-Type: application/json
 
 {"x":1,"to":2}
+
 ###
 GET http://localhost:4004/sue/Foo(2)/Sue.getStock()
+
 ###
 POST http://localhost:4004/sue/Foo(2)/Sue.order
 Content-Type: application/json
 
 {"x":1}
-###
 
-GET http://localhost:4004/sue/Foo(2)/Sue.Test()
 ###
+GET http://localhost:4004/sue/Foo(2)/Sue.Test()

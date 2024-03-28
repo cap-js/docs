@@ -8,7 +8,7 @@ This section provides information on advanced topics and concepts that are not c
 
 
 <script setup>
-import { data as pages } from './index.data.js'
+import { data as pages } from './index.data.ts'
 </script>
 
 <br>

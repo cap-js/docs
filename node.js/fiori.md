@@ -5,7 +5,7 @@ status: released
 
 # Fiori Support
 
-See [Advanced > Draft-based Editing](../advanced/fiori#draft-support) for an overview on SAP Fiori Draft support in CAP.
+See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) for an overview on SAP Fiori Draft support in CAP.
 
 [[toc]]
 
@@ -39,10 +39,10 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 
 ### Handlers Registration {#draft-support}
 
-Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities. 
+Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities.
 Please note that draft-enabled entities must follow a specific draft choreography.
 
-The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.  
+The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.
 
   ```js
   // only active entities
@@ -56,6 +56,10 @@ The examples are provided for `on` handlers, but the same is true for `before` a
   ```
 
 It's also possible to use the array variant to register a handler for both entities, for example: `srv.on('boundActionOrFunction', ['MyEntity', 'MyEntity.drafts'], /*...*/)`.
+
+:::warning Bound actions/functions modifying active entity instances
+If a bound action/function modifies an active entity instance, custom handlers need to take care that a draft entity doesn't exist, otherwise all changes are overridden when saving the draft.
+:::
 
 Additionally, you can add your logic to the draft-specific events as follows:
 
@@ -71,20 +75,94 @@ Additionally, you can add your logic to the draft-specific events as follows:
   ```
 
 - The `CANCEL` event is triggered when you cancel the draft. In this case, the draft entity is deleted and the active entity isn't changed.
-- The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created. 
+- The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created.
 - The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Note, that composition children of the active entity will also be updated or created.
 
 ::: info Compatibility flag
-    For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
+For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
 :::
 
 ### Draft Locks
 
 To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
 
-```json
-cds.drafts.cancellationTimeout=1h
+```properties
+cds.fiori.draft_lock_timeout=30min
 ```
+
+You can set the property to one of the following:
+- number of hours like `'1h'` 
+- number of minutes like `'10min'`
+- number of milliseconds like `1000`
+
+::: warning
+`cds.drafts.cancellationTimeout` is deprecated and will be removed in an upcoming release. Please mind that the `cds.fiori.draft_lock_timeout` expects a different value.
+:::
+
+### Bypassing the SAP Fiori Draft Flow
+
+Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
+
+To enable this feature, set this feature flag in your configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "bypass_draft": true
+    }
+  }
+}
+```
+
+You can then create active instances directly:
+
+```http
+POST /Books
+
+{
+  "ID": 123,
+  "IsActiveEntity": true
+}
+```
+
+You can modify them directly:
+
+```http
+PATCH /Books(ID=123,IsActiveEntity=true)
+
+{
+  "title": "How to be more active"
+}
+```
+
+This feature is required to enable [SAP Fiori Elements Mass Edit](https://sapui5.hana.ondemand.com/sdk/#/topic/965ef5b2895641bc9b6cd44f1bd0eb4d.html), allowing users to change multiple objects with the
+same editable properties without creating drafts for each row.
+
+:::warning Additional entry point
+Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
+payloads rather than the complete business object.
+:::
+
+### Garbage Collection of Stale Drafts
+
+Inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "draft_deletion_timeout": true
+    }
+  }
+}
+```
+
+You can set the property to one of the following:
+- `true` in order to obtain the default timeout of 30 days
+- number of days like `'30d'` 
+- number of hours like `'72h'`
+- number of milliseconds like `1000`
 
 ### Differences to Previous Version
 
@@ -108,7 +186,7 @@ cds.drafts.cancellationTimeout=1h
 
     ::: info Special case: "Editing Status: All"
     In the special case of the Fiori Elements filter "Editing Status: All", two separate `READ` events are triggered for either the active or draft entity.
-    The individual results are then combined behind the scenes. Draft entries are always positioned on top of active ones.
+    The individual results are then combined behind the scenes.
     :::
 
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.

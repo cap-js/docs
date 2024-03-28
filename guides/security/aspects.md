@@ -11,7 +11,10 @@ impl-variants: true
 
 {{ $frontmatter.synopsis }}
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+<ImplVariantsHint />
+
+[[toc]]
+
 
 ## Secure Communications { #secure-communications }
 
@@ -116,7 +119,7 @@ CAP doesn't require any specific authentication strategy, but it provides out of
 On configured authentication, *all CAP endpoints are authenticated by default*.
 
 ::: warning
-❗ **CAP applications need to ensure that an appropriate [authentication method](../authorization#prerequisite-authentication) is configured**.
+❗ **CAP applications need to ensure that an appropriate [authentication method](/guides/security/authorization#prerequisite-authentication) is configured**.
 It's highly recommended to establish integration tests to safeguard a valid configuration.
 :::
 
@@ -129,7 +132,7 @@ Learn more about user model and identity providers here:
 
 CAP microservices consume remote services and hence need to be authenticated as technical client as well.
 Similar to [request authentication](#authenticate-requests), CAP saves applications from having to implement secure setup of service to service communication:
-- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/as-saas) on basis of platform-injected service bindings.
+- CAP interacts with platform services such as [Event Mesh](../messaging/) or [SaaS Provisioning Service](../deployment/to-cf) on basis of platform-injected service bindings.
 - CAP offers consumption of [Remote Services](../using-services) on basis of [SAP BTP destinations](../using-services#btp-destinations).
 
 Note that the applied authentication strategy is specified by server offering and resp. configuration and not limited by CAP.
@@ -178,9 +181,9 @@ The set of rules that apply to a user reflects a specific conceptual role that d
 Obviously, the business roles are dependent from the scenarios and hence *need to be defined by the application developers*.
 
 Enforcing authorization rules at runtime is highly security-critical and shouldn't be implemented by the application as this would introduce the risk of security flaws.
-Instead, [CAP authorizations](../authorization) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
+Instead, [CAP authorizations](/guides/security/authorization) follow a declarative approach allowing applications to design comprehensive access rules in the CDS model.
 
-Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](../authorization#restrictions).
+Resources in the model such as services or entities can be restricted to users that fulfill specific conditions as declared in `@requires` or `@restrict` [annotations](/guides/security/authorization#restrictions).
 According to the declarations, server-side authorization enforcement is guaranteed for all requests. It's executed close before accessing the corresponding resources.
 
 ::: warning
@@ -194,7 +197,7 @@ To verify CAP authorizations in your model, it's recommended to use [CDS lint ru
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
 
-CAP authorizations can be defined dependently from [user claims](../authorization#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
+CAP authorizations can be defined dependently from [user claims](/guides/security/authorization#user-claims) such as [XSUAA scopes or attributes](https://help.sap.com/docs/btp/sap-business-technology-platform/application-security-descriptor-configuration-syntax)
 that are deployed by application developers and granted by the user administrator of the subscriber.
 Hence, CAP provides a seamless integration of central identity service without technical lock-in.
 
@@ -220,10 +223,10 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 | Name              | Configuration    | URL                                       | Authorization                                 |
 |-------------------|------------------|-------------------------------------------|-----------------------------------------------|
 | CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
-|                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](../authorization#requires) |
+|                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](/guides/security/authorization#requires) |
 | Index page        |                  | `/index.html`                             | none                                          |
 
-> <sup>1</sup> See [protocols and paths](../../java/application-services#configure-path-and-protocol)
+> <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 
 > <sup>2</sup> No authorization by default
 
@@ -249,7 +252,7 @@ Based on configured features, the CAP runtime exposes additional callback endpoi
 
 <div id="auth-callback-endpoints-more" />
 
-Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
+Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured, for example, as sidecar microservice to support higher-level features such as Feature Toggles or Multitenancy:
 
 | CAP service | URL | Authorization
 | ----------- | --- | -------------
@@ -258,13 +261,13 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs#) may be configured
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
 | [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
 
-> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone))
+> <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 
 Authentication for a CAP sidecar needs to be configured just like any other CAP application.
 
 ::: warning
-❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **never are included in business roles**.
+❗ Ensure that technical roles such as `cds.Subscriber`, `mtcallback`, or `emcallback` **are never included in business roles**.
 :::
 
 ### Platform Users { #platform-authz }
@@ -301,7 +304,7 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 ### Isolated Transient Data { #isolated-transient-data }
 
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
-For instance, filters for [instance-based authorization](../authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
+For instance, filters for [instance-based authorization](/guides/security/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
@@ -438,7 +441,7 @@ Developers can use the [`@assert`](../providing-services#input-validation) annot
 
 - With respect to **output encoding**, CAP OData adapters have proper URI encoding for all resource locations in place.
 Moreover, OData validates the JSON response according to the given EDMX schema.
-In addition, client-side protection is given by [SAPUI5](https://community.sap.com/topics/ui5) standard controls
+In addition, client-side protection is given by [SAPUI5](https://pages.community.sap.com/topics/ui5) standard controls
 
 - Applications should meet basic [Content Security Policy (CSP)](https://www.w3.org/TR/CSP2/) compliance rules to further limit the attack vector on client side.
 CSP-compatible browsers only load resources from web locations that are listed in the allowlist defined by the server.
@@ -528,7 +531,7 @@ Similarly, the DB driver settings such as SQL query timeout and buffer size have
 ::: tip
 <div markdown="1" class="impl java">
 
-In case the default setting doesn't fit, <a href="../../java/multitenancy#data-source-pooling-configuration">connection pool properties</a> and <a href="../../java/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
+In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/cqn-services/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 

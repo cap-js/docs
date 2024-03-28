@@ -39,17 +39,18 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)   | `cds init <project>`       |
+| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
 | Add a feature to an existing project                                            | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
-| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart) | `cds watch`                |
+| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart)       | `cds watch`                |
 | [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
 | Inspect effective configuration                                                 | `cds env`                  |
 | Prepare for deployment                                                          | `cds build`                |
 | Deploy to databases or cloud                                                    | `cds deploy`               |
 | Login to multitenant SaaS application                                           | `cds login <app-url>`      |
+| Upgrade tenant(s) subscribed to a multitenant SaaS app to its latest base model.| `cds upgrade`              |
 | Logout from multitenant SaaS application                                        | `cds logout`               |
 | Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
 | Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
@@ -61,14 +62,14 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Editors/IDE Support      | Application Studio | VS Code | Eclipse |
-|--------------------------|:------------------:|:-------:|:-------:|
-| CDS Syntax Highlighting  |        <X/>        |  <X/>   |  <X/>   |
-| CDS Code Completion      |        <X/>        |  <X/>   |  <X/>   |
-| CDS Prettifier           |        <X/>        |  <X/>   |  <X/>   |
-| Advanced Debug/Run Tools |        <X/>        |         |         |
-| Project Explorer         |        <X/>        |         |         |
-| ...                      |                    |         |         |
+| Editors/IDE Support      | Application Studio | VS Code |
+|--------------------------|:------------------:|:-------:|
+| CDS Syntax Highlighting  |        <X/>        |  <X/>   |
+| CDS Code Completion      |        <X/>        |  <X/>   |
+| CDS Prettifier           |        <X/>        |  <X/>   |
+| Advanced Debug/Run Tools |        <X/>        |         |
+| Project Explorer         |        <X/>        |         |
+| ...                      |                    |         |
 
 
 ### CDS Language & Compiler
@@ -104,26 +105,26 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)            | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
 | [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/authorization)                                              | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/security/authorization)                                              | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/media-data)                                        | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/providing-services#serving-media-data)                                        | <X/>  |  <X/>   | <X/> |
 | [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
 | Enterprise Features                                                                         |  CDS  | Node.js | Java |
 |---------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
+| [Authorization](../guides/security/authorization)                                                    | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
 | [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
 | [Managed Data](../guides/domain-modeling#managed-data)                                      | <X/>  |  <X/>   | <X/> |
 | [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
-| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/observability#logging)] | <Na/> |  <X/>   | <X/> |
+| Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/operating-applications/observability#logging)] | <Na/> |  <X/>   | <X/> |
 | Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]   | <Na/> |  <X/>   | <X/> |
 
 
@@ -131,7 +132,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 | Inbound Protocol Support                              | CDS <sup>1</sup> |      Node.js      |       Java        |
 |-------------------------------------------------------|:----------------:|:-----------------:|:-----------------:|
-| [REST/OpenAPI](../advanced/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
+| [REST/OpenAPI](/advanced/publishing-apis/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
 | [OData V2](../advanced/odata#v2-support) <sup>2</sup> |       <X/>       | <X/> <sup>3</sup> |       <X/>        |
 | OData V4                                              |       <X/>       |       <X/>        |       <X/>        |
 | OData V4 for APIs                                     |       <D/>       |       <D/>        |       <D/>        |
@@ -178,9 +179,9 @@ Following is an index of the features currently covered by CAP, with status and 
 |                                                                                                                                                                        |  CDS  | Node.js | Java |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging-foundation#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging-foundation#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging-foundation#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
+| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
 | Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
 | Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
 
@@ -194,7 +195,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [SAP HANA Cloud](../guides/databases-hana)         |    <X/>    |  <X/>   | <X/> |
 | [PostgreSQL](../guides/databases-postgres)         |    <X/>    |  <X/>   | <X/> |
 | [SQLite](../guides/databases-sqlite) <sup>1</sup>  |    <X/>    |  <X/>   | <X/> |
-| [H2](../java/persistence-services#h2) <sup>1</sup> |    <X/>    |  <Na/>  | <X/> |
+| [H2](../java/cqn-services/persistence-services#h2) <sup>1</sup> |    <X/>    |  <Na/>  | <X/> |
 | [MongoDB](../guides/databases) out of the box      |   <Na/>    |  <Na/>  | <D/> |
 | Pluggable drivers architecture                     |    <D/>    |  <D/>   | <X/> |
 | Out-of-the-box support for other databases?        |    <C/>    |  <C/>   | <C/> |
@@ -202,7 +203,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> To speed up development. Not for productive use! <br>
 
-> You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
+> Note: You can already integrate your database of choice in a project or a contribution level. The last two are meant to further facilitate this by out-of-the-box features in CAP.
 
 <!--| [Migration to SAP HANA Cloud](../guides/databases)            |   <D/>    | <Na/>  | <Na/> |
 | [Streamlined Schema Evolution](../guides/databases)       |   <D/>    | <Na/>  | <Na/> |
@@ -233,10 +234,10 @@ Following is an index of the features currently covered by CAP, with status and 
 |--------------------------------------------------------------------------------|:-------:|:----:|
 | [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment/) |  <X/>   | <X/> |
 | Deploy to/run on _Kubernetes_<sup>1</sup>                                      |  <D/>   | <D/> |
-| [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                 |  <X/>   | <X/> |
-| [SaaS on-/offboarding](../guides/deployment/as-saas)                          |  <X/>   | <X/> |
+| [Deploy to/run on _Kyma_](../guides/deployment/to-kyma)                        |  <X/>   | <X/> |
+| [SaaS on-/offboarding](../guides/multitenancy/)                                |  <X/>   | <X/> |
 | [Multitenancy](../guides/multitenancy/)                                        |  <X/>   | <X/> |
-| Health checks                                                                  |  <O/>   | <X/> |
+| [Health checks](../guides/deployment/health-checks)                            |  <X/>   | <X/> |
 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 

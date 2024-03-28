@@ -78,14 +78,21 @@ const Request = require('@sap/cds/lib/.../Request') // [!code --]
 Following properties provide access to the classes and prototypes of [linked CSNs](cds-reflect).
 
 ### [cds. builtin .types](cds-reflect#cds-builtin-types) {.property}
-### [cds. builtin .classes](cds-reflect#cds-builtin-classes) {.property}
+### [cds. linked .classes](cds-reflect#cds-linked-classes) {.property}
+
+The following top-level properties are convenience shortcuts to their counterparts in `cds.linked.classes`. <br>
+For example:
+
+```js
+cds.entity === cds.linked.classes.entity
+```
 
   - [cds. Association](cds-reflect#cds-association) {.property}
-  - [cds. Composition](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. Composition](cds-reflect#cds-linked-classes) {.property}
   - [cds. entity](cds-reflect#cds-entity) {.property}
-  - [cds. event](cds-reflect#cds-event) {.property}
-  - [cds. type](cds-reflect#cds-type) {.property}
-  - [cds. array](cds-reflect#cds-builtin-classes) {.property}
+  - [cds. event](cds-reflect#cds-linked-classes) {.property}
+  - [cds. type](cds-reflect#cds-linked-classes) {.property}
+  - [cds. array](cds-reflect#cds-linked-classes) {.property}
   - [cds. struct](cds-reflect#cds-struct) {.property}
   - [cds. service](cds-reflect#cds-struct) {.property}
 
@@ -131,7 +138,7 @@ if (major < 6) // code for pre cds6 usage
 
 Returns the pathname of the `@sap/cds` installation folder from which the current instance of the `cds` facade module was loaded.
 
-```log
+```js
 [dev] cds repl
 > cds.home // [!code focus]
 ~/.npm/lib/node_modules/@sap/cds
@@ -169,7 +176,7 @@ Trace : {
 }
 ```
 
-For example, [`cds-plugins`](cds-serve) can use that to plugin to different parts of the framework for different commands being executed.
+For example, [`cds-plugins`](cds-serve) can use that to plug into different parts of the framework for different commands being executed.
 
 
 
@@ -178,7 +185,7 @@ For example, [`cds-plugins`](cds-serve) can use that to plugin to different part
 
 Provides access to the effective configuration of the current process, transparently from various sources, including the local _package.json_ or _.cdsrc.json_, service bindings and process environments.
 
-```console
+```js
 [dev] cds repl
 > cds.env.requires.auth // [!code focus]
 {
@@ -203,16 +210,52 @@ Provides access to the effective configuration of the current process, transpare
 
 ### cds. requires {.property}
 
-... is a convenience shortcut to [`cds.env.requires`](#cds-env).
+... is an overlay and convenience shortcut to [`cds.env.requires`](#cds-env), with additional entries for services with names different from the service definition's name in cds models. For example, given this service definition:
 
-```console
-[dev] cds repl
-> cds.requires.auth // [!code focus]
-{
-  kind: 'basic-auth',
-  # ... as above
-}
+```cds
+service ReviewsService {}
 ```
+
+... and this configuration:
+
+```jsonc
+{ "cds": {
+  "requires": {
+    "db": "sqlite",
+    "reviews" : {                  // lookup name
+      "service": "ReviewsService"  // service definition's name
+    }
+  }
+}}
+```
+
+You can access the entries as follows:
+
+```js
+[dev] cds repl
+> cds.env.requires.db              //> the effective config for db
+> cds.env.requires.reviews         //> the effective config for reviews
+> cds.env.requires.ReviewsService  //> undefined
+```
+
+```js
+[dev] cds repl
+> cds.requires.db                  //> the effective config for db
+> cds.requires.reviews             //> the effective config for reviews
+> cds.requires.ReviewsService      //> same as cds.requires.reviews
+```
+
+The additional entries are useful for code that needs to securely access the service by cds definition name.
+
+Note: as `cds.requires` is an overlay to `cds.env.requires`, it inherits all properties from there via prototype chain. In effect using operations which only look at *own* properties, like `Object.keys()` behave different than for `cds.env.requires`:
+
+```js
+[dev] cds repl
+> Object.keys(cds.env.requires) //> [ 'db', 'reviews' ]
+> Object.keys(cds.requires)     //> [ 'ReviewsService' ]
+```
+
+
 
 
 

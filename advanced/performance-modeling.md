@@ -23,8 +23,7 @@ In general, there are two use cases for UNIONs:
 UNIONs in views come with a performance penalty and complex modelling.
 :::
 
-::: tip
-**Rules of Thumb:**
+::: tip Rules of Thumb:
 - If you can't change your data model, you might have to use UNION to collect semantically close data.
 - The effort of transforming data structures to avoid UNION has the benefit of better performance as well as easier modelling and less complex application code.
 - Starting a new model, you should never need to use UNION. See [Polymorphism](#polymorphism).
@@ -110,8 +109,7 @@ entity Fruit : apple, banana, cherry, mango, cuid, managed {
 
 This results in a single, sparsely populated DB table, which is not an issue using modern databases with variable page sizes. The optimizer will take care of it.
 
-::: tip
-**Rules of Thumb:**
+::: tip Rules of Thumb:
 - Come up with a good **general** approach. You get less specific associations and a less complicated model.
 - The normalized or de-normalized `Fruit` entities have the advantage that there is only one associations to `Vendor` to be provided.
 :::
@@ -278,7 +276,7 @@ The following steps show you which option takes precedence over another. Use opt
 
 1. Do the calculation on the UI with help of field controls or dedicated custom controls. This applies to all kinds of **String concatenation** and **Formatting**.
 2. Pre-calculate using CDS [on write](../cds/cdl#on-write) calculated fields.
-3. Some calculations are dynamic in nature. If possible, use CDS [on read](../cds/cdl#on-read) calculated fields. 
+3. Some calculations are dynamic in nature. If possible, use CDS [on read](../cds/cdl#on-read) calculated fields.
 4. As a **very last resort**, use event handlers on *read*.
 
 Hints:
@@ -316,7 +314,7 @@ extend my.OrdersItems with {
        when quantity > 500 then 'Large'
        when quantity > 100 then 'Medium'
        else 'Small'
-     end stored;  
+     end stored;
 }
 ```
 :::
@@ -337,8 +335,7 @@ In general, go for **associations** in the following cases:
  - Relationships are likely to change over time.
  - Individual entities should have individual life-cycles.
 
-::: tip
-**Rule of Thumb:**
+::: tip Rule of Thumb:
 
 Your arm is composed to your body, your smart phone is associated to you, because it could belong to somebody else tomorrow ...
 :::
@@ -355,8 +352,7 @@ In legacy systems you find emulations for data types like string-encoded boolean
 In addition, legacy systems often used UNIONs to save hard drive space, avoid database JOINs, or to accommodate new features without basic refactoring of the existing models. Don't take over such patterns into newly implemented applications.
 
 
-::: tip
-**Rules of Thumb**
+::: tip Rules of Thumb:
 - Each conversion, case statement, or unnecessary data parsing is causing a performance impact and should therefore be avoided.
 - With each conversion to a native data type, you have the opportunity to simplify the model, simplify the application logic, and improve performance from the start.
 :::

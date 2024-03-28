@@ -7,18 +7,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 ---
 
 # Best Practices
-<!-- <style scoped>
-  h1:before {
-    content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
-  }
-</style> -->
 
 From generic Node.js best practices like dependency management and error handling to CAP-specific topics like transaction handling and testing, this [video](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s) provides some tips and tricks to improve the developer experience and avoid common pitfalls, based on common customer issues. In the following section we explain these best practices.
 
-<!-- #### Content -->
-
-<!--- % include links.md %} -->
-<!--- % include _chapters toc="2,3" %} -->
+[[toc]]
 
 
 ## Managing Dependencies {#dependencies}
@@ -77,7 +69,7 @@ Therefore, the rules when publishing packages for reuse are:
 * **Do** an *npm update* before publishing and test thoroughly.
   (&rarr; ideally automated in your CI/CD pipeline).
 * **Do** the vulnerability checks for your software and all open-source software used by you **or by packages you used** (&rarr; [Minimize Usage of Open Source Packages](#oss)).
-* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v7/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
+* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v10/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
 
 ::: tip
 If both your package and a consuming package reuse the same CDS models, loading those models would fail because it's impossible to automatically merge the two versions, nor is it possible to load two independent versions. The reason for this is that it's reusing models that share the **same** single definitions.
@@ -149,7 +141,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 
 ## Securing Your Application
 
-To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet) and [`csurf`](https://www.npmjs.com/package/csurf).
+To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet).
 
 However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-serve#cds-server).
 
@@ -301,18 +293,21 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
 cds.on('bootstrap', app => {
   app.get('/health', (_, res) => {
-    res.status(200).send('OK')
+    res.status(200).send(`I'm fine, thanks for asking`)
   })
 })
 ```
 
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
-<!--- Migrated: @external/node.js/Best-Practices/41-Error-Handling.md -> @external/node.js/best-practices/error-handling.md -->
+
 ## Error Handling
 
 Good error handling is important to ensure the correctness and performance of the running app and developer productivity.
@@ -386,9 +381,9 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming (beta)
+## Custom Streaming <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #custom-streaming-beta }
 
-When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
+When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
 
 Example:
@@ -399,9 +394,9 @@ srv.on('READ', 'Books', (req, next) => {
     const readable = new Readable()
     return {
       value: readable,
-      $mediaContentType = 'image/jpeg',
-      $mediaContentDispositionFilename = 'cover.jpg', // > optional
-      $mediaContentDispositionType = 'inline' // > optional
+      $mediaContentType: 'image/jpeg',
+      $mediaContentDispositionFilename: 'cover.jpg', // > optional
+      $mediaContentDispositionType: 'inline' // > optional
     }
   }
   return next()

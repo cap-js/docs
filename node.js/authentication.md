@@ -11,8 +11,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 {{$frontmatter?.synopsis}} This is done by [authentication middlewares](#strategies) setting the [`req.user` property](#cds-user) which is then used in [authorization enforcement](#enforcement) decisions.
 
+[[toc]]
 
-## req.user &#8594;  cds.**User** <i> class </i> { #cds-user}
+
+## cds. User { #cds-user .class }
 [user]: #cds-user
 [`req.user`]: #cds-user
 
@@ -40,19 +42,8 @@ const anotherUser = new cds.User(user)
 const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.attr})
 ```
 
-#### <i> Properties & Methods </i>
 
-<!-- % assign user = '<span style="font-weight:500; color:#088">user</span>' %} -->
-
-
-### user.id <i> : string </i> {#user-id}
-
-A user's unique ID.
-It corresponds to `$user` in [`@restrict` annotations](../guides/authorization) of your CDS models
-(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {.indent}
-
-
-### user.is <i> (\<role\>) </i> &#8594;  boolean {#user-is}
+### .is <i> (\<role\>) </i> {#user-is .method}
 
 Checks if user has assigned the given role. Example usage:
 
@@ -60,25 +51,45 @@ Checks if user has assigned the given role. Example usage:
 if (req.user.is('admin')) ...
 ```
 
-The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/authorization) in your CDS models.
+The role names correspond to the values of [`@requires` and the `@restrict.grants.to` annotations](../guides/security/authorization) in your CDS models.
 
 
-### user.attr<i>.\<x\> : string </i> {#user-attr}
+### . id {#user-id .property}
+
+A user's unique ID.
+It corresponds to `$user` in [`@restrict` annotations](../guides/security/authorization) of your CDS models
+(Also in JavaScript, `user` can act as a shortcut for `user.id` in comparisons.) {.indent}
+
+
+
+### . attr {#user-attr .property}
 
 User-related attributes, for example, from JWT tokens
-These correspond to `$user.<x>` in [`@restrict` annotations](../guides/authorization) of your CDS models {.indent}
+These correspond to `$user.<x>` in [`@restrict` annotations](../guides/security/authorization) of your CDS models {.indent}
 
+### . tokenInfo {#user-token-info .property}
 
-### <i>DEPRECATED:</i> user.tenant <i> : string </i> {#user-tenant}
+Parsed JWT token info provided by `@sap/xssec`.
+
+<div id="xssec-tokeninfo-reference" />
+
+> **Note:** This API is only available for authentication kinds based on `@sap/xssec`.
+
+### Deprecated API {#deprecated}
+
+#### <i>DEPRECATED:</i> . tenant {#user-tenant}
 
 [Use `req/msg.tenant` instead.](events#tenant){.learn-more}
 
 
-### <i>DEPRECATED:</i> user.locale <i> : string </i> {#user-locale}
+#### <i>DEPRECATED:</i> . locale {#user-locale}
 
 [Use `req/msg.locale` instead.](events#locale){.learn-more}
 
-### cds.**User.Privileged** <i> class </i> { #privileged-user }
+
+
+
+## cds.**User.Privileged** { #privileged-user .class }
 
 In some cases, you might need to bypass authorization checks while [consuming a local service](./core-services). For this, you can create a transaction with a privileged user as follows:
 
@@ -97,21 +108,21 @@ this.before('*', function (req) {
 Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, i.e., `const user = cds.User.privileged`.
 
 
-### cds.**User.Anonymous** <i> class </i> { #anonymous-user }
+## cds.**User.Anonymous** { #anonymous-user .class }
 
 Class `cds.User.Anonymous` allows you to instantiate an anonymous user (`const user = new cds.User.Anonymous`), for example in a [custom authentication](#custom) implementation.
 
 Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, i.e., `const user = cds.User.anonymous`.
 
 
-### cds.**User.default** { #default-user }
+## cds.**User.default** { #default-user .property }
 
 If a request couldn't be authenticated, for example due to a missing authorization header, the framework will use `cds.User.default` as fallback.
 
 By default, `cds.User.default` points to `cds.User.Anonymous`. However, you can override this, for example to be `cds.User.Privileged` in tests, or to be any other class that returns an instance of `cds.User`.
 
 
-### <i> Authorization Enforcement </i> {.h2 #enforcement }
+## Authorization Enforcement {#enforcement}
 
 Applications can use the `req.user` APIs to do programmatic enforcement.
 For example, the authorization of the following CDS service:
@@ -165,7 +176,7 @@ Run `cds env get requires.auth` in your project root to find out the effective c
 :::
 
 
-### Dummy Authentication {.h2 #dummy }
+### Dummy Authentication {#dummy }
 
 This strategy creates a user that passes all authorization checks. It's meant for temporarily disabling the `@requires` and `@restrict` annotations at development time.
 
@@ -182,7 +193,7 @@ This strategy creates a user that passes all authorization checks. It's meant fo
 :::
 
 
-### Mocked Authentication {.h2 #mocked }
+### Mocked Authentication {#mocked }
 
 This authentication strategy uses basic authentication with pre-defined mock users during development.
 
@@ -253,7 +264,7 @@ If you want to restrict these additional logins, you need to overwrite the defau
 ```
 
 
-### Basic Authentication {.h2 #basic }
+### Basic Authentication {#basic }
 
 This authentication strategy uses basic authentication to use mock users during development.
 
@@ -299,10 +310,7 @@ In contrast to [mocked authentication](#mocked), no default users are automatica
 
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['User Account and Authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
-```sh
-npm add passport
-```
+This authentication strategy also adds [`req.user.tokenInfo`](#user-token-info).
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -327,11 +335,6 @@ npm add @sap/xssec
 ### XSUAA-based Authentication { #xsuaa }
 
 Authentication kind `xsuaa` is a logical extension of kind [`jwt`](#jwt) that additionally offers access to SAML attributes through `req.user.attr` (for example, `req.user.attr.familyName`).
-
-**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
-```sh
-npm add passport
-```
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -361,12 +364,9 @@ It's recommended to only use this authentication kind if it's necessary for your
 
 This is an additional authentication strategy using the [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) that can be used in production. User identity and user attributes are provided at runtime, by a bound instance of the IAS service. This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
+This authentication strategy also adds [`req.user.tokenInfo`](#user-token-info).
 
-**Prerequisites:** You need to add [passport](https://www.passportjs.org/) to your project:
-```sh
-npm add passport
-```
+To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -416,6 +416,18 @@ module.exports = function custom_auth (req, res, next) {
     }
   })
   req.tenant = '<tenant>'
+}
+```
+
+The TypeScript equivalent has to use the default export.
+
+```ts
+import cds from "@sap/cds";
+import {Request, Response, NextFunction} from "express";
+type Req = Request & { user: cds.User, tenant: string };
+
+export default function custom_auth(req: Req, res: Response, next: NextFunction) {
+  // do your custom authentication ...
 }
 ```
 

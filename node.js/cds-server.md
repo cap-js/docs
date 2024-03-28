@@ -10,7 +10,7 @@ status: released
 
 
 
-CAP Node.js servers a bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
+CAP Node.js servers are bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
 
 
 
@@ -46,30 +46,28 @@ Its implementation essentially is as follows:
 
 ```js
 const cds = require('@sap/cds')
-cds.server = module.exports = async function (options) {
+module.exports = async function cds_server() {
 
-  const app = cds.app = o.app || require('express')()
+  // prepare express app
+  const app = cds.app = require('express')()
   cds.emit ('bootstrap', app)
 
-  // load model from all sources
-  const csn = await cds.load('*')
-  cds.model = cds.compile.for.nodejs(csn)
+  // load and prepare models
+  const csn = await cds.load('*') .then (cds.minify)
+  cds.model = cds.compile.for.nodejs (csn)
   cds.emit ('loaded', cds.model)
 
-  // connect to prominent required services
-  if (cds.requires.db)  cds.db = await cds.connect.to ('db')
-  if (cds.requires.messaging)    await cds.connect.to ('messaging')
+  // connect to essential framework services
+  if (cds.requires.db) cds.db = await cds.connect.to ('db') .then (_init)
+  if (cds.requires.messaging)   await cds.connect.to ('messaging')
 
-  // serve own services as declared in model
-  await cds.serve ('all') .from(csn) .in (app)
+  // serve all services declared in models
+  await cds.serve ('all') .in (app)
   await cds.emit ('served', cds.services)
 
-  // launch HTTP server
-  cds .emit ('launching', app)
-  const port = o.port ?? process.env.PORT || 4004
-  const server = app.server = app.listen(port) .once ('listening', ()=>
-    cds.emit('listening', { server, url: `http://localhost:${port}` })
-  )
+  // start http server
+  const port = o.port || process.env.PORT || 4004
+  return app.server = app.listen (port)
 }
 ```
 
@@ -123,7 +121,7 @@ module.exports = (o)=>{
 }
 ```
 
-::: tip
+::: tip `req` != `req`
 The `req` object in your express middleware is not the same as `req` in your CDS event handlers.
 :::
 

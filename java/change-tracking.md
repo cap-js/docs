@@ -4,7 +4,7 @@ synopsis: >
 status: released
 ---
 
-# Change Tracking <Badge type="warning" text="beta" />
+# Change Tracking <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;

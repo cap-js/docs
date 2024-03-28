@@ -604,7 +604,7 @@ Use this method to register handlers to run *after* the `.on` handlers, frequent
 - `req` — an instance of [`cds.Request`](./events.md#cds-request)
 
 ::: warning
-Asynchronous functions can be registered, but all `after` handlers are executed in parallel, which can lead to race conditions in case multiple handlers apply to the respective request. Hence, use with caution!
+Asynchronous functions can be registered, but all `.after` handlers are executed in parallel, which can lead to race conditions in case multiple handlers apply to the respective request. Hence, use with caution!
 :::
 
 As a convenience feature, `.after` handlers that are registered on the event `'each'` are called for each individual result entry on `'READ'`.

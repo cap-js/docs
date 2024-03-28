@@ -1,5 +1,20 @@
 /* https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
 
+.VPHome {
+  .VPHero {
+    .name { font-weight: 400; font-size: 55px }
+    .text { font-weight: 400 }
+    .tagline { font-weight: 400 }
+    .VPImage { max-width: 350px; }
+    .VPButton { border: none; }
+  }
+  .VPFeatures .icon {
+    font-size: 30px;
+    // width: 60px;
+    // height: 60px;
+  }
+}
+
 :root {
   // add Avenir Next first
   --vp-font-family-base: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif,
@@ -29,9 +44,15 @@
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img, svg.adapt-dark { filter: brightness(.884) invert(1) hue-rotate(177deg) }
-    .VPHome img, .avatar-img, img.ignore-dark { filter:none }
-    img.mute-dark { filter:brightness(0.6) }
+    img, svg.adapt-dark {
+      filter: brightness(.884) invert(1) hue-rotate(177deg)
+    }
+    img.mute-dark {
+      filter:brightness(.884)
+    }
+    img.ignore-dark, .avatar-img, .VPHome img {
+      filter:none
+    }
   }
 }
 
@@ -85,7 +106,7 @@ main {
 
     // Fix for copy button position
     [class*='language-'] > button.copy {
-      top: 7px;
+      top: 4px;
     }
 
     pre.log {
@@ -121,6 +142,10 @@ main {
 
       background: var(--vp-code-block-bg);
     }
+
+    .line-numbers-wrapper {
+      padding-top: 13px; // align with code line height
+    }
   }
 
   // Table of Contents
@@ -154,6 +179,11 @@ main {
       .dark & {
         &, & code, & a { color: #ced; }
         background-color: #021;
+      }
+    }
+    &.info {
+      .dark & {
+        background-color: #222;
       }
     }
     &.warning {
@@ -192,6 +222,9 @@ main {
       font-style: italic;
       a { color: darkcyan }
     }
+    &[open] {
+      padding: 11px 14px 11px;
+    }
   }
 
   img:not(.avatar-img) {
@@ -222,6 +255,7 @@ main {
   h3.method + h3.method {
     margin-top: 0
   }
+
 }
 
 // Menu Sidebar
@@ -283,6 +317,12 @@ kbd {
   box-shadow: inset 0 -1px 0 var(--vp-c-divider);
   position: relative;
   top: -1px;
+  background: #f3f3f3;
+  .dark & { background: #222 }
+}
+
+.indent {
+  padding-left: 22px;
 }
 
 .learn-more {
@@ -291,15 +331,15 @@ kbd {
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-}
 
-.learn-more::before {
-  content: url('/images/learn-more.svg');
-  vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  margin-right: 5px;
+  &::before {
+    content: url('/images/learn-more.svg');
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    margin-right: 5px;
+  }
 }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */
@@ -314,11 +354,10 @@ html.node .java {
   display: none;
 }
 
-
 /* expand width on big screens */
 @media screen and (min-width: 1600px) {
-  div[class^='language-']:hover,
-  div[class^='language-']:focus,
+  div[class*='language-']:hover,
+  div[class*='language-']:focus,
   pre.log:hover,
   pre.log:focus {
     min-width: fit-content;
@@ -333,7 +372,18 @@ html.node .java {
     overflow: hidden !important;
   }
   // expand navbar to cover wide content (see java/development/properties)
-  .content-body {
-    min-width: 1164px;
-  }
+  // -> effect: ugly jumping navbar between welcome page and docs pages
+  // -> they shall fix that table over there please!
+  // .content-body {
+  //   min-width: 1164px;
+  // }
+}
+
+// save real estate in navbar
+.DocSearch-Button-Keys {
+  // we have the shortcut listed in the ? popup
+  display: none !important;
+}
+@media (min-width: 1024px) {
+  .VPNavBarSearch { padding-left: 12px; }
 }

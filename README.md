@@ -16,10 +16,10 @@ See our [contribution guidelines](CONTRIBUTING.md) for information about how to 
 
 ## Running Locally
 
-If you contribute often to the documentation it's best to create your own fork, clone it to your local machine. 
+If you contribute often to the documentation it's best to create your own fork, clone it to your local machine.
 
 ```sh
-git clone https://github.com/<your-git-account>/sap-cap-js-docs.git
+git clone https://github.com/cap-js/docs   # or whatever your fork's URL is
 ```
 
 Install the dependencies:
@@ -35,15 +35,17 @@ npm run start
 ```
 
 This will respond with:
-```sh
-  vitepress v1.0.0-rc.15
+```
+  vitepress v1...
 
   ➜  Local:   http://localhost:5173/docs/
   ➜  Network: use --host to expose
   ➜  press h to show help
 ```
 
-Once this is running, if you are reading this documentation at https://cap.cloud.sap/ anytime you press <key>l</key> it opens the locally hosted site at the same page. 
+Once this is running, if you are reading this documentation at https://cap.cloud.sap/,
+- press <kbd>l</kbd> to open the page on _localhost_
+- and then press <kbd>o</kbd> to open the page in your local VS Code
 
 ## Code of Conduct
 
@@ -51,4 +53,4 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 ## Licensing
 
-Copyright 2023 SAP SE or an SAP affiliate company and CAP contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/cap-js/docs).
+Copyright 2023-2024 SAP SE or an SAP affiliate company and CAP contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/cap-js/docs).

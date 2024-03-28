@@ -10,7 +10,7 @@ Services frequently consume other services, which could be **local** services se
 The latter include **database** services. In all cases use `cds.connect` to connect to such services, for example, from your:
 
 
-
+[[toc]]
 
 
 
@@ -191,7 +191,9 @@ _**Arguments:**_
 
 _**Caching:**_
 
-Service instances are cached in [`cds.services`](cds-facade#cds-services), thus subsequent connects with the same service name return the initially connected one. As services constructed by [`cds.serve`] are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
+Service instances are cached in [`cds.services`](cds-facade#cds-services), thus subsequent connects with the same service name return the initially connected one. As services constructed by [`cds.serve`](cds-serve#cds-serve) are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
+
+If _ad-hoc_ options are provided, the instance is not cached.
 
 
 
@@ -244,7 +246,7 @@ You specify the credentials to be used for a service by using one of the followi
 
 What to use depends on your environment.
 
-###  <i>  In Cloud Foundry </i> {#bindings-in-cloud-platforms}
+### In Cloud Foundry {#bindings-in-cloud-platforms}
 
 Find general information about how to configure service bindings in Cloud Foundry:
 
@@ -254,7 +256,7 @@ Find general information about how to configure service bindings in Cloud Foundr
 
 Cloud Foundry uses auto configuration of service credentials through the `VCAP_SERVICES` environment variable.
 
-####  <i>  Through `VCAP_SERVICES` env var </i> {#vcap_services}
+#### Through `VCAP_SERVICES` env var {#vcap_services}
 
 When deploying to Cloud Foundry, service bindings are provided in `VCAP_SERVICES` process environment variables, which is JSON-stringified array containing credentials for multiple services. The entries are matched to the entries in `cds.requires` as follows, in order of precedence:
 
@@ -359,7 +361,7 @@ Here are a few examples:
 </table>
 
 
-###  <i>  In Kubernetes / Kyma </i> { #in-kubernetes-kyma}
+### In Kubernetes / Kyma { #in-kubernetes-kyma}
 
 CAP supports [servicebinding.io](https://servicebinding.io/) service bindings and SAP BTP service bindings created by the [SAP BTP Service Operator](https://github.com/SAP/sap-btp-service-operator).
 
@@ -419,7 +421,7 @@ CAP services receive their credentials from these bindings [as if they were prov
 
 -->
 
-####  <i>  Through environment variables </i> {#env-service-bindings}
+#### Through environment variables {#env-service-bindings}
 
 All values of a secret can be added as environment variables to a pod. A prefix can be prepended to each of the environment variables. To inject the values from the secret in the right place of your CDS configuration, you use the configuration path to the `credentials` object of the service as the prefix:
 
@@ -445,7 +447,7 @@ For the _configuration path_, you **must** use the underscore ("`_`") character 
 :::
 
 
-####  <i>  Through the file system </i> {#file-system-service-bindings}
+#### Through the file system {#file-system-service-bindings}
 
 CAP can read configuration from a file system by specifying the root path of the configuration in the `CDS_CONFIG` environment variable.
 
@@ -479,7 +481,7 @@ For Kubernetes, you can create a volume with the content of a secret and mount i
           readOnly: true
 ```
 
-####  <i>  Provide Service Bindings (`VCAP_SERVICES`) </i> {#provide-service-bindings}
+#### Provide Service Bindings (`VCAP_SERVICES`) {#provide-service-bindings}
 
 If your application runs in a different environment than Cloud Foundry, the `VCAP_SERVICES` env variable is not available. But it may be needed by some libraries, for example the SAP Cloud SDK.
 
@@ -633,7 +635,7 @@ One prominent exception of that, which you would frequently add to your _package
 
 
 
-###  <i>  Basic Mechanism </i> {#bindings-via-cds-env}
+### Basic Mechanism {#bindings-via-cds-env}
 
 
 The CAP Node.js runtime expects to find the service bindings in `cds.env.requires`.
@@ -666,7 +668,7 @@ The CAP Node.js runtime expects to find the service bindings in `cds.env.require
 The latter is appropriate in test suites. In productive code, you never provide credentials in a hard-coded way. Instead, use one of the options presented in the following sections.
 
 
-###  <i>  Through _.cdsrc-private.json_ File for Local Testing </i>
+### Through _.cdsrc-private.json_ File for Local Testing
 
 [Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing#bind-to-cloud-services)
 
@@ -691,7 +693,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
 Make sure that the _.cdsrc-private.json_ file is not checked into your project.
 :::
 
-###  <i>  Through `process.env` Variables </i> {#bindings-via-process-env}
+### Through `process.env` Variables {#bindings-via-process-env}
 
 You could pass credentials as process environment variables, for example in ad-hoc tests from the command line:
 
@@ -701,7 +703,7 @@ export cds_requires_db_credentials_database=sqlite.db
 cds watch fiori
 ```
 
-####  <i>  In _.env_ Files for Local Testing </i>
+#### In _.env_ Files for Local Testing
 
 Add environment variables to a local _.env_ file for repeated local tests:
 

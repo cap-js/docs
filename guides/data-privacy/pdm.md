@@ -22,6 +22,7 @@ The SAP Personal Data Manager service is currently only available for [enterpris
 
 SAP BTP provides the [*SAP Personal Data Manager (PDM)*](https://help.sap.com/docs/PERSONAL_DATA_MANAGER) which allows administrators to respond to the question "What data of me do you have?". To answer this question, the PDM service needs to fetch all personal data using an OData endpoint. That endpoint has to be provided by the application as follows.
 
+[[toc]]
 
 
 ## Provide a Service Interface to SAP Personal Data Manager
@@ -178,8 +179,6 @@ Deploy your application:
 ```sh
 cf create-service-push
 ```
-
-For multitenant-specific information, refer to our [Multitenancy Guide](../deployment/as-saas).
 
 
 

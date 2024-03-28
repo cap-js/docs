@@ -13,8 +13,7 @@ impl-variants: true
 <!-- REVISIT: Didn't we say no synopsis any more, but toc straight away? -->
 {{ $frontmatter.synopsis }}
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
-
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -156,7 +155,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 | **[SQLite](databases-sqlite)**       | `org.xerial:sqlite-jdbc` | Supported for development and CI <br> Recommended for local MTX |
 | **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
-[Learn more about supported databases in CAP Java and their configuration](../java/persistence-services#database-support){ .learn-more}
+[Learn more about supported databases in CAP Java and their configuration](../java/cqn-services/persistence-services#database-support){ .learn-more}
 </div>
 
 ## Providing Initial Data
@@ -170,7 +169,7 @@ For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/clou
 ```zsh
 bookshop/
 ├─ db/
-│ └─ data/ #> place your .csv files here
+│ ├─ data/ # place your .csv files here
 │ │ ├─ sap.capire.bookshop-Authors.csv
 │ │ ├─ sap.capire.bookshop-Books.csv
 │ │ ├─ sap.capire.bookshop-Books.texts.csv
@@ -186,12 +185,12 @@ For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-
 
 ```zsh
 db/
-└─ data/ #> place your .csv files here
+├─ data/ # place your .csv files here
 │ ├─ my.bookshop-Authors.csv
 │ ├─ my.bookshop-Books.csv
 │ ├─ my.bookshop-Books.texts.csv
-│ └─ my.bookshop-Genres.csv
-| └─ ...
+│ ├─ my.bookshop-Genres.csv
+│ └─ ...
 └─ index.cds
 ```
 </div>
@@ -256,7 +255,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 <div markdown="1" class="impl java">
 
-Use the properties [cds.dataSource.csv.*](../java/development/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
+Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
 ::: code-group
 
@@ -306,7 +305,7 @@ SELECT.from (Authors, a => {
 
 <div markdown="1" class="impl java">
 
-At runtime, we usually construct queries using the [CQL Query Builder API](../java/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
+At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```java
 Select.from(AUTHOR)
@@ -333,7 +332,7 @@ cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 
 <div markdown="1" class="impl java">
 
-Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/advanced#jdbctemplate) as follows:
+Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/cqn-services/persistence-services#jdbctemplate) as follows:
 
 ```java
 @Autowired
@@ -343,6 +342,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
+### Reading `LargeBinary` / BLOB {.impl .node}
+
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+
+```js
+SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
+SELECT.from(Books)          //> [{ ID, title, ... }]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1, image2 }] // [!code --]
+SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readable }]
+```
+
+[Read more about custom streaming in Node.js.](../node.js/best-practices#custom-streaming-beta){.learn-more}
+
+
 ## Generating DDL Files {#generating-sql-ddl}
 
 <div markdown="1" class="impl node">
@@ -350,17 +363,20 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
 
+You can also do this manually with the CLI command `cds compile --to <dialect>`.
+
 </div>
 
 <div markdown="1" class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/development/#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+
+[Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
 </div>
 
-You can also do this manually with the CLI command `cds compile --to <dialect>`.
+### Using `cds compile`
 
-### Using `cds compile -2 <dialect>`
 
 For example, given these CDS models (derived from [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop)):
 
@@ -403,8 +419,11 @@ service CatalogService {
 
 Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
 
+<div class="impl node">
+
+
 ```sh
-cds compile srv/cat-service --to sqlite > schema.sql
+cds compile srv/cat-service --to sql --dialect sqlite > schema.sql
 ```
 
 Output:
@@ -461,8 +480,101 @@ ON Books.author_ID = author.ID;
 
 :::
 
+</div>
+
+
+<div class="impl java">
+
+```sh
+cds compile srv/cat-service --to sql > schema.sql
+```
+
+Output:
+
+::: code-group
+
+```sql [schema.sql]
+CREATE TABLE sap_capire_bookshop_Books (
+  createdAt TIMESTAMP(7),
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP(7),
+  modifiedBy NVARCHAR(255),
+  ID INTEGER NOT NULL,
+  title NVARCHAR(111),
+  descr NVARCHAR(1111),
+  author_ID INTEGER,
+  genre_ID INTEGER,
+  stock INTEGER,
+  price DECFLOAT,
+  currency_code NVARCHAR(3),
+  image BINARY LARGE OBJECT,
+  PRIMARY KEY(ID)
+);
+CREATE TABLE sap_capire_bookshop_Books (
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  author_ID NVARCHAR(36),
+  price_amount DECIMAL,
+  price_currency_code NVARCHAR(3),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_capire_bookshop_Authors (
+  ID NVARCHAR(36) NOT NULL,
+  name NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE sap_common_Currencies (
+  name NVARCHAR(255),
+  descr NVARCHAR(1000),
+  code NVARCHAR(3) NOT NULL,
+  symbol NVARCHAR(5),
+  minorUnit SMALLINT,
+  PRIMARY KEY(code)
+);
+
+CREATE TABLE sap_capire_bookshop_Books_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(36) NOT NULL,
+  title NVARCHAR(5000),
+  descr NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books_0.createdAt,
+  Books_0.modifiedAt,
+  Books_0.ID,
+  Books_0.title,
+  Books_0.author,
+  Books_0.genre_ID,
+  Books_0.stock,
+  Books_0.price,
+  Books_0.currency_code,
+  Books_0.image
+FROM CatalogService_Books AS Books_0;
+CREATE VIEW CatalogService_ListOfBooks AS SELECT
+  Books.ID,
+  Books.title,
+  Books.descr,
+  author.name AS author,
+  Books.price_amount,
+  Books.price_currency_code
+FROM sap_capire_bookshop_Books AS Books
+LEFT JOIN sap_capire_bookshop_Authors AS author
+ON Books.author_ID = author.ID;
+
+--- some more technical views skipped ...
+```
+
+:::
+
+</div>
+
 ::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to <dialect>` to get DDL that matches the target database.
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
 :::
 
 
@@ -562,6 +674,8 @@ CREATE VIEW V AS SELECT ... FROM E WITH DDL ONLY;
 
 The following rules apply:
 
+- The value of the annotation must be a [string literal](../cds/cdl#multiline-literals).
+
 - The compiler doesn't check or process the provided SQL snippets in any way. You're responsible to ensure that the resulting statement is valid and doesn't negatively impact your database or your application. We don't provide support for problems caused by using this feature.
 
 - If you refer to a column name in the annotation, you need to take care of
@@ -575,9 +689,6 @@ The following rules apply:
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
 
-
-
-
 ### Reserved Words
 
 The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
@@ -588,6 +699,7 @@ Find here a collection of resources on selected databases and their reference do
 * [SAP HANA SQL Reference Guide for SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/28bcd6af3eb6437892719f7c27a8a285.html)
 * [SQLite Keywords](https://www.sqlite.org/lang_keywords.html)
 * [H2 Keywords/Reserved Words](https://www.h2database.com/html/advanced.html#keywords)
+* [PostgreSQL SQL Key Words](https://www.postgresql.org/docs/current/sql-keywords-appendix.html)
 
 [There are also reserved words related to SAP Fiori.](../advanced/fiori#reserved-words){.learn-more}
 
@@ -634,7 +746,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author //[!code focus]
+  CONSTRAINT Books_author // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT
@@ -681,7 +793,7 @@ CREATE TABLE Books_texts (
   ID INTEGER NOT NULL,
   title NVARCHAR(5000),
   PRIMARY KEY(locale, ID),
-  CONSTRAINT Books_texts_texts //[!code focus]
+  CONSTRAINT Books_texts_texts // [!code focus]
     FOREIGN KEY(ID)
     REFERENCES Books(ID)
     ON UPDATE RESTRICT

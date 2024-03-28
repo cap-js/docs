@@ -17,12 +17,12 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 <div markdown="1" class="impl java">
 
-[Learn more about the features and limitations of using CAP with SQlite.](../java/persistence-services#sqlite){.learn-more}
+[Learn more about the features and limitations of using CAP with SQlite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 
 </div>
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -64,7 +64,7 @@ Output:
 
 ### Using the Maven Archetype {.impl .java}
 
-When a new CAP Java project is created with the [Maven Archetype](../java/development/#the-maven-archetype),
+When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype),
 you can specify the in-memory database to be used. Use the option `-DinMemoryDatabase=sqlite` to create a project that uses
 SQLite as in-memory database.
 
@@ -84,6 +84,34 @@ Further configuration depends on whether you run SQLite as an [in-memory databas
 
 ## Deployment
 
+<div class="impl java">
+
+### Initial Database Schema
+
+Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+
+[Learn more about creating an initial database schema](/java/cqn-services/persistence-services#initial-database-schema-1){.learn-more}
+
+</div>
+
+
 ### In-Memory Databases
 
 <div markdown="1" class="impl node">
@@ -93,13 +121,13 @@ As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by defa
 
 ```log
 ...
-[cds] - connect to db > sqlite { url: ':memory:' } //[!code focus]
+[cds] - connect to db > sqlite { url: ':memory:' } // [!code focus]
   > init from db/init.js
   > init from db/data/sap.capire.bookshop-Authors.csv
   > init from db/data/sap.capire.bookshop-Books.csv
   > init from db/data/sap.capire.bookshop-Books.texts.csv
   > init from db/data/sap.capire.bookshop-Genres.csv
-/> successfully deployed to in-memory database. //[!code focus]
+/> successfully deployed to in-memory database. // [!code focus]
 ...
 ```
 
@@ -114,11 +142,10 @@ Using in-memory databases is the most recommended option for test drives and tes
 <div markdown="1" class="impl java">
 
 
-The database content is stored in-memory. [Configure the build](../java/persistence-services#initial-database-schema-1) to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
 
-Finally, configure the DB connection in the non-productive `default` profile:
-
-```yaml
+::: code-group
+```yaml [application.yaml]
 ---
 spring:
   config.activate.on-profile: default
@@ -132,8 +159,10 @@ spring:
       maximum-pool-size: 1
       max-lifetime: 0
 ```
+:::
 
-[Learn how to configure an in-memory SQLite database.](../java/persistence-services#in-memory-storage){.learn-more}
+
+[Learn how to configure an in-memory SQLite database.](../java/cqn-services/persistence-services#in-memory-storage){.learn-more}
 
 </div>
 
@@ -166,7 +195,7 @@ You can also use persistent SQLite databases. In this case, the schema is initia
    { "cds": { "requires": {
       "db": {
          "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } //[!code focus]
+         "credentials": { "url": "db.sqlite" } // [!code focus]
       }
    }}}
    ```
@@ -214,7 +243,7 @@ spring:
       maximum-pool-size: 1
 ```
 
-[Learn how to configure a file-based SQLite database](../java/persistence-services#file-based-storage){.learn-more}
+[Learn how to configure a file-based SQLite database](../java/cqn-services/persistence-services#file-based-storage){.learn-more}
 
 </div>
 
@@ -241,7 +270,7 @@ While drop-create is most appropriate for development, it isn't suitable for dat
       "db": {
          "kind": "sqlite",
          "credentials": { "url": "db.sqlite" },
-         "schema_evolution": "auto" //[!code focus]
+         "schema_evolution": "auto" // [!code focus]
       }
    }}}
    ```
@@ -266,13 +295,13 @@ While drop-create is most appropriate for development, it isn't suitable for dat
 
 CAP supports most of the major features on SQLite:
 
-* [Path Expressions](../java/query-api#path-expressions) & Filters
-* [Expands](../java/query-api#projections)
+* [Path Expressions](../java/working-with-cql/query-api#path-expressions) & Filters
+* [Expands](../java/working-with-cql/query-api#projections)
 * [Localized Queries](../guides/localized-data#read-operations)
-* [Comparison Operators](../java/query-api#comparison-operators)
-* [Predicate Functions](../java/query-api#predicate-functions)
+* [Comparison Operators](../java/working-with-cql/query-api#comparison-operators)
+* [Predicate Functions](../java/working-with-cql/query-api#predicate-functions)
 
-[Learn about features and limitations of SQLite.](../java/persistence-services#sqlite){.learn-more}
+[Learn about features and limitations of SQLite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
 </div>
 
@@ -288,8 +317,8 @@ The following is an overview of advanced features supported by the new database 
 
 The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
 
-```sh
-cds repl --profile better-sqlite
+```js
+// $ cds repl --profile better-sqlite
 var { server } = await cds.test('bookshop'), { Books, Authors } = cds.entities
 await INSERT.into (Books) .entries ({ title: 'Unwritten Book' })
 await INSERT.into (Authors) .entries ({ name: 'Upcoming Author' })
@@ -366,6 +395,7 @@ The new database services guarantee identical behavior of these logic operators:
 
 In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
+> These operators are available for runtime queries, but not in CDS files.
 
 
 ### Standard Functions {.impl .node}
@@ -388,6 +418,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
 > <sup>1</sup> Argument `n` is optional.
+> These functions are only supported within runtime queries, but not in CDS files.
 
 The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
 
@@ -658,36 +689,6 @@ SELECT.from(Books)       // reads plain data
 Generic application service handlers use *SELECT.localized* to request localized data from the database. Hence, CAP services automatically serve localized data as before.
 
 :::
-
-
-
-
-
-<!-- ### New Streaming API {.impl .node}
-
-TODO: New STREAM event, ...
-
--->
-
-### Skipped BLOBs {.impl .node}
-
-Formerly, `LargeBinary` elements, a.k.a. BLOBs, always got served as any other column. Now, they are skipped from _SELECT *_ queries. Yet, you can still enforce reading them by explicitly selecting them.
-
-For example:
-
-```js
-SELECT.from(Books)          //> [{ ID, title, ..., image }] // [!code --]
-SELECT.from(Books)          //> [{ ID, title, ... }]
-SELECT('image').from(Books) //> [{ image }]
-```
-
-::: tip Avoid direct reads of BLOBs
-
-Even if we still support direct reads, as shown in the third line above, you should generally refrain from using that option. One reason is that BLOBs hold potentially large amounts of data, so they should be streamed. Another reason is that some databases don't support that. If you really need to do such a thing, consider using non-large `Binary` elements instead.
-
-:::
-
-
 
 ### Skipped Virtuals {.impl .node}
 

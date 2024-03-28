@@ -22,16 +22,15 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 
 </div>
 
->This guide is available for Node.js and Java. Press <kbd>v</kbd> to switch, or use the toggle.
+<ImplVariantsHint />
 
 ## Create a Project
 
 <div class="impl node">
 
 ```sh
-cds init hello-world --add tiny-sample
+cds init hello-world
 cd hello-world
-npm install
 ```
 
 </div>
@@ -39,7 +38,7 @@ npm install
 <div class="impl java">
 
 ```sh
-cds init hello-world --add java,samples
+cds init hello-world --add java
 cd hello-world
 ```
 
@@ -92,7 +91,7 @@ module.exports = class say {
 
 <div class="impl java">
 
-... for example, using a [CAP Java](../java/provisioning-api) custom handler like this:
+... for example, using a [CAP Java](../java/event-handlers/) custom handler like this:
 
 ::: code-group
 
@@ -155,5 +154,3 @@ mvn cds:watch
 <http://localhost:8080/odata/v4/say/hello(to='world')> { .impl .java}
 
 You should see the value "Hello world!" being returned.
-
-<!--- % include links.md %} -->

@@ -82,3 +82,50 @@ await cds.plugins
 
 Currently, the following commands support plugins: `cds-serve`, `cds watch`, `cds run`, `cds env`, `cds deploy`, `cds build`, `cds.test()`.
 
+## Configuration Schema <Badge type="warning" text="beta" /> { #configuration-schema }
+
+To help developers conveniently add configuration for a plugin with code completion, plugin developers can declare additions to the `cds` schema in their plugin.
+
+#### Declaration in Plugin
+
+All schema definitions must be below the `schema` node:
+
+::: code-group
+
+```jsonc [package.json]
+"cds": {
+  "schema": {
+    "buildTaskType": {
+      "name": "new-buildTaskType",
+      "description": "A text describing the new build task type."
+    },
+    "databaseType": {
+      "name": "new-databaseType",
+      "description": "A text describing the new database type."
+    },
+    "cds": {
+      "swagger": {    // example from cds-swagger-ui-express
+        "description": "Swagger setup",
+        "oneOf": [
+          ...
+        ]
+      }
+    }
+  }
+}
+```
+
+:::
+
+Currently, the following schema contribution points are supported:
+
+| Contribution Point | Description                               |
+|--------------------|-------------------------------------------|
+| `buildTaskType`    | Additional build task type                |
+| `databaseType`     | Additional database type                  |
+| `cds`              | One or more additional top level settings |
+
+
+#### Usage In a CAP Project
+
+<video src="../node.js/assets/schema-usage_compressed.mp4" autoplay muted />{.ignore-dark style="width: 688px"}

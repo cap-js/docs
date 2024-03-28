@@ -5,7 +5,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
-<!--- Migrated: @external/cds/33-common.cds.md -> @external/cds/common.md -->
 
 # Common Types and Aspects
 
@@ -23,6 +22,7 @@ CDS ships with a prebuilt model *`@sap/cds/common`* that provides common types a
 [ISO 3166-3]: https://en.wikipedia.org/wiki/ISO_3166-3
 [ISO 4217]: https://en.wikipedia.org/wiki/ISO_4217
 [ISO/IEC 15897]: https://en.wikipedia.org/wiki/ISO/IEC_15897
+[tzdata]: https://en.wikipedia.org/wiki/Tz_database
 [localized data]: ../guides/localized-data
 [temporal data]: ../guides/temporal-data
 
@@ -77,7 +77,7 @@ entity Foo : cuid {...}
 ```cds
 entity Foo {
   key ID : UUID;
-  ...
+  [...]
 }
 ```
 
@@ -101,7 +101,7 @@ entity Foo {
   createdBy  : User      @cds.on.insert : $user;
   modifiedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
-  ...
+  [...]
 }
 ```
 ::: tip
@@ -131,7 +131,7 @@ _@sap/cds/common_ provides predefined easy-to-use types for _Countries_, _Curren
 ### Type `Country`
 [`Country`]: #country
 
-The reuse type `Country` is defined in _@sap/cds/common_ as a simple managed [Association](cdl#associations) to the [code list](#code-lists) for countries as follows:
+The reuse type `Country` is defined in _@sap/cds/common_ as a simple managed [Association](cdl#associations) to the [code list](#code-lists) for [countries](#entity-countries) as follows:
 
 ```cds
 type Country : Association to sap.common.Countries;
@@ -165,6 +165,8 @@ CREATE TABLE Addresses (
 
 ### Type `Currency`
 
+The type for an association to [Currencies](#entity-currencies).
+
 ```cds
 type Currency : Association to sap.common.Currencies;
 ```
@@ -173,8 +175,20 @@ type Currency : Association to sap.common.Currencies;
 
 ### Type `Language`
 
+The type for an association to [Languages](#entity-languages).
+
 ```cds
 type Language : Association to sap.common.Languages;
+```
+
+[It's the same as for `Country`.](#type-country){ .learn-more}
+
+### Type `Timezone`
+
+The type for an association to [Timezones](#entity-timezones).
+
+```cds
+type Timezone : Association to sap.common.Timezones;
 ```
 
 [It's the same as for `Country`.](#type-country){ .learn-more}
@@ -183,7 +197,7 @@ type Language : Association to sap.common.Languages;
 
 As seen in the previous section, the reuse types `Country`, `Currency`, and `Language` are defined as associations to respective code list entities. They act as code list tables for respective elements in your domain model.
 
-> You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
+> Note: You rarely have to refer to the code lists in consuming models, but always only do so transitively by using the corresponding reuse types [as shown previously](#code-types).
 
 #### Namespace: `sap.common`
 
@@ -236,6 +250,21 @@ entity sap.common.Languages : CodeList {
 }
 ```
 [Learn more on **normalized locales**.](../guides/i18n#normalized-locales){ .learn-more}
+
+### Entity `Timezones`
+
+The code list entity for time zones is meant to be used with primary keys like _Area/Location_, as defined in the [IANA time zone database][tzdata].
+Examples are `America/Argentina/Buenos_Aires`, `Europe/Berlin`, or `Etc/UTC`.
+
+```cds
+entity sap.common.Timezones : CodeList {
+  key code : String(100); //> for example, Europe/Berlin
+}
+```
+
+[Learn more about time zones in Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) {.learn-more}
+
+[Learn more about time zones in Java](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/ZoneId.html) {.learn-more}
 
 
 ### SQL Persistence
@@ -428,7 +457,7 @@ You can use Excel or similar tools to maintain these files. For example, the fol
 
 ### Using Prebuilt Content Package {#prebuilt-data}
 
-Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, and `Languages`.
+Package [@sap/cds-common-content](https://www.npmjs.com/package/@sap/cds-common-content) provides prebuilt data for the entities `Countries`, `Currencies`, `Languages`, and `Timezones`.
 
 Add it your project:
 

@@ -119,7 +119,7 @@ Even though domain models should abstract from technical implementations, don't 
 
 #### Prefer Flat Models
 
-While CDS provides great support for structured types, you should always think twice before using this, as several technologies that you or your customers might want to integrate with, may have difficulties with this. Moreover, flat structures are easier to understand and consume.
+While CDS provides great support, you should always think twice before using structured types. Some technologies you or your customers use might not integrate with those out of the box. Moreover, flat structures are easier to understand and consume.
 
 ##### **Good:** {.good}
 
@@ -387,7 +387,7 @@ In addition, a set of common reuse types and aspects is provided with package [_
 For example, usage is as simple as this:
 
 ```cds
-using { Country } from '@sap/cds/common';
+using { Country, managed } from '@sap/cds/common';
 entity Addresses : managed { //> using reuse aspect
   street  : String;
   town    : String;

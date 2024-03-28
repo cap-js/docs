@@ -58,7 +58,7 @@ cds.services = await cds.serve('all').from(cds.model).in(cds.app)
 
 ## Required Services
 
-In addition to provided services, your applications commonly need to consume *required services*. Most prominent example for that is the primary database `cds.db`. Others could be application services provided by other enterprise applications or micro services, or other platform services, such as secondary databases or message brokers.
+In addition to provided services, your applications often need to consume other services as *required services*. The most prominent example for that is the primary database `cds.db`. Other examples include the application services provided by other enterprise applications, or micro services, and other platform services, such as secondary databases or message brokers.
 
 
 
@@ -99,35 +99,35 @@ const db = await cds.connect.to('db')
 
 ## Implementing Services
 
-By default `cds.serve` creates instances of `cds.ApplicationService` for each found service definition, which provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. Learn below about:
+By default `cds.serve` creates an instance of `cds.ApplicationService` for each service definition it finds. Each instance provides generic implementations for all CRUD operations, including full support for deep document structures, declarative input validation and many other out-of-the-box features. Yet, you'd likely need to provide domain-specific custom logic, especially for custom actions and functions, or for custom validations. In the next sections, you can learn the following:
 
 - **How** to provide custom implementations?
-- **Where**, that is, in which files, to put that?
+- **Where**, that is, in which files, to add the implementation?
 
 
 
 #### In sibling `.js` files, next to `.cds` sources
 
-The easiest way to add custom service implementations is to simply place an equally named `.js` file next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
+The easiest way to add custom service implementations is to simply place a `.js` file with the same name next to the `.cds` file containing the respective service definition. For example, as in [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/):
 
 ```zsh
 bookshop/
 ├─ srv/
 │ ├─ admin-service.cds
 │ ├─ admin-service.js
-│ ├─ cat-service.cds // [!code focus]
-│ └─ cat-service.js // [!code focus]
+│ ├─ cat-service.cds # [!code focus]
+│ └─ cat-service.js # [!code focus]
 └─ ...
 ```
 
 ::: details Alternatively in subfolders `lib/` or `handlers/`...
 
- In addition to direct neighbourhood you can place your impl files also in nested subfolders `lib/` or `handlers/` like that:
+ In addition to adding the implementation in a neighbouring file you can place them in nested subfolders called `lib/` or `handlers/`, for example:
 
 ```zsh
 bookshop/
 ├─ srv/
-│ └─ lib/ # or handlers/ // [!code focus]
+│ └─ lib/ # or handlers/ # [!code focus]
 │ │ ├─ admin-service.js
 │ │ └─ cat-service.js
 │ ├─ admin-service.cds
@@ -454,7 +454,7 @@ Ensure to call `super.init()` to allow subclasses to register their handlers. Do
 ### srv. prepend() {.method}
 
 ```tsx
-async function srv.prepend(()=>{...})
+function srv.prepend(()=>{...})
 ```
 
 Sometimes, you need to register handlers to run before handlers registered by others before. Use srv.prepend() to do so ´, for example like this:
@@ -521,7 +521,7 @@ class BooksService extends cds.ApplicationService {
 **Argument `entity`** can be one of:
 
 - A `CSN definition`  of an entity served by this service → as obtained from [`this.entities`](#entities)
-- A `string` matching the name of an entity served by this service
+- A `string` matching the name of an entity served by this service → see [draft support](./fiori#draft-support)
 - A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths
 - The string `'*'` to register the given handler for *all* potential entities / paths
@@ -772,7 +772,7 @@ Error handlers are invoked whenever an error occurs during event processing of *
 
 ```ts
 async function srv.send (
-  method   : string | { method, path?, data?, headers? },
+  method   : string | { method, path?, data?, headers? } | { query, headers? },
   path?    : string,
   data?    : object | any,
   headers? : object
@@ -811,6 +811,10 @@ let req = new cds.Request (
   : { method, path, data, headers }
 )
 return this.dispatch(req)
+```
+Use this method instead of [`srv.run(query)`](#srv-run-query), if headers should be added to the request object. For example:
+```js
+await srv.send({ query: SELECT.from('Books'), headers: { some: 'header' } })
 ```
 
 *See also [REST-Style Convenience API](#rest-style-api) below* {.learn-more}
@@ -1034,6 +1038,10 @@ In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent
 
 ### srv. stream (column) {.method}
 
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
+
 ```ts
 async function srv.stream (column: string)
   return : {
@@ -1061,13 +1069,11 @@ const stream = srv.stream('data').from('T').where({ ID: 1 })
 stream.pipe(process.stdout)
 ```
 
-::: warning
-Streaming is currently limited to [database services](databases).
-:::
-
-
-
 ### srv. stream (query)  {.method}
+
+::: warning
+This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
+:::
 
 ```ts
 async function srv.stream (query: CQN) : ReadableStream
@@ -1080,7 +1086,9 @@ const stream = await srv.stream( SELECT('image').from('Foo',111) )
 stream.pipe(process.stdout)
 ```
 
-
+::: warning
+This API is limited to [database services](databases).
+:::
 
 ### srv. foreach (entity) {.method}
 

@@ -10,6 +10,9 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
+
 ## Platform Compliance { #platform-compliance }
 
 CAP applications run in a certain environment, that is, in the context of some platform framework that has specific characteristics.
@@ -51,7 +54,7 @@ Find more about BTP platform security here:
 
 [SAP BTP Security](https://help.sap.com/docs/btp/sap-business-technology-platform/security-e129aa20c78c4a9fb379b9803b02e5f6){.learn-more}
 [SAP BTP Security Recommendations](https://help.sap.com/docs/btp/sap-btp-security-recommendations-c8a9bb59fe624f0981efa0eff2497d7d/sap-btp-security-recommendations){.learn-more}
-[SAP BTP Security (Community)](https://community.sap.com/topics/btp-security){.learn-more}
+[SAP BTP Security (Community)](https://pages.community.sap.com/topics/btp-security){.learn-more}
 
 
 <div id="security-deploy-sap" />

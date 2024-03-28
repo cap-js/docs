@@ -814,7 +814,9 @@ public class SubmitOrderHandler implements EventHandler {
 Or submit orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
 <div class="impl node">
+
 ::: code-group
+
 ```http [test.http]
 ### Submit Order
 POST http://localhost:4004/browse/submitOrder
@@ -826,11 +828,15 @@ Authorization: Basic alice:
   "quantity": 2
 }
 ```
+
 :::
+
 </div>
 
 <div class="impl java">
+
 ::: code-group
+
 ```http [test.http]
 ### Submit Order
 POST http://localhost:8080/odata/v4/browse/submitOrder
@@ -842,7 +848,9 @@ Authorization: Basic authenticated:
   "quantity": 2
 }
 ```
+
 :::
+
 </div>
 
 

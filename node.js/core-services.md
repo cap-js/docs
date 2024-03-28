@@ -610,7 +610,7 @@ Asynchronous functions can be registered, but all `after` handlers are executed 
 As a convenience feature, `.after` handlers that are registered on the event `'each'` are called for each individual result entry on `'READ'`.
 
 ::: warning
-Only synchronous functions are allowed to be registered as `.after('each',...)` handlers.
+Only synchronous functions are allowed to be registered as `.after('each',...)` handlers as they are run in a `.forEach()` loop without promise handling.
 :::
 
 Examples:

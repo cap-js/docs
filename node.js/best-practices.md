@@ -293,15 +293,19 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
 cds.on('bootstrap', app => {
   app.get('/health', (_, res) => {
-    res.status(200).send('OK')
+    res.status(200).send(`I'm fine, thanks for asking`)
   })
 })
 ```
+
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
 
 ## Error Handling

@@ -571,7 +571,7 @@ The `change-mode` option determines whether `ALTER TABLE ... ALTER` (`"alter"`) 
 
 ### CSV Data Gets Overridden
 
-HDI deploys CSV data as _.hdbtabledata_, which assumes exclusive ownership of the data. It's overridden with the next application deployment; hence:
+HDI deploys CSV data as _.hdbtabledata_ and assumes exclusive ownership of the data. It's overridden with the next application deployment; hence:
 
 ::: tip
 

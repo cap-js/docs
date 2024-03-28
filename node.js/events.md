@@ -24,12 +24,13 @@ Usually that context is set by inbound middleware.
 The property is realized as a so-called continuation-local variable, implemented using [Node.js' async local storage](https://nodejs.org/api/async_context.html) technique, and a getter/setter pair: The getter is a shortcut for[`getStore()`](https://nodejs.org/api/async_context.html#asynclocalstoragegetstore). The setter coerces values into valid instances of [`cds.EventContext`]. For example:
 
 ```js
-cds.context = { tenant:'t1', user:'u2' }
-let ctx = cds.context
-ctx instanceof cds.EventContext  //> true
-ctx.user instanceof cds.User     //> true
-ctx.tenant === 't1'              //> true
-ctx.user.id === 'u2'             //> true
+[dev] cds repl
+> cds.context = { tenant:'t1', user:'u2' }
+> let ctx = cds.context
+> ctx instanceof cds.EventContext  //> true
+> ctx.user instanceof cds.User     //> true
+> ctx.tenant === 't1'              //> true
+> ctx.user.id === 'u2'             //> true
 ```
 
 If a transaction object is assigned, its `tx.context` is used, hence `cds.context = tx` acts as a convenience shortcut for `cds.context = tx.context`:
@@ -436,7 +437,7 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
-### req. diff() <Badge type="warning" text="beta" /> {.method}
+### req. diff() <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed). Note that the usage of `req.diff` only makes sense in *before* handlers as they are run before the actual change was persisted on the database.

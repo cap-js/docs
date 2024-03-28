@@ -279,7 +279,7 @@ cds:
 
 <span id="beforeredispubsub" />
 
-#### Configuring Redis PubSub Support <Badge type="warning" text="beta" />: { #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />: { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.

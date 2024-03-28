@@ -4,7 +4,7 @@ synopsis: >
 status: released
 ---
 
-# Change Tracking <Badge type="warning" text="beta" />
+# Change Tracking <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -123,14 +123,14 @@ you can annotate the elements of both and track the changes made through the ord
 ```cds
 entity OrderItems {
   key ID: UUID;
-  ...
+  [...]
   quantity: Integer @changelog;
 }
 
 entity Orders {
   key ID: UUID;
   customerName: String @changelog;
-  ... 
+  [...] 
   items: Composition of many OrderItems;
 }
 ```

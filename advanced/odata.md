@@ -788,6 +788,10 @@ GET /Orders(10)/books?
 
 This request operates on the books of the order with ID 10. First it filters out the books from the year 2000 to an intermediate result set. The intermediate result set is then grouped by author name and the price is averaged. Finally, the result set is sorted by title and only the top 3 entries are retained.
 
+::: warning
+If the `groupby` transformation only includes a subset of the entity keys, the result order might be unstable.
+:::
+
 ### Transformations
 
 | Transformation                | Description                                  | Node.js | Java   |

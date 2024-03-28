@@ -245,7 +245,7 @@ cds add data
 CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
 
 ::: details Adding initial data next to your data model
-The content of these 'co-located' `.cds` files actually does not matter, but they need to be included in your data model, through a `using` clause in another file for example.
+The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
 :::
 
 ::: details On SAP HANA ...

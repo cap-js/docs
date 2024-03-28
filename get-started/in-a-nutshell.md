@@ -492,14 +492,14 @@ Instead of in-memory databases we can also use persistent ones. For example, sti
 
 ::: code-group
 
-   ```json [package.json]
-   { "cds": { "requires": {
-      "db": {
-         "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } // [!code focus]
-      }
-   }}}
-   ```
+```json [package.json]
+{ "cds": { "requires": {
+  "db": {
+      "kind": "sqlite",
+      "credentials": { "url": "db.sqlite" } // [!code focus]
+  }
+}}}
+```
 
 :::
 
@@ -813,8 +813,9 @@ public class SubmitOrderHandler implements EventHandler {
 
 Or submit orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
+<div class="impl node">
 ::: code-group
-```http [Node.js]
+```http [test.http]
 ### Submit Order
 POST http://localhost:4004/browse/submitOrder
 Content-Type: application/json
@@ -824,10 +825,13 @@ Authorization: Basic alice:
   "book": 201,
   "quantity": 2
 }
-
-
 ```
-```http [Java]
+:::
+</div>
+
+<div class="impl java">
+::: code-group
+```http [test.http]
 ### Submit Order
 POST http://localhost:8080/odata/v4/browse/submitOrder
 Content-Type: application/json
@@ -839,8 +843,7 @@ Authorization: Basic authenticated:
 }
 ```
 :::
-
-
+</div>
 
 
 ## Summary and Next Steps

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import DefaultTheme from 'vitepress/theme'
+import { useData } from 'vitepress'
 import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
@@ -9,6 +10,8 @@ import Ribbon from './components/Ribbon.vue'
 const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 
 const { Layout } = DefaultTheme
+const { frontmatter } = useData()
+
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const { Layout } = DefaultTheme
     </template>
     <template #nav-bar-title-after>
       <slot name="nav-bar-title-after" />
-      <div class="ImplVariantsInNavbar">
+      <div class="ImplVariantsInNavbar" v-if="frontmatter?.layout !== 'home'">
         <ImplVariants/>
       </div>
     </template>

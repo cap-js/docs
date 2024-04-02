@@ -67,7 +67,7 @@ System query options can also be applied to an [expanded navigation property](ht
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
 | [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Badge type="warning" text="beta" /></sup> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /></sup> |
 
 
 ## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
@@ -124,7 +124,7 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 
 | CDS Type       | OData V4                                |
 | -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>.              |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
 | `Boolean`      | _Edm.Boolean_                           |
 | `UInt8  `      | _Edm.Byte_                              |
 | `Int16`        | _Edm.Int16_                             |
@@ -142,8 +142,11 @@ The table below lists [CDS's built-in types](../cds/types) and their mapping to 
 | `Binary`       | _Edm.Binary_                            |
 | `LargeBinary`  | _Edm.Binary_                            |
 | `LargeString`  | _Edm.String_                            |
+| `Vector`       | not supported <sup>(2)</sup>            |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
+
+> <sup>(2)</sup> Type `cds.Vector` must not appear in an OData service
 
 OData V2 has the following differences:
 
@@ -785,6 +788,10 @@ GET /Orders(10)/books?
 
 This request operates on the books of the order with ID 10. First it filters out the books from the year 2000 to an intermediate result set. The intermediate result set is then grouped by author name and the price is averaged. Finally, the result set is sorted by title and only the top 3 entries are retained.
 
+::: warning
+If the `groupby` transformation only includes a subset of the entity keys, the result order might be unstable.
+:::
+
 ### Transformations
 
 | Transformation                | Description                                  | Node.js | Java   |
@@ -979,6 +986,11 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
 :::
 
+::: warning
+The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
+The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
+:::
+
 ### Java Type Mapping
 
 #### Simple Types
@@ -1002,11 +1014,6 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 |`{"value": {"name": "Mark Twain"}}`                                | `java.util.Map<String, Object>`      |
 |`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
 
-
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only for the REST Adapter.
-:::
 
 
 ## Singletons

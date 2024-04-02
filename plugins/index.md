@@ -143,7 +143,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js-community/odata-v2-adapter)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-See also [_Advanced > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
+See also [Cookbook > Protocols/APIs > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
 
 
 ## UI5 Dev Server
@@ -276,6 +276,8 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/telemetry)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
+[Learn more about Open Telemetry in Java](../java/operating-applications/observability#open-telemetry) {.learn-more}
+
 <div id="attachments" />
 
 <div id="internal-plugins" />
@@ -283,3 +285,28 @@ Available for:
 <div id="upcoming-plugins" />
 
 <div id="planned-plugins" />
+
+
+## Attachments <Badge type="warning" text="beta" title="" />
+
+[@cap-js/attachments](https://www.npmjs.com/package/@cap-js/attachments) {.subtitle}
+
+The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
+
+```cds
+extend my.Incidents with {
+  attachments: Composition of many Attachments
+}
+```
+
+It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+
+Features:
+
+- Supports CRUD operations for attachments with SAP Object Store.
+- Automatically adds the necessary `Attachments` table in the application.
+
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/attachments)

@@ -230,7 +230,7 @@ If not already done, [set up SAP Business Application Studio](https://developers
 To learn about the features specific to CAP development in the studio, see the guide [Developing a CAP Application in SAP Business Application Studio](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/8a648174036a458688391c3ad7ee7cd5.html)
 
 
-### Tutorials 
+### Tutorials
 
 + [Combine CAP with SAP HANA Cloud to Create Full-Stack Applications](https://developers.sap.com/mission.hana-cloud-cap.html)
 + [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
@@ -293,7 +293,17 @@ Restart the server when you did changes to your code using the *Debug* views res
 
 
 
-<div id="beforedocker" />
+## IntelliJ
+
+The [CAP CDS Language Support](https://github.com/cap-js/cds-intellij) plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
+It supports commercial IntelliJ IDEs including IntelliJ IDEA Ultimate and WebStorm.
+
+![Code completion in IntelliJ](https://raw.githubusercontent.com/cap-js/cds-intellij/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png){ .ignore-dark style="width:450px"}
+
+See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main/FEATURES.md) and the [installation instructions](https://github.com/cap-js/cds-intellij#requirements) for how to get started.
+
+[Report issues and provide feedback](https://github.com/cap-js/cds-intellij/issues).
+
 
 
 
@@ -522,7 +532,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Badge type="warning" text="beta" /> { #cds-formatter}
+### CDS Source Formatter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
 formatting.

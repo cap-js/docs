@@ -46,7 +46,7 @@ A common example for this is to run the application locally on H2 instead of SAP
 
 The following diagram illustrates the modular stack architecture and highlights the generic components:
 
-<img src="./assets/modularized-architecture.png" width="600px">
+<img alt="This screenshot is explained in the accompanying text." src="./assets/modularized-architecture.png" width="600px">
 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
 

@@ -20,13 +20,13 @@ The CQN query APIs enable [late-cut microservices](../../guides/providing-servic
 
 Cross-cutting aspects like security are provided by configuration. Applications do not need to provide additional code. The CAP Java SDK leverages the [SAP Cloud SDK](https://sap.github.io/cloud-sdk) and in particular its destination capabilities to cover these aspects. 
 
-Destinations in Cloud SDK are the means to express and define connectivity to a remote endpoint including authentication details. Cloud SDK destinations can be created from various sources such as BTP Destination Service or BTP Service Bindings. They can also be defined and registered [programmatically](#programmatic-destination-registration) in code. The application can choose the best fitting option for their scenario. Every Remote Service internally uses a destination for connectivity.
+Destinations in the Cloud SDK are the means to express and define connectivity to a remote endpoint including authentication details. Cloud SDK destinations can be created from various sources such as BTP Destination Service or BTP Service Bindings. They can also be defined and registered [programmatically](#programmatic-destination-registration) in code. The application can choose the best fitting option for their scenario. Every Remote Service internally uses a destination for connectivity.
 
-On top of that CAP integrates nicely with Cloud SDK, for example ensuring automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK.
+On top of that CAP integrates nicely with Cloud SDK, for example, ensuring automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK.
 
 <img src="../assets/remote%20services.drawio.svg" width="700px" class="mute-dark" alt="This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.">
 
-CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you cannot leverage CQN-based _Remote Services_, refer to [native consumption with Cloud SDK](#native-consumption) for details.
+CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you can't leverage CQN-based _Remote Services_, refer to [native consumption with Cloud SDK](#native-consumption) for details.
 
 ::: tip
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
@@ -59,7 +59,7 @@ cds:
       name: "s4-business-partner-api"
 ```
 
-Remote Services use a CDS service definition from the CDS model as specification of the remote API. This API specification is required in order to properly translate CQN statements into respective OData V2 and V4 requests.
+Remote Services use a CDS service definition from the CDS model as a specification of the remote API. This API specification is required to properly translate CQN statements into respective OData V2 and V4 requests.
 
 By default the CDS service definition is looked up in the CDS model using the name of the _Remote Service_.
 
@@ -67,15 +67,15 @@ The `type` property defines the protocol used by the remote API. The CAP Java SD
 
 ::: tip
 You can use the `cds import` command to generate a CDS service definition from an EDMX API specification.
-To learn more about this, have a look at section [Importing Service Definitions](../../guides/using-services#import-api).
+To learn more about this, have a look at the section [Importing Service Definitions](../../guides/using-services#import-api).
 :::
 
 [Learn about all `cds.remote.services` configuration possibilities in our **CDS Properties Reference**.](../developing-applications/properties#cds-remote-services){.learn-more}
 
 ### Using BTP Destinations { #destination-based-scenarios }
-If your _remote API_ is running outside the BTP, you typically need to separately obtain the URL and additional metadata like credentials from the service provider. You can leverage BTP Destinations or programmatically register a destination with Cloud SDK to persist them for usage in your CAP application.
+If your _remote API_ is running outside SAP BTP, you typically need to separately obtain the URL and additional metadata like credentials from the service provider. You can leverage BTP destinations or programmatically register a destination with Cloud SDK to persist them for usage in your CAP application.
 
-Based on the following configuration, a destination with name `s4-business-partner-api` will be looked up via the Cloud SDK:
+Based on the following configuration, a destination with name `s4-business-partner-api` is looked up using the Cloud SDK:
 
 ```yaml
 cds:
@@ -86,19 +86,19 @@ cds:
       name: s4-business-partner-api
 ```
 
-The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name, that is configured in the _Remote Service_'s destination configuration.
+The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name that is configured in the _Remote Service_'s destination configuration.
 
-If you're using the SAP BTP Destination Service, this is the name you used when you defined the destination there. In order to properly resolve the destination from the correct source (e.g. BTP Destination Service, programmatically registered destination), [additional Cloud SDK dependencies](#cloud-sdk-dependencies) will be required.
+If you're using the SAP BTP Destination Service, this is the name you used when you defined the destination there. To properly resolve the destination from the correct source (for example, BTP Destination Service, programmatically registered destination), [additional Cloud SDK dependencies](#cloud-sdk-dependencies) are required.
 
-In multi-tenant scenarios, the BTP Destination Service will try to lookup the destination from the subaccount of the current tenant set on the `RequestContext`. This is not restricted to subscriber tenants, but also includes the provider tenant.
+In multitenant scenarios, the BTP Destination Service tries to look up the destination from the subaccount of the current tenant, set on the `RequestContext`. This is not restricted to subscriber tenants, but also includes the provider tenant.
 
 ::: tip
-As a pre-requisite for destination lookup in subscriber accounts, the CAP application need to define a dependency to the Destination service for their subscriptions e.g. in the SaaS Registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
+As a prerequisite for destination lookup in subscriber accounts, the CAP application needs to define a dependency to the Destination service for their subscriptions, for example, in the SaaS registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
 :::
 
 [Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}
 
-As a variant to the described scenario, it is possible to restrict the lookup to either subscriber tenants or the provider tenant. In the following example, it is ensured that the destination is only looked up from the current subscriber tenant by additional parameter `retrievalStrategy: "AlwaysSubscriber"`. An error would occur at runtime, if the subscriber doesn't define a corresponding destination, even if the provider tenant contained a destination with the same name.
+As a variant to the described scenario, it's possible to restrict the lookup to either subscriber tenants or the provider tenant. In the following example, it's ensured that the destination is only looked up from the current subscriber tenant by additional parameter `retrievalStrategy: "AlwaysSubscriber"`. An error would occur at runtime, if the subscriber doesn't define a corresponding destination, even if the provider tenant contained a destination with the same name.
 
 ```yaml
 cds:
@@ -110,19 +110,19 @@ cds:
       retrievalStrategy: "AlwaysSubscriber"
 ```
 
-Retrieval strategies are part of a set of configuration options provided by Cloud SDK which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to section about [destination strategies](#destination-strategies).
+Retrieval strategies are part of a set of configuration options provided by the Cloud SDK, which are exposed by CAP Java as part of the configuration for _Remote Services_. For details refer to the section about [destination strategies](#destination-strategies).
 
 ### Using BTP Service Bindings { #service-binding-based-scenarios }
 
-If the remote API is running on SAP BTP, it is likely that you can leverage Service Binding-based _Remote Services_. 
-The CAP Java SDK will extract the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the much simpler usage. 
+If the remote API is running on SAP BTP, it's likely that you can leverage Service Binding-based _Remote Services_. 
+The CAP Java SDK extracts the relevant information from the service binding to connect to the remote API. The advantage of service-binding-based _Remote Services_ is the simpler usage. 
 A service binding abstracts from several aspects of remote service communication. For instance, it provides authentication information and the URL of the service. 
-In contrast to BTP destinations in general, it can be created and refreshed as part of the application lifecycle (ie. application deployment).
-Hence, location and security aspects of remote services is transparent to CAP applications in case of service bindings.
+In contrast to BTP destinations in general, it can be created and refreshed as part of the application lifecycle, that is, application deployment.
+Hence, the location and security aspects of remote services are transparent to CAP applications in the case of service bindings.
 
 #### Binding to Local Service
 
-In the following example, the remote API is running as another CAP application within the same SaaS application. Both the calling CAP application and the remote API are bound to the same (shared) XSUAA service instance and, thus, accept JWT tokens issued by the single XSUAA instance.
+In the following example, the remote API is running as another CAP application within the same SaaS application. Both, the calling CAP application and the remote API, are bound to the same (shared) XSUAA service instance and accept JWT tokens issued by the single XSUAA instance.
 
 ```yaml
 cds:
@@ -135,12 +135,12 @@ cds:
         url: https://url-of-the-second-cap-application
 ```
 
-`shared-xsuaa` is the name of the xsuaa service instance both CAP applications are bound to. 
+`shared-xsuaa` is the name of the xsuaa service instance that both CAP applications are bound to. 
 
-While service bindings typically provide authentication details, they don´t provide information about the user propagation strategy (e.g. system user or named user flow). XSUAA instances also can't expose the URL of the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
+While service bindings typically provide authentication details, they don't provide information about the user propagation strategy, for example, system user or named user flow. XSUAA instances also can't expose the URL of the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
 
-The parameter `onBehalfOf` in the given example is set to `currentUser` which means that the user of the current [Request Context](../../event-handlers/request-contexts) will be used - regardless if this is a system user or named user. 
-Following options are available:
+The parameter `onBehalfOf` in the given example is set to `currentUser`, which means that the user of the current [Request Context](../../event-handlers/request-contexts) will be used - regardless if this is a system user or named user. 
+The following options are available:
 
 - `currentUser` to stick to the user of the current Request Context (default)
 - `systemUser` to explicitly switch to the underlying system user of the current subscriber tenant (technical user flow).
@@ -152,11 +152,11 @@ As the URL typically is not known at development time, it can be alternatively d
 
 #### Binding to a Reuse Service
 
-In a variant of this scenario, the _Remote Service_ is exposed by a BTP Service itself which is exposed as reuse service. 
+In a variant of this scenario, the _Remote Service_ is exposed by a BTP Service itself, which is exposed as a reuse service. 
 Typically, this exposure happens by the means of a service broker so that the consuming CAP application can create service instances of the BTP Service.
 
-The CAP application requires a service binding to this BTP service in order to consume the remote API as a _Remote Service_. In contrast to pure XSUAA instances, service instances of BTP Services exposing remote APIs will additionally expose the URL of the remote API in their service binding. 
-Thus, there is no need to explicitly define it as part of the `application.yaml` like in the following example:
+The CAP application requires a service binding to this BTP service to consume the remote API as a _Remote Service_. In contrast to pure XSUAA instances, service instances of BTP Services exposing remote APIs additionally expose the URL of the remote API in their service binding. 
+Thus, there's no need to explicitly define it as part of the `application.yaml` like in the following example:
 
 ```yaml
 cds:
@@ -166,7 +166,7 @@ cds:
       name: biz_partner_svc
 ```
 
-In specific cases, SAP Cloud SDK does not understand the service binding structure of the specific BTP Service and it is required to contribute a mapping by the means of a Cloud SDK´s `PropertySupplier`. 
+In specific cases, SAP Cloud SDK doesn't understand the service binding structure of the specific BTP Service and it's required to contribute a mapping by the means of Cloud SDK´s `PropertySupplier`. 
 This `PropertySupplier` needs to be registered with the Cloud SDK once at application startup.
 
 ```java
@@ -186,8 +186,8 @@ The parameter `<tag_biz_partner_svc>` needs to be replaced by the concrete name 
 As mentioned before, the CDS service definition is, by default, looked up in the CDS model using the name of the _Remote Service_.
 
 However, the name of the _Remote Service_ needs to be unique, as it's also used to look up the service in Java.
-Therefore, it is possible to explicitly configure the name of the CDS service definition from the CDS model using the `model` property.
-This is especially useful, when creating multiple _Remote Services_ for the same API with different destinations:
+Therefore, it's possible to explicitly configure the name of the CDS service definition from the CDS model using the `model` property.
+This is especially useful when creating multiple _Remote Services_ for the same API with different destinations:
 
 ```yaml
 cds:
@@ -204,8 +204,8 @@ cds:
 
 ### Configuring the URL
 
-The destination of a _Remote Service_ is basically an advanced URL, that can carry additional metadata like, for example, the authentication information for the remote endpoint.
-As described before, the destination can be resolved for example from a BTP Destination or a BTP Service bound to the CAP application.
+The destination of a _Remote Service_ is basically an advanced URL that can carry additional metadata like, for example, the authentication information for the remote endpoint.
+As described before, the destination can be resolved, for example, from a BTP Destination or a BTP Service bound to the CAP application.
 
 In all cases, the configuration needs to provide the URL to the OData V2 or V4 service, that should be used by the _Remote Service_.
 This service URL can be built from three parts:
@@ -231,7 +231,7 @@ Given that this destination holds the URL `https://s4.sap.com`, the resulting se
 
 ## Consuming Remote Services
 
-_Remote Services_ can be used in your CAP application just like any other [service, that accepts CQN queries](../index#cdsservices):
+_Remote Services_ can be used in your CAP application just like any other [service that accepts CQN queries](../index#cdsservices):
 
 ```java
 @Autowired
@@ -248,7 +248,7 @@ ABusinessPartnerAddress address = bupa.run(select)
 To learn more about how to build and run CQN queries, see sections [Building CQN Queries](../working-with-cql/query-api) and [Executing CQN Queries](../working-with-cql/query-execution).
 :::
 
-Keep in mind, that _Remote Services_ are simply clients to remote APIs.
+Keep in mind that _Remote Services_ are simply clients to remote APIs.
 CAP doesn't automatically forward CQN queries to these services. Developers need to explicitly call and use these _Remote Services_ in their code.
 However, as _Remote Services_ are based on the common CQN query APIs it's easy to use them in event handlers of your [Application Services](application-services).
 ::: warning
@@ -264,7 +264,7 @@ The CAP Java SDK only includes the minimum SAP Cloud SDK dependencies required o
 In case you want to leverage features from SAP Cloud SDK, like the [programmatic destination registration](#programmatic-destination-registration) or integration with SAP BTP Destination Service, you need to add additional dependencies.
 
 It's recommended to add the SAP Cloud SDK BOM to the dependency management section of your application's parent POM.
-If you are also using the CDS Services BOM or the Spring Boot dependencies BOM, it's recommended to add the SAP Cloud SDK BOM after these:
+If you're also using the CDS Services BOM or the Spring Boot dependencies BOM, it's recommended to add the SAP Cloud SDK BOM after these:
 
 ```xml
 <dependencyManagement>
@@ -360,7 +360,7 @@ This is especially useful when integrating micro-services, which may have differ
 
 ## Native Service Consumption { #native-consumption }
 
-If you need to call an endpoint which you cannot consume as a _Remote Service_ you can fall back to leverage Cloud SDK APIs. Based on the Cloud SDK´s `HttpClientAccessor` API you can resolve a `HttpClient` which you can use to execute plain http requests against the remote API. 
+If you need to call an endpoint that you cannot consume as a _Remote Service_, you can fall back to leverage Cloud SDK APIs. Based on the Cloud SDK´s `HttpClientAccessor` API, you can resolve an `HttpClient` that you can use to execute plain HTTP requests against the remote API. 
 
 However, this involves low-level operations like payload de-/serialization. Usage of CAP´s _Remote Service_ is encouraged whenever possible to free the developer from these.
 
@@ -377,7 +377,7 @@ HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
 [Learn more about HttpClientAccessor in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/http-client){.learn-more}
 
 ### Using BTP Service Bindings
-If the URL and credentials of the remote API is available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it is again possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
+If the URL and credentials of the remote API is available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it's again possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
 
 ```java
 ServiceBinding binding = ...;
@@ -391,7 +391,7 @@ HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
 [Find out how to register destinations for different authentication types](#register-destinations){.learn-more}
 [Learn more about HttpClientAccessor in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/http-client){.learn-more}
 
-In order to be able to resolve a service binding into a Cloud SDK destination, a `OAuth2PropertySupplier` needs to be registered with Cloud SDK.
+To be able to resolve a service binding into a Cloud SDK destination, a `OAuth2PropertySupplier` needs to be registered with Cloud SDK.
 
 ```java
 static {
@@ -437,7 +437,7 @@ OAuth2DestinationBuilder
         .build();
 ```
 
-Use the following example if you need to exchange the token from the security context (ie. user token exchange):
+Use the following example if you need to exchange the token from the security context (that is, user token exchange):
 ```java
 ClientCredentials clientCredentials =
         new ClientCredentials("clientid", "clientsecret");

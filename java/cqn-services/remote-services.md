@@ -139,7 +139,7 @@ cds:
 
 While service bindings typically provide authentication details, they don't provide information about the user propagation strategy, for example, system user or named user flow. XSUAA instances also can't expose the URL of the remote API. Thus, this information needs to be explicitly defined in the configuration of the _Remote Service_.
 
-The parameter `onBehalfOf` in the given example is set to `currentUser`, which means that the user of the current [Request Context](../../event-handlers/request-contexts) will be used - regardless if this is a system user or named user. 
+The parameter `onBehalfOf` in the given example is set to `currentUser`, which means that the user of the current [Request Context](/java/event-handlers/request-contexts) will be used - regardless if this is a system user or named user. 
 The following options are available:
 
 - `currentUser` to stick to the user of the current Request Context (default)

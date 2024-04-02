@@ -2,6 +2,7 @@
 synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
+redirect_from: java/observability
 ---
 
 # Observability

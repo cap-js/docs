@@ -93,7 +93,7 @@ If you're using the SAP BTP Destination Service, this is the name you used when 
 In multitenant scenarios, the BTP Destination Service tries to look up the destination from the subaccount of the current tenant, set on the `RequestContext`. This is not restricted to subscriber tenants, but also includes the provider tenant.
 
 ::: tip
-As a prerequisite for destination lookup in subscriber accounts, the CAP application needs to define a dependency to the Destination service for their subscriptions, for example, in the SaaS registry. This can be enabled by setting the `cds.multiTenancy.dependences.destination` to `true` in the configuration.
+As a prerequisite for destination lookup in subscriber accounts, the CAP application needs to define a dependency to the Destination service for their subscriptions, for example, in the SaaS registry. This can be enabled by setting the `cds.multiTenancy.dependencies.destination` to `true` in the configuration.
 :::
 
 [Learn more about destinations in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/sdk-connectivity-destination-service){.learn-more}

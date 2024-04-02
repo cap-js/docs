@@ -865,6 +865,18 @@ entity Foo {
 Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
 :::
 
+### `@assert.min` {#assert-min}
+
+Allows you to specify the `min` value for elements with ordinal types &mdash; that is, numeric or date/time types.
+
+```cds
+entity Foo {
+  bar : Integer  @assert.min: 0;
+  boo : Decimal  @assert.min: 2.1;
+  car : DateTime @assert.min: '2018-10-31';
+}
+```
+
 ### `@assert.notNull` {#assert-notNull}
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.

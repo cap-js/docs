@@ -36,9 +36,10 @@ cd hello-world
 </div>
 
 <div class="impl java">
+<!-- IMPORTANT: tiny-sample is needed here as a workaround for exception: 'script' must not be null or empty -->
 
 ```sh
-cds init hello-world --add java
+cds init hello-world --add java,tiny-sample
 cd hello-world
 ```
 

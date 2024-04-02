@@ -156,7 +156,7 @@ In a variant of this scenario, the _Remote Service_ is exposed by a BTP Service 
 Typically, this exposure happens by the means of a service broker so that the consuming CAP application can create service instances of the BTP Service.
 
 The CAP application requires a service binding to this BTP service to consume the remote API as a _Remote Service_. In contrast to pure XSUAA instances, service instances of BTP Services exposing remote APIs additionally expose the URL of the remote API in their service binding. 
-Thus, there's no need to explicitly define it as part of the `application.yaml` like in the following example:
+So you can omit the URL from the configuration in the `application.yaml`, like in the following example:
 
 ```yaml
 cds:

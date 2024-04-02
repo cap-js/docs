@@ -254,9 +254,6 @@ With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tel
 
 If not running in production, CAP's [built-in server.js](cds-server) allows all origins. 
 
-
-#### 
-
 #### Custom CORS Implementation
 
 For production, you can add CORS to your CAP server as follows:

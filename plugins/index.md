@@ -138,9 +138,9 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
 
-See also [Cookbook > Protocols/APIs > OData APIs > V2 Support_](../advanced/odata#v2-support) and the [Java migration guide](../java/migration#v2adapter) {.learn-more}
+See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
 
 ## UI5 Dev Server
@@ -152,7 +152,6 @@ Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
-Click on the icon to get detailed instructions. {.learn-more}
 
 
 
@@ -174,9 +173,7 @@ annotate my.Incidents {
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/change-tracking#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
-
-[Learn more about change tracking in Java](../java/change-tracking) {.learn-more}
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/change-tracking)
 
 
 ## Audit Logging
@@ -266,9 +263,7 @@ Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/telemetry#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
-
-[Learn more about Open Telemetry in Java](../java/operating-applications/observability#open-telemetry) {.learn-more}
+[<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/operating-applications/observability#open-telemetry)
 
 <div id="internal-plugins" />
 

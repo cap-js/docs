@@ -18,10 +18,10 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 ### Services on Cloud Foundry
 
 ```sh
-cds bind -2 bookshop-db
+cds bind db --to bookshop-db
 ```
 
-Binds your local CAP application to the service `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
+Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
 
 ::: tip `cds bind` automatically creates a service key for you
 If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
@@ -77,22 +77,68 @@ Only the information about **where the credentials can be obtained** is stored o
 #### User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
 ```sh
-cds bind my-ups -2 my-user-provided-service
+cds bind my --to bookshop-ups
 ```
 
-Binds your local CAP application to the user provided service instance `my-user-provided-service`. The service name `my-ups` has to match the service name used in the CDS `requires` service configuration.
+Binds the service `my` of your local CAP application to the user provided service instance `bookshop-ups`. The service name `my` has to match the service name used in the CDS `requires` service configuration.
 
 Output:
 
 ```log
 [bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding my-ups to Cloud Foundry user provided service my-user-provided-service.
+[bind] - Binding my to Cloud Foundry user provided service bookshop-ups.
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-`cds watch --profile hybrid` will automatically resolve user-provided service instance bindings using the same technique as for any other managed service binding.
+#### Shared Service Instances on Cloud Foundry { #binding-shared-service-instances}
+
+Service instances can be shared across orgs and spaces. Only those services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata. See https://docs.cloudfoundry.org/devguide/services/sharing-instances.html for further details.
+
+```sh
+cds bind redis --to redis-db
+```
+
+Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `space` and `org` information of the originating space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
+
+Output:
+
+```log
+[bind] - Retrieving data from Cloud Foundry...
+[bind] - Binding redis to Cloud Foundry service redis-db.
+[bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
+[bind] -
+[bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
+
+```
+::: code-group
+```json {5}[.cdsrc-private.json]
+{
+  "requires": {
+    "[hybrid]": {
+      "redis": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.sap.hana.ondemand.com",
+          "org": "shared-from-cf-org",
+          "space": "shared-from-cf-space",
+          "instance": "redis-db",
+          "key": "redis-db-key",
+          "resolved": false
+        },
+        "kind": "redis-messaging",
+        "vcap": {
+          "name": "redis"
+        }
+      }
+    }
+  }
+}
+```
+:::
+
+`cds watch --profile hybrid` will automatically resolve shared service instance bindings using the correct space.
 
 ### Services on Kubernetes
 

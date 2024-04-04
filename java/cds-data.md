@@ -269,7 +269,7 @@ CDS Data has built-in serialization to JSON, which is helpful for debugging:
 ```java
 CdsData person = Struct.create(CdsData.class);
 person.put("salutation", "Mr.");
-person.put("name.first", "Frank"); // path access
+person.putPath("name.first", "Frank"); // path access
 
 person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ```

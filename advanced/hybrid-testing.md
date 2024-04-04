@@ -122,8 +122,8 @@ Output:
         "binding": {
           "type": "cf",
           "apiEndpoint": "https://api.sap.hana.ondemand.com",
-          "org": "shared-from-cf-org",
-          "space": "shared-from-cf-space",
+          "org": "shared-from-cf-org", // [!code focus]
+          "space": "shared-from-cf-space", // [!code focus]
           "instance": "redis-db",
           "key": "redis-db-key",
           "resolved": false

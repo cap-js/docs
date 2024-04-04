@@ -519,11 +519,11 @@ sqlite3 db.sqlite .tables
 ```
 [Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 
-You could also deploy to a provisioned SAP HANA database using this variant:
-
+:::details You could also deploy to a provisioned SAP HANA database using this variant:
 ```sh
 cds deploy --to hana
 ```
+:::
 
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 

@@ -46,25 +46,12 @@ cds #> run the installed CLI
 #### 2.1. Activate Tab Completion
 The `cds` command supports starting with version `7.9` tab completion for several shells and operation systems.
 
-For Linux and macOS use the following command to activate the tab completion.
+For Linux, macOS and Windows use the following command to activate the tab completion.
 ```sh
-cds completion --add
+cds add completion
 ```
 
-Microsoft PowerShell requires you additionally to specify the location of the profile file using parameter `$PROFILE`.
-```powershell
-cds completion $PROFILE --add
-```
-
-After that, you have to source or restart your shell and can enjoy tab completion support for all cds commands.
-Currently supported shells:
-
-| Operation System  | Shell |
-|-------------------|-------|
-| Linux             | bash, zsh |
-| macOS             | bash, zsh |
-| Windows           | PowerShell, Git Bash |
-| WSL               | bash, zsh |
+You can find more information [here](/tools/#cds-completion).
 
 
 ### 3. Install Git

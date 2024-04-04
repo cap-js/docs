@@ -54,14 +54,9 @@ Use `cds version` to get information about your installed package version:
 ### *cds completion*
 The `cds` command supports starting with version `7.9` tab completion for several shells and operation systems.
 
-For Linux and macOS use the following command to activate the tab completion.
+For Linux, macOS and Windows use the following command to activate the tab completion.
 ```sh
-cds completion --add
-```
-
-Microsoft PowerShell requires you additionally to specify the location of the profile file using parameter `$PROFILE`.
-```powershell
-cds completion $PROFILE --add
+cds add completion
 ```
 
 After that, you have to source or restart your shell and can enjoy tab completion support for all cds commands.

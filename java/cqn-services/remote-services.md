@@ -139,7 +139,7 @@ The class `SomeReuseServiceOAuth2PropertySupplier` needs to be provided by you e
 
 #### Binding to a Service with shared Identity
 
-In case the remote API is available within the same SaaS application and using the same (shared) XSUAA service instance for authentication no service broker-based reuse service is required.
+If the remote API is available within the same SaaS application and using the same (shared) XSUAA service instance for authentication, no service broker-based reuse service is required.
 The _Remote Service_ can be configured using the shared XSUAA service instance as binding (here: `shared-xsuaa`):
 
 ```yaml

@@ -94,7 +94,7 @@ Output:
 
 #### Shared Service Instances on Cloud Foundry { #binding-shared-service-instances}
 
-Service instances can be shared across orgs and spaces. Only those services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata. See https://docs.cloudfoundry.org/devguide/services/sharing-instances.html for further details.
+Service instances can be shared across orgs and spaces.
 
 ```sh
 cds bind redis --to redis-db
@@ -139,6 +139,11 @@ Output:
 :::
 
 `cds watch --profile hybrid` will automatically resolve shared service instance bindings using the correct space.
+
+::: info Not all services can be shared
+Only services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata.
+See the [CloudFoundry docs](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) for further details.
+:::
 
 ### Services on Kubernetes
 

@@ -21,7 +21,7 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 cds bind db --to bookshop-db
 ```
 
-Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
+Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`. The service name `db` can be omitted as it represents the default value.
 
 ::: tip `cds bind` automatically creates a service key for you
 If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
@@ -100,7 +100,7 @@ Service instances can be shared across orgs and spaces.
 cds bind redis --to redis-db
 ```
 
-Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `space` and `org` information of the originating space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
+Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `org` and `space` information of the originating org and space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
 
 Output:
 
@@ -138,7 +138,7 @@ Output:
 ```
 :::
 
-`cds watch --profile hybrid` will automatically resolve shared service instance bindings using the correct space.
+`cds watch --profile hybrid` will automatically resolve shared service instance bindings using the correct org and space.
 
 ::: info Not all services can be shared
 Only services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata.

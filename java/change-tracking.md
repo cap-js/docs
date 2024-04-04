@@ -31,7 +31,7 @@ To use the change tracking feature, you need to add a dependency to [cds-feature
 Your POM must also include the goal to resolve the CDS model delivered from the feature. 
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
-For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/dec23#on-the-fly-localization-of-edmx).
+For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
 
 ### Annotating Entities
 

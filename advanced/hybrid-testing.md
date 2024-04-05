@@ -87,7 +87,7 @@ Output:
 
 ```log
 [bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding my to Cloud Foundry user provided service bookshop-ups.
+[bind] - Binding my to Cloud Foundry user provided service bookshop-ups. // [!code focus]
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
@@ -103,16 +103,6 @@ cds bind redis --to redis-db
 
 Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `org` and `space` information of the originating org and space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
 
-Output:
-
-```log
-[bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding redis to Cloud Foundry service redis-db.
-[bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
-[bind] -
-[bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
-
-```
 ::: code-group
 ```json {5}[.cdsrc-private.json]
 {

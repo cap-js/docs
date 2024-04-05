@@ -51,7 +51,7 @@ For Linux, macOS and Windows use the following command to activate the tab compl
 cds add completion
 ```
 
-You can find more information [here](/tools/#cds-completion).
+You can find more information [here](/tools/#cds-add-completion).
 
 
 ### 3. Install Git

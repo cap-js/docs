@@ -51,7 +51,7 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
-### *cds completion*
+### *cds add completion*
 The `cds` command supports starting with version `7.9` tab completion for several shells and operation systems.
 
 For Linux, macOS and Windows use the following command to activate the tab completion.

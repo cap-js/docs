@@ -129,8 +129,16 @@ It also provides a CAP-level, easy-to-use integration of the [SAP Object store](
 
 Features:
 
-- Supports CRUD operations for attachments with SAP Object Store.
-- Automatically adds the necessary `Attachments` table in the application.
+- Pre-defined type `Attachment` to use in entity definitions
+- Automatic handling of all upload and download operations
+- (Automatic) Fiori Annotations for Upload Controls
+- Streaming and piping to avoid memory overloads
+- Support for different storage backends
+
+Outlook:
+
+- Automatic malware scanning for uploaded files
+- Multi-tenancy intrinsically handled by the plugin
 
 
 Available for:

@@ -95,7 +95,7 @@ Output:
 
 #### Shared Service Instances on Cloud Foundry { #binding-shared-service-instances}
 
-Service instances can be shared across orgs and spaces.
+On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
 
 ```sh
 cds bind redis --to redis-db

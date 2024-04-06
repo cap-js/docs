@@ -145,6 +145,9 @@ const config:UserConfig<CapireThemeConfig> = {
       //@ts-ignore
       redirects.devPlugin()
     ],
+    assetsInclude: [
+      '**/*.cast'
+    ],
     build: {
       chunkSizeWarningLimit: 5000 // chunk for local search index dominates
     }

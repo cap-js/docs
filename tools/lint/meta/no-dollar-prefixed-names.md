@@ -25,26 +25,32 @@ Names must not start with $ to avoid possible shadowing of reserved variables.
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
+In the following example, all elements names are well defined and do not start with `$`:
+
 ::: code-group
-<<< ../examples/no-dollar-prefixed-names/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/no-dollar-prefixed-names/correct/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
   name="no-dollar-prefixed-names"
   kind="correct"
   :rules="{'@sap/cds/no-dollar-prefixed-names': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['db/schema.cds']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
+
+In the next example, the element `$pages` start with `$` and so the rule will raise an error for this element:
 
 ::: code-group
-<<< ../examples/no-dollar-prefixed-names/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/no-dollar-prefixed-names/incorrect/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
   name="no-dollar-prefixed-names"
   kind="incorrect"
   :rules="{'@sap/cds/no-dollar-prefixed-names': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['db/schema.cds']"
 />
 
 ### Version

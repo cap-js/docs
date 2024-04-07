@@ -22,6 +22,8 @@ const defaultConfig: any = {
 }
 
 const defaultPackageJson = {
+    "name": "My CAP project",
+    "version": "1.0.0",
     "dependencies": {
         "@sap/cds": "^7.0.0",
     },
@@ -64,7 +66,6 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   }
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
-    sources['fileName'] = files?.[0];
     for (const file of files || []) {
       sources[`${file}`] = data[`${name}/${kind}/${file}`];
     }

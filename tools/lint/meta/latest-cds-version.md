@@ -21,23 +21,34 @@ status: released
 
 ## Rule Details
 
-Checks whether the latest `@sap/cds` version is being used.
+It is recommended to always use the latest version of `@sap/cds` to benefit from the latest features and bug fixes.
+This rule checks whether the latest `@sap/cds` version is being used and reports back in case a newer version is available. 
 
 ### Examples
 
-::: code-group
-:::
+Let's suppose the latest version of `@sap/cds` available is `7.8.0`.
 
-<br>
+#### ✅ &nbsp; Correct example
 
-::: code-group
-:::
+If the current version in your environment is `7.8.0`, the rule will pass and there will be no output.
 
+#### ❌ &nbsp; Incorrect example
+
+If the current version in your environment is, however, `7.0.0`, that is the command `npm outdated @sap/cds` would return:
+
+<pre class="log">
+Package   Current  Wanted  Latest  Location               Depended by
+<text style="color: red">@sap/cds</text>    7.0.0   <text style="color: limegreen">7.8.0</text>   <text style="color: magenta">7.8.0</text>  node_modules/@sap/cds  latest-cds-version
+</pre>
+
+Then the rule will be triggered and print following output upon calling `cds lint` in the directory of your project (e.g. _YOUR_PROJECT_PATH_):
+
+<pre class="log">
+/YOUR_PROJECT_PATH
+  1:1  error  A newer CDS version is available!  <text style="color:gray">@sap/cds/latest-cds-version</text>
+
+<text style="color:red">✖ 1 problem (1 error, 0 warnings)</text>
+</pre>
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.4`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/latest-cds-version.js)
--->

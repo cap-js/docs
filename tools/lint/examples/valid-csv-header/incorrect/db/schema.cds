@@ -1,28 +1,13 @@
-namespace my.bookshop;
+namespace sap.capire.bookshop;
 
-aspect managed {
-  createdAt  : Timestamp;
-  modifiedAt : Timestamp;
+entity Books {
+  key ID : Integer;
+  @mandatory title  : localized String(111);
+  @mandatory author : Association to Authors;
 }
 
-entity Currencies {
-  key code   : String(3);
-      symbol : String(5);
-}
-
-entity Books : managed {
-  key ID       : Integer;
-      title    : localized String(111);
-      descr    : localized String(1111);
-      author   : Association to Authors;
-      stock    : Integer;
-      price    : Decimal(9, 2);
-      currency : Association to Currencies;
-}
-
-entity Authors : managed {
-  key ID    : Integer;
-      name  : String;
-      books : Association to many Books
-                on books.author = $self;
+entity Authors {
+  key ID : Integer;
+  @mandatory name   : String(111);
+  books  : Association to many Books on books.author = $self;
 }

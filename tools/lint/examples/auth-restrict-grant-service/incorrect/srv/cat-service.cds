@@ -12,5 +12,5 @@ service CatalogService {
   action submitOrder ( book: Books:ID, quantity: Integer ) returns { stock: Integer };
   event OrderedBook : { book: Books:ID; quantity: Integer; buyer: String };
   // The grant value provided in @restrict is limited to '*' for function 'CatalogService.getViewsCount'.
-  function getViewsCount @(restrict: [{ grant: ['WRITE'], to: 'Admin' }]) () returns Integer; // [!code warning]
+  function getViewsCount @(restrict: [{ grant: ['WRITE'], to: 'Admin' }]) () returns Integer; // [!code error]
 }

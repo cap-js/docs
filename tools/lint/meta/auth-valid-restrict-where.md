@@ -21,36 +21,37 @@ status: released
 
 ## Rule Details
 
-`@restrict.where` must have valid values.
+The `where` property of a `@restrict` privilege defines a [filter expression](https://cap.cloud.sap/docs/guides/odata/query#filter) that restricts the access on an instance level (optional). This rule checks that the values of `@restrict.where` are valid, that is, the filter expression must be a valid expression that compiles without any errors.
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
+In the following example, the `@restrict` privilege is defined with a valid `where` property `CreatedBy = $user'`:
+
 ::: code-group
-<<< ../examples/auth-valid-restrict-where/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/auth-valid-restrict-where/correct/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]
 :::
 <PlaygroundBadge
   name="auth-valid-restrict-where"
   kind="correct"
   :rules="{'@sap/cds/auth-valid-restrict-where': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
+
+In the next example, the `@restrict` privilege is defined with an invalid `where` property `CreatedBy = $user` since this is not a valid filter expression according to the CDS compiler, so the rule will report a warning:
 
 ::: code-group
-<<< ../examples/auth-valid-restrict-where/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/auth-valid-restrict-where/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]
 :::
 <PlaygroundBadge
   name="auth-valid-restrict-where"
   kind="incorrect"
   :rules="{'@sap/cds/auth-valid-restrict-where': ['warn', 'show']}"
-  :files="['schema.cds']"
+  :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/auth-valid-restrict-where.js)
--->

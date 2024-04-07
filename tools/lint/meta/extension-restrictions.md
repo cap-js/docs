@@ -21,31 +21,36 @@ status: released
 
 ## Rule Details
 
-Extensions must not violate restrictions set by the extended SaaS app.
+CAP provides intrinsic extensibility, which means all your entities and services are extensible by default.
+Your SaaS app becomes the base app for extensions by your customers, and your data model the base model. Normally, 
+you'll want to restrict which services or entities your SaaS customers are allowed to extend and to what degree they may do so.
+This rule ensures that extensions do not violate any restrictions set by the extended SaaS app.
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
 ::: code-group
-<<< ../examples/extension-restrictions/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/extension-restrictions/correct/db/schema.cds#snippet{cds:line-numbers} [✅ &nbsp; Correct example]
 :::
 <PlaygroundBadge
   name="extension-restrictions"
   kind="correct"
-  :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
-  :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
+  :rules="{'@sap/cds/extension-restrictions': 'warn'}"
+  :files="['db/schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
   :packages="{'cds': { 'extends': 'base-app' } }"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
 
 ::: code-group
-<<< ../examples/extension-restrictions/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/extension-restrictions/incorrect/db/schema.cds#snippet{cds:line-numbers} [❌ &nbsp; Incorrect example]
 :::
 <PlaygroundBadge
   name="extension-restrictions"
   kind="incorrect"
-  :rules="{'@sap/cds/extension-restrictions': ['warn', 'show']}"
-  :files="['schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
+  :rules="{'@sap/cds/extension-restrictions': 'warn'}"
+  :files="['db/schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
   :packages="{'cds': { 'extends': 'base-app' } }"
 />
 

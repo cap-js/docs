@@ -21,36 +21,43 @@ status: released
 
 ## Rule Details
 
-CSV files for entities must refer to valid element names.
+To provide your database with initial data, you can use CSV files. Their filenames are expected to match fully qualified names of respective entity definitions in your CDS models and their content is standard CSV content with the column titles corresponding to declared element names. This rule ensures that the header of the CSV file matches the column names of the entity definition.
 
 ### Examples
 
+Let's consider the following model definition:
+
 ::: code-group
-<<< ../examples/valid-csv-header/correct/db/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/valid-csv-header/correct/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
+:::
+
+#### ✅ &nbsp; Correct example
+
+The following example shows a correct CSV file header that matches the column names of the entity definition:
+
+::: code-group
+<<< ../examples/valid-csv-header/correct/db/data/sap.capire.bookshop-Books.csv#snippet{csv:line-numbers} [db/data/sap.capire.bookshop-Books.csv]
 :::
 <PlaygroundBadge
   name="valid-csv-header"
   kind="correct"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['db/schema.cds', 'db/data/my.bookshop-Books.csv']"
+  :files="['db/schema.cds', 'db/data/sap.capire.bookshop-Books.csv']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
+
+In the next example, there is a type in the header of the CSV file. The column name `title` is misspelled as `tile`, so the rule reports a warning:
 
 ::: code-group
-<<< ../examples/valid-csv-header/incorrect/db/data/my.bookshop-Books.csv#snippet{csv:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/valid-csv-header/incorrect/db/data/sap.capire.bookshop-Books.csv#snippet{csv:line-numbers} [db/data/sap.capire.bookshop-Books.csv]
 :::
 <PlaygroundBadge
   name="valid-csv-header"
   kind="incorrect"
   :rules="{'@sap/cds/valid-csv-header': ['warn', 'show']}"
-  :files="['db/schema.cds', 'db/data/my.bookshop-Books.csv']"
+  :files="['db/schema.cds', 'db/data/sap.capire.bookshop-Books.csv']"
 />
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.3.0`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/valid-csv-header.js)
--->

@@ -21,36 +21,37 @@ status: released
 
 ## Rule Details
 
-Regular element names should start with lowercase letters.
+According to our [naming conventions](../../../guides/domain-modeling#naming-conventions), to easily distinguish entity names from elements names we recommend to start Start elements with a *lowercase* letter, which this rule ensures.
 
 ### Examples
 
+#### ✅ &nbsp; Correct example
+
+In the following example, the rule is satisfied because the element name `title` starts with a lowercase letter:
+
 ::: code-group
-<<< ../examples/start-elements-lowercase/correct/schema.cds#snippet{ts:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/start-elements-lowercase/correct/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"
   kind="correct"
-  :rules="{'@sap/cds/start-elements-lowercase': ['warn']}"
+  :rules="{'@sap/cds/start-elements-lowercase': 'warn'}"
   :files="['schema.cds']"
 />
 
-<br>
+#### ❌ &nbsp; Incorrect example
+
+In the next example, the rule will report a warning, because the element name `Title` starts with an uppercase letter:
 
 ::: code-group
-<<< ../examples/start-elements-lowercase/incorrect/schema.cds#snippet{ts:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/start-elements-lowercase/incorrect/db/schema.cds#snippet{ts:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
   name="start-elements-lowercase"
   kind="incorrect"
-  :rules="{'@sap/cds/start-elements-lowercase': ['warn']}"
-  :files="['schema.cds']"
+  :rules="{'@sap/cds/start-elements-lowercase': 'warn'}"
+  :files="['db/schema.cds']"
 />
 
 ### Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.4`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/start-elements-lowercase.js)
--->

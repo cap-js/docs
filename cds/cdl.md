@@ -176,7 +176,7 @@ By default virtual elements are annotated with `@Core.Computed: true`, not writa
 
 ```cds
 entity Employees {
-  ...
+  [...]
   virtual something : String(11);
 }
 ```
@@ -352,7 +352,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictons apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Badge type="warning" text="beta" /> {#association-like-calculated-elements}
+#### Association-like calculated elements <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -645,7 +645,7 @@ For many-to-many association, follow the common practice of resolving logical ma
 For example:
 
 ```cds
-entity Employees { ...
+entity Employees { [...]
   addresses : Association to many Emp2Addr on addresses.emp = $self;
 }
 entity Emp2Addr {
@@ -749,10 +749,10 @@ If not otherwise specified, a managed composition of an aspect has the default t
 Managed Compositions are handy for [many-to-many relationships](#many-to-many-associations), where a link table usually is private to one side.
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many { key user: Association to Users; }
 }
-entity Users { ...
+entity Users { [...]
   teams: Association to many Teams.members on teams.user = $self;
 }
 ```
@@ -760,7 +760,7 @@ entity Users { ...
 And here's an example of an attributed many-to-many relationship:
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many {
     key user : Association to Users;
     role : String enum { Lead; Member; Collaborator; }
@@ -796,7 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Badge type="warning" text="beta" /> {#publish-associations-with-filter}
+#### Publish Associations with Filter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1003,7 +1003,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values <Badge type="warning" text="beta" /> {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.
@@ -1414,7 +1414,7 @@ as follows:
 define entity Foo : ManagedObject, AnotherAspect {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1427,7 +1427,7 @@ extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 

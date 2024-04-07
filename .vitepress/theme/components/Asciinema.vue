@@ -7,9 +7,20 @@
   import 'asciinema-player/dist/bundle/asciinema-player.css'
 
   const props = withDefaults(
-    defineProps<{ href: string,
-      autoPlay?: boolean, theme?: string, controls?:boolean|'auto', loop?: boolean, startAt?: string|number, poster?: string }>(),
-    { autoPlay: false,    theme: 'tango', controls: 'auto' }
+    defineProps<{
+      href: string,
+      autoPlay?: boolean,
+      controls?:boolean|'auto',
+      idleTimeLimit?: number,
+      loop?: boolean|number,
+      poster?: string
+      startAt?: string|number,
+      speed?: number,
+      theme?: string,
+    }>(),
+    {
+      controls: 'auto'
+    }
   )
   const player = ref(null)
 

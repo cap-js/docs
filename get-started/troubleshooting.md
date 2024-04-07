@@ -363,8 +363,8 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 ### How Do I Resolve Service Creation Errors?
 
-- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service ... -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
-- On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial ...`
+- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service [...] -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
+- On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial [...]`
 - When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
 
 

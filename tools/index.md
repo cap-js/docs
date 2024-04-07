@@ -8,6 +8,12 @@ status: released
 # outline: 2
 ---
 
+<script setup>
+  import Asciinema from '../.vitepress/theme/components/Asciinema.vue'
+  import help from './assets/help.cast'
+  import watch from './assets/watch.cast'
+</script>
+
 # Choose Your Preferred Tools
 {{$frontmatter?.synopsis}}
 
@@ -52,10 +58,11 @@ Use `cds version` to get information about your installed package version:
 </pre>
 
 
-
 ### *cds help*
 
 Use `cds help` to see an overview of all commands:
+
+<Asciinema :href='help' poster="npt:4" />
 
 <pre class="log">
 <i>$</i> cds help
@@ -146,6 +153,9 @@ SEE ALSO
 * Use `cds init` to create new projects
 * Use `cds add` to gradually add facets to projects
 
+### *cds watch*
+
+<Asciinema :href='watch' poster="npt:9" />
 
 
 ### *cds env*

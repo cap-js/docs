@@ -19,7 +19,7 @@ async function getRules() {
     await import('@sap/eslint-plugin-cds');
 
     console.debug('Reading CDS Lint sources...')
-    let result = `Below you can find all rules in the \`@sap/eslint-plugin-cds\` ESLint plugin.
+    let result = `Below you can find all rules of the \`@sap/eslint-plugin-cds\` ESLint plugin.
     
 They are grouped by categories [Model Validation](#model-validation) and [Environment](#environment) to help you understand their purpose.
 

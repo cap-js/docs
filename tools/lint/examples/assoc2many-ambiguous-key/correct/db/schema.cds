@@ -8,6 +8,6 @@ entity Books {
 
 entity Authors {
   key ID : Integer;
-  @mandatory name   : String(111);
+  @mandatory name : String(111);
   books  : Association to many Books on books.author = $self;
 }

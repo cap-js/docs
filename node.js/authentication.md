@@ -502,7 +502,7 @@ If you don't know the API endpoint, have a look at section [Regions and API Endp
     cf create-service-key bookshop-uaa bookshop-uaa-key
     ```
 
-    You do this, to gain access to the XSUAA credentials from your local application.
+    This lets you gain access to the XSUAA credentials from your local application.
 
 
 2. Bind to the new service key:

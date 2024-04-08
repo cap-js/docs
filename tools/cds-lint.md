@@ -62,7 +62,7 @@ For all other projects, you would like to have ESLint running within your VS Cod
 In your project's root folder, execute:
 
 ```sh
-cds lint .
+cds lint
 ```
 
 It follows standard ESLint behaviour. If there are no lint errors, there is no output. If there are, a standard ESLint error report will be printed.
@@ -128,7 +128,7 @@ To test the rule, just add a _.cds_ file, for example _moo.cds_, with the follow
 entity Moo {}
 ```
 
-Run the linter (`cds lint .`) to see that an entity called `Moo` is not allowed.
+Run the linter (`cds lint`) to see that an entity called `Moo` is not allowed.
 Ideally, if you are using an editor together with an ESLint extension, you will already be notified of this when you save the file.
 
 To quickly unit-test a custom rule, you can find a sample _no-entity-moo.test.js_ in _.eslint/tests_. To run the test:
@@ -146,7 +146,7 @@ mocha .eslint/tests/no-entity-moo
 To have more control over the linting process, you can also access the CDS ESLint plugin natively via the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface). To determine the proper command line options, it can help to refer to output of the equivalent call using the [CDS Lint CLI](#usage-lint-cli) with `DEBUG="lint"`, which shows all of the options and flags applied:
 
 ```sh
-DEBUG=lint cds lint .
+DEBUG=lint cds lint
 ```
 
 <pre class="log">

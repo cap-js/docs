@@ -383,13 +383,13 @@ On PowerShell you need to quote the double dash (`--`) when an option with doubl
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 ```
 
-Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
+Profiles can be set using the optional `--for` parameter. By default the `hybrid` profile is used.
 
 ```sh
-cds bind --exec --profile <profile> [--] <command> <args ...>
+cds bind --exec --for <profile> [--] <command> <args ...>
 ```
 
-The `--profile` parameter must follow `exec` directly.
+The `--for` parameter must follow `exec` directly.
 
 ## Use Cases
 

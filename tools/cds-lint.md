@@ -50,7 +50,7 @@ By nature of its design, the plugin can also be run with the [ESLint CLI](#usage
 
 All CDS projects initiated with `cds init` come with CDS Lint preconfigured. **No setup is needed**.
 
-For all other projects of if you would like to have ESLint running within your VS Code editor, please run the dedicated [`cds add` commmand](#cds-add-lint) command to configure them.
+For all other projects, you would like to have ESLint running within your VS Code editor. Run the dedicated [`cds add` commmand](#cds-add-lint) command to configure them.
 
 > [!TIP]
 > To add lint checking to your VS Code Editor, follow the setup in [CDS Lint in VSCode](#cds-lint-vscode).
@@ -146,7 +146,7 @@ mocha .eslint/tests/no-entity-moo
 To have more control over the linting process, you can also access the CDS ESLint plugin natively via the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface). To determine the proper command line options, it can help to refer to output of the equivalent call using the [CDS Lint CLI](#usage-lint-cli) with `DEBUG="lint"`, which shows all of the options and flags applied:
 
 ```sh
-DEBUG="lint" cds lint .
+DEBUG=lint cds lint .
 ```
 
 <pre class="log">
@@ -188,6 +188,6 @@ Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a
 
 To turn on Lint checking your VS Code Editor, follow the steps below:
 
-1. Download the [VS Code ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this is preinstalled.
+1. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
 2. Run the dedicated [`cds add` commmand](#cds-add-lint).

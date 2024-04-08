@@ -21,7 +21,7 @@ status: released
 
 ## Rule Details
 
-The `grant` property of a `@restrict` privilege defines one or more events that the privilege applies. This rule checks for valid values of `@restrict.grant`, that is, all standard CDS events (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) on entities. It also reports a warning if all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and * is a wildcard for all events are used to use the virutal event `WRITE` instead.
+The `grant` property of a `@restrict` privilege defines one or more events that the privilege applies. This rule checks for valid values of `@restrict.grant`, that is, all standard CDS events (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) on entities. It also reports a warning if all standard CDS events with write semantics (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events are used to use the virutal event `WRITE` instead.
 
 ### Examples
 

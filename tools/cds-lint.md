@@ -111,7 +111,7 @@ Linting:
 
 ### CDS configuration helper (optional) {#cds-add-lint}
 
-The following command automatically adds the settings for the ESLint VS Code extension to the project's VS Code settings, installs the CDS ESLint plugin, and adds it to the ESLint configuration of your project:
+The following command automatically adds settings for the ESLint VS Code extension to the project's VS Code settings, installs the CDS ESLint plugin, and adds it to the ESLint configuration of your project:
 
 ```sh
 cds add lint

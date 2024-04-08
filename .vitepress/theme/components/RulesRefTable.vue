@@ -56,8 +56,8 @@
     font-size: small;
 }
 .col-rule {
-    width: 70% !important;
-    line-height: 120% !important;
+    width: 70%;
+    line-height: 120%;
 }
 .col-name {
     font-weight: 500;

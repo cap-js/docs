@@ -50,7 +50,7 @@ By nature of its design, the plugin can also be run with the [ESLint CLI](#usage
 
 All CDS projects initiated with `cds init` come with CDS Lint preconfigured. **No setup is needed**.
 
-For all other projects of if you would like to have ESLint running within your VS Code editor, please run the dedicated [`cds add` commmand](#cds-add-lint) command to configure them.
+For all other projects, you would like to have ESLint running within your VS Code editor. Run the dedicated [`cds add` commmand](#cds-add-lint) command to configure them.
 
 > [!TIP]
 > To add lint checking to your VS Code Editor, follow the setup in [CDS Lint in VSCode](#cds-lint-vscode).

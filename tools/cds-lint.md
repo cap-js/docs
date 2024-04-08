@@ -188,6 +188,6 @@ Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a
 
 To turn on Lint checking your VS Code Editor, follow the steps below:
 
-1. Download the [VS Code ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this is preinstalled.
+1. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
 2. Run the dedicated [`cds add` commmand](#cds-add-lint).

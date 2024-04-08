@@ -75,7 +75,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
 
 // --- Start logic from https://github.com/ota-meshi/eslint-online-playground ---
 //
-// The following functions used in the above playground source code. We use them to compress
+// The following functions are used in the above playground source code. We use them to compress
 // our example lint file sources into a URL that takes us to that playground.
 
 function compress(sources: any): string {

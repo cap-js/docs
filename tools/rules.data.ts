@@ -1,8 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-process.env.SILENT = 'true'
-
 export default {
   async load() {
     const data: any = { "Model Validation": [], "Environment": [] };

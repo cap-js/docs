@@ -96,4 +96,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
 .headerless.th {
   display: none;
 }
-</style>../../../tools/lint/meta/examples.data.ts
+.vp-code {
+  overflow-x: hidden !important;
+}
+</style>

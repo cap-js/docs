@@ -7,12 +7,6 @@ breadcrumbs:
 status: released
 ---
 
-<style>
-.vp-code {
-  overflow-x: hidden !important;
-}
-</style>
-
 <script setup>
   import PlaygroundBadge from '../../../.vitepress/theme/components/PlaygroundBadge.vue'
 </script>

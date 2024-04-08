@@ -56,7 +56,7 @@ pinpointed to any particular file.
 
 > [!TIP]
 > ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
-> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (--fix)<br>
+> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (\`--fix\`)<br>
 > 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable (editor)
 
 <RulesRefTable category="Environment"/>`

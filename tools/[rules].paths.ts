@@ -42,7 +42,7 @@ slow or expensive processes. These are slow to execute and only run with the CLI
 
 > [!TIP]
 > ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
-> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (--fix)<br>
+> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (\`--fix\`)<br>
 > 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable<br>
 > 👀 &nbsp; **In Editor**: If the rule is shown in the VS Code editor and rerun on file changes
 

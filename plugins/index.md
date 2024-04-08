@@ -161,7 +161,7 @@ extend my.Incidents with {
 }
 ```
 
-![Screenshot showing the Attachments Table in a fiori app](/releases/assets/mar24/attachments-table.png)
+![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
 
 It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
 

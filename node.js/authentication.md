@@ -570,20 +570,20 @@ The resulting JWT token is sent to the application where it's used to enforce au
 2. Install `npm` packages for approuter:
 
     ```sh
-    npm install --prefix app
+    npm install --prefix app/router
     ```
 
 3. In your project folder run:
 
     ::: code-group
     ```sh [Mac/Linux]
-    cds bind --exec -- npm start --prefix app
+    cds bind --exec -- npm start --prefix app/router
     ```
     ```cmd [Windows]
-    cds bind --exec -- npm start --prefix app
+    cds bind --exec -- npm start --prefix app/router
     ```
     ```powershell [Powershell]
-    cds bind --exec '--' npm start --prefix app
+    cds bind --exec '--' npm start --prefix app/router
     ```
     :::
 

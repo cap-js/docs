@@ -91,6 +91,52 @@ Individual package rules can also be [configured](https://eslint.org/docs/user-g
   }
 }
 ```
+
+### Configuring custom CDS Lint Rules
+
+To include your own custom rules, prepare your project configuration once with:
+
+```sh
+cds add lint
+```
+
+This configures your project to use the `@sap/eslint-plugin-cds` locally and create an extra _.eslint_ directory for your custom rules, tests, and documentation:
+
+ - _rules_: Directory for your custom rules.
+ - _tests_: Directory for your custom rules tests.
+ - _docs_: Directory for auto-generated docs based on your custom rules and any valid/invalid test cases provided,
+
+Add a sample custom rule:
+
+```sh
+cds add lint:dev
+```
+
+The following sample rule is added to your configuration file:
+
+```json
+{
+  "rules": {
+    "no-entity-moo": 2
+  }
+}
+```
+
+To test the rule, just add a _.cds_ file, for example _moo.cds_, with the following content to your project:
+
+```cds
+entity Moo {}
+```
+
+Run the linter (`cds lint .`) to see that an entity called `Moo` is not allowed.
+Ideally, if you are using an editor together with an ESLint extension, you will already be notified of this when you save the file.
+
+To quickly unit-test a custom rule, you can find a sample _no-entity-moo.test.js_ in _.eslint/tests_. To run the test:
+
+```sh
+mocha .eslint/tests/no-entity-moo
+```
+
 -->
 
 

@@ -66,7 +66,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   }
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
-    for (const file of files || []) {
+    for (const file of files) {
       sources[file] = data[`${name}/${kind}/${file}`];
     }
   }

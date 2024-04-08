@@ -18,6 +18,14 @@
 </script>
 
 <template>
+    <div class="tip custom-block github-alert">
+        <ul class="legend-list">
+            <li>✅ &nbsp; <b>Recommeded</b>: If the plugin's *recommended* configuration enables the rule</li>
+            <li>🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are automatically fixable (\`--fix\`)</li>
+            <li>💡 &nbsp; <b>Has Suggestions</b>: If problems reported by the rule are manually fixable</li>
+            <li v-if="category !== 'Environment'">👀 &nbsp; <b>In Editor</b>: If the rule is shown in the VS Code editor and rerun on file changes</li>
+        </ul>
+    </div>
     <table class="lint-ref-table">
         <thead>
             <tr>
@@ -42,7 +50,7 @@
                     {{ entry.hasSuggestions }}
                 </text>
             </td>
-            <td class="col-prop" v-if="category !== 'Environment'">
+            <td class="lint-rule-prop" v-if="category !== 'Environment'">
                 <text class="lint-prop-symbol">
                     {{ entry.model }}
                 </text>
@@ -58,6 +66,10 @@
 </template>
 
 <style scoped>
+.legend-list {
+    list-style-type: none !important;
+    padding-left: 5%;
+}
 .lint-ref-table {
     display: block
 }
@@ -77,7 +89,7 @@
     text-align: center; 
     vertical-align: middle;
 }
-.lint-rule-symbolprop {
+.lint-rule-symbol {
     text-align: center;
 }
 </style>

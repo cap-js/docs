@@ -40,12 +40,6 @@ can react on file changes.
 slow or expensive processes. These are slow to execute and only run with the CLI. 
 :::
 
-> [!TIP]
-> ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
-> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (\`--fix\`)<br>
-> 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable<br>
-> 👀 &nbsp; **In Editor**: If the rule is shown in the VS Code editor and rerun on file changes
-
 <RulesRefTable category="Model Validation"/>
 
 ## Environment
@@ -53,11 +47,6 @@ slow or expensive processes. These are slow to execute and only run with the CLI
 Environment rules are used to check for proper and up-to-date CDS project environments.
 These are only run via the command line and are not available in the editor as they often can't be
 pinpointed to any particular file.
-
-> [!TIP]
-> ✅ &nbsp; **Recommeded**: If the plugin's *recommended* configuration enables the rule<br>
-> 🔧 &nbsp; **Fixable**: If problems reported by the rule are automatically fixable (\`--fix\`)<br>
-> 💡 &nbsp; **Has Suggestions**: If problems reported by the rule are manually fixable (editor)
 
 <RulesRefTable category="Environment"/>`
 

@@ -51,7 +51,7 @@ slow or expensive processes. These are slow to execute and only run with the CLI
 ## Environment
 
 Environment rules are used to check for proper and up-to-date CDS project environments.
-These are only run via the command line and are not available in the editor as they often cannot be
+These are only run via the command line and are not available in the editor as they often can't be
 pinpointed to any particular file.
 
 > [!TIP]

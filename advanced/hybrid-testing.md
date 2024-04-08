@@ -363,7 +363,7 @@ This shortcut is only possible if you don't need to provide a `service` or a `ki
 
 By default, the bindings for the `hybrid` profile are stored in the _.cdsrc-private.json_ file in your current working directory.
 
-This can be overwritten using the `--profile` and `--output-file` options.
+This can be overwritten using the `--out` option.
 
 ### Execute Commands with Bindings { #cds-bind-exec}
 

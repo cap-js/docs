@@ -120,6 +120,7 @@ cds:
         name: some-service-binding
 ```
 
+:::details If binding structure isn't understood ...
 In some cases, SAP Cloud SDK doesn't understand the service binding structure of the specific BTP service.
 In that case it's required to contribute a mapping by the means of Cloud SDK's `PropertySupplier`.
 This `PropertySupplier` needs to be registered with the Cloud SDK once at application startup.
@@ -136,8 +137,9 @@ The `<bindingTag>` needs to be replaced by the concrete name of the tag provided
 The class `SomeReuseServiceOAuth2PropertySupplier` needs to be provided by you extending the Cloud SDK base class `DefaultOAuth2PropertySupplier`.
 
 [Learn more about registering OAuth2PropertySupplier in the **SAP Cloud SDK documentation**.](https://sap.github.io/cloud-sdk/docs/java/features/connectivity/service-bindings#customization){.learn-more}
+:::
 
-#### Binding to a Service with shared Identity
+#### Binding to a Service with Shared Identity
 
 If the remote API is available within the same SaaS application and using the same (shared) XSUAA service instance for authentication, no service broker-based reuse service is required.
 The _Remote Service_ can be configured using the shared XSUAA service instance as binding (here: `shared-xsuaa`):

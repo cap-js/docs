@@ -114,6 +114,42 @@ As CAP is blessed with an active community, there are many useful plugins availa
 :::
 
 
+## OData v2 Proxy
+
+
+The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
+
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
+[<img src="../assets/logos/java.svg" title="Link to the documentation of the OData feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
+
+See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
+
+## UI5 Dev Server
+
+
+The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (UI5 freestyle or Fiori elements) tooling-based projects into the CDS server via the UI5 tooling express middlewares. It allows to serve dynamic UI5 resources, including TypeScript implementations for UI5 controls, which get transpiled to JavaScript by the plugin automatically.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
+
+## GraphQL Adapter
+
+The GraphQL Adapter is a protocol adapter that generically generates a GraphQL schema for the models of an application and serves an endpoint that allows you to query your services using the [GraphQL](https://graphql.org) query language. All you need to do is to add the `@graphql` annotation to your service definitions like so:
+
+```cds
+@graphql service MyService { ... }
+```
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js/graphql#readme)
+
+
+
 ## Attachments <Badge type="warning" text="beta" title="" />
 
 
@@ -124,6 +160,8 @@ extend my.Incidents with {
   attachments: Composition of many Attachments
 }
 ```
+
+![Screenshot showing the Attachments Table in a fiori app](/releases/assets/mar24/attachments-table.png)
 
 It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
 
@@ -190,20 +228,6 @@ Available for:
 
 
 
-## GraphQL Adapter
-
-The GraphQL Adapter is a protocol adapter that generically generates a GraphQL schema for the models of an application and serves an endpoint that allows you to query your services using the [GraphQL](https://graphql.org) query language. All you need to do is to add the `@graphql` annotation to your service definitions like so:
-
-```cds
-@graphql service MyService { ... }
-```
-
-Available for:
-
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js/graphql#readme)
-
-
-
 ## Notifications
 
 
@@ -234,22 +258,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
 
 
-
-## OData v2 Proxy
-
-
-The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
-
-
-Available for:
-
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the OData feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
-
-See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
-
-
-## Telemetry (Beta)
+## Telemetry <Badge type="warning" text="beta" />
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -277,15 +286,6 @@ Available for:
 [<img src="../assets/logos/java.svg" title="Link to the documentation of the telemetry feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/operating-applications/observability#open-telemetry)
 
 
-
-## UI5 Dev Server
-
-
-The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (UI5 freestyle or Fiori elements) tooling-based projects into the CDS server via the UI5 tooling express middlewares. It allows to serve dynamic UI5 resources, including TypeScript implementations for UI5 controls, which get transpiled to JavaScript by the plugin automatically.
-
-Available for:
-
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
 
 

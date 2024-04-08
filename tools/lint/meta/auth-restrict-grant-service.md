@@ -29,7 +29,7 @@ An unsupported privilege is that for bound or unbound actions, the `grant` prope
 
 #### ✅ &nbsp; Correct example
 
-Let's consider the following example with the `CatalogService` where there function `getViewsCount()` is restricted to the *Admin* role, granting all CDS events:
+Let's consider the following example with the `CatalogService` where the function `getViewsCount()` is restricted to the *Admin* role, granting all CDS events:
 
 ::: code-group
 <<< ../examples/auth-restrict-grant-service/correct/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]

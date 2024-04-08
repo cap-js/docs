@@ -52,6 +52,9 @@ pinpointed to any particular file.
 
     return result
   } catch (e) {
+    if (e.code !== 'MODULE_NOT_FOUND') {
+      throw e;
+    }
     return `::: danger No content here
 You need install the CDS ESLint plugin locally to see data here:
 \`\`\`sh

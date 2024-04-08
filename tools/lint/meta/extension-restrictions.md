@@ -38,7 +38,7 @@ This rule ensures that extensions do not violate any restrictions set by the ext
   kind="correct"
   :rules="{'@sap/cds/extension-restrictions': 'warn'}"
   :files="['db/schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
-  :packages="{'cds': { 'extends': 'base-app' } }"
+  :packages="{'dependencies': { '@sap/cds-mtxs': '^1' }, 'cds': { 'extends': 'base-app' } }"
 />
 
 #### ❌ &nbsp; Incorrect example
@@ -51,7 +51,7 @@ This rule ensures that extensions do not violate any restrictions set by the ext
   kind="incorrect"
   :rules="{'@sap/cds/extension-restrictions': 'warn'}"
   :files="['db/schema.cds', 'node_modules/base-app/.cdsrc.json', 'node_modules/base-app/index.csn']"
-  :packages="{'cds': { 'extends': 'base-app' } }"
+  :packages="{'dependencies': { '@sap/cds-mtxs': '^1' }, 'cds': { 'extends': 'base-app' } }"
 />
 
 ### Version

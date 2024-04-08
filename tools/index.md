@@ -52,14 +52,14 @@ Use `cds version` to get information about your installed package version:
 </pre>
 
 ### *cds add completion*
-The `cds` command supports starting with version `7.9` tab completion for several shells and operation systems.
+The `cds` command supports starting with version `7.9` shell completion with `tab` key for several shells and operating systems.
 
-For Linux, macOS and Windows use the following command to activate the tab completion.
+For Linux, macOS and Windows use the following command to activate the shell completion.
 ```sh
 cds add completion
 ```
 
-After that, you have to source or restart your shell and can enjoy tab completion support for all cds commands.
+After that, you have to source or restart your shell and can enjoy shell completion support for all cds commands.
 
 Currently supported shells:
 | Operating System  | Shell |

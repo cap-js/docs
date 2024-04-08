@@ -21,17 +21,7 @@ const defaultConfig: any = {
     "rules": {}
 }
 
-const defaultPackageJson = {
-    "name": "My CAP project",
-    "version": "1.0.0",
-    "dependencies": {
-        "@sap/cds": "^7.0.0",
-    },
-    "devDependencies": {
-        "eslint": ">=7.0.0",
-        "@sap/eslint-plugin-cds": "^2.6.7", // Get version
-    }
-}
+const defaultPackageJson = JSON.parse(data['package.json']);
 
 function mergeJSONs(target: any, add: any) {
     const isObject = (obj: unknown) => typeof obj === 'object';

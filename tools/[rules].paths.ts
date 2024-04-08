@@ -34,7 +34,7 @@ They are used to enforce security, naming conventions, or other best practices.
 Note, that while all recommended (&nbsp;✅&nbsp;) model rules run with the CLI, only a number of them are
 enabled and visible in the editor by default (&nbsp;👀&nbsp;).
 ::: details
-* *In Editor* rules: Rules that are enabled in the editor by default only rely the current file as their rule context. These are quick to execute and
+* *In Editor* rules: Rules that are enabled in the editor by default only rely on the current file as their rule context. These are quick to execute and
 can react on file changes.
 * *Project-based* rules: Rules that are disabled in the editor by default usually rely on a series of (project) files for their rule context or include
 slow or expensive processes. These are slow to execute and only run with the CLI. 

@@ -19,6 +19,15 @@
 
 <template>
     <table class="ref-table">
+        <thead>
+            <tr>
+                <th class="col-prop">Recommended</th>
+                <th class="col-prop">Fixable</th>
+                <th class="col-prop">Sugguestions</th>
+                <th class="col-prop" v-if="category !== 'Environment'">Editor</th>
+                <th class="col-rule">Rule</th>
+            </tr>
+        </thead>
         <tr v-for="entry in data[category]">
             <td class="col-prop">
                 <text class="text-prop">{{ entry.isRecommended }}</text>

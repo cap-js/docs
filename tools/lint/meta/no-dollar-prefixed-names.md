@@ -41,7 +41,7 @@ In the following example, all elements names are well defined and do not start w
 
 #### ❌ &nbsp; Incorrect example
 
-In the next example, the element `$pages` start with `$` and so the rule will raise an error for this element:
+In the next example, the element `$pages` starts with `$` and so the rule will raise an error for this element:
 
 ::: code-group
 <<< ../examples/no-dollar-prefixed-names/incorrect/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]

@@ -31,7 +31,7 @@
             <tr>
                 <th class="col-prop">Recommended</th>
                 <th class="col-prop">Fixable</th>
-                <th class="col-prop">Sugguestions</th>
+                <th class="col-prop">Suggestions</th>
                 <th class="col-prop" v-if="category !== 'Environment'">Editor</th>
                 <th class="lint-rule">Rule</th>
             </tr>

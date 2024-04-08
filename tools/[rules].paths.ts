@@ -52,7 +52,7 @@ pinpointed to any particular file.
 
     return result
   } catch (e) {
-    if (e.code !== 'MODULE_NOT_FOUND') {
+    if (e.code !== 'ERR_MODULE_NOT_FOUND') {
       throw e;
     }
     return `::: danger No content here

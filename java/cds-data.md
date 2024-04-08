@@ -269,7 +269,7 @@ CDS Data has built-in serialization to JSON, which is helpful for debugging:
 ```java
 CdsData person = Struct.create(CdsData.class);
 person.put("salutation", "Mr.");
-person.put("name.first", "Frank"); // path access
+person.putPath("name.first", "Frank"); // path access
 
 person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ```
@@ -278,7 +278,7 @@ Avoid cyclic relationships between CdsData objects when using toJson.
 :::
 
 
-## Vector Embeddings <Badge type="warning" text="beta" /> { #vector-embeddings }
+## Vector Embeddings <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #vector-embeddings }
 
 In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are stored in elements of type `cds.Vector`:
 

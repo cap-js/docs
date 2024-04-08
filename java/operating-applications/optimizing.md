@@ -26,7 +26,7 @@ Typically, such tools are capable of focusing on a specific aspect of an applica
 
 How can dedicated Java tools access the running services in a secure manner? The depicted diagram shows recommended options that **do not require exposed HTTP endpoints**:
 
-<img src="./assets/remote-tracing.png" width="600px">
+<img src="./assets/remote-tracing.png" alt="This screenshot is explained in the accompanying text." width="600px">
 
 As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections, for example, JVM diagnostic tools such as `jcmd`. Alternatively, additional JVM configuration is required as a prerequisite (JMX).
 A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
@@ -80,7 +80,7 @@ Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX cl
 
 
 
-## GraalVM Native Image Support <Badge type="warning" text="beta" /> { #graalvm-native-image-support-beta }
+## GraalVM Native Image Support <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #graalvm-native-image-support-beta }
 
 Since Spring Boot 3 it's possible to compile Spring Boot applications to stand-alone native executables leveraging GraalVM Native Images.
 Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.

@@ -1,3 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="377px" height="314px" viewBox="-0.5 -0.5 377 314" content="&lt;mxfile host=&quot;Electron&quot; modified=&quot;2022-05-10T06:51:10.229Z&quot; agent=&quot;5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36&quot; etag=&quot;GXAco-N7qMRNncUHc3ow&quot; version=&quot;14.1.8&quot; type=&quot;device&quot;&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;e7e014a7-5840-1c2e-5031-d8a46d1fe8dd&quot;&gt;7VlRc5s4EP41zNw93I1B4CSPBqe5dpK5zLkzbR5lkEGNzFIhx3Z//a1AMmDs2kmcug/JZDLsSiuh7/u0WhGHRPPVjaRFdgcJE443SFYOGTueFwQE/2rHunb4Q692pJIntcttHBP+gxnnwHgXPGFlp6MCEIoXXWcMec5i1fFRKWHZ7TYD0Z21oCnrOSYxFX3vF56ozHjd4VXT8A/jaWamvvSGdcOUxo+phEVu5nM8Mqt+6uY5tWOZhZYZTWDZcpFrh0QSQNVP81XEhIbWwlbHfdjTunlvyXJ1TMD98Nb7dvf986fiZhKun5aLcBH85ZthnqhYGECcyHNG4SiOWVmCxLaPuWJyRmOmW8LQrEatLYIVBkzPMnBIuMy4YpNCdyfjJUoGfZmaC7RcfOy/tX0DJhVbtVxmFTcM5kzJNXYxrZ5vEDWKI1fGXrb4s6hnLepsHDWSSTdDN7Dhg0HuOSh6PRTvJazWvx1U/vDsUPl9wW2jxPJkpHc2WlMB8SNikdAyq3DTwGD7B66nrVBEy2QV1+sCiLjJ9Vfd7e/Amg/ttvFqM4a21tZacdUKQ+uh1dIEacPG7CWrhIWM2RHiUVSmTB2xV1nSyWh98tvkWsIlE1Txp27S28WuGe4eOC5kIyT/siukwN0SSL1ME9XOQlsDDf0DA9Uw9AaqxLZZ4yv0F/T0d4cbb1uCb7sNA3L2bXjRgyHCk/23S1jEOztSl89KWFCwvJ+UOumrnaF2Zhr3rTLNxXum+YWZ5uqFwjFnm/vzs+0Fytl3Hg4OnIe/4mwL3hX3asUF+4r5KCnHVNE99Xu55HNBc7TCGeRqYlo083HGRXJL17DQ5JUKrzzWCjOQ/Af2p1aS2CyVkSteknA0FHIEAi8RZJxDNUETNNGDmWkkKzHs3grM3XLd0VWn4y0tlX1BEIIWJZ9Wr6wD54gxz0NQCuaH9Hv8ueQPjiik/R3nkjvw3+hgCvqXDscL9Y0aJYaXzz/+dMgIzX+n3/S9eZt1XLiqSJPwyLZY2kEcFTzF/DQWbKbDNHIcL9Ej41aga4ESSwOep7dVn7HfeP4zgGgXYOxMVDkv40lSZT0JCvU53eiu0FukAiwI8RdxjXTOCvDFI7TdxsZf3V2qCHJcC+UVxQwVsmRaJTvI//neOSwJIwH7HeCQAmy/0wuA7BFAsegI4AlwmHf6T0y/3X7no3/XTVrTr+BTCbllf6IkMvDO/6n5v7g8N//DZ9WX9ktKq6Qc9r6l7Cgw7fNDp9g8bYGpqz5bdiCXGaSQU3HdeF9TgtqPyodK0OCMlx6PbJUX5IUlaK9OOVkJimbzrbru3vw/gFz/Dw==&lt;/diagram&gt;&lt;/mxfile&gt;" style="background-color: rgb(255, 255, 255);"><defs><clipPath id="mx-clip-206-214-164-32-0"><rect x="206" y="214" width="164" height="32"/></clipPath><clipPath id="mx-clip-206-247-164-32-0"><rect x="206" y="247" width="164" height="32"/></clipPath><clipPath id="mx-clip-206-279-164-32-0"><rect x="206" y="279" width="164" height="32"/></clipPath></defs><g><rect x="0" y="87.5" width="150" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 90px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">«Accessor Interface»</div></div></div></foreignObject><text x="60" y="94" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">«Accessor Interface»</text></switch></g><rect x="0" y="175" width="150" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 160px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Proxy</div></div></div></foreignObject><text x="60" y="164" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Proxy</text></switch></g><path d="M 75 175 L 75 155.15" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" stroke-dasharray="3.75 3.75" pointer-events="stroke"/><path d="M 75 138.9 L 83.13 155.15 L 66.88 155.15 Z" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><rect x="0" y="262.5" width="150" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 230px; margin-left: 60px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">Map</div></div></div></foreignObject><text x="60" y="234" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Map</text></switch></g><rect x="0" y="0" width="150" height="50" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 20px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Code</div></div></div></foreignObject><text x="60" y="24" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Code</text></switch></g><path d="M 75 50 L 75 84.71" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" stroke-dasharray="3.75 3.75" pointer-events="stroke"/><path d="M 66.88 69.85 L 75 86.1 L 83.13 69.85" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 75 225 L 75 259.71" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 66.88 244.85 L 75 261.1 L 83.13 244.85" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 200 207.5 L 200 175 L 375 175 L 375 207.5" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 200 207.5 L 200 305 L 375 305 L 375 207.5" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none"/><path d="M 200 207.5 L 375 207.5" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" pointer-events="none" text-anchor="middle" font-size="15px"><text x="287" y="197">«CdsData»</text></g><g fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" pointer-events="none" clip-path="url(#mx-clip-206-214-164-32-0)" font-size="15px"><text x="207" y="229.5">+ getPath(): Object</text></g><g fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" pointer-events="none" clip-path="url(#mx-clip-206-247-164-32-0)" font-size="15px"><text x="207" y="262">+ putPath(): void</text></g><g fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" pointer-events="none" clip-path="url(#mx-clip-206-279-164-32-0)" font-size="15px"><text x="207" y="294.5">+ toJson(): String</text></g><path d="M 150 112.5 L 275 112.5 Q 287.5 112.5 287.5 125 L 287.5 152.35" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none"/><path d="M 287.5 173.6 L 276.88 152.35 L 298.13 152.35 Z" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="none"/></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Viewer does not support full SVG 1.1</text></a></switch></svg>
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="301px" height="251px" viewBox="-0.5 -0.5 301 251" content="&lt;mxfile&gt;&lt;diagram name=&quot;Page-1&quot; id=&quot;e7e014a7-5840-1c2e-5031-d8a46d1fe8dd&quot;&gt;7Zlfc5s4EMA/DZPrQ2/MPyd5NDhJr5PcZc43c5dHGWSjRrCckG3cT98VSAaMXTtpem6uyXgm7Eorod2fFi1YbpiWN4LkyR3ElFvOIC4td2w5jj0YOPhPada15tIZ1oq5YLHu1Cgm7DM1llq7YDEtOh0lAJcs7yojyDIayY6OCAGrbrcZ8O6sOZnTnmISEd7X/s1imWitPbxsGj5QNk/01BdmfVMSPc4FLDI9n+W4s+qvbk6JGUsvtEhIDKuWyr2y3FAAyPoqLUPKlW+N22q76z2tm/sWNJPHGNwPb51Pd//+9TG/mQTr5WoRLPz3nh5mSfhCO8QKHWsUjKKIFgUIbPstk1TMSERVSxDo1ci18WDlA6pmGVhusEqYpJNcdXfHK2QGdYlMOUo2Xs4gk9ckZVzhcjZa0oypOX6npTyznBAvz6r5qnsSHZUWPlC+pJJFpBZHghFeXxYkK94XVLAZTtR3j1kqFZKWLZV21w2FlEqxxi661fF06DTa7qWWVy1QTHiTFiPGjmg255uhm/jghQ7RU8Ll9MJ1L6Bc/7wx8YYnj4nX30Lb4aBZPFK5CqUph+gRfRGTIqkCpCKA7ddMTVuFCyWdJ22nGyn0m1j/o7r96hvxod02LjdjKGltpJLJlhlKD62WxkgJxub0VBSwEBE9YjtIIuZUHpHmaNx5GPQpa1NkyBKUE8mW3efFLoz0cPfAcCEbYr2LLrG+vUVivUxt1U7gWwMNvQMD1W7oDVRRvVnjN4Du90C/w1Syzfr/JLH47skTy3nP3yEev37eXO86Jw/JxZNyPeQ06+fzTuZvJ/edSdp+9Un6/C1J/4dJ+vKZhOrzh/3188czEN13ZhkcOLO8BrSPPn/4b2h/M9r+vlo1jIsxkWRPeVqsWMpJRjVSE92iEIsSxuNbsoaFCl4hsaI3UpCAYJ+xPzHsY7OQel84QzUa7pgQONbI7jiDaoLGaKIG09MIWqDZvQHM3lLdkbLT8ZYU0twgcE7ygk2rW1aGKfqYZQFICekPs1GOf6R7gyPKN2/HI90eeN/pme73a2rLwbUOFMtEJr+8s9wRin9MP6n3T9t44cJlRYeAR7qFww5CCGdzzLhjTmfKTHkO/c5HWi1BndcKPL6xbH5b9Rl7jeZP7RClArSd8SqLJyyOqzwuQOJGmG4Az9VerBzmB/hDv4YqC/tjFV0/sBsZf6q7kCFkuBbCqhBTRHFFFY6npOzr2eAwe5o18+LuEGqm38uT5u4hLV90SFsCDvPG2WvlzCSU03G2642U4kzCxwIyg9lECgz1G2ivFrTzi1ODNnxSsWFefbbqi2Hv5eeOasNcP3Qqj5etNtTJ3BwNEZoE5pARftVof4Bj1uF6xHxAO1SP+CcstR136wjoPrMe6Z0lX6weQbH5Lld3bz5+uldfAA==&lt;/diagram&gt;&lt;/mxfile&gt;" style="background-color: rgb(255, 255, 255);">
+    <defs>
+        <clipPath id="mx-clip-164-171-132-26-0">
+            <rect x="164" y="171" width="132" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-164-197-132-26-0">
+            <rect x="164" y="197" width="132" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-164-223-132-26-0">
+            <rect x="164" y="223" width="132" height="26"/>
+        </clipPath>
+    </defs>
+    <g>
+        <rect x="0" y="70" width="120" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 90px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                «Accessor Interface»
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="94" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    «Accessor Interface»
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="140" width="120" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 160px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Proxy
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="164" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    Proxy
+                </text>
+            </switch>
+        </g>
+        <path d="M 60 140 L 60 124.12" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/>
+        <path d="M 60 111.12 L 66.5 124.12 L 53.5 124.12 Z" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="0" y="210" width="120" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 230px; margin-left: 60px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                Map
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="234" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    Map
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="0" width="120" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 20px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                Code
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="24" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    Code
+                </text>
+            </switch>
+        </g>
+        <path d="M 60 40 L 60 67.76" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/>
+        <path d="M 53.5 55.88 L 60 68.88 L 66.5 55.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 60 180 L 60 207.76" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 53.5 195.88 L 60 208.88 L 66.5 195.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 160 166 L 160 140 L 300 140 L 300 166" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 160 166 L 160 244 L 300 244 L 300 166" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 160 166 L 300 166" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="12px">
+            <text x="229.5" y="157.5">
+                «CdsData»
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" clip-path="url(#mx-clip-164-171-132-26-0)" font-size="12px">
+            <text x="165.5" y="183.5">
+                + getPath(): Object
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" clip-path="url(#mx-clip-164-197-132-26-0)" font-size="12px">
+            <text x="165.5" y="209.5">
+                + putPath(): void
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" clip-path="url(#mx-clip-164-223-132-26-0)" font-size="12px">
+            <text x="165.5" y="235.5">
+                + toJson(): String
+            </text>
+        </g>
+        <path d="M 120 90 L 220 90 Q 230 90 230 100 L 230 121.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 230 138.88 L 221.5 121.88 L 238.5 121.88 Z" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="none"/>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>

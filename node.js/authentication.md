@@ -561,7 +561,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
 The resulting JWT token is sent to the application where it's used to enforce authorization and check the user's roles.
 
-1. Add approuter in the `app` folder of your project:
+1. Add approuter to the `app` folder of your project:
 
     ```sh
     cds add approuter

@@ -83,7 +83,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   font-size: 12px;
   font-weight: 500;
   float: right;
-  transform: translateX(-1rem) translateY(-3.5rem);
+  transform: translateX(-15px) translateY(-55px);
   z-index: 1000
 }
 

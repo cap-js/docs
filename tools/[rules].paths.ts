@@ -1,4 +1,4 @@
-// This script creates a Markdown document from the CDs Lint Rules Reference.
+// This script creates a Markdown document from the CDS Lint Rules Reference.
 // It uses VitePress' dynamic routing to create a single page.
 // See https://vitepress.dev/guide/routing#dynamic-routes for how this works
 

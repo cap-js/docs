@@ -146,7 +146,7 @@ mocha .eslint/tests/no-entity-moo
 To have more control over the linting process, you can also access the CDS ESLint plugin natively via the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface). To determine the proper command line options, it can help to refer to output of the equivalent call using the [CDS Lint CLI](#usage-lint-cli) with `DEBUG="lint"`, which shows all of the options and flags applied:
 
 ```sh
-DEBUG="lint" cds lint .
+DEBUG=lint cds lint .
 ```
 
 <pre class="log">

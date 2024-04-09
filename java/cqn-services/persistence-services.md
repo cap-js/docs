@@ -137,7 +137,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### Configure the DDL generation
 
-Advise the CDS Compiler to avoid generating _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views). Then it will also generate _tables without associations_, as associations in DDL are not used by CAP Java:
+Advise the CDS Compiler to avoid generating _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views). It will then also generate _tables without associations_, as associations in DDL are not used by CAP Java:
 
 ::: code-group
 ```json [.cdsrc.json]

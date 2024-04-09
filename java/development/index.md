@@ -392,7 +392,7 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 1. Build and run your application.
 1. Test your changes.
 
-To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, that can be executed from the command line in the service module folder by using Maven:
+To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, that can be executed from the command line by using Maven:
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:watch

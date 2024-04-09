@@ -22,11 +22,11 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 ```js
 //  without cds-typer
 const { Books } = cds.entities(…)
-service.before('CREATE' Books, ({ data }) => { /* data is of type any */})
+service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
 
 // ✨ with cds-typer
-const { Books } = require('#cds-models/…')
-service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
+const { Books } = require('#cds-models/myService')
+service.before('CREATE', Books, ({ data }) => { /* data is of type Books */})
 ```
 
 

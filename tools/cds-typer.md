@@ -21,7 +21,7 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 
 ```js
 //  without cds-typer
-const { Books } = cds.entities(…)
+const { Books } = cds.entities('bookshop')
 service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
 
 // ✨ with cds-typer

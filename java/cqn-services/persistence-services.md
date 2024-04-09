@@ -137,16 +137,11 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### Configure the DDL generation
 
-Advise the CDS Compiler to generate _tables without associations_, as they are not used by CAP Java. This also allows the compiler to generate _fewer localized views_:
+Advise the CDS Compiler to avoid generating _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views). Then it will also generate _tables without associations_, as associations in DDL are not used by CAP Java:
 
 ::: code-group
 ```json [.cdsrc.json]
-{ 
-  "cdsc": { 
-    "withHanaAssociations" : false,
-    "fewerLocalizedViews": true 
-  } 
-}
+{ "sql": { "transitive_localized_views" : false } }
 ```
 :::
 
@@ -185,14 +180,13 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 </execution>
 ```
 
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
+Advise the CDS Compiler to avoid generating _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views): 
 
 ::: code-group
 ```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
+{ "sql": { "transitive_localized_views" : false } }
 ```
 :::
-
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
@@ -235,15 +229,13 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
+Advise the CDS Compiler to avoid generating _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views): 
 
 ::: code-group
 ```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
+{ "sql": { "transitive_localized_views" : false } }
 ```
 :::
-
-
 
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
@@ -277,15 +269,13 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 You have the following configuration options:
 
 * `betterSqliteSessionVariables`: enable support for [session context variables](../../guides/databases-sqlite#session-variables)
-* `fewerLocalizedView`: don't generate localized views that CAP Java doesn't need
+* `transitive_localized_views`: don't generate _transitive_ [localized helper views](../../guides/localized-data#localized-helper-views), which CAP Java doesn't need
 
 ::: code-group
 ```json [.cdsrc.json]
 {
-  "cdsc": {
-      "betterSqliteSessionVariables": true,
-      "fewerLocalizedViews": true
-  }
+  "cdsc": { "betterSqliteSessionVariables": true },
+  "sql": { "transitive_localized_views": false }
 }
 ```
 :::

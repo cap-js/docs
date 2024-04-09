@@ -4,3 +4,4 @@
 
 # allow dependencies updates through renovate w/o code owners
 package.json
+package-lock.json

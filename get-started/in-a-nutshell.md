@@ -320,12 +320,9 @@ As you can see in the log output, the two service definitions have been compiled
 ::: warning Add the dependency to spring-boot-security-starter
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the _srv/pom.xml_ in order to activate mock user and authentication support:
 
-<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
-```xml
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
+```sh
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
+mvn compile
 ```
 
 :::
@@ -511,15 +508,16 @@ cds deploy
 
 The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./db.sqlite_. This is also recorded in the _package.json_.
 
-To see what that did, use the `sqlite3` CLI with the newly created database:
-
+::: details To see what that did, use the `sqlite3` CLI with the newly created database.
 ```sh
 sqlite3 db.sqlite .dump
 sqlite3 db.sqlite .tables
 ```
+:::
+
 [Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 
-:::details You could also deploy to a provisioned SAP HANA database using this variant:
+:::details You could also deploy to a provisioned SAP HANA database using this variant.
 ```sh
 cds deploy --to hana
 ```

@@ -322,7 +322,6 @@ Both services defined above contain security annotations that restrict access to
 
 ```sh
 mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
-mvn compile
 ```
 
 :::

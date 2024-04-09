@@ -579,6 +579,6 @@ Not an official product name, though.
   : a plain (JavaScript) object-based representation to capture expressions.
   (also contained in [CQN](../cds/cqn))
 
-- **Beta** - Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
+- <Badge type="warning" text="beta" /> - Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
 
-- **Alpha** - Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.
+- <Badge type="warning" text="alpha" /> - Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.

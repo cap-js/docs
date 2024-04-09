@@ -25,7 +25,7 @@ const { Books } = cds.entities('bookshop')
 service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
 
 // ✨ with cds-typer
-const { Books } = require('#cds-models/myService')
+const { Books } = require('#cds-models/bookshop')
 service.before('CREATE', Books, ({ data }) => { /* data is of type Books */})
 ```
 

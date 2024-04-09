@@ -103,7 +103,7 @@ COMMANDS
     <em>  | pull</em>       pull base model for a SaaS app extension
     <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
-    <em>  | completion</em> add/remove cli completion for cds commands
+    <em>  | completion</em> add/remove shell completion for cds commands
     <em>  | mock</em>       call cds serve with mocked service
 
   Learn more about each command using:

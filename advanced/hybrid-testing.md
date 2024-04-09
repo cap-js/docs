@@ -18,13 +18,14 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 ### Services on Cloud Foundry
 
 ```sh
-cds bind -2 bookshop-db
+cds bind db --to bookshop-db
 ```
 
-Binds your local CAP application to the service `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
+Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`. 
 
 ::: tip `cds bind` automatically creates a service key for you
 If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
+The service name `db` can be omitted as it represents the default value.
 :::
 
 [Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#connection-failed-89008){.learn-more}
@@ -77,22 +78,63 @@ Only the information about **where the credentials can be obtained** is stored o
 #### User-Provided Services on Cloud Foundry { #binding-user-provided-services}
 
 ```sh
-cds bind my-ups -2 my-user-provided-service
+cds bind my --to bookshop-ups
 ```
 
-Binds your local CAP application to the user provided service instance `my-user-provided-service`. The service name `my-ups` has to match the service name used in the CDS `requires` service configuration.
+Binds the service `my` of your local CAP application to the user provided service instance `bookshop-ups`. The service name `my` has to match the service name used in the CDS `requires` service configuration.
 
 Output:
 
 ```log
 [bind] - Retrieving data from Cloud Foundry...
-[bind] - Binding my-ups to Cloud Foundry user provided service my-user-provided-service.
+[bind] - Binding my to Cloud Foundry user provided service bookshop-ups. // [!code focus]
 [bind] - Saving bindings to .cdsrc-private.json in profile hybrid.
 [bind] -
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-`cds watch --profile hybrid` will automatically resolve user-provided service instance bindings using the same technique as for any other managed service binding.
+#### Shared Service Instances on Cloud Foundry { #binding-shared-service-instances}
+
+On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
+
+```sh
+cds bind redis --to redis-db
+```
+
+Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `org` and `space` information of the originating org and space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
+
+::: code-group
+```json {5}[.cdsrc-private.json]
+{
+  "requires": {
+    "[hybrid]": {
+      "redis": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.sap.hana.ondemand.com",
+          "org": "shared-from-cf-org", // [!code focus]
+          "space": "shared-from-cf-space", // [!code focus]
+          "instance": "redis-db",
+          "key": "redis-db-key",
+          "resolved": false
+        },
+        "kind": "redis-messaging",
+        "vcap": {
+          "name": "redis"
+        }
+      }
+    }
+  }
+}
+```
+:::
+
+`cds watch --profile hybrid` will automatically resolve shared service instance bindings using the correct org and space.
+
+::: info Not all services can be shared
+Only services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata.
+See the [CloudFoundry docs](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) for further details.
+:::
 
 ### Services on Kubernetes
 
@@ -321,7 +363,7 @@ This shortcut is only possible if you don't need to provide a `service` or a `ki
 
 By default, the bindings for the `hybrid` profile are stored in the _.cdsrc-private.json_ file in your current working directory.
 
-This can be overwritten using the `--profile` and `--output-file` options.
+This can be overwritten using the `--out` option.
 
 ### Execute Commands with Bindings { #cds-bind-exec}
 
@@ -341,13 +383,13 @@ On PowerShell you need to quote the double dash (`--`) when an option with doubl
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 ```
 
-Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
+Profiles can be set using the optional `--for` parameter. By default the `hybrid` profile is used.
 
 ```sh
-cds bind --exec --profile <profile> [--] <command> <args ...>
+cds bind --exec --for <profile> [--] <command> <args ...>
 ```
 
-The `--profile` parameter must follow `exec` directly.
+The `--for` parameter must follow `exec` directly.
 
 ## Use Cases
 

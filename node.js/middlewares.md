@@ -5,7 +5,6 @@ synopsis: >
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/Middlewares/0-index.md -> @external/node.js/middlewares.md -->
 
 # Middlewares
 
@@ -77,6 +76,8 @@ _ctx_auth_ requires that _authentication_ has run before.
 ## Customization
 
 The configuration of middlewares must be done programmatically before bootstrapping the CDS services, for example, in a [custom server.js](cds-serve#custom-server-js).
+
+[Learn more about the `.add` method to register additional middleware.](/node.js/cds-serve#add-mw-pos){.learn-more}
 
 ### Basics
 

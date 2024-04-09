@@ -5,7 +5,6 @@ synopsis: >
 status: released
 redirect_from: java/messaging-foundation
 ---
-<!--- Migrated: @external/java/301-messaging-foundation0-index.md -> @external/java/messaging.md -->
 
 <script setup>
   import { h } from 'vue'
@@ -85,7 +84,7 @@ As shown in the example, there are two flavors of sending messages with the mess
 In section [CDS-Declared Events](#cds-declared-events), we show how to declare events in CDS models and by this let CAP generate EventContext interfaces especially tailored for the defined payload, that allows type safe access to the payload.
 
 ::: tip Using an outbox
-The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a [persistent outbox](./outbox#persistent). 
+The messages are sent once the transaction is successful. Per default, an in-memory outbox is used, but there's also support for a [persistent outbox](./outbox#persistent).
 
 You can configure a [custom outbox](./outbox#custom-outboxes) for a messaging service by setting the property
 `cds.messaging.services.<key>.outbox.name` to the name of the custom outbox. This specifically makes sense when [using multiple channels](../guides/messaging/#using-multiple-channels).
@@ -280,7 +279,7 @@ cds:
 
 <span id="beforeredispubsub" />
 
-#### Configuring Redis PubSub Support <Badge type="warning" text="beta" />: { #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />: { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.

@@ -5,7 +5,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
-<!--- Migrated: @external/cds/33-common.cds.md -> @external/cds/common.md -->
 
 # Common Types and Aspects
 
@@ -78,7 +77,7 @@ entity Foo : cuid {...}
 ```cds
 entity Foo {
   key ID : UUID;
-  ...
+  [...]
 }
 ```
 
@@ -102,7 +101,7 @@ entity Foo {
   createdBy  : User      @cds.on.insert : $user;
   modifiedAt : Timestamp @cds.on.insert : $now  @cds.on.update : $now;
   modifiedBy : User      @cds.on.insert : $user @cds.on.update : $user;
-  ...
+  [...]
 }
 ```
 ::: tip
@@ -400,13 +399,13 @@ FROM Foo (
 
 ## Providing Initial Data
 
-You can provide initial data for the code lists by placing CSV files in a folder called `csv` next to your data models.
+You can provide initial data for the code lists by placing CSV files in a folder called `data` next to your data models.
 
 The following is an example of a `csv` file to provide data for countries:
 
-<!--- % include _code sample='db/csv/sap.common-Countries.csv' %} -->
+<!--- % include _code sample='db/data/sap.common-Countries.csv' %} -->
 ::: code-group
-```csv [db/csv/sap.common-Countries.csv]
+```csv [db/data/sap.common-Countries.csv]
 code;name;descr
 AU;Australia;Commonwealth of Australia
 CA;Canada;Canada
@@ -429,9 +428,9 @@ EU;European Union;European Union
 
 In addition, you can provide translations for the `sap.common.Countries_texts` table as follows:
 
-<!--- % include _code sample='db/csv/sap.common-Countries_texts.csv' %} -->
+<!--- % include _code sample='db/data/sap.common-Countries_texts.csv' %} -->
 ::: code-group
-```csv [db/csv/sap.common-Countries_texts.csv]
+```csv [db/data/sap.common-Countries_texts.csv]
 code;locale;name;descr
 AU;de;Australien;Commonwealth Australien
 CA;de;Kanada;Canada

@@ -5,7 +5,6 @@ synopsis: >
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/remote-services.md -> @external/node.js/remote-services.md -->
 
 # Remote Services { .concept}
 

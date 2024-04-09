@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
 <script setup>
   import Cds4j from './components/Cds4jLink.vue'
@@ -667,7 +666,7 @@ You can also get your entities injected by adding an additional argument with on
 - `java.util.stream.Stream<yourEntityType>`
 - `java.util.List<yourEntityType>`
 
-[See section **Event Handler Method Signatures** for more details.](event-handlers#handlersignature){.learn-more}
+[See section **Event Handler Method Signatures** for more details.](event-handlers/#handlersignature){.learn-more}
 
 Also replace the classic handler return types with the corresponding new implementation:
 
@@ -725,15 +724,14 @@ The CAP Java SDK sample application shows how such a validation using the `Chang
 
 Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
-[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers#before){.learn-more}
+[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers/#before){.learn-more}
 
 
-<!--- Migrated: @external/java/900-Migration/04-security.md -> @external/java/migration/security.md -->
 ### Security Settings
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/security/authorization). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 
@@ -820,7 +818,6 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 <span id="moreenforcement" />
 
 
-<!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
 ### Data Access and Manipulation
 
 There are several ways of accessing data. The first and most secure way is to use the Application Service through an `CqnService` instance. The second is to use `PersistenceService`, in that case the query execution is done directly against underlying datasource, bypassing all authority checks available on service layer. The third one is to use CDS4J component called `CdsDataStore`, which also executes queries directly.
@@ -835,7 +832,7 @@ To access an Application Service in custom handler and to execute queries, perfo
 	@Resource(name = "CatalogService")
 	private CqnService catalogService;
 ```
-[See section **Services Accepting CQN Queries** for more details.](cqn-services#cdsservices){.learn-more}
+[See section **Services Accepting CQN Queries** for more details.](cqn-services/#cdsservices){.learn-more}
 
 2) In each custom handler, replace instance of `DataSourceHandler` as well as `CDSDataSourceHandler` with the `CqnService` instance.
 
@@ -893,7 +890,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./cqn-services#persistenceservice){.learn-more}
+[See section **Persistence API** for more details.](./cqn-services/#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 

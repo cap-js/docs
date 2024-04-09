@@ -2,12 +2,11 @@
 synopsis: >
   API to fluently build CQL statements in Java.
 status: released
-redirect_from: 
+redirect_from:
 - java/query-api
 - java/cds-ql
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/060-Building-Queries/0-index.md -> @external/java/query-api.md -->
 
 # Building CQL Statements
 <style scoped>
@@ -20,7 +19,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
 
 ## Concepts
 
@@ -450,6 +449,11 @@ To expand all first level associations of an entity, use `expand()` on the entit
 ```java
 Select.from(BOOKS).columns(b -> b.expand());
 ```
+
+::: warning
+Avoid using `distinct` in queries with expands. `Distinct` removes duplicate rows from the root entity and hence effectively aggregates rows. However, expanding child entities from aggregated rows is not well-defined. If you encounter errors using `distinct` in queries with expands, this can be resolved by removing `distinct`.
+::::
+
 ##### Optimized Expand Execution {#expand-optimization}
 
 For *to-one expands*:

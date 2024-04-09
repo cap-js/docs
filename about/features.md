@@ -105,19 +105,19 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)            | <X/>  |  <X/>   | <X/> |
 | [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
 | [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/authorization)                                              | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/security/authorization)                                              | <X/>  |  <X/>   | <X/> |
 | [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/media-data)                                        | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/providing-services#serving-media-data)                                        | <X/>  |  <X/>   | <X/> |
 | [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
 | Enterprise Features                                                                         |  CDS  | Node.js | Java |
 |---------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/authorization)                                                    | <X/>  |  <X/>   | <X/> |
+| [Authorization](../guides/security/authorization)                                                    | <X/>  |  <X/>   | <X/> |
 | [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
 | [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
 | [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
@@ -234,10 +234,10 @@ Following is an index of the features currently covered by CAP, with status and 
 |--------------------------------------------------------------------------------|:-------:|:----:|
 | [Deploy to/run on _SAP BTP, Cloud Foundry environment_](../guides/deployment/) |  <X/>   | <X/> |
 | Deploy to/run on _Kubernetes_<sup>1</sup>                                      |  <D/>   | <D/> |
-| [Deploy to/run on _Kyma_](../guides/deployment/deploy-to-kyma)                 |  <X/>   | <X/> |
-| [SaaS on-/offboarding](../guides/multitenancy/)                          |  <X/>   | <X/> |
+| [Deploy to/run on _Kyma_](../guides/deployment/to-kyma)                        |  <X/>   | <X/> |
+| [SaaS on-/offboarding](../guides/multitenancy/)                                |  <X/>   | <X/> |
 | [Multitenancy](../guides/multitenancy/)                                        |  <X/>   | <X/> |
-| Health checks                                                                  |  <O/>   | <X/> |
+| [Health checks](/guides/deployment/health-checks)                              |  <X/>   | <X/> |
 
 > <sup>1</sup> Available on plain Kubernetes level &rarr; see [blog post by Thomas Jung](https://blogs.sap.com/2019/07/16/running-sap-cloud-application-programming-model-with-connection-to-hana-on-kubernetes/) <br>
 

@@ -22,9 +22,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 </div>
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 

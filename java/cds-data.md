@@ -5,7 +5,6 @@ status: released
 redirect_from: java/data
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/040-Data/index.md -> @external/java/cds-dataindex.md -->
 
 # Working with Data
 
@@ -44,6 +43,7 @@ The [predefined CDS types](../cds/types) are mapped to Java types and as follows
 | `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
 | `cds.Binary`       | `byte[]`               |                                                                          |
 | `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `cds.Vector`       | `com.sap.cds.CdsVector`| for [vector embeddings](#vector-embeddings)                              |
 
 ### SAP HANA-Specific Data Types
 
@@ -269,13 +269,64 @@ CDS Data has built-in serialization to JSON, which is helpful for debugging:
 ```java
 CdsData person = Struct.create(CdsData.class);
 person.put("salutation", "Mr.");
-person.put("name.first", "Frank"); // path access
+person.putPath("name.first", "Frank"); // path access
 
 person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ```
 ::: warning
 Avoid cyclic relationships between CdsData objects when using toJson.
 :::
+
+
+## Vector Embeddings <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #vector-embeddings }
+
+In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are stored in elements of type `cds.Vector`:
+
+```cds
+entity Books : cuid { // [!code focus]
+  title         : String(111);
+  embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
+} // [!code focus]
+```
+
+In CAP Java, vector embeddings are represented by the `CdsVector` type, which allows a unified handling of different vector representations such as `float[]` and `String`:
+
+```Java
+// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+float[] embedding = llm.embed(text).content().vector();
+
+CdsVector v1 = CdsVector.of(embedding); // float[] format
+CdsVector v2 = CdsVector.of("[0.42, 0.73, 0.28, ...]"); // String format
+```
+
+You can use the functions, `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean distance) in queries to compute the similarity or distance of embeddings in the vector space. To use vector embeddings in functions, wrap them using `CQL.vector`:
+
+```Java
+CqnVector v = CQL.vector(embedding);
+
+Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), v).gt(0.9))
+);
+```
+
+You can also use parameters for vectors in queries:
+
+```Java
+CqnSelect query = Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), CQL.param("embedding")
+    .type(CdsBaseType.VECTOR)).gt(0.9)
+
+Result relatedBooks = service.run(query,
+  Map.of("embedding", CdsVector.of(embedding)));
+```
+
+In CDS QL queries, elements of type `cds.Vector` are not included in select _all_ queries. They must be explicitly added to the select list:
+
+```Java
+CdsVector embedding = service.run(Select.from(BOOKS).byId(101)
+  .columns(b -> b.embedding())).single(Books.class).getEmbedding();
+```
+
 
 ## Data in CDS Query Language (CQL)
 
@@ -426,7 +477,7 @@ Following example uses accessor interfaces that have been generated with the def
     author.setName("Emily Brontë");
 
     Books book = Books.create();
-    book.setAuthor(authors);
+    book.setAuthor(author);
     book.setTitle("Wuthering Heights");
 ```
 
@@ -443,7 +494,7 @@ The generation mode is configured by the property [`<methodStyle>`](./assets/cds
 
 Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
 
-The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime. 
+The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
 
 Moreover, it doesn't change the way how event contexts and entities, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 
@@ -712,7 +763,7 @@ processor.addGenerator(
 
 ## Media Type Processing { #mediatypeprocessing}
 
-The data for [media type entity properties](../guides/media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
+The data for [media type entity properties](../guides/providing-services#serving-media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers/#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).
 
 Processing such elements within a custom event handler requires some care though, as such an `InputStream` or `Reader` is *non-resettable*. That means, the data can only be read once. This has some implications you must be aware of, depending on what you want to do.
 

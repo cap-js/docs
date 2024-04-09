@@ -452,7 +452,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### With Specified `cardinality`
+### With Specified `cardinality` {#assoc-card}
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -472,7 +472,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### With Specified `on` Condition
+### With Specified `on` Condition {#assoc-on}
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -488,7 +488,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### With Specified `keys`
+### With Specified `keys` {#assoc-keys}
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 
@@ -669,7 +669,7 @@ The `requires` property lists other models to import definitions from.
 ```js
 ({
   requires:[ '@sap/cds/common', './db/schema' ],
-  ...
+  [...]
 })
 ```
 

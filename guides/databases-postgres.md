@@ -21,9 +21,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP
 
 </div>
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 

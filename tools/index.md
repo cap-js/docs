@@ -69,6 +69,12 @@ Currently supported shells:
 | Windows           | PowerShell, Git Bash |
 | WSL               | bash, zsh |
 
+To remove the shell completion, run the following command
+```sh
+cds completion --remove
+```
+and source or restart your shell afterwards.
+
 ### *cds help*
 
 Use `cds help` to see an overview of all commands:

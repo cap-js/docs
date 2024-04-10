@@ -18,10 +18,10 @@
   "homepage": "https://cap.cloud.sap/",
   "devDependencies": {
     "@types/adm-zip": ">=0.5.0",
-    "@typescript-eslint/parser": "^6",
+    "@typescript-eslint/parser": "^7.0.0",
     "adm-zip": "^0.5.10",
-    "cspell": "^7.0.1",
-    "eslint": "^8.39.0",
+    "cspell": "^8.0.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-vue": "^9.11.0",
     "gray-matter": "^4.0.3",
     "markdownlint-cli": ">=0.35.0",

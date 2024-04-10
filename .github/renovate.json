@@ -24,10 +24,6 @@
       "groupName": "ESLint"
     },
     {
-      "matchDepTypes": ["dependencies", "devDependencies"],
-      "groupName": "NPM dependencies"
-    },
-    {
       "matchDepTypes": ["action"],
       "groupName": "Github actions"
     }

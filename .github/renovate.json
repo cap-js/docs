@@ -14,7 +14,16 @@
       "matchPackageNames": [ "com.sap.cds:cds-services-api", "com.sap.cds:cds4j-api" ],
       "rangeStrategy": "bump",
       "groupName": "CAP Java SDK"
-    }
+    },
+    {
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "groupName": "NPM dependencies"
+    },
+    {
+      "matchDepTypes": ["action"],
+      "groupName": "Github actions"
+    },
+    {
   ],
   "regexManagers": [
     {

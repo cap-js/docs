@@ -77,6 +77,8 @@ _ctx_auth_ requires that _authentication_ has run before.
 
 The configuration of middlewares must be done programmatically before bootstrapping the CDS services, for example, in a [custom server.js](cds-serve#custom-server-js).
 
+[Learn more about the `.add` method to register additional middleware.](/node.js/cds-serve#add-mw-pos){.learn-more}
+
 ### Basics
 
 The framework exports the default middlewares itself and the list of middlewares which run before the protocol adapter starts processing the request.

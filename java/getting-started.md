@@ -57,7 +57,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     mvn --version
     ```
 ::: tip
-For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all of the required tools preinstalled.
+For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all the required tools preinstalled.
 In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
@@ -105,7 +105,7 @@ Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the g
 mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
 ```
 
-This commands adds the following dependency to the pom.xml:
+This command adds the following dependency to the pom.xml:
 
 ```xml
 <dependency>

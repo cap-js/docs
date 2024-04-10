@@ -629,34 +629,41 @@ Using individual records:
 
 
 ```js
-INSERT.into (Books) .entries (
+await INSERT.into (Books) .entries (
    { ID:201, title:'Wuthering Heights', author_id:101, stock:12 },
    { ID:251, title:'The Raven', author_id:150, stock:333 },
    { ID:271, title:'Catweazle', author_id:170, stock:222 }
 )
 ```
 
-Using an array or a stream of records:
+Using an **array** of records, read from a JSON:
 
 ```js
-let books = // e.g. read from file
-INSERT.into (Books) .entries (books)
+let books = JSON.parse (fs.readFileSync('books.json'))
+await INSERT(books).into(Books) // same as INSERT.into(Books).entries(books)
 ```
 
-Using a sub select:
+Using a **stream** instead of reading and parsing the full JSON into memory:
 
 ```js
-INSERT.into (Books) .entries (SELECT.from(Products))
+let stream = fs.createReadStream('books.json'))
+await INSERT(stream).into(Books) // same as INSERT.into(Books).entries(stream)
+```
+
+Using a **subselect** query to copy *within* the database:
+
+```js
+await INSERT.into (Books) .entries (SELECT.from(Products))
 ```
 
 ::: details Pushed down to database....
 
-Note that the sub select variant creates a single native  `INSERT SELECT` sql statement, which is most efficient, as the data is copied **within** the database. In contrast to that, ...
+Note that the sub select variant creates a single [native  `INSERT INTO SELECT` SQL statement](https://www.w3schools.com/sql/sql_insert_into_select.asp), which is most efficient, as the data is copied **within** the database. In contrast to that, ...
 
 ```js
 INSERT.into(Books).entries(await SELECT.from(Products))
 ```
-... would also work, but would be much less efficient, as it would first read all data from database into the client and then insert the read data back into the database.
+... would also work, but would be much less efficient, as it would (1) first read all data from database into the client and then (2) insert the read data back into the database.
 
 
 :::

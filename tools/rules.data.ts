@@ -15,17 +15,20 @@ export default {
 
       allRules.forEach((rule: string) => {
         rule = rule.replace('@sap/cds/', '');
-        const description = plugin?.rules[rule]?.meta.docs.description;
-        const ruleDocs = path.join(__dirname, `lint/meta/${rule}.md`)
-        const hasRuleDocs = fs.existsSync(ruleDocs)
-        const url = hasRuleDocs ? `./lint/meta/${rule}` : null
-        const isRecommended = plugin?.rules[rule]?.meta.docs.recommended ? '✅' : '';
-        const hasFix = plugin?.rules[rule]?.meta.fixable ? '🔧' : '';
-        const hasSuggestions = plugin?.rules[rule]?.meta.hasSuggestions ? '💡' : '';
-        const model = plugin?.rules[rule]?.meta?.model === 'parsed' ? '👀' : '';
-        const category = plugin?.rules[rule]?.meta?.model === 'none' ? "Environment" : "Model Validation";
-        data[category].push({ rule, description, url, isRecommended, hasFix, hasSuggestions, model })
-      })  
+        // TODO: Skip the min-node-version rule as it will be deprecated soon
+        if (rule !== 'min-node-version') {
+          const description = plugin?.rules[rule]?.meta.docs.description;
+          const ruleDocs = path.join(__dirname, `lint/meta/${rule}.md`)
+          const hasRuleDocs = fs.existsSync(ruleDocs)
+          const url = hasRuleDocs ? `./lint/meta/${rule}` : null
+          const isRecommended = plugin?.rules[rule]?.meta.docs.recommended ? '✅' : '';
+          const hasFix = plugin?.rules[rule]?.meta.fixable ? '🔧' : '';
+          const hasSuggestions = plugin?.rules[rule]?.meta.hasSuggestions ? '💡' : '';
+          const model = plugin?.rules[rule]?.meta?.model === 'parsed' ? '👀' : '';
+          const category = plugin?.rules[rule]?.meta?.model === 'none' ? "Environment" : "Model Validation";
+          data[category].push({ rule, description, url, isRecommended, hasFix, hasSuggestions, model })
+        }
+      }) 
     return data;
   }
 }

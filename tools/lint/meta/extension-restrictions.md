@@ -25,7 +25,7 @@ This rule ensures that extensions do not violate any restrictions set by the ext
 #### ✅ &nbsp; Correct example
 
 ::: code-group
-<<< ../examples/extension-restrictions/correct/db/schema.cds#snippet{cds:line-numbers} [✅ &nbsp; Correct example]
+<<< ../examples/extension-restrictions/correct/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
   name="extension-restrictions"
@@ -36,11 +36,12 @@ This rule ensures that extensions do not violate any restrictions set by the ext
 />
 
 #### ❌ &nbsp; Incorrect example
-
+<!-- TODO: Remove nolink=true as soon as rule works in Playground (i.e. Playground support node_modules additions without install) -->
 ::: code-group
-<<< ../examples/extension-restrictions/incorrect/db/schema.cds#snippet{cds:line-numbers} [❌ &nbsp; Incorrect example]
+<<< ../examples/extension-restrictions/incorrect/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::
 <PlaygroundBadge
+  nolink="true"
   name="extension-restrictions"
   kind="incorrect"
   :rules="{'@sap/cds/extension-restrictions': 'warn'}"

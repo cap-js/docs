@@ -5,9 +5,10 @@ interface Props {
   rules?: Record<string, string | number | [string, string | number]> | undefined;
   files?: Array<string> | undefined;
   packages?: Record<string, string> | undefined;
+  nolink?: boolean;
 }
 // @ts-ignore
-withDefaults(defineProps<Props>(), {})
+withDefaults(defineProps<Props>(), { nolink: false })
 import { compress, prettyStringify } from './eslint-online-playground/utils.ts';
 // @ts-ignore
 import { data } from '../../../tools/lint/examples/examples.data.ts';
@@ -65,9 +66,14 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
 </script>
 
 <template>
-  <span class="VPBadge tip">
+  <span class="VPBadge tip" v-if="!nolink">
     <slot>
       <a target="_blank" :href="link(name, kind, rules, files, packages)">Open In Playground</a>
+    </slot>
+  </span>
+  <span class="VPBadge tip nolink" v-if="nolink">
+    <slot>
+      <a class="nolink" target="_blank">Playground link coming soon!</a>
     </slot>
   </span>
 </template>
@@ -91,6 +97,19 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   border-color: var(--vp-badge-tip-border);
   color: var(--vp-badge-tip-text);
   background-color: var(--vp-badge-tip-bg);
+}
+
+.VPBadge.tip.nolink {
+  border-color: var(--vp-badge-info-border);
+  color: var(--vp-badge-info-text);
+  background-color: var(--vp-badge-info-bg);
+}
+
+a.nolink {
+  color: var(--vp-badge-info-text);
+  text-decoration: none;
+  pointer-events: none;
+  cursor: default;
 }
 
 .headerless.th {

@@ -38,7 +38,7 @@ In the following example, noe of the reserved SQL keywords are used as identifie
 #### ❌ &nbsp; Incorrect example
 
 In the next example, the reserved SQL keyword `Order` is used as an entity name, so the rule will raise a warning:
-
+<!-- TODO: Remove devDependency as soon as rule fix is released -->
 ::: code-group
 <<< ../examples/no-db-keywords/incorrect/db/schema.cds#snippet{cds:line-numbers} [db/schema.cds]
 :::

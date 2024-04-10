@@ -612,10 +612,20 @@ INSERT.into (Books, [
 
 ### entries() {.method #insert-entries}
 
+```tsx
+function INSERT.entries (records : object[] | Query | Readable)
+```
 
-Allows inserting multiple rows with one statement where each row
-is a record with named values, for example, as could be read from a JSON
-source.
+Allows inserting multiple rows with one statement. 
+
+The arguments can be one of...
+
+- one or more records as variable list of arguments 
+- an array of one or more records
+- a readable stream
+- a sub SELECT query 
+
+Using individual records:
 
 
 ```js
@@ -626,7 +636,30 @@ INSERT.into (Books) .entries (
 )
 ```
 
-The entries can be specified as individual method parameters of type object — as shown above —, or as a single array of which.
+Using an array or a stream of records:
+
+```js
+let books = // e.g. read from file
+INSERT.into (Books) .entries (books)
+```
+
+Using a sub select:
+
+```js
+INSERT.into (Books) .entries (SELECT.from(Products))
+```
+
+::: details Pushed down to database....
+
+Note that the sub select variant creates a single native  `INSERT SELECT` sql statement, which is most efficient, as the data is copied **within** the database. In contrast to that, ...
+
+```js
+INSERT.into(Books).entries(await SELECT.from(Products))
+```
+... would also work, but would be much less efficient, as it would first read all data from database into the client and then insert the read data back into the database.
+
+
+:::
 
 
 

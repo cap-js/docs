@@ -43,8 +43,8 @@ npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
 
-#### 2.1. Activate CDS Shell Completion
-The `cds` command supports starting with version `7.9` shell completion with the `tab` key for several shells and operating systems.
+Activate CDS Shell Completion:
+The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
 
 For Linux, macOS and Windows use the following command to activate the shell completion.
 ```sh

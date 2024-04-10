@@ -52,14 +52,14 @@ Use `cds version` to get information about your installed package version:
 </pre>
 
 ### *cds add completion*
-The `cds` command supports starting with version `7.9` shell completion with `tab` key for several shells and operating systems.
+The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
 
 For Linux, macOS and Windows use the following command to activate the shell completion.
 ```sh
 cds add completion
 ```
 
-After that, you have to source or restart your shell and can enjoy shell completion support for all cds commands.
+After that, restart your shell (or source the shell configuration) and enjoy shell completion support for all `cds` commands.
 
 Currently supported shells:
 | Operating System  | Shell |
@@ -74,6 +74,8 @@ To remove the shell completion, run the following command
 cds completion --remove
 ```
 and source or restart your shell afterwards.
+
+Shell completion is available starting with version `7.9.0` of `@sap/cds-dk`.
 
 ### *cds help*
 

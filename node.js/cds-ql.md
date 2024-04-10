@@ -646,7 +646,7 @@ await INSERT(books).into(Books) // same as INSERT.into(Books).entries(books)
 Using a **stream** instead of reading and parsing the full JSON into memory:
 
 ```js
-let stream = fs.createReadStream('books.json'))
+let stream = fs.createReadStream('books.json')
 await INSERT(stream).into(Books) // same as INSERT.into(Books).entries(stream)
 ```
 

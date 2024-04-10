@@ -363,7 +363,7 @@ This shortcut is only possible if you don't need to provide a `service` or a `ki
 
 By default, the bindings for the `hybrid` profile are stored in the _.cdsrc-private.json_ file in your current working directory.
 
-This can be overwritten using the `--profile` and `--output-file` options.
+This can be overwritten using the `--out` option.
 
 ### Execute Commands with Bindings { #cds-bind-exec}
 
@@ -383,13 +383,13 @@ On PowerShell you need to quote the double dash (`--`) when an option with doubl
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 ```
 
-Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
+Profiles can be set using the optional `--for` parameter. By default the `hybrid` profile is used.
 
 ```sh
-cds bind --exec --profile <profile> [--] <command> <args ...>
+cds bind --exec --for <profile> [--] <command> <args ...>
 ```
 
-The `--profile` parameter must follow `exec` directly.
+The `--for` parameter must follow `exec` directly.
 
 ## Use Cases
 

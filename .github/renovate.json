@@ -6,7 +6,8 @@
   ],
   "includePaths": [
     ".vitepress/config.ts",
-    ".github/workflows/"
+    ".github/workflows/",
+    "package.json"
   ],
   "packageRules": [
     {

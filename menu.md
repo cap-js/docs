@@ -222,10 +222,11 @@
 
 ### [Plugins](plugins/)
 
-- [GraphQL Adapter](plugins/#graphql-adapter)
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
-- [UI5 Dev Server](plugins/#ui5-dev-server)
-- [Change Tracking](plugins/#change-tracking)
-- [Audit Logging](plugins/#audit-logging)
-- [Notifications](plugins/#notifications)
-- [Telemetry (Beta)](plugins/#telemetry-beta)
+- [OData v2 Proxy](@external/plugins/#odata-v2-proxy)
+- [UI5 Dev Server](@external/plugins/#ui5-dev-server)
+- [GraphQL Adapter](@external/plugins/#graphql-adapter)
+- [Attachments](@external/plugins/#attachments)
+- [Audit Logging](@external/plugins/#audit-logging)
+- [Change Tracking](@external/plugins/#change-tracking)
+- [Notifications](@external/plugins/#notifications)
+- [Telemetry](@external/plugins/#telemetry)

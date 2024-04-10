@@ -1,3 +1,5 @@
+const { inspect } = require('node:util')
+
 const cspellRegExp = /^(.*\.md)(:\d+:?\d*)\s*- Unknown word \((.*?)\)\s+-- (.*?) Suggestions: (\[.*\])$/
 const markdownlintRegExp = /^(.*\.md)(:\d+:?\d*) ([^\s]+) (.*?)(\[.*?\])?( \[Context: .*\])?$/
 
@@ -238,7 +240,7 @@ module.exports = async ({ github, require, exec, core }) => {
 
     function getDiff(file) {
         const k = file.replace('./', '')
-        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}.`)
+        if (!(k in diffs)) throw new Error(`There is no diff for file ${file}. Diffs: ${inspect(diffs, { depth: null, colors: true })}`)
         return diffs[k]
     }
 

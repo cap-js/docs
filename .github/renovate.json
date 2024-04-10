@@ -17,12 +17,10 @@
     },
     {
       "matchPackageNames": [ "vitepress" ],
-      "rangeStrategy": "bump",
       "groupName": "Vitepress"
     },
     {
       "matchPackagePatterns": [ ".*eslint.*" ],
-      "rangeStrategy": "bump",
       "groupName": "ESLint"
     },
     {

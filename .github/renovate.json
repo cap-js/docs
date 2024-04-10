@@ -22,8 +22,7 @@
     {
       "matchDepTypes": ["action"],
       "groupName": "Github actions"
-    },
-    {
+    }
   ],
   "regexManagers": [
     {

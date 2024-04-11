@@ -35,7 +35,7 @@ In the following example, `CatalogService.ListOfBooks` is restricted to the `REA
 
 #### ❌ &nbsp; Incorrect example
 
-In the next example, the `@restrict.grant` has a typo in the event (i.e. `REAAD`instead of `READ`) for the `Viewer` role, which is not a valid value for `@restrict.grant` so the rule will report a warning:
+In the next example, the `@restrict.grant` has a typo in the event (that is, `REAAD` instead of `READ`) for the `Viewer` role, which is not a valid value for `@restrict.grant` so the rule will report a warning:
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-grant/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]

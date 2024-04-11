@@ -19,7 +19,7 @@ status: released
 
 The `where` property of a `@restrict` privilege defines a [filter expression](https://cap.cloud.sap/docs/guides/odata/query#filter) that restricts the access on an instance level (optional). This rule checks that the values of `@restrict.where` are valid, that is, the filter expression must be a valid expression that compiles without any errors.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -49,5 +49,5 @@ In the next example, the `@restrict` privilege is defined with an invalid `where
   :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.

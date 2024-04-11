@@ -22,7 +22,7 @@ Your SaaS app becomes the base app for extensions by your customers, and your da
 you'll want to restrict which services or entities your SaaS customers are allowed to extend and to what degree they may do so.
 This rule ensures that extensions do not violate any restrictions set by the extended SaaS app.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -51,7 +51,7 @@ This rule ensures that extensions do not violate any restrictions set by the ext
   :packages="{'dependencies': { '@sap/cds-mtxs': '^1' }, 'cds': { 'extends': 'base-app' } }"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.6.0`.
 
 <!--

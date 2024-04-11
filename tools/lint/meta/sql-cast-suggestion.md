@@ -19,7 +19,7 @@ status: released
 
 With compiler v2, appending a type declaration to a column expression in a view's query doesn't generate a cast in SQL anymore, as that created conflicts with various database-specific behaviors. This rule ensures that such casts are added explicitly by suggesting possible missing SQL casts.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -49,5 +49,5 @@ In the next example, the rule will be triggered for elements `name1` and `name2`
   :files="['db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.8`.

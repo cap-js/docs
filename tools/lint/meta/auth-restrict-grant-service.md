@@ -17,11 +17,11 @@ status: released
 
 ## Rule Details
 
-Restrictions can be defined on different types of CDS resources, but there are some limitations with regards to supported privileges (see [limitations](../../../guides/security/authorization#supported-combinations-with-cds-resources)). Unsupported privilege properties are ignored by the runtime.
+Restrictions can be defined on different types of CDS resources, but there are some limitations with regards to supported privileges (see [limitations](../../../guides/security/authorization#supported-combinations-with-cds-resources)).
 
-Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming grant: '*' instead). The same also holds for functions. This rule ensures that `@restrict.grant` on service level and for bound/unbound actions and functions is limited to `grant: '*'`.
+Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same is true for functions. This rule ensures that `@restrict.grant` on service level and for bound/unbound actions and functions is limited to `grant: '*'`.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -52,5 +52,5 @@ triggered to inform us that the value of `grant` is limited to `'*'`:
   :files="['srv/cat-service.cds', 'db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.6.4`.

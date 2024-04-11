@@ -14,6 +14,6 @@ entity ListOfBooks as ( // [!code warning]
   }
 ) UNION (
   SELECT from Books {
-    title || name as name1 : String,
+    title || name as name2 : String,
   }
 );

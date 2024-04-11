@@ -17,9 +17,9 @@ status: released
 
 ## Rule Details
 
-The `grant` property of a `@restrict` privilege defines one or more events that the privilege applies. This rule checks for valid values of `@restrict.grant`, that is, all standard CDS events (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) on entities. It also suggests to use `*` only when listing events including `*`amd to use `WRITE` only when using solely standard CDS events with write semantics (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`).
+The `grant` property of a `@restrict` privilege defines one or more events that the privilege applies. This rule checks for valid values of `@restrict.grant`, that is, all standard CDS events (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) on entities. It also suggests to use `*` only when listing events including `*` and to use `WRITE` only when using solely standard CDS events with write semantics (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`).
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -37,7 +37,7 @@ In the following example, `CatalogService.ListOfBooks` is restricted to the `REA
 
 #### ❌ &nbsp; Incorrect example
 
-In the next example, the `@restrict.grant` has a typo in the event (i.e. `REAAD`instead of `READ`) for the `Viewer` role, which is not a valid value for `@restrict.grant` so the rule will report a warning:
+In the next example, the `@restrict.grant` has a typo in the event (that is, `REAAD` instead of `READ`) for the `Viewer` role, which is not a valid value for `@restrict.grant` so the rule will report a warning:
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-grant/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]
@@ -49,5 +49,5 @@ In the next example, the `@restrict.grant` has a typo in the event (i.e. `REAAD`
   :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.

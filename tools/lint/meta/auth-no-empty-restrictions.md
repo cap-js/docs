@@ -19,7 +19,7 @@ status: released
 
 The [`@requires` annotation](../../../guides/security/authorization#requires--requires) is a convenience shortcut for `@restrict`. You can use it to control which rule a user needs to have in order to access a given resource. Leaving this field empty is dangerous as it leads to unrestricted access to that service which is a security risk.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -50,5 +50,5 @@ we now have unrestricted access to that service, which the rule makes us aware o
   :files="['srv/admin-service.cds', 'db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.1`.

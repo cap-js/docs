@@ -20,7 +20,7 @@ status: released
 It's recommended to always use the latest version of `@sap/cds` to benefit from the latest features and bug fixes.
 This rule checks whether the latest `@sap/cds` version is being used and reports back in case a newer version is available. 
 
-### Examples
+## Examples
 
 Let's suppose the latest version of `@sap/cds` available is `7.8.0`.
 
@@ -46,5 +46,5 @@ Then the rule is triggered and prints the following output upon calling `cds lin
 <text style="color:red">✖ 1 problem (1 error, 0 warnings)</text>
 </pre>
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.4`.

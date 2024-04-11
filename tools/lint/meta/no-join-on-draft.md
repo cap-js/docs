@@ -17,7 +17,7 @@ status: released
 
 Draft-enabled entities shall not be used in views that make use of `JOIN`. This rule will report a warning for any violations.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 

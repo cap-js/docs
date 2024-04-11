@@ -17,7 +17,7 @@ status: released
 
 Names must not start with $ to avoid possible shadowing of reserved variables.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -47,10 +47,5 @@ In the next example, the element `$pages` starts with `$` and so the rule will r
   :files="['db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.3.3`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/no-dollar-prefixed-names.js)
--->

@@ -17,7 +17,7 @@ status: released
 
 In general an [association/composition to/of `MANY`](../../../cds/cdl#to-many-associations) that targets an entity without `ON` condition is not allowed (as it is an `n:1` relationship). Here, one should always specify an `ON` condition following the canonical expression pattern `<assoc>.<backlink> = $self`. The backlink can be any managed to-one association on the many side pointing back to the one side.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -47,5 +47,5 @@ If we extend this example by creating a view `AuthorView` with a key `ID` and th
   :files="['db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.1`.

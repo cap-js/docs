@@ -17,7 +17,7 @@ status: released
 
 Some annotations such as `@requires` or `@readonly` are just convenience shortcuts for `@restrict`. In actions and services with unrestricted events, it is recommended to use `@requires` instead of `@restrict.to`, which this rule enforces.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -47,5 +47,5 @@ In the following example, the `CatalogService` uses `@restrict` to assign unrest
   :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.

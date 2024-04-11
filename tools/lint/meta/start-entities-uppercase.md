@@ -18,7 +18,7 @@ status: released
 
 According to our [naming conventions](../../../guides/domain-modeling#naming-conventions), to easily distinguish entity names from element names we recommend starting entity names with *capital* letters, which this rule ensures.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -48,5 +48,5 @@ In the next example, the rule reports a warning, because the entity name `books`
   :files="['db/schema.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 1.0.4`.

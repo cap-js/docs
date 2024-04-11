@@ -17,7 +17,7 @@ status: released
 
 To provide your database with initial data, you can use CSV files. Their filenames are expected to match fully qualified names of respective entity definitions in your CDS models and their content is standard CSV content with the column titles corresponding to declared element names. This rule ensures that the header of the CSV file matches the column names of the entity definition.
 
-### Examples
+## Examples
 
 Let's consider the following model definition:
 
@@ -53,5 +53,5 @@ In the next example, there's a typo in the header of the CSV file. The column na
   :files="['db/schema.cds', 'db/data/sap.capire.bookshop-Books.csv']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.3.0`.

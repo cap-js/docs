@@ -18,7 +18,7 @@ status: released
 The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite so that they can still be used in most situations.
 But in general reserved words cannot be used as identifiers and this rule warns you if you use any of the [reserved SQL keywords](https://www.sqlite.org/lang_keywords.html).
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -50,10 +50,5 @@ In the next example, the reserved SQL keyword `Order` is used as an entity name,
   :packages="{'devDependencies': { '@cap-js/sqlite': '^1' } }"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.1.0`.
-
-<!--
-### Resources
-[Rule source](https://github.tools.sap/cap/eslint-plugin-cds/tree/main/lib/rules/no-db-keywords.js)
--->

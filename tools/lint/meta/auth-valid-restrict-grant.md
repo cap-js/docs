@@ -17,7 +17,7 @@ status: released
 
 The `grant` property of a `@restrict` privilege defines one or more events that the privilege applies. This rule checks for valid values of `@restrict.grant`, that is, all standard CDS events (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) on entities. It also suggests to use `*` only when listing events including `*` and to use `WRITE` only when using solely standard CDS events with write semantics (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`).
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -47,5 +47,5 @@ In the next example, the `@restrict.grant` has a typo in the event (i.e. `REAAD`
   :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.

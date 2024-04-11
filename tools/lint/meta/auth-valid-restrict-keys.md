@@ -17,7 +17,7 @@ status: released
 
 To define authorizations on a fine-grained level, the `@restrict` annotation allows you to add all kinds of restrictions that are based on static user roles, the request operation, and instance filters. The building block of such a restriction is a single privilege. This rule checks that the privileges defined in `@restrict` have properly spelled `to`, `grant`, and `where` keys.
 
-### Examples
+## Examples
 
 #### ✅ &nbsp; Correct example
 
@@ -46,5 +46,5 @@ In the next example, the `@restrict` annotation on `CatalogService.ListOfBooks` 
   :files="['db/schema.cds', 'srv/cat-service.cds']"
 />
 
-### Version
+## Version
 This rule was introduced in `@sap/eslint-plugin-cds 2.4.1`.

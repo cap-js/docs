@@ -34,7 +34,7 @@ In the following example, the `@restrict` annotation on `CatalogService.ListOfBo
 
 #### ❌ &nbsp; Incorrect example
 
-In the next example, the `@restrict` annotation on `CatalogService.ListOfBooks` has typos in the `grant` key (i.e. `grants` instead of `grant`), the `to` key (i.e. `too` instead of `to`), and the `where` key (i.e. `were` instead of `where`) and the rule will report them as a warning:
+In the next example, the `@restrict` annotation on `CatalogService.ListOfBooks` has typos in the `grant` key (`grants` instead of `grant`), the `to` key (`too` instead of `to`), and the `where` key (`were` instead of `where`) and the rule will report them as a warning:
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-keys/incorrect/srv/cat-service.cds#snippet{ts:line-numbers} [srv/cat-service.cds]

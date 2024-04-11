@@ -35,7 +35,7 @@ In the following example, the `@restrict` privilege is defined with a valid `whe
 
 #### ❌ &nbsp; Incorrect example
 
-In the next example, the `@restrict` privilege is defined with an invalid `where` property `CreatedBy = $user` since this is not a valid filter expression according to the CDS compiler, so the rule will report a warning:
+In the next example, the `@restrict` privilege is defined with an invalid `where` property `CreatedBy === $user`. Since this is not a valid filter expression according to the CDS compiler, the rule reports a warning:
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-where/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]

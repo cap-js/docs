@@ -21,7 +21,7 @@ To define authorizations on a fine-grained level, the `@restrict` annotation all
 
 #### ✅ &nbsp; Correct example
 
-In the following example, the `@restrict` annotation on `CatalogService.ListOfBooks` has correctly spelled keys `to`, `grant`, and `where` keys in the defined privilege:
+In the following example, the `@restrict` annotation on `CatalogService.ListOfBooks` has correctly spelled `to`, `grant`, and `where` keys in the defined privilege:
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-keys/correct/srv/cat-service.cds#snippet{ts:line-numbers} [srv/cat-service.cds]

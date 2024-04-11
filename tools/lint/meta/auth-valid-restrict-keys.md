@@ -25,6 +25,7 @@ In the following example, the `@restrict` annotation on `CatalogService.ListOfBo
 
 ::: code-group
 <<< ../examples/auth-valid-restrict-keys/correct/srv/cat-service.cds#snippet{ts:line-numbers} [srv/cat-service.cds]
+:::
 <PlaygroundBadge
   name="auth-valid-restrict-keys"
   kind="correct"

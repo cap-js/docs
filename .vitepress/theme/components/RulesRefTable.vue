@@ -21,7 +21,7 @@
     <div class="tip custom-block github-alert">
         <ul class="legend-list">
             <li>✅ &nbsp; <b>Recommeded</b>: If the plugin's <i>recommended</i> configuration enables the rule</li>
-            <li>🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are automatically fixable (\`--fix\`)</li>
+            <li>🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are automatically fixable (<code>--fix</code>)</li>
             <li>💡 &nbsp; <b>Has Suggestions</b>: If problems reported by the rule are manually fixable</li>
             <li v-if="category !== 'Environment'">👀 &nbsp; <b>In Editor</b>: If the rule is shown in the VS Code editor and rerun on file changes</li>
         </ul>

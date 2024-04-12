@@ -92,4 +92,4 @@
 .lint-rule-symbol {
     text-align: center;
 }
-</style>../../../tools/cds-lint/rules.data.ts
+</style>

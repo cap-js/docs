@@ -6,7 +6,7 @@ status: released
 ---
 
 <script setup>
-  import RulesRefTable from '../.vitepress/theme/components/RulesRefTable.vue'
+  import RulesRefTable from './components/RulesRefTable.vue'
 </script>
 
 

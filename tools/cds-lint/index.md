@@ -2,6 +2,7 @@
 label: cds-lint
 synopsis: >
   This page explains the ESLint plugin for CDS in depth.
+redirect_from: tools/cds-lint
 status: released
 ---
 
@@ -36,7 +37,7 @@ To catch issues in CDS models and the CDS environment early, CAP provides an [ES
 
 <div>
 
-<img src="./assets/cdslint.svg" alt="ESLint plugin for CDS logo" width="130px" class="ignore-dark" />
+<img src="../assets/cdslint.svg" alt="ESLint plugin for CDS logo" width="130px" class="ignore-dark" />
 
 </div>
 
@@ -71,9 +72,9 @@ It follows standard ESLint behaviour. If there are no lint errors, there is no o
 
 ### CDS Lint Rules
 
-The **CDS Lint** rules are a set of generic rules based on CAP best practices. 
+The **CDS Lint** rules are a set of generic rules based on CAP best practices.
 
-[See our Rules Reference page to find out more](rules){ .learn-more}
+[See our Rules Reference page to find out more](./rules){ .learn-more}
 
 
 
@@ -82,7 +83,7 @@ The **CDS Lint** rules are a set of generic rules based on CAP best practices.
 
 #### Configuring CDS Lint Rules
 
-Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint/rules#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
+Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/cds-lint/rules#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
 
 ```json
 {

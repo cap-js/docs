@@ -9,9 +9,9 @@ interface Props {
 }
 // @ts-ignore
 withDefaults(defineProps<Props>(), { nolink: false })
-import { compress, prettyStringify } from './eslint-online-playground/utils.ts';
+import { compress, prettyStringify } from './eslint-online-playground/utils';
 // @ts-ignore
-import { data } from '../../../tools/lint/examples/examples.data.ts';
+import { data } from '../examples/examples.data.ts';
 
 const configFileName = ".eslintrc.json";
 const packageJsonFileName = "package.json";

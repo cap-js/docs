@@ -10,14 +10,14 @@ status: released
 ---
 
 <script setup>
-  import PlaygroundBadge from '../../../.vitepress/theme/components/PlaygroundBadge.vue'
+  import PlaygroundBadge from '../components/PlaygroundBadge.vue'
 </script>
 
 # auth-no-empty-restrictions
 
 ## Rule Details
 
-The [`@requires` annotation](../../../guides/security/authorization#requires--requires) is a convenience shortcut for `@restrict`. You can use it to control which rule a user needs to have in order to access a given resource. Leaving this field empty is dangerous as it leads to unrestricted access to that service which is a security risk.
+The [`@requires` annotation](../../../guides/security/authorization#requires) is a convenience shortcut for `@restrict`. You can use it to control which rule a user needs to have in order to access a given resource. Leaving this field empty is dangerous as it leads to unrestricted access to that service which is a security risk.
 
 ## Examples
 

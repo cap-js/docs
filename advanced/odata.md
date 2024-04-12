@@ -436,7 +436,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ```cds
 @Some.Collection: [
-  true, 1, 3.14, 'foo',
+  null,true, 1, 3.14, 'foo',
   { $Type:'UI.DataField', Label:'Whatever', Hidden }
 ]
 ```

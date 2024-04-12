@@ -10,7 +10,7 @@ status: released
 ---
 
 <script setup>
-  import PlaygroundBadge from '../../../.vitepress/theme/components/PlaygroundBadge.vue'
+  import PlaygroundBadge from '../components/PlaygroundBadge.vue'
 </script>
 
 # auth-use-requires
@@ -37,7 +37,7 @@ In the following example, the `CatalogService` action `addRating` correctly uses
 
 #### ❌ &nbsp; Incorrect example
 
-In the following example, the `CatalogService` uses `@restrict` to assign unrestricted events (`grant: *`) to the `Admin` role (`to: Admin`). This which could be written more clearly using `@requires` and so the rule reports a warning: 
+In the following example, the `CatalogService` uses `@restrict` to assign unrestricted events (`grant: *`) to the `Admin` role (`to: Admin`). This which could be written more clearly using `@requires` and so the rule reports a warning:
 
 ::: code-group
 <<< ../examples/auth-use-requires/incorrect/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]

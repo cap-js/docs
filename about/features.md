@@ -93,7 +93,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
 | Pluggable CDS Linter                                                                                              | <D/> |
-| [CDS Linter](../tools/cds-lint)                                                                                   | <X/> |
+| [CDS Linter](../tools/cds-lint/)                                                                                   | <X/> |
 
 ### Providing Services
 

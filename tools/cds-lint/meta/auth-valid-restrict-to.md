@@ -10,14 +10,14 @@ status: released
 ---
 
 <script setup>
-  import PlaygroundBadge from '../../../.vitepress/theme/components/PlaygroundBadge.vue'
+  import PlaygroundBadge from '../components/PlaygroundBadge.vue'
 </script>
 
 # auth-valid-restrict-to
 
 ## Rule Details
 
-The `to` property of a `@restrict` privilege defines one or more [user roles](../../../guides/security/authorization#user-roles--roles) or [pseudo roles](../../../guides/security/authorization#pseudo-roles--pseudo-roles) that the privilege applies to. This rule checks that the values of `@restrict.to` are valid, that is, roles cannot be missing, misspelled and that roles including `any` should be simplified to just `any`.
+The `to` property of a `@restrict` privilege defines one or more [user roles](../../../guides/security/authorization#roles) or [pseudo roles](../../../guides/security/authorization#pseudo-roles) that the privilege applies to. This rule checks that the values of `@restrict.to` are valid, that is, roles cannot be missing, misspelled and that roles including `any` should be simplified to just `any`.
 
 ## Examples
 

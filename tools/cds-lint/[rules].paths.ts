@@ -20,7 +20,7 @@ async function getRules() {
 
     console.debug('Reading CDS Lint sources...')
     let result = `Below you can find all rules of the \`@sap/eslint-plugin-cds\` ESLint plugin.
-    
+
 They are grouped by categories [Model Validation](#model-validation) and [Environment](#environment) to help you understand their purpose.
 
 Your standard CDS project configuration turns on a subset of these rules by default, namely the *recommended*
@@ -37,7 +37,7 @@ enabled and visible in the editor by default (&nbsp;👀&nbsp;).
 * *In Editor* rules: Rules that are enabled in the editor by default only rely on the current file as their rule context. These are quick to execute and
 can react on file changes.
 * *Project-based* rules: Rules that are disabled in the editor by default usually rely on a series of (project) files for their rule context or include
-slow or expensive processes. These are slow to execute and only run with the CLI. 
+slow or expensive processes. These are slow to execute and only run with the CLI.
 :::
 
 <RulesRefTable category="Model Validation"/>

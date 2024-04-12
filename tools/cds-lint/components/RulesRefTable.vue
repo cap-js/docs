@@ -8,7 +8,7 @@
 
 <script lang="ts">
     // @ts-ignore
-    import { data } from '../../../tools/rules.data.ts';
+    import { data } from '../rules.data.ts';
 
     export default {
         data() {
@@ -86,10 +86,10 @@
 }
 .lint-rule-prop {
     width: 5% !important;
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
 }
 .lint-rule-symbol {
     text-align: center;
 }
-</style>
+</style>../../../tools/cds-lint/rules.data.ts

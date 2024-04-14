@@ -27,7 +27,7 @@
         </ul>
     </div>
     <table class="lint-ref-table">
-        <thead>
+        <thead hidden>
             <tr>
                 <th class="col-prop">Recommended</th>
                 <th class="col-prop">Fixable</th>

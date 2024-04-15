@@ -10,7 +10,7 @@ status: released
 ---
 
 <script setup>
-  import PlaygroundBadge from '../../../.vitepress/theme/components/PlaygroundBadge.vue'
+  import PlaygroundBadge from '../components/PlaygroundBadge.vue'
 </script>
 
 # no-join-on-draft

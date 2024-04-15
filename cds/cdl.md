@@ -1972,14 +1972,28 @@ CREATE TABLE Employees (
 
 Doc comments need to be switched on when calling the compiler:
 
-```sh
-# in CLI:
+::: code-group
+```sh [CLI]
 cds compile foo.cds --docs
 ```
-```js
-// in JavaScript:
+```json [package.json]
+{
+  "cds" : {
+    "docs" : true // [!code focus]
+  }
+}
+```
+```yaml [application.yaml]
+cds:
+  docs: true
+```
+```js [JavaScript]
 cds.compile(..., { docs: true })
 ```
+```java [Java]
+// How would that be done?
+```
+:::
 
 ::: tip
 Propagation of doc comments can be stopped via an empty one: `/** */`.

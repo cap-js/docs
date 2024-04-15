@@ -417,7 +417,7 @@ Similarly, you can record metrics during execution of, for example, a custom eve
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-   Metric meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
+   Meter meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
 
    @After(entity = Books_.CDS_NAME)
    public void afterAddReview(AddReviewContext context) {

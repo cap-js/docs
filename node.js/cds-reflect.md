@@ -83,7 +83,7 @@ The [CSN definitions](../cds/csn#definitions) of the model, turned into an insta
 
 ### . entities {.property}
 
-These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entitiy](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
+These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entity](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
 
 For example:
 

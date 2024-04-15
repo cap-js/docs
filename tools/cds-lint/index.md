@@ -95,7 +95,7 @@ Make sure you have ESLint and our ESLint plugin installed via [`cds add lint`](#
 To turn on Lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
 CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
-Now you can see lint reports also in your editor. You should be able to see any rules [marked by **Editor default** here](./rules). Any other (project-based) rules are not turned on by
+Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules). Any other (project-based) rules are not turned on by
 default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header#❌-incorrect-example) rule reports in the Editor, we would add the following to our ESLint 
 `rules` configuration:
 

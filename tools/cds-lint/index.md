@@ -46,16 +46,33 @@ To catch issues in CDS models and the CDS environment early, CAP provides an [ES
 By nature of its design, the plugin can also be run with the [ESLint CLI](#usage-eslint-cli). However, we recommended using the [CDS Lint CLI](#usage-lint-cli) instead as it comes with all preconfigured settings.
 
 
+### Setup {#cds-add-lint}
 
-### CDS Lint Configuration {#cds-lint-config}
+The following command automatically installs ESLint, the CDS ESLint plugin, and adds the ESLint configuration. VS Code settings are added to your project as well, to also be able to lint CDS alongside Javascript or any other ESLint plugins you may have:
 
-All CDS projects initiated with `cds init` come with CDS Lint preconfigured. **No setup is needed**.
+```sh
+cds add lint
+```
 
-For all other projects, you would like to have ESLint running within your VS Code editor. Run the dedicated [`cds add` commmand](#cds-add-lint) command to configure them.
+<pre class="log">
 
-> [!TIP]
-> To add lint checking to your VS Code Editor, follow the setup in [CDS Lint in VSCode](#cds-lint-vscode).
+Adding feature 'lint'...
 
+Successfully added features to your project.
+
+
+<span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
+
+(1) ESLint v>=7.0.0
+(2) ESLint plugin for CDS
+
+
+<text style="color: orange">Install dependencies now</text>? [y/n] y
+
+Successfully added features to your project.
+</pre>
+
+If a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, you have the choice to install the ESLint dependencies directly. Once confirmed, this will install ESLint and the CDS plugin, as well as add the corresponding configuration for the recommended rules into your project.
 
 
 ### CDS Lint CLI {#usage-lint-cli}
@@ -68,6 +85,27 @@ cds lint
 
 It follows standard ESLint behaviour. If there are no lint errors, there is no output. If there are, a standard ESLint error report will be printed.
 
+
+### CDS Lint in VS Code {#cds-lint-vscode}
+
+::: tip
+Make sure you have ESLint and our ESLint plugin installed via [`cds add lint`](#cds-add-lint).
+:::
+
+To turn on Lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
+CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
+
+Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules). Any other (project-based) rules are not turned on by
+default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header#❌-incorrect-example) rule reports in the Editor, we would add the following to our ESLint 
+`rules` configuration:
+
+```json
+{
+  "rules": {
+    "@sap/cds/valid-csv-header": ["warn", "show"]
+  }
+}
+```
 
 
 ### CDS Lint Rules
@@ -140,8 +178,6 @@ mocha .eslint/tests/no-entity-moo
 
 -->
 
-
-
 ### ESLint CLI (optional) {#usage-eslint-cli}
 
 To have more control over the linting process, you can also access the CDS ESLint plugin natively via the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface). To determine the proper command line options, it can help to refer to output of the equivalent call using the [CDS Lint CLI](#usage-lint-cli) with `DEBUG="lint"`, which shows all of the options and flags applied:
@@ -154,41 +190,3 @@ DEBUG=lint cds lint
 Linting:
 <span>[lint] - eslint --ext ".cds,.csn,.csv" ...</span>
 </pre>
-
-
-### CDS configuration helper (optional) {#cds-add-lint}
-
-The following command automatically adds settings for the ESLint VS Code extension to the project's VS Code settings, installs the CDS ESLint plugin, and adds it to the ESLint configuration of your project:
-
-```sh
-cds add lint
-```
-
-<pre class="log">
-
-Adding feature 'lint'...
-
-Successfully added features to your project.
-
-
-<span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
-
-(1) ESLint v>=7.0.0
-(2) ESLint plugin for CDS
-
-
-<text style="color: orange">Install dependencies now</text>? [y/n] y
-
-Successfully added features to your project.
-</pre>
-
-Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a prompt appears on whether to install the ESLint dependencies. Once confirmed, this will install ESLint, the CDS plugin, as well as add the corresponding configuration for the CDS recommended rules into your project.
-
-
-### CDS Lint in VS Code (optional)  {#cds-lint-vscode}
-
-To turn on Lint checking your VS Code Editor, follow the steps below:
-
-1. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
-
-2. Run the dedicated [`cds add` commmand](#cds-add-lint).

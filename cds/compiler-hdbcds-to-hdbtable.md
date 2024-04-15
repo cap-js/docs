@@ -92,17 +92,15 @@ In the above sample, the entity `TemporalWithTimeSliceId` can't be seamlessly mi
 ## Multiline doc comments
 
 ```cds
-service Service {
-
-  entity BaseEntity {
-    /**
-     * I am the element description.
-     * Has a description
-     *
-     * With multiple paragraphs - I should not be part of the HANA comment
-     */
-    key id: Integer;
-  };
+entity Employees {
+  key ID : Integer;
+  /**
+    * I am the description for "name".
+    * I span across multiple lines.
+    *
+    * With multiple paragraphs.
+    */
+  name : String;
 }
 ```
 

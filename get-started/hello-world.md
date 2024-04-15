@@ -36,9 +36,10 @@ cd hello-world
 </div>
 
 <div class="impl java">
+<!-- IMPORTANT: tiny-sample is needed here as otherwise, w/o a model, Java build fails -->
 
 ```sh
-cds init hello-world --add java
+cds init hello-world --add java,tiny-sample
 cd hello-world
 ```
 

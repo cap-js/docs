@@ -76,7 +76,7 @@ entity TemporalWithTimeSliceId : timesliced_temporal {
 }
 ```
 
-In the above sample, the entity `TemporalWithTimeSliceId` canot be seamlessly migrated and a full table migration will take place.
+In the above sample, the entity `TemporalWithTimeSliceId` can't be seamlessly migrated and a full table migration will take place.
 
 ## Multiline doc comments
 
@@ -95,7 +95,7 @@ service Service {
 }
 ```
 
-In the above sample, the entity `Service.BaseEntity` canot be seamlessly migrated and a full table migration will take place. This is due to a difference in the way `doc`-comments are passed to the database.
+In the above sample, the entity `Service.BaseEntity` can't be seamlessly migrated and a full table migration will take place. This is due to a difference in the way `doc`-comments are passed to the database.
 
 ::: code-group
 

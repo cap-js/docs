@@ -86,6 +86,26 @@ cds lint
 It follows standard ESLint behaviour. If there are no lint errors, there is no output. If there are, a standard ESLint error report will be printed.
 
 
+### CDS Lint in VS Code {#cds-lint-vscode}
+
+To turn on Lint checking your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
+CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
+
+> [!IMPORTANT]
+> Make sure you have ESLint and our CDS plugin for ESLint installed via [`cds add` commmand](#cds-add-lint).
+
+Now you can see lint reports also in your Editor. You should be able to see any rules [marked by **Editor default** here](./rules). Any other (project-based) rules are not turned on by
+default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header) rule reports in the Editor, we would add the following to our ESLint 
+`rules` configuration:
+
+```json
+{
+  "rules": {
+    "@sap/cds/valid-csv-header": ["warn", "show"]
+  }
+}
+```
+
 
 ### CDS Lint Rules
 
@@ -169,12 +189,3 @@ DEBUG=lint cds lint
 Linting:
 <span>[lint] - eslint --ext ".cds,.csn,.csv" ...</span>
 </pre>
-
-
-### CDS Lint in VS Code (optional)  {#cds-lint-vscode}
-
-To turn on Lint checking your VS Code Editor, follow the steps below:
-
-1. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
-
-2. Make sure you have ESLint and our CDS pluginf for ESLint installed via [`cds add` commmand](#cds-add-lint).

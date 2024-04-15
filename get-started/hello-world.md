@@ -6,6 +6,10 @@ status: released
 impl-variants: true
 ---
 
+<script setup>
+  import NotebookHint from '../.vitepress/theme/components/NotebookHint.vue'
+</script>
+
 # Hello World!
 
 <div class="impl node">
@@ -23,6 +27,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 </div>
 
 <ImplVariantsHint />
+<NotebookHint />
 
 ## Create a Project
 

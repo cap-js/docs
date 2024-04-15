@@ -112,27 +112,6 @@ In the above sample, the entity `Service.BaseEntity` canot be seamlessly migrate
 
 If you don't actually need the comments on database-level, then you can disable them with option `hana.comments`. Once you've set this option, run a new build of your .hdbcds artifacts. The should not contain the associations anymore. Deploy these newly generated files and then proceed with the steps described initially.
 
-## Stored calculated elements with `not null`
-
-```cds
-entity OnWrite.Base {
-  key id : String;
-
-  @annoKey: 'key'
-  field: Integer not null default 42;
-
-  // Explicit casts (/ normal type mechanism)
-  calcCastField = cast(field as OnWrite.Base:field) stored;
-  calcExplicitTypeField : OnWrite.Base:field = field stored;
-
-  // Same as above, but we want a string and no properties from OnWrite.Base:field
-  calcCast = cast(field as String) stored;
-  calcExplicitType : String = field stored;
-};
-```
-
-In the above sample, the entity `OnWrite.Base` canot be seamlessly migrated and a full table migration will take place.
-
 ## @sql.append and @sql.prepend
 
 Native database features added via `@sql.append` and `@sql.prepend` might work or might not - we cannot offer any guidance here.

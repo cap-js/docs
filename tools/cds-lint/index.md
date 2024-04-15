@@ -48,7 +48,7 @@ By nature of its design, the plugin can also be run with the [ESLint CLI](#usage
 
 ### Setup {#cds-add-lint}
 
-The following command automatically installs ESLint, the CDS ESLint plugin, and adds the ESLint configuration as well as VS Code settings to your project to also be able to lint CDS alongside or Javascript or any other ESLint plugins you may have:
+The following command automatically installs ESLint, the CDS ESLint plugin, and adds the ESLint configuration. VS Code settings are added to your project as well, to also be able to lint CDS alongside Javascript or any other ESLint plugins you may have:
 
 ```sh
 cds add lint

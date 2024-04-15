@@ -62,17 +62,28 @@ Once you've set this option, run a new build of your .hdbcds artifacts. The shou
 ## timesliced temporal/@cds.valid.key
 
 ```cds
-aspect temporal {
-  validFrom : Timestamp @cds.valid.from;
-  validTo   : Timestamp @cds.valid.to;
-};
+namespace com.acme.hr;
+using { temporal } from '@sap/cds/common';
+using { com.acme.common.Persons } from './common';
 
-aspect timesliced_temporal : temporal {
-  sliceId : UUID @cds.valid.key; // time slice ID
+entity Employees : Persons {
+  jobs : Composition of many WorkAssignments on jobs.empl=$self;
+  job1 : Association to one /*of*/ WorkAssignments;
 }
 
-entity TemporalWithTimeSliceId : timesliced_temporal {
-  key id : UUID; // logical record ID
+entity WorkAssignments: temporal {
+  key ID  : UUID;
+  sliceId : UUID @cds.valid.key; // ID of the time slice
+  role    : String(111);
+  empl    : Association to Employees;
+  dept    : Association to Departments;
+}
+
+entity Departments {
+  key ID  : UUID;
+  name    : String(111);
+  head    : Association to Employees;
+  members : Association to many Employees on members.jobs.dept = $self;
 }
 ```
 

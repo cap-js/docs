@@ -92,7 +92,7 @@ It follows standard ESLint behaviour. If there are no lint errors, there is no o
 Make sure you have ESLint and our ESLint plugin installed via [`cds add lint`](#cds-add-lint).
 :::
 
-To turn on Lint checking your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
+To turn on Lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
 CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
 Now you can see lint reports also in your Editor. You should be able to see any rules [marked by **Editor default** here](./rules). Any other (project-based) rules are not turned on by

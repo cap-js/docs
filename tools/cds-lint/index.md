@@ -72,7 +72,7 @@ Successfully added features to your project.
 Successfully added features to your project.
 </pre>
 
-Given that either a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, a prompt appears on whether to install the ESLint dependencies. Once confirmed, this will install ESLint, the CDS plugin, as well as add the corresponding configuration for the CDS recommended rules into your project.
+If a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, you have the choice to install the ESLint dependencies directly. Once confirmed, this will install ESLint and the CDS plugin, as well as add the corresponding configuration for the recommended rules into your project.
 
 
 ### CDS Lint CLI {#usage-lint-cli}

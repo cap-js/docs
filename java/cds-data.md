@@ -305,7 +305,7 @@ You can use the functions, `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean
 ```Java
 CqnVector v = CQL.vector(embedding);
 
-Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
+Result similarBooks = service.run(Select.from(BOOKS).where(b ->
   CQL.cosineSimilarity(b.embedding(), v).gt(0.9))
 );
 ```
@@ -313,12 +313,14 @@ Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
 You can also use parameters for vectors in queries:
 
 ```Java
-CqnSelect query = Select.from(BOOKS).where(b ->
-  CQL.cosineSimilarity(b.embedding(), CQL.param("embedding")
-    .type(CdsBaseType.VECTOR)).gt(0.9)
+var similarity = CQL.cosineSimilarity(CQL.get(Books.EMBEDDING), CQL.param(0).type(VECTOR));
 
-Result relatedBooks = service.run(query,
-  Map.of("embedding", CdsVector.of(embedding)));
+CqnSelect query = Select.from(BOOKS)
+  .columns(b -> b.title(), b -> similarity.as("similarity"))
+  .where(b -> b.ID().ne(bookId).and(similarity.gt(0.9)))
+  .orderBy(b -> b.get("similarity").desc());
+
+Result similarBooks = db.run(select, CdsVector.of(embedding));
 ```
 
 In CDS QL queries, elements of type `cds.Vector` are not included in select _all_ queries. They must be explicitly added to the select list:

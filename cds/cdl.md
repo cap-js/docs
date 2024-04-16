@@ -552,12 +552,24 @@ By using a cast, annotations and other properties are inherited from the provide
 
 ### Views with Parameters
 
-You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified. Refer to these parameters in the view's query using the prefix `:`.
+You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified.
+Refer to these parameters in the view's query using the prefix `:`.
 
 ```cds
 entity SomeView ( foo: Integer, bar: Boolean )
 as SELECT * from Employees where ID=:foo;
 ```
+
+When selecting from a view with parameters, the parameters are passed by name.
+In the following example, `UsingView` also has a parameter `bar` that is passed down to `SomeView`.
+
+```cds
+entity UsingView ( bar: Boolean )
+as SELECT * from SomeView(foo: 17, bar: :bar);
+```
+
+**TODO** add links to how to write queries on views w/ parameters in the runtimes.
+
 [Learn more about how to expose views with parameters in **Services - Exposed Entities**.](#exposed-entities){ .learn-more}
 [Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.](../advanced/hana){ .learn-more}
 
@@ -1527,7 +1539,7 @@ service MyOrders {
   entity OrderWithParameter( foo: Integer ) as select from data.Orders where id=:foo;
 }
 ```
-A [`view with parameter`](#views-with-parameters) modeled in the previous example, can be exposed as follows:
+A parametrized view like modeled in the section on [`view with parameter`](#views-with-parameters) can be exposed as follows:
 
 ```cds
 service SomeService {

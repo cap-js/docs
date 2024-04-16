@@ -2,7 +2,7 @@
     <span class="notebook" v-if="supportsNotebook">
       <div class="tip-notebook custom-block">
         <p class="custom-block-title">
-          This guide is available as CAP Notebook.
+          This guide is available as a CAP Notebook.
           <text class="notebook-test-msg">
             <text class="sap-icons" title="This guide is automatically tested and verified">&#xe304;</text>
           </text>

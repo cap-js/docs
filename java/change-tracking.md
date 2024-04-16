@@ -32,7 +32,7 @@ to the remote services aren't tracked.
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
 For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
-- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/dec23#on-the-fly-localization-of-edmx).
+- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
 
 - If you use the Fiori Elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 

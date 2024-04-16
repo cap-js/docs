@@ -2,15 +2,13 @@
     <span class="notebook" v-if="supportsNotebook">
       <div class="tip-notebook custom-block">
         <p class="custom-block-title">
-          This guide is automatically tested and verified.
+          This guide is available as CAP Notebook.
           <text class="notebook-test-msg">
-            <a class="link-notebook-runner" href="https://github.com/marketplace/actions/notebook-runner">
-              <text class="sap-icons">&#xe304;</text>
-            </a>
+            <text class="sap-icons" title="This guide is automatically tested and verified">&#xe304;</text>
           </text>
         </p>
         <p>
-          <a class="link nb-download" @click="linkNotebook($event)">Download the CAP Notebook</a> and run it in your local VS Code editor.
+          <a class="link nb-download" @click="linkNotebook($event)">Download the notebook</a> to run it locally in your VS Code editor.
         </p>
       </div>
     </span>

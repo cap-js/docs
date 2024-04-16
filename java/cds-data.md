@@ -285,6 +285,7 @@ In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are store
 ```cds
 entity Books : cuid { // [!code focus]
   title         : String(111);
+  description   : LargeString;  // [!code focus]
   embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
 } // [!code focus]
 ```
@@ -293,7 +294,7 @@ In CAP Java, vector embeddings are represented by the `CdsVector` type, which al
 
 ```Java
 // Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
-float[] embedding = llm.embed(text).content().vector();
+float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 CdsVector v1 = CdsVector.of(embedding); // float[] format
 CdsVector v2 = CdsVector.of("[0.42, 0.73, 0.28, ...]"); // String format

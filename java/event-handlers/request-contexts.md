@@ -18,7 +18,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Overview
 
-When [events](../../about/#events) are processed on [services](../services), [event context](../event-handlers#eventcontext) objects are used to store information related to a specific event.
+When [events](../../about/#events) are processed on [services](../services), [event context](../event-handlers/#eventcontext) objects are used to store information related to a specific event.
 However, when processing an HTTP request in a protocol adapter or receiving an asynchronous event from a messaging system not only a single event is triggered. Other services, like the [Persistence Service](../cqn-services/persistence-services) or additional technical services might be involved in processing. All of these services and their event handler need access to certain overarching metadata, such as user information, the selected locale, the tenant, and its (extended) CDS model or headers and query parameters.
 
 The CAP Java SDK manages and exposes this kind of information by means of [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) instances. They define a scope that is typically determined by the context of a single HTTP request. The active Request Context can be accessed from the Event Context. However, those two are managed independently, as Event Contexts are passed along event handlers, while Request Contexts are maintained as thread-locals. For example, the Persistence Service requires the tenant to be set correctly in the Request Context in order to access the tenant-specific persistence.
@@ -41,7 +41,7 @@ The Request Context provides information about the request's parameters as well 
 
 In addition, it provides access to the [CDS model](../working-with-cql/query-introspection), which specifically can be dependent on tenant information or feature toggles.
 
-You can get instances from the [Event Context](../event-handlers#eventcontext):
+You can get instances from the [Event Context](../event-handlers/#eventcontext):
 
 ```java
 @Before(event = CqnService.EVENT_READ)
@@ -146,8 +146,8 @@ In the following a few concrete examples are given:
 
 <img src="./assets/nameduser.drawio.svg"  alt="The graphic is explained in the accompanying text.">
 
-The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service using a technical user without propagating the named user <i>JohnDoe</i>.
-Therefore, the `after` handler needs to create a new Request Context. To achieve this, it's required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:
+The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `On` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `After` handler wants to call out to an external service using a technical user without propagating the named user <i>JohnDoe</i>.
+Therefore, the `After` handler needs to create a new Request Context. To achieve this, it's required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:
 
 ```java
 @After(entity = Books_.CDS_NAME)

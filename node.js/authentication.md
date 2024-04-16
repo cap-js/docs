@@ -477,7 +477,7 @@ If you don't know the API endpoint, have a look at section [Regions and API Endp
     ```json
     "oauth2-configuration": {
       "redirect-uris": [
-        "http://localhost:5001/"
+        "http://localhost:5000/"
       ]
     }
     ```
@@ -502,7 +502,7 @@ If you don't know the API endpoint, have a look at section [Regions and API Endp
     cf create-service-key bookshop-uaa bookshop-uaa-key
     ```
 
-    You do this, to gain access to the XSUAA credentials from your local application.
+    This lets you gain access to the XSUAA credentials from your local application.
 
 
 2. Bind to the new service key:
@@ -561,7 +561,7 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
 The resulting JWT token is sent to the application where it's used to enforce authorization and check the user's roles.
 
-1. Add approuter in the `app` folder of your project:
+1. Add approuter to the `app` folder of your project:
 
     ```sh
     cds add approuter
@@ -570,26 +570,26 @@ The resulting JWT token is sent to the application where it's used to enforce au
 2. Install `npm` packages for approuter:
 
     ```sh
-    npm install --prefix app
+    npm install --prefix app/router
     ```
 
 3. In your project folder run:
 
     ::: code-group
     ```sh [Mac/Linux]
-    cds bind --exec -- npm start --prefix app
+    cds bind --exec -- npm start --prefix app/router
     ```
     ```cmd [Windows]
-    cds bind --exec -- npm start --prefix app
+    cds bind --exec -- npm start --prefix app/router
     ```
     ```powershell [Powershell]
-    cds bind --exec '--' npm start --prefix app
+    cds bind --exec '--' npm start --prefix app/router
     ```
     :::
 
     [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#cds-bind-exec){.learn-more}
 
-    This starts an [approuter](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5001](http://localhost:5001) with the credentials for the XSUAA service that you have bound using `cds bind`.
+    This starts an [approuter](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5000](http://localhost:5000) with the credentials for the XSUAA service that you have bound using `cds bind`.
 
     > Usually the approuter is started using `npm start` in the `app` folder. But you need to provide the `VCAP_SERVICES` variable with the XSUAA credentials. With the `cds bind --exec` command you can launch an arbitrary command with the `VCAP_SERVICES` variable filled with your `cds bind` service bindings.
 
@@ -614,9 +614,9 @@ The resulting JWT token is sent to the application where it's used to enforce au
     > ],
     > ```
 
-5. After the approuter and CAP application are started, log in at [http://localhost:5001](http://localhost:5001) and verify that the routes are protected as expected.
+5. After the approuter and CAP application are started, log in at [http://localhost:5000](http://localhost:5000) and verify that the routes are protected as expected.
 
-    In our example, if you assigned the `admin` scope to your user in SAP BTP cockpit, you can now access the admin service at [http://localhost:5001/admin](http://localhost:5001/admin).
+    In our example, if you assigned the `admin` scope to your user in SAP BTP cockpit, you can now access the admin service at [http://localhost:5000/admin](http://localhost:5000/admin).
 
     <br>
 
@@ -627,7 +627,7 @@ The resulting JWT token is sent to the application where it's used to enforce au
 
 The login fails pointing to the correct OAuth configuration URL that is expected.
 
-1. Replace the URL `http://localhost:5001/` in your `xs-security.json` file with the full URL from the error message:
+1. Replace the URL `http://localhost:5000/` in your `xs-security.json` file with the full URL from the error message:
 
     ```json
     "oauth2-configuration": {

@@ -8,6 +8,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 impl-variants: true
 ---
 
+<script setup>
+  import NotebookHint from '../.vitepress/theme/components/NotebookHint.vue'
+</script>
+
 <style scoped lang="scss">
   ol {
     margin-left: 10px;
@@ -74,7 +78,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 
 <ImplVariantsHint />
-
+<NotebookHint />
 
 [[toc]]
 
@@ -320,12 +324,8 @@ As you can see in the log output, the two service definitions have been compiled
 ::: warning Add the dependency to spring-boot-security-starter
 Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the _srv/pom.xml_ in order to activate mock user and authentication support:
 
-<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
-```xml
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
+```sh
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
 ```
 
 :::
@@ -492,14 +492,14 @@ Instead of in-memory databases we can also use persistent ones. For example, sti
 
 ::: code-group
 
-   ```json [package.json]
-   "cds": { "requires": {
-      "db": {
-         "kind": "sqlite",
-         "credentials": { "url": "db.sqlite" } // [!code focus]
-      }
-   }}
-   ```
+```json [package.json]
+{ "cds": { "requires": {
+  "db": {
+      "kind": "sqlite",
+      "credentials": { "url": "db.sqlite" } // [!code focus]
+  }
+}}}
+```
 
 :::
 
@@ -511,19 +511,20 @@ cds deploy
 
 The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./db.sqlite_. This is also recorded in the _package.json_.
 
-To see what that did, use the `sqlite3` CLI with the newly created database:
-
+::: details To see what that did, use the `sqlite3` CLI with the newly created database.
 ```sh
 sqlite3 db.sqlite .dump
 sqlite3 db.sqlite .tables
 ```
+:::
+
 [Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
 
-You could also deploy to a provisioned SAP HANA database using this variant:
-
+:::details You could also deploy to a provisioned SAP HANA database using this variant.
 ```sh
 cds deploy --to hana
 ```
+:::
 
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
@@ -576,7 +577,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers#handlerclasses){.learn-more .impl .java}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
 </div>
 
@@ -615,9 +616,9 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
-  this.after ('READ','Books', each => {
-    if (each.stock > 111) {
-      each.title += ` -- 11% discount!`
+  this.after ('each','Books', book => {
+    if (book.stock > 111) {
+      book.title += ` -- 11% discount!`
     }
   })
 }
@@ -681,7 +682,7 @@ public class CatalogHandler implements EventHandler {
 :::
 
 
-[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers#handlerclasses){.learn-more}
+[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers/#handlerclasses){.learn-more}
 
 </div>
 
@@ -711,8 +712,8 @@ module.exports = async function (){
   })
 
   // Add some discount for overstocked books
-  this.after ('READ','Books', each => {
-    if (each.stock > 111)  each.title += ` -- 11% discount!`
+  this.after ('each','Books', book => {
+    if (book.stock > 111) book.title += ` -- 11% discount!`
   })
 }
 ```
@@ -813,8 +814,11 @@ public class SubmitOrderHandler implements EventHandler {
 
 Or submit orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
+<div class="impl node">
+
 ::: code-group
-```http [Node.js]
+
+```http [test.http]
 ### Submit Order
 POST http://localhost:4004/browse/submitOrder
 Content-Type: application/json
@@ -824,10 +828,17 @@ Authorization: Basic alice:
   "book": 201,
   "quantity": 2
 }
-
-
 ```
-```http [Java]
+
+:::
+
+</div>
+
+<div class="impl java">
+
+::: code-group
+
+```http [test.http]
 ### Submit Order
 POST http://localhost:8080/odata/v4/browse/submitOrder
 Content-Type: application/json
@@ -838,9 +849,10 @@ Authorization: Basic authenticated:
   "quantity": 2
 }
 ```
+
 :::
 
-
+</div>
 
 
 ## Summary and Next Steps

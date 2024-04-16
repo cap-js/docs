@@ -6,6 +6,10 @@ status: released
 impl-variants: true
 ---
 
+<script setup>
+  import NotebookHint from '../.vitepress/theme/components/NotebookHint.vue'
+</script>
+
 # Hello World!
 
 <div class="impl node">
@@ -23,6 +27,7 @@ Let's create a simple _Hello World_ OData service using the SAP Cloud Applicatio
 </div>
 
 <ImplVariantsHint />
+<NotebookHint />
 
 ## Create a Project
 
@@ -36,9 +41,10 @@ cd hello-world
 </div>
 
 <div class="impl java">
+<!-- IMPORTANT: tiny-sample is needed here as otherwise, w/o a model, Java build fails -->
 
 ```sh
-cds init hello-world --add java
+cds init hello-world --add java,tiny-sample
 cd hello-world
 ```
 
@@ -91,7 +97,7 @@ module.exports = class say {
 
 <div class="impl java">
 
-... for example, using a [CAP Java](../java/event-handlers) custom handler like this:
+... for example, using a [CAP Java](../java/event-handlers/) custom handler like this:
 
 ::: code-group
 
@@ -140,8 +146,7 @@ cds watch
 <div class="impl java">
 
 ```sh
-cd srv
-mvn cds:watch
+mvn com.sap.cds:cds-maven-plugin:watch
 ```
 
 </div>

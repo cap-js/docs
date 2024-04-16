@@ -912,7 +912,7 @@ The remaining cases that need custom handlers, reduce to real custom logic, spec
 public class FooServiceImpl implements EventHandler {...}
 ```
 
-[Learn more about Event Handler classes in Java.](../java/event-handlers#handlerclasses){.learn-more}
+[Learn more about Event Handler classes in Java.](../java/event-handlers/#handlerclasses){.learn-more}
 
 
 
@@ -928,7 +928,7 @@ module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
   this.on ('CREATE',`Books`, (req)=>{...})
   this.before ('UPDATE',`*`, (req)=>{...})
-  this.after ('READ',`Books`, (each)=>{...})
+  this.after ('READ',`Books`, (books)=>{...})
 }
 ```
 ```Java
@@ -946,7 +946,7 @@ public class BookshopServiceImpl implements EventHandler {
 
 [Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
 
-[Learn more about **adding event handlers in Java**.](../java/event-handlers#handlerclasses){.learn-more}
+[Learn more about **adding event handlers in Java**.](../java/event-handlers/#handlerclasses){.learn-more}
 
 
 
@@ -980,7 +980,7 @@ Event handlers all get a uniform _Request_/_Event Message_ context object as the
 - The `tenant` using your SaaS application, if enabled
 
 [Learn more about **implementing event handlers in Node.js**.](../node.js/events#cds-request){.learn-more}
-[Learn more about **implementing event handlers in Java**.](../java/event-handlers#eventcontext){.learn-more}
+[Learn more about **implementing event handlers in Java**.](../java/event-handlers/#eventcontext){.learn-more}
 
 
 
@@ -1135,6 +1135,7 @@ You can use the following annotations in the service model to indicate that an e
 `@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
 :::
 
+[Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 
 The following examples show these annotations in action:
 

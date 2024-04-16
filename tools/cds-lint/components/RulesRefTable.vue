@@ -23,11 +23,11 @@
             <li>✅ &nbsp; <b>Recommeded</b>: If the plugin's <i>recommended</i> configuration enables the rule</li>
             <li>🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are automatically fixable (<code>--fix</code>)</li>
             <li>💡 &nbsp; <b>Has Suggestions</b>: If problems reported by the rule are manually fixable</li>
-            <li v-if="category !== 'Environment'">👀 &nbsp; <b>In Editor</b>: If the rule is shown in the VS Code editor and re-run on file changes</li>
+            <li v-if="category !== 'Environment'">👀 &nbsp; <b>Editor default</b>: If the rule is shown in the editor by default</li>
         </ul>
     </div>
     <table class="lint-ref-table">
-        <thead>
+        <thead hidden>
             <tr>
                 <th class="col-prop">Recommended</th>
                 <th class="col-prop">Fixable</th>

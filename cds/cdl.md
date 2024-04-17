@@ -1990,9 +1990,6 @@ cds:
 ```js [JavaScript]
 cds.compile(..., { docs: true })
 ```
-```java [Java]
-// How would that be done?
-```
 :::
 
 ::: tip

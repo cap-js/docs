@@ -21,7 +21,7 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 cds bind db --to bookshop-db
 ```
 
-Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`. 
+Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`.
 
 ::: tip `cds bind` automatically creates a service key for you
 If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
@@ -93,7 +93,7 @@ Output:
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-#### Shared Service Instances on Cloud Foundry <Badge type="note" text="for @sap/cds-dk^7.9" /> { #binding-shared-service-instances} 
+#### Shared Service Instances on Cloud Foundry <Since version="7.9.0" of="@sap/cds-dk" /> { #binding-shared-service-instances}
 
 On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
 

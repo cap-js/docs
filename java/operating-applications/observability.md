@@ -436,6 +436,7 @@ class CatalogServiceHandler implements EventHandler {
 It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
+
 <div id="dynatrace-setup"/>
 
 

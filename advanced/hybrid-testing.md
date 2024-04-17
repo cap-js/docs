@@ -93,7 +93,7 @@ Output:
 [bind] - TIP: Run with cloud bindings: cds watch --profile hybrid
 ```
 
-#### Shared Service Instances on Cloud Foundry { #binding-shared-service-instances}
+#### Shared Service Instances on Cloud Foundry <Badge type="note" text="for @sap/cds-dk^7.9" /> { #binding-shared-service-instances} 
 
 On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
 

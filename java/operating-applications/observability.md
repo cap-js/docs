@@ -307,7 +307,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
           service-plan: standard
           config:
             ingest_otlp:
-             enabled: true
+              enabled: true
     ...
     ```
     :::

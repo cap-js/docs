@@ -304,7 +304,7 @@ You can override the default implementation and register a custom express middle
 ```js
 cds.on('bootstrap', app => app.get('/health', (_, res) => {
   res.status(200).send(`I'm fine, thanks.`)
-})
+}))
 ```
 
 More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!

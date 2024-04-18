@@ -21,11 +21,11 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 cds bind db --to bookshop-db
 ```
 
-Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of type `hana` with plan `hdi-shared`. 
+Binds the service `db` of your local CAP application to the service instance `bookshop-db`, using your currently targeted Cloud Foundry space. Here, `bookshop-db` is a _managed_ service of kind `hana` with plan `hdi-shared`. 
 
 ::: tip `cds bind` automatically creates a service key for you
 If no service key for your service `<srv>` is specified, a `<srv>-key` is automatically created.
-The service name `db` can be omitted as it represents the default value.
+The service name `db` can be omitted as it represents the default value for the service kind `hana`.
 :::
 
 [Got errors? See our troubleshooting for connection issues with SAP HANA Cloud.](../get-started/troubleshooting#connection-failed-89008){.learn-more}
@@ -98,10 +98,14 @@ Output:
 On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
 
 ```sh
-cds bind redis --to redis-db
+cds bind messages --to redis-cache
 ```
 
-Binds the service `redis` of your local CAP application to the shared service instance `redis-db`. The service name `redis` has to match the service name used in the CDS `requires` service configuration. `cds bind` reads the `org` and `space` information of the originating org and space from which the service has been shared from in order for service-key creation. This requires the Space Developer role for both spaces.
+Binds the `messages` service of your CAP application to the shared service instance `redis-cache`. `cds bind` reads `org` and `space` from where the service has been shared from as the service-key needs to be created in that org and space. This requires the Space Developer role for both spaces. 
+
+::: tip
+The service name `messages` can be omitted as it represents the default value for the service kind `redis-messaging`.
+:::
 
 ::: code-group
 ```json {5}[.cdsrc-private.json]
@@ -114,13 +118,13 @@ Binds the service `redis` of your local CAP application to the shared service in
           "apiEndpoint": "https://api.sap.hana.ondemand.com",
           "org": "shared-from-cf-org", // [!code focus]
           "space": "shared-from-cf-space", // [!code focus]
-          "instance": "redis-db",
-          "key": "redis-db-key",
+          "instance": "redis-cache",
+          "key": "redis-cache-key",
           "resolved": false
         },
         "kind": "redis-messaging",
         "vcap": {
-          "name": "redis"
+          "name": "messaging"
         }
       }
     }

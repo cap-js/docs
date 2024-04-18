@@ -150,7 +150,7 @@ Available for:
 
 
 
-## Attachments <Badge type="warning" text="beta" title="" />
+## Attachments <Beta />
 
 
 The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
@@ -266,7 +266,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Badge type="warning" text="beta" />
+## Telemetry <Beta />
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).

@@ -2,6 +2,6 @@
   <Badge
     type="warning"
     text="beta"
-    title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases."
+    title="Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release."
   />
 </template>

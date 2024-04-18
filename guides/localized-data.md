@@ -59,10 +59,6 @@ entity Books.texts {
 ```
 
 [See the definition of `sap.common.Locale`.](../cds/common#locale-type){ .learn-more}
-::: warning Note:
-The above shows the situation with CDS compiler v2 and later. Former versions of the
-compiler generated an entity `Books_texts`.
-:::
 
 Second, the source entity is extended with associations to _Books.texts_:
 

@@ -24,6 +24,23 @@ For a first introduction, have a look at our [sample application](https://github
 
 Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
+## Java Runtime used to run your CAP Application
+
+In the SAP BTP, Cloud Foundry, the Java runtime that is used to run your application is defined by the so-called [buildpack](https://docs.cloudfoundry.org/buildpacks/). 
+For CAP applications, it is advised to use the [SAP Java Buildpack 2](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack).
+CAP applications built with Spring Boot do not require any specific configuration for buildpack and run using [Java Main](https://help.sap.com/docs/btp/sap-business-technology-platform/java-main) runtime by default
+and can also run with other buildpacks as well.
+
+To configure the buildpack for Java 21 with SapMachine JRE, which is recommended setup for CAP, add the following lines to your `mta.yaml`: 
+
+```yaml
+parameters:
+  buildpack: sap_java_buildpack_jakarta
+properties:
+  JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
+  JBP_CONFIG_SAP_MACHINE_JRE: '{ version: 21.+ }'
+```
+
 ## Service Bindings {#kubernetes-service-bindings}
 
 In the SAP BTP, Kyma Runtime, credentials of service bindings are stored in Kubernetes secrets. Using volumes, you can mount secrets into your application's container. These volumes contain a file for each of the secrets properties.

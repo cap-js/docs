@@ -4,6 +4,7 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
+  "rebaseWhen": "conflicted",
   "includePaths": [
     ".vitepress/config.ts",
     ".github/workflows/",

@@ -250,9 +250,9 @@ Handling CSRF at the _App Router_ level ensures consistency across instances. Th
 
 ### Cross-Origin Resource Sharing (CORS)
 
-With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin. 
+With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
 
-If not running in production, CAP's [built-in server.js](cds-server) allows all origins. 
+If not running in production, CAP's [built-in server.js](cds-server) allows all origins.
 
 #### Custom CORS Implementation
 
@@ -304,7 +304,7 @@ You can override the default implementation and register a custom express middle
 ```js
 cds.on('bootstrap', app => app.get('/health', (_, res) => {
   res.status(200).send(`I'm fine, thanks.`)
-})
+}))
 ```
 
 More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
@@ -383,7 +383,7 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #custom-streaming-beta }
+## Custom Streaming <Beta /> { #custom-streaming-beta }
 
 When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.

@@ -8,6 +8,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 impl-variants: true
 ---
 
+<script setup>
+  import NotebookHint from '../.vitepress/theme/components/NotebookHint.vue'
+</script>
+
 <style scoped lang="scss">
   ol {
     margin-left: 10px;
@@ -74,7 +78,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 
 <ImplVariantsHint />
-
+<NotebookHint />
 
 [[toc]]
 

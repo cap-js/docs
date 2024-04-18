@@ -350,7 +350,7 @@ In addition, there are restrictions that depend on the particular database. Curr
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
-No restrictons apply for reading a calculated element on-write.
+No restrictions apply for reading a calculated element on-write.
 
 #### Association-like calculated elements <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#association-like-calculated-elements}
 

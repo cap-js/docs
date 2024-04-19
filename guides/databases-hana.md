@@ -232,7 +232,7 @@ When using the option `--to hana`, you can specify the service name and logon in
 
 `cds deploy --to hana`
 
-In this case the service name either comes from the environment variable `VCAP_SERVICES` or is defaulted from the project name, for example, `myproject-db` with `myproject-db-key`. Service instances and key either exist and will be used, or otherwise they're created.
+In this case the service name and service key either come from the environment variable `VCAP_SERVICES` or are defaulted from the project name, for example, `myproject-db` with `myproject-db-key`. Service instances and key either exist and will be used, or otherwise they're created.
 
 ##### `cds deploy --to hana:myservice`
 

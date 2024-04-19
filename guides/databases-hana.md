@@ -226,7 +226,7 @@ If you run into issues, see the [Troubleshooting](../get-started/troubleshooting
 
 #### Deploy Parameters
 
-When using `--to hana` to deploy your app to SAP HANA database you can specify the service name and logon information in several ways.
+When using the option `--to hana`, you can specify the service name and logon information in several ways.
 
 <br>
 

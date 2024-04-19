@@ -278,7 +278,7 @@ Avoid cyclic relationships between CdsData objects when using toJson.
 :::
 
 
-## Vector Embeddings <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #vector-embeddings }
+## Vector Embeddings <Beta /> { #vector-embeddings }
 
 In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are stored in elements of type `cds.Vector`:
 

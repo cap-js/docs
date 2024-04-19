@@ -232,19 +232,19 @@ When using `--to hana` to deploy your app to SAP HANA database you can specify t
 
 `cds deploy --to hana`
 
-In this case the service name will either come from environment variable `VCAP_SERVICES` or will be defaulted from the project name, e.g. `myproject-db` with `myproject-db-key`. If they exist, they will be used otherwise created.
+In this case the service name either comes from the environment variable `VCAP_SERVICES` or is defaulted from the project name, for example, `myproject-db` with `myproject-db-key`. Service instances and key either exist and will be used, or otherwise they're created.
 
 ##### `cds deploy --to hana:myservice`
 
-This will overwrite any information coming from environment variables. The service name `myservice` will be used, the current Cloud Foundry client logon information be be taken to connect to the system.
+This overwrites any information coming from environment variables. The service name `myservice` is used and the current Cloud Foundry client logon information is taken to connect to the system.
 
 ##### `cds deploy --vcap-file someEnvFile.json`
 
-This will take logon information and service name from file `someEnvFile.json` and overwrite any environment variable already set.
+This takes the logon information and the service name from the `someEnvFile.json` file and overwrite any environment variable that is already set.
 
 ##### `cds deploy --to hana:myservice --vcap-file someEnvFile.json`
 
-This is equivalent to `cds deploy --to hana:myservice` and will ignore information coming from `--vcap-file`. A warning will be printed after deploying.
+This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
 
 ### Using `cf deploy` or `cf push` { .impl .node }
 

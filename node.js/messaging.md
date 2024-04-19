@@ -403,7 +403,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <div id="kafka-sap" />
 
-### Redis PubSub <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />
+### Redis PubSub <Beta />
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
 :::

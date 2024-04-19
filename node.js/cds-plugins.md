@@ -82,7 +82,7 @@ await cds.plugins
 
 Currently, the following commands support plugins: `cds-serve`, `cds watch`, `cds run`, `cds env`, `cds deploy`, `cds build`, `cds.test()`.
 
-## Configuration Schema <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #configuration-schema }
+## Configuration Schema <Beta /> { #configuration-schema }
 
 To help developers conveniently add configuration for a plugin with code completion, plugin developers can declare additions to the `cds` schema in their plugin.
 

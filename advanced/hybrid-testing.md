@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP enables you to run and test your CAP application using a local SQLite database and mocks to a large extent. However, you might want to test with actual cloud services at some point.
 
-**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud.
+**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud. You can even overwrite dedicated service credential values when running your application in hybrid mode.
 
 ## Bind to Cloud Services
 
@@ -139,6 +139,7 @@ The service name `messages` can be omitted as it represents the default value fo
 Only services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata.
 See the [CloudFoundry docs](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) for further details.
 :::
+
 
 ### Services on Kubernetes
 
@@ -362,6 +363,60 @@ cds bind -2 my-hana,my-destination,my-xsuaa
 ::: tip
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
+
+### Overwriting BTP Service Credentials
+
+Some hybrid test scenarios might require to overwrite dedicated service credential values, e.g. when connecting to a SAP S/4HANA On-Premise system you may need to overwrite _onpremise_proxy_host_ and _onpremise_proxy_port_ values.
+Any custom credential values can be set in your local binding information using the `--credentials` option, infinite nesting of structured values is supported.
+
+```sh
+cds bind -2 my-service --credentials '{"onpremise_proxy_host": "localhost", "onpremise_proxy_port": 1234}'
+```
+
+::: code-group
+```json [.cdsrc-private.json]
+{
+  "requires": {
+    "[hybrid]": {
+      "db": {
+        "kind": "hana",
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.sap.hana.ondemand.com",
+          "org": "your-cf-org",
+          "space": "your-cf-space",
+          "instance": "bookshop-db",
+          "key": "bookshop-db-key",
+          "credentials": { // [!code focus]
+            "onpremise_proxy_host": "localhost", // [!code focus]
+            "onpremise_proxy_port": 1234, // [!code focus]
+          }, // [!code focus]
+          "resolved": false
+         }
+      }
+    }
+  }
+}
+```
+:::
+
+Now, you can run your CAP service locally using cloud service bindings in combination with merged custom credential values:
+
+```sh
+cds watch --profile hybrid
+```
+
+Example output:
+
+```js
+{
+  url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
+  onpremise_proxy_host: 'localhose', // [!code focus]
+  onpremise_proxy_port: '1234', // [!code focus]
+  driver: 'com.sap.db.jdbc.Driver',
+  . . .
+}
+```
 
 ### With Profile and Output File
 

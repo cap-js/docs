@@ -69,11 +69,11 @@ Currently supported shells:
 | Windows           | PowerShell, Git Bash |
 | WSL               | bash, zsh |
 
-To remove the shell completion, run the following command
+To remove the shell completion, run the following command:
 ```sh
 cds completion --remove
 ```
-and source or restart your shell afterwards.
+Then source or restart your shell.
 
 Shell completion is available starting with version `7.9.0` of `@sap/cds-dk`.
 

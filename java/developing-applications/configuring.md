@@ -30,7 +30,7 @@ In the SAP BTP, Cloud Foundry, the Java runtime that is used to run your applica
 For CAP applications, it is advised to use the [SAP Java Buildpack 2](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack).
 CAP applications built with the Spring Boot do not require any specific configuration for buildpack and running using [Java Main](https://help.sap.com/docs/btp/sap-business-technology-platform/java-main) runtime by default.
 
-To configure the buildpack for Java 21 with SapMachine JRE, which is recommended setup for CAP, add the following lines to your `mta.yaml` right under your Java service definition: 
+To configure the buildpack for Java 21 with SapMachine JRE, add the following lines to your `mta.yaml` right under your Java service definition: 
 
 ```yaml
 parameters:
@@ -39,6 +39,9 @@ properties:
   JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
   JBP_CONFIG_SAP_MACHINE_JRE: '{ version: 21.+ }'
 ```
+
+:::warning SAP Business Application Studio
+If you develop your application in SAP Business Application Studio and Java 21 is not available there, use the Java 17, instead. 
 
 ## Service Bindings {#kubernetes-service-bindings}
 

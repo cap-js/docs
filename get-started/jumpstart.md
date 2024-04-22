@@ -46,7 +46,7 @@ cds #> run the installed CLI
 Activate CDS Shell Completion:
 The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
 
-For Linux, macOS and Windows use the following command to activate the shell completion.
+For Linux, macOS and Windows use the following command to activate the shell completion:
 ```sh
 cds add completion
 ```

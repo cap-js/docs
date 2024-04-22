@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP enables you to run and test your CAP application using a local SQLite database and mocks to a large extent. However, you might want to test with actual cloud services at some point.
 
-**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud. You can even overwrite dedicated service credential values when running your application in hybrid mode.
+**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud. With hybrid testing you can also overwrite dedicated service credential values.
 
 ## Bind to Cloud Services
 

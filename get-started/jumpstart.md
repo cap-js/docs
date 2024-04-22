@@ -43,6 +43,16 @@ npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
 
+Activate CDS Shell Completion:
+The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
+
+For Linux, macOS and Windows use the following command to activate the shell completion:
+```sh
+cds add completion
+```
+
+You can find more information [here](/tools/#cds-add-completion).
+
 
 ### 3. Install Git
 

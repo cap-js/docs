@@ -304,7 +304,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://www.npmjs.com/package/@cap-js/cap-operator-plugin)
 <img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
-Learn more about how to add and consume the CAP Operator plugin in our [documentation](https://github.com/cap-js/cap-operator-plugin/blob/main/README.md). {.learn-more}
+Learn more about how to add and consume the CAP Operator plugin in our [documentation](https://github.com/cap-js/cap-operator-plugin#readme). {.learn-more}
 
 <div id="internal-plugins" />
 

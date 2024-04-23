@@ -299,7 +299,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 <div markdown="1" class="impl node">
 
-At runtime, we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example, queries like this are supported for all databases:
+At runtime, we usually construct and execute queries using cds.ql APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```js
 SELECT.from (Authors, a => {

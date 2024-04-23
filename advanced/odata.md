@@ -67,7 +67,7 @@ System query options can also be applied to an [expanded navigation property](ht
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
 | [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /></sup> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Beta /></sup> |
 
 
 ## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
@@ -185,7 +185,7 @@ entity Books {
 ```
 
 ::: warning
-This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API. 
+This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API.
 If you are not doing the required conversions, you can "cast" any scalar CDS type into any incompatible EDM type:
 
 ```cds
@@ -436,7 +436,7 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 
 ```cds
 @Some.Collection: [
-  true, 1, 3.14, 'foo',
+  null, true, 1, 3.14, 'foo',
   { $Type:'UI.DataField', Label:'Whatever', Hidden }
 ]
 ```
@@ -621,7 +621,7 @@ is translated to:
 ```
 
 One of the main use cases for such dynamic expressions is SAP Fiori,
-but note that Fiori supports dynamic expressions only for 
+but note that Fiori supports dynamic expressions only for
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
 
@@ -787,6 +787,10 @@ GET /Orders(10)/books?
 ```
 
 This request operates on the books of the order with ID 10. First it filters out the books from the year 2000 to an intermediate result set. The intermediate result set is then grouped by author name and the price is averaged. Finally, the result set is sorted by title and only the top 3 entries are retained.
+
+::: warning
+If the `groupby` transformation only includes a subset of the entity keys, the result order might be unstable.
+:::
 
 ### Transformations
 

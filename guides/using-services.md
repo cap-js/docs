@@ -1032,7 +1032,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#configuring-the-destination){.learn-more}
+[Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#destination-based-scenarios){.learn-more}
 
 #### Use Application Defined Destinations { #app-defined-destinations}
 
@@ -1175,7 +1175,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#register-destinations){.learn-more}
+[Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#programmatic-destinations){.learn-more}
 
 
 ### Connect to Remote Services Locally
@@ -1666,10 +1666,10 @@ This list specifies the properties for application defined destinations.
 
 #### Authentication Types
 
-| Authentication Types    |                               Java                                |            Node.js             |
-|-------------------------|:-----------------------------------------------------------------:|:------------------------------:|
-| NoAuthentication        |                               <Y/>                                |              <Y/>              |
-| BasicAuthentication     |                               <Y/>                                |              <Y/>              |
-| TokenForwarding         |                               <Y/>                                | <X/><br>Use `forwardAuthToken` |
-| OAuth2ClientCredentials | [code only](../java/cqn-services/remote-services#oauth2-client-credentials) |              <X/>              |
-| UserTokenAuthentication | [code only](../java/cqn-services/remote-services#user-token-authentication) |              <X/>              |
+| Authentication Types    |                                  Java                                   |            Node.js             |
+|-------------------------|:-----------------------------------------------------------------------:|:------------------------------:|
+| NoAuthentication        |                                  <Y/>                                   |              <Y/>              |
+| BasicAuthentication     |                                  <Y/>                                   |              <Y/>              |
+| TokenForwarding         |                                  <Y/>                                   | <X/><br>Use `forwardAuthToken` |
+| OAuth2ClientCredentials | [code only](../java/cqn-services/remote-services#programmatic-destinations) |              <X/>              |
+| UserTokenAuthentication | [code only](../java/cqn-services/remote-services#programmatic-destinations) |              <X/>              |

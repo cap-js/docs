@@ -192,7 +192,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/#cds-lint-rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
@@ -309,11 +309,11 @@ For instance, filters for [instance-based authorization](/guides/security/author
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
-{ .impl .node }
+{ .impl .java }
 
 To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../../node.js/cds-facade#cds-model).
 Request-related data is propagated down the call stack (for instance [cds.context](../../node.js/middlewares#cds-context)).
-{ .impl .java }
+{ .impl .node }
 
 ::: tip
 Make sure that custom code doesn't break tenant data isolation.

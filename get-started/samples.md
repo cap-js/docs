@@ -30,37 +30,17 @@ We're just getting started with this page. Please help us in that endeavour by [
     display: inline-block;
   }
 
-  .dark h3.github::before, .dark li._nodejs a::before, .dark li._java a::before {
-    filter: brightness(.884) invert(1) hue-rotate(177deg);
-  }
-
-  li._nodejs {
-    display: inline;
-    margin-right: 2em;
-  }
-  li._nodejs a::before {
-    content: "";
-    background: url(../assets/logos/nodejs.svg) no-repeat 0 0;
-    background-size: 4em;
-    height: 4em;
-    width: 4em;
-    vertical-align: middle;
-    display: inline-block;
-  }
-
-  li._java {
-    display: inline;
-    margin-right: 2em;
-  }
-  li._java a::before {
-    content: "";
-    background: url(../assets/logos/java.svg) no-repeat 0 0;
-    background-size: 5.5em;
-    height: 5.5em;
-    width: 5.5em;
-    vertical-align: middle;
-    display: inline-block;
-  }
+  main .vp-doc a:has(> img) {
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.2s;
+   }
+   main .vp-doc a:has(> img):hover {
+      opacity: 0.7;
+   }
+   main .vp-doc a:has(> img):not(:last-child) {
+      margin-right: 1em;
+   }
 
 </style>
 
@@ -73,9 +53,8 @@ It is available in both Node.js and Java. The Node.js variant contains additiona
 
 Available for:
 
-- [](https://github.com/sap-samples/cloud-cap-samples) {._nodejs}
-- [](https://github.com/sap-samples/cloud-cap-samples-java) {._java}
-
+[<img src="../assets/logos/nodejs.svg" title="Link to the cloud-cap-samples repository." style="height:2.5em; display:inline; margin:0 0.2em;"  alt="Node.js logo"/>](https://github.com/sap-samples/cloud-cap-samples)
+[<img src="../assets/logos/java.svg" title="link to the cloud-cap-samples-java repository." style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo" />](https://github.com/sap-samples/cloud-cap-samples-java)
 
 
 
@@ -85,7 +64,7 @@ A reference sample application for CAP and the SAP BTP Developer Guide.
 
 Available for:
 
-- [](https://github.com/cap-js/incidents-app) {._nodejs}
+[<img src="../assets/logos/nodejs.svg" title="Link to the incident-app repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/incidents-app)
 
 
 
@@ -95,8 +74,8 @@ This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.
 
 Available for:
 
-- [](https://github.com/sap-samples/cap-sflight) {._nodejs}
-- [](https://github.com/sap-samples/cap-sflight) {._java}
+[<img src="../assets/logos/nodejs.svg" title="Link to the cap-sflight repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/sap-samples/cap-sflight)
+[<img src="../assets/logos/java.svg" title="Link to the cap-sflight repository." style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](https://github.com/sap-samples/cap-sflight)
 
 
 
@@ -108,7 +87,7 @@ The projects described above have fallen out of maintenance but still offered th
 
 Available for:
 
-- [](https://github.com/SAP-samples/cloud-cap-hana-swapi) {._nodejs}
+[<img src="../assets/logos/nodejs.svg" title="Link to the Star Wars app repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/SAP-samples/cloud-cap-hana-swapi)
 
 
 
@@ -116,4 +95,6 @@ Available for:
 
 The Sustainable SaaS (SusaaS) sample application has been built in a partner collaboration to help interested developers, partners, and customers in developing multitenant Software as a Service applications using CAP and deploying them to the SAP Business Technology Platform (SAP BTP).
 
-- [](https://github.com/SAP-samples/btp-cap-multitenant-saas) {._nodejs}
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" title="Link to the Sustainable SaaS (SusaaS) repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/SAP-samples/btp-cap-multitenant-saas)

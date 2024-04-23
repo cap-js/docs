@@ -51,7 +51,31 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
+### *cds add completion*
+The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
 
+For Linux, macOS and Windows use the following command to activate the shell completion.
+```sh
+cds add completion
+```
+
+After that, restart your shell (or source the shell configuration) and enjoy shell completion support for all `cds` commands.
+
+Currently supported shells:
+| Operating System  | Shell |
+|-------------------|-------|
+| Linux             | bash, zsh |
+| macOS             | bash, zsh |
+| Windows           | PowerShell, Git Bash |
+| WSL               | bash, zsh |
+
+To remove the shell completion, run the following command:
+```sh
+cds completion --remove
+```
+Then source or restart your shell.
+
+Shell completion is available starting with version `7.9.0` of `@sap/cds-dk`.
 
 ### *cds help*
 
@@ -87,6 +111,7 @@ COMMANDS
     <em>  | pull</em>       pull base model for a SaaS app extension
     <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
+    <em>  | completion</em> add/remove shell completion for cds commands
     <em>  | mock</em>       call cds serve with mocked service
 
   Learn more about each command using:
@@ -298,7 +323,7 @@ Restart the server when you did changes to your code using the *Debug* views res
 The [CAP CDS Language Support](https://github.com/cap-js/cds-intellij) plugin for IntelliJ IDEs provides syntax highlighting, code completion, formatting, and more.
 It supports commercial IntelliJ IDEs including IntelliJ IDEA Ultimate and WebStorm.
 
-![Code completion in IntelliJ](https://raw.githubusercontent.com/cap-js/cds-intellij/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png){ .ignore-dark style="width:450px"}
+![Screenshot showing an example of code completion in IntelliJ.](https://raw.githubusercontent.com/cap-js/cds-intellij/9dab0d1984e79b74074a820fe97ee6f9fb53cab7/.assets/code_completion.png){ .ignore-dark style="width:450px"}
 
 See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main/FEATURES.md) and the [installation instructions](https://github.com/cap-js/cds-intellij#requirements) for how to get started.
 
@@ -532,7 +557,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #cds-formatter}
+### CDS Source Formatter <Beta /> { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
 formatting.
@@ -566,107 +591,6 @@ Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
 
 
-
-## CDS Lint & ESLint {#cds-lint}
-
-<style lang="scss" scoped>
-  .emoji {
-    display: inline !important;
-    margin: 0px !important;
-  }
-  tr td {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .cols-2 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  @media (min-width: 640px) {
-    .cols-2 {
-      gap: 2em;
-    }
-    .cols-2 > * {
-      &:first-child {
-        flex: 1;
-      }
-    }
-  }
-</style>
-
-<div class="cols-2">
-
-<div>
-
-To catch issues with CDS models and the CDS environment early, CAP provides an [ESLint plugin](https://eslint.org/) with a set of [recommended rules](#cds-lint-rules).
-Together with the `lint` client of [`@sap/cds-dk`](https://www.npmjs.com/package/@sap/cds-dk), this comprises **CDS Lint**.
-
-</div>
-
-<div>
-
-<img src="./assets/cdslint.svg" alt="CDS Lint logo" width="130px" class="ignore-dark" />
-
-</div>
-
-</div>
-
-### Usage via `cds` CLI
-
-In your project's root folder, execute:
-
-```sh
-cds lint .
-```
-
-If there are no lint errors, there is no output. Otherwise, a standard ESLint error report will be printed.
-
-### Editor Integration
-
-1. Download the standard [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_. CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this is preinstalled.
-
-2. Configure our <a href="#cds-lint-rules">recommended rules</a> for CDS model files in your project:
-
-   ```sh
-   cds add lint
-   ```
-
-   This automatically adds the settings for the ESLint VS Code extension to the project's VS Code settings, installs the CDS ESLint plugin, and adds it to the ESLint configuration of your project.
-
-<!-- [Follow this link to learn about using custom rules.](#lint-custom-rules){.learn-more} -->
-
-### CDS Lint Rules
-
-The **CDS Lint** rules are a set of generic rules based on CAP best practices. The subset of these we consider most essential is part of the `recommended` configuration of the `@sap/eslint-plugin-cds` package.
-
-<span id="cds-lint-rules" />
-
-### Customization
-
-#### Configuring CDS Lint Rules
-
-Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/lint/rules#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
-
-```json
-{
-  "rules": {
-    "@sap/cds/min-node-version": 0
-  }
-}
-```
-
-#### Using the ESLint CLI
-
-If you want to have more control over the linting process, you can access the CDS ESLint plugin natively via the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface). To determine the proper command line options, it can help to refer to the `DEBUG="lint" cds lint` output, which shows all of the options and flags available.
-
-For example:
-
-<pre class="log">
-Linting:
-<span><em>[lint] - eslint --ext ".cds,.csn,.csv" ...</em></span></pre>
-
-<div id="aftereslintcli" />
 
 
 

@@ -612,21 +612,61 @@ INSERT.into (Books, [
 
 ### entries() {.method #insert-entries}
 
+```tsx
+function INSERT.entries (records : object[] | Query | Readable)
+```
 
-Allows inserting multiple rows with one statement where each row
-is a record with named values, for example, as could be read from a JSON
-source.
+Allows inserting multiple rows with one statement. 
+
+The arguments can be one of...
+
+- one or more records as variable list of arguments 
+- an array of one or more records
+- a readable stream
+- a sub SELECT query 
+
+Using individual records:
 
 
 ```js
-INSERT.into (Books) .entries (
+await INSERT.into (Books) .entries (
    { ID:201, title:'Wuthering Heights', author_id:101, stock:12 },
    { ID:251, title:'The Raven', author_id:150, stock:333 },
    { ID:271, title:'Catweazle', author_id:170, stock:222 }
 )
 ```
 
-The entries can be specified as individual method parameters of type object — as shown above —, or as a single array of which.
+Using an **array** of records, read from a JSON:
+
+```js
+let books = JSON.parse (fs.readFileSync('books.json'))
+await INSERT(books).into(Books) // same as INSERT.into(Books).entries(books)
+```
+
+Using a **stream** instead of reading and parsing the full JSON into memory:
+
+```js
+let stream = fs.createReadStream('books.json')
+await INSERT(stream).into(Books) // same as INSERT.into(Books).entries(stream)
+```
+
+Using a **subselect** query to copy *within* the database:
+
+```js
+await INSERT.into (Books) .entries (SELECT.from(Products))
+```
+
+::: details Pushed down to database....
+
+Note that the sub select variant creates a single [native  `INSERT INTO SELECT` SQL statement](https://www.w3schools.com/sql/sql_insert_into_select.asp), which is most efficient, as the data is copied **within** the database. In contrast to that, ...
+
+```js
+INSERT.into(Books).entries(await SELECT.from(Products))
+```
+... would also work, but would be much less efficient, as it would (1) first read all data from database into the client and then (2) insert the read data back into the database.
+
+
+:::
 
 
 

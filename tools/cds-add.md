@@ -618,10 +618,3 @@ A strength of `cds add` is the gradual increase in project complexity. All-in-th
 ### Embrace out-of-the-box{.good}
 
 From a consumer point of view, your plugin is integrated by adding it to the _package.json_ `dependencies` and provides sensible default configuration without further modification.
-
-<!-- // TODO:
-
-- Helm cap-operator plugin
-  - Should they handle all facets (event mesh, xsuaa, mtx etc.) ...
-  - ... or should the event mesh, xsuaa, mtx etc. files handle Helm deployments?
-  - both are possible -->

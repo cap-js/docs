@@ -293,7 +293,7 @@ Available for:
 
 
 
-## CAP Operator Plugin (Alpha)
+## CAP Operator Plugin
 
 [@cap-js/cap-operator-plugin](https://www.npmjs.com/package/@cap-js/cap-operator-plugin) {.subtitle}
 

@@ -8,19 +8,21 @@ synopsis: >
 <style scoped lang="scss">
   @mixin counter-style {
     content: counter(my-counter);
-    color: $counter-color;
-    background-color: $counter-bg;
-    width: $counter-size;
-    height: $counter-size;
-    line-height: $counter-line-height;
-    border-radius: $counter-radius;
-    font-weight: $counter-font-weight;
+    color: var(--vp-c-text-1);
+    background-color: var(--vp-code-bg);
+    width: 20px;
+    height: 20px;
+    line-height: 22px;
+    border-radius: 50%;
+    font-weight: 400;
     text-align: center;
-    font-size: $counter-font-size;
+    font-size: 12px;
     vertical-align: middle;
     display: inline-block;
     position: relative;
     top: -2px;
+    left: -30px;
+    margin-right: -20px;
   }
   h3 code + em { color: #666; font-weight: normal; }
   .cols-2 {
@@ -54,13 +56,11 @@ synopsis: >
       p {display: inline;}
     }
   }
-}
-
 </style>
 
 # Plugins for `cds add`{#cds-add}
 
-<!-- `cds add` commands add project configuration to your CAP app. -->
+`cds add` commands add project configuration to your CAP app.
 
 [[toc]]
 
@@ -86,7 +86,7 @@ cds.add?.register?.('postgres', require('lib/add')) // ...or inline:
 cds.add?.register?.('postgres', class extends cds.add.Plugin {})
 :::
 
-In our example, we offload the implementation to a file _lib/add.js_. Plugins usually implement the `run` and `combine` methods:
+Plugins usually implement the `run` and `combine` methods:
 
 ::: code-group
 ```js [lib/add.js]

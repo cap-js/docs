@@ -51,7 +51,8 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
-### *cds add completion*
+### *cds add completion* <Since version="7.9.0" of="@sap/cds-dk" />
+
 The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
 
 For Linux, macOS and Windows use the following command to activate the shell completion.
@@ -75,7 +76,6 @@ cds completion --remove
 ```
 Then source or restart your shell.
 
-Shell completion is available starting with version `7.9.0` of `@sap/cds-dk`.
 
 ### *cds help*
 

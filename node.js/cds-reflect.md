@@ -83,7 +83,7 @@ The [CSN definitions](../cds/csn#definitions) of the model, turned into an insta
 
 ### . entities {.property}
 
-These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entitiy](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
+These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entity](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
 
 For example:
 
@@ -324,7 +324,7 @@ if (Foo instanceof cds.entity) console.log ("it's an entity")
 All *[service](../cds/cdl#services)* definitions in a linked model are instances of this class.
 
 ```tsx
-class cds.type extends any {...}
+class cds.service extends cds.context {...}
 ```
 
 ### . is_service {.property}
@@ -388,7 +388,7 @@ If draft is enabled, a definition to easily refer to *[draft](../advanced/fiori#
 This is the base class of *[struct](../cds/cdl#structured-types)* elements and types, *[aspects](../cds/cdl#aspects)*, and *[entities](../cds/cdl#entities)*.
 
 ```tsx
-class cds.entity extends cds.type {...}
+class cds.struct extends cds.type {...}
 ```
 
 ### . is_struct {.property}

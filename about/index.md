@@ -578,3 +578,12 @@ Not an official product name, though.
 - [**CXN**](../cds/cxn) — Core Expression Notation
   : a plain (JavaScript) object-based representation to capture expressions.
   (also contained in [CQN](../cds/cqn))
+
+
+#### Badges
+
+- <Alpha /> — Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.
+
+- <Beta /> — Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
+
+- <Since version="1.2.3" of="@sap/..." /> — The marked feature is only available with the given version or higher.

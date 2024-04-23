@@ -22,8 +22,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.7.1',
-  java_cds4j: '2.7.1'
+  java_services: '2.8.2',
+  java_cds4j: '2.8.2'
 }
 
 const localSearchOptions = {
@@ -158,13 +158,15 @@ const config:UserConfig<CapireThemeConfig> = {
     sitemapURL.pathname = join(sitemapURL.pathname, 'sitemap.xml')
     await fs.writeFile(resolve(outDir, 'robots.txt'), `Sitemap: ${sitemapURL}\n`)
 
-    await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
-
     // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
     const hanaAssetDir = 'advanced/assets'
     const hanaAsset = join(hanaAssetDir, 'native-hana-samples.zip')
     await fs.mkdir(join(outDir, hanaAssetDir), {recursive: true})
+    console.debug('✓ copying HANA assets to ', join(outDir, hanaAsset))
     await fs.copyFile(join(__dirname, '..', hanaAsset), join(outDir, hanaAsset))
+
+    await cdsMavenSite.copySiteAssets(join(outDir, 'java/assets/cds-maven-plugin-site'), site)
+
   }
 }
 

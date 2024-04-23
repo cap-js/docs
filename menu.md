@@ -10,7 +10,6 @@
 - [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
 
-
 ### [Cookbook](guides/)
 
 - [Domain Modeling](guides/domain-modeling)
@@ -87,9 +86,6 @@
   - [Data Retention Management](guides/data-privacy/drm)
 
 - [Performance](advanced/performance-modeling)
-
-
-
 
 ### [CDS](cds/)
 
@@ -169,7 +165,6 @@
 - [Best Practices](node.js/best-practices)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 
-
 ### [Java](java/)
 
 - [Getting Started](java/getting-started)
@@ -205,27 +200,26 @@
   - [Observability](java/operating-applications/observability)
 - [Migration Guides](java/migration)
 
-
 ### [Tools](tools/)
 
-- [CDS Command Line Interface](tools/index#cli)
-- [SAP Business Application Studio](tools/index#bastudio)
-- [Visual Studio Code](tools/index#vscode)
-- [IntelliJ IDEA](tools/index#intellij)
-- [CDS Editors](tools/index#cds-editor)
-- [CDS Lint](tools/index#cds-lint)
+- [CDS Command Line Interface](tools/#cli)
+- [SAP Business Application Studio](tools/#bastudio)
+- [Visual Studio Code](tools/#vscode)
+- [IntelliJ IDEA](tools/#intellij)
+- [CDS Editors](tools/#cds-editor)
+- [CDS Lint](tools/cds-lint/)
+  - [Rules Reference](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/index#cap-notebooks-page)
-- [Using Docker](tools/index#docker)
-
+- [CAP Notebooks](tools/#cap-vscode-notebook)
+- [Using Docker](tools/#docker)
 
 ### [Plugins](plugins/)
 
-- [GraphQL Adapter](plugins/#graphql-adapter)
 - [OData v2 Proxy](plugins/#odata-v2-proxy)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
-- [Change Tracking](plugins/#change-tracking)
+- [GraphQL Adapter](plugins/#graphql-adapter)
 - [Audit Logging](plugins/#audit-logging)
+- [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
-- [Telemetry (Beta)](plugins/#telemetry-beta)
-- [CAP Operator Plugin (Alpha)](plugins/#cap-operator-plugin-alpha)
+- [Telemetry](plugins/#telemetry)
+- [CAP Operator Plugin (Alpha)](plugins/#cap-operator-plugin)

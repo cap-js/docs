@@ -4,15 +4,29 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
+  "rebaseWhen": "conflicted",
   "includePaths": [
     ".vitepress/config.ts",
-    ".github/workflows/"
+    ".github/workflows/",
+    "package.json"
   ],
   "packageRules": [
     {
       "matchPackageNames": [ "com.sap.cds:cds-services-api", "com.sap.cds:cds4j-api" ],
       "rangeStrategy": "bump",
       "groupName": "CAP Java SDK"
+    },
+    {
+      "matchPackageNames": [ "vitepress" ],
+      "groupName": "Vitepress"
+    },
+    {
+      "matchPackagePatterns": [ ".*eslint.*" ],
+      "groupName": "ESLint"
+    },
+    {
+      "matchDepTypes": ["action"],
+      "groupName": "Github actions"
     }
   ],
   "regexManagers": [

@@ -13,6 +13,8 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 
 **Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud. With hybrid testing you can also overwrite dedicated service credential values.
 
+[[toc]]
+
 ## Bind to Cloud Services
 
 ### Services on Cloud Foundry
@@ -364,10 +366,10 @@ cds bind -2 my-hana,my-destination,my-xsuaa
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
 
-### Overwriting BTP Service Credentials
+### Overwrite BTP Service Credentials
 
-Some hybrid test scenarios might require to overwrite dedicated service credential values, e.g. when connecting to a SAP S/4HANA On-Premise system you may need to overwrite _onpremise_proxy_host_ and _onpremise_proxy_port_ values.
-Any custom credential values can be set in your local binding information using the `--credentials` option, infinite nesting of structured values is supported.
+Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when connecting to an SAP S/4HANA On-Premise system you may need to overwrite _onpremise_proxy_host_ and _onpremise_proxy_port_ values.
+Any custom credential values can be set in your local binding information using the `--credentials` option. An infinite nesting of structured values is supported.
 
 ```sh
 cds bind -2 my-service --credentials '{"onpremise_proxy_host": "localhost", "onpremise_proxy_port": 1234}'
@@ -411,7 +413,7 @@ Example output:
 ```js
 {
   url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
-  onpremise_proxy_host: 'localhose', // [!code focus]
+  onpremise_proxy_host: 'localhost', // [!code focus]
   onpremise_proxy_port: '1234', // [!code focus]
   driver: 'com.sap.db.jdbc.Driver',
   . . .

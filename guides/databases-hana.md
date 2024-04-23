@@ -596,7 +596,8 @@ By default, `cds add hana` creates an `undeploy.json` like this:
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
   "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*_drafts.hdbtable"
+  "src/gen/**/*_drafts.hdbtable",
+  "src/gen/**/*.hdbcalculationview"
 ]
 ```
 

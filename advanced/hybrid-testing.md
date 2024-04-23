@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP enables you to run and test your CAP application using a local SQLite database and mocks to a large extent. However, you might want to test with actual cloud services at some point.
 
-**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud. With hybrid testing you can also overwrite dedicated service credential values.
+**Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud.
 
 [[toc]]
 
@@ -141,7 +141,6 @@ The service name `messages` can be omitted as it represents the default value fo
 Only services that have the `shareable` flag in the metadata set to `true` can be shared. Use command `cf curl /v3/service_offerings` to read the service catalog metadata.
 See the [CloudFoundry docs](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) for further details.
 :::
-
 
 ### Services on Kubernetes
 
@@ -366,7 +365,7 @@ cds bind -2 my-hana,my-destination,my-xsuaa
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
 
-### Overwriting Service Credentials
+### Overwrite Service Credentials
 
 Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when creating a tunnel to your Cloud Foundry service instance you need to overwrite the `host` and `port` credential values.
 Any credential values can be overwritten using the `--credentials` option, infinite nesting is supported.

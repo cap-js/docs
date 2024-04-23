@@ -139,8 +139,8 @@ Our `cds add postgres` should:
 
 1. Register with `cds-dk`
 2. Add a Dockerfile to start a PostgreSQL instance for development
-3. Integrate with `cds add mta` for [Cloud Foundry]() deployment
-4. Integrate with `cds add helm` for [Kyma]() deployment
+3. Integrate with `cds add mta` for [Cloud Foundry](../guides/deployment/to-cf) deployment
+4. Integrate with `cds add helm` for [Kyma](../deployment/to-kyma) deployment
 5. Integrate with `cds help`
 
 Let's start with <span class="list-item">1</span> and register our plugin:

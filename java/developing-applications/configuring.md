@@ -24,7 +24,7 @@ For a first introduction, have a look at our [sample application](https://github
 
 Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
-## Java Runtime used to run your CAP Application
+## Using SAP Java Buildpack { #buildpack }
 
 In the SAP BTP, Cloud Foundry, the Java runtime that is used to run your application is defined by the so-called [buildpack](https://docs.cloudfoundry.org/buildpacks/). 
 For CAP applications, it is advised to use the [SAP Java Buildpack 2](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack).

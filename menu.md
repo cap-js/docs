@@ -163,7 +163,6 @@
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
-- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 
 ### [Java](java/)
 
@@ -207,11 +206,12 @@
 - [Visual Studio Code](tools/#vscode)
 - [IntelliJ IDEA](tools/#intellij)
 - [CDS Editors](tools/#cds-editor)
+- [CAP Notebooks](tools/#cap-vscode-notebook)
+- [Using Docker](tools/#docker)
 - [CDS Lint](tools/cds-lint/)
   - [Rules Reference](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/#cap-vscode-notebook)
-- [Using Docker](tools/#docker)
+- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 
 ### [Plugins](plugins/)
 

@@ -20,9 +20,6 @@ synopsis: >
     vertical-align: middle;
     display: inline-block;
     position: relative;
-    top: -2px;
-    left: -30px;
-    margin-right: -20px;
   }
   h3 code + em { color: #666; font-weight: normal; }
   .cols-2 {
@@ -52,17 +49,83 @@ synopsis: >
         @include counter-style;
         left: -30px;
         margin-right: -20px;
+        top: -2px;
       }
       p {display: inline;}
     }
   }
 </style>
+<script setup>
+  import { h } from 'vue'
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
+  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
+  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
+  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
+  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
+  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
+</script>
+<style scoped>
+  .ga   { color: var(--vp-c-green-2);}
+  .na   { color: gray; font-size:90%; }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
+  .plan { color: gray; font-size:90% }
+  .contrib { color: gray; font-size:90% }
+</style>
 
 # Plugins for `cds add`{#cds-add}
 
-`cds add` commands add project configuration to your CAP app.
+`cds add` commands add project configuration to your CAP project.
 
 [[toc]]
+
+## Built-in
+
+Many plugins are already part of `@sap/cds-dk` and are implemented using the public APIs documented here. They provide you with a large set of standard features to embrace the grow-as-you-go nature of CAP.
+
+### Overview
+
+| Feature                           | Node.js | Java |
+|-----------------------------------|:-------:|:----:|
+| `hana`                            |  <X/>   | <X/> |
+| `postgres`                        |  <X/><sup>1</sup>   | <X/><sup>1</sup> |
+| `liquibase`                       |  <Na/>  | <X/> |
+| `h2`                              |  <Na/>  | <X/> |
+| `multitenancy`                    |  <X/>   | <X/> |
+| `toggles`                         |  <X/>   | <X/> |
+| `extensibility`                   |  <X/>   | <X/> |
+| `application-logging`             |  <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `audit-logging`                   |  <O/>   | <O/> |
+| `html5-repo`                      |  <X/>   | <X/> |
+| `approuter`                       |  <X/>   | <X/> |
+| `connectivity`                    |  <X/>   | <X/> |
+| `data`                            |  <X/>   | <X/> |
+| `destination`                     |  <X/>   | <X/> |
+| `enterprise-messaging`            |  <X/>   | <O/> |
+| `enterprise-messaging-shared`     |  <X/>   | <O/> |
+| `redis-messaging`                 |  <X/><sup>1</sup>   | <O/> |
+| `local-messaging`                 |  <X/>   | <O/> |
+| `file-based-messaging`            |  <X/>   | <O/> |
+| `kafka`                           |  <X/>   | <X/> |
+| `helm`                            |  <X/>   | <X/> |
+| `helm-unified-runtime`            |  <X/>   | <X/> |
+| `mta`                             |  <X/>   | <X/> |
+| `notifications`                   |  <X/>   | <O/> |
+| `pipeline`                        |  <X/>   | <X/> |
+| `sample`                          |  <X/>   | <O/> |
+| `tiny-sample`                     |  <X/>   | <X/> |
+| `sqlite`                          |  <X/>   | <X/> |
+| `typer`                           |  <X/>   | <Na/> |
+| `xsuaa`                           |  <X/>   | <X/> |
+
+> <sup>1</sup> Only for Cloud Foundry <br>
+> <sup>2</sup> Only for Kyma <br>
+>
+
+<!-- ### Custom flags
+
+#### `cds add data`
+
+##### `--for` -->
 
 ## Create a Plugin from Scratch
 
@@ -74,11 +137,13 @@ In the following, we show you how to implement a `cds add` plugin for PostgreSQL
 
 Our `cds add postgres` should:
 
-1. Add helper files to start a PostgreSQL instance for development
-2. Integrate with `cds add mta` for [Cloud Foundry]() deployment
-3. Integrate with `cds add helm` for [Kyma]() deployment
+1. Register with `cds-dk`
+2. Add a Dockerfile to start a PostgreSQL instance for development
+3. Integrate with `cds add mta` for [Cloud Foundry]() deployment
+4. Integrate with `cds add helm` for [Kyma]() deployment
+5. Integrate with `cds help`
 
-First, we need to register our plugin:
+Let's start with <span class="list-item">1</span> and register our plugin:
 
 ::: code-group
 ```js [cds-plugin.js]
@@ -86,29 +151,19 @@ cds.add?.register?.('postgres', require('lib/add')) // ...or inline:
 cds.add?.register?.('postgres', class extends cds.add.Plugin {})
 :::
 
-Plugins usually implement the `run` and `combine` methods:
+In our example, we'll create a file _lib/add.js_:
 
 ::: code-group
 ```js [lib/add.js]
 const cds = require('@sap/cds-dk') //> load from cds-dk
 
 module.exports = class extends cds.add.Plugin {
-  async run() {
-    /* called when running this plugin */
-  }
-  async combine() {
-    /* called when running this or any other cds add plugin */
-  }
+
 }
 ```
 :::
 
-
-In the `run` method, we add all configuration that is not dependent on and might not be changed by other plugins. It's only invoked for `cds add postgres`.
-
-In contrast, `combine` is executed independent of the executed `cds add` command. For example, it is also invoked for `cds add mta`. It allows the plugin to integrate accordingly.
-
-Let's start with requirement <span class="list-item">1</span> to
+For step <span class="list-item">2</span> we need to implement the `run` method. Here we add all configuration that doesn't need integration with other plugins. In our example, we use this method to add a Docker configuration to the project to start the PostgreSQL instance locally:
 
 ::: code-group
 ```js [lib/add.js]
@@ -116,16 +171,13 @@ const cds = require('@sap/cds-dk') //> load from cds-dk
 const { write, path } = cds.utils, { join } = path // [!code ++]
 
 module.exports = class extends cds.add.Plugin {
-  async run() {
+  async run() { // [!code ++]
     const pg = join(__dirname, 'pg.yaml') // [!code ++]
     await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code ++]
-  }
-  async combine() {
-    /* called when running this or any other cds add plugin */
-  }
+  } // [!code ++]
 }
 ```
-```yaml [pg.yaml] {.added}
+```yaml [lib/pg.yaml] {.added}
 services: # [!code ++]
   db: # [!code ++]
     image: postgres:alpine # [!code ++]
@@ -135,16 +187,13 @@ services: # [!code ++]
 ```
 :::
 
-::: tip Common integrations
-Typically integrations are for deployment descriptors (`cds add mta` and `cds add helm`), security descriptors (`cds add xsuaa`), or changes that might impact your plugin configuration (`cds add multitenancy`).
-:::
+Step <span class="list-item">3</span> requires us to integrate with another `cds add` command. Namely, we want `cds add mta` to include PostgreSQL configuration when generating the _mta.yaml_ deployment descriptor for Cloud Foundry. Similarly, `cds add postgres` should augment the _mta.yaml_ if already present.
 
-In our example, we'll integrate with `cds add mta` to augment the _mta.yaml_ deployment descriptor for Cloud Foundry. For that purpose, we create an _mta.yaml.hbs_ file to use as a template. The _.hbs_ file also allows dynamic replacements using the [Handlebars]() syntax.
+In this case, we can use the `combine` method, which is executed when any `cds add` command is run. This mechanism allows us to plug in accordingly.
 
-[Lean more about Handlebars support](){.learn-more}
+We create an _mta.yaml.hbs_ file to use as a template. The _.hbs_ file also allows dynamic replacements using the [Mustache](https://mustache.github.io/mustache.5.html) syntax.
 
-
-Using the `merge` helper provided by the `cds.add` API we can merge this template into the project's `mta.yaml`:
+Using the `merge` helper provided by the `cds.add` API we can define semanticas to merge this template into the project's `mta.yaml`:
 
 ::: code-group
 ```js [lib/add.js]
@@ -158,7 +207,7 @@ module.exports = class extends cds.add.Plugin {
     const pg = join(__dirname, 'pg.yaml')
     await copy(pg).to('pg.yaml')
   }
-  async combine() {
+  async combine() { // [!code ++]
     const project = readProject() // [!code ++]
     const { hasMta, srvPath } = project // [!code ++]
     if (hasMta) { // [!code ++]
@@ -185,7 +234,7 @@ module.exports = class extends cds.add.Plugin {
     //  ... // [!code ++]
     // if (hasMultitenancy) {// [!code ++]
     //  ... // [!code ++]
-  }
+  } // [!code ++]
 }
 ```
 ```yaml [lib/add/mta.yaml.hbs]
@@ -216,6 +265,46 @@ resources: # [!code ++]
 ```
 :::
 
+Step <span class="list-item">4</span> integrates with `cds add helm`:
+
+::: danger `cds add helm` support is in Todo
+Work in progress
+:::
+
+::: tip Common integrations
+Typically integrations are for deployment descriptors (`cds add mta` and `cds add helm`), security descriptors (`cds add xsuaa`), or changes that might impact your plugin configuration (`cds add multitenancy`).
+:::
+
+For step <span class="list-item">5</span> we'll add some command-specific options to let users override the output path for the `pg.yaml` file when running `cds add postgres --out <dir>`:
+
+::: code-group
+```js [lib/add.js]
+const cds = require('@sap/cds-dk') //> load from cds-dk
+const { write, path } = cds.utils, { join } = path
+
+module.exports = class extends cds.add.Plugin {
+  options() { // [!code ++]
+    return { // [!code ++]
+      'out': { // [!code ++]
+        type: 'string', // [!code ++]
+        short: 'o', // [!code ++]
+        help: 'The output directory for the pg.yaml file.', // [!code ++]
+      } // [!code ++]
+    } // [!code ++]
+  } // [!code ++]
+
+  async run() {
+    const pg = join(__dirname, 'pg.yaml') // [!code --]
+    const pg = join(__dirname, join(cds.cli.options.out, 'pg.yaml')) // [!code ++]
+    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root
+  }
+  async combine {
+    /* ... */
+  }
+}
+```
+:::
+
 ## Plugin API
 
 Find here a complete overview of public `cds add` APIs.
@@ -228,7 +317,7 @@ Register a plugin for `cds add` by providing a name and plugin implementation:
 ```js [cds-plugin.js]
 /* ... */
 
-cds.add?.register?.('@cap-js/postgres',
+cds.add?.register?.('postgres',
   class extends cds.add.Plugin {
     async run() { /* ... */ }
     async combine() { /* ... */ }
@@ -239,7 +328,7 @@ cds.add?.register?.('@cap-js/postgres',
 
 ...or use the standard Node.js `require` mechanism to load  it from elsewhere:
 ```js
-cds.add?.register?.('@cap-js/postgres', require('./lib/add') )
+cds.add?.register?.('postgres', require('./lib/add') )
 ```
 
 <!-- ### `Plugin` {.class}
@@ -275,21 +364,21 @@ cds env --for production
 This method is invoked when `cds add` is run for your plugin. In here, do any modifications that are not depending on other plugins and must be run once only.
 
 ```js
-async run() {
-  const { copy, path } = cds.utils, { mvn, readProject } = cds.add
-  await copy (path.join(__dirname, 'files/pg.yaml')).to('pg.yaml')
-  const { isJava } = readProject()
-  if (isJava) await mvn.add('postgres')
+async run() { // [!code focus]
+  const { copy, path } = cds.utils, { mvn, readProject } = cds.add // [!code focus]
+  await copy (path.join(__dirname, 'files/pg.yaml')).to('pg.yaml') // [!code focus]
+  const { isJava } = readProject() // [!code focus]
+  if (isJava) await mvn.add('postgres') // [!code focus]
 }
 ```
 
-> In contrast to `combine`, `run` is not invoked when other `cds add` commands run.
+> In contrast to `combine`, `run` is not invoked when other `cds add` commands are run.
 
 ### `combine()` {.method}
 
 This method is invoked `cds add` is run for other plugins. In here, do any modifications with dependencies on other plugins.
 
-Those adjustments typically include enhancing the _mta.yaml_ for Cloud Foundry or _values.yaml_ for Kyma, or adding roles to an _xs-security.json_.
+These adjustments typically include enhancing the _mta.yaml_ for Cloud Foundry or _values.yaml_ for Kyma, or adding roles to an _xs-security.json_.
 
 ```js
 async combine() {
@@ -299,6 +388,27 @@ async combine() {
   if (hasXsuaa) { /* adjust xs-security.json */  }
 }
 ```
+
+### `options()` {.method}
+
+The `options` method allows to specify custom options for your plugin:
+```js
+options() {
+  return {
+    'out': {
+      type: 'string',
+      short: 'o',
+      help: 'The output directory. By default the application root.',
+    }
+  }
+}
+```
+
+We follow the Node.js [`util.parseArgs`](https://nodejs.org/api/util.html#utilparseargsconfig) semantics, with an additional `help` field to provide manual text for `cds add help`.
+
+::: warning See if your command can do without custom options
+`cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
+:::
 
 ### `dependencies()` {.method}
 
@@ -322,23 +432,32 @@ This method lets you retrieve a project descriptor for the productive environmen
 ```js
 const { isJava, hasMta, hasPostgres } = cds.add.readProject()
 ```
-
-You may also use the generic `has` function, although without handlebars support.
-```js
-const { has } = readProject()
-if (has('mta')) { /* something */ }
-```
+Any plugin provided by `cds add` can be availability-checked. The readable properties are prefixed by `has` or `is`, in addition to being converted to camel-case. A few examples:
+| facet | properties |
+| ----- | --- |
+| `java` | `hasJava` or `isJava` |
+| `hana` | `hasHana` or `isHana` |
+| `html5-repo` | `hasHtml5Repo` or `isHtml5Repo` |
+| ... | ... |
 
 ### `merge(from).into(file, o?)` {.method}
 
-CAP provides a uniform convenience API to simplfiy merging operations on the most typical configuration formats — JSON and YAML files.
+CAP provides a uniform convenience API to simplify merging operations on the most typical configuration formats — JSON and YAML files.
+
+::: tip For YAML in particular, comments are preserved
+`cds.add.merge` can perform AST-level merging operations. This means, even comments in both your provided template and the user YAML are preserved.
+:::
 
 A large number of merging operations can be done without specifying additional semantics, but simply specifying `from` and `file`:
 
 ```js
-cds.add.merge({ cds: { requires: {  } } })
+const config = { cds: { requires: { db: 'postgres' } } }
+cds.add.merge(config).into('package.json')
 ```
 
+::: details Semantic-less mode merges and de-duplicates flat arrays
+
+Consider this `source.json` and `target.json`:
 
 <div class="cols-2">
 
@@ -346,9 +465,10 @@ cds.add.merge({ cds: { requires: {  } } })
 
 ```js
 // source.json
-"cds": {
+{
   "my-plugin": {
-
+    "x": "value",
+    "z": ["a", "b"]
   }
 }
 ```
@@ -360,10 +480,10 @@ cds.add.merge({ cds: { requires: {  } } })
 ```js
 // target.json
 {
-  "...": "..."
-  "my-plugin": { // [!code ++]
-    "k-1": "value" // [!code ++]
-  } // [!code ++]
+  "my-plugin": {
+    "y": "value",
+    "z": ["b", "c"]
+  }
 }
 ```
 
@@ -371,7 +491,23 @@ cds.add.merge({ cds: { requires: {  } } })
 
 </div>
 
-More complex configuration.
+A `cds.add.merge('source.json').into('target.json')` produces this result:
+
+```js
+// target.json
+{
+  "my-plugin": {
+    "x": "value",  // [!code ++]
+    "y": "value",
+    "z": ["b", "c"]  // [!code --]
+    "z": ["a", "b", "c"]  // [!code ++]
+  }
+}
+```
+
+:::
+
+We can also specify options for more complex merging semantics or Mustache replacements:
 
 ```js
 const { merge, readProject, registries } = cds.add
@@ -385,11 +521,7 @@ const project = readProject()
 await merge(__dirname, 'lib/add/package.json.hbs').into('package.json', {
   with: project
 })
-```
 
-For the `@cap-js/postgres` plugin, we also specify semantics for the merge:
-
-```js
 // With handlebars replacements and semantics for nested arrays
 const srv = registries.mta.srv4(srvPath)
 const postgres = {
@@ -415,7 +547,7 @@ await merge(__dirname, 'lib/add/mta.yml.hbs').into('mta.yaml', {
 
 ### `registries` {.property}
 
-`cds.add` provides a default registry of common elements in configuration files.
+`cds.add` provides a default registry of common elements in configuration files, simplifying the merging semantics specification:
 
 ```js
 const { srv4, approuter } = cds.add.registries.mta
@@ -458,11 +590,14 @@ async run() {
 
 ## Checklist for Production
 
-CAP projects allow for a high degree of freedom. Reason about the following questions for `cds add` plugin:
+Key to the success of your plugin is seamless integration. As CAP supports many technologies out of the box, consider the following when reason about scope of your minimum viable product:
 
-- ✅ Single- and Multitenancy
-- ✅ Cloud Foundry (via MTA)
-- ✅ Kyma (via Helm)
+- Single- and Multitenancy
+- Node.js and Java runtimes
+- Cloud Foundry (via MTA)
+- Kyma (via Helm)
+- App Router
+- Authentication
 
 ## Best Practices
 
@@ -472,17 +607,17 @@ Sticking to best practices established in CAP-provided plugins ensures your user
 
 In contrast to `cds build`, `cds add` is concerned with source files outside of your _gen_ folder. Common examples are deployment descriptors such as _mta.yaml_ for Cloud Foundry or _values.yaml_ for Kyma deployment. Unlike generated files, those are usually checked in to your version control system.
 
-### Embrace grow-as-you-go and separate concerns{.good}
+### Don't do too much work in `cds add` {.bad}
+
+If your `cds add` plugin creates or modifies a large number of files, this can be incidental for high component coupling. Check if configuration for your service can be simplified and provide sensible defaults. Consider generating the files in a `cds build` plugin instead.
+
+### Embrace grow-as-you-go and separate concerns {.good}
 
 A strength of `cds add` is the gradual increase in project complexity. All-in-the-box templates pose the danger of bringing maintainability and cost overhead by adding stuff you might not need. Decrease dependencies between plugins wherever possible.
 
 ### Embrace out-of-the-box{.good}
 
-From a consumer point of view, your plugin is integrated by adding it to the _package.json_ `dependencies` and provides sensible default configuration without further modfication.
-
-### Don't do too much work in `cds add` {.bad}
-
-Consider generating the files in a `cds build` plugin instead. If your `cds add` plugin creates or modifies a large number of files, this can be incidental for high component coupling. Check if configuration for your service can be simplified and provide sensible defaults.
+From a consumer point of view, your plugin is integrated by adding it to the _package.json_ `dependencies` and provides sensible default configuration without further modification.
 
 <!-- // TODO:
 
@@ -490,4 +625,3 @@ Consider generating the files in a `cds build` plugin instead. If your `cds add`
   - Should they handle all facets (event mesh, xsuaa, mtx etc.) ...
   - ... or should the event mesh, xsuaa, mtx etc. files handle Helm deployments?
   - both are possible -->
-

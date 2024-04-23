@@ -222,4 +222,4 @@
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
-- [CAP Operator Plugin (Alpha)](plugins/#cap-operator-plugin)
+- [CAP Operator Plugin](plugins/#cap-operator-plugin)

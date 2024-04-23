@@ -611,10 +611,10 @@ In contrast to `cds build`, `cds add` is concerned with source files outside of 
 
 If your `cds add` plugin creates or modifies a large number of files, this can be incidental for high component coupling. Check if configuration for your service can be simplified and provide sensible defaults. Consider generating the files in a `cds build` plugin instead.
 
-### Embrace grow-as-you-go and separate concerns {.good}
-
-A strength of `cds add` is the gradual increase in project complexity. All-in-the-box templates pose the danger of bringing maintainability and cost overhead by adding stuff you might not need. Decrease dependencies between plugins wherever possible.
-
 ### Embrace out-of-the-box{.good}
 
 From a consumer point of view, your plugin is integrated by adding it to the _package.json_ `dependencies` and provides sensible default configuration without further modification.
+
+### Embrace grow-as-you-go and separate concerns {.good}
+
+A strength of `cds add` is the gradual increase in project complexity. All-in-the-box templates pose the danger of bringing maintainability and cost overhead by adding stuff you might not need. Decrease dependencies between plugins wherever possible.

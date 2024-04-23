@@ -366,13 +366,13 @@ cds bind -2 my-hana,my-destination,my-xsuaa
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
 
-### Overwrite BTP Service Credentials
+### Overwriting Service Credentials
 
-Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when connecting to an SAP S/4HANA On-Premise system you may need to overwrite _onpremise_proxy_host_ and _onpremise_proxy_port_ values.
-Any custom credential values can be set in your local binding information using the `--credentials` option. An infinite nesting of structured values is supported.
+Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when creating a tunnel to your Cloud Foundry service instance you need to overwrite the `host` and `port` credential values.
+Any credential values can be overwritten using the `--credentials` option, infinite nesting is supported.
 
 ```sh
-cds bind -2 my-service --credentials '{"onpremise_proxy_host": "localhost", "onpremise_proxy_port": 1234}'
+cds bind -2 my-service --credentials '{"host": "localhost", "port": 1234}'
 ```
 
 ::: code-group
@@ -390,8 +390,8 @@ cds bind -2 my-service --credentials '{"onpremise_proxy_host": "localhost", "onp
           "instance": "bookshop-db",
           "key": "bookshop-db-key",
           "credentials": { // [!code focus]
-            "onpremise_proxy_host": "localhost", // [!code focus]
-            "onpremise_proxy_port": 1234, // [!code focus]
+            "host": "localhost", // [!code focus]
+            "port": 1234, // [!code focus]
           }, // [!code focus]
           "resolved": false
          }
@@ -413,12 +413,13 @@ Example output:
 ```js
 {
   url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
-  onpremise_proxy_host: 'localhost', // [!code focus]
-  onpremise_proxy_port: '1234', // [!code focus]
+  host: 'localhost', // [!code focus]
+  port: '1234', // [!code focus]
   driver: 'com.sap.db.jdbc.Driver',
   . . .
 }
 ```
+See [Accessing services with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html) for further details on how you can gain direct command line access to your deployed service instance using SSH.
 
 ### With Profile and Output File
 

@@ -352,7 +352,7 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictions apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#association-like-calculated-elements}
+#### Association-like calculated elements <Beta /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -688,7 +688,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
-- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
 - No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
@@ -796,7 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#publish-associations-with-filter}
+#### Publish Associations with Filter <Beta /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1065,7 +1065,7 @@ Propagation of annotations can be stopped via value `null`, for example, `@anno:
 :::
 
 
-### Expressions as Annotation Values <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Beta /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.

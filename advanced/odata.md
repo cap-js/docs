@@ -620,7 +620,7 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
 </Schema>
 ```
 
-::: warn
+::: warning
 
 Note that currently there are two important restrictions concerning the foreign key elements of managed associations:
 

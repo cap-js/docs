@@ -306,18 +306,41 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
 For instance, filters for [instance-based authorization](/guides/security/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
+<div class="impl java">
+
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
-{ .impl .java }
 
-To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../../node.js/cds-facade#cds-model).
-Request-related data is propagated down the call stack (for instance [cds.context](../../node.js/middlewares#cds-context)).
-{ .impl .node }
-
-::: tip
+::: warning
 Make sure that custom code doesn't break tenant data isolation.
 :::
+
+</div>
+
+<div class="impl node">
+
+Request-related data is propagated down the call stack via the continuation-local variable [cds.context](../../node.js/events#cds-context).
+
+::: warning
+Make sure that custom code doesn't break tenant data isolation or leak data across concurrent requests.
+:::
+
+As a best practice, you should not put any non-static variables in the closures of your service implementations.
+
+Example of what NOT TO DO:
+```js
+// srv/catalog-service.js
+module.exports = srv => {
+  let books // <- leaks data across tenants and concurrent requests
+  srv.on('READ', 'Books', async function(req, next) {
+    if (books) return books
+    return books = await next()
+  })
+}
+```
+
+</div>
 
 ### Limiting Resource Consumption { #limiting-resource-consumption }
 

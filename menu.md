@@ -160,6 +160,7 @@
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
 - [cds. import()](node.js/cds-dk#cds-import)
+- [cds. add()](tools/cds-add)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)

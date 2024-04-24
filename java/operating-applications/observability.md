@@ -327,7 +327,9 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. The following steps describe the required configuration:
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. OpenTelemetry also can trace your application, but in case of the Dynatrace it is better to use the OneAgent for the traces to avoid trace duplication and inconsistencies in the trace data. 
+
+The following steps describe the required configuration:
 
 1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an API token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
 
@@ -335,7 +337,7 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for dist
 
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
-4) Define an additional environment variable to tell the [agent extension](#agent-extension) to use Dynatrace.
+4) Define an additional environment variables to tell the [agent extension](#agent-extension) to use Dynatrace.
 
    ::: code-group
     ```yaml [mta.yaml]
@@ -344,12 +346,13 @@ Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for dist
      properties:
        ...
        OTEL_METRICS_EXPORTER: dynatrace
+       OTEL_TRACES_EXPORTER: none
+       OTEL_LOGS_EXPORTER: none
        OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
    ```
    :::
 
-   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.
-
+   Traces will be handled by the Dynatrace OneAgent and OpenTelemetry export for them is disabled to prevent the OpenTelemetry agent from interfering with that.
 
 
 #### CAP Instrumentation
@@ -372,7 +375,38 @@ For specific steps to change the log level, please refer to the respective secti
 
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
-Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
+You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or your can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API. 
+
+To enable annotation-based tracing, include the following dependency in your `pom.xml`: 
+
+::: code-group
+```xml [srv/pom.xml]
+<dependency>
+   <groupId>io.opentelemetry.instrumentation</groupId>
+   <artifactId>opentelemetry-instrumentation-annotations</artifactId>
+   <version>2.3.0</version>
+</dependency>
+```
+:::
+
+Then, you can create additional spans around your event handlers just by annotating their methods with the annotation `@WithSpan`. Such spans will react on exceptions and by default they will have class and method name as the description.
+
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+   
+   @Before(entity = Books_.CDS_NAME)
+   @WithSpan
+   public void beforeAddReview(AddReviewContext context) {
+      // ...
+   }
+}
+```
+
+You can find more about the features of annotation-based spans [in the OpenTelemetry documentation](https://opentelemetry.io/docs/languages/java/automatic/annotations/) {.learn-more}
+
+To use OpenTelemetry API for more complex spans, add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
 ::: code-group
 ```xml [srv/pom.xml]
 <dependency>
@@ -382,9 +416,9 @@ Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java
 ```
 :::
 
-There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
+The instance of OpenTelemetry API is preconfigured for you by the agent that was injected in your application. You do not need to configure it again.
 
-The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span isn't recorded and is lost.
+The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps to identify and to analyze the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span isn't recorded and is lost.
 
 ```java
 @Component
@@ -411,7 +445,9 @@ class CatalogServiceHandler implements EventHandler {
 }
 ```
 
-Similarly, you can record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
+You can find more about the features of instrumentation API [in the OpenTelemetry documentation](https://opentelemetry.io/docs/languages/java/instrumentation/) {.learn-more}
+
+You can record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
 
 ```java
 @Component

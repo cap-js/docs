@@ -457,11 +457,11 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 </Annotation>
 ```
 
-### References
+### References { #references }
 
 > Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
-References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
+References in CDS annotations are mapped to `Path` properties or nested `<Path>` elements, respectively:
 
 ```cds
 @Some.Term: My.Reference
@@ -486,6 +486,10 @@ References in `cds` annotations are mapped to `.Path` properties or nested `<Pat
   </Collection>
 </Annotation>
 ```
+
+As the compiler isn't aware of the semantics of such references, the mapping is very simplistic:
+each `.` in a path is replaced by a `/`.
+Use [expression-valued annotations](#expression-annotations) for more convenience.
 
 Use a [dynamic expression](#dynamic-expressions) if the generic mapping can't produce the desired `<Path>`:
 
@@ -530,6 +534,190 @@ The second example is for a (record type) term in the [Communication vocabulary]
   </Record>
 </Annotation>
 ```
+
+
+### Expressions <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #expression-annotations }
+
+If the value of an OData annotation is an [expression](cds/cdl#expressions-as-annotation-values),
+the OData backend provides improved handling of references and automatic mapping from
+CDS expression syntax to OData expression syntax.
+
+#### Flattening
+
+In contrast to [simple references](#references), the references in expression-like
+annotation values are correctly handled during model transformations, like other references in the model.
+When the CDS model is flattened for OData, the flattening is consequentially also applied
+to these references, and they are translated to the flat model.
+
+Example:
+```cds
+type Price {
+  @Measures.ISOCurrency: (currency)
+  amount : Decimal;
+  currency : String(3);
+}
+
+service S {
+  entity Product {
+    key id : Integer;
+    name : String;
+    price : Price;
+  }
+}
+```
+Structured element `price` of `S.Product` is unfolded to flat elements
+`price_amount` and `price_currency`. Accordingly, the reference in the annotation
+is adapted to `price_currency`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Product">
+    <!-- ... -->
+    <Property Name="price_amount" Type="Edm.Decimal" Scale="variable"/>
+    <Property Name="price_currency" Type="Edm.String" MaxLength="3"/>
+  </EntityType>
+  <Annotations Target="S.Product/price_amount">
+    <Annotation Term="Measures.ISOCurrency" Path="price_currency"/>
+  </Annotations>
+</Schema>
+```
+
+
+Example:
+```cds
+service S {
+  entity E {
+    key id : Integer;
+    f : Association to F;
+    @Common.Label: (f.struc.y)
+    val : Integer;
+  }
+  entity F {
+    key id : Integer;
+    struc {
+      y : Integer;
+    }
+  }
+}
+```
+The OData backend is aware of the semantics of a path and distinguishes association path steps from structure access.
+The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="E">
+    <!-- ... -->
+    <NavigationProperty Name="f" Type="S.F"/>
+    <Property Name="val" Type="Edm.Int32"/>
+  </EntityType>
+  <EntityType Name="F">
+    <!-- ... -->
+    <Property Name="struc_y" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.E/val">
+    <Annotation Term="Some.Term" Path="f/struc_y"/>
+  </Annotations>
+</Schema>
+```
+
+::: warn
+
+Note that currently there are two important restrictions concerning the foreign key elements of managed associations:
+
+1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
+This is a workaround for the lack of possibility to directly annotate a foreign key element.
+This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
+to use expression-valued annotations for annotating foreign keys of a managed association.
+
+2. In an expression-valued annotation, it is not possible to reference the foreign key element
+of a managed association.
+
+:::
+
+#### Expression Translation
+
+If the expression provided as annotation value is more complex than just a reference,
+the OData backend translates CDS expressions to the corresponding OData expression syntax.
+
+::: info
+
+While the flattening of references described in the section above is applied to all
+annotations, the syntactic translation of expressions is only done for annotations
+defined in one of the [OData vocabularies](#vocabularies).
+
+:::
+
+Example:
+```cds
+@Some.Xpr: (a + b)
+```
+
+```xml
+<Annotation Term="Some.Xpr">
+  <Add>
+    <Path>a</Path>
+    <Path>b</Path>
+  </Add>
+</Annotation>
+```
+
+Such expressions can for example be used for some Fiori UI annotations:
+
+```cds
+service S {
+  @UI.LineItem : [ // ...
+  {
+    Value: (status),
+    Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) )
+  }]
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  }
+}
+```
+
+If you need to access an element of an entity in an annotation for a bound action or function,
+use a path that navigates via an explicitly defined [binding parameter](cds/cdl#bound-actions).
+
+Example:
+```cds
+service S {
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  } actions {
+    @Core.OperationAvailable : ( :in.status <> 'A' )
+    action accept (in: $self)
+  }
+}
+```
+
+Most of the OData function listed in sections
+[5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
+thru [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
+of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
+are also supported.
+
+Example:
+```cds
+@Some.Func1: ( concat(a, b, c) )
+@Some.Func2: ( round(someNumber) )
+```
+
+::: info
+
+CAP only provides a syntactic translation. It is up to each client
+whether an expression value is supported for a particular annotation.
+See for example [Firori's list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+:::
+
+Use a [dynamic expression](#dynamic-expressions) if the desired EDMX expression cannot be
+obtained via the automatic translation of a CDS expression.
+
 
 ### Annotating Annotations { #annotating-annotations}
 
@@ -594,8 +782,8 @@ In any case, the resulting EDMX is:
 
 ### Dynamic Expressions { #dynamic-expressions}
 
-OData supports dynamic expressions in annotations. CDS syntax doesn't allow writing expressions
-in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
+OData supports dynamic expressions in annotations.
+For OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
 in the [JSON representation of the OData Common Schema Language](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
 
 Note that here the CDS syntax for string literals with single quotes (`'foo'`) applies,
@@ -623,6 +811,15 @@ is translated to:
 One of the main use cases for such dynamic expressions is SAP Fiori,
 but note that Fiori supports dynamic expressions only for 
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+::: tip
+
+Instead of writing annotations directly with EDM Json syntax,
+try using [expression-like annotation values](#expression-annotations), which
+are automatically translated. For the example above you would
+simply write `@UI.Hidden: (status <> 'visible')`.
+
+:::
 
 
 ### `sap:` Annotations

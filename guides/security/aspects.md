@@ -328,17 +328,19 @@ Make sure that custom code doesn't break tenant data isolation or leak data acro
 
 As a best practice, you should not put any non-static variables in the closures of your service implementations.
 
-Example of what NOT TO DO:
-```js
-// srv/catalog-service.js
+##### **Bad example:** {.bad}
+
+::: code-group
+```js [srv/catalog-service.js]
 module.exports = srv => {
-  let books // <- leaks data across tenants and concurrent requests
+  let books // [!code error] // <- leaks data across tenants and concurrent requests
   srv.on('READ', 'Books', async function(req, next) {
     if (books) return books
     return books = await next()
   })
 }
 ```
+:::
 
 </div>
 
@@ -517,6 +519,7 @@ If you want to apply an application-specific sizing, consult the corresponding f
 
 Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
+
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
 </div>

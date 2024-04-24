@@ -51,6 +51,31 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
+### *cds add completion* <Since version="7.9.0" of="@sap/cds-dk" />
+
+The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems.
+
+For Linux, macOS and Windows use the following command to activate shell completion:
+
+```sh
+cds add completion
+```
+
+After that, restart your shell (or source the shell configuration) and enjoy shell completion support for all `cds` commands.
+
+Currently supported shells:
+| Operating System  | Shell |
+|-------------------|-------|
+| Linux             | bash, zsh |
+| macOS             | bash, zsh |
+| Windows           | PowerShell, Git Bash |
+| WSL               | bash, zsh |
+
+To remove the shell completion, run the following command:
+```sh
+cds completion --remove
+```
+Then source or restart your shell.
 
 
 ### *cds help*
@@ -87,6 +112,7 @@ COMMANDS
     <em>  | pull</em>       pull base model for a SaaS app extension
     <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
+    <em>  | completion</em> add/remove shell completion for cds commands
     <em>  | mock</em>       call cds serve with mocked service
 
   Learn more about each command using:
@@ -394,7 +420,6 @@ Use...
 
 
 ### Settings
-<br>
 
 ##### Code formatting settings
 
@@ -445,7 +470,6 @@ Default: *off*
 Enable to get quickfix proposals for artifact names, like entities, that aren't imported via a `using` statement. For that, all definitions in the workspace need to be considered, which might be slow.
 
 ### Commands
-<br>
 
 ##### Welcome page
 
@@ -538,10 +562,12 @@ The CDS code formatter provides a command line interface. Use it as a pre-commit
 formatting.
 
 #### Installation
+
 Install the CDS language server globally as a library via `npm i -g @sap/cds-lsp`.
 A new shell command `format-cds` is available.
 
 #### Usage
+
 Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
 each formatting option.
 

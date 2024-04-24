@@ -538,7 +538,7 @@ The second example is for a (record type) term in the [Communication vocabulary]
 
 ### Expressions <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #expression-annotations }
 
-If the value of an OData annotation is an [expression](cds/cdl#expressions-as-annotation-values),
+If the value of an OData annotation is an [expression](../cds/cdl#expressions-as-annotation-values),
 the OData backend provides improved handling of references and automatic mapping from
 CDS expression syntax to OData expression syntax.
 
@@ -679,7 +679,7 @@ service S {
 ```
 
 If you need to access an element of an entity in an annotation for a bound action or function,
-use a path that navigates via an explicitly defined [binding parameter](cds/cdl#bound-actions).
+use a path that navigates via an explicitly defined [binding parameter](../cds/cdl#bound-actions).
 
 Example:
 ```cds

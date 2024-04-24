@@ -1210,7 +1210,7 @@ the annotations.
 #### OData Annotations
 
 The OData backend of the CAP CDS compiler supports expression valued annotations.
-See [Expressions in OData Annotations](../guides/advanced/odata#expression-annotations).
+See [Expressions in OData Annotations](../advanced/odata#expression-annotations).
 
 
 ### The `annotate` Directive

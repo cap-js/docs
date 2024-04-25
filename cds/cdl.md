@@ -1048,7 +1048,7 @@ entity BooksList as select from Books {
 ```
 
 * `BooksList` would inherit annotations from `Books`
-* `BooksList.ID` would inherit from `Books.ID`
+* `BooksList:ID` would inherit from `Books:ID`
 * `BooksList.author` would inherit from `Books.author.name`
 * `BooksList.genre` would inherit from type `Genre`
 

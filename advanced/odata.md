@@ -637,7 +637,7 @@ of a managed association.
 #### Expression Translation
 
 If the expression provided as annotation value is more complex than just a reference,
-the OData backend translates CDS expressions to the corresponding OData expression syntax.
+the OData backend translates CDS expressions to the corresponding OData expression syntax and rejects those expressions that are not applicable in an OData API.
 
 ::: info
 

@@ -699,7 +699,7 @@ service S {
 
 Most of the OData functions listed in sections
 [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
-thru [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
+through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
 of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
 are also supported.
 

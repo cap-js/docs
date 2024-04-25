@@ -24,7 +24,7 @@ For a first introduction, have a look at our [sample application](https://github
 
 Now, that you're familiar with how to configure your application, start to create your own application configuration. See the full list of [CDS properties](properties) as a reference.
 
-### Production Profile
+### Production Profile { #production-profile }
 
 When running your application in production it makes sense to strictly disable some development-oriented features.
 The production profile configures a set of selected property defaults, recommended for production deployments, at once.

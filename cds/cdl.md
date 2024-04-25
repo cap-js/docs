@@ -1146,8 +1146,10 @@ entity P as projection on E {
   text as descr
 }
 ```
+When propagated to element `code` of projection `P`, the annotation is automatically
+rewritten to `@Common.Text: (descr)`.
 
-Resulting CSN:
+::: details Resulting CSN
 ```jsonc
 {
   "definitions": {
@@ -1174,11 +1176,13 @@ Resulting CSN:
       }
 } } }
 ```
+:::
 
 ::: info
 
-There are situations where automatic rewriting doesn't work (yet).
-Some of them are going to be addressed in upcoming releases.
+There are situations where automatic rewriting doesn't work, resulting in the compiler error
+[`anno-missing-rewrite`](https://cap.cloud.sap/docs/cds/compiler/messages#anno-missing-rewrite).
+Some of these situations are going to be addressed in upcoming releases.
 
 :::
 

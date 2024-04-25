@@ -549,6 +549,13 @@ annotation values are correctly handled during model transformations, like other
 When the CDS model is flattened for OData, the flattening is consequentially also applied
 to these references, and they are translated to the flat model.
 
+::: tip
+
+Although CAP supports structured types and elements, we recommend to use them only
+if they bring a real benefit. In general, you should keep your models as flat as possible.
+
+:::
+
 Example:
 ```cds
 type Price {
@@ -589,7 +596,7 @@ service S {
   entity E {
     key id : Integer;
     f : Association to F;
-    @Common.Label: (f.struc.y)
+    @Some.Term: (f.struc.y)
     val : Integer;
   }
   entity F {

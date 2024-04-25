@@ -816,7 +816,7 @@ but note that Fiori supports dynamic expressions only for
 
 ::: tip
 
-Instead of writing annotations directly with EDM Json syntax,
+Instead of writing annotations directly with EDM JSON syntax,
 try using [expression-like annotation values](#expression-annotations), which
 are automatically translated. For the example above you would
 simply write `@UI.Hidden: (status <> 'visible')`.

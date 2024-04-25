@@ -333,7 +333,7 @@ As a best practice, you should not put any non-static variables in the closures 
 ::: code-group
 ```js [srv/cat-service.js]
 module.exports = srv => {
-  let books // [!code error] // <- leaks data across tenants and concurrent requests
+  let books  // <- leaks data across tenants and concurrent requests // [!code error]
   srv.on('READ', 'Books', async function(req, next) {
     if (books) return books
     return books = await next()

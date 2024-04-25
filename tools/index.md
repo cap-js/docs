@@ -51,10 +51,12 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
-### *cds add completion*
-The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
+### *cds add completion* <Since version="7.9.0" of="@sap/cds-dk" />
 
-For Linux, macOS and Windows use the following command to activate the shell completion.
+The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems.
+
+For Linux, macOS and Windows use the following command to activate shell completion:
+
 ```sh
 cds add completion
 ```
@@ -75,7 +77,6 @@ cds completion --remove
 ```
 Then source or restart your shell.
 
-Shell completion is available starting with version `7.9.0` of `@sap/cds-dk`.
 
 ### *cds help*
 
@@ -419,7 +420,6 @@ Use...
 
 
 ### Settings
-<br>
 
 ##### Code formatting settings
 
@@ -470,7 +470,6 @@ Default: *off*
 Enable to get quickfix proposals for artifact names, like entities, that aren't imported via a `using` statement. For that, all definitions in the workspace need to be considered, which might be slow.
 
 ### Commands
-<br>
 
 ##### Welcome page
 
@@ -563,10 +562,12 @@ The CDS code formatter provides a command line interface. Use it as a pre-commit
 formatting.
 
 #### Installation
+
 Install the CDS language server globally as a library via `npm i -g @sap/cds-lsp`.
 A new shell command `format-cds` is available.
 
 #### Usage
+
 Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
 each formatting option.
 

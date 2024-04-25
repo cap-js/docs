@@ -1067,12 +1067,6 @@ Propagation of annotations can be stopped via value `null`, for example, `@anno:
 
 ### Expressions as Annotation Values <Beta /> {#expressions-as-annotation-values}
 
-::: warning
-Expressions in annotation values are released as beta feature.
-We provide an early preview of this functionality to allow you to experiment with it and provide feedback.
-The behavior may change in later releases.
-:::
-
 In order to use an expression as an annotation value, it must be enclosed in parentheses:
 ```cds
 @anExpression: ( foo.bar * 11 )
@@ -1133,7 +1127,7 @@ and a value written as expression `@aValueExpr: ( 11 )`, respectively.
 
 #### Propagation
 
-[Annotations are propagated](#annotation-propagation) in views/projections, in includes, and along type references.
+[Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
 If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
 during propagation, e.g. when a referenced element is renamed in a projection.
 The compiler automatically takes care of the necessary rewriting. If a reference cannot be rewritten, an error is issued.
@@ -1142,7 +1136,6 @@ When a reference in an annotation expression is rewritten, the `=` property is s
 Example:
 ```cds
 entity E {
-  // ...
   @Common.Text: (text)
   code : Integer;
   text : String;
@@ -1172,7 +1165,7 @@ Resulting CSN:
     "P": {  // ...
       "elements": {  // ...
         "code": {
-          // propagated annotation
+          // propagated annotation, reference adapted
           "@Common.Text": { "=": true,
                             "ref": ["descr"] },
           "type": "cds.Integer"

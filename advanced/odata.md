@@ -536,7 +536,7 @@ The second example is for a (record type) term in the [Communication vocabulary]
 ```
 
 
-### Expressions <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #expression-annotations }
+### Expressions <Beta /> { #expression-annotations }
 
 If the value of an OData annotation is an [expression](../cds/cdl#expressions-as-annotation-values),
 the OData backend provides improved handling of references and automatic mapping from
@@ -567,7 +567,7 @@ service S {
 ```
 Structured element `price` of `S.Product` is unfolded to flat elements
 `price_amount` and `price_currency`. Accordingly, the reference in the annotation
-is adapted to `price_currency`:
+is rewritten from `currency` to `price_currency`:
 ```xml
 <Schema Namespace="S">
   <!-- ... -->
@@ -661,11 +661,12 @@ Example:
 </Annotation>
 ```
 
-Such expressions can for example be used for some Fiori UI annotations:
+Such expressions can for example be used
+for [some Fiori UI annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048):
 
 ```cds
 service S {
-  @UI.LineItem : [ // ...
+  @UI.LineItem: [ // ...
   {
     Value: (status),
     Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) )
@@ -690,13 +691,13 @@ service S {
     // ...
     status : String;
   } actions {
-    @Core.OperationAvailable : ( :in.status <> 'A' )
+    @Core.OperationAvailable: ( :in.status <> 'A' )
     action accept (in: $self)
   }
 }
 ```
 
-Most of the OData function listed in sections
+Most of the OData functions listed in sections
 [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
 thru [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
 of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)

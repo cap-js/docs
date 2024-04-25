@@ -295,7 +295,9 @@ Available for:
 
 ## CAP Operator Plugin
 
-[CAP Operator](https://sap.github.io/cap-operator/) manages and automates the lifecycle operations involved in running multitenant CAP applications on Kubernetes (K8s) clusters. To deploy an application using the CAP Operator, the application must manually define the custom resources in a helm chart. The CAP Operator plugin provides an easy way to generate such a helm chart, which can be easily modified without needing deep knowledge of helm concepts.
+The [CAP Operator](https://sap.github.io/cap-operator/) manages and automates the lifecycle operations involved in running multitenant CAP applications on Kubernetes (K8s) clusters. If you deploy an application using the CAP Operator, you must manually define the custom resources for the application in a helm chart, which needs time and deep knowledge of helm concepts.
+
+This is where the CAP Operator **plugin** is very useful, as it provides an easy way to generate such a helm chart, which can be easily modified.
 
 Available for:
 

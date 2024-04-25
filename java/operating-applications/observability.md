@@ -327,7 +327,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. OpenTelemetry also can trace your application, but in case of the Dynatrace it is better to use the OneAgent for the traces to avoid trace duplication and inconsistencies in the trace data. 
+Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. OpenTelemetry also can trace your application, but in case of the Dynatrace, it is better to use Dynatrace OneAgent for the traces to avoid trace duplication and inconsistencies in the trace data. 
 
 The following steps describe the required configuration:
 

@@ -582,8 +582,12 @@ Not an official product name, though.
 
 #### Badges
 
+- <Since version="1.2.3" of="@sap/..." /> — The marked feature is only available with the given version or higher.
+
 - <Alpha /> — Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.
 
 - <Beta /> — Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
 
-- <Since version="1.2.3" of="@sap/..." /> — The marked feature is only available with the given version or higher.
+- <Concept /> — Concept features are ideas for potential future enhancements and an opportunity for you to give feedback. This is not a commitment to implement the feature though.
+
+<span id="badges-more" />

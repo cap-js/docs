@@ -169,7 +169,7 @@ Do not use sensitive data as the identifiers.
 
 ### Identifiers for Associated Entities
 
-When your entity has an assocation to other entity, you might want to log the changes in the relationships between them.
+When your entity has an association to other entity, you might want to log the changes in the relationships between them.
 
 Given the order entity that has an association to a Customer instead of the element with customer name:
 ```cds

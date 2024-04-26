@@ -6,7 +6,7 @@ synopsis: >
 status: released
 ---
 
-# Remote Services { .concept}
+# Remote Services <Concept />
 
 Class `cds.RemoteService` is a service proxy class to consume remote services via different [protocols](protocols), like OData or plain REST.
 

@@ -654,6 +654,12 @@ defined in one of the [OData vocabularies](#vocabularies).
 
 :::
 
+The following operators and clauses of CDL are supported:
+* `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and`
+* `and`,  `or`,  `not`
+* `+`,  `-`,  `*`,  `/`, `||`
+* `case when ...` and the logical ternary operator ` ? : `
+
 Example:
 ```cds
 @Some.Xpr: (a + b)
@@ -704,16 +710,22 @@ service S {
 }
 ```
 
-Most of the OData functions listed in sections
-[5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
-through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
-of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
-are also supported.
+In addition, the following functions are supported:
+* `$Null()` for representing the `null` value
+* `DivBy`(or `$DivBy`) and `Mod`(or `$Mod`) for integer division and modulo
+* [`Has`](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_Has) (or `$Has`)
+* the functions listed in sections
+  [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
+  through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
+  of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
+* [`fillUriTemplate`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
+  and [`uriEncode`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
 
 Example:
 ```cds
 @Some.Func1: ( concat(a, b, c) )
 @Some.Func2: ( round(someNumber) )
+@Some.Func3: ( fillUriTemplate(a, b) )
 ```
 
 ::: info

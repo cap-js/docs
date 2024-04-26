@@ -340,7 +340,7 @@ cds bind -2 bookshop-db
 You can specify a different key after a colon ("`:`"):
 
 ```sh
-cds bind -2 bookshop-db:my-custom-key
+cds bind -2 bookshop-db:my-db-key
 ```
 
 ### With CDS Service and Kind
@@ -358,20 +358,20 @@ You are informed with an error message if this is required.
 There is a handy shortcut to bind multiple services with one command:
 
 ```sh
-cds bind -2 my-hana,my-destination,my-xsuaa
+cds bind -2 bookshop-db,redis-cache,bookshop-xsuaa
 ```
 
 ::: tip
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
 
-### Overwrite Service Credentials
+### Overwrite Cloud Service Credentials
 
 Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when creating a tunnel to your Cloud Foundry service instance you need to overwrite the `host` and `port` credential values.
-Any credential values can be overwritten using the `--credentials` option, infinite nesting is supported.
+Any credential values can be overwritten using the `--credentials` option.
 
 ```sh
-cds bind -2 my-service --credentials '{"host": "localhost", "port": 1234}'
+cds bind -2 bookshop --credentials '{"host": "localhost", "port": 1234}'
 ```
 
 ::: code-group
@@ -418,6 +418,19 @@ Example output:
   . . .
 }
 ```
+
+You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service and optionals key combination of the `--to` option as key in the credentials object to define your custom credential values:
+
+```sh
+cds bind --to bookshop-db,redis-cache,bookshop-xsuaa:xsuaa-key --credentials '{"bookshop-db":{"host":"localhost", "port":1234}, "bookshop-xsuaa:xsuaa-key":{"host": "localhost:5678"}}'
+```
+
+Or overwrite credential values for multiple services using the option `--to-app-services` in your `cds bind` call. Use the service instance names in the credentials object your app is bound to:
+
+```sh
+cds bind --to-app-services bookshop-srv --credentials '{"bookshop-db":{"host":"localhost", "port":1234}}'
+```
+
 See [Accessing services with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html) for further details on how you can gain direct command line access to your deployed service instance using SSH.
 
 ### With Profile and Output File

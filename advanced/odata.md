@@ -659,6 +659,7 @@ The following operators and clauses of CDL are supported:
 * `and`,  `or`,  `not`
 * `+`,  `-`,  `*`,  `/`, `||`
 * `case when ...` and the logical ternary operator ` ? : `
+* `cast(...)`
 
 Example:
 ```cds
@@ -712,20 +713,26 @@ service S {
 
 In addition, the following functions are supported:
 * `$Null()` for representing the `null` value
-* `DivBy`(or `$DivBy`) and `Mod`(or `$Mod`) for integer division and modulo
-* [`Has`](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_Has) (or `$Has`)
+* `DivBy(...)`(or `$DivBy(...)`) and `Mod(...)`(or `$Mod(...)`) for integer division and modulo
+* [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
 * the functions listed in sections
-  [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360980)
-  through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361018)
-  of the [OData specification](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html)
-* [`fillUriTemplate`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
-  and [`uriEncode`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
+  [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#StringandCollectionFunctions)
+  through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions)
+  of [OData URL conventions](https://docs.oasis-open.org/odata/odata/v4.02/odata-v4.02-part2-url-conventions.html)
+  + See examples below for the syntax for `cast` and `isof` (section [5.1.1.10](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#TypeFunctions))
+  + The names of the geo functions (section [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions))
+    need to be escaped
+* [`fillUriTemplate(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
+  and [`uriEncode(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
 
 Example:
 ```cds
 @Some.Func1: ( concat(a, b, c) )
-@Some.Func2: ( round(someNumber) )
-@Some.Func3: ( fillUriTemplate(a, b) )
+@Some.Func2: ( round(aNumber) )
+@Some.Func3: ( $Cast(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func4: ( $IsOf(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func5: ( ![geo.distance](a, b) )
+@Some.Func6: ( fillUriTemplate(a, b) )
 ```
 
 ::: info

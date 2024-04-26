@@ -450,9 +450,15 @@ To expand all first level associations of an entity, use `expand()` on the entit
 Select.from(BOOKS).columns(b -> b.expand());
 ```
 
-::: warning
-Avoid using `distinct` in queries with expands. `Distinct` removes duplicate rows from the root entity and hence effectively aggregates rows. However, expanding child entities from aggregated rows is not well-defined. If you encounter errors using `distinct` in queries with expands, this can be resolved by removing `distinct`.
-::::
+::: tip
+**Don't use distinct together with expand**
+
+The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that often can be resolved by removing distinct.
+
+**Resolving duplicates in to-many expands**
+
+Duplicates in to-many expands can occur on associations that are mapped as many-to-many without using a [link entity](../../guides/domain-modeling#many-to-many-associations) and don't correctly define the source cardinality. This can be resolved by adding the cardinality in the CDS model: `Association [*,*] to Entity`.
+:::
 
 ##### Optimized Expand Execution {#expand-optimization}
 

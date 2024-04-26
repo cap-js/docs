@@ -252,37 +252,41 @@ Handling CSRF at the _App Router_ level ensures consistency across instances. Th
 
 With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
 
-::: tip Avoid configuring CORS in both _App Router_ and backend
-Configuring CORS in multiple places can lead to confusing debugging scenarios. Centralizing CORS settings in one location decreases complexity, and thus, improves security.
-:::
+If not running in production, CAP's [built-in server.js](cds-server) allows all origins.
+
+#### Custom CORS Implementation
+
+For production, you can add CORS to your CAP server as follows:
+
+```js
+const ORIGINS = { 'https://example.com': 1 }
+cds.on('bootstrap', app => app.use ((req, res, next) => {
+  if (req.headers.origin in ORIGINS) {
+    res.set('access-control-allow-origin', req.headers.origin)
+    if (req.method === 'OPTIONS') // preflight request
+      return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
+  }
+  next()
+})
+```
+
+[Learn more about CORS in CAP in **this article by DJ Adams**](https://qmacro.org/blog/posts/2024/03/30/cap-cors-and-custom-headers/){.learn-more}
+
+[Learn more about CORS in general in the **MDN Web Docs**.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){.learn-more}
 
 
-#### Using App Router
+
+#### Configuring CORS in App Router
 
 The _App Router_ has full support for CORS. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), CORS can be configured in the _App Router_ configuration.
 
 [Learn more about CORS handling with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/ba527058dc4d423a9e0a69ecc67f4593.html?q=allowedOrigin#loioba527058dc4d423a9e0a69ecc67f4593__section_nt3_t4k_sz){.learn-more}
 
-#### Manual Implementation
+::: warning Avoid configuring CORS in both _App Router_ and CAP server
+Configuring CORS in multiple places can lead to confusing debugging scenarios. Centralizing CORS settings in one location decreases complexity, and thus, improves security.
+:::
 
-If not running in production, CAP's default server allows all origins. For production, you can add CORS to your server as follows:
 
-```js
-const ORIGINS = { 'https://example.com': 1 }
-cds.on('bootstrap', async app => {
-  app.use((req, res, next) => {
-    const { origin } = req.headers
-    // standard request
-    if (origin && ORIGINS[origin]) res.set('access-control-allow-origin', origin)
-    // preflight request
-    if (origin && ORIGINS[origin] && req.method === 'OPTIONS')
-      return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
-    next()
-  })
-})
-```
-
-[Learn more about CORS in the **MDN Web Docs** documentation.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){.learn-more}
 
 
 ## Availability Checks
@@ -293,15 +297,17 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
-cds.on('bootstrap', app => {
-  app.get('/health', (_, res) => {
-    res.status(200).send('OK')
-  })
-})
+cds.on('bootstrap', app => app.get('/health', (_, res) => {
+  res.status(200).send(`I'm fine, thanks.`)
+}))
 ```
+
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
 
 ## Error Handling
@@ -377,7 +383,7 @@ srv.before("UPDATE", "EntityName", (req) => {
 Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming <Badge type="warning" text="beta" /> { #custom-streaming-beta }
+## Custom Streaming <Beta /> { #custom-streaming-beta }
 
 When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
@@ -390,9 +396,9 @@ srv.on('READ', 'Books', (req, next) => {
     const readable = new Readable()
     return {
       value: readable,
-      $mediaContentType = 'image/jpeg',
-      $mediaContentDispositionFilename = 'cover.jpg', // > optional
-      $mediaContentDispositionType = 'inline' // > optional
+      $mediaContentType: 'image/jpeg',
+      $mediaContentDispositionFilename: 'cover.jpg', // > optional
+      $mediaContentDispositionType: 'inline' // > optional
     }
   }
   return next()

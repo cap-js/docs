@@ -192,7 +192,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/#cds-lint-rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
@@ -306,18 +306,43 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
 For instance, filters for [instance-based authorization](/guides/security/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
+<div class="impl java">
+
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
-{ .impl .node }
 
-To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../../node.js/cds-facade#cds-model).
-Request-related data is propagated down the call stack (for instance [cds.context](../../node.js/middlewares#cds-context)).
-{ .impl .java }
-
-::: tip
+::: warning
 Make sure that custom code doesn't break tenant data isolation.
 :::
+
+</div>
+
+<div class="impl node">
+
+Request-related data is propagated down the call stack via the continuation-local variable [cds.context](../../node.js/events#cds-context).
+
+::: warning
+Make sure that custom code doesn't break tenant data isolation or leak data across concurrent requests.
+:::
+
+As a best practice, you should not put any non-static variables in the closures of your service implementations.
+
+##### **Bad example:** {.bad}
+
+::: code-group
+```js [srv/cat-service.js]
+module.exports = srv => {
+  let books  // <- leaks data across tenants and concurrent requests // [!code error]
+  srv.on('READ', 'Books', async function(req, next) {
+    if (books) return books
+    return books = await next()
+  })
+}
+```
+:::
+
+</div>
 
 ### Limiting Resource Consumption { #limiting-resource-consumption }
 
@@ -494,6 +519,7 @@ If you want to apply an application-specific sizing, consult the corresponding f
 
 Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
+
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
 </div>

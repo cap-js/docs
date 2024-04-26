@@ -4,15 +4,29 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
+  "rebaseWhen": "conflicted",
   "includePaths": [
     ".vitepress/config.ts",
-    ".github/workflows/"
+    ".github/workflows/",
+    "package.json"
   ],
   "packageRules": [
     {
       "matchPackageNames": [ "com.sap.cds:cds-services-api", "com.sap.cds:cds4j-api" ],
       "rangeStrategy": "bump",
       "groupName": "CAP Java SDK"
+    },
+    {
+      "matchPackageNames": [ "vitepress" ],
+      "groupName": "Vitepress"
+    },
+    {
+      "matchPackagePatterns": [ ".*eslint.*" ],
+      "groupName": "ESLint"
+    },
+    {
+      "matchDepTypes": ["action"],
+      "groupName": "Github actions"
     }
   ],
   "regexManagers": [
@@ -33,5 +47,59 @@
       "depNameTemplate": "com.sap.cds:cds4j-api",
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-compiler:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-compiler\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-compiler",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-dk:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-dk\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-dk",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-mtxs:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-mtxs\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-mtxs",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/eslint-plugin-cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/eslint-plugin-cds\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/eslint-plugin-cds",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*Node.js:\\s*</em>\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*Node.js\\s*\\|\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "nodejs",
+      "datasourceTemplate": "node"
     }
   ]}

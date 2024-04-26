@@ -176,7 +176,7 @@ By default virtual elements are annotated with `@Core.Computed: true`, not writa
 
 ```cds
 entity Employees {
-  ...
+  [...]
   virtual something : String(11);
 }
 ```
@@ -350,9 +350,9 @@ In addition, there are restrictions that depend on the particular database. Curr
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
-No restrictons apply for reading a calculated element on-write.
+No restrictions apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Badge type="warning" text="beta" /> {#association-like-calculated-elements}
+#### Association-like calculated elements <Beta /> {#association-like-calculated-elements}
 
 A calculated element can also define a refined association, like in this example:
 
@@ -645,7 +645,7 @@ For many-to-many association, follow the common practice of resolving logical ma
 For example:
 
 ```cds
-entity Employees { ...
+entity Employees { [...]
   addresses : Association to many Emp2Addr on addresses.emp = $self;
 }
 entity Emp2Addr {
@@ -688,7 +688,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
-- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
 - No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
@@ -749,10 +749,10 @@ If not otherwise specified, a managed composition of an aspect has the default t
 Managed Compositions are handy for [many-to-many relationships](#many-to-many-associations), where a link table usually is private to one side.
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many { key user: Association to Users; }
 }
-entity Users { ...
+entity Users { [...]
   teams: Association to many Teams.members on teams.user = $self;
 }
 ```
@@ -760,7 +760,7 @@ entity Users { ...
 And here's an example of an attributed many-to-many relationship:
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many {
     key user : Association to Users;
     role : String enum { Lead; Member; Collaborator; }
@@ -796,7 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Badge type="warning" text="beta" /> {#publish-associations-with-filter}
+#### Publish Associations with Filter <Beta /> {#publish-associations-with-filter}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -1003,7 +1003,7 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values <Badge type="warning" text="beta" /> {#expressions-as-annotation-values}
+### Expressions as Annotation Values <Beta /> {#expressions-as-annotation-values}
 
 ::: warning
 Expressions in annotation values are released as beta feature.
@@ -1040,7 +1040,7 @@ Each path in the expression is checked:
 * For an annotation assigned to an entity element, the first path step is resolved as the annotated element or its siblings.
 * If the annotation is assigned to a subelement of a structured element, the top level
   elements of the entity can be accessed via `$self`.
-* A parameter `par` of a parametrized entity can be accessed like in a query with `:par`.
+* A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
 * If a path cannot be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
@@ -1414,7 +1414,7 @@ as follows:
 define entity Foo : ManagedObject, AnotherAspect {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1427,7 +1427,7 @@ extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 

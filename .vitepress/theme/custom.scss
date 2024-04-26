@@ -40,6 +40,7 @@
   --vp-local-search-highlight-text: black;
 
   --vp-sidebar-width: 290px;
+  --vp-nav-height: 44px;
 
   /* inverts image colors in dark mode */
   &.dark {
@@ -111,20 +112,26 @@ main {
 
     pre.log {
       font-size: var(--vp-code-font-size);
-      line-height: 1.4em;
-      font-style: italic;
-      padding: 20px !important;
+      line-height: var(--vp-code-line-height);
+      padding: 12px 22px !important;
       border-radius: 8px;
       overflow: hidden;
       span {
         &.cmd {
-          color: #FFCB6B;
+          color: #6F42C1;
+          .dark & { color: #B392F0; }
+        }
+        &.args {
+          color: #032F62;
+          .dark & { color: #9ECBFF; }
         }
         &.flags {
-          color: #C3E88D;
+          color: #005CC5;
+          .dark & { color: #79B8FF; }
         }
         &.cwd {
           color: #777;
+          .dark & { color: #999; }
         }
         &.livereload {
           color: #FDEC87
@@ -132,6 +139,7 @@ main {
       }
       em {
         color: #00ab00e0;
+        font-style: normal;
       }
       b {
         color: #ee0000e0;

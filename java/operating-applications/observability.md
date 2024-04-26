@@ -2,6 +2,7 @@
 synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
+redirect_from: java/observability
 ---
 
 # Observability
@@ -416,7 +417,7 @@ Similarly, you can record metrics during execution of, for example, a custom eve
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-   Metric meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
+   Meter meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
 
    @After(entity = Books_.CDS_NAME)
    public void afterAddReview(AddReviewContext context) {
@@ -435,6 +436,7 @@ class CatalogServiceHandler implements EventHandler {
 It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
+
 <div id="dynatrace-setup"/>
 
 

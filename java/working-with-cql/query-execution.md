@@ -313,7 +313,7 @@ A convenient option to determine a new ETag value upon update is the [@cds.on.up
 
 We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used.
 
-#### Runtime-Managed Versions <Badge type="warning" text="beta" />
+#### Runtime-Managed Versions <Beta />
 
 Alternatively, you can store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 

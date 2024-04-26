@@ -5,7 +5,7 @@ status: released
 
 # Fiori Support
 
-See [Advanced > Draft-based Editing](../advanced/fiori#draft-support) for an overview on SAP Fiori Draft support in CAP.
+See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) for an overview on SAP Fiori Draft support in CAP.
 
 [[toc]]
 
@@ -42,7 +42,7 @@ Lean draft is enabled by default. Add this to your `cds` configuration to disabl
 Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities.
 Please note that draft-enabled entities must follow a specific draft choreography.
 
-The examples are provided for `on` handlers, but the same is true for `before` and `after` handlers.
+The examples are provided for `.on` handlers, but the same is true for `.before` and `.after` handlers.
 
   ```js
   // only active entities

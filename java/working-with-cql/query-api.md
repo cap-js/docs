@@ -453,7 +453,7 @@ Select.from(BOOKS).columns(b -> b.expand());
 ::: tip
 **Don't use distinct together with expand**
 
-The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that often can be resolved by removing distinct.
+The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that can be resolved by removing distinct.
 
 **Resolving duplicates in to-many expands**
 

@@ -180,7 +180,7 @@ entity Orders {
 }
 ```
 
-If you annotate such assocation with `@changelog`, the change log will store the value of the associated entity key, by default.
+If you annotate such association with `@changelog`, the change log will store the value of the associated entity key, by default.
 If you want, you can store some human-readable identifier instead. You define this by annotating the association with own identifier:
 
 ```cds

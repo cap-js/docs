@@ -80,7 +80,8 @@ synopsis: >
 
 ## Built-in
 
-Many plugins are already part of `@sap/cds-dk` and are implemented using the public APIs documented here. They provide you with a large set of standard features to embrace the grow-as-you-go nature of CAP.
+Many plugins are already part of `@sap/cds-dk`, and all are implemented using the public APIs documented here.
+They provide you with a large set of standard features that support CAP's grow-as-you-go approach.
 
 ### Overview
 
@@ -123,13 +124,13 @@ Many plugins are already part of `@sap/cds-dk` and are implemented using the pub
 
 ## Create a Plugin from Scratch
 
-CAP provides APIs to let you create your own `cds add` plugins. In addition, we provide you with utility functions for common tasks, to enable seamless integration with the look-and-feel of built-in commands.
+CAP provides APIs to create your own `cds add` plugins. In addition, we provide you with utility functions for common tasks, to easily replicate the behavior of built-in commands.
 
 ### Example: `cds add postgres`
 
 In the following, we show you how to implement a `cds add` plugin for PostgreSQL support.
 
-Our `cds add postgres` should:
+Our `cds add postgres` will:
 
 1. Register with `cds-dk`
 2. Add a Dockerfile to start a PostgreSQL instance for development
@@ -137,7 +138,7 @@ Our `cds add postgres` should:
 4. Integrate with `cds add helm` for [Kyma](../guides/deployment/to-kyma) deployment
 5. Integrate with `cds help`
 
-Let's start with <span class="list-item">1</span> and register our plugin:
+Starting with <span class="list-item">1</span>, register the plugin:
 
 ::: code-group
 ```js [cds-plugin.js]
@@ -595,7 +596,7 @@ Key to the success of your `cds add` plugin is seamless integration with other t
 
 ## Best Practices
 
-Sticking to best practices established in CAP-provided plugins ensures your plugin behaves in accordance with users' expectations.
+Adhere to established best practices in CAP-provided plugins to ensure your plugin meets user expectations.
 
 ### Consider `cds add` vs `cds build` {.good}
 

@@ -121,12 +121,6 @@ Many plugins are already part of `@sap/cds-dk` and are implemented using the pub
 > <sup>2</sup> Only for Kyma <br>
 >
 
-<!-- ### Custom flags
-
-#### `cds add data`
-
-##### `--for` -->
-
 ## Create a Plugin from Scratch
 
 CAP provides APIs to let you create your own `cds add` plugins. In addition, we provide you with utility functions for common tasks, to enable seamless integration with the look-and-feel of built-in commands.
@@ -187,13 +181,13 @@ services: # [!code ++]
 ```
 :::
 
-Step <span class="list-item">3</span> requires us to integrate with another `cds add` command. Namely, we want `cds add mta` to include PostgreSQL configuration when generating the _mta.yaml_ deployment descriptor for Cloud Foundry. Similarly, `cds add postgres` should augment the _mta.yaml_ if already present.
+Step <span class="list-item">3</span> requires us to integrate with another `cds add` command. Namely, we want `cds add mta` to include PostgreSQL configuration when generating the _mta.yaml_ deployment descriptor for Cloud Foundry. Vice versa, `cds add postgres` should augment the _mta.yaml_ if already present.
 
 In this case, we can use the `combine` method, which is executed when any `cds add` command is run. This mechanism allows us to plug in accordingly.
 
 We create an _mta.yaml.hbs_ file to use as a template. The _.hbs_ file also allows dynamic replacements using the [Mustache](https://mustache.github.io/mustache.5.html) syntax.
 
-Using the `merge` helper provided by the `cds.add` API we can define semanticas to merge this template into the project's `mta.yaml`:
+Using the `merge` helper provided by the `cds.add` API we can define semantics to merge this template into the project's `mta.yaml`:
 
 ::: code-group
 ```js [lib/add.js]
@@ -219,7 +213,7 @@ module.exports = class extends cds.add.Plugin {
         where: { type: 'nodejs', path: 'gen/pg' } // [!code ++]
       } // [!code ++]
       await merge(__dirname, 'files/mta.yml.hbs').into('mta.yaml', { // [!code ++]
-        project, // for Handlebars replacements // [!code ++]
+        project, // for Mustache replacements // [!code ++]
         additions: [srv, postgres, postgresDeployer], // [!code ++]
         relationships: [{ // [!code ++]
             insert: [postgres, 'name'], // [!code ++]
@@ -404,7 +398,7 @@ options() {
 }
 ```
 
-We follow the Node.js [`util.parseArgs`](https://nodejs.org/api/util.html#utilparseargsconfig) semantics, with an additional `help` field to provide manual text for `cds add help`.
+We follow the Node.js [`util.parseArgs`](https://nodejs.org/api/util.html#utilparseargsconfig) structure, with an additional `help` field to provide manual text for `cds add help`.
 
 ::: warning See if your command can do without custom options
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
@@ -516,13 +510,13 @@ const { merge, readProject, registries } = cds.add
 await merge(__dirname, 'lib/add/package-plugin.json').into('package.json')
 await merge({ some: 'variable' }).into('package.json')
 
-// With handlebars replacements
+// With Mustache replacements
 const project = readProject()
 await merge(__dirname, 'lib/add/package.json.hbs').into('package.json', {
   with: project
 })
 
-// With handlebars replacements and semantics for nested arrays
+// With Mustache replacements and semantics for nested arrays
 const srv = registries.mta.srv4(srvPath)
 const postgres = {
   in: 'resources',
@@ -590,7 +584,7 @@ async run() {
 
 ## Checklist for Production
 
-Key to the success of your plugin is seamless integration. As CAP supports many technologies out of the box, consider the following when reason about scope of your minimum viable product:
+Key to the success of your `cds add` plugin is seamless integration with other technologies used in the target projects. As CAP supports many technologies out of the box, consider the following when reasoning about the scope of your minimum viable product:
 
 - Single- and Multitenancy
 - Node.js and Java runtimes
@@ -601,7 +595,7 @@ Key to the success of your plugin is seamless integration. As CAP supports many 
 
 ## Best Practices
 
-Sticking to best practices established in CAP-provided plugins ensures your user’s experience a seamless integration.
+Sticking to best practices established in CAP-provided plugins ensures your plugin behaves in accordance with users' expectations.
 
 ### Consider `cds add` vs `cds build` {.good}
 

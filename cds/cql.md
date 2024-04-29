@@ -25,7 +25,7 @@ SELECT name, address.street from Authors
 SELECT from Authors { name, address.street }
 ```
 
-### Nested Expands <Beta /> {#nested-projections}
+### Nested Expands <Beta /> {#nested-expands}
 
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:
@@ -121,8 +121,7 @@ results = [
 ]
 ```
 
-
-### Nested Inlines <Beta />
+### Nested Inlines <Beta /> {#nested-inlines}
 
 Put a **`"."`** before the opening brace to **inline** the target elements and avoid writing lengthy lists of paths to read several elements from the same target. For example:
 

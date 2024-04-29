@@ -367,11 +367,10 @@ This shortcut is only possible if you don't need to provide a `service` or a `ki
 
 ### Overwrite Cloud Service Credentials
 
-Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, when creating a tunnel to your Cloud Foundry service instance you need to overwrite the `host` and `port` credential values.
-Any credential values can be overwritten using the `--credentials` option.
+Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, if you want to connect to a Cloud Foundry service via an SSH tunnel. In the example below the value of the property _onpremise_proxy_host_ is updated with the value _localhost_.
 
 ```sh
-cds bind -2 bookshop --credentials '{"host": "localhost", "port": 1234}'
+cds bind -2 my-service --credentials '{ "onpremise_proxy_host": "localhost" }'
 ```
 
 ::: code-group
@@ -379,18 +378,16 @@ cds bind -2 bookshop --credentials '{"host": "localhost", "port": 1234}'
 {
   "requires": {
     "[hybrid]": {
-      "db": {
-        "kind": "hana",
+      "my-service": {
         "binding": {
           "type": "cf",
           "apiEndpoint": "https://api.sap.hana.ondemand.com",
           "org": "your-cf-org",
           "space": "your-cf-space",
-          "instance": "bookshop-db",
-          "key": "bookshop-db-key",
+          "instance": "my-service",
+          "key": "my-service-key",
           "credentials": { // [!code focus]
-            "host": "localhost", // [!code focus]
-            "port": 1234, // [!code focus]
+            "onpremise_proxy_host": "localhost" // [!code focus]
           }, // [!code focus]
           "resolved": false
          }
@@ -411,24 +408,23 @@ Example output:
 
 ```js
 {
-  url: 'jdbc:sap://BDB9AC0F20CB46B494E6742047C4F99A.hana.eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=BDB9AC0F20CB46B494E6742047C4F99A',
-  host: 'localhost', // [!code focus]
-  port: '1234', // [!code focus]
-  driver: 'com.sap.db.jdbc.Driver',
-  . . .
+  onpremise_proxy_host: 'localhost', // [!code focus]
+  // other cloud foundry credential values 
 }
 ```
 
 You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service instance together with an optional service key name as defined in the `--to` parameter to add the custom credential values for that service:
 
 ```sh
-cds bind --to bookshop-db,bookshop-xsuaa:xsuaa-key,redis-cache --credentials '{"bookshop-db":{"host":"localhost", "port":1234}, "bookshop-xsuaa:xsuaa-key":{"host": "localhost:5678"}}'
+cds bind --to my-service,redis-cache:my-key,bookshop-xsuaa --credentials \
+  '{ "my-service": { "onpremise_proxy_host": "localhost" }, "redis-cache:my-key":{ "hostname": "localhost", "port": 1234 }}'
 ```
 
 Use the service instance name in combination with the option `--to-app-services` if you want to create bindings for all service instances of your application:
 
 ```sh
-cds bind --to-app-services bookshop-srv --credentials '{"bookshop-db":{"host":"localhost", "port":1234}}'
+cds bind --to-app-services bookshop-srv --credentials \
+  '{ "my-service": { "onpremise_proxy_host": "localhost" }, "redis-cache":{ "hostname": "localhost", "port": 1234 }}'
 ```
 
 See [Accessing services with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html) for further details on how you can gain direct command line access to your deployed service instance using SSH.

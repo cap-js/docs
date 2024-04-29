@@ -182,6 +182,7 @@ Outlook:
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" Title="Link to the repository for cap-js attachments." alt="Node.js logo"/>](https://github.com/cap-js/attachments#readme)
+[<img src="../assets/logos/java.svg" title="Link to the repository for cap-java-attachments." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](https://github.com/cap-java/cds-feature-attachments#readme)
 
 
 ## Audit Logging

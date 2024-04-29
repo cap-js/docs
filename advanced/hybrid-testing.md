@@ -419,13 +419,13 @@ Example output:
 }
 ```
 
-You can also overwrite credential values for multiple services with a single `cds bind` call. Use service instance and optional service key name pair as defined in the `--to` parameter to add the custom credential values for that service:
+You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service instance together with an optional service key name as defined in the `--to` parameter to add the custom credential values for that service:
 
 ```sh
 cds bind --to bookshop-db,bookshop-xsuaa:xsuaa-key,redis-cache --credentials '{"bookshop-db":{"host":"localhost", "port":1234}, "bookshop-xsuaa:xsuaa-key":{"host": "localhost:5678"}}'
 ```
 
-Or overwrite credential values for multiple services using the option `--to-app-services` in your `cds bind` call. Use the service instance names in the credentials object your app is bound to:
+Use the service instance name in combination with the option `--to-app-services` if you want to create bindings for all service instances of your application:
 
 ```sh
 cds bind --to-app-services bookshop-srv --credentials '{"bookshop-db":{"host":"localhost", "port":1234}}'

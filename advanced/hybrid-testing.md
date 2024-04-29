@@ -327,6 +327,10 @@ Instead of binding to specific cloud services, you can bind to all supported ser
 cds bind --to-app-services bookshop-srv
 ```
 
+::: tip
+This shortcut is only possible if you don't need to provide a `service` or a `kind`.
+:::
+
 ## `cds bind` Usage { #cds-bind-usage}
 
 ### By Cloud Service Only

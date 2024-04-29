@@ -13,13 +13,22 @@ import { compress, prettyStringify } from './eslint-online-playground/utils';
 // @ts-ignore
 import { data } from '../examples/examples.data.ts';
 
-const configFileName = ".eslintrc.json";
+const configFileName = "eslint.config.js";
 const packageJsonFileName = "package.json";
 
-const defaultConfig: any = {
-    "extends": ["plugin:@sap/cds/recommended"],
-    "rules": {}
-}
+const defaultConfig: string = `const cds = require('@sap/eslint-plugin-cds')
+
+module.exports = [
+  cds.configs.recommended,
+  {
+    plugins: { "@sap/cds": cds },
+    files: [ ...cds.configs.recommended.files ],
+    rules: {
+      // ...cds.configs.recommended.rules,
+    }
+  }
+]
+`
 
 const defaultPackageJson = JSON.parse(data['package.json']);
 
@@ -44,11 +53,14 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   let json = {};
   const sources = {} as Record<string, string>;
   if (rules) {
+    let rulesList:string[] = []
     for (const [key, value] of Object.entries(rules)) {
-      defaultConfig.rules[key] = value;
+      rulesList.push(`"${key}": ${JSON.stringify(value)}`);
     }
+    sources[configFileName] = defaultConfig.replace(/\/\/ ...cds.configs.recommended.rules,/, `// ...cds.configs.recommended.rules,\n      ${rulesList.join(',\n')}`);
+  } else{
+    sources[configFileName] = defaultConfig;
   }
-  sources[configFileName] = prettyStringify(defaultConfig);
   if (packages) {
     json = mergeJSONs(defaultPackageJson, packages);
   } else {

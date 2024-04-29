@@ -633,7 +633,7 @@ Here, the authorization of `Products` is derived from `Divisions` by leveraging 
 Be aware that deep paths might introduce a performance bottleneck. Access Control List (ACL) tables, managed by the application, allow efficient queries and might be the better option in this case.
 :::
 
-<div id="exists-subquery" class="impl java"/>
+<div id="exists-subquery" />
 
 
 ### Association Paths { #association-paths}

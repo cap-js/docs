@@ -29,7 +29,8 @@ npm i -g @sap/cds-dk
 Use `cds version` to get information about your installed package version:
 
 <pre class="log">
-<i>$</i> cds version
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
+
 <em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 6.7.0
 <em>@sap/cds-compiler:</em> 3.8.2
@@ -40,10 +41,10 @@ Use `cds version` to get information about your installed package version:
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
 
-<i>$</i> cds version --markdown
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
 
-| @capire/samples | https://github.com/sap-samples/cloud-cap-samples.git |
-|:------------------ | ----------- |
+| @capire/samples    | https://github.com/sap-samples/cloud-cap-samples.git |
+| ------------------ | ----------- |
 | Node.js            | v18.13.0    |
 | @sap/cds           | 6.7.0       |
 | @sap/cds-compiler  | 3.8.2       |

@@ -137,7 +137,7 @@ Service bindings of type *service-manager* and, in a Spring-based application, *
 
 #### Configure the DDL generation
 
-Advise the CDS Compiler to generate _tables without associations_, as associations on HANA are not used by CAP Java:
+Advise the CDS Compiler to generate _tables without associations_, as associations on SAP HANA are not used by CAP Java:
 
 ::: code-group
 ```json [.cdsrc.json]

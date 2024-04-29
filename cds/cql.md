@@ -25,7 +25,7 @@ SELECT name, address.street from Authors
 SELECT from Authors { name, address.street }
 ```
 
-### Nested Expands {#nested-projections} <Beta />
+### Nested Expands <Beta /> {#nested-projections}
 
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:

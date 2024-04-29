@@ -343,7 +343,7 @@ You can specify a different key after a colon ("`:`"):
 cds bind -2 bookshop-db:my-db-key
 ```
 
-### Storing with different profile
+### With different profile
 
 By default `cds bind` uses the profile `hybrid` to store binding information. You can specify a different profile with `--for` or shortcut `-4`:
 
@@ -379,7 +379,7 @@ cds bind -2 bookshop-db,bookshop-xsuaa,redis-cache
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
 
-### Overwrite Cloud Service Credentials
+### Overwrite Cloud Service Credentials { #overwriting-service-credentials}
 
 Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, if you want to connect to a Cloud Foundry service via an SSH tunnel. In the example below the value of the property _onpremise_proxy_host_ is updated with the value _localhost_.
 

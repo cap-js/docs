@@ -533,6 +533,10 @@ entity Users { ...
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
 
+::: tip Resolving duplicates in to-many expands
+Duplicates in to-many expands can occur on associations that are mapped as many-to-many without using a [link entity](../../guides/domain-modeling#many-to-many-associations) and don't correctly define the source cardinality. This can be resolved by adding the cardinality in the CDS model: `Association [*,*] to Entity`.
+:::
+
 ### Compositions
 
 Compositions represent contained-in relationships. CAP runtimes provide these special treatments to Compositions out of the box:

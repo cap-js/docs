@@ -16,13 +16,11 @@ import { data } from '../examples/examples.data.ts';
 const configFileName = "eslint.config.js";
 const packageJsonFileName = "package.json";
 
-const defaultConfig: string = `const cds = require('@sap/eslint-plugin-cds')
+const defaultConfig: string = `import cds from '@sap/eslint-plugin-cds'
 
-module.exports = [
+export default [
   cds.configs.recommended,
   {
-    plugins: { "@sap/cds": cds },
-    files: [ ...cds.configs.recommended.files ],
     rules: {
       // ...cds.configs.recommended.rules,
     }

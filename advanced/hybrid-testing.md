@@ -358,7 +358,7 @@ You are informed with an error message if this is required.
 There is a handy shortcut to bind multiple services with one command:
 
 ```sh
-cds bind -2 bookshop-db,redis-cache,bookshop-xsuaa
+cds bind -2 bookshop-db,bookshop-xsuaa,redis-cache
 ```
 
 ::: tip
@@ -419,10 +419,10 @@ Example output:
 }
 ```
 
-You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service and optionals key combination of the `--to` option as key in the credentials object to define your custom credential values:
+You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service and optional key pair as defined in the `--to` option to define your custom credential values for that service:
 
 ```sh
-cds bind --to bookshop-db,redis-cache,bookshop-xsuaa:xsuaa-key --credentials '{"bookshop-db":{"host":"localhost", "port":1234}, "bookshop-xsuaa:xsuaa-key":{"host": "localhost:5678"}}'
+cds bind --to bookshop-db,bookshop-xsuaa:xsuaa-key,redis-cache --credentials '{"bookshop-db":{"host":"localhost", "port":1234}, "bookshop-xsuaa:xsuaa-key":{"host": "localhost:5678"}}'
 ```
 
 Or overwrite credential values for multiple services using the option `--to-app-services` in your `cds bind` call. Use the service instance names in the credentials object your app is bound to:

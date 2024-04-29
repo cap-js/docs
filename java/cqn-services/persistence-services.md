@@ -46,8 +46,8 @@ entity Books : cuid {
 ```
 > When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
-:::tip Disable Statement-Wide Collation
-To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
+:::tip Disable Collating
+To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
 4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.

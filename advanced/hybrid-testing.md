@@ -343,7 +343,7 @@ You can specify a different key after a colon ("`:`"):
 cds bind -2 bookshop-db:my-db-key
 ```
 
-### Storing with different profile name
+### Storing with different profile
 
 By default `cds bind` uses the profile `hybrid` to store binding information. You can specify a different profile with `--for` or shortcut `-4`:
 

@@ -343,6 +343,20 @@ You can specify a different key after a colon ("`:`"):
 cds bind -2 bookshop-db:my-db-key
 ```
 
+### Storing with different profile name
+
+By default `cds bind` uses the profile `hybrid` to store binding information. You can specify a different profile with `--for` or shortcut `-4`:
+
+```sh
+cds bind --to bookshop-db --for test
+```
+
+You have to use the same profile name for hybrid testing to correctly resolve any bindings you've created with this profile.
+
+```sh
+cds watch --profile test 
+```
+
 ### With CDS Service and Kind
 
 If `kind` or CDS service cannot be determined automatically by `cds bind`, you need to specify it:
@@ -453,13 +467,13 @@ On PowerShell you need to quote the double dash (`--`) when an option with doubl
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 ```
 
-Profiles can be set using the optional `--for` parameter. By default the `hybrid` profile is used.
+Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
 
 ```sh
-cds bind --exec --for <profile> [--] <command> <args ...>
+cds bind --exec --profile <profile> [--] <command> <args ...>
 ```
 
-The `--for` parameter must follow `exec` directly.
+The `--profile` parameter must follow `exec` directly.
 
 ## Use Cases
 

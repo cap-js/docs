@@ -454,6 +454,9 @@ Select.from(BOOKS).columns(b -> b.expand());
 The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that can be resolved by removing distinct.
 :::
 
+::: tip Resolving duplicates in to-many expands
+Duplicates in to-many expands can occur on associations that are mapped as many-to-many without using a [link entity](../../guides/domain-modeling#many-to-many-associations) and don't correctly define the source cardinality. This can be resolved by adding the cardinality in the CDS model: `Association [*,*] to Entity`.
+:::
 
 ##### Optimized Expand Execution {#expand-optimization}
 

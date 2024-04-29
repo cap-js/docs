@@ -32,6 +32,7 @@ To specify the production profile set `cds.environment.production.profile` to a 
 
 ::: tip
 It is recommended to set `cds.environment.production.profile` to `cloud`. The Java Buildpacks set the `cloud` profile for applications by default.
+Other active profiles for production deployments are typically set using the environment variable `SPRING_PROFILES_ACTIVE` on your application in your deployment descriptors (`mta.yaml`, Helm charts, etc.).
 :::
 
 Property defaults adjusted with the production profile are the following:

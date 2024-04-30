@@ -1,7 +1,14 @@
 import path from 'node:path'
 import fs  from 'node:fs'
 
-import rulesSidebar from '../tools/cds-lint/sidebar.ts'
+import rulesSidebar from '../tools/cds-lint/sidebar.js'
+const dynamicItems = (item) => {
+  if (item.text.includes('#items:rules-sidebar')) {
+    item.text = item.text.replace('#items:rules-sidebar', '')
+    item.items = rulesSidebar()
+    item.collapsed = true
+  }
+}
 
 /**
  * Construct sidebar from markdown
@@ -43,11 +50,7 @@ const _item = ({ link, text, ...etc }) => {
     text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
     ...etc
   }
-  if (text?.includes('#items:rules-sidebar')) {
-    item.text = item.text.replace(/#items:rules-sidebar/, '')
-    item.items = rulesSidebar()
-    item.collapsed = true
-  }
+  dynamicItems(item)
   return item
 }
 

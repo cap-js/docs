@@ -415,6 +415,11 @@ Use [Redis PubSub](https://redis.io/) as a message broker.
 There are no queues:
 - Messages are lost when consumers are not available.
 - All instances receive the messages independently.
+
+::: warning _❗ Warning_
+When using `redis-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 ::: tip
 You need to install the latest version of the npm package `redis`.
 :::
@@ -443,6 +448,11 @@ Example:
     }
 }
 ```
+
+::: warning _❗ Warning_
+When using `file-based-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 
 ### Local Messaging
 

@@ -70,7 +70,8 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
     for (const file of files) {
-      sources[file] = data[`${name}/${kind}/${file}`];
+      sources[file] = data[`${name}/${kind}/${file}`]
+        .replace(/\/\/\s*\[\!code.*?\]/g, ''); // remove Vitepress code comments
     }
   }
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`

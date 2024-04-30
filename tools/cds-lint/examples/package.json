@@ -6,7 +6,7 @@
     "@sap/cds": "^7"
   },
   "devDependencies": {
-    "eslint": "^9",
-    "@sap/eslint-plugin-cds": "^3"
+    "@sap/eslint-plugin-cds": "^3",
+    "eslint": "^9"
   }
 }

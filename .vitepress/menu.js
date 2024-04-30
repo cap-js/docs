@@ -1,6 +1,15 @@
 import path from 'node:path'
 import fs  from 'node:fs'
 
+import rulesSidebar from '../tools/cds-lint/sidebar.js'
+const dynamicItems = (item) => {
+  if (item.text.includes('#items:rules-sidebar')) {
+    item.text = item.text.replace('#items:rules-sidebar', '')
+    item.items = rulesSidebar()
+    item.collapsed = true
+  }
+}
+
 /**
  * Construct sidebar from markdown
 */
@@ -36,10 +45,14 @@ export function sidebar (file = 'menu.md', filter=(_)=>true) {
 }
 
 const _absolute = link => link && ( link[0] === '/' ? link : '/'+link ).replace('@external/', '')
-const _item = ({ link, text, ...etc }) => ({
-  text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
-  ...etc
-})
+const _item = ({ link, text, ...etc }) => {
+  const item = {
+    text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
+    ...etc
+  }
+  dynamicItems(item)
+  return item
+}
 
 /**
  * Use sidebar as nav

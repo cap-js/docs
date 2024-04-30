@@ -71,7 +71,7 @@ export default {
         <span v-if="!entry.url" class="col-name">{{ entry.rule }}</span>
         <a :href="entry.url" v-if="!!entry.url">{{ entry.rule }}</a>
         <br />
-        <text class="lint-rule-desc">{{ entry.description }}</text>
+        <text class="lint-rule-desc" v-html="entry.description" />
       </td>
     </tr>
   </table>

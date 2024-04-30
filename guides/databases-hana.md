@@ -224,10 +224,31 @@ Behind the scenes, `cds deploy` does the following:
 
 If you run into issues, see the [Troubleshooting](../get-started/troubleshooting#hana) guide.
 
+#### Deploy Parameters
+
+When using the option `--to hana`, you can specify the service name and logon information in several ways.
+
+<br>
+
+`cds deploy --to hana`
+
+In this case the service name and service key either come from the environment variable `VCAP_SERVICES` or are defaulted from the project name, for example, `myproject-db` with `myproject-db-key`. Service instances and key either exist and will be used, or otherwise they're created.
+
+##### `cds deploy --to hana:myservice`
+
+This overwrites any information coming from environment variables. The service name `myservice` is used and the current Cloud Foundry client logon information is taken to connect to the system.
+
+##### `cds deploy --vcap-file someEnvFile.json`
+
+This takes the logon information and the service name from the `someEnvFile.json` file and overwrite any environment variable that is already set.
+
+##### `cds deploy --to hana:myservice --vcap-file someEnvFile.json`
+
+This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
+
 ### Using `cf deploy` or `cf push` { .impl .node }
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
-
 
 
 
@@ -595,7 +616,8 @@ By default, `cds add hana` creates an `undeploy.json` like this:
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
   "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*_drafts.hdbtable"
+  "src/gen/**/*_drafts.hdbtable",
+  "src/gen/**/*.hdbcalculationview"
 ]
 ```
 

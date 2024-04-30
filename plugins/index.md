@@ -150,7 +150,7 @@ Available for:
 
 
 
-## Attachments <Badge type="warning" text="beta" title="" />
+## Attachments <Beta />
 
 
 The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
@@ -182,6 +182,7 @@ Outlook:
 Available for:
 
 [<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" Title="Link to the repository for cap-js attachments." alt="Node.js logo"/>](https://github.com/cap-js/attachments#readme)
+[<img src="../assets/logos/java.svg" title="Link to the repository for cap-java-attachments." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](https://github.com/cap-java/cds-feature-attachments#readme)
 
 
 ## Audit Logging
@@ -239,7 +240,7 @@ Available for:
 ## Notifications
 
 
-The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications via email, Slack, Microsoft Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
+The Notifications plugin provides support for publishing business notifications in SAP Build WorkZone. The client is implemented as a CAP service, which gives us a very simple programmatic API:
 
 ```js
 let alert = await cds.connect.to ('notifications')
@@ -254,11 +255,9 @@ Features:
 
 - CAP Services-based programmatic client API → simple, backend-agnostic
 - Logging to console in development → fast turnarounds, minimized costs
-- Sending to [SAP Alert Notification Service](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) in production
 - Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates
-- SAP ANS supports email, Slack, Microsoft Teams, and SAP Fiori notifications
 
 
 Available for:
@@ -266,7 +265,7 @@ Available for:
 [<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Badge type="warning" text="beta" />
+## Telemetry <Beta />
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -295,7 +294,16 @@ Available for:
 
 
 
+## CAP Operator for Kubernetes {#cap-operator-plugin}
 
+The [CAP Operator](https://sap.github.io/cap-operator/) manages and automates the lifecycle operations involved in running multitenant CAP applications on Kubernetes (K8s) clusters. If you deploy an application using the CAP Operator, you must manually define the custom resources for the application in a helm chart, which needs time and deep knowledge of helm concepts.
+
+This is where the CAP Operator **plugin** is very useful, as it provides an easy way to generate such a helm chart, which can be easily modified.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js/cap-operator-plugin#readme)
+<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
 
 <div id="internal-plugins" />
 

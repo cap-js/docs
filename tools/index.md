@@ -29,7 +29,8 @@ npm i -g @sap/cds-dk
 Use `cds version` to get information about your installed package version:
 
 <pre class="log">
-<i>$</i> cds version
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
+
 <em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 6.7.0
 <em>@sap/cds-compiler:</em> 3.8.2
@@ -40,10 +41,10 @@ Use `cds version` to get information about your installed package version:
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
 
-<i>$</i> cds version --markdown
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
 
-| @capire/samples | https://github.com/sap-samples/cloud-cap-samples.git |
-|:------------------ | ----------- |
+| @capire/samples    | https://github.com/sap-samples/cloud-cap-samples.git |
+| ------------------ | ----------- |
 | Node.js            | v18.13.0    |
 | @sap/cds           | 6.7.0       |
 | @sap/cds-compiler  | 3.8.2       |
@@ -51,6 +52,31 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
+### *cds add completion* <Since version="7.9.0" of="@sap/cds-dk" />
+
+The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems.
+
+For Linux, macOS and Windows use the following command to activate shell completion:
+
+```sh
+cds add completion
+```
+
+After that, restart your shell (or source the shell configuration) and enjoy shell completion support for all `cds` commands.
+
+Currently supported shells:
+| Operating System  | Shell |
+|-------------------|-------|
+| Linux             | bash, zsh |
+| macOS             | bash, zsh |
+| Windows           | PowerShell, Git Bash |
+| WSL               | bash, zsh |
+
+To remove the shell completion, run the following command:
+```sh
+cds completion --remove
+```
+Then source or restart your shell.
 
 
 ### *cds help*
@@ -87,6 +113,7 @@ COMMANDS
     <em>  | pull</em>       pull base model for a SaaS app extension
     <em>  | push</em>       push extension to SaaS app to enable or update it
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
+    <em>  | completion</em> add/remove shell completion for cds commands
     <em>  | mock</em>       call cds serve with mocked service
 
   Learn more about each command using:
@@ -394,7 +421,6 @@ Use...
 
 
 ### Settings
-<br>
 
 ##### Code formatting settings
 
@@ -445,7 +471,6 @@ Default: *off*
 Enable to get quickfix proposals for artifact names, like entities, that aren't imported via a `using` statement. For that, all definitions in the workspace need to be considered, which might be slow.
 
 ### Commands
-<br>
 
 ##### Welcome page
 
@@ -532,16 +557,18 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #cds-formatter}
+### CDS Source Formatter <Beta /> { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
 formatting.
 
 #### Installation
+
 Install the CDS language server globally as a library via `npm i -g @sap/cds-lsp`.
 A new shell command `format-cds` is available.
 
 #### Usage
+
 Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
 each formatting option.
 

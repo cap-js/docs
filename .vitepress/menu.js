@@ -1,6 +1,8 @@
 import path from 'node:path'
 import fs  from 'node:fs'
 
+import rulesSidebar from '../tools/cds-lint/sidebar.ts'
+
 /**
  * Construct sidebar from markdown
 */
@@ -36,10 +38,18 @@ export function sidebar (file = 'menu.md', filter=(_)=>true) {
 }
 
 const _absolute = link => link && ( link[0] === '/' ? link : '/'+link ).replace('@external/', '')
-const _item = ({ link, text, ...etc }) => ({
-  text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
-  ...etc
-})
+const _item = ({ link, text, ...etc }) => {
+  const item = {
+    text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
+    ...etc
+  }
+  if (text?.includes('#items:rules-sidebar')) {
+    item.text = item.text.replace(/#items:rules-sidebar/, '')
+    item.items = rulesSidebar()
+    item.collapsed = true
+  }
+  return item
+}
 
 /**
  * Use sidebar as nav

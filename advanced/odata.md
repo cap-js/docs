@@ -713,7 +713,7 @@ service S {
 
 In addition, the following functions are supported:
 * `$Null()` for representing the `null` value
-* `DivBy(...)`(or `$DivBy(...)`) and `Mod(...)`(or `$Mod(...)`) for integer division and modulo
+* `Div(...)`(or `$Div(...)`) and `Mod(...)`(or `$Mod(...)`) for integer division and modulo
 * [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
 * the functions listed in sections
   [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#StringandCollectionFunctions)

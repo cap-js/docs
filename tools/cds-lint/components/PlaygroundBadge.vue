@@ -13,13 +13,20 @@ import { compress, prettyStringify } from './eslint-online-playground/utils';
 // @ts-ignore
 import { data } from '../examples/examples.data.ts';
 
-const configFileName = ".eslintrc.json";
+const configFileName = "eslint.config.js";
 const packageJsonFileName = "package.json";
 
-const defaultConfig: any = {
-    "extends": ["plugin:@sap/cds/recommended"],
-    "rules": {}
-}
+const defaultConfig: string = `import cds from '@sap/eslint-plugin-cds'
+
+export default [
+  cds.configs.recommended,
+  {
+    rules: {
+      // ...cds.configs.recommended.rules,
+    }
+  }
+]
+`
 
 const defaultPackageJson = JSON.parse(data['package.json']);
 
@@ -44,11 +51,17 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   let json = {};
   const sources = {} as Record<string, string>;
   if (rules) {
+    let rulesList:string[] = []
     for (const [key, value] of Object.entries(rules)) {
-      defaultConfig.rules[key] = value;
+      rulesList.push(`"${key}": ${JSON.stringify(value)}`);
     }
+    sources[configFileName] = defaultConfig.replace(
+      /\/\/\s*...cds.configs.recommended.rules,/,
+      `// ...cds.configs.recommended.rules,\n      ${rulesList.join(',\n')}`
+    );
+  } else{
+    sources[configFileName] = defaultConfig;
   }
-  sources[configFileName] = prettyStringify(defaultConfig);
   if (packages) {
     json = mergeJSONs(defaultPackageJson, packages);
   } else {
@@ -57,7 +70,8 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   sources[packageJsonFileName] = prettyStringify(json);
   if (files) {
     for (const file of files) {
-      sources[file] = data[`${name}/${kind}/${file}`];
+      sources[file] = data[`${name}/${kind}/${file}`]
+        .replace(/\/\/\s*\[\!code.*?\]/g, ''); // remove Vitepress code comments
     }
   }
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`
@@ -66,43 +80,20 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
 </script>
 
 <template>
-  <span class="VPBadge tip" v-if="!nolink">
-    <slot>
-      <a target="_blank" :href="link(name, kind, rules, files, packages)">Open In Playground</a>
-    </slot>
-  </span>
-  <span class="VPBadge tip nolink" v-if="nolink">
-    <slot>
-      <a class="nolink" target="_blank">Playground link coming soon!</a>
-    </slot>
-  </span>
+  <Badge v-if="!nolink" type="warning">
+    <a target="_blank" :href="link(name, kind, rules, files, packages)">Open In Playground</a>
+  </Badge>
+  <Badge v-if="nolink" type="tip">
+    <a class="nolink" target="_blank">Playground link coming soon!</a>
+  </Badge>
 </template>
 
 <style scoped>
 .VPBadge {
   position: relative;
-  margin-left: 2px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 0 10px;
-  line-height: 22px;
-  font-size: 12px;
-  font-weight: 500;
   float: right;
   transform: translateX(-15px) translateY(-55px);
   z-index: 1000
-}
-
-.VPBadge.tip {
-  border-color: var(--vp-badge-tip-border);
-  color: var(--vp-badge-tip-text);
-  background-color: var(--vp-badge-tip-bg);
-}
-
-.VPBadge.tip.nolink {
-  border-color: var(--vp-badge-info-border);
-  color: var(--vp-badge-info-text);
-  background-color: var(--vp-badge-info-bg);
 }
 
 a.nolink {

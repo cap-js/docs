@@ -972,7 +972,7 @@ Upsert doesn't allow changing the key of a child of a composition `of one`.
 
 Use the [Update](../../cds/cqn#update) statement to update existing entities with new data. The update data can be partial (patch semantics), elements without update values keep their old value, except for elements annotated with `@cds.on.update`, which are updated with the annotation value.
 
-Depending on the filter condition, the `Update` can target [](#update--entities) or [multiple](#searched-update) entity records.
+Depending on the filter condition, the `Update` can target [individual](#update-individual-entities) or [multiple](#searched-update) entity records.
 ::: tip
 Check the [row count](query-execution#batch-execution) of the update result to get the number of updated records. It is 0 if no entity matched the filter condition.
 :::

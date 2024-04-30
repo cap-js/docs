@@ -1010,7 +1010,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
-::: warning
+::: danger
 If a key value is neither contained in the data nor specified by a filter (`where`, `byId`, `matching`) a [searched update]([url](#searched-update)) will be performed, which updates _all_ entities with the given data.
 :::
 

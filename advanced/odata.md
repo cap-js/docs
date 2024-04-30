@@ -655,23 +655,27 @@ defined in one of the [OData vocabularies](#vocabularies).
 :::
 
 The following operators and clauses of CDL are supported:
-* `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and`
-* `and`,  `or`,  `not`
-* `+`,  `-`,  `*`,  `/`, `||`
-* `case when ...` and the logical ternary operator ` ? : `
+
+* `case when ... then ... else ...` and the logical ternary operator ` ? : `
+* Logical: `and`,  `or`,  `not`
+* Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and`
+* Unary `+` and `-`
+* Arithmetic: `+`,  `-`,  `*`,  `/`, `||`
 * `cast(...)`
 
 Example:
 ```cds
-@Some.Xpr: (a + b)
+@Some.Xpr: ( -(a + b) )
 ```
 
 ```xml
 <Annotation Term="Some.Xpr">
-  <Add>
-    <Path>a</Path>
-    <Path>b</Path>
-  </Add>
+  <Neg>
+    <Add>
+      <Path>a</Path>
+      <Path>b</Path>
+    </Add>
+  </Neg>
 </Annotation>
 ```
 
@@ -712,8 +716,9 @@ service S {
 ```
 
 In addition, the following functions are supported:
-* `$Null()` for representing the `null` value
-* `Div(...)`(or `$Div(...)`) and `Mod(...)`(or `$Mod(...)`) for integer division and modulo
+
+* `$Null()` representing the `null` value
+* `Div(...)` (or `$Div(...)`) and `Mod(...)` (or `$Mod(...)`) for integer division and modulo
 * [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
 * the functions listed in sections
   [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#StringandCollectionFunctions)
@@ -721,9 +726,11 @@ In addition, the following functions are supported:
   of [OData URL conventions](https://docs.oasis-open.org/odata/odata/v4.02/odata-v4.02-part2-url-conventions.html)
   + See examples below for the syntax for `cast` and `isof` (section [5.1.1.10](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#TypeFunctions))
   + The names of the geo functions (section [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions))
-    need to be escaped
+    need to be escaped like `![geo.distance]`
 * [`fillUriTemplate(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
   and [`uriEncode(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
+* `Type(...)` (or `$Type(...)`) is to be used to specify a type name with their corresponding type facets such as `MaxLength(...)`, `Precision(...)`, `Scale(...)` and `SRID(...)`
+   (or `$MaxLength(...)`, `$Precision(...)`, `$Scale(...)`, `$SRID(...)`)
 
 Example:
 ```cds
@@ -734,6 +741,25 @@ Example:
 @Some.Func5: ( ![geo.distance](a, b) )
 @Some.Func6: ( fillUriTemplate(a, b) )
 ```
+
+If a functional expression starts with a `$`, all inner function must also be `$` functions and vice versa.
+Instead of `[$]Type(...)` an EDM primitive type name can be directly used as function name like in CDL.
+
+It is worth to mention that there are two alternatives for the cast function, one in the EDM and one in the CDS domain:
+
+```cds
+@Some.ODataStyleCast:  ( Cast(aValue, Decimal(38, 'variable') ) )  // => Edm.Decimal
+@Some.ODataStyleCast2: ( Cast(aValue, PrimitiveType()) )           // => Edm.PrimitiveType
+@Some.SQLStyleCast:    ( cast(aValue as Decimal(38, variable)) )   // => cds.Decimal
+@Some.SQLStyleCast2:   ( cast(aValue as String) )                  // => cds.String without type facets
+```
+
+Both `cast` functions look similar, but there are some differences:
+
+The OData style `Cast` _function_ starts with a capital letter and the SQL `cast` _operator_ uses the keyword `as`
+to delimit the element reference from the type specifier. The OData `Cast` requires an EDM primitive type to be used
+either as `[$]Type()` or as direct type function whereas the SQL `cast` requires a scalar CDS type as argument which is then
+converted into the corresponding EDM primitive type.
 
 ::: info
 

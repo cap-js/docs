@@ -71,7 +71,7 @@ function link(name: Props['name'] = "", kind: Props['kind'], rules?: Props['rule
   if (files) {
     for (const file of files) {
       sources[file] = data[`${name}/${kind}/${file}`]
-        .replace(/\/\/\s*\[\!code.*?\]/g, ''); // remove Vitepress code comments
+        ?.replace(/\/\/\s*\[\!code.*?\]/g, ''); // remove Vitepress code comments
     }
   }
   return `https://eslint-online-playground.netlify.app/#${compress(sources)}`

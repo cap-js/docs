@@ -157,6 +157,9 @@ If you want to receive all messages without creating topic subscriptions, you ca
 messaging.on('*', async msg => { /*...*/ })
 ```
 
+::: tip
+In general, messages do not contain user information, hence `cds.context.user` is set to [`cds.User.privileged`](../node.js/authentication#privileged-user).
+:::
 
 ## CloudEvents Protocol
 

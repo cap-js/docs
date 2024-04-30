@@ -1011,7 +1011,7 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
 ```
 
 ::: danger
-If key values are not contained in the data and no filter (`where`, `byId`, `matching`) is specified a [searched update]([url](#searched-update)) will be performed, which updates _all_ entities with the given data.
+If key values are not contained in the data and no filter (`where`, `byId`, `matching`) is specified a [searched update](#searched-update) is performed, which updates _all_ entities with the given data.
 :::
 
 ### Update with Expressions {#update-expressions}

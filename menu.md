@@ -202,16 +202,14 @@
 
 ### [Tools](tools/)
 
-- [CDS Command Line Interface](tools/#cli)
-- [SAP Business Application Studio](tools/#bastudio)
-- [Visual Studio Code](tools/#vscode)
-- [IntelliJ IDEA](tools/#intellij)
-- [CDS Editors](tools/#cds-editor)
+- [CDS Command Line Interface](tools/cds-cli)
+- [Development Environment](tools/ide)
+- [CDS Editors](tools/cds-editor)
 - [CDS Lint](tools/cds-lint/)
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/#cap-vscode-notebook)
-- [Using Docker](tools/#docker)
+- [CAP Notebooks](tools/cds-editor#cap-vscode-notebook)
+
 
 ### [Plugins](plugins/)
 

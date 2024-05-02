@@ -91,7 +91,7 @@ Then source or restart your shell.
 Use `cds help` to see an overview of all commands:
 
 <pre class="log">
-<i>$</i> cds help
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">help</span>
 
 USAGE
 
@@ -132,7 +132,7 @@ COMMANDS
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
 <pre class="log">
-<i>$</i> cds watch --help
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">watch</span> <span class="flags">--help</span>
 
 <em>SYNOPSIS</em>
 
@@ -227,7 +227,7 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 Use `cds env` to inspect currently effective config settings:
 
 <pre class="log">
-<i>bookshop $</i> cds env get requires.db
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">env get</span> <span class="flags">requires.db</span>
 {
   impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
   credentials: { url: <em>':memory:'</em> },
@@ -241,7 +241,7 @@ Use `cds env` to inspect currently effective config settings:
 Use `cds repl` to live-interact with Node.js APIs:
 
 <pre class="log">
-<i>bookshop $</i> cds repl
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
 <em>Welcome to cds repl v6.7.0</em>
 > SELECT.from(Foo)
 Query {

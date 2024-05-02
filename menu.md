@@ -163,7 +163,6 @@
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
-- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 
 ### [Java](java/)
 
@@ -203,6 +202,8 @@
 ### [Tools](tools/)
 
 - [CDS Command Line Interface](tools/cds-cli)
+- [CDS Design Time APIs](node.js/cds-dk)
+- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 - [Development Environment](tools/ide)
 - [CDS Editors](tools/cds-editor)
 - [CDS Lint](tools/cds-lint/)

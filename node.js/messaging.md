@@ -416,7 +416,7 @@ There are no queues:
 - Messages are lost when consumers are not available.
 - All instances receive the messages independently.
 
-::: warning _❗ Warning_
+::: warning No tenant isolation in multitenant scenario
 When using `redis-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
 :::
 

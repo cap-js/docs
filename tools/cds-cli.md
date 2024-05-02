@@ -13,12 +13,14 @@ synopsis: >
   const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
   const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
 </script>
-<style scoped>
+<style scoped lang="scss">
   .ga   { color: var(--vp-c-green-2);}
   .na   { color: gray; font-size:90%; }
   .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
   .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
+
+  .add::before { content: 'cds add '; color: #999 }
 </style>
 
 # CDS Command Line Interface (CLI) {#cli}
@@ -200,7 +202,8 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `html5-repo`                  |       <X/>       |       <X/>       |
 | `approuter`                   |       <X/>       |       <X/>       |
 | `connectivity`                |       <X/>       |       <X/>       |
-| `data`                        |       <X/>       |       <X/>       |
+| [`data`](#data)               |       <X/>       |       <X/>       |
+| [`http`](#http)               |       <X/>       |       <X/>       |
 | `destination`                 |       <X/>       |       <X/>       |
 | `enterprise-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging-shared` |       <X/>       |       <O/>       |
@@ -220,7 +223,123 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `xsuaa`                       |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
->
+
+### data {.add}
+
+Adds files to the project that carry initial data, in either JSON and CSV format.
+
+The simplest form of:
+
+```sh
+cds add data
+```
+
+adds _csv_ files with a single header line for all entities to the _db/data/_ folder.  The name of the files matches the entities' namespace and name, separated by `-`.
+
+#### Filtering {#data-filtering}
+
+To create data for some entities only, use `--filter`.  For example:
+
+```sh
+cds add data --filter books
+```
+
+would only create data for entity names that include _books_ (case insensitive).
+
+You can use regular expressions for more flexibility and precision.  For example, to only match _Books_, but not _Books.texts_, use:
+
+```sh
+cds add data --filter "books$"
+```
+
+::: details Special characters like `?` or `*` need escaping or quoting in shells
+
+The escape character is usually the backslash, e.g. `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
+:::
+
+#### Sample records
+
+To create actual data (along with the header line), use `--records` with a number for how many records you wish to have:
+
+```sh
+cds add data --records 2
+```
+
+This creates 2 records for each entity.
+
+::: details It could be that more than 2 records are created.
+This is in case of 'composed/child/sub' entities that are part of [CDS compositions](../cds/cdl#compositions) in other entities. Data for such 'composed' entities is always created.
+Entities that are referenced through [CDS associations](../cds/cdl#associations), however, are only processed if they are in the `--filter` set (see above).
+:::
+
+
+#### Formats
+
+By default, the data format is _CSV_.  You can change this to JSON with the `--content-type` option:
+
+```sh
+cds add data --content-type json
+```
+
+The result could look like this for a typical _Books_ entity from the _Bookshop_ application:
+
+```jsonc
+[
+  {
+    "ID": 29894036,
+    "title": "title-29894036",
+    "author": {
+      "ID": 1343293
+    },
+    "stock": 94,
+    "texts": [
+      { ... }
+    ]
+  }
+]
+```
+
+::: details Some details on this JSON data:
+-  In JSON, _structured_ objects are used instead of flattened properties, for example, `author: { ID: ... }` instead of `author_ID.` The flattened properties would work as well during database deployment and runtime though.
+- `author.ID` refers to a key from the _...Authors.json_ file that is created at the same time.  If the _Authors_ entity is excluded, though, no such foreign key would be created.
+- Data for the `texts` composition to `Books.texts` is always created, as this is a _composition_.
+- A random unqiue number for each record, _29894036_ here, is added to string properties, to make help you correlate them more easily.
+:::
+
+#### Interactively in VS Code
+
+In [VS Code](./cds-editors#vscode), use the commands _Generate Model Data as JSON / CSV_ to insert test data at the cursor position for a selected entity.
+
+<video src="/releases/assets/apr24/generate-data-json_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+### http {.add}
+
+Adds `.http` files with sample read and write requests.
+
+The simplest form of:
+
+```sh
+cds add http
+```
+
+creates `http` files for all services and all entities.
+
+
+#### Filtering
+
+See the filter option of [`add data`](#data-filtering) for the general syntax.
+In addition, you can filter with a service name:
+
+```sh
+cds add http --filter CatalogService
+```
+
+#### Interactively in VS Code
+
+In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to insert request data in an _http_ file for a selected entity or service.
+
+<video src="/releases/assets/apr24/generate-http-requests_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
 
 ## *cds env*
 

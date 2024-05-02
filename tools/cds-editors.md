@@ -1,14 +1,16 @@
 ---
 status: released
 synopsis: >
-  Features of the CDS language editor
+  About supported development environments (IDEs) and features of the CDS language editor.
 ---
 
-# CDS Editors and Environments
+# CDS Editors and IDEs
 
 [[toc]]
 
 ## SAP Business Application Studio {#bastudio}
+
+[SAP Business Application Studio](https://help.sap.com/docs/bas/sap-business-application-studio/what-is-sap-business-application-studio) offers a modern development environment tailored for efficient development of business applications for the SAP Intelligent Enterprise.
 
 ### Setup in BTP
 

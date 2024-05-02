@@ -202,7 +202,7 @@
 ### [Tools](tools/)
 
 - [CDS Command Line Interface](tools/cds-cli)
-- [CDS Editors & Environments](tools/cds-editors)
+- [CDS Editors & IDEs](tools/cds-editors)
 - [CDS Lint](tools/cds-lint/)
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)

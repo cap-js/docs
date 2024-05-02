@@ -6,6 +6,7 @@ export default {
     const data: any = { "Model Validation": [], "Environment": [] };
     let plugin: any;
     try {
+      // @ts-ignore
       plugin = (await import('@sap/eslint-plugin-cds')).default;
     } catch (e) {
       return data

@@ -208,7 +208,7 @@
 - [IntelliJ IDEA](tools/#intellij)
 - [CDS Editors](tools/#cds-editor)
 - [CDS Lint](tools/cds-lint/)
-  - [Rules Reference](tools/cds-lint/rules)
+  - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
 - [CAP Notebooks](tools/#cap-vscode-notebook)
 - [Using Docker](tools/#docker)

@@ -177,7 +177,7 @@ SEE ALSO
 
 ## *cds init*
 
-Use `cds init` to create new projects
+Use `cds init` to create new projects.
 
 ## *cds add*
 
@@ -213,19 +213,18 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `mta`                         |       <X/>       |       <X/>       |
 | `notifications`               |       <X/>       |       <O/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
-| `sample`                      |       <X/>       |       <O/>       |
+| `sample`                      |       <X/>       |       <X/>       |
 | `tiny-sample`                 |       <X/>       |       <X/>       |
 | `sqlite`                      |       <X/>       |       <X/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
 | `xsuaa`                       |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
-> <sup>2</sup> Only for Kyma <br>
 >
 
 ## *cds env*
 
-Use `cds env` to inspect currently effective config settings
+Use `cds env` to inspect currently effective config settings:
 
 <pre class="log">
 <i>bookshop $</i> cds env get requires.db
@@ -239,7 +238,7 @@ Use `cds env` to inspect currently effective config settings
 
 ## *cds repl*
 
-Use `cds repl` to live-interact with Node.js APIs
+Use `cds repl` to live-interact with Node.js APIs:
 
 <pre class="log">
 <i>bookshop $</i> cds repl

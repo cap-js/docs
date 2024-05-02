@@ -329,10 +329,7 @@ While UUIDs certainly come with an overhead and a performance penalty when looki
 * **Auto-filled primary keys** — primary key elements with type UUID are automatically filled by generic service providers in Java and Node.js upon INSERT.
 
 ::: tip Prefer UUIDs for Keys
-
-* Use DB sequences only if you really deal with high data volumes.
-* Otherwise, prefer UUIDs.
-
+Use DB sequences only if you really deal with high data volumes. Otherwise, prefer UUIDs.
 :::
 
 You can also have semantic primary keys such as order numbers constructed by customer name+date, etc. And if so, they usually range between UUIDs and DB sequences with respect to the pros and cons listed above.

@@ -21,6 +21,9 @@ const defaultConfig: string = `import cds from '@sap/eslint-plugin-cds'
 export default [
   cds.configs.recommended,
   {
+    plugins: {
+      '@sap/cds': cds
+    },
     rules: {
       // ...cds.configs.recommended.rules,
     }

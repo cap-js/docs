@@ -4,6 +4,23 @@ synopsis: >
   Available commands of the <code>cds</code> command line client
 ---
 
+<script setup>
+  import { h } from 'vue'
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
+  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
+  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
+  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
+  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
+  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
+</script>
+<style scoped>
+  .ga   { color: var(--vp-c-green-2);}
+  .na   { color: gray; font-size:90%; }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
+  .plan { color: gray; font-size:90% }
+  .contrib { color: gray; font-size:90% }
+</style>
+
 # CDS Command Line Interface (CLI) {#cli}
 
 To use `cds` from your command line, install package  `@sap/cds-dk` globally:
@@ -158,12 +175,53 @@ SEE ALSO
 
 
 
-## *cds init/add*
+## *cds init*
 
-* Use `cds init` to create new projects
-* Use `cds add` to gradually add facets to projects
+Use `cds init` to create new projects
+
+## *cds add*
+
+Use `cds add` to gradually add capabilities ('facets') to projects.
+
+The facets built into `@sap/cds-dk` provide you with a large set of standard features that support CAP's grow-as-you-go approach:
 
 
+| Feature                       |     Node.js      |       Java       |
+|-------------------------------|:----------------:|:----------------:|
+| `hana`                        |       <X/>       |       <X/>       |
+| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `liquibase`                   |      <Na/>       |       <X/>       |
+| `h2`                          |      <Na/>       |       <X/>       |
+| `multitenancy`                |       <X/>       |       <X/>       |
+| `toggles`                     |       <X/>       |       <X/>       |
+| `extensibility`               |       <X/>       |       <X/>       |
+| `application-logging`         | <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `audit-logging`               |       <O/>       |       <O/>       |
+| `html5-repo`                  |       <X/>       |       <X/>       |
+| `approuter`                   |       <X/>       |       <X/>       |
+| `connectivity`                |       <X/>       |       <X/>       |
+| `data`                        |       <X/>       |       <X/>       |
+| `destination`                 |       <X/>       |       <X/>       |
+| `enterprise-messaging`        |       <X/>       |       <O/>       |
+| `enterprise-messaging-shared` |       <X/>       |       <O/>       |
+| `redis-messaging`             | <X/><sup>1</sup> |       <O/>       |
+| `local-messaging`             |       <X/>       |       <O/>       |
+| `file-based-messaging`        |       <X/>       |       <O/>       |
+| `kafka`                       |       <X/>       |       <X/>       |
+| `helm`                        |       <X/>       |       <X/>       |
+| `helm-unified-runtime`        |       <X/>       |       <X/>       |
+| `mta`                         |       <X/>       |       <X/>       |
+| `notifications`               |       <X/>       |       <O/>       |
+| `pipeline`                    |       <X/>       |       <X/>       |
+| `sample`                      |       <X/>       |       <O/>       |
+| `tiny-sample`                 |       <X/>       |       <X/>       |
+| `sqlite`                      |       <X/>       |       <X/>       |
+| `typer`                       |       <X/>       |      <Na/>       |
+| `xsuaa`                       |       <X/>       |       <X/>       |
+
+> <sup>1</sup> Only for Cloud Foundry <br>
+> <sup>2</sup> Only for Kyma <br>
+>
 
 ## *cds env*
 

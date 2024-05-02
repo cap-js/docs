@@ -57,7 +57,7 @@ To learn about the features specific to CAP development in the studio, see the g
 
 ## Visual Studio Code {#vscode}
 
-### Install Visual Studio Code
+### Install Visual Studio Code {#install-vscode}
 
 1. Install [_Visual Studio Code_](https://code.visualstudio.com) and launch it.
 2. Only for macOS: Install the `code` shell command.

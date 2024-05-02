@@ -202,12 +202,11 @@
 ### [Tools](tools/)
 
 - [CDS Command Line Interface](tools/cds-cli)
-- [Development Environments](tools/ide)
-- [CDS Editors](tools/cds-editor)
+- [CDS Editors & Environments](tools/cds-editors)
 - [CDS Lint](tools/cds-lint/)
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/cds-editor#cap-vscode-notebook)
+- [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
 - [CDS Design Time APIs](node.js/cds-dk)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 

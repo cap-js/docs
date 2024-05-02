@@ -1,5 +1,7 @@
 ---
 status: released
+synopsis: >
+  Features of the CDS language editor
 ---
 
 # CDS Editors & LSP {#cds-editor}

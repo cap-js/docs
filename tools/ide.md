@@ -1,8 +1,10 @@
 ---
 status: released
+synopsis: >
+  Supported development environments
 ---
 
-# Development Environment
+# Development Environments
 
 [[toc]]
 

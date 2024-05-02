@@ -1,5 +1,7 @@
 ---
 status: released
+synopsis: >
+  Available commands of the <code>cds</code> command line client
 ---
 
 # CDS Command Line Interface (CLI) {#cli}

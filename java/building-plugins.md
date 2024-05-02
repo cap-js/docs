@@ -93,7 +93,7 @@ When your Maven build is set up correctly, you can use the reuse models in your 
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 ::: details Different resolution rules
-The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
+The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
 :::
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}

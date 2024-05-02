@@ -57,7 +57,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     mvn --version
     ```
 ::: tip
-For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all the required tools preinstalled.
+For a preconfigured environment, use [SAP Business Application Studio](../tools/ide#bastudio), which comes with all the required tools preinstalled.
 In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
@@ -198,9 +198,9 @@ To test whether the started application is up and running, open [http://localhos
 
 CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside you could use any Java IDE supporting the import of Maven projects. But as CDS modeling and editing is a core part of CAP application development we strongly recommend to use an IDE with existing Java support:
 
-* [SAP Business Application Studio](/tools/#bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
-* [Visual Studio Code](/tools/#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
-* [IntelliJ Idea Ultimate](/tools/#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
+* [SAP Business Application Studio](/tools/ide#bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
+* [Visual Studio Code](/tools/ide#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
+* [IntelliJ Idea Ultimate](/tools/ide#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 
 
 ### Open the project in your IDE

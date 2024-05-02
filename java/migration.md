@@ -23,8 +23,57 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [[toc]]
 
+## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
-## CAP Java 1.34 to CAP Java 2.0 { #one-to-two}
+::: warning
+This is a **preview** of the changes planned for CAP Java 3.0 (planned to be released July 2024)
+:::
+
+### Minimum Versions
+
+CAP Java 3.0 increased some minimum required versions:
+
+| Dependency | Minimum Version |
+| --- | --- |
+| Maven | 3.6.3 |
+| Cloud SDK | 5.9.0 |
+
+### Production Profile `cloud`
+
+The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
+
+[Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
+
+### Adjusted Property Defaults
+
+Some property defaults have been adjusted:
+
+| Property | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
+
+### Removed Properties
+
+TODO
+
+### Removed Java APIs
+
+TODO
+
+## Cloud SDK 4 to 5 { #cloudsdk5 }
+
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.7.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+
+```xml
+<dependency>
+	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+	<artifactId>connectivity-apache-httpclient4</artifactId>
+</dependency>
+```
+
+If you are using Cloud SDK APIs explicitly in your code consider the migration guide for Cloud SDK 5 itself: https://sap.github.io/cloud-sdk/docs/java/guides/5.0-upgrade-steps
+
+## CAP Java 1.34 to CAP Java 2.0 { #one-to-two }
 
 This section describes the changes in CAP Java between the major versions 1.34 and 2.0. It provides also helpful information how to migrate a CAP Java application to the new major version 2.0.
 
@@ -1040,16 +1089,3 @@ After rebuilding and restarting your application, your Application Services are 
 <!-- TODO: Move this to "Development" section -->
 
 <span id="afterenablingodata" />
-
-## Cloud SDK 4 to 5 { #cloudsdk5 }
-
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.2.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you  don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
-
-```xml
-<dependency>
-	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-	<artifactId>connectivity-apache-httpclient4</artifactId>
-</dependency>
-```
-
-

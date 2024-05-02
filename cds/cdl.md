@@ -1970,7 +1970,11 @@ CREATE TABLE Employees (
 ) COMMENT 'I am the description for "Employee"'
 ```
 
-Doc comments need to be switched on when calling the compiler:
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::
+
+In CAP Node.js, doc comments need to be switched on when calling the compiler:
 
 ::: code-group
 ```sh [CLI]
@@ -1993,5 +1997,5 @@ cds.compile(..., { docs: true })
 :::
 
 ::: tip
-Propagation of doc comments can be stopped via an empty one: `/** */`.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments]([url](https://pages.github.tools.sap/cap/docs/java/assets/cds-maven-plugin-site/generate-mojo.html#documentation)).
 :::

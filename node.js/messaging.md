@@ -449,7 +449,7 @@ Example:
 }
 ```
 
-::: warning _❗ Warning_
+::: warning No tenant isolation in multitenant scenario
 When using `file-based-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
 :::
 

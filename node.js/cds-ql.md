@@ -184,10 +184,10 @@ In effect, your generated SQL statements would effectively look like that:
 SELECT ID from Books where ID=0;
 DELETE from Books; -- gotcha!
 ```
-::: danger Whenever there's user input involved...
-Never use string concatenation when constructing queries!
-
-Never surround tagged template strings with parentheses!
+::: danger **WARNING:**
+Whenever there's user input involved...
+<br> Never use string concatenation when constructing queries!
+<br> Never surround tagged template strings with parentheses!
 :::
 
 
@@ -616,14 +616,14 @@ INSERT.into (Books, [
 function INSERT.entries (records : object[] | Query | Readable)
 ```
 
-Allows inserting multiple rows with one statement.
+Allows inserting multiple rows with one statement. 
 
 The arguments can be one of...
 
-- one or more records as variable list of arguments
+- one or more records as variable list of arguments 
 - an array of one or more records
 - a readable stream
-- a sub SELECT query
+- a sub SELECT query 
 
 Using individual records:
 

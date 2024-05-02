@@ -6,7 +6,8 @@ synopsis: >
 
 # CDS Command Line Interface (CLI) {#cli}
 
-To use `cds` from your command line install `@sap/cds-dk` globally:
+To use `cds` from your command line, install package  `@sap/cds-dk` globally:
+
 ```sh
 npm i -g @sap/cds-dk
 ```

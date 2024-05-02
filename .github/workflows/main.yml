@@ -37,7 +37,7 @@ jobs:
       - run: npm test
       - run: npm run docs:build
         env:
-          SITE_HOSTNAME: https://cap-js.github.io/docs
+          SITE_HOSTNAME: https://cap.js.org/docs
           VITE_CAPIRE_PREVIEW: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

@@ -256,6 +256,10 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 
 #### Configure Java Agent and Extension Library { #agent-extension }
 
+:::warning Dependency
+The configuration steps below assume that your application uses the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack) version 2 or 1. 
+:::
+
 The Open Telemetry Agent Extension library is a common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities, which you can read about in the [Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension).
 
 1) Add the following maven dependency:

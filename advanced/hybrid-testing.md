@@ -13,6 +13,8 @@ CAP enables you to run and test your CAP application using a local SQLite databa
 
 **Hybrid testing** capabilities help you stay in a local development environment and avoid long turnaround times of cloud deployments, by selectively connecting to services in the cloud.
 
+[[toc]]
+
 ## Bind to Cloud Services
 
 ### Services on Cloud Foundry
@@ -325,6 +327,10 @@ Instead of binding to specific cloud services, you can bind to all supported ser
 cds bind --to-app-services bookshop-srv
 ```
 
+::: tip
+This shortcut is only possible if you don't need to provide a `service` or a `kind`.
+:::
+
 ## `cds bind` Usage { #cds-bind-usage}
 
 ### By Cloud Service Only
@@ -338,7 +344,21 @@ cds bind -2 bookshop-db
 You can specify a different key after a colon ("`:`"):
 
 ```sh
-cds bind -2 bookshop-db:my-custom-key
+cds bind -2 bookshop-db:my-db-key
+```
+
+### With different profile
+
+By default `cds bind` uses the profile `hybrid` to store binding information. You can specify a different profile with `--for` or shortcut `-4`:
+
+```sh
+cds bind --to bookshop-db --for test
+```
+
+You have to use the same profile name for hybrid testing to correctly resolve any bindings you've created with this profile.
+
+```sh
+cds watch --profile test 
 ```
 
 ### With CDS Service and Kind
@@ -356,12 +376,76 @@ You are informed with an error message if this is required.
 There is a handy shortcut to bind multiple services with one command:
 
 ```sh
-cds bind -2 my-hana,my-destination,my-xsuaa
+cds bind -2 bookshop-db,bookshop-xsuaa,redis-cache
 ```
 
 ::: tip
 This shortcut is only possible if you don't need to provide a `service` or a `kind`.
 :::
+
+### Overwrite Cloud Service Credentials { #overwriting-service-credentials}
+
+Some hybrid test scenarios might require to overwrite dedicated service credential values. For example, if you want to connect to a Cloud Foundry service via an SSH tunnel. In the example below the value of the property _onpremise_proxy_host_ is updated with the value _localhost_.
+
+```sh
+cds bind -2 my-service --credentials '{ "onpremise_proxy_host": "localhost" }'
+```
+
+::: code-group
+```json [.cdsrc-private.json]
+{
+  "requires": {
+    "[hybrid]": {
+      "my-service": {
+        "binding": {
+          "type": "cf",
+          "apiEndpoint": "https://api.sap.hana.ondemand.com",
+          "org": "your-cf-org",
+          "space": "your-cf-space",
+          "instance": "my-service",
+          "key": "my-service-key",
+          "credentials": { // [!code focus]
+            "onpremise_proxy_host": "localhost" // [!code focus]
+          }, // [!code focus]
+          "resolved": false
+         }
+      }
+    }
+  }
+}
+```
+:::
+
+Now, you can run your CAP service locally using cloud service bindings in combination with merged custom credential values:
+
+```sh
+cds watch --profile hybrid
+```
+
+Example output:
+
+```js
+{
+  onpremise_proxy_host: 'localhost', // [!code focus]
+  // other cloud foundry credential values 
+}
+```
+
+You can also overwrite credential values for multiple services with a single `cds bind` call. Use the service instance together with an optional service key name as defined in the `--to` parameter to add the custom credential values for that service:
+
+```sh
+cds bind --to my-service,redis-cache:my-key,bookshop-xsuaa --credentials \
+  '{ "my-service": { "onpremise_proxy_host": "localhost" }, "redis-cache:my-key":{ "hostname": "localhost", "port": 1234 }}'
+```
+
+Use the service instance name in combination with the option `--to-app-services` if you want to create bindings for all service instances of your application:
+
+```sh
+cds bind --to-app-services bookshop-srv --credentials \
+  '{ "my-service": { "onpremise_proxy_host": "localhost" }, "redis-cache":{ "hostname": "localhost", "port": 1234 }}'
+```
+
+See [Accessing services with SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-services.html) for further details on how you can gain direct command line access to your deployed service instance using SSH.
 
 ### With Profile and Output File
 
@@ -387,13 +471,13 @@ On PowerShell you need to quote the double dash (`--`) when an option with doubl
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
 ```
 
-Profiles can be set using the optional `--for` parameter. By default the `hybrid` profile is used.
+Profiles can be set using the optional `--profile` parameter. By default the `hybrid` profile is used.
 
 ```sh
-cds bind --exec --for <profile> [--] <command> <args ...>
+cds bind --exec --profile <profile> [--] <command> <args ...>
 ```
 
-The `--for` parameter must follow `exec` directly.
+The `--profile` parameter must follow `exec` directly.
 
 ## Use Cases
 

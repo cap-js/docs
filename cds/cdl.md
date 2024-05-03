@@ -1129,7 +1129,7 @@ and a value written as expression `@aValueExpr: ( 11 )`, respectively.
 
 [Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
 If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
-during propagation, e.g. when a referenced element is renamed in a projection.
+during propagation, for example, when a referenced element is renamed in a projection.
 The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
 is rewritten, the `=` property is set to `true`.
 

@@ -627,9 +627,7 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
 </Schema>
 ```
 
-::: warning
-
-Note that currently there are two important restrictions concerning the foreign key elements of managed associations:
+::: warning Restrictions concerning the foreign key elements of managed associations
 
 1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
 This is a workaround for the lack of possibility to directly annotate a foreign key element.
@@ -726,7 +724,7 @@ In addition, the following functions are supported:
   of [OData URL conventions](https://docs.oasis-open.org/odata/odata/v4.02/odata-v4.02-part2-url-conventions.html)
   + See examples below for the syntax for `cast` and `isof` (section [5.1.1.10](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#TypeFunctions))
   + The names of the geo functions (section [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions))
-    need to be escaped like `![geo.distance]`
+    need to be escaped like <br> `![geo.distance]`
 * [`fillUriTemplate(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
   and [`uriEncode(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
 * `Type(...)` (or `$Type(...)`) is to be used to specify a type name with their corresponding type facets such as `MaxLength(...)`, `Precision(...)`, `Scale(...)` and `SRID(...)`
@@ -863,10 +861,10 @@ is translated to:
 ```
 
 One of the main use cases for such dynamic expressions is SAP Fiori,
-but note that Fiori supports dynamic expressions only for
+but note that SAP Fiori supports dynamic expressions only for
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
-::: tip
+::: tip Use expression-like annotation values
 
 Instead of writing annotations directly with EDM JSON syntax,
 try using [expression-like annotation values](#expression-annotations), which

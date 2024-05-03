@@ -67,7 +67,7 @@ System query options can also be applied to an [expanded navigation property](ht
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
 | [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /></sup> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Beta /></sup> |
 
 
 ## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
@@ -185,7 +185,7 @@ entity Books {
 ```
 
 ::: warning
-This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API. 
+This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API.
 If you are not doing the required conversions, you can "cast" any scalar CDS type into any incompatible EDM type:
 
 ```cds
@@ -457,11 +457,11 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 </Annotation>
 ```
 
-### References
+### References { #references }
 
 > Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
-References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
+References in CDS annotations are mapped to `Path` properties or nested `<Path>` elements, respectively:
 
 ```cds
 @Some.Term: My.Reference
@@ -486,6 +486,10 @@ References in `cds` annotations are mapped to `.Path` properties or nested `<Pat
   </Collection>
 </Annotation>
 ```
+
+As the compiler isn't aware of the semantics of such references, the mapping is very simplistic:
+each `.` in a path is replaced by a `/`.
+Use [expression-valued annotations](#expression-annotations) for more convenience.
 
 Use a [dynamic expression](#dynamic-expressions) if the generic mapping can't produce the desired `<Path>`:
 
@@ -530,6 +534,243 @@ The second example is for a (record type) term in the [Communication vocabulary]
   </Record>
 </Annotation>
 ```
+
+
+### Expressions <Beta /> { #expression-annotations }
+
+If the value of an OData annotation is an [expression](../cds/cdl#expressions-as-annotation-values),
+the OData backend provides improved handling of references and automatic mapping from
+CDS expression syntax to OData expression syntax.
+
+#### Flattening
+
+In contrast to [simple references](#references), the references in expression-like
+annotation values are correctly handled during model transformations, like other references in the model.
+When the CDS model is flattened for OData, the flattening is consequentially also applied
+to these references, and they are translated to the flat model.
+
+::: tip
+
+Although CAP supports structured types and elements, we recommend to use them only
+if they bring a real benefit. In general, you should keep your models as flat as possible.
+
+:::
+
+Example:
+```cds
+type Price {
+  @Measures.ISOCurrency: (currency)
+  amount : Decimal;
+  currency : String(3);
+}
+
+service S {
+  entity Product {
+    key id : Integer;
+    name : String;
+    price : Price;
+  }
+}
+```
+Structured element `price` of `S.Product` is unfolded to flat elements
+`price_amount` and `price_currency`. Accordingly, the reference in the annotation
+is rewritten from `currency` to `price_currency`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Product">
+    <!-- ... -->
+    <Property Name="price_amount" Type="Edm.Decimal" Scale="variable"/>
+    <Property Name="price_currency" Type="Edm.String" MaxLength="3"/>
+  </EntityType>
+  <Annotations Target="S.Product/price_amount">
+    <Annotation Term="Measures.ISOCurrency" Path="price_currency"/>
+  </Annotations>
+</Schema>
+```
+
+
+Example:
+```cds
+service S {
+  entity E {
+    key id : Integer;
+    f : Association to F;
+    @Some.Term: (f.struc.y)
+    val : Integer;
+  }
+  entity F {
+    key id : Integer;
+    struc {
+      y : Integer;
+    }
+  }
+}
+```
+The OData backend is aware of the semantics of a path and distinguishes association path steps from structure access.
+The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="E">
+    <!-- ... -->
+    <NavigationProperty Name="f" Type="S.F"/>
+    <Property Name="val" Type="Edm.Int32"/>
+  </EntityType>
+  <EntityType Name="F">
+    <!-- ... -->
+    <Property Name="struc_y" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.E/val">
+    <Annotation Term="Some.Term" Path="f/struc_y"/>
+  </Annotations>
+</Schema>
+```
+
+::: warning Restrictions concerning the foreign key elements of managed associations
+
+1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
+This is a workaround for the lack of possibility to directly annotate a foreign key element.
+This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
+to use expression-valued annotations for annotating foreign keys of a managed association.
+
+2. In an expression-valued annotation, it is not possible to reference the foreign key element
+of a managed association.
+
+:::
+
+#### Expression Translation
+
+If the expression provided as annotation value is more complex than just a reference,
+the OData backend translates CDS expressions to the corresponding OData expression syntax and rejects those expressions that are not applicable in an OData API.
+
+::: info
+
+While the flattening of references described in the section above is applied to all
+annotations, the syntactic translation of expressions is only done for annotations
+defined in one of the [OData vocabularies](#vocabularies).
+
+:::
+
+The following operators and clauses of CDL are supported:
+
+* `case when ... then ... else ...` and the logical ternary operator ` ? : `
+* Logical: `and`,  `or`,  `not`
+* Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and`
+* Unary `+` and `-`
+* Arithmetic: `+`,  `-`,  `*`,  `/`, `||`
+* `cast(...)`
+
+Example:
+```cds
+@Some.Xpr: ( -(a + b) )
+```
+
+```xml
+<Annotation Term="Some.Xpr">
+  <Neg>
+    <Add>
+      <Path>a</Path>
+      <Path>b</Path>
+    </Add>
+  </Neg>
+</Annotation>
+```
+
+Such expressions can for example be used
+for [some Fiori UI annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048):
+
+```cds
+service S {
+  @UI.LineItem: [ // ...
+  {
+    Value: (status),
+    Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) )
+  }]
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  }
+}
+```
+
+If you need to access an element of an entity in an annotation for a bound action or function,
+use a path that navigates via an explicitly defined [binding parameter](../cds/cdl#bound-actions).
+
+Example:
+<!-- cds-mode: upcoming, cds-compiler v4.9 -->
+```cds
+service S {
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  } actions {
+    @Core.OperationAvailable: ( :in.status <> 'A' )
+    action accept (in: $self)
+  }
+}
+```
+
+In addition, the following functions are supported:
+
+* `$Null()` representing the `null` value
+* `Div(...)` (or `$Div(...)`) and `Mod(...)` (or `$Mod(...)`) for integer division and modulo
+* [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
+* the functions listed in sections
+  [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#StringandCollectionFunctions)
+  through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions)
+  of [OData URL conventions](https://docs.oasis-open.org/odata/odata/v4.02/odata-v4.02-part2-url-conventions.html)
+  + See examples below for the syntax for `cast` and `isof` (section [5.1.1.10](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#TypeFunctions))
+  + The names of the geo functions (section [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions))
+    need to be escaped like <br> `![geo.distance]`
+* [`fillUriTemplate(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
+  and [`uriEncode(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
+* `Type(...)` (or `$Type(...)`) is to be used to specify a type name with their corresponding type facets such as `MaxLength(...)`, `Precision(...)`, `Scale(...)` and `SRID(...)`
+   (or `$MaxLength(...)`, `$Precision(...)`, `$Scale(...)`, `$SRID(...)`)
+
+Example:
+```cds
+@Some.Func1: ( concat(a, b, c) )
+@Some.Func2: ( round(aNumber) )
+@Some.Func3: ( $Cast(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func4: ( $IsOf(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func5: ( ![geo.distance](a, b) )
+@Some.Func6: ( fillUriTemplate(a, b) )
+```
+
+If a functional expression starts with a `$`, all inner function must also be `$` functions and vice versa.
+Instead of `[$]Type(...)` an EDM primitive type name can be directly used as function name like in CDL.
+
+It is worth to mention that there are two alternatives for the cast function, one in the EDM and one in the CDS domain:
+
+<!-- cds-mode: ignore -->
+```cds
+@Some.ODataStyleCast:  ( Cast(aValue, Decimal(38, 'variable') ) )  // => Edm.Decimal
+@Some.ODataStyleCast2: ( Cast(aValue, PrimitiveType()) )           // => Edm.PrimitiveType
+@Some.SQLStyleCast:    ( cast(aValue as Decimal(38, variable)) )   // => cds.Decimal
+@Some.SQLStyleCast2:   ( cast(aValue as String) )                  // => cds.String without type facets
+```
+
+Both `cast` functions look similar, but there are some differences:
+
+The OData style `Cast` _function_ starts with a capital letter and the SQL `cast` _operator_ uses the keyword `as`
+to delimit the element reference from the type specifier. The OData `Cast` requires an EDM primitive type to be used
+either as `[$]Type()` or as direct type function whereas the SQL `cast` requires a scalar CDS type as argument which is then
+converted into the corresponding EDM primitive type.
+
+::: info
+
+CAP only provides a syntactic translation. It is up to each client
+whether an expression value is supported for a particular annotation.
+See for example [Firori's list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+:::
+
+Use a [dynamic expression](#dynamic-expressions) if the desired EDMX expression cannot be
+obtained via the automatic translation of a CDS expression.
+
 
 ### Annotating Annotations { #annotating-annotations}
 
@@ -594,8 +835,8 @@ In any case, the resulting EDMX is:
 
 ### Dynamic Expressions { #dynamic-expressions}
 
-OData supports dynamic expressions in annotations. CDS syntax doesn't allow writing expressions
-in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
+OData supports dynamic expressions in annotations.
+For OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
 in the [JSON representation of the OData Common Schema Language](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
 
 Note that here the CDS syntax for string literals with single quotes (`'foo'`) applies,
@@ -621,8 +862,17 @@ is translated to:
 ```
 
 One of the main use cases for such dynamic expressions is SAP Fiori,
-but note that Fiori supports dynamic expressions only for 
+but note that SAP Fiori supports dynamic expressions only for
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+::: tip Use expression-like annotation values
+
+Instead of writing annotations directly with EDM JSON syntax,
+try using [expression-like annotation values](#expression-annotations), which
+are automatically translated. For the example above you would
+simply write `@UI.Hidden: (status <> 'visible')`.
+
+:::
 
 
 ### `sap:` Annotations

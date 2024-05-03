@@ -46,8 +46,8 @@ entity Books : cuid {
 ```
 > When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
-:::tip Disable Statement-Wide Collation
-To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
+::: info Disable Collating
+To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
 4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
@@ -135,6 +135,16 @@ SAP HANA can be configured when running locally as well as when running producti
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
+#### Configure the DDL generation
+
+Advise the CDS Compiler to generate _tables without associations_, as associations on SAP HANA are not used by CAP Java:
+
+::: code-group
+```json [.cdsrc.json]
+{ "sql": { "native_hana_associations" : false } }
+```
+:::
+
 #### SQL Optimization Mode
 
 By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
@@ -171,15 +181,6 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</configuration>
 </execution>
 ```
-
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
-
-::: code-group
-```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
-```
-:::
-
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
@@ -222,16 +223,6 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
-
-::: code-group
-```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
-```
-:::
-
-
-
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
@@ -258,25 +249,6 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</configuration>
 </execution>
 ```
-
-#### CDS Compiler Configuration
-
-You have the following configuration options:
-
-* `betterSqliteSessionVariables`: enable support for [session context variables](../../guides/databases-sqlite#session-variables)
-* `fewerLocalizedView`: don't generate localized views that CAP Java doesn't need
-
-::: code-group
-```json [.cdsrc.json]
-{
-    "cdsc": {
-        "betterSqliteSessionVariables": true,
-        "fewerLocalizedViews": true
-    }
-}
-```
-:::
-
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```sh

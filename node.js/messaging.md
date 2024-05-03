@@ -403,7 +403,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <div id="kafka-sap" />
 
-### Redis PubSub <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />
+### Redis PubSub <Beta />
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
 :::
@@ -415,6 +415,11 @@ Use [Redis PubSub](https://redis.io/) as a message broker.
 There are no queues:
 - Messages are lost when consumers are not available.
 - All instances receive the messages independently.
+
+::: warning No tenant isolation in multitenant scenario
+When using `redis-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 ::: tip
 You need to install the latest version of the npm package `redis`.
 :::
@@ -443,6 +448,11 @@ Example:
     }
 }
 ```
+
+::: warning No tenant isolation in multitenant scenario
+When using `file-based-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 
 ### Local Messaging
 

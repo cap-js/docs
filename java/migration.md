@@ -60,6 +60,10 @@ TODO
 
 TODO
 
+### Changes in `cds-maven-plugin`
+
+The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
+
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
 CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.7.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:

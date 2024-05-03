@@ -352,9 +352,11 @@ The following steps describe the required configuration:
        OTEL_METRICS_EXPORTER: dynatrace
        OTEL_TRACES_EXPORTER: none
        OTEL_LOGS_EXPORTER: none
-       OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
    ```
    :::
+
+5) Check your Dynatrace binding. You are looking for two tokens generated for you: the default one is called `apitoken` and the second one should correspond to the token you have requested in your `mta.yaml` or generated from Dynatrace instance manually.
+6) Add to the environment variable `JBP_CONFIG_JAVA_OPTS` the following option `-Dotel.javaagent.extension.sap.cf.binding.dynatrace.metrics.token-name=<ingest_apitoken>`. Replace the name `ingest_apitoken` with the name of the token you have found previously. 
 
    Traces will be handled by the Dynatrace OneAgent and OpenTelemetry export for them is disabled to prevent the OpenTelemetry agent from interfering with that.
 

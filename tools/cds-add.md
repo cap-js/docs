@@ -55,22 +55,6 @@ synopsis: >
     }
   }
 </style>
-<script setup>
-  import { h } from 'vue'
-  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
-  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
-  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
-  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
-  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
-  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
-</script>
-<style scoped>
-  .ga   { color: var(--vp-c-green-2);}
-  .na   { color: gray; font-size:90%; }
-  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
-  .plan { color: gray; font-size:90% }
-  .contrib { color: gray; font-size:90% }
-</style>
 
 # Plugins for `cds add`{#cds-add}
 
@@ -83,44 +67,7 @@ synopsis: >
 Many plugins are already part of `@sap/cds-dk`, and all are implemented using the public APIs documented here.
 They provide you with a large set of standard features that support CAP's grow-as-you-go approach.
 
-### Overview
-
-| Feature                           | Node.js | Java |
-|-----------------------------------|:-------:|:----:|
-| `hana`                            |  <X/>   | <X/> |
-| `postgres`                        |  <X/><sup>1</sup>   | <X/><sup>1</sup> |
-| `liquibase`                       |  <Na/>  | <X/> |
-| `h2`                              |  <Na/>  | <X/> |
-| `multitenancy`                    |  <X/>   | <X/> |
-| `toggles`                         |  <X/>   | <X/> |
-| `extensibility`                   |  <X/>   | <X/> |
-| `application-logging`             |  <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `audit-logging`                   |  <O/>   | <O/> |
-| `html5-repo`                      |  <X/>   | <X/> |
-| `approuter`                       |  <X/>   | <X/> |
-| `connectivity`                    |  <X/>   | <X/> |
-| `data`                            |  <X/>   | <X/> |
-| `destination`                     |  <X/>   | <X/> |
-| `enterprise-messaging`            |  <X/>   | <O/> |
-| `enterprise-messaging-shared`     |  <X/>   | <O/> |
-| `redis-messaging`                 |  <X/><sup>1</sup>   | <O/> |
-| `local-messaging`                 |  <X/>   | <O/> |
-| `file-based-messaging`            |  <X/>   | <O/> |
-| `kafka`                           |  <X/>   | <X/> |
-| `helm`                            |  <X/>   | <X/> |
-| `helm-unified-runtime`            |  <X/>   | <X/> |
-| `mta`                             |  <X/>   | <X/> |
-| `notifications`                   |  <X/>   | <O/> |
-| `pipeline`                        |  <X/>   | <X/> |
-| `sample`                          |  <X/>   | <O/> |
-| `tiny-sample`                     |  <X/>   | <X/> |
-| `sqlite`                          |  <X/>   | <X/> |
-| `typer`                           |  <X/>   | <Na/> |
-| `xsuaa`                           |  <X/>   | <X/> |
-
-> <sup>1</sup> Only for Cloud Foundry <br>
-> <sup>2</sup> Only for Kyma <br>
->
+[See the list of built-in `add` plugins](./cds-cli#cds-add)
 
 ## Create a Plugin from Scratch
 

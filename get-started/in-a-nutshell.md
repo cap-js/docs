@@ -89,7 +89,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 ## Jumpstart a CAP Project {#jumpstart}
 <!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](../tools/index#cli)* CLI, and *[Visual Studio Code](https://code.visualstudio.com/)* as described in the [_Jumpstart_ guide](jumpstart), ...
+Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](../tools/cds-cli)* CLI, and *[Visual Studio Code](https://code.visualstudio.com/)* as described in the [_Jumpstart_ guide](jumpstart), ...
 
 1. Create a new project using `cds init`
 

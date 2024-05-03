@@ -402,7 +402,11 @@ The SAP Application Logging Service offers [different plans with different quota
 
 ### Header Masking
 
-Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i']`.
+Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i', '/cert/i', '/ssl/i']`.
+
+::: warning
+In case your application shares any sensitive data (for example, secrets) via headers, please ensure that you adjust the configuration as necessary.
+:::
 
 
 ### Custom Fields { #als-custom-fields }

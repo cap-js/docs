@@ -1,11 +1,8 @@
 ---
-editLink: false
 outline: [2,2]
 breadcrumbs:
   - CDS Lint
     - Rules Reference
-prev: false
-next: false
 status: released
 ---
 

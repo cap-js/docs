@@ -745,6 +745,7 @@ Instead of `[$]Type(...)` an EDM primitive type name can be directly used as fun
 
 It is worth to mention that there are two alternatives for the cast function, one in the EDM and one in the CDS domain:
 
+<!-- cds-mode: ignore -->
 ```cds
 @Some.ODataStyleCast:  ( Cast(aValue, Decimal(38, 'variable') ) )  // => Edm.Decimal
 @Some.ODataStyleCast2: ( Cast(aValue, PrimitiveType()) )           // => Edm.PrimitiveType

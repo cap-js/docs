@@ -366,7 +366,7 @@ For specific steps to change the log level, please refer to the respective secti
 
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
-You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or your can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API. 
+You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or you can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API. 
 
 To enable annotation-based tracing, include the following dependency in your `pom.xml`: 
 

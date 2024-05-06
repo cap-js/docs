@@ -95,10 +95,6 @@ You can set the property to one of the following:
 - number of minutes like `'10min'`
 - number of milliseconds like `1000`
 
-::: warning
-`cds.drafts.cancellationTimeout` is deprecated and will be removed in an upcoming release. Please mind that the `cds.fiori.draft_lock_timeout` expects a different value.
-:::
-
 ### Bypassing the SAP Fiori Draft Flow
 
 Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.

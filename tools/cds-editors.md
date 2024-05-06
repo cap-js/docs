@@ -8,16 +8,16 @@ synopsis: >
 
 [[toc]]
 
-## SAP Business Application Studio {#bastudio}
+## SAP Business Application Studio {#bas}
 
 [SAP Business Application Studio](https://help.sap.com/docs/bas/sap-business-application-studio/what-is-sap-business-application-studio) offers a modern development environment tailored for efficient development of business applications for the SAP Intelligent Enterprise.
 
-### Setup in BTP
+#### Setup in BTP
 
 If not already done, [set up SAP Business Application Studio](https://developers.sap.com/tutorials/appstudio-onboarding.html) on SAP BTP.
 
 
-### Setup a Dev Space
+#### Set Up a Dev Space
 
 1. Open the [SAP BTP cockpit](https://account.hanatrial.ondemand.com/) and choose *SAP Business Application Studio* from the _Quick Tool Access_ section.
 
@@ -27,7 +27,8 @@ If not already done, [set up SAP Business Application Studio](https://developers
 
 1. Choose *Full Stack Cloud Application* as the application type.
 
-   By selecting *Full Stack Cloud Application*, your dev space comes with several extensions out of the box that you need to develop CAP applications. For example, CAP Tools, Java Tools, and MTA Tools are built in. This saves setup time. See [Developer Guide](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) for SAP Business Application Studio for more details.
+   By selecting *Full Stack Cloud Application*, your dev space comes with several extensions out of the box that you need to develop CAP applications. For example, CAP Tools, Java Tools, and MTA Tools are built in to save setup time.
+   See [Developer Guide](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/84be8d91b3804ab5b0581551d99ed24c.html) for SAP Business Application Studio for more details.
 
 1. Choose *Create Dev Space*.
 
@@ -35,18 +36,15 @@ If not already done, [set up SAP Business Application Studio](https://developers
 
 1. Once the dev space is running, choose the dev space by clicking on the dev space name.
 
-   >You're using a trial version. Any dev space that hasn't been running for 30 days will be deleted. See the full list of [restrictions](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/a45742a719704bdea179b4c4f9afa07f.html).
+   >In the trial version, any dev space that hasn't been running for 30 days will be deleted. See the full list of [restrictions](https://help.sap.com/products/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/a45742a719704bdea179b4c4f9afa07f.html).
+
+See [Developing a CAP Application in SAP Business Application Studio](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/8a648174036a458688391c3ad7ee7cd5.html) {.learn-more}
 
 
-### Features
-
-To learn about the features specific to CAP development in the studio, see the guide [Developing a CAP Application in SAP Business Application Studio](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9c36fdb911ae4cadab467a314d9e331f/8a648174036a458688391c3ad7ee7cd5.html)
-
-
-### Tutorials
+#### Tutorials
 
 + [Combine CAP with SAP HANA Cloud to Create Full-Stack Applications](https://developers.sap.com/mission.hana-cloud-cap.html)
-+ [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html).
++ [Set Up SAP Business Application Studio for Development](https://developers.sap.com/tutorials/appstudio-onboarding.html)
 
 + Video showing [SAP Business Application Studio Productivity Tools](https://www.youtube.com/watch?v=KE6DKU1P9ic)
 
@@ -57,7 +55,7 @@ To learn about the features specific to CAP development in the studio, see the g
 
 ## Visual Studio Code {#vscode}
 
-### Install Visual Studio Code {#install-vscode}
+#### Install Visual Studio Code {#install-vscode}
 
 1. Install [_Visual Studio Code_](https://code.visualstudio.com) and launch it.
 2. Only for macOS: Install the `code` shell command.
@@ -65,19 +63,16 @@ To learn about the features specific to CAP development in the studio, see the g
 ![Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'](assets/vscode/setup.png "Press F1, type 'shell', and select 'Shell Command: install 'code' command in PATH'"){ style="box-shadow: 1px 1px 5px #888888; width:450px;" .ignore-dark}
 
 
-### Add CDS Editor
+#### Add CDS Editor
 
 1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
 2. Choose *Install* and VS Code opens the details page for the extension **SAP CDS language support**.
 3. In VS Code, choose *Install* to enable the extension.
 
-[Learn more about the **CDS Editor**.](#cds-editor){.learn-more}
-
 <span id="invscodeeditor" />
 
 
-
-### Run Services
+#### Run Services
 
 To run services, just open the Integrated Terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
 
@@ -88,7 +83,7 @@ For example, in the _Debug_ view launch _cds run_ with the green arrow button:
 
 
 
-### Debug Services
+#### Debug Services
 
 You can add and stop at breakpoints in your service implementations. For example, add one to line 10 of our _srv/cat-service.js_ by clicking in the gutter as shown here:
 
@@ -98,7 +93,7 @@ You can add and stop at breakpoints in your service implementations. For example
 
 
 
-### Restart the Server
+#### Restart the Server
 
 Restart the server when you did changes to your code using the *Debug* views restart button:
 
@@ -120,21 +115,16 @@ See the [detailed feature list](https://github.com/cap-js/cds-intellij/blob/main
 
 ## CDS Editors & LSP {#cds-editor}
 
-The editor powered by the CDS language server implementation, provides source code validation including diagnostics, like error messages and warnings.
+Using the CDS language server implementation, editors can provide additional source code validation and Intellisense for _.cds_ files.
 
-The following features are available for all editors based on our language server implementation for CDS in
-SAP Business Application Studio and Visual Studio Code. The plugins are available for download for Visual Studio Code at [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
-
-[Short video about the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
-
-[[toc]]
+[Watch the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
 
 ### Features and Functions
 
-**Syntax highlighting**
+#### Syntax Highlighting
 
-**Code completion**
+#### Code Completion
 
 - Keywords
 - Identifiers including not yet imported identifiers with corresponding `using` statement
@@ -142,19 +132,19 @@ SAP Business Application Studio and Visual Studio Code. The plugins are availabl
 - i18n translation IDs
 - Turn on/off formatting regions
 
-**Where-used navigation**
+#### Where-used Navigation
 
 - Navigate to definitions
 - Navigate to references
 - Highlight occurrences
 
-**QuickFixes**
+#### Quick Fixes
 
 + Create using statement for unknown artifacts.
 + Maintain missing translation.
 + Convert `@cds.doc` and `@description` annotations to doc comments.
 
-**Code formatting**
+#### Code Formatting
 
 Format...
 - the whole document
@@ -171,12 +161,12 @@ Use...
   - JSON schema for textual support
 - also for markdown in doc comments
 
-**Inventory (symbols)**
+#### Inventory (symbols)
 
 - An inventory for the current file.
 - An inventory for the workspace including query capabilities to select. For example, artifact types, names, also include reuse models.
 
-**Snippets for typical CDS language constructs**
+#### Snippets
 
 - Namespace and context
 - `using`
@@ -189,20 +179,20 @@ Use...
 
 > With documentation extracts of [capire](../cds/cdl) explaining language concepts.
 
-**Hover information based on**
+#### Hover Information
 
 - Doc comments
 - `@title`, `@description`, and ~~`@cds.doc`~~ (deprecated) annotations
 - Translations
 
-**Translation support**
+#### Translation Support
 
 - Properties, JSON, and CSV files
 - Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`.
 - Show translations on hover.
 - Quickfix to maintain missing translations
 
-**And more**
+#### And More…
 
 - Plugin framework for external handlers of annotation domains
 
@@ -232,13 +222,17 @@ Keeps track of the active editor in focus. Only changes there are immediately va
 
 The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
-::: warning
-If switched to *OpenEditorsAndDirectSources* all model files on every change, for example typed character, are recompiled.<br>
-If switched to _OpenEditorsOnly_ all open files, for example split tabs, are recompiled.<br>
-For large models, this can lead to **high CPU load** and **high memory load** and consequently weak responsiveness of the editor.
+
+::: warning Large models can lead to **high CPU and memory load**
+If switched to *OpenEditorsAndDirectSources*, all model files on every change, for example typed character, are recompiled.
+
+If switched to _OpenEditorsOnly_, all open files, for example split tabs, are recompiled.
+
+The high resource consumption might impact the editor's responsiveness.
 :::
 
-##### Cds > Contributions > Enablement: Odata*
+##### Cds > Contributions > Enablement: Odata
+
 Default: *on*
 
 This setting enables extended support for annotations, that is refined diagnostics and code completion. Can be switched *off* for performance gains.

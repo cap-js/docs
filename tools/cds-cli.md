@@ -59,7 +59,7 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin | 2.6.3       |
 </pre>
 
-## *cds add completion* <Since version="7.9.0" of="@sap/cds-dk" />
+## *cds completion* <Since version="7.9.0" of="@sap/cds-dk" />
 
 The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems.
 

@@ -8,7 +8,7 @@ synopsis: >
 <style scoped lang="scss">
   .tabs {
     label:nth-child(n+3) {
-      background: #20302A;
+      background: #183029;
     }
     label:nth-child(n+3)::before {
       content: "+";

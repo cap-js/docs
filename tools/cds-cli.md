@@ -38,7 +38,6 @@ Use `cds version` to get information about your installed package version:
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
 
-<em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 6.8.4
 <em>@sap/cds-compiler:</em> 3.9.12
 <em>@sap/cds-dk:</em> 6.7.0

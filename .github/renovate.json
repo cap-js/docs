@@ -56,8 +56,8 @@
     {
       "fileMatch": ["\\.md$"],
       "matchStrings": [
-        "<em>\\s*(?<depName>.*?)[ :]\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-        "\\|\\s*(?<depName>.*?)\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+        "<em>\\s*(?<depName>[a-z_-@/]*):\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*(?<depName>[a-z_-@/]*)\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
       ],
       "datasourceTemplate": "npm"
     },

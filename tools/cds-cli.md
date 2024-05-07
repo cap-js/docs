@@ -50,13 +50,13 @@ Use `cds version` to get information about your installed package version:
 
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
 
-| @capire/samples    | https://github.com/sap-samples/cloud-cap-samples.git |
-| ------------------ | ----------- |
-| Node.js            | v18.13.0    |
-| @sap/cds           | 6.8.4       |
-| @sap/cds-compiler  | 3.9.12       |
-| @sap/cds-dk        | 6.7.0       |
-| @sap/eslint-plugin | 2.6.3       |
+| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
+|------------------------|------------------------------------------------------|
+| Node.js                | v18.13.0                                             |
+| @sap/cds               | 6.8.4                                                |
+| @sap/cds-compiler      | 3.9.12                                               |
+| @sap/cds-dk            | 6.7.0                                                |
+| @sap/eslint-plugin-cds | 2.6.3                                                |
 </pre>
 
 ## *cds completion* <Since version="7.9.0" of="@sap/cds-dk" />

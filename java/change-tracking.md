@@ -246,9 +246,7 @@ You fetch two images of the data as maps, typed access interfaces or the results
 
 The images that you wish to compare must have the data of the same type and in the same shape. Following rules apply:
 
-- the entities in the images must always include primary keys. For draft-enabled entities, you may omit
-  value of `IsActiveEntity` on either side. If you compare active and inactive state of the same entity, you need to
-  either remove the value for `IsActiveEntity` or make them equal.
+- the entities in the images must always include primary keys.
 - the data must follow [structured data representation](/java/cds-data#structured-data). Associations
   must be represented by the same data structure in both images. Item names must
   match the elements defined in the type.
@@ -269,11 +267,18 @@ It may not exactly match the type of the entity that you have selected, but allo
 synthesized within the statement e.g. constants, case expressions etc.
 :::
 
-To observe results of the comparison you need to define a filter and supply implementation of visitor that will be 
-called for each change detected by the Diff API. 
+:::tip Draft-enabled Entities
+For draft-enabled entities, you may omit value of `IsActiveEntity` in images.  
+If you compare active and inactive state of the same entity using them as an old and new image make sure that 
+the values of `IsActiveEntity` is either absent or same in both images.
+:::
 
-You do this with `add` method of the `CdsDiffProcessor`. The simplest way to define a visitor is just to add a visitor 
-that will be called for all differences detected in the images of the data.
+The Diff API compares the values in your entity and reports the differences to the instances of
+`CdsDiffProcessor.DiffVisitor` that are added to the instance of `CdsDiffProcessor`.
+You can consider this as a traversal of the entity structure that emits changes to the methods of the visitor along the way.
+To consume the changes, you need to define a visitor and an optional [element filter](/java/cds-data#element-filters).
+
+You register the visitor in the Diff API using `add()` method:
 
 ```java
 diff.add(new DiffVisitor() {
@@ -294,7 +299,7 @@ diff.add(new DiffVisitor() {
 });
 ```
 
-The second variant of the `add` method allows you to define an [element filter](/java/cds-data#element-filters) defining a condition that limits the scope of the calls for a visitor supplied next to the filter. 
+The element filter is added for each visitor separately with the extended `add()` method:
 
 ```java
 diff.add(
@@ -322,6 +327,14 @@ diff.add(
   }
 );
 ```
+
+You may add as many visitors as you need by chaining the `add()` calls.
+
+The visitors are not shared between different instances of the `CdsDiffProcessor` but filters and visitors 
+may be re-used between different instances of the `CdsDiffProcessor`.
+
+The visitors can be stateful, but it is up to you to manage this state. The visitors are not notified 
+about the start and end of the comparison, they are taken by the `CdsDiffProcessor` as they are. It is better to prefer one-time disposable visitors.
 
 ### Filtering
 
@@ -359,7 +372,7 @@ Filters cannot limit the nature of the changes your visitor will observe and are
 
 ### Observing the Differences
 
-Additions and removals to the document are always observed via the method `added()` or `removed()`. Their behavior mirrors each other.  
+Additions and removals to the document are always observed via the method `added()` or `removed()`.  
 
 The methods `added()` and `removed()` have the following arguments: 
 - pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
@@ -381,6 +394,11 @@ It has the following arguments:
 Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.
 
 ... samples ...
+
+:::danger Immutable Data
+Do not modify the images during the traversal. While the images are technically mutable, doing so will break the traversal logic and may cause unexpected errors thrown by Diff API.
+:::
+
 
 ###  Deep Traversal
 

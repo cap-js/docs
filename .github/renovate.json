@@ -56,18 +56,9 @@
     {
       "fileMatch": ["\\.md$"],
       "matchStrings": [
-        "<em>\\s*(?<depName>.*?):\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "<em>\\s*(?<depName>.*?)[ :]\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
         "\\|\\s*(?<depName>.*?)\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
       ],
-      "datasourceTemplate": "npm"
-    },
-    {
-      "fileMatch": ["\\.md$"],
-      "matchStrings": [
-        "<em>\\s*@sap/cds-dk (global):\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-        "\\|\\s*@sap/cds-dk (global)\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
-      ],
-      "depNameTemplate": "@sap/cds-dk",
       "datasourceTemplate": "npm"
     },
     {

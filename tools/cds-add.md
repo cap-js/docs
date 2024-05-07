@@ -6,6 +6,16 @@ synopsis: >
 ---
 
 <style scoped lang="scss">
+  .tabs {
+    label:nth-child(n+3) {
+      background: #183029;
+    }
+    label:nth-child(n+3)::before {
+      content: "+";
+      color: #6FD392;
+      margin-right: 4px;
+    }
+  }
   @mixin counter-style {
     content: counter(my-counter);
     color: var(--vp-c-text-1);
@@ -49,7 +59,7 @@ synopsis: >
         @include counter-style;
         left: -30px;
         margin-right: -20px;
-        top: -2px;
+        top: 0px;
       }
       p {display: inline;}
     }
@@ -209,8 +219,47 @@ resources: # [!code ++]
 
 Step <span class="list-item">4</span> integrates with `cds add helm`:
 
-::: danger `cds add helm` support is in Todo
-Work in progress
+::: code-group
+```js [lib/add.js]
+const cds = require('@sap/cds-dk') //> load from cds-dk
+const { write, path } = cds.utils, { join } = path
+const { readProject, merge, registries } = cds.add
+const { srv4 } = registries.mta
+
+module.exports = class extends cds.add.Plugin {
+  async run() {
+    const pg = join(__dirname, 'pg.yaml')
+    await copy(pg).to('pg.yaml')
+  }
+  async combine() {
+    const project = readProject()
+    const { hasMta, hasHelm, srvPath } = project // [!code ++]
+    const { hasMta, srvPath } = project // [!code --]
+    if (hasMta) {
+      ...
+    }
+    if (hasHelm) { // [!code ++]
+      await merge(__dirname, 'files/values.yaml.hbs')
+        .into('chart/values.yaml', { with: project }) // [!code ++]
+    } // [!code ++]
+}
+```
+```yaml [values.yaml.hbs]
+srv: # [!code ++]
+  bindings: # [!code ++]
+    db: # [!code ++]
+      serviceInstanceName: postgres # [!code ++]
+postgres-deployer: # [!code ++]
+  image: # [!code ++]
+    repository: <your-container-registry>/{{appName}}-postgres-deployer # [!code ++]
+    tag: latest # [!code ++]
+  bindings: # [!code ++]
+    postgres: # [!code ++]
+      serviceInstanceName: postgres # [!code ++]
+postgres: # [!code ++]
+  serviceOfferingName: postgres # [!code ++]
+  servicePlanName: default # [!code ++]
+```
 :::
 
 ::: tip Common integrations
@@ -347,6 +396,28 @@ options() {
 ```
 
 We follow the Node.js [`util.parseArgs`](https://nodejs.org/api/util.html#utilparseargsconfig) structure, with an additional `help` field to provide manual text for `cds add help`.
+
+::: details Run `cds add help` to validate...
+
+You should now see output similar to this:
+
+<pre class="log" cont>
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">help</span> <span class="option">add</span>
+SYNOPSIS
+    ···
+OPTIONS
+    ···
+FEATURE OPTIONS
+    ···
+    <em>cds add postgres</em>
+
+      --out | -o
+
+        The output directory. By default the application root.
+
+</pre>
+
+:::
 
 ::: warning See if your command can do without custom options
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
@@ -487,7 +558,7 @@ await merge(__dirname, 'lib/add/mta.yml.hbs').into('mta.yaml', {
 })
 ```
 
-### `registries` {.property}
+### `.registries` {.property}
 
 `cds.add` provides a default registry of common elements in configuration files, simplifying the merging semantics specification:
 

@@ -318,7 +318,7 @@ The result could look like this for a typical _Books_ entity from the _Bookshop_
 -  In JSON, _structured_ objects are used instead of flattened properties, for example, `author: { ID: ... }` instead of `author_ID.` The flattened properties would work as well during database deployment and runtime though.
 - `author.ID` refers to a key from the _...Authors.json_ file that is created at the same time.  If the _Authors_ entity is excluded, though, no such foreign key would be created.
 - Data for the `texts` composition to `Books.texts` is always created, as this is a _composition_.
-- A random unqiue number for each record, _29894036_ here, is added to string properties, to make help you correlate them more easily.
+- A random unique number for each record, _29894036_ here, is added to string properties, to make help you correlate them more easily.
 :::
 
 #### Interactively in VS Code

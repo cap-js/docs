@@ -28,6 +28,10 @@
     {
       "matchDepTypes": ["action"],
       "groupName": "Github actions"
+    },
+    {
+      "matchFileNames": [ "**/*.md" ],
+      "separateMajorMinor": false
     }
   ],
   "regexManagers": [

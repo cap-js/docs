@@ -225,6 +225,178 @@ the root of the change is an order.
 If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
 :::
 
+## Diff API
+
+`CdsDiffProcessor` similar to existing [DataProcessor API](/java/cds-data#cds-data-processor) lets you compare two 
+images of the data and observe the differences between them.
+
+The Diff API is intended for deeply structured documents e.g. entities with an associations targeting other entities or collections of such documents. 
+Diff API compares the states of the data and uses visitors that can react on them. 
+Visitors receive calls when the value of the element is changed or something is added or removed from the entity 
+on each level of the document structure including elements of compositions and associations. Visitors can have filters 
+that can be used to specify the subset of the entity's structure in which each particular visitor interested in. 
+
+You create an instance of the Diff API using the `create` method:
+
+```java
+CdsDiffProcessor diff = CdsDiffProcessor.create();
+```
+
+You fetch two images of the data as maps, typed access interfaces or the results of the statements like and run the comparison using the `process` method.
+
+The images that you wish to compare must have the data of the same type and in the same shape. Following rules apply:
+
+- the entities in the images must always include primary keys. For draft-enabled entities, you may omit
+  value of `IsActiveEntity` on either side. If you compare active and inactive state of the same entity, you need to
+  either remove the value for `IsActiveEntity` or make them equal.
+- the data must follow [structured data representation](/java/cds-data#structured-data). Associations
+  must be represented by the same data structure in both images. Item names must
+  match the elements defined in the type.
+
+For example:
+
+```java
+List<Map<String, Object>> newImage;
+LIst<Map<String, Object>> oldImage;
+CdsStructuredType type;
+
+diff.process(newImage, oldImage, type);
+```
+
+:::tip Result of CQN statement
+In case of the results of CQN statements, it is always advisable to use the type that comes with the result. 
+It may not exactly match the type of the entity that you have selected, but allows you to compare the elements that were
+synthesized within the statement e.g. constants, case expressions etc.
+:::
+
+To observe results of the comparison you need to define a filter and supply implementation of visitor that will be 
+called for each change detected by the Diff API. 
+
+You do this with `add` method of the `CdsDiffProcessor`. The simplest way to define a visitor is just to add a visitor 
+that will be called for all differences detected in the images of the data.
+
+```java
+diff.add(new DiffVisitor() {
+  @Override
+  public void changed(Path newPath, Path oldPath, CdsElement element, Object newValue, Object oldValue) {
+      // changes
+  }
+
+  @Override
+  public void added(Path newPath, Path oldPath, CdsElement association, Map<String, Object> newValue) {
+      // additions
+  }
+
+  @Override
+  public void removed(Path newPath, Path oldPath, CdsElement association, Map<String, Object> oldValue) {
+      // removals
+  }
+});
+```
+
+The second variant of the `add` method allows you to define an [element filter](/java/cds-data#element-filters) defining a condition that limits the scope of the calls for a visitor supplied next to the filter. 
+
+```java
+diff.add(
+  new Filter() {
+    @Override
+    public boolean test(Path path, CdsElement element, CdsType type) {
+        return true;
+    }
+  },
+  new DiffVisitor() {
+    @Override
+    public void changed(Path newPath, Path oldPath, CdsElement element, Object newValue, Object oldValue) {
+        // ...
+    }
+
+    @Override
+    public void added(Path newPath, Path oldPath, CdsElement association, Map<String, Object> newValue) {
+        // ...
+    }
+
+    @Override
+    public void removed(Path newPath, Path oldPath, CdsElement association, Map<String, Object> oldValue) {
+        // ..
+    }
+  }
+);
+```
+
+### Filtering
+
+As a general rule, you may assume that filter will be called at least once for each value you have in your 
+images even if their values are not changed and the visitor supplied next to the filter will be called only for the changes 
+for which the filter condition is evaluated to true.
+
+In the implementation of the filter you can use the definition of the
+[`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html), its type 
+or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) to decide if you want your visitor to be notified about the detected change.
+
+In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation 
+or having a certain common type e.g. only numbers. For the more complex scenarios, path can be used. 
+Path represents the placement of the element that is offered to a filter in the structure of the whole entity in a sequence of the segments. 
+The most useful part of the path is the target that you can use to evaluate the type of the entity, its annotations and 
+the filter (primary keys) of the entity that is currently being evaluated. It is useful when you want to evaluate 
+the changes for a certain entity (having the specific type in the target segment) or entities that share common trait e.g. common association.
+
+For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter like that:
+
+```java
+diff.add(new Filter() {
+  @Override
+  public boolean test(Path path, CdsElement cdsElement, CdsType cdsType) {
+    return path.target().type().getQualifiedName().equals(Authors_.CDS_NAME);
+  }
+}, ...);
+```
+
+You can combine all arguments to define filters for the conditions like "filter all text elements of a certain entity" 
+or "filter the elements with certain annotation that are found in the certain types".
+Keep in mind that `element` is nullable (in case when collections are evaluated) and type is always structured for an associations.
+
+Filters cannot limit the nature of the changes your visitor will observe and are always positive.
+
+### Observing the Differences
+
+Additions and removals to the document are always observed via the method `added()` or `removed()`. Their behavior mirrors each other.  
+
+The methods `added()` and `removed()` have the following arguments: 
+- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
+- element that represents the association if the change occurred in the association 
+- state of the changed data as a `Map`
+
+In case of the collections, the methods are called for each new item individually once per item. Content of the `Path` instances contain the same number of segments and reflects 
+the old and new state respectively via [`ResolvedSegment`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/ResolvedSegment.html) methods to access the state.
+
+... samples ...
+
+Changes in the elements of the entity are reported to the `changed()` method that is called for each element separately one by one for all values in the entity where changed values are discovered. 
+
+It has the following arguments: 
+- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
+- element that represents current changed element 
+- new and old value as an `Object` instances.
+
+Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.
+
+... samples ...
+
+###  Deep Traversal
+
+For documents that have a lot of associations or a compositions and are changed in a deep way you might want to see additions for each level separately.
+
+To enable this, you create an instance of `CdsDiffProcessor` like that: 
+
+```java
+CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
+```
+
+In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the changed data entity by entity.
+
+This mode in combination with element filters can be used to track the changes of the entities that can be parts of associations 
+on different levels of the root entity or targets of the associations of different entities.
+
 ## Things to Consider when Using Change Tracking
 
 - Consider the storage costs of the change log. The change log can grow very fast and can consume a lot of space

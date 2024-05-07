@@ -181,6 +181,21 @@ SEE ALSO
 
 Use `cds init` to create new projects.
 
+The simplest form creates a minimal Node.js project.  For Java, use
+
+```sh
+cds init --add java
+```
+
+In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.
+For example to create a project with a sample bookshop model and configuration for SAP HANA, use:
+
+```sh
+cds init --add sample,hana
+```
+
+
+
 ## cds add
 
 Use `cds add` to gradually add capabilities ('facets') to projects.

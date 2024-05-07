@@ -325,7 +325,6 @@ The result could look like this for a typical _Books_ entity from the _Bookshop_
 
 In [VS Code](./cds-editors#vscode), use the commands _Generate Model Data as JSON / CSV_ to insert test data at the cursor position for a selected entity.
 
-<video src="/releases/assets/apr24/generate-data-json_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 ### http {.add}
 
@@ -352,8 +351,6 @@ cds add http --filter CatalogService
 #### Interactively in VS Code
 
 In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to insert request data in an _http_ file for a selected entity or service.
-
-<video src="/releases/assets/apr24/generate-http-requests_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 
 ## cds env

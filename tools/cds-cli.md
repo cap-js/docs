@@ -38,6 +38,7 @@ Use `cds version` to get information about your installed package version:
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
 
+<em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 6.8.4
 <em>@sap/cds-compiler:</em> 3.9.12
 <em>@sap/cds-dk:</em> 6.7.0
@@ -49,13 +50,13 @@ Use `cds version` to get information about your installed package version:
 
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
 
-| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
-|------------------------|------------------------------------------------------|
-| Node.js                | v18.13.0                                             |
-| @sap/cds               | 6.8.4                                                |
-| @sap/cds-compiler      | 3.9.12                                               |
-| @sap/cds-dk            | 6.7.0                                                |
-| @sap/eslint-plugin-cds | 2.6.3                                                |
+| @capire/samples    | https://github.com/sap-samples/cloud-cap-samples.git |
+| ------------------ | ----------- |
+| Node.js            | v18.13.0    |
+| @sap/cds           | 6.8.4       |
+| @sap/cds-compiler  | 3.9.12       |
+| @sap/cds-dk        | 6.7.0       |
+| @sap/eslint-plugin | 2.6.3       |
 </pre>
 
 ## *cds completion* <Since version="7.9.0" of="@sap/cds-dk" />
@@ -71,12 +72,12 @@ cds add completion
 After that, restart your shell (or source the shell configuration) and enjoy shell completion support for all `cds` commands.
 
 Currently supported shells:
-| Operating System | Shell                |
-|------------------|----------------------|
-| Linux            | bash, zsh            |
-| macOS            | bash, zsh            |
-| Windows          | PowerShell, Git Bash |
-| WSL              | bash, zsh            |
+| Operating System  | Shell |
+|-------------------|-------|
+| Linux             | bash, zsh |
+| macOS             | bash, zsh |
+| Windows           | PowerShell, Git Bash |
+| WSL               | bash, zsh |
 
 To remove the shell completion, run the following command:
 ```sh

@@ -33,7 +33,7 @@ npm i -g @sap/cds-dk
 
 [[toc]]
 
-## *cds version*
+## cds version
 
 Use `cds version` to get information about your installed package version:
 
@@ -61,7 +61,7 @@ Use `cds version` to get information about your installed package version:
 | @sap/eslint-plugin-cds | 3.0.2                                                |
 </pre>
 
-## *cds completion* <Since version="7.9.0" of="@sap/cds-dk" />
+## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
 
 The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems.
 
@@ -88,7 +88,7 @@ cds completion --remove
 Then source or restart your shell.
 
 
-## *cds help*
+## cds help
 
 Use `cds help` to see an overview of all commands:
 
@@ -177,11 +177,11 @@ SEE ALSO
 
 
 
-## *cds init*
+## cds init
 
 Use `cds init` to create new projects.
 
-## *cds add*
+## cds add
 
 Use `cds add` to gradually add capabilities ('facets') to projects.
 
@@ -341,7 +341,7 @@ In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to 
 <video src="/releases/assets/apr24/generate-http-requests_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 
-## *cds env*
+## cds env
 
 Use `cds env` to inspect currently effective config settings:
 
@@ -355,7 +355,7 @@ Use `cds env` to inspect currently effective config settings:
 </pre>
 
 
-## *cds repl*
+## cds repl
 
 Use `cds repl` to live-interact with Node.js APIs:
 
@@ -385,6 +385,3 @@ If you do this in VS Code's integrated terminal with the 'Auto Attach' feature e
 For example:
 - In VS Code, use the _Debug: Attach to Node Process_ command.
 - In Chrome browser, just open [chrome://inspect](chrome://inspect) and click _Inspect_.
-
-
-

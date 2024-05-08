@@ -251,7 +251,7 @@ cds add data
 
 adds _csv_ files with a single header line for all entities to the _db/data/_ folder.  The name of the files matches the entities' namespace and name, separated by `-`.
 
-#### Filtering {#data-filtering}
+#### Filtering <Since version="7.9.0" of="@sap/cds-dk" /> {#data-filtering}
 
 To create data for some entities only, use `--filter`.  For example:
 
@@ -272,23 +272,18 @@ cds add data --filter "books$"
 The escape character is usually the backslash, e.g. `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
 :::
 
-#### Sample records
+#### Sample records <Since version="7.9.0" of="@sap/cds-dk" />
 
-To create actual data (along with the header line), use `--records` with a number for how many records you wish to have:
+To create actual data (along with the header line), use `--records` with a number for how many records you wish to have.
+
+This example creates 2 records for each entity:
 
 ```sh
 cds add data --records 2
 ```
 
-This creates 2 records for each entity.
 
-::: details It could be that more than 2 records are created.
-This is in case of 'composed/child/sub' entities that are part of [CDS compositions](../cds/cdl#compositions) in other entities. Data for such 'composed' entities is always created.
-Entities that are referenced through [CDS associations](../cds/cdl#associations), however, are only processed if they are in the `--filter` set (see above).
-:::
-
-
-#### Formats
+#### Formats <Since version="7.9.0" of="@sap/cds-dk" />
 
 By default, the data format is _CSV_.  You can change this to JSON with the `--content-type` option:
 
@@ -314,19 +309,21 @@ The result could look like this for a typical _Books_ entity from the _Bookshop_
 ]
 ```
 
-::: details Some details on this JSON data:
--  In JSON, _structured_ objects are used instead of flattened properties, for example, `author: { ID: ... }` instead of `author_ID.` The flattened properties would work as well during database deployment and runtime though.
-- `author.ID` refers to a key from the _...Authors.json_ file that is created at the same time.  If the _Authors_ entity is excluded, though, no such foreign key would be created.
-- Data for the `texts` composition to `Books.texts` is always created, as this is a _composition_.
-- A random unique number for each record, _29894036_ here, is added to string properties, to make help you correlate them more easily.
+::: details Some details on the generated data
+-  For the _JSON_ format, _structured_ objects are used instead of flattened properties, for example, `author: { ID: ... }` instead of `author_ID.` The flattened properties would work as well during database deployment and runtime though.  Flattened properties are also used in the _CSV_ format.
+- `author.ID` refers to a key from the _...Authors.json_ file that is created at the same time.  If the _Authors_ entity is excluded, though, no such foreign key would be created, which cuts the association off.
+- Data for _compositions_, like the `texts` composition to `Books.texts`, is always created.
+- A random unique number for each record, _29894036_ here, is added to each string property, to help you correlate properties more easily.
+- Data for elements annotated with a regular expression using [`assert.format`](../guides/providing-services#assert-format) can be generated using the NPM package [randexp](https://www.npmjs.com/package/randexp), which you need to installed manually.
+- Other constraints like [enums](../cds/cdl#enums) or [input validations](../guides/providing-services#input-validation) are respected as well, in a best effort way.
 :::
 
-#### Interactively in VS Code
+#### Interactively in VS Code <Since version="7.9.0" of="@sap/cds-dk" />
 
 In [VS Code](./cds-editors#vscode), use the commands _Generate Model Data as JSON / CSV_ to insert test data at the cursor position for a selected entity.
 
 
-### http {.add}
+### http <Since version="7.9.0" of="@sap/cds-dk" /> {.add}
 
 Adds `.http` files with sample read and write requests.
 
@@ -339,7 +336,7 @@ cds add http
 creates `http` files for all services and all entities.
 
 
-#### Filtering
+#### Filtering {#http-filtering}
 
 See the filter option of [`add data`](#data-filtering) for the general syntax.
 In addition, you can filter with a service name:
@@ -351,6 +348,60 @@ cds add http --filter CatalogService
 #### Interactively in VS Code
 
 In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to insert request data in an _http_ file for a selected entity or service.
+
+#### Authentication / Authorization
+
+##### To local applications
+
+<div class="impl node">
+
+By default, an authorization header with a [local mock user](../node.js/authentication#mock-users) is written in the `http` file, and `localhost` is the target host.
+
+```http [Node.js]
+@server = http://localhost:4004
+@auth = Authorization: Basic alice:
+
+### CatalogService.Books
+GET {{server}}/odata/v4/admin/Books
+{{auth}}
+...
+```
+</div>
+
+<div class="impl java">
+
+By default, an authorization header with a [local mock user](../java/security#mock-users) is written in the `http` file, and `localhost` is the target host.
+
+```http [Java]
+@server = http://localhost:8080
+@auth = Authorization: Basic alice:
+
+### CatalogService.Books
+GET {{server}}/odata/v4/admin/Books
+{{auth}}
+...
+```
+</div>
+
+
+##### To remote applications
+
+Use `--for-app <cf-appname>` to use a JWT token of a remote application.  For example:
+
+```sh
+cds add http --for-app bookshop
+```
+
+assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this app is written to the request file:
+
+```http
+@server = https://...
+@auth = x-approuter-authorization: bearer ...
+```
+
+::: details Cloud login required
+For CloudFoundry, use `cf login ...` and select org and space.
+:::
 
 
 ## cds env

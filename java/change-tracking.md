@@ -286,7 +286,7 @@ diff.add(new DiffVisitor() {
 });
 ```
 
-The element filter is added for each visitor separately with the extended `add()` method:
+The element filter is added for each visitor separately with the extended `add()` method.
 
 ```java
 diff.add(
@@ -315,32 +315,31 @@ diff.add(
 );
 ```
 
-You may add as many visitors as you need by chaining the `add()` calls.
+You may add as many visitors as you need by chaining the `add()` calls. Each instance of the `CdsDiffProcessor` can have own set of visitors added to it. 
 
-The visitors are not shared between different instances of the `CdsDiffProcessor` but filters and visitors 
-may be re-used between different instances of the `CdsDiffProcessor`.
+The visitors can be stateful, but it is up to you to manage their state. The visitors are not notified 
+about the start and end of the comparison, they are taken by the `CdsDiffProcessor` as they are.
 
-The visitors can be stateful, but it is up to you to manage this state. The visitors are not notified 
-about the start and end of the comparison, they are taken by the `CdsDiffProcessor` as they are. It is better to prefer one-time disposable visitors.
+If you need a stateful visitor, for example to gather all changed values, prefer simple disposable objects without complex state management.
 
 ### Filtering
 
-As a general rule, you may assume that filter will be called at least once for each value you have in your 
-images even if their values are not changed and the visitor supplied next to the filter will be called only for the changes 
-for which the filter condition is evaluated to true.
+As a general rule, you may assume that element filter is called at least once for each value you have in your 
+images even if their values are not changed and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
 
 In the implementation of the filter you can use the definition of the
 [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html), its type 
 or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) to decide if you want your visitor to be notified about the detected change.
 
 In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation 
-or having a certain common type e.g. only numbers. For the more complex scenarios, path can be used. 
-Path represents the placement of the element that is offered to a filter in the structure of the whole entity in a sequence of the segments. 
-The most useful part of the path is the target that you can use to evaluate the type of the entity, its annotations and 
-the filter (primary keys) of the entity that is currently being evaluated. It is useful when you want to evaluate 
-the changes for a certain entity (having the specific type in the target segment) or entities that share common trait e.g. common association.
+or having a certain common type, for example, only numbers. 
 
-For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter like that:
+For more complex scenarios, [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) can be used. It represents the placement 
+of the element that is offered to a filter in the structure of the whole entity as a sequence of segments. 
+The most useful part of the path is the target available as the result of the `target()` method that you can use to evaluate the type of the current entity, its annotations and 
+the values of primary keys. 
+
+For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity type.
 
 ```java
 diff.add(new Filter() {
@@ -350,10 +349,6 @@ diff.add(new Filter() {
   }
 }, ...);
 ```
-
-You can combine all arguments to define filters for the conditions like "filter all text elements of a certain entity" 
-or "filter the elements with certain annotation that are found in the certain types".
-Keep in mind that `element` is nullable (in case when collections are evaluated) and type is always structured for an associations.
 
 Filters cannot limit the nature of the changes your visitor will observe and are always positive.
 

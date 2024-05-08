@@ -159,8 +159,6 @@
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
-<!-- - [cds. import()](node.js/cds-dk#cds-import) -->
-<!-- - [cds. add()](tools/cds-add) -->
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
@@ -208,10 +206,10 @@
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
 - [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
-- [CDS Design Time APIs](node.js/cds-dk)
-  - [cds. add()](tools/cds-add)
-  - [cds. import()](node.js/cds-dk#cds-import)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
+- [CDS Design Time APIs](tools/apis/)
+  - [cds. add()](tools/apis/cds-add)
+  - [cds. import()](tools/apis/cds-import)
 
 ### [Plugins](plugins/)
 

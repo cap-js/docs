@@ -1,7 +1,7 @@
 ---
 label: cds-add
 synopsis: >
-  Learn how to create a `cds add` plugin.
+  Learn how to create a <code>cds add</code> plugin.
 # status: released
 ---
 
@@ -77,7 +77,7 @@ synopsis: >
 Many plugins are already part of `@sap/cds-dk`, and all are implemented using the public APIs documented here.
 They provide you with a large set of standard features that support CAP's grow-as-you-go approach.
 
-[See the list of built-in `add` plugins](./cds-cli#cds-add)
+[See the list of built-in `add` plugins](../cds-cli#cds-add)
 
 ## Create a Plugin from Scratch
 
@@ -91,8 +91,8 @@ Our `cds add postgres` will:
 
 1. Register with `cds-dk`
 2. Add a Dockerfile to start a PostgreSQL instance for development
-3. Integrate with `cds add mta` for [Cloud Foundry](../guides/deployment/to-cf) deployment
-4. Integrate with `cds add helm` for [Kyma](../guides/deployment/to-kyma) deployment
+3. Integrate with `cds add mta` for [Cloud Foundry](../../guides/deployment/to-cf) deployment
+4. Integrate with `cds add helm` for [Kyma](../../guides/deployment/to-kyma) deployment
 5. Integrate with `cds help`
 
 Starting with <span class="list-item">1</span>, register the plugin:

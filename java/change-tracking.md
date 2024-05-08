@@ -189,7 +189,9 @@ annotate Orders {
 }
 ```
 
-Elements from the `@changelog` annotation value must always be prefixed by the association name. The same caveats as for the identifiers for the entities apply there.
+Elements from the `@changelog` annotation value must always be prefixed by the association name. The same caveats as for the identifiers for the entities apply here.
+
+In case of the annotated compositions with the identifier, the change log will contain the entry with identifier's value and will include the change log entries for all annotated elements of the composition's target entity.
 
 :::warning Validation required
 If the target of the association is missing, for example, when entity is updated with the ID for a customer

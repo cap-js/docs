@@ -227,31 +227,15 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 
 ## Diff API
 
-`CdsDiffProcessor` similar to existing [DataProcessor API](/java/cds-data#cds-data-processor) lets you compare two 
-images of the data and observe the differences between them.
+The `CdsDiffProcessor` traverses the entity or a collection of entities and emits the changes to one or more visitors that can react on them.
 
-The Diff API is intended for deeply structured documents e.g. entities with an associations targeting other entities or collections of such documents. 
-Diff API compares the states of the data and uses visitors that can react on them. 
-Visitors receive calls when the value of the element is changed or something is added or removed from the entity 
-on each level of the document structure including elements of compositions and associations. Visitors can have filters 
-that can be used to specify the subset of the entity's structure in which each particular visitor interested in. 
-
-You create an instance of the Diff API using the `create` method:
+You create an instance of the `CdsDiffProcessor` using the `create` method:
 
 ```java
 CdsDiffProcessor diff = CdsDiffProcessor.create();
 ```
 
-You fetch two images of the data as maps, typed access interfaces or the results of the statements like and run the comparison using the `process` method.
-
-The images that you wish to compare must have the data of the same type and in the same shape. Following rules apply:
-
-- the entities in the images must always include primary keys.
-- the data must follow [structured data representation](/java/cds-data#structured-data). Associations
-  must be represented by the same data structure in both images. Item names must
-  match the elements defined in the type.
-
-For example:
+You run the comparison by calling the `process()` method. 
 
 ```java
 List<Map<String, Object>> newImage;
@@ -261,24 +245,27 @@ CdsStructuredType type;
 diff.process(newImage, oldImage, type);
 ```
 
+You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers. To do a comparison, `CdsDiffProcessor` requires the following in your data: 
+
+- entities must include full set of primary keys
+- names of the elements must match the elements of the entity type
+- associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
+
 :::tip Result of CQN statement
-In case of the results of CQN statements, it is always advisable to use the type that comes with the result. 
+In case of the results of CQN statements, use the type that comes with the result. 
 It may not exactly match the type of the entity that you have selected, but allows you to compare the elements that were
-synthesized within the statement e.g. constants, case expressions etc.
+synthesized within the statement e.g. constants, case expressions, inlined and aliased values etc.
 :::
 
 :::tip Draft-enabled Entities
-For draft-enabled entities, you may omit value of `IsActiveEntity` in images.  
+For draft-enabled entities, you may omit value of `IsActiveEntity` in the images.  
 If you compare active and inactive state of the same entity using them as an old and new image make sure that 
-the values of `IsActiveEntity` is either absent or same in both images.
+the values of `IsActiveEntity` is either absent or the same in both images.
 :::
 
-The Diff API compares the values in your entity and reports the differences to the instances of
-`CdsDiffProcessor.DiffVisitor` that are added to the instance of `CdsDiffProcessor`.
-You can consider this as a traversal of the entity structure that emits changes to the methods of the visitor along the way.
-To consume the changes, you need to define a visitor and an optional [element filter](/java/cds-data#element-filters).
+To consume the changes, you need to define a visitor (an implementation of interface `CdsDiffProcessor.DiffVisitor`) and an optional [element filter](/java/cds-data#element-filters). Visitor will be called for each difference detected by `CdsDiffProcessor` and [element filter](/java/cds-data#element-filters) allows you to limit the scope of the changes that are reported to the visitor. 
 
-You register the visitor in the Diff API using `add()` method:
+The visitors are added to `CdsDiffProcessor` with the `add()` method.
 
 ```java
 diff.add(new DiffVisitor() {

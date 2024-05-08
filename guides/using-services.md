@@ -197,14 +197,14 @@ Now run `cds import <filename>`
 
 When importing the specification files, the `kind` is set according to the following mapping:
 
-|Imported Format  | Used `kind`  |
-|---------|---------|
-| OData V2     | `odata-v2`        |
-| OData V4     |  `odata` (alias for `odata-v4`)       |
-| OpenAPI     |  `rest`       |
-| AsyncAPI     |  `odata`       |
+| Imported Format | Used `kind`                    |
+|-----------------|--------------------------------|
+| OData V2        | `odata-v2`                     |
+| OData V4        | `odata` (alias for `odata-v4`) |
+| OpenAPI         | `rest`                         |
+| AsyncAPI        | `odata`                        |
 
-[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#odata-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../tools/apis/cds-import#odata-type-mappings){.learn-more}
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.

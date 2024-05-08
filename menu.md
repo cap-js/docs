@@ -159,11 +159,9 @@
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
-- [cds. import()](node.js/cds-dk#cds-import)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
-- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 
 ### [Java](java/)
 
@@ -202,16 +200,16 @@
 
 ### [Tools](tools/)
 
-- [CDS Command Line Interface](tools/#cli)
-- [SAP Business Application Studio](tools/#bastudio)
-- [Visual Studio Code](tools/#vscode)
-- [IntelliJ IDEA](tools/#intellij)
-- [CDS Editors](tools/#cds-editor)
+- [CDS Command Line Interface](tools/cds-cli)
+- [CDS Editors & IDEs](tools/cds-editors)
 - [CDS Lint](tools/cds-lint/)
-  - [Rules Reference](tools/cds-lint/rules)
+  - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
-- [CAP Notebooks](tools/#cap-vscode-notebook)
-- [Using Docker](tools/#docker)
+- [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
+- [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
+- [CDS Design Time APIs](tools/apis/)
+  - [cds. add()](tools/apis/cds-add)
+  - [cds. import()](tools/apis/cds-import)
 
 ### [Plugins](plugins/)
 
@@ -222,4 +220,4 @@
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
-- [CAP Operator Plugin](plugins/#cap-operator-plugin)
+- [CAP Operator for K8s](plugins/#cap-operator-plugin)

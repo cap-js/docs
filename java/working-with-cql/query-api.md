@@ -347,8 +347,6 @@ The path expression `b.author().name()` is automatically evaluated at runtime. F
 
 Use `expand` to read deeply structured documents and entity graphs into a structured result.
 
-<span id="indeepread" />
-
 ```java
 // Java example
 // using expand
@@ -360,6 +358,8 @@ Select.from(AUTHORS)
                       b -> b.title().as("book"),
                       b -> b.year());
 ```
+
+<span id="indeepread" />
 
 It expands the elements `title`, and `year` of the `Books` entity into a substructure with the name of the association `books`:
 
@@ -450,9 +450,13 @@ To expand all first level associations of an entity, use `expand()` on the entit
 Select.from(BOOKS).columns(b -> b.expand());
 ```
 
-::: warning
-Avoid using `distinct` in queries with expands. `Distinct` removes duplicate rows from the root entity and hence effectively aggregates rows. However, expanding child entities from aggregated rows is not well-defined. If you encounter errors using `distinct` in queries with expands, this can be resolved by removing `distinct`.
-::::
+::: warning Don't use distinct together with expand
+The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that can be resolved by removing distinct.
+:::
+
+::: tip Resolving duplicates in to-many expands
+Duplicates in to-many expands can occur on associations that are mapped as many-to-many without using a [link entity](../../guides/domain-modeling#many-to-many-associations) and don't correctly define the source cardinality. This can be resolved by adding the cardinality in the CDS model: `Association [*,*] to Entity`.
+:::
 
 ##### Optimized Expand Execution {#expand-optimization}
 
@@ -470,7 +474,6 @@ For *to-many expands*:
 In case the default query optimization leads to issues, annotate the association with
 `@cds.java.expand: {using: 'parent-keys'}` to fall back to the unoptimized expand execution
 and make sure the parent entity has all key elements exposed.
-
 
 #### Flattened Results with `inline` {#inline}
 
@@ -1006,6 +1009,10 @@ Furthermore, you can use filters in [path expressions](#path-expressions) to spe
 Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
+
+::: danger
+If key values are not contained in the data and no filter (`where`, `byId`, `matching`) is specified a [searched update](#searched-update) is performed, which updates _all_ entities with the given data.
+:::
 
 ### Update with Expressions {#update-expressions}
 

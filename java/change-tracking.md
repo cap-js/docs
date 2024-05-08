@@ -226,6 +226,18 @@ the root of the change is an order.
 If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
 :::
 
+## Things to Consider when Using Change Tracking
+
+- Consider the storage costs of the change log. The change log can grow very fast and can consume a lot of space
+  in case of frequent changes. You should consider the retention policy of the change log as it won't be deleted when you delete the entities.
+- Consider the performance impact. Change tracking needs to execute additional reads during updates to retrieve and compare updated values.
+  This can slow down the update operations and can be very expensive in the case of updates that affect a lot of entities.
+- Consider the ways your entities are changed. You might want to track the changes only on the service projection level that are used for
+  the user interaction and not on the domain level (for instance during data replication).
+- If you want to expose the complete change log to the user, you need to consider the security implications of this. If your entities have complex access rules,
+  you need to consider how to extend these rules to the change log.
+
+
 ## Diff Processor
 
 In your business logic you often want to compare two states of the entity, find out if some value in them is changed and react on this change.
@@ -245,7 +257,9 @@ To do a comparison, `CdsDiffProcessor` requires the following in your data:
 - names of the elements must match the elements of the entity type
 - associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
 
-You run the comparison by calling the `process()` method and supplying new and old image of the data and the type of the compared entity.
+The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
+
+You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` or a collection of them and the type of the compared entity.
 
 ```java
 List<Map<String, Object>> newImage;
@@ -315,58 +329,56 @@ diff.add(
 You may add as many visitors as you need by chaining the `add()` calls. 
 Each instance of the `CdsDiffProcessor` can have own set of visitors added to it.
 
-The visitors can be stateful, but it is up to you to manage their state. 
-If you need a stateful visitor, for example to gather all changed values, prefer simple disposable objects without complex state management.
+If your visitors need to be stateful, prefer one-time disposable objects for them. `CdsDiffProcessor` does not manage the state of them.
 
-### Implementing a Diff Visitor
+### Implementing a DiffVisitor
 
-The visitor is called for the changes in the entity element by element and the additions and removals are always reported 
-as a structured values for complete added and removed parts of the entity. 
-When the collections are compared, the additions and removals are reported to the visitor item by item. 
+Additions and removals to/from entity state reported as calls to methods `added()` or `removed()` as a parts of the entity content as a structured data. They are not traversed further on the element level.
 
 The methods `added()` and `removed()` have the following arguments:
 
-- pair of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
-- association as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null, if the entity is added from the root
-- state of the changed data as a `Map`
+- `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old state of the entity.
+- `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null value, if the entity is added from the root.
+- state of the changed data as a `Map` as the `newValue` or `oldValue`.
 
-In case of the collections, the methods are called for each new item individually once per item. Content of the `Path` instances contain the same number of segments and reflects
-the old and new state respectively via [`ResolvedSegment`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/ResolvedSegment.html) methods to access the state.
+The instances of the `Path` represent the placement of the changed item within the whole entity. While these paths are always have the same structure, `oldPath` or `newPath` respectively has an empty values to represent absence of the entity state.
 
-... samples ...
+Let's break it down with the examples:
 
-Changes in the elements of the entity are reported to the `changed()` method that is called for each element separately one by one for all values in the entity where changed values are discovered.
+Given that we have a collection of books each has a composition of many editions.
 
-It has the following arguments:
++ When a new book is added to the collection, the method `added()` is called once with the `Path` instance with one segment representing a book as the `newPath`, `association` will be null and the `newValue` will also be the state of the book. We can deduce that the new book was added to a collection of the books with certain state.
 
-- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
-- changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) 
++ When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the state of the edition is the `newValue`. In this case, each added edition is accompanied by the state of the respective book. 
+
++ Given the previous example, there are two new editions added to one of the books: the `added()` method will be called once per edition added. Path instances with same book (same primary key) tell you which edition belong to which book.
+
+Method `changed()` is called for each change in the element values and has the following arguments: 
+
+- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity.
+- changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html). 
 - new and old value as an `Object` instances.
 
 Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.
 
-... samples ...
+Let's break it down with the examples: 
+
+Given that we have a collection of books with editions, as before.
+
++ When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book (with old and new state, including the title), element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
++ When title of the edition is changed for one of the books, the `changed()` method is called once, the paths include the book and the edition. Element reference and values are set accordingly.
+
+Each change will be observable at most once excluding the states of the entities in the `Path` instances which are stable between calls.
+
+Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
 
 :::danger Immutable Data
-Do not modify the images during the traversal. While the images are technically mutable, doing so will break the traversal logic and may cause unexpected errors thrown by Diff API.
+Do not modify the state of the images inside the visitors. Consider the data presented to it immutable.
 :::
 
-### Deep Traversal
+### Filtering for DiffVisitor
 
-For documents that have a lot of associations or a compositions and are changed in a deep way you might want to see additions for each level separately.
-
-To enable this, you create an instance of `CdsDiffProcessor` like that:
-
-```java
-CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
-```
-
-In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the changed data entity by entity.
-
-This mode in combination with element filters can be used to track the changes of the entities that can be parts of associations
-on different levels of the root entity or targets of the associations of different entities.
-
-### Filtering
+Element filters are useful if you want to extract some common condition out of your visitor implementation so that you do not have to branch in all methods of your visitor. 
 
 As a general rule, you may assume that element filter is called at least once for each value you have in your
 images even if their values are not changed and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
@@ -396,13 +408,16 @@ diff.add(new Filter() {
 
 Filters cannot limit the nature of the changes your visitor will observe and are always positive.
 
-## Things to Consider when Using Change Tracking
+### Deep Traversal
 
-- Consider the storage costs of the change log. The change log can grow very fast and can consume a lot of space
-  in case of frequent changes. You should consider the retention policy of the change log as it won't be deleted when you delete the entities.
-- Consider the performance impact. Change tracking needs to execute additional reads during updates to retrieve and compare updated values.
-  This can slow down the update operations and can be very expensive in the case of updates that affect a lot of entities.
-- Consider the ways your entities are changed. You might want to track the changes only on the service projection level that are used for
-  the user interaction and not on the domain level (for instance during data replication).
-- If you want to expose the complete change log to the user, you need to consider the security implications of this. If your entities have complex access rules,
-  you need to consider how to extend these rules to the change log.
+For documents that have a lot of associations or a compositions and are changed in a deep way you might want to see additions for each level separately.
+
+To enable this, you create an instance of `CdsDiffProcessor` like that:
+
+```java
+CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
+```
+
+In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the added or removed data entity by entity.
+
+It can be useful, if you want to track the additions and removals of the certain entities on the leaf levels or as part of visitors tailored for generic use cases.

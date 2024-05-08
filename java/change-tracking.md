@@ -229,7 +229,8 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 ## Diff Processor
 
 In your business logic you often want to compare two states of the entity, find out if some value in them is changed and react on this change.
-To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). It traverses through two states of the entity and reports you differences between them along the way.
+To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). 
+It traverses through two states of the entity and reports you differences between them along the way.
 
 You create an instance of the `CdsDiffProcessor` using the `create()` method:
 
@@ -237,7 +238,8 @@ You create an instance of the `CdsDiffProcessor` using the `create()` method:
 CdsDiffProcessor diff = CdsDiffProcessor.create();
 ```
 
-You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers. To do a comparison, `CdsDiffProcessor` requires the following in your data:
+You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers. 
+To do a comparison, `CdsDiffProcessor` requires the following in your data:
 
 - entities must include full set of primary keys
 - names of the elements must match the elements of the entity type
@@ -253,7 +255,8 @@ CdsStructuredType type;
 diff.process(newImage, oldImage, type);
 ```
 
-In case of the results of CQN statements, use the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type). It may not exactly match the type of the entity that you have selected, but allows you to compare the elements that were synthesized within the statement e.g. constants, case expressions, inlined and aliased values etc.
+In case of the results of CQN statements, use the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type). 
+It may not exactly match the type of the entity that you have selected, but allows you to compare the elements that were synthesized within the statement e.g. constants, case expressions, inlined and aliased values etc.
 
 ```java
 Result newImage = service.run(Select.from(...));
@@ -267,6 +270,8 @@ For draft-enabled entities, you may omit value of `IsActiveEntity` in the images
 If you compare active and inactive state of the same entity using them as an old and new image make sure that
 the values of `IsActiveEntity` is either absent or the same in both images.
 :::
+
+When one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
 
 Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface `CdsDiffProcessor.DiffVisitor`.
 
@@ -307,21 +312,22 @@ diff.add(
 );
 ```
 
-You may add as many visitors as you need by chaining the `add()` calls. Each instance of the `CdsDiffProcessor` can have own set of visitors added to it.
+You may add as many visitors as you need by chaining the `add()` calls. 
+Each instance of the `CdsDiffProcessor` can have own set of visitors added to it.
 
-The visitors can be stateful, but it is up to you to manage their state. The visitors are not notified
-about the start and end of the comparison, they are taken by the `CdsDiffProcessor` as they are.
-
+The visitors can be stateful, but it is up to you to manage their state. 
 If you need a stateful visitor, for example to gather all changed values, prefer simple disposable objects without complex state management.
 
 ### Implementing a Diff Visitor
 
-Additions and removals to the document are always observed via the method `added()` or `removed()`.
+The visitor is called for the changes in the entity element by element and the additions and removals are always reported 
+as a structured values for complete added and removed parts of the entity. 
+When the collections are compared, the additions and removals are reported to the visitor item by item. 
 
 The methods `added()` and `removed()` have the following arguments:
 
-- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
-- element that represents the association if the change occurred in the association
+- pair of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
+- association as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null, if the entity is added from the root
 - state of the changed data as a `Map`
 
 In case of the collections, the methods are called for each new item individually once per item. Content of the `Path` instances contain the same number of segments and reflects
@@ -334,7 +340,7 @@ Changes in the elements of the entity are reported to the `changed()` method tha
 It has the following arguments:
 
 - pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity
-- element that represents current changed element
+- changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) 
 - new and old value as an `Object` instances.
 
 Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.

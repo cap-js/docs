@@ -257,9 +257,10 @@ To do a comparison, `CdsDiffProcessor` requires the following in the data maps t
 - names of the elements must match the elements of the entity type
 - associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
 
-The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
+The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported. 
+Results of the CQN statements fulfill these conditions, if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
 
-You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` or a collection of them and the type of the compared entity.
+You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
 
 ```java
 List<Map<String, Object>> newImage;
@@ -268,9 +269,6 @@ CdsStructuredType type;
 
 diff.process(newImage, oldImage, type);
 ```
-
-In case of the results of CQN statements, use the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type). 
-It may not exactly match the type of the entity that you have selected, but allows you to compare the elements that were synthesized within the statement e.g. constants, case expressions, inlined and aliased values etc.
 
 ```java
 Result newImage = service.run(Select.from(...));
@@ -285,11 +283,11 @@ If you compare active and inactive state of the same entity using them as an old
 the values of `IsActiveEntity` is either absent or the same in both images.
 :::
 
-When one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
+In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
 
 Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface `CdsDiffProcessor.DiffVisitor`.
 
-The visitor is added to `CdsDiffProcessor` with the `add()` method.
+The visitor is added to `CdsDiffProcessor` with the `add()` method before starting the processing.
 
 ```java
 diff.add(new DiffVisitor() {
@@ -333,8 +331,8 @@ If your visitors need to be stateful, prefer one-time disposable objects for the
 
 ### Implementing a DiffVisitor
 
-Additions and removals to/from entity state reported as calls to methods `added()` or `removed()` as a parts of the entity content as a structured data. 
-They are not traversed further on the element level.
+Additions and removals in the entity state reported as calls to the methods `added()` or `removed()`. 
+They always receive complete added or removed state for the entity or an association. It is never traversed element by element. 
 
 The methods `added()` and `removed()` have the following arguments:
 
@@ -342,7 +340,7 @@ The methods `added()` and `removed()` have the following arguments:
 - `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null value, if the entity is added from the root.
 - state of the changed data as a `Map` as the `newValue` or `oldValue`.
 
-The instances of the `Path` represent the placement of the changed item within the whole entity. While these paths are always have the same structure, `oldPath` or `newPath` respectively has an empty values to represent absence of the entity state.
+The instances of the `Path` represent the placement of the changed item within the whole entity. While these paths are always have the same structure, `oldPath` or `newPath` respectively has an empty value to represent absence of the entity state.
 
 Let's break it down with the examples:
 

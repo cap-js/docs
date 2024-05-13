@@ -258,7 +258,7 @@ To do a comparison, `CdsDiffProcessor` requires the following in the data maps t
 - associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
 
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported. 
-Results of the CQN statements fulfill these conditions, if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
+Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
 
 You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
 

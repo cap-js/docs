@@ -52,13 +52,43 @@ Some property defaults have been adjusted:
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
+
+### Replaced Poperties
+
+  - `cds.data-source.csvInitializationMode` -> `cds.data-source.csv.initializationMode`
+  - `cds.data-source.csvFileSuffix` -> `cds.data-source.csv.fileSuffix`
+  - `cds.data-source.csvPaths` -> `cds.data-source.csv.paths`
+  - `cds.data-source.csvSingleChangeset` -> `cds.data-source.csv.singleChangeset`
+  - `cds.remote.remoteServiceConfig.destination.type` -> `cds.remote.services.<key>.type`
+  - `cds.remote.remoteServiceConfig.destination.suffix` -> `cds.remote.services.<key>.http.suffix`
+  - `cds.remote.remoteServiceConfig.destination.service` -> `cds.remote.services.<key>.http.service`
+  - `cds.remote.remoteServiceConfig.destination.headers` -> `cds.remote.services.<key>.http.headers`
+  - `cds.remote.remoteServiceConfig.destination.queries` -> `cds.remote.services.<key>.http.queries`
+  - `cds.sql.search.useLocalizedView` -> `cds.sql.search.model`
+  - `cds.identity.authConfig.enabled` -> `cds.security.authentication.authConfig.enabled`
+  - `cds.xsuaa.authConfig.enabled` -> `cds.security.authentication.authConfig.enabled`
+  - `cds.odataV4.apply.inCqn.enabled` -> `cds.odataV4.apply.transformations.enabled`
+  - `cds.multiTenancy.healthCheck.intervalMillis` -> `cds.multiTenancy.healthCheck.interval`
+  - `cds.messaging.services.<key>.outbox.persistent.enabled` -> `cds.messaging.services.<key>.outbox.name`
+  - `cds.auditlog.outbox.persistent.enabled` -> `cds.auditlog.outbox.name`
+
 ### Removed Properties
 
-TODO
+- `cds.sql.supportedLocales`
+- `cds.security.mock.users.<key>.unrestricted`
 
 ### Removed Java APIs
 
-TODO
+- Removed deprecated classes:
+  - `com.sap.cds.services.environment.ServiceBinding`
+  - `com.sap.cds.services.environment.ServiceBindingAdapter`
+
+- Removed deprecated methods:
+  - `com.sap.cds.services.request.ModifiableUserInfo.setUnrestrictedAttributes`
+  - `com.sap.cds.services.request.ModifiableUserInfo.addUnrestrictedAttribute`
+  - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
+  - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
 
 ### Changes in `cds-maven-plugin`
 

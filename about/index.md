@@ -48,12 +48,12 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 <style scoped>
   #logos {
     margin: 24px auto;
-    max-width: 280px; /* Maximum width of the logos container */
+    max-width: 280px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-content: center; /* Center grid items along the row */
-    align-items: center; /* Center grid items vertically */
-    gap: 12px; /* Space between grid items */
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
   }
 
   #logos img {

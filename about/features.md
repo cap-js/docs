@@ -162,12 +162,12 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Outbound Protocol Support                                 | CDS <sup>1</sup> | Node.js | Java |
-|-----------------------------------------------------------|:----------------:|:-------:|:----:|
-| [REST/OpenAPI](../node.js/cds-dk#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
-| OData V2                                                  |       <X/>       |  <X/>   | <X/> |
-| OData V4                                                  |       <X/>       |  <X/>   | <X/> |
-| GraphQL<sup>2</sup>                                       |       <C/>       |  <C/>   | <C/> |
+| Outbound Protocol Support                                        | CDS <sup>1</sup> | Node.js | Java |
+|------------------------------------------------------------------|:----------------:|:-------:|:----:|
+| [REST/OpenAPI](../tools/apis/cds-import#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
+| OData V2                                                         |       <X/>       |  <X/>   | <X/> |
+| OData V4                                                         |       <X/>       |  <X/>   | <X/> |
+| GraphQL<sup>2</sup>                                              |       <C/>       |  <C/>   | <C/> |
 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>

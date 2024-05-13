@@ -1,28 +1,13 @@
 ---
 status: released
+synopsis: >
+  Programmatically use <code>cds.import</code>
+redirect_from: node.js/cds-dk
 ---
 
-# CDS Design Time APIs
-
-This guide is about programmatic CDS design-time APIs.
+# CDS Import API
 
 [[toc]]
-
-
-## Install `@sap/cds-dk`
-
-The design-time APIs are provided with package `@sap/cds-dk` which needs to be installed locally in your project:
-
-```sh
-npm add @sap/cds-dk
-```
-
-That given, you can use the APIs in your project like this:
-```js
-const cds = require('@sap/cds-dk')
-cds.import(...)
-```
-
 
 
 
@@ -124,7 +109,7 @@ module.exports = async (srv) => {
 
 ## OData Type Mappings
 
-The following mapping is used during the import of an external service API, see [Using Services](../guides/using-services#external-service-api). In addition, the [Mapping of CDS Types](../advanced/odata#type-mapping) shows import-related mappings.
+The following mapping is used during the import of an external service API, see [Using Services](../../guides/using-services#external-service-api). In addition, the [Mapping of CDS Types](../../advanced/odata#type-mapping) shows import-related mappings.
 
 | OData                                                  | CDS Type                                                                     |
 |--------------------------------------------------------|------------------------------------------------------------------------------|

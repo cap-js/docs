@@ -333,7 +333,8 @@ If your visitors need to be stateful, prefer one-time disposable objects for the
 
 ### Implementing a DiffVisitor
 
-Additions and removals to/from entity state reported as calls to methods `added()` or `removed()` as a parts of the entity content as a structured data. They are not traversed further on the element level.
+Additions and removals to/from entity state reported as calls to methods `added()` or `removed()` as a parts of the entity content as a structured data. 
+They are not traversed further on the element level.
 
 The methods `added()` and `removed()` have the following arguments:
 
@@ -369,6 +370,8 @@ Given that we have a collection of books with editions, as before.
 + When title of the edition is changed for one of the books, the `changed()` method is called once, the paths include the book and the edition. Element reference and values are set accordingly.
 
 Each change will be observable at most once excluding the states of the entities in the `Path` instances which are stable between calls.
+
+For changes in the associations, when association state is present in both images, even if key values are different, the `change()` method will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
 
 Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
 

@@ -315,7 +315,8 @@ diff.add(
   new Filter() {
     @Override
     public boolean test(Path path, CdsElement element, CdsType type) {
-        return true;
+        // Only elements that are annotated with our own annotations should be tracked
+        return element != null && element.getAnnotationValue("@important.value", false);
     }
   },
   new DiffVisitor() {
@@ -332,7 +333,8 @@ If your visitors need to be stateful, prefer one-time disposable objects for the
 ### Implementing a DiffVisitor
 
 Additions and removals in the entity state reported as calls to the methods `added()` or `removed()`. 
-They always receive complete added or removed state for the entity or an association. It is never traversed element by element. 
+They always receive complete added or removed state for the entity or an association. 
+It is never traversed element by element. 
 
 The methods `added()` and `removed()` have the following arguments:
 

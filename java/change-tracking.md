@@ -315,7 +315,7 @@ diff.add(
   new Filter() {
     @Override
     public boolean test(Path path, CdsElement element, CdsType type) {
-        // Only elements that are annotated with our own annotations should be tracked
+        // Only elements that are annotated with certain annotation 
         return element != null && element.getAnnotationValue("@important.value", false);
     }
   },

@@ -251,7 +251,7 @@ CdsDiffProcessor diff = CdsDiffProcessor.create();
 ```
 
 You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers. 
-To do a comparison, `CdsDiffProcessor` requires the following in your data:
+To do a comparison, `CdsDiffProcessor` requires the following in the data maps to compare:
 
 - entities must include full set of primary keys
 - names of the elements must match the elements of the entity type

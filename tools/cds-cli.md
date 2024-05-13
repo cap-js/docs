@@ -39,24 +39,24 @@ Use `cds version` to get information about your installed package version:
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
 
 <em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 6.8.4
-<em>@sap/cds-compiler:</em> 3.9.12
-<em>@sap/cds-dk:</em> 6.7.0
+<em>@sap/cds:</em> 7.9.0
+<em>@sap/cds-compiler:</em> 4.9.0
+<em>@sap/cds-dk:</em> 7.9.1
 <em>@sap/cds-dk (global):</em> 6.7.0
-<em>@sap/cds-mtxs:</em> 1.7.1
-<em>@sap/eslint-plugin-cds:</em> 2.6.3
+<em>@sap/cds-mtxs:</em> 1.18.0
+<em>@sap/eslint-plugin-cds:</em> 3.0.2
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
 
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
 
-| @capire/samples    | https://github.com/sap-samples/cloud-cap-samples.git |
-| ------------------ | ----------- |
-| Node.js            | v18.13.0    |
-| @sap/cds           | 6.8.4       |
-| @sap/cds-compiler  | 3.9.12       |
-| @sap/cds-dk        | 6.7.0       |
-| @sap/eslint-plugin | 2.6.3       |
+| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
+|------------------------|------------------------------------------------------|
+| Node.js                | v18.13.0                                             |
+| @sap/cds               | 7.9.0                                                |
+| @sap/cds-compiler      | 4.9.0                                               |
+| @sap/cds-dk            | 7.9.1                                                |
+| @sap/eslint-plugin-cds | 3.0.2                                                |
 </pre>
 
 ## *cds completion* <Since version="7.9.0" of="@sap/cds-dk" />

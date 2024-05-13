@@ -129,7 +129,7 @@ main {
           color: #032F62;
           .dark & { color: #9ECBFF; }
         }
-        &.flags {
+        &.flags, &.option, &.posArg {
           color: #005CC5;
           .dark & { color: #79B8FF; }
         }

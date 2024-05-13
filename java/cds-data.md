@@ -764,6 +764,193 @@ processor.addGenerator(
    (path, element, isNull) -> isNull ? null : randomUUID()); // generator
 ```
 
+## Diff Processor
+
+In your business logic you may want to compare two states of an entity e.g. before and after an operation. Usually, you might want to react on changed values, for instance, to track changes accordingly.
+To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor).
+It traverses through two states of the entity and reports you differences between them along the way.
+
+You create an instance of the `CdsDiffProcessor` using the `create()` method:
+
+```java
+CdsDiffProcessor diff = CdsDiffProcessor.create();
+```
+
+You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers.
+To do a comparison, `CdsDiffProcessor` requires the following in the data maps to compare:
+
+- entities must include full set of primary keys
+- names of the elements must match the elements of the entity type
+- associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
+
+The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
+Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
+
+You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
+
+```java
+List<Map<String, Object>> newImage;
+List<Map<String, Object>> oldImage;
+CdsStructuredType type;
+
+diff.process(newImage, oldImage, type);
+```
+
+```java
+Result newImage = service.run(Select.from(...));
+Result oldImage = service.run(Select.from(...));
+
+diff.process(newImage, oldImage, newImage.rowType());
+```
+
+:::tip Draft-enabled Entities
+For draft-enabled entities, you may omit value of `IsActiveEntity` in the images.
+If you compare active and inactive state of the same entity using them as an old and new image make sure that
+the values of `IsActiveEntity` is either absent or the same in both images.
+:::
+
+In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
+
+Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface `CdsDiffProcessor.DiffVisitor`.
+
+The visitor is added to `CdsDiffProcessor` with the `add()` method before starting the processing.
+
+```java
+diff.add(new DiffVisitor() {
+  @Override
+  public void changed(Path newPath, Path oldPath, CdsElement element, Object newValue, Object oldValue) {
+      // changes
+  }
+
+  @Override
+  public void added(Path newPath, Path oldPath, CdsElement association, Map<String, Object> newValue) {
+      // additions
+  }
+
+  @Override
+  public void removed(Path newPath, Path oldPath, CdsElement association, Map<String, Object> oldValue) {
+      // removals
+  }
+});
+```
+
+The visitor can be added together with the [element filter](/java/cds-data#element-filters) that limits the subset of changes reported to the visitor.
+
+```java
+diff.add(
+  new Filter() {
+    @Override
+    public boolean test(Path path, CdsElement element, CdsType type) {
+        // Only elements that are annotated with certain annotation 
+        return element != null && element.getAnnotationValue("@important.value", false);
+    }
+  },
+  new DiffVisitor() {
+    ...
+  }
+);
+```
+
+You may add as many visitors as you need by chaining the `add()` calls.
+Each instance of the `CdsDiffProcessor` can have own set of visitors added to it.
+
+If your visitors need to be stateful, prefer one-time disposable objects for them. `CdsDiffProcessor` does not manage the state of them.
+
+### Implementing a DiffVisitor
+
+Additions and removals in the entity state reported as calls to the methods `added()` or `removed()`.
+They always receive complete added or removed state for the entity or an association.
+It is never traversed element by element.
+
+The methods `added()` and `removed()` have the following arguments:
+
+- `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old state of the entity.
+- `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null value, if the entity is added from the root.
+- state of the changed data as a `Map` as the `newValue` or `oldValue`.
+
+The instances of the `Path` represent the placement of the changed item within the whole entity. While these paths are always have the same structure, `oldPath` or `newPath` respectively has an empty value to represent absence of the entity state.
+
+Let's break it down with the examples:
+
+Given that we have a collection of books each has a composition of many editions.
+
++ When a new book is added to the collection, the method `added()` is called once with the `Path` instance with one segment representing a book as the `newPath`, `association` will be null and the `newValue` will also be the state of the book. We can deduce that the new book was added to a collection of the books with certain state.
+
++ When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the state of the edition is the `newValue`. In this case, each added edition is accompanied by the state of the respective book.
+
++ Given the previous example, there are two new editions added to one of the books: the `added()` method will be called once per edition added. Path instances with same book (same primary key) tell you which edition belong to which book.
+
+Method `changed()` is called for each change in the element values and has the following arguments:
+
+- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity.
+- changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
+- new and old value as an `Object` instances.
+
+Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.
+
+Let's break it down with the examples:
+
+Given that we have a collection of books with editions, as before.
+
++ When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book (with old and new state, including the title), element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
++ When title of the edition is changed for one of the books, the `changed()` method is called once, the paths include the book and the edition. Element reference and values are set accordingly.
+
+Each change will be observable at most once excluding the states of the entities in the `Path` instances which are stable between calls.
+
+For changes in the associations, when association state is present in both images, even if key values are different, the `change()` method will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
+
+Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
+
+:::danger Immutable Data
+Do not modify the state of the images inside the visitors. Consider the data presented to it immutable.
+:::
+
+### Filtering for DiffVisitor
+
+Element filters are useful if you want to extract some common condition out of your visitor implementation so that you do not have to branch in all methods of your visitor.
+
+As a general rule, you may assume that element filter is called at least once for each value you have in your
+images even if their values are not changed and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
+
+In the implementation of the filter you can use the definition of the
+[`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html), its type
+or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) to decide if you want your visitor to be notified about the detected change.
+
+In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation
+or having a certain common type, for example, only numbers.
+
+For more complex scenarios, [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) can be used. It represents the placement
+of the element that is offered to a filter in the structure of the whole entity as a sequence of segments.
+The most useful part of the path is the target available as the result of the `target()` method that you can use to evaluate the type of the current entity, its annotations and
+the values of primary keys.
+
+For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity type.
+
+```java
+diff.add(new Filter() {
+  @Override
+  public boolean test(Path path, CdsElement cdsElement, CdsType cdsType) {
+    return path.target().type().getQualifiedName().equals(Authors_.CDS_NAME);
+  }
+}, ...);
+```
+
+Filters cannot limit the nature of the changes your visitor will observe and are always positive.
+
+### Deep Traversal
+
+For documents that have a lot of associations or a compositions and are changed in a deep way you might want to see additions for each level separately.
+
+To enable this, you create an instance of `CdsDiffProcessor` like that:
+
+```java
+CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
+```
+
+In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the added or removed data entity by entity.
+
+It can be useful, if you want to track the additions and removals of the certain entities on the leaf levels or as part of visitors tailored for generic use cases.
+
 ## Media Type Processing { #mediatypeprocessing}
 
 The data for [media type entity properties](../guides/providing-services#serving-media-data) (annotated with `@Core.MediaType`) - as with any other CDS property with primitive type - can be retrieved by their CDS name from the [entity data argument](./event-handlers/#pojoarguments). See also [Structured Data](#structured-data) and [Typed Access](#typed-access) for more details. The Java data type for such byte-based properties is `InputStream`, and for character-based properties it is `Reader` (see also [Predefined Types](#predefined-types)).

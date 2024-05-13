@@ -240,7 +240,7 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 
 ## Diff Processor
 
-In your business logic you often want to compare two states of the entity, find out if some value in them is changed and react on this change.
+In your business logic you may want to compare two states of an entity e.g. before and after an operation. Usually, you might want to react on changed values, for instance, to track changes accordingly.
 To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). 
 It traverses through two states of the entity and reports you differences between them along the way.
 

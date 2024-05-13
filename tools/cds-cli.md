@@ -355,7 +355,7 @@ In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to 
 
 <div class="impl node">
 
-By default, an authorization header with a [local mock user](../node.js/authentication#mock-users) is written in the `http` file, and `localhost` is the target host.
+By default, an authorization header with a [local mock user](../node.js/authentication#mock-users) is written to the `http` file, and `localhost` is the target host.
 
 ```http [Node.js]
 @server = http://localhost:4004
@@ -370,11 +370,10 @@ GET {{server}}/odata/v4/admin/Books
 
 <div class="impl java">
 
-By default, an authorization header with a [local mock user](../java/security#mock-users) is written in the `http` file, and `localhost` is the target host.
+By default, an authorization header with a [local mock user](../java/security#mock-users) is written to the `http` file, and `localhost` is the target host.
 
 ```http [Java]
 @server = http://localhost:8080
-@auth = Authorization: Basic alice:
 
 ### CatalogService.Books
 GET {{server}}/odata/v4/admin/Books

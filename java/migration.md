@@ -53,7 +53,7 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
 
-### Replaced Poperties
+### Replaced Properies
 
   - `cds.data-source.csvInitializationMode` -> `cds.data-source.csv.initializationMode`
   - `cds.data-source.csvFileSuffix` -> `cds.data-source.csv.fileSuffix`

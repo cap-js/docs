@@ -855,6 +855,8 @@ Each instance of the `CdsDiffProcessor` can have own set of visitors added to it
 
 If your visitors need to be stateful, prefer one-time disposable objects for them. `CdsDiffProcessor` does not manage the state of them.
 
+All values are compared using the standard Java `equals()` method including the elements with structured and arrayed types.
+
 ### Implementing a DiffVisitor
 
 Additions and removals in the entity state reported as calls to the methods `added()` or `removed()`.
@@ -1105,8 +1107,8 @@ Do not modify the state of the images inside the visitors. Consider the data pre
 
 Element filters are useful if you want to extract some common condition out of your visitor implementation so that you do not have to branch in all methods of your visitor.
 
-As a general rule, you may assume that element filter is called at least once for each value you have in your
-images even if their values are not changed and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
+As a general rule, you may assume that element filter is called at least once for each changed value you have in your
+image and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
 
 In the implementation of the filter you can use the definition of the
 [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html), its type

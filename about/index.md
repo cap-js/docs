@@ -36,17 +36,36 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" alt="The graphic is explained in the accompanying text.">
+<img src="../assets/overview.drawio.svg" style="width:480px; margin: auto" alt="The graphic is explained in the accompanying text.">
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />
-  <img src="../assets/logos/express.png" style="height:30px" alt="Express logo"/>
-  <img src="../assets/logos/java.svg" style="height:44px" alt="Java logo"/>
+  <img src="../assets/logos/express.png" style="height:34px" alt="Express logo"/>
+  <img src="../assets/logos/java.svg" style="height:44px;margin-top:-10px;" alt="Java logo"/>
   <img src="../assets/logos/spring.svg" style="height:25px" alt="spring logo" />
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
+  #logos {
+    margin: 24px auto;
+    max-width: 280px; /* Maximum width of the logos container */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center; /* Center grid items along the row */
+    align-items: center; /* Center grid items vertically */
+    gap: 12px; /* Space between grid items */
+  }
+
+  #logos img {
+    margin: 4px auto;
+  }
+
+  @media (min-width: 500px) {
+    #logos {
+      max-width: 500px;
+      grid-template-columns: repeat(4, 1fr); /* Four columns in one row for wider screens */
+    }
+  }
 </style>
 
 On top of open source technologies, CAP mainly adds:

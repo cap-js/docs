@@ -63,7 +63,7 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
   @media (min-width: 500px) {
     #logos {
       max-width: 500px;
-      grid-template-columns: repeat(4, 1fr); /* Four columns in one row for wider screens */
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>

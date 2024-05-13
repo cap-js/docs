@@ -381,7 +381,7 @@ var srv.model      : LinkedCSN
 var srv.definition : LinkedCSN service definition
 ```
 - `model`, a [`LinkedCSN`](cds-reflect#linked-csn), is the CDS model from which this service was constructed
-- `definiton`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed
+- `definition`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed
 
 
 

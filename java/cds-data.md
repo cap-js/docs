@@ -781,7 +781,7 @@ To do a comparison, `CdsDiffProcessor` requires the following in the data maps t
 
 - entities must include full set of primary keys
 - names of the elements must match the elements of the entity type
-- associations must be represented as [nested Structures and Associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
+- associations must be represented as [nested Structures and associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
 
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
 Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
@@ -841,8 +841,7 @@ diff.add(
   new Filter() {
     @Override
     public boolean test(Path path, CdsElement element, CdsType type) {
-        // Only elements that are annotated with certain annotation 
-        return element != null && element.getAnnotationValue("@important.value", false);
+        return true;
     }
   },
   new DiffVisitor() {
@@ -876,9 +875,136 @@ Given that we have a collection of books each has a composition of many editions
 
 + When a new book is added to the collection, the method `added()` is called once with the `Path` instance with one segment representing a book as the `newPath`, `association` will be null and the `newValue` will also be the state of the book. We can deduce that the new book was added to a collection of the books with certain state.
 
+  Old image (primary keys are omitted for brevity) of the book collection is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": []
+      }
+    ]
+  ```
+  New image of the book collection is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": []
+      },
+      {
+        "title": "Catweazle",
+        "editions": []
+      }
+    ]
+  ```
+  The state of the entity that visitor will observe in the `added()` method as `newValue`:
+  ```json
+    {
+      "title": "Catweazle",
+      "editions": []
+    }
+  ```
+
 + When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the state of the edition is the `newValue`. In this case, each added edition is accompanied by the state of the respective book.
 
+  Old image of the book collection is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": []
+      },
+      {
+        "title": "Catweazle",
+        "editions": []
+      }
+    ]
+  ```
+
+  New image of the book collection is:
+  ```json
+    [
+      {
+      "title": "Wuthering Heights",
+        "editions": [
+          {
+            "title": "Wuthering Heights: 100th Anniversary Edition"
+          }
+        ]
+      },
+      {
+        "title": "Catweazle",
+        "editions": [
+          {
+            "title": "Catweazle: Director's Cut"
+          }
+        ]
+      }
+    ]
+  ```
+  In the first `added()` call, the first added edition will be available and the paths will have the first book as the root.
+
+  ```json
+  {
+    "title": "Wuthering Heights: 100th Anniversary Edition"
+  }
+  ```
+
+  and in the second - the second added edition with the second book as the root of the path.
+
+  ```json
+  {
+    "title": "Wuthering Heights: 100th Anniversary Edition"
+  }
+  ```
+
 + Given the previous example, there are two new editions added to one of the books: the `added()` method will be called once per edition added. Path instances with same book (same primary key) tell you which edition belong to which book.
+
+  Old image is the same as before, new image of the book collection is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": [
+          {
+            "title": "Wuthering Heights: 100th Anniversary Edition"
+          }
+        ]
+      },
+      {
+        "title": "Catweazle",
+        "editions": [
+          {
+            "title": "Catweazle: Director's Cut"
+          },
+          {
+            "title": "Catweazle: Complete with Extras"
+          }
+        ]
+      }
+    ]
+  ```
+
+  First `added()` call will observe the new edition of the first book:
+
+  ```json
+  {
+    "title": "Wuthering Heights: 100th Anniversary Edition"
+  }
+  ```
+
+  The following two calls will observe each added edition of the second book:
+  ```json
+  {
+    "title": "Catweazle: Director's Cut"
+  }
+  ```
+  and
+  ```json
+  {
+    "title": "Catweazle: Director's Cut"
+  }
+  ```
 
 Method `changed()` is called for each change in the element values and has the following arguments:
 
@@ -890,10 +1016,80 @@ Paths have the same target (the entity where changed element is) but their value
 
 Let's break it down with the examples:
 
-Given that we have a collection of books with editions, as before.
+Given the collection of books with editions, as before.
+
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": [
+          {
+            "title": "Wuthering Heights: 100th Anniversary Edition"
+          }
+        ]
+      },
+      {
+        "title": "Catweazle",
+        "editions": [
+          {
+            "title": "Catweazle: Director's Cut"
+          }
+        ]
+      }
+    ]
+  ```
 
 + When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book (with old and new state, including the title), element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
+
+  New image of the data is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": [
+          {
+            "title": "Wuthering Heights: 100th Anniversary Edition"
+          }
+        ]
+      },
+      {
+        "title": "Catweazle, the series",
+        "editions": [
+          {
+            "title": "Catweazle: Director's Cut"
+          }
+        ]
+      }
+    ]
+  ```
+
+  Visitor will observe the `Catweazle, the series` and `Catweazle` as the new and the old value.
+
 + When title of the edition is changed for one of the books, the `changed()` method is called once, the paths include the book and the edition. Element reference and values are set accordingly.
+
+  New image of the data is:
+  ```json
+    [
+      {
+        "title": "Wuthering Heights",
+        "editions": [
+            {
+              "title": "Wuthering Heights: 100th Anniversary Edition"
+            }
+        ]
+      },
+      {
+        "title": "Catweazle",
+        "editions": [
+          {
+            "title": "Catweazle: Unabridged"
+          }
+        ]
+      }
+    ]
+  ```
+
+  Visitor will observe the `Catweazle: Unabridged` and `Catweazle: Director's Cut` as the new and the old value.
 
 Each change will be observable at most once excluding the states of the entities in the `Path` instances which are stable between calls.
 
@@ -919,7 +1115,7 @@ or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cd
 In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation
 or having a certain common type, for example, only numbers.
 
-For more complex scenarios, [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) can be used. It represents the placement
+For more complex scenarios, `Path` is useful. It represents the placement
 of the element that is offered to a filter in the structure of the whole entity as a sequence of segments.
 The most useful part of the path is the target available as the result of the `target()` method that you can use to evaluate the type of the current entity, its annotations and
 the values of primary keys.

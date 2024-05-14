@@ -94,9 +94,9 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, build a select statement and execute it with the corresponding named parameter values.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, build a select statement and execute it with [named parameter](#named-parameters) values that correspond to the view's parameters.
 
-Let's consider the following `Books` entity and a parameterized view that returns the `ID` and `title` of `Books` with stock >= `minStock`:
+Let's consider the following `Books` entity and a parameterized view `BooksView`, which returns the `ID` and `title` of `Books` with `stock` greater or equal to the value of the parameter `minStock`:
 
 ```cds
 entity Books {

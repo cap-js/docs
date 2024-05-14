@@ -1999,10 +1999,6 @@ cds compile foo.cds --docs
   }
 }
 ```
-```yaml [application.yaml]
-cds:
-  docs: true
-```
 ```js [JavaScript]
 cds.compile(..., { docs: true })
 ```

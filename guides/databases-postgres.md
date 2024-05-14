@@ -532,6 +532,13 @@ If you now start the application, Liquibase executes all change sets, which have
 
 For further schema versions, repeat step ②.
 
+::: info
+
+A delta DDL script is only produced for changes without potential data loss.
+If the changes in the model could lead to data loss, an error is raised.
+
+:::
+
 ## Migration { .impl .node }
 
 Thanks to CAP's database-agnostic cds.ql API, we're confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.

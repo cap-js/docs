@@ -130,12 +130,12 @@ const { write, path } = cds.utils, { join } = path // [!code ++]
 
 module.exports = class extends cds.add.Plugin {
   async run() { // [!code ++]
-    const pg = join(__dirname, 'pg.yaml') // [!code ++]
+    const pg = join(__dirname, 'add/pg.yaml') // [!code ++]
     await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code ++]
   } // [!code ++]
 }
 ```
-```yaml [lib/pg.yaml] {.added}
+```yaml [lib/add/pg.yaml] {.added}
 services: # [!code ++]
   db: # [!code ++]
     image: postgres:alpine # [!code ++]
@@ -176,7 +176,7 @@ module.exports = class extends cds.add.Plugin {
       const postgresDeployer = { in: 'modules', // [!code ++]
         where: { type: 'nodejs', path: 'gen/pg' } // [!code ++]
       } // [!code ++]
-      await merge(__dirname, 'files/mta.yml.hbs').into('mta.yaml', { // [!code ++]
+      await merge(__dirname, 'add/mta.yml.hbs').into('mta.yaml', { // [!code ++]
         project, // for Mustache replacements // [!code ++]
         additions: [srv, postgres, postgresDeployer], // [!code ++]
         relationships: [{ // [!code ++]
@@ -245,12 +245,12 @@ module.exports = class extends cds.add.Plugin {
       ...
     }
     if (hasHelm) { // [!code ++]
-      await merge(__dirname, 'files/values.yaml.hbs')
+      await merge(__dirname, 'add/values.yaml.hbs')
         .into('chart/values.yaml', { with: project }) // [!code ++]
     } // [!code ++]
 }
 ```
-```yaml [values.yaml.hbs]
+```yaml [lib/files/values.yaml.hbs]
 srv: # [!code ++]
   bindings: # [!code ++]
     db: # [!code ++]

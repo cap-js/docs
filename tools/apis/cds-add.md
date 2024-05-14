@@ -291,9 +291,9 @@ module.exports = class extends cds.add.Plugin {
   } // [!code ++]
 
   async run() {
-    const pg = join(__dirname, 'pg.yaml') // [!code --]
-    const pg = join(__dirname, join(cds.cli.options.out, 'pg.yaml')) // [!code ++]
-    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root
+    const pg = join(__dirname, 'pg.yaml')
+    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code --]
+    await copy(pg).to(cds.cli.options.out, 'pg.yaml') //> 'to' is relative to cds.root // [!code ++]
   }
   async combine {
     /* ... */

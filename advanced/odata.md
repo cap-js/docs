@@ -656,7 +656,7 @@ The following operators and clauses of CDL are supported:
 
 * `case when ... then ... else ...` and the logical ternary operator ` ? : `
 * Logical: `and`,  `or`,  `not`
-* Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and`
+* Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and ...`
 * Unary `+` and `-`
 * Arithmetic: `+`,  `-`,  `*`,  `/`, `||`
 * `cast(...)`

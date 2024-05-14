@@ -58,7 +58,7 @@ Use `cds version` to get information about your installed package version:
 |------------------------|------------------------------------------------------|
 | Node.js                | v18.13.0                                             |
 | @sap/cds               | 7.9.0                                                |
-| @sap/cds-compiler      | 4.9.0                                               |
+| @sap/cds-compiler      | 4.9.0                                                |
 | @sap/cds-dk            | 7.9.1                                                |
 | @sap/eslint-plugin-cds | 3.0.2                                                |
 </pre>

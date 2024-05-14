@@ -8,7 +8,9 @@ synopsis: >
 <style scoped lang="scss">
   .tabs {
     label:nth-child(n+3) {
-      background: #183029;
+      background: #D9EDE6;
+      .dark & {background: #183029 };
+
     }
     label:nth-child(n+3)::before {
       content: "+";
@@ -48,7 +50,11 @@ synopsis: >
       width: calc(100% / 2);
     }
   }
-  .list-item {@include counter-style;}
+  .list-item {
+    @include counter-style;
+    position: relative;
+    top: -1px;
+  }
   ol {
     margin-left: 10px;
     counter-reset: my-counter;

@@ -40,7 +40,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
 | [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
-| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Add a feature to an existing project](../tools/cds-cli#cds-add)                | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |

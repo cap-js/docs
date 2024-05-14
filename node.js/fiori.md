@@ -146,20 +146,20 @@ payloads rather than the complete business object.
 
 ### Garbage Collection of Stale Drafts
 
-Inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following configuration:
+Inactive drafts are deleted automatically after default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
 
 ```json
 {
   "cds": {
     "fiori": {
-      "draft_deletion_timeout": true
+      "draft_deletion_timeout": "28d"
     }
   }
 }
 ```
 
 You can set the property to one of the following:
-- `true` in order to obtain the default timeout of 30 days
+- `false` in order to deactivate the timeout
 - number of days like `'30d'` 
 - number of hours like `'72h'`
 - number of milliseconds like `1000`

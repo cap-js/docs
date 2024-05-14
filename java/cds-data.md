@@ -278,13 +278,14 @@ Avoid cyclic relationships between CdsData objects when using toJson.
 :::
 
 
-## Vector Embeddings <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> { #vector-embeddings }
+## Vector Embeddings <Beta /> { #vector-embeddings }
 
 In CDS [vector embeddings](../guides/databases-hana#vector-embeddings) are stored in elements of type `cds.Vector`:
 
 ```cds
 entity Books : cuid { // [!code focus]
   title         : String(111);
+  description   : LargeString;  // [!code focus]
   embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
 } // [!code focus]
 ```
@@ -293,7 +294,7 @@ In CAP Java, vector embeddings are represented by the `CdsVector` type, which al
 
 ```Java
 // Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
-float[] embedding = llm.embed(text).content().vector();
+float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 CdsVector v1 = CdsVector.of(embedding); // float[] format
 CdsVector v2 = CdsVector.of("[0.42, 0.73, 0.28, ...]"); // String format
@@ -304,7 +305,7 @@ You can use the functions, `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean
 ```Java
 CqnVector v = CQL.vector(embedding);
 
-Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
+Result similarBooks = service.run(Select.from(BOOKS).where(b ->
   CQL.cosineSimilarity(b.embedding(), v).gt(0.9))
 );
 ```
@@ -312,12 +313,14 @@ Result relatedBooks = service.run(Select.from(BOOKS).where(b ->
 You can also use parameters for vectors in queries:
 
 ```Java
-CqnSelect query = Select.from(BOOKS).where(b ->
-  CQL.cosineSimilarity(b.embedding(), CQL.param("embedding")
-    .type(CdsBaseType.VECTOR)).gt(0.9)
+var similarity = CQL.cosineSimilarity(CQL.get(Books.EMBEDDING), CQL.param(0).type(VECTOR));
 
-Result relatedBooks = service.run(query,
-  Map.of("embedding", CdsVector.of(embedding)));
+CqnSelect query = Select.from(BOOKS)
+  .columns(b -> b.title(), b -> similarity.as("similarity"))
+  .where(b -> b.ID().ne(bookId).and(similarity.gt(0.9)))
+  .orderBy(b -> b.get("similarity").desc());
+
+Result similarBooks = db.run(select, CdsVector.of(embedding));
 ```
 
 In CDS QL queries, elements of type `cds.Vector` are not included in select _all_ queries. They must be explicitly added to the select list:

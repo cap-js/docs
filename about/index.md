@@ -36,17 +36,36 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" alt="The graphic is explained in the accompanying text.">
+<img src="../assets/overview.drawio.svg" style="width:480px; margin: auto" alt="The graphic is explained in the accompanying text.">
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />
-  <img src="../assets/logos/express.png" style="height:30px" alt="Express logo"/>
-  <img src="../assets/logos/java.svg" style="height:44px" alt="Java logo"/>
+  <img src="../assets/logos/express.png" style="height:34px" alt="Express logo"/>
+  <img src="../assets/logos/java.svg" style="height:44px;margin-top:-10px;" alt="Java logo"/>
   <img src="../assets/logos/spring.svg" style="height:25px" alt="spring logo" />
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
+  #logos {
+    margin: 24px auto;
+    max-width: 280px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #logos img {
+    margin: 4px auto;
+  }
+
+  @media (min-width: 500px) {
+    #logos {
+      max-width: 500px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 </style>
 
 On top of open source technologies, CAP mainly adds:
@@ -72,7 +91,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
 | **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](#cqrs) or [Event Sourcing](#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio) or [Visual Studio Code](../tools/#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/cds-editors#bas) or [Visual Studio Code](../tools/cds-editors#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
 
 
 
@@ -491,7 +510,7 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL {#sql}
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#postfix-projections) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL {#nosql}
@@ -579,6 +598,15 @@ Not an official product name, though.
   : a plain (JavaScript) object-based representation to capture expressions.
   (also contained in [CQN](../cds/cqn))
 
-- <Badge type="warning" text="beta" /> - Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
 
-- <Badge type="warning" text="alpha" /> - Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.
+#### Badges
+
+- <Since version="1.2.3" of="@sap/..." /> — The marked feature is only available with the given version or higher.
+
+- <Alpha /> — Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change.
+
+- <Beta /> — Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release.
+
+- <Concept /> — Concept features are ideas for potential future enhancements and an opportunity for you to give feedback. This is not a commitment to implement the feature though.
+
+<span id="badges-more" />

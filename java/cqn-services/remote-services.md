@@ -390,11 +390,18 @@ static {
 
 If the URL and credentials of the remote API are configured as a destination in SAP BTP Destination Service, you can use Cloud SDK's `DestinationAccessor` API to load the destination based on its name. In a second step, `HttpClientAccessor` is used to create an instance of `HttpClient`:
 
-```java
+::: code-group
+```java [Cloud SDK v4]
 HttpDestination destination = DestinationAccessor.getDestination("<destinationName>").asHttp();
 HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
 ...
 ```
+```java [Cloud SDK v5]
+Destination destination = DestinationAccessor.getDestination("<destinationName>");
+HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
+...
+```
+::::
 
 ### Programmatic Destinations { #programmatic-destinations }
 

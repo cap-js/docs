@@ -1,5 +1,8 @@
 ---
 status: released
+redirect_from: 
+  - node.js/protocols
+  - node.js/middlewares
 ---
 
 
@@ -214,13 +217,18 @@ app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
 The standard set of middlewares uses the following order:
 ```js
 cds.middlewares.before = [
-  context,
-  trace,
-  auth,
-  ctx_model
+  context(),  // provides cds.context
+  trace(),    // provides detailed trace logs when DEBUG=trace
+  auth(),     // provides req.user & tenant
+  ctx_auth(),  // propagates auth results to cds.context
+  ctx_model(),    // fills in cds.context.model
 ]
 ```
 
+::: warning _Be aware of the interdependencies of middlewares_ <!--  -->
+_ctx_model_ requires that _cds.context_ middleware has run before.
+_ctx_auth_ requires that _authentication_ has run before.
+:::
 
 
 ### . context() {.method}
@@ -255,6 +263,79 @@ Registers additional middlewares at the specified position.
  cds.middlewares.add (mw, {after:'auth'})
  cds.middlewares.add (mw) // to the end
  ```
+<div id="beforecustomization" />
+
+### Custom Middlewares
+
+The configuration of middlewares must be done programmatically before bootstrapping the CDS services, for example, in a [custom server.js](cds-serve#custom-server-js).
+
+The framework exports the default middlewares itself and the list of middlewares which run before the protocol adapter starts processing the request.
+
+```js
+cds.middlewares = {
+  auth,
+  context,
+  ctx_auth,
+  ctx_model,
+  errors,
+  trace,
+  before = [
+    context(),
+    trace(),
+    auth(),
+    ctx_auth(),
+    ctx_model()
+  ]
+}
+```
+
+In order to plug in custom middlewares, you can override the complete list of middlewares or extend the list programmatically.
+::: warning
+Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
+:::
+
+[Learn more about the middlewares default order.](#cds-middlewares){.learn-more}
+
+#### Customization of `req.user`
+
+You can register middlewares to customize `req.user`.
+It must be set after authentication but before `cds.context` is initialized.
+
+```js
+cds.middlewares.before = [
+  cds.middlewares.context(),
+  cds.middlewares.trace(),
+  cds.middlewares.auth(),
+  function req_user (req,res,next) {
+    req.user.id = '<my-idp>' + req.user.id
+    next()
+  },
+  cds.middlewares.ctx_auth()
+]
+```
+
+#### Enabling Feature Flags
+
+
+```js
+cds.middlewares.before = [
+  cds.middlewares.context(),
+  cds.middlewares.trace(),
+  cds.middlewares.auth(),
+  cds.middlewares.ctx_auth(),
+  function req_features (req,res,next) {
+    req.features = ['<feature-1>', '<feature-2>']
+    next()
+  },
+  cds.middlewares.ctx_model()
+]
+```
+
+[Learn more about Feature Vector Providers.](../guides/extensibility/feature-toggles#feature-vector-providers){.learn-more}
+
+### Current Limitations
+
+- Configuration of middlewares must be done programmatically.
 
 
 ## cds. protocols
@@ -313,3 +394,21 @@ service CatalogService {}
 ```
 
 Be aware that using an absolute path will disallow serving the service at multiple protocols.
+
+### Custom Protocol Adapter
+
+Similar to the configuration of the GraphQL Adapter, you can plug in your own protocol.
+The `impl` property must point to the implementation of your protocol adapter.
+Additional options for the protocol adapter are provided on the same level.
+
+```js
+cds.env.protocols = {
+  'custom-protocol': { path: '/custom', impl: '<custom-impl.js>', ...options }
+}
+```
+
+### Current Limitations
+
+- Configuration of protocols must be done programmatically.
+- Additional protocols do not respect `@protocol` annotation yet.
+- The configured protocols do not show up in the `index.html` yet.

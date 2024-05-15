@@ -79,6 +79,8 @@ Some deprecated properties are replaced with new properties. The following table
 
 ### Removed Properties
 
+Some deprecated properties are completely removed without a replacement:
+
 - `cds.sql.supportedLocales`
 - `cds.security.mock.users.<key>.unrestricted`
 

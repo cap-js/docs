@@ -57,7 +57,7 @@ Some property defaults have been adjusted:
 
 The following table gives an overview about the changed properties:
 
-| old Property | new Property | Explaination |
+| Removed Property | Replacement | Explanation |
 | --- | --- | --- |
 | `cds.data-source.csvInitializationMode` | `cds.data-source.csv.initializationMode` | |
 | `cds.data-source.csvFileSuffix` | `cds.data-source.csv.fileSuffix` | |

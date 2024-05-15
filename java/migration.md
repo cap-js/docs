@@ -91,9 +91,9 @@ The following table gives an overview about the removed properties:
 | `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
 | `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
 | `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
-| `cds.multiTenancy.mtxs.enabled` | - | MTXS is enabled [by default](#removed-mtx-classic-support). |
-| `cds.multiTenancy.compatibility.enabled` | - | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
-| `cds.multiTenancy.security.deploymentScope` | - | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
+| `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 
 ### Removed Java APIs
 

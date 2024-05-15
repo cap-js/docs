@@ -22,9 +22,7 @@ impl-variants: true
 
 # Consuming Services
 
-::: info This guide is available for Node.js and Java.
-Press <kbd>v</kbd> to switch, or use the toggle.
-:::
+<ImplVariantsHint />
 
 [[toc]]
 
@@ -199,14 +197,14 @@ Now run `cds import <filename>`
 
 When importing the specification files, the `kind` is set according to the following mapping:
 
-|Imported Format  | Used `kind`  |
-|---------|---------|
-| OData V2     | `odata-v2`        |
-| OData V4     |  `odata` (alias for `odata-v4`)       |
-| OpenAPI     |  `rest`       |
-| AsyncAPI     |  `odata`       |
+| Imported Format | Used `kind`                    |
+|-----------------|--------------------------------|
+| OData V2        | `odata-v2`                     |
+| OData V4        | `odata` (alias for `odata-v4`) |
+| OpenAPI         | `rest`                         |
+| AsyncAPI        | `odata`                        |
 
-[Learn more about type mappings from OData to CDS and vice versa.](../node.js/cds-dk#odata-type-mappings){.learn-more}
+[Learn more about type mappings from OData to CDS and vice versa.](../tools/apis/cds-import#odata-type-mappings){.learn-more}
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
@@ -236,7 +234,7 @@ To work with remote services, add the following dependency to your Maven project
 </dependency>
 ```
 
-[Learn about all `cds.remote.services` configuration possibilities.](../java/development/properties#cds-remote-services){.learn-more}
+[Learn about all `cds.remote.services` configuration possibilities.](../java/developing-applications/properties#cds-remote-services){.learn-more}
 
 </div>
 
@@ -519,7 +517,7 @@ You can use dependency injection to get access to the remote service:
 CqnService bupa;
 ```
 
-Then execute your queries using the [Querying API](../java/query-execution):
+Then execute your queries using the [Querying API](../java/working-with-cql/query-execution):
 
 ```java
 CqnSelect select = Select.from(ABusinessPartner_.class).limit(100);
@@ -1034,7 +1032,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about configuring destinations for Java.](../java/remote-services#configuring-the-destination){.learn-more}
+[Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#destination-based-scenarios){.learn-more}
 
 #### Use Application Defined Destinations { #app-defined-destinations}
 
@@ -1177,7 +1175,7 @@ cds:
         type: "odata-v2"
 ```
 
-[Learn more about programmatic destination registration.](../java/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/remote-services#register-destinations){.learn-more}
+[Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#programmatic-destinations){.learn-more}
 
 
 ### Connect to Remote Services Locally
@@ -1586,7 +1584,7 @@ Kyma clusters run an [Istio](https://istio.io/) service mesh. Istio allows to [c
 CAP adds headers for request correlation to its outbound requests that allows logging and tracing across micro services.
 
 [Learn more about request correlation in Node.js.](../node.js/cds-log#node-observability-correlation){.learn-more .impl .node}
-[Learn more about request correlation in Java.](../java/observability#correlation-ids){.learn-more .impl .java}
+[Learn more about request correlation in Java.](../java/operating-applications/observability#correlation-ids){.learn-more .impl .java}
 
 <div id="aftertracing" />
 
@@ -1668,10 +1666,10 @@ This list specifies the properties for application defined destinations.
 
 #### Authentication Types
 
-| Authentication Types    |                               Java                                |            Node.js             |
-|-------------------------|:-----------------------------------------------------------------:|:------------------------------:|
-| NoAuthentication        |                               <Y/>                                |              <Y/>              |
-| BasicAuthentication     |                               <Y/>                                |              <Y/>              |
-| TokenForwarding         |                               <Y/>                                | <X/><br>Use `forwardAuthToken` |
-| OAuth2ClientCredentials | [code only](../java/remote-services#oauth2-client-credentials) |              <X/>              |
-| UserTokenAuthentication | [code only](../java/remote-services#user-token-authentication) |              <X/>              |
+| Authentication Types    |                                  Java                                   |            Node.js             |
+|-------------------------|:-----------------------------------------------------------------------:|:------------------------------:|
+| NoAuthentication        |                                  <Y/>                                   |              <Y/>              |
+| BasicAuthentication     |                                  <Y/>                                   |              <Y/>              |
+| TokenForwarding         |                                  <Y/>                                   | <X/><br>Use `forwardAuthToken` |
+| OAuth2ClientCredentials | [code only](../java/cqn-services/remote-services#programmatic-destinations) |              <X/>              |
+| UserTokenAuthentication | [code only](../java/cqn-services/remote-services#programmatic-destinations) |              <X/>              |

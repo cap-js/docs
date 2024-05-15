@@ -21,12 +21,12 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 
 ```js
 //  without cds-typer
-const { Books } = cds.entities(…)
-service.before('CREATE' Books, ({ data }) => { /* data is of type any */})
+const { Books } = cds.entities('bookshop')
+service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
 
 // ✨ with cds-typer
-const { Books } = require('#cds-models/…')
-service.before('CREATE' Books, ({ data }) => { /* data is of type Books */})
+const { Books } = require('#cds-models/bookshop')
+service.before('CREATE', Books, ({ data }) => { /* data is of type Books */})
 ```
 
 
@@ -367,7 +367,7 @@ build-parameters:
 This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
-Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
+Type generation can be added to your project as [facet](../tools/cds-cli#cds-add) via `cds add typer`.
 
 ::: details Under the hood
 
@@ -470,7 +470,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions): 
+In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions):
 
 ```ts
 // ❌ works during design time, but will cause runtime errors

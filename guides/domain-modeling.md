@@ -105,7 +105,7 @@ Domain modeling is a means to an end; your clients and consumers are the ones wh
 
 ::: tip **Keep models *concise* and *comprehensible***
 
-As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php?title=KISS_principle&oldid=992997588)* wikipedia entry: *"... most systems work best if they're kept simple rather than made complicated; therefore, [simplicity](https://en.wikipedia.org/wiki/Simplicity) should be a key goal in [design](https://en.wikipedia.org/wiki/Design), and unnecessary complexity should be avoided."*
+As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php?title=KISS_principle&oldid=992997588)* Wikipedia entry: *"... most systems work best if they're kept simple rather than made complicated; therefore, [simplicity](https://en.wikipedia.org/wiki/Simplicity) should be a key goal in [design](https://en.wikipedia.org/wiki/Design), and unnecessary complexity should be avoided."*
 
 :::
 
@@ -329,10 +329,7 @@ While UUIDs certainly come with an overhead and a performance penalty when looki
 * **Auto-filled primary keys** — primary key elements with type UUID are automatically filled by generic service providers in Java and Node.js upon INSERT.
 
 ::: tip Prefer UUIDs for Keys
-
-* Use DB sequences only if you really deal with high data volumes.
-* Otherwise, prefer UUIDs.
-
+Use DB sequences only if you really deal with high data volumes. Otherwise, prefer UUIDs.
 :::
 
 You can also have semantic primary keys such as order numbers constructed by customer name+date, etc. And if so, they usually range between UUIDs and DB sequences with respect to the pros and cons listed above.
@@ -387,7 +384,7 @@ In addition, a set of common reuse types and aspects is provided with package [_
 For example, usage is as simple as this:
 
 ```cds
-using { Country } from '@sap/cds/common';
+using { Country, managed } from '@sap/cds/common';
 entity Addresses : managed { //> using reuse aspect
   street  : String;
   town    : String;

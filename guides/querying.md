@@ -9,7 +9,7 @@ synopsis: >
 breadcrumbs:
   - Cookbook
   - Querying
-#status: released
+#status: released (add link in https://cap.cloud.sap/docs/guides/databases#db-agnostic-queries to this guide when released)
 ---
 
 # Querying and View Building

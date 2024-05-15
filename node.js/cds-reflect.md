@@ -2,10 +2,8 @@
 shorty: cds.reflect
 synopsis: >
   Find here information about reflecting parsed CDS models in CSN representation.
-# layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/cds-reflect.md -> @external/node.js/cds-reflect.md -->
 
 # Reflecting CDS Models
 
@@ -20,76 +18,72 @@ status: released
 
 
 
-## cds.**reflect**  <i>  ([csn](../cds/csn)) &#8674; LinkedCSN </i> {#cds-reflect .method style="margin-bottom: 0px}
+[[toc]]
 
-## cds.**linked**  <i>  ([csn](../cds/csn)) &#8674; LinkedCSN </i> {#cds-linked .method style="margin-top: 0px"}
+
+
+## cds. linked ([csn](../cds/csn)) {#cds-linked .method}
 [`cds.linked`]: #cds-linked
 
+Method `cds.linked` (or `cds.reflect` which is an alias to the same method) turns a given parsed model into an instance of [class `LinkedCSN`](#linked-csn), and all definitions within into instances of [class `LinkedDefinition`](#any), recursively.
 
-Method `cds.linked` (or `cds.reflect` which is an alias to the same method) turn given parsed models, into instances of [class `LinkedCSN`](#linked-csn), thus adding the reflection methods documented in the following section.
+Declaration:
 
-In addition they turn all definitions, and all elements thereof, to _linked_ definitions by prototype-chaining them to their base definitions up to one of [`cds.builtin.types`]. This in turn makes all definitions instances of the respective [`cds.builtin.classes`](#cds-builtin-classes), and allows to use the methods [as documented below](#cds-builtin-classes) on them.
+```tsx
+function* cds.linked (csn: CSN | string) => LinkedCSN
+```
 
-For example this usage of `cds.linked`:
+A typical usage is like that:
 
 ```js
-const m = cds.linked (CDL`
-  type Bar : String(22);
-  entity Foo { bar: Bar }
-  entity Woo as projection on Foo;
+let csn = cds.load('some-model.cds')
+let linked = cds.linked(csn) // linked === csn
+```
+
+Instead of a already compiled CSN, you can also pass a string containing CDL source code:
+
+```js
+let linked = cds.linked(`
+  entity Books {
+  	key ID: UUID;
+  	title: String;
+  	author: Association to Authors;
+  }
+  entity Authors {
+  	key ID: UUID;
+  	name: String;
+  }
 `)
 ```
 
-... will result in the equivalent of this:
+The passed in model gets **modified**, and the returned linked model is actually the modified passed-in csn.
 
-```js
-const { entity, 'cds.String':String } = cds.builtin.types
-const Bar = {__proto__: String }
-const Foo = {__proto__: entity, elements: { bar: {__proto__: Bar } }}
-const Woo = {__proto__: Foo }
-const m = new LinkedCSN ({ definitions: { Bar, Foo, Woo }})
-```
-
-
-Returned instances are cached, so subsequent calls to `cds.reflect` with the same parsed model return the same cached instance.
-
-```js
-let model = await cds.load ('some-cds-model')
-let reflected = cds.linked (model)       //> result is cached
-let reflected2 = cds.linked (model)      //> === reflected
-let reflected3 = cds.linked (reflected)  //> === reflected
-```
+The operation is **idempotent**, that is, you can repeatedly invoke it on already linked models with zero overhead.
 
 
 
-## Class **`LinkedCSN`** {#linked-csn}
-[reflected model]: #cds-reflect
-[linked model]: #cds-reflect
-[LinkedCSN]: #cds-reflect
 
-Models passed through [`cds.linked`] become instances of this class, and hence inherit the following properties and methods:
+
+## LinkedCSN {#linked-csn .class}
+[reflected model]: #linked-csn
+[linked model]: #linked-csn
+[`LinkedCSN`]: #linked-csn
+
+Models passed through [`cds.linked`] become instances of this class.
+
+### . is_linked {.property}
+
+A tag property which is `true` for linked models. {.indent}
+
+### . definitions {.property}
+
+The [CSN definitions](../cds/csn#definitions) of the model, turned into an instance of [`LinkedDefinitions`].  {.indent}
 
 ### . services {.property}
 
-This is a getter property providing convenient and cached access to all service definitions in a model.
+### . entities {.property}
 
-```js
-let csn = CDL`
-  service CatalogService { ... }
-  service AdminService { ... }
-`
-let m = cds.linked (csn)
-let [ CatalogService, AdminService ] = m.services
-```
-
-
-### . entities() {.method}
-### . events() {.method}
-
-### . operations() {.method}
-
-These properties / methods provide convenient and cached access to a model's definitions within a given namespace.
-If no namespace is specified, the model's declared namespace is used, if any.
+These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entity](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
 
 For example:
 
@@ -103,15 +97,30 @@ let csn = CDL`
   }
 `
 let m = cds.linked (csn)
+
+// Object nature
+let { CatalogService, AdminService } = m.services
 let { Books, Authors } = m.entities
+
+// Array nature
+for (let each of m.entities) console.log(each.name)
+
+// Function nature
 let { ListOfBooks } = m.entities ('my.bookshop.CatalogService')
 ```
 
-The methods each return an object of respective definitions. Object destructuring operators allow to easily access single definitions by name as shown above.
+In addition to the object and array natures of  [`LinkedDefinitions`] these properties also can be used as functions, which allows to optionally specify a namespace to fetch all definitions with prefixed with that. If no namespace is specified, the model's declared namespace is used, if any.
 
 
 
-### m. each* (x, defs?) {#each .method }
+### each() {#each .method }
+
+```tsx
+function* lm.each (
+   filter : string | def => true/false,
+   defs?  : linked_definitions
+)
+```
 
 
 Fetches definitions matching the given filter, returning an iterator on them.
@@ -123,10 +132,10 @@ for (let d of m.each('entity')) {
 }
 ```
 
-The first argument **_x_** specifies a filter to match definitions, which can be one of:
+The first argument **_filter_** specifies a filter to match definitions, which can be one of:
 
-- a `function` returning `true` or `false`
 - a `string` referring to a _kind_ of definition
+- a `function` returning `true` or `false`
 
 Derived kinds are supported, for example, `m.each('struct')` matches structs
 as well as entities; kind `'any'` matches all.
@@ -135,7 +144,14 @@ The second optional argument **_[defs]_** allows to specify the definitions to f
 
 
 
-### m. all (x, defs?) {#all .method }
+### all() {#all .method }
+
+```tsx
+function lm.all (
+   filter : string | def => true/false,
+   defs?  : linked_definitions
+)
+```
 
 Convenience shortcut to [`[... model.each()]`](#each), for example, the following are equivalent:
 
@@ -145,7 +161,15 @@ m.all('entity')        //> using shortcut
 ```
 
 
-### m. find (x, defs?) {#find .method }
+
+### find() {#find .method }
+
+```tsx
+function lm.find (
+   filter : string | def => true/false,
+   defs?  : linked_definitions
+)
+```
 
 Convenience shortcut to fetch definitions matching the given filter, returning the first match, if any. For example:
 
@@ -161,12 +185,19 @@ for (let any of m.each('service'))  return any
 
 
 
+### foreach() {#foreach .method }
 
-### m. foreach / forall (x, visitor, defs) {#foreach .method }
+```tsx
+function lm.foreach (
+  filter  : def => true/false | string,
+  visitor : def => {},
+  defs?   : linked_definitions
+)
+```
 
 Calls the visitor for each definition matching the given filter. `foreach` iterates through the passed in defs only, `forall` in addition walks through all nested element definitions hierarchically.
 
-* `x` — the filter to match definitions [&rarr; see _.each(x)_](#each)
+* `filter` / `kind` — the filter or kind used to match definitions [&rarr; see _.each(x)_](#each)
 * `visitor` — the callback function
 * `defs` — the definitions to fetch in, default: `this.definitions`
 
@@ -182,25 +213,234 @@ m.foreach ('service', s => console.log(s.name))
 let { Books } = m.entities()
 m.foreach ('Association', a => console.log(a.name), Books.elements)
 ```
+
+
+
+
+
+## LinkedDefinitions {.class #iterable}
+
+[`LinkedDefinitions`]: #iterable
+
+All objects of a linked model containing CSN definitions are instances of this class.
+
+For example, that applies to:
+
+- *`cds.model` [.definitions](#definitions), [.services](#services), [.entities](#entities)*
+- *`cds.service` [.entities](#entities-1), [.events](#events), [.actions](#actions-1)*
+- *`cds.entity`  [.keys](#keys), [.associations](#associations), [.compositions](#compositions), [.actions](#actions)*
+- *`cds.struct` [.elements](#elements)* (hence also *`cds.entity` .elements*)
+- *`cds.Association` [.foreignKeys](#foreignkeys)*
+
+Instances of `LinkedDefinitions` allow both, object-style access, as well as array-like access.
+For example:
+
 ```js
-// print the names of all Associations in the model
-m.forall ('Association', a => console.log(a.name))
+let linked = cds.linked (model)
+let { Books, Authors } = linked.entities // object-like
+let [ Books, Authors ] = linked.entities // array-like
 ```
+
+> Note: Orders of definitions could change, so you should always prefer object destructuring over array destructuring.
+
+
+The array-like nature also allows using these shortcuts in `for..of` loops, of course. Which means, you can do that:
+
 ```js
-// print hierarchy of all definitions recursively
-let m = cds.linked(csn)
-m.forall (d => {
-  let s=''; for (let p=d.parent; p; p=p.parent)  s += '  - '
-  console.log (s, d.kind, d.name)
-})
+for (let each of linked.definitions) console.log (each.name)
+```
+
+... instead of iterating definitions using `for..in` loops like that:
+
+```js
+for (let each in linked.definitions) {
+  let d = linked.definitions [each]
+  console.log (d.name)
+}
+```
+
+
+Moreover, you can use common array methods like these:
+
+```js
+linked.definitions .forEach (d => console.log(d.name))
+linked.definitions .filter (d => d.is_entity)
+linked.definitions .find (d => d.name === 'Foo')
+linked.definitions .some (d => d.name === 'Foo')
+linked.definitions .map (d => d.name)
+```
+
+Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
+
+
+
+## LinkedDefinition {.class #any}
+
+[`LinkedDefinition`]: #any
+
+All [`cds.linked`] definitions are instances of this class, or subclasses thereof. It is accessible through [`cds.linked.classes.any`](#cds-linked-classes).
+
+### . is_linked {.property}
+
+A tag property which is `true` for all linked definitions. {.indent}
+
+### . name {.property}
+
+The linked definition's fully qualified name as a non-enumerable property. {.indent}
+
+### . kind {.property}
+
+The linked definition's resolved kind as a non-enumerable property.
+One of:
+
+- `'context'`
+- `'service'`
+- `'entity'`
+- `'type'`
+- `'aspect'`
+- `'event'`
+- `'element'`
+- `'annotation'`
+
+... as documented in the [CSN specification](../cds/csn#definitions).
+
+
+
+#### *instanceof*
+
+You can use JavaScript's standard `instanceof` operator in combination with the built-in classes to check a linked definition's type:
+
+```js
+let { Foo } = cds.linked(csn).entities
+if (Foo instanceof cds.entity) console.log ("it's an entity")
 ```
 
 
 
 
-## cds. builtin .classes {#cds-builtin-classes}
 
-[`cds.builtin.classes`]: #cds-builtin-classes
+## cds. service {.class}
+
+All *[service](../cds/cdl#services)* definitions in a linked model are instances of this class.
+
+```tsx
+class cds.service extends cds.context {...}
+```
+
+### . is_service {.property}
+
+A tag property which is `true` for linked entity definitions. {.indent}
+
+### . entities {.property}
+
+### . events {.property}
+
+### . actions {.property}
+
+These properties are convenience shortcuts to access a service definition's exposed [*entity*](../cds/cdl#entities), [*type*](../cds/cdl#types), [*event*](../cds/cdl#events), [*action* or *function*](../cds/cdl#actions) definitions. <br>Their values are [`LinkedDefinitions`].
+ {.indent}
+
+
+
+## cds. entity {.class }
+
+All entity definitions in a linked model are instances of this class.
+
+```tsx
+class cds.entity extends cds.struct {...}
+```
+
+> As `cds.entity` is a subclass of [`cds.struct`](#cds-struct) it also inherits all methods from that.
+
+### . is_entity {.property}
+
+A tag property which is `true` for linked entity definitions.
+{.indent}
+
+### . keys {.property}
+
+
+### . associations {.property}
+
+### . compositions {.property}
+
+### . actions {.property}
+
+These properties are convenient shortcuts to access an entity definition's declared [*keys*](../cds/cdl#entities), *[Association](../cds/cdl#associations)* or *[Composition](../cds/cdl#associations)* elements, as well as [*bound action* or *function*](../cds/cdl#bound-actions) definitions. <br>
+Their values are [`LinkedDefinitions`].
+{.indent}
+
+
+### . texts {.property}
+
+If the entity has *[localized](../guides/localized-data)* elements, this property is a reference to the respective `.texts` entity. If not, this property is undefined
+{.indent}
+
+### . drafts {.property}
+
+If draft is enabled, a definition to easily refer to *[draft](../advanced/fiori#draft-support)* data for the current entity is returned.
+{.indent}
+
+
+
+## cds. struct {.class }
+
+This is the base class of *[struct](../cds/cdl#structured-types)* elements and types, *[aspects](../cds/cdl#aspects)*, and *[entities](../cds/cdl#entities)*.
+
+```tsx
+class cds.struct extends cds.type {...}
+```
+
+### . is_struct {.property}
+
+A tag property which is `true` for linked struct definitions (types and elements). <br>
+It is also `true` for linked entity definitions, i.e., instances of as [`cds.entity`](#cds-entity). {.indent}
+
+### . elements {.property}
+
+The entity's declared elements as [documented in the CSN Specification](../cds/csn#entity-definitions) <br>as an instance of [`LinkedDefinitions`]. { .indent}
+
+
+
+## cds. Association {.class}
+
+All linked definitions of type `Association` or `Composition`, including elements, are instances of this class. Besides the properties specified for [Associations in CSN](../cds/csn#associations), linked associations provide the following reflection properties...
+
+
+### . _target {.property}
+
+A reference to the association's resolved linked target definition. {.indent}
+
+
+### . isAssociation {.property}
+
+A tag property which is `true` for all linked Association definitions, including Compositions. {.indent}
+
+### . isComposition {.property}
+
+A tag property which is `true` for all linked Composition definitions. {.indent}
+
+### . is2one / 2many {.property}
+
+Convenient shortcuts to check whether an association definition has to-one or to-many cardinality. { .indent}
+
+### . keys {.property}
+
+The declared or derived foreign keys. As specified in [CSN spec](../cds/csn#assoc-keys) this is a *projection* of the association target's elements. {.indent}
+
+### . foreignKeys {.property}
+
+The effective foreign keys of [*managed* association](../cds/cdl#managed-associations) as linked definitions. <br>The value is an instance of [`LinkedDefinitions`].
+{.indent}
+
+
+
+
+
+
+## cds. linked .classes {#cds-linked-classes .property}
+
+[`cds.linked.classes`]: #cds-linked-classes
 
 
 This property gives you access to the very roots of `cds`'s type system. When a model is passed through [`cds.linked`] all definitions effectively become instances of one of these classes.
@@ -243,19 +483,7 @@ if (author.is2many) ...
 
 
 
-### instanceof
-
-You can use JavaScript's standard `instanceof` in combination with the built-in classes to check a linked definition's type:
-
-```js
-let m = cds.linked(csn)
-let { Foo } = m.entities
-if (Foo instanceof cds.entity)  console.log ("it's an entity")
-```
-
-
-
-### mixin() {.method}
+#### mixin() {.method}
 
 Provided a convenient way to enhance one or more of the builtin classes with additional methods.
 Use it like that:
@@ -264,7 +492,7 @@ Use it like that:
 const cds = require ('@sap/cds')
 
 // simplistic csn2cdl enablement
-cds.builtin.classes .mixin (
+cds.linked.classes .mixin (
   class type {
     toCDL(){ return `${this.kind} ${this.name} : ${this.typeAsCDL()};\n` }
     typeAsCDL(){ return `${this.type.replace(/^cds\./,'')}` }
@@ -297,136 +525,11 @@ cds.linked(csn).foreach (d => console.log(d.toCDL()))
 
 
 
-### `any` {.class}
-
-All [`cds.linked`] definitions are instances of this class, or subclasses thereof, and hence support the following properties and methods:
-
-
-
-#### . name {.property}
-
-The linked definition's fully qualified name as a non-enumerable property.
-
-
-
-#### . kind {.property}
-
-The linked definition's resolved kind as a non-enumerable property.
-One of `context`, `service`, `entity`, `type`, `aspect`, `event`, `element`, or `annotation` as documented in the [CSN specification](../cds/csn#definitions).
-
-
-
-
-#### any. is (kind)  {.method}
-
-Checks if a linked definition is of certain kind. Besides the [specified `kinds`](#kind), the argument may also be `struct`, `array`, or `view`.
-
-
-
-### cds. Association {.class}
-
-
-All linked definitions of type `Association` or `Composition`, including elements, are instances of this class, which primarily provides convenience getters access the target definition, or to check its type or cardinality.
-
-
-#### . _target {.property}
-
-Refers to the association's resolved target definition.
-
-
-#### . isAssociation {.property}
-
-Convenient shortcut to check whether a definition is an Association. Returns `true` for all Associations, including Compositions.
-
-#### . isComposition {.property}
-
-Convenient shortcut to check whether a definition is a Composition. Returns `true` for all Compositions.
-
-#### . is2one {.property}
-
-Convenient shortcut to check whether an association definition is to-one or to-many. See also the specification of [CSN Associations](../cds/csn#associations) { .indent}
-
-
-### cds. Composition {.class}
-
-### cds. entity {.class }
-
-```tsx
-class cds.entity extends cds.struct {...}
-```
-
-All linked entity definitions are instances of this class, which primarily provides convenience getters to quickly access all `keys`, `Associations`, or `Compositions` within the entity's `elements`.
-
-#### . keys {.property}
-
-A getter returning a cached object with an entity definition's declared primary keys by name. The returned object adheres to the specification of [CSN Definitions][defs].
-
-
-#### . associations {.property}
-
-A getter returning a cached object of all Associations from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
-
-#### . compositions {.property}
-
-A getter returning a cached object of all Compositions from an entity definition's elements. The returned object adheres to the specification of [CSN Definitions][defs].
-
-
-#### . texts {.property}
-
-Returns the linked definition's fully qualified name + `'.texts'` to easily refer to the texts entity containing translations for `localized` elements, if any.
-
-[Learn more about **Localized Data**](../guides/localized-data){.learn-more}
-
-
-#### . drafts {.property}
-
-If draft is enabled, a definition to easily refer to draft data for the current entity is returned.
-
-[Learn more about **Draft Data**](../advanced/fiori#draft-support){.learn-more} { .indent}
-
-
-
-### cds. event {.class}
-
-```tsx
-class cds.entity extends cds.struct {...}
-```
-
-
-### cds. type {.class}
-
-```tsx
-class cds.type extends any {...}
-```
-
-
-### cds. struct {.class }
-
-```tsx
-class cds.entity extends cds.type {...}
-```
-
-This is the base class of a  struct elements, types, aspects, and entities.
-
-#### . elements {.property}
-
-The entity's declared elements as [documented in the CSN Specification](../cds/csn#entity-definitions). { .indent}
-
-
-
-### cds. service {.class}
-
-```tsx
-class cds.type extends any {...}
-```
-
-
-
-## cds. builtin. types {.property}
+## cds. builtin. types {#cds-builtin-types .property}
 [`cds.builtin.types`]: #cds-builtin-types
 
 
-This property gives you access to all prototypes of the builtin classes as well as to all linked definitions of the [builtin pre-defined types](../cds/types). The resulting object is in turn like the `definitions` in a [LinkedCSN].
+This property gives you access to all prototypes of the builtin classes as well as to all linked definitions of the [builtin pre-defined types](../cds/types). The resulting object is in turn like the `definitions` in a [`LinkedCSN`].
 
 Actually, at runtime CDS is in fact bootstrapped out of this using core [CSN](../cds/csn) object structures and [`cds.linked`] techniques. Think of it to be constructed as follows:
 
@@ -463,7 +566,7 @@ const { any, context, service ,
   type, scalar, string, number, boolean, date,
   array, struct, entity, event, aspect
   Association, Composition
-} = cds.builtin.classes
+} = cds.linked.classes
 
 const roots = module.exports = {definitions:{
   any: new any,

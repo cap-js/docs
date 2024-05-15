@@ -532,7 +532,7 @@ If you now start the application, Liquibase executes all change sets, which have
 
 For further schema versions, repeat step ②.
 
-::: info
+::: info Only compatible changes
 
 A delta DDL script is only produced for changes without potential data loss.
 If the changes in the model could lead to data loss, an error is raised.

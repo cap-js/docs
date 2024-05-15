@@ -128,11 +128,20 @@ bookshop/        # Your project's root folder
 ├─ app/          # UI-related content
 ├─ srv/          # Service-related content
 ├─ db/           # Domain models and database-related content
+├─ i18n/         # Text bundles
 ├─ package.json  # Configuration for cds + cds-dk
 └─ readme.md     # A readme placeholder
 ```
 
+### Project Content
 
+::: tip Neighbouring concept
+Using CAP, it's a rule of thumb that related files are placed next to each other. This is prominently demonstrated with sibling `.js` files, next to `.cds` sources, for [implementing services](/node.js/core-services#implementing-services).
+
+:::
+
+#### Using Subfolders
+The `cds build` assumes some default locations for your files. If you want to deviate from those defaults, for example, to organize annotations files or database-specific files in subfolders, you need to add an _index.cds_ file that contains the information where to find the needed files.
 
 ### Minimal Configuration
 

@@ -53,9 +53,9 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
 
-### Changed Properties
+### Removed Properties
 
-The following table gives an overview about the changed properties:
+The following table gives an overview about the removed properties:
 
 | Removed Property | Replacement | Explanation |
 | --- | --- | --- |

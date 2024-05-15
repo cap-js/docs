@@ -44,6 +44,19 @@ The Production Profile now defaults to `cloud`. This ensures that various proper
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
 
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. For multitenancy using streamlined MTX (@sap/cds-mtxs) is mandatory.
+If you are still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition the deprecated MtSubscriptionService API, which has been superseeded by the DeploymentService API, has been removed.
+As part of this change the compatibility mode for the MtSubscriptionService API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe the tenant's content (e.g. HDI container) is now deleted by default when using the new DeploymentService API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
+
 ### Adjusted Property Defaults
 
 Some property defaults have been adjusted:
@@ -76,14 +89,28 @@ The following table gives an overview about the removed properties:
 | `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
 | `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
 | `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
-| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases |
+| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
 | `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.multiTenancy.mtxs.enabled` | - | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.compatibility.enabled` | - | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.security.deploymentScope` | - | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 
 ### Removed Java APIs
 
 - Removed deprecated classes:
   - `com.sap.cds.services.environment.ServiceBinding`
   - `com.sap.cds.services.environment.ServiceBindingAdapter`
+  - `com.sap.cds.services.mt.MtSubscriptionService`
+  - `com.sap.cds.services.mt.MtGetDependenciesEventContext`
+  - `com.sap.cds.services.mt.MtSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtDeployEventContext`
+  - `com.sap.cds.services.mt.MtAsyncDeployEventContext`
+  - `com.sap.cds.services.mt.MtAsyncDeployStatusEventContext`
+  - `com.sap.cds.services.mt.MtUnsubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeFinishedEventContext`
 
 - Removed deprecated methods:
   - `com.sap.cds.services.request.ModifiableUserInfo.setUnrestrictedAttributes`

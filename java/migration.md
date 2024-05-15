@@ -53,36 +53,31 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
 
-### Replaced Properties
+### Changed Properties
 
-Some deprecated properties are replaced with new properties. The following table gives an overview about the replaced properties:
+The following table gives an overview about the changed properties:
 
-| old Property | new Property |
-| --- | --- |
-| `cds.data-source.csvInitializationMode` | `cds.data-source.csv.initializationMode` |
-| `cds.data-source.csvFileSuffix` | `cds.data-source.csv.fileSuffix` |
-| `cds.data-source.csvPaths` | `cds.data-source.csv.paths` |
-| `cds.data-source.csvSingleChangeset` | `cds.data-source.csv.singleChangeset` |
-| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` |
-| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` |
-| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` |
-| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` |
-| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` |
-| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` |
-| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` |
-| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` |
-| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` |
-| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` |
-| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` |
-| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` |
-| `cds.outbox.persistent` | `cds.outbox.services.<key>` |
-
-### Removed Properties
-
-Some deprecated properties are completely removed without a replacement:
-
-- `cds.sql.supportedLocales`
-- `cds.security.mock.users.<key>.unrestricted`
+| old Property | new Property | Explaination |
+| --- | --- | --- |
+| `cds.data-source.csvInitializationMode` | `cds.data-source.csv.initializationMode` | |
+| `cds.data-source.csvFileSuffix` | `cds.data-source.csv.fileSuffix` | |
+| `cds.data-source.csvPaths` | `cds.data-source.csv.paths` | |
+| `cds.data-source.csvSingleChangeset` | `cds.data-source.csv.singleChangeset` | |
+| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
+| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
+| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
+| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
+| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
+| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
+| `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
+| `cds.sql.supportedLocales` | none | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases |
+| `cds.security.mock.users.<key>.unrestricted` | none | to be filled |
 
 ### Removed Java APIs
 

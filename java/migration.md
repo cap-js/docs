@@ -76,8 +76,8 @@ The following table gives an overview about the changed properties:
 | `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
 | `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
 | `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
-| `cds.sql.supportedLocales` | none | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases |
-| `cds.security.mock.users.<key>.unrestricted` | none | to be filled |
+| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases |
+| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
 
 ### Removed Java APIs
 

@@ -66,33 +66,34 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
 
-### Replaced Properties
-
-  - `cds.data-source.csvInitializationMode` -> `cds.data-source.csv.initializationMode`
-  - `cds.data-source.csvFileSuffix` -> `cds.data-source.csv.fileSuffix`
-  - `cds.data-source.csvPaths` -> `cds.data-source.csv.paths`
-  - `cds.data-source.csvSingleChangeset` -> `cds.data-source.csv.singleChangeset`
-  - `cds.remote.remoteServiceConfig.destination.type` -> `cds.remote.services.<key>.type`
-  - `cds.remote.remoteServiceConfig.destination.suffix` -> `cds.remote.services.<key>.http.suffix`
-  - `cds.remote.remoteServiceConfig.destination.service` -> `cds.remote.services.<key>.http.service`
-  - `cds.remote.remoteServiceConfig.destination.headers` -> `cds.remote.services.<key>.http.headers`
-  - `cds.remote.remoteServiceConfig.destination.queries` -> `cds.remote.services.<key>.http.queries`
-  - `cds.sql.search.useLocalizedView` -> `cds.sql.search.model`
-  - `cds.identity.authConfig.enabled` -> `cds.security.authentication.authConfig.enabled`
-  - `cds.xsuaa.authConfig.enabled` -> `cds.security.authentication.authConfig.enabled`
-  - `cds.odataV4.apply.inCqn.enabled` -> `cds.odataV4.apply.transformations.enabled`
-  - `cds.multiTenancy.healthCheck.intervalMillis` -> `cds.multiTenancy.healthCheck.interval`
-  - `cds.messaging.services.<key>.outbox.persistent.enabled` -> `cds.messaging.services.<key>.outbox.name`
-  - `cds.auditlog.outbox.persistent.enabled` -> `cds.auditlog.outbox.name`
-  - `cds.outbox.persistent` -> `cds.outbox.services.<key>`
-
 ### Removed Properties
 
-- `cds.sql.supportedLocales`
-- `cds.security.mock.users.<key>.unrestricted`
-- `cds.multiTenancy.mtxs.enabled`
-- `cds.multiTenancy.compatibility.enabled`
-- `cds.multiTenancy.security.deploymentScope`
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement | Explanation |
+| --- | --- | --- |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` | |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
+| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
+| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
+| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
+| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
+| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
+| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
+| `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
+| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
+| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 
 ### Removed Java APIs
 

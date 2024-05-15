@@ -71,6 +71,7 @@ Some property defaults have been adjusted:
   - `cds.multiTenancy.healthCheck.intervalMillis` -> `cds.multiTenancy.healthCheck.interval`
   - `cds.messaging.services.<key>.outbox.persistent.enabled` -> `cds.messaging.services.<key>.outbox.name`
   - `cds.auditlog.outbox.persistent.enabled` -> `cds.auditlog.outbox.name`
+  - `cds.outbox.services.<key>` -> `cds.outbox.persistent`
 
 ### Removed Properties
 

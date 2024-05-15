@@ -72,10 +72,10 @@ The following table gives an overview about the removed properties:
 
 | Removed Property | Replacement | Explanation |
 | --- | --- | --- |
-| `cds.data-source.csvInitializationMode` | `cds.data-source.csv.initializationMode` | |
-| `cds.data-source.csvFileSuffix` | `cds.data-source.csv.fileSuffix` | |
-| `cds.data-source.csvPaths` | `cds.data-source.csv.paths` | |
-| `cds.data-source.csvSingleChangeset` | `cds.data-source.csv.singleChangeset` | |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` | |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
 | `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
 | `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
 | `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |

@@ -421,6 +421,11 @@ if (req.errors) //> get out somehow...
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
+::: warning :::
+The `target` property is evaluated by the UI5 OData model and needs to be set according to the [documentation](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
+:::
+
+
 ####  <i>  Using an Object as Argument </i>
 
 You can also pass an object as the sole argument, which then contains the properties `code`, `message`, `target`, and `args`. Additional properties are preserved until the error or message is sanitized for the client. In case of an error, the additional property `status` can be used to specify the HTTP status code of the response.

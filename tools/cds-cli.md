@@ -47,7 +47,7 @@ Use `cds version` to get information about your installed package version:
 <em>@sap/cds-compiler:</em> 4.9.2
 <em>@sap/cds-dk:</em> 7.9.2
 <em>@sap/cds-dk (global):</em> 6.7.0
-<em>@sap/cds-mtxs:</em> 1.18.0
+<em>@sap/cds-mtxs:</em> 1.18.1
 <em>@sap/eslint-plugin-cds:</em> 3.0.3
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds

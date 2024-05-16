@@ -134,7 +134,39 @@ Next, we will briefly detail the integration to SAP Personal Data Manager.
 A more comprehensive guide, incl. tutorials, is currently under development.
 For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager).
 
+### Activate Access Checks in _xs-security.json_
 
+Because we protected the `PDMservice`, we need to establish the security check properly. In particular, you need the _xs-security.json_ file to make the security check active. The following _xs-security.json_ is from our sample.
+
+```json
+{
+  "xsappname": "incidents-mgmt",
+  "tenant-mode": "shared",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.PersonalDataManagerUser",
+      "description": "Authority for Personal Data Manager",
+      "grant-as-authority-to-apps": [
+        "$XSSERVICENAME(pdm)"
+      ]
+    }
+  ]
+}
+```
+
+Here you define that your personal data manager service instance, called `pdm`, is allowed to access your CAP application granting the `PersonalDataManagerUser` role.
+
+
+
+### Add `@sap/xssec` Library
+
+To make the authentication work, you have to enable the security strategy by installing the `@sap/xssec` package:
+
+```sh
+npm install @sap/xssec
+```
+
+[Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){.learn-more}
 
 ### Build and Deploy Your Application
 

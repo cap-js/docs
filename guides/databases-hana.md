@@ -219,7 +219,7 @@ Behind the scenes, `cds deploy` does the following:
 * Starts `@sap/hdi-deploy` locally. If you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
-When specifiying `--profile` when running `cds deploy` like this
+When specifying `--profile` when running `cds deploy` like this
 
 ```sh
 cds deploy --to hana --profile hybrid

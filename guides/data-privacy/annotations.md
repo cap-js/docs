@@ -33,7 +33,7 @@ Following the [best practice of separation of concerns](../domain-modeling#separ
 
 ::: code-group
 
-```cds [srv/data-privacy.cds]
+```cds [db/data-privacy.cds]
 using { sap.capire.incidents as my } from '../db/schema';
 
 annotate my.Customers with @PersonalData : {
@@ -45,6 +45,7 @@ annotate my.Customers with @PersonalData : {
   lastName     @PersonalData.IsPotentiallyPersonal;
   email        @PersonalData.IsPotentiallyPersonal;
   phone        @PersonalData.IsPotentiallyPersonal;
+  dateOfBirth  @PersonalData.IsPotentiallyPersonal;
   creditCardNo @PersonalData.IsPotentiallySensitive;
 };
 

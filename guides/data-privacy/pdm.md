@@ -74,7 +74,10 @@ service PDMService @(path: '/pdm') {
             surname: lastName,
             given  : firstName
         },
-        email: [{address: email}]
+        bday : dateOfBirth,
+        email: [{
+          type   : #preferred,
+          address: email}]
     });
 
   };

@@ -866,10 +866,12 @@ It is never traversed element by element.
 The methods `added()` and `removed()` have the following arguments:
 
 - `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old state of the entity.
-- `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) or null value, if the entity is added from the root.
+- `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) given that the association is present.
 - state of the changed data as a `Map` as the `newValue` or `oldValue`.
 
-The instances of the `Path` represent the placement of the changed item within the whole entity. While these paths are always have the same structure, `oldPath` or `newPath` respectively has an empty value to represent absence of the entity state.
+The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the state that is either added or removed. While these paths are always have the same structure, `oldPath` or `newPath` respectively, could have empty values that represent the absence of the data.
+
+When the entity is inserted in a collection, first calls to `added()` or `removed()` will have null value for the `association` argument. It represents the fact that the complete new entity is added to the collection. If the entity state is changed deeper inside its structure, the `association` is set to the association where the change occurs.
 
 Let's break it down with the examples:
 
@@ -906,6 +908,7 @@ Given that we have a collection of books each has a composition of many editions
       "editions": []
     }
   ```
+  `association` is null in this exact case.
 
 + When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the state of the edition is the `newValue`. In this case, each added edition is accompanied by the state of the respective book.
 
@@ -1014,7 +1017,8 @@ Method `changed()` is called for each change in the element values and has the f
 - changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
 - new and old value as an `Object` instances.
 
-Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements.
+Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements. 
+You may expect that each change is visited at most once.
 
 Let's break it down with the examples:
 
@@ -1093,9 +1097,8 @@ Given the collection of books with editions, as before.
 
   Visitor will observe the `Catweazle: Unabridged` and `Catweazle: Director's Cut` as the new and the old value.
 
-Each change will be observable at most once excluding the states of the entities in the `Path` instances which are stable between calls.
-
-For changes in the associations, when association state is present in both images, even if key values are different, the `change()` method will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
+For changes in the associations, when association state is present in both images, even if key values are different, the `change()` method 
+will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
 
 Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
 
@@ -1117,25 +1120,23 @@ or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cd
 In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation
 or having a certain common type, for example, only numbers.
 
-For more complex scenarios, `Path` is useful. It represents the placement
-of the element that is offered to a filter in the structure of the whole entity as a sequence of segments.
-The most useful part of the path is the target available as the result of the `target()` method that you can use to evaluate the type of the current entity, its annotations and
-the values of primary keys.
-
-For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity type.
+For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity 
+type that is either the target of some association or the parent of the current element. 
 
 ```java
 diff.add(new Filter() {
   @Override
-  public boolean test(Path path, CdsElement cdsElement, CdsType cdsType) {
-    return path.target().type().getQualifiedName().equals(Authors_.CDS_NAME);
+  public boolean test(Path path, CdsElement element, CdsType type) {
+    return element.getType().isAssociation()
+            && element.getType().as(CdsAssociationType.class).getTarget().getQualifiedName().equals(Authors_.CDS_NAME)
+            || path.target().type().equals(Authors_.CDS_NAME);
   }
 }, ...);
 ```
 
 Filters cannot limit the nature of the changes your visitor will observe and are always positive.
 
-### Deep Traversal
+### Deep Traversal {#cds-diff-processor-deep-traversal}
 
 For documents that have a lot of associations or a compositions and are changed in a deep way you might want to see additions for each level separately.
 
@@ -1147,7 +1148,7 @@ CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
 
 In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the added or removed data entity by entity.
 
-It can be useful, if you want to track the additions and removals of the certain entities on the leaf levels or as part of visitors tailored for generic use cases.
+It is useful, when you want to track the additions and removals of the certain entities on the leaf levels or as part of visitors tailored for generic use cases.
 
 ## Media Type Processing { #mediatypeprocessing}
 

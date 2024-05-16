@@ -214,14 +214,14 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `audit-logging`               |       <O/>       |       <O/>       |
 | `connectivity`                |       <X/>       |       <X/>       |
 | `destination`                 |       <X/>       |       <X/>       |
-| `enterprise-messaging-shared` |       <X/>       |       <O/>       |
 | `enterprise-messaging`        |       <X/>       |       <O/>       |
+| `enterprise-messaging-shared` |       <X/>       |       <O/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
 | `file-based-messaging`        |       <X/>       |       <O/>       |
 | `h2`                          |      <Na/>       |       <X/>       |
 | `hana`                        |       <X/>       |       <X/>       |
-| `helm-unified-runtime`        |       <X/>       |       <X/>       |
 | `helm`                        |       <X/>       |       <X/>       |
+| `helm-unified-runtime`        |       <X/>       |       <X/>       |
 | `html5-repo`                  |       <X/>       |       <X/>       |
 | `kafka`                       |       <X/>       |       <X/>       |
 | `liquibase`                   |      <Na/>       |       <X/>       |

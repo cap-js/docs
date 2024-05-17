@@ -422,7 +422,7 @@ if (req.errors) //> get out somehow...
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
 ::: warning :::
-The `target` property is evaluated by the UI5 OData model and needs to be set according to the [documentation](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
+The `target` property is evaluated by the UI5 OData model and needs to be set according to [Server Messages in the OData V4 Model](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
 :::
 
 

@@ -499,7 +499,7 @@ for `ID_texts` are produced.
 
 Today Fiori can also deal with composite keys with non-UUID types. For an entity with such a key,
 Fiori cannot generate an initial value. So when creating a new entry, a pop-up is launched asking
-the user to provide the key values.
+the user to provide the immutable key values.
 
 Is there a way to avoid this popup, but on the other hand keep the structure of the `.texts` entity
 and table unchanged?

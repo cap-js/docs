@@ -266,14 +266,14 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 
 In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
 
-The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html) that includes the thread factory that sets the classloader provided by your application server e.g. Spring Boot or Tomcat for the worker threads.
+The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
 
 The following workarounds are known:
  * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1 and Java 17. 
  * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
  * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
 
-In general, it is better not to rely on these workarounds and implement proper thread pool instead.
+We recommend to implement a proper thread pool and not to rely on these workarounds.
 
 ## OData
 

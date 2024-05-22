@@ -164,7 +164,7 @@ You should consider this when you decide what to include in the identifier.
 :::
 
 :::danger Sensitive Data
-Do not use sensitive data as the identifiers.
+Do not use an element that holds sensitive data as identifier.
 :::
 
 ### Identifiers for Associated Entities

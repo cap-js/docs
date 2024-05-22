@@ -436,7 +436,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 :::
 
 ### Difference between Compositions and Associations
-Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
+Be aware that you must not modify associated entities through drafts. Only compositions will get a "Create" button in SAP Fiori elements UIs because they are stored as part of the same draft entity.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 

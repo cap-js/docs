@@ -421,7 +421,7 @@ if (req.errors) //> get out somehow...
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
-::: warning  `target` property for UI5 OData model
+::: tip `target` property for UI5 OData model
 The `target` property is evaluated by the UI5 OData model and needs to be set according to [Server Messages in the OData V4 Model](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
 :::
 

@@ -11,6 +11,9 @@ redirect_from: guides/analytics
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
+
 ## Aggregation
 
 ::: tip
@@ -54,11 +57,11 @@ You can use the following aggregations: `#SUM`, `#MAX`, `#MIN`, `#AVG`, `#COUNT_
 
 
 
-## CDI Exposure { .impl .concept}
+## CDI Exposure <Concept />
 
 {{ $frontmatter.synopsis }}
 
-### Introduction { .impl .concept}
+### Introduction
 
 An application can implement the Cloud Data Integration (CDI) protocol for exposing its data,
 e.g. to act as a data provider for Data Plane Services (DPS).

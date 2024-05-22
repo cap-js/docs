@@ -1,3 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="402px" height="314px" viewBox="-0.5 -0.5 402 314" content="&lt;mxfile host=&quot;Electron&quot; modified=&quot;2022-05-10T06:53:25.204Z&quot; agent=&quot;5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/14.1.8 Chrome/87.0.4280.88 Electron/11.1.1 Safari/537.36&quot; etag=&quot;ivUDvNU40kZ-6xqwHgkG&quot; version=&quot;14.1.8&quot; type=&quot;device&quot; pages=&quot;2&quot;&gt;&lt;diagram id=&quot;HragVR9o4hE3VBwxzF0A&quot; name=&quot;Page-1&quot;&gt;7VjbjpswEP0aHisBTsjmMZe9VEq7W0WrPjvggBVjR2ZoLl9fAzaEkGyDmtXywEvCnJnxZc4cgW2hWbx/lngb/RABYZZrB3sLzS3XdRzbU38ZciiQ8XhUAKGkgQ6qgCU9Eg3aGk1pQJJaIAjBgG7roC84Jz7UMCyl2NXD1oLVZ93ikDSApY9ZE/1NA4gK9MEdVfgLoWFkZna8ceGJsQnWO0kiHIjdCYQeLTSTQkDxFO9nhGXFM3Up8p6ueMuFScLhloQFn746v95/erPj6onH8p0f3r7pUf5gluoNT4XYJHrFcDBlSHY0Zpgra+pHlAULfBBpNm0C2N8YaxoJSY+CA2bK5ShAuSVoVpFdi1hmmQrOUClSHpBAJ62VX+c4A2Prtdj5oFJsSjrcLJ8kKv7N1MIuoQVOwCzF1D/zBjiJ8vkyAzMacvXsq2wiFaCLQiSQ/dVqOyWHqvmJiAnIgwrRCUNP0677fjDQ9q7qIsfERKcdZPoF684Ny7ErctWD5rcF126Da8udTgAkXaVA1HaUVJFj5/uvcPcKjho9YsrIyBpKlmaCCVXSORd586wpY2dQssU+5eEiz5oPzvjP2M2IoEqSEz0BiK0hGK/KrpACMJzYiitD/U18XtdHk2RNKrqR0/FnUYoalE5SUBLrBXx3AXtfL+BBL+DWAkbdFvCwQemrDIh8IVj99iK+t4jdrxex14u4tYiH3Rbx6LKI+5fwf+sXuZ3T70Ov39b6HXVbv+au4VzA34HEvYjvLuIOHIWd5r1Hr+J/noXtyzR3RsbN0/CV93AEMWtTjo/7++wbs/zmPC2Ec6EQw/aFUGZ1YZj7Tq5d0eNf&lt;/diagram&gt;&lt;diagram id=&quot;MqXp35qlYXXisOL6mTut&quot; name=&quot;Page-2&quot;&gt;zVhdb9owFP01edyUxEmARwJ0nbRpkzppZW8Gm8SqEyNjWuivn0PsfBfSlJS8IN8b+5p7zrHvTQwwiw7fONyGPxnC1LBNdDDA3LBt1xrL38RxTB3AVI6AE5S6rNzxQF6xcprKuycI70oTBWNUkG3ZuWZxjNei5IOcs5fytA2j5V23MMA1x8Ma0rr3L0EiTL1je5T77zEJQr2z5U3SJxHUk1UmuxAi9lJwgYUBZpwxkY6iwwzTBDuNy8QijzO0tP6tdsdjMJq6iwP+kga7e8+SLAWOY3Hd0HYa+hnSvcLrF0eY71TG4qhhDEVE5cgygK+WYC7woYLxhT9oZahJtWEWYcGPcp2KAjwFtFKaM1b2S86bpckIC5y5ygeVVIIsdA6HHChE3oEOaEbnHsNbYeQODiOnGaPvAkeDUJF7c4TcGkI+Y0+DkM/twfFq4Ez3ImTDOF3ezeEZ1eCp4YJjNE3qpLTYFscSngJS8qEqyZbM298JyIWejQiMWIz+hCTWj/RcRzvuCM1CIVlX1baMS44CFkO6yL0+pCSQoeYUbyQufsIPkYV4qtwrJgSLkkgHIh51VDleyrH51VXWPCHD1MZRG7GE87FoFFYlZr7sZOl1KVzJf+8gFIkz2/M1vlxAJVYBPhcPnBWe3k73WKnFMYWCPJf/eZPEVNzfjMicsqCOW6kVVkWlaXJqVbFzqATyrAuB0uxrgU6Kz5Ltfgh0C3rrU2C2OgVdldrlVPStbqelut1mdX9QwAA4Jd2NRh0F7EwuBOpZwKDeApwTcMxi3F7AavZVlIuK85Uecw0uC+q8jR7dlnr0etGjZ1faA6ejHl2zHAiMP1mP9a4rrgtSsvgDrrCM7HO8I69wdXpklqV5oegLtpVemsTx4fop4GwfoxmjjOfSNYofANQuRvba3aXNA29cSJVy+0E92CUSda+m17PNZod7oc+xavRZZ+lroGstAcS8gbCIIHS6Daqcb5PkT7m5vuHOW7LawN5bRH+UVfPr2PNGPTRSoMwz+CyewUD6nnbdf9735K3OstTpnO97hlRn2nb1Tk99T+UtvWvj7kwuBOq5zuj6eM06w9O37qEUmvHZK+k6dcZyyxeQXWGxyw0kzfzLdTo9//wPFv8B&lt;/diagram&gt;&lt;/mxfile&gt;" style="background-color: rgb(255, 255, 255);"><defs/><g><rect x="0" y="0" width="150" height="62.5" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 25px; margin-left: 60px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">Orders</div></div></div></foreignObject><text x="60" y="29" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Orders</text></switch></g><rect x="250" y="0" width="150" height="62.5" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 25px; margin-left: 260px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">OrderHeaders</div></div></div></foreignObject><text x="260" y="29" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">OrderHeaders</text></switch></g><rect x="0" y="125" width="150" height="62.5" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 125px; margin-left: 60px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">OrderItems</div></div></div></foreignObject><text x="60" y="129" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">OrderItems</text></switch></g><rect x="250" y="125" width="150" height="62.5" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 125px; margin-left: 260px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">Books</div></div></div></foreignObject><text x="260" y="129" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Books</text></switch></g><rect x="250" y="250" width="150" height="62.5" fill="#ffffff" stroke="#000000" stroke-width="1.25" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 225px; margin-left: 260px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 12px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">Authors</div></div></div></foreignObject><text x="260" y="229" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="12px" text-anchor="middle">Authors</text></switch></g><path d="M 169.98 31.25 L 247.2 31.25" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 151.23 31.25 L 160.61 25.74 L 169.98 31.25 L 160.61 36.76 Z" fill="#000000" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 232.35 39.38 L 248.6 31.25 L 232.35 23.13" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 169.98 156.25 L 247.2 156.25" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 151.23 156.25 L 160.61 150.74 L 169.98 156.25 L 160.61 161.76 Z" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 232.35 164.38 L 248.6 156.25 L 232.35 148.13" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 325 187.5 L 325 250" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 150px; margin-left: 264px;"><div style="box-sizing: border-box; font-size: 0; text-align: left; "><div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">n</div></div></div></foreignObject><text x="264" y="161" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px">n</text></switch></g><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 194px; margin-left: 266px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; "><div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">1</div></div></div></foreignObject><text x="266" y="197" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="middle">1</text></switch></g><path d="M 75 82.48 L 75 122.21" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 75 63.73 L 80.51 73.11 L 75 82.48 L 69.49 73.11 Z" fill="#000000" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><path d="M 66.88 107.35 L 75 123.6 L 83.13 107.35" fill="none" stroke="#000000" stroke-width="1.25" stroke-miterlimit="10" pointer-events="all"/><g transform="translate(-0.5 -0.5)scale(1.25)"><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe flex-end; width: 1px; height: 1px; padding-top: 87px; margin-left: 73px;"><div style="box-sizing: border-box; font-size: 0; text-align: right; "><div style="display: inline-block; font-size: 11px; font-family: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif; color: #000000; line-height: 1.2; pointer-events: all; white-space: nowrap; ">n</div></div></div></foreignObject><text x="73" y="98" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', ui-sans-serif" font-size="11px" text-anchor="end">n</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Viewer does not support full SVG 1.1</text></a></switch></svg>
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="662px" height="522px" viewBox="-0.5 -0.5 662 522" content="&lt;mxfile pages=&quot;2&quot;&gt;&lt;diagram id=&quot;HragVR9o4hE3VBwxzF0A&quot; name=&quot;Page-1&quot;&gt;7VlNb+IwEP01EadKiQO0PQL9lNi2q6ras0kGYtWxkTMU6K9fO7FDQtouHFYEKRISnjczsTPz/JQ4XjhJN/eKLpNfMgbuET/eeOGNR0jg+0T/GWRbINdkWAALxWIbtANe2Se4TIuuWAxZLRCl5MiWdTCSQkCENYwqJdf1sLnk9VmXdAEN4DWivIn+YTEmBXpFLnf4A7BF4mYOhteFJ6Uu2N5JltBYritQeOuFEyUlFqN0MwFuiufqUuTdfeMtF6ZA4CEJUzF+Dn6/PQ0nn7M7kao3sX25sFf5oHxlb3gs5XtmV4xbV4ZszVJOhbbGUcJ4PKVbuTLTZkijd2eNE6nYpxRIuXYFGtBuhbaroV+LeDWZGjaokisRQ2yT5tpvc4K+s+1a/PyiSr6X7SAmHzId/+Jq4ZfQlGboluLqb7wxzZJ8PmNQzhZCjyOdDcpOeEdTxg1pe6MPEEzpejzBBnsemehh7zEPNZVTNcgaD8A/AFlEC3OkmC5JPsyoyC4yUGyuJ7K/RiddW0AhbCqQ7ew9yBRQbXWI9Q6GlmV2m/X71l7vSBu4mKRKWEdPajfKorz2jkt6YOl0BLVIg1oeGY8QFZutEPTtaCEIAz+//x1OvsHDBiVd1zjMsSTFRHKpO3gjZM7VOeN8D8qWNGJiMc2zbvp7dDNkMlXXneMjOwHKpeMTnZUkVBIpVmzdPqzw96T0+XGr/5tTlkPhgRS6/l8MChsMGq1QC0gnT+cuT8PTy1O/k6dWyVN4MKfaIk+DBoOeVQzqAWhsitdJ1FlLFDm9RA07iWqVRA0O5lRbJOrya4nqHqDOTZ1C0jp1uurUqVXqdHkwp9qiTu6Mb1+eHhHSTqLOXaJacAQVNI83O4066RmUfzCrWiNSzVOob56hEkx5W6p/9O7de/sp34aqdQ++qPvg+Lprc/fVI/dVvh2Ft38B&lt;/diagram&gt;&lt;diagram id=&quot;MqXp35qlYXXisOL6mTut&quot; name=&quot;Page-2&quot;&gt;zVhdb9owFP01edyUxEmARwJ0nbRpkzppZW8Gm8SqEyNjWuivn0PsfBfSlJS8IN8b+5p7zrHvTQwwiw7fONyGPxnC1LBNdDDA3LBt1xrL38RxTB3AVI6AE5S6rNzxQF6xcprKuycI70oTBWNUkG3ZuWZxjNei5IOcs5fytA2j5V23MMA1x8Ma0rr3L0EiTL1je5T77zEJQr2z5U3SJxHUk1UmuxAi9lJwgYUBZpwxkY6iwwzTBDuNy8QijzO0tP6tdsdjMJq6iwP+kga7e8+SLAWOY3Hd0HYa+hnSvcLrF0eY71TG4qhhDEVE5cgygK+WYC7woYLxhT9oZahJtWEWYcGPcp2KAjwFtFKaM1b2S86bpckIC5y5ygeVVIIsdA6HHChE3oEOaEbnHsNbYeQODiOnGaPvAkeDUJF7c4TcGkI+Y0+DkM/twfFq4Ez3ImTDOF3ezeEZ1eCp4YJjNE3qpLTYFscSngJS8qEqyZbM298JyIWejQiMWIz+hCTWj/RcRzvuCM1CIVlX1baMS44CFkO6yL0+pCSQoeYUbyQufsIPkYV4qtwrJgSLkkgHIh51VDleyrH51VXWPCHD1MZRG7GE87FoFFYlZr7sZOl1KVzJf+8gFIkz2/M1vlxAJVYBPhcPnBWe3k73WKnFMYWCPJf/eZPEVNzfjMicsqCOW6kVVkWlaXJqVbFzqATyrAuB0uxrgU6Kz5Ltfgh0C3rrU2C2OgVdldrlVPStbqelut1mdX9QwAA4Jd2NRh0F7EwuBOpZwKDeApwTcMxi3F7AavZVlIuK85Uecw0uC+q8jR7dlnr0etGjZ1faA6ejHl2zHAiMP1mP9a4rrgtSsvgDrrCM7HO8I69wdXpklqV5oegLtpVemsTx4fop4GwfoxmjjOfSNYofANQuRvba3aXNA29cSJVy+0E92CUSda+m17PNZod7oc+xavRZZ+lroGstAcS8gbCIIHS6Daqcb5PkT7m5vuHOW7LawN5bRH+UVfPr2PNGPTRSoMwz+CyewUD6nnbdf9735K3OstTpnO97hlRn2nb1Tk99T+UtvWvj7kwuBOq5zuj6eM06w9O37qEUmvHZK+k6dcZyyxeQXWGxyw0kzfzLdTo9//wPFv8B&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <path d="M 660 231 L 660 214.5 Q 660 201 646.5 201 L 513.5 201 Q 500 201 500 214.5 L 500 231" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 500 231 L 500 307.5 Q 500 321 513.5 321 L 646.5 321 Q 660 321 660 307.5 L 660 231" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 500 231 L 660 231" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="579.5" y="221.5">
+                Books
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" font-size="12px">
+            <text x="505.5" y="248.5">
+                +Attribute1
+            </text>
+            <text x="505.5" y="262.5">
+                +Attribute2
+            </text>
+            <text x="505.5" y="276.5">
+                +Attribute3
+            </text>
+        </g>
+        <path d="M 660 431 L 660 414.5 Q 660 401 646.5 401 L 513.5 401 Q 500 401 500 414.5 L 500 431" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 500 431 L 500 507.5 Q 500 521 513.5 521 L 646.5 521 Q 660 521 660 507.5 L 660 431" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 500 431 L 660 431" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="579.5" y="421.5">
+                Authors
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" font-size="12px">
+            <text x="505.5" y="448.5">
+                +Attribute1
+            </text>
+            <text x="505.5" y="462.5">
+                +Attribute2
+            </text>
+            <text x="505.5" y="476.5">
+                +Attribute3
+            </text>
+        </g>
+        <path d="M 660 31 L 660 14.5 Q 660 1 646.5 1 L 513.5 1 Q 500 1 500 14.5 L 500 31" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 500 31 L 500 107.5 Q 500 121 513.5 121 L 646.5 121 Q 660 121 660 107.5 L 660 31" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 500 31 L 660 31" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="579.5" y="21.5">
+                OrderHeader
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" font-size="12px">
+            <text x="505.5" y="48.5">
+                +Attribute1
+            </text>
+            <text x="505.5" y="62.5">
+                +Attribute2
+            </text>
+            <text x="505.5" y="76.5">
+                +Attribute3
+            </text>
+        </g>
+        <path d="M 420 31 L 420 14.5 Q 420 1 406.5 1 L 273.5 1 Q 260 1 260 14.5 L 260 31" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 260 31 L 260 107.5 Q 260 121 273.5 121 L 406.5 121 Q 420 121 420 107.5 L 420 31" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 260 31 L 420 31" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="339.5" y="21.5">
+                Orders
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" font-size="12px">
+            <text x="265.5" y="48.5">
+                +Attribute1
+            </text>
+            <text x="265.5" y="62.5">
+                +Attribute2
+            </text>
+            <text x="265.5" y="76.5">
+                +Attribute3
+            </text>
+        </g>
+        <path d="M 420 231 L 420 214.5 Q 420 201 406.5 201 L 273.5 201 Q 260 201 260 214.5 L 260 231" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 260 231 L 260 307.5 Q 260 321 273.5 321 L 406.5 321 Q 420 321 420 307.5 L 420 231" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 260 231 L 420 231" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" text-anchor="middle" font-size="14px">
+            <text x="339.5" y="221.5">
+                OrderItems
+            </text>
+        </g>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" pointer-events="none" font-size="12px">
+            <text x="265.5" y="248.5">
+                +Attribute1
+            </text>
+            <text x="265.5" y="262.5">
+                +Attribute2
+            </text>
+            <text x="265.5" y="276.5">
+                +Attribute3
+            </text>
+        </g>
+        <rect x="0" y="321" width="110" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="none"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 346px; margin-left: 55px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; white-space: nowrap;">
+                                Orders
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="55" y="350" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    Orders
+                </text>
+            </switch>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>

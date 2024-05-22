@@ -50,7 +50,7 @@ Use presets to add configuration for the AsyncAPI export tooling.
   "export": {
     "asyncapi": {
       "application_namespace": "sap.example"
-      ...
+      [...]
     }
   }
 }

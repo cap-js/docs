@@ -12,7 +12,6 @@ const toggle = typeof localStorage !== 'undefined' ? useVariant() : () => {}
 const knownImplVariants = ['node', 'java']
 
 onMounted(() => {
-  if (!supportsVariants.value)  return
   let check = currentCheckState()
   // Persist value even intially. If query param was used, users expect to get this value from now on, even if not using the query anymore.
   const variantNew = check ? 'java' : 'node'
@@ -61,9 +60,12 @@ function useVariant() {
     const variantNew = check ? 'java' : 'node'
     localStorage.setItem('impl-variant', variantNew)
 
-    const url = new URL(window.location)
-    url.searchParams.set('impl-variant', variantNew)
-    window.history.replaceState({}, '', url)
+    if (supportsVariants.value) {
+      const url = new URL(window.location)
+      url.searchParams.set('impl-variant', variantNew)
+      window.history.replaceState({}, '', url)
+    }
+
   }
   return toggle
 }
@@ -91,7 +93,6 @@ transition: none !important;
 }
 
 watchEffect(() => {
-  if (!supportsVariants.value)  return
   setTimeout(() => { // otherwise DOM is not ready
     if (typeof document !== 'undefined') {
       animationsOff(() => setClass(currentCheckState()) )
@@ -133,11 +134,11 @@ function markClasses(el, classes) {
 
 <template>
 
-<label title="Toggle Node/Java" class="SwitchImplVariantContainer" v-if="supportsVariants">
+<label title="Toggle Node/Java" class="SwitchImplVariantContainer">
   <VPSwitch
       class="SwitchImplVariant"
       :aria-checked="checked"
-      @click="toggle">
+      @click.prevent="toggle">
     <IconNode class="icon-node" />
     <IconJava class="icon-java" />
   </VPSwitch>

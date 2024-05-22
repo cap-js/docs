@@ -10,6 +10,9 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 
 {{ $frontmatter.synopsis }}
 
+[[toc]]
+
+
 ## General Statement { #dpp-statement }
 
 Governments place legal requirements on industry to protect data and privacy.

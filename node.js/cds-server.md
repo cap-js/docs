@@ -10,7 +10,7 @@ status: released
 
 
 
-CAP Node.js servers a bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
+CAP Node.js servers are bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
 
 
 
@@ -121,7 +121,7 @@ module.exports = (o)=>{
 }
 ```
 
-::: tip
+::: tip `req` != `req`
 The `req` object in your express middleware is not the same as `req` in your CDS event handlers.
 :::
 

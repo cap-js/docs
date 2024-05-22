@@ -99,13 +99,13 @@ For the remainder of this spec, you see examples in plain JavaScript representat
 * [`extensions`](#aspects) &ndash; an array of unnamed [aspects](#aspects)
 * [`i18n`](#i18n) &ndash; a dictionary of dictionaries of [text translations](#i18n)
 
-::: tip All properties are optional
-For example, one model could contain a few definitions, while another one only contains some extensions.
-:::
+> [!TIP] All properties are optional
+> For example, one model could contain a few definitions, while another one only contains some extensions.
 
-::: info References are case-sensitive
-All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
-:::
+
+> [!NOTE] References are case-sensitive
+> All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
+
 
 
 
@@ -207,10 +207,10 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 ```js
 ({definitions: {
-  'scalar.type': {type:"cds.String", length:3 },
-  'struct.type': {elements:{ 'foo': {type:"cds.Integer"}}},
+  'scalar.type':  {type:"cds.String", length:3 },
+  'struct.type':  {elements:{'foo': {type:"cds.Integer"}}},
   'arrayed.type': {items:{type:"cds.Integer"}},
-  'enum.type':   {enum:{ 'asc':{}, 'desc':{} }}
+  'enum.type':    {enum:{ 'asc':{}, 'desc':{} }}
 }})
 ```
 
@@ -452,7 +452,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### With Specified `cardinality`
+### With Specified `cardinality` {#assoc-card}
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -472,7 +472,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### With Specified `on` Condition
+### With Specified `on` Condition {#assoc-on}
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -488,7 +488,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### With Specified `keys`
+### With Specified `keys` {#assoc-keys}
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 
@@ -585,7 +585,7 @@ csn = { extensions:[
 
 ### annotate with \<anonymous aspect\>
 
-The form `{ annotate:<target>, with:{...} }` allows to add or override annotations of the target definition as well as those of nested elements:
+The form `{ annotate:<target>, <property>: <value>, … }` allows to add or override annotations of the target definition as well as those of nested elements:
 
 ```js
 csn = {extensions:[
@@ -663,13 +663,14 @@ Example:
 ## Imports
 
 The `requires` property lists other models to import definitions from.
+It is the CSN equivalent of the CDL [`using` directive](./cdl#using).
 
 #### Example
 
 ```js
 ({
-  requires:[ '@sap/cds/common', './db/schema' ],
-  ...
+  requires: [ '@sap/cds/common', './db/schema' ],
+  // [...]
 })
 ```
 
@@ -681,9 +682,9 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 
 ```js
 ({
-  "i18n": {
-    "language-key": {
-      "text-key": "some string"
+  i18n: {
+    'language-key': {
+      'text-key': "some string"
     }
   }
 })

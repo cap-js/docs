@@ -47,10 +47,12 @@ const querySelectorSearchInput = 'input[class=search-input]'
 
 const showHiddenCommands = ref(false)
 const commands = reactive([
-  { name:'Search', keys:keyStrokesSearch }, // VP search has the actual logic
+  DOMCommand('Search', 'local-search', keyStrokesSearch, false, ()=>{}), // VP search has the actual logic
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', ['.']),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', ['v']),
-  DOMCommand('Edit on Github', 'div.edit-link > a', ['e']),
+  DOMCommand('Next page', '.pager-link.next', ['n']),
+  DOMCommand('Previous page', '.pager-link.prev', ['p']),
+  DOMCommand('Edit on GitHub', '.edit-link-button', ['e']),
   DOMCommand('Edit Secondary File on Github', 'secondary-file', ['E'], true, openSecondaryEditLink ),
   ...commandsFromConfig(),
   { name:'Show keyboard shortcuts', keys:[ref('?')], run: () => { visible.value = !visible.value } },
@@ -108,12 +110,12 @@ function DOMCommand(name, idQuerySel, keys=[], hidden=false, runFn=undefined) {
   }
   return {
     name, hidden, enabled,
-    keys: keys.map(k => k.value ? k : ref(k)),
+    keys: keys.map(k => (k.value ?? Array.isArray(k)) ? k : ref(k)),
     run: () => {
       const element = enabled()
       if (element) {
         if (runFn) return runFn(element)
-        element.hash = window.location.hash
+        if (window.location.hash && !element.hash)  element.hash = window.location.hash
         element.click()
       }
     }
@@ -222,6 +224,7 @@ td, th {
   float: right;
   font-size: 20px;
   font-weight: bold;
+  margin: 5px auto;
 }
 
 .modal-close:hover,

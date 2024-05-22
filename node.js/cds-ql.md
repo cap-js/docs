@@ -11,7 +11,7 @@ status: released
 
 
 
-##  Constructing Queries
+## Constructing Queries
 
 Module `cds.ql` provides a SQL-like fluent API to construct queries:
 
@@ -86,7 +86,7 @@ let books = await cats.run (query)
 
 
 
-##  First-Class Objects
+## First-Class Objects
 
 Constructing queries doesn't execute them immediately, but just captures the given query information. Very much like functions in JavaScript, queries are first-class objects, which can be assigned to variables, modified, passed as arguments, or returned from functions. Let's investigate this somewhat more, given this example:
 
@@ -135,8 +135,8 @@ for (let a of Authors) { //> looping over eagerly materialized Authors
 
 
 
-##   Avoiding SQL Injection
 
+## Avoiding SQL Injection
 All the APIs are designed to easily avoid [SQL Injection](https://wikipedia.org/wiki/SQL_injection) by default.
 For example, let's see how the following code would be executed:
 
@@ -184,15 +184,15 @@ In effect, your generated SQL statements would effectively look like that:
 SELECT ID from Books where ID=0;
 DELETE from Books; -- gotcha!
 ```
-::: danger **WARNING:**
-Whenever there's user input involved...
-<br> Never use string concatenation when constructing queries!
-<br> Never surround tagged template strings with parentheses!
+::: danger Whenever there's user input involved...
+Never use string concatenation when constructing queries!
+
+Never surround tagged template strings with parentheses!
 :::
 
 
 
-## Class `cds.ql.Query`
+## cds.ql. Query {#class-cds-ql-query .class}
 
 Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#constructing-queries) to construct queries as highlighted below.
 
@@ -215,7 +215,7 @@ This is usefull for generic query processors, such as outbound protocol adapters
 
 
 
-### q. then() {.method}
+### then() {.method}
 
 Instances of `cds.Query` are thenables. `await`ing them executes the query with the bound service or the primary database service.
 
@@ -226,7 +226,7 @@ await cds.db.run( SELECT.from(Books) )
 
 
 
-### q. bind (srv) {.method}
+### bind (srv) {.method}
 
 Binds a query for execution with the given `srv` .
 
@@ -240,7 +240,7 @@ await srv.run( SELECT.from(Books) )
 
 
 
-## SELECT ...
+## SELECT {.class}
 
 Fluent API to construct [CQN SELECT](../cds/cqn#select) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -323,7 +323,7 @@ SELECT.distinct.from (Authors)
 
 
 
-### .columns() {.method}
+### columns() {.method}
 
 ```tsx
 function SELECT.colums ( projection : function )
@@ -386,7 +386,7 @@ Projection functions use these mechanisms:
 
 
 
-### .from() {.method #select-from}
+### from() {.method #select-from}
 
 ```tsx
 function SELECT.from (
@@ -429,7 +429,7 @@ Argument `cols` is a projection [as accepted by `.columns (cols)`](#columns)
 
 
 
-### .alias() {.method}
+### alias() {.method}
 
 Specifies the alias which you can refer to in other functions:
 
@@ -441,9 +441,9 @@ SELECT.from ('Authors').alias('a').where({
 
 
 
-### .where() {.method}
+### where() {.method}
 
-### .having() {.method}
+### having() {.method}
 
 ```tsx
 function SELECT.where/having ( qbeobj : query-by-example object )
@@ -489,7 +489,7 @@ The provided expression is consistently accounted for by wrapping the existing w
 
 
 
-### .groupBy() {.method}
+### groupBy() {.method}
 
 Fills in SQL `group by` clauses. Arguments are a single tagged template string, or column expression strings or [CXN](../cds/cxn.md) objects, like that:
 
@@ -501,7 +501,7 @@ SELECT ... .groupBy ({ref:['a','name']}, {ref:['b']})
 
 
 
-### .orderBy() {.method}
+### orderBy() {.method}
 
 Fills in SQL `order by` clauses. Arguments are a single tagged template string, or column expression strings, optionally followed by `asc` or `desc`, or [CXN](../cds/cxn.md) objects, like that:
 
@@ -513,7 +513,7 @@ SELECT ... .orderBy ({ref:['a','name']}, {ref:['b'],sort:'desc'})
 
 
 
-### .limit() {.method}
+### limit() {.method}
 
 Equivalent of the standard SQL `limit` and `offset` clauses.
 Arguments can be standard numbers or [CXN](../cds/cxn.md) expression objects.
@@ -525,7 +525,7 @@ SELECT ... .limit (25,100)  //> fifth page
 
 
 
-### .forUpdate() {.method}
+### forUpdate() {.method}
 
 
 Exclusively locks the selected rows for subsequent updates in the current transaction, thereby preventing concurrent updates by other parallel transactions.
@@ -548,7 +548,7 @@ All acquired locks are released when the current transaction is finished, that i
 
 
 
-### .forShareLock() {.method}
+### forShareLock() {.method}
 
 Locks the selected rows in the current transaction, thereby preventing concurrent updates by other parallel
 transactions, until the transaction is committed or rolled back. Using a shared lock allows all transactions to read the locked record.
@@ -559,7 +559,7 @@ If a queried record is already exclusively locked by another transaction, the `.
 
 
 
-## INSERT ...
+## INSERT {.class}
 
 Fluent API to construct [CQN INSERT](../cds/cqn#insert) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -578,7 +578,7 @@ INSERT (books) .into (Books)
 
 
 
-### .into() {.method}
+### into() {.method}
 
 ```tsx
 function INSERT.into (
@@ -610,29 +610,69 @@ INSERT.into (Books, [
 
 
 
-### .entries() {.method #insert-entries}
+### entries() {.method #insert-entries}
 
+```tsx
+function INSERT.entries (records : object[] | Query | Readable)
+```
 
-Allows inserting multiple rows with one statement where each row
-is a record with named values, for example, as could be read from a JSON
-source.
+Allows inserting multiple rows with one statement.
+
+The arguments can be one of...
+
+- one or more records as variable list of arguments
+- an array of one or more records
+- a readable stream
+- a sub SELECT query
+
+Using individual records:
 
 
 ```js
-INSERT.into (Books) .entries (
+await INSERT.into (Books) .entries (
    { ID:201, title:'Wuthering Heights', author_id:101, stock:12 },
    { ID:251, title:'The Raven', author_id:150, stock:333 },
    { ID:271, title:'Catweazle', author_id:170, stock:222 }
 )
 ```
 
-The entries can be specified as individual method parameters of type object — as shown above —, or as a single array of which.
+Using an **array** of records, read from a JSON:
+
+```js
+let books = JSON.parse (fs.readFileSync('books.json'))
+await INSERT(books).into(Books) // same as INSERT.into(Books).entries(books)
+```
+
+Using a **stream** instead of reading and parsing the full JSON into memory:
+
+```js
+let stream = fs.createReadStream('books.json')
+await INSERT(stream).into(Books) // same as INSERT.into(Books).entries(stream)
+```
+
+Using a **subselect** query to copy *within* the database:
+
+```js
+await INSERT.into (Books) .entries (SELECT.from(Products))
+```
+
+::: details Pushed down to database....
+
+Note that the sub select variant creates a single [native  `INSERT INTO SELECT` SQL statement](https://www.w3schools.com/sql/sql_insert_into_select.asp), which is most efficient, as the data is copied **within** the database. In contrast to that, ...
+
+```js
+INSERT.into(Books).entries(await SELECT.from(Products))
+```
+... would also work, but would be much less efficient, as it would (1) first read all data from database into the client and then (2) insert the read data back into the database.
+
+
+:::
 
 
 
-### .values() {.method}
+### values() {.method}
 
-### .rows() {.method}
+### rows() {.method}
 
 
 Use `.columns` with `.values` as in SQL:
@@ -658,7 +698,7 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
-### .as() {.method}
+### as() {.method}
 
 
 Constructs a _INSERT into SELECT_ statement.
@@ -669,7 +709,7 @@ INSERT.into('Bar') .as (SELECT.from('Foo'))
 
 
 
-## UPSERT ...
+## UPSERT {.class}
 
 Fluent API to construct [CQN UPSERT](../cds/cqn#upsert) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -686,7 +726,7 @@ const books = [
 UPSERT (books) .into (Books)
 ```
 
-### .into() {.method #upsert-entries}
+### into() {.method #upsert-entries}
 
 ```tsx
 function UPSERT.into (
@@ -717,7 +757,7 @@ UPSERT.into (Books, [
 ```
 
 
-### .entries() {.method}
+### entries() {.method}
 
 
 Allows upserting multiple rows with one statement where each row
@@ -737,7 +777,7 @@ The entries can be specified as individual method parameters of type object — 
 
 [Learn more about limitations when using it with databases.](databases#databaseservice-upsert){.learn-more}
 
-## UPDATE ...
+## UPDATE {.class}
 
 Fluent API to construct [CQN UPDATE](../cds/cqn#update) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -749,7 +789,7 @@ UPDATE `Books` .set `stock = stock - ${quantity}` -- as shortcut to:
 UPDATE.entity `Books` .set `stock = stock - ${quantity}`
 ```
 
-### .entity() {.method}
+### entity() {.method}
 
 ```tsx
 function UPDATE.entity (
@@ -777,9 +817,9 @@ UPDATE (Books.texts, {ID:201, locale:'de'}) ...
 
 
 
-### .set() {.method}
+### set() {.method}
 
-### .with() {.method}
+### with() {.method}
 
 
  Specifies the data to update...
@@ -804,7 +844,7 @@ UPDATE (Books,ID) .with ({
 
 
 
-### .where() {.method}
+### where() {.method}
 
 [As in SELECT.where](#where) {.learn-more}
 
@@ -812,7 +852,7 @@ UPDATE (Books,ID) .with ({
 
 
 
-## DELETE ...
+## DELETE {.class}
 
 Fluent API to construct [CQN DELETE](../cds/cqn#delete) query objects in a [CQL](../cds/cql)/SQL-like style. In contrast to SQL, though, the clauses can be arrayed in arbitrary order.
 
@@ -822,10 +862,10 @@ DELETE.from('Books').where ({stock:{'<':1}})
 
 
 
-### .from() {.method #delete-from}
+### from() {.method #delete-from}
 
 ```tsx
-function SELECT.from (
+function DELETE.from (
    entity : string | CSN definition | tagged template string,
    key?   : string | number | object
 )
@@ -835,6 +875,6 @@ function SELECT.from (
 
 
 
-### .where() {.method}
+### where() {.method}
 
 [As in SELECT.where](#where) {.learn-more}

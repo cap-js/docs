@@ -75,18 +75,6 @@ Parsed JWT token info provided by `@sap/xssec`.
 
 > **Note:** This API is only available for authentication kinds based on `@sap/xssec`.
 
-### Deprecated API {#deprecated}
-
-#### <i>DEPRECATED:</i> . tenant {#user-tenant}
-
-[Use `req/msg.tenant` instead.](events#tenant){.learn-more}
-
-
-#### <i>DEPRECATED:</i> . locale {#user-locale}
-
-[Use `req/msg.locale` instead.](events#locale){.learn-more}
-
-
 
 
 ## cds.**User.Privileged** { #privileged-user .class }

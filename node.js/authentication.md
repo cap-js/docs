@@ -620,7 +620,7 @@ The resulting JWT token is sent to the application where it's used to enforce au
 
     <br>
 
-    > To test UIs w/o a running UAA service, just add this to _xs-app.json_:
+    > To test UIs w/o a running UAA service, just add this to _app/router/xs-app.json_:
     ```"authenticationMethod": "none"```
 
 **SAP Business Application Studio:**

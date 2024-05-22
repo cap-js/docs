@@ -8,7 +8,8 @@
   "includePaths": [
     ".vitepress/config.ts",
     ".github/workflows/",
-    "package.json"
+    "package.json",
+    "**/*.md"
   ],
   "packageRules": [
     {
@@ -27,6 +28,10 @@
     {
       "matchDepTypes": ["action"],
       "groupName": "Github actions"
+    },
+    {
+      "matchFileNames": [ "**/*.md" ],
+      "separateMajorMinor": false
     }
   ],
   "regexManagers": [

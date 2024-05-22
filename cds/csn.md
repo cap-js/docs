@@ -207,10 +207,10 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 ```js
 ({definitions: {
-  'scalar.type': {type:"cds.String", length:3 },
-  'struct.type': {elements:{ 'foo': {type:"cds.Integer"}}},
+  'scalar.type':  {type:"cds.String", length:3 },
+  'struct.type':  {elements:{'foo': {type:"cds.Integer"}}},
   'arrayed.type': {items:{type:"cds.Integer"}},
-  'enum.type':   {enum:{ 'asc':{}, 'desc':{} }}
+  'enum.type':    {enum:{ 'asc':{}, 'desc':{} }}
 }})
 ```
 
@@ -585,7 +585,7 @@ csn = { extensions:[
 
 ### annotate with \<anonymous aspect\>
 
-The form `{ annotate:<target>, with:{...} }` allows to add or override annotations of the target definition as well as those of nested elements:
+The form `{ annotate:<target>, <property>: <value>, … }` allows to add or override annotations of the target definition as well as those of nested elements:
 
 ```js
 csn = {extensions:[
@@ -663,13 +663,14 @@ Example:
 ## Imports
 
 The `requires` property lists other models to import definitions from.
+It is the CSN equivalent of the CDL [`using` directive](./cdl#using).
 
 #### Example
 
 ```js
 ({
-  requires:[ '@sap/cds/common', './db/schema' ],
-  [...]
+  requires: [ '@sap/cds/common', './db/schema' ],
+  // [...]
 })
 ```
 
@@ -681,9 +682,9 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 
 ```js
 ({
-  "i18n": {
-    "language-key": {
-      "text-key": "some string"
+  i18n: {
+    'language-key': {
+      'text-key': "some string"
     }
   }
 })

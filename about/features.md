@@ -40,7 +40,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
 | [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
-| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Add a feature to an existing project](../tools/cds-cli#cds-add)                | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
@@ -162,12 +162,12 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Outbound Protocol Support                                 | CDS <sup>1</sup> | Node.js | Java |
-|-----------------------------------------------------------|:----------------:|:-------:|:----:|
-| [REST/OpenAPI](../node.js/cds-dk#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
-| OData V2                                                  |       <X/>       |  <X/>   | <X/> |
-| OData V4                                                  |       <X/>       |  <X/>   | <X/> |
-| GraphQL<sup>2</sup>                                       |       <C/>       |  <C/>   | <C/> |
+| Outbound Protocol Support                                        | CDS <sup>1</sup> | Node.js | Java |
+|------------------------------------------------------------------|:----------------:|:-------:|:----:|
+| [REST/OpenAPI](../tools/apis/cds-import#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
+| OData V2                                                         |       <X/>       |  <X/>   | <X/> |
+| OData V4                                                         |       <X/>       |  <X/>   | <X/> |
+| GraphQL<sup>2</sup>                                              |       <C/>       |  <C/>   | <C/> |
 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>

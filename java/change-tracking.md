@@ -171,7 +171,7 @@ Do not use sensitive data as the identifiers.
 
 When your entity has an association to other entity, you might want to log the changes in their relationship.
 
-Given the order entity that has an association to a Customer instead of the element with customer name:
+Given the `Orders` entity with an association to a `Customer` instead of the element with customer name:
 ```cds
 entity Orders {
   key ID: UUID;

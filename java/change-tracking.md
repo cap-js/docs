@@ -152,7 +152,7 @@ For example, for a book you can store an author name if you have an association 
 
 When you define the identifier for an entity, keep in mind that the projections of the annotated entity
 will inherit the annotation `@changelog`. If you change the structure of the projection,
-for example, exclude or rename the elements that are used in the identifier, you must annotate projection again
+for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again
 to provide updated element names in the identifier.
 
 The best candidates for identifier elements are the elements that are insert-only or that don't change often.

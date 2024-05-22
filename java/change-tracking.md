@@ -164,7 +164,7 @@ You should consider this when you decide what to include in the identifier.
 :::
 
 :::danger Sensitive Data
-Do not use an elements with [personal data](../guides/data-privacy/annotations#personaldata) as identifier. Such elements will be ignored.
+Do not use an element with [personal data](../guides/data-privacy/annotations#personaldata) as the identifier. Such elements will be ignored.
 :::
 
 ### Identifiers for Associated Entities

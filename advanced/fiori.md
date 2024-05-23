@@ -646,6 +646,15 @@ If you have the need for a more complex calculation, then the interesting parts 
 :::
 
 
+## Cache Control
+
+To indicate that caches can store the response and reuse it for subsequent requests, CAP provides the option to set a `Cache-Control: max-age=<seconds>` HTTP header. This can be done via `@http.CacheControl: {maxAge: <seconds>}` CDS annotation on stream properties. The header allows to control the behavior of caches, the `max-age` (in seconds) specifies the maximum age of the content before it becomes stale.
+
+:::info Note
+The `max-age` is the elapsed time since the response was generated on the origin server (not the elapsed time since the response was received).
+:::
+
+
 <div id="client-side-validations" />
 
 <div id="fiori-compat" />

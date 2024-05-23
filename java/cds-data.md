@@ -766,11 +766,11 @@ processor.addGenerator(
 
 ## Diff Processor
 
-In your business logic you may want to compare two states of an entity e.g. before and after an operation. Usually, you might want to react on changed values, for instance, to track changes accordingly.
+In business logic, there might be the need to compare two states of an entity e.g. before and after an operation. Usually, you might want to react on changed values, for instance, to track changes accordingly.
 To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor).
-It traverses through two states of the entity and reports you differences between them along the way.
+It traverses through two states of the entity and reports differences between them along the way.
 
-You create an instance of the `CdsDiffProcessor` using the `create()` method:
+Create an instance of the `CdsDiffProcessor` using the `create()` method:
 
 ```java
 CdsDiffProcessor diff = CdsDiffProcessor.create();
@@ -781,7 +781,7 @@ To do a comparison, `CdsDiffProcessor` requires the following in the data maps t
 
 - entities must include full set of primary keys
 - names of the elements must match the elements of the entity type
-- associations must be represented as [nested Structures and associations](/java/cds-data#nested-structures-and-associations) according to the association cardinality.
+- associations must be represented as [nested structures and associations](/java/cds-data#nested-structures-and-associations) according to the associations` cardinalities.
 
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
 Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.

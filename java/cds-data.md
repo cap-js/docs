@@ -766,9 +766,7 @@ processor.addGenerator(
 
 ## Diff Processor
 
-In business logic, there might be the need to compare two states of an entity e.g. before and after an operation. Usually, you might want to react on changed values, for instance, to track changes accordingly.
-To do that you can use `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor).
-It traverses through two states of the entity and reports differences between them along the way.
+To react on changes in entity data, you need to compare the state of an entity after a certain operation with the state before the operation. To facilitate this task, use the `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). The Diff Processor traverses through two states (entity data maps) and allows to register handlers that react on changed values.
 
 Create an instance of the `CdsDiffProcessor` using the `create()` method:
 
@@ -777,16 +775,16 @@ CdsDiffProcessor diff = CdsDiffProcessor.create();
 ```
 
 You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers.
-To do a comparison, `CdsDiffProcessor` requires the following in the data maps to compare:
+To do a comparison with the `CdsDiffProcessor`, the data maps to be compared need to adhere to the following requirements:
 
-- entities must include full set of primary keys
-- names of the elements must match the elements of the entity type
-- associations must be represented as [nested structures and associations](/java/cds-data#nested-structures-and-associations) according to the associations` cardinalities.
+- the data map must include values for all key elements
+- the names in the data map must match the elements of the entity
+- associations must be represented as [nested structures and associations](/java/cds-data#nested-structures-and-associations) according to the associations` cardinalities
 
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
 Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
 
-You run the comparison by calling the `process()` method and supplying new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
+To run the comparison, call the `process()` method and provide new and old state of the data as a `Map` (or a collection of them) and the type of the compared entity:
 
 ```java
 List<Map<String, Object>> newImage;
@@ -803,10 +801,8 @@ Result oldImage = service.run(Select.from(...));
 diff.process(newImage, oldImage, newImage.rowType());
 ```
 
-:::tip Draft-enabled Entities
-For draft-enabled entities, you may omit value of `IsActiveEntity` in the images.
-If you compare active and inactive state of the same entity using them as an old and new image make sure that
-the values of `IsActiveEntity` is either absent or the same in both images.
+:::tip Comparing Draft-enabled Entities
+If you compare the active with the inactive state of a draft-enabled entity, make sure that the `IsActiveEntity` values are either absent or the same in both images.
 :::
 
 In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
@@ -851,17 +847,16 @@ diff.add(
 ```
 
 You may add as many visitors as you need by chaining the `add()` calls.
-Each instance of the `CdsDiffProcessor` can have own set of visitors added to it.
+Each instance of the `CdsDiffProcessor` can have its own set of visitors added to it.
 
-If your visitors need to be stateful, prefer one-time disposable objects for them. `CdsDiffProcessor` does not manage the state of them.
+If your visitors need to be stateful, prefer one-time disposable objects for them. `CdsDiffProcessor` does not manage their state.
 
-All values are compared using the standard Java `equals()` method including the elements with structured and arrayed types.
+All values are compared using the standard Java `equals()` method, including elements with a structured or arrayed type.
 
 ### Implementing a DiffVisitor
 
-Additions and removals in the entity state reported as calls to the methods `added()` or `removed()`.
-They always receive complete added or removed state for the entity or an association.
-It is never traversed element by element.
+Additions and removals in the entity state are reported as calls to the methods `added()` or `removed()`.
+The called methods always receive the complete added or removed state for the entity or an association.
 
 The methods `added()` and `removed()` have the following arguments:
 
@@ -869,9 +864,9 @@ The methods `added()` and `removed()` have the following arguments:
 - `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) given that the association is present.
 - state of the changed data as a `Map` as the `newValue` or `oldValue`.
 
-The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the state that is either added or removed. While these paths are always have the same structure, `oldPath` or `newPath` respectively, could have empty values that represent the absence of the data.
+The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the state that is either added or removed. While these paths always have the same structure, `oldPath` and `newPath` can have empty values, which represent the absence of data.
 
-When the entity is inserted in a collection, first calls to `added()` or `removed()` will have null value for the `association` argument. It represents the fact that the complete new entity is added to the collection. If the entity state is changed deeper inside its structure, the `association` is set to the association where the change occurs.
+The `association` value for `added()` and `removed()` is only provided if data is compared along associations or compositions. Null value represents the complete entity that is added or removed.
 
 Let's break it down with the examples:
 

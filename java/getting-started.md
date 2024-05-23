@@ -94,7 +94,7 @@ You can call `cds help init` for more information on the available options.
 You can use the [CDS Maven plugin](developing-applications/building#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addSample
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=TINY_SAMPLE
 ```
 
 ### Add CloudFoundry target platform

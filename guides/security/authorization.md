@@ -874,7 +874,7 @@ There is one use case where currently an XSUAA based authorization management is
 For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS. 
 
 
-[Learn more about using IAS and AMS with CAP Java.](/java/ams){.learn-more}
+<!-- [Learn more about using IAS and AMS with CAP Java.](/java/ams){.learn-more} -->
 [Learn more about using IAS and AMS with CAP Node.js](https://github.com/SAP-samples/btp-developer-guide-cap/blob/main/documentation/xsuaa-to-ams/README.md){.learn-more}
 
 

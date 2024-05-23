@@ -176,7 +176,7 @@ Features:
 
 Outlook:
 
-- Multi-tenancy intrinsically handled by the plugin
+- Multitenancy intrinsically handled by the plugin
 
 
 Available for:

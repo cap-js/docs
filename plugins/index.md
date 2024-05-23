@@ -150,7 +150,7 @@ Available for:
 
 
 
-## Attachments <Beta />
+## Attachments
 
 
 The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
@@ -169,13 +169,13 @@ Features:
 
 - Pre-defined type `Attachment` to use in entity definitions
 - Automatic handling of all upload and download operations
+- Automatic malware scanning for uploaded files
 - (Automatic) Fiori Annotations for Upload Controls
 - Streaming and piping to avoid memory overloads
 - Support for different storage backends
 
 Outlook:
 
-- Automatic malware scanning for uploaded files
 - Multi-tenancy intrinsically handled by the plugin
 
 

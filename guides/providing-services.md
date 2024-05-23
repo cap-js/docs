@@ -445,6 +445,11 @@ entity Books {
 }
 ```
 
+::: tip Wildcards in search terms
+When using wildcards in search terms, an *exact pattern search* is performed.
+Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
+:::
+
 ::: warning Only Java
 Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [HEX](../java/cqn-services/persistence-services#sql-optimization-mode) mode.
 :::

@@ -424,7 +424,7 @@ Searches all elements of type `String` excluding the element `isbn`, which leave
 You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
 :::
 
-#### Fuzzy Search on SAP HANA Cloud <Beta />
+#### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
 Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
 

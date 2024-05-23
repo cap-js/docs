@@ -766,7 +766,7 @@ processor.addGenerator(
 
 ## Diff Processor
 
-To react on changes in entity data, you need to compare the state of an entity after a certain operation with the state before the operation. To facilitate this task, use the `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). The Diff Processor traverses through two states (entity data maps) and allows to register handlers that react on changed values.
+To react on changes in entity data, you need to compare the image of an entity after a certain operation with the image before the operation. To facilitate this task, use the `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). The Diff Processor traverses through two images (entity data maps) and allows to register handlers that react on changed values.
 
 Create an instance of the `CdsDiffProcessor` using the `create()` method:
 
@@ -784,7 +784,7 @@ To do a comparison with the `CdsDiffProcessor`, the data maps to be compared nee
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
 Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
 
-To run the comparison, call the `process()` method and provide new and old state of the data as a `Map` (or a collection of them) and the type of the compared entity:
+To run the comparison, call the `process()` method and provide new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
 
 ```java
 List<Map<String, Object>> newImage;
@@ -802,10 +802,10 @@ diff.process(newImage, oldImage, newImage.rowType());
 ```
 
 :::tip Comparing Draft-enabled Entities
-If you compare the active with the inactive state of a draft-enabled entity, make sure that the `IsActiveEntity` values are either absent or the same in both images.
+If you compare the active image of a draft-enabled entity with the inactive one, make sure that the `IsActiveEntity` values are either absent or the same in both images.
 :::
 
-In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing state treating it as an addition or removal mirroring the logic accordingly.
+In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing image treating it as an addition or removal mirroring the logic accordingly.
 
 Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface `CdsDiffProcessor.DiffVisitor`.
 
@@ -855,16 +855,16 @@ All values are compared using the standard Java `equals()` method, including ele
 
 ### Implementing a DiffVisitor
 
-Additions and removals in the entity state are reported as calls to the methods `added()` or `removed()`.
-The called methods always receive the complete added or removed state for the entity or an association.
+Additions and removals in the entity image are reported as calls to the methods `added()` or `removed()`.
+The called methods always receive the complete added or removed content for the entity or an association.
 
 The methods `added()` and `removed()` have the following arguments:
 
-- `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old state of the entity.
+- `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old image of the entity.
 - `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) given that the association is present.
-- state of the changed data as a `Map` as the `newValue` or `oldValue`.
+- changed data as a `Map` as the `newValue` or `oldValue`.
 
-The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the state that is either added or removed. While these paths always have the same structure, `oldPath` and `newPath` can have empty values, which represent the absence of data.
+The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the data that is either added or removed. While these paths always have the same structure, `oldPath` and `newPath` can have empty values, which represent the absence of data.
 
 The `association` value for `added()` and `removed()` is only provided if data is compared along associations or compositions. Null value represents the complete entity that is added or removed.
 
@@ -872,7 +872,7 @@ Let's break it down with the examples:
 
 Given that we have a collection of books each has a composition of many editions.
 
-+ When a new book is added to the collection, the method `added()` is called once with the `Path` instance with one segment representing a book as the `newPath`, `association` will be null and the `newValue` will also be the state of the book. We can deduce that the new book was added to a collection of the books with certain state.
++ When a new book is added to the collection, the method `added()` is called once with the `Path` instance with one segment representing a book as the `newPath`, `association` will be null and the `newValue` will also be the content of the book.
 
   Old image (primary keys are omitted for brevity) of the book collection is:
   ```json
@@ -896,7 +896,7 @@ Given that we have a collection of books each has a composition of many editions
       }
     ]
   ```
-  The state of the entity that visitor will observe in the `added()` method as `newValue`:
+  The content of the entity that visitor will observe in the `added()` method as `newValue`:
   ```json
     {
       "title": "Catweazle",
@@ -905,7 +905,7 @@ Given that we have a collection of books each has a composition of many editions
   ```
   `association` is null in this exact case.
 
-+ When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the state of the edition is the `newValue`. In this case, each added edition is accompanied by the state of the respective book.
++ When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the data of the edition is the `newValue`. In this case, each added edition is accompanied by the content of the respective book.
 
   Old image of the book collection is:
   ```json
@@ -1008,11 +1008,11 @@ Given that we have a collection of books each has a composition of many editions
 
 Method `changed()` is called for each change in the element values and has the following arguments:
 
-- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old state of the entity.
+- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old data of the entity.
 - changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
 - new and old value as an `Object` instances.
 
-Paths have the same target (the entity where changed element is) but their values represent the old and new state of the entity as a whole including non-changed elements. 
+Paths have the same target (the entity where changed element is) but their values represent the old and new image of the entity as a whole including non-changed elements. 
 You may expect that each change is visited at most once.
 
 Let's break it down with the examples:
@@ -1040,7 +1040,7 @@ Given the collection of books with editions, as before.
     ]
   ```
 
-+ When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book (with old and new state, including the title), element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
++ When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book images, element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
 
   New image of the data is:
   ```json
@@ -1092,7 +1092,7 @@ Given the collection of books with editions, as before.
 
   Visitor will observe the `Catweazle: Unabridged` and `Catweazle: Director's Cut` as the new and the old value.
 
-For changes in the associations, when association state is present in both images, even if key values are different, the `change()` method 
+For changes in the associations, when association data is present in both images, even if key values are different, the `change()` method 
 will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
 
 Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.

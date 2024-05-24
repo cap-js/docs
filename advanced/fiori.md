@@ -649,11 +649,11 @@ If you have the need for a more complex calculation, then the interesting parts 
 ## Cache Control
 
 CAP provides the option to set a [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) header with a [max-age](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#max-age) directive to indicate that a response remains fresh until _n_ seconds after it was generated .
-In the CDS model, this can be done via a `@http.CacheControl: {maxAge: <seconds>}` annotation on stream properties. The header indicates that caches can store the response and reuse it for subsequent requests while it's fresh.
+In the CDS model, this can be done using the `@http.CacheControl: {maxAge: <seconds>}` annotation on stream properties. The header indicates that caches can store the response and reuse it for subsequent requests while it's fresh.
 The `max-age` (in seconds) specifies the maximum age of the content before it becomes stale.
 
-:::info Note
-The `max-age` is the elapsed time since the response was generated on the origin server (not the elapsed time since the response was received).
+:::info Elapsed time since the response was generated
+The `max-age` is the elapsed time since the response was generated on the origin server. It's not related to when the response was received.
 :::
 
 ::: warning Only Java

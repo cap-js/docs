@@ -352,9 +352,9 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictions apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Beta /> {#association-like-calculated-elements}
+#### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a refined association, like in this example:
+A calculated element can also define a refined association or composition, like in this example:
 
 ```cds
 entity Employees {
@@ -364,7 +364,7 @@ entity Employees {
 ```
 
 For such a calculated element, no explicit type can be specified.
-Only a single association can occur in the expression, and a filter must be specified.
+Only a single association or composition can occur in the expression, and a filter must be specified.
 
 The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
 
@@ -796,12 +796,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Beta /> {#publish-associations-with-filter}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+#### Publish Associations with Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original
@@ -829,9 +824,6 @@ entity P_Employees as projection on Employees {
 }
 ```
 
-An association that has been published with a filter is read-only. It must not be
-used to modify the target entity.
-
 Filters usually are provided only for to-many associations, which usually are unmanaged.
 Thus publishing with a filter is almost exclusively used for unmanaged associations.
 Nevertheless you can also publish a managed association with a filter. This will automatically
@@ -844,6 +836,21 @@ entity P_Books as projection on Books {
   author.ID as authorID,  // needed for ON condition of deadAuthor
   author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
 };
+```
+
+Publishing a __composition__ with a filter is similar, with an important difference:
+it must not be used to modify the target entity in a deep Update, Insert, or Delete statement.
+Thus the type of the resulting element is set to `cds.Association`. In OData draft, it behaves
+like an "enclosed" association, i.e. it points to the target draft entity.
+
+In the following example, `singleItem` has type `cds.Association`.
+In OData draft, navigating along `singleItems` doesn't leave the draft tree.
+
+```cds
+entity P_orders as projection on Orders {
+  *,
+  Items[quantity = 1] as singleItems
+}
 ```
 
 

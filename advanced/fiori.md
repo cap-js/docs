@@ -656,6 +656,9 @@ The `max-age` (in seconds) specifies the maximum age of the content before it be
 The `max-age` is the elapsed time since the response was generated on the origin server (not the elapsed time since the response was received).
 :::
 
+::: warning Only Java
+Cache Control feature is currently supported on the Java runtime only.
+:::
 
 <div id="client-side-validations" />
 

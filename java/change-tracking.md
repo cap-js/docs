@@ -169,7 +169,7 @@ Do not use an element with [personal data](../guides/data-privacy/annotations#pe
 
 ### Identifiers for Associated Entities
 
-When your entity has an association to other entity, you might want to log the changes in their relationship.
+When your entity has an association to an other entity, you might want to log the changes in their relationship.
 
 Given the `Orders` entity with an association to a `Customer` instead of the element with customer name:
 ```cds

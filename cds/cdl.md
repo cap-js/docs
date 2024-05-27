@@ -354,7 +354,7 @@ No restrictions apply for reading a calculated element on-write.
 
 #### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a refined association or composition, like in this example:
+A calculated element can also define a filtered association or composition, like in this example:
 
 ```cds
 entity Employees {
@@ -838,15 +838,18 @@ entity P_Books as projection on Books {
 };
 ```
 
-Publishing a __composition__ with a filter is similar, with an important difference:
-it must not be used to modify the target entity in a deep Update, Insert, or Delete statement.
-Thus the type of the resulting element is set to `cds.Association`. In OData draft, it behaves
+Publishing a _composition_ with a filter is similar, with an important difference:
+in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
+Thus the type of the resulting element is set to `cds.Association`. 
+
+In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
 like an "enclosed" association, i.e. it points to the target draft entity.
 
 In the following example, `singleItem` has type `cds.Association`.
 In OData draft, navigating along `singleItems` doesn't leave the draft tree.
 
 ```cds
+@odata.draft.enabled
 entity P_orders as projection on Orders {
   *,
   Items[quantity = 1] as singleItems

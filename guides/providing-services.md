@@ -424,6 +424,37 @@ Searches all elements of type `String` excluding the element `isbn`, which leave
 You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
 :::
 
+#### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
+
+Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
+
+If you run CAP Java in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud, you can enable fuzzy search in the *application.yaml* and configure the default fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search. The default fuzziness is 0.8.
+
+```yml
+cds.sql.hana.search
+   fuzzy: true
+   fuzzinessThreshold: 0.9
+```
+
+To override the fuzziness for specific elements, use the `@Search.fuzzinessThreshold` annotation:
+
+```cds
+entity Books {
+  @Search.fuzzinessThreshold: 0.7
+  title : String;
+}
+```
+
+::: tip Wildcards in search terms
+When using wildcards in search terms, an *exact pattern search* is performed.
+Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
+:::
+
+::: warning Only Java
+Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
+:::
+
+
 ### Pagination & Sorting
 
 

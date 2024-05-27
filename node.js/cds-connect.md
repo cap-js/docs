@@ -256,7 +256,7 @@ Find general information about how to configure service bindings in Cloud Foundr
 
 Cloud Foundry uses auto configuration of service credentials through the `VCAP_SERVICES` environment variable.
 
-[Learn more about environment variables on Cloud Foundry and `cf env`.](link){.learn-more}
+[Learn more about environment variables on Cloud Foundry and `cf env`.](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html){.learn-more}
 
 #### Through `VCAP_SERVICES` env var {#vcap_services}
 

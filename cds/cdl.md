@@ -846,7 +846,7 @@ In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
 like an "enclosed" association, i.e. it points to the target draft entity.
 
 In the following example, `singleItem` has type `cds.Association`.
-In OData draft, navigating along `singleItems` doesn't leave the draft tree.
+In draft mode, navigating along `singleItems` doesn't leave the draft tree.
 
 ```cds
 @odata.draft.enabled

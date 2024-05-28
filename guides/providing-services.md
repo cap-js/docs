@@ -954,7 +954,6 @@ Within your custom implementations, you can register event handlers like that:
 ::: code-group
 
 ```js [Node.js]
-const cds = require('@sap/cds')
 module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
   this.on ('CREATE',`Books`, (req)=>{...})

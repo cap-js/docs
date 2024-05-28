@@ -770,13 +770,13 @@ entity Users { ... }
 ```
 
 To navigate between _Teams_ and _Users_, you have to follow two associations: `members.user` or `teams.up_`.
-In OData, use a query like:
+In OData, to get all users of all teams, use a query like the following:
 
 ```cds
 GET /Teams?$expand=members($expand=user)
 ```
 
-to get all users of all teams.
+
 
 
 ### Publish Associations in Projections {#publish-associations}
@@ -785,7 +785,6 @@ As associations are first class citizens, you can put them into the select list
 of a view or projection ("publish") like regular elements. A `select *` includes all associations.
 If you need to rename an association, you can provide an alias.
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   ID,
@@ -802,7 +801,6 @@ When publishing an unmanaged association in a view or projection, you can add a 
 The ON condition of the resulting association is the ON condition of the original
 association plus the filter condition, combined with `and`.
 
-Example:
 ```cds
 entity P_Authors as projection on Authors {
   *,
@@ -816,7 +814,6 @@ that points only to those books where `stock > 0`.
 If the filter condition effectively reduces the cardinality of the association
 to one, you should make this explicit in the filter by adding a `1:` before the condition:
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   *,
@@ -830,7 +827,6 @@ Nevertheless you can also publish a managed association with a filter. This will
 turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
 needed for the ON condition are explicitly published.
 
-Example:
 ```cds
 entity P_Books as projection on Books {
   author.ID as authorID,  // needed for ON condition of deadAuthor
@@ -842,8 +838,10 @@ Publishing a _composition_ with a filter is similar, with an important differenc
 in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
 Thus the type of the resulting element is set to `cds.Association`. 
 
+[Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
+
 In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
-like an "enclosed" association, i.e. it points to the target draft entity.
+like an "enclosed" association, that means, it points to the target draft entity.
 
 In the following example, `singleItem` has type `cds.Association`.
 In draft mode, navigating along `singleItems` doesn't leave the draft tree.

@@ -156,8 +156,8 @@ for example to expose it in a service.
 
 #### Known Limitations
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The emitting service must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
-- The emitting service must not perform any database modifications, because a global database transaction is used when dispatching the events.
+- The service which handles the outboxed event must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
+- The service which handles the outboxed event must not perform any database modifications, because a global database transaction is used when dispatching the events. The outbox must only be used for services which communicate with external systems.
 
 
 ## In-Memory Outbox

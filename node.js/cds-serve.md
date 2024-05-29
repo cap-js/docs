@@ -215,15 +215,26 @@ app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
 ```
 
 The standard set of middlewares uses the following order:
+
 ```js
 cds.middlewares.before = [
-  context(),  // provides cds.context
-  trace(),    // provides detailed trace logs when DEBUG=trace
-  auth(),     // provides req.user & tenant
+  context(),   // provides cds.context
+  trace(),     // provides detailed trace logs when DEBUG=trace
+  auth(),      // provides req.user & tenant
   ctx_auth(),  // propagates auth results to cds.context
-  ctx_model(),    // fills in cds.context.model
+  ctx_model(), // fills in cds.context.model
 ]
 ```
+
+```js
+cds.middlewares.after = [
+  cds_error_handler(), // provides final error handling
+]
+```
+
+::: tip
+In order for a custom error middleware to be invoked, it must be registered _before_ the built-in `cds_error_handler`. That is, it must be added, for example, via `cds.middlewares.after.unshift()`.
+:::
 
 ::: warning _Be aware of the interdependencies of middlewares_ <!--  -->
 _ctx_model_ requires that _cds.context_ middleware has run before.

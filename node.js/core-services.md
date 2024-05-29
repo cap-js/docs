@@ -183,7 +183,7 @@ class BooksService extends cds.ApplicationService {
   init() {
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
-    this.after ('READ', Books, req => {...})
+    this.after ('READ', Books, books => {...})
     this.on ('submitOrder', req => {...})
     return super.init()
   }
@@ -438,7 +438,7 @@ class BooksService extends cds.ApplicationService {
   init(){
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
-    this.after ('READ', Books, req => {...})
+    this.after ('READ', Books, books => {...})
     this.on ('submitOrder', req => {...})
     return super.init()
   }

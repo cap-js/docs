@@ -180,7 +180,7 @@ CQN = {SELECT:{
 
 ```js
 UPSERT = {UPSERT:{
-   into: (ref + { as:string }) | string,
+   into: ref + { as:string },
    entries: [ ...{ ...column:any } ],
    as: SELECT
 }}
@@ -190,7 +190,7 @@ UPSERT = {UPSERT:{
 
 ```js
 INSERT = {INSERT:{
-   into: (ref + { as:string }) | string,
+   into: ref + { as:string },
    columns: [ ...string ],
    values: [ ...any ],
    rows: [ ...[ ...any ] ],

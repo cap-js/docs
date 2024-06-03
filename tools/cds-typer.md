@@ -271,8 +271,7 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
-
-> @cap-js/cds-typer@0.4.0 cli
+> @cap-js/cds-typer cli
 > node lib/cli.js --help
 
 SYNOPSIS
@@ -284,6 +283,12 @@ SYNOPSIS
   to the (root) CDS file you want to compile.
 
 OPTIONS
+
+  --IEEE754Compatible: <true | false>
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
 
   --help
 
@@ -331,18 +336,18 @@ You can safely remove and recreate the types at any time.
 We especially suggest deleting all generated types when switching between development branches to avoid unexpected behavior from lingering types.
 
 ## Integrate Into TypeScript Projects
-The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration.
+The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration for your local development setup.
 
 1. Make sure the directory the types are generated into are part of your project's files. You will either have to add that folder to your `rootDirs` in your _tsconfig.json_ or make sure the types are generated into a directory that is already part of your `rootDir`.
 2. Preferably run the project using `cds-ts`.
-3. If you have to use `tsc`, for example for deployment, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
+3. If you have to use `tsc`, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
 
 ```sh
 tsc && cp -r @cds-models dist
 ```
 
 ## Integrate Into Your CI
-As the generated types are build artifacts, we recommend to exclude them from your software versioning process. Still, as using `cds-typer` changes how you include your model in your service implementation, you need to include the emitted files when releasing your project or running tests in your continuous integration pipeline.
+As the generated types are build artifacts, we recommend to exclude them from your software versioning process. Still, as using `cds-typer` changes how you include your model in your service implementation, you need to include the emitted files when running tests in your continuous integration pipeline.
 You should therefore trigger `cds-typer` as part of your build process. One easy way to do so is to add a variation of the following command to your build script:
 
 ```sh
@@ -351,20 +356,20 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 ## Integrate Into Your Multitarget Application
-Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well.
+Having `cds-typer` present as dependency provides a build task "`typescript`" which is automatically included as part of `cds build` if your project contains a `tsconfig.json`.
+This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group
-```yaml [mta.yaml]
-build-parameters:
-  before-all:
-  - builder: custom
-    commands:
-    - npx cds build --production
-    - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
+```json [tsconfig.cdsbuild.json]
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./gen/srv",
+  },
+  "exclude": ["app", "gen"]
+}
 ```
 :::
-
-This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/cds-cli#cds-add) via `cds add typer`.

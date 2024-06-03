@@ -105,14 +105,14 @@ this.before('*', function (req) {
 })
 ```
 
-Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, i.e., `const user = cds.User.privileged`.
+Alternatively, you can also use the ready-to-use instance `cds.User.privileged` directly, that is, `const user = cds.User.privileged`.
 
 
 ## cds.**User.Anonymous** { #anonymous-user .class }
 
 Class `cds.User.Anonymous` allows you to instantiate an anonymous user (`const user = new cds.User.Anonymous`), for example in a [custom authentication](#custom) implementation.
 
-Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, i.e., `const user = cds.User.anonymous`.
+Alternatively, you can also use the ready-to-use instance `cds.User.anonymous` directly, that is, `const user = cds.User.anonymous`.
 
 
 ## cds.**User.default** { #default-user .property }

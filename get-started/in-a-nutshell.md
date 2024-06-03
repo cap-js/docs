@@ -395,7 +395,7 @@ Open _<http://localhost:4004>_ / _<http://localhost:8080>_ in your browser and s
 
 As [previously shown](#deployed-in-memory), `cds watch` automatically bootstraps an SQLite in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up development turn-around times, essentially by mocking your target database, for example, SAP HANA. {.impl .node}
 
-[Learn more about mocking options in **Grow as you go**.](./grow-as-you-go){.learn-more .impl .node}
+[Learn more about mocking options in **Jumpstart Development**.](./jumpstart){.learn-more .impl .node}
 
 ### H2 In-Memory {.impl .java}
 

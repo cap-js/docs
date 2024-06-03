@@ -777,7 +777,7 @@ this.on ('error', (err, req) => {
 })
 ```
 
-Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, i.e., **not `async`**, not returning Promises.
+Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, that is, **not `async`**, not returning Promises.
 
 
 
@@ -1046,7 +1046,7 @@ All matching `.before`, `.on`, and `.after` handlers are executed in correspondi
   -  ***concurrently*** for instances of `cds.Event`
 - **`after`** handlers are always executed *concurrently*
 
-In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
+In effect, for asynchronous event messages, that is, instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, that is, instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
 <!-- ## Streaming API {#srv-stream } -->

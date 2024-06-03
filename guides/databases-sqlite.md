@@ -389,7 +389,7 @@ SELECT.one.localized(Books)
 The new database services guarantee identical behavior of these logic operators:
 
 - `==`, `=` — with `= null` being translated to `is null`
-- `!=`,  `<>`  — with `!=` translated to `IS NOT` in SQLite
+- `!=`,  `<>`  — with `!= null` being translated to `is not null`
 
 * `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
 

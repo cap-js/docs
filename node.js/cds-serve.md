@@ -211,7 +211,7 @@ srv/cat-service.js   #> service implementation used by default
 For each service served at a certain protocol, the framework registers a configurable set of express middlewares by default like so:
 
 ```js
-app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
+app.use (cds.middlewares.before, protocol_adapter)
 ```
 
 The standard set of middlewares uses the following order:

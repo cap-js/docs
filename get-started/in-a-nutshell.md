@@ -613,7 +613,6 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 
 ::: code-group
 ```js [srv/cat-service.js]
-const cds = require('@sap/cds')
 module.exports = function (){
   // Register your event handlers in here, for example, ...
   this.after ('each','Books', book => {

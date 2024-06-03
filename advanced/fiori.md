@@ -436,7 +436,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 :::
 
 ### Difference between Compositions and Associations
-Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
+Be aware that you must not modify associated entities through drafts. Only compositions will get a "Create" button in SAP Fiori elements UIs because they are stored as part of the same draft entity.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
@@ -645,6 +645,20 @@ This annotation uses [dynamic expressions](../advanced/odata#dynamic-expressions
 If you have the need for a more complex calculation, then the interesting parts in SFLIGHT are [virtual fields in _field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/field-control.cds#L10-L16) (also lines 37-44) and [custom code in _travel-service.js_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.js#L13-L22).
 :::
 
+
+## Cache Control
+
+CAP provides the option to set a [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) header with a [max-age](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#max-age) directive to indicate that a response remains fresh until _n_ seconds after it was generated .
+In the CDS model, this can be done using the `@http.CacheControl: {maxAge: <seconds>}` annotation on stream properties. The header indicates that caches can store the response and reuse it for subsequent requests while it's fresh.
+The `max-age` (in seconds) specifies the maximum age of the content before it becomes stale.
+
+:::info Elapsed time since the response was generated
+The `max-age` is the elapsed time since the response was generated on the origin server. It's not related to when the response was received.
+:::
+
+::: warning Only Java
+Cache Control feature is currently supported on the Java runtime only.
+:::
 
 <div id="client-side-validations" />
 

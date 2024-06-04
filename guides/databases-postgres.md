@@ -90,19 +90,40 @@ To connect to a PostgreSQL offering from the cloud provider in Production, lever
 
 For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
-::: warning
-Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community supports PostgreSQL. To use this buildpack, configure it in the service module section of your mta.yaml:
+<div markdown="1" class="impl java">
+
+There are some limitations on the BTP to consume a PostgreSQL instance:
+- Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community supports PostgreSQL. To use this buildpack, configure it in the service module section of your mta.yaml:
+
 ```yaml
 modules:
-# --------------------- SERVER MODULE ------------------------
   - name: bookshop-pg-srv
-# ------------------------------------------------------------
     type: java
     path: srv
     parameters:
       buildpack: java_buildpack
 ```
-:::
+
+- By default the Java buildack initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false`. The variable `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
+
+Here an example showing both configuration settings applied to mta.yaml:
+```yaml 
+modules:
+  - name: bookshop-pg-srv
+    type: java
+    path: srv
+    parameters:
+      buildpack: java_buildpack
+    properties:
+        SPRING_PROFILES_ACTIVE: cloud
+        JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
+        JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
+        # We do not want cfenv to configure the DataSource for us
+        # cfenv uses names of the services, so this variable must be adapted if needed
+        # as CFENV_SERVICE_[service-name]_ENABLED
+        # See https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html
+        CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
+```
 
 ### Using Docker
 

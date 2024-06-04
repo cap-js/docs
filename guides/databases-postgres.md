@@ -54,8 +54,6 @@ In order to use the CDS tooling with PostgreSQL, you also need to install the mo
 npm add @cap-js/postgres
 ```
 
-To use the 
-
 <div markdown="1" class="impl java">
 
 After that, you can use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
@@ -88,15 +86,13 @@ Output:
 
 To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
 
-For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
-
 <div markdown="1" class="impl java">
 
 There are some limitations on the BTP to consume a PostgreSQL instance from a CAP Java application:
 
 - Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community allows to consume a PostgreSQL service from a CAP Java application. To use this buildpack, configure it in the service module section of your mta.yaml
 
-- By default the `java_buildpack` initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false`. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
+- By default the `java_buildpack` initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false` at your CAP Java service module. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
 
 The following example shows both configuration settings applied to an mta.yaml:
 
@@ -119,6 +115,8 @@ modules:
 ```
 
 </div>
+
+For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 

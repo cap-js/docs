@@ -98,7 +98,7 @@ There are some limitations on the BTP to consume a PostgreSQL instance from a CA
 
 - By default the `java_buildpack` initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false`. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
 
-Here an example showing both configuration settings applied to mta.yaml:
+The following example shows both configuration settings applied to an mta.yaml:
 
 ```yaml 
 modules:

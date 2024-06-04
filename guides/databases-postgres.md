@@ -54,6 +54,8 @@ In order to use the CDS tooling with PostgreSQL, you also need to install the mo
 npm add @cap-js/postgres
 ```
 
+To use the 
+
 <div markdown="1" class="impl java">
 
 After that, you can use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
@@ -84,9 +86,23 @@ Output:
 
 ## Provisioning a DB Instance
 
-To connect to a PostgreSQL offering from the cloud provider in Production,  leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
+To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
 
 For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
+
+::: warning
+Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community supports PostgreSQL. To use this buildpack, configure it in the service module section of your mta.yaml:
+```yaml
+modules:
+# --------------------- SERVER MODULE ------------------------
+  - name: bookshop-pg-srv
+# ------------------------------------------------------------
+    type: java
+    path: srv
+    parameters:
+      buildpack: java_buildpack
+```
+:::
 
 ### Using Docker
 

@@ -118,6 +118,8 @@ modules:
         CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
 ```
 
+</div>
+
 ### Using Docker
 
 You can use Docker to run a PostgreSQL database locally as follows:

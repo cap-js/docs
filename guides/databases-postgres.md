@@ -92,21 +92,14 @@ For local development and testing convenience, you can run PostgreSQL in a [dock
 
 <div markdown="1" class="impl java">
 
-There are some limitations on the BTP to consume a PostgreSQL instance:
-- Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community supports PostgreSQL. To use this buildpack, configure it in the service module section of your mta.yaml:
+There are some limitations on the BTP to consume a PostgreSQL instance from a CAP Java application:
 
-```yaml
-modules:
-  - name: bookshop-pg-srv
-    type: java
-    path: srv
-    parameters:
-      buildpack: java_buildpack
-```
+- Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community allows to consume a PostgreSQL service from a CAP Java application. To use this buildpack, configure it in the service module section of your mta.yaml
 
-- By default the Java buildack initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false`. The variable `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
+- By default the `java_buildpack` initializes the PostgreSQL datasource with the CF Env Java library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false`. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
 
 Here an example showing both configuration settings applied to mta.yaml:
+
 ```yaml 
 modules:
   - name: bookshop-pg-srv

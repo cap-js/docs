@@ -766,7 +766,7 @@ processor.addGenerator(
 
 ## Diff Processor
 
-To react on changes in entity data, you need to compare the image of an entity after a certain operation with the image before the operation. To facilitate this task, use the `CdsDiffProcessor`, similar to the [Data Processor](/java/cds-data#cds-data-processor). The Diff Processor traverses through two images (entity data maps) and allows to register handlers that react on changed values.
+To react on changes in entity data, you need to compare the image of an entity after a certain operation with the image before the operation. To facilitate this task, use the [`CdsDiffProcessor`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDiffProcessor.html), similar to the [Data Processor](/java/cds-data#cds-data-processor). The Diff Processor traverses through two images (entity data maps) and allows to register handlers that react on changed values.
 
 Create an instance of the `CdsDiffProcessor` using the `create()` method:
 
@@ -807,7 +807,7 @@ If you compare the active image of a draft-enabled entity with the inactive one,
 
 In case one of the images is empty, the `CdsDiffProcessor` traverses through the existing image treating it as an addition or removal mirroring the logic accordingly.
 
-Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface `CdsDiffProcessor.DiffVisitor`.
+Changes detected by `CdsDiffProcessor` are reported to one or more visitors implementing the interface [`CdsDiffProcessor.DiffVisitor`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsDiffProcessor.DiffVisitor.html).
 
 The visitor is added to `CdsDiffProcessor` with the `add()` method before starting the processing.
 
@@ -1012,7 +1012,7 @@ Method `changed()` is called for each change in the element values and has the f
 - changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
 - new and old value as an `Object` instances.
 
-Paths have the same target (the entity where changed element is) but their values represent the old and new image of the entity as a whole including non-changed elements. 
+Paths have the same target (the entity where changed element is) but their values represent the old and new image of the entity as a whole including non-changed elements.
 You may expect that each change is visited at most once.
 
 Let's break it down with the examples:
@@ -1092,7 +1092,7 @@ Given the collection of books with editions, as before.
 
   Visitor will observe the `Catweazle: Unabridged` and `Catweazle: Director's Cut` as the new and the old value.
 
-For changes in the associations, when association data is present in both images, even if key values are different, the `change()` method 
+For changes in the associations, when association data is present in both images, even if key values are different, the `change()` method
 will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
 
 Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
@@ -1115,8 +1115,8 @@ or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cd
 In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation
 or having a certain common type, for example, only numbers.
 
-For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity 
-type that is either the target of some association or the parent of the current element. 
+For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity
+type that is either the target of some association or the parent of the current element.
 
 ```java
 diff.add(new Filter() {

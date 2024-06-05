@@ -113,7 +113,7 @@ Object result = context.get("result");
 
 Using the `get` and `put` methods has several drawbacks: The API is neither type-safe nor is it clear what the correct keys for different event parameters are.
 To solve these issues it is possible to overlay the general Event Context with an event-specific Event Context, which provides typed getters and setters for the parameters of a specific event.
-For each event that the CAP Java SDK provides out-of-the-box (for example the [CRUD events](../cqn-services/application-services#crudevents)) a corresponding Event Context is provided.
+For each event that the CAP Java SDK provides out-of-the-box (for example the [CRUD events](../cqn-services/application-services#crudevents) a corresponding Event Context is provided.
 
 Let's have a look at an example. The [CdsReadEventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/CdsReadEventContext.html) interface is the `READ` event-specific Event Context.
 As one of the parameters of the `READ` event is a [CqnSelect](../../cds/cqn#select) it provides a `CqnSelect getCqn()` method. The return value of a `READ` event is a [Result](../working-with-cql/query-execution#result).

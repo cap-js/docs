@@ -1909,9 +1909,8 @@ CqnSelect subquery =
 Select.from("Authors").where(CQL.exists(subquery));
 ```
 
-::: info
-Chaining `$outer` in nested subqueries is not supported.
-:::
+> **Note:** Chaining `$outer` in nested subqueries is not supported.
+
 
 
 ## Parsing CQN

@@ -394,7 +394,7 @@ class cds.struct extends cds.type {...}
 ### . is_struct {.property}
 
 A tag property which is `true` for linked struct definitions (types and elements). <br>
-It is also `true` for linked entity definitions, i.e., instances of as [`cds.entity`](#cds-entity). {.indent}
+It is also `true` for linked entity definitions, that is, instances of as [`cds.entity`](#cds-entity). {.indent}
 
 ### . elements {.property}
 

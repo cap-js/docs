@@ -352,9 +352,9 @@ table row. Therefore, such an expression must not contain subqueries, aggregate 
 
 No restrictions apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Beta /> {#association-like-calculated-elements}
+#### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a refined association, like in this example:
+A calculated element can also define a filtered association or composition, like in this example:
 
 ```cds
 entity Employees {
@@ -364,7 +364,7 @@ entity Employees {
 ```
 
 For such a calculated element, no explicit type can be specified.
-Only a single association can occur in the expression, and a filter must be specified.
+Only a single association or composition can occur in the expression, and a filter must be specified.
 
 The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
 
@@ -770,13 +770,13 @@ entity Users { ... }
 ```
 
 To navigate between _Teams_ and _Users_, you have to follow two associations: `members.user` or `teams.up_`.
-In OData, use a query like:
+In OData, to get all users of all teams, use a query like the following:
 
 ```cds
 GET /Teams?$expand=members($expand=user)
 ```
 
-to get all users of all teams.
+
 
 
 ### Publish Associations in Projections {#publish-associations}
@@ -785,7 +785,6 @@ As associations are first class citizens, you can put them into the select list
 of a view or projection ("publish") like regular elements. A `select *` includes all associations.
 If you need to rename an association, you can provide an alias.
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   ID,
@@ -796,18 +795,12 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Beta /> {#publish-associations-with-filter}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+#### Publish Associations with Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original
 association plus the filter condition, combined with `and`.
 
-Example:
 ```cds
 entity P_Authors as projection on Authors {
   *,
@@ -821,7 +814,6 @@ that points only to those books where `stock > 0`.
 If the filter condition effectively reduces the cardinality of the association
 to one, you should make this explicit in the filter by adding a `1:` before the condition:
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   *,
@@ -829,21 +821,37 @@ entity P_Employees as projection on Employees {
 }
 ```
 
-An association that has been published with a filter is read-only. It must not be
-used to modify the target entity.
-
 Filters usually are provided only for to-many associations, which usually are unmanaged.
 Thus publishing with a filter is almost exclusively used for unmanaged associations.
 Nevertheless you can also publish a managed association with a filter. This will automatically
 turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
 needed for the ON condition are explicitly published.
 
-Example:
 ```cds
 entity P_Books as projection on Books {
   author.ID as authorID,  // needed for ON condition of deadAuthor
   author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
 };
+```
+
+Publishing a _composition_ with a filter is similar, with an important difference:
+in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
+Thus the type of the resulting element is set to `cds.Association`. 
+
+[Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
+
+In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
+like an "enclosed" association, that means, it points to the target draft entity.
+
+In the following example, `singleItem` has type `cds.Association`.
+In draft mode, navigating along `singleItems` doesn't leave the draft tree.
+
+```cds
+@odata.draft.enabled
+entity P_orders as projection on Orders {
+  *,
+  Items[quantity = 1] as singleItems
+}
 ```
 
 
@@ -1390,7 +1398,7 @@ extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
 
-For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
+For multiple conflicting `extend` statements, the last `extend` wins, that means in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
@@ -1982,17 +1990,28 @@ CREATE TABLE Employees (
 ) COMMENT 'I am the description for "Employee"'
 ```
 
-Doc comments need to be switched on when calling the compiler:
-
-```sh
-# in CLI:
-cds compile foo.cds --docs
-```
-```js
-// in JavaScript:
-cds.compile(..., { docs: true })
-```
-
 ::: tip
 Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::
+
+In CAP Node.js, doc comments need to be switched on when calling the compiler:
+
+::: code-group
+```sh [CLI]
+cds compile foo.cds --docs
+```
+```json [package.json]
+{
+  "cds" : {
+    "docs" : true // [!code focus]
+  }
+}
+```
+```js [JavaScript]
+cds.compile(..., { docs: true })
+```
+:::
+
+::: tip Doc comments are enabled by default in CAP Java.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments]([url](https://pages.github.tools.sap/cap/docs/java/assets/cds-maven-plugin-site/generate-mojo.html#documentation)).
 :::

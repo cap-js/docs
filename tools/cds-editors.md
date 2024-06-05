@@ -220,7 +220,7 @@ Default: *ActiveEditorOnly*
 
 Keeps track of the active editor in focus. Only changes there are immediately validated.
 
-The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is having multiple files open (even if they are not shown as tabs)
+The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is, having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
 
 ::: warning Large models can lead to **high CPU and memory load**
@@ -235,7 +235,7 @@ The high resource consumption might impact the editor's responsiveness.
 
 Default: *on*
 
-This setting enables extended support for annotations, that is refined diagnostics and code completion. Can be switched *off* for performance gains.
+This setting enables extended support for annotations, that is, refined diagnostics and code completion. Can be switched *off* for performance gains.
 
 ##### Cds > Workspace: ScanCsn
 
@@ -335,7 +335,7 @@ To enable the limit value above, switch *on*.
 - Commands _Go to References_ / _Find All References_ will recompile all models that might have changed due to a change in a depending model. If there are index models, it often means that the complete workspace is being recompiled.
 Until a further change, reference calculation is reasonably fast.
 - Command _Go to Symbol in Workspace_ will recompile the complete workspace once, after that it is reasonable fast.
-- Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
+- Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
 ### CDS Source Formatter <Beta /> { #cds-formatter}

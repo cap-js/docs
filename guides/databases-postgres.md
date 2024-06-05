@@ -90,7 +90,7 @@ To connect to a PostgreSQL offering from the cloud provider in Production, lever
 
 There are some limitations on the BTP to consume a PostgreSQL instance from a CAP Java application:
 
-- Only the Java buildpack `java_buildpack` provided by the Cloudfoundry community allows to consume a PostgreSQL service from a CAP Java application. To use this buildpack, configure it in the service module section of your mta.yaml
+- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application. To use this buildpack, configure it in the service module section of your mta.yaml
 
 - By default, the `java_buildpack` initializes the PostgreSQL datasource with the Java CFEnv library, but it's required to let the CAP Java runtime to initialize the PostgreSQL datasource. This can be achieved by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false` at your CAP Java service module. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
 

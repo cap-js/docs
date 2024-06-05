@@ -413,7 +413,7 @@ public List<Books> readBooks(CdsReadEventContext context) {
 }
 ```
 
-Event handler methods with return values only work on [CRUD events[(cqn-services/application-services#crudevents) of [CQN-based services](cqn-services/#cdsservices) or the [draft-specific CRUD events](../fiori-drafts#draftevents) provided by Draft Services.
+Event handler methods with return values only work on [CRUD events](../cqn-services/application-services#crudevents) of [CQN-based services](../cqn-services/#cdsservices) or the [draft-specific CRUD events](../fiori-drafts#draftevents) provided by Draft Services.
 
 ::: tip
 To learn how to build your own Result objects, have a look at the [Result Builder API](../cqn-services/application-services#result-builder)

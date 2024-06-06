@@ -123,13 +123,14 @@ The generated project has the following folder structure:
 
 ```txt
 <PROJECT-ROOT>/
-|-- db/
-    `-- schema.cds
-`-- srv/
-    |-- cat-service.cds
-    |-- src/main/java/
-    |-- src/gen/java/
-    `-- node_modules/
+├─ db/
+│  └─ data-model.cds
+└─ srv/
+   ├─ cat-service.cds
+   ├─ src/main/java/
+   ├─ src/gen/java/
+   └─ node_modules/
+
 ```
 
 The generated folders have the following content:
@@ -173,8 +174,8 @@ mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
 ```txt
 <PROJECT-ROOT>/
-`-- integration-tests/
-    `-- src/test/java/
+└─ integration-tests/
+   └─ src/test/java/
 ```
 
 | Folder | Description  |

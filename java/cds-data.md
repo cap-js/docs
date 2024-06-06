@@ -774,17 +774,16 @@ Create an instance of the `CdsDiffProcessor` using the `create()` method:
 CdsDiffProcessor diff = CdsDiffProcessor.create();
 ```
 
-You can compare the data represented as [structured data](/java/cds-data#structured-data), results of the CQN statements or arguments of event handlers.
-To do a comparison with the `CdsDiffProcessor`, the data maps to be compared need to adhere to the following requirements:
+You can compare the data represented as [structured data](/java/cds-data#structured-data), which is a result of the CQN statements or arguments of event handlers. For a comparison with the `CdsDiffProcessor`, the data maps that are compared need to adhere to the following requirements:
 
-- the data map must include values for all key elements
-- the names in the data map must match the elements of the entity
-- associations must be represented as [nested structures and associations](/java/cds-data#nested-structures-and-associations) according to the associations` cardinalities
+- The data map must include values for all key elements.
+- The names in the data map must match the elements of the entity.
+- Associations must be represented as [nested structures and associations](/java/cds-data#nested-structures-and-associations) according to the associations` cardinalities.
 
 The [delta representation](/java/working-with-cql/query-api#deep-update-delta) of collections is also supported.
-Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used instead of the entity type.
+Results of the CQN statements fulfill these conditions if the type [that comes with the result](/java/working-with-cql/query-execution#introspecting-the-row-type) is used, not the entity type.
 
-To run the comparison, call the `process()` method and provide new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
+To run the comparison, call the `process()` method and provide the new and old image of the data as a `Map` (or a collection of them) and the type of the compared entity:
 
 ```java
 List<Map<String, Object>> newImage;
@@ -801,7 +800,7 @@ Result oldImage = service.run(Select.from(...));
 diff.process(newImage, oldImage, newImage.rowType());
 ```
 
-:::tip Comparing Draft-enabled Entities
+:::tip Comparing draft-enabled entities
 If you compare the active image of a draft-enabled entity with the inactive one, make sure that the `IsActiveEntity` values are either absent or the same in both images.
 :::
 
@@ -905,7 +904,7 @@ Given that we have a collection of books each has a composition of many editions
   ```
   `association` is null in this exact case.
 
-+ When a new editions are added to two of the books in the collection one per each book: the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition, association element is the value of the argument `association`, the data of the edition is the `newValue`. In this case, each added edition is accompanied by the content of the respective book.
++ When new editions are added to two of the books in the collection, one per each book, the method `added()` is called twice with the `Path` instance with two segments representing the book and the association to the edition. The association element is the value of the argument `association`, the data of the edition is the `newValue`. In this case, each added edition is accompanied by the content of the respective book.
 
   Old image of the book collection is:
   ```json
@@ -958,7 +957,7 @@ Given that we have a collection of books each has a composition of many editions
   }
   ```
 
-+ Given the previous example, there are two new editions added to one of the books: the `added()` method will be called once per edition added. Path instances with same book (same primary key) tell you which edition belong to which book.
++ Given the previous example, there are two new editions added to one of the books: the `added()` method will be called once per edition added. Path instances with same book (same primary key) tell you which edition belongs to which book.
 
   Old image is the same as before, new image of the book collection is:
   ```json
@@ -1008,11 +1007,11 @@ Given that we have a collection of books each has a composition of many editions
 
 Method `changed()` is called for each change in the element values and has the following arguments:
 
-- pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old data of the entity.
-- changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
-- new and old value as an `Object` instances.
+- A pair of `Path` instances (`newPath` and `oldPath`) reflecting the new and old data of the entity.
+- The changed element as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html).
+- The new and old value as `Object` instances.
 
-Paths have the same target (the entity where changed element is) but their values represent the old and new image of the entity as a whole including non-changed elements.
+Paths have the same target, that is, the entity where changed element is. But their values represent the old and new image of the entity as a whole including non-changed elements.
 You may expect that each change is visited at most once.
 
 Let's break it down with the examples:
@@ -1042,7 +1041,7 @@ Given the collection of books with editions, as before.
 
 + When book title is changed from one value to the other, the method `changed()` is called once with both `Path` instances representing a book images, element `title` is available as an instance of `CdsElement`, the new and old value of the title are available as `newValue` and `oldValue`.
 
-  New image of the data is:
+  New image:
   ```json
     [
       {
@@ -1064,11 +1063,11 @@ Given the collection of books with editions, as before.
     ]
   ```
 
-  Visitor will observe the `Catweazle, the series` and `Catweazle` as the new and the old value.
+  The Diff Visitor will observe the `Catweazle, the series` and `Catweazle` as the new and the old value.
 
 + When title of the edition is changed for one of the books, the `changed()` method is called once, the paths include the book and the edition. Element reference and values are set accordingly.
 
-  New image of the data is:
+  New image:
   ```json
     [
       {
@@ -1095,15 +1094,15 @@ Given the collection of books with editions, as before.
 For changes in the associations, when association data is present in both images, even if key values are different, the `change()` method
 will always be called for the content of the association traversing it value-by-value. In case data is absent in one of them, the `added()` or `removed()` will be called instead.
 
-Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent beings.
+Several visitors added to the `CdsDiffProcessor` are called one by one, but you should not expect the guaranteed order of the calls for them. Consider them as an independent.
 
-:::danger Immutable Data
+:::danger Immutable data
 Do not modify the state of the images inside the visitors. Consider the data presented to it immutable.
 :::
 
 ### Filtering for DiffVisitor
 
-Element filters are useful if you want to extract some common condition out of your visitor implementation so that you do not have to branch in all methods of your visitor.
+Element filters are useful if you want to extract some common condition out of your visitor implementation so that you don't have to branch in all methods of your visitor.
 
 As a general rule, you may assume that element filter is called at least once for each changed value you have in your
 image and the visitor supplied next to the filter is called for elements where the element filter condition is evaluated to `true`.
@@ -1115,7 +1114,7 @@ or a [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cd
 In simple cases, you may use the element and its type to limit the visitor so that it observes only elements having a certain annotation
 or having a certain common type, for example, only numbers.
 
-For example, if you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity
+If you compare a collection of books to find out of there is a differences in it, but you are only interested in authors, you can write a filter using the entity
 type that is either the target of some association or the parent of the current element.
 
 ```java
@@ -1141,9 +1140,9 @@ To enable this, you create an instance of `CdsDiffProcessor` like that:
 CdsDiffProcessor diff = CdsDiffProcessor.create().forDeepTraversal();
 ```
 
-In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the added or removed data entity by entity.
+In this mode, the methods `added()` and `removed()` are called not only for the root of the added or removed data, but also traverse the added or removed data, entity by entity.
 
-It is useful, when you want to track the additions and removals of the certain entities on the leaf levels or as part of visitors tailored for generic use cases.
+It's useful, when you want to track the additions and removals of certain entities on the leaf levels or as part of visitors tailored for generic use cases.
 
 ## Media Type Processing { #mediatypeprocessing}
 

@@ -257,7 +257,7 @@ In addition, it's possible to add manual instrumentations using the [Open Teleme
 #### Configure Java Agent and Extension Library { #agent-extension }
 
 :::warning Dependency
-The configuration steps below assume that your application uses the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack) version 2 or 1. 
+The configuration steps below assume that your application uses the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack).
 :::
 
 1) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:
@@ -341,7 +341,7 @@ The following steps describe the required configuration:
    :::
 
 5) Check your Dynatrace binding. You are looking for two tokens generated for you: the default one is called `apitoken` and the second one should correspond to the token you have requested in your `mta.yaml` or generated from Dynatrace instance manually.
-6) Add to the environment variable `JBP_CONFIG_JAVA_OPTS` the following option `-Dotel.javaagent.extension.sap.cf.binding.dynatrace.metrics.token-name=<ingest_apitoken>`. Replace the name `ingest_apitoken` with the name of the token you have found previously. 
+6) Add to the environment variable `JBP_CONFIG_JAVA_OPTS` the following option `-Dotel.javaagent.extension.sap.cf.binding.dynatrace.metrics.token-name=<ingest_apitoken>`. Replace the name `ingest_apitoken` with the name of the token you have found previously.
 
    Traces will be handled by the Dynatrace OneAgent and OpenTelemetry export for them is disabled to prevent the OpenTelemetry agent from interfering with that.
 
@@ -366,9 +366,9 @@ For specific steps to change the log level, please refer to the respective secti
 
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
-You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or you can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API. 
+You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or you can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API.
 
-To enable annotation-based tracing, include the following dependency in your `pom.xml`: 
+To enable annotation-based tracing, include the following dependency in your `pom.xml`:
 
 ::: code-group
 ```xml [srv/pom.xml]
@@ -386,7 +386,7 @@ Then, you can create additional spans around your event handlers just by annotat
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-   
+
    @Before(entity = Books_.CDS_NAME)
    @WithSpan
    public void beforeAddReview(AddReviewContext context) {

@@ -363,7 +363,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `tolower(x)` — returns all-lowercased `x`
 * `toupper(x)` — returns all-uppercased `x`
 * `ceiling(x)` — returns ceiled `x`
-* `session_context(v)` — with standard variable names → [see below](#session-variables)
+* `session_context(v)` — with standard variable names → [see Session Variables](/guides/databases-sqlite#session-variables)
 * `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
 
 > <sup>1</sup> Argument `n` is optional.

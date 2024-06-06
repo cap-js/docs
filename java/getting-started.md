@@ -215,7 +215,7 @@ You can open the project by either running `idea .` from the project root or use
 
 1. Open the internal terminal with `option+F12` (Windows: `alt+F12`) and type `mvn compile` to perform a full build of your project. This is needed because the IDE can build the right class path based on the dependencies of the project. But it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
 
-2. In the project exporer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
+2. In the project explorer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
 
 ### Run and Test the Application
 

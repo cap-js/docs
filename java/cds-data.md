@@ -859,9 +859,9 @@ The called methods always receive the complete added or removed content for the 
 
 The methods `added()` and `removed()` have the following arguments:
 
-- `newPath` and the `oldPath` as an instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old image of the entity.
+- `newPath` and the `oldPath` as instances of [`Path`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/Path.html) reflecting the new and old image of the entity.
 - `association` as an instance of [`CdsElement`](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/reflect/CdsElement.html) given that the association is present.
-- changed data as a `Map` as the `newValue` or `oldValue`.
+- Changed data as a `Map`, as either the `newValue` or `oldValue`.
 
 The instances of the `Path` represent the placement of the changed item within the whole entity as a prefix to the data that is either added or removed. While these paths always have the same structure, `oldPath` and `newPath` can have empty values, which represent the absence of data.
 
@@ -949,7 +949,7 @@ Given that we have a collection of books each has a composition of many editions
   }
   ```
 
-  and in the second - the second added edition with the second book as the root of the path.
+  In the second call - the second added edition with the second book as the root of the path.
 
   ```json
   {
@@ -998,7 +998,7 @@ Given that we have a collection of books each has a composition of many editions
     "title": "Catweazle: Director's Cut"
   }
   ```
-  and
+  
   ```json
   {
     "title": "Catweazle: Director's Cut"

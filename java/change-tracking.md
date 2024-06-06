@@ -18,7 +18,7 @@ to the remote services aren't tracked.
 
 ## Enabling Change Tracking
 
-- To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `pom.xml` file of your service:
+To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `pom.xml` file of your service:
 
 ```xml
 <dependency>
@@ -28,13 +28,13 @@ to the remote services aren't tracked.
 </dependency>
 ```
 
-- Your POM must also include the goal to resolve the CDS model delivered from the feature.
+Your POM must also include the goal to resolve the CDS model delivered from the feature.
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
 For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
 - For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
 
-- If you use the Fiori Elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
+- If you use SAP Fiori elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 
 ### Annotating Entities
 
@@ -271,7 +271,7 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 
 ## Reacting on Changes
 
-You can write the event handler to observe the change log entries. Keep in mind, that the change log entries 
+You can write an event handler to observe the change log entries. Keep in mind, that the change log entries 
 are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
 
 ```java

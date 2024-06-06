@@ -124,7 +124,7 @@ The generated project has the following folder structure:
 ```txt
 <PROJECT-ROOT>/
 |-- db/
-    `-- data-model.cds
+    `-- schema.cds
 `-- srv/
     |-- cat-service.cds
     |-- src/main/java/
@@ -136,7 +136,7 @@ The generated folders have the following content:
 
 | Folder | Description |
 | --- | --- |
-| *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
+| *db* | Contains content related to your database. A simple CDS domain model is located in the file _schema.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
 | *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |

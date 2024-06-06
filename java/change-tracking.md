@@ -180,8 +180,8 @@ entity Orders {
 }
 ```
 
-If you annotate such association with `@changelog`, the change log will store the value of the associated entity key, by default.
-If you want, you can store some human-readable identifier instead. You define this by annotating the association with own identifier:
+If you annotate such an association with `@changelog`, by default, the change log stores the value of the associated entity key.
+If you want, you can store some human-readable identifier instead. You define this by annotating the association with an own identifier:
 
 ```cds
 annotate Orders {
@@ -194,12 +194,12 @@ Elements from the `@changelog` annotation value must always be prefixed by the a
 If you annotate a composition with an identifier, the change log will contain an entry with the identifier's value. Additionally, it will include change log entries for all annotated elements of the composition's target entity.
 
 :::warning Validation required
-If the target of the association is missing, for example, when entity is updated with the ID for a customer
+If the target of the association is missing, for example, when an entity is updated with the ID for a customer
 that does not exists, the changelog entry will not be created. You need to validate
-such cases in the custom code or use annotations e.g [`@assert.target`](/guides/providing-services#assert-target).
+such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
 :::
 
-This feature also can be used for to-many compositions, when you do not need to track the deep changes, but still want to track the additions and removals in the composition.
+This feature can also be used for to-many compositions, when you don't need to track the deep changes, but still want to track the additions and removals in the composition.
 
 With association identifiers you also must consider the changes in your entities structure along the projections. In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly in the source entity.
 

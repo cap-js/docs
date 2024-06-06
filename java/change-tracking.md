@@ -163,10 +163,6 @@ not be formatted per user locale or some requirements, for example, different un
 You should consider this when you decide what to include in the identifier.
 :::
 
-:::danger Sensitive Data
-Do not use an element with [personal data](../guides/data-privacy/annotations#personaldata) as the identifier. Such elements will be ignored.
-:::
-
 ### Identifiers for Associated Entities
 
 When your entity has an association to an other entity, you might want to log the changes in their relationship.

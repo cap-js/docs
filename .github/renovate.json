@@ -30,8 +30,8 @@
       "groupName": "Github actions"
     },
     {
-      "matchFileNames": ["**/*.md"],
-      "groupName": "versions in markdown"
+      "matchFileNames": [ "**/*.md" ],
+      "separateMajorMinor": false
     }
   ],
   "regexManagers": [
@@ -56,9 +56,46 @@
     {
       "fileMatch": ["\\.md$"],
       "matchStrings": [
-        "<em>\\s*(?<depName>[@/\\-\\w]+).*?:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
-        "\\|\\s*(?<depName>[@/\\-\\w]+).*?\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+        "<em>\\s*@sap/cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
       ],
+      "depNameTemplate": "@sap/cds",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-compiler:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-compiler\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-compiler",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-dk:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-dk\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-dk",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/cds-mtxs:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/cds-mtxs\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/cds-mtxs",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "fileMatch": ["\\.md$"],
+      "matchStrings": [
+        "<em>\\s*@sap/eslint-plugin-cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "\\|\\s*@sap/eslint-plugin-cds\\s*\\|\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*\\|"
+      ],
+      "depNameTemplate": "@sap/eslint-plugin-cds",
       "datasourceTemplate": "npm"
     },
     {

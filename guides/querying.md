@@ -21,7 +21,7 @@ breadcrumbs:
 
 ## Overview — Why Querying?
 
-We all know querying from SQL databases: we use queries to express which data we're interested in, by applying *selection* — i.e., filtering the *rows* to fetch data for —, and *projection* — choosing data attributes. The database engine interprets the query and calculates an optimized execution plan, to collect and return the requested data.
+We all know querying from SQL databases: we use queries to express which data we're interested in, by applying *selection* — that is, filtering the *rows* to fetch data for —, and *projection* — choosing data attributes. The database engine interprets the query and calculates an optimized execution plan, to collect and return the requested data.
 
 ### Example Using Querying
 

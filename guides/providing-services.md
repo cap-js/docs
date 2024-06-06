@@ -436,7 +436,7 @@ cds.sql.hana.search
    fuzzinessThreshold: 0.9
 ```
 
-To override the fuzziness for specific elements, use the `@Search.fuzzinessThreshold` annotation:
+Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
 ```cds
 entity Books {

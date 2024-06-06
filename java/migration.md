@@ -686,21 +686,21 @@ Don't copy any of the following files to the new project:
 
 ```txt
 <PROJECT-ROOT>/
-|-- db/
-|   |-- .build.js
-|   `-- package.json
-`-- srv/src/main/
-            |-- resources/
-            |    |-- application.properties
-            |    `-- connection.properties
-            `-- webapp/
-                 |-- META-INF/
-                 |   |-- sap_java_buildpack/config/resources_configuration.xml
-                 |   `-- context.xml
-                 `-- WEB-INF/
-                     |-- resources.xml
-                     |-- spring-security.xml
-                     `-- web.xml
+├─ db/
+│  ├─ .build.js
+│  └─ package.json
+└─ srv/src/main/
+           ├─ resources/
+           │  ├─ application.properties
+           │  └─ connection.properties
+           └─ webapp/
+              ├─ META-INF/
+              │  ├─ sap_java_buildpack/config/resources_configuration.xml
+              │  └─ context.xml
+              └─ WEB-INF/
+                 ├─ resources.xml
+                 ├─ spring-security.xml
+                 └─ web.xml
 ```
 
 

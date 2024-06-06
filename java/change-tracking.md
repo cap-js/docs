@@ -33,6 +33,9 @@ Your POM must also include the goal to resolve the CDS model delivered from the 
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
 For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
+- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
+
+- If you use SAP Fiori elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 
 ### Annotating Entities
 
@@ -151,6 +154,11 @@ annotate Bookshop.Book with @changelog: [
 This identifier can contain the elements of the entity or values of to-one associations that are reachable via path.
 For example, for a book you can store an author name if you have an association from the book to the author.
 
+When you define the identifier for an entity, keep in mind that the projections of the annotated entity
+will inherit the annotation `@changelog`. If you change the structure of the projection,
+for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again
+to provide updated element names in the identifier.
+
 The best candidates for identifier elements are the elements that are insert-only or that don't change often.
 
 :::warning Stored as-is
@@ -158,6 +166,42 @@ The values of the identifier are stored together with the change log as-is. They
 not be formatted per user locale or some requirements, for example, different units of measurement or currencies.
 You should consider this when you decide what to include in the identifier.
 :::
+
+### Identifiers for Associated Entities
+
+When your entity has an association to an other entity, you might want to log the changes in their relationship.
+
+Given the `Orders` entity with an association to a `Customer` instead of the element with customer name:
+```cds
+entity Orders {
+  key ID: UUID;
+  customer: Association to Customer;
+  [...]
+}
+```
+
+If you annotate such an association with `@changelog`, by default, the change log stores the value of the associated entity key.
+If you want, you can store some human-readable identifier instead. You define this by annotating the association with an own identifier:
+
+```cds
+annotate Orders {
+  customer @changelog: [ customer.name ]
+}
+```
+
+Elements from the `@changelog` annotation value must always be prefixed by the association name. The same caveats as for the identifiers for the entities apply here.
+
+If you annotate a composition with an identifier, the change log will contain an entry with the identifier's value. Additionally, it will include change log entries for all annotated elements of the composition's target entity.
+
+:::warning Validation required
+If the target of the association is missing, for example, when an entity is updated with the ID for a customer
+that does not exists, the changelog entry will not be created. You need to validate
+such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
+:::
+
+This feature can also be used for to-many compositions, when you don't need to track the deep changes, but still want to track the additions and removals in the composition.
+
+With association identifiers you also must consider the changes in your entities structure along the projections. In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly in the source entity.
 
 ### Displaying Changes
 
@@ -225,6 +269,30 @@ the root of the change is an order.
 :::warning Prefer deep updates for change tracked entities
 If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
 :::
+
+## Reacting on Changes
+
+You can write an event handler to observe the change log entries. Keep in mind, that the change log entries 
+are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
+
+```java
+import cds.gen.sap.changelog.Changes;
+
+@Component
+@ServiceName("ChangeTrackingService$Default")
+public class ChangeTrackingHandler implements EventHandler {
+	
+  @After(event = "createChanges")
+  void afterCreate(EventContext context) {
+    Result result = (Result) context.get("result");
+    result.listOf(Changes.class).forEach(c -> {
+      // Do something with the change log entry
+	});
+  }
+}
+```
+
+You can query the change log entries via CQN statements, as usual.
 
 ## Things to Consider when Using Change Tracking
 

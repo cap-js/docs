@@ -193,22 +193,22 @@ CAP Java does not make any assumption _how_ the set of enabled features (_active
 Features are modeled in CDS by dividing up CDS code concerning separate features into separate subfolders of a common `fts` folder of your project, as shown by the following example:
 
 ```txt
-|-- [db]
-|   |-- my-model.cds
-|   `-- ...
-|-- [srv]
-|   |-- my-service.cds
-|   `-- ...
-`-- [fts]
-    |-- [X]
-    |   |-- model.cds
-    |   `-- ...
-    |-- [Y]
-    |   |-- feature-model.cds
-    |   `-- ...
-    `-- [Z]
-        |-- wrdlbrmpft.cds
-        `-- ...
+├─ [db]
+│  ├─ my-model.cds
+│  └─ ...
+├─ [srv]
+│  ├─ my-service.cds
+│  └─ ...
+└─ [fts]
+   ├─ [X]
+   │  ├─ model.cds
+   │  └─ ...
+   ├─ [Y]
+   │  ├─ feature-model.cds
+   │  └─ ...
+   └─ [Z]
+      ├─ wrdlbrmpft.cds
+      └─ ...
 ```
 
 In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.

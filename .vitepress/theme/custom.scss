@@ -399,3 +399,11 @@ html.node .java {
 @media (min-width: 1024px) {
   .VPNavBarSearch { padding-left: 12px; }
 }
+
+// make sidebar content scroll nicely underneath the logo
+@media (min-width: 960px) {
+  header .title {
+    background-color: var(--vp-sidebar-bg-color);
+  }
+}
+

@@ -57,7 +57,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     mvn --version
     ```
 ::: tip
-For a preconfigured environment, use [SAP Business Application Studio](../tools/cds-editors#bastudio), which comes with all the required tools preinstalled.
+For a preconfigured environment, use [SAP Business Application Studio](../tools/cds-editors#bas), which comes with all the required tools preinstalled.
 In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
@@ -94,7 +94,7 @@ You can call `cds help init` for more information on the available options.
 You can use the [CDS Maven plugin](developing-applications/building#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addSample
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=TINY_SAMPLE
 ```
 
 ### Add CloudFoundry target platform
@@ -124,7 +124,7 @@ The generated project has the following folder structure:
 ```txt
 <PROJECT-ROOT>/
 |-- db/
-    `-- data-model.cds
+    `-- schema.cds
 `-- srv/
     |-- cat-service.cds
     |-- src/main/java/
@@ -136,7 +136,7 @@ The generated folders have the following content:
 
 | Folder | Description |
 | --- | --- |
-| *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
+| *db* | Contains content related to your database. A simple CDS domain model is located in the file _schema.cds_. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
 | *srv/src/main/java* | Contains Java application logic. |
 | *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
@@ -198,7 +198,7 @@ To test whether the started application is up and running, open [http://localhos
 
 CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside you could use any Java IDE supporting the import of Maven projects. But as CDS modeling and editing is a core part of CAP application development we strongly recommend to use an IDE with existing Java support:
 
-* [SAP Business Application Studio](/tools/cds-editors#bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
+* [SAP Business Application Studio](/tools/cds-editors#bas) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
 * [Visual Studio Code](/tools/cds-editors#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
 * [IntelliJ Idea Ultimate](/tools/cds-editors#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 

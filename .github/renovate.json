@@ -34,8 +34,9 @@
       "separateMajorMinor": false
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": [ ".vitepress/config.ts" ],
       "matchStrings": [
         "java_services\\s*:\\s*'(?<currentValue>.*?)'"
@@ -45,6 +46,7 @@
       "versioningTemplate": "maven"
     },
     {
+      "customType": "regex",
       "fileMatch": [ ".vitepress/config.ts" ],
       "matchStrings": [
         "java_cds4j\\s*:\\s*'(?<currentValue>.*?)'"
@@ -54,6 +56,7 @@
       "versioningTemplate": "maven"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*@sap/cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
@@ -63,6 +66,7 @@
       "datasourceTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*@sap/cds-compiler:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
@@ -72,6 +76,7 @@
       "datasourceTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*@sap/cds-dk:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
@@ -81,6 +86,7 @@
       "datasourceTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*@sap/cds-mtxs:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
@@ -90,6 +96,7 @@
       "datasourceTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*@sap/eslint-plugin-cds:\\s*</em>\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)",
@@ -99,6 +106,7 @@
       "datasourceTemplate": "npm"
     },
     {
+      "customType": "regex",
       "fileMatch": ["\\.md$"],
       "matchStrings": [
         "<em>\\s*Node.js:\\s*</em>\\s*(?<currentValue>v\\d+\\.\\d+\\.\\d+)",

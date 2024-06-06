@@ -59,7 +59,7 @@ const { frontmatter } = useData()
   margin-left: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .ImplVariantsInNavbar {
     display: none;
   }

@@ -5,6 +5,7 @@ status: released
 ---
 
 # Change Tracking <Beta />
+
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -261,7 +262,7 @@ In the case of the deeply structured documents, for example, entities with the c
 the changes across the complete document and stores them in the change log with the metadata reflecting the structure of the change.
 
 For example, given the order and item model from above, if you change values for the tracked elements with
-the deep update, for example,  the customer name in the order and the quantity of the item, the change log contains
+the deep update, for example, the customer name in the order and the quantity of the item, the change log contains
 two entries: one for the order and one for the item. The change log entry for the item will also reflect that
 the root of the change is an order.
 

@@ -165,8 +165,8 @@ It can be deployed as application (reusable module) or alternatively consumed as
 
 - The optional CAP sidecar (reusable module) is used to outsource application-independent tasks such as providing multitenancy and extension support.
 
-Application providers, i.e. platform users, have privileged access to the application zone.
-In contrast, application subscribers, i.e. business users, are restricted to a minimal interface.
+Application providers, that is platform users, have privileged access to the application zone.
+In contrast, application subscribers, that is business users, are restricted to a minimal interface.
 
 ::: warning
 ❗ Application providers **may not share any secrets from the application zone** such as binding information with other components or persons.

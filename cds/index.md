@@ -6,7 +6,7 @@ status: released
 Language Reference Documentation
 { .subtitle}
 
-CDS is the backbone of the SAP Cloud Application Programming Model (CAP). It provides the means to declaratively capture service definitions and data models, queries, and expressions in plain (JavaScript) object notations. CDS features to parse from a variety of source languages and to compile them into various target languages.
+CDL is the backbone of the SAP Cloud Application Programming Model (CAP). It provides the means to declaratively capture service definitions and data models, queries, and expressions in plain (JavaScript) object notations. CDL features to parse from a variety of source languages and to compile them into various target languages. Though the language used within `.cds` files is CDL, we usually use the terms _CDS_ or _CDS Models_ as synonyms to keep it simple where we don't need to care about technical details too much.
 
 <img src="./assets/csn.drawio.svg" alt="The graphic is explained in the accompanying text."/>
 

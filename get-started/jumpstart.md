@@ -135,7 +135,7 @@ bookshop/        # Your project's root folder
 
 ### Project Content
 
-::: tip Neighbouring concept
+::: tip Principle of locality
 Using CAP, it's a rule of thumb that related files are placed next to each other. This is prominently demonstrated with sibling `.js` files, next to `.cds` sources, for [implementing services](/node.js/core-services#implementing-services).
 
 :::

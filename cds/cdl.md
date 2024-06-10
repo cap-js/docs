@@ -1094,7 +1094,7 @@ Some advantages of using expressions as "first class" annotation values are:
 * [automatic translation of expressions in OData annotations](#odata-annotations)
 
 ::: info Limitations
-Elements that are not available to the compiler such as the OData draft decoration for example can't be used in annotation expressions.
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
 :::
 
 #### Name resolution

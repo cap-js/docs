@@ -84,19 +84,21 @@ Output:
 
 ## Provisioning a DB Instance
 
-To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
+To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option). For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
+
 
 <div markdown="1" class="impl java">
 
-There are some limitations on the BTP to consume a PostgreSQL instance from a CAP Java application:
+To consume a PostgreSQL instance from a CAP Java application running on SAP BTP, consider the following:
 
-- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application. To use this buildpack, configure it in the service module section of your mta.yaml
+- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application.
 
-- By default, the `java_buildpack` initializes a PostgreSQL datasource with the Java CFEnv library. However, to work properly with CAP, the PostgreSQL datasource must be created by the CAP Java runtime and not by the buildpack. You need to disable the datasource initialization by the buildback by setting the environment variable `CFENV_SERVICE_<PG_SERVICE_NAME>_ENABLED` to `false` at your CAP Java service module. The placeholder `<PG_SERVICE_NAME>` needs to be replaced with the real service instance name of your PostgreSQL database.
+- By default, the `java_buildpack` initializes a PostgreSQL datasource with the Java CFEnv library. However, to work properly with CAP, the PostgreSQL datasource must be created by the CAP Java runtime and not by the buildpack. 
 
-The following example shows both configuration settings applied to a CAP Java service module in an mta.yaml:
+The following example shows these configuration settings applied to a CAP Java service:
 
-```yaml 
+::: code-group
+```yaml [mta.yaml]
 modules:
   - name: bookshop-pg-srv
     type: java
@@ -109,14 +111,16 @@ modules:
         JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
         # We do not want cfenv to configure the DataSource for us
         # cfenv uses names of the services, so this variable must be adapted if needed
-        # as CFENV_SERVICE_[service-name]_ENABLED
+        # as CFENV_SERVICE_[pg-service-name]_ENABLED
         # See https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html
         CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
 ```
 
+:::
+
+> You need to disable the datasource initialization by the buildback using `CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false` at your CAP Java service module. `BOOKSHOP-PG-DB` is the placeholder in this example that needs to be replaced with the real service instance name of your PostgreSQL database.
 </div>
 
-For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
 ### Using Docker
 

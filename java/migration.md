@@ -69,6 +69,12 @@ Some property defaults have been adjusted:
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 
+### Adjusted Property Behavior
+
+| Property | New Behavior |
+| --- | --- |
+| `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
+
 
 ### Removed Properties
 
@@ -88,7 +94,9 @@ The following table gives an overview about the removed properties:
 | `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
 | `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 | `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
-| `cds.outbox.persistent` | `cds.outbox.services.<key>` | |
+| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
+| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
+| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
 | `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
 | `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
 | `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |

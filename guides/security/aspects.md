@@ -224,7 +224,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |-------------------|------------------|-------------------------------------------|-----------------------------------------------|
 | CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
 |                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](/guides/security/authorization#requires) |
-| Index page        |                  | `/index.html`                             | none                                          |
+| Index page        |                  | `/index.html`                             | none, but disabled in production              |
 
 > <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 

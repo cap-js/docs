@@ -114,7 +114,7 @@ modules:
 
 :::
 
-> You need to disable the [datasource initialization by the buildback](https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html) using `CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false` at your CAP Java service module. `BOOKSHOP-PG-DB` is the real PostgreSQL service instance name in this example.
+> You need to disable the [datasource initialization by the buildback](https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html) using `CFENV_SERVICE_<POSTGRESQL_SERVICE_NAME>_ENABLED: false` at your CAP Java service module. `BOOKSHOP-PG-DB` is the real PostgreSQL service instance name in this example.
 </div>
 
 

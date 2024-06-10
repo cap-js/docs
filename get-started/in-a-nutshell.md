@@ -93,14 +93,22 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
 1. Create a new project using `cds init`
 
-   ::: code-group
+   <div class="impl node">
+
    ```sh [Node.js]
    cds init bookshop
    ```
+
+   </div>
+
+   <div class="impl java">
+
    ```sh [Java]
    cds init bookshop --add java
    ```
-   :::
+   
+
+   </div>
 
 2. Open the project in VS Code
 
@@ -116,17 +124,21 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
 3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
-   ::: code-group
+   <div class="impl node">
 
    ```sh [Node.js]
    cds watch
    ```
 
+   </div>
+
+   <div class="impl java">
+
    ```sh [Java]
    cd srv && mvn cds:watch
    ```
 
-   :::
+   </div>
 
    ::: details `cds watch` is waiting for things to come...
 

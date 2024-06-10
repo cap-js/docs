@@ -1093,6 +1093,10 @@ Some advantages of using expressions as "first class" annotation values are:
 * [automatic path rewriting in propagated annotations](#propagation)
 * [automatic translation of expressions in OData annotations](#odata-annotations)
 
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
 #### Name resolution
 
 Each path in the expression is checked:

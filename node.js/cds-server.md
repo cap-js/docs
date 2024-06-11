@@ -46,11 +46,19 @@ Its implementation essentially is as follows:
 
 ```js
 const cds = require('@sap/cds')
-module.exports = async function cds_server() {
+module.exports = async function cds_server(options) {
 
   // prepare express app
-  const app = cds.app = require('express')()
+  const o = { ...options, __proto__:defaults }
+  const app = cds.app = o.app || require('express')()
   cds.emit ('bootstrap', app)
+
+  // mount static resources and middlewares
+  if (o.cors)      app.use (o.cors)                     //> if not in prod
+  if (o.health)    app.get ('/health', o.health)
+  if (o.static)    app.use (express.static (o.static))  //> defaults to ./app
+  if (o.favicon)   app.use ('/favicon.ico', o.favicon)  //> if none in ./app
+  if (o.index)     app.get ('/',o.index)                //> if none in ./app and not in prod
 
   // load and prepare models
   const csn = await cds.load('*') .then (cds.minify)

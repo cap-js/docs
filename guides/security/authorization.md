@@ -858,7 +858,26 @@ If generic enforcement doesn't fit your needs, you can override or adapt it with
 - [Authorization Enforcement in Node.js](/node.js/authentication#enforcement)
 - [Enforcement API & Custom Handlers in Java](/java/security#enforcement-api)
 
-<div id="linktojava" />
+## Role Assignments with IAS and AMS
+
+The Authorization Management Service (AMS) as part of SAP Cloud Identity Services (SCI) provides libraries and services for developers of cloud business applications to declare, enforce and manage instance based authorization checks. When used together with CAP the AMS  "Policies” can contain the CAP roles as well as additional filter criteria for instance based authorizations that can be defined in the CAP model. transformed to AMS policies and later on refined by customers user and authorization administrators in the SCI administration console and assigned to business users.
+
+### Use AMS as Authorization Management System on SAP BTP 
+
+SAP BTP is currently replacing the authorization management done with XSUAA by an integrated solution with AMS. AMS is integrated into SAP Cloud Identity (SCI), which will offer authentication, authorization, user provisioning and management in one place. 
+
+For newly build applications the usage of AMS is generally recommended. The only constraint that comes with the usage of AMS is that customers need to copy their users to the Identity Directory Service as the central place to manage users for SAP BTP applications. This is also the general SAP strategy to simplify user management in the future.
+
+### Case For XSUAA
+
+There is one use case where currently an XSUAA based authorization management is preferable: When XSUAA based services to be consumed by a CAP application come with their own business user roles and thus make user role assignment in the SAP Cloud Cockpit necessary. This will be resolved in the future when the authorization management will be fully based on the SCI Admin console.
+
+For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS. 
+
+
+<!-- [Learn more about using IAS and AMS with CAP Java.](/java/ams){.learn-more} -->
+[Learn more about using IAS and AMS with CAP Node.js](https://github.com/SAP-samples/btp-developer-guide-cap/blob/main/documentation/xsuaa-to-ams/README.md){.learn-more}
+
 
 ## Role Assignments with XSUAA { #xsuaa-configuration}
 

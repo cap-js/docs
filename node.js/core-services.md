@@ -997,6 +997,8 @@ When looking for overriding central event processing, rather choose  [`srv.handl
 
 
 
+
+
 ### srv. handle (event) {.method}
 
 ```ts
@@ -1049,61 +1051,8 @@ All matching `.before`, `.on`, and `.after` handlers are executed in correspondi
 In effect, for asynchronous event messages, that is, instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, that is, instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
-<!-- ## Streaming API {#srv-stream } -->
 
-### srv. stream (column) {.method}
 
-::: warning
-This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
-:::
-
-```ts
-async function srv.stream (column: string)
-  return : {
-    from(entity: CSN Definition | string): {
-      where(filter: any): ReadableStream // from node:stream
-  }
-}
-```
-
-This method allows streaming binary data properties.
-It returns a read stream which can be used to pipe to write streams, as shown in the following examples.
-
-```js
-const stream = srv.stream().from('T', { ID: 1 }, a => a.data)
-stream.pipe(process.stdout)
-```
-
-```js
-const stream = srv.stream('data').from('T', { ID: 1 })
-stream.pipe(process.stdout)
-```
-
-```js
-const stream = srv.stream('data').from('T').where({ ID: 1 })
-stream.pipe(process.stdout)
-```
-
-### srv. stream (query)  {.method}
-
-::: warning
-This API is deprecated and will be removed with the `@sap/cds` version 8. Please use [`SELECT` query](../cds/cqn) instead.
-:::
-
-```ts
-async function srv.stream (query: CQN) : ReadableStream
-```
-
-This is a variant of `srv.stream`, which accepts a [`SELECT` query](../cds/cqn) as input and returns a Promise resolving to result stream when the query matched to an existing row in the database. The query is expected to select a single column and a single data row. Otherwise, an error is thrown.
-
-```js
-const stream = await srv.stream( SELECT('image').from('Foo',111) )
-stream.pipe(process.stdout)
-```
-
-::: warning
-This API is limited to [database services](databases).
-:::
 
 ### srv. foreach (entity) {.method}
 

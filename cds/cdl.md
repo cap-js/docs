@@ -1520,6 +1520,7 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 

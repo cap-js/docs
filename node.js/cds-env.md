@@ -218,7 +218,7 @@ You can provide static settings in a `"cds"` section of your project's _package.
 ```json
 "cds": {
   "requires": {
-    "db": { "kind": "sql" }
+    "db": "sql"
   }
 }
 ```
@@ -229,21 +229,17 @@ Alternatively, you can put static settings in _.cdsrc.json_ file in your project
 
 ```json
 "requires": {
-  "db": { "kind": "sql" }
+  "db": "sql"
 }
 ```
 
-::: tip
-_.cdsrc_ goes without an enclosing  `"cds"` section.
-:::
-
 ## Private Project Settings {#private-project-settings}
+
 ### In _./.cdsrc-private.json_
 
-Put your private settings for local testing here. The file should not be submitted to your source code management system. The file's structure is the same like for _./.cdsrc.json_.
+A _.cdsrc.json_ equivalent for your private settings used in local testing. The file should not be committed to your version control system.
 
 ## Process Environment {#process-env}
-
 
 ### On the Command Line
 

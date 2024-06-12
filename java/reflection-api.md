@@ -80,6 +80,7 @@ CdsEntity books = model.getEntity("my.bookshop.Books");
 CdsElement title = books.getElement("title");
 
 boolean key = title.isKey();      // false
+boolean localized = title.isLocalized(); // true
 CdsType type = title.getType();   // CdsSimpleType
 
 if (type.isSimple()) {   // true
@@ -88,7 +89,6 @@ if (type.isSimple()) {   // true
   String typeName = simple.getQualifiedName();  // "cds.String"
   CdsBaseType baseType = simple.getType();      // CdsBaseType.STRING
   Class<?> javaType = simple.getJavaType();     // String.class
-  Boolean localized = simple.get("localized");  // true
   Integer length = simple.get("length");        // 111
 }
 ```

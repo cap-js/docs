@@ -310,7 +310,7 @@ All behavioral aspects in CAP are based on ubiquitous notions of [Services](#ser
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-   src="../assets/agnostic-services.drawio.svg" width="333px">
+   <img src="../assets/agnostic-services.drawio.svg" width="333px">
   <figcaption><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 

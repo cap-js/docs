@@ -23,7 +23,7 @@ In order to automate audit logging, personal data management, and data retention
 
 In the remainder of this guide, we use the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app) as the base to add data privacy and audit logging to.
 
-<img src="./assets/Incidents-App.drawio.svg" style="zoom:111%;" alt="Shows the connections between the entities in the sample app." />
+![Shows the connections between the entities in the sample app.](./assets/Incidents-App.drawio.svg){style="zoom:111%;"}
 
 So, let's annotate the data model to identify personal data.
 In essence, in all our entities we search for elements which carry personal data, such as person names, birth dates, etc., and tag them accordingly.

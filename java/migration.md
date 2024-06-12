@@ -135,14 +135,16 @@ The following table gives an overview about the removed properties:
 
 The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
 
-### Adjusted Parameter Defaults
+### Adjusted POJO class generation
 
-| Goal | Parameter | Old Value | New Value | Explanation |
-| --- | --- | --- | --- | --- |
-| `generate` | `sharedInterfaces` | `false` | `true` | Enables the usage of interfaces generated for the global types with inline anonymous arrayed types in the interfaces generated for actions and functions |
-| `generate` | `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+Some parameter defaults of the goal `generate` have been adjusted:
 
-Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values again.
+| Parameter | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `sharedInterfaces` | `false` | `true` | Enables the usage of interfaces generated for the global types with inline anonymous arrayed types in the interfaces generated for actions and functions |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+
+Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 

@@ -237,7 +237,7 @@ Alternatively, you can put static settings in _.cdsrc.json_ file in your project
 
 ### In _./.cdsrc-private.json_
 
-A `.cdsrc.json` equivalent for your private settings used in local testing. The file should not be committed to your version control system.
+A _.cdsrc.json_ equivalent for your private settings used in local testing. The file should not be committed to your version control system.
 
 ## Process Environment {#process-env}
 

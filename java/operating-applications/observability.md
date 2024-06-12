@@ -29,7 +29,7 @@ Various logging frameworks for Java have evolved and are widely used in Open Sou
 
 CAP Java SDK seamlessly integrates with Simple Logging Façade for Java ([SLF4J](https://www.slf4j.org)), which provides an abstraction layer for logging APIs. Applications compiled against SLF4J are free to choose a logging framework implementation at deployment time. Most famous libraries have a native integration to SLF4J, but it also can bridge legacy logging API calls:
 
-<img src="./assets/slf4j.png" width="500px">
+![](./assets/slf4j.png){width="500px"}
 
 ### Logger API { #logging-api}
 
@@ -252,7 +252,7 @@ Spans and traces that are produced out of the box, include HTTP requests as well
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
-<img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
+![This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.](./assets/screenshot_otel_trace.png){width="500px" class="mute-dark"}
 
 #### Configure Java Agent and Extension Library { #agent-extension }
 

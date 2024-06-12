@@ -53,8 +53,8 @@ It is available in both Node.js and Java. The Node.js variant contains additiona
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the cloud-cap-samples repository." style="height:2.5em; display:inline; margin:0 0.2em;"  alt="Node.js logo"/>](https://github.com/sap-samples/cloud-cap-samples)
-[<img src="../assets/logos/java.svg" title="link to the cloud-cap-samples-java repository." style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo" />](https://github.com/sap-samples/cloud-cap-samples-java)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the cloud-cap-samples repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cloud-cap-samples)
+[![Java logo](../assets/logos/java.svg 'link to the cloud-cap-samples-java repository.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cloud-cap-samples-java)
 
 
 

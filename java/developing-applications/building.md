@@ -256,7 +256,7 @@ CAP Java comes with a rich set of prepared modules for all different layers of t
 
 **Application plugins**:
 * `cds-feature-cloudfoundry`:  Makes your application aware of SAP BTP, Cloud Foundry environment.
-* `cds-feature-k8s`: [Service binding support for SAP BTP, Kyma Runtime](../developing-applications/configuring#kubernetes-service-bindings).
+* `cds-feature-k8s`: Service binding support for SAP BTP, Kyma Runtime.
 * `cds-feature-jdbc`: Consuming JDBC persistences using the CDS4j JDBC runtime.
 * `cds-feature-hana`:  Makes your application aware of SAP HANA data sources.
 * `cds-feature-postgresql`: Makes your application aware of PostgreSQL data sources.

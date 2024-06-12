@@ -36,7 +36,7 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:480px; margin: auto" alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](../assets/overview.drawio.svg){style="width:480px; margin: auto"}
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />

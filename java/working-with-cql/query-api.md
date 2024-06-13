@@ -551,7 +551,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../../guides/providing-services#searching-data).
 
-Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
+Consider following CDS Entity. There are two elements, `title` and `name`, of type String, making them both searchable by default.
 
 ```cds
 entity Book {

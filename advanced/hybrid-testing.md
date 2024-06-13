@@ -283,7 +283,7 @@ Example output:
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other local applications with cloud service bindings, you can use the `exec` option.
 
-For example, you can run the approuter from an `approuter` child directory:
+For example, you can run the App Router from an `approuter` child directory:
 
 ::: code-group
 ```sh [Mac/Linux]

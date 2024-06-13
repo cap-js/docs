@@ -193,7 +193,7 @@ Provides access to the effective configuration of the current process, transpare
   kind: 'basic-auth',
   strategy: 'mock',
   users: {
-    alice: { tenant: 't1', roles: [ 'cds.Subscriber', 'admin' ] },
+    alice: { tenant: 't1', roles: [ 'admin' ] },
     bob: { tenant: 't1', roles: [ 'cds.ExtensionDeveloper' ] },
     # ...,
     '*': true

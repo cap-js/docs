@@ -16,7 +16,7 @@ status: released
 
 {{ $frontmatter.synopsis }}
 
-::: warning _❗ To follow this cookbook hands-on you need an enterprise account._ <!--  -->
+:::warning To follow this cookbook hands-on you need an enterprise account.
 The SAP Personal Data Manager service is currently only available for [enterprise accounts](https://discovery-center.cloud.sap/missiondetail/3019/3297/). An entitlement in trial accounts is not possible.
 :::
 
@@ -37,45 +37,52 @@ Following the CAP principles, we recommend adding a new dedicated CAP service th
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we create a dedicated service for the integration with SAP Personal Data Manager:
 
 ::: code-group
-```cds [pdm-service.cds]
-using { sap.capire.incidents as db } from '@capire/incidents';
+```cds [srv/pdm-service.cds]
+using {sap.capire.incidents as db} from '../db/schema';
 
 @requires: 'PersonalDataManagerUser' // security check
-service PDMService {
+service PDMService @(path: '/pdm') {
 
   // Data Privacy annotations on 'Customers' and 'Addresses' are derived from original entity definitions
-  entity Customers as projection on db.Customers;
-  entity Addresses as projection on db.Addresses;
+  entity Customers                as projection on db.Customers;
+  entity Addresses                as projection on db.Addresses;
+  entity Incidents                as projection on db.Incidents
 
   // create view on Incidents and Conversations as flat projection
   entity IncidentConversationView as
-    select from Incidents {
-          ID, title, urgency, status,
-      key conversations.ID        as conversation_ID,
-          conversations.timestamp as conversation_timestamp,
-          conversations.author    as conversation_author,
-          conversations.message   as conversation_message,
-          customer.ID             as customer_ID,
-          customer.email          as customer_email
-    };
+      select from Incidents {
+              ID,
+              title,
+              urgency,
+              status,
+          key conversation.ID        as conversation_ID,
+              conversation.timestamp as conversation_timestamp,
+              conversation.author    as conversation_author,
+              conversation.message   as conversation_message,
+              customer.ID            as customer_ID,
+              customer.email         as customer_email
+      };
 
   // annotate new view
   annotate PDMService.IncidentConversationView with @(PersonalData.EntitySemantics: 'Other') {
-    customer_ID @PersonalData.FieldSemantics: 'DataSubjectID';
+      customer_ID @PersonalData.FieldSemantics: 'DataSubjectID';
   };
 
   // annotations for Personal Data Manager - Search Fields
   annotate Customers with @(Communication.Contact: {
-    n : {
-      surname : lastName,
-      given   : firstName
-    },
-    email : {
-      address : email
-    }
-  });
+        n    : {
+            surname: lastName,
+            given  : firstName
+        },
+        bday : dateOfBirth,
+        email: [{
+          type   : #preferred,
+          address: email}]
+    });
 
-};
+  };
+
+
 ```
 :::
 
@@ -115,6 +122,18 @@ To restrict access to this sensitive data, the `PDMservice` is protected by the 
 
 
 
+
+At this point, you are done with your application. Let's set up the SAP Personal Data Manager and try it out.
+
+
+<span id="before-pdm" />
+
+## Connecting SAP Personal Data Manager
+
+Next, we will briefly detail the integration to SAP Personal Data Manager.
+A more comprehensive guide, incl. tutorials, is currently under development.
+For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager).
+
 ### Activate Access Checks in _xs-security.json_
 
 Because we protected the `PDMservice`, we need to establish the security check properly. In particular, you need the _xs-security.json_ file to make the security check active. The following _xs-security.json_ is from our sample.
@@ -148,19 +167,6 @@ npm install @sap/xssec
 ```
 
 [Learn more about authorization in CAP using Node.js.](../../node.js/authentication#jwt){.learn-more}
-
-
-At this point, you are done with your application. Let's set up the SAP Personal Data Manager and try it out.
-
-
-
-## Connecting SAP Personal Data Manager
-
-Next, we will briefly detail the integration to SAP Personal Data Manager.
-A more comprehensive guide, incl. tutorials, is currently under development.
-For further details, see the [SAP Personal Data Manager Developer Guide](https://help.sap.com/docs/personal-data-manager/4adcd96ce00c4f1ba29ed11f646a5944/what-is-personal-data-manager).
-
-
 
 ### Build and Deploy Your Application
 

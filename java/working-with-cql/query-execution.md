@@ -428,8 +428,8 @@ Select BooksWithLowStock where author = 'Kafka'
 is executed against SQL databases as
 
 ```SQL
-SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
-  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
+  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 

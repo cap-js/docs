@@ -114,7 +114,7 @@ entity OrderItems {
 
 ```sql
 --CQL query
-SELECT from Orders[OrderNo = '42'].items[ID = 1]
+SELECT from Orders[OrderNo = '42']:items[ID = 1]
 ```
 
 the corresponding CQN statement can be analyzed using the `analyze` method of the `CqnAnalyzer`:
@@ -191,7 +191,7 @@ If the reference has more than two segments, such as:
 
 ```sql
 --CQL query
-SELECT from Orders[OrderNo = '42'].items[ID = 1].book
+SELECT from Orders[OrderNo = '42']:items[ID = 1].book
 ```
 
 the segment `items` can be analyzed using an iterator:

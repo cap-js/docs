@@ -280,7 +280,7 @@ This query selects from the items of the order 23.
 
 ```sql
 --CQL query
-SELECT from Orders[23].items
+SELECT from Orders[ID = 23]:items
 ```
 
 ```java
@@ -1272,7 +1272,7 @@ Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).autho
 StructuredType<?> authors =
    CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+// SELECT from bookshop.Books[year = 2020]:author { name } // [!code focus]
 Select.from(authors).columns("name"); // [!code focus]
 ```
 

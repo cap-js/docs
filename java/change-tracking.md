@@ -5,6 +5,7 @@ status: released
 ---
 
 # Change Tracking <Beta />
+
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -31,7 +32,9 @@ To use the change tracking feature, you need to add a dependency to [cds-feature
 Your POM must also include the goal to resolve the CDS model delivered from the feature.
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
 
-For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
+- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
+
+- If you use SAP Fiori elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 
 ### Annotating Entities
 
@@ -258,13 +261,37 @@ In the case of the deeply structured documents, for example, entities with the c
 the changes across the complete document and stores them in the change log with the metadata reflecting the structure of the change.
 
 For example, given the order and item model from above, if you change values for the tracked elements with
-the deep update, for example,  the customer name in the order and the quantity of the item, the change log contains
+the deep update, for example, the customer name in the order and the quantity of the item, the change log contains
 two entries: one for the order and one for the item. The change log entry for the item will also reflect that
 the root of the change is an order.
 
 :::warning Prefer deep updates for change tracked entities
 If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
 :::
+
+## Reacting on Changes
+
+You can write an event handler to observe the change log entries. Keep in mind, that the change log entries 
+are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
+
+```java
+import cds.gen.sap.changelog.Changes;
+
+@Component
+@ServiceName("ChangeTrackingService$Default")
+public class ChangeTrackingHandler implements EventHandler {
+	
+  @After(event = "createChanges")
+  void afterCreate(EventContext context) {
+    Result result = (Result) context.get("result");
+    result.listOf(Changes.class).forEach(c -> {
+      // Do something with the change log entry
+	});
+  }
+}
+```
+
+You can query the change log entries via CQN statements, as usual.
 
 ## Things to Consider when Using Change Tracking
 

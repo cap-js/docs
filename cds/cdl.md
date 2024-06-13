@@ -1093,6 +1093,10 @@ Some advantages of using expressions as "first class" annotation values are:
 * [automatic path rewriting in propagated annotations](#propagation)
 * [automatic translation of expressions in OData annotations](#odata-annotations)
 
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
 #### Name resolution
 
 Each path in the expression is checked:
@@ -1516,6 +1520,7 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 

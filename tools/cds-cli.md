@@ -284,6 +284,7 @@ This example creates 2 records for each entity:
 cds add data --records 2
 ```
 
+[Watch a short video by DJ Adams to see this in acion.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
 
 #### Formats <Since version="7.9.0" of="@sap/cds-dk" />
 

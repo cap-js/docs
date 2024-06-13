@@ -402,8 +402,7 @@ html.node .java {
 
 // make sidebar content scroll nicely underneath the logo
 @media (min-width: 960px) {
-  header .title {
+  .VPNavBar .has-sidebar > .title {
     background-color: var(--vp-sidebar-bg-color);
   }
 }
-

@@ -124,23 +124,22 @@ The generated project has the following folder structure:
 ```txt
 <PROJECT-ROOT>/
 ├─ db/
-│  └─ data-model.cds
+│  └─ …
 └─ srv/
-   ├─ cat-service.cds
+   ├─ …
    ├─ src/main/java/
    ├─ src/gen/java/
    └─ node_modules/
-
 ```
 
 The generated folders have the following content:
 
 | Folder | Description |
 | --- | --- |
-| *db* | Contains content related to your database. A simple CDS domain model is located in the file _schema.cds_. |
- | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
+| *db* | Contains content related to your database. A simple CDS domain model is included. |
+ | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model. |
 | *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access) after building the project once. |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
@@ -171,12 +170,7 @@ Optionally, you can use the [CDS Maven plugin](./developing-applications/buildin
 mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
 ```
 
-This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
-```txt
-<PROJECT-ROOT>/
-└─ integration-tests/
-   └─ src/test/java/
-```
+This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes.
 
 | Folder | Description  |
 | -- | -- |

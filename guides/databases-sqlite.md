@@ -145,7 +145,7 @@ Using in-memory databases is the most recommended option for test drives and tes
 The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
 
 ::: code-group
-```yaml [application.yaml]
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: default
@@ -232,7 +232,7 @@ With that in place, the server will use this prepared database instead of bootst
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: sqlite

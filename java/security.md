@@ -283,7 +283,7 @@ You can also define mock users explicitly. This mock user configuration only app
 
 Define the mock users in a Spring profile, which may be only active during testing, as in the following example:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: test
@@ -344,7 +344,7 @@ public class BookServiceOrdersTest {
 
 A `tenants` section allows to specify additional configuration for the _mock tenants_. In particular it is possible to assign features to tenants:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: test

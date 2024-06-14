@@ -24,7 +24,7 @@ Destinations in the Cloud SDK are the means to express and define connectivity t
 
 On top of that CAP integrates nicely with Cloud SDK, for example, ensuring automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK.
 
-<img src="../assets/remote%20services.drawio.svg" width="700px" class="mute-dark" alt="This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.">
+![This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.](../assets/remote%20services.drawio.svg){width="700px" class="mute-dark"}
 
 CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you can't leverage CQN-based _Remote Services_, refer to [native consumption with Cloud SDK](#native-consumption) for details.
 

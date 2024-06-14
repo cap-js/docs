@@ -37,7 +37,7 @@ To catch issues in CDS models and the CDS environment early, CAP provides an [ES
 
 <div>
 
-<img src="../assets/cdslint.svg" alt="ESLint plugin for CDS logo" width="130px" class="ignore-dark" />
+![ESLint plugin for CDS logo](../assets/cdslint.svg){width="130px" class="ignore-dark"}
 
 </div>
 

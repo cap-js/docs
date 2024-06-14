@@ -556,18 +556,18 @@ By creating a service instance of the `xsuaa` service, all the roles from the _x
 7. Add the email addresses for your users to the *Users* list.
 8. Choose *Save*
 
-### Running Approuter
+### Running App Router
 
-The approuter component implements the necessary authentication flow with XSUAA to let the user log in interactively.
+The App Router component implements the necessary authentication flow with XSUAA to let the user log in interactively.
 The resulting JWT token is sent to the application where it's used to enforce authorization and check the user's roles.
 
-1. Add approuter to the `app` folder of your project:
+1. Add App Router to the `app` folder of your project:
 
     ```sh
     cds add approuter
     ```
 
-2. Install `npm` packages for approuter:
+2. Install `npm` packages for App Router:
 
     ```sh
     npm install --prefix app/router
@@ -589,9 +589,9 @@ The resulting JWT token is sent to the application where it's used to enforce au
 
     [Learn more about `cds bind --exec`.](../advanced/hybrid-testing#cds-bind-exec){.learn-more}
 
-    This starts an [approuter](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5000](http://localhost:5000) with the credentials for the XSUAA service that you have bound using `cds bind`.
+    This starts an [App Router](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/0117b71251314272bfe904a2600e89c0.html) instance on [http://localhost:5000](http://localhost:5000) with the credentials for the XSUAA service that you have bound using `cds bind`.
 
-    > Usually the approuter is started using `npm start` in the `app` folder. But you need to provide the `VCAP_SERVICES` variable with the XSUAA credentials. With the `cds bind --exec` command you can launch an arbitrary command with the `VCAP_SERVICES` variable filled with your `cds bind` service bindings.
+    > Usually the App Router is started using `npm start` in the `app` folder. But you need to provide the `VCAP_SERVICES` variable with the XSUAA credentials. With the `cds bind --exec` command you can launch an arbitrary command with the `VCAP_SERVICES` variable filled with your `cds bind` service bindings.
 
     Since it only serves static files or delegates to the backend service, you can keep the server running. It doesn't need to be restarted after you have changed files.
 
@@ -614,7 +614,7 @@ The resulting JWT token is sent to the application where it's used to enforce au
     > ],
     > ```
 
-5. After the approuter and CAP application are started, log in at [http://localhost:5000](http://localhost:5000) and verify that the routes are protected as expected.
+5. After the App Router and CAP application are started, log in at [http://localhost:5000](http://localhost:5000) and verify that the routes are protected as expected.
 
     In our example, if you assigned the `admin` scope to your user in SAP BTP cockpit, you can now access the admin service at [http://localhost:5000/admin](http://localhost:5000/admin).
 

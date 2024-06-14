@@ -185,14 +185,10 @@ for (let [edm,{file,suffix}] of all)
 
 
 
-
 ### .hdbtable() {.method}
 
-### .hdbcds() {.method}
-
-
-Generates `hdbtable/view` or `hdbcds` output.
-Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview`, or `.hdbcds` file.
+Generates `hdbtable/hdbview` output.
+Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable` or `.hdbview` file.
 For example, use it as follows:
 
 ```js
@@ -201,6 +197,10 @@ for (let [src,{file}] of all)
   console.log (file,src)
 ```
 
+### .hdbcds() - deprecated {.method}
+
+Similar to `.hdbtable()`, but generates `hdbcds` output insted of `hdbtable/hdbview`.
+This function is deprecated and is going to be removed in the next major release.
 
 
 ### .sql() {.method}

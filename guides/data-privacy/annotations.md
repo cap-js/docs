@@ -31,10 +31,16 @@ All found entities are classified as either *Data Subjects*, *Subject Details* o
 
 Following the [best practice of separation of concerns](../domain-modeling#separation-of-concerns), we annotate our domain model in a separate file *srv/data-privacy.cds*, which we add to our project and fill it with the following content:
 
+> For the time beeing also replace the data in _data/sap.capire.incidents-Customers.csv_.
+
 ::: code-group
 
 ```cds [db/data-privacy.cds]
 using { sap.capire.incidents as my } from '../db/schema';
+
+extend my.Customers with {
+    dateOfBirth : Date;
+};
 
 annotate my.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',
@@ -65,6 +71,12 @@ annotate my.Incidents with @PersonalData : {
 };
 ```
 
+```csv [data/sap.capire.incidents-Customers.csv]
+ID,firstName,lastName,email,phone,dateOfBirth
+1004155,Daniel,Watts,daniel.watts@demo.com,+44-555-123,1996-01-01
+1004161,Stormy,Weathers,stormy.weathers@demo.com,,1981-01-01
+1004100,Sunny,Sunshine,sunny.sunshine@demo.com,+01-555-789,1965-01-01
+```
 :::
 
 
@@ -96,15 +108,15 @@ Annotation            | Description
 Hence, we annotate our model as follows:
 
 ```cds
-annotate db.Customers with @PersonalData: {
+annotate my.Customers with @PersonalData: {
   EntitySemantics: 'DataSubject' // [!code focus]
 };
 
-annotate db.Addresses with @PersonalData: {
+annotate my.Addresses with @PersonalData: {
   EntitySemantics: 'DataSubjectDetails' // [!code focus]
 };
 
-annotate db.Incidents with @PersonalData: {
+annotate my.Incidents with @PersonalData: {
   EntitySemantics: 'Other' // [!code focus]
 };
 ```
@@ -118,7 +130,7 @@ Can be added to `@PersonalData.EntitySemantics: 'DataSubject'`. It's a user-chos
 In our model, we can add the `DataSubjectRole` as follows:
 
 ```cds
-annotate db.Customers with @PersonalData: {
+annotate my.Customers with @PersonalData: {
   EntitySemantics: 'DataSubject',
   DataSubjectRole: 'Customer' // [!code focus]
 };
@@ -137,15 +149,15 @@ Use this annotation to identify data subject's unique key, or a reference to it.
 Hence, we annotate our model as follows:
 
 ```cds
-annotate db.Customers with {
+annotate my.Customers with {
   ID @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 
-annotate db.Addresses with {
+annotate my.Addresses with {
   customer @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 
-annotate db.Incidents with {
+annotate my.Incidents with {
   customer @PersonalData.FieldSemantics: 'DataSubjectID' // [!code focus]
 };
 ```
@@ -157,7 +169,7 @@ annotate db.Incidents with {
 `@PersonalData.IsPotentiallyPersonal` tags which fields are personal and, for example, require audit logs if modified.
 
 ```cds
-annotate db.Customers with {
+annotate my.Customers with {
   firstName @PersonalData.IsPotentiallyPersonal; // [!code focus]
   lastName  @PersonalData.IsPotentiallyPersonal; // [!code focus]
   email     @PersonalData.IsPotentiallyPersonal; // [!code focus]
@@ -172,7 +184,7 @@ annotate db.Customers with {
 `@PersonalData.IsPotentiallySensitive` tags which fields are sensitive and, for example, require audit logs in case of access.
 
 ```cds
-annotate db.Customers with {
+annotate my.Customers with {
   creditCardNo @PersonalData.IsPotentiallySensitive; // [!code focus]
 };
 ```

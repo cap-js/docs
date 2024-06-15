@@ -20,7 +20,8 @@ synopsis: >
   .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 
-  .add::before { content: 'cds add '; color: #999 }
+  .add::before     { content: 'cds add '; color: #999 }
+  .compile::before { content: 'cds compile --to '; color: #999 }
 </style>
 
 # CDS Command Line Interface (CLI) {#cli}
@@ -418,6 +419,64 @@ Use `cds env` to inspect currently effective config settings:
   kind: <em>'sqlite'</em>
 }
 </pre>
+
+
+## cds compile
+
+### mermaid <Since version="8.0.0" of="@sap/cds-dk" /> {.compile}
+
+This produces text for a [Mermaid class diagram](https://mermaid.js.org/syntax/classDiagram.html):
+
+```sh
+cds compile db/schema.cds --to mermaid
+```
+
+Output:
+
+```log
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    class `sap.fe.cap.travel.Booking`["Booking"]
+    class `sap.fe.cap.travel.Airline`["Airline"]
+    class `sap.fe.cap.travel.Airport`["Airport"]
+    class `sap.fe.cap.travel.Flight`["Flight"]
+  }
+```
+
+If wrapped in a markdown code fence of type `mermaid`, such diagram text is supported by many markdown renderers, for example, on [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+
+````md
+```mermaid
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    ...
+  }
+```
+````
+
+To customize the diagram layout, use these environment variables when calling `cds compile`:
+
+```sh
+CDS_MERMAID_ASSOCNAMES=false|true    # show association/composition names
+CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
+CDS_MERMAID_MIN=false|true           # remove unused entities
+CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
+CDS_MERMAID_QUERIES=false|true       # show queries/projections
+```
+
+<div id="mermaid-cli-more" />
+
+#### Interactively in VS Code
+
+To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use the dropdown in the editor toolbar or the command _CDS: Preview as diagram_:
+
+![Preview as diagram in VS Code](assets/mermaid-preview.png) {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+
+To customize the diagram layout, use these settings:
+
+![Diagram settings](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
 
 
 ## cds repl

@@ -219,13 +219,13 @@ Behind the scenes, `cds deploy` does the following:
 * Starts `@sap/hdi-deploy` locally. If you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
 * Stores the binding information with profile `hybrid` in the _.cdsrc-private.json_ file of your project. You can use a different profile with parameter `--for`. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
 
-When specifying `--profile` when running `cds deploy` like this
+Specify `--profile` when running `cds deploy` as follows:
 
 ```sh
 cds deploy --to hana --profile hybrid
 ```
 
-`cds deploy` will execute `cds build` based on these profile settings and will also resolve additionally binding information based on these profile settings. If a corresponding binding exists its service name and service key will be used. The development profile is used by default.
+Based on these profile settings, `cds deploy` executes `cds build` and also resolves additionally binding information. If a corresponding binding exists, its service name and service key are used. The development profile is used by default.
 
 [Learn more about the deployment using HDI.](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/sap-hdi-deployer?){.learn-more}
 [Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}

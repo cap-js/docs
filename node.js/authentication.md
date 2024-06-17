@@ -227,11 +227,11 @@ The default configuration shipped with `@sap/cds` specifies these users:
 
 ```jsonc
   "users": {
-    "alice": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ] },
-    "bob":   { "tenant": "t1", "roles": [ "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
-    "carol": { "tenant": "t1", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
-    "dave":  { "tenant": "t1", "roles": [ "cds.Subscriber", "admin" ], "features": [] },
-    "erin":  { "tenant": "t2", "roles": [ "cds.Subscriber", "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "alice": { "tenant": "t1", "roles": [ "admin" ] },
+    "bob":   { "tenant": "t1", "roles": [ "cds.ExtensionDeveloper" ] },
+    "carol": { "tenant": "t1", "roles": [ "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
+    "dave":  { "tenant": "t1", "roles": [ "admin" ], "features": [] },
+    "erin":  { "tenant": "t2", "roles": [ "admin", "cds.ExtensionDeveloper", "cds.UIFlexDeveloper" ] },
     "fred":  { "tenant": "t2", "features": [ "isbn" ] },
     "me":    { "tenant": "t1", "features": [ "*" ] },
     "yves":  { "roles": [ "internal-user" ] }

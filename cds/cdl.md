@@ -1093,6 +1093,10 @@ Some advantages of using expressions as "first class" annotation values are:
 * [automatic path rewriting in propagated annotations](#propagation)
 * [automatic translation of expressions in OData annotations](#odata-annotations)
 
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
 #### Name resolution
 
 Each path in the expression is checked:
@@ -1398,7 +1402,7 @@ extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
 
-For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
+For multiple conflicting `extend` statements, the last `extend` wins, that means in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
@@ -1516,6 +1520,7 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 

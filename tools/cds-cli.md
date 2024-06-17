@@ -79,10 +79,10 @@ After that, restart your shell (or source the shell configuration) and enjoy she
 Currently supported shells:
 | Operating System  | Shell |
 |-------------------|-------|
-| Linux             | bash, zsh |
-| macOS             | bash, zsh |
+| Linux             | bash, fish (version 8 or higher), zsh |
+| macOS             | bash, fish (version 8 or higher), zsh |
 | Windows           | PowerShell, Git Bash |
-| WSL               | bash, zsh |
+| WSL               | bash, fish (version 8 or higher), zsh |
 
 To remove the shell completion, run the following command:
 ```sh

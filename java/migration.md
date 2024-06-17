@@ -68,6 +68,7 @@ Some property defaults have been adjusted:
 | Property | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
+| `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 
 ### Adjusted Property Behavior
 

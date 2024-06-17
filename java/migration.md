@@ -124,6 +124,7 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.services.mt.MtSubscribeEventContext`
   - `com.sap.cds.services.mt.MtSubscriptionService`
   - `com.sap.cds.services.mt.MtUnsubscribeEventContext`
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
 
 - Removed deprecated methods:
   - `com.sap.cds.services.request.ModifiableUserInfo.addUnrestrictedAttribute`
@@ -131,6 +132,7 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
   - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
   - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
 
 ## Changes in `cds-maven-plugin`
 

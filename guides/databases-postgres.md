@@ -84,9 +84,39 @@ Output:
 
 ## Provisioning a DB Instance
 
-To connect to a PostgreSQL offering from the cloud provider in Production,  leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
+To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option). For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
-For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
+
+<div markdown="1" class="impl java">
+
+To consume a PostgreSQL instance from a CAP Java application running on SAP BTP, consider the following:
+
+- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application.
+
+- By default, the `java_buildpack` initializes a PostgreSQL datasource with the Java CFEnv library. However, to work properly with CAP, the PostgreSQL datasource must be created by the CAP Java runtime and not by the buildpack. You need to disable the [datasource initialization by the buildback](https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html) using `CFENV_SERVICE_<POSTGRESQL_SERVICE_NAME>_ENABLED: false` at your CAP Java service module.
+
+The following example shows these configuration settings applied to a CAP Java service:
+
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: bookshop-pg-srv
+    type: java
+    path: srv
+    parameters:
+      buildpack: java_buildpack
+    properties:
+        SPRING_PROFILES_ACTIVE: cloud
+        JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
+        JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
+        CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
+```
+
+:::
+
+> `BOOKSHOP-PG-DB` is the real PostgreSQL service instance name in this example.
+</div>
+
 
 ### Using Docker
 
@@ -531,6 +561,13 @@ cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
 If you now start the application, Liquibase executes all change sets, which haven't yet been deployed to the database.
 
 For further schema versions, repeat step ②.
+
+::: info Only compatible changes
+
+A delta DDL script is only produced for changes without potential data loss.
+If the changes in the model could lead to data loss, an error is raised.
+
+:::
 
 ## Migration { .impl .node }
 

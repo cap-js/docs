@@ -224,7 +224,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |-------------------|------------------|-------------------------------------------|-----------------------------------------------|
 | CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
 |                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](/guides/security/authorization#requires) |
-| Index page        |                  | `/index.html`                             | none                                          |
+| Index page        |                  | `/index.html`                             | none, but disabled in production              |
 
 > <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 
@@ -259,8 +259,7 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured,
 | [cds.xt.ModelProviderService](../multitenancy/mtxs#modelproviderservice) | `/-/cds/model-provider/**` | Internal, technical user<sup>1</sup>
 | [cds.xt.DeploymentService](../multitenancy/mtxs#deploymentservice) | `/-/cds/deployment/**` | | Internal, technical user<sup>1</sup>, or technical role `cds.Subscriber`
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
-| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
-
+| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper`
 > <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 

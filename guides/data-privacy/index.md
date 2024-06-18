@@ -29,7 +29,7 @@ Data protection is associated with numerous legal requirements and privacy conce
 
 CAP supports applications in their obligations to comply to data privacy regulations, by automating tedious tasks as much as possible based on annotated models. That is, CAP provides easy ways to designate personal data, as well as out-of-the-box integration with SAP BTP services, which enable you to fulfill specific data privacy requirements in your application. This relieves application developers of these tedious tasks and related efforts.
 
-<img src="./assets/Data-Privacy.drawio.svg" alt="Shows with which solutions CAP annotations can be used out of the box, as described in the following table." style="zoom:111%;" />
+![Shows with which solutions CAP annotations can be used out of the box, as described in the following table.](./assets/Data-Privacy.drawio.svg){style="zoom:111%;"}
 
 
 

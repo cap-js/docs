@@ -108,6 +108,7 @@ The following table gives an overview about the removed properties:
 | `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
 | `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 | `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.odataV4.serializer.enabled` | | The legacy serializer has been removed. |
 | `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
 | `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
 | `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |

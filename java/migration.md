@@ -48,6 +48,19 @@ The Production Profile now defaults to `cloud`. This ensures that various proper
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
 
+### Removed feature `cds-feature-xsuaa`
+
+The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has been unified under the umbrella of `cds-feature-identity`. 
+
+It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) instead of the deprecated [`spring-xsuaa` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
+
+If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you don't need to adapt code.
+
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundler `cds-starter-cloudfoundry` or `cds-starter-k8s`. 
+
+[Learn more about the security configuration.](./security.md#configure-xsuaa-and-ias-authentication--xsuaa-ias){.learn-more}
+[Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
+
 ### Removed MTX Classic Support
 
 Support for classic MTX (@sap/cds-mtx) has been removed. For multitenancy using streamlined MTX (@sap/cds-mtxs) is mandatory.

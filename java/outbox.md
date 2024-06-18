@@ -210,7 +210,7 @@ void processMyEvent(OutboxMessageEventContext context) {
 
   // Perform processing logic for myEvent
 
-  ctx.setCompleted();
+  context.setCompleted();
 }
 ```
 

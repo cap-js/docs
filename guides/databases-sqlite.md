@@ -232,6 +232,7 @@ With that in place, the server will use this prepared database instead of bootst
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -242,7 +243,7 @@ spring:
     hikari:
       maximum-pool-size: 1
 ```
-
+:::
 [Learn how to configure a file-based SQLite database](../java/cqn-services/persistence-services#file-based-storage){.learn-more}
 
 </div>

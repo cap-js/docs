@@ -283,6 +283,7 @@ You can also define mock users explicitly. This mock user configuration only app
 
 Define the mock users in a Spring profile, which may be only active during testing, as in the following example:
 
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -310,6 +311,7 @@ cds:
           features:
             - "*"
 ```
+:::
 
 - Mock user with name `Viewer-User` is a typical business user with SaaS-tenant `CrazyCars` who has assigned role `Viewer` and user attribute `Country` (`$user.Country` evaluates to value list `[GER, FR]`). This user also has the additional attribute `email`, which can be retrieved with `UserInfo.getAdditionalAttribute("email")`. The [features](../java/reflection-api#feature-toggles) `cruise` and `park` are enabled for this mock user.
 - `Privileged-User` is a user running in privileged mode. Such a user is helpful in tests that bypasses all authorization handlers.
@@ -344,6 +346,7 @@ public class BookServiceOrdersTest {
 
 A `tenants` section allows to specify additional configuration for the _mock tenants_. In particular it is possible to assign features to tenants:
 
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -360,6 +363,7 @@ cds:
             - cruise
             - park
 ```
+:::
 
 The mock user `Alice` is assigned to the mock tenant `CrazyCars` for which the features `cruise` and `park` are enabled.
 

@@ -192,6 +192,7 @@ Automatic schema deployment isn't suitable for productive use. Consider using pr
 
 If you don't have a compatible PostgreSQL service binding in your application environment, you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
 
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -202,6 +203,7 @@ spring:
     password: <password>
     driver-class-name: org.postgresql.Driver
 ```
+:::
 
 ### H2
 
@@ -259,6 +261,7 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
 
 The database content is stored in a file, `sqlite.db` as in the following example. Since the schema is initialized using `cds deploy` command, the initialization mode is set to `never`:
 
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -272,12 +275,13 @@ spring:
     hikari:
       maximum-pool-size: 1
 ```
+:::
 
 #### In-Memory Storage
 
 The database content is stored in-memory only. The schema initialization done by Spring, executes the `schema.sql` script. Hence, the initialization mode is set to `always`. If Hikari closes the last connection from the pool, the in-memory database is automatically deleted. To prevent this situation, set `max-lifetime` to *0*:
 
-
+::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
@@ -292,6 +296,7 @@ spring:
       maximum-pool-size: 1
       max-lifetime: 0
 ```
+:::
 
 ## Persistence Services
 

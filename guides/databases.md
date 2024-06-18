@@ -268,12 +268,11 @@ Quite frequently you need to distinguish between sample data and real initial da
 Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
 ::: code-group
-
 ```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: test
-cds
+cds:
   dataSource.csv.paths:
   - test/data/**
 ```

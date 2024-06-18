@@ -83,16 +83,14 @@ CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When wo
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
-1. `RIGHT` and `FULL OUTER JOIN` isn't supported.
-2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
-3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
-4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
-5. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
-6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
-7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
-8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
-9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
-10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
+1. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
+2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
+3. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
+4. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
+5. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
+6. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
+7. Foreign key constraints are supported, but are disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
+8. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ## Datasources
 

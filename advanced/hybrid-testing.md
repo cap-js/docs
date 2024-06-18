@@ -358,7 +358,7 @@ cds bind --to bookshop-db --for test
 You have to use the same profile name for hybrid testing to correctly resolve any bindings you've created with this profile.
 
 ```sh
-cds watch --profile test 
+cds watch --profile test
 ```
 
 ### With CDS Service and Kind
@@ -376,7 +376,7 @@ You are informed with an error message if this is required.
 There is a handy shortcut to bind multiple services with one command:
 
 ```sh
-cds bind -2 bookshop-db,bookshop-xsuaa,redis-cache
+cds bind -2 bookshop-db,bookshop-auth
 ```
 
 ::: tip
@@ -427,7 +427,7 @@ Example output:
 ```js
 {
   onpremise_proxy_host: 'localhost', // [!code focus]
-  // other cloud foundry credential values 
+  // other cloud foundry credential values
 }
 ```
 

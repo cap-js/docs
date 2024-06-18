@@ -36,17 +36,36 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" alt="The graphic is explained in the accompanying text.">
+<img src="../assets/overview.drawio.svg" style="width:480px; margin: auto" alt="The graphic is explained in the accompanying text.">
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />
-  <img src="../assets/logos/express.png" style="height:30px" alt="Express logo"/>
-  <img src="../assets/logos/java.svg" style="height:44px" alt="Java logo"/>
+  <img src="../assets/logos/express.png" style="height:34px" alt="Express logo"/>
+  <img src="../assets/logos/java.svg" style="height:44px;margin-top:-10px;" alt="Java logo"/>
   <img src="../assets/logos/spring.svg" style="height:25px" alt="spring logo" />
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
+  #logos {
+    margin: 24px auto;
+    max-width: 280px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #logos img {
+    margin: 4px auto;
+  }
+
+  @media (min-width: 500px) {
+    #logos {
+      max-width: 500px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 </style>
 
 On top of open source technologies, CAP mainly adds:
@@ -72,7 +91,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
 | **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](#cqrs) or [Event Sourcing](#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/#bastudio) or [Visual Studio Code](../tools/#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/cds-editors#bas) or [Visual Studio Code](../tools/cds-editors#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
 
 
 

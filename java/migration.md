@@ -26,8 +26,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
 ::: warning
-This is a **preview** of the changes planned for CAP Java 3.0 (planned to be released July 2024)
+This is a **preview** of the changes planned for CAP Java 3.0 (planned to be released June 2024)
 :::
+
+### Supported CDS-DK Versions
+
+CAP Java 3.0 supports cds-dk ^7 and ^8. Cds-dk ^6 is not supported any longer.
 
 ### Minimum Versions
 
@@ -57,6 +61,19 @@ If you have customized the security configuration, you need to adapt it to the n
 [Learn more about the security configuration.](./security.md#configure-xsuaa-and-ias-authentication--xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. For multitenancy using streamlined MTX (@sap/cds-mtxs) is mandatory.
+If you are still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition the deprecated `MtSubscriptionService` API, which has been superseeded by the `DeploymentService` API, has been removed.
+As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe the tenant's content (e.g. HDI container) is now deleted by default when using the new `DeploymentService` API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
+
 ### Adjusted Property Defaults
 
 Some property defaults have been adjusted:
@@ -64,18 +81,86 @@ Some property defaults have been adjusted:
 | Property | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
+| `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
+
+### Adjusted Property Behavior
+
+| Property | New Behavior |
+| --- | --- |
+| `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
+
 
 ### Removed Properties
 
-TODO
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement | Explanation |
+| --- | --- | --- |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` | |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
+| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
+| `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
+| `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
+| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
+| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
+| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
+| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
+| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
+| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
+| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
+| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
+| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
+| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
 
 ### Removed Java APIs
 
-TODO
+- Removed deprecated classes:
+  - `com.sap.cds.services.environment.ServiceBinding`
+  - `com.sap.cds.services.environment.ServiceBindingAdapter`
+  - `com.sap.cds.services.mt.MtAsyncDeployEventContext`
+  - `com.sap.cds.services.mt.MtAsyncDeployStatusEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtDeployEventContext`
+  - `com.sap.cds.services.mt.MtGetDependenciesEventContext`
+  - `com.sap.cds.services.mt.MtSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtSubscriptionService`
+  - `com.sap.cds.services.mt.MtUnsubscribeEventContext`
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
 
-### Changes in `cds-maven-plugin`
+- Removed deprecated methods:
+  - `com.sap.cds.services.request.ModifiableUserInfo.addUnrestrictedAttribute`
+  - `com.sap.cds.services.request.ModifiableUserInfo.setUnrestrictedAttributes`
+  - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
+  - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
+  - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
+
+## Changes in `cds-maven-plugin`
 
 The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
+
+### Adjusted POJO class generation
+
+Some parameter defaults of the goal `generate` have been adjusted:
+
+| Parameter | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `sharedInterfaces` | `false` | `true` | Enables the usage of interfaces generated for the global types with inline anonymous arrayed types in the interfaces generated for actions and functions |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+
+Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 

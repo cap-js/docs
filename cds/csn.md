@@ -585,7 +585,7 @@ csn = { extensions:[
 
 ### annotate with \<anonymous aspect\>
 
-The form `{ annotate:<target>, with:{...} }` allows to add or override annotations of the target definition as well as those of nested elements:
+The form `{ annotate:<target>, <property>: <value>, … }` allows to add or override annotations of the target definition as well as those of nested elements:
 
 ```js
 csn = {extensions:[

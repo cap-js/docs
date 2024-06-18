@@ -51,7 +51,7 @@ For Linux, macOS and Windows use the following command to activate the shell com
 cds add completion
 ```
 
-You can find more information [here](/tools/#cds-add-completion).
+You can find more information [here](/tools/cds-cli#cds-completion).
 
 
 ### 3. Install Git

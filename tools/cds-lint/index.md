@@ -63,7 +63,7 @@ Successfully added features to your project.
 
 <span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
 
-(1) ESLint v>=7.0.0
+(1) ESLint v>=8.0.0
 (2) ESLint plugin for CDS
 
 

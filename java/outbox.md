@@ -55,30 +55,32 @@ For a multitenancy scenario, make sure that the required configuration is also d
 Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base model. In this case, you need to update the tenant models after deployment but you don't need to update MTX Sidecar.
 :::
 
-CAP Java by default provides two persistent outbox services:
+If enabled, CAP Java provides two persistent outbox services by default:
 
 -  `DefaultOutboxOrdered` - is used by default by messaging services
 -  `DefaultOutboxUnordered` - is used by default by the AuditLog service
 
 The default configuration for both outboxes can be overridden using the `cds.outbox.services` section, for example in the _application.yaml_:
 
-```yaml
+```yaml [application.yaml]
 cds:
   outbox:
     services:
       DefaultOutboxOrdered:
         maxAttempts: 10
         storeLastError: true
+        # ordered: true
       DefaultOutboxUnordered:
         maxAttempts: 10
         storeLastError: true
+        # ordered: false
 ```
 
 You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
-of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
-- `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances.
+  of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
+- `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise, the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances. This option can't be changed for the default persistent outboxes.
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
@@ -142,7 +144,7 @@ CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
-If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods. 
+If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods.
 To improve this the API `OutboxService.outboxed(Service, Class)` can be used, which wraps a service with an asynchronous suited API while outboxing it.
 This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
 

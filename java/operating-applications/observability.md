@@ -265,9 +265,9 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
 ::: code-group
 ```yaml [mta.yaml]
 - name: <srv-module>
-  # […]
+  # ...
   properties:
-    # […]
+    # ...
     JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar']"
 ```
 :::
@@ -289,7 +289,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 1) Bind your CAP Java application to a service instance of `cloud-logging`. It's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to an _mta.yaml_ descriptor:
     ::: code-group
     ```yaml [mta.yaml]
-    # […]
+    # ...
     resources:
       - name: cloud-logging-instance
         type: org.cloudfoundry.managed-service
@@ -299,7 +299,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
           config:
             ingest_otlp:
               enabled: true
-    # […]
+    # ...
     ```
     :::
 
@@ -308,9 +308,9 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
    ::: code-group
     ```yaml [mta.yaml]
    - name: <srv-module>
-     # […]
+     # ...
      properties:
-       # […]
+       # ...
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging
    ```
@@ -334,9 +334,9 @@ The following steps describe the required configuration:
    ::: code-group
     ```yaml [mta.yaml]
    - name: <srv-module>
-     # […]
+     # ...
      properties:
-       # […]
+       # ...
        OTEL_METRICS_EXPORTER: dynatrace
        OTEL_TRACES_EXPORTER: none
        OTEL_LOGS_EXPORTER: none

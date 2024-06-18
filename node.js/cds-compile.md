@@ -184,24 +184,25 @@ for (let [edm,{file,suffix}] of all)
 ```
 
 
-
-
-### .hdbtable() {.method}
-
 ### .hdbcds() {.method}
+Generates `hdbcds` output.
+Current SAP HANA Cloud versions do no longer support `.hdbcds`, use `cds.compile.to.hana` instead. The command is supported for backward compatibility with older versions of [SAP HANA Service for SAP BTP](https://help.sap.com/docs/HANA_SERVICE). 
 
+### .hdbtable() {.method} - deprecated
+Generates `hdbtable/hdbview` output.
+Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview` file.
 
-Generates `hdbtable/view` or `hdbcds` output.
-Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview`, or `.hdbcds` file.
+### .hana() {.method}
+
+Use `cds.compile.to.hana` instead of the deprecated `cds.compile.to.hdbtable`. The generated `hdbtable/hdbview` output is identical, but may contain additional migration table specific data calculated for a given `beforeImage` model parameter. The latter is only relevant for build tools to determine the actual migration table contents.
+The result is a generator that produces `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview` and optional `.json` files for the migration table specific data.
 For example, use it as follows:
 
 ```js
-let all = cds.compile.to.hdbtable (csn)
+let all = cds.compile.to.hana (csn)
 for (let [src,{file}] of all)
   console.log (file,src)
 ```
-
-
 
 ### .sql() {.method}
 

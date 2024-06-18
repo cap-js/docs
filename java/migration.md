@@ -46,17 +46,21 @@ CAP Java 3.0 increased some minimum required versions:
 
 The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
 
+One of the effects of the production profile is that the index page is disabled by default.
+If you are using the root path `/` as readiness or liveness probe in Kyma you will need to make adjustments.
+It is recommended to use Spring Boot actuator's `/actuator/health` endpoint instead.
+
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
 
 ### Removed feature `cds-feature-xsuaa`
 
-The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has been unified under the umbrella of `cds-feature-identity`. 
+The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has been unified under the umbrella of `cds-feature-identity`.
 
 It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) instead of the deprecated [`spring-xsuaa` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
 
 If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you don't need to adapt code.
 
-If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundler `cds-starter-cloudfoundry` or `cds-starter-k8s`. 
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundler `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
 [Learn more about the security configuration.](./security.md#configure-xsuaa-and-ias-authentication--xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
@@ -74,6 +78,24 @@ As part of this change the compatibility mode for the `MtSubscriptionService` AP
   - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
   - `/messaging/v1.0/em/<tenant>` (PUT)
 
+### Lazy Localization by default
+
+EDMX resources served by the `$metadata` endpoints are now localized lazily by default. This requires at least `@sap/cds-mtxs` in version `1.12.0`.
+
+The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
+In case localized EDMX files are still required to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
+
+### Adjusted POJO class generation
+
+Some parameter defaults of the goal `generate` have been adjusted:
+
+| Parameter | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `sharedInterfaces` | `false` | `true` | Enables the usage of interfaces generated for the global types with inline anonymous arrayed types in the interfaces generated for actions and functions |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+
+Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.
+
 ### Adjusted Property Defaults
 
 Some property defaults have been adjusted:
@@ -82,13 +104,13 @@ Some property defaults have been adjusted:
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
+| `cds.odata-v4.lazy-i18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
 
 ### Adjusted Property Behavior
 
 | Property | New Behavior |
 | --- | --- |
 | `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
-
 
 ### Removed Properties
 
@@ -147,20 +169,9 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
 
-## Changes in `cds-maven-plugin`
+### Removed goals in `cds-maven-plugin`
 
 The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
-
-### Adjusted POJO class generation
-
-Some parameter defaults of the goal `generate` have been adjusted:
-
-| Parameter | Old Value | New Value | Explanation |
-| --- | --- | --- | --- |
-| `sharedInterfaces` | `false` | `true` | Enables the usage of interfaces generated for the global types with inline anonymous arrayed types in the interfaces generated for actions and functions |
-| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
-
-Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 

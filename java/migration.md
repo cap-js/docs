@@ -80,7 +80,9 @@ As part of this change the compatibility mode for the `MtSubscriptionService` AP
 
 ### Lazy Localization by default
 
-EDMX resources served by the `$metadata` endpoints are now localized lazily by default. This requires at least `@sap/cds-mtxs` in version `1.12.0`.
+EDMX resources served by the OData V4 `/$metadata` endpoints are now localized lazily by default.
+This significantly reduces EDMX cache memory consumption in case many languages are used.
+Note, that this requires at least `@sap/cds-mtxs` in version `1.12.0`.
 
 The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
 In case localized EDMX files are still required to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.

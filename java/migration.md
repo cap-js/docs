@@ -89,6 +89,13 @@ Some property defaults have been adjusted:
 | --- | --- |
 | `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
 
+### Session Context Variables
+
+| Old Variable | Replacement | type |
+| --- | --- | --- |
+| `$user.tenant` | `$tenant` | removal |
+| `$at.from` | `$valid.from` | deprecation  |
+| `$at.to` | `$valid.to` | deprecation |
 
 ### Removed Properties
 

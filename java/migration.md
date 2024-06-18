@@ -146,6 +146,9 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
   - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
   - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.Insert.cqn(String)`
+  - `com.sap.cds.ql.Update.cqn(String)`
+  - `com.sap.cds.ql.Upsert.cqn(String)`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
 
 ## Changes in `cds-maven-plugin`

@@ -141,6 +141,8 @@ Always make sure that database transactions are either committed or rolled back.
 1. Couple it to your request (this happens automatically): Once the request is succeeded, the database service commits the transaction. If there was an error in one of the handlers, the database service performs a rollback.
 2. For manual transactions (for example, by writing `const tx = cds.tx()`), you need to perform the commit/rollback yourself: `await tx.commit()`/`await tx.rollback()`.
 
+If you're using [@sap/hana-client](https://www.npmjs.com/package/@sap/hana-client), make sure to adjust the environment variable [`HDB_NODEJS_THREADPOOL_SIZE`](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/31a8c93a574b4f8fb6a8366d2c758f21.html?version=2.11) which specifies the amount of workers that concurrently execute asynchronous method calls for different connections.
+
 
 ### Why are requests rejected with status `502` and do not seem to reach the application?
 

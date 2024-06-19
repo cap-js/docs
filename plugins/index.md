@@ -217,6 +217,10 @@ Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging
 
 ## Change Tracking
 
+:::warning Personal data is ignored
+Elements with [personal data](../guides/data-privacy/annotations#personaldata), that is, elements that are annotated
+with @PersonalData and hence subject to audit logging, are ignored by the change tracking.
+:::
 
 The Change Tracking plugin provides out-of-the box support for automated capturing, storing, and viewing of the change records of modeled entities. All we need is to add @changelog annotations to your models to indicate which entities and elements should be change-tracked.
 

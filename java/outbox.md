@@ -34,10 +34,9 @@ Once the transaction succeeds, the messages are read from the database table and
 
 To enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_:
 
-::: code-group
-```jsonc [package.json]
+```jsonc 
 {
-  // […]
+  // ...
   "cds": {
     "requires": {
       "outbox": {
@@ -47,16 +46,6 @@ To enable the persistence for the outbox, you need to add the service `outbox` o
   }
 }
 ```
-```json [.cdsrc.json]
-{
-  "requires": {
-    "outbox": {
-      "kind": "persistent-outbox"
-    }
-  }
-}
-```
-:::
 
 ::: warning _❗ Warning_
 Be aware that you need to migrate the database schemas of all tenants after you've enhanced your model with an outbox version from `@sap/cds`  version 6.0.0 or later.

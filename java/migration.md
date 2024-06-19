@@ -118,7 +118,7 @@ Some property defaults have been adjusted:
 
 | Old Variable | Replacement | type |
 | --- | --- | --- |
-| `$user.tenant` | `$tenant` | removal |
+| `$user.tenant` | `$tenant` | deprecation |
 | `$at.from` | `$valid.from` | deprecation  |
 | `$at.to` | `$valid.to` | deprecation |
 

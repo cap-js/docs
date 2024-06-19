@@ -47,7 +47,7 @@ Use `cds version` to get information about your installed package version:
 <em>@sap/cds:</em> 7.9.2
 <em>@sap/cds-compiler:</em> 4.9.4
 <em>@sap/cds-dk:</em> 7.9.3
-<em>@sap/cds-dk (global):</em> 6.7.0
+<em>@sap/cds-dk (global):</em> 7.9.3
 <em>@sap/cds-mtxs:</em> 1.18.1
 <em>@sap/eslint-plugin-cds:</em> 3.0.3
 <em>Node.js:</em> v18.13.0
@@ -208,37 +208,44 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 
 | Feature                       |     Node.js      |       Java       |
 |-------------------------------|:----------------:|:----------------:|
-| `hana`                        |       <X/>       |       <X/>       |
-| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `liquibase`                   |      <Na/>       |       <X/>       |
-| `h2`                          |      <Na/>       |       <X/>       |
+| `tiny-sample`                 |       <X/>       |       <X/>       |
+| `sample`                      |       <X/>       |       <X/>       |
+| `mta`                         |       <X/>       |       <X/>       |
+| `cf-manifest`                 |       <X/>       |       <X/>       |
+| `helm`                        |       <X/>       |       <X/>       |
+| `helm-unified-runtime`        |       <X/>       |       <X/>       |
+| `containerize`                |       <X/>       |       <X/>       |
 | `multitenancy`                |       <X/>       |       <X/>       |
 | `toggles`                     |       <X/>       |       <X/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
-| `application-logging`         | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `audit-logging`               |       <O/>       |       <O/>       |
-| `html5-repo`                  |       <X/>       |       <X/>       |
-| `approuter`                   |       <X/>       |       <X/>       |
-| `connectivity`                |       <X/>       |       <X/>       |
-| [`data`](#data)               |       <X/>       |       <X/>       |
-| [`http`](#http)               |       <X/>       |       <X/>       |
-| `destination`                 |       <X/>       |       <X/>       |
+| `xsuaa`                       |       <X/>       |       <X/>       |
+| `hana`                        |       <X/>       |       <X/>       |
+| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `sqlite`                      |       <X/>       |       <X/>       |
+| `h2`                          |      <Na/>       |       <X/>       |
+| `liquibase`                   |      <Na/>       |       <X/>       |
+| `local-messaging`             |       <X/>       |       <O/>       |
+| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging-shared` |       <X/>       |       <O/>       |
 | `redis-messaging`             | <X/><sup>1</sup> |       <O/>       |
-| `local-messaging`             |       <X/>       |       <O/>       |
-| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `kafka`                       |       <X/>       |       <X/>       |
-| `helm`                        |       <X/>       |       <X/>       |
-| `helm-unified-runtime`        |       <X/>       |       <X/>       |
-| `mta`                         |       <X/>       |       <X/>       |
+| `approuter`                   |       <X/>       |       <X/>       |
+| `connectivity`                |       <X/>       |       <X/>       |
+| `destination`                 |       <X/>       |       <X/>       |
+| `html5-repo`                  |       <X/>       |       <X/>       |
+| `portal`                      |       <X/>       |       <X/>       |
+| `application-logging`         |       <X/>       |       <X/>       |
+| `audit-logging`               |       <X/>       |       <X/>       |
 | `notifications`               |       <X/>       |       <O/>       |
+| `attachments`                 |       <X/>       |       <X/>       |
+| [`data`](#data)               |       <X/>       |       <X/>       |
+| [`http`](#http)               |       <X/>       |       <X/>       |
+| `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
-| `sample`                      |       <X/>       |       <X/>       |
-| `tiny-sample`                 |       <X/>       |       <X/>       |
-| `sqlite`                      |       <X/>       |       <X/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
-| `xsuaa`                       |       <X/>       |       <X/>       |
+| `typescript`                  |       <X/>       |      <Na/>       |
+| `completion`                  |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 

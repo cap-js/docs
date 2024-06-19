@@ -318,7 +318,6 @@ extend my.Incidents with {
 
 ![Screenshot showing the Attachments Table in a fiori app](assets/index/sdm-table.png)
 
-It also provides a CAP-level, easy-to-use integration of the [SAP Document Management Service](https://help.sap.com/docs/document-management-service).
 
 Features:
 

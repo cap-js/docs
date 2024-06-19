@@ -114,6 +114,14 @@ Some property defaults have been adjusted:
 | --- | --- |
 | `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
 
+### Session Context Variables
+
+| Old Variable | Replacement | type |
+| --- | --- | --- |
+| `$user.tenant` | `$tenant` | removal |
+| `$at.from` | `$valid.from` | deprecation  |
+| `$at.to` | `$valid.to` | deprecation |
+
 ### Removed Properties
 
 The following table gives an overview about the removed properties:
@@ -132,6 +140,7 @@ The following table gives an overview about the removed properties:
 | `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
 | `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
 | `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.odataV4.serializer.enabled` | | The legacy serializer has been removed. |
 | `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
 | `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
 | `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
@@ -169,6 +178,9 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
   - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
   - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.Insert.cqn(String)`
+  - `com.sap.cds.ql.Update.cqn(String)`
+  - `com.sap.cds.ql.Upsert.cqn(String)`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
 
 ### Removed goals in `cds-maven-plugin`

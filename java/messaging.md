@@ -635,7 +635,7 @@ The following example demonstrates how the error handler can be used to catch me
 
 ```java
 @On(service = "messaging")
-private void handleError(MessagingErrorEventContext context) {
+private void handleError(MessagingErrorEventContext ctx) {
 
   String errorCode = ctx.getException().getErrorStatus().getCodeString();
   if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
@@ -646,9 +646,9 @@ private void handleError(MessagingErrorEventContext context) {
       // error handling for application errors
 
       // how to access the event context of the raised exception:
-      // context.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
-      //	  String event = e.getEvent());
-      //	  String payload = e.get("data"));
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
       // });
 
       ctx.setResult(true); // acknowledge

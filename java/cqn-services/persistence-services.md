@@ -523,49 +523,6 @@ cds:
 
 ## Native SQL
 
-### CDS Data Store Connector { #cdsdatastoreconnector}
-
-The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
-
-CAP Java automatically creates a `CdsDataStoreConnector` that is configured with the [_primary_ data source](./persistence-services#default-persistence-service) and used by the [Persistence Service](./persistence-services).
-
-In order to use CDS models and CDS queries with a _secondary_ data source in CAP Java you need to manually create a CDS Data Store connector. For a [supported](./persistence-services#database-support) JDBC database this is done by the static `CdsDataStoreConnector.createJdbcConnector(...)` method, providing the CDS model, the [transaction manager](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/transaction/TransactionManager.html), and a connection supplier or data source.
-
-The transaction manager must reflect the transactional state of the JDBC connections supplied by the connection supplier or data source.
-
-```java
-CdsDataStoreConnector jdbcConnector = CdsDataStoreConnector.createJdbcConnector(cdsModel, transactionManager)
-    .connection(connectionSupplier).build();
-
-CdsDataStore dataStore = jdbcConnector.connect();
-```
-
-Invoking a `connect()` method creates an instance of the Data Store API.
-
-### CDS Data Store { #cdsdatastore}
-
-The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](./index#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
-
-The `CdsDataStore` API is similar to the [`CqnService` API](../working-with-cql/query-execution#queries). The only difference is, that the `run` method is called `execute`:
-
-```java
-CdsDataStore dataStore = ...;
-Select query = Select.from("bookshop.Books").where(b -> b.get("ID").eq(17));
-Result result = dataStore.execute(query);
-```
-
-Use the `CdsDataStore` API to set user session context information. Utilize the `SessionContext` API which follows a builder pattern, as shown in the following example:
-
-```java
-SessionContext sessionContext = SessionContext.create().setUserContext(UserContext.create().setLocale(Locale.US).build()).build());
-dataStore.setSessionContext(sessionContext);
-```
-
-::: tip
-When implementing a CAP application, using the [Persistence Service](./index#persistenceservice) is preferred over the CDS Data Store.
-:::
-
 ### Native SQL with JDBC Templates { #jdbctemplate}
 
 The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](../../advanced/hana#create-native-sap-hana-object)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.

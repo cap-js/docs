@@ -329,7 +329,7 @@ Features:
 
 Outlook:
 
-- Multitenancy intrinsically handled by the plugin
+- Intrinsic multitenancy handling
 
 
 Available for:

@@ -20,7 +20,8 @@ synopsis: >
   .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 
-  .add::before { content: 'cds add '; color: #999 }
+  .add::before     { content: 'cds add '; color: #999 }
+  .compile::before { content: 'cds compile --to '; color: #999 }
 </style>
 
 # CDS Command Line Interface (CLI) {#cli}
@@ -46,7 +47,7 @@ Use `cds version` to get information about your installed package version:
 <em>@sap/cds:</em> 7.9.2
 <em>@sap/cds-compiler:</em> 4.9.4
 <em>@sap/cds-dk:</em> 7.9.3
-<em>@sap/cds-dk (global):</em> 6.7.0
+<em>@sap/cds-dk (global):</em> 7.9.3
 <em>@sap/cds-mtxs:</em> 1.18.1
 <em>@sap/eslint-plugin-cds:</em> 3.0.3
 <em>Node.js:</em> v18.13.0
@@ -78,10 +79,10 @@ After that, restart your shell (or source the shell configuration) and enjoy she
 Currently supported shells:
 | Operating System  | Shell |
 |-------------------|-------|
-| Linux             | bash, zsh |
-| macOS             | bash, zsh |
+| Linux             | bash, fish (version 8 or higher), zsh |
+| macOS             | bash, fish (version 8 or higher), zsh |
 | Windows           | PowerShell, Git Bash |
-| WSL               | bash, zsh |
+| WSL               | bash, fish (version 8 or higher), zsh |
 
 To remove the shell completion, run the following command:
 ```sh
@@ -207,37 +208,44 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 
 | Feature                       |     Node.js      |       Java       |
 |-------------------------------|:----------------:|:----------------:|
-| `hana`                        |       <X/>       |       <X/>       |
-| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `liquibase`                   |      <Na/>       |       <X/>       |
-| `h2`                          |      <Na/>       |       <X/>       |
+| `tiny-sample`                 |       <X/>       |       <X/>       |
+| `sample`                      |       <X/>       |       <X/>       |
+| `mta`                         |       <X/>       |       <X/>       |
+| `cf-manifest`                 |       <X/>       |       <X/>       |
+| `helm`                        |       <X/>       |       <X/>       |
+| `helm-unified-runtime`        |       <X/>       |       <X/>       |
+| `containerize`                |       <X/>       |       <X/>       |
 | `multitenancy`                |       <X/>       |       <X/>       |
 | `toggles`                     |       <X/>       |       <X/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
-| `application-logging`         | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `audit-logging`               |       <O/>       |       <O/>       |
-| `html5-repo`                  |       <X/>       |       <X/>       |
-| `approuter`                   |       <X/>       |       <X/>       |
-| `connectivity`                |       <X/>       |       <X/>       |
-| [`data`](#data)               |       <X/>       |       <X/>       |
-| [`http`](#http)               |       <X/>       |       <X/>       |
-| `destination`                 |       <X/>       |       <X/>       |
+| `xsuaa`                       |       <X/>       |       <X/>       |
+| `hana`                        |       <X/>       |       <X/>       |
+| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `sqlite`                      |       <X/>       |       <X/>       |
+| `h2`                          |      <Na/>       |       <X/>       |
+| `liquibase`                   |      <Na/>       |       <X/>       |
+| `local-messaging`             |       <X/>       |       <O/>       |
+| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging-shared` |       <X/>       |       <O/>       |
 | `redis-messaging`             | <X/><sup>1</sup> |       <O/>       |
-| `local-messaging`             |       <X/>       |       <O/>       |
-| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `kafka`                       |       <X/>       |       <X/>       |
-| `helm`                        |       <X/>       |       <X/>       |
-| `helm-unified-runtime`        |       <X/>       |       <X/>       |
-| `mta`                         |       <X/>       |       <X/>       |
+| `approuter`                   |       <X/>       |       <X/>       |
+| `connectivity`                |       <X/>       |       <X/>       |
+| `destination`                 |       <X/>       |       <X/>       |
+| `html5-repo`                  |       <X/>       |       <X/>       |
+| `portal`                      |       <X/>       |       <X/>       |
+| `application-logging`         |       <X/>       |       <X/>       |
+| `audit-logging`               |       <X/>       |       <X/>       |
 | `notifications`               |       <X/>       |       <O/>       |
+| `attachments`                 |       <X/>       |       <X/>       |
+| [`data`](#data)               |       <X/>       |       <X/>       |
+| [`http`](#http)               |       <X/>       |       <X/>       |
+| `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
-| `sample`                      |       <X/>       |       <X/>       |
-| `tiny-sample`                 |       <X/>       |       <X/>       |
-| `sqlite`                      |       <X/>       |       <X/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
-| `xsuaa`                       |       <X/>       |       <X/>       |
+| `typescript`                  |       <X/>       |      <Na/>       |
+| `completion`                  |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 
@@ -418,6 +426,64 @@ Use `cds env` to inspect currently effective config settings:
   kind: <em>'sqlite'</em>
 }
 </pre>
+
+
+## cds compile
+
+### mermaid <Since version="8.0.0" of="@sap/cds-dk" /> {.compile}
+
+This produces text for a [Mermaid class diagram](https://mermaid.js.org/syntax/classDiagram.html):
+
+```sh
+cds compile db/schema.cds --to mermaid
+```
+
+Output:
+
+```log
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    class `sap.fe.cap.travel.Booking`["Booking"]
+    class `sap.fe.cap.travel.Airline`["Airline"]
+    class `sap.fe.cap.travel.Airport`["Airport"]
+    class `sap.fe.cap.travel.Flight`["Flight"]
+  }
+```
+
+If wrapped in a markdown code fence of type `mermaid`, such diagram text is supported by many markdown renderers, for example, on [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+
+````md
+```mermaid
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    ...
+  }
+```
+````
+
+To customize the diagram layout, use these environment variables when calling `cds compile`:
+
+```sh
+CDS_MERMAID_ASSOCNAMES=false|true    # show association/composition names
+CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
+CDS_MERMAID_MIN=false|true           # remove unused entities
+CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
+CDS_MERMAID_QUERIES=false|true       # show queries/projections
+```
+
+<div id="mermaid-cli-more" />
+
+#### Interactively in VS Code
+
+To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use the dropdown in the editor toolbar or the command _CDS: Preview as diagram_:
+
+![The screenshot is described in the accompanying text.](assets/mermaid-preview.png) {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+
+To customize the diagram layout, use these settings:
+
+![The screenshot shows the following setting for the CDS Code Editor: Cds>Preview>Diagram: Associations, Cds>Preview>Diagram: Elements, Cds>Preview>Diagram: Minify, Cds>Preview>Diagram: Namespaces, and Cds>Preview>Diagram: Queries](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
 
 
 ## cds repl

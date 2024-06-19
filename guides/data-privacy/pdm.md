@@ -24,6 +24,11 @@ SAP BTP provides the [*SAP Personal Data Manager (PDM)*](https://help.sap.com/do
 
 [[toc]]
 
+## Annotate Personal Data
+
+First identify entities and elements (potentially) holding personal data using `@PersonalData` annotations, as explained in detail in the [*Annotating Personal Data* chapter](annotations) of these guides.
+
+> We keep using the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app).
 
 ## Provide a Service Interface to SAP Personal Data Manager
 

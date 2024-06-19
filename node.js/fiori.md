@@ -146,7 +146,7 @@ payloads rather than the complete business object.
 
 ### Garbage Collection of Stale Drafts
 
-Inactive drafts are deleted automatically after default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
+Inactive drafts are deleted automatically after the default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
 
 ```json
 {

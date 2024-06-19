@@ -1306,7 +1306,7 @@ For Java, you set the authentication type to `TOKEN_FORWARDING` for the destinat
 You can implement it in your code:
 
 ```java
-urlFromConfig = <read from config>
+urlFromConfig = "<read from config>";
 DefaultHttpDestination mockDestination = DefaultHttpDestination
     .builder(urlFromConfig)
     .name("order-service")

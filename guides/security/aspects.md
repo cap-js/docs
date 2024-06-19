@@ -395,8 +395,8 @@ Be aware that injections are still possible even via CQL when the query structur
 <div class="impl java">
 
 ```java
-String entity = <from user input>;
-String column = <from user input>;
+String entity = "<from user input>";
+String column = "<from user input>";
 validate(entity, column); // validate entity and column, e.g. compare with positive list
 Select.from(entity).columns(b -> b.get(column));
 ```

@@ -103,7 +103,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
   // get ID and payload of message
   String msgId = context.getMessageId();
   String payload = context.getData();
-  …
+  // ...
 }
 ```
 
@@ -154,7 +154,7 @@ public class ReviewServiceHandler implements EventHandler {
     reviews.forEach(review -> {
 
       // Calculate the new average rating
-      BigDecimal avg = [...]
+      BigDecimal avg = ...;
 
       // Set event payload
       Reviewed event = Reviewed.create();
@@ -595,7 +595,7 @@ cds:
 public void receiveMyCustomQueueAllMessages(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
-  …
+  // ...
 }
 ```
 

@@ -29,18 +29,17 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 This is a **preview** of the changes planned for CAP Java 3.0 (planned to be released June 2024)
 :::
 
-### Supported CDS-DK Versions
-
-CAP Java 3.0 supports cds-dk ^7 and ^8. Cds-dk ^6 is not supported any longer.
-
 ### Minimum Versions
 
 CAP Java 3.0 increased some minimum required versions:
 
 | Dependency | Minimum Version |
 | --- | --- |
+| @sap/cds-dk | ^7 |
 | Maven | 3.6.3 |
 | Cloud SDK | 5.9.0 |
+
+CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 
 ### Production Profile `cloud`
 
@@ -106,7 +105,7 @@ Some property defaults have been adjusted:
 | --- | --- | --- | --- |
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
-| `cds.odata-v4.lazy-i18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
+| `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
 | `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Incomplete personal data annotations should result in an error by default. |
 
 ### Adjusted Property Behavior

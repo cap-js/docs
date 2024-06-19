@@ -533,6 +533,8 @@ This setting requires at least `@sap/cds-mtx@2.6.2`.
 
 - Make sure to use the latest version of the [Cloud MTA Build Tool (MBT)](https://sap.github.io/cloud-mta-build-tool/).
 - Consult the [Cloud MTA Build Tool documentation](https://sap.github.io/cloud-mta-build-tool/usage/) for further information, for example, on the available tool options.
+- Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter compatibility issues with certain scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Azure DevOps pipelines, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal compatibility.
 
 ### How Can I Define the Build Order Between MTA Modules?
 

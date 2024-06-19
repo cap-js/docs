@@ -107,6 +107,7 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 | `cds.odata-v4.lazy-i18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
+| `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Incomplete personal data annotations should result in an error by default. |
 
 ### Adjusted Property Behavior
 

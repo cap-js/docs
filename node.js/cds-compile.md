@@ -194,14 +194,15 @@ Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`
 
 ### .hana() {.method}
 
-Use `cds.compile.to.hana` instead of the deprecated `cds.compile.to.hdbtable`. The generated `hdbtable/hdbview` output is identical, but may contain additional migration table specific data calculated for a given `beforeImage` model parameter. The latter is only relevant for build tools to determine the actual migration table contents.
-The result is a generator that produces `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview` and optional `.json` files for the migration table specific data.
+Use `cds.compile.to.hana` instead of the deprecated `cds.compile.to.hdbtable`. The generated `hdbtable/hdbview/hdbconstraint` output is identical, but may contain additional migration table specific data calculated for a given `beforeImage` model parameter. The latter is only relevant for build tools to determine the actual migration table changes.
+The result is a generator function that produces `[ src, {file} ]` for each artifact.
 For example, use it as follows:
 
 ```js
-let all = cds.compile.to.hana (csn)
-for (let [src,{file}] of all)
-  console.log (file,src)
+const all = cds.compile.to.hana(csn);
+for (const [src, { file }] of all) {
+  console.log(file, src);
+}
 ```
 
 ### .sql() {.method}

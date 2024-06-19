@@ -303,6 +303,40 @@ Available for:
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
+
+
+## SAP Document Management Service {#@cap-js/sdm}
+
+The @cap-js/sdm package is cds-plugin that provides an easy CAP-level integration with SAP Document Management Service. This package supports handling of attachments(documents) by using an aspect Attachments in SAP Document Management Internal Repository.
+
+
+```cds
+extend my.Incidents with {
+  attachments: Composition of many Attachments
+}
+```
+
+![Screenshot showing the Attachments Table in a fiori app](assets/index/sdm-table.png)
+
+It also provides a CAP-level, easy-to-use integration of the [SAP Document Management Service](https://help.sap.com/docs/document-management-service).
+
+Features:
+
+- Pre-defined type `Attachment` to use in entity definitions
+- Automatic handling of all upload,download,delete and rename operations
+- SAP Document Management Service has inbuilt virus scanning feature.
+- (Automatic) Fiori Annotations for Upload Controls
+- Streaming and piping to avoid memory overloads
+
+Outlook:
+
+- Multitenancy intrinsically handled by the plugin
+
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
+
 <div id="internal-plugins" />
 
 <div id="upcoming-plugins" />

@@ -248,6 +248,7 @@ module.exports = class extends cds.add.Plugin {
       await merge(__dirname, 'add/values.yaml.hbs')
         .into('chart/values.yaml', { with: project }) // [!code ++]
     } // [!code ++]
+  }
 }
 ```
 ```yaml [lib/files/values.yaml.hbs]

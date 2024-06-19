@@ -705,7 +705,6 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
 
-<div id="end" />
 
 ## CAP on Windows
 

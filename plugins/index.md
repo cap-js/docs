@@ -322,7 +322,7 @@ extend my.Incidents with {
 Features:
 
 - Pre-defined type `Attachment` to use in entity definitions
-- Automatic handling of all upload,download,delete and rename operations
+- Automatic handling of all operations including upload, download, delete, and rename
 - SAP Document Management Service has inbuilt virus scanning feature.
 - (Automatic) Fiori Annotations for Upload Controls
 - Streaming and piping to avoid memory overloads

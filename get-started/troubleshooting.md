@@ -707,9 +707,9 @@ For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployme
 
 <div id="end" />
 
-## CAP on Azure/Windows
+## CAP on Windows
 
-Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter compatibility issues with certain scripts or tools due to its hybrid nature between Windows and Unix systems.
-When using Azure DevOps pipelines, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal compatibility.
+Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter interoperability issues with specific scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Windows, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal interoperability. Otherwise, problems can occur when building the mtxs extension on Windows, locally, or in the cloud.
 
 <div id="end" />

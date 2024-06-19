@@ -32,24 +32,26 @@ Once the transaction succeeds, the messages are read from the database table and
 - If an emit was successful, the respective message is deleted from the database table.
 - If an emit wasn't successful, there will be a retry after some (exponentially growing) waiting time. After a maximum number of attempts, the message is ignored for processing and remains in the database table. Even if the app crashes the messages can be redelivered after successful application startup.
 
-To enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
+To enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_:
 
-
-```json
-    "cds": {
-        "requires": {
-            "outbox": {
-                "kind": "persistent-outbox"
-            }
-        }
+```jsonc 
+{
+  // ...
+  "cds": {
+    "requires": {
+      "outbox": {
+        "kind": "persistent-outbox"
+      }
     }
+  }
+}
 ```
 
 ::: warning _❗ Warning_
 Be aware that you need to migrate the database schemas of all tenants after you've enhanced your model with an outbox version from `@sap/cds`  version 6.0.0 or later.
 :::
 
-For a multitenancy scenario, make sure that the required configuration is also done in MTX sidecar service. Make sure that the base model in all tenants is updated to activate the outbox.
+For a multitenancy scenario, make sure that the required configuration is also done in the MTX sidecar service. Make sure that the base model in all tenants is updated to activate the outbox.
 
 ::: info Option: Add outbox to your base model
 Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base model. In this case, you need to update the tenant models after deployment but you don't need to update MTX Sidecar.

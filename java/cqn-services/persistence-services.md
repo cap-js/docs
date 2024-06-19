@@ -84,7 +84,7 @@ CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When wo
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
 1. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
-2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity depend on the locale.
+2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite.
 3. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
 4. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream, the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
 5. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.

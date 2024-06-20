@@ -132,7 +132,7 @@ Modifier modifier = new Modifier() {
 		segments.add(0, CQL.refSegment(segments.get(0).id(), filter));
 		return CQL.get(segments).as(alias);
 	}
-}
+};
 CqnStatement copy = CQL.copy(statement, modifier);
 ```
 
@@ -686,21 +686,21 @@ Don't copy any of the following files to the new project:
 
 ```txt
 <PROJECT-ROOT>/
-|-- db/
-|   |-- .build.js
-|   `-- package.json
-`-- srv/src/main/
-            |-- resources/
-            |    |-- application.properties
-            |    `-- connection.properties
-            `-- webapp/
-                 |-- META-INF/
-                 |   |-- sap_java_buildpack/config/resources_configuration.xml
-                 |   `-- context.xml
-                 `-- WEB-INF/
-                     |-- resources.xml
-                     |-- spring-security.xml
-                     `-- web.xml
+├─ db/
+│  ├─ .build.js
+│  └─ package.json
+└─ srv/src/main/
+           ├─ resources/
+           │  ├─ application.properties
+           │  └─ connection.properties
+           └─ webapp/
+              ├─ META-INF/
+              │  ├─ sap_java_buildpack/config/resources_configuration.xml
+              │  └─ context.xml
+              └─ WEB-INF/
+                 ├─ resources.xml
+                 ├─ spring-security.xml
+                 └─ web.xml
 ```
 
 
@@ -841,11 +841,13 @@ To access an Application Service in custom handler and to execute queries, perfo
 Example of query execution in *Classic Java Runtime*:
 
 ```java
-CDSDataSourceHandler cdsHandler = DataSourceHandlerFactory.getInstance().getCDSHandler(getConnection(), queryRequest.getEntityMetadata().getNamespace());
+CDSDataSourceHandler cdsHandler = DataSourceHandlerFactory
+    .getInstance()
+    .getCDSHandler(getConnection(), queryRequest.getEntityMetadata().getNamespace());
 
 CDSQuery cdsQuery = new CDSSelectQueryBuilder("CatalogService.Books")
 	.selectColumns("id", "title")
-	.where(new ConditionBuilder().columnName("title").IN("Spring", Java"))
+	.where(new ConditionBuilder().columnName("title").IN("Spring", "Java"))
 	.orderBy("title", true)
 	.build();
 
@@ -899,7 +901,7 @@ CDSDataSourceHandler cdsHandler = ...;
 
 CDSQuery cdsQuery = new CDSSelectQueryBuilder("CatalogService.Books")
 	.selectColumns("id", "title")
-	.where(new ConditionBuilder().columnName("title").IN("Spring", Java"))
+	.where(new ConditionBuilder().columnName("title").IN("Spring", "Java"))
 	.orderBy("title", true)
 	.build();
 

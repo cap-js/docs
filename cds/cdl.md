@@ -350,11 +350,11 @@ In addition, there are restrictions that depend on the particular database. Curr
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
-No restrictons apply for reading a calculated element on-write.
+No restrictions apply for reading a calculated element on-write.
 
-#### Association-like calculated elements <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#association-like-calculated-elements}
+#### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a refined association, like in this example:
+A calculated element can also define a filtered association or composition, like in this example:
 
 ```cds
 entity Employees {
@@ -364,7 +364,7 @@ entity Employees {
 ```
 
 For such a calculated element, no explicit type can be specified.
-Only a single association can occur in the expression, and a filter must be specified.
+Only a single association or composition can occur in the expression, and a filter must be specified.
 
 The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
 
@@ -688,7 +688,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
-- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler. 
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
 - No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
@@ -770,13 +770,13 @@ entity Users { ... }
 ```
 
 To navigate between _Teams_ and _Users_, you have to follow two associations: `members.user` or `teams.up_`.
-In OData, use a query like:
+In OData, to get all users of all teams, use a query like the following:
 
 ```cds
 GET /Teams?$expand=members($expand=user)
 ```
 
-to get all users of all teams.
+
 
 
 ### Publish Associations in Projections {#publish-associations}
@@ -785,7 +785,6 @@ As associations are first class citizens, you can put them into the select list
 of a view or projection ("publish") like regular elements. A `select *` includes all associations.
 If you need to rename an association, you can provide an alias.
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   ID,
@@ -796,18 +795,12 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#publish-associations-with-filter}
-
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+#### Publish Associations with Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original
 association plus the filter condition, combined with `and`.
 
-Example:
 ```cds
 entity P_Authors as projection on Authors {
   *,
@@ -821,7 +814,6 @@ that points only to those books where `stock > 0`.
 If the filter condition effectively reduces the cardinality of the association
 to one, you should make this explicit in the filter by adding a `1:` before the condition:
 
-Example:
 ```cds
 entity P_Employees as projection on Employees {
   *,
@@ -829,21 +821,37 @@ entity P_Employees as projection on Employees {
 }
 ```
 
-An association that has been published with a filter is read-only. It must not be
-used to modify the target entity.
-
 Filters usually are provided only for to-many associations, which usually are unmanaged.
 Thus publishing with a filter is almost exclusively used for unmanaged associations.
 Nevertheless you can also publish a managed association with a filter. This will automatically
 turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
 needed for the ON condition are explicitly published.
 
-Example:
 ```cds
 entity P_Books as projection on Books {
   author.ID as authorID,  // needed for ON condition of deadAuthor
   author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
 };
+```
+
+Publishing a _composition_ with a filter is similar, with an important difference:
+in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
+Thus the type of the resulting element is set to `cds.Association`. 
+
+[Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
+
+In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
+like an "enclosed" association, that means, it points to the target draft entity.
+
+In the following example, `singleItem` has type `cds.Association`.
+In draft mode, navigating along `singleItems` doesn't leave the draft tree.
+
+```cds
+@odata.draft.enabled
+entity P_orders as projection on Orders {
+  *,
+  Items[quantity = 1] as singleItems
+}
 ```
 
 
@@ -1003,140 +1011,6 @@ For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
-### Expressions as Annotation Values <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {#expressions-as-annotation-values}
-
-::: warning
-Expressions in annotation values are released as beta feature.
-We provide an early preview of this functionality to allow you to experiment with it and provide feedback.
-The behavior may change in later releases, in particular:
-the behavior and the CSN representation of paths in propagated annotations will change,
-and the behavior of expressions in OData annotations will change.
-:::
-
-In order to use an expression as an annotation value, it must be enclosed in parentheses:
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
-```cds
-@anExpression: ( foo.bar * 11 )
-```
-
-Syntactically, the same expressions are supported as in a select item or in the where clause of a query,
-except subqueries. The expression can of course also be a single reference or a simple value:
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
-```cds
-@aRefExpr: ( foo.bar )
-@aValueExpr: ( 11 )
-```
-
-Some advantage of using expressions as "first class" annotation values are:
-* syntax and references are checked by the compiler
-* code completion
-* (planned) [automatic path rewriting in propagated annotations](#propagation)
-* (planned) [automatic translation of expressions in OData annotations](#odata-annotations)
-
-#### Name resolution
-
-Each path in the expression is checked:
-* For an annotation assigned to an entity, the first path step is resolved as element of the entity.
-* For an annotation assigned to an entity element, the first path step is resolved as the annotated element or its siblings.
-* If the annotation is assigned to a subelement of a structured element, the top level
-  elements of the entity can be accessed via `$self`.
-* A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
-* If a path cannot be resolved successfully, compilation fails with an error.
-
-In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
-is checked by the compiler.
-
-#### CSN Representation
-
-In CSN, the expression is represented as a record with two properties:
-* A string representation of the expression is stored in property `=`.
-* A tokenized representation of the expression is stored in one of the properties
-`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
-
-```json
-{
-  "@anExpression": {
-    "=": "foo.bar * 11",
-    "xpr": [ {"ref": ["foo", "bar"]}, "*", {"value": 11} ]
-  },
-  "@aRefExpr": {
-    "=": "foo.bar",
-    "ref": ["foo", "bar"]
-  },
-  "@aValueExpr": {
-    "=": "11",
-    "val": 11
-  }
-}
-```
-
-Note the different CSN representations for a [plain value `"@anInteger": 11`](#annotation-values) and a value written
-as expression `@aValueExpr: ( 11 )`, respectively.
-
-#### Propagation
-
-[Annotations are propagated](#annotation-propagation) in views/projections, in includes, or along type references.
-Currently, paths are not rewritten in propagated annotations. In a projection, for example,
-all elements used in an annotation expression must be projected without renaming.
-Thus, for the time being we recommend to use the feature mainly in top-level projections.
-
-Example:
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
-```cds
-@MyLength : (length)
-@MyArea : (length * depth)
-@MyHeight : (height)
-entity Block {
-  length : Integer;
-  depth : Integer;
-  height : Integer;
-}
-
-entity Rectangle as projection on Block {
-  length,
-  depth as width
-}
-```
-
-All three annotations are propagated to the projection `Rectangle`. The propagated `@MyLength` is still valid.
-The propagated annotation `MyArea` is invalid, as the referenced element `depth` has been renamed to `width`.
-The propagated annotation `MyHeight` is invalid, as element `height` of `Block` has not been projected at all.
-This results in a compiler error. To make it work, you would have to explicitly overwrite annotations
-`@MyArea` and `@MyHeight` at `Rectangle`.
-
-::: details Outlook on future releases
-The compiler is going to take care of renamed elements and rewrites references in propagated annotations
-in a later release. The CSN representation of propagated annotation expressions may change even
-if today no error is issued. Propagated annotation expressions that today are accepted may lead
-to an error in the future when the implementation is improved.
-:::
-
-#### CDS Annotations
-
-Using an expression as annotation value only makes sense if the evaluator of the annotation is
-prepared to deal with the new CSN representation.
-Currently, the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
-
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
-```cds
-entity Orders @(restrict: [
-    { grant: 'READ', to: 'Auditor', where: (AuditBy = $user.id) }
-  ]) {/*...*/}
-```
-
-More annotations are going to follow in upcoming releases.
-
-Of course, you can use this feature also in your custom annotations, where you control the code that evaluates
-the annotations.
-
-#### OData Annotations
-
-The OData backend of CAP doesn't yet support expression valued annotations. This is planned for
-a later release.
-If you use the new expression syntax for OData annotations, the expression and contained references
-are not correctly translated, and the resulting EDMX will change once the OData support is available.
-
-
 ### Records as Syntax Shortcuts
 
 Annotations in CDS are flat lists of key-value pairs assigned to a target.
@@ -1182,8 +1056,8 @@ entity BooksList as select from Books {
 ```
 
 * `BooksList` would inherit annotations from `Books`
-* `BooksList.ID` would inherit from `Books.ID`
-* `BooksList.author` would inherit from `Books.author.name`
+* `BooksList:ID` would inherit from `Books:ID`
+* `BooksList:author` would inherit from `Books:author.name`
 * `BooksList.genre` would inherit from type `Genre`
 
 The rules are:
@@ -1197,6 +1071,156 @@ The rules are:
 ::: tip
 Propagation of annotations can be stopped via value `null`, for example, `@anno: null`.
 :::
+
+
+### Expressions as Annotation Values <Beta /> {#expressions-as-annotation-values}
+
+In order to use an expression as an annotation value, it must be enclosed in parentheses:
+```cds
+@anExpression: ( foo.bar * 11 )
+```
+
+Syntactically, the same expressions are supported as in a select item or in the where clause of a query,
+except subqueries. The expression can of course also be a single reference or a simple value:
+```cds
+@aRefExpr: ( foo.bar )
+@aValueExpr: ( 11 )
+```
+
+Some advantages of using expressions as "first class" annotation values are:
+* syntax and references are checked by the compiler
+* code completion
+* [automatic path rewriting in propagated annotations](#propagation)
+* [automatic translation of expressions in OData annotations](#odata-annotations)
+
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
+#### Name resolution
+
+Each path in the expression is checked:
+* For an annotation assigned to an entity, the first path step is resolved as element of the entity.
+* For an annotation assigned to an entity element, the first path step is resolved as the annotated element or its siblings.
+* If the annotation is assigned to a subelement of a structured element, the top level
+  elements of the entity can be accessed via `$self`.
+* A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
+* If a path cannot be resolved successfully, compilation fails with an error.
+
+In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
+is checked by the compiler.
+
+#### CSN Representation
+
+In CSN, the expression is represented as a record with two properties:
+* A string representation of the expression is stored in property `=`.
+* A tokenized representation of the expression is stored in one of the properties
+`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
+
+```json
+{
+  "@anExpression": {
+    "=": "foo.bar * 11",
+    "xpr": [ {"ref": ["foo", "bar"]}, "*", {"value": 11} ]
+  },
+  "@aRefExpr": {
+    "=": "foo.bar",
+    "ref": ["foo", "bar"]
+  },
+  "@aValueExpr": {
+    "=": "11",
+    "val": 11
+  }
+}
+```
+
+Note the different CSN representations for a [plain value](#annotation-values) `"@anInteger": 11`
+and a value written as expression `@aValueExpr: ( 11 )`, respectively.
+
+#### Propagation
+
+[Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
+If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
+during propagation, for example, when a referenced element is renamed in a projection.
+The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
+is rewritten, the `=` property is set to `true`.
+
+Example:
+```cds
+entity E {
+  @Common.Text: (text)
+  code : Integer;
+  text : String;
+}
+
+entity P as projection on E {
+  code,
+  text as descr
+}
+```
+When propagated to element `code` of projection `P`, the annotation is automatically
+rewritten to `@Common.Text: (descr)`.
+
+::: details Resulting CSN
+```jsonc
+{
+  "definitions": {
+    "E": {  // ...
+      "elements": {  // ...
+        "code": {
+          // original annotation
+          "@Common.Text": { "=": "text",
+                            "ref": ["text"] },
+          "type": "cds.Integer"
+        },
+        "text": {"type": "cds.String"}
+      }
+    },
+    "P": {  // ...
+      "elements": {  // ...
+        "code": {
+          // propagated annotation, reference adapted
+          "@Common.Text": { "=": true,
+                            "ref": ["descr"] },
+          "type": "cds.Integer"
+        },
+        "descr": {"type": "cds.String"}
+      }
+} } }
+```
+:::
+
+::: info
+
+There are situations where automatic rewriting doesn't work, resulting in the compiler error
+[`anno-missing-rewrite`](https://cap.cloud.sap/docs/cds/compiler/messages#anno-missing-rewrite).
+Some of these situations are going to be addressed in upcoming releases.
+
+:::
+
+
+#### CDS Annotations
+
+Using an expression as annotation value only makes sense if the evaluator of the annotation is
+prepared to deal with the new CSN representation.
+Currently, the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
+
+```cds
+entity Orders @(restrict: [
+    { grant: 'READ', to: 'Auditor', where: (AuditBy = $user.id) }
+  ]) {/*...*/}
+```
+
+More annotations are going to follow in upcoming releases.
+
+Of course, you can use this feature also in your custom annotations, where you control the code that evaluates
+the annotations.
+
+#### OData Annotations
+
+The OData backend of the CAP CDS compiler supports expression-valued annotations.
+See [Expressions in OData Annotations](../advanced/odata#expression-annotations).
+
 
 ### The `annotate` Directive
 {#annotate}
@@ -1378,7 +1402,7 @@ extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
 
-For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
+For multiple conflicting `extend` statements, the last `extend` wins, that means in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
@@ -1496,6 +1520,7 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 
@@ -1970,17 +1995,28 @@ CREATE TABLE Employees (
 ) COMMENT 'I am the description for "Employee"'
 ```
 
-Doc comments need to be switched on when calling the compiler:
-
-```sh
-# in CLI:
-cds compile foo.cds --docs
-```
-```js
-// in JavaScript:
-cds.compile(..., { docs: true })
-```
-
 ::: tip
 Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::
+
+In CAP Node.js, doc comments need to be switched on when calling the compiler:
+
+::: code-group
+```sh [CLI]
+cds compile foo.cds --docs
+```
+```json [package.json]
+{
+  "cds" : {
+    "docs" : true // [!code focus]
+  }
+}
+```
+```js [JavaScript]
+cds.compile(..., { docs: true })
+```
+:::
+
+::: tip Doc comments are enabled by default in CAP Java.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments]([url](https://pages.github.tools.sap/cap/docs/java/assets/cds-maven-plugin-site/generate-mojo.html#documentation)).
 :::

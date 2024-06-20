@@ -29,7 +29,7 @@ Various logging frameworks for Java have evolved and are widely used in Open Sou
 
 CAP Java SDK seamlessly integrates with Simple Logging Façade for Java ([SLF4J](https://www.slf4j.org)), which provides an abstraction layer for logging APIs. Applications compiled against SLF4J are free to choose a logging framework implementation at deployment time. Most famous libraries have a native integration to SLF4J, but it also can bridge legacy logging API calls:
 
-<img src="./assets/slf4j.png" width="500px">
+![](./assets/slf4j.png){width="500px"}
 
 ### Logger API { #logging-api}
 
@@ -252,42 +252,33 @@ Spans and traces that are produced out of the box, include HTTP requests as well
 
 In addition, it's possible to add manual instrumentations using the [Open Telemetry Java API](https://opentelemetry.io/docs/instrumentation/java/manual/), for example, in a custom event handler.
 
-<img src="./assets/screenshot_otel_trace.png" width="500px" class="mute-dark" alt="This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.">
+![This graphic shows several spans, which conclude a trace of a single HTTP request, including the time they're opened and closed.](./assets/screenshot_otel_trace.png){width="500px" class="mute-dark"}
 
 #### Configure Java Agent and Extension Library { #agent-extension }
 
-The Open Telemetry Agent Extension library is a common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities, which you can read about in the [Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension).
+:::warning Dependency
+The configuration steps below assume that your application uses the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack).
+:::
 
-1) Add the following maven dependency:
+Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:
 
-    ::: code-group
-    ```json [srv/pom.xml]
-    <dependency>
-      <groupId>com.sap.hcp.cf.logging</groupId>
-      <artifactId>cf-java-logging-support-opentelemetry-agent-extension</artifactId>
-      <version>${java-logging-version}</version>
-    </dependency>
-    ```
-    :::
+::: code-group
+```yaml [mta.yaml]
+- name: <srv-module>
+  # ...
+  properties:
+    # ...
+    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar']"
+```
+:::
 
-   Make sure to use at least version `3.8.3`.
+The buildpack delivers the Open Telemetry Agent Extension library with the common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities.
 
-2) Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:
+[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more} 
 
-   ::: code-group
-    ```yaml [mta.yaml]
-   - name: <srv-module>
-     ...
-     properties:
-       ...
-       JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=BOOT-INF/lib/cf-java-logging-support-opentelemetry-agent-extension-<version>.jar']"
-   ```
-   :::
+For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
-   Make sure that you replace the `<version>` tag with the same version that you've added to your maven dependencies in the previous step.
-   For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
-
-::: tip
+::: tip Suppress auto-instrumentation for specific libraries
 It's possible to suppress auto-instrumentation for specific libraries as described [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/#suppressing-specific-agent-instrumentation). The corresponding `-Dotel.instrumentation.[name].enabled=false` parameter(s) can be added to the `JBP_JAVA_OPTS` argument.
 :::
 
@@ -298,7 +289,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 1) Bind your CAP Java application to a service instance of `cloud-logging`. It's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to an _mta.yaml_ descriptor:
     ::: code-group
     ```yaml [mta.yaml]
-    ...
+    # ...
     resources:
       - name: cloud-logging-instance
         type: org.cloudfoundry.managed-service
@@ -306,8 +297,9 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
           service: cloud-logging
           service-plan: standard
           config:
-            ingest_otlp: true
-    ...
+            ingest_otlp:
+              enabled: true
+    # ...
     ```
     :::
 
@@ -316,9 +308,9 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
    ::: code-group
     ```yaml [mta.yaml]
    - name: <srv-module>
-     ...
+     # ...
      properties:
-       ...
+       # ...
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging
    ```
@@ -327,34 +319,39 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 
 #### Configuration of Dynatrace { #open-telemetry-configuration-dynatrace }
 
-Open Telemetry support using Dynatrace leverages the Dynatrace OneAgent for distributed traces and Open Telemetry Java Agent for metrics. The following steps describe the required configuration:
+Open Telemetry support using Dynatrace leverages the _Dynatrace OneAgent_ for distributed traces and _Open Telemetry Java Agent_ for metrics. OpenTelemetry also can trace your application, but if you're using Dynatrace, it is better to leave the traces to the Dynatrace OneAgent to avoid trace duplication and inconsistencies in the trace data.
+
+The following steps describe the required configuration:
 
 1) Follow the description to [connect your CAP Java application to Dynatrace](#dynatrace). Make sure that the service binding or user-provided service provides an API token for dynatrace with scope `metrics.ingest`. The property name will be required in one of the following steps.
 
 <div id="dynatrace-metrics-ingest"/>
 
-2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment via the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
+2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment using the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
 3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
-4) Define an additional environment variable to tell the [agent extension](#agent-extension) to use Dynatrace.
+4) Define an additional environment variable to tell the [agent extension](#agent-extension) to export metrics to Dynatrace via OpenTelemetry.
 
    ::: code-group
     ```yaml [mta.yaml]
    - name: <srv-module>
-     ...
+     # ...
      properties:
-       ...
+       # ...
        OTEL_METRICS_EXPORTER: dynatrace
-       OTEL_JAVAAGENT_EXTENSION_SAP_CF_BINDING_DYNATRACE_METRICS_TOKEN-NAME: <Property name from the service binding or user-provided service that provides the api token with scope `ingest.metrics`>
+       OTEL_TRACES_EXPORTER: none
+       OTEL_LOGS_EXPORTER: none
    ```
    :::
 
-   For traces, no additional exporter needs to be configured. This is automatically handled by Dynatrace One Agent.
+5) Check your Dynatrace binding. You are looking for two tokens generated for you: the default one is called `apitoken` and the second one should correspond to the token you have requested in your `mta.yaml` or generated from Dynatrace instance manually.
+6) Add to the environment variable `JBP_CONFIG_JAVA_OPTS` the following option `-Dotel.javaagent.extension.sap.cf.binding.dynatrace.metrics.token-name=<ingest_apitoken>`. Replace the name `<ingest_apitoken>` with the name of the token you have found previously.
 
+   Traces will be handled by the Dynatrace OneAgent and OpenTelemetry export for them is disabled to prevent the OpenTelemetry agent from interfering with that.
 
 
 #### CAP Instrumentation
 
-Instrumentations for CAP-specific components are disabled by default so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for the respective component.
+By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
 | Logger Name                                    | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|
@@ -372,7 +369,38 @@ For specific steps to change the log level, please refer to the respective secti
 
 Using the Open Telemetry Java API, it's possible to provide additional observability signals from within a CAP Java application. This can include additional spans as well as metrics.
 
-Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
+You may use annotation-based instrumentation using the OpenTelemetry annotations for instrumenting your code or you can define your custom spans for places where you need a lot of context or require the advanced features of the OpenTelemetry API.
+
+To enable annotation-based tracing, include the following dependency in your `pom.xml`:
+
+::: code-group
+```xml [srv/pom.xml]
+<dependency>
+   <groupId>io.opentelemetry.instrumentation</groupId>
+   <artifactId>opentelemetry-instrumentation-annotations</artifactId>
+   <version>2.3.0</version>
+</dependency>
+```
+:::
+
+Then, you can create additional spans around your event handlers just by annotating their methods with the annotation `@WithSpan`. Such spans will react on exceptions and by default they will have class and method name as the description.
+
+```java
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+class CatalogServiceHandler implements EventHandler {
+
+   @Before(entity = Books_.CDS_NAME)
+   @WithSpan
+   public void beforeAddReview(AddReviewContext context) {
+      // ...
+   }
+}
+```
+
+[Learn more about the features of annotation-based spans.](https://opentelemetry.io/docs/languages/java/automatic/annotations/) {.learn-more}
+
+To use OpenTelemetry API for more complex spans, add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java application:
 ::: code-group
 ```xml [srv/pom.xml]
 <dependency>
@@ -382,9 +410,9 @@ Add a dependency to the Open Telemetry Java API in the `pom.xml` of the CAP Java
 ```
 :::
 
-There's no need for initializing the Open Telemetry configuration. This is automatically established once the Open Telemetry Java Agent was attached as described in the previous section.
+The instance of OpenTelemetry API is preconfigured for you by the agent that was injected in your application. You don't need to configure it again.
 
-The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps identifying and analyzing the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span isn't recorded and is lost.
+The following example produces an additional span when the `@After` handler is executed. The Open Telemetry API automatically ensures that the span is correctly added to the current span hierarchy. Span attributes allow an application to associate additional data to the span, which helps to identify and to analyze the span. Exceptions that were thrown within the span should be associated with the span using the `recordException` method. This marks the span as erroneous and helps to analyze failures. It's important to close the span in any case. Otherwise, the span isn't recorded and is lost.
 
 ```java
 @Component
@@ -411,13 +439,15 @@ class CatalogServiceHandler implements EventHandler {
 }
 ```
 
-Similarly, you can record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
+[Learn more about the features of the instrumentation API](https://opentelemetry.io/docs/languages/java/instrumentation/) {.learn-more}
+
+You can record metrics during execution of, for example, a custom event handler. The following example manages a metric `reviewCounter`, which counts the number of book reviews posted by users. Adding the `bookId` as additional attribute improves the value of the data as this can be handled by the Open Telemetry front end as dimension for aggregating values of this metric.
 
 ```java
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-   Metric meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
+   Meter meter = GlobalOpenTelemetry.getMeterProvider().meterBuilder("RatingCalculator").build();
 
    @After(entity = Books_.CDS_NAME)
    public void afterAddReview(AddReviewContext context) {
@@ -436,6 +466,7 @@ class CatalogServiceHandler implements EventHandler {
 It requires OneAgent that runs in the backend capturing monitoring data and sending to the Dynatrace service.
 
 How to configure a Dynatrace connection to your CAP Java application is described in [Dynatrace Integration](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/1610eac123c04d07babaf89c47d82c91.html).
+
 <div id="dynatrace-setup"/>
 
 
@@ -470,7 +501,7 @@ The following table lists some of the available actuators that might be helpful 
 By default, nearly all actuators are active. You can switch off actuators individually in the configuration. The following configuration turns off `flyway` actuator:
 
 ```yaml
-management.endpoint.flyway.enabled=false
+management.endpoint.flyway.enabled: false
 ```
 
 Depending on the configuration, exposed actuators can have HTTP or [JMX](https://en.wikipedia.org/wiki/Java_Management_Extensions) endpoints. For security reasons, it's recommended to expose only the `health` actuator as web endpoint as described in [Health Indicators](#spring-health-checks). All other actuators are recommended for local JMX-based access as described in [JMX-based Tools](optimizing#profiling-jmx).

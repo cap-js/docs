@@ -64,7 +64,7 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 1. Install `ts-jest` locally:
 
     ```sh
-    npm add ts-jest
+    npm install -D ts-jest
     ```
 
 2. Tell Jest to use the preset `ts-jest`, e.g. in your _jest.config.js_:

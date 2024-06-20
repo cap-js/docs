@@ -122,8 +122,8 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the OData feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/odata-v2-adapter#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the OData feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/migration#v2adapter)
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
@@ -134,7 +134,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
 ## GraphQL Adapter
 
@@ -146,11 +146,11 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js/graphql#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/graphql#readme)
 
 
 
-## Attachments <Badge type="warning" text="beta" title="" />
+## Attachments
 
 
 The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
@@ -169,19 +169,20 @@ Features:
 
 - Pre-defined type `Attachment` to use in entity definitions
 - Automatic handling of all upload and download operations
+- Automatic malware scanning for uploaded files
 - (Automatic) Fiori Annotations for Upload Controls
 - Streaming and piping to avoid memory overloads
 - Support for different storage backends
 
 Outlook:
 
-- Automatic malware scanning for uploaded files
-- Multi-tenancy intrinsically handled by the plugin
+- Multitenancy intrinsically handled by the plugin
 
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" Title="Link to the repository for cap-js attachments." alt="Node.js logo"/>](https://github.com/cap-js/attachments#readme)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the repository for cap-js attachments.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/attachments#readme)
+[![Java](../assets/logos/java.svg 'Link to the repository for cap-java-attachments.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-attachments#readme)
 
 
 ## Audit Logging
@@ -208,8 +209,8 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/audit-logging#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/audit-logging#readme)
+![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging) and in [Java](../java/auditlog) {.learn-more}
 
@@ -231,15 +232,14 @@ annotate my.Incidents {
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/change-tracking#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the change-tracking feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/change-tracking)
-
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/change-tracking#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the change-tracking feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/change-tracking)
 
 
 ## Notifications
 
 
-The Notifications plugin provides integration with the [SAP Alert Notifications](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) service to send notifications via email, Slack, Microsoft Teams, or SAP Fiori notifications. The client is implemented as a CAP service, which gives us a very simple programmatic API:
+The Notifications plugin provides support for publishing business notifications in SAP Build WorkZone. The client is implemented as a CAP service, which gives us a very simple programmatic API:
 
 ```js
 let alert = await cds.connect.to ('notifications')
@@ -254,19 +254,17 @@ Features:
 
 - CAP Services-based programmatic client API → simple, backend-agnostic
 - Logging to console in development → fast turnarounds, minimized costs
-- Sending to [SAP Alert Notification Service](https://discovery-center.cloud.sap/serviceCatalog/alert-notification) in production
 - Transactional Outbox → maximised scalability and resilience
 - Notification templates with i18n support
 - Automatic lifecycle management of notification templates
-- SAP ANS supports email, Slack, Microsoft Teams, and SAP Fiori notifications
 
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Badge type="warning" text="beta" />
+## Telemetry <Beta />
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -290,12 +288,46 @@ Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/telemetry#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the telemetry feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/operating-applications/observability#open-telemetry)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/telemetry#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the telemetry feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/operating-applications/observability#open-telemetry)
+
+
+## CAP Operator for Kubernetes {#cap-operator-plugin}
+
+The [CAP Operator](https://sap.github.io/cap-operator/) manages and automates the lifecycle operations involved in running multitenant CAP applications on Kubernetes (K8s) clusters. If you deploy an application using the CAP Operator, you must manually define the custom resources for the application in a helm chart, which needs time and deep knowledge of helm concepts.
+
+This is where the CAP Operator **plugin** is very useful, as it provides an easy way to generate such a helm chart, which can be easily modified.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
+![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 
 
+## SAP Document Management Service {#@cap-js/sdm}
 
+@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
+
+To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
+
+```cds
+extend my.Incidents with {
+  attachments: Composition of many Attachments
+}
+```
+
+![Screenshot showing the Attachments Table in a Fiori app](assets/index/sdm-table.png)
+
+Features:
+
+- A predefined type called `Attachment` for use in entity definitions.
+- Automatic handling of all upload, download, delete and rename operations.
+- Automatically scans for viruses before storing files.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
 
 <div id="internal-plugins" />
 

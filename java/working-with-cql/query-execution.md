@@ -94,25 +94,26 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, build a select statement and execute it with [named parameter](#named-parameters) values that correspond to the view's parameters.
 
-Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
+Let's consider the following `Books` entity and a parameterized view `BooksView`, which returns the `ID` and `title` of `Books` with `stock` greater or equal to the value of the parameter `minStock`:
 
 ```cds
-entity Book {
-    key ID : Integer;
+entity Books {
+    key ID : UUID;
     title  : String;
-    pages  : Integer;
+    stock  : Integer;
 }
 
-entity BookView(numOfPages : Integer) as SELECT FROM Book {ID, title} WHERE pages < :numOfPages;
+entity BooksView(minStock : Integer) as
+   SELECT from Books {ID, title} where stock >= :minStock;
 ```
 
-The Java query that returns books with number of pages less than *200*:
+To query `BooksView` in Java, run a select statement and provide values for all view parameters:
 
 ```java
-CqnSelect query = Select.from("BookView");
-Map<String, Object> params = Collections.singletonMap("numOfPages", 200);
+CqnSelect query = Select.from("BooksView");
+var params = Map.of("minStock", 100);
 
 Result result = service.run(query, params);
 ```
@@ -288,7 +289,7 @@ An ETag can also be used programmatically in custom code. Use the `CqnEtagPredic
 
 ```java
 PersistenceService db = ...
-Instant expectedLastModification = ...
+Instant expectedLastModification = ...;
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
@@ -313,7 +314,7 @@ A convenient option to determine a new ETag value upon update is the [@cds.on.up
 
 We do not recommend providing a new ETag value by custom code in a `@Before`-update handler. If you do set a value explicitly in custom code and an ETag element is annotated with `@cds.on.update`, the runtime does not generate a new value upon update for this element. Instead, the value that comes from your custom code is used.
 
-#### Runtime-Managed Versions <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />
+#### Runtime-Managed Versions <Beta />
 
 Alternatively, you can store ETag values in _version elements_. For version elements, the values are exclusively managed by the runtime without the option to set them in custom code. Annotate an element with `@cds.java.version` to advise the runtime to manage its value.
 
@@ -361,7 +362,7 @@ orders.forEach(o -> o.setStatus("cancelled"));
 
 Result rs = db.execute(Update.entity(ORDER).entries(orders));
 
-for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
+for(int i = 0; i < orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
 }
 ```

@@ -1,11 +1,8 @@
 ---
-editLink: false
 outline: [2,2]
 breadcrumbs:
   - CDS Lint
     - Rules Reference
-prev: false
-next: false
 status: released
 ---
 
@@ -31,7 +28,7 @@ In the following example, all elements names are well defined and do not start w
 <PlaygroundBadge
   name="no-dollar-prefixed-names"
   kind="correct"
-  :rules="{'@sap/cds/no-dollar-prefixed-names': ['warn', 'show']}"
+  :rules="{'@sap/cds/no-dollar-prefixed-names': ['error', 'show']}"
   :files="['db/schema.cds']"
 />
 
@@ -45,7 +42,7 @@ In the next example, the element `$pages` starts with `$` and so the rule will r
 <PlaygroundBadge
   name="no-dollar-prefixed-names"
   kind="incorrect"
-  :rules="{'@sap/cds/no-dollar-prefixed-names': ['warn', 'show']}"
+  :rules="{'@sap/cds/no-dollar-prefixed-names': ['error', 'show']}"
   :files="['db/schema.cds']"
 />
 

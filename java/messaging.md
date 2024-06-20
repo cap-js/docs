@@ -36,7 +36,7 @@ In the following, we provide a basic introduction to publish-subscribe-based mes
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they're interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
-<img src="./assets/messaging_foundation.png" width="700px" alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](./assets/messaging_foundation.png){width="700px"}
 
 CAP makes sending and receiving messages easy by providing an API agnostic from specific message brokers, and taking care of broker-specific mechanics like connection handling, protocols to use, creating queues, subscriptions, etc. The API seamlessly blends into the common event API of CAP services, so that event messages can be sent using `emit` and handlers to execute when receiving event messages can be declared with the `@On` annotation.
 
@@ -103,7 +103,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
   // get ID and payload of message
   String msgId = context.getMessageId();
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -154,7 +154,7 @@ public class ReviewServiceHandler implements EventHandler {
     reviews.forEach(review -> {
 
       // Calculate the new average rating
-      BigDecimal avg = [...]
+      BigDecimal avg = ...;
 
       // Set event payload
       Reviewed event = Reviewed.create();
@@ -279,7 +279,7 @@ cds:
 
 <span id="beforeredispubsub" />
 
-#### Configuring Redis PubSub Support <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " />: { #configuring-redis-pubsub-support-beta}
+#### Configuring Redis PubSub Support <Beta />: { #configuring-redis-pubsub-support-beta}
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -595,7 +595,7 @@ cds:
 public void receiveMyCustomQueueAllMessages(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -635,7 +635,7 @@ The following example demonstrates how the error handler can be used to catch me
 
 ```java
 @On(service = "messaging")
-private void handleError(MessagingErrorEventContext context) {
+private void handleError(MessagingErrorEventContext ctx) {
 
   String errorCode = ctx.getException().getErrorStatus().getCodeString();
   if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
@@ -646,9 +646,9 @@ private void handleError(MessagingErrorEventContext context) {
       // error handling for application errors
 
       // how to access the event context of the raised exception:
-      // context.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
-      //	  String event = e.getEvent());
-      //	  String payload = e.get("data"));
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
       // });
 
       ctx.setResult(true); // acknowledge

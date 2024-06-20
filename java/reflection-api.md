@@ -43,7 +43,7 @@ CdsModel model;
 On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector`, or using the `read` method from a [CSN](../cds/csn) String or [InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-InputStream csnJson = ...
+InputStream csnJson = ...;
 CdsModel model = CdsModel.read(csnJson);
 ```
 

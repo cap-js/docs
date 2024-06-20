@@ -481,6 +481,8 @@ To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use 
 
 ![The screenshot is described in the accompanying text.](assets/mermaid-preview.png) {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
 
+If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
+
 To customize the diagram layout, use these settings:
 
 ![The screenshot shows the following setting for the CDS Code Editor: Cds>Preview>Diagram: Associations, Cds>Preview>Diagram: Elements, Cds>Preview>Diagram: Minify, Cds>Preview>Diagram: Namespaces, and Cds>Preview>Diagram: Queries](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}

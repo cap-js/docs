@@ -306,8 +306,9 @@ Available for:
 
 
 ## SAP Document Management Service {#@cap-js/sdm}
-The @cap-js/sdm package is cds-plugin that provides an easy CAP-level integration with [SAP Document Management Service](https://help.sap.com/docs/document-management-service). This package supports handling of attachments(documents) in SAP Document Management Repository.To use it, extend a domain model by using the predefined aspect called Attachments:
+The @cap-js/sdm package is cds-plugin that provides an easy CAP-level integration with [SAP Document Management Service](https://help.sap.com/docs/document-management-service). This package supports handling of attachments(documents) in SAP Document Management Repository.
 
+To use it, extend a domain model by using the predefined aspect called Attachments:
 
 ```cds
 extend my.Incidents with {

@@ -260,7 +260,7 @@ public class CatalogServiceHandler implements EventHandler {
     public void reviewAction(ReviewEventContext context) {
         CqnSelect selectBook = context.getCqn();
         Integer stars = context.getStars();
-        Reviews review = [...] // create the review
+        Reviews review = ...; // create the review
         context.setResult(review);
     }
 

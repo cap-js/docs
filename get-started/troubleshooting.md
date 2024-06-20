@@ -705,4 +705,10 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
 
+
+## CAP on Windows
+
+Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter interoperability issues with specific scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Windows, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal interoperability. Otherwise, problems can occur when building the mtxs extension on Windows, locally, or in the cloud.
+
 <div id="end" />

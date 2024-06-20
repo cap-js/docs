@@ -86,6 +86,18 @@ Note, that this requires at least `@sap/cds-mtxs` in version `1.12.0`.
 The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
 In case localized EDMX files are still required to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
 
+### Star-expand and inline-all are no longer permitted
+
+Previously, you could not use expand or inline without explicit paths on draft-enabled entities. Now they are rejected for all entities on application service level.
+
+For example, following statement will not be executed when submitted to an instance of [`ApplicationService`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html).
+
+```java
+Select.from(Books_.class).columns(t -> t.expand());
+```
+
+This does not impact the OData where the `expand=*` will be transformed to explicit association expand.
+
 ### Adjusted POJO class generation
 
 Some parameter defaults of the goal `generate` have been adjusted:

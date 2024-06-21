@@ -203,7 +203,7 @@ The goal `addSample` is removed from the `cds-maven-plugin` and replaced with th
 
 ### Proof-Of-Possession enforced for IAS-based authentication
 
-In IAS scenarios, the [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/629aef6f54cf0b9e41453eb32082a889c16b22d3/java-security#proofofpossession-validation) is now enforced by default for incoming requests.
+In IAS scenarios, the [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/629aef6f54cf0b9e41453eb32082a889c16b22d3/java-security#proofofpossession-validation) is now enforced by default for incoming requests. It is recommended to use at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library in this case.
 
 This introduces a second level of security by establishing an additional mutual TLS (mTLS) tunnel between the caller and your CAP application.
 

@@ -59,7 +59,7 @@ It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-secu
 
 If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you don't need to adapt code.
 
-If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundler `cds-starter-cloudfoundry` or `cds-starter-k8s`.
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
 [Learn more about the security configuration.](./security.md#configure-xsuaa-and-ias-authentication--xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
@@ -93,10 +93,10 @@ Previously, you could not use expand or inline without explicit paths on draft-e
 For example, following statement will not be executed when submitted to an instance of [`ApplicationService`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html).
 
 ```java
-Select.from(Books_.class).columns(t -> t.expand());
+Select.from(BOOKS).columns(b -> b.expand());
 ```
 
-This does not impact the OData where the `expand=*` will be transformed to explicit association expand.
+This does not impact OData where `expand=*` is transformed into expands for all associations.
 
 ### Adjusted POJO class generation
 

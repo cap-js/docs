@@ -33,11 +33,12 @@ This is a **preview** of the changes planned for CAP Java 3.0 (planned to be rel
 
 CAP Java 3.0 increased some minimum required versions:
 
-| Dependency | Minimum Version |
-| --- | --- |
-| @sap/cds-dk | ^7 |
-| Maven | 3.6.3 |
-| Cloud SDK | 5.9.0 |
+| Dependency                     | Minimum Version |
+|--------------------------------| --- |
+| @sap/cds-dk                    | ^7 |
+| Maven                          | 3.6.3 |
+| SAP Cloud SDK                  | 5.9.0 |
+| SAP BTP Spring Security Client | 3.5.1 |
 
 CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 

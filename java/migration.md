@@ -201,6 +201,18 @@ The following table gives an overview about the removed properties:
 
 The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
 
+### Proof-Of-Possession enforced for IAS-based authentication
+
+In IAS scenarios, the [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/629aef6f54cf0b9e41453eb32082a889c16b22d3/java-security#proofofpossession-validation) is now enforced by default for incoming requests.
+
+This introduces a second level of security by establishing an additional mutual TLS (mTLS) tunnel between the caller and your CAP application.
+
+Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route utilizing the `.cert.<landscape>` domain.
+
+The proof-of-possession also affects scenarios in which approuter calls the CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for details refer [here](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
+
+You can disable the proof-of-possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml`.
+
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
 CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.7.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:

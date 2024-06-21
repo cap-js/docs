@@ -25,10 +25,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
-::: warning
-This is a **preview** of the changes planned for CAP Java 3.0 (planned to be released June 2024)
-:::
-
 ### Minimum Versions
 
 CAP Java 3.0 increased some minimum required versions:

@@ -141,7 +141,7 @@ The class `SomeReuseServiceOAuth2PropertySupplier` needs to be provided by you e
 
 #### Binding to a Service with Shared Identity
 
- If the remote API is available within the same SaaS application and using the same (shared) service instance of XSUAA or Identity (IAS) for authentication, no service broker-based reuse service is required.
+If the remote API is available within the same SaaS application and using the same (shared) service instance of XSUAA or Identity (IAS) for authentication, no service broker-based reuse service is required.
 The _Remote Service_ can be configured using the shared service instance as binding (here: `shared-xsuaa`):
 
 ```yaml
@@ -188,7 +188,7 @@ cds:
         name: s4-business-partner-api
 ```
 
-If your CAP application is using IAS and you want to to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
+If your CAP application is using IAS and you want to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
 As a pre-requisite, your CAP application and the called application need to trust the same IAS tenant and you need to define a dependency in IAS to consume the respective API provided by the _remote API_.
 
 Create a destination configuration like this:
@@ -200,7 +200,7 @@ Create a destination configuration like this:
         cloudsdk.ias-dependency-name: <name-of-the-ias-dependency>
 ```
 
-This destination configuration will honor the `identity` service instance at runtime bound to your CAP application and use these credentials to request a token for the _remote API_.
+At runtime, this destination configuration will honor the `identity` service instance bound to your CAP application and use its credentials to request a token for the _remote API_.
 
 [Learn more about consuming APIS from Other IAS-Appications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
 

@@ -158,7 +158,7 @@ The plain service binding of XSUAA or IAS does not contain the URL of the remote
 As the URL is typically not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
 
 :::tip
-Remote APIs which require IAS-based authentication might expect a certificate based client authentication in addition to the IAS-based JWT token (ie. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/629aef6f54cf0b9e41453eb32082a889c16b22d3/java-security#proofofpossession-validation)). 
+Remote APIs which require IAS-based authentication might expect a certificate based client authentication in addition to the IAS-based JWT token (ie. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 
 CAP _Remote Service_s are automatically taking care of this by initiating a mutual TLS handshake with the remote API.
 :::
 
@@ -194,10 +194,10 @@ As a pre-requisite, your CAP application and the called application need to trus
 Create a destination configuration like this:
 
 ```
-    url: <url-of-the-remote-api>
-    authentication-type: None
-    additional property:
-        cloudsdk.ias-dependency-name: <name-of-the-ias-dependency>
+url: <url-of-the-remote-api>
+authentication-type: None
+additional property:
+  cloudsdk.ias-dependency-name: <name-of-the-ias-dependency>
 ```
 
 At runtime, this destination configuration will honor the `identity` service instance bound to your CAP application and use its credentials to request a token for the _remote API_.

@@ -67,7 +67,7 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
 
-Typically, a caller of a CAP application provided a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, an mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
 
 Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route utilizing the `.cert.<landscape>` domain.
 

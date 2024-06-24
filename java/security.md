@@ -65,7 +65,7 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 #### Proof-Of-Possession for IAS { #proof-of-possession}
 
-Proof-Of-Possession is a technique for additional security to bind a JWT token to a particular oauth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
+Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
 
 Typically, a caller of a CAP application provided a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, an mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
 

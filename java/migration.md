@@ -203,15 +203,11 @@ The goal `addSample` is removed from the `cds-maven-plugin` and replaced with th
 
 ### Proof-Of-Possession enforced for IAS-based authentication
 
-In IAS scenarios, the [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests. It is recommended to use at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library in this case.
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests when using at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
 
-This introduces a second level of security by establishing an additional mutual TLS (mTLS) tunnel between the caller and your CAP application.
+Applications calling a CAP Java application from now on need to send a valid client certificate in addition to the JWT token. This especially also affects scenarios in which approuter is used. Approuter needs to be configured by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend.
 
-Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route utilizing the `.cert.<landscape>` domain.
-
-The proof-of-possession also affects scenarios in which approuter calls the CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for details refer [here](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
-
-You can disable the proof-of-possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml`.
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 

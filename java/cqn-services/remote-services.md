@@ -159,7 +159,7 @@ As the URL is typically not known at development time, it can be alternatively d
 
 :::tip
 Remote APIs which require IAS-based authentication might expect a certificate based client authentication in addition to the IAS-based JWT token (ie. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 
-CAP _Remote Service_s are automatically taking care of this by initiating a mutual TLS handshake with the remote API.
+CAP _Remote Service_s automatically takes care of this by initiating a mutual TLS handshake with the remote API.
 :::
 
 #### Configuring the Authentication Strategy

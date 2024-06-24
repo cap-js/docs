@@ -252,6 +252,8 @@ main {
   .event::before { content: 'Event: '; color: #999 }
   .class::before { content: 'Class: '; color: #999 }
   .async-method::before { content: 'Method: async '; color: #999 }
+  .deprecated::after { content: ' – deprecated'; color: #999 }
+
   h3.event, h3.method, h3.async-method {
     margin-top: 5em;
     // font-size: 22px;

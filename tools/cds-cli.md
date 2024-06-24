@@ -49,7 +49,7 @@ Use `cds version` to get information about your installed package version:
 <em>@sap/cds-dk:</em> 7.9.3
 <em>@sap/cds-dk (global):</em> 7.9.3
 <em>@sap/cds-mtxs:</em> 1.18.1
-<em>@sap/eslint-plugin-cds:</em> 3.0.3
+<em>@sap/eslint-plugin-cds:</em> 3.0.4
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
 
@@ -61,7 +61,7 @@ Use `cds version` to get information about your installed package version:
 | @sap/cds               | 7.9.2                                                |
 | @sap/cds-compiler      | 4.9.4                                                |
 | @sap/cds-dk            | 7.9.3                                                |
-| @sap/eslint-plugin-cds | 3.0.3                                                |
+| @sap/eslint-plugin-cds | 3.0.4                                                |
 </pre>
 
 ## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
@@ -480,6 +480,8 @@ CDS_MERMAID_QUERIES=false|true       # show queries/projections
 To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use the dropdown in the editor toolbar or the command _CDS: Preview as diagram_:
 
 ![The screenshot is described in the accompanying text.](assets/mermaid-preview.png) {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+
+If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
 
 To customize the diagram layout, use these settings:
 

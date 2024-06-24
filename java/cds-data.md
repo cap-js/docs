@@ -174,7 +174,7 @@ book.putPath("author.name", "Bram Stoker");
 Using the generated [accessor interfaces](#generated-accessor-interfaces):
 ```java
 Authors author = Authors.create();
-author.setId(23)
+author.setId(23);
 author.setName("Bram Stoker");
 Books book = Books.create();
 book.setId(97);
@@ -341,7 +341,7 @@ In this example an order with a header in status 'open' is created via a deep in
 
 ```java
 OrderHeaders header = OrderHeaders.create();
-header.setId(11)
+header.setId(11);
 header.setStatus("open");
 
 Orders order = Orders.create();
@@ -690,7 +690,7 @@ Filters can be defined as lambda expressions on `path`, `element`, and `type`, f
 
 ```java
 (path, element, type) -> element.isKey()
-   && type.isSimpleType(CdsBaseType.STRING)
+   && type.isSimpleType(CdsBaseType.STRING);
 ```
 which matches key elements of type String.
 
@@ -1220,7 +1220,7 @@ public class CoverImagePreProcessor extends FilterInputStream {
 
 		// ... your custom processing code on nextByte
 
-		return nextByte
+		return nextByte;
 	}
 
 	@Override

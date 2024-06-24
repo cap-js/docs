@@ -952,7 +952,7 @@ Given that we have a collection of books each has a composition of many editions
 
   ```json
   {
-    "title": "Wuthering Heights: 100th Anniversary Edition"
+    "title": "Catweazle: Director's Cut"
   }
   ```
 
@@ -997,10 +997,10 @@ Given that we have a collection of books each has a composition of many editions
     "title": "Catweazle: Director's Cut"
   }
   ```
-  
+
   ```json
   {
-    "title": "Catweazle: Director's Cut"
+    "title": "Catweazle: Complete with Extras"
   }
   ```
 

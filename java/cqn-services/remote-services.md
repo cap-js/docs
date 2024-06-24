@@ -191,14 +191,12 @@ cds:
 If your CAP application is using IAS and you want to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
 As a pre-requisite, your CAP application and the called application need to trust the same IAS tenant and you need to define a dependency in IAS to consume the respective API provided by the _remote API_.
 
-Create a destination configuration like this:
+Create a destination configuration with the following parameters:
 
-```
-url: <url-of-the-remote-api>
-authentication-type: None
-additional property:
-  cloudsdk.ias-dependency-name: <name-of-the-ias-dependency>
-```
+- `url`: <url-of-the-remote-api>
+- `authentication-type`: None
+- additional property:
+  - `cloudsdk.ias-dependency-name`: <name-of-the-ias-dependency>
 
 At runtime, this destination configuration will honor the `identity` service instance bound to your CAP application and use its credentials to request a token for the _remote API_.
 

@@ -89,7 +89,7 @@ this.on ('*', req => {
 })
 ```
 
-Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming http request and outgoing http response (for example, in case of an OData batch request).
+Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
 
 
 

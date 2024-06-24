@@ -71,7 +71,7 @@ Typically, a caller of a CAP application provides a JWT token issued by IAS to a
 
 Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route utilizing the `.cert.<landscape>` domain.
 
-The Proof-Of-Possession also affects scenarios in which approuter calls the CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for details refer [here](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
+The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. This can be achieved by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
 
 When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library, .
 

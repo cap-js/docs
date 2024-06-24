@@ -73,7 +73,7 @@ Clients calling your CAP application need to send the certificate provided by th
 
 The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. This can be achieved by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
 
-When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library, .
+When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library.
 
 You can disable the Proof-Of-Possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml`.
 

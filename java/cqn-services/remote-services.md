@@ -198,7 +198,7 @@ Create a destination configuration with the following parameters:
 - Additional Properties:
   - `cloudsdk.ias-dependency-name`: <name-of-the-ias-dependency>
 
-At runtime, this destination configuration will honor the `identity` service instance bound to your CAP application and use its credentials to request a token for the _remote API_.
+At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
 
 [Learn more about consuming APIS from Other IAS-Appications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
 

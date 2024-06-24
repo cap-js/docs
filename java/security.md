@@ -75,7 +75,7 @@ The Proof-Of-Possession also affects approuter calls to a CAP Java application. 
 
 When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library.
 
-You can disable the Proof-Of-Possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml`.
+You can disable the Proof-Of-Possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml` file.
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 

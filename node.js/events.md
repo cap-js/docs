@@ -79,7 +79,7 @@ In addition, you can access the current event context from wherever you are in y
 
 ### . http {.property}
 
-If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, in all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, you can now access express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects through this property. It is propagated from `cds.context` to all child requests, so `Request.http` is accessible in all handlers including your database service ones like so:
 
 ```js
 this.on ('*', req => {

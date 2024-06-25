@@ -197,6 +197,14 @@ The following table gives an overview about the removed properties:
 
 The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
 
+### Proof-Of-Possession enforced for IAS-based authentication
+
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
+
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
+
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
+
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
 CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.7.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:

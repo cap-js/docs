@@ -165,7 +165,7 @@ entity Employees {
 }
 ```
 
-An entity with such a multi-line doc domment can't be seamlessly migrated, because
+An entity with such a multi-line doc comment can't be seamlessly migrated, because
 doc comments are passed to the database differently for hdbcds and hdbtable, respectively.
 This would result in a full table migration when changing from hdbcds to hdbtable.
 

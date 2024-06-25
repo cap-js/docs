@@ -120,7 +120,7 @@ cds:
         name: some-service-binding
 ```
 
-::: details If binding structure isn't understood ...
+:::details If binding structure isn't understood ...
 In some cases, SAP Cloud SDK doesn't understand the service binding structure of the specific BTP service.
 In that case it's required to contribute a mapping by the means of Cloud SDK's `PropertySupplier`.
 This `PropertySupplier` needs to be registered with the Cloud SDK once at application startup.
@@ -157,7 +157,7 @@ cds:
 The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore it needs to be explicitly configured in the `options` section.
 As the URL is typically not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
 
-::: tip
+:::tip
 Remote APIs which require IAS-based authentication might expect a certificate based client authentication in addition to the IAS-based JWT token (ie. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 
 CAP _Remote Service_s automatically takes care of this by initiating a mutual TLS handshake with the remote API.
 :::
@@ -193,10 +193,12 @@ As a pre-requisite, your CAP application and the called application need to trus
 
 Create a destination configuration with the following parameters:
 
+```yaml
 - URL: <url-of-the-remote-api>
 - Authentication: NoAuthentication
 - Additional Properties:
   - `cloudsdk.ias-dependency-name`: <name-of-the-ias-dependency>
+```
 
 At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
 
@@ -420,7 +422,7 @@ Destination destination = DestinationAccessor.getDestination("<destinationName>"
 HttpClient httpClient = HttpClientAccessor.getHttpClient(destination);
 ...
 ```
-:::
+::::
 
 ### Programmatic Destinations { #programmatic-destinations }
 

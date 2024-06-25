@@ -66,7 +66,7 @@ INSERT.into(Books, […])
 INSERT.into(Books).columns(['title', 'ID'])  // column names derived from Books' properties
 
 // DELETE
-DELETE(Books).byKey(42)
+DELETE.from(Books, 42)
 ```
 
 Note that your entities will expose additional capabilities in the context of CQL, such as the `.as(…)` method to specify an alias.

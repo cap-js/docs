@@ -193,12 +193,10 @@ As a pre-requisite, your CAP application and the called application need to trus
 
 Create a destination configuration with the following parameters:
 
-```yaml
-- URL: <url-of-the-remote-api>
-- Authentication: NoAuthentication
+- _URL_: `<url-of-the-remote-api>`
+- _Authentication_: `NoAuthentication`
 - Additional Properties:
-  - `cloudsdk.ias-dependency-name`: <name-of-the-ias-dependency>
-```
+  - _cloudsdk.ias-dependency-name_: `<name-of-the-ias-dependency>`
 
 At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
 

@@ -192,7 +192,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/#cds-lint-rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
@@ -224,7 +224,7 @@ Based on the CDS model and configuration of CDS services, the CAP runtime expose
 |-------------------|------------------|-------------------------------------------|-----------------------------------------------|
 | CDS Service `Foo` | `service Foo {}` | `/<protocol-path>/Foo/**`<sup>1</sup>     | `@restrict`/`@requires`<sup>2</sup>           |
 |                   | OData v2/v4      | `/<odata-path>/Foo/$metadata`<sup>1</sup> | See [here](/guides/security/authorization#requires) |
-| Index page        |                  | `/index.html`                             | none                                          |
+| Index page        |                  | `/index.html`                             | none, but disabled in production              |
 
 > <sup>1</sup> See [protocols and paths](../../java/cqn-services/application-services#configure-path-and-protocol)
 
@@ -259,8 +259,7 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured,
 | [cds.xt.ModelProviderService](../multitenancy/mtxs#modelproviderservice) | `/-/cds/model-provider/**` | Internal, technical user<sup>1</sup>
 | [cds.xt.DeploymentService](../multitenancy/mtxs#deploymentservice) | `/-/cds/deployment/**` | | Internal, technical user<sup>1</sup>, or technical role `cds.Subscriber`
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
-| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
-
+| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper`
 > <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 
@@ -306,18 +305,43 @@ CAP guarantees that code for business requests runs on a DB connection opened fo
 Although CAP microservices are stateless, the CAP Java runtime (generic handlers inclusive) needs to cache data in-memory for performance reasons.
 For instance, filters for [instance-based authorization](/guides/security/authorization#instance-based-auth) are constructed only once and are reused in subsequent requests.
 
+<div class="impl java">
+
 To minimize risk of a data breach by exposing transient data at runtime, the CAP Java runtime explicitly refrains from declaring and using static mutable objects in Java heap.
 Instead, request-related data such as the [EventContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is provided via thread-local storage.
 Likewise, data is stored in tenant-maps that are transitively referenced by the [CdsRuntime](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/CdsRuntime.html) instance.
-{ .impl .node }
 
-To achieve tenant-isolation, the CAP Node.js runtime dynamically adds data to the tenant's [cds.model](../../node.js/cds-facade#cds-model).
-Request-related data is propagated down the call stack (for instance [cds.context](../../node.js/middlewares#cds-context)).
-{ .impl .java }
-
-::: tip
+::: warning
 Make sure that custom code doesn't break tenant data isolation.
 :::
+
+</div>
+
+<div class="impl node">
+
+Request-related data is propagated down the call stack via the continuation-local variable [cds.context](../../node.js/events#cds-context).
+
+::: warning
+Make sure that custom code doesn't break tenant data isolation or leak data across concurrent requests.
+:::
+
+As a best practice, you should not put any non-static variables in the closures of your service implementations.
+
+##### **Bad example:** {.bad}
+
+::: code-group
+```js [srv/cat-service.js]
+module.exports = srv => {
+  let books  // <- leaks data across tenants and concurrent requests // [!code error]
+  srv.on('READ', 'Books', async function(req, next) {
+    if (books) return books
+    return books = await next()
+  })
+}
+```
+:::
+
+</div>
 
 ### Limiting Resource Consumption { #limiting-resource-consumption }
 
@@ -371,8 +395,8 @@ Be aware that injections are still possible even via CQL when the query structur
 <div class="impl java">
 
 ```java
-String entity = <from user input>;
-String column = <from user input>;
+String entity = ...; // from user input;
+String column = ...; // from user input;
 validate(entity, column); // validate entity and column, e.g. compare with positive list
 Select.from(entity).columns(b -> b.get(column));
 ```
@@ -494,6 +518,7 @@ If you want to apply an application-specific sizing, consult the corresponding f
 
 Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
+
 <div markdown="1" class="impl java">
 Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
 </div>

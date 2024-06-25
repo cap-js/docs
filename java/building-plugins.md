@@ -93,7 +93,7 @@ When your Maven build is set up correctly, you can use the reuse models in your 
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 ::: details Different resolution rules
-The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
+The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/cds-editors) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
 :::
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}
@@ -154,7 +154,7 @@ Of course, this handler code looks just the same as any other custom or builtin 
 
 When you provide your custom handler as part of a reuse library, external to your application, things change a bit. At first, you need to decide whether you want to use Spring Boot's component model and rely on dependency injection or if you want to use one of the CAP Java ServiceLoader based extension points.
 
-The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](./cqn-services/application-services), [`PersistenceService`](./cqn-services/persistence-services) or to a service using it's [typed service interface](../releases/nov23#typed-service-interfaces).
+The decision between the two is straightforward: In case your handler depends on other Spring components, for example relies on dependency injection, you should use the [Spring approach](#spring-autoconfiguration). This applies as soon as you need to access another CAP Service like [`CqnService`](./cqn-services/application-services), [`PersistenceService`](./cqn-services/persistence-services) or to a service using it's [typed service interface](../releases/archive/2023/nov23#typed-service-interfaces).
 
 If your custom handler is isolated and, for example, only performs a validation based on provided data or a calculation, you can stick with the [CAP Java ServiceLoader approach](#service-loader), which is described in the following section.
 

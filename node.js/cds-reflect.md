@@ -83,7 +83,7 @@ The [CSN definitions](../cds/csn#definitions) of the model, turned into an insta
 
 ### . entities {.property}
 
-These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entitiy](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
+These are convenient shortcuts to access all *[service](../cds/cdl#services)* or all *[entity](../cds/cdl#entities)* definitions in a model. <br>The value is an instance of [`LinkedDefinitions`].
 
 For example:
 
@@ -394,7 +394,7 @@ class cds.struct extends cds.type {...}
 ### . is_struct {.property}
 
 A tag property which is `true` for linked struct definitions (types and elements). <br>
-It is also `true` for linked entity definitions, i.e., instances of as [`cds.entity`](#cds-entity). {.indent}
+It is also `true` for linked entity definitions, that is, instances of as [`cds.entity`](#cds-entity). {.indent}
 
 ### . elements {.property}
 

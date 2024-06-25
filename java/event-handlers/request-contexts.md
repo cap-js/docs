@@ -119,7 +119,7 @@ The CAP Java SDK allows you to create new Request Contexts and define their scop
 
 There are a few typical use cases in a CAP-based, multitenant application on SAP BTP in which creation of new Request Contexts is necessary. These scenarios are identified by a combination of the user (technical or named) and the tenant (provider or subscribed).
 
-<img src="./assets/requestcontext.drawio.svg"  alt="A named user can switch to a technical user in the same/subscriber tenant using the systemUser() method. Also, a named user can switch to a technical user in the provider tenant using the systemUserProvider() method. In addition technical users provider/subscriber tenants can switch to technical users on provider/subscriber tenants using the methods systemUserProvider() or systemUser(tenant). ">
+![A named user can switch to a technical user in the same/subscriber tenant using the systemUser() method. Also, a named user can switch to a technical user in the provider tenant using the systemUserProvider() method. In addition technical users provider/subscriber tenants can switch to technical users on provider/subscriber tenants using the methods systemUserProvider() or systemUser(tenant).](./assets/requestcontext.drawio.svg)
 
 When calling CAP Services, it's important to call them in an appropriate Request Context. Services might, for example,  trigger HTTP requests to external services by deriving the target tenant from the current Request Context.
 
@@ -128,7 +128,7 @@ The `RequestContextRunner` API offers convenience methods that allow an easy tra
 | Method               | Description                                                                                                                          |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | systemUserProvider() | Switches to a technical user targeting the provider account.                                                                         |
-| systemUser()         | Switches to a technical user and preserves the tenant from the current `UserInfo` (for example down grade of a named user Request Context). |
+| systemUser()         | Switches to a technical user and preserves the tenant from the current `UserInfo` (for example downgrade of a named user Request Context). |
 | systemUser(tenant)   | Switches to a technical user targeting a given subscriber account.                                                                   |
 | anonymousUser()      | Switches to an anonymous user.                                                                                                       |
 | privilegedUser()     | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
@@ -144,10 +144,10 @@ In the following a few concrete examples are given:
 
 ### Switching to Technical User
 
-<img src="./assets/nameduser.drawio.svg"  alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](./assets/nameduser.drawio.svg)
 
-The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `on` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `after` handler wants to call out to an external service using a technical user without propagating the named user <i>JohnDoe</i>.
-Therefore, the `after` handler needs to create a new Request Context. To achieve this, it's required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:
+The incoming JWT token triggers the creation of an initial RequestContext with a named user. Accesses to the database in the OData Adapter as well as the custom `On` handler are executed within <i>tenant1</i> and authorization checks are performed for user <i>JohnDoe</i>. An additionally defined `After` handler wants to call out to an external service using a technical user without propagating the named user <i>JohnDoe</i>.
+Therefore, the `After` handler needs to create a new Request Context. To achieve this, it's required to call `requestContext()` on the current `CdsRuntime` and use the `systemUser()` method to remove the named user from the new Request Context:
 
 ```java
 @After(entity = Books_.CDS_NAME)
@@ -160,7 +160,7 @@ public void afterHandler(EventContext context){
 ```
 ### Switching to Technical Provider Tenant {#switching-to-provider-tenant}
 
-<img src="./assets/switchprovidertenant.drawio.svg" alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](./assets/switchprovidertenant.drawio.svg)
 
 The application offers an action for one of its CDS entities. Within the action, a communication happens with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. Using the `systemUserProvider()` method, the existing user information is removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service, which is secured using the pseudo-role `internal-user`.
 
@@ -175,13 +175,14 @@ public void onAction(AddToOrderContext context){
 ```
 ### Switching to a Specific Technical Tenant
 
-<img src="./assets/switchtenant.drawio.svg"  alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](./assets/switchtenant.drawio.svg)
 
 The application is using a job scheduler that needs to regularly perform tasks on behalf of a certain tenant. By default, background executions (for example in a dedicated thread pool) aren't associated to any subscriber tenant and user. In this case, it's necessary to explicitly define a new Request Context based on the subscribed tenant by calling `systemUser(tenantId)`. This ensures that the Persistence Service performs the query for the specified tenant.
 
 ```java
 runtime.requestContext().systemUser(tenant).run(reqContext -> {
-    return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
+    return persistenceService.run(Select.from(Books_.class))
+        .listOf(Books.class);
 });
 ```
 ## Modifying Request Contexts { #modifying-requestcontext}
@@ -193,7 +194,8 @@ List<Books> readBooksNotLocalized(EventContext context) {
   return context.getCdsRuntime().requestContext()
     .modifyParameters(param -> param.setLocale(null))
     .run(newContext -> {
-      return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
+      return persistenceService.run(Select.from(Books_.class))
+        .listOf(Books.class);
     });
 }
 ```

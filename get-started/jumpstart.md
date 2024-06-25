@@ -29,7 +29,7 @@ Follow the steps below to set up a local development environment. If you are a d
 
 Choose the **LTS** version, via the left-hand side button:
 
-<img src="./assets/jumpstart/image-20230310202845639.png" alt="Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button." style="zoom: 33%;" />
+![Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button.](./assets/jumpstart/image-20230310202845639.png){style="zoom: 33%;" }
 
 
 
@@ -42,6 +42,16 @@ Choose the **LTS** version, via the left-hand side button:
 npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
+
+Activate CDS Shell Completion:
+The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
+
+For Linux, macOS and Windows use the following command to activate the shell completion:
+```sh
+cds add completion
+```
+
+You can find more information [here](/tools/cds-cli#cds-completion).
 
 
 ### 3. Install Git

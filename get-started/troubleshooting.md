@@ -141,6 +141,8 @@ Always make sure that database transactions are either committed or rolled back.
 1. Couple it to your request (this happens automatically): Once the request is succeeded, the database service commits the transaction. If there was an error in one of the handlers, the database service performs a rollback.
 2. For manual transactions (for example, by writing `const tx = cds.tx()`), you need to perform the commit/rollback yourself: `await tx.commit()`/`await tx.rollback()`.
 
+If you're using [@sap/hana-client](https://www.npmjs.com/package/@sap/hana-client), make sure to adjust the environment variable [`HDB_NODEJS_THREADPOOL_SIZE`](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/31a8c93a574b4f8fb6a8366d2c758f21.html?version=2.11) which specifies the amount of workers that concurrently execute asynchronous method calls for different connections.
+
 
 ### Why are requests rejected with status `502` and do not seem to reach the application?
 
@@ -264,10 +266,16 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 
 ### How to Avoid ClassNotFoundExceptions While Running CAP Java Code Async on Cloud Foundry and in Containers
 
-In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause asynchronously running CAP Java code (e.g. in a CompletableFuture) to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". This is because of the usage of the standard ServiceLoader API along with common ThreadPools created by the JVM. So, this is a generic Java / JVM issue rather than a problem within the CAP Java implementation. In order to enable async CAP Java code for CF and containers, the following work-arounds are known:
- * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1.
+In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
+
+The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
+
+The following workarounds are known:
+ * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1 and Java 17. 
  * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
  * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
+
+We recommend to implement a proper thread pool and not to rely on these workarounds.
 
 ## OData
 
@@ -696,5 +704,11 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 ::: tip
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
+
+
+## CAP on Windows
+
+Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter interoperability issues with specific scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Windows, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal interoperability. Otherwise, problems can occur when building the mtxs extension on Windows, locally, or in the cloud.
 
 <div id="end" />

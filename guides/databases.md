@@ -299,7 +299,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 <div markdown="1" class="impl node">
 
-At runtime, we usually [construct and execute queries using cds.ql](querying) APIs in a database-agnostic way. For example, queries like this are supported for all databases:
+At runtime, we usually construct and execute queries using cds.ql APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
 ```js
 SELECT.from (Authors, a => {
@@ -756,7 +756,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author // [!code focus]
+  CONSTRAINT Books_author   -- constraint is explicitly named // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT

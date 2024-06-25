@@ -413,6 +413,11 @@ if (req.errors) //> get out somehow...
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
+::: tip `target` property for UI5 OData model
+The `target` property is evaluated by the UI5 OData model and needs to be set according to [Server Messages in the OData V4 Model](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
+:::
+
+
 ####  <i>  Using an Object as Argument </i>
 
 You can also pass an object as the sole argument, which then contains the properties `code`, `message`, `target`, and `args`. Additional properties are preserved until the error or message is sanitized for the client. In case of an error, the additional property `status` can be used to specify the HTTP status code of the response.
@@ -437,7 +442,7 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
-### req. diff() <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {.method}
+### req. diff() <Beta /> {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed). Note that the usage of `req.diff` only makes sense in *before* handlers as they are run before the actual change was persisted on the database.

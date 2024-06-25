@@ -1,72 +1,72 @@
-<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="282px" height="201px" viewBox="-0.5 -0.5 282 201" content="&lt;mxfile&gt;&lt;diagram id=&quot;QQJxv4aCTC7ZgE7HHOvM&quot; name=&quot;Page-1&quot;&gt;zVlZb+M2EP41fozASyT1mGPTFtgtAqRA20etRUvqyqJB04ndX9+RRFqXD8V20JUFWBzN8Jr5Pg6pGX1cbn8x8Sr7phNVzAhKtjP6NCMEk0jAXyXZOQnitJGkJk+crBW85v8qr+ikmzxR656i1bqw+aovnOuyVHPbk8XG6Pe+2kIX/VZXcepaRK3gdR4XaqT2Z57YrJFKIlr5rypPM98y5lHzZhl7ZVfxOosT/d4R0S8z+mi0ts3Tcvuoimr2/Lw0ds9H3u47ZlRppxiQxuAtLjZubK5fducHa/SmTFSlj2b0QRub6VSXcfFV6xUIMQj/UdbunJvijdUgyuyycG/X1ugf+4mqJIu8KB51oU3dAl2E1W+v2XnD66uy0KV9dX3CrvwcL/OiCqH7N1XmBnr9u9pa+Pumknyz9FZNtzCp6v+h7DxzI2kGqpJ06NR27pxorTdm7rRcoNrYpMppsb3fIOKVXiprdqDiwv0OBYQy3pgZVcQ2f+u3GLtoTPe2++pedF7ati4WNhYON3cYs34VTU+dVdftg4q8m11FfFBNM7oT1XhFvVisVU8HHjqz0IrquDscg3QUg4+6XG+WyqxHwQiWAHIoPLxnuVWvq7h2zDsQzSDouq6+LFqqcicWm+tklPYjnQzitg26N2Ws2p4Ou+MB5VnQR4HnkveWirDXyTo0FKLj8dZz3wlfsZGv7l9+u8ZNnv/QyGfAEX7msniebYy6lSdRfX3Qk3GRpyU8F2phKwUYUl6mX+vSE+a38S2Neq4VbOxZMnasl13j2PD8QqDK5L5aPKFU6lJ9Nt4u8tJ8Y97qtQpfzPBiMsN33BKewNuVpI/7MYGZuIzz7wYVyUE9R0j/AkLn52MphaxidQozLnWLv3uLfSZ2KU9iTKfxJA+D8HpAiQmAmsySozg/jonUxEkOU/SUG5i/XFecBSFSWU7E5YEs6Qyp8bP4ODbRLOpc4vpZl+dn/ep8dsyDIHnOqz49oYPegokyu7+q14FE3Av+rgW4FTxtXQ1NaedL29w2xjiirtzYyih05da0KnjLYZ4t52o+Pxk9dcsvyuQw88p06hzKLg6lk3TMJ9GxOI17EkhGsEARo4jBD6s7nyc7KkABk1wSRuubIUJPhN4RVsZhICLOiUCUCRpJ3icbKQMqGacElBBBl5I2eDwIhaSCRDwkHOFeK7CxCARCmPCIU+gEGyQCt6P06KfHFaxuPVzJSH4AV1EPVxiRW+PqAIQOYu0nxlUoA4YowghRyhiTfUzdcYIDwAKTEouQw/1hSCEE0QwJDieIiHBQP8Y4kJRjiVhIAQnhpYgSMAwWwjAiKaTg/aSoXpJEyEIIHxShKPwsQPn1sIOoV2Xe8rm6Zjd1cP85IRPvx/NzfU0+j0GT93FrXVTjvyqp2PMvIFxEEaWQWlAuov6JBgYQAy9HwJvVTSUZ5X6SB6RaHSgVYM09d3YTFBYGpFpDQn+fiOmpGQrGExJDwLKfM0eFn3EKN3mXdnzvdehNEq+z/R7sBkdufns7gaqu3GrBliFAnWvPkvu9Fyz6n0cJ5BglzAgvqkOH7+AgnlZP9aH6mCnaKMGfxxYTj2k+dnQ2iRLObfjkYMcHK5I/2Di3F2HRDaA9PsmcAu3/D8wTjliOg7l31NJdD0h7PPZHPZ6O4EFbq5dOdjs6OHsEDzkF7acrrnglY1R8IeqEBPJzyBkwGe4ECIJ1RkaYEY5DSJ38Eerks3Y/CI5G9ULbkjKMQirYtC8BkGDHu47aqlJYn2DEqD9tjv1aQDQV3vDzABTbz1+NevsVkX75Dw==&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="282px" height="201px" viewBox="-0.5 -0.5 282 201" content="&lt;mxfile&gt;&lt;diagram id=&quot;QQJxv4aCTC7ZgE7HHOvM&quot; name=&quot;Page-1&quot;&gt;3Vlbb6M4FP41UZ+KfMM2j206nRlpdlWpK+3OI5M4CTsER8ZJk/31ewA7QMiFJG23szRS8cE3zvm+czEDOpyvP5t4MftNj1U6IGi8HtCHASGYRAT+FZKNk1DCK8nUJGMnqwXPyT/KCZGTLpOxylsdrdapTRZt4UhnmRrZliw2Rr+0u0102l51EU/diqgWPI/iVHW6/ZmM7aySSiJq+ReVTGd+Zcyj6sk89p3dxPksHuuXhoh+GtCh0dpWd/P1UKWF9rxeqnGPB55uN2ZUZvsMcJZYxenSvZvbl934lzV6mY1V0R8N6L02dqanOovTb1ovQIhB+LeyduPMFC+tBtHMzlP3NLdG/9wqqpBMkjQd6lSbcgU6CYu/bc/GE15exQid2We3J+zaj/E8SQsI3dytVJYY2Pbvam1vBmQItzdfM6tM+W6mJXKNLypdKZuM4qp5Z5I4rW7zOMtvc2WSiV+4ejNMii3+VHY0c8roatsZINdLM3L6ow6gsZkq14tVIjWeNgHlLPRZ6bmyZgMdHGNuUUAocxQxKo1tsmojMXaAnm7Hbqd70glsbjsXC6sRjnq3GLP2FNXW3agmcnYm8khxE/GdaarXPTKN76gnk1y1+sBNQwu1qITufhjTDoyHOsuXc2XyDp5hJPgJaNy/zBKrnhdxaakX8FU7uG2a+j8DXNFuMKK6jnKlzTeyw56juF0pY9W6Fya9L/ZA8h7tpXaI2PeZNZxhiA5DtoWAI+ZmHXPfPX29xtLeC6OO2cFTec3N4tFsadQHAgMqrzPBEKfJNIP7VE1s0QG0kmTTb2XrAfPXgQeNWugQrAsO0sWGl12DjfB0RFPZ+K7IAqCV6Uz9Aqy/yNCjpVmVcRv3DVXi8lDVsGx4hPVXRi/chhVm4rLgdbszkdyZ50D0uiAy8dNwnEKGtXhPsPXn9zaFjn/43aL99j8QFjCm/cICD4PwevKLHuTvHRQ6hDpMvqmJxwlo8yExoKxEF/4VsFiMfD+znkhN+QEbH+XyIVuxqHGJ6w0nTxvu6jqk6/ZB8pgUe3pAew0OujObv4rHgUTcC76XAlwLHtZuhqq18a11YqvBOKKuXY2VUeja9dCi4Ufu1kdypEajowAsV34CIIDmlWnMuSv7YGg8EX1Ez+jjvQ8JJCNYoIhRxOAPq1tf3ziHhAImuSSMlj+GCD2C3gNBCIeBiDgnAlEmaCR52+VJGVDJOCXQCRF0aYwC0AShkFSQiIeEI9xaBQrCQCCECY84hU2wndTp9SJY9OGpCcG8RU0ZyTOoGbWoiRF5bWruYeFeuv6/qRnKgCGKMEKUMsZkm5a3nOAA6MSkxCLk8DublQgBISAl5AQREe7MjzEOJOVYIhZSIFN4KSkFvAYL4TUiKaTg7TSyDIwiZCEgEEUoCt+Kkz4qN0j5rMwqGalrquC95wbvU/60WfVYXr0PBFHvEj7XaaHCq7KjbRQAPyOiiFLIkSgX/lDbAw5cCUSHCLx38aOSdPJgyQNSxChKBYzm3oM3My0WBqSIZKH/HaFF31QL4w52upgBVnudOYf8FsfA71ldH66Z9z0Zx/lsWzuff+brDzIucZhXlshQgQWocW0X3tbMkL28nWMihxzTgPC0OG/6Aebk0+Ku/DDU9Vc10PCH9lk9zwnPO7s9iK5zTmblTg0OodUfi50q7Vj0Cg6mexrfx8H80i6lxwHdYZfSOqhrBjZSn8/+UaqkIbjX1uq5k13slM7/EgX5FW2nbq55pd8qvJYokzModyB/wmS3sCIIAqaMMCMch5BGknM/OfmX4KgzL6wtKcMopIL1+yAG9Uq8aXRbFB3yI345aqvN+eCaU9WEr/iVDJr1h+Sqe/09nn76Fw==&lt;/diagram&gt;&lt;/mxfile&gt;">
     <defs/>
     <g>
         <path d="M 226 51 L 226 88.63" fill="none" stroke="#666666" stroke-miterlimit="10" pointer-events="stroke"/>
         <path d="M 226 93.88 L 222.5 86.88 L 226 88.63 L 229.5 86.88 Z" fill="#666666" stroke="#666666" stroke-miterlimit="10" pointer-events="all"/>
-        <ellipse cx="226" cy="26" rx="55" ry="25" fill="#ffffff" stroke="#666666" stroke-width="2" pointer-events="all"/>
+        <ellipse cx="226" cy="26" rx="55" ry="25" fill="rgb(255, 255, 255)" stroke="#666666" stroke-width="2" pointer-events="all"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 108px; height: 1px; padding-top: 26px; margin-left: 172px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Avenir Next Medium; color: #333333; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 Consumers
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="226" y="30" fill="#333333" font-family="Avenir Next Medium" font-size="12px" text-anchor="middle">
+                <text x="226" y="30" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
                     Consumers
                 </text>
             </switch>
         </g>
-        <ellipse cx="226" cy="101" rx="6" ry="6" fill="#ffffff" stroke="#666666" stroke-width="2" pointer-events="all"/>
+        <ellipse cx="226" cy="101" rx="6" ry="6" fill="rgb(255, 255, 255)" stroke="#666666" stroke-width="2" pointer-events="all"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 2px; height: 1px; padding-top: 101px; margin-left: 238px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: left; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Avenir Next Medium; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: left;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
                                 APIs
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="238" y="105" fill="#000000" font-family="Avenir Next Medium" font-size="12px">
+                <text x="238" y="105" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px">
                     APIs
                 </text>
             </switch>
         </g>
         <path d="M 226 134 Q 226 134 226 107" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
-        <ellipse cx="226" cy="166.75" rx="55" ry="32.749999999999986" fill="#ffffff" stroke="#666666" stroke-width="2" pointer-events="none"/>
+        <ellipse cx="226" cy="166.75" rx="55" ry="32.749999999999986" fill="rgb(255, 255, 255)" stroke="#666666" stroke-width="2" pointer-events="none"/>
         <path d="M 192.23 192.62 L 259.66 140.94" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
         <path d="M 192.89 140.68 L 261.09 192.82" fill="none" stroke="#666666" stroke-width="2" stroke-miterlimit="10" pointer-events="none"/>
         <ellipse cx="226" cy="166.75" rx="43.10200668896321" ry="22.615202702702703" fill="#ffffff" stroke="#666666" stroke-width="2" pointer-events="none"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 84px; height: 1px; padding-top: 167px; margin-left: 184px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Avenir Next Medium; color: #000000; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: none; white-space: normal; overflow-wrap: normal;">
                                 Services
                             </div>
                         </div>
                     </div>
                 </foreignObject>
-                <text x="226" y="170" fill="#000000" font-family="Avenir Next Medium" font-size="12px" text-anchor="middle">
+                <text x="226" y="170" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
                     Services
                 </text>
             </switch>
         </g>
         <path d="M 111 166.75 L 164.63 166.75" fill="none" stroke="#666666" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="none"/>
         <path d="M 169.88 166.75 L 162.88 170.25 L 164.63 166.75 L 162.88 163.25 Z" fill="#666666" stroke="#666666" stroke-miterlimit="10" pointer-events="none"/>
-        <rect x="1" y="142.25" width="110" height="49" rx="7.35" ry="7.35" fill="#ffffff" stroke="#666666" stroke-width="2" pointer-events="none"/>
+        <rect x="1" y="142.25" width="110" height="49" rx="7.35" ry="7.35" fill="rgb(255, 255, 255)" stroke="#666666" stroke-width="2" pointer-events="none"/>
         <g transform="translate(-0.5 -0.5)">
             <switch>
-                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 108px; height: 1px; padding-top: 167px; margin-left: 2px;">
-                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
-                            <div style="display: inline-block; font-size: 12px; font-family: Avenir Next Medium; color: #333333; line-height: 1.2; pointer-events: none; white-space: normal; word-wrap: normal; ">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: none; white-space: normal; overflow-wrap: normal;">
                                 Service
                                 <br/>
                                 Models
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </foreignObject>
-                <text x="56" y="170" fill="#333333" font-family="Avenir Next Medium" font-size="12px" text-anchor="middle">
+                <text x="56" y="170" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
                     Service...
                 </text>
             </switch>
@@ -86,7 +86,7 @@
         <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
         <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
             <text text-anchor="middle" font-size="10px" x="50%" y="100%">
-                Viewer does not support full SVG 1.1
+                Text is not SVG - cannot display
             </text>
         </a>
     </switch>

@@ -46,8 +46,8 @@ entity Books : cuid {
 ```
 > When disabling locale-specific handling for a String element, binary comparison is used, which is generally faster but results in *case-sensitive* order (A, B, a, b).
 
-:::tip Disable Statement-Wide Collation
-To disable statement-wide collation for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
+::: info Disable Collating
+To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
 4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
@@ -83,16 +83,14 @@ CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When wo
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
-1. `RIGHT` and `FULL OUTER JOIN` isn't supported.
-2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
-3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
-4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
-5. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
-6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
-7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
-8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
-9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
-10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
+1. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
+2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite.
+3. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
+4. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream, the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
+5. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
+6. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described in [Updatable Views](../working-with-cql/query-execution#updatable-views).
+7. Foreign key constraints are supported, but are disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
+8. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ## Datasources
 
@@ -135,6 +133,16 @@ SAP HANA can be configured when running locally as well as when running producti
 
 Service bindings of type *service-manager* and, in a Spring-based application, *hana* are used to auto-configure datasources. If multiple datasources are used by the application, you can select one auto-configured datasource to be used by the default Persistence Service through the property `cds.dataSource.binding`.
 
+#### Configure the DDL generation
+
+Advise the CDS Compiler to generate _tables without associations_, as associations on SAP HANA are not used by CAP Java:
+
+::: code-group
+```json [.cdsrc.json]
+{ "sql": { "native_hana_associations" : false } }
+```
+:::
+
 #### SQL Optimization Mode
 
 By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
@@ -146,7 +154,7 @@ cds.sql.hana.optimizationMode: hex
 
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
-::: warning
+::: warning Rare error in `HEX` mode
 In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. To avoid such issues, make sure you're using the latest [SAP HANA Cloud version](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-overview-guide/releases-and-upgrades-in-sap-hana-cloud). Until the missing feature is supported by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the failing query, so the SQL generator doesn't use features that require the HEX engine.
 ::: 
 
@@ -171,15 +179,6 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</configuration>
 </execution>
 ```
-
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
-
-::: code-group
-```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
-```
-:::
-
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
@@ -222,16 +221,6 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 </execution>
 ```
 
-Advise the CDS Compiler to not generate localized views that CAP Java doesn't need:
-
-::: code-group
-```json [.cdsrc.json]
-{ "cdsc": { "fewerLocalizedViews": true } }
-```
-:::
-
-
-
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
@@ -258,25 +247,6 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</configuration>
 </execution>
 ```
-
-#### CDS Compiler Configuration
-
-You have the following configuration options:
-
-* `betterSqliteSessionVariables`: enable support for [session context variables](../../guides/databases-sqlite#session-variables)
-* `fewerLocalizedView`: don't generate localized views that CAP Java doesn't need
-
-::: code-group
-```json [.cdsrc.json]
-{
-    "cdsc": {
-        "betterSqliteSessionVariables": true,
-        "fewerLocalizedViews": true
-    }
-}
-```
-:::
-
 
 The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
 ```sh
@@ -550,49 +520,6 @@ cds:
 
 
 ## Native SQL
-
-### CDS Data Store Connector { #cdsdatastoreconnector}
-
-The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
-
-CAP Java automatically creates a `CdsDataStoreConnector` that is configured with the [_primary_ data source](./persistence-services#default-persistence-service) and used by the [Persistence Service](./persistence-services).
-
-In order to use CDS models and CDS queries with a _secondary_ data source in CAP Java you need to manually create a CDS Data Store connector. For a [supported](./persistence-services#database-support) JDBC database this is done by the static `CdsDataStoreConnector.createJdbcConnector(...)` method, providing the CDS model, the [transaction manager](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/transaction/TransactionManager.html), and a connection supplier or data source.
-
-The transaction manager must reflect the transactional state of the JDBC connections supplied by the connection supplier or data source.
-
-```java
-CdsDataStoreConnector jdbcConnector = CdsDataStoreConnector.createJdbcConnector(cdsModel, transactionManager)
-    .connection(connectionSupplier).build();
-
-CdsDataStore dataStore = jdbcConnector.connect();
-```
-
-Invoking a `connect()` method creates an instance of the Data Store API.
-
-### CDS Data Store { #cdsdatastore}
-
-The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](./index#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
-
-The `CdsDataStore` API is similar to the [`CqnService` API](../working-with-cql/query-execution#queries). The only difference is, that the `run` method is called `execute`:
-
-```java
-CdsDataStore dataStore = ...;
-Select query = Select.from("bookshop.Books").where(b -> b.get("ID").eq(17));
-Result result = dataStore.execute(query);
-```
-
-Use the `CdsDataStore` API to set user session context information. Utilize the `SessionContext` API which follows a builder pattern, as shown in the following example:
-
-```java
-SessionContext sessionContext = SessionContext.create().setUserContext(UserContext.create().setLocale(Locale.US).build()).build());
-dataStore.setSessionContext(sessionContext);
-```
-
-::: tip
-When implementing a CAP application, using the [Persistence Service](./index#persistenceservice) is preferred over the CDS Data Store.
-:::
 
 ### Native SQL with JDBC Templates { #jdbctemplate}
 

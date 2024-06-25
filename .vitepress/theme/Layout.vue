@@ -20,6 +20,9 @@ const { frontmatter } = useData()
     <template #layout-top>
       <slot name="layout-top" />
     </template>
+    <template #doc-top>
+      <slot name="doc-top" />
+    </template>
     <template #not-found>
       <NotFound />
     </template>
@@ -56,7 +59,7 @@ const { frontmatter } = useData()
   margin-left: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .ImplVariantsInNavbar {
     display: none;
   }

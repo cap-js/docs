@@ -203,9 +203,9 @@ The goal `addSample` is removed from the `cds-maven-plugin` and replaced with th
 
 ### Proof-Of-Possession enforced for IAS-based authentication
 
-In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests when using at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
 
-Applications calling a CAP Java application from now on need to send a valid client certificate in addition to the JWT token. This especially affects Approuter scenarios, it needs to be configured by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend.
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
 
 [Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
 

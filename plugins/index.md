@@ -329,6 +329,7 @@ const csn = await cds.load(cds.env.folders.srv)
 const ord = cds.compile.to.ord(csn)
 ```
 
+#### Command Line
 
 ```sh
 cds compile <path to srv folder> --to ord [-o] [destinationFilePath]

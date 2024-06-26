@@ -63,8 +63,8 @@ If enabled, CAP Java provides two persistent outbox services by default:
 -  `DefaultOutboxUnordered` - is used by default by the AuditLog service
 
 The default configuration for both outboxes can be overridden using the `cds.outbox.services` section, for example in the _application.yaml_:
-
-```yaml [application.yaml]
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   outbox:
     services:
@@ -77,7 +77,7 @@ cds:
         storeLastError: true
         # ordered: false
 ```
-
+:::
 You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
@@ -87,8 +87,8 @@ You have the following configuration options:
 ### Configuring Custom Outboxes { #custom-outboxes}
 
 Custom persistent outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   outbox:
     services:
@@ -99,8 +99,8 @@ cds:
         maxAttempts: 10
         storeLastError: true
 ```
-
-Afterwards you can access the outbox instances from the service catalog:
+:::
+Afterward you can access the outbox instances from the service catalog:
 
 ```java
 OutboxService myCustomOutbox = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox");

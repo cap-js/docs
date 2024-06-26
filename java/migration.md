@@ -100,7 +100,7 @@ Some parameter defaults of the goal `generate` have been adjusted:
 
 | Parameter | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
-| `sharedInterfaces` | `false` | `true` | Interfaces are generated for the global types with inline anonymous arrayed types, `sharedInterfaces` enables their usage in the interfaces generated for actions and functions as well. |
+| `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
 | `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
 
 Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.

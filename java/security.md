@@ -379,10 +379,11 @@ A precise description of the general authorization capabilities in CAP can be fo
 Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/security/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
 More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/security/authorization#restrict-annotation) to find details about the possibilities.
 
-
 ### Instance-Based Authorization { #instance-based-auth}
 
 Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/security/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/security/authorization#domain-driven-authorization) built on more complex model constraints.
+
+<span id="declarative-auth"></span>
 
 #### Current Limitations
 

@@ -49,7 +49,7 @@ The types emitted by the type generator are tightly integrated with the CDS API.
 Most CQL constructs have an overloaded signature to support passing in generated types. Chained calls will offer code completion related to the type you pass in.
 
 ```js
-// how you would have done it before (and can still do it)
+// previous approach (still valid, but prefer using reflected entities over string names)
 SELECT('Books')  // etc...
 
 // how you can do it using generated types

@@ -186,6 +186,8 @@ the resulting database tables and views don't contain the `COMMENT` clause anymo
 In contrast to the hdbtable plugin, the hdbcds plugin is able to handle removal of the
 `COMMENT`s without a full table migration.
 
+Note: If you need the comments in the database, this workaround will not help,
+because switching them back on after moving to hdbtable will then result in a full table migration.
 
 ## Temporal Data with Time Slice IDs
 

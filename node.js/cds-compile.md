@@ -194,8 +194,6 @@ Use [`cds.compile.to.hana`](#hana) instead.
 
 ### .hdbtable() {.method .deprecated}
 
-Generates `hdbtable/hdbview` output.
-
 Use [`cds.compile.to.hana`](#hana) instead.
 
 ### .hana() <Since version="8.0.0" of="@sap/cds" /> {.method}

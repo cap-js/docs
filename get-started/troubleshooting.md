@@ -564,7 +564,8 @@ You can reduce MTA archive sizes, and thereby speedup deployments, by omitting `
 
 First, add a file `less.mtaext` with the following content:
 
-```yaml
+::: code-group
+```yaml [less.mtaext]
 _schema-version: '3.1'
 ID: bookshop-small
 extends: capire.bookshop
@@ -573,6 +574,7 @@ modules:
    build-parameters:
      ignore: ["node_modules/"]
 ```
+:::
 
 Now you can build the archive with:
 

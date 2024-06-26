@@ -309,4 +309,41 @@ Available for:
 
 <div id="planned-plugins" />
 
+## ORD (Open Resource Discovery)
+
+Open Resource Discovery (ORD) is a protocol that allows applications and services to self-describe their exposed resources and capabilities.It can be used to describe static documentation, but can also reflect tenant specific configuration and extensions (at run-time).​ 
+Typically, ORD is used to describe APIs and Events, but it also supports higher-level concepts like Entity Types (Business Objects) and Data Products (beta).
+By adopting ORD, an application will implement a single-entry point (Service Provider Interface) that can be used to discover and crawl the relevant information / metadata. The information can be used to build a static metadata catalog or do detailed runtime inspection of actual system landscapes.
+
+This plugin enables generation of ORD document for CAP based applications. 
+You can get the ORD document in multiple ways :
+
+#### Programmatic API
+
+```js
+const cds = require('@sap/cds')
+```
+
+```js
+const csn = await cds.load(cds.env.folders.srv)
+const ord = cds.compile.to.ord(csn)
+```
+
+
+```sh
+cds compile <path to srv folder> --to ord [-o] [destinationFilePath]
+```
+<img width="1300" alt="Sample Application Demo" style="border-radius:0.5rem;" src="./assets/index/ordCLI.png">
+
+#### ORD Endpoints
+
+1) Run `cds watch` in the application's root.
+2) Check the following relative paths for ORD information - `/.well-known/open-resource-discovery` , `/open-resource-discovery/v1/documents/1`.
+
+<img width="1300" alt="Sample Application Demo" style="border-radius:0.5rem;" src="./assets/index/ordEndpoint.gif">
+
+
+
+
+
 

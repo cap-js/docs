@@ -103,7 +103,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
   // get ID and payload of message
   String msgId = context.getMessageId();
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -154,7 +154,7 @@ public class ReviewServiceHandler implements EventHandler {
     reviews.forEach(review -> {
 
       // Calculate the new average rating
-      BigDecimal avg = [...]
+      BigDecimal avg = ...;
 
       // Set event payload
       Reviewed event = Reviewed.create();
@@ -595,7 +595,7 @@ cds:
 public void receiveMyCustomQueueAllMessages(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -635,7 +635,7 @@ The following example demonstrates how the error handler can be used to catch me
 
 ```java
 @On(service = "messaging")
-private void handleError(MessagingErrorEventContext context) {
+private void handleError(MessagingErrorEventContext ctx) {
 
   String errorCode = ctx.getException().getErrorStatus().getCodeString();
   if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
@@ -646,9 +646,9 @@ private void handleError(MessagingErrorEventContext context) {
       // error handling for application errors
 
       // how to access the event context of the raised exception:
-      // context.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
-      //	  String event = e.getEvent());
-      //	  String payload = e.get("data"));
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
       // });
 
       ctx.setResult(true); // acknowledge

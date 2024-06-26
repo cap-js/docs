@@ -237,7 +237,7 @@ exports['foo.bar.Foo'] = class Foo {...}
 exports['foo.bar.Boo'] = class Bar {...}
 ```
 
-The exports' names must **match the servce definitions' fully-qualified names**.
+The exports' names must **match the fully-qualified names of the service definitions**.
 
 :::
 
@@ -306,7 +306,7 @@ await srv.emit ('OrderedBooks', {
 
 ::: tip Prefer Platform-Agnostic APIs
 
-REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extend. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
+REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extent. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
 
 :::
 

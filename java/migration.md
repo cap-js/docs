@@ -115,7 +115,7 @@ Some property defaults have been adjusted:
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 | `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
 | `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Incomplete personal data annotations should result in an error by default. |
-| `cds.messaging.<key>.structured | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now eneabled by default. |
+| `cds.messaging.services.<key>.structured` | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now enabled by default. |
 
 ### Adjusted Property Behavior
 

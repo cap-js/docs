@@ -115,6 +115,7 @@ Some property defaults have been adjusted:
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 | `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
 | `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Incomplete personal data annotations should result in an error by default. |
+| `cds.messaging.<key>.structured | `false` | `true` | [Enhanced message representation](./messaging#enhanced-messages-representation) is now eneabled by default. |
 
 ### Adjusted Property Behavior
 
@@ -188,7 +189,7 @@ The following table gives an overview about the removed properties:
   - `com.sap.cds.ql.Insert.cqn(String)`
   - `com.sap.cds.ql.Update.cqn(String)`
   - `com.sap.cds.ql.Upsert.cqn(String)`
- 
+
 - Deprecations:
   - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`

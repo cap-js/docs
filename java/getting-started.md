@@ -193,6 +193,7 @@ mvn spring-boot:run
 ```
 ::: tip
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
+Use user [`authenticated`](./security#mock-users) if a username is requested. You don't need to enter a password.
 :::
 
 ### Supported IDEs

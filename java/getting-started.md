@@ -124,24 +124,21 @@ The generated project has the following folder structure:
 ```txt
 <PROJECT-ROOT>/
 ├─ db/
-│  └─ data-model.cds
 └─ srv/
-   ├─ cat-service.cds
    ├─ src/main/java/
    ├─ src/gen/java/
    └─ node_modules/
-
 ```
 
 The generated folders have the following content:
 
 | Folder | Description |
 | --- | --- |
-| *db* | Contains content related to your database. A simple CDS domain model is located in the file _schema.cds_. |
- | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
-| *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
-| *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
+| *db/* | Contains content related to your database. A simple CDS domain model is located there. |
+| *srv/* | Contains the CDS service definitions and Java back-end code and a sample service model. It contains a Maven project. |
+| *srv/src/main/java/* | Contains Java application logic. |
+| *srv/src/gen/java/* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). The directory is created once the project is built. |
+| *node_modules/* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
 <!-- TODO: Where to put this to not distract the Java Developer??

@@ -127,6 +127,8 @@ You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in you
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
+::: tip Start a test server with `cds.test(...)` inside a `describe` block of the test, to ensure that tests are running with `jest` and `mocha`.
+:::
 
 
 ### Using Test Watchers

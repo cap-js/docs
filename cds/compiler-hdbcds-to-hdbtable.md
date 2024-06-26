@@ -1,7 +1,7 @@
 ---
 shorty: Moving from .hdbcds to .hdbtable
 synopsis: >
-  This document describes the migrating from .hdbcds-based HDI deployment to .hdbtable-based HDI deployment.
+  This document describes the migration from .hdbcds-based HDI deployment to .hdbtable-based HDI deployment.
 
 # layout: cds-ref
 redirect_from: releases/compiler-v2
@@ -96,14 +96,14 @@ This clause slightly differs, depending on whether it originates from a .hdbcds 
 which would causes a full table migration.
 
 The CAP Java runtime and the CAP Nodejs runtime with the new SAP HANA service (`@cap-js/hana`, default in CDS 8)
-don't need the `WITH ASSOCIATIONS` clause any more. The workaround is to remove the `WITH ASSOCIATIONS` clause
-__before__ the actual hdbcds to hdbtable migration.
+don't need the `WITH ASSOCIATIONS` clause anymore. The workaround is to remove the `associations` from the `hdbcds` sources
+__before__ the actual `hdbcds` to `hdbtable` migration.
 
-First switch of the generation of the `WITH ASSOCIATIONS` clause (both for hdbcds and hdbtable):
+First switch of the generation of the `associations` (that option accounts for "associations" in the `hdbcds` sources as well as for the `WITH ASSOCIATIONS` found in the `hdbtable` sources):
 
 ::: code-group
 
-```json [cdsrc.json]
+```json [.cdsrc.json]
 {
   "sql": {
     "native_hana_associations": false
@@ -114,7 +114,7 @@ First switch of the generation of the `WITH ASSOCIATIONS` clause (both for hdbcd
 <!-- this option is available only with CDS 8 -->
 
 Then run a new build and deploy the newly generated `.hdbcds` files.
-The resulting database tables and views shouldn't contain the `WITH ASSOCIATIONS` clause anymore.
+The resulting database tables and views shouldn't contain any `associations` anymore.
 In contrast to the hdbtable plugin, the hdbcds plugin is able to handle removal of the
 native associations without a full table migration.
 

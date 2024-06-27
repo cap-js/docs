@@ -13,7 +13,7 @@ status: internal
 {{ $frontmatter.synopsis }}
 
 ::: info
-Not relevant for SAP HANA Cloud.
+If you are using SAP HANA Cloud, you don't have to do anything, as there is no HANA CDS on SAP HANA Cloud.
 :::
 
 With @sap/cds-compiler@5 and @sap/cds@8, we have deprecated the deploy format `hdbcds` for SAP HANA,

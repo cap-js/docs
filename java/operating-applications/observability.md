@@ -328,7 +328,7 @@ The following steps describe the required configuration:
 <div id="dynatrace-metrics-ingest"/>
 
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment using the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
-3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
+3) In addition, enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
 4) Define an additional environment variable to tell the [agent extension](#agent-extension) to export metrics to Dynatrace via OpenTelemetry.
 
    ::: code-group

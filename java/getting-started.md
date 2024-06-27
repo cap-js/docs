@@ -207,15 +207,15 @@ CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside yo
 
 #### Source Path Configuration and CDS build
 
-Depending on your IDE, you may get inline errors telling you that classes are missing.  That's because the generated Java files are missing.
+Your IDE might show inline errors indicating missing classes. This happens because the generated Java files are missing.
 
-Open your terminal and run `mvn compile` in your project root directory to perform a full build of your project. This is needed because while the IDE can build the right class path based on the dependencies of the project, it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
+To resolve this, open your terminal and execute `mvn compile` in your project root directory. This action performs a full build of your project. It's necessary because, although the IDE can construct the correct class path based on the project's dependencies, it doesn't initiate the CDS build or subsequent code generation. This is covered as part of the `mvn compile` call.
 
-If you're using JetBrains' Intellij, you need to tell it to use the generated folder `srv/src/gen/java`. Do so by marking the directory as `Generated Sources Root`.  This is available per Intellij's project settings or by right-clicking on the folder and selecting `Mark Directory as`. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
+If you're using JetBrains' Intellij, you need to tell it to use the generated folder `srv/src/gen/java`. Do so by marking the directory as `Generated Sources Root`.  You can find this option in IntelliJ's project settings or by right-clicking on the folder and choosing `Mark Directory as`. By doing this, you ensure that the IntelliJ build includes the generated sources in the Java ClassPath.
 
 #### Run and Test the Application
 
-If you've set up your application as described above, run your application in your IDE by starting the `main` method of your project's `Application.java`.
+Once you've configured your application as described in the previous section, you can run your application in your IDE by starting the `main` method of your project's `Application.java`.
 
 Then open the application in your browser at [http://localhost:8080/](http://localhost:8080).
 

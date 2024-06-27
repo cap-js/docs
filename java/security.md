@@ -63,7 +63,7 @@ CAP Java picks only a single binding of each type. If you have multiple XSUAA or
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
-### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
+### Transition from `cds-feature-xsuaa` to `cds-feature-identity` { #transition-xsuaa-ias}
 CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
 We recommend to move to `cds-feature-identity`, as the spring-xsuaa library is deprecated. When moving to `cds-feature-identity`, please keep the following in mind:
 

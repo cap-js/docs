@@ -53,8 +53,8 @@ public void readAuthors(List<Orders> orders) {
 
 Some remarks:
 
-* [Logging Configuration](#logging-configuration) shows how to configure loggers individually to control the emitted log messages.
-* The API is robust with regards to the passed parameters that means no exception is thrown on parameters mismatch or invalid parameters.
+* [Spring Boot Logging](#logging-configuration) shows how to configure loggers individually to control the emitted log messages.
+* The API is robust with regards to the passed parameters, which means no exception is thrown on parameters mismatch or invalid parameters.
 
 ::: tip
 Prefer *passing parameters* over *concatenating* the message. `logger.info("Consolidating order " + order)` creates the message `String` regardless the configured log level. This can have a negative impact on performance.
@@ -72,7 +72,7 @@ In case your application runs on Spring Boot and you use the Spring starter pack
 
 Similarly, no specific log output configuration is required for local development, as per default, log messages are written to the console in human-readable form, which contains timestamp, thread, and logger component information. To customize the log output, for instance to add some application-specific information, you can create corresponding configuration files (such as `logback-spring.xml` for logback). Add them to the classpath and Spring picks them automatically. Consult the documentation of the dedicated logging framework to learn about the configuration file format.
 
-All logs are written that have a log level greater or equal to the configured log level of the corresponding logger object.
+All logs are written, that have a log level greater or equal to the configured log level of the corresponding logger object.
 The following log levels are available:
 
 | Level    | Use case
@@ -107,10 +107,10 @@ Note that loggers are organized in packages, for instance `org.springframework` 
 
 #### At Runtime with Restart { #logging-configuration-restart}
 
-You can overrule the given logging configuration with a corresponding environment variable. For instance, to set loggers in package `my.loggers.order` to `DEBUG` level add the following environment variable:
+You can overrule the given logging configuration with a corresponding environment variable. For instance, to set loggers in package `my.loggers.order` to `DEBUG` level set the following environment variable:
 
 ```sh
-LOGGING_LEVEL_MY_LOGGERS_ORDER = DEBUG
+LOGGING_LEVEL_MY_LOGGERS_ORDER=DEBUG
 ```
 
 and restart the application.
@@ -128,15 +128,15 @@ If configured, you can use [Spring actuators](https://docs.spring.io/spring-boot
 
 ```sh
 # retrieve state of all loggers:
-curl http://<app-url>/actuator/loggers
+curl https://<app-url>/actuator/loggers
 
 # retrieve state of single logger:
-curl http://<app-url>/actuator/loggers/my.loggers.oder.consolidation
- {"configuredLevel":null,"effectiveLevel":"INFO"}
+curl https://<app-url>/actuator/loggers/my.loggers.oder.consolidation
+#> {"configuredLevel":null,"effectiveLevel":"INFO"}
 
 # Change logging level:
-curl -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "DEBUG"}'
-  http://<app-url>/actuator/loggers/my.loggers.oder.consolidation
+curl -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "DEBUG"}' \
+  https://<app-url>/actuator/loggers/my.loggers.oder.consolidation
 ```
 
 [Learn more about Spring actuators and security aspects in the section **Metrics**.](#spring-boot-actuators){ .learn-more}
@@ -183,7 +183,7 @@ Establishing a connection is the same for both services: The application needs t
 
 By default, the library appends additional fields to the log output such as correlation id or Cloud Foundry space. To instrument incoming HTTP requests, a servlet filter needs to be created. See [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets) for more details.
 
-During local development, you might want to stick to the (human-readable) standard log line format. This boils down to have different logger configurations for different Spring profiles. The following sample configuration outlines how you can achieve this. `cf-java-logging-support` is only active for profile `cloud`, since all other profiles are configured with the standard logback output format:
+During local development, you might want to stick to the (human-readable) standard log line format. This boils down to having different logger configurations for different Spring profiles. The following sample configuration outlines how you can achieve this. `cf-java-logging-support` is only active for profile `cloud`, since all other profiles are configured with the standard logback output format:
 ::: code-group
 ```xml [srv/src/main/resources/logback-spring.xml]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -328,7 +328,7 @@ The following steps describe the required configuration:
 <div id="dynatrace-metrics-ingest"/>
 
 2) Open Telemetry support in OneAgent needs to be enabled once in your Dynatrace environment using the Dynatrace UI. Navigate to **Settings > Preferences > OneAgent features** and turn on the switch for **OpenTelemetry (Java)** as well as for **OpenTelemetry Java Instrumentation agent support**.
-3) In addition enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
+3) In addition, enable W3C Trace Context for proper context propagation between remote services. Navigate to **Settings > Server-side service monitoring > Deep monitoring > Distributed tracing** and turn on **Send W3C Trace Context HTTP headers**.
 4) Define an additional environment variable to tell the [agent extension](#agent-extension) to export metrics to Dynatrace via OpenTelemetry.
 
    ::: code-group
@@ -418,7 +418,8 @@ The following example produces an additional span when the `@After` handler is e
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 class CatalogServiceHandler implements EventHandler {
-  Tracer tracer = GlobalOpenTelemetry.getTracerProvider().tracerBuilder("RatingCalculator").build();
+  Tracer tracer = GlobalOpenTelemetry.getTracerProvider()
+    .tracerBuilder("RatingCalculator").build();
 
   @After(entity = Books_.CDS_NAME)
   public void afterAddReview(AddReviewContext context) {
@@ -453,8 +454,11 @@ class CatalogServiceHandler implements EventHandler {
    public void afterAddReview(AddReviewContext context) {
       ratingCalculator.setBookRating(context.getResult().getBookId());
 
-      LongCounter counter = meter.counterBuilder("reviewCounter").setDescription("Counts the number of reviews created per book").build();
-      counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"), context.getResult().getBookId()));
+      LongCounter counter = meter.counterBuilder("reviewCounter")
+        .setDescription("Counts the number of reviews created per book")
+        .build();
+      counter.add(1, Attributes.of(AttributeKey.stringKey("bookId"),
+        context.getResult().getBookId()));
    }
 }
 ```

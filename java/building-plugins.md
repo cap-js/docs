@@ -31,7 +31,7 @@ Of course, it's up to your project / plugin how you call the corresponding Maven
 
 ## Share CDS Models via Maven Artifacts
 
-Before the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects.
+Before the CAP Java 2.2 release CDS definitions had to be shared as Node.js modules, also for Java projects.
 
 Starting with the 2.2 release CDS models, CSV import data and i18n files can now be shared through Maven dependencies in addition to npm packages. This means you can now provide CDS models, CSV files, i18n files, and Java code (for example, event handlers) in a single Maven dependency.
 

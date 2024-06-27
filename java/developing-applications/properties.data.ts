@@ -3,7 +3,7 @@ import AdmZip from 'adm-zip'
 
 const { themeConfig: { capire }} = global.VITEPRESS_CONFIG.site
 const version = capire.versions.java_services
-const url = `https://repo1.maven.org/maven2/com/sap/cds/cds-services-api/${version}/cds-services-api-${version}-sources.jar`
+const url = capire.maven_host_base + `/com/sap/cds/cds-services-api/${version}/cds-services-api-${version}-sources.jar`
 
 export default defineLoader({
   async load() {

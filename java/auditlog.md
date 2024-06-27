@@ -128,11 +128,14 @@ In case of persistent outbox, the application needs to do the necessary to compl
 
 By default, the CAP Java SDK provides an AuditLog handler that writes the AuditLog messages to the application log. This default handler is registered on all AuditLog events, but the log entries are not written to the application log, as the corresponding log level is `DEBUG`. To enable audit logging to the application log, the log level of the default handler needs to be set to `DEBUG` level:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 logging:
   level:
     com.sap.cds.auditlog: DEBUG
 ```
+:::
+
 ### AuditLog v2 Handler { #handler-v2}
 
 Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `srv/pom.xml` of the CAP Java project:
@@ -151,10 +154,12 @@ Also a service binding to the AuditLog v2 service has to be added to the CAP Jav
 
 If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/developing-applications/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   auditlog.v2.enabled: false
 ```
+:::
 
 The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
 

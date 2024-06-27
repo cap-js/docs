@@ -273,7 +273,7 @@ Use the properties [cds.dataSource.csv.*](../java/developing-applications/proper
 ---
 spring:
   config.activate.on-profile: test
-cds
+cds:
   dataSource.csv.paths:
   - test/data/**
 ```

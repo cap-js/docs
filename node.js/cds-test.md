@@ -121,7 +121,7 @@ describe('my test suite', ()=>{
   })
 })
 ```
-> Start a test server with `cds.test(...)` inside a `describe` block of the test, to ensure that tests are running with `jest` and `mocha`.
+> To ensure that your tests run with both `jest` and `mocha`, start a test server with `cds.test(...)` inside a `describe` block of the test.
 
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
 

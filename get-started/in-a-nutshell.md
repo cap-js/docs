@@ -274,7 +274,7 @@ So, let's go on feeding it with two service definitions for different use cases:
 
 An `AdminService` for administrators to maintain `Books` and `Authors`.
 
-A `CatalogService` for end users to browse and order `Books`.
+A `CatalogService` for end users to browse and order `Books` under path `/browse`.
 
 To do so, create the following two files in folder _./srv_ and fill them with this content:
 

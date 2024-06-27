@@ -61,7 +61,7 @@ The `watch` goal uses the `spring-boot-maven-plugin` internally to start the app
 When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism. In case your application doesn't use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than a complete restart the approach using the Spring Boot Devtools is the preferred approach.
 
 ::: warning
-The `watch` goal only works on Windows if the Spring Boot Devtools are enabled.
+On Windows, the `watch` goal only works if the Spring Boot Devtools are enabled.
 :::
 
 ### CDS Auto-Build

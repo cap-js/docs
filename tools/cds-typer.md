@@ -272,7 +272,7 @@ The CLI offers several parameters which you can list using the `--help` paramete
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
 
-> @cap-js/cds-typer@0.4.0 cli
+> @cap-js/cds-typer@0.22.0 cli
 > node lib/cli.js --help
 
 SYNOPSIS
@@ -284,6 +284,12 @@ SYNOPSIS
   to the (root) CDS file you want to compile.
 
 OPTIONS
+
+  --IEEE754Compatible: <true | false>
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
 
   --help
 
@@ -303,8 +309,8 @@ OPTIONS
     set it up to restrict property usage in types entities to
     existing properties only.
 
-  --logLevel: <TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE>
-    (default: NONE)
+  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
+    (default: ERROR)
 
     Minimum log level that is printed.
 

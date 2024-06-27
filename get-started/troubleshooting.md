@@ -281,7 +281,7 @@ We recommend to implement a proper thread pool and not to rely on these workarou
 
 ## OData
 
-### How Do I Generate an OData Response for Error 404?
+### How Do I Generate an OData Response in Node.js for Error 404?
 
 If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
 

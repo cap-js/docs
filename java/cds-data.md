@@ -6,7 +6,7 @@ redirect_from: java/data
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
-# Working with Data
+# Working with CDS Data
 
 <style scoped>
   h1:before {
@@ -436,7 +436,7 @@ You can now either define an accessor interface or use a [generated accessor int
 If you define an interface yourself, it could look like the following example:
 
 ```java
-interface Book extends Map<String, Object> {
+interface Books extends Map<String, Object> {
   @CdsName("ID")   // name of the CDS element
   Integer getID();
 
@@ -444,6 +444,7 @@ interface Book extends Map<String, Object> {
   void setTitle(String title);
 }
 ```
+
 ### Struct
 
 At runtime, the `Struct.access` method is used to create a [proxy](#cds-data) that gives typed access to the data through the accessor interface:
@@ -452,7 +453,7 @@ At runtime, the `Struct.access` method is used to create a [proxy](#cds-data) th
 import static com.sap.cds.Struct.access;
 ...
 
-Book book = access(data).as(Book.class);
+Books book = access(data).as(Books.class);
 
 String title = book.getTitle();   // read the value of the element 'title' from the underlying map
 book.setTitle("Miss Betty");      // update the element 'title' in the underlying map

@@ -50,13 +50,15 @@ CAP applications built with Spring Boot don't require any specific configuration
 
 To configure the buildpack for Java 21 with SapMachine JRE, add the following lines to your `mta.yaml` right under your Java service definition:
 
-```yaml
+::: code-group
+```yaml [mta.yaml]
 parameters:
   buildpack: sap_java_buildpack_jakarta
 properties:
   JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
   JBP_CONFIG_SAP_MACHINE_JRE: '{ version: 21.+ }'
 ```
+:::
 
 :::warning SAP Business Application Studio
 If you develop your application in SAP Business Application Studio and Java 21 is not available there, use the Java 17, instead.

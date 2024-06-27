@@ -11,7 +11,8 @@ import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
     versions: { [key: string]: string },
-    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[]
+    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[],
+    maven_host_base: string
   }
 }
 
@@ -112,7 +113,11 @@ const config:UserConfig<CapireThemeConfig> = {
       {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
     outline: [2,3],
-    capire: { versions: latestVersions, gotoLinks: [] }
+    capire: {
+      versions: latestVersions,
+      gotoLinks: [],
+      maven_host_base: 'https://repo1.maven.org/maven2'
+    }
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],

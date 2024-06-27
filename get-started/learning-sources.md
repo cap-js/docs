@@ -15,6 +15,11 @@ We're just getting started with this page. Please help us in that endeavour by [
 
 [[toc]]
 
+## Learning Journeys
+
+- [Getting started with SAP Cloud Application Programming Model](https://learning.sap.com/learning-journeys/getting-started-with-sap-cloud-application-programming-model) (Beginner)
+- [Building side-by-side extensions on SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp) (Intermediate)
+
 
 
 ## Tutorials

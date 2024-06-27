@@ -63,7 +63,7 @@ CAP Java picks only a single binding of each type. If you have multiple XSUAA or
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
-### Transition from `cds-feature-xsuaa` to `cds-feature-identity`{ #transition-xsuaa-ias}
+### Transition from `cds-feature-xsuaa` to `cds-feature-identity` { #transition-xsuaa-ias}
 CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
 We recommend to move to `cds-feature-identity`, as the spring-xsuaa library is deprecated. When moving to `cds-feature-identity`, please keep the following in mind:
 
@@ -282,7 +282,6 @@ You can also define mock users explicitly. This mock user configuration only app
 * Mock users are defined in the active application configuration
 
 Define the mock users in a Spring profile, which may be only active during testing, as in the following example:
-
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
@@ -312,7 +311,6 @@ cds:
             - "*"
 ```
 :::
-
 - Mock user with name `Viewer-User` is a typical business user with SaaS-tenant `CrazyCars` who has assigned role `Viewer` and user attribute `Country` (`$user.Country` evaluates to value list `[GER, FR]`). This user also has the additional attribute `email`, which can be retrieved with `UserInfo.getAdditionalAttribute("email")`. The [features](../java/reflection-api#feature-toggles) `cruise` and `park` are enabled for this mock user.
 - `Privileged-User` is a user running in privileged mode. Such a user is helpful in tests that bypasses all authorization handlers.
 
@@ -345,7 +343,6 @@ public class BookServiceOrdersTest {
 #### Mock Tenants
 
 A `tenants` section allows to specify additional configuration for the _mock tenants_. In particular it is possible to assign features to tenants:
-
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 ---
@@ -364,7 +361,6 @@ cds:
             - park
 ```
 :::
-
 The mock user `Alice` is assigned to the mock tenant `CrazyCars` for which the features `cruise` and `park` are enabled.
 
 ## Authorization { #auth}
@@ -383,10 +379,11 @@ A precise description of the general authorization capabilities in CAP can be fo
 Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/security/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
 More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/security/authorization#restrict-annotation) to find details about the possibilities.
 
-
 ### Instance-Based Authorization { #instance-based-auth}
 
 Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/security/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/security/authorization#domain-driven-authorization) built on more complex model constraints.
+
+<span id="declarative-auth"></span>
 
 #### Current Limitations
 

@@ -213,8 +213,8 @@ Always use OData V4 (`odata`) when calling another CAP service.
 <div class="impl java">
 
 You need to configure remote services in Spring Boot's _application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: cloud
 cds:
@@ -223,7 +223,7 @@ cds:
       destination:
         type: "odata-v2"
 ```
-
+:::
 To work with remote services, add the following dependency to your Maven project:
 
 ```xml
@@ -412,10 +412,8 @@ Node.js only supports *OData V4* protocol and so does the mocked service. There 
 ### Mock Remote Service as OData Service (Java) {.impl .java}
 
 You configure CAP to do OData and HTTP requests for a mocked service instead of doing it in-process. Configure a new Spring Boot profile (for example `mocked`):
-
-_application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: mocked
 cds:
@@ -428,7 +426,7 @@ cds:
       destination:
         name: "s4-business-partner-api-mocked"
 ```
-
+:::
 The profile exposes the mocked service as OData service and defines a destination to access the service. The destination just points to the CAP application itself. You need to implement some Java code for this:
 
 ::: code-group
@@ -1021,8 +1019,8 @@ If you want to configure additional headers for the HTTP request to the system b
 ##### Use Destinations with Java {.impl .java}
 
 Destinations are configured in Spring Boot's _application.yaml_ file:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
@@ -1031,7 +1029,7 @@ cds:
         suffix: "/sap/opu/odata/sap"
         type: "odata-v2"
 ```
-
+:::
 [Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#destination-based-scenarios){.learn-more}
 
 #### Use Application Defined Destinations { #app-defined-destinations}
@@ -1092,15 +1090,15 @@ if (cds.env.requires?.credentials?.authentication === "BasicAuthentication") {
 You might also want to set some values in the application deployment. This can be done using env variables. For this example, the env variable for the URL would be `cds_requires_REVIEWS_credentials_destination_url`.
 
 This variable can be parameterized in the _manifest.yml_ for a `cf push` based deployment:
-
-```yaml
+::: code-group
+```yaml [manifest.yml]
 applications:
 - name: reviews
   ...
   env:
     cds_requires_REVIEWS_credentials_url: ((reviews_url))
 ```
-
+:::
 ```sh
 cf push --var reviews_url=https://reviews.ondemand.com/reviews
 ```
@@ -1144,7 +1142,7 @@ There is no API to create a destination in Node.js programmatically. However, yo
 Destinations are configured in Spring Boot's _application.yaml_ file.
 
 ::: code-group
-```yaml [application.yaml]
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     REVIEWS:
@@ -1165,8 +1163,8 @@ cds:
 ##### Implement Application Defined Destinations in Java {.impl .java}
 
 You can use the APIs offered by SAP Cloud SDK to create destinations programmatically. The destination can be used by its name the same way as destinations on the SAP BTP destination service.
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     REVIEWS:
@@ -1174,7 +1172,7 @@ cds:
         name: "reviews-destination"
         type: "odata-v2"
 ```
-
+:::
 [Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#programmatic-destinations){.learn-more}
 
 
@@ -1247,8 +1245,8 @@ If you are developing in the Business Application Studio and want to connect to 
 #### Run a Java Application with a Destination {.impl .java}
 
 Add a new profile `hybrid` to your _application.yaml_ file that configures the destination for the remote service.
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: hybrid
   sql.init.schema-locations:
@@ -1261,7 +1259,7 @@ cds:
       suffix: "/sap/opu/odata/sap"
       type: "odata-v2"
 ```
-
+:::
 Run your application with the Destination service:
 
 ```sh
@@ -1306,7 +1304,7 @@ For Java, you set the authentication type to `TOKEN_FORWARDING` for the destinat
 You can implement it in your code:
 
 ```java
-urlFromConfig = <read from config>
+urlFromConfig = ...; // read from config
 DefaultHttpDestination mockDestination = DefaultHttpDestination
     .builder(urlFromConfig)
     .name("order-service")
@@ -1315,8 +1313,8 @@ DefaultHttpDestination mockDestination = DefaultHttpDestination
 ```
 
 Or declare the destination in your _application.yaml_ file:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     order-service:
@@ -1326,7 +1324,7 @@ cds:
           url: "<set via env var in deployment>"
           authentication: TokenForwarding
 ```
-
+:::
 Alternatively to setting the authentication type, you can set the property `forwardAuthToken` to `true`.
 
 ### Connect to an Application in Your Kyma Cluster
@@ -1401,40 +1399,41 @@ cds add xsuaa,destination,connectivity --for production
 ::: details Learn what this does in the background...
 
 1. Adds **XSUAA**, **Destination**, and **Connectivity** services to your _mta.yaml_:
-
-```yaml [mta.yml]
-- name: cpapp-uaa
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: xsuaa
-    service-plan: application
-    path: ./xs-security.json
-
-- name: cpapp-destination
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: destination
-    service-plan: lite
-
-# Required for on-premise connectivity only
-- name: cpapp-connectivity
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: connectivity
-    service-plan: lite
-```
-
-1. Requires the services for your server in the _mta.yaml_:
-
-```yaml [mta.yaml]
-- name: cpapp-srv
-  ...
-  requires:
-    ...
+    ::: code-group
+    ```yaml [mta.yml]
     - name: cpapp-uaa
+      type: org.cloudfoundry.managed-service
+      parameters:
+        service: xsuaa
+        service-plan: application
+        path: ./xs-security.json
+    
     - name: cpapp-destination
-    - name: cpapp-connectivity # Required for on-premise connectivity only
-```
+      type: org.cloudfoundry.managed-service
+      parameters:
+        service: destination
+        service-plan: lite
+    
+    # Required for on-premise connectivity only
+    - name: cpapp-connectivity
+      type: org.cloudfoundry.managed-service
+      parameters:
+        service: connectivity
+        service-plan: lite
+    ```
+    :::
+2. Requires the services for your server in the _mta.yaml_:
+    ::: code-group
+    ```yaml [mta.yaml]
+    - name: cpapp-srv
+      ...
+      requires:
+        ...
+        - name: cpapp-uaa
+        - name: cpapp-destination
+        - name: cpapp-connectivity # Required for on-premise connectivity only
+    ```
+    :::
 :::
 
 Build your application:

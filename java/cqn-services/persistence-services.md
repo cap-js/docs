@@ -83,16 +83,14 @@ CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When wo
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
-1. `RIGHT` and `FULL OUTER JOIN` isn't supported.
-2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
-3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
-4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
-5. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
-6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
-7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
-8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
-9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
-10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
+1. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
+2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite.
+3. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
+4. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream, the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
+5. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
+6. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described in [Updatable Views](../working-with-cql/query-execution#updatable-views).
+7. Foreign key constraints are supported, but are disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
+8. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ## Datasources
 
@@ -106,19 +104,22 @@ Datasources are usually backed by a connection pool to ensure efficient access t
 If datasources are created from a service binding the connection pool can be configured through the properties `cds.dataSource.<service-instance>.<pool-type>.*`.
 An example configuration could look like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   dataSource:
     my-service-instance:
       hikari:
         maximum-pool-size: 20
 ```
+:::
 
 Supported pool types for single tenant scenarios are `hikari`, `tomcat`, and `dbcp2`. For a multitenant scenario `hikari`, `tomcat`, and `atomikos` are supported. The corresponding pool dependencies need to be available on the classpath. You can find an overview of the available pool properties in the respective documentation of the pool. For example, properties supported by Hikari can be found [here](https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby).
 
 It is also possible to configure the database connection itself. For Hikari this can be achieved by using the `data-source-properties` section. Properties defined here are passed to the respective JDBC driver, which is responsible to establish the actual database connection. The following example sets such a [SAP HANA-specific configuration](https://help.sap.com/docs/SAP_HANA_PLATFORM/0eec0d68141541d1b07893a39944924e/109397c2206a4ab2a5386d494f4cf75e.html):
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   dataSource:
     my-service-instance:
@@ -126,6 +127,7 @@ cds:
         data-source-properties:
           packetSize: 300000
 ```
+:::
 
 ### SAP HANA
 
@@ -301,7 +303,7 @@ spring:
 ## Persistence Services
 
 Persistence Services are CQN-based database clients. You can think of them as a wrapper around a datasource, which translates CQN to SQL.
-In addition Persistence Services have built-in transaction management. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
+In addition, Persistence Services have built-in transaction management. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
 
 [Learn more about ChangeSet Contexts and Transactions.](../event-handlers/changeset-contexts){.learn-more}
 
@@ -328,22 +330,26 @@ It is possible to configure how Persistence Services are created.
 To change the name of a Persistence Service you can specify it in your configuration and connect it explicitly with the corresponding database service binding.
 The following configuration creates a Persistence Service named "my-ps" for the service binding "my-hana-hdi":
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-ps:
       binding: "my-hana-hdi"
 ```
+:::
 
 You can also disable the creation of a Persistence Service for specific database service bindings.
 The following configuration disables the creation of a Persistence Service for the service binding "my-hana-hdi":
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-hana-hdi:
       enabled: false
 ```
+:::
 
 To create a non-default Persistence Service for a datasource explicitly created as Spring bean a configuration is required.
 The following examples shows a Java example to register such a datasource bean:
@@ -364,12 +370,15 @@ public class DataSourceConfig {
 
 In the configuration you need to refer to the name of the datasource:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-ps:
       dataSource: "customDataSource"
 ```
+:::
+
 ::: tip
 Any usage of non-default Persistence Services needs to happen in custom handlers.
 :::
@@ -378,18 +387,20 @@ Any usage of non-default Persistence Services needs to happen in custom handlers
 
 A common scenario for multiple Persistence Services is in multitenant applications, which require an additional tenant-independent database.
 These applications usually use the Service Manager to maintain a dedicated SAP HANA HDI container for each tenant.
-However additional tenant-independent data needs to be stored in a separate HDI container, shared by all tenants.
+However, additional tenant-independent data needs to be stored in a separate HDI container, shared by all tenants.
 
 When running such a scenario productively it is as easy as binding two database service bindings to your application: The Service Manager binding and the additional HDI container binding.
 The only configuration required in that scenario is to mark the Service Manager binding as the primary one, in order to create the default Persistence Service from it:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: cloud
 cds:
   dataSource:
     binding: "my-service-manager-binding"
 ```
+:::
 
 At deploy time it is currently recommended to deploy all CDS entities into both the tenant-dependent as well as the tenant-independent databases.
 At runtime you need to ensure to access the tenant-dependent entities through the default Persistence Service and the tenant-independent entities through the additional Persistence Service.
@@ -433,7 +444,8 @@ public class DataSourceConfig {
 
 You can then refer to that datasource in your Persistence Service configuration and mark the auto-configured MTX SQLite datasource as primary:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: local-mtxs
 cds:
@@ -443,6 +455,7 @@ cds:
   dataSource:
     binding: "mtx-sqlite"
 ```
+:::
 
 #### Local Development and Testing without MTX
 
@@ -516,7 +529,8 @@ public class DataSourceConfig {
 
 The primary datasource is automatically picked up by the CAP Java SDK. The secondary datasource needs to be referred in your Persistence Service configuration:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: local
 cds:
@@ -524,7 +538,7 @@ cds:
     tenant-independent:
       dataSource: "tenantIndependentDataSource"
 ```
-
+:::
 
 ## Native SQL
 

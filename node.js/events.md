@@ -79,14 +79,17 @@ In addition, you can access the current event context from wherever you are in y
 
 ### . http {.property}
 
-If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, you can now access express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects through this property. It is propagated from `cds.context` to all child requests, so `Request.http` is accessible in all handlers including your database service ones like so:
 
 ```js
 this.on ('*', req => {
   let { res } = req.http
+  res.set('Content-Type', 'text/plain')
   res.send('Hello!')
 })
 ```
+
+Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
 
 
 
@@ -243,17 +246,6 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 [Router]: https://expressjs.com/en/4x/api.html#router
 [routing]: https://expressjs.com/en/guide/routing.html
 [middleware]: https://expressjs.com/en/guide/using-middleware.html
-
-
-
-
-### . _  {.property}
-
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
-
-::: warning
-Please refrain from using internal properties of that object, that is, the ones starting with '_'. They might be removed in any future release without notice.
-:::
 
 
 

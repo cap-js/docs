@@ -136,7 +136,7 @@ The generated folders have the following content:
 | --- | --- |
 | *db* | Contains content related to your database. A simple CDS domain model is included. |
  | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model. |
-| *srv/src/main/java* | Contains Java application logic. It contains a Maven project. |
+| *srv/src/main/java* | Contains Java application logic. Contains the Java source code of the `srv/` Maven project. |
 | *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access) after building the project with `mvn compile` once. |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 

@@ -57,7 +57,7 @@ If your application relies on the standard security configuration by CAP Java an
 
 If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
-[Learn more about the security configuration.](./security.md#configure-xsuaa-and-ias-authentication--xsuaa-ias){.learn-more}
+[Learn more about the security configuration.](./security.md#xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
 ### Removed MTX Classic Support

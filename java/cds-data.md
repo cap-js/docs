@@ -432,7 +432,8 @@ book.put("ID", 97);
 book.put("title", "Dracula");
 ```
 
-You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). The accessor interface then looks like in the following example:
+You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). 
+If you define an interface yourself, it could look like the following example:
 
 ```java
 interface Book extends Map<String, Object> {

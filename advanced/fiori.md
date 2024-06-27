@@ -68,13 +68,11 @@ It is active by default, but disabled automatically in case the [production prof
 To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
 
 ::: code-group
-
-```yaml [application.yaml]
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   index-page:
     enabled: true
 ```
-
 :::
 
 </div>

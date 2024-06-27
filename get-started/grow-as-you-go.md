@@ -30,6 +30,8 @@ After we are prepared for production we can deploy to the cloud. In case of the 
 cds add mta
 ```
 
+[Learn more deploying your CAP application.](../guides/deployment/){.learn-more}
+
 
 
 ## Add Multitenancy
@@ -37,8 +39,10 @@ cds add mta
 If you are creating a SaaS application you also need to add support for tenant subscriptions and tenant upgrades. When a tenant subscribes, new database containers have to be bootstrapped along with other resources, like message channels. CAP provides the so-called MTX services which do that automatically in a sidecar micro service. You can add all required packages and configurations by:
 
 ```sh
-cds add multitenancy
+cds add multitenancy --for production
 ```
+
+[Learn more about multitenancy.](../guides/multitenancy/){.learn-more}
 
 ::: tip Intrinsic Cloud Qualities
 As we see below, we can add qualities like multitenancy or extensibility late in time. This is made possible by the fact that there is no difference between a single-tenant and a multitenant application from content perspective: CAP does all the necessary things, for example for tenant isolation, behind the scenes. Similarly, CAP provides intrinsic extensibility, which means there's nothing you, as an app developer, need to do to enable this.
@@ -53,6 +57,8 @@ Extensibility is required to allow customers to adapt SaaS applications to their
 ```sh
 cds add extensibility
 ```
+
+[Learn more about extensibility.](../guides/extensibility/){.learn-more}
 
 
 

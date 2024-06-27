@@ -104,8 +104,9 @@ Authorization: Basic alice:
 
 ### Using Jest or Mocha
 
- [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
-The `cds.test` library is designed to write tests that run with both, as in this sample:
+[*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
+
+The `cds.test` library is designed to allow you to write tests that can run with both. Here's an example:
 
 ```js
 describe('my test suite', ()=>{

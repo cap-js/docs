@@ -205,25 +205,19 @@ CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside yo
 * [IntelliJ Idea Ultimate](/tools/cds-editors#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 
 
-### Open the project in your IDE
+#### Source Path Configuration and CDS build
 
-The rest of this guide is targets IntelliJ Ultimate as your IDE. Nevertheless, the steps should be pretty similar for Visual Studio Code and SAP Business Application Studio.
+Your IDE might show inline errors indicating missing classes. This happens because the generated Java files are missing.
 
-<span id="inimportproject" />
+To resolve this, open your terminal and execute `mvn compile` in your project root directory. This action performs a full build of your project. It's necessary because, although the IDE can construct the correct class path based on the project's dependencies, it doesn't initiate the CDS build or subsequent code generation. This is covered as part of the `mvn compile` call.
 
-You can open the project by either running `idea .` from the project root or use the `File->Open...` menu.
+If you're using JetBrains' Intellij, you need to tell it to use the generated folder `srv/src/gen/java`. Do so by marking the directory as `Generated Sources Root`.  You can find this option in IntelliJ's project settings or by right-clicking on the folder and choosing `Mark Directory as`. By doing this, you ensure that the IntelliJ build includes the generated sources in the Java ClassPath.
 
-### Source Path Configuration and CDS build
+#### Run and Test the Application
 
-1. Open the internal terminal with `option+F12` (Windows: `alt+F12`) and type `mvn compile` to perform a full build of your project. This is needed because the IDE can build the right class path based on the dependencies of the project. But it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
+Once you've configured your application as described in the previous section, you can run your application in your IDE by starting the `main` method of your project's `Application.java`.
 
-2. In the project explorer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
-
-### Run and Test the Application
-
-1. Push `Ctrl` two times and type "Application". Double click the Application Spring Boot entry to start your CAP Java application.
-
-2. Call the application in your browser at [http://localhost:8080/](http://localhost:8080).
+Then open the application in your browser at [http://localhost:8080/](http://localhost:8080).
 
 ## Sample Application { #sample}
 

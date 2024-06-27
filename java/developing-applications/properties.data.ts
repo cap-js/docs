@@ -33,7 +33,7 @@ function massageProperties(properties: JavaSdkProperties[]): OurProperties[] {
     name: name.replaceAll(/<(index|key)>/g, '<i>&lt;$1&gt;</i>'),  // decorate special <key> and <index> names
     type,
     description: md2Html(doc),
-    defaultValue: defaultValue ? `<code>${defaultValue}</code>` : '',
+    defaultValue: defaultValue ? `<code class="no-bg">${defaultValue}</code>` : '',
     header,
     // @ts-ignore
     anchor: name.replaceAll('.', '-')

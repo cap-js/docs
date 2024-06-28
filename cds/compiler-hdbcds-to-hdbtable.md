@@ -6,13 +6,13 @@ redirect_from: releases/compiler-v2
 #status: internal
 ---
 
-# Moving from deploy format `hdbcds` to `hdbtable`
+# Moving from _.hdbcds_ to _.hdbtable_
 
 ::: info Not relevant for SAP HANA Cloud
 If you are already using SAP HANA Cloud, there is no SAP HANA CDS.
 :::
 
-The deploy format `hdbcds` for SAP HANA together with the function [`to.hdbcds`](../node.js/cds-compile#hdbcds) has been deprecated with @sap/cds-compiler@5 and @sap/cds@8. Users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step description for making the switch, including potential issues and workarounds, such as handling annotations `@sql.prepend/append` and dealing with associations.
+The deploy format `hdbcds` for SAP HANA together with the function [`to.hdbcds`](../node.js/cds-compile#hdbcds) have been deprecated with `@sap/cds-compiler@5` and `@sap/cds@8`. Users are advised to switch to the default format `hdbtable`. This guide provides step-by-step instructions for making the switch, including potential issues and workarounds, such as handling annotations `@sql.prepend/append` and dealing with associations.
 
 New CDS features will not be available for deploy format `hdbcds`, and it is going to be removed with one of the
 next major releases.
@@ -24,7 +24,7 @@ The resulting database tables and views are the same, independent of the deploy 
 
 ## Migration Procedure
 
-If your database deployment currently uses hdbcds, it's recommended to switch to the default format, hdbtable. This guide assumes you use @sap/cds@7 or higher. Make sure to read the entire guide before starting the migration process.
+If your database deployment currently uses `hdbcds`, it's recommended to switch to the default format, `hdbtable`. This guide assumes you use @sap/cds@7 or higher. Make sure to read the entire guide before starting the migration process.
 
 1. Ensure your current data model matches the deployed data model.
    <!-- **TBD** must it be exactly the same? Does it also work if the current model
@@ -34,7 +34,7 @@ If your database deployment currently uses hdbcds, it's recommended to switch to
    <!-- requires @sap/cds v7 -->
    <!-- this option is not documented, but mentioned in release notes and the changelog -->
 
-3. Add an entry to `db/undeploy.json` to undeploy the CAP-generated `.hdbcds` files:
+3. Add an entry to `db/undeploy.json` to undeploy the CAP-generated _.hdbcds_ files:
 
     ::: code-group
     
@@ -51,17 +51,17 @@ If your database deployment currently uses hdbcds, it's recommended to switch to
 4. Build and re-deploy your data model.
 
 
-By following these steps, the HDI's internal handover mechanism automatically transfers ownership of the tables to the hdbtable plugin. There are some caveats, however:
+By following these steps, the HDI's internal handover mechanism automatically transfers ownership of the tables to the `hdbtable` plugin. There are some caveats, however:
 
 * If you used annotations `@sql.append` or `sql.prepend`, your model very likely needs to be adapted manually
   before the  migration can be done. See the corresponding section below for more details.
-* In some scenarios, the generated hdbcds and hdbtable files do not allow a seamless switchover,
+* In some scenarios, the generated _.hdbcds_ and _.hdbtable_ files do not allow a seamless switchover,
   and a full migration is done for the respective tables.
   The scenarios we have identified so far are explained in separate sections below, for two of them there is a workaround.
 
 ::: info Full Table Migration
 
-If HDI detects a difference between the CREATE statement in a hdbtable file and the already deployed
+If HDI detects a difference between the CREATE statement in a _.hdbtable_ file and the already deployed
 version of a table, it creates a temporary shadow table based on the new structure and copies
 existing data into this shadow table.
 
@@ -73,28 +73,28 @@ If the table doesn't contain much data, this process won't significantly impact 
 ## Annotations
 
 Annotations [`@sql.append/prepend`](../guides/databases#sql-prepend-append) allow to
-add native SQL clauses to the generated .hdbtable files,
-or to add "native" HANA CDS clauses to the generated .hdbcds files, respectively.
+add native SQL clauses to the generated _.hdbtable_ files,
+or to add "native" HANA CDS clauses to the generated _.hdbcds_ files, respectively.
 
-If you have used these annotations in your model, a simple switchover from hdbcds to hdbtable
-very likely is not possible, as such an annotation written for hdbcds in general is not valid
-for hdbtable. You have to adapt your model prior to the migration.
+If you have used these annotations in your model, a simple switchover from `hdbcds` to `hdbtable`
+very likely is not possible, as such an annotation written for `hdbcds` in general is not valid
+for `hdbtable`. You have to adapt your model prior to the migration.
 
 As we don't know what clauses you have used, we cannot offer any further guidance here.
 
 
 ## Associations
 
-Associations cause issues in the .hdbcds to .hdbtable handover.
+Associations cause issues in the _.hdbcds_ to _.hdbtable_ handover.
 For each entity that has associations, the resulting table or view contains a `WITH ASSOCIATIONS` clause,
 representing native HANA associations.
 
-When deploying via hdbcds, associations in a CAP CDS entity are reflected by corresponding associations in
-the `hdbcds` file generated by the compiler. Upon deployment, the hdbcds plugin of HDI generates a `CREATE TABLE`
+When deploying via `hdbcds`, associations in a CAP CDS entity are reflected by corresponding associations in
+the _.hdbcds_ file generated by the compiler. Upon deployment, the `hdbcds` plugin of HDI generates a `CREATE TABLE`
 statement, where the associations are represented in a `WITH ASSOCIATIONS` clause.
-When deploying via hdbtable, the compiler directly writes the `CREATE TABLE` statements with the `WITH ASSOCIATIONS`
-clause into the generated `hdbtable` and `hdbview` files.
-These clauses slightly differ, which causes a full table migration when switching from hdbcds to hdbtable.
+When deploying via `hdbtable`, the compiler directly writes the `CREATE TABLE` statements with the `WITH ASSOCIATIONS`
+clause into the generated _.hdbtable_ and _.hdbview_ files.
+These clauses slightly differ, which causes a full table migration when switching from `hdbcds` to `hdbtable`.
 
 The CAP Java runtime and the CAP Nodejs runtime with the new SAP HANA service (`@cap-js/hana`, default in @sap/cds@8)
 don't need the `WITH ASSOCIATIONS` clause anymore. This allows us to avoid the full table migration by removing
@@ -115,8 +115,8 @@ sources as well as for the `WITH ASSOCIATIONS` found in the `hdbtable` sources):
 :::
 <!-- this option is available only with CDS 8 -->
 
-Then run a new build and deploy the newly generated `.hdbcds` files.
-In contrast to the hdbtable plugin, the hdbcds plugin is able to handle removal of the
+Then run a new build and deploy the newly generated _.hdbcds_ files.
+In contrast to the `hdbtable` plugin, the `hdbcds` plugin is able to handle removal of the
 native associations without a full table migration.
 The resulting database tables and views don't contain any `associations` anymore.
 
@@ -154,20 +154,20 @@ entity Employees {
 }
 ```
 
-When deploying via hdbcds, doc comments in a CAP CDS entity are reflected by corresponding `@Comment` annotations in
-the `hdbcds` file generated by the compiler. Upon deployment, the hdbcds plugin of HDI generates a `CREATE TABLE`
+When deploying via `hdbcds`, doc comments in a CAP CDS entity are reflected by corresponding `@Comment` annotations in
+the _.hdbcds_ file generated by the compiler. Upon deployment, the `hdbcds` plugin of HDI generates a `CREATE TABLE`
 statement, where the doc comments are represented by `COMMENT` clauses.
-When deploying via hdbtable, the compiler directly writes the `CREATE TABLE` statements with the `COMMENT`
-clauses into the generated `hdbtable` and `hdbview` files.
-These `COMMENT` clauses slightly differ, which causes a full table migration when switching from hdbcds to hdbtable.
+When deploying via `hdbtable`, the compiler directly writes the `CREATE TABLE` statements with the `COMMENT`
+clauses into the generated _.hdbtable_ and _.hdbview_ files.
+These `COMMENT` clauses slightly differ, which causes a full table migration when switching from `hdbcds` to `hdbtable`.
 
 If you don't actually need the comments in the database, you can remove them as a preparation step
-__before__ you do the hdbcds to hdbtable migration.
+__before__ you do the `hdbcds` to `hdbtable` migration.
 This is similar to the workaround described above for the `WITH ASSOCIATIONS` clause.
 
 ::: warn
 If you need the comments in the database, this workaround will not help,
-because switching them back on after moving to hdbtable will then result in a full table migration.
+because switching them back on after moving to `hdbtable` will then result in a full table migration.
 :::
 
 First disable the doc comments by adapting your `.cdsrc.json`:
@@ -181,10 +181,10 @@ First disable the doc comments by adapting your `.cdsrc.json`:
 ```
 :::
 
-Then run a new build and deploy the newly generated `.hdbcds` files.
-The `@Comment` annotations have vanished from the `hdbcds` files, thus
+Then run a new build and deploy the newly generated _.hdbcds_ files.
+The `@Comment` annotations have vanished from the _.hdbcds_ files, thus
 the resulting database tables and views don't contain the `COMMENT` clause anymore.
-In contrast to the hdbtable plugin, the hdbcds plugin is able to handle removal of the
+In contrast to the `hdbtable` plugin, the `hdbcds` plugin is able to handle removal of the
 `COMMENT`s without a full table migration.
 
 

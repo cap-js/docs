@@ -1,7 +1,7 @@
 ---
 shorty: Moving from .hdbcds to .hdbtable
 synopsis: >
-  This document describes the migration from .hdbcds-based HDI deployment to .hdbtable-based HDI deployment.
+The deploy format `hdbcds` for SAP HANA has been deprecated with @sap/cds-compiler@5 and @sap/cds@8, and users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step process for making the switch, including potential issues and workarounds, such as handling annotations `@sql.append` or `sql.prepend`, dealing with associations, multiline doc comments, and temporal data with time slice IDs.
 
 # layout: cds-ref
 redirect_from: releases/compiler-v2

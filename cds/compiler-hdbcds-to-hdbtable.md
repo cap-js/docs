@@ -106,7 +106,7 @@ When deploying via hdbtable, the compiler directly writes the `CREATE TABLE` sta
 clause into the generated `hdbtable` and `hdbview` files.
 These clauses slightly differ, which causes a full table migration when switching from hdbcds to hdbtable.
 
-The CAP Java runtime and the CAP Nodejs runtime with the new SAP HANA service (`@cap-js/hana`, default in CDS 8)
+The CAP Java runtime and the CAP Nodejs runtime with the new SAP HANA service (`@cap-js/hana`, default in @sap/cds@8)
 don't need the `WITH ASSOCIATIONS` clause anymore. This allows us to avoid the full table migration by removing
 the `associations` from the `hdbcds` sources __before__ the actual `hdbcds` to `hdbtable` migration.
 

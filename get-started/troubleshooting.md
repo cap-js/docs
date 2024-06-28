@@ -184,6 +184,14 @@ module.exports = cds.server
 | _Root Cause_ | In case the application has a service binding with the same name as the requested destination, the SAP Cloud SDK prioritized the service binding. This service of course does have different endpoints than the originally targeted remote service. For more information, please refer to the [SAP Cloud SDK documentation](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#referencing-destinations-by-name).
 | _Solution_ | Use different names for the service binding and the destination.
 
+### Why does my remote service call not work?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
+| _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
+
+
 ## Java
 
 ### How can I make sure that a user passes all authorization checks?

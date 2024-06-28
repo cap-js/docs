@@ -133,7 +133,7 @@ The resulting database tables and views don't contain any `associations` anymore
 ::: warning Requirements
 
 This workaround requires
-* CAP CDS 8,
+* @sap/cds@8,
 * that you use CAP Java or the CAP Nodejs runtime with the new HANA database service `@cap-js/hana`,
 * and that your custom coding doesn't use the native associations on the database.
 

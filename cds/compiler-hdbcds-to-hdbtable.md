@@ -1,26 +1,19 @@
 ---
 shorty: Moving from .hdbcds to .hdbtable
-synopsis: >
-The deploy format `hdbcds` for SAP HANA has been deprecated with @sap/cds-compiler@5 and @sap/cds@8.
-Users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step description
-for making the switch, including potential issues and workarounds, such as handling annotations `@sql.prepend/append`
-and dealing with associations.
 
 # layout: cds-ref
 redirect_from: releases/compiler-v2
-status: internal
+#status: internal
 ---
 
 # Moving from deploy format `hdbcds` to `hdbtable`
 
-{{ $frontmatter.synopsis }}
-
-::: info
-If you are using SAP HANA Cloud, you don't have to do anything, as there is no HANA CDS on SAP HANA Cloud.
+::: info Not relevant for SAP HANA Cloud
+If you are already using SAP HANA Cloud, there is no SAP HANA CDS.
 :::
 
-With @sap/cds-compiler@5 and @sap/cds@8, we have deprecated the deploy format `hdbcds` for SAP HANA,
-together with the function [`to.hdbcds`](../node.js/cds-compile#hdbcds).
+The deploy format `hdbcds` for SAP HANA together with the function [`to.hdbcds`](../node.js/cds-compile#hdbcds) has been deprecated with @sap/cds-compiler@5 and @sap/cds@8. Users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step description for making the switch, including potential issues and workarounds, such as handling annotations `@sql.prepend/append` and dealing with associations.
+
 New CDS features will not be available for deploy format `hdbcds`, and it is going to be removed with one of the
 next major releases.
 
@@ -29,38 +22,36 @@ The deploy format determines only the "medium" how your database model is brough
 The resulting database tables and views are the same, independent of the deploy format.
 :::
 
-In case your database deployment is still based on `hdbcds`, you should move to the default format `hdbtable`
-with the following 4 steps. This guide assumes you use @sap/cds@7 or higher.
-Please read the entire guide before starting the migration.
+## Migration Procedure
 
-1. Ensure your current data model is actually the deployed data model.
+If your database deployment currently uses hdbcds, it's recommended to switch to the default format, hdbtable. This guide assumes you use @sap/cds@7 or higher. Make sure to read the entire guide before starting the migration process.
+
+1. Ensure your current data model matches the deployed data model.
    <!-- **TBD** must it be exactly the same? Does it also work if the current model
                 is changed in comparison to the last deployed model. -->
 
-2. Switch the deploy format from `hdbcds` to the default `hdbtable` by removing option `cds.requires.db.deploy-format`
-   from your configuration file(s).
+2. Switch the deploy format from `hdbcds` to the default `hdbtable`. You can do this by removing option `cds.requires.db.deploy-format` from your configuration file(s).
    <!-- requires @sap/cds v7 -->
    <!-- this option is not documented, but mentioned in release notes and the changelog -->
 
 3. Add an entry to `db/undeploy.json` to undeploy the CAP-generated `.hdbcds` files:
 
-::: code-group
-
-```json [db/undeploy.json]
-[
-  ...,
-  "src/gen/**/*.hdbcds"
-]
-```
-:::
-
-<!-- **TODO** Without this entry, during HDI deployment you will get errors like ... -->
+    ::: code-group
+    
+    ```json [db/undeploy.json]
+    [
+      ...,
+      "src/gen/**/*.hdbcds"
+    ]
+    ```
+    :::
+    
+    <!-- **TODO** Without this entry, during HDI deployment you will get errors like ... -->
 
 4. Build and re-deploy your data model.
 
 
-There is a handover mechanism inside HDI that, when following the above steps, simply switches ownership of the tables
-to the hdbtable plugin. There are some caveats, however:
+By following these steps, the HDI's internal handover mechanism automatically transfers ownership of the tables to the hdbtable plugin. There are some caveats, however:
 
 * If you used annotations `@sql.append` or `sql.prepend`, your model very likely needs to be adapted manually
   before the  migration can be done. See the corresponding section below for more details.
@@ -74,13 +65,12 @@ If HDI detects a difference between the CREATE statement in a hdbtable file and 
 version of a table, it creates a temporary shadow table based on the new structure and copies
 existing data into this shadow table.
 
-If the table doesn't contain much data, that should not make that much of a difference.
-With huge amounts of data, you have to expect a longer and more resource intensive deployment.
+If the table doesn't contain much data, this process won't significantly impact the system. However, if the table contains a large amount of data, be prepared for a more time-consuming and resource-intensive deployment.
 
 :::
 
 
-## @sql.append and @sql.prepend
+## Annotations
 
 Annotations [`@sql.append/prepend`](../guides/databases#sql-prepend-append) allow to
 add native SQL clauses to the generated .hdbtable files,
@@ -93,7 +83,7 @@ for hdbtable. You have to adapt your model prior to the migration.
 As we don't know what clauses you have used, we cannot offer any further guidance here.
 
 
-## `WITH ASSOCIATIONS`
+## Associations
 
 Associations cause issues in the .hdbcds to .hdbtable handover.
 For each entity that has associations, the resulting table or view contains a `WITH ASSOCIATIONS` clause,

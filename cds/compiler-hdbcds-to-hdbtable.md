@@ -1,7 +1,10 @@
 ---
 shorty: Moving from .hdbcds to .hdbtable
 synopsis: >
-The deploy format `hdbcds` for SAP HANA has been deprecated with @sap/cds-compiler@5 and @sap/cds@8, and users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step process for making the switch, including potential issues and workarounds, such as handling annotations `@sql.append` or `sql.prepend`, dealing with associations, multiline doc comments, and temporal data with time slice IDs.
+The deploy format `hdbcds` for SAP HANA has been deprecated with @sap/cds-compiler@5 and @sap/cds@8.
+Users are advised to switch to the default format `hdbtable`. This guide provides a step-by-step description
+for making the switch, including potential issues and workarounds, such as handling annotations `@sql.prepend/append`
+and dealing with associations.
 
 # layout: cds-ref
 redirect_from: releases/compiler-v2
@@ -21,11 +24,14 @@ together with the function [`to.hdbcds`](../node.js/cds-compile#hdbcds).
 New CDS features will not be available for deploy format `hdbcds`, and it is going to be removed with one of the
 next major releases.
 
+::: info Deploy Format
+The deploy format determines only the "medium" how your database model is brought to the database.
+The resulting database tables and views are the same, independent of the deploy format.
+:::
+
 In case your database deployment is still based on `hdbcds`, you should move to the default format `hdbtable`
 with the following 4 steps. This guide assumes you use @sap/cds@7 or higher.
-
-Info: The deploy format determines only the "medium" how your database model is brought to the database.
-The resulting database tables and views are the same, independent of the deploy format.
+Please read the entire guide before starting the migration.
 
 1. Ensure your current data model is actually the deployed data model.
    <!-- **TBD** must it be exactly the same? Does it also work if the current model
@@ -169,6 +175,11 @@ If you don't actually need the comments in the database, you can remove them as 
 __before__ you do the hdbcds to hdbtable migration.
 This is similar to the workaround described above for the `WITH ASSOCIATIONS` clause.
 
+::: warn
+If you need the comments in the database, this workaround will not help,
+because switching them back on after moving to hdbtable will then result in a full table migration.
+:::
+
 First disable the doc comments by adapting your `.cdsrc.json`:
 ::: code-group
 ```json [cdsrc.json]
@@ -186,8 +197,6 @@ the resulting database tables and views don't contain the `COMMENT` clause anymo
 In contrast to the hdbtable plugin, the hdbcds plugin is able to handle removal of the
 `COMMENT`s without a full table migration.
 
-Note: If you need the comments in the database, this workaround will not help,
-because switching them back on after moving to hdbtable will then result in a full table migration.
 
 ## Temporal Data with Time Slice IDs
 

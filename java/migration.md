@@ -42,8 +42,8 @@ CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
 
 One of the effects of the production profile is that the index page is disabled by default.
-If you are using the root path `/` as readiness or liveness probe in Kyma you will need to make adjustments.
-It is recommended to use Spring Boot actuator's `/actuator/health` endpoint instead.
+If you are using the root path `/` for readiness or liveness probing in Kyma you will need to adjustment them, in this case
+it is recommended to use Spring Boot actuator's `/actuator/health` endpoint instead.
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
 
@@ -53,19 +53,19 @@ The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has 
 
 It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) instead of the deprecated [`spring-xsuaa` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
 
-If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you don't need to adapt code.
+If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you won't need to adapt code.
 
-If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend to adopt one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend using one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
 [Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
 ### Removed MTX Classic Support
 
-Support for classic MTX (@sap/cds-mtx) has been removed. For multitenancy using streamlined MTX (@sap/cds-mtxs) is mandatory.
-If you are still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
+If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
 
-In addition the deprecated `MtSubscriptionService` API, which has been superseeded by the `DeploymentService` API, has been removed.
+In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
 As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
 
 - During unsubscribe the tenant's content (e.g. HDI container) is now deleted by default when using the new `DeploymentService` API.
@@ -76,11 +76,11 @@ As part of this change the compatibility mode for the `MtSubscriptionService` AP
 ### Lazy Localization by default
 
 EDMX resources served by the OData V4 `/$metadata` endpoints are now localized lazily by default.
-This significantly reduces EDMX cache memory consumption in case many languages are used.
+This significantly reduces EDMX cache memory consumption when many languages are used.
 Note, that this requires at least `@sap/cds-mtxs` in version `1.12.0`.
 
 The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
-In case localized EDMX files are still required to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
+If you need localized EDMX files to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
 
 ### Star-expand and inline-all are no longer permitted
 
@@ -103,7 +103,7 @@ Some parameter defaults of the goal `generate` have been adjusted:
 | `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
 | `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
 
-Both changes are causing the generation of incompatible POJOs. The new defaults can be overwritten by setting the parameters to the old values to get the former POJOs.
+Both these changes result in the generation of incompatible POJOs. To get the former POJOs, the new defaults can be overwritten by setting the parameters to the old values.
 
 ### Adjusted Property Defaults
 
@@ -114,14 +114,14 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 | `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
-| `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Incomplete personal data annotations should result in an error by default. |
+| `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Raise errors for incomplete personal data annotations by default. |
 | `cds.messaging.services.<key>.structured` | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now enabled by default. |
 
 ### Adjusted Property Behavior
 
 | Property | New Behavior |
 | --- | --- |
-| `cds.outbox.persistent.enabled` | Disables all persistent outboxes independent of their specific configuration, if set to `false`. |
+| `cds.outbox.persistent.enabled` | When set to `false`, all persistent outboxes are disabled regardless of their specific configuration. |
 
 ### Deprecated Session Context Variables
 
@@ -196,7 +196,7 @@ The following table gives an overview about the removed properties:
 
 ### Removed goals in `cds-maven-plugin`
 
-The goal `addSample` is removed from the `cds-maven-plugin` and replaced with the goal `add` and property `-Dfeature=TINY_SAMPLE`.
+The goal `addSample` from the `cds-maven-plugin` has been removed. Use the new goal `add` with the property `-Dfeature=TINY_SAMPLE` instead.
 
 ### Proof-Of-Possession enforced for IAS-based authentication
 
@@ -208,7 +208,7 @@ Because of this, applications calling a CAP Java application will need to send a
 
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.7.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.7.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
 
 ```xml
 <dependency>

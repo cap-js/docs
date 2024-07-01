@@ -373,7 +373,7 @@ For specific steps to change the log level, please refer to the respective secti
 
 #### Transactional Outbox
 
-For each transactional outbox that persists its entries to the database, the following measurements are available:
+For each transactional outbox that persists its entries to the database, the following measurements are taken:
 
 | Measurement                                | Type    | Description                                                                                            |
 | ------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------ |

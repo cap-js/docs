@@ -75,14 +75,14 @@ Similarly, no specific log output configuration is required for local developmen
 All logs are written, that have a log level greater or equal to the configured log level of the corresponding logger object.
 The following log levels are available:
 
-| Level    | Use case
-| :--------| :--------
-| `OFF`    | Turns off the logger
-| `TRACE`  | Tracks the application flow only
-| `DEBUG`  | Shows diagnostic messages
-| `INFO`   | Shows important flows of the application (default level)
-| `WARN`   | Indicates potential error scenarios
-| `ERROR`  | Shows errors and exceptions
+| Level   | Use case                                                 |
+| :------ | :------------------------------------------------------- |
+| `OFF`   | Turns off the logger                                     |
+| `TRACE` | Tracks the application flow only                         |
+| `DEBUG` | Shows diagnostic messages                                |
+| `INFO`  | Shows important flows of the application (default level) |
+| `WARN`  | Indicates potential error scenarios                      |
+| `ERROR` | Shows errors and exceptions                              |
 
 With Spring Boot, there are different convenient ways to configure log levels in a development scenario, which is explained in the following section.
 
@@ -145,20 +145,20 @@ curl -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "DEBUG"
 
 CAP Java SDK has useful built-in loggers that help to track runtime behavior:
 
-| Logger                         | Use case
-| :------------------------------| :--------
-| `com.sap.cds.security.authentication`  | Logs authentication and user information
-| `com.sap.cds.security.authorization`  | Logs authorization decisions
-| `com.sap.cds.odata.v2`  | Logs OData V2 request handling in the adapter
-| `com.sap.cds.odata.v4`  | Logs OData V4 request handling in the adapter
-| `com.sap.cds.handlers`  | Logs sequence of executed handlers as well as the lifecycle of RequestContexts and ChangeSetContexts
-| `com.sap.cds.persistence.sql` | Logs executed queries such as CQN and SQL statements (w/o parameters)
-| `com.sap.cds.persistence.sql-tx` | Logs transactions, ChangeSetContexts, and connection pool
-| `com.sap.cds.multitenancy`  | Logs tenant-related events and sidecar communication
-| `com.sap.cds.messaging`  | Logs messaging configuration and messaging events
-| `com.sap.cds.remote.odata`  | Logs request handling for remote OData calls
-| `com.sap.cds.remote.wire`  | Logs communication of remote OData calls
-| `com.sap.cds.auditlog`  | Logs audit log events
+| Logger                                | Use case                                                                                             |
+| :------------------------------------ | :--------------------------------------------------------------------------------------------------- |
+| `com.sap.cds.security.authentication` | Logs authentication and user information                                                             |
+| `com.sap.cds.security.authorization`  | Logs authorization decisions                                                                         |
+| `com.sap.cds.odata.v2`                | Logs OData V2 request handling in the adapter                                                        |
+| `com.sap.cds.odata.v4`                | Logs OData V4 request handling in the adapter                                                        |
+| `com.sap.cds.handlers`                | Logs sequence of executed handlers as well as the lifecycle of RequestContexts and ChangeSetContexts |
+| `com.sap.cds.persistence.sql`         | Logs executed queries such as CQN and SQL statements (w/o parameters)                                |
+| `com.sap.cds.persistence.sql-tx`      | Logs transactions, ChangeSetContexts, and connection pool                                            |
+| `com.sap.cds.multitenancy`            | Logs tenant-related events and sidecar communication                                                 |
+| `com.sap.cds.messaging`               | Logs messaging configuration and messaging events                                                    |
+| `com.sap.cds.remote.odata`            | Logs request handling for remote OData calls                                                         |
+| `com.sap.cds.remote.wire`             | Logs communication of remote OData calls                                                             |
+| `com.sap.cds.auditlog`                | Logs audit log events                                                                                |
 
 Most of the loggers are used on DEBUG level by default as they produce quite some log output. It's convenient to control loggers on package level, for example, `com.sap.cds.security` covers all loggers that belong to this package (namely `com.sap.cds.security.authentication` and `com.sap.cds.security.authorization`).
 
@@ -274,7 +274,7 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
 
 The buildpack delivers the Open Telemetry Agent Extension library with the common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities.
 
-[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more} 
+[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more}
 
 For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
@@ -359,7 +359,7 @@ The following steps describe the required configuration:
 By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
 | Logger Name                                    | Required Level | Description                                                |
-|------------------------------------------------|----------------|------------------------------------------------------------|
+| ---------------------------------------------- | -------------- | ---------------------------------------------------------- |
 | `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
@@ -369,6 +369,31 @@ By default, instrumentations for CAP-specific components are disabled, so that n
 | `com.sap.cds.otel.span.Emit`                   | `DEBUG`        | Spans for dispatching events in the CAP runtime.           |
 
 For specific steps to change the log level, please refer to the respective section for [configuring logging](#logging-configuration).
+
+
+#### Transactional Outbox
+
+For each transactional outbox that persists its entries to the database, the following measurements are available:
+
+| Measurement                                | Type    | Description                                                                                            |
+| ------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------ |
+| `com.sap.cds.outbox.incomingMessages`      | Counter | Number of incoming messages of the outbox.                                                             |
+| `com.sap.cds.outbox.outgoingMessages`      | Counter | Number of outgoing messages of the outbox.                                                             |
+| `com.sap.cds.outbox.coldEntries`           | Gauge   | Number of entries that could not be delivered after repeated attempts and will not be retried anymore. |
+| `com.sap.cds.outbox.remainingEntries`      | Gauge   | Number of entries which are pending for delivery.                                                      |
+| `com.sap.cds.outbox.maxStorageTimeSeconds` | Gauge   | Maximum time in seconds an entry was residing in the outbox.                                           |
+| `com.sap.cds.outbox.medStorageTimeSeconds` | Gauge   | Median time in seconds of an entry stored in the outbox.                                               |
+| `com.sap.cds.outbox.minStorageTimeSeconds` | Gauge   | Minimal time in seconds an entry was stored in the outbox.                                             |
+
+The following attributes are logged per measurement of a transactional outbox.
+
+| Attribute           | Description                                                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cds.tenant`        | Tenant for which the measurement has been logged (only available if logged for subscriber tenants, never logged in a singletenant application). |
+| `cds.outbox.target` | Name of the outbox.                                                                                                                             |
+
+Measuring can be turned off per transactional outbox by setting the configuration `cds.outbox.services.<key>.observable` to `false`. This configuration is set to `true` by default.
+
 
 #### Custom Instrumentation
 
@@ -500,12 +525,12 @@ To add actuator support in your application, add the following dependency:
 
 The following table lists some of the available actuators that might be helpful to understand the internal status of the application:
 
-| Actuator    | Description
-| :--------| :--------
-| `metrics`    | Thread pools, connection pools, CPU, and memory usage of JVM and HTTP web server
-| `beans`    | Information about Spring beans created in the application
-| `env`    | Exposes the full Spring environment including application configuration
-| `loggers`    | List and modify application loggers
+| Actuator  | Description                                                                      |
+| :-------- | :------------------------------------------------------------------------------- |
+| `metrics` | Thread pools, connection pools, CPU, and memory usage of JVM and HTTP web server |
+| `beans`   | Information about Spring beans created in the application                        |
+| `env`     | Exposes the full Spring environment including application configuration          |
+| `loggers` | List and modify application loggers                                              |
 
 By default, nearly all actuators are active. You can switch off actuators individually in the configuration. The following configuration turns off `flyway` actuator:
 

@@ -29,7 +29,7 @@ jobs:
         GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
         GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 18.x
         cache: 'npm'

@@ -1,6 +1,11 @@
 # This files defines code ownership.
 
+# General content
 * @renejeglinsky @smahati
+
+# Infra
+.github/    @chgeo @swaldmann
+.vitepress/ @chgeo @swaldmann
 
 # allow dependencies updates through renovate w/o code owners
 package.json

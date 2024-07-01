@@ -79,14 +79,17 @@ In addition, you can access the current event context from wherever you are in y
 
 ### . http {.property}
 
-If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, you can now access express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects through this property. It is propagated from `cds.context` to all child requests, so `Request.http` is accessible in all handlers including your database service ones like so:
 
 ```js
 this.on ('*', req => {
   let { res } = req.http
+  res.set('Content-Type', 'text/plain')
   res.send('Hello!')
 })
 ```
+
+Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
 
 
 
@@ -104,8 +107,6 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 - a newly created UUID
 
 On outgoing HTTP messages, it's propagated as `x-correlation-id` header.
-
-For inbound [CloudEvents](https://cloudevents.io) messages, it's taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
 
 
 
@@ -243,17 +244,6 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 [Router]: https://expressjs.com/en/4x/api.html#router
 [routing]: https://expressjs.com/en/guide/routing.html
 [middleware]: https://expressjs.com/en/guide/using-middleware.html
-
-
-
-
-### . _  {.property}
-
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
-
-::: warning
-Please refrain from using internal properties of that object, that is, the ones starting with '_'. They might be removed in any future release without notice.
-:::
 
 
 
@@ -421,6 +411,11 @@ if (req.errors) //> get out somehow...
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.
 
+::: tip `target` property for UI5 OData model
+The `target` property is evaluated by the UI5 OData model and needs to be set according to [Server Messages in the OData V4 Model](https://ui5.sap.com/#/topic/fbe1cb5613cf4a40a841750bf813238e).
+:::
+
+
 ####  <i>  Using an Object as Argument </i>
 
 You can also pass an object as the sole argument, which then contains the properties `code`, `message`, `target`, and `args`. Additional properties are preserved until the error or message is sanitized for the client. In case of an error, the additional property `status` can be used to specify the HTTP status code of the response.
@@ -445,7 +440,7 @@ In production, errors should never disclose any internal information that could 
 Additionally, the OData protocol specifies which properties an error object may have. If a custom property shall reach the client, it must be prefixed with `@` to not be purged.
 
 
-### req. diff() <Badge type="warning" text="beta" title="This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases. " /> {.method}
+### req. diff() <Beta /> {.method}
 [`req.diff`]: #req-diff
 
 Use this asynchronous method to calculate the difference between the data on the database and the passed data (defaults to `req.data`, if not passed). Note that the usage of `req.diff` only makes sense in *before* handlers as they are run before the actual change was persisted on the database.

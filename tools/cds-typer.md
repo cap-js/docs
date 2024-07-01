@@ -49,7 +49,7 @@ The types emitted by the type generator are tightly integrated with the CDS API.
 Most CQL constructs have an overloaded signature to support passing in generated types. Chained calls will offer code completion related to the type you pass in.
 
 ```js
-// how you would have done it before (and can still do it)
+// previous approach (still valid, but prefer using reflected entities over string names)
 SELECT('Books')  // etc...
 
 // how you can do it using generated types
@@ -66,7 +66,7 @@ INSERT.into(Books, […])
 INSERT.into(Books).columns(['title', 'ID'])  // column names derived from Books' properties
 
 // DELETE
-DELETE(Books).byKey(42)
+DELETE.from(Books, 42)
 ```
 
 Note that your entities will expose additional capabilities in the context of CQL, such as the `.as(…)` method to specify an alias.
@@ -272,7 +272,7 @@ The CLI offers several parameters which you can list using the `--help` paramete
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
 
-> @cap-js/cds-typer@0.4.0 cli
+> @cap-js/cds-typer@0.22.0 cli
 > node lib/cli.js --help
 
 SYNOPSIS
@@ -284,6 +284,12 @@ SYNOPSIS
   to the (root) CDS file you want to compile.
 
 OPTIONS
+
+  --IEEE754Compatible: <true | false>
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
 
   --help
 
@@ -303,8 +309,8 @@ OPTIONS
     set it up to restrict property usage in types entities to
     existing properties only.
 
-  --logLevel: <TRACE | DEBUG | INFO | WARNING | ERROR | CRITICAL | NONE>
-    (default: NONE)
+  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
+    (default: ERROR)
 
     Minimum log level that is printed.
 
@@ -367,7 +373,7 @@ build-parameters:
 This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
-Type generation can be added to your project as [facet](../tools/#cds-init-add) via `cds add typer`.
+Type generation can be added to your project as [facet](../tools/cds-cli#cds-add) via `cds add typer`.
 
 ::: details Under the hood
 
@@ -470,7 +476,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions): 
+In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions):
 
 ```ts
 // ❌ works during design time, but will cause runtime errors

@@ -19,7 +19,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices).
 
 ## Concepts
 
@@ -280,7 +280,7 @@ This query selects from the items of the order 23.
 
 ```sql
 --CQL query
-SELECT from Orders[23].items
+SELECT from Orders[ID = 23]:items
 ```
 
 ```java
@@ -347,8 +347,6 @@ The path expression `b.author().name()` is automatically evaluated at runtime. F
 
 Use `expand` to read deeply structured documents and entity graphs into a structured result.
 
-<span id="indeepread" />
-
 ```java
 // Java example
 // using expand
@@ -358,8 +356,10 @@ Select.from(AUTHORS)
     .columns(a -> a.name().as("author"),
              a -> a.books().expand(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
+
+<span id="indeepread" />
 
 It expands the elements `title`, and `year` of the `Books` entity into a substructure with the name of the association `books`:
 
@@ -389,7 +389,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books()
                    .filter(b -> b.year().eq(1897))
-                   .expand(b -> b.title())
+                   .expand(b -> b.title()))
     .where(a -> name().in("Bram Stroker", "Edgar Allen Poe"));
 ```
 
@@ -415,7 +415,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().as("novels").expand(
                       b -> b.title(),
-                      b -> b.publisher().expand(p -> p.name()));
+                      b -> b.publisher().expand(p -> p.name())));
 ```
 
 Which returns a deeply structured result:
@@ -450,9 +450,13 @@ To expand all first level associations of an entity, use `expand()` on the entit
 Select.from(BOOKS).columns(b -> b.expand());
 ```
 
-::: warning
-Avoid using `distinct` in queries with expands. `Distinct` removes duplicate rows from the root entity and hence effectively aggregates rows. However, expanding child entities from aggregated rows is not well-defined. If you encounter errors using `distinct` in queries with expands, this can be resolved by removing `distinct`.
-::::
+::: warning Don't use distinct together with expand
+The `distinct` clause removes duplicate rows from the root entity and effectively aggregates rows. Expanding child entities from aggregated rows is not well-defined and can lead to issues that can be resolved by removing distinct.
+:::
+
+::: tip Resolving duplicates in to-many expands
+Duplicates in to-many expands can occur on associations that are mapped as many-to-many without using a [link entity](../../guides/domain-modeling#many-to-many-associations) and don't correctly define the source cardinality. This can be resolved by adding the cardinality in the CDS model: `Association [*,*] to Entity`.
+:::
 
 ##### Optimized Expand Execution {#expand-optimization}
 
@@ -470,7 +474,6 @@ For *to-many expands*:
 In case the default query optimization leads to issues, annotate the association with
 `@cds.java.expand: {using: 'parent-keys'}` to fall back to the unoptimized expand execution
 and make sure the parent entity has all key elements exposed.
-
 
 #### Flattened Results with `inline` {#inline}
 
@@ -494,7 +497,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().inline(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
 
 Both queries are equivalent and have the same result: a _flat_ structure:
@@ -667,7 +670,7 @@ The following example selects authors where count is higher than 2:
 
 ```java
 Select.from("bookshop.Authors")
-    .columns(c -> c.get("name")), c -> func("count", c.get("name")).as("count")
+    .columns(c -> c.get("name"), c -> func("count", c.get("name")).as("count"))
     .groupBy(c -> c.get("name"))
     .having(c -> func("count", c.get("name")).gt(2));
 ```
@@ -1007,6 +1010,10 @@ Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
 
+::: danger
+If key values are not contained in the data and no filter (`where`, `byId`, `matching`) is specified a [searched update](#searched-update) is performed, which updates _all_ entities with the given data.
+:::
+
 ### Update with Expressions {#update-expressions}
 
 The [data](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#data(java.util.Map)), [entry](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entry(java.util.Map)), and  [entries](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/Update.html#entries(java.lang.Iterable)) methods allow to specify the new values as plain Java values. In addition/alternatively you can use the `set` method to specify the new [value](#values) as a [CqnValue](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/cqn/CqnValue.html), which can even be an [arithmetic expression](#arithmetic-expressions). This allows, for example, to decrease the stock of Book 101 by 1:
@@ -1265,7 +1272,7 @@ Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).autho
 StructuredType<?> authors =
    CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+// SELECT from bookshop.Books[year = 2020]:author { name } // [!code focus]
 Select.from(authors).columns("name"); // [!code focus]
 ```
 
@@ -1299,7 +1306,7 @@ import static com.sap.cds.ql.CQL.val;
 
 Select.from(EMPLOYEE)
       .columns(e -> e.name())
-      .where(e -> val(50).gt(e.age());
+      .where(e -> val(50).gt(e.age()));
 ```
 
 Alternatively, the factory methods for comparison predicates directly accept Java values. The query could also be written as:
@@ -1649,7 +1656,7 @@ BETWEEN
 The [ETag predicate](query-execution#etag-predicate) specifies expected ETag values for [conflict detection](query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
 
 ```java
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
@@ -1660,7 +1667,7 @@ You can also use the `eTag` methods of the `CQL` interface to construct an ETag 
 ```java
 import static com.sap.cds.ql.CQL.*;
 
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(and(get("id").eq(85), eTag(expectedLastModification)));
@@ -1819,7 +1826,7 @@ As a general rule, consider regular expressions as a last resort. They are power
 In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
 
 ```java
-Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\\w*e$"));
 ```
 
 The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
@@ -1882,9 +1889,9 @@ import static spaceflight.Astronautics_.ASTRONAUTS;
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name())))
+      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name()))
     )
-  )
+  );
 ```
 
 This query selects all authors with the name of an astronaut.
@@ -1902,13 +1909,19 @@ CqnSelect subquery =
 Select.from("Authors").where(CQL.exists(subquery));
 ```
 
+> **Note:** Chaining `$outer` in nested subqueries is not supported.
+
+
+
 ## Parsing CQN
 
 [CQL](../../cds/cql) queries can also be constructed from a [CQN](../../cds/cqn) string<sup>*</sup>:
 
 ```java
-String cqnQuery = "{'SELECT': {'from': {'ref': ['my.bookshop.Books']},
-    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}";
+String cqnQuery = """
+    {'SELECT': {'from': {'ref': ['my.bookshop.Books']},
+    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}
+    """;
 CqnSelect query = Select.cqn(cqnQuery);
 ```
 
@@ -1933,16 +1946,16 @@ As opposed to fluent API it's possible to build the queries in a tree-style. Con
 
 ```java
 // CQL: SELECT from Books where year >= 2000 and year <= 2010
-
-                        AND
-                         |
-               +---------+---------+
-               |                   |
-               =>                 <=
-               |                   |
-          +----+----+         +----+----+
-          |         |         |         |
-        year       2000      year     2010
+//
+//                      AND
+//                       |
+//             +---------+---------+
+//             |                   |
+//             =>                 <=
+//             |                   |
+//        +----+----+         +----+----+
+//        |         |         |         |
+//      year       2000      year     2010
 
 import static com.sap.cds.ql.CQL.*;
 import com.sap.cds.sql.cqn.CqnComparisonPredicate;

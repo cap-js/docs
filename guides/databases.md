@@ -273,7 +273,7 @@ Use the properties [cds.dataSource.csv.*](../java/developing-applications/proper
 ---
 spring:
   config.activate.on-profile: test
-cds
+cds:
   dataSource.csv.paths:
   - test/data/**
 ```
@@ -756,7 +756,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author // [!code focus]
+  CONSTRAINT Books_author   -- constraint is explicitly named // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT

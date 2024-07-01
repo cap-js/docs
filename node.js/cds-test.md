@@ -104,8 +104,9 @@ Authorization: Basic alice:
 
 ### Using Jest or Mocha
 
- [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
-The `cds.test` library is designed to write tests that run with both, as in this sample:
+[*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
+
+The `cds.test` library is designed to allow you to write tests that can run with both. Here's an example:
 
 ```js
 describe('my test suite', ()=>{
@@ -120,14 +121,13 @@ describe('my test suite', ()=>{
   })
 })
 ```
+> To ensure that your tests run with both `jest` and `mocha`, start a test server with `cds.test(...)` inside a `describe` block of the test.
 
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
 
 ::: tip [All tests in *cap/samples*](https://github.com/sap-samples/cloud-cap-samples/blob/master/test) are written in that portable way. <br>
 Run them with `npm run jest` or with `npm run mocha`.
 :::
-
-
 
 ### Using Test Watchers
 
@@ -200,7 +200,7 @@ To write tests that run in [*Mocha*](https://mochajs.org) as well as in [*Jest*]
 :::warning Using `chai` requires these dependencies added to your project:
 
 ```sh
-npm add -D chai@4 chai-as-promised chai-subset jest
+npm add -D chai@4 chai-as-promised@7 chai-subset jest
 ```
 
 :::

@@ -25,18 +25,18 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 Run this to use SAP HANA Cloud for production:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/hana
 ```
 
 ::: details Using other SAP HANA drivers...
 
-Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
+Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
 
 :::
 
 ::: tip Prefer `cds add`
 
-... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
 
 :::
 
@@ -206,7 +206,7 @@ Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with
 Then in the project root folder, just execute:
 
 ```sh
-cds deploy --to hana --profile hybrid
+cds deploy --to hana
 ```
 
 > To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid`.
@@ -217,17 +217,46 @@ Behind the scenes, `cds deploy` does the following:
 * Generates _[.hdbtabledata](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-deployment-infrastructure-hdi-reference/table-data-hdbtabledata?)_ files for the [CSV files](databases#providing-initial-data) in the project. If a _[.hdbtabledata](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-deployment-infrastructure-hdi-reference/table-data-hdbtabledata?)_ file is already present next to the CSV files, no new file is generated.
 * Creates a Cloud Foundry service of type `hdi-shared`, which creates an HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
 * Starts `@sap/hdi-deploy` locally. If you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
-* Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
+* Stores the binding information with profile `hybrid` in the _.cdsrc-private.json_ file of your project. You can use a different profile with parameter `--for`. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
+
+Specify `--profile` when running `cds deploy` as follows:
+
+```sh
+cds deploy --to hana --profile hybrid
+```
+
+Based on these profile settings, `cds deploy` executes `cds build` and also resolves additionally binding information. If a corresponding binding exists, its service name and service key are used. The development profile is used by default.
 
 [Learn more about the deployment using HDI.](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/sap-hdi-deployer?){.learn-more}
 [Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
 
 If you run into issues, see the [Troubleshooting](../get-started/troubleshooting#hana) guide.
 
+#### Deploy Parameters
+
+When using the option `--to hana`, you can specify the service name and logon information in several ways.
+
+<br>
+
+`cds deploy --to hana`
+
+In this case the service name and service key either come from the environment variable `VCAP_SERVICES` or are defaulted from the project name, for example, `myproject-db` with `myproject-db-key`. Service instances and key either exist and will be used, or otherwise they're created.
+
+##### `cds deploy --to hana:myservice`
+
+This overwrites any information coming from environment variables. The service name `myservice` is used and the current Cloud Foundry client logon information is taken to connect to the system.
+
+##### `cds deploy --vcap-file someEnvFile.json`
+
+This takes the logon information and the service name from the `someEnvFile.json` file and overwrite any environment variable that is already set.
+
+##### `cds deploy --to hana:myservice --vcap-file someEnvFile.json`
+
+This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
+
 ### Using `cf deploy` or `cf push` { .impl .node }
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
-
 
 
 
@@ -237,37 +266,36 @@ The HANA Service provides dedicated support for native SAP HANA features as foll
 
 ### Vector Embeddings { #vector-embeddings }
 
-Vector embeddings are numerical representations that capture features and inherent semantics of unstructured data - such as text, images, or audio. They facilitate tasks like similarity search, recommendations, and Retrieval Augmented Generation (RAG). This improves the results of generative AI (GenAI) by augmenting prompts with relevant data retrieved from a vector datastore such as the [SAP HANA Cloud Vector Engine](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-s-vector-engine-announcement/ba-p/13577010).
+Vector embeddings are numerical representations that capture important features and semantics of unstructured data - such as text, images, or audio. This representation makes vector embeddings of similar data have high similarity and low distance to each other. These properties of vector embeddings facilitate tasks like similarity search, anomaly detection, recommendations and Retrieval Augmented Generation (RAG). Vector embeddings from a vector datastore such as the [SAP HANA Cloud Vector Engine](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-s-vector-engine-announcement/ba-p/13577010) can help get better generative AI (GenAI) results. This is achieved when the embeddings are used as context to the large language models (LLMs) prompts.
 
-Typically vector embeddings are computed using models tailored to a specific use case, like large language models (LLMs) for text, or convolutional neural networks (CNNs) for images. The dimensionality of the vector embedding space depends on the chosen model. Unified LLM consumption across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
+Typically vector embeddings are computed using an **embedding model**. The embedding model is specifically designed to capture important features and semantics of a specific type of data, it also determines the dimensionality of the vector embedding space. Unified consumption of embedding models and LLMs across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
 In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
 
 ```cds
 entity Books : cuid { // [!code focus]
   title         : String(111);
+  description   : LargeString;  // [!code focus]
   embedding     : Vector(1536); // vector space w/ 1536 dimensions // [!code focus]
 } // [!code focus]
 ```
 
-At runtime, you can use them in queries:
+At runtime, you can compute the similarity and distance of vectors in the SAP HANA vector store using the `cosineSimilarity` and `l2Distance` (Euclidean distance) functions in queries:
 
 ::: code-group
 ```js [Node.js]
 let embedding; // vector embedding as string '[0.3,0.7,0.1,...]';
 
-let relatedBooks = await SELECT.from('Books')
+let similarBooks = await SELECT.from('Books')
   .where`cosine_similarity(embedding, to_real_vector(${embedding})) > 0.9`
 ```
 
 ```java [Java]
 // Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
-float[] embedding = llm.embed(text).content().vector();
+float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
-CqnSelect query = Select.from(BOOKS).where(b -> 
-  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9))
-
-Result relatedBooks = service.run(query);
+Result similarBooks = service.run(Select.from(BOOKS).where(b ->
+  CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)));
 ```
 :::
 
@@ -596,7 +624,8 @@ By default, `cds add hana` creates an `undeploy.json` like this:
   "src/gen/**/*.hdbview",
   "src/gen/**/*.hdbindex",
   "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*_drafts.hdbtable"
+  "src/gen/**/*_drafts.hdbtable",
+  "src/gen/**/*.hdbcalculationview"
 ]
 ```
 

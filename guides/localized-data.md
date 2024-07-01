@@ -59,10 +59,6 @@ entity Books.texts {
 ```
 
 [See the definition of `sap.common.Locale`.](../cds/common#locale-type){ .learn-more}
-::: warning Note:
-The above shows the situation with CDS compiler v2. Former versions of the
-compiler generated an entity `Books_texts`.
-:::
 
 Second, the source entity is extended with associations to _Books.texts_:
 
@@ -122,13 +118,13 @@ The following view definitions preserve the `localized` association in the view,
 
 ```cds
 entity OpenBookView as select from Books {*}
-  excluding {price, currency};
+  excluding { price, currency };
 ```
 
 Include the `localized` association:
 
 ```cds
-entity ClosedBookView as select from Books {ID, title, descr, localized};
+entity ClosedBookView as select from Books { ID, title, descr, localized };
 ```
 
 
@@ -270,24 +266,34 @@ using { Books } from './books';
 service CatalogService {
   entity BooksList as projection on Books { ID, title, price };
   entity BooksDetails as projection on Books;
+  entity BooksShort as projection on Books { 
+    ID, price,
+    substr(title, 0, 10) as title : localized String(10), 
+  };
 }
 ```
 
 ### `localized.` Helper Views
 
-For each exposed entity in a service definition, and all intermediate views, a corresponding `localized.` entity is created. It has the same query clauses and all annotations, except for the `from` clause being redirected to the underlying entity's `localized.` counterpart.
+For each exposed entity in a service definition, and all intermediate views, a corresponding `localized.` entity is created. It has the same query clauses and all annotations, except for the `from` clause being redirected to the underlying entity's `localized.` counterpart.  A helper view is only created if the corresponding entity contains at least one element with a `localized` property, or it exposes an association to an entity that is localized.  You may need to cast an element if that property is not propagated, e.g. for expressions such as in `CatalogService.BooksShort`.
 
 ```cds
 using { localized.Books } from './books_localized';
 
 entity localized.CatalogService.BooksList as
-SELECT from localized.Books { ID, title, price };
+  SELECT from localized.Books { ID, title, price };
 
 entity localized.CatalogService.BooksDetails as
-SELECT from localized.Books;
+  SELECT from localized.Books;
+  
+entity localized.CatalogService.BooksShort as
+    SELECT from localized.Books { ID, price,
+        substr(title, 0, 10) as title : localized String(10),
+    };
 ```
 ::: warning Note:
-In contrast to former versions, with CDS compiler v2 we don't add such entities to CSN anymore but only on generated SQL DDL output. Note that these `localized.` entities also aren't exposed through OData.
+Note that these `localized.` entities are not part of CSN and aren't exposed through OData.
+They are only generated for SQL.
 :::
 
 ### Read Operations

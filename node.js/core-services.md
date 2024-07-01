@@ -183,7 +183,7 @@ class BooksService extends cds.ApplicationService {
   init() {
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
-    this.after ('READ', Books, req => {...})
+    this.after ('READ', Books, books => {...})
     this.on ('submitOrder', req => {...})
     return super.init()
   }
@@ -237,7 +237,7 @@ exports['foo.bar.Foo'] = class Foo {...}
 exports['foo.bar.Boo'] = class Bar {...}
 ```
 
-The exports' names must **match the servce definitions' fully-qualified names**.
+The exports' names must **match the fully-qualified names of the service definitions**.
 
 :::
 
@@ -306,7 +306,7 @@ await srv.emit ('OrderedBooks', {
 
 ::: tip Prefer Platform-Agnostic APIs
 
-REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extend. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
+REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extent. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
 
 :::
 
@@ -381,7 +381,7 @@ var srv.model      : LinkedCSN
 var srv.definition : LinkedCSN service definition
 ```
 - `model`, a [`LinkedCSN`](cds-reflect#linked-csn), is the CDS model from which this service was constructed
-- `definiton`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed
+- `definition`, a [`LinkedCSN` definition](cds-reflect#any) from which this service was constructed
 
 
 
@@ -438,7 +438,7 @@ class BooksService extends cds.ApplicationService {
   init(){
     const { Books, Authors } = this.entities
     this.before ('READ', Authors, req => {...})
-    this.after ('READ', Books, req => {...})
+    this.after ('READ', Books, books => {...})
     this.on ('submitOrder', req => {...})
     return super.init()
   }
@@ -777,7 +777,7 @@ this.on ('error', (err, req) => {
 })
 ```
 
-Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, i.e., **not `async`**, not returning Promises.
+Error handlers are invoked whenever an error occurs during event processing of *all* potential events and requests, and are used to augment or modify error messages, before they go out to clients. They are expected to be a sync function, that is, **not `async`**, not returning Promises.
 
 
 
@@ -1046,7 +1046,7 @@ All matching `.before`, `.on`, and `.after` handlers are executed in correspondi
   -  ***concurrently*** for instances of `cds.Event`
 - **`after`** handlers are always executed *concurrently*
 
-In effect, for asynchronous event messages, i.e., instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, i.e., instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
+In effect, for asynchronous event messages, that is, instances of `cds.Event`, sent via [`srv.emit()`](#srv-emit-event), all registered `.on` handlers are always executed. In contrast to that, for synchronous resuests, that is, instances of `cds.Requests`  this is up to the individual handlers calling `next()`. See [`srv.on(request)`](#interceptor-stack-with-next) for an example.
 
 
 <!-- ## Streaming API {#srv-stream } -->

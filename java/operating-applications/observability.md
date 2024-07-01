@@ -385,14 +385,14 @@ For each transactional outbox that persists its entries to the database, the fol
 | `com.sap.cds.outbox.medStorageTimeSeconds` | Gauge   | Median time in seconds of an entry stored in the outbox.                                               |
 | `com.sap.cds.outbox.minStorageTimeSeconds` | Gauge   | Minimal time in seconds an entry was stored in the outbox.                                             |
 
-The following attributes are logged per measurement of a transactional outbox.
+The following attributes are set per measurement:
 
 | Attribute           | Description                                                                                                                                     |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | `cds.tenant`        | Tenant for which the measurement has been logged (only available if logged for subscriber tenants, never logged in a singletenant application). |
 | `cds.outbox.target` | Name of the outbox.                                                                                                                             |
 
-Measuring can be turned off per transactional outbox by setting the configuration `cds.outbox.services.<key>.observable` to `false`. This configuration is set to `true` by default.
+Measurement can be turned off per transactional outbox by setting the configuration `cds.outbox.services.<key>.observable` to `false` (default: `true`).
 
 
 #### Custom Instrumentation

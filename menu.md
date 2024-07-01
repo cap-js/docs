@@ -9,6 +9,7 @@
 - [Sample Projects](get-started/samples)
 - [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
+- [Features Overview](about/features)
 
 ### [Cookbook](guides/)
 

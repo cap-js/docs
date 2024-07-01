@@ -274,7 +274,7 @@ So, let's go on feeding it with two service definitions for different use cases:
 
 An `AdminService` for administrators to maintain `Books` and `Authors`.
 
-A `CatalogService` for end users to browse and order `Books`.
+A `CatalogService` for end users to browse and order `Books` under path `/browse`.
 
 To do so, create the following two files in folder _./srv_ and fill them with this content:
 
@@ -598,10 +598,10 @@ In Node.js, the easiest way to provide implementations for services is through e
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
 
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
-public class CatalogHandler implements EventHandler {
+public class CatalogServiceHandler implements EventHandler {
   // your custom code will go here
 }
 ```
@@ -645,7 +645,7 @@ module.exports = function (){
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
 @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
 	public void addDiscountIfApplicable(List<Books> books) {
 		for (Books book : books) {
@@ -659,7 +659,7 @@ Now that you have created the classes for your custom handlers it's time to add 
 
 :::details Code including imports
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
+```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
 package customer.bookshop.handlers;
 
 import java.util.List;
@@ -677,7 +677,7 @@ import cds.gen.catalogservice.CatalogService_;
 
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
-public class CatalogHandler implements EventHandler {
+public class CatalogServiceHandler implements EventHandler {
 	@After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
 	public void addDiscountIfApplicable(List<Books> books) {
 		for (Books book : books) {

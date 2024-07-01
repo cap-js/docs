@@ -259,8 +259,7 @@ Moreover, technical [MTXs CAP services](../multitenancy/mtxs) may be configured,
 | [cds.xt.ModelProviderService](../multitenancy/mtxs#modelproviderservice) | `/-/cds/model-provider/**` | Internal, technical user<sup>1</sup>
 | [cds.xt.DeploymentService](../multitenancy/mtxs#deploymentservice) | `/-/cds/deployment/**` | | Internal, technical user<sup>1</sup>, or technical role `cds.Subscriber`
 | [cds.xt.SaasProvisioningService](../multitenancy/mtxs#saasprovisioningservice) | `/-/cds/saas-provisioning/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.Subscriber` resp. `mtcallback`
-| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper` resp. `cds.UIFlexDeveloper`
-
+| [cds.xt.ExtensibilityService](../multitenancy/mtxs#extensibilityservice) | `/-/cds/extensibility/**` | Internal, technical user<sup>1</sup>, or technical roles `cds.ExtensionDeveloper`
 > <sup>1</sup> The microservice running the MTXS CAP service needs to be deployed to the [application zone](./overview#application-zone)
 and hence has established trust with the CAP application client, for instance given by shared XSUAA instance.
 
@@ -396,8 +395,8 @@ Be aware that injections are still possible even via CQL when the query structur
 <div class="impl java">
 
 ```java
-String entity = <from user input>;
-String column = <from user input>;
+String entity = ...; // from user input;
+String column = ...; // from user input;
 validate(entity, column); // validate entity and column, e.g. compare with positive list
 Select.from(entity).columns(b -> b.get(column));
 ```

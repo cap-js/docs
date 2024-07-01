@@ -128,7 +128,7 @@ The `RequestContextRunner` API offers convenience methods that allow an easy tra
 | Method               | Description                                                                                                                          |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | systemUserProvider() | Switches to a technical user targeting the provider account.                                                                         |
-| systemUser()         | Switches to a technical user and preserves the tenant from the current `UserInfo` (for example down grade of a named user Request Context). |
+| systemUser()         | Switches to a technical user and preserves the tenant from the current `UserInfo` (for example downgrade of a named user Request Context). |
 | systemUser(tenant)   | Switches to a technical user targeting a given subscriber account.                                                                   |
 | anonymousUser()      | Switches to an anonymous user.                                                                                                       |
 | privilegedUser()     | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
@@ -181,7 +181,8 @@ The application is using a job scheduler that needs to regularly perform tasks o
 
 ```java
 runtime.requestContext().systemUser(tenant).run(reqContext -> {
-    return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
+    return persistenceService.run(Select.from(Books_.class))
+        .listOf(Books.class);
 });
 ```
 ## Modifying Request Contexts { #modifying-requestcontext}
@@ -193,7 +194,8 @@ List<Books> readBooksNotLocalized(EventContext context) {
   return context.getCdsRuntime().requestContext()
     .modifyParameters(param -> param.setLocale(null))
     .run(newContext -> {
-      return persistenceService.run(Select.from(Books_.class)).listOf(Books.class);
+      return persistenceService.run(Select.from(Books_.class))
+        .listOf(Books.class);
     });
 }
 ```

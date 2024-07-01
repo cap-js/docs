@@ -171,7 +171,8 @@ If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-c
 You can also explicitly [configure the connection data](../java/cqn-services/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: postgres-docker
   datasource:
@@ -180,6 +181,7 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 ```
+:::
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 

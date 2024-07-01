@@ -70,7 +70,7 @@ CAP Java positions [Spring](https://spring.io) or more precisely [Spring Boot](h
 Spring comes as a rich set of industry-proven frameworks, libraries, and tools that greatly simplify custom development.
 Spring Boot also allows the creation of self-contained applications that are easy to configure and run.
 
-As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, thus you aren't obligated to build on Spring.
+As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, you aren't obligated to build on Spring.
 In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies.
 In this case, a solution based on plain Java Servlets could be favorable.
 Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
@@ -141,7 +141,7 @@ Find a full list of standard plugins in [Standard Modules](#standard-modules).
 ### Module Dependencies
 
 All CAP Java modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds).
-They've `groupId` `com.sap.cds`.
+They have `groupId` `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds.
 It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
 

@@ -37,7 +37,7 @@ If no such error status is set when creating the ServiceException, it defaults t
 // default error status
 throw new ServiceException("An internal server error occurred", originalException);
 // specifying an error status
-throw new ServiceException(ErrorStatuses.CONFLICT, "Not enough stock available")
+throw new ServiceException(ErrorStatuses.CONFLICT, "Not enough stock available");
 // specifying an error status and the original exception
 throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No book title specified", originalException);
 ```
@@ -189,7 +189,8 @@ service CatalogService {
         createdBy,
         modifiedBy
     } actions {
-        action addReview(reviewer : Reviewer, rating : Integer, title : String, text : String) returns Reviews;
+        action addReview(reviewer : Reviewer, rating : Integer,
+          title : String, text : String) returns Reviews;
     };
 }
 ```
@@ -353,7 +354,9 @@ public class SimpleExceptionHandler implements EventHandler {
   @After
   public void overrideMissingAuthMessage(ErrorResponseEventContext context) {
     if (context.getException().getErrorStatus().equals(CdsErrorStatuses.EVENT_FORBIDDEN)) {
-        context.getResult().getMessages().set(0, Message.create(Severity.ERROR, "You cannot execute this action"));
+        context.getResult().getMessages().set(0,
+            Message.create(Message.Severity.ERROR, 
+            "You cannot execute this action"));
     }
   }
 }

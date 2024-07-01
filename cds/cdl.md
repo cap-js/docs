@@ -568,7 +568,20 @@ entity UsingView ( bar: Boolean )
 as SELECT * from SomeView(foo: 17, bar: :bar);
 ```
 
-**TODO** add links to how to write queries on views w/ parameters in the runtimes.
+For Node.js, there's no programmatic API yet. You need to provide a [CQN snippet](/cds/cqn#select).
+
+In CAP Java, run a select statement against the view with named [parameter values](/java/working-with-cql/query-execution#querying-views):
+
+::: code-group
+```js [Node]
+SELECT.from({ id: 'UsingView'. args: { bar: { val: true }}})
+```
+```Java [Java]
+var params = Map.of("bar", true);
+Result result = service.run(Select.from("UsingView"), params);
+```
+:::
+
 
 [Learn more about how to expose views with parameters in **Services - Exposed Entities**.](#exposed-entities){ .learn-more}
 [Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.](../advanced/hana){ .learn-more}

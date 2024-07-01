@@ -52,7 +52,11 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, which can be executed from the command line by using Maven:
 
 ```sh
+# from your root directory
 mvn com.sap.cds:cds-maven-plugin:watch
+# or your srv/ folder
+cd srv
+mvn cds:watch
 ```
 
 It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.

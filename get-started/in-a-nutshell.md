@@ -595,7 +595,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl java">
 
-In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
+In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
 
 ::: code-group
 ```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
@@ -745,12 +745,13 @@ public class SubmitOrderHandler implements EventHandler {
 		this.persistenceService = persistenceService;
 	}
 
-	@On()
+	@On
 	public void onSubmitOrder(SubmitOrderContext context) {
 		Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
 		Books book = persistenceService.run(byId).single().as(Books.class);
-    if (context.getQuantity() > book.getStock())
-            throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+		if (context.getQuantity() > book.getStock())
+			throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+
 		book.setStock(book.getStock() - context.getQuantity());
 
 		persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
@@ -790,7 +791,7 @@ public class SubmitOrderHandler implements EventHandler {
         this.persistenceService = persistenceService;
     }
 
-    @On()
+    @On
     public void onSubmitOrder(SubmitOrderContext context) {
         Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
         Books book = persistenceService.run(byId).single().as(Books.class);

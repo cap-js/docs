@@ -277,7 +277,8 @@ The `@odata.etag` annotation indicates to the OData protocol adapter that the va
 ```cds
 entity Order : cuid {
     @odata.etag
-    @cds.on.update : $now @cds.on.insert : $now
+    @cds.on.update : $now
+    @cds.on.insert : $now
     modifiedAt : Timestamp;
     product : Association to Product;
 }

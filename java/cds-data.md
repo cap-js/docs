@@ -529,7 +529,7 @@ interface Equity {
 In CDS models it is allowed to extend a definition (for example, of an entity) with one or more named [aspects](../cds/cdl#aspects). The aspect allows to define elements or annotations that are common to all extending definitions in one place.
 
 This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
-The `@cds.java.extends` annotation can contain an array of string values, each of which denoting the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
+The `@cds.java.extends` annotation can contain an array of string values, each of which denote the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
 
 ```cds
 using { temporal } from '@sap/cds/common';
@@ -541,7 +541,7 @@ entity AuthorManager : temporal {
 }
 ```
 
-The accessor interface generated for the `AuthorManager` entity is as shown in the following sample:
+The accessor interface generated for the `AuthorManager` entity is shown in the following sample:
 
 ```java
 import com.sap.cds.CdsData;
@@ -615,7 +615,7 @@ If the entity has a single key, the generated interface has an additional static
 ```java
 Book book = Books.create("9780141439846");
 
-String id = book.getId(); // id: 9780141439846
+String id = book.getId(); // id: "9780141439846"
 ```
 
 For entities that have more than one key, for example, for draft-enabled entities, the additional `create` method isn't generated and only the default one is available.

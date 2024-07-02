@@ -20,11 +20,8 @@ The underlying framework has a major impact on the security of the application,
 regardless of whether it runs a [cloud](#cloud) environment or [local](#local) environment.
 Moreover, CAP applications are tightly integrated with [platform services](#btp-services), in particular with identity and persistence service.
 
-End-to-end security necessarily requires compliance with all security policies of all involved components.
-
-::: warning
-❗ **CAP application security requires consistent security configuration of the underlying platform and all consumed services**.
-Consult the relevant security documentation accordingly.
+::: warning End-to-end security necessarily requires compliance with all security policies of all involved components.
+CAP application security requires consistent security configuration of the underlying platform and all consumed services. Consult the relevant security documentation accordingly.
 :::
 
 ### CAP in Cloud Environment { #cloud }
@@ -36,17 +33,17 @@ Currently, CAP supports to run on two cloud runtimes of [SAP Business Technology
 
 Application providers are responsible to ensure a **secure platform environment**.
 In particular, this includes *configuring* [platform services](#btp-services) the application consumes.
-For instance, the provider (user) administrator needs to configure the [identity service](#identity-service) to separate platform users from business users that come from different identity provider.
-Likewise login policies (e.g. multifactor authentication or single-sign-on) need to be aligned with company-specific requirements.
+For instance, the provider (user) administrator needs to configure the [identity service](#identity-service) to separate platform users from business users that come from different identity providers.
+Likewise login policies (for example, multifactor authentication or single-sign-on) need to be aligned with company-specific requirements.
 
-Note that achieving production-ready security requires to meet all relevant aspects of the **development process** as well.
+Note, that achieving production-ready security requires to meet all relevant aspects of the **development process** as well.
 For instance, source code repositories need to be protected and may not contain any secrets or personal data.
-Likewise, **deployment process** needs to be secured. That includes not only setting up CI/CD pipelines running on technical platform users, but also defining integration tests to ensure properly secured application endpoints.
+Likewise, the **deployment process** needs to be secured. That includes not only setting up CI/CD pipelines running on technical platform users, but also defining integration tests to ensure properly secured application endpoints.
 
-As part of **secure operations**, application providers need to establish a patch and vulnerability management as well as a secure support process. Component versions need to be updated and credentials need to be rotated regularly, for instance.
+As part of **secure operations**, application providers need to establish a patch and vulnerability management, as well as a secure support process. For example, component versions need to be updated and credentials need to be rotated regularly.
 
 ::: warning
-❗ The application provider is responsible to **develop, deploy, and operate the application in a secure platform environment**.
+The application provider is responsible to **develop, deploy, and operate the application in a secure platform environment**.
 CAP offers seamless integration into platform services and tools to help to meet these requirements.
 :::
 

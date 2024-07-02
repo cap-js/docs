@@ -291,7 +291,7 @@ let similarBooks = await SELECT.from('Books')
 ```
 
 ```java [Java]
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 Result similarBooks = service.run(Select.from(BOOKS).where(b ->

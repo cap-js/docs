@@ -24,6 +24,8 @@ status: released
 
 # Serving OData APIs
 
+[[toc]]
+
 ## Feature Overview { #overview}
 
 OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
@@ -1201,12 +1203,14 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
+The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+
+Example 1:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
 ```
-or
+Example 2:
 
 ```json
 {"title": "Tow Sawyer",
@@ -1226,7 +1230,7 @@ service CatalogService {
   type Book {} // [!code focus]
 }
 ```
-Following payload for `Order` is allowed:
+The following payload for `Order` is allowed:
 
 `{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
 

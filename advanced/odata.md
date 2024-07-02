@@ -1236,11 +1236,6 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
 :::
 
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
-:::
-
 ### Java Type Mapping
 
 #### Simple Types

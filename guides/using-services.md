@@ -617,15 +617,16 @@ CAP automatically tries to delegate queries to database entities, which don't ex
 
 ```xml
 <error xmlns="https://docs.oasis-open.org/odata/ns/metadata">
-<code>500</code>
-<message>SQLITE_ERROR: no such table: RiskService_BusinessPartners in: SELECT BusinessPartner, Customer, Supplier, AcademicTitle, AuthorizationGroup, BusinessPartnerCategory, BusinessPartnerFullName, BusinessPartnerGrouping, BusinessPartnerName, BusinessPartnerUUID, CorrespondenceLanguage, CreatedByUser, CreationDate, (...)  FROM RiskService_BusinessPartner ALIAS_1 ORDER BY BusinessPartner COLLATE NOCASE ASC LIMIT 11</message>
+  <code>500</code>
+  <message>SQLITE_ERROR: no such table: RiskService_BusinessPartners in: SELECT BusinessPartner, Customer, Supplier, AcademicTitle, AuthorizationGroup, BusinessPartnerCategory, BusinessPartnerFullName, BusinessPartnerGrouping, BusinessPartnerName, BusinessPartnerUUID, CorrespondenceLanguage, CreatedByUser, CreationDate, (...)  FROM RiskService_BusinessPartner ALIAS_1 ORDER BY BusinessPartner COLLATE NOCASE ASC LIMIT 11</message>
 </error>
 ```
 
 To avoid this error, you need to handle projections. Write a handler function to delegate a query to the remote service and run the incoming query on the external service.
 
-::: code-group
-```js [Node.js]
+<div class="impl node">
+
+```js
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 
@@ -635,7 +636,14 @@ module.exports = cds.service.impl(async function() {
 });
 ```
 
-```java [Java]
+[For Node.js, get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
+
+</div>
+
+
+<div class="impl java">
+
+```java
 @Component
 @ServiceName(RiskService_.CDS_NAME)
 public class RiskServiceHandler implements EventHandler {
@@ -650,9 +658,7 @@ public class RiskServiceHandler implements EventHandler {
 }
 ```
 
-:::
-
-[For Node.js, get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
+</div>
 
 
 ::: warning

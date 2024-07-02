@@ -368,7 +368,7 @@ In [VS Code](./cds-editors#vscode), use the command _Generate HTTP Requests_ to 
 
 By default, an authorization header with a [local mock user](../node.js/authentication#mock-users) is written to the `http` file, and `localhost` is the target host.
 
-```http [Node.js]
+```http
 @server = http://localhost:4004
 @auth = Authorization: Basic alice:
 
@@ -383,7 +383,7 @@ GET {{server}}/odata/v4/admin/Books
 
 By default, an authorization header with a [local mock user](../java/security#mock-users) is written to the `http` file, and `localhost` is the target host.
 
-```http [Java]
+```http
 @server = http://localhost:8080
 
 ### CatalogService.Books

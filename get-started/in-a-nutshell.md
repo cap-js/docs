@@ -60,17 +60,23 @@ This guide is a step-by-step walkthrough to build a CAP application, using a min
 
 The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
 
-::: code-group
+<div class="impl node">
 
-```sh [Node.js]
+```sh
 git clone https://github.com/sap-samples/cloud-cap-samples samples
 cd samples
 npm install
 ```
 
+</div>
+
+<div class="impl java">
+
 ```sh [Java]
 git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 ```
+
+</div>
 
 Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
 
@@ -95,7 +101,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    <div class="impl node">
 
-   ```sh [Node.js]
+   ```sh
    cds init bookshop
    ```
 
@@ -103,10 +109,9 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    <div class="impl java">
 
-   ```sh [Java]
+   ```sh
    cds init bookshop --add java
    ```
-   
 
    </div>
 
@@ -126,7 +131,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    <div class="impl node">
 
-   ```sh [Node.js]
+   ```sh
    cds watch
    ```
 
@@ -134,7 +139,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    <div class="impl java">
 
-   ```sh [Java]
+   ```sh
    cd srv && mvn cds:watch
    ```
 

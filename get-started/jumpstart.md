@@ -96,16 +96,22 @@ In addition we recommend installing these VS Code Extensions:
 
 Assumed we want to create a project named *bookshop*, we'd do so like this:
 
-::: code-group
+<div class="impl node">
 
-```sh [Node.js]
+```sh
 cds init bookshop
 ```
-```sh [Java]
+
+</div>
+
+
+<div class="impl java">
+
+```sh
 cds init bookshop --add java
 ```
 
-:::
+</div>
 
 Then open it in Visual Studio Code:
 
@@ -168,17 +174,22 @@ We recommend to stay with CAP's conventions to benefit from things just working 
 
 After having created a project we can immediately start a live server by running this in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics) in Visual Studio Code:
 
-::: code-group
+<div class="impl node">
 
-```sh [Node.js]
+```sh
 cds watch
 ```
 
-```sh [Java]
+</div>
+
+<div class="impl java">
+
+```sh
 cd srv && mvn cds:watch
 ```
 
-:::
+</div>
+
 
 ::: details From the log output we see  `cds watch` is waiting for things to come...
 

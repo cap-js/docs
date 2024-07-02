@@ -282,22 +282,28 @@ entity Books : cuid { // [!code focus]
 
 At runtime, you can compute the similarity and distance of vectors in the SAP HANA vector store using the `cosineSimilarity` and `l2Distance` (Euclidean distance) functions in queries:
 
-::: code-group
-```js [Node.js]
+<div class="impl node">
+
+```js
 let embedding; // vector embedding as string '[0.3,0.7,0.1,...]';
 
 let similarBooks = await SELECT.from('Books')
   .where`cosine_similarity(embedding, to_real_vector(${embedding})) > 0.9`
 ```
 
-```java [Java]
+</div>
+
+<div class="impl java">
+
+```java
 // Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 Result similarBooks = service.run(Select.from(BOOKS).where(b ->
   CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)));
 ```
-:::
+
+</div>
 
 [Learn more about Vector Embeddings in CAP Java](../java/cds-data#vector-embeddings) {.learn-more}
 

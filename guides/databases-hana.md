@@ -648,5 +648,5 @@ If you need to remove deployed CSV files, also add this entry:
 
 ### SAP HANA Cloud System Limits
 
-All limitations for the SAP HANA Cloud database can be found [here](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC)
+All limitations for the SAP HANA Cloud database can be found in the [SAP Help Portal](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC).
 

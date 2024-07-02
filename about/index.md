@@ -396,7 +396,7 @@ cds.service.impl (function(){
 
 
 // Emitting Events
-// e.g. in this.on ('cancelOrder', ...)
+// in this.on ('cancelOrder', ...)
 let { ID } = req.data
 this.emit ('orderCancelled', {ID})
 

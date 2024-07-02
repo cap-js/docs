@@ -37,7 +37,7 @@ Currently, CAP supports to run on two cloud runtimes of [SAP Business Technology
 Application providers are responsible to ensure a **secure platform environment**.
 In particular, this includes *configuring* [platform services](#btp-services) the application consumes.
 For instance, the provider (user) administrator needs to configure the [identity service](#identity-service) to separate platform users from business users that come from different identity provider.
-Likewise login policies (e.g. multifactor authentication or single-sign-on) need to be aligned with company-specific requirements.
+Likewise login policies (for example, multifactor authentication or single-sign-on) need to be aligned with company-specific requirements.
 
 Note that achieving production-ready security requires to meet all relevant aspects of the **development process** as well.
 For instance, source code repositories need to be protected and may not contain any secrets or personal data.

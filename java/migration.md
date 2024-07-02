@@ -68,7 +68,7 @@ If you're still using MTX Classic refer to the [multitenancy migration guide](..
 In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
 As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
 
-- During unsubscribe the tenant's content (e.g. HDI container) is now deleted by default when using the new `DeploymentService` API.
+- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
 - The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
   - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
   - `/messaging/v1.0/em/<tenant>` (PUT)

@@ -443,6 +443,8 @@ SELECT.from ('Authors').alias('a').where({
 
 ### where() {.method}
 
+[See `having()`.](#having){.learn-more}
+
 ### having() {.method}
 
 ```tsx

@@ -327,6 +327,85 @@ Select.from(AUTHOR)
 
 </div>
 
+### Standard Operators {.impl .node}
+
+The new database services guarantee identical behavior of these logic operators:
+
+`<`, `>`, `<=`, `>=`, `<>`, `=`, `IN`, `LIKE` — are supported as is in standard SQL.
+
+With special mappings for the following boolean operators:
+
+| Operator  | `@cap-js/sqlite` | `@cap-js/hana` | `@cap-js/postgres` |
+|-----------|------------------|----------------|---------------------|
+| `= NULL`  | `is NULL`        | `is NULL`      | `is NULL`           |
+| `!=`      | `<>`             | `!=`           | `<>`                |
+| `!= NULL` | `is not NULL`    | `is not NULL`  | `is not NULL`       |
+
+
+In particular, the translation of `!=` to `IS NOT` in SQLite — or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
+
+> These operators are available for runtime queries, but not in CDS files.
+
+
+### Standard Functions {.impl .node}
+
+A specified set of standard functions is now supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
+
+* `concat(x,y,...)` — concatenates the given strings
+* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
+* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
+* `startswith(x,y)` — checks whether `y` starts with `x`
+* `endswith(x,y)` — checks whether `y` ends with `x`
+* `matchesPattern(x,y)` — checks whether `x` matches regex `y`
+* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
+* `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
+* `length(x)` — returns the length of string `x`
+* `tolower(x)` — returns all-lowercased `x`
+* `toupper(x)` — returns all-uppercased `x`
+* `ceiling(x)` — returns ceiled `x`
+* `session_context(v)` — with standard variable names → [see Session Variables](/guides/databases-sqlite#session-variables)
+* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
+
+> <sup>1</sup> Argument `n` is optional.
+> These functions are only supported within runtime queries, but not in CDS files.
+
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
+
+CQL query:
+
+```sql
+SELECT from Books where search((title,descr),'y')
+```
+
+Translated native SQLite query:
+
+```sql
+SELECT * from sap_capire_bookshop_Books
+ WHERE ifnull(instr(lower(title),lower('y')),0)
+    OR ifnull(instr(lower(descr),lower('y')),0)
+```
+
+> Note: only single values are supported for the second argument `y`.
+
+::: warning Case-sensitive
+
+You have to write these functions exactly as given; all-uppercase usages aren't supported.
+
+:::
+
+### SAP HANA Functions {.impl .node}
+
+In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
+
+- `years_between`
+- `months_between`
+- `days_between`
+- `seconds_between`
+- `nano100_between`
+
+With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
+
+> Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
 
 
 ### Native DB Queries

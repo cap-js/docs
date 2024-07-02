@@ -63,7 +63,7 @@ The first and frequently only task to do as an application developer is to ident
 
 ## Automatic Audit Logging {#transparency}
 
-The **Transparancy** obligation, requests to be able to report with whom data stored about an individual is shared and where that came from (e.g., [EU GDPR Article 15(1)(c,g)](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02016R0679-20160504&qid=1692819634946#tocId22)).
+The **Transparancy** obligation, requests to be able to report with whom data stored about an individual is shared and where that came from (for example, [EU GDPR Article 15(1)(c,g)](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:02016R0679-20160504&qid=1692819634946#tocId22)).
 
 The [SAP Audit Log Service](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-logging-in-cloud-foundry-environment) stores all audit logs for a tenant in a common, compliant data store and allows auditors to search through and retrieve the respective logs when necessary.
 

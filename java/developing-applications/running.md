@@ -25,9 +25,9 @@ You can speed up your development turnaround by adding the [Spring Boot Devtools
 
 Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than a complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
 
-* Java classes (e.g. custom handlers)
+* Java classes (for example, custom handlers)
 * Anything inside src/main/resources
-  * Configuration files (e.g. application.yaml)
+  * Configuration files (for example, _application.yaml_)
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 

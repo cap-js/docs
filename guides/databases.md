@@ -85,7 +85,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 The previous setups auto-wire things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
-1. Install a database driver package, e.g.
+1. Install a database driver package, for example:
    ```sh
    npm add @cap-js/sqlite
    ```

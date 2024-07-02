@@ -279,7 +279,7 @@ cds add data --filter "books$"
 
 ::: details Special characters like `?` or `*` need escaping or quoting in shells
 
-The escape character is usually the backslash, e.g. `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
+The escape character is usually the backslash, for example, `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
 :::
 
 #### Sample records <Since version="7.9.0" of="@sap/cds-dk" />

@@ -108,8 +108,7 @@ aspect OrderItems {
 ```
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples-java/blob/5396b0eb043f9145b369371cfdfda7827fedd039/db/schema.cds#L5-L22){ .learn-more}
 
-In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects:
-![This graphic is explained in the accompanying text.](./assets/entrel.drawio.svg)
+In this model, there is a bidirectional many-to-one association between `Books` and `Authors`, which is managed by the `Books.author` association. The `Orders` entity owns the composition `header`, which relates it to the `OrderHeaders` entity, and the composition `items`, which relates the order to the `OrderItems`. The items are modeled using a managed composition of aspects.
 
 ::: tip
 Use [Managed Compositions of Aspects](../guides/domain-modeling#composition-of-aspects) to model unidirectional one-to-many compositions.
@@ -293,7 +292,7 @@ entity Books : cuid { // [!code focus]
 In CAP Java, vector embeddings are represented by the `CdsVector` type, which allows a unified handling of different vector representations such as `float[]` and `String`:
 
 ```Java
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 CdsVector v1 = CdsVector.of(embedding); // float[] format
@@ -433,7 +432,8 @@ book.put("ID", 97);
 book.put("title", "Dracula");
 ```
 
-You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). The accessor interface then looks like in the following example:
+You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). 
+If you define an interface yourself, it could look like the following example:
 
 ```java
 interface Book extends Map<String, Object> {
@@ -953,7 +953,7 @@ Given that we have a collection of books each has a composition of many editions
 
   ```json
   {
-    "title": "Wuthering Heights: 100th Anniversary Edition"
+    "title": "Catweazle: Director's Cut"
   }
   ```
 
@@ -998,10 +998,10 @@ Given that we have a collection of books each has a composition of many editions
     "title": "Catweazle: Director's Cut"
   }
   ```
-  
+
   ```json
   {
-    "title": "Catweazle: Director's Cut"
+    "title": "Catweazle: Complete with Extras"
   }
   ```
 

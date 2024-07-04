@@ -184,6 +184,14 @@ module.exports = cds.server
 | _Root Cause_ | In case the application has a service binding with the same name as the requested destination, the SAP Cloud SDK prioritized the service binding. This service of course does have different endpoints than the originally targeted remote service. For more information, please refer to the [SAP Cloud SDK documentation](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#referencing-destinations-by-name).
 | _Solution_ | Use different names for the service binding and the destination.
 
+### Why does my remote service call not work?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
+| _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
+
+
 ## Java
 
 ### How can I make sure that a user passes all authorization checks?
@@ -268,14 +276,16 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 
 In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
 
+On Cloud Foundry, the issue might appear only if you increase the __Instance Memory__ available for your application.
+
 The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
 
 The following workarounds are known:
- * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1 and Java 17. 
- * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
+ * For Cloud Foundry and Docker containers you can provide this Java option [-XX:ActiveProcessorCount=1>](https://docs.oracle.com/en/java/javase/11/tools/java.html).
+ * In Cloud Foundry, you can reduce the size of available memory for your application instance.
  * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
 
-We recommend to implement a proper thread pool and not to rely on these workarounds.
+We recommend to implement a proper thread pool and not to rely on these workarounds as they impair performance of your application.
 
 ## OData
 
@@ -562,7 +572,8 @@ You can reduce MTA archive sizes, and thereby speedup deployments, by omitting `
 
 First, add a file `less.mtaext` with the following content:
 
-```yaml
+::: code-group
+```yaml [less.mtaext]
 _schema-version: '3.1'
 ID: bookshop-small
 extends: capire.bookshop
@@ -571,6 +582,7 @@ modules:
    build-parameters:
      ignore: ["node_modules/"]
 ```
+:::
 
 Now you can build the archive with:
 

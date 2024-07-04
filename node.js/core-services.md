@@ -237,7 +237,7 @@ exports['foo.bar.Foo'] = class Foo {...}
 exports['foo.bar.Boo'] = class Bar {...}
 ```
 
-The exports' names must **match the servce definitions' fully-qualified names**.
+The exports' names must **match the fully-qualified names of the service definitions**.
 
 :::
 
@@ -306,7 +306,7 @@ await srv.emit ('OrderedBooks', {
 
 ::: tip Prefer Platform-Agnostic APIs
 
-REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extend. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
+REST-style APIs using `srv.send()` tend to become protocol-specific, for example if you'd use OData `$filter` query options, or alike. In contrast to that, the `cds.ql`-based CRUD-style APIs using `srv.run()` are platform-agnostic to a very large extent. We can translate these to local API calls, remote service calls via GraphQL, OData, or REST, or to plain SQL queries sent to underlying databases.
 
 :::
 
@@ -505,7 +505,7 @@ class BooksService extends cds.ApplicationService {
 
 **Methods `.on`, `.before`, `.after`** refer to corresponding *phases* during request processing:
 
-- **`.on`** handlers actually fulfill requests, e.g. by reading/writing data from/to databases
+- **`.on`** handlers actually fulfill requests, for example, by reading/writing data from/to databases
 - **`.before`** handlers run before the `.on` handlers, frequently for validating inbound data
 - **`.after`** handlers run after the `.on` handlers, frequently to enrich outbound data
 
@@ -515,7 +515,7 @@ class BooksService extends cds.ApplicationService {
 - `'INSERT'`,`'SELECT'` → as aliases for: `'CREATE'`,`'READ'`
 - `'POST'`,`'GET'`,`'PUT'`,`'PATCH'` → as aliases for: `'CREATE'`,`'READ'`,`'UPDATE'`
 - `'each'` → convenience feature to register `.after` `'READ'` handler that runs for each individual result entry
-- Any other string name of a custom action or function – e.g., `'submitOrder'`
+- Any other string name of a custom action or function – for example,, `'submitOrder'`
 - An `array` of the above to register the given handler for multiple events
 - The string `'*'` to register the given handler for *all* potential events
 - The string `'error'` to register an error handler for *all* potential events
@@ -524,7 +524,7 @@ class BooksService extends cds.ApplicationService {
 
 - A `CSN definition` of an entity served by this service → as obtained from [`this.entities`](#entities)
 - A `string` matching the name of an entity served by this service → see [draft support](./fiori#draft-support)
-- A `path`  navigating from a served entity to associated ones → e.g. `'Books/author'`
+- A `path`  navigating from a served entity to associated ones → for example, `'Books/author'`
 - An `array` of the above to register the given handler for multiple entities / paths
 - The string `'*'` to register the given handler for *all* potential entities / paths
 
@@ -639,7 +639,7 @@ function srv.on (event, entity?, handler: (
 
 *Find details on `event` and `entity` in [srv.on,before,after()](#srv-on-before-after) above*. {.learn-more}
 
-Use this method to register handlers meant to actually fulfill requests, e.g. by reading/writing data from/to databases. The handlers receive two arguments:
+Use this method to register handlers meant to actually fulfill requests, for example, by reading/writing data from/to databases. The handlers receive two arguments:
 
 - `req` — an instance of [`cds.Request`](./events.md#cds-request) providing access to all request data
 - `next` — a function which allows handlers to pass control down the [interceptor stack](#interceptor-stack-with-next)

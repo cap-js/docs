@@ -4,7 +4,7 @@ synopsis: >
 status: released
 ---
 
-# Change Tracking <Beta />
+# Change Tracking
 
 <style scoped>
   h1:before {

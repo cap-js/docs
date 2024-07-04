@@ -889,7 +889,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa
+cds add xsuaa --for production
 ```
 
 This generates an _xs-security.json_ file:

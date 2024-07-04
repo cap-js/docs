@@ -28,10 +28,10 @@ Now, that you're familiar with how to configure your application, start to creat
 
 When running your application in production, it makes sense to strictly disable some development-oriented features.
 The production profile configures a set of selected property defaults, recommended for production deployments, at once.
-To specify the production profile, set `cds.environment.production.profile` to a Spring profile used in production deployments.
+By default the production profile is set to `cloud`. To specify a custom production profile, set `cds.environment.production.profile` to a Spring profile used in your production deployments.
 
 ::: tip Production profile = `cloud`
-It is recommended to set `cds.environment.production.profile` to `cloud`. The Java Buildpacks set the `cloud` profile for applications by default.
+The Java Buildpacks set the `cloud` profile for applications by default.
 Other active profiles for production deployments are typically set using the environment variable `SPRING_PROFILES_ACTIVE` on your application in your deployment descriptors (`mta.yaml`, Helm charts, etc.).
 :::
 
@@ -50,13 +50,15 @@ CAP applications built with Spring Boot don't require any specific configuration
 
 To configure the buildpack for Java 21 with SapMachine JRE, add the following lines to your `mta.yaml` right under your Java service definition:
 
-```yaml
+::: code-group
+```yaml [mta.yaml]
 parameters:
   buildpack: sap_java_buildpack_jakarta
 properties:
   JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
   JBP_CONFIG_SAP_MACHINE_JRE: '{ version: 21.+ }'
 ```
+:::
 
 :::warning SAP Business Application Studio
 If you develop your application in SAP Business Application Studio and Java 21 is not available there, use the Java 17, instead.

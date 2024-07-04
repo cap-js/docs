@@ -178,8 +178,8 @@ To easily distinguish type / entity names  from elements names we recommend to..
 
 ::: tip Capitalize *Type / Entity* Names
 
-* Start **_entity_** and **_type_** names with capital letters — e.g., `Authors`
-* Start **_elements_** with a lowercase letter — e.g., `name`
+* Start **_entity_** and **_type_** names with capital letters — for example, `Authors`
+* Start **_elements_** with a lowercase letter — for example, `name`
 
 :::
 
@@ -187,8 +187,8 @@ As entities represent not only data types, but also data sets, from which we can
 
 ::: tip Pluralize *Entity* Names
 
-* Use **plural** form for **_entities_** — e.g., `Authors`
-* Use **singular** form for **_types_** — e.g., `Genre`
+* Use **plural** form for **_entities_** — for example, `Authors`
+* Use **singular** form for **_types_** — for example, `Genre`
 
 :::
 
@@ -196,8 +196,8 @@ In general always prefer conciseness, comprehensibility and readability, and avo
 
 ::: tip Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
-- Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
+- Don't repeat contexts &rarr; for example `Authors.name` instead of `Authors.authorName`
+- Prefer one-word names &rarr;  for example `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
 :::
@@ -498,7 +498,7 @@ entity Authors { ...
 }
 ```
 
-> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, for example `books.author.ID = ID`.
 
 #### Many-to-Many Associations
 

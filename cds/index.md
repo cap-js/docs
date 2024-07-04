@@ -6,7 +6,7 @@ status: released
 Language Reference Documentation
 { .subtitle}
 
-CDS is the backbone of the SAP Cloud Application Programming Model (CAP). It provides the means to declaratively capture service definitions and data models, queries, and expressions. The CDS toolkit features to parse from a variety of source languages and to compile them into various target languages.
+CDS is the backbone of the SAP Cloud Application Programming Model (CAP). It provides the means to declaratively capture service definitions and data models, queries, and expressions. The CDS toolkit allows to parse from a variety of source languages into a uniform format and to compile it into various target languages.
 
 !["The graphic is explained in the accompanying text."](./assets/csn.drawio.svg)
 

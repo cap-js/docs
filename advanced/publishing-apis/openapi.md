@@ -10,6 +10,8 @@ status: released
 
 You can convert CDS models to the [OpenAPI Specification](https://www.openapis.org), a widely adopted API description standard.
 
+[[toc]]
+
 ## Usage from CLI { #cli}
 
 For example, this is how you convert all services in `srv/` and store the API files in the `docs/` folder:

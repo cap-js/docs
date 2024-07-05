@@ -223,7 +223,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Draft Support](../advanced/fiori#draft-support)                                                 | <X/> |  <X/>   | <X/> |
 | [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                           | <X/> |  <X/>   | <X/> |
 | [Support for Fiori Analytics](../advanced/analytics)                                             | <X/> |  <D/>   | <X/> |
-| [Support for other UI technologies, e.g. Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
+| [Support for other UI technologies, for example Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
 
 >  <sup>1</sup> through standard REST/AJAX
 

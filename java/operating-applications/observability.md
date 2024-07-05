@@ -289,6 +289,11 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 1) Bind your CAP Java application to a service instance of `cloud-logging`. It's important to enable the Open Telemetry capabilities by passing `ingest_otlp` as additional configuration parameter. The following snippet shows an example how to add this to an _mta.yaml_ descriptor:
     ::: code-group
     ```yaml [mta.yaml]
+    modules:
+      - name: <srv-module>
+        # ...
+        requires:
+          - cloud-logging-instance
     # ...
     resources:
       - name: cloud-logging-instance
@@ -306,7 +311,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
 2) Define additional environment variables to tell the [agent extension](#agent-extension) to use Cloud Logging Service.
 
    ::: code-group
-    ```yaml [mta.yaml]
+   ```yaml [mta.yaml]
    - name: <srv-module>
      # ...
      properties:

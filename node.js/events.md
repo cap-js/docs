@@ -108,8 +108,6 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 
 On outgoing HTTP messages, it's propagated as `x-correlation-id` header.
 
-For inbound [CloudEvents](https://cloudevents.io) messages, it's taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
-
 
 
 ### . locale {.property}

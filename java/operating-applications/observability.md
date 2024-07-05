@@ -375,7 +375,7 @@ For specific steps to change the log level, please refer to the respective secti
 
 For each transactional outbox that persists its entries to the database, the following measurements are taken:
 
-| Measurement                                | Type    | Description                                                                                            |
+| Metric                                     | Type    | Description                                                                                            |
 | ------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------ |
 | `com.sap.cds.outbox.incomingMessages`      | Counter | Number of incoming messages of the outbox.                                                             |
 | `com.sap.cds.outbox.outgoingMessages`      | Counter | Number of outgoing messages of the outbox.                                                             |

@@ -175,7 +175,7 @@ Without limitation of generality, there may be multiple CAP services or sidecars
 
 ### Required Platform Environment { #platform-environment }
 
-There are several assumptions that a CAP application need to make about the platform environment it is deployed to:
+There are several assumptions that a CAP application needs to make about the platform environment it is deployed to:
 
 1. Application and (platform) service endpoints are exposed externally by the API gateway via TLS protocol.
 Hence, the **CAP application can offer a pure HTTP endpoint** without having to enforce TLS and to deal with certificates.

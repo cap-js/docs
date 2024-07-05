@@ -392,7 +392,7 @@ The following attributes are set per measurement:
 | `cds.tenant`        | Tenant for which the measurement has been logged (only available if logged for subscriber tenants, never logged in a singletenant application). |
 | `cds.outbox.target` | Name of the outbox.                                                                                                                             |
 
-Measurement can be turned off per transactional outbox by setting the configuration `cds.outbox.services.<key>.observable` to `false` (default: `true`).
+Metrics can be turned off per transactional outbox by setting the configuration `cds.outbox.services.<key>.observable` to `false` (default: `true`).
 
 
 #### Custom Instrumentation

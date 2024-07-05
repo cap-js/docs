@@ -42,8 +42,7 @@ CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
 
 One of the effects of the production profile is that the index page is disabled by default.
-If you are using the root path `/` for readiness or liveness probing in Kyma you will need to adjustment them, in this case
-it is recommended to use Spring Boot actuator's `/actuator/health` endpoint instead.
+If you are using the root path `/` for a readiness or liveness probe in Kyma you will need to adjustment them. in this case the recommended approach would be to use the Spring Boot actuator's `/actuator/health` endpoint instead.
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
 

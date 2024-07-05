@@ -111,7 +111,7 @@ The same functionality is provided for arbitrary custom interfaces, which are ex
 For example, if the request is processed by an HTTP-based protocol adapter, `ParameterInfo` provides access to the HTTP request information. It exposes the [correlation ID](../operating-applications/observability#correlation-ids), the locale, the headers, and the query parameters of a request.
 
 [AuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/AuthenticationInfo.html) stores the authentication claims of the authenticated user. For instance, if OAuth2-based authentication is used, this is a JWT token (for example, XSUAA or IAS). You can call `is(Class<? extends AuthenticationInfo>)` to find the concrete `AuthenticationInfo` type.
-[JwtTokenAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/JwtTokenAuthenticationInfo.html) represents a JWT token, but [BasicAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/BasicAuthenticationInfo.html) can be observed on requests with basic authentication (e.g. test scenario with mock users). The method `as(Class<? extends AuthenticationInfo>)` helps to perform the downcast to a concrete subtype.
+[JwtTokenAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/JwtTokenAuthenticationInfo.html) represents a JWT token, but [BasicAuthenticationInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/authentication/BasicAuthenticationInfo.html) can be observed on requests with basic authentication (for example, test scenario with mock users). The method `as(Class<? extends AuthenticationInfo>)` helps to perform the downcast to a concrete subtype.
 
 ## Defining New Request Contexts { #defining-requestcontext}
 
@@ -134,7 +134,7 @@ The `RequestContextRunner` API offers convenience methods that allow an easy tra
 | privilegedUser()     | Elevates the current `UserInfo` to by-pass all authorization checks.                                                                 |
 
 ::: info Note
-The [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context is based on appropriate authentication information (e.g. JWT token) attached to the incoming HTTP request.
+The [RequestContextRunner](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/RequestContextRunner.html) API does not allow you to create a Request Context based on a named user. Named user contexts are only created by the CAP Java framework as initial Request Context is based on appropriate authentication information (for example, JWT token) attached to the incoming HTTP request.
 :::
 
 In the following a few concrete examples are given:

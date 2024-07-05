@@ -330,12 +330,13 @@ It supports the following command-line options:
 
 | Option | Description |
 | -- | -- |
-| `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project |
-| `-DincludeIntegrationTest=true` | Adds an integration test module to the project |
-| `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
-| `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
+| `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project. |
+| `-DincludeIntegrationTest=true` | Adds an integration test module to the project. |
+| `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default. |
+| `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project. |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `21`. |
+| `-Dpersistence=[true\|false]` | Specify whether persistence is enabled (`true`) or disabled (`false`). Defaults to `true`. |
 
 
 ## Building Projects with Maven { #maven-build-options }

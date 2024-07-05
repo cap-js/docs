@@ -291,7 +291,7 @@ let similarBooks = await SELECT.from('Books')
 ```
 
 ```java [Java]
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 Result similarBooks = service.run(Select.from(BOOKS).where(b ->
@@ -645,3 +645,8 @@ If you need to remove deployed CSV files, also add this entry:
 :::
 
 *See this [troubleshooting](../get-started/troubleshooting#hana-csv) entry for more information.*{.learn-more}
+
+### SAP HANA Cloud System Limits
+
+All limitations for the SAP HANA Cloud database can be found in the [SAP Help Portal](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC).
+

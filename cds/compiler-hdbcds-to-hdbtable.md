@@ -25,17 +25,13 @@ The format only determines the "medium" through which your database model is bro
 If your database deployment currently uses `hdbcds`, it's recommended to switch to the default format, `hdbtable`. This guide assumes you use cds7 or higher. Make sure you read the entire guide before starting the migration process.
 
 1. Ensure that your current data model matches the deployed data model.
-   <!-- **TBD** must it be exactly the same? Does it also work if the current model
-                is changed in comparison to the last deployed model. -->
 
 2. Switch the deployment format from `hdbcds` to the default `hdbtable`. You can do this by removing option `cds.requires.db.deploy-format` from your configuration files.
    <!-- requires @sap/cds v7 -->
    <!-- this option is not documented, but mentioned in release notes and the changelog -->
 
 3. Undeploy the CAP-generated _.hdbcds_ files by adding an entry to `db/undeploy.json`:
-
     ::: code-group
-    
     ```json [db/undeploy.json]
     [
       ...,
@@ -43,13 +39,18 @@ If your database deployment currently uses `hdbcds`, it's recommended to switch 
     ]
     ```
     :::
-    
-    <!-- **TODO** Without this entry, during HDI deployment you will get errors like ... -->
+    Without this entry, during HDI deployment you will get errors like "the object cannot be provided more than once".
+    <!-- full error message:
+       Error: "db://E": the object cannot be provided more than once [8212002]
+       "src/E.hdbtable": the file would provide it
+       "$cds.merge/E": the deployed file already provides it
+        Merged from "src/E.hdbcds"
+    -->
 
 4. Build and re-deploy your data model.
 
 
-By following these steps, the HDI's internal handover mechanism automatically transfers ownership of the tables to the `hdbtable` plugin. There are some caveats, however:
+By following these steps, the internal handover mechanism of HDI automatically transfers ownership of the tables to the `hdbtable` plugin. There are some caveats, however:
 
 * If you used annotations `@sql.append` or `sql.prepend`, your model very likely needs to be adapted manually
   before the migration can be done. See the corresponding section below for more details.

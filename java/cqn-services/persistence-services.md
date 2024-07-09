@@ -188,9 +188,9 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 
 The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add PostgreSQL support to the CAP Java project:
+Using the `@sap/cds-dk` you can add PostgreSQL support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=PostgreSQL -Dprofile=default
+cds add postgres
 ```
 
 ::: warning
@@ -238,9 +238,9 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 
 In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
+Using the `@sap/cds-dk` you can add H2 support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
+cds add h2
 ```
 
 ### SQLite
@@ -265,9 +265,9 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 ```
 :::
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
+Using the `@sap/cds-dk` you can add SQLite support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
+cds add sqlite
 ```
 
 #### File-Based Storage

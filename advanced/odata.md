@@ -24,6 +24,8 @@ status: released
 
 # Serving OData APIs
 
+[[toc]]
+
 ## Feature Overview { #overview}
 
 OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
@@ -1201,12 +1203,14 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
+The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+
+Example 1:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
 ```
-or
+Example 2:
 
 ```json
 {"title": "Tow Sawyer",
@@ -1226,7 +1230,7 @@ service CatalogService {
   type Book {} // [!code focus]
 }
 ```
-Following payload for `Order` is allowed:
+The following payload for `Order` is allowed:
 
 `{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
 
@@ -1234,11 +1238,6 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 
 ::: warning
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
-:::
-
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
 :::
 
 ### Java Type Mapping

@@ -85,7 +85,7 @@ Afterwards, connect to `localhost:<local-port>` in the JMX client. Common JMX cl
 Since Spring Boot 3 it's possible to compile Spring Boot applications to stand-alone native executables leveraging GraalVM Native Images.
 Native Image applications have faster startup times and require less memory. CAP Java provides compatibility with the Native Image technology.
 
-[Learn more about Native Image support in Spring Boot.](https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html){.learn-more}
+[Learn more about Native Image support in Spring Boot.](https://docs.spring.io/spring-boot/how-to/native-image/index.html){.learn-more}
 
 If you want to compile your application as a native executable the following boundary conditions need to be considered:
 

@@ -58,7 +58,7 @@ Consequently, technical clients have to [validate the server certificate](#inbou
 Also here CAP application developers don't need to deal with HTTPS/TLS connection setup provided the client code is build on CAP offerings such as HANA Cloud Service or CloudSDK integration.
 
 ::: warning
-The **CAP application needs to ensure adequate protection of secrets** that are injected into CAP microservices, e.g.
+The **CAP application needs to ensure adequate protection of secrets** that are injected into CAP microservices, for example:
 - [mTLS authentication is enabled](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-mtls-authentication-to-sap-authorization-and-trust-management-service-for-your-application) in the XSUAA service instance of your application and also for XSUAA reuse instances of platform services.
 - Ensure that [service bindings and keys](https://help.sap.com/docs/btp/sap-business-technology-platform/using-services-in-cloud-foundry-environment) aren't compromised (rotate regularly).
 - SAP BTP Connectivity services are maintained [securely](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/connectivity-security).
@@ -175,7 +175,7 @@ Critical combinations of authorizations must be avoided. Basically, access rules
 
 To align with the principle of least privilege, applications need to enforce fine-grained access control for business users from the subscriber tenants.
 
-Depending from the business scenario, users need to be restricted to operations they perform on server resources, e.g. reading an entity collection.
+Depending from the business scenario, users need to be restricted to operations they perform on server resources, for example, reading an entity collection.
 Moreover, they might also be limited to a subset of data entries, that is, they may only operate on a filtered view on the data.
 The set of rules that apply to a user reflects a specific conceptual role that describes the interaction with the application to fulfill a business scenario.
 Obviously, the business roles are dependent from the scenarios and hence *need to be defined by the application developers*.
@@ -390,33 +390,33 @@ Attackers can send malicious input data in a regular request to make the server 
 
 - CAP's intrinsic data querying engine is immune with regards to [SQL injections](https://owasp.org/www-community/attacks/SQL_Injection) that are introduced by query parameter values that are derived from malicious user input.
 [CQL statements](../querying) are transformed into prepared statements that are executed in SQL databases such as SAP HANA.
-Be aware that injections are still possible even via CQL when the query structure (e.g. target entity, columns etc.) is based on user input:
+Be aware that injections are still possible even via CQL when the query structure (target entity, columns and so on) is based on user input:
 
-<div class="impl java">
+  <div class="impl java">
 
-```java
-String entity = ...; // from user input;
-String column = ...; // from user input;
-validate(entity, column); // validate entity and column, e.g. compare with positive list
-Select.from(entity).columns(b -> b.get(column));
-```
+  ```java
+  String entity = ...; // from user input;
+  String column = ...; // from user input;
+  validate(entity, column); // for example, by comparing with positive list
+  Select.from(entity).columns(b -> b.get(column));
+  ```
 
-</div>
+  </div>
 
-<div class="impl node">
+  <div class="impl node">
 
-```js
-const entity = <from user input>
-const column = <from user input>
-validate(entity, column) // validate entity and column, e.g. compare with positive list
-SELECT.from(entity).columns(column)
-```
+  ```js
+  const entity = <from user input>
+  const column = <from user input>
+  validate(entity, column) // for example, by comparing with positive list
+  SELECT.from(entity).columns(column)
+  ```
 
-</div>
+  </div>
 
-::: warning
-Be careful with custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input:
-:::
+  ::: warning
+  Be careful with custom code when creating or modifying CQL queries. Additional input validation is needed when the query structure depends on the request's input.
+  :::
 
 - [Cross Site Scripting (XSS)](https://owasp.org/www-community/attacks/xss) is used by attackers to inject a malicious script, which is executed in the browser session of an unsuspecting user.
 By default, there are some protection mechanisms in place.
@@ -426,9 +426,9 @@ On the client side, SAPUI5 provides input validation for all typed element prope
 - Untrusted data being transferred may contain malware.
 [SAP Malware Scanning Service](https://help.sap.com/docs/MALWARE_SCANNING) is capable to scan provided input streams for viruses and is regularly updated.
 
-::: warning
-❗ Currently, CAP applications need to add custom handlers to **scan data being uploaded or downloaded**.
-:::
+  ::: warning
+  ❗ Currently, CAP applications need to add custom handlers to **scan data being uploaded or downloaded**.
+  :::
 
 - [Path traversal](https://owasp.org/www-community/attacks/Path_Traversal) attacks aim to access parts of the server's file system outside the web root folder.
 As part of the [application zone](./overview#application-zone), an Application Router serves the static UI content of the application. The CAP microservice doesn't need to serve web content from file system.
@@ -436,17 +436,23 @@ Apart from that the used web server frameworks such as Spring or Express already
 
 - [CLRF injections](https://owasp.org/www-community/vulnerabilities/CRLF_Injection) or [log injections](https://owasp.org/www-community/attacks/Log_Injection) can occur when untrusted user input is written to log output.
 
-CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
-{ .impl .node }
+  <div class="impl node">
 
-::: warning
-❗ Currently, CAP applications need to care for escaping user data that is used as input parameter for application logging.
-It's recommended to make use of an existing Encoder such as OWASP [ESAPI](https://www.javadoc.io/doc/org.owasp.esapi/esapi/2.0.1/org/owasp/esapi/Encoder.html).
-:::
-{ .impl .java }
+  CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
+  
+  </div>
+
+  <div class="impl java">
+  
+  ::: warning
+  Currently, CAP applications need to care for escaping user data that is used as input parameter for application logging.
+  It's recommended to make use of an existing Encoder such as OWASP [ESAPI](https://www.javadoc.io/doc/org.owasp.esapi/esapi/2.0.1/org/owasp/esapi/Encoder.html).
+  :::
+  
+  </div>
 
 - [Deserialization of untrusted data](https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data) can lead to serious exploits including remote code execution.
-The OData adapter converts JSON payload into an object representation. Here it follows a hardened deserialization process where the deserializer capabilities (e.g. no default types in Jackson) are restricted to a minimum.
+The OData adapter converts JSON payload into an object representation. Here it follows a hardened deserialization process where the deserializer capabilities (for example, no default types in Jackson) are restricted to a minimum.
 A strong input validation based on EDMX model is done as well.
 Moreover, deserialization errors terminate the request and are tracked in the application log.
 
@@ -459,9 +465,9 @@ In general, to achieve perfect injection resistance, applications should have in
 - CAP provides built-in support for **input validation**.
 Developers can use the [`@assert`](../providing-services#input-validation) annotation to define field-specific input checks.
 
-::: warning
-❗ Applications need to validate or sanitize all input variables according to the business context.
-:::
+  ::: warning
+  Applications need to validate or sanitize all input variables according to the business context.
+  :::
 
 - With respect to **output encoding**, CAP OData adapters have proper URI encoding for all resource locations in place.
 Moreover, OData validates the JSON response according to the given EDMX schema.
@@ -472,9 +478,9 @@ CSP-compatible browsers only load resources from web locations that are listed i
 `Content-Security-Policy` header can be set as route-specific response header in the [Application Router](https://help.sap.com/docs/btp/sap-business-technology-platform/responseheaders).
 SAPUI5 is [CSP-compliant](https://sapui5.hana.ondemand.com/sdk/#/topic/fe1a6dba940e479fb7c3bc753f92b28c.html) as well.
 
-::: warning
-❗ Applications have to **configure Content Security Policy** to meet basic compliance.
-:::
+  ::: warning
+  Applications have to **configure Content Security Policy** to meet basic compliance.
+  :::
 
 ### Service Misuse Attacks { #misues-attacks }
 <!-- #SEC-375 #SEC-223 #SEC-264 #SEC-278 -->
@@ -490,9 +496,9 @@ SAPUI5 supports CSRF tokens on client side out of the box.
 - [Clickjacking](https://owasp.org/www-community/attacks/Clickjacking) is an attack on client side where end users are tricked to open foreign pages.
 SAPUI5 provides [protection mechanisms](https://sapui5.hana.ondemand.com/sdk/#/topic/62d9c4d8f5ad49aa914624af9551beb7.html) against this kind of attack.
 
-::: warning
-❗ To protect against clickjacking, SAPUI5 applications need to configure `frame options`.
-:::
+  ::: warning
+  To protect SAPUI5 applications against clickjacking, configure `frame options`.
+  :::
 
 ### Denial-of-Service Attacks { #dos-attacks }
 <!-- #SEC-237 -->
@@ -504,7 +510,7 @@ Since OS resource allocations are distributed over the entire request, DoS-preve
 
 #### HTTP Server and CAP Protocol Adapter
 
-The used web server frameworks such as [Spring/Tomcat](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server) or [Express](https://expressjs.com/) start with reasonable default limits, e.g.:
+The used web server frameworks such as [Spring/Tomcat](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server) or [Express](https://expressjs.com/) start with reasonable default limits, for example:
 - Maximum size of the HTTP request header.
 - Maximum size of the HTTP request body.
 - Maximum queue length for incoming connection requests
@@ -615,7 +621,7 @@ In addition, CAP runs on a virtual machine with a managed heap that protects fro
 
 CAP also brings some tools to effectively reduce the attack vector of race condition vulnerabilities.
 These might be exposed when the state of resources can be manipulated concurrently and a consumer faces an unexpected state.
-CAP provides basic means of [concurrency control](../providing-services#concurrency-control) on different layers, e.g. [ETags](../providing-services#etag) and [pessimistic locks](../providing-services#select-for-update). Moreover, Messages received from the [message queue](../messaging/) are always in order.
+CAP provides basic means of [concurrency control](../providing-services#concurrency-control) on different layers, for example [ETags](../providing-services#etag) and [pessimistic locks](../providing-services#select-for-update). Moreover, Messages received from the [message queue](../messaging/) are always in order.
 
 ::: tip
 Applications have to ensure a consistent data processing taking concurrency into account.

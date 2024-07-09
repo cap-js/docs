@@ -63,52 +63,19 @@ CAP Java picks only a single binding of each type. If you have multiple XSUAA or
 Choose an appropriate XSUAA service plan to fit the requirements. For instance, if your service should be exposed as technical reuse service, make use of plan `broker`.
 :::
 
-### Transition from `cds-feature-xsuaa` to `cds-feature-identity` { #transition-xsuaa-ias}
-CAP also provides support for XSUAA-based authentication via the maven dependency `cds-feature-xsuaa` which is based on the [spring-xsuaa library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
-We recommend to move to `cds-feature-identity`, as the spring-xsuaa library is deprecated. When moving to `cds-feature-identity`, please keep the following in mind:
+#### Proof-Of-Possession for IAS { #proof-of-possession}
 
-- As `cds-feature-xsuaa` still takes priority over `cds-feature-identity` for backward compatibility, remove all existing dependencies to `cds-feature-xsuaa` and `xsuaa-spring-boot-starter`.
-- If you are using the `cds-starter-cloudfoundry` or the `cds-starter-k8s` starter bundle, make sure to **explicitly** exclude the mentioned dependencies using `<exclusions>...</exclusions>`.
+Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
 
-::: code-group
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
 
-```xml [srv/pom.xml (cds-starter-cloudfoundry)]
-<dependency>
-    <groupId>com.sap.cds</groupId>
-    <artifactId>cds-starter-cloudfoundry</artifactId>
-    <exclusions>
-        <exclusion>
-            <groupId>com.sap.cds</groupId>
-            <artifactId>cds-feature-xsuaa</artifactId>
-        </exclusion>
-        <exclusion>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>xsuaa-spring-boot-starter</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-```
+Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route utilizing the `.cert.<landscape>` domain.
 
-```xml [srv/pom.xml (cds-starter-k8s)]
-<dependency>
-    <groupId>com.sap.cds</groupId>
-    <artifactId>cds-starter-k8s</artifactId>
-    <exclusions>
-        <exclusion>
-            <groupId>com.sap.cds</groupId>
-            <artifactId>cds-feature-xsuaa</artifactId>
-        </exclusion>
-        <exclusion>
-            <groupId>com.sap.cloud.security.xsuaa</groupId>
-            <artifactId>xsuaa-spring-boot-starter</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-```
+The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. This can be achieved by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
 
-:::
+When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires using at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library.
 
-Now follow the description in [Configure XSUAA and IAS Authentication](#xsuaa-ias).
+You can disable the Proof-Of-Possession enforcement in your CAP Java application by setting the property `sap.spring.security.identity.prooftoken` to `false` in the `application.yaml` file.
 
 ### Automatic Spring Boot Security Configuration { #spring-boot}
 

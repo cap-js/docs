@@ -292,7 +292,7 @@ entity Books : cuid { // [!code focus]
 In CAP Java, vector embeddings are represented by the `CdsVector` type, which allows a unified handling of different vector representations such as `float[]` and `String`:
 
 ```Java
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 CdsVector v1 = CdsVector.of(embedding); // float[] format

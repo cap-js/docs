@@ -339,7 +339,7 @@ Available for:
 
 Open Resource Discovery (ORD) is a protocol that enables applications and services to self-describe their available resources and capabilities. It's not only useful for describing static documentation, but it also accurately reflects tenant-specific configurations and extensions at runtime.
 Typically, ORD is used to describe APIs and Events, but it also supports higher-level concepts like Entity Types (Business Objects) and Data Products (beta).
-By adopting ORD, an application will implement a single-entry point (Service Provider Interface) that can be used to discover and crawl the relevant information / metadata. The information can be used to build a static metadata catalog or do detailed runtime inspection of actual system landscapes.
+When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
 
 This plugin enables generation of ORD document for CAP based applications. 
 You can get the ORD document in multiple ways :

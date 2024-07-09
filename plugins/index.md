@@ -337,7 +337,7 @@ Available for:
 
 ## ORD (Open Resource Discovery)
 
-Open Resource Discovery (ORD) is a protocol that allows applications and services to self-describe their exposed resources and capabilities.It can be used to describe static documentation, but can also reflect tenant specific configuration and extensions (at run-time).​ 
+Open Resource Discovery (ORD) is a protocol that enables applications and services to self-describe their available resources and capabilities. It's not only useful for describing static documentation, but it also accurately reflects tenant-specific configurations and extensions at runtime.
 Typically, ORD is used to describe APIs and Events, but it also supports higher-level concepts like Entity Types (Business Objects) and Data Products (beta).
 By adopting ORD, an application will implement a single-entry point (Service Provider Interface) that can be used to discover and crawl the relevant information / metadata. The information can be used to build a static metadata catalog or do detailed runtime inspection of actual system landscapes.
 

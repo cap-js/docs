@@ -283,7 +283,7 @@ Example output:
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other local applications with cloud service bindings, you can use the `exec` option.
 
-For example, you can run the approuter from an `approuter` child directory:
+For example, you can run the App Router from an `approuter` child directory:
 
 ::: code-group
 ```sh [Mac/Linux]
@@ -465,7 +465,7 @@ cds bind --exec [--] <command> <args ...>
 
 Use the double-dash (`--`) if your command has args starting with a dash (`-`) character. Otherwise the `cds` command line will try to parse them as their own options.
 
-On PowerShell you need to quote the double dash (`--`) when an option with double dash follows, e.g.
+On PowerShell you need to quote the double dash (`--`) when an option with double dash follows:
 
 ```powershell
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42

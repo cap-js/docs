@@ -302,7 +302,7 @@ Be aware that overriding requires constant updates as new middlewares by the fra
 
 You can register middlewares to customize `req.user`.
 It must be done after authentication.
-If the `cds.context.tenant` is manipulated as well, it must also be done before `cds.context.model` is set for the current request.
+If `cds.context.tenant` is manipulated as well, it must also be done before `cds.context.model` is set for the current request.
 
 ```js
 cds.middlewares.before = [

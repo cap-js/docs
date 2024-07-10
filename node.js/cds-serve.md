@@ -220,8 +220,8 @@ The standard set of middlewares uses the following order:
 cds.middlewares.before = [
   context(),   // provides cds.context
   trace(),     // provides detailed trace logs when DEBUG=trace
-  auth(),      // provides cds.context.user & cds.context.tenant
-  ctx_model(), // fills in cds.context.model
+  auth(),      // provides cds.context.user & .tenant
+  ctx_model(), // fills in cds.context.model, in case of extensibility
 ]
 ```
 

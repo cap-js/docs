@@ -231,8 +231,8 @@ cds.middlewares.after = [
 ]
 ```
 
-::: tip
-In order for a custom error middleware to be invoked, it must be registered _before_ the built-in `cds_error_handler`. That is, it must be added, for example, via `cds.middlewares.after.unshift()`.
+::: tip Custom error middleware before `cds_error_handler`
+To invoke a custom error middleware successfully, you must register it _before_ the built-in `cds_error_handler`. You can achieve that, for example, by adding the middleware using `cds.middlewares.after.unshift()`.
 :::
 
 ::: warning _Be aware of the interdependencies of middlewares_ <!--  -->

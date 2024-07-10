@@ -485,21 +485,22 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 
 [Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
-## Use user roles to toggle visibility of UI elements
+## Use Roles to Toggle Visibility of UI elements
 
-In some use cases you might want to hide parts of the UI for specific users. This is possible by using the respective UI annotations like `@UI.Hidden` or `@UI.CreateHidden` in conjunction with '$edmJson' pointing to a singleton.
+In addition to adding [restrictions on services, entities, and actions/functions](/guides/security/authorization#restrictions), there are use cases where you only want to hide certain parts of the UI for specific users. This is possible by using the respective UI annotations like `@UI.Hidden` or `@UI.CreateHidden` in conjunction with `$edmJson` pointing to a singleton.
 
-First you would define the [singleton](../advanced/odata#singletons) in your service and annotate it also with ['@cds.persistency.skip'](../guides/databases#cds-persistence-skip) so that no database artefact is created.
+First, you define the [singleton](../advanced/odata#singletons) in your service and annotate it with [`@cds.persistency.skip`](../guides/databases#cds-persistence-skip) so that no database artefact is created:
 
 ```cds
-    @odata.singleton @cds.persistency.skip
-    entity Configuration {
-        key ID: String; //A key is technically not required as it is a singleton, however without it some consumers might run into problems
-        isAdmin : Boolean;
-    }
+@odata.singleton @cds.persistency.skip
+entity Configuration {
+    key ID: String;
+    isAdmin : Boolean;
+}
 ```
+> A key is technically not required, but without it some consumers might run into problems.
 
-Secondly define an on handler for serving the request
+Then define an `on` handler for serving the request:
 
 ```js
 srv.on('READ', 'Configuration', async req => {
@@ -509,7 +510,7 @@ srv.on('READ', 'Configuration', async req => {
 });
 ```
 
-and thirdly refer to the singleton in the annotation by using a [dynamic expression](../advanced/odata#dynamic-expressions)
+Finally, refer to the singleton in the annotation by using a [dynamic expression](../advanced/odata#dynamic-expressions):
 
 ```cds
 annotate service.Books with @(
@@ -518,14 +519,16 @@ annotate service.Books with @(
 );
 ```
 
-The Entity Container is OData specific and refers to the '$metadata' of the OData service in which all accessible entities are located within the Entity Container. SAP Fiori elements also allows to not include it in the path:
+The Entity Container is OData specific and refers to the `$metadata` of the OData service in which all accessible entities are located within the Entity Container. 
 
+:::details SAP Fiori elements also allows to not include it in the path
 ```cds
 annotate service.Books with @(
     UI.CreateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
     UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
 );
 ```
+:::
 
 ## Value Helps
 

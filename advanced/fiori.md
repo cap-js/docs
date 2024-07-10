@@ -483,6 +483,50 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 
 [Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
+## Use Roles to Toggle Visibility of UI elements
+
+In addition to adding [restrictions on services, entities, and actions/functions](/guides/security/authorization#restrictions), there are use cases where you only want to hide certain parts of the UI for specific users. This is possible by using the respective UI annotations like `@UI.Hidden` or `@UI.CreateHidden` in conjunction with `$edmJson` pointing to a singleton.
+
+First, you define the [singleton](../advanced/odata#singletons) in your service and annotate it with [`@cds.persistency.skip`](../guides/databases#cds-persistence-skip) so that no database artefact is created:
+
+```cds
+@odata.singleton @cds.persistency.skip
+entity Configuration {
+    key ID: String;
+    isAdmin : Boolean;
+}
+```
+> A key is technically not required, but without it some consumers might run into problems.
+
+Then define an `on` handler for serving the request:
+
+```js
+srv.on('READ', 'Configuration', async req => {
+    req.reply({
+        isAdmin: req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
+    });
+});
+```
+
+Finally, refer to the singleton in the annotation by using a [dynamic expression](../advanced/odata#dynamic-expressions):
+
+```cds
+annotate service.Books with @(
+    UI.CreateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
+    UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
+);
+```
+
+The Entity Container is OData specific and refers to the `$metadata` of the OData service in which all accessible entities are located within the Entity Container. 
+
+:::details SAP Fiori elements also allows to not include it in the path
+```cds
+annotate service.Books with @(
+    UI.CreateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
+    UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
+);
+```
+:::
 
 ## Value Helps
 

@@ -529,7 +529,7 @@ entity Users { ...
 ```
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
-Please consider that for SAP Fiori elements you should not use [_Compositions of Aspects_](#composition-of-aspects) because necessary annotations are hard to add. Moreover 'project' and 'user' fields shall not be keys, even if any combination shall be unique, because as keys those fields could not be edited on the UI, thus requiring a different key and the unique constraint being expressed via `@assert.unique`.
+Please consider that for SAP Fiori elements 'project' and 'user' fields shall not be keys, even if any combination shall be unique, because as keys those fields could not be edited on the UI, thus requiring a different key and the unique constraint being expressed via `@assert.unique`.
 
 ### Compositions
 
@@ -571,7 +571,16 @@ entity Orders { ...
 
 [Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions){ .learn-more}
 
-Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above.
+Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above. You can annotate the inline composition with UI annotations as follows:
+
+```cds
+annotate Orders.Items with @(
+   UI.LineItem : [
+      {Value: pos},
+      {Value: quantity}
+   ]
+)
+```
 
 ## Aspects
 

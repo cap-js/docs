@@ -529,7 +529,7 @@ entity Users { ...
 ```
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
-Please consider that for SAP Fiori elements you shiuld not use [_Compositions of Aspects_](#composition-of-aspects) because necessary annotations are hard to add. Moreover 'project' and 'user' fields shall not be keys, even if any combination shall be unique, because as keys those fields could not be edited on the UI, thus requiring a different key and the unique constraint being expressed via `@assert.unique`.
+Please consider that for SAP Fiori elements you should not use [_Compositions of Aspects_](#composition-of-aspects) because necessary annotations are hard to add. Moreover 'project' and 'user' fields shall not be keys, even if any combination shall be unique, because as keys those fields could not be edited on the UI, thus requiring a different key and the unique constraint being expressed via `@assert.unique`.
 
 ### Compositions
 

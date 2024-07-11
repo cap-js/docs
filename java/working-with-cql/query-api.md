@@ -836,7 +836,7 @@ import static bookshop.Bookshop_.BOOKS;
 
 Map<String, Object> b1;
 b1.put("ID", 101);
-b2.put("title", "Capire 1");
+b1.put("title", "Capire 1");
 
 Map<String, Object> b2;
 b2.put("ID", 103);

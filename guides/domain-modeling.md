@@ -577,9 +577,9 @@ Behind the scenes this will add an entity named `Orders.Items` with a backlink a
 annotate Orders.Items with @(
    UI.LineItem : [
       {Value: pos},
-      {Value: quantity}
-   ]
-)
+      {Value: quantity},
+   ],
+);
 ```
 
 ## Aspects

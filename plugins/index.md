@@ -134,7 +134,11 @@ Typically, ORD is used to describe APIs and Events, but it also supports higher
 When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
 
 This plugin enables generation of ORD document for CAP based applications. 
-You can get the ORD document in multiple ways. You can check out the [(readme)](https://github.com/cap-js/ord/blob/main/README.md of the plugin for more details about the set-up and usage.
+You can get the ORD document in multiple ways. You can check out the readme of the plugin for more details about the set-up and usage.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
 
 ## UI5 Dev Server
 

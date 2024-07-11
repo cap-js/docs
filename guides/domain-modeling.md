@@ -529,7 +529,7 @@ entity Users { ...
 ```
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
-Please consider that for SAP Fiori elements 'project' and 'user' fields shall not be keys, even if any combination shall be unique, because as keys those fields could not be edited on the UI, thus requiring a different key and the unique constraint being expressed via `@assert.unique`.
+Consider that for SAP Fiori elements 'project' and 'user' shall not be keys, even if their combination is unique, because as keys those fields can't be edited on the UI. In this case a different key (e.g. a UUID) is required, and the unique constraint for `project` and `user` can be expressed via `@assert.unique`.
 
 ### Compositions
 

@@ -127,6 +127,15 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
+## ORD (Open Resource Discovery)
+
+Open Resource Discovery [(ORD)](https://sap.github.io/open-resource-discovery/) is a protocol that enables applications and services to self-describe their available resources and capabilities. It's not only useful for describing static documentation, but it also accurately reflects tenant-specific configurations and extensions at runtime.
+Typically, ORD is used to describe APIs and Events, but it also supports higher-level concepts like Entity Types (Business Objects) and Data Products (beta).
+When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
+
+This plugin enables generation of ORD document for CAP based applications. 
+You can get the ORD document in multiple ways. You can check out the [(readme)](https://github.com/cap-js/ord/blob/main/README.md of the plugin for more details about the set-up and usage.
+
 ## UI5 Dev Server
 
 
@@ -334,42 +343,4 @@ Available for:
 <div id="upcoming-plugins" />
 
 <div id="planned-plugins" />
-
-## ORD (Open Resource Discovery)
-
-Open Resource Discovery (ORD) is a protocol that enables applications and services to self-describe their available resources and capabilities. It's not only useful for describing static documentation, but it also accurately reflects tenant-specific configurations and extensions at runtime.
-Typically, ORD is used to describe APIs and Events, but it also supports higher-level concepts like Entity Types (Business Objects) and Data Products (beta).
-When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
-
-This plugin enables generation of ORD document for CAP based applications. 
-You can get the ORD document in multiple ways :
-
-#### Programmatic API
-
-```js
-const cds = require('@sap/cds')
-```
-
-```js
-const csn = await cds.load(cds.env.folders.srv)
-const ord = cds.compile.to.ord(csn)
-```
-
-#### Command Line
-
-```sh
-cds compile <path to srv folder> --to ord [-o] [destinationFilePath]
-```
-<img width="1300" alt="Sample Application Demo" style="border-radius:0.5rem;" src="./assets/index/ordCLI.png">
-
-#### ORD Endpoints
-
-1) Run `cds watch` in the application's root.
-2) Check the following relative paths for ORD information - `/.well-known/open-resource-discovery` , `/open-resource-discovery/v1/documents/1`.
-
-
-
-
-
-
 

@@ -215,6 +215,7 @@
 ### [Plugins](plugins/)
 
 - [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [ORD](plugins/#ord)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
 - [Audit Logging](plugins/#audit-logging)

@@ -834,17 +834,9 @@ CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```java
 import static bookshop.Bookshop_.BOOKS;
 
-Map<String, Object> b1;
-b1.put("ID", 101);
-b2.put("title", "Capire 1");
-
-Map<String, Object> b2;
-b2.put("ID", 103);
-b2.put("title", "Capire 2");
-
-List<Map<String, Object>> data = new ArrayList<>();
-data.add(b1);
-data.add(b2);
+var data = List.of(
+	Map.of("ID", 101, "title", "Capire"),
+	Map.of("ID", 103, "title", "CAP Java"));
 
 CqnInsert insert = Insert.into(BOOKS).entries(data);
 ```
@@ -879,15 +871,8 @@ Java:
 ```java
 import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> item;
-item.put("ID", 1);
-item.put("book_ID", 101);
-item.put("quantity", 1);
-List<Map<String, Object>> items;
-items.add(item);
-Map<String, Object> order;
-order.put("OrderNo", "1000");
-order.put("Items", items);
+var items = List.of(Map.of("ID", 1, "book_ID", 101, "quantity", 1));
+var order = Map.of("OrderNo", "1000", "Items", items);
 
 CqnInsert insert = Insert.into(ORDERS).entry(order);
 ```

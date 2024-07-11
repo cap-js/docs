@@ -185,6 +185,32 @@ Available for:
 [![Java](../assets/logos/java.svg 'Link to the repository for cap-java-attachments.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-attachments#readme)
 
 
+
+## SAP Document Management Service {#@cap-js/sdm}
+
+@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
+
+To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
+
+```cds
+extend my.Incidents with {
+  attachments: Composition of many Attachments
+}
+```
+
+![Screenshot showing the Attachments Table in a Fiori app](assets/index/sdm-table.png)
+
+Features:
+
+- A predefined type called `Attachment` for use in entity definitions.
+- Automatic handling of all upload, download, delete and rename operations.
+- Automatically scans for viruses before storing files.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
+
+
 ## Audit Logging
 
 
@@ -264,7 +290,7 @@ Available for:
 [![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Beta />
+## Telemetry
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -303,31 +329,6 @@ Available for:
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
-
-
-## SAP Document Management Service {#@cap-js/sdm}
-
-@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
-
-To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
-
-```cds
-extend my.Incidents with {
-  attachments: Composition of many Attachments
-}
-```
-
-![Screenshot showing the Attachments Table in a Fiori app](assets/index/sdm-table.png)
-
-Features:
-
-- A predefined type called `Attachment` for use in entity definitions.
-- Automatic handling of all upload, download, delete and rename operations.
-- Automatically scans for viruses before storing files.
-
-Available for:
-
-[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
 
 <div id="internal-plugins" />
 

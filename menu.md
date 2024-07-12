@@ -215,11 +215,11 @@
 ### [Plugins](plugins/)
 
 - [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [ORD](plugins/#ord-open-resource-discovery)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
 - [Audit Logging](plugins/#audit-logging)
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
-- [ORD](plugins/#ord)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)

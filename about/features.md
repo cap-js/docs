@@ -259,5 +259,4 @@ Following is an index of the features currently covered by CAP, with status and 
 | Declarative Constraints                                                                  | <O/> |
 | Execute Sandboxed Code                                                                   | <O/> |
 | Runtime API for In-App Extensibility                                                     | <D/> |
-| [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                     | <D/> |
 | Propagating Extensions across (µ) Services                                               | <O/> |

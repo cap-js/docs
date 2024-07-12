@@ -3,7 +3,7 @@ shorty: Moving from .hdbcds to .hdbtable
 
 # layout: cds-ref
 redirect_from: releases/compiler-v2
-#status: internal
+status: released
 ---
 
 # Moving From _.hdbcds_ To _.hdbtable_

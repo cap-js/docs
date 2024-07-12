@@ -454,6 +454,12 @@ During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deplo
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
 For all transitions you want to execute in HDI, you need to specify an undeploy allowlist as described in [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/hdi-delta-deployment-and-undeploy-allow-list?) in the SAP HANA documentation.
 
+:::tip Moving From _.hdbcds_ To _.hdbtable_
+There a migration guide providing you step-by-step instructions for making the switch.
+
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler-hdbcds-to-hdbtable){.learn-more}
+:::
+
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
 If you're migrating your already deployed scenario to _.hdbmigrationtable_ deployment, you've to consider the remarks in [Deploy Artifact Transitions as Supported by HDI](#deploy-artifact-transitions).

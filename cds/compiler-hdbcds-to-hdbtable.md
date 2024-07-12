@@ -161,7 +161,7 @@ Then run a new build and deploy the newly generated _.hdbcds_ files. The `@Comme
 
 ## Temporal Data With Time Slice IDs
 
-Temporal Data with [Time Slice IDs](../guides/temporal-data#adding-time-slice-ids) is a conceptual feature, thus it shouldn't occur in productive applications. Nevertheless, we mention it here for completeness.
+Temporal Data with [Time Slice IDs](/guides/temporal-data#adding-time-slice-ids) is a conceptual feature, thus it shouldn't occur in productive applications. Nevertheless, we mention it here for completeness.
 
 Example:
 ```cds

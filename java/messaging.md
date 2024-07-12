@@ -36,7 +36,7 @@ In the following, we provide a basic introduction to publish-subscribe-based mes
 
 In a publish-subscribe-based messaging scenario (pub-sub messaging), senders send a message tagged with a topic to a message broker. Receivers can create queues at the message broker and subscribe these queues to the topics they're interested in. The message broker will then copy incoming messages matching the subscribed topics to the corresponding queues. Receivers can now consume these messages from their queues. If the receiver is offline, no messages will be lost as the message broker safely stores messages in the queue until a receiver consumes the messages. After the receiver acknowledges the successful processing of a message, the message broker will delete the acknowledged message from the queue.
 
-<img src="./assets/messaging_foundation.png" width="700px" alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](./assets/messaging_foundation.png){width="700px"}
 
 CAP makes sending and receiving messages easy by providing an API agnostic from specific message brokers, and taking care of broker-specific mechanics like connection handling, protocols to use, creating queues, subscriptions, etc. The API seamlessly blends into the common event API of CAP services, so that event messages can be sent using `emit` and handlers to execute when receiving event messages can be declared with the `@On` annotation.
 
@@ -51,7 +51,8 @@ For a quick start in a local development scenario, use the file-based messaging 
 
 CAP services can be configured in the file _application.yaml_. Here, enable the `file-based-messaging` message service with a specific file to store messages in - like shown in the following example:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -59,6 +60,7 @@ cds:
         kind: "file-based-messaging"
         binding: "/any/path/to/file.txt"
 ```
+:::
 
 With the availability of a messaging service, you can now use it to send messages, as illustrated in the following example:
 
@@ -103,7 +105,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
   // get ID and payload of message
   String msgId = context.getMessageId();
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -154,7 +156,7 @@ public class ReviewServiceHandler implements EventHandler {
     reviews.forEach(review -> {
 
       // Calculate the new average rating
-      BigDecimal avg = [...]
+      BigDecimal avg = ...;
 
       // Set event payload
       Reviewed event = Reviewed.create();
@@ -211,7 +213,8 @@ When a CAP service declares such a handler on the `reviewed` event of the `Revie
 
 Example (excerpt of _application.yaml_):
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     - name: ReviewService
@@ -220,6 +223,7 @@ cds:
       kind: enterprise-messaging
       subscribePrefix: '$namespace/'
 ```
+:::
 
 In this example, the `ReviewService` is declared as a remote service and thus will not be served by the current runtime. SAP Event Mesh is declared as the message broker to use. In addition, the configuration parameter `subscribePrefix` was set to `'$namespace/'` to define, that whenever doing subscriptions to topics at SAP Event Mesh, to always prefix the technical topic used for subscribing with the namespace of the bound SAP Event Mesh instance. SAP Event Mesh instances may define their own rules for valid topic names, and a common pattern is to require all topics to start with the namespace of the used instance, which would be automatically fulfilled in the example by always prefixing its namespace.
 
@@ -232,24 +236,28 @@ In this example, the `ReviewService` is declared as a remote service and thus wi
 
 The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event waits until all receivers have processed the event.
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
   - name: "messaging"
     kind: "local-messaging"
 ```
+:::
 
 Alternatively you can use the file-based messaging service, which mocks a message broker on the local file system. With it emitting of the event is completely decoupled from the receivers of the event, like with real message brokers.
 In case you want two services served in different processes to exchange messages, you can achieve this by configuring both services to use the same file for storing and receiving messages.
 The file is defined by the parameter `binding`, as can be seen in the following example:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
   - name: "messaging"
     kind: "file-based-messaging"
     binding: "/any/path/to/file.txt"
 ```
+:::
 
 ::: tip
 In local testing scenarios it might be useful to manually inject messages into the `file-based message broker`, by manually editing its storage file and adding lines to it. New lines will be interpreted as new messages and will be consumed by services subscribed to matching topics. Have a look at the contents of the storage file with a normal text editor after having sent a few messages to get an example of the syntax, which should be self-explanatory.
@@ -262,20 +270,21 @@ Besides the built-in support for `local-messaging` and `file-based-messaging`, a
 
 #### Configuring SAP Event Mesh Support: { #configuring-sap-event-mesh-support}
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
   <groupId>com.sap.cds</groupId>
   <artifactId>cds-feature-enterprise-messaging</artifactId>
   <scope>runtime</scope>
 </dependency>
 ```
-
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
   - name: "messaging"
     kind: "enterprise-messaging"
 ```
+:::
 
 <span id="beforeredispubsub" />
 
@@ -285,20 +294,21 @@ cds:
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
 :::
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
   <groupId>com.sap.cds</groupId>
   <artifactId>cds-feature-redis</artifactId>
   <scope>runtime</scope>
 </dependency>
 ```
-
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
   - name: "messaging"
     kind: "redis-pubsub"
 ```
+:::
 
 ::: tip
 In contrast to SAP Event Mesh the Redis feature is a PubSub service which means that the Redis events are broadcasted and delivered to all subscribed clients simultaneously. That means, each instance of your application receives the same event send by the Redis service. And it's not guaranteed that really all events are delivered by the infrastructure, for example: If an application instance is not connected to the Redis service, the emitted events are going to be lost.
@@ -316,19 +326,22 @@ Example:
 
 You have two SAP Event Mesh service instances on Cloud Foundry named `messaging-01` and `messaging-02`. If you bind both of these instances to your application, then CAP will automatically detect these at the time of startup and create two CAP messaging services with the same name as the broker service instance has on the platform. This mechanism works automatically, even without declaring any of these service instances in the _application.yaml_. The result is equivalent to declaring the CAP messaging services in _application.yaml_ using the names of their broker service instances on the platform, like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
       - name: "messaging-01"
       - name: "messaging-02"
 ```
+:::
 
 In this case, you do not even need to provide configuration parameters for the kind of the services, as CAP will simply check of which kind these service instances are. After startup, the technical CAP messaging services matching these services will be available under the names `messaging-01` and `messaging-02`.
 
 If you want to abstract from the technical names of the services on the used platform, then you might introduce your own names for the CAP messaging service instances in the configuration and reference the concrete service instances on the platform to use via the configuration parameter `binding`:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -337,18 +350,21 @@ cds:
       - name: "messaging2"
         binding: "messaging-02"
 ```
+:::
 
 In this case, the technical CAP messaging services will be available under the names `messaging1` and `messaging2`, which will be using the services named `messaging-01` and `messaging-02` on the platform. This way you can easily switch the names of the used platform services, while keeping the names of the technical CAP services stable.
 
 If you want to configure the usage of a single messaging service that is of a special kind, but do not want to specify its service name on the platform, this can be done like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
       - name: "messaging"
         kind: "enterprise-messaging"
 ```
+:::
 
 In this case, CAP searches for a SAP Event Mesh service instance that is bound to the application, and will provide a CAP messaging service to use it under the name `messaging`, regardless of the name the service instance has on the platform. But if CAP should find multiple SAP Event Mesh service instances bound to your application at runtime, you will get an Exception, as CAP cannot decide which of these to use. In this case you need to be more explicit and define the service instance name to use in one of the ways shown above.
 
@@ -441,7 +457,8 @@ In such scenarios, the "Composite Messaging Service" can be used, which allows y
 
 Let's start with a configuration example (excerpt from _application.yaml_):
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     routes:
@@ -453,6 +470,7 @@ cds:
           - "My/Destination/Messaging/B"
           - "My/Destination/Messaging/C*"
 ```
+:::
 
 To use such a configuration, you need to use the composite messaging service for message handling. You can get hold of an instance of such a service in your code, by using the qualifier `MessagingService.COMPOSITE_NAME` when autowiring the messaging service – as shown in the following example:
 
@@ -493,7 +511,8 @@ The configuration of the composite service is used to determine for which messag
 
 By default, each messaging service uses one queue in the broker for all its subscriptions. If no queue exists, a queue with an autogenerated name will be created. If you want a service to use a specific queue name, you can configure it in your _application.yaml_:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -501,6 +520,7 @@ cds:
         queue:
           name: "my-custom-queue"
 ```
+:::
 
 If a queue with the given name already exists on the broker, then this queue will be used. If a queue with that name doesn't exist yet, it will be created.
 
@@ -510,7 +530,8 @@ Depending on the used message broker, there can be restrictions to what names ca
 
 At the time of queue creation, configuration parameters can be passed to the queue. As options and parameters that can be set for a queue depend on the used message broker, custom key value pairs can be defined that will be passed as queue configuration to the broker at time of queue creation. Check the documentation of the used message broker to see which options can be set. Here is an example:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -520,6 +541,7 @@ cds:
           config:
             accessType: "EXCLUSIVE"
 ```
+:::
 
 [Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){.learn-more}
 
@@ -543,8 +565,8 @@ As a queue will never be automatically deleted, renamed, or messages within dele
 Each CAP messaging service instance uses by default one queue for all its topic subscriptions. For some use cases, you might want to separate incoming messages into different queues. This can be achieved by configuring multiple CAP messaging services for one message broker instance – each using its own queue.
 
 Example:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -553,13 +575,15 @@ cds:
       - name: "second-messaging"
         binding: "cf-messaging-service-instance-name"
 ```
+:::
 
 ### Consuming from a Queue
 
 All handlers registered to a messaging service cause a subscription to a specified handler event. But in some scenarios, the broker sends the messages straight to the queue without topic or event origin. In this case, you can register a handler using the queue name as a handler event to receive queue messages.
 
 Example:
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -567,7 +591,7 @@ cds:
         queue:
           name: "my-custom-queue"
 ```
-
+:::
 
 ```java
 @On(service = "messaging", event = "my-custom-queue")
@@ -580,7 +604,8 @@ public void receiveMyCustomQueueMessage(TopicMessageEventContext context) {
 Furthermore, some messaging brokers support forwarding of messages to another queue. A typical use case is a dead-letter queue that receives messages that could not be delivered from another queue. For those messages you can't register a queue event as the messages have a different topic or event origin. To receive messages from a dead-letter queue, you need to register a `\*`-handler in order to receive all topic or event messages. As a `\*`-handler is not an explicit subscription it doesn't start queue listening by default. You need to explicitly enable queue listening and set property `forceListening` to `true`.
 
 Example:
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -588,14 +613,14 @@ cds:
         queue:
           forceListening: true
 ```
-
+:::
 
 ```java
 @On(service = "messaging")
 public void receiveMyCustomQueueAllMessages(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
-  …
+  ...
 }
 ```
 
@@ -606,8 +631,8 @@ To keep the number of simultaneous connections to message brokers as low as poss
 There can be scenarios in which using multiple queues with dedicated connections for each of them is desired, for example, to balance data throughput. The following example shows how you can use the `dedicated: true` parameter to create a second messaging service bound to the same message broker, but using a different queue with a dedicated connection to it (instead of sharing the same connection with the first messaging service).
 
 Example:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -622,7 +647,7 @@ cds:
         queue:
           name: "my-second-queue"
 ```
-
+:::
 In this example, the `first-messaging` service uses the default connection and the `second-messaging` service uses a new, separate connection.
 
 <span id="indedicatedconnections" />
@@ -635,7 +660,7 @@ The following example demonstrates how the error handler can be used to catch me
 
 ```java
 @On(service = "messaging")
-private void handleError(MessagingErrorEventContext context) {
+private void handleError(MessagingErrorEventContext ctx) {
 
   String errorCode = ctx.getException().getErrorStatus().getCodeString();
   if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
@@ -646,9 +671,9 @@ private void handleError(MessagingErrorEventContext context) {
       // error handling for application errors
 
       // how to access the event context of the raised exception:
-      // context.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
-      //	  String event = e.getEvent());
-      //	  String payload = e.get("data"));
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
       // });
 
       ctx.setResult(true); // acknowledge
@@ -706,9 +731,9 @@ In the handler, we now receive the message regardless if it is incoming from a r
 
 Before a CAP messaging service finally submits the topic of an event message to the message broker, it provides the configuration option to prefix the topic with an arbitrary string.
 
-Example (excerpt from _application.yaml_):
-
-```yaml
+Example:
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 ...
 cds:
   messaging.services:
@@ -718,7 +743,7 @@ cds:
       subscribePrefix: '$namespace/'
 ...
 ```
-
+:::
 `publishPrefix` will prefix the topic when sending messages, while `subscribePrefix` will prefix the topic when subscriptions to a topic are made. If a service is only sending events, defining `publishPrefix` would be sufficient. If a service is only receiving events, defining `subscribePrefix` would be sufficient.
 
 When using SAP Event Mesh, the placeholder `$namespace` can be used to dynamically use the namespace of the bound SAP Event Mesh instance. In the case of subscribing to messages `+/+/+/` can be used as a prefix to subscribe to all SAP Event Mesh namespaces (needs to be allowed in the defined "topic rules" of the used SAP Event Mesh instance). Regardless of the used messaging service, a fixed string, like `default/my.app/1/` can be used for prefixing.
@@ -728,20 +753,20 @@ Besides these kinds of topic manipulations, additional topic manipulations might
 
 ### Enhanced Messages Representation
 
-The configuration property `structured` determines if messages are represented as a plain String (`false`) or always structured as two separate maps, representing data and headers (`true`). Setting this property enables handling of message headers, like `cloudevents` headers, separately from the message itself. This works for all messaging brokers supported by CAP. If using a message broker that supports native headers, e.g. Kafka, the headers are separated from the business data. On incoming messages the flag determines the internal representation of the message either as a plain string or two maps of message data and message headers. Having header data separated, avoids adding extra information or metadata as part of the business data when sending them to the message broker. Additionally the header data is clearly separated on the consumer side, because they provided by different data and headers maps.
+The configuration property `structured` determines if messages are represented as a plain String (`false`) or always structured as two separate maps, representing data and headers (`true`). Setting this property enables handling of message headers, like `cloudevents` headers, separately from the message itself. This works for all messaging brokers supported by CAP. If using a message broker that supports native headers, for example Kafka, the headers are separated from the business data. On incoming messages the flag determines the internal representation of the message either as a plain string or two maps of message data and message headers. Having header data separated, avoids adding extra information or metadata as part of the business data when sending them to the message broker. Additionally the header data is clearly separated on the consumer side, because they provided by different data and headers maps.
 
-The default value for the configuration property `structured` is `false`.
+The default value for the configuration property `structured` is `true`.
 
 Configuration example:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
   - name: "messaging"
     kind: "enterprise-messaging"
     structured: true
 ```
-
+:::
 #### Emitting Events
 
 The interface `MessagingService` provides a new method for emitting events with a data map and a headers map:
@@ -821,8 +846,8 @@ Handling of CDS-defined events is independent of value of the `structured` prope
 CAP is able to produce event messages compatible with the [CloudEvents](https://cloudevents.io/) standard in JSON format. To enable this feature, set the configuration parameter `format` of the messaging service to `cloudevents`, for example, like:
 
 Excerpt from _application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging:
     services:
@@ -830,7 +855,7 @@ cds:
         kind: [...]
         format: cloudevents
 ```
-
+:::
 With this setting, basic header fields (like `type`, `source`, `id`, `datacontenttype`, `specversion`, `time`) of the JSON-based message format will be populated with sensible data (if they have not been set manually before). The event name will be used as-is (without prefixing or any other modifications) as `type` and set in the according CloudEvents header field.
 
 When using CloudEvents format with SAP Event Mesh, the following default prefixing of topics will be applied (if not manually declared differently): Default for `publishPrefix` is set to `$namespace/ce/` and default for `subscribePrefix` is set to `+/+/+/ce/`. Make sure that these prefixes are allowed topic prefixes in your SAP Event Mesh service configuration (especially its topic rules section).

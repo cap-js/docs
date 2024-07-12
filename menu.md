@@ -9,6 +9,7 @@
 - [Sample Projects](get-started/samples)
 - [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
+- [Features Overview](about/features)
 
 ### [Cookbook](guides/)
 
@@ -159,7 +160,6 @@
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
-- [cds. import()](node.js/cds-dk#cds-import)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
@@ -207,8 +207,10 @@
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
 - [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
-- [CDS Design Time APIs](node.js/cds-dk)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
+- [CDS Design Time APIs](tools/apis/)
+  - [cds. add()](tools/apis/cds-add)
+  - [cds. import()](tools/apis/cds-import)
 
 ### [Plugins](plugins/)
 
@@ -219,4 +221,5 @@
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
+- [ORD](plugins/#ord)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)

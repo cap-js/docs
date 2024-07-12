@@ -36,7 +36,7 @@ If your database deployment currently uses `hdbcds`, it's recommended to switch 
     ]
     ```
     :::
-    
+
     :::details Possible error message
     Without this entry, during HDI deployment you get errors like the following:
     ```log
@@ -159,9 +159,10 @@ First disable the doc comments by adapting your `.cdsrc.json`:
 Then run a new build and deploy the newly generated _.hdbcds_ files. The `@Comment` annotations are removed from the _.hdbcds_ files and the resulting database tables and views won't contain the `COMMENT` clause anymore. Unlike the `hdbtable` plugin, the `hdbcds` plugin handles the removal of the `COMMENT`s without a full table migration.
 
 
-## Temporal Data With Time Slice IDs
+## Temporal Data With Time Slice IDs <Concept />
 
-Temporal Data with [Time Slice IDs](/guides/temporal-data#adding-time-slice-ids) is a conceptual feature, thus it shouldn't occur in productive applications. Nevertheless, we mention it here for completeness.
+<!-- TODO add link back, currently in internal fragment: [Time Slice IDs](/guides/temporal-data#adding-time-slice-ids) -->
+Temporal Data with Time Slice IDs is a conceptual feature, thus it shouldn't occur in productive applications. Nevertheless, we mention it here for completeness.
 
 Example:
 ```cds

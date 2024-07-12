@@ -1,8 +1,5 @@
 ---
-shorty: Moving from .hdbcds to .hdbtable
-
 # layout: cds-ref
-redirect_from: releases/compiler-v2
 status: released
 ---
 

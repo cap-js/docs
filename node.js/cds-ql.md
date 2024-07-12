@@ -326,10 +326,10 @@ SELECT.distinct.from (Authors)
 ### columns() {.method}
 
 ```tsx
-function SELECT.colums ( projection : function )
-function SELECT.colums ( cql : tagged template string )
-function SELECT.colums ( columns[] : CQL expr string | CQN expr object )
-function SELECT.colums ( ...columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( projection : function )
+function SELECT.columns ( cql : tagged template string )
+function SELECT.columns ( columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( ...columns[] : CQL expr string | CQN expr object )
 ```
 
 Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select).

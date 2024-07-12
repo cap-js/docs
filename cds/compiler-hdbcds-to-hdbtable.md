@@ -42,7 +42,7 @@ If your database deployment currently uses `hdbcds`, it's recommended to switch 
     
     :::details Possible error message
     Without this entry, during HDI deployment you get errors like the following:
-    ```
+    ```log
     Error: "db://E": the object cannot be provided more than once [8212002]
     "src/E.hdbtable": the file would provide it
     "$cds.merge/E": the deployed file already provides it

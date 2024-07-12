@@ -149,7 +149,7 @@ The query is...
 
 1. captured as a CQN object with the where clause represented as:
 ```js
-..., where:[ {ref:['title']}, '=', {val:201} ]
+..., where:[ {ref:['ID']}, '=', {val:201} ]
 ```
 
 2. translated to plain SQL string with binding parameters

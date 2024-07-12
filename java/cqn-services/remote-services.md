@@ -24,7 +24,7 @@ Destinations in the Cloud SDK are the means to express and define connectivity t
 
 On top of that CAP integrates nicely with Cloud SDK, for example, ensuring automatic propagation of tenant and user information from the _Request Context_ to the Cloud SDK.
 
-<img src="../assets/remote%20services.drawio.svg" width="700px" class="mute-dark" alt="This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.">
+![This graphic depicts the integration of SAP Cloud SDK into SAP CAP Java.](../assets/remote%20services.drawio.svg){width="700px" class="mute-dark"}
 
 CAP's clear recommendation is to use _Remote Services_ over directly using the SAP Cloud SDK. However, if you can't leverage CQN-based _Remote Services_, refer to [native consumption with Cloud SDK](#native-consumption) for details.
 
@@ -50,7 +50,8 @@ _Remote Services_ need to be configured explicitly in your application configura
 
 The following example, shows how you can configure _Remote Services_ in Spring Boot's _application.yaml_ based on a destination:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
@@ -58,6 +59,7 @@ cds:
       destination:
         name: "s4-business-partner-api"
 ```
+:::
 
 Remote Services use a CDS service definition from the CDS model as a specification of the remote API. This API specification is required to properly translate CQN statements into respective OData V2 and V4 requests.
 
@@ -82,7 +84,8 @@ However, the name of the _Remote Service_ needs to be unique, as it's also used 
 Therefore, it's possible to explicitly configure the name of the CDS service definition from the CDS model using the `model` property.
 This is especially useful when creating multiple _Remote Services_ for the same API with different destinations:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     bupa-abc:
@@ -94,6 +97,7 @@ cds:
       destination:
         name: "s4-business-partner-api-def"
 ```
+:::
 
 ### Using Service Bindings { #service-binding-based-scenarios }
 
@@ -110,15 +114,17 @@ If the remote API is exposed by a BTP reuse service, a service broker typically 
 The CAP application requires a service binding to this service to consume the remote API as a _Remote Service_.
 
 These service instances of BTP services provide the URL of the remote API in their service binding.
-Therefore you only need to specify the binding name in the `application.yaml` configuration, like in the following example:
+Therefore, you only need to specify the binding name in the `application.yaml` configuration, like in the following example:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     SomeReuseService:
       binding:
         name: some-service-binding
 ```
+:::
 
 :::details If binding structure isn't understood ...
 In some cases, SAP Cloud SDK doesn't understand the service binding structure of the specific BTP service.
@@ -141,10 +147,11 @@ The class `SomeReuseServiceOAuth2PropertySupplier` needs to be provided by you e
 
 #### Binding to a Service with Shared Identity
 
-If the remote API is available within the same SaaS application and using the same (shared) XSUAA service instance for authentication, no service broker-based reuse service is required.
-The _Remote Service_ can be configured using the shared XSUAA service instance as binding (here: `shared-xsuaa`):
+If the remote API is available within the same SaaS application and using the same (shared) service instance of XSUAA or Identity (IAS) for authentication, no service broker-based reuse service is required.
+The _Remote Service_ can be configured using the shared service instance as binding (here: `shared-xsuaa`):
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     OtherCapService:
@@ -153,9 +160,15 @@ cds:
         options:
           url: https://url-of-the-second-cap-application
 ```
+:::
 
-The plain XSUAA service binding does not contain the URL of the remote API. Therefore it needs to be explicitly configured in the `options` section.
+The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore it needs to be explicitly configured in the `options` section.
 As the URL is typically not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
+
+:::tip
+Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token (ie. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 
+CAP _Remote Services_ automatically takes care of this by initiating a mutual TLS handshake with the remote API.
+:::
 
 #### Configuring the Authentication Strategy
 
@@ -174,7 +187,8 @@ If your _remote API_ is not using Service Bindings, you typically need to separa
 
 Based on the following configuration, a destination with name `s4-business-partner-api` is looked up using the Cloud SDK:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
@@ -182,6 +196,21 @@ cds:
       destination:
         name: s4-business-partner-api
 ```
+:::
+
+If your CAP application is using IAS and you want to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
+As a pre-requisite, your CAP application and the called application need to trust the same IAS tenant and you need to define a dependency in IAS to consume the respective API provided by the _remote API_.
+
+Create a destination configuration with the following parameters:
+
+- _URL_: `<url-of-the-remote-api>`
+- _Authentication_: `NoAuthentication`
+- Additional Properties:
+  - _cloudsdk.ias-dependency-name_: `<name-of-the-ias-dependency>`
+
+At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
+
+[Learn more about consuming APIs from Other IAS-Appications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
 
 The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name that is configured in the _Remote Service_'s destination configuration.
 
@@ -206,7 +235,8 @@ The full service URL however is built from three parts:
 
 Consider this example:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
@@ -215,6 +245,7 @@ cds:
       destination:
         name: s4-business-partner-api
 ```
+:::
 
 In this case, the destination with name `s4-business-partner-api` would be obtained from the `DestinationAccessor`.
 Given that this destination holds the URL `https://s4.sap.com`, the resulting service URL for OData requests would be `https://s4.sap.com/sap/opu/odata/sap/API_BUSINESS_PARTNER`.
@@ -298,7 +329,7 @@ When loading destinations from SAP BTP Destination Service, you can specify a [d
 
 These strategies can be set in the destination configuration of the _Remote Service_:
 
-```yml
+```yml [srv/src/main/resources/application.yaml]
 cds:
   remote.services:
     API_BUSINESS_PARTNER:

@@ -9,6 +9,7 @@
 - [Sample Projects](get-started/samples)
 - [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
+- [Features Overview](about/features)
 
 ### [Cookbook](guides/)
 
@@ -220,4 +221,5 @@
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
+- [ORD](plugins/#ord)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)

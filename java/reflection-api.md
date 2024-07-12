@@ -43,7 +43,7 @@ CdsModel model;
 On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector`, or using the `read` method from a [CSN](../cds/csn) String or [InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-InputStream csnJson = ...
+InputStream csnJson = ...;
 CdsModel model = CdsModel.read(csnJson);
 ```
 
@@ -80,6 +80,7 @@ CdsEntity books = model.getEntity("my.bookshop.Books");
 CdsElement title = books.getElement("title");
 
 boolean key = title.isKey();      // false
+boolean localized = title.isLocalized(); // true
 CdsType type = title.getType();   // CdsSimpleType
 
 if (type.isSimple()) {   // true
@@ -88,7 +89,6 @@ if (type.isSimple()) {   // true
   String typeName = simple.getQualifiedName();  // "cds.String"
   CdsBaseType baseType = simple.getType();      // CdsBaseType.STRING
   Class<?> javaType = simple.getJavaType();     // String.class
-  Boolean localized = simple.get("localized");  // true
   Integer length = simple.get("length");        // 111
 }
 ```
@@ -142,16 +142,6 @@ String displayName = annotation.map(CdsAnnotation::getValue)
         .orElse(orderNo.getName());   // "Order Number"
 ```
 
-### Filter a Stream of Services for non-abstract Services
-
-Using a stream we determine all non-abstract services:
-
-```java
-Stream<CdsService> services = model.services()
-    .filter(s -> !s.isAbstract());
-List<CdsService> serviceList = services.collect(Collectors.toList());
-```
-
 ### Filter a Stream of Entities by Namespace
 
 The static method `com.sap.cds.reflect.CdsDefinition.byNamespace` allows to create a predicate to filter a stream of definitions
@@ -193,22 +183,22 @@ CAP Java does not make any assumption _how_ the set of enabled features (_active
 Features are modeled in CDS by dividing up CDS code concerning separate features into separate subfolders of a common `fts` folder of your project, as shown by the following example:
 
 ```txt
-|-- [db]
-|   |-- my-model.cds
-|   `-- ...
-|-- [srv]
-|   |-- my-service.cds
-|   `-- ...
-`-- [fts]
-    |-- [X]
-    |   |-- model.cds
-    |   `-- ...
-    |-- [Y]
-    |   |-- feature-model.cds
-    |   `-- ...
-    `-- [Z]
-        |-- wrdlbrmpft.cds
-        `-- ...
+├─ [db]
+│  ├─ my-model.cds
+│  └─ ...
+├─ [srv]
+│  ├─ my-service.cds
+│  └─ ...
+└─ [fts]
+   ├─ [X]
+   │  ├─ model.cds
+   │  └─ ...
+   ├─ [Y]
+   │  ├─ feature-model.cds
+   │  └─ ...
+   └─ [Z]
+      ├─ wrdlbrmpft.cds
+      └─ ...
 ```
 
 In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
@@ -244,8 +234,8 @@ By default all features are deactivated (`FeatureTogglesInfo` represents an empt
 #### From Mock User Configuration
 
 If mock users are used, a default [`FeatureToggleProvider`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) is registered, which assigns feature toggles to users based on the [mock user configuration](./security#mock-users). Feature toggles can be configured per user or [per tenant](./security#mock-tenants). The following configuration enables the feature `wobble` for the user `Bob` while for `Alice` the features `cruise` and `parking` are enabled:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   security:
     mock:
@@ -260,7 +250,7 @@ cds:
             - cruise
             - parking
 ```
-
+:::
 #### Custom Implementation
 
 Applications can implement a custom [`FeatureTogglesInfoProvider`](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) that computes a `FeatureTogglesInfo` based on the request's [`UserInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) and [`ParameterInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/ParameterInfo.html).

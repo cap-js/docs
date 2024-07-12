@@ -163,7 +163,7 @@ Renders the given model to a formatted JSON  or YAML string.
 
 Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
 
-Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-odata) above, with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
+Accepted `options` are the same [as documented for `cds.compile`](#additional-options), with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
 
 * Either choose exactly one, for example, `{service:'Catalog'}`
 * Choose to return EDM objects for all, that means, `{service:'all'}`
@@ -184,24 +184,34 @@ for (let [edm,{file,suffix}] of all)
 ```
 
 
+### .hdbcds() {.method .deprecated}
 
+Generates `hdbcds` output.
 
-### .hdbtable() {.method}
+Current SAP HANA Cloud versions do no longer support `.hdbcds`. The command is supported for backward compatibility with older versions of [SAP HANA Service for SAP BTP](https://help.sap.com/docs/HANA_SERVICE).
 
-### .hdbcds() {.method}
+Use [`cds.compile.to.hana`](#hana) instead.
 
+### .hdbtable() {.method .deprecated}
 
-Generates `hdbtable/view` or `hdbcds` output.
-Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview`, or `.hdbcds` file.
+Use [`cds.compile.to.hana`](#hana) instead.
+
+### .hana() <Since version="8.0.0" of="@sap/cds" /> {.method}
+
+Generates `hdbtable/hdbview` output.
+
+Returns a generator function that produces `[ content, {file} ]` for each artifact. The variable `content` contains the SQL DDL statements for the `.hdb*` artifacts, and `file` is the filename.
+
 For example, use it as follows:
 
 ```js
-let all = cds.compile.to.hdbtable (csn)
-for (let [src,{file}] of all)
-  console.log (file,src)
+const all = cds.compile.to.hana(csn);
+for (const [content, { file }] of all) {
+  console.log(file, content);
+}
 ```
 
-
+Additional data for `.hdbmigrationtable` files is calculated if a `beforeImage` parameter is passed in. This is only relevant for build tools to determine the actual migration table changes.
 
 ### .sql() {.method}
 

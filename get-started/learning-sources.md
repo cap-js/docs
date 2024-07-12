@@ -5,7 +5,7 @@ status: released
 
 # Learning Sources
 
-In here, we collected several interesting learning resources for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well prepared sources we can recommend for your learning. From the short description we provide for every resource, you're hopefully able to tell if that fits to the need you're currently having.
+In here, we collected several interesting learning resources for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well prepared sources we can recommend for your learning.
 
 ::: tip Contributions Welcome...
 We're just getting started with this page. Please help us in that endeavour by [adding/proposing resources](https://github.com/cap-js/docs/pulls) that helped you and also to improve the descriptions. Just press <kbd>e</kbd> to start making your contribution.
@@ -15,6 +15,15 @@ We're just getting started with this page. Please help us in that endeavour by [
 
 [[toc]]
 
+## Learning Journeys
+
+- [Getting started with SAP Cloud Application Programming Model](https://learning.sap.com/learning-journeys/getting-started-with-sap-cloud-application-programming-model) (Beginner)
+- [Building side-by-side extensions on SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp) (Intermediate)
+
+## SAP Discovery Center Missions
+- [Develop a Full-Stack CAP Application Following the SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4327/4608/)
+- [Develop a Side-by-Side CAP-Based Extension Application Following the SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4426/4712/)
+- [Implement Observability in a Full-Stack CAP Application Following SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4432/4718/)
 
 
 ## Tutorials

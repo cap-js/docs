@@ -64,7 +64,7 @@ You can use the following aggregations: `#SUM`, `#MAX`, `#MIN`, `#AVG`, `#COUNT_
 ### Introduction
 
 An application can implement the Cloud Data Integration (CDI) protocol for exposing its data,
-e.g. to act as a data provider for Data Plane Services (DPS).
+for example, to act as a data provider for Data Plane Services (DPS).
 Basically, this means that the app has to provide a set of OData V4 services as described
 in the [CDI specification](https://github.tools.sap/DataPlane/cloud-data-integration-specification).
 This is easy to achieve for a CAP application, as CAP provides generic OData exposure based on CDS models.

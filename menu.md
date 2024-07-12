@@ -221,4 +221,5 @@
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
+- [ORD](plugins/#ord)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)

@@ -224,12 +224,13 @@ public void validateTitle(CdsCreateEventContext context, Books book) {
         .messageTarget("cqn", b -> b.get("title"));
 
     // which is the same as using plain string
-    // (assuming direct POST request)
+    // assuming direct POST request
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
         .messageTarget("title");
 
     // which is the same as using plain string
-    // (assuming surrounding bound action request, e.g. draftActivate)
+    // assuming surrounding bound action request with binding parameter "in",
+    // e.g. draftActivate
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
         .messageTarget("in/title");
 }

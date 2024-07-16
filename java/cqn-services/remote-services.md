@@ -465,7 +465,7 @@ OAuth2DestinationBuilder
         .forTargetUrl("https://example.org")
         .withTokenEndpoint("https://xsuaa.url")
         .withClient(clientCredentials, OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT)
-        .withProperties(Map.of("name", "my-destination"))
+        .property("name", "my-destination")
         .build();
 ```
 
@@ -478,6 +478,6 @@ OAuth2DestinationBuilder
         .forTargetUrl("https://example.org")
         .withTokenEndpoint("https://xsuaa.url")
         .withClient(clientCredentials, OnBehalfOf.NAMED_USER_CURRENT_TENANT)
-        .withProperties(Map.of("name", "my-destination"))
+        .property("name", "my-destination")
         .build();
 ```

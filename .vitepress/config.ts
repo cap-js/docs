@@ -11,7 +11,8 @@ import * as MdAttrsPropagate from './lib/md-attrs-propagate'
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
     versions: { [key: string]: string },
-    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[]
+    gotoLinks: { href:string, key:string, name?:string, hidden?:boolean }[],
+    maven_host_base: string
   }
 }
 
@@ -22,8 +23,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.10.0',
-  java_cds4j: '2.10.0'
+  java_services: '3.0.0',
+  java_cds4j: '3.0.0'
 }
 
 const localSearchOptions = {
@@ -74,7 +75,7 @@ const localSearchOptions = {
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
 const menu = sidebar()
-const nav = nav4(menu) as DefaultTheme.NavItem[]
+const nav = nav4(menu) as DefaultTheme.NavItemWithLink[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
   const grammar:RawGrammar = JSON.parse(src.toString())
@@ -83,6 +84,7 @@ const loadSyntax = async (file:string, name:string, alias:string=name):Promise<L
 
 const config:UserConfig<CapireThemeConfig> = {
   title: 'cap≽ire',
+  titleTemplate: ':title | capire', // for the window title
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
   srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
@@ -112,7 +114,11 @@ const config:UserConfig<CapireThemeConfig> = {
       {icon: 'github', link: 'https://github.com/cap-js/docs'}
     ],
     outline: [2,3],
-    capire: { versions: latestVersions, gotoLinks: [] }
+    capire: {
+      versions: latestVersions,
+      gotoLinks: [],
+      maven_host_base: 'https://repo1.maven.org/maven2'
+    }
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],

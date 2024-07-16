@@ -1,7 +1,7 @@
 ---
 # shorty: Definition Language
 synopsis: >
-  A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.
+  Specification of the definition language used to model data models and services in an easy and user-centric syntax. Includes a reference and overview of all CDS concepts and features with compact examples.
 #permalink: /cds/cdl/
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
@@ -1093,6 +1093,10 @@ Some advantages of using expressions as "first class" annotation values are:
 * [automatic path rewriting in propagated annotations](#propagation)
 * [automatic translation of expressions in OData annotations](#odata-annotations)
 
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
 #### Name resolution
 
 Each path in the expression is checked:
@@ -1516,6 +1520,7 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 

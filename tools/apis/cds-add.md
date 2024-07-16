@@ -2,7 +2,7 @@
 label: cds-add
 synopsis: >
   Learn how to create a <code>cds add</code> plugin.
-# status: released
+status: released
 ---
 
 <style scoped lang="scss">
@@ -248,6 +248,7 @@ module.exports = class extends cds.add.Plugin {
       await merge(__dirname, 'add/values.yaml.hbs')
         .into('chart/values.yaml', { with: project }) // [!code ++]
     } // [!code ++]
+  }
 }
 ```
 ```yaml [lib/files/values.yaml.hbs]

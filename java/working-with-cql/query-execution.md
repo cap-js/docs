@@ -289,7 +289,7 @@ An ETag can also be used programmatically in custom code. Use the `CqnEtagPredic
 
 ```java
 PersistenceService db = ...
-Instant expectedLastModification = ...
+Instant expectedLastModification = ...;
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
@@ -362,7 +362,7 @@ orders.forEach(o -> o.setStatus("cancelled"));
 
 Result rs = db.execute(Update.entity(ORDER).entries(orders));
 
-for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
+for(int i = 0; i < orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
 }
 ```
@@ -428,8 +428,8 @@ Select BooksWithLowStock where author = 'Kafka'
 is executed against SQL databases as
 
 ```SQL
-SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
-  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
+  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 

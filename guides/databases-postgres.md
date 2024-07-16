@@ -84,9 +84,39 @@ Output:
 
 ## Provisioning a DB Instance
 
-To connect to a PostgreSQL offering from the cloud provider in Production,  leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
+To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option). For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
-For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
+
+<div markdown="1" class="impl java">
+
+To consume a PostgreSQL instance from a CAP Java application running on SAP BTP, consider the following:
+
+- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application.
+
+- By default, the `java_buildpack` initializes a PostgreSQL datasource with the Java CFEnv library. However, to work properly with CAP, the PostgreSQL datasource must be created by the CAP Java runtime and not by the buildpack. You need to disable the [datasource initialization by the buildback](https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html) using `CFENV_SERVICE_<POSTGRESQL_SERVICE_NAME>_ENABLED: false` at your CAP Java service module.
+
+The following example shows these configuration settings applied to a CAP Java service:
+
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: bookshop-pg-srv
+    type: java
+    path: srv
+    parameters:
+      buildpack: java_buildpack
+    properties:
+        SPRING_PROFILES_ACTIVE: cloud
+        JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
+        JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
+        CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
+```
+
+:::
+
+> `BOOKSHOP-PG-DB` is the real PostgreSQL service instance name in this example.
+</div>
+
 
 ### Using Docker
 
@@ -141,7 +171,8 @@ If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-c
 You can also explicitly [configure the connection data](../java/cqn-services/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: postgres-docker
   datasource:
@@ -150,6 +181,7 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 ```
+:::
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 

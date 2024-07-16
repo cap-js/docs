@@ -122,10 +122,11 @@ The OData v2 Proxy is a protocol adapter that allows you to expose your services
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the OData feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/odata-v2-adapter#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the OData feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/migration#v2adapter)
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
+
 
 ## UI5 Dev Server
 
@@ -134,7 +135,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
 ## GraphQL Adapter
 
@@ -146,7 +147,7 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js/graphql#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/graphql#readme)
 
 
 
@@ -181,8 +182,34 @@ Outlook:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" Title="Link to the repository for cap-js attachments." alt="Node.js logo"/>](https://github.com/cap-js/attachments#readme)
-[<img src="../assets/logos/java.svg" title="Link to the repository for cap-java-attachments." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](https://github.com/cap-java/cds-feature-attachments#readme)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the repository for cap-js attachments.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/attachments#readme)
+[![Java](../assets/logos/java.svg 'Link to the repository for cap-java-attachments.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-attachments#readme)
+
+
+
+## SAP Document Management Service {#@cap-js/sdm}
+
+@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
+
+To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
+
+```cds
+extend my.Incidents with {
+  attachments: Composition of many Attachments
+}
+```
+
+![Screenshot showing the Attachments Table in a Fiori app](assets/index/sdm-table.png)
+
+Features:
+
+- A predefined type called `Attachment` for use in entity definitions.
+- Automatic handling of all upload, download, delete and rename operations.
+- Automatically scans for viruses before storing files.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
 
 
 ## Audit Logging
@@ -209,8 +236,8 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/audit-logging#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/audit-logging#readme)
+![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging) and in [Java](../java/auditlog) {.learn-more}
 
@@ -232,9 +259,8 @@ annotate my.Incidents {
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/change-tracking#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the change-tracking feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/change-tracking)
-
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/change-tracking#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the change-tracking feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/change-tracking)
 
 
 ## Notifications
@@ -262,10 +288,10 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Beta />
+## Telemetry
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -289,9 +315,22 @@ Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/telemetry#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the telemetry feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/operating-applications/observability#open-telemetry)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/telemetry#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the telemetry feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/operating-applications/observability#open-telemetry)
 
+## ORD (Open Resource Discovery)
+
+This plugin enables generation of [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) documents for CAP based applications.
+
+When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
+
+![](./assets/index/ordCLI.png){style="width:450px; box-shadow: 1px 1px 5px #888888" .mute-dark}
+
+You can get the ORD document in multiple ways, see the readme of the plugin.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
 
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}
@@ -302,13 +341,13 @@ This is where the CAP Operator **plugin** is very useful, as it provides an easy
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js/cap-operator-plugin#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
+![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
+
 
 <div id="internal-plugins" />
 
 <div id="upcoming-plugins" />
 
 <div id="planned-plugins" />
-
 

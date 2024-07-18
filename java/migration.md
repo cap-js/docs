@@ -31,9 +31,9 @@ CAP Java 3.0 increased some minimum required versions:
 
 | Dependency | Minimum Version |
 | --- | --- |
+| Cloud SDK | 5.9.0 |
 | @sap/cds-dk | ^7 |
 | Maven | 3.6.3 |
-| Cloud SDK | 5.9.0 |
 
 CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 
@@ -45,6 +45,19 @@ One of the effects of the production profile is that the index page is disabled 
 If you are using the root path `/` for a readiness or liveness probe in Kyma you will need to adjustment them. in this case the recommended approach would be to use the Spring Boot actuator's `/actuator/health` endpoint instead.
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
+
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
+If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
+As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed, use the [`Deploy` main method](/java/multitenancy#deploy-main-method) instead. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
 
 ### Removed feature `cds-feature-xsuaa`
 
@@ -59,18 +72,13 @@ If you have customized the security configuration, you need to adapt it to the n
 [Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
-### Removed MTX Classic Support
+### Proof-Of-Possession enforced for IAS-based authentication
 
-Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
-If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
 
-In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
-As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
 
-- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
-- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
-  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
-  - `/messaging/v1.0/em/<tenant>` (PUT)
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
 
 ### Lazy Localization by default
 
@@ -122,14 +130,6 @@ Some property defaults have been adjusted:
 | --- | --- |
 | `cds.outbox.persistent.enabled` | When set to `false`, all persistent outboxes are disabled regardless of their specific configuration. |
 
-### Deprecated Session Context Variables
-
-| Old Variable | Replacement |
-| --- | --- |
-| `$user.tenant` | `$tenant` |
-| `$at.from` | `$valid.from` |
-| `$at.to` | `$valid.to` |
-
 ### Removed Properties
 
 The following table gives an overview about the removed properties:
@@ -161,6 +161,14 @@ The following table gives an overview about the removed properties:
 | `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
 | `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
 | `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+
+### Deprecated Session Context Variables
+
+| Old Variable | Replacement |
+| --- | --- |
+| `$user.tenant` | `$tenant` |
+| `$at.from` | `$valid.from` |
+| `$at.to` | `$valid.to` |
 
 ### Removed Java APIs
 
@@ -197,17 +205,9 @@ The following table gives an overview about the removed properties:
 
 The goal `addSample` from the `cds-maven-plugin` has been removed. Use the new goal `add` with the property `-Dfeature=TINY_SAMPLE` instead.
 
-### Proof-Of-Possession enforced for IAS-based authentication
-
-In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
-
-Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
-
-[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
-
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.7.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.9.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
 
 ```xml
 <dependency>

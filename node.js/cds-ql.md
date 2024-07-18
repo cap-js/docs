@@ -149,7 +149,7 @@ The query is...
 
 1. captured as a CQN object with the where clause represented as:
 ```js
-..., where:[ {ref:['title']}, '=', {val:201} ]
+..., where:[ {ref:['ID']}, '=', {val:201} ]
 ```
 
 2. translated to plain SQL string with binding parameters
@@ -162,7 +162,7 @@ SELECT ID from Books where ID=?
 dbc.run (sql, [201])
 ```
 
-The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
+The only mistake you could make is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
 
 ```js
 let input = 201 //> might be entered by end users
@@ -326,10 +326,10 @@ SELECT.distinct.from (Authors)
 ### columns() {.method}
 
 ```tsx
-function SELECT.colums ( projection : function )
-function SELECT.colums ( cql : tagged template string )
-function SELECT.colums ( columns[] : CQL expr string | CQN expr object )
-function SELECT.colums ( ...columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( projection : function )
+function SELECT.columns ( cql : tagged template string )
+function SELECT.columns ( columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( ...columns[] : CQL expr string | CQN expr object )
 ```
 
 Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select).

@@ -127,6 +127,7 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
+
 ## UI5 Dev Server
 
 
@@ -317,6 +318,20 @@ Available for:
 [![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/telemetry#readme)
 [![Java](../assets/logos/java.svg 'Link to the documentation of the telemetry feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/operating-applications/observability#open-telemetry)
 
+## ORD (Open Resource Discovery)
+
+This plugin enables generation of [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) documents for CAP based applications.
+
+When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
+
+![](./assets/index/ordCLI.png){style="width:450px; box-shadow: 1px 1px 5px #888888" .mute-dark}
+
+You can get the ORD document in multiple ways, see the readme of the plugin.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
+
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}
 
@@ -335,5 +350,4 @@ Available for:
 <div id="upcoming-plugins" />
 
 <div id="planned-plugins" />
-
 

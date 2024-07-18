@@ -113,6 +113,7 @@ main {
     pre.log {
       font-size: var(--vp-code-font-size);
       line-height: var(--vp-code-line-height);
+      background: var(--vp-code-block-bg);
       padding: 12px 22px !important;
       overflow-x: auto;
       margin: 16px -24px; // same negative margin technique is used in Vitepress
@@ -151,8 +152,6 @@ main {
       i {
         color: grey;
       }
-
-      background: var(--vp-code-block-bg);
     }
 
     .line-numbers-wrapper {
@@ -188,12 +187,12 @@ main {
     border-width: 0 0 0 7px;
     border-radius: 14px;
     &.tip {
-      &, & code, & a { color: #041 };
       background-color: #dfe;
       border-color: #096;
+      &, & code, & a { color: #041 };
       .dark & {
-        &, & code, & a { color: #ced; }
         background-color: #021;
+        &, & code, & a { color: #ced; }
       }
     }
     &.info {
@@ -202,21 +201,21 @@ main {
       }
     }
     &.warning {
-      &, & code, & a { color: #960; }
       background-color: #fff7f0;
       border-color: #ea0;
+      &, & code, & a { color: #960; }
       .dark & {
-        &, & code, & a { color: #ea0; }
         background-color: #210;
+        &, & code, & a { color: #ea0; }
       }
     }
     &.danger {
-      &, & code, & a { color: #600; }
       background-color: #fee;
       border-color: #900;
+      &, & code, & a { color: #600; }
       .dark & {
-        &, & code, & a { color: #fcc; }
         background-color: #300;
+        &, & code, & a { color: #fcc; }
       }
     }
     a {
@@ -343,11 +342,11 @@ kbd {
 }
 
 .learn-more {
-  &, & a { color: #999 !important; .dark & { color: #777 !important }};
   font-style: italic;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
+  &, & a { color: #999 !important; .dark & { color: #777 !important }};
 
   &::before {
     content: url('/images/learn-more.svg');

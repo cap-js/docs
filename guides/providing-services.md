@@ -393,10 +393,6 @@ entity Authors { ... }
 
 Searches all elements of the `Books` entity, as well as all searchable elements of the associated `Authors` entity. Which elements of the associated entity are searchable is determined by the `@cds.search` annotation on the associated entity. So, from `Authors`, all elements of type `String` are searched but `biography` is excluded.
 
-::: warning Only Java
-Extending the search to associated entities is currently only supported on the Java runtime.
-:::
-
 ##### Extend to Individual Elements in Associated Entities
 
 ```cds
@@ -405,11 +401,6 @@ entity Books { ... }
 ```
 
 Searches only in the element `name` of the associated `Authors` entity.
-
-::: warning Only Java
-Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
-:::
-
 
 #### Excluding Fields
 

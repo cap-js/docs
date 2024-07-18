@@ -142,16 +142,6 @@ String displayName = annotation.map(CdsAnnotation::getValue)
         .orElse(orderNo.getName());   // "Order Number"
 ```
 
-### Filter a Stream of Services for non-abstract Services
-
-Using a stream we determine all non-abstract services:
-
-```java
-Stream<CdsService> services = model.services()
-    .filter(s -> !s.isAbstract());
-List<CdsService> serviceList = services.collect(Collectors.toList());
-```
-
 ### Filter a Stream of Entities by Namespace
 
 The static method `com.sap.cds.reflect.CdsDefinition.byNamespace` allows to create a predicate to filter a stream of definitions

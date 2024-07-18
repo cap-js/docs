@@ -465,7 +465,7 @@ cds bind --exec [--] <command> <args ...>
 
 Use the double-dash (`--`) if your command has args starting with a dash (`-`) character. Otherwise the `cds` command line will try to parse them as their own options.
 
-On PowerShell you need to quote the double dash (`--`) when an option with double dash follows, e.g.
+On PowerShell you need to quote the double dash (`--`) when an option with double dash follows:
 
 ```powershell
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42

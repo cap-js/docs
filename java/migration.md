@@ -23,8 +23,202 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [[toc]]
 
+## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
-## CAP Java 1.34 to CAP Java 2.0 { #one-to-two}
+### Minimum Versions
+
+CAP Java 3.0 increased some minimum required versions:
+
+| Dependency | Minimum Version |
+| --- | --- |
+| @sap/cds-dk | ^7 |
+| Maven | 3.6.3 |
+| Cloud SDK | 5.9.0 |
+
+CAP Java 3.0 no longer supports @sap/cds-dk ^6.
+
+### Production Profile `cloud`
+
+The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
+
+One of the effects of the production profile is that the index page is disabled by default.
+If you are using the root path `/` for a readiness or liveness probe in Kyma you will need to adjustment them. in this case the recommended approach would be to use the Spring Boot actuator's `/actuator/health` endpoint instead.
+
+[Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
+
+### Removed feature `cds-feature-xsuaa`
+
+The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has been unified under the umbrella of `cds-feature-identity`.
+
+It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) instead of the deprecated [`spring-xsuaa` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
+
+If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you won't need to adapt code.
+
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend using one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
+
+[Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
+[Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
+
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
+If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
+As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
+
+### Lazy Localization by default
+
+EDMX resources served by the OData V4 `/$metadata` endpoints are now localized lazily by default.
+This significantly reduces EDMX cache memory consumption when many languages are used.
+Note, that this requires at least `@sap/cds-mtxs` in version `1.12.0`.
+
+The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
+If you need localized EDMX files to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
+
+### Star-expand and inline-all are no longer permitted
+
+Previously, you could not use expand or inline without explicit paths on draft-enabled entities. Now they are rejected for all entities on application service level.
+
+For example, following statement will not be executed when submitted to an instance of [`ApplicationService`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html).
+
+```java
+Select.from(BOOKS).columns(b -> b.expand());
+```
+
+This does not impact OData where `expand=*` is transformed into expands for all associations.
+
+### Adjusted POJO class generation
+
+Some parameter defaults of the goal `generate` have been adjusted:
+
+| Parameter | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+
+Both these changes result in the generation of incompatible POJOs. To get the former POJOs, the new defaults can be overwritten by setting the parameters to the old values.
+
+### Adjusted Property Defaults
+
+Some property defaults have been adjusted:
+
+| Property | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
+| `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
+| `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
+| `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Raise errors for incomplete personal data annotations by default. |
+| `cds.messaging.services.<key>.structured` | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now enabled by default. |
+
+### Adjusted Property Behavior
+
+| Property | New Behavior |
+| --- | --- |
+| `cds.outbox.persistent.enabled` | When set to `false`, all persistent outboxes are disabled regardless of their specific configuration. |
+
+### Deprecated Session Context Variables
+
+| Old Variable | Replacement |
+| --- | --- |
+| `$user.tenant` | `$tenant` |
+| `$at.from` | `$valid.from` |
+| `$at.to` | `$valid.to` |
+
+### Removed Properties
+
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement | Explanation |
+| --- | --- | --- |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` | |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
+| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
+| `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
+| `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
+| `cds.odataV4.serializer.enabled` | | The legacy serializer has been removed. |
+| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
+| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
+| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
+| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
+| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
+| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
+| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
+| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
+| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
+| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
+| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+
+### Removed Java APIs
+
+- Removed deprecated classes:
+  - `com.sap.cds.services.environment.ServiceBinding`
+  - `com.sap.cds.services.environment.ServiceBindingAdapter`
+  - `com.sap.cds.services.mt.MtAsyncDeployEventContext`
+  - `com.sap.cds.services.mt.MtAsyncDeployStatusEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtDeployEventContext`
+  - `com.sap.cds.services.mt.MtGetDependenciesEventContext`
+  - `com.sap.cds.services.mt.MtSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtSubscriptionService`
+  - `com.sap.cds.services.mt.MtUnsubscribeEventContext`
+
+- Removed deprecated methods:
+  - `com.sap.cds.services.request.ModifiableUserInfo.addUnrestrictedAttribute`
+  - `com.sap.cds.services.request.ModifiableUserInfo.setUnrestrictedAttributes`
+  - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
+  - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
+  - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.Insert.cqn(String)`
+  - `com.sap.cds.ql.Update.cqn(String)`
+  - `com.sap.cds.ql.Upsert.cqn(String)`
+
+- Deprecations:
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
+  - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
+
+### Removed goals in `cds-maven-plugin`
+
+The goal `addSample` from the `cds-maven-plugin` has been removed. Use the new goal `add` with the property `-Dfeature=TINY_SAMPLE` instead.
+
+### Proof-Of-Possession enforced for IAS-based authentication
+
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
+
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
+
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
+
+## Cloud SDK 4 to 5 { #cloudsdk5 }
+
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.7.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+
+```xml
+<dependency>
+	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+	<artifactId>connectivity-apache-httpclient4</artifactId>
+</dependency>
+```
+
+If you are using Cloud SDK APIs explicitly in your code consider the migration guide for Cloud SDK 5 itself: https://sap.github.io/cloud-sdk/docs/java/guides/5.0-upgrade-steps
+
+## CAP Java 1.34 to CAP Java 2.0 { #one-to-two }
 
 This section describes the changes in CAP Java between the major versions 1.34 and 2.0. It provides also helpful information how to migrate a CAP Java application to the new major version 2.0.
 
@@ -1042,16 +1236,3 @@ After rebuilding and restarting your application, your Application Services are 
 <!-- TODO: Move this to "Development" section -->
 
 <span id="afterenablingodata" />
-
-## Cloud SDK 4 to 5 { #cloudsdk5 }
-
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend to use at least version `5.2.0` of Cloud SDK. To upgrade your CAP Java application to Cloud SDK 5, in most cases, you  don't need to adapt any code if you rely on the Cloud SDK integration package (`cds-integration-cloud-sdk`). In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
-
-```xml
-<dependency>
-	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
-	<artifactId>connectivity-apache-httpclient4</artifactId>
-</dependency>
-```
-
-

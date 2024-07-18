@@ -1,6 +1,8 @@
 ---
 layout: home
 status: released
+title: Home
+titleTemplate: ':title | capire'
 
 hero:
   name: SAP Cloud Application Programming Model
@@ -48,7 +50,7 @@ features:
 
 /* make hero text smaller in narrow sizes */
 @media (max-width: 640px) {
-  .VPHome .VPHero .name {
+  .VPHome .VPHero h1.name {
     font-size: 33px;
   }
 }

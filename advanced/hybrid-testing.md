@@ -214,8 +214,8 @@ Alternatively, you can bind to Kubernetes **Secrets**.
 You can use the `kubectl get secrets` command to list all secrets in your current Kubernetes context:
 
 ```log
-NAME                                    TYPE                                  DATA   AGE
-bookshop-db                       Opaque                                11     44h
+NAME               TYPE      DATA   AGE
+bookshop-db        Opaque    11     44h
 ```
 
 Use the secret name for the `-2` option.
@@ -324,12 +324,10 @@ cds bind --exec mvn spring-boot:run
 Instead of binding to specific cloud services, you can bind to all supported service bindings of an application running on the SAP BTP Cloud Foundry environment:
 
 ```sh
+cds bind -a bookshop-srv # ...or the spelled out way:
 cds bind --to-app-services bookshop-srv
 ```
-
-::: tip
-This shortcut is only possible if you don't need to provide a `service` or a `kind`.
-:::
+> This shortcut is only possible if you don't need to provide a `kind`.
 
 ## `cds bind` Usage { #cds-bind-usage}
 
@@ -378,10 +376,7 @@ There is a handy shortcut to bind multiple services with one command:
 ```sh
 cds bind -2 bookshop-db,bookshop-auth
 ```
-
-::: tip
-This shortcut is only possible if you don't need to provide a `service` or a `kind`.
-:::
+> This shortcut is only possible if you don't need to specify a `kind`.
 
 ### Overwrite Cloud Service Credentials { #overwriting-service-credentials}
 
@@ -531,6 +526,6 @@ With `CDS_ENV`, you specify the configuration profile for the test, where you pr
 
 `cds env get requires` prints the `requires` section of the configuration as a JSON string. By adding the `--resolve-bindings` option, it includes the credentials of the service bindings from the cloud. To make the credentials available for all subsequent `cds` commands and the tests, the `requires` JSON string is put into the `cds_requires` variable.
 
-::: tip
+::: tip Allow dynamic targets
 Service bindings created by `cds bind` contain the Cloud Foundry API endpoint, org, and space. You can allow your services to connect to the currently targeted Cloud Foundry org and space by removing these properties from the binding structure.
 :::

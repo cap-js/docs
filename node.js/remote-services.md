@@ -19,13 +19,14 @@ Class `cds.RemoteService` is a service proxy class to consume remote services vi
 <!--- % assign srv = '<span style="color:grey">srv</span>' %} -->
 
 
-## cds.**RemoteService**  <i>  class </i> { #cds-remote-service}
+## `cds.RemoteService`  <i>  class </i> { #cds-remote-service}
 
-### class cds.**RemoteService**  <i>  extends cds.Service </i>
+### class `cds.RemoteService` <i>  extends `cds.Service` </i>
 
-## cds.RemoteService — Configuration {#remoteservice-configuration }
+## Configuration {#remoteservice-configuration }
 [remoteservice configuration]: #remoteservice-configuration
 
+The `cds.RemoteService` configuration allows you to define various options for connecting to remote services.
 
 <!--- % assign tx = '<span style="color:grey">srv</span>' %} -->
 
@@ -75,6 +76,35 @@ Here, the CSRF-token handling is customized at a more granular level:
  - `method`: The HTTP method for fetching the CSRF token. The default is `head`.
  - `url`: The URL for fetching the CSRF token. The default is the resource path without parameters.
 
+### Timeout Handling
+
+The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds,
+to wait for a response from the remote service before timing out.
+
+This setting is useful for handling slow responses from remote services, ensuring your application does not hang
+indefinitely waiting for a response. It leverages the SAP Cloud SDK to enforce the timeout when requesting the
+remote service.
+
+#### Configuration Option
+
+- **requestTimeout**: *(Optional)* The maximum duration to wait for a response. The default value is `60000`
+milliseconds (1 minute).
+
+#### Example
+
+Below is an example of a `package.json` configuration for a remote service with a custom `requestTimeout`:
+
+```json
+{
+  "API_BUSINESS_PARTNER": {
+    "kind": "odata",
+    "credentials": {
+      "destination": "cpapp-bupa",
+      "requestTimeout": 1000000 // [!code focus]
+    }
+  }
+}
+```
 
 ::: tip
 See [Using Destinations](../guides/using-services#using-destinations) for more details on destination configuration.

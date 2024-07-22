@@ -90,10 +90,6 @@ remote service.
 - **requestTimeout**: *(Optional)* The maximum duration to wait for a response. The default value is `60000`
 milliseconds (1 minute).
 
-#### Example
-
-Below is an example of a `package.json` configuration for a remote service with a custom `requestTimeout`:
-
 ```json
 {
   "API_BUSINESS_PARTNER": {

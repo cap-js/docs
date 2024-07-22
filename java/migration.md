@@ -790,6 +790,7 @@ The subfolder structure reflects the Java package names of your Java classes.
 
 Annotate all of your event handler classes with the following annotations and ensure a unique service name:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @org.springframework.stereotype.Component
 @com.sap.cds.services.handler.annotations.ServiceName("serviceName")

@@ -18,8 +18,14 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
-      - run: |
+      - name: Run CDS snippet checker
+        run: |
           cd .github/cds-snippet-checker
+          npm install
+          npm run check
+      - name: Run Java snippet checker
+        run: |
+          cd .github/java-snippet-checker
           npm install
           npm run check
       - run: npm ci

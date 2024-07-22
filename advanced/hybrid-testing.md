@@ -526,6 +526,6 @@ With `CDS_ENV`, you specify the configuration profile for the test, where you pr
 
 `cds env get requires` prints the `requires` section of the configuration as a JSON string. By adding the `--resolve-bindings` option, it includes the credentials of the service bindings from the cloud. To make the credentials available for all subsequent `cds` commands and the tests, the `requires` JSON string is put into the `cds_requires` variable.
 
-::: tip Allow dynamic targets
+::: tip Allow dynamic deploy targets
 Service bindings created by `cds bind` contain the Cloud Foundry API endpoint, org, and space. You can allow your services to connect to the currently targeted Cloud Foundry org and space by removing these properties from the binding structure.
 :::

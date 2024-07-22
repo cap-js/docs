@@ -143,7 +143,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> Export CDS models to ... <br>
 > <sup>2</sup> To support customers with existing OData V2 UIs<br>
-> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-proxy-node)  <br>
+> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-adapter-node)  <br>
 > <sup>4</sup> Could be a good case for 3rd-party contribution <br>
 > <sup>5</sup> For Node.js try out the [GraphQL Adapter](/plugins/#graphql-adapter) <br>
 > <sup>6</sup> For Java try out the provided [sample code](https://github.com/SAP-samples/cloud-cap-samples-java/commit/16dc5d9a1f103eb1336405ee601dc7004f70538f). <br>

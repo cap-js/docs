@@ -231,12 +231,14 @@ In case the service name is based on the CDS model it is recommended to use thes
 
 It is possible to specify multiple service names. Event handlers are registered on all of these services.
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(["AdminService", "CatalogService"])
 ```
 
 The `type` attribute of the `@ServiceName` annotation can be used to register event handlers on all services of a certain type:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)
 ```
@@ -263,6 +265,7 @@ The CAP Java SDK Maven Plugin generates interfaces for entities in the CDS model
 It is recommended to use these constants with the `event` or `entity` attributes of the annotations.
 :::
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 // registers on multiple events
 @Before(event = { "CREATE", "UPDATE" }, entity = "AdminService.Books")

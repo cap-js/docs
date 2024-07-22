@@ -430,11 +430,11 @@ FEATURE OPTIONS
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
 :::
 
-### `dependencies()` {.method}
+### `requires()` {.method}
 
-The `dependencies` function allows to specify other plugins that need to be run as a prerequisite:
+The `requires` function allows to specify other plugins that need to be run as a prerequisite:
 ```js
-dependencies() {
+requires() {
   return ['xsuaa'] //> runs 'cds add xsuaa' before plugin is run
 }
 ```

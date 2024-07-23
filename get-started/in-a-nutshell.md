@@ -122,7 +122,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    > For Java development in VS Code you need to [install extensions](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack).
 
-3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+3. Run the following command in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
    <div class="impl node">
 

@@ -329,44 +329,47 @@ Select.from(AUTHOR)
 
 ### Standard Operators {.impl .node}
 
-The new database services guarantee identical behavior of these logic operators:
+The database services guarantee identical behavior of these logic operators:
 
-`<`, `>`, `<=`, `>=`, `<>`, `=`, `IN`, `LIKE` — are supported as is in standard SQL.
+* `==`, `=` — with `=` null being translated to is `null`
+* `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
+* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
 
-With special mappings for the following boolean operators:
-
-| Operator  | `@cap-js/sqlite` | `@cap-js/hana` | `@cap-js/postgres` |
-|-----------|------------------|----------------|---------------------|
-| `= NULL`  | `is NULL`        | `is NULL`      | `is NULL`           |
-| `!=`      | `<>`             | `!=`           | `<>`                |
-| `!= NULL` | `is not NULL`    | `is not NULL`  | `is not NULL`       |
-
-
-In particular, the translation of `!=` to `IS NOT` in SQLite — or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
+With special mappings for the boolean operators `= NULL`, `!=` and `!= NULL`, 
+In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
 > These operators are available for runtime queries, but not in CDS files.
 
 
 ### Standard Functions {.impl .node}
 
-A specified set of standard functions is now supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
+A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
+These functions are by large the same as specified in OData:
 
-* `concat(x,y,...)` — concatenates the given strings
+* `concat(x,y,...)` — concatenates the given strings or numbers
+* `trim(x)` — removes whitespaces
 * `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
-* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
-* `matchesPattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
-* `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
+* `matchespattern(x,y)` — checks whether `x` matches regex `y`
+* `substring(x,i,n?)` <sup>1</sup> — extracts a substring from `x` starting at `i` (may be negative) with length `n` (optional; may be negative)
+* `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
 * `toupper(x)` — returns all-uppercased `x`
-* `ceiling(x)` — returns ceiled `x`
-* `session_context(v)` — with standard variable names → [see Session Variables](/guides/databases-sqlite#session-variables)
-* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
+* `ceiling(x)` —  rounds the input numeric parameter up to the nearest numeric value
+* `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
+* `round(x)` — rounds the input numeric parameter to the nearest numeric value.
+               The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
+* `year` `month`, `day`, `hour`, `minute`, `second`, `fractionalseconds`, `time`, `date` — return parts of a datetime
+* `maxdatetime`, `mindatetime` — return the maximum or minimum datetime
+* `now()` — returns the current datetime
+* `totalseconds(x)` — returns the total seconds of a datetime
+* `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
+* `search(xs,y)` <sup>2</sup> — checks whether `y` is contained in any of `xs`, may be fuzzy (see [Searching Data](/guides/providing-services#searching-data))
+* `session_context(v)` <sup>2</sup> — with standard variable names → [see Session Variables](/guides/databases#session-variables)
+> <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
 
-> <sup>1</sup> Argument `n` is optional.
 > These functions are only supported within runtime queries, but not in CDS files.
 
 The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
@@ -397,16 +400,30 @@ You have to write these functions exactly as given; all-uppercase usages aren't 
 
 In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
 
-- `years_between`
-- `months_between`
-- `days_between`
-- `seconds_between`
-- `nano100_between`
+* `years_between`
+* `months_between`
+* `days_between` 
+* `seconds_between`
+* `nano100_between`
 
 With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
 
 > Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
 
+
+### Session Variables {.impl .node}
+
+The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
+This allows you to write respective code once and run it on all these databases:
+
+```sql
+SELECT session_context('$user.id')
+SELECT session_context('$user.locale')
+SELECT session_context('$valid.from')
+SELECT session_context('$valid.to')
+```
+
+Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
 
 ### Native DB Queries
 

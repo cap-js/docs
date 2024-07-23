@@ -382,27 +382,6 @@ SELECT.from.localized(Books)
 SELECT.one.localized(Books)
 ```
 
-### Session Variables {.impl .node}
-
-The new SQLite service can leverage  [*better-sqlite*](https://www.npmjs.com/package/better-sqlite3)'s user-defined functions to support *session context* variables. In particular, the pseudo variables `$user.id`, `$user.locale`,  `$valid.from`, and `$valid.to` are available in native SQL queries as shown below:
-
-```sql
-SELECT session_context('$user.id')
-SELECT session_context('$user.locale')
-SELECT session_context('$valid.from')
-SELECT session_context('$valid.to')
-```
-
-Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
-
-::: tip Portable API
-
-The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*. This allows you to write respective code once and run it on all these databases.
-
-:::
-
-
-
 ### Using Lean Draft {.impl .node}
 
 The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, none of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.

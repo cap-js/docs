@@ -81,9 +81,6 @@ Here, the CSRF-token handling is customized at a more granular level:
 The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds (default: 60000),
 to wait for a response from the remote service before timing out.
 
-This setting is useful for handling slow responses from remote services, ensuring your application does not hang
-indefinitely waiting for a response. It leverages the SAP Cloud SDK to enforce the timeout when requesting the
-remote service.
 
 #### Configuration Option
 

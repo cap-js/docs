@@ -95,7 +95,7 @@ milliseconds (1 minute).
   "API_BUSINESS_PARTNER": {
     "kind": "odata",
     "credentials": {
-      "destination": "cpapp-bupa",
+      ...
       "requestTimeout": 1000000 // [!code focus]
     }
   }

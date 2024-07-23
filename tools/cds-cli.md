@@ -471,6 +471,7 @@ CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
 CDS_MERMAID_MIN=false|true           # remove unused entities
 CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
 CDS_MERMAID_QUERIES=false|true       # show queries/projections
+CDS_MERMAID_DIRECTION=TB|BT|LR|RL    # layout direction of the diagram
 ```
 
 <div id="mermaid-cli-more" />

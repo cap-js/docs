@@ -28,7 +28,7 @@ Following are cds-plugin packages for CAP Node.js runtime that support respectiv
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SAP HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
+| **[SAP HANA Cloud](databases-hana)**     | [`@cap-js/hana`](https://www.npmjs.com/package/@cap-js/hana) | recommended for production         |
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
@@ -52,7 +52,7 @@ npm add @cap-js/hana
 <!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
-... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
+... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
 
 :::
 
@@ -66,7 +66,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
   "requires": {
     "db": {
       "[development]": { "kind": "sqlite", "impl": "@cap-js/sqlite", "credentials": { "url": "memory" } },
-      "[production]": { "kind": "hana", "impl": "@sap/cds-hana", "deploy-format": "hdbtable" }
+      "[production]": { "kind": "hana", "impl": "@cap-js/hana", "deploy-format": "hdbtable" }
     }
   }
 }}

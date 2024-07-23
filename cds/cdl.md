@@ -1105,6 +1105,7 @@ Each path in the expression is checked:
 * If the annotation is assigned to a subelement of a structured element, the top level
   elements of the entity can be accessed via `$self`.
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
+* For a draft-enabled entity, element `IsActiveEntity` can be accessed via prefix `$draft`.
 * If a path cannot be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`

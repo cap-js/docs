@@ -78,7 +78,7 @@ Here, the CSRF-token handling is customized at a more granular level:
 
 ### Timeout Handling
 
-The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds,
+The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds (default: 60000),
 to wait for a response from the remote service before timing out.
 
 This setting is useful for handling slow responses from remote services, ensuring your application does not hang

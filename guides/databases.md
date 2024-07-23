@@ -46,7 +46,7 @@ npm add @cap-js/sqlite -D
 Using SAP HANA for production:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/hana
 ```
 
 <!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->

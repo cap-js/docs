@@ -87,7 +87,6 @@ remote service.
 
 #### Configuration Option
 
-- **requestTimeout**: *(Optional)* The maximum duration to wait for a response. The default value is `60000`
 milliseconds (1 minute).
 
 ```json

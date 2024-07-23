@@ -19,9 +19,9 @@ Class `cds.RemoteService` is a service proxy class to consume remote services vi
 <!--- % assign srv = '<span style="color:grey">srv</span>' %} -->
 
 
-## `cds.RemoteService`  <i>  class </i> { #cds-remote-service}
+## cds.**RemoteService**  <i>  class </i> { #cds-remote-service}
 
-### class `cds.RemoteService` <i>  extends `cds.Service` </i>
+### class cds.**RemoteService** <i>  extends cds.Service </i>
 
 ## Configuration {#remoteservice-configuration }
 [remoteservice configuration]: #remoteservice-configuration
@@ -78,13 +78,11 @@ Here, the CSRF-token handling is customized at a more granular level:
 
 ### Timeout Handling
 
-The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds (default: 60000),
-to wait for a response from the remote service before timing out.
+The `requestTimeout` setting in the `cds.RemoteService` configuration specifies the maximum duration, in milliseconds
+(default: 60000), to wait for a response from the remote service before timing out.
 
 
 #### Configuration Option
-
-milliseconds (1 minute).
 
 ```json
 {

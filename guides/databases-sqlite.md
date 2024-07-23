@@ -409,7 +409,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
-* `matchesPattern(x,y)` — checks whether `x` matches regex `y`
+* `matchespattern(x,y)` — checks whether `x` matches regex `y`
 * `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
 * `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`

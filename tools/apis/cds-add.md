@@ -2,7 +2,7 @@
 label: cds-add
 synopsis: >
   Learn how to create a <code>cds add</code> plugin.
-# status: released
+status: released
 ---
 
 <style scoped lang="scss">
@@ -248,6 +248,7 @@ module.exports = class extends cds.add.Plugin {
       await merge(__dirname, 'add/values.yaml.hbs')
         .into('chart/values.yaml', { with: project }) // [!code ++]
     } // [!code ++]
+  }
 }
 ```
 ```yaml [lib/files/values.yaml.hbs]
@@ -429,11 +430,11 @@ FEATURE OPTIONS
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
 :::
 
-### `dependencies()` {.method}
+### `requires()` {.method}
 
-The `dependencies` function allows to specify other plugins that need to be run as a prerequisite:
+The `requires` function allows to specify other plugins that need to be run as a prerequisite:
 ```js
-dependencies() {
+requires() {
   return ['xsuaa'] //> runs 'cds add xsuaa' before plugin is run
 }
 ```

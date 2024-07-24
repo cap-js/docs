@@ -311,7 +311,7 @@ Services in CAP are **stateless** and with a **minimal footprint**, which allows
 
 <figure>
    <img src="../assets/agnostic-services.drawio.svg" width="333px">
-  <figcaption><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
+  <figcaption style="text-align: center"><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
 <br><br>
@@ -396,7 +396,7 @@ cds.service.impl (function(){
 
 
 // Emitting Events
-// e.g. in this.on ('cancelOrder', ...)
+// in this.on ('cancelOrder', ...)
 let { ID } = req.data
 this.emit ('orderCancelled', {ID})
 

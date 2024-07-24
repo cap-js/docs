@@ -260,7 +260,7 @@ public class CatalogServiceHandler implements EventHandler {
     public void reviewAction(ReviewEventContext context) {
         CqnSelect selectBook = context.getCqn();
         Integer stars = context.getStars();
-        Reviews review = [...] // create the review
+        Reviews review = ...; // create the review
         context.setResult(review);
     }
 
@@ -369,11 +369,13 @@ By default, the CAP Java SDK provides protocol adapters for OData V4 and V2 and 
 | OData V2 | `/odata/v2`       | [`cds.odataV2.endpoint.path`](../developing-applications/properties#cds-odataV2-endpoint-path) |
 
 The following example shows, how to deviate from the defaults:
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   odataV4.endpoint.path: '/api'
   odataV2.endpoint.path: '/api-v2'
 ```
+:::
 
 ### Configure Path and Protocol
 

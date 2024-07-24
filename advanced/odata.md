@@ -24,6 +24,8 @@ status: released
 
 # Serving OData APIs
 
+[[toc]]
+
 ## Feature Overview { #overview}
 
 OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
@@ -1201,12 +1203,14 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
+The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+
+Example 1:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
 ```
-or
+Example 2:
 
 ```json
 {"title": "Tow Sawyer",
@@ -1226,7 +1230,7 @@ service CatalogService {
   type Book {} // [!code focus]
 }
 ```
-Following payload for `Order` is allowed:
+The following payload for `Order` is allowed:
 
 `{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
 
@@ -1234,11 +1238,6 @@ Note that type `Order` itself is not open thus doesn't allow dynamic properties,
 
 ::: warning
 Dynamic properties are not persisted in the underlying data source automatically and must be handled completely by custom code.
-:::
-
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime currently only supports the feature for actions via REST. Full support will be available in the new OData adapter in `@sap/cds^8`.
 :::
 
 ### Java Type Mapping
@@ -1325,11 +1324,11 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
 
-### Enabling OData V2 via Proxy in Node.js Apps { #odata-v2-proxy-node}
+### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 
 CAP Node.js supports serving the OData V2 protocol through the [_OData V2 adapter for CDS_](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter), which translates between the OData V2 and V4 protocols.
 
-For Node.js projects, add the proxy as express.js middleware as follows:
+For Node.js projects, add the CDS OData V2 adapter as express.js middleware as follows:
 
 1. Add the adapter package to your project:
 
@@ -1337,30 +1336,8 @@ For Node.js projects, add the proxy as express.js middleware as follows:
     npm add @cap-js-community/odata-v2-adapter
     ```
 
-2. Add this as a plugin to your project:
-
-    ::: code-group
-    ```json [package.json]
-    {...
-    "cds" : {
-      "cov2ap" : {
-        "plugin" : true
-        }
-      }
-    }
-    ```
-
-    ```json [.cdsrc.json]
-    {
-    "cov2ap" : {
-      "plugin" : true
-      }
-    }
-    ```
-    :::
-
-3. Access OData V2 services at [http://localhost:4004/v2/${path}](http://localhost:4004/v2).
-4. Access OData V4 services at [http://localhost:4004/${path}](http://localhost:4004) (as before).
+2. Access OData V2 services at [http://localhost:4004/odata/v2/${path}](http://localhost:4004/odata/v2).
+3. Access OData V4 services at [http://localhost:4004/odata/v4/${path}](http://localhost:4004/odata/v4) (as before).
 
 Example: Read service metadata for `CatalogService`:
 
@@ -1371,8 +1348,8 @@ Example: Read service metadata for `CatalogService`:
     service CatalogService { ... }
     ```
 
-- OData V2: `GET http://localhost:4004/v2/browse/$metadata`
-- OData V4: `GET http://localhost:4004/browse/$metadata`
+- OData V2: `GET http://localhost:4004/odata/v2/browse/$metadata`
+- OData V4: `GET http://localhost:4004/odata/v4/browse/$metadata`
 
 [Find detailed instructions at **@cap-js-community/odata-v2-adapter**.](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter){.learn-more}
 

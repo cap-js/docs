@@ -72,7 +72,7 @@ The following table lists these minimum versions for various common dependencies
 | @sap/cds-compiler | 4 | latest |
 | Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 5.9.0 | latest |
+| SAP Cloud SDK | 5.9 | latest |
 | Java Logging | 3.7 | latest |
 
 #### Maintenance Version 2.10.x { #dependencies-version-2 }

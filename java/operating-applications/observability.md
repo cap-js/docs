@@ -568,13 +568,14 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
+    <scope>runtime</scope>
 </dependency>
 ```
 :::
 
 By default, Spring exposes the *aggregated* health status on web endpoint `/actuator/health`, including the result of all registered health indicators. But also the `info` actuator is exposed automatically, which might be not desired for security reasons. It's recommended to **explicitly** control web exposition of actuator components in the application configuration. The following configuration snippet is an example suitable for public visible health check information:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 management:
   endpoint:
     health:

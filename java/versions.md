@@ -80,7 +80,7 @@ The following table lists these minimum versions for various common dependencies
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
 | JDK | 17 | 21 |
-| Maven | 3.5.0 | 3.9.6 |
+| Maven | 3.5.0 | 3.9.8 |
 | @sap/cds-dk | 6 | 7 |
 | @sap/cds-compiler | 3 | 4 |
 | Spring Boot | 3.0 | latest |

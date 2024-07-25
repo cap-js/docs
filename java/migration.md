@@ -141,7 +141,9 @@ The following table gives an overview about the removed properties:
 | `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
 | `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
 | `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
-| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.security.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.security.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
+| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
 | `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
 | `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
 | `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
@@ -152,15 +154,13 @@ The following table gives an overview about the removed properties:
 | `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
 | `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
 | `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
-| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
-| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
-| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
-| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
-| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
-| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.remote.services.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
+| `cds.remote.services.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
+| `cds.remote.services.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
+| `cds.remote.services.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
+| `cds.remote.services.<key>.destination.type` | `cds.remote.services.<key>.type` | |
 | `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
 | `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
-| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
 
 ### Deprecated Session Context Variables
 

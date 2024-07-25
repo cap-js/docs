@@ -415,7 +415,7 @@ Searches all elements of type `String` excluding the element `isbn`, which leave
 You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
 :::
 
-#### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
+#### Fuzzy and Weighted Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
 Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
 
@@ -431,8 +431,20 @@ Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` anno
 
 ```cds
 entity Books {
-  @Search.fuzzinessThreshold: 0.7
-  title : String;
+   @Search.fuzzinessThreshold: 0.7
+   title : String;
+}
+```
+
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To change the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+
+```cds
+entity Books {
+   @Search.ranking: HIGH
+   title         : String;
+
+   @Search.ranking: LOW
+   publisherName : String;
 }
 ```
 

@@ -108,9 +108,59 @@ Some parameter defaults of the goal `generate` have been adjusted:
 | Parameter | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
 | `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
-| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions, by prefixing the interfaces with the entity name. |
 
 Both these changes result in the generation of incompatible POJOs. To get the former POJOs, the new defaults can be overwritten by setting the parameters to the old values.
+
+Consider the following example:
+
+```cds
+service MyService {
+  entity MyEntity {
+	key ID: UUID
+  } actions {
+	// bound action
+	action doSomething(values: MyArray);
+  }
+}
+
+// global arrayed type
+type MyArray: many {
+	value: String;
+}
+```
+
+With the new defaults the generated interface for the `doSomething` action looks like his:
+
+```java
+// uniqueEventContexts: true =>
+// interface is prefixed with entity name "MyEntity"
+public interface MyEntityDoSomethingContext extends EventContext {
+
+  // sharedInterfaces: true => global MyArray type is used
+  Collection<MyArray.Item> getValues();
+  void setValues(Collection<MyArray.Item> values);
+
+}
+```
+
+Formerly the generated interface looked like this:
+
+```java
+// uniqueEventContexts: false =>
+// interface is not prefixed with entity name
+public interface DoSomethingContext extends EventContext {
+
+  // sharedInterfaces: false => global MyArray type is not used,
+  // instead an additional interface Values is generated inline
+  Collection<Values> getValues();
+  void setValues(Collection<Values> values);
+
+  interface Values extends CdsData {
+    // ...
+  }
+}
+```
 
 ### Adjusted Property Defaults
 

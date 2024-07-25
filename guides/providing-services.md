@@ -436,7 +436,7 @@ entity Books {
 }
 ```
 
-The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To change the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To adjust the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
 
 ```cds
 entity Books {

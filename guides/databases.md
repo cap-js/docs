@@ -329,25 +329,26 @@ Select.from(AUTHOR)
 
 ### Standard Operators {.impl .node}
 
-The database services guarantee identical behavior of these logic operators:
+The database services guarantee identical behavior of these operators:
 
-* `==`, `=` — with `=` null being translated to is `null`
+* `==`, `=` — with `=` null being translated to `is null`
 * `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
 * `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
+* `||` — concatenation operator
 
-With special mappings for the boolean operators `= NULL`, `!=` and `!= NULL`, 
 In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
 > These operators are available for runtime queries, but not in CDS files.
 
 
-### Standard Functions {.impl .node}
+### Functions Mappings for Runtime Queries {.impl .node}
 
 A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
-These functions are by large the same as specified in OData:
+Note that these functions are only supported within runtime queries, but not in CDS files.
+This set of functions are by large the same as specified in OData:
 
 * `concat(x,y,...)` — concatenates the given strings or numbers
-* `trim(x)` — removes whitespaces
+* `trim(x)` — removes leading and trailing whitespaces
 * `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
@@ -361,54 +362,30 @@ These functions are by large the same as specified in OData:
 * `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
 * `round(x)` — rounds the input numeric parameter to the nearest numeric value.
                The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
-* `year` `month`, `day`, `hour`, `minute`, `second`, `fractionalseconds`, `time`, `date` — return parts of a datetime
-* `maxdatetime`, `mindatetime` — return the maximum or minimum datetime
+* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`, `fractionalseconds(x)`, `time(x)`, `date(x)` —
+  returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `totalseconds(x)` — returns the total seconds of a datetime a given `cds.DateTime` / `cds.Time`
 * `now()` — returns the current datetime
-* `totalseconds(x)` — returns the total seconds of a datetime
 * `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
-* `search(xs,y)` <sup>2</sup> — checks whether `y` is contained in any of `xs`, may be fuzzy (see [Searching Data](/guides/providing-services#searching-data))
-* `session_context(v)` <sup>2</sup> — with standard variable names → [see Session Variables](/guides/databases#session-variables)
+* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
+* `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
 > <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
 
-> These functions are only supported within runtime queries, but not in CDS files.
-
-The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
-
-CQL query:
-
-```sql
-SELECT from Books where search((title,descr),'y')
-```
-
-Translated native SQLite query:
-
-```sql
-SELECT * from sap_capire_bookshop_Books
- WHERE ifnull(instr(lower(title),lower('y')),0)
-    OR ifnull(instr(lower(descr),lower('y')),0)
-```
-
-> Note: only single values are supported for the second argument `y`.
-
-::: warning Case-sensitive
-
-You have to write these functions exactly as given; all-uppercase usages aren't supported.
-
-:::
-
-### SAP HANA Functions {.impl .node}
+> You have to write these functions exactly as given; all-uppercase usages aren't supported.
 
 In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
 
-* `years_between`
-* `months_between`
-* `days_between` 
-* `seconds_between`
-* `nano100_between`
+* `years_between` — Computes the number of years between two specified dates.
+* `months_between` — Computes the number of months between two specified dates.
+* `days_between` — Computes the number of days between two specified dates.
+* `seconds_between` — Computes the number of seconds between two specified dates.
+* `nano100_between` — Computes the time difference between two dates to the precision of 0.1 microseconds.
 
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
 With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
 
-> Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
+> For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
 
 
 ### Session Variables {.impl .node}

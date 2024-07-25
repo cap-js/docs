@@ -213,7 +213,7 @@ In other words this asynchronous handler code does **not work** as expected:
 ```js
 cds.on ('bootstrap', async ()=> {
   await asyncCode() // [!code error] // will NOT be awaited
-}
+})
 ```
 
 You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
@@ -222,7 +222,7 @@ You can use the [served](#served) event's asynchronous nature though to wait for
 let done
 cds.on('bootstrap', ()=> {
   done = asyncCode()
-}
+})
 cds.on('served', async ()=> {
   await moreCode()
   await done

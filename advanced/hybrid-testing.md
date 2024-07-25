@@ -493,7 +493,7 @@ Learn how to do hybrid testing using the XSUAA service in the [CAP Node.js authe
 Configure your required bindings for testing and save them to your project's _package.json_ file for your tests' profile:
 
 ```sh
-cds bind -2 integration-test-hana -o package.json -p integration-test
+cds bind -2 integration-test-hana -o package.json -4 integration-test
 ```
 
 No credentials are saved!

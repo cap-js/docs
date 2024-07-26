@@ -494,7 +494,6 @@ To add actuator support in your application, add the following dependency:
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
-    <scope>runtime</scope>
 </dependency>
 ```
 :::
@@ -568,7 +567,6 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
-    <scope>runtime</scope>
 </dependency>
 ```
 :::

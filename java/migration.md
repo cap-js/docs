@@ -130,7 +130,7 @@ type MyArray: many {
 }
 ```
 
-With the new defaults the generated interface for the `doSomething` action looks like his:
+With the new defaults the generated interface for the `doSomething` action looks like this:
 
 ```java
 // uniqueEventContexts: true =>

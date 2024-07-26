@@ -170,7 +170,7 @@ public class SessionContextHandler implements EventHandler {
 }
 ```
 
-## Avoiding Transactions for Select
+## Avoiding Transactions for Select { #avoid-transactions }
 
 CAP ensures that every interaction with a service is inside of a ChangeSet Context. However transactions are not started at that point in time yet.
 By default, any kind of first interaction with the Persistence Service will begin the transaction. Once a transaction has been started, a connection for that transaction is reserved from the connection pool. This connection is only returned to the connection pool on commit or rollback of the transaction.

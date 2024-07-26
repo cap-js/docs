@@ -152,7 +152,7 @@ Therefore, specifying the `target` can only correctly be used when throwing a `S
 
 A message target is always relative to an input parameter in the event context.
 For CRUD-based events this is always the `cqn` parameter, which represents and carries the payload of the request.
-For actions or functions a message target can either be relative to the entity the action or function is bound to (represented by the `cqn` parameter) or relative to a parameter of the action or function.
+For actions or functions, a message target can either be relative to the entity to which the action or function is bound (represented by the `cqn` parameter) or relative to a parameter of the action or function.
 In case of actions and functions SAP Fiori also requires the message target to be prefixed with the action or function's binding parameter or parameter names.
 
 When creating a message target, the correct parameter needs to be selected to specify what the relative message target path refers to.

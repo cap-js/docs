@@ -251,22 +251,24 @@ The default index page is not served if `NODE_ENV` is set to `production`. Set `
 
 There are two ways to restrict the maximum request body size of incoming requests, globally for all endpoints and for individual services. If the payload exceeds the configured value, the request is rejected with _413 - Payload too large_. The configured values are passed through to the underlying Express body parser middlewares. Therefore, the default limit is _100kb_, as this is the default of the Express built-in [body parsers](https://expressjs.com/en/api.html#express.json).
 
-The maximum request body size can be limited globally, for all services and protocols, using the configuration `cds.server.max_request_body_size`, like so:
+The maximum request body size can be limited globally, for all services and protocols, using the configuration `cds.server.body_parser.limit`, like so:
 
 ```jsonc
 {
   "cds": {
     "server": {
-      "max_request_body_size": "1mb" // also accepts b, kb, etc...
+      "body_parser": {
+        "limit": "1mb" // also accepts b, kb, etc...
+      }
     }
   }
 }
 ```
 
-To restrict the maximum request body size of requests received by an individual service, the service specific annotation `@cds.max_request_body_size` can be used, like so:
+To restrict the maximum request body size of requests received by an individual service, the service specific annotation `@cds.server.body_parser.limit` can be used, like so:
 
 ```cds
-annotate AdminService with @cds.max_request_body_size: '1mb';
+annotate AdminService with @cds.server.body_parser.limit: '1mb';
 ```
 
 This is useful when the expected request body sizes might vary for services within the application. If both the global configuration and the service specific annotation are set, the service specific annotation takes precedence for the respective service.

@@ -146,7 +146,8 @@ cds watch
 <div class="impl java">
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:watch
+cd srv
+mvn cds:watch
 ```
 
 </div>

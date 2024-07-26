@@ -220,8 +220,7 @@ spring:
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
-      destination:
-        type: "odata-v2"
+      type: "odata-v2"
 ```
 :::
 To work with remote services, add the following dependency to your Maven project:
@@ -1025,10 +1024,11 @@ Destinations are configured in Spring Boot's _application.yaml_ file:
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
+      type: "odata-v2"
       destination:
         name: "cpapp-bupa"
+      http:
         suffix: "/sap/opu/odata/sap"
-        type: "odata-v2"
 ```
 :::
 [Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#destination-based-scenarios){.learn-more}
@@ -1147,11 +1147,12 @@ Destinations are configured in Spring Boot's _application.yaml_ file.
 cds:
   remote.services:
     REVIEWS:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         properties:
           url: https://reviews.ondemand.com/reviews
           authentication: TokenForwarding
+      http:
         headers:
           my-header: "header value"
         queries:
@@ -1169,9 +1170,9 @@ You can use the APIs offered by SAP Cloud SDK to create destinations programmati
 cds:
   remote.services:
     REVIEWS:
+      type: "odata-v2"
       destination:
         name: "reviews-destination"
-        type: "odata-v2"
 ```
 :::
 [Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#programmatic-destinations){.learn-more}
@@ -1255,10 +1256,11 @@ spring:
 cds:
   remote.services:
   - name: API_BUSINESS_PARTNER
+    type: "odata-v2"
     destination:
       name: "cpapp-bupa"
+    http:
       suffix: "/sap/opu/odata/sap"
-      type: "odata-v2"
 ```
 :::
 Run your application with the Destination service:
@@ -1319,8 +1321,8 @@ Or declare the destination in your _application.yaml_ file:
 cds:
   remote.services:
     order-service:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         properties:
           url: "<set via env var in deployment>"
           authentication: TokenForwarding
@@ -1408,13 +1410,13 @@ cds add xsuaa,destination,connectivity --for production
         service: xsuaa
         service-plan: application
         path: ./xs-security.json
-    
+
     - name: cpapp-destination
       type: org.cloudfoundry.managed-service
       parameters:
         service: destination
         service-plan: lite
-    
+
     # Required for on-premise connectivity only
     - name: cpapp-connectivity
       type: org.cloudfoundry.managed-service
@@ -1517,8 +1519,8 @@ For Java use the property `retrievalStrategy` in the destination configuration, 
 cds:
   remote.services:
     service-for-provider:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         retrievalStrategy: "AlwaysProvider"
 
 ```

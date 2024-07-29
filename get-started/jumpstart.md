@@ -128,7 +128,6 @@ bookshop/        # Your project's root folder
 ├─ app/          # UI-related content
 ├─ srv/          # Service-related content
 ├─ db/           # Domain models and database-related content
-├─ i18n/         # Text bundles
 ├─ package.json  # Configuration for cds + cds-dk
 └─ readme.md     # A readme placeholder
 ```

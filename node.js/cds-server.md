@@ -113,7 +113,7 @@ cds.on('served', ...)
 ### Override `cds.server()`
 
 Provide an own bootstrapping function if you want to access and process the command line options.
-This also allows you to override certain options before delegating to the built-in server.js.
+This also allows you to override certain options before delegating to the built-in `server.js`.
 In the example below, we construct the express.js app ourselves and fix the models to be loaded.
 
 ```js

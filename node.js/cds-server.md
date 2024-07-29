@@ -233,7 +233,7 @@ cds.on('served', async ()=> {
 
 ## Configuration
 
-The behavior of the built-in server can be customized through the options documented in the following sections.
+The behavior of the built-in `server.js` can be customized through the options documented in the following sections.
 
 ### CORS Middleware
 

@@ -252,7 +252,7 @@ Handling CSRF at the _App Router_ level ensures consistency across instances. Th
 
 With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
 
-If not running in production, CAP's [built-in server.js](cds-server) allows all origins.
+If not running in production, CAP's [built-in server.js](cds-server#built-in-server-js) allows all origins.
 
 #### Custom CORS Implementation
 

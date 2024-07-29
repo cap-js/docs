@@ -2,13 +2,15 @@
 label: cds-add
 synopsis: >
   Learn how to create a <code>cds add</code> plugin.
-# status: released
+status: released
 ---
 
 <style scoped lang="scss">
   .tabs {
     label:nth-child(n+3) {
-      background: #183029;
+      background: #D9EDE6;
+      .dark & {background: #183029 };
+
     }
     label:nth-child(n+3)::before {
       content: "+";
@@ -48,7 +50,11 @@ synopsis: >
       width: calc(100% / 2);
     }
   }
-  .list-item {@include counter-style;}
+  .list-item {
+    @include counter-style;
+    position: relative;
+    top: -1px;
+  }
   ol {
     margin-left: 10px;
     counter-reset: my-counter;
@@ -124,12 +130,12 @@ const { write, path } = cds.utils, { join } = path // [!code ++]
 
 module.exports = class extends cds.add.Plugin {
   async run() { // [!code ++]
-    const pg = join(__dirname, 'pg.yaml') // [!code ++]
+    const pg = join(__dirname, 'add/pg.yaml') // [!code ++]
     await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code ++]
   } // [!code ++]
 }
 ```
-```yaml [lib/pg.yaml] {.added}
+```yaml [lib/add/pg.yaml] {.added}
 services: # [!code ++]
   db: # [!code ++]
     image: postgres:alpine # [!code ++]
@@ -170,7 +176,7 @@ module.exports = class extends cds.add.Plugin {
       const postgresDeployer = { in: 'modules', // [!code ++]
         where: { type: 'nodejs', path: 'gen/pg' } // [!code ++]
       } // [!code ++]
-      await merge(__dirname, 'files/mta.yml.hbs').into('mta.yaml', { // [!code ++]
+      await merge(__dirname, 'add/mta.yml.hbs').into('mta.yaml', { // [!code ++]
         project, // for Mustache replacements // [!code ++]
         additions: [srv, postgres, postgresDeployer], // [!code ++]
         relationships: [{ // [!code ++]
@@ -239,12 +245,13 @@ module.exports = class extends cds.add.Plugin {
       ...
     }
     if (hasHelm) { // [!code ++]
-      await merge(__dirname, 'files/values.yaml.hbs')
+      await merge(__dirname, 'add/values.yaml.hbs')
         .into('chart/values.yaml', { with: project }) // [!code ++]
     } // [!code ++]
+  }
 }
 ```
-```yaml [values.yaml.hbs]
+```yaml [lib/files/values.yaml.hbs]
 srv: # [!code ++]
   bindings: # [!code ++]
     db: # [!code ++]
@@ -285,9 +292,9 @@ module.exports = class extends cds.add.Plugin {
   } // [!code ++]
 
   async run() {
-    const pg = join(__dirname, 'pg.yaml') // [!code --]
-    const pg = join(__dirname, join(cds.cli.options.out, 'pg.yaml')) // [!code ++]
-    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root
+    const pg = join(__dirname, 'pg.yaml')
+    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code --]
+    await copy(pg).to(cds.cli.options.out, 'pg.yaml') //> 'to' is relative to cds.root // [!code ++]
   }
   async combine {
     /* ... */
@@ -295,6 +302,26 @@ module.exports = class extends cds.add.Plugin {
 }
 ```
 :::
+
+#### Call `cds add` for an NPM package <beta />
+
+Similar to `npx -p`, you can use the `--package/-p` option to directly install a package from an *npm* registry before running the command.
+This lets you invoke `cds add` for CDS plugins easily with a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example
+```
+
+::: details Install directly from your GitHub branch
+
+ For example, if your plugin's code is in `https://github.com/cap-js-community/example` on branch `cds-add` and registers the  command `cds add my-facet`, then doing an integration test of your plugin with `@sap/cds-dk` in a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example@git+https://github.com/cap-js-community/example#cds-add
+```
+
+:::
+
 
 ## Plugin API
 
@@ -423,11 +450,11 @@ FEATURE OPTIONS
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
 :::
 
-### `dependencies()` {.method}
+### `requires()` {.method}
 
-The `dependencies` function allows to specify other plugins that need to be run as a prerequisite:
+The `requires` function allows to specify other plugins that need to be run as a prerequisite:
 ```js
-dependencies() {
+requires() {
   return ['xsuaa'] //> runs 'cds add xsuaa' before plugin is run
 }
 ```

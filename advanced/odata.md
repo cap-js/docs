@@ -1324,11 +1324,11 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
 
-### Enabling OData V2 via Proxy in Node.js Apps { #odata-v2-proxy-node}
+### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 
 CAP Node.js supports serving the OData V2 protocol through the [_OData V2 adapter for CDS_](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter), which translates between the OData V2 and V4 protocols.
 
-For Node.js projects, add the proxy as express.js middleware as follows:
+For Node.js projects, add the CDS OData V2 adapter as express.js middleware as follows:
 
 1. Add the adapter package to your project:
 
@@ -1336,30 +1336,8 @@ For Node.js projects, add the proxy as express.js middleware as follows:
     npm add @cap-js-community/odata-v2-adapter
     ```
 
-2. Add this as a plugin to your project:
-
-    ::: code-group
-    ```json [package.json]
-    {...
-    "cds" : {
-      "cov2ap" : {
-        "plugin" : true
-        }
-      }
-    }
-    ```
-
-    ```json [.cdsrc.json]
-    {
-    "cov2ap" : {
-      "plugin" : true
-      }
-    }
-    ```
-    :::
-
-3. Access OData V2 services at [http://localhost:4004/v2/${path}](http://localhost:4004/v2).
-4. Access OData V4 services at [http://localhost:4004/${path}](http://localhost:4004) (as before).
+2. Access OData V2 services at [http://localhost:4004/odata/v2/${path}](http://localhost:4004/odata/v2).
+3. Access OData V4 services at [http://localhost:4004/odata/v4/${path}](http://localhost:4004/odata/v4) (as before).
 
 Example: Read service metadata for `CatalogService`:
 
@@ -1370,8 +1348,8 @@ Example: Read service metadata for `CatalogService`:
     service CatalogService { ... }
     ```
 
-- OData V2: `GET http://localhost:4004/v2/browse/$metadata`
-- OData V4: `GET http://localhost:4004/browse/$metadata`
+- OData V2: `GET http://localhost:4004/odata/v2/browse/$metadata`
+- OData V4: `GET http://localhost:4004/odata/v4/browse/$metadata`
 
 [Find detailed instructions at **@cap-js-community/odata-v2-adapter**.](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter){.learn-more}
 

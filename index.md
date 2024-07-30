@@ -50,7 +50,7 @@ features:
 
 /* make hero text smaller in narrow sizes */
 @media (max-width: 640px) {
-  .VPHome .VPHero .name {
+  .VPHome .VPHero h1.name {
     font-size: 33px;
   }
 }

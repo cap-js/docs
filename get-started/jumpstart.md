@@ -9,7 +9,7 @@ synopsis: Start with a minimal setup and a grow-as-you-go approach.
 CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
 > Looking for other ways to set up and start projects?
-> See the _Get Started_ menu in the left-hand sidebar.
+> See the _Getting Started_ menu in the left-hand sidebar.
 
 [[toc]]
 
@@ -27,11 +27,12 @@ Follow the steps below to set up a local development environment. If you are a d
 
 #### … from [nodejs.org](https://nodejs.org)
 
-Choose the **LTS** version, via the left-hand side button:
+On the Node.js page, use the download button which gets you the current long-term support (LTS) version:
 
-![Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button.](./assets/jumpstart/image-20230310202845639.png){style="zoom: 33%;" }
+![Screenshot showing the default download button from the nodejs.org home page.](./assets/jumpstart/node-download-lts.png){style="width:400px;"}
 
-
+[See other ways to install Node.js.](https://nodejs.org/en/download/package-manager){.learn-more}
+[Learn more about long-term support (LTS) versions.](https://nodejs.org/en/about/previous-releases){.learn-more}
 
 
 ### 2. Install CAP's cds-dk

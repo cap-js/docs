@@ -303,6 +303,26 @@ module.exports = class extends cds.add.Plugin {
 ```
 :::
 
+#### Call `cds add` for an NPM package <beta />
+
+Similar to `npx -p`, you can use the `--package/-p` option to directly install a package from an *npm* registry before running the command.
+This lets you invoke `cds add` for CDS plugins easily with a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example
+```
+
+::: details Install directly from your GitHub branch
+
+ For example, if your plugin's code is in `https://github.com/cap-js-community/example` on branch `cds-add` and registers the  command `cds add my-facet`, then doing an integration test of your plugin with `@sap/cds-dk` in a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example@git+https://github.com/cap-js-community/example#cds-add
+```
+
+:::
+
+
 ## Plugin API
 
 Find here a complete overview of public `cds add` APIs.
@@ -430,11 +450,11 @@ FEATURE OPTIONS
 `cds add` commands should come with carefully chosen defaults and avoid offloading the decision-making to the end-user.
 :::
 
-### `dependencies()` {.method}
+### `requires()` {.method}
 
-The `dependencies` function allows to specify other plugins that need to be run as a prerequisite:
+The `requires` function allows to specify other plugins that need to be run as a prerequisite:
 ```js
-dependencies() {
+requires() {
   return ['xsuaa'] //> runs 'cds add xsuaa' before plugin is run
 }
 ```

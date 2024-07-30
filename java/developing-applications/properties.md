@@ -13,6 +13,7 @@ const { properties, version } = data
 
 The following table lists all configuration properties that can be used to configure
 <span class="nowrap">CAP Java {{ version }}</span>.
+You can set them in your project's `application.yml`.
 
 ::: tip
 In property files `<index>` should be replaced with a number and `<key>` with an arbitrary String. In YAML files, you can use standard YAML list and map structures.

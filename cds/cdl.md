@@ -1105,7 +1105,10 @@ Each path in the expression is checked:
 * If the annotation is assigned to a subelement of a structured element, the top level
   elements of the entity can be accessed via `$self`.
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
-* If a path cannot be resolved successfully, compilation fails with an error.
+* The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
+  During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
+  entities (root and sub nodes but not for named types or entity parameters).
+* If a path can't be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
 is checked by the compiler.

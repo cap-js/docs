@@ -520,6 +520,8 @@ Additional size limits and timeouts (request timeout) are established by the rev
 
 ::: tip
 If you want to apply an application-specific sizing, consult the corresponding framework documentation.
+
+See section [Maximum Request Body Size](../../node.js/cds-server#maximum-request-body-size) to find out how to restrict incoming requests to a CAP Node.js application depending on the body size.
 :::
 
 Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).

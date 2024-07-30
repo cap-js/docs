@@ -160,7 +160,7 @@ Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLA
 ::: warning Rare error in `HEX` mode
 In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode. 
 If you know upfront that a query can't be executed by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the query, so the SQL generator won't use features that require the HEX engine.
-::: 
+:::
 
 ### PostgreSQL { #postgresql-1 }
 
@@ -168,9 +168,10 @@ PostgreSQL can be configured when running locally as well as when running produc
 
 #### Initial Database Schema
 
-To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
 	<goals>
@@ -178,13 +179,19 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to postgres --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to postgres --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+
+Using the `@sap/cds-dk` you can add PostgreSQL support to your CAP Java project:
+```sh
+cds add postgres
+```
 
 ::: warning
 Automatic schema deployment isn't suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in the [Database guide for PostgreSQL](../../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
@@ -211,35 +218,9 @@ spring:
 
 For local development, [H2](https://www.h2database.com/) can be configured to run in-memory or in the file-based mode.
 
-To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
-<execution>
-	<id>schema.sql</id>
-	<goals>
-		<goal>cds</goal>
-	</goals>
-	<configuration>
-		<commands>
-			<command>deploy --to h2 --dry > srv/src/main/resources/schema.sql</command>
-		</commands>
-	</configuration>
-</execution>
-```
-
-In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
-
-The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
-```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
-```
-
-### SQLite
-
-#### Initial Database Schema
-
-To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
-
+::: code-group
 ```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
@@ -248,15 +229,45 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to h2 --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
+In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+
+Using the `@sap/cds-dk` you can add H2 support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
+cds add h2
+```
+
+### SQLite
+
+#### Initial Database Schema
+
+To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+Using the `@sap/cds-dk` you can add SQLite support to your CAP Java project:
+```sh
+cds add sqlite
 ```
 
 #### File-Based Storage
@@ -663,19 +674,19 @@ public interface Books extends CdsData {
 
 The static model and accessor interfaces can be extended with [Javadoc comments](../../cds/cdl#doc-comment).
 
-Currently the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
+Currently, the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
 
 ```cds
 namespace my.bookshop;
 /**
  * The creator/writer of a book, article, or document.
  */
-entity Author {
-	   key Id : Integer;
-	   /**
-	    * The name of the author.
-	    */
-	   name : String(30);
+entity Authors {
+  key Id : Integer;
+  /**
+   * The name of the author.
+   */
+  name : String(30);
 }
 ```
 
@@ -683,8 +694,8 @@ entity Author {
 /**
  * The creator/writer of a book, article, or document.
  */
-@CdsName("my.bookshop.Author")
-public interface Author extends CdsData {
+@CdsName("my.bookshop.Authors")
+public interface Authors extends CdsData {
 
   String ID = "Id";
   String NAME = "name";
@@ -708,9 +719,12 @@ In the query builder, the interfaces reference entities. The interface methods c
 lambda expressions to reference elements or to compose path expressions:
 
 ```java
-Select<Books_> query = Select.from(Books_.class)			// Note the usage of model interface Books_ here
+// Note the usage of model interface `Books_` here
+Select<Books_> query = Select.from(Books_.class)
   .columns(book -> book.title())
   .where  (book -> book.author().name().eq("Edgar Allan Poe"));
 
-List<Books> books = dataStore.execute(query).listOf(Books.class);	// After executing the query the result can be converted to a typed representation List of Books.
+// After executing the query the result can be converted to
+// a typed representation List of Books.
+List<Books> books = dataStore.execute(query).listOf(Books.class);
 ```

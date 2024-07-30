@@ -18,15 +18,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## The CDS Model
 
- The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
+The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
 
- The `CdsModel` can be obtained from the `EventContext`:
+The `CdsModel` can be obtained from the `EventContext`:
 
  ```java
+import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.EventContext;
 import com.sap.cds.reflect.CdsModel;
 
-@On(event = "READ", entity = "my.catalogservice.books")
+@On(event = "READ", entity = "CatalogService.Books")
 public void readBooksVerify(EventContext context) {
     CdsModel model = context.getModel();
    ...
@@ -46,6 +47,12 @@ On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector
 InputStream csnJson = ...;
 CdsModel model = CdsModel.read(csnJson);
 ```
+
+::: tip
+Instead of bare string literals, you can also use auto-generated string constants and interfaces in event handlers.
+
+[Learn more about event handlers.](./event-handlers/){.learn-more}
+:::
 
 ## Examples
 

@@ -27,11 +27,11 @@ Follow the steps below to set up a local development environment. If you are a d
 
 #### … from [nodejs.org](https://nodejs.org)
 
-On the Node.js page, use the download button which get you the current long-term support (LTS) version:
+On the Node.js page, use the download button which gets you the current long-term support (LTS) version:
 
 ![Screenshot showing the default download button from the nodejs.org home page.](./assets/jumpstart/node-download-lts.png){style="width:400px;"}
 
-[See alternative ways to install Node.js.](https://nodejs.org/en/download/package-manager){.learn-more}
+[See other ways to install Node.js.](https://nodejs.org/en/download/package-manager){.learn-more}
 [Learn more about long-term support (LTS) versions.](https://nodejs.org/en/about/previous-releases){.learn-more}
 
 

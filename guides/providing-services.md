@@ -954,9 +954,9 @@ public class FooServiceImpl implements EventHandler {...}
 
 Within your custom implementations, you can register event handlers like that:
 
-::: code-group
+<div class="impl node">
 
-```js [Node.js]
+```js
 module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
   this.on ('CREATE',`Books`, (req)=>{...})
@@ -964,7 +964,12 @@ module.exports = function (){
   this.after ('READ',`Books`, (books)=>{...})
 }
 ```
-```Java
+
+</div>
+
+<div class="impl node">
+
+```java
 @Component
 @ServiceName("BookshopService")
 public class BookshopServiceImpl implements EventHandler {
@@ -975,7 +980,7 @@ public class BookshopServiceImpl implements EventHandler {
 }
 ```
 
-:::
+</div>
 
 [Learn more about **adding event handlers in Node.js**.](../node.js/core-services#srv-on-before-after){.learn-more}
 

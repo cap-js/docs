@@ -823,7 +823,7 @@ public class SubmitOrderHandler implements EventHandler {
 
 ### Sample HTTP Request
 
-Or submit orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
+Test the implementation by submitting orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
 <div class="impl node">
 

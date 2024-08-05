@@ -747,7 +747,7 @@ public class SubmitOrderHandler implements EventHandler {
         this.persistenceService = persistenceService;
     }
 
-    @On()
+    @On
     public void onSubmitOrder(SubmitOrderContext context) {
         Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
         Books book = persistenceService.run(byId).single().as(Books.class);

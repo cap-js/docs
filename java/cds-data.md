@@ -530,21 +530,23 @@ interface Equity {
 In CDS models it is allowed to extend a definition (for example, of an entity) with one or more named [aspects](../cds/cdl#aspects). The aspect allows to define elements or annotations that are common to all extending definitions in one place.
 
 This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
-The `@cds.java.extends` annotation can contain an array of string values, each of which denote the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
+
+The `@cds.java.extends` annotation can contain an array of string values, each of which denote the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `cds.gen.Temporal` is generated.
 
 ```cds
 using { temporal } from '@sap/cds/common';
 
 @cds.java.extends: ['temporal']
 entity AuthorManager : temporal {
-	key Id : Integer;
-	name 	  : String(30);
+  key Id : Integer;
+  name   : String(30);
 }
 ```
 
 The accessor interface generated for the `AuthorManager` entity is shown in the following sample:
 
 ```java
+import cds.gen.Temporal;
 import com.sap.cds.CdsData;
 import com.sap.cds.Struct;
 import com.sap.cds.ql.CdsName;
@@ -573,13 +575,15 @@ public interface AuthorManager extends CdsData, Temporal {
 }
 ```
 
-In CDS, annotations on an entity are propagated to views on that entity. If a view does a projection exposing different elements, the inheritance relationship defined on the underlying entity via `@cds.java.extends` does not hold for the view. Therefore, the `@cds.java.extends` annotation needs to be overwritten in the view definition.
+In CDS, annotations on an entity are propagated to views on that entity. If a view projects different elements, the inheritance relationship defined on the underlying entity via `@cds.java.extends` does not hold for the view. Therefore, the `@cds.java.extends` annotation needs to be overwritten in the view definition.
 In the following example, a view with projection is defined on the `AuthorManager` entity and the inherited annotation overwritten via `@cds.java.extends : null` to avoid the accessor interface of `AuthorManagerService` to extend the interface generated for `temporal`.
 
 ```cds
 service Catalogue {
-	@cds.java.extends : null
-	entity AuthorManagerService as projection on AuthorManager { Id, name, validFrom };
+  @cds.java.extends : null
+  entity AuthorManagerService as projection on AuthorManager {
+    Id, name, validFrom,
+  };
 }
 ```
 

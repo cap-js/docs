@@ -19,6 +19,8 @@ You can set them in your project's `application.yml`.
 In property files `<index>` should be replaced with a number and `<key>` with an arbitrary String. In YAML files, you can use standard YAML list and map structures.
 :::
 
+[Learn more about Spring Properties.](https://docs.spring.io/spring-boot/how-to/properties-and-configuration.html){.learn-more}
+
 <table>
   <thead>
     <tr>

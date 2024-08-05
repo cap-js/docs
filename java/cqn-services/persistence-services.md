@@ -682,7 +682,7 @@ namespace my.bookshop;
  * The creator/writer of a book, article, or document.
  */
 entity Authors {
-  key Id : Integer;
+  key ID : Integer;
   /**
    * The name of the author.
    */
@@ -697,7 +697,7 @@ entity Authors {
 @CdsName("my.bookshop.Authors")
 public interface Authors extends CdsData {
 
-  String ID = "Id";
+  String ID = "ID";
   String NAME = "name";
 
   Integer getId();

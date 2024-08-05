@@ -537,8 +537,8 @@ using { temporal } from '@sap/cds/common';
 
 @cds.java.extends: ['temporal']
 entity AuthorManager : temporal {
-	key Id : Integer;
-	name 	  : String(30);
+  key ID : Integer;
+  name   : String(30);
 }
 ```
 
@@ -553,7 +553,7 @@ import java.lang.String;
 
 @CdsName("AuthorManager")
 public interface AuthorManager extends CdsData, Temporal {
-  String ID = "Id";
+  String ID = "ID";
 
   String NAME = "name";
 

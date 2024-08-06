@@ -214,7 +214,7 @@ These are settings from the editor in VS Code:
 1. Filter for _Format_.
 1. Tick the checkboxes to enable the settings.
 
-##### Cds: Workspace Validation Mode
+##### Cds: [Workspace Validation Mode](vscode://settings/cds.workspaceValidationMode)
 
 Default: *ActiveEditorOnly*
 
@@ -231,13 +231,13 @@ If switched to _OpenEditorsOnly_, all open files, for example split tabs, are re
 The high resource consumption might impact the editor's responsiveness.
 :::
 
-##### Cds > Contributions > Enablement: Odata
+##### Cds > Contributions > [Enablement: Odata](vscode://settings/cds.contributions.enablement.odata)
 
 Default: *on*
 
 This setting enables extended support for annotations, that is, refined diagnostics and code completion. Can be switched *off* for performance gains.
 
-##### Cds > Workspace: ScanCsn
+##### Cds > [Workspace: ScanCsn](vscode://settings/cds.workspace.scanCsn)
 
 Default: *off*
 
@@ -245,7 +245,7 @@ Switch *on* to scan the workspace also for CSN files, additionally to CDS source
 
 Note: CSN files are still considered if used from a CDS source file.
 
-##### Cds > Quickfix: ImportArtifact
+##### Cds > [Quickfix: ImportArtifact](vscode://settings/cds.quickfix.importArtifact)
 
 Default: *off*
 

@@ -45,10 +45,10 @@ Use `cds version` to get information about your installed package version:
 
 <em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 8.1.0
-<em>@sap/cds-compiler:</em> 5.1.0
+<em>@sap/cds-compiler:</em> 5.1.2
 <em>@sap/cds-dk:</em> 8.1.0
 <em>@sap/cds-dk (global):</em> 7.9.3
-<em>@sap/cds-mtxs:</em> 2.0.4
+<em>@sap/cds-mtxs:</em> 2.0.5
 <em>@sap/eslint-plugin-cds:</em> 3.0.4
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
@@ -59,7 +59,7 @@ Use `cds version` to get information about your installed package version:
 |------------------------|------------------------------------------------------|
 | Node.js                | v18.13.0                                             |
 | @sap/cds               | 8.1.0                                                |
-| @sap/cds-compiler      | 5.1.0                                                |
+| @sap/cds-compiler      | 5.1.2                                                |
 | @sap/cds-dk            | 8.1.0                                                |
 | @sap/eslint-plugin-cds | 3.0.4                                                |
 </pre>
@@ -484,9 +484,14 @@ To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use 
 
 If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
 
-To customize the diagram layout, use these settings:
+To customize the diagram layout, use these settings in the _Cds > Preview_ category:
 
-![The screenshot shows the following setting for the CDS Code Editor: Cds>Preview>Diagram: Associations, Cds>Preview>Diagram: Elements, Cds>Preview>Diagram: Minify, Cds>Preview>Diagram: Namespaces, and Cds>Preview>Diagram: Queries](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+- [Diagram: Associations](vscode://settings/cds.preview.diagram.associations)
+- [Diagram: Direction](vscode://settings/cds.preview.diagram.direction)
+- [Diagram: Elements](vscode://settings/cds.preview.diagram.elements)
+- [Diagram: Minify](vscode://settings/cds.preview.diagram.minify)
+- [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
+- [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
 
 ## cds repl

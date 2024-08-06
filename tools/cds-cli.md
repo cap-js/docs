@@ -45,7 +45,7 @@ Use `cds version` to get information about your installed package version:
 
 <em>@capire/samples:</em> 2.0.0
 <em>@sap/cds:</em> 8.1.0
-<em>@sap/cds-compiler:</em> 5.1.0
+<em>@sap/cds-compiler:</em> 5.1.2
 <em>@sap/cds-dk:</em> 8.1.0
 <em>@sap/cds-dk (global):</em> 7.9.3
 <em>@sap/cds-mtxs:</em> 2.0.4
@@ -59,7 +59,7 @@ Use `cds version` to get information about your installed package version:
 |------------------------|------------------------------------------------------|
 | Node.js                | v18.13.0                                             |
 | @sap/cds               | 8.1.0                                                |
-| @sap/cds-compiler      | 5.1.0                                                |
+| @sap/cds-compiler      | 5.1.2                                                |
 | @sap/cds-dk            | 8.1.0                                                |
 | @sap/eslint-plugin-cds | 3.0.4                                                |
 </pre>

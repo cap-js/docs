@@ -473,6 +473,12 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
 
    > **Note:** If you use SQLite, ALTER TYPE commands are not necessary and so, are not supported, as SQLite is essentially typeless.
 
+By default, also with `--dry` the [Limitations](#limitations) listed above do apply.
+To see also changes that are not allowed and thus cannot be applied automatically, run
+```sh
+cds deploy --dry --no-safeguards --delta-from cds-model.csn > delta.sql
+```
+
 ## Deployment Using Liquibase  { .impl .java }
 
 You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. Liquibase lets you define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), use `cds deploy` to quickly generate DDL scripts which can be used by Liquibase.

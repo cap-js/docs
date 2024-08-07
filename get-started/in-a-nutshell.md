@@ -104,7 +104,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
    <div class="impl java">
 
    ```sh [Java]
-   cds init bookshop --add java --java:mvn -DgroupId=com.sap.cap
+   cds init bookshop --add java --java:mvn -DgroupId=com.sap.capire
    ```
 
 

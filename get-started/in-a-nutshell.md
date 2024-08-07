@@ -104,7 +104,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
    <div class="impl java">
 
    ```sh [Java]
-   cds init bookshop --add java
+   cds init bookshop --add java --java:mvn -DgroupId=com.sap.capire
    ```
 
 
@@ -600,7 +600,7 @@ In Node.js, the easiest way to provide implementations for services is through e
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
 
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 public class CatalogServiceHandler implements EventHandler {
@@ -647,7 +647,7 @@ module.exports = function (){
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
     @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
 	public void addDiscountIfApplicable(List<Books> books) {
 		for (Books book : books) {
@@ -661,8 +661,8 @@ Now that you have created the classes for your custom handlers it's time to add 
 
 :::details Code including imports
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
-package customer.bookshop.handlers;
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
+package com.sap.capire.bookshop.handlers;
 
 import java.util.List;
 
@@ -736,7 +736,7 @@ module.exports = async function (){
 <div class="impl java">
 
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/SubmitOrderHandler.java]
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/SubmitOrderHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 public class SubmitOrderHandler implements EventHandler {
@@ -763,8 +763,8 @@ public class SubmitOrderHandler implements EventHandler {
 
 :::details Code including imports
 ::: code-group
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogService.java]
-package customer.bookshop.handlers;
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogService.java]
+package com.sap.capire.bookshop.handlers;
 
 import org.springframework.stereotype.Component;
 

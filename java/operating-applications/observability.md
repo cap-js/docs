@@ -173,7 +173,7 @@ and its recommended successor [SAP Cloud Logging](https://help.sap.com/docs/clou
 
 Establishing a connection is the same for both services: The application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
-```xml
+```xml [srv/pom.xml]
 <dependency>
 	<groupId>com.sap.hcp.cf.logging</groupId>
 	<artifactId>cf-java-logging-support-logback</artifactId>

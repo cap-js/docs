@@ -578,6 +578,7 @@ management:
   endpoint:
     health:
       show-components: always # shows individual indicators
+      probes.enabled: true # enables health probes
   endpoints:
     web:
       exposure:
@@ -588,7 +589,7 @@ management:
      db.enabled: true
 ```
 
-The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
+The example configuration makes Spring exposing the health endpoint with health indicators `db` and `ping`. It enables also the health probes `liveness` and `readiness` which are usefull in Kubernetes and CloudFoundry environments. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
 
 ::: tip
 For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
@@ -603,10 +604,20 @@ Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up
     "db": {
       "status": "UP"
     },
+    "livenessState": {
+      "status": "UP"
+    },
     "ping": {
       "status": "UP"
+    },
+    "readinessState": {
+      "status": "UP"
     }
-  }
+  },
+  "groups": [
+    "liveness",
+    "readiness"
+  ]
 }
 ```
 
@@ -621,6 +632,10 @@ A public health check endpoint may neither disclose system internal data (for ex
 :::
 
 Find all details about configuration opportunities in [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) documentation.
+
+#### Kubernetes Probes
+
+Starting with version 3.2.0 of CAP Java, the endpoints `/actuator/health/liveness` and `/actuator/health/readiness` are opened by default. Both endpoints are intended for the [Kubernetes Probes](https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints.kubernetes-probes). They can also be used as [CloudFoundry health checks](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html).
 
 #### Custom Health Indicators { #custom-health-indicators}
 

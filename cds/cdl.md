@@ -975,7 +975,6 @@ action doSomething() returns @before {
 Values can be literals, references, or expressions. Expressions are explained in more detail in the next section.
 If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @aFlag //= true, if no value is given
 @aBoolean: false

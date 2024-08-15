@@ -57,7 +57,7 @@ This section describes the prerequisites and tools to build a CAP application lo
     mvn --version
     ```
 ::: tip
-For a preconfigured environment, use [SAP Business Application Studio](../tools/#bastudio), which comes with all the required tools preinstalled.
+For a preconfigured environment, use [SAP Business Application Studio](../tools/cds-editors#bas), which comes with all the required tools preinstalled.
 In older workspaces it might be necessary to explicitly set the JDK to version 17 with the command `Java: Set Default JDK`.
 :::
 
@@ -94,7 +94,7 @@ You can call `cds help init` for more information on the available options.
 You can use the [CDS Maven plugin](developing-applications/building#cds-maven-plugin) to add a sample CDS model after creating your project. Navigate to the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addSample
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=TINY_SAMPLE
 ```
 
 ### Add CloudFoundry target platform
@@ -123,23 +123,21 @@ The generated project has the following folder structure:
 
 ```txt
 <PROJECT-ROOT>/
-|-- db/
-    `-- data-model.cds
-`-- srv/
-    |-- cat-service.cds
-    |-- src/main/java/
-    |-- src/gen/java/
-    `-- node_modules/
+├─ db/
+└─ srv/
+   ├─ src/main/java/
+   ├─ src/gen/java/
+   └─ node_modules/
 ```
 
 The generated folders have the following content:
 
 | Folder | Description |
 | --- | --- |
-| *db* | Contains content related to your database. A simple CDS domain model is located in the file _data-model.cds_. |
- | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model  _cat-service.cds_. |
-| *srv/src/main/java* | Contains Java application logic. |
-| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access). |
+| *db* | Contains content related to your database. A simple CDS domain model is included. |
+ | *srv* | Contains the CDS service definitions and Java back-end code and the sample service model. |
+| *srv/src/main/java* | Contains the Java source code of the `srv/` Maven project. |
+| *srv/src/gen/java* | Contains the compiled CDS model and generated [accessor interfaces for typed access](./cds-data#typed-access) after building the project with `mvn compile` once. |
 | *node_modules* | Generated when starting the build, containing the dependencies for the CDS tools (unless you specify `-Dcdsdk-global` [when starting the build](#build-and-run)). |
 
 
@@ -167,15 +165,10 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 Optionally, you can use the [CDS Maven plugin](./developing-applications/building#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=INTEGRATION_TEST
 ```
 
-This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes:
-```txt
-<PROJECT-ROOT>/
-`-- integration-tests/
-    `-- src/test/java/
-```
+This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes.
 
 | Folder | Description  |
 | -- | -- |
@@ -192,36 +185,31 @@ mvn spring-boot:run
 ```
 ::: tip
 To test whether the started application is up and running, open [http://localhost:8080](http://localhost:8080) in your browser.
+Use user [`authenticated`](./security#mock-users) if a username is requested. You don't need to enter a password.
 :::
 
 ### Supported IDEs
 
 CAP Java projects can be edited best in a Java IDE. Leaving CDS support aside you could use any Java IDE supporting the import of Maven projects. But as CDS modeling and editing is a core part of CAP application development we strongly recommend to use an IDE with existing Java support:
 
-* [SAP Business Application Studio](/tools/#bastudio) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
-* [Visual Studio Code](/tools/#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
-* [IntelliJ Idea Ultimate](/tools/#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
+* [SAP Business Application Studio](/tools/cds-editors#bas) is a cloud-based IDE with minimal local requirements and footprint. It comes pre packaged with all tools, libraries and extensions that are needed to develop CAP applications.
+* [Visual Studio Code](/tools/cds-editors#vscode) is a free and very wide-spread code editor and IDE which can be extended with Java and CDS support. It offers first class CDS language support and solid Java support for many development scenarios.
+* [IntelliJ Idea Ultimate](/tools/cds-editors#intellij) is one of the leading Java IDEs with very powerful debugging, refactoring and profiling support. Together with the CDS Plugin it offers the most powerful support for CAP Java application development.
 
 
-### Open the project in your IDE
+#### Source Path Configuration and CDS build
 
-The rest of this guide is targets IntelliJ Ultimate as your IDE. Nevertheless, the steps should be pretty similar for Visual Studio Code and SAP Business Application Studio.
+Your IDE might show inline errors indicating missing classes. This happens because the generated Java files are missing.
 
-<span id="inimportproject" />
+To resolve this, open your terminal and execute `mvn compile` in your project root directory. This action performs a full build of your project. It's necessary because, although the IDE can construct the correct class path based on the project's dependencies, it doesn't initiate the CDS build or subsequent code generation. This is covered as part of the `mvn compile` call.
 
-You can open the project by either running `idea .` from the project root or use the `File->Open...` menu.
+If you're using JetBrains' Intellij, you need to tell it to use the generated folder `srv/src/gen/java`. Do so by marking the directory as `Generated Sources Root`.  You can find this option in IntelliJ's project settings or by right-clicking on the folder and choosing `Mark Directory as`. By doing this, you ensure that the IntelliJ build includes the generated sources in the Java ClassPath.
 
-### Source Path Configuration and CDS build
+#### Run and Test the Application
 
-1. Open the internal terminal with `option+F12` (Windows: `alt+F12`) and type `mvn compile` to perform a full build of your project. This is needed because the IDE can build the right class path based on the dependencies of the project. But it does not trigger the CDS build or the following code generation. This is covered as part of the `mvn compile` call.
+Once you've configured your application as described in the previous section, you can run your application in your IDE by starting the `main` method of your project's `Application.java`.
 
-2. In the project exporer, find the folder `srv/src/gen/java` and open the context menu with a right click on the folder. In the menu open `Mark directory as` and then `Sources Root`. If the option is not available the directory is already recognized as Sources Root. With this step you make sure that the IntelliJ build recognizes the generated sources as part of the Java ClassPath.
-
-### Run and Test the Application
-
-1. Push `Ctrl` two times and type "Application". Double click the Application Spring Boot entry to start your CAP Java application.
-
-2. Call the application in your browser at [http://localhost:8080/](http://localhost:8080).
+Then open the application in your browser at [http://localhost:8080/](http://localhost:8080).
 
 ## Sample Application { #sample}
 

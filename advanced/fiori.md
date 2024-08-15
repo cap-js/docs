@@ -6,6 +6,7 @@ permalink: advanced/fiori
 # trailing slash fixes issue w/ Github not serving fiori/ and nested fiori/annotations, see jekyll/jekyll#6459
 redirect_from: guides/fiori
 status: released
+impl-variants: true
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
 
@@ -23,7 +24,9 @@ This guide explains how to add one or more SAP Fiori elements apps to a CAP proj
 
 ## SAP Fiori Preview
 
-For Node.js applications there is a _Fiori preview_ link on the index page.  It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
+For entities exposed via OData V4 there is a _Fiori preview_ link on the index page. It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
+
+<div class="impl node">
 
 ::: details Be aware that this is **not meant for production**.
 
@@ -53,6 +56,27 @@ To also enable it in cloud deployments, for test or demo purposes maybe, add the
 
 :::
 
+</div>
+
+<div class="impl java">
+
+::: details Be aware that this is **not meant for production**.
+
+The preview not meant as a replacement for a proper SAP Fiori Elements (UI5) application.
+It is active by default, but disabled automatically in case the [production profile](../java/developing-applications/configuring#production-profile) is enabled.
+
+To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
+
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  index-page:
+    enabled: true
+```
+:::
+
+</div>
+
 ## Adding Fiori Apps
 
 As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
@@ -68,6 +92,9 @@ As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/t
 | `srv/`                     | All services                         |
 | `db/`                      | Domain models, and db stuff          |
 
+::: tip
+Links to Fiori applications created in the `app/` folder are automatically added to the index page of your CAP application for local development.
+:::
 
 ### Using SAP Fiori Tools
 
@@ -407,7 +434,7 @@ You can't project from draft-enabled entities, as annotations are propagated. Ei
 :::
 
 ### Difference between Compositions and Associations
-Be aware that all compositions of the draft enabled entity are part of the same draft. Only those entities will get a `CREATE` button in SAP Fiori elements UIs as they are part of the draft. Associated entities on the other side can only be deleted or modified. Note that, for associations the changes are directly applied instead of being applied once changes are saved to the active version.
+Be aware that you must not modify associated entities through drafts. Only compositions will get a "Create" button in SAP Fiori elements UIs because they are stored as part of the same draft entity.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
@@ -456,6 +483,50 @@ SELECT.from(Books.drafts) //returns all drafts of the Books entity
 
 [Learn how to query drafts in Java.](../java/fiori-drafts#draftservices){.learn-more}
 
+## Use Roles to Toggle Visibility of UI elements
+
+In addition to adding [restrictions on services, entities, and actions/functions](/guides/security/authorization#restrictions), there are use cases where you only want to hide certain parts of the UI for specific users. This is possible by using the respective UI annotations like `@UI.Hidden` or `@UI.CreateHidden` in conjunction with `$edmJson` pointing to a singleton.
+
+First, you define the [singleton](../advanced/odata#singletons) in your service and annotate it with [`@cds.persistency.skip`](../guides/databases#cds-persistence-skip) so that no database artefact is created:
+
+```cds
+@odata.singleton @cds.persistency.skip
+entity Configuration {
+    key ID: String;
+    isAdmin : Boolean;
+}
+```
+> A key is technically not required, but without it some consumers might run into problems.
+
+Then define an `on` handler for serving the request:
+
+```js
+srv.on('READ', 'Configuration', async req => {
+    req.reply({
+        isAdmin: req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
+    });
+});
+```
+
+Finally, refer to the singleton in the annotation by using a [dynamic expression](../advanced/odata#dynamic-expressions):
+
+```cds
+annotate service.Books with @(
+    UI.CreateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
+    UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
+);
+```
+
+The Entity Container is OData specific and refers to the `$metadata` of the OData service in which all accessible entities are located within the Entity Container. 
+
+:::details SAP Fiori elements also allows to not include it in the path
+```cds
+annotate service.Books with @(
+    UI.CreateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
+    UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/Configuration/isAdmin'} } },
+);
+```
+:::
 
 ## Value Helps
 
@@ -616,6 +687,20 @@ This annotation uses [dynamic expressions](../advanced/odata#dynamic-expressions
 If you have the need for a more complex calculation, then the interesting parts in SFLIGHT are [virtual fields in _field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/field-control.cds#L10-L16) (also lines 37-44) and [custom code in _travel-service.js_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.js#L13-L22).
 :::
 
+
+## Cache Control
+
+CAP provides the option to set a [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) header with a [max-age](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#max-age) directive to indicate that a response remains fresh until _n_ seconds after it was generated .
+In the CDS model, this can be done using the `@http.CacheControl: {maxAge: <seconds>}` annotation on stream properties. The header indicates that caches can store the response and reuse it for subsequent requests while it's fresh.
+The `max-age` (in seconds) specifies the maximum age of the content before it becomes stale.
+
+:::info Elapsed time since the response was generated
+The `max-age` is the elapsed time since the response was generated on the origin server. It's not related to when the response was received.
+:::
+
+::: warning Only Java
+Cache Control feature is currently supported on the Java runtime only.
+:::
 
 <div id="client-side-validations" />
 

@@ -761,6 +761,7 @@ If types are used in a service that are defined outside of the service the [gene
 
 If compiler v1 is used CAP Java will generate interfaces using the automatically exposed type from EDMX:
 
+<!-- java-mode: ignore, multiple interfaces -->
 ```java
 // CDS Compiler v1
 
@@ -782,6 +783,7 @@ interface orders.CancelContext extends EventContext {
 
 If compiler v2 is used CAP Java will instead generate interfaces using the types from the CDS model definition:
 
+<!-- java-mode: ignore, multiple interfaces -->
 ```java
 // CDS Compiler v1
 

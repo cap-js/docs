@@ -1,12 +1,12 @@
 <template>
 
-<div class="info custom-block">
-  <p class="custom-block-title">
+<details class="details custom-block">
+  <summary>
     This guide is available for Node.js and Java.
-  </p>
+  </summary>
   <p>
     Use the toggle in the title bar or press <kbd>v</kbd> to switch.
   </p>
-</div>
+</details>
 
 </template>

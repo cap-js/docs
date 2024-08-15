@@ -19,7 +19,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices).
 
 ## Concepts
 
@@ -280,7 +280,7 @@ This query selects from the items of the order 23.
 
 ```sql
 --CQL query
-SELECT from Orders[23].items
+SELECT from Orders[ID = 23]:items
 ```
 
 ```java
@@ -356,7 +356,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name().as("author"),
              a -> a.books().expand(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
 
 <span id="indeepread" />
@@ -389,7 +389,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books()
                    .filter(b -> b.year().eq(1897))
-                   .expand(b -> b.title())
+                   .expand(b -> b.title()))
     .where(a -> name().in("Bram Stroker", "Edgar Allen Poe"));
 ```
 
@@ -415,7 +415,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().as("novels").expand(
                       b -> b.title(),
-                      b -> b.publisher().expand(p -> p.name()));
+                      b -> b.publisher().expand(p -> p.name())));
 ```
 
 Which returns a deeply structured result:
@@ -497,7 +497,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().inline(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
 
 Both queries are equivalent and have the same result: a _flat_ structure:
@@ -551,7 +551,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../../guides/providing-services#searching-data).
 
-Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
+Consider following CDS Entity. There are two elements, `title` and `name`, of type String, making them both searchable by default.
 
 ```cds
 entity Book {
@@ -670,7 +670,7 @@ The following example selects authors where count is higher than 2:
 
 ```java
 Select.from("bookshop.Authors")
-    .columns(c -> c.get("name")), c -> func("count", c.get("name")).as("count")
+    .columns(c -> c.get("name"), c -> func("count", c.get("name")).as("count"))
     .groupBy(c -> c.get("name"))
     .having(c -> func("count", c.get("name")).gt(2));
 ```
@@ -834,17 +834,9 @@ CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```java
 import static bookshop.Bookshop_.BOOKS;
 
-Map<String, Object> b1;
-b1.put("ID", 101);
-b2.put("title", "Capire 1");
-
-Map<String, Object> b2;
-b2.put("ID", 103);
-b2.put("title", "Capire 2");
-
-List<Map<String, Object>> data = new ArrayList<>();
-data.add(b1);
-data.add(b2);
+var data = List.of(
+	Map.of("ID", 101, "title", "Capire"),
+	Map.of("ID", 103, "title", "CAP Java"));
 
 CqnInsert insert = Insert.into(BOOKS).entries(data);
 ```
@@ -879,15 +871,8 @@ Java:
 ```java
 import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> item;
-item.put("ID", 1);
-item.put("book_ID", 101);
-item.put("quantity", 1);
-List<Map<String, Object>> items;
-items.add(item);
-Map<String, Object> order;
-order.put("OrderNo", "1000");
-order.put("Items", items);
+var items = List.of(Map.of("ID", 1, "book_ID", 101, "quantity", 1));
+var order = Map.of("OrderNo", "1000", "Items", items);
 
 CqnInsert insert = Insert.into(ORDERS).entry(order);
 ```
@@ -1009,6 +994,10 @@ Furthermore, you can use filters in [path expressions](#path-expressions) to spe
 Update.entity(BOOKS, b -> b.matching(Books.create(100)))
    .data("title", "CAP Matters");
 ```
+
+::: danger
+If key values are not contained in the data and no filter (`where`, `byId`, `matching`) is specified a [searched update](#searched-update) is performed, which updates _all_ entities with the given data.
+:::
 
 ### Update with Expressions {#update-expressions}
 
@@ -1268,7 +1257,7 @@ Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).autho
 StructuredType<?> authors =
    CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+// SELECT from bookshop.Books[year = 2020]:author { name } // [!code focus]
 Select.from(authors).columns("name"); // [!code focus]
 ```
 
@@ -1302,7 +1291,7 @@ import static com.sap.cds.ql.CQL.val;
 
 Select.from(EMPLOYEE)
       .columns(e -> e.name())
-      .where(e -> val(50).gt(e.age());
+      .where(e -> val(50).gt(e.age()));
 ```
 
 Alternatively, the factory methods for comparison predicates directly accept Java values. The query could also be written as:
@@ -1652,7 +1641,7 @@ BETWEEN
 The [ETag predicate](query-execution#etag-predicate) specifies expected ETag values for [conflict detection](query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
 
 ```java
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
@@ -1663,7 +1652,7 @@ You can also use the `eTag` methods of the `CQL` interface to construct an ETag 
 ```java
 import static com.sap.cds.ql.CQL.*;
 
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(and(get("id").eq(85), eTag(expectedLastModification)));
@@ -1822,7 +1811,7 @@ As a general rule, consider regular expressions as a last resort. They are power
 In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
 
 ```java
-Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\\w*e$"));
 ```
 
 The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
@@ -1885,9 +1874,9 @@ import static spaceflight.Astronautics_.ASTRONAUTS;
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name())))
+      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name()))
     )
-  )
+  );
 ```
 
 This query selects all authors with the name of an astronaut.
@@ -1905,13 +1894,19 @@ CqnSelect subquery =
 Select.from("Authors").where(CQL.exists(subquery));
 ```
 
+> **Note:** Chaining `$outer` in nested subqueries is not supported.
+
+
+
 ## Parsing CQN
 
 [CQL](../../cds/cql) queries can also be constructed from a [CQN](../../cds/cqn) string<sup>*</sup>:
 
 ```java
-String cqnQuery = "{'SELECT': {'from': {'ref': ['my.bookshop.Books']},
-    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}";
+String cqnQuery = """
+    {'SELECT': {'from': {'ref': ['my.bookshop.Books']},
+    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}
+    """;
 CqnSelect query = Select.cqn(cqnQuery);
 ```
 
@@ -1936,16 +1931,16 @@ As opposed to fluent API it's possible to build the queries in a tree-style. Con
 
 ```java
 // CQL: SELECT from Books where year >= 2000 and year <= 2010
-
-                        AND
-                         |
-               +---------+---------+
-               |                   |
-               =>                 <=
-               |                   |
-          +----+----+         +----+----+
-          |         |         |         |
-        year       2000      year     2010
+//
+//                      AND
+//                       |
+//             +---------+---------+
+//             |                   |
+//             =>                 <=
+//             |                   |
+//        +----+----+         +----+----+
+//        |         |         |         |
+//      year       2000      year     2010
 
 import static com.sap.cds.ql.CQL.*;
 import com.sap.cds.sql.cqn.CqnComparisonPredicate;

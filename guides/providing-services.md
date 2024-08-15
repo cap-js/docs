@@ -393,10 +393,6 @@ entity Authors { ... }
 
 Searches all elements of the `Books` entity, as well as all searchable elements of the associated `Authors` entity. Which elements of the associated entity are searchable is determined by the `@cds.search` annotation on the associated entity. So, from `Authors`, all elements of type `String` are searched but `biography` is excluded.
 
-::: warning Only Java
-Extending the search to associated entities is currently only supported on the Java runtime.
-:::
-
 ##### Extend to Individual Elements in Associated Entities
 
 ```cds
@@ -405,11 +401,6 @@ entity Books { ... }
 ```
 
 Searches only in the element `name` of the associated `Authors` entity.
-
-::: warning Only Java
-Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
-:::
-
 
 #### Excluding Fields
 
@@ -423,6 +414,49 @@ Searches all elements of type `String` excluding the element `isbn`, which leave
 ::: tip
 You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
 :::
+
+#### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
+
+Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
+
+If you run CAP Java in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud, you can enable fuzzy search in the *application.yaml* and configure the default fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search. The default fuzziness is 0.8.
+
+```yml
+cds.sql.hana.search
+   fuzzy: true
+   fuzzinessThreshold: 0.9
+```
+
+Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
+
+```cds
+entity Books {
+   @Search.fuzzinessThreshold: 0.7
+   title : String;
+}
+```
+
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To adjust the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+
+```cds
+entity Books {
+   @Search.ranking: HIGH
+   title         : String;
+
+   @Search.ranking: LOW
+   publisherName : String;
+}
+```
+
+::: tip Wildcards in search terms
+When using wildcards in search terms, an *exact pattern search* is performed.
+Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
+:::
+
+::: warning Only Java
+Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
+:::
+
 
 ### Pagination & Sorting
 
@@ -923,7 +957,6 @@ Within your custom implementations, you can register event handlers like that:
 ::: code-group
 
 ```js [Node.js]
-const cds = require('@sap/cds')
 module.exports = function (){
   this.on ('submitOrder', (req)=>{...}) //> custom actions
   this.on ('CREATE',`Books`, (req)=>{...})

@@ -296,7 +296,7 @@ function* extractSnippets(section) {
     // Code snippets may have a configuration in form of an HTML comment.
     // When a cds-mode comment exists, we ignore the language.
     if (snippets[1]) {
-      const modeRegEx = /cds-mode: ([^,]+)$/;
+      const modeRegEx = /cds-mode: ([^,;]+)/;
       const result = modeRegEx.exec(snippets[1]);
       if (result && result[1])
         mode =  validateMode(result[1].trim());

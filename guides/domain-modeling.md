@@ -105,7 +105,7 @@ Domain modeling is a means to an end; your clients and consumers are the ones wh
 
 ::: tip **Keep models *concise* and *comprehensible***
 
-As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php?title=KISS_principle&oldid=992997588)* wikipedia entry: *"... most systems work best if they're kept simple rather than made complicated; therefore, [simplicity](https://en.wikipedia.org/wiki/Simplicity) should be a key goal in [design](https://en.wikipedia.org/wiki/Design), and unnecessary complexity should be avoided."*
+As said in the *["Keep it simple, stupid!"](https://en.wikipedia.org/w/index.php?title=KISS_principle&oldid=992997588)* Wikipedia entry: *"... most systems work best if they're kept simple rather than made complicated; therefore, [simplicity](https://en.wikipedia.org/wiki/Simplicity) should be a key goal in [design](https://en.wikipedia.org/wiki/Design), and unnecessary complexity should be avoided."*
 
 :::
 
@@ -178,8 +178,8 @@ To easily distinguish type / entity names  from elements names we recommend to..
 
 ::: tip Capitalize *Type / Entity* Names
 
-* Start **_entity_** and **_type_** names with capital letters — e.g., `Authors`
-* Start **_elements_** with a lowercase letter — e.g., `name`
+* Start **_entity_** and **_type_** names with capital letters — for example, `Authors`
+* Start **_elements_** with a lowercase letter — for example, `name`
 
 :::
 
@@ -187,8 +187,8 @@ As entities represent not only data types, but also data sets, from which we can
 
 ::: tip Pluralize *Entity* Names
 
-* Use **plural** form for **_entities_** — e.g., `Authors`
-* Use **singular** form for **_types_** — e.g., `Genre`
+* Use **plural** form for **_entities_** — for example, `Authors`
+* Use **singular** form for **_types_** — for example, `Genre`
 
 :::
 
@@ -196,8 +196,8 @@ In general always prefer conciseness, comprehensibility and readability, and avo
 
 ::: tip Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
-- Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
+- Don't repeat contexts &rarr; for example `Authors.name` instead of `Authors.authorName`
+- Prefer one-word names &rarr;  for example `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
 :::
@@ -329,10 +329,7 @@ While UUIDs certainly come with an overhead and a performance penalty when looki
 * **Auto-filled primary keys** — primary key elements with type UUID are automatically filled by generic service providers in Java and Node.js upon INSERT.
 
 ::: tip Prefer UUIDs for Keys
-
-* Use DB sequences only if you really deal with high data volumes.
-* Otherwise, prefer UUIDs.
-
+Use DB sequences only if you really deal with high data volumes. Otherwise, prefer UUIDs.
 :::
 
 You can also have semantic primary keys such as order numbers constructed by customer name+date, etc. And if so, they usually range between UUIDs and DB sequences with respect to the pros and cons listed above.
@@ -501,7 +498,7 @@ entity Authors { ...
 }
 ```
 
-> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, for example `books.author.ID = ID`.
 
 #### Many-to-Many Associations
 
@@ -514,9 +511,9 @@ entity Projects { ...
 entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
-entity Members { // link table
-  key project : Association to Projects;
-  key user : Association to Users;
+entity Members: cuid { // link table
+  project : Association to Projects;
+  user : Association to Users;
 }
 ```
 
@@ -532,6 +529,7 @@ entity Users { ...
 ```
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
+Consider that for SAP Fiori elements 'project' and 'user' shall not be keys, even if their combination is unique, because as keys those fields can't be edited on the UI. In this case a different key is required, for example a UUID, and the unique constraint for `project` and `user` can be expressed via `@assert.unique`.
 
 ### Compositions
 
@@ -573,7 +571,16 @@ entity Orders { ...
 
 [Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions){ .learn-more}
 
-Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above.
+Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above. You can annotate the inline composition with UI annotations as follows:
+
+```cds
+annotate Orders.Items with @(
+   UI.LineItem : [
+      {Value: pos},
+      {Value: quantity},
+   ],
+);
+```
 
 ## Aspects
 

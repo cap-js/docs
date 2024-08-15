@@ -143,7 +143,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 
 To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet).
 
-However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-serve#cds-server).
+However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-server#cds-server).
 
 Example:
 
@@ -252,7 +252,7 @@ Handling CSRF at the _App Router_ level ensures consistency across instances. Th
 
 With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
 
-If not running in production, CAP's [built-in server.js](cds-server) allows all origins.
+If not running in production, CAP's [built-in server.js](cds-server#built-in-server-js) allows all origins.
 
 #### Custom CORS Implementation
 

@@ -22,7 +22,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Database Support { #database-support}
 
-CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
 Write operations through views are supported by the CAP runtime as described in [Resolvable Views](../working-with-cql/query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
 
@@ -50,7 +50,7 @@ entity Books : cuid {
 To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
-4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
+4. SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
 
 ### PostgreSQL
 
@@ -83,16 +83,14 @@ CAP supports [SQLite](https://www.sqlite.org/index.html) out of the box. When wo
 
 CAP does support most of the major features on SQLite, although there are a few shortcomings that are listed here:
 
-1. `RIGHT` and `FULL OUTER JOIN` isn't supported.
-2. There are some known issues with parentheses in `UNION` operator. The following statement is erroneous: `SELECT * FROM A UNION ( SELECT * FROM B )`. Instead, use: `SELECT * FROM A UNION SELECT * FROM B` without parentheses. This can be achieved by removing the parentheses in your CDS Model.
-3. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
-4. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite. In the future, we might provide an option to make the case-sensitivity locale dependent.
-5. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
-6. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
-7. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
-8. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
-9. Foreign key constraints are supported, but disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
-10. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
+1. SQLite has only limited support for concurrent database access. You're advised to limit the connection pool to *1* as shown above (parameter `maximum-pool-size: 1`), which effectively serializes all database transactions.
+2. The predicate function `contains` is supported. However, the search for characters in the word or phrase is case-insensitive in SQLite.
+3. SQLite doesn't support [pessimistic locking](../working-with-cql/query-execution#pessimistic-locking).
+4. Streaming of large object data isn't supported by SQLite. Hence, when reading or writing data of type `cds.LargeString` and `cds.LargeBinary` as a stream, the framework temporarily materializes the content. Thus, storing large objects on SQLite can impact the performance.
+5. Sorting of character-based columns is never locale-specific but if any locale is specified in the context of a query then case insensitive sorting is performed.
+6. Views in SQLite are read-only. However, the CAP Java SDK supports some views to be updatable as described in [Updatable Views](../working-with-cql/query-execution#updatable-views).
+7. Foreign key constraints are supported, but are disabled by default. To activate the feature using JDBC URL, append the `foreign_keys=on` parameter to the connection URL, for example, `url=jdbc:sqlite:file:testDb?mode=memory&foreign_keys=on`. For more information, visit the [SQLite Foreign Key Support](https://sqlite.org/foreignkeys.html) in the official documentation.
+8. CAP enables regular expressions on SQLite via a Java implementation. The matching behaviour is an equivalent of the `Matcher.find()` call for the given pattern.
 
 ## Datasources
 
@@ -106,19 +104,22 @@ Datasources are usually backed by a connection pool to ensure efficient access t
 If datasources are created from a service binding the connection pool can be configured through the properties `cds.dataSource.<service-instance>.<pool-type>.*`.
 An example configuration could look like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   dataSource:
     my-service-instance:
       hikari:
         maximum-pool-size: 20
 ```
+:::
 
 Supported pool types for single tenant scenarios are `hikari`, `tomcat`, and `dbcp2`. For a multitenant scenario `hikari`, `tomcat`, and `atomikos` are supported. The corresponding pool dependencies need to be available on the classpath. You can find an overview of the available pool properties in the respective documentation of the pool. For example, properties supported by Hikari can be found [here](https://github.com/brettwooldridge/HikariCP#gear-configuration-knobs-baby).
 
 It is also possible to configure the database connection itself. For Hikari this can be achieved by using the `data-source-properties` section. Properties defined here are passed to the respective JDBC driver, which is responsible to establish the actual database connection. The following example sets such a [SAP HANA-specific configuration](https://help.sap.com/docs/SAP_HANA_PLATFORM/0eec0d68141541d1b07893a39944924e/109397c2206a4ab2a5386d494f4cf75e.html):
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   dataSource:
     my-service-instance:
@@ -126,6 +127,7 @@ cds:
         data-source-properties:
           packetSize: 300000
 ```
+:::
 
 ### SAP HANA
 
@@ -147,18 +149,18 @@ Advise the CDS Compiler to generate _tables without associations_, as associatio
 
 #### SQL Optimization Mode
 
-By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
-To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud, set the [CDS property](../developing-applications/properties#cds-properties):
+By default, the SAP HANA adapter in CAP Java generates SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud. To generate SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html), set the [CDS property](../developing-applications/properties#cds-properties):
 
 ```yaml
-cds.sql.hana.optimizationMode: hex
+cds.sql.hana.optimizationMode: legacy
 ```
 
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
-::: warning
-In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. To avoid such issues, make sure you're using the latest [SAP HANA Cloud version](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-overview-guide/releases-and-upgrades-in-sap-hana-cloud). Until the missing feature is supported by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the failing query, so the SQL generator doesn't use features that require the HEX engine.
-::: 
+::: warning Rare error in `HEX` mode
+In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode. 
+If you know upfront that a query can't be executed by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the query, so the SQL generator won't use features that require the HEX engine.
+:::
 
 ### PostgreSQL { #postgresql-1 }
 
@@ -166,9 +168,10 @@ PostgreSQL can be configured when running locally as well as when running produc
 
 #### Initial Database Schema
 
-To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
 	<goals>
@@ -176,13 +179,19 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to postgres --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to postgres --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+
+Using the `@sap/cds-dk` you can add PostgreSQL support to your CAP Java project:
+```sh
+cds add postgres
+```
 
 ::: warning
 Automatic schema deployment isn't suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in the [Database guide for PostgreSQL](../../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
@@ -192,7 +201,8 @@ Automatic schema deployment isn't suitable for productive use. Consider using pr
 
 If you don't have a compatible PostgreSQL service binding in your application environment, you can also explicitly configure the connection data of your PostgreSQL database in the _application.yaml_:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: postgres
@@ -202,40 +212,15 @@ spring:
     password: <password>
     driver-class-name: org.postgresql.Driver
 ```
+:::
 
 ### H2
 
 For local development, [H2](https://www.h2database.com/) can be configured to run in-memory or in the file-based mode.
 
-To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
-<execution>
-	<id>schema.sql</id>
-	<goals>
-		<goal>cds</goal>
-	</goals>
-	<configuration>
-		<commands>
-			<command>deploy --to h2 --dry > srv/src/main/resources/schema.sql</command>
-		</commands>
-	</configuration>
-</execution>
-```
-
-In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
-
-The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
-```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
-```
-
-### SQLite
-
-#### Initial Database Schema
-
-To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
-
+::: code-group
 ```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
@@ -244,22 +229,53 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to h2 --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
+In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+
+Using the `@sap/cds-dk` you can add H2 support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
+cds add h2
+```
+
+### SQLite
+
+#### Initial Database Schema
+
+To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+Using the `@sap/cds-dk` you can add SQLite support to your CAP Java project:
+```sh
+cds add sqlite
 ```
 
 #### File-Based Storage
 
 The database content is stored in a file, `sqlite.db` as in the following example. Since the schema is initialized using `cds deploy` command, the initialization mode is set to `never`:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: sqlite
@@ -272,13 +288,14 @@ spring:
     hikari:
       maximum-pool-size: 1
 ```
+:::
 
 #### In-Memory Storage
 
 The database content is stored in-memory only. The schema initialization done by Spring, executes the `schema.sql` script. Hence, the initialization mode is set to `always`. If Hikari closes the last connection from the pool, the in-memory database is automatically deleted. To prevent this situation, set `max-lifetime` to *0*:
 
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: default
@@ -292,11 +309,12 @@ spring:
       maximum-pool-size: 1
       max-lifetime: 0
 ```
+:::
 
 ## Persistence Services
 
 Persistence Services are CQN-based database clients. You can think of them as a wrapper around a datasource, which translates CQN to SQL.
-In addition Persistence Services have built-in transaction management. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
+In addition, Persistence Services have built-in transaction management. They take care of lazily initializing and maintaining database transactions as part of the active changeset context.
 
 [Learn more about ChangeSet Contexts and Transactions.](../event-handlers/changeset-contexts){.learn-more}
 
@@ -323,22 +341,26 @@ It is possible to configure how Persistence Services are created.
 To change the name of a Persistence Service you can specify it in your configuration and connect it explicitly with the corresponding database service binding.
 The following configuration creates a Persistence Service named "my-ps" for the service binding "my-hana-hdi":
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-ps:
       binding: "my-hana-hdi"
 ```
+:::
 
 You can also disable the creation of a Persistence Service for specific database service bindings.
 The following configuration disables the creation of a Persistence Service for the service binding "my-hana-hdi":
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-hana-hdi:
       enabled: false
 ```
+:::
 
 To create a non-default Persistence Service for a datasource explicitly created as Spring bean a configuration is required.
 The following examples shows a Java example to register such a datasource bean:
@@ -359,12 +381,15 @@ public class DataSourceConfig {
 
 In the configuration you need to refer to the name of the datasource:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   persistence.services:
     my-ps:
       dataSource: "customDataSource"
 ```
+:::
+
 ::: tip
 Any usage of non-default Persistence Services needs to happen in custom handlers.
 :::
@@ -373,18 +398,20 @@ Any usage of non-default Persistence Services needs to happen in custom handlers
 
 A common scenario for multiple Persistence Services is in multitenant applications, which require an additional tenant-independent database.
 These applications usually use the Service Manager to maintain a dedicated SAP HANA HDI container for each tenant.
-However additional tenant-independent data needs to be stored in a separate HDI container, shared by all tenants.
+However, additional tenant-independent data needs to be stored in a separate HDI container, shared by all tenants.
 
 When running such a scenario productively it is as easy as binding two database service bindings to your application: The Service Manager binding and the additional HDI container binding.
 The only configuration required in that scenario is to mark the Service Manager binding as the primary one, in order to create the default Persistence Service from it:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: cloud
 cds:
   dataSource:
     binding: "my-service-manager-binding"
 ```
+:::
 
 At deploy time it is currently recommended to deploy all CDS entities into both the tenant-dependent as well as the tenant-independent databases.
 At runtime you need to ensure to access the tenant-dependent entities through the default Persistence Service and the tenant-independent entities through the additional Persistence Service.
@@ -428,7 +455,8 @@ public class DataSourceConfig {
 
 You can then refer to that datasource in your Persistence Service configuration and mark the auto-configured MTX SQLite datasource as primary:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: local-mtxs
 cds:
@@ -438,6 +466,7 @@ cds:
   dataSource:
     binding: "mtx-sqlite"
 ```
+:::
 
 #### Local Development and Testing without MTX
 
@@ -511,7 +540,8 @@ public class DataSourceConfig {
 
 The primary datasource is automatically picked up by the CAP Java SDK. The secondary datasource needs to be referred in your Persistence Service configuration:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: local
 cds:
@@ -519,52 +549,9 @@ cds:
     tenant-independent:
       dataSource: "tenantIndependentDataSource"
 ```
-
+:::
 
 ## Native SQL
-
-### CDS Data Store Connector { #cdsdatastoreconnector}
-
-The `CdsDataStoreConnector` is a public API which allows to connect to a [`CdsDataStore`](#cdsdatastore) instance.
-
-CAP Java automatically creates a `CdsDataStoreConnector` that is configured with the [_primary_ data source](./persistence-services#default-persistence-service) and used by the [Persistence Service](./persistence-services).
-
-In order to use CDS models and CDS queries with a _secondary_ data source in CAP Java you need to manually create a CDS Data Store connector. For a [supported](./persistence-services#database-support) JDBC database this is done by the static `CdsDataStoreConnector.createJdbcConnector(...)` method, providing the CDS model, the [transaction manager](https://www.javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/transaction/TransactionManager.html), and a connection supplier or data source.
-
-The transaction manager must reflect the transactional state of the JDBC connections supplied by the connection supplier or data source.
-
-```java
-CdsDataStoreConnector jdbcConnector = CdsDataStoreConnector.createJdbcConnector(cdsModel, transactionManager)
-    .connection(connectionSupplier).build();
-
-CdsDataStore dataStore = jdbcConnector.connect();
-```
-
-Invoking a `connect()` method creates an instance of the Data Store API.
-
-### CDS Data Store { #cdsdatastore}
-
-The Data Store API is used to _execute_ CQN statements against the underlying data store (typically a database). It's a technical component that allows to execute [CQL](../../cds/cql) statements.
-The CDS Data Store is used to implement the [Persistence Service](./index#persistenceservice), but is also available independent from the CAP Java SDK. So, it's not a service and isn't based on events and event handlers.
-
-The `CdsDataStore` API is similar to the [`CqnService` API](../working-with-cql/query-execution#queries). The only difference is, that the `run` method is called `execute`:
-
-```java
-CdsDataStore dataStore = ...;
-Select query = Select.from("bookshop.Books").where(b -> b.get("ID").eq(17));
-Result result = dataStore.execute(query);
-```
-
-Use the `CdsDataStore` API to set user session context information. Utilize the `SessionContext` API which follows a builder pattern, as shown in the following example:
-
-```java
-SessionContext sessionContext = SessionContext.create().setUserContext(UserContext.create().setLocale(Locale.US).build()).build());
-dataStore.setSessionContext(sessionContext);
-```
-
-::: tip
-When implementing a CAP application, using the [Persistence Service](./index#persistenceservice) is preferred over the CDS Data Store.
-:::
 
 ### Native SQL with JDBC Templates { #jdbctemplate}
 
@@ -658,9 +645,9 @@ public interface Authors_ extends StructuredType<Authors_> {
 
 ####  Accessor Interfaces
 
-The corresponding data is captured in a data model similar to JavaBeans. These beans are interfaces generated by the framework and providing the data access methods - getters and setters - and containing the CDS element names as well. The instances of the data model are created by the [CDS Query Language (CQL)](/cds/cql) Execution Engine (see the following example).
+The corresponding data is captured in a data model similar to JavaBeans. These beans are interfaces generated by the framework, providing the data access methods - getters and setters - and containing the CDS element names as well. The instances of the data model are created by the [CDS Query Language (CQL)](/cds/cql) Execution Engine (see the following example).
 
-Note the following naming convention: the model interfaces, which represent the structure of the CDS Model, always end with underscore, for example `Books_`. The accessor interface, which refers to data model, is simply the name of the CDS entity - `Books`.
+Note the following naming convention: the model interfaces, which represent the structure of the CDS Model, always end with an underscore, for example `Books_`. The accessor interface, which refers to data model, is simply the name of the CDS entity - `Books`.
 
 The following data model interface is generated for `Books`:
 
@@ -687,19 +674,19 @@ public interface Books extends CdsData {
 
 The static model and accessor interfaces can be extended with [Javadoc comments](../../cds/cdl#doc-comment).
 
-Currently the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
+Currently, the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
 
 ```cds
 namespace my.bookshop;
 /**
  * The creator/writer of a book, article, or document.
  */
-entity Author {
-	   key Id : Integer;
-	   /**
-	    * The name of the author.
-	    */
-	   name : String(30);
+entity Authors {
+  key ID : Integer;
+  /**
+   * The name of the author.
+   */
+  name : String(30);
 }
 ```
 
@@ -707,10 +694,10 @@ entity Author {
 /**
  * The creator/writer of a book, article, or document.
  */
-@CdsName("my.bookshop.Author")
-public interface Author extends CdsData {
+@CdsName("my.bookshop.Authors")
+public interface Authors extends CdsData {
 
-  String ID = "Id";
+  String ID = "ID";
   String NAME = "name";
 
   Integer getId();
@@ -732,9 +719,12 @@ In the query builder, the interfaces reference entities. The interface methods c
 lambda expressions to reference elements or to compose path expressions:
 
 ```java
-Select<Books_> query = Select.from(Books_.class)			// Note the usage of model interface Books_ here
+// Note the usage of model interface `Books_` here
+Select<Books_> query = Select.from(Books_.class)
   .columns(book -> book.title())
   .where  (book -> book.author().name().eq("Edgar Allan Poe"));
 
-List<Books> books = dataStore.execute(query).listOf(Books.class);	// After executing the query the result can be converted to a typed representation List of Books.
+// After executing the query the result can be converted to
+// a typed representation List of Books.
+List<Books> books = dataStore.execute(query).listOf(Books.class);
 ```

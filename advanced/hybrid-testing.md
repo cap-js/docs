@@ -214,8 +214,8 @@ Alternatively, you can bind to Kubernetes **Secrets**.
 You can use the `kubectl get secrets` command to list all secrets in your current Kubernetes context:
 
 ```log
-NAME                                    TYPE                                  DATA   AGE
-bookshop-db                       Opaque                                11     44h
+NAME               TYPE      DATA   AGE
+bookshop-db        Opaque    11     44h
 ```
 
 Use the secret name for the `-2` option.
@@ -283,7 +283,7 @@ Example output:
 
 With `cds bind` you avoid storing credentials on your hard disk. If you need to start other local applications with cloud service bindings, you can use the `exec` option.
 
-For example, you can run the approuter from an `approuter` child directory:
+For example, you can run the App Router from an `approuter` child directory:
 
 ::: code-group
 ```sh [Mac/Linux]
@@ -324,12 +324,10 @@ cds bind --exec mvn spring-boot:run
 Instead of binding to specific cloud services, you can bind to all supported service bindings of an application running on the SAP BTP Cloud Foundry environment:
 
 ```sh
+cds bind -a bookshop-srv # ...or the spelled out way:
 cds bind --to-app-services bookshop-srv
 ```
-
-::: tip
-This shortcut is only possible if you don't need to provide a `service` or a `kind`.
-:::
+> This shortcut is only possible if you don't need to provide a `kind`.
 
 ## `cds bind` Usage { #cds-bind-usage}
 
@@ -358,7 +356,7 @@ cds bind --to bookshop-db --for test
 You have to use the same profile name for hybrid testing to correctly resolve any bindings you've created with this profile.
 
 ```sh
-cds watch --profile test 
+cds watch --profile test
 ```
 
 ### With CDS Service and Kind
@@ -376,12 +374,9 @@ You are informed with an error message if this is required.
 There is a handy shortcut to bind multiple services with one command:
 
 ```sh
-cds bind -2 bookshop-db,bookshop-xsuaa,redis-cache
+cds bind -2 bookshop-db,bookshop-auth
 ```
-
-::: tip
-This shortcut is only possible if you don't need to provide a `service` or a `kind`.
-:::
+> This shortcut is only possible if you don't need to specify a `kind`.
 
 ### Overwrite Cloud Service Credentials { #overwriting-service-credentials}
 
@@ -427,7 +422,7 @@ Example output:
 ```js
 {
   onpremise_proxy_host: 'localhost', // [!code focus]
-  // other cloud foundry credential values 
+  // other cloud foundry credential values
 }
 ```
 
@@ -465,7 +460,7 @@ cds bind --exec [--] <command> <args ...>
 
 Use the double-dash (`--`) if your command has args starting with a dash (`-`) character. Otherwise the `cds` command line will try to parse them as their own options.
 
-On PowerShell you need to quote the double dash (`--`) when an option with double dash follows, e.g.
+On PowerShell you need to quote the double dash (`--`) when an option with double dash follows:
 
 ```powershell
 cds bind --exec '--' somecmd --someflag --some-double-dash-parameter 42
@@ -498,7 +493,7 @@ Learn how to do hybrid testing using the XSUAA service in the [CAP Node.js authe
 Configure your required bindings for testing and save them to your project's _package.json_ file for your tests' profile:
 
 ```sh
-cds bind -2 integration-test-hana -o package.json -p integration-test
+cds bind -2 integration-test-hana -o package.json -4 integration-test
 ```
 
 No credentials are saved!
@@ -531,6 +526,6 @@ With `CDS_ENV`, you specify the configuration profile for the test, where you pr
 
 `cds env get requires` prints the `requires` section of the configuration as a JSON string. By adding the `--resolve-bindings` option, it includes the credentials of the service bindings from the cloud. To make the credentials available for all subsequent `cds` commands and the tests, the `requires` JSON string is put into the `cds_requires` variable.
 
-::: tip
+::: tip Allow dynamic deploy targets
 Service bindings created by `cds bind` contain the Cloud Foundry API endpoint, org, and space. You can allow your services to connect to the currently targeted Cloud Foundry org and space by removing these properties from the binding structure.
 :::

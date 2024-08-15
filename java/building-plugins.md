@@ -31,7 +31,7 @@ Of course, it's up to your project / plugin how you call the corresponding Maven
 
 ## Share CDS Models via Maven Artifacts
 
-Before the CAP Java 2.2 release CDS definitions had to be shared as node.js modules, also for Java projects.
+Before the CAP Java 2.2 release CDS definitions had to be shared as Node.js modules, also for Java projects.
 
 Starting with the 2.2 release CDS models, CSV import data and i18n files can now be shared through Maven dependencies in addition to npm packages. This means you can now provide CDS models, CSV files, i18n files, and Java code (for example, event handlers) in a single Maven dependency.
 
@@ -55,14 +55,15 @@ Please make sure that your plugin / reuse model project is neither created as a 
 
 Projects wanting to import the content simply add a Maven dependency to the reuse package to their _srv/pom.xml_ in the `<dependencies>` section.
 
-```xml
-
+::: code-group
+```xml [srv/pom.xml]
 <dependency>
   <groupId>com.sap.capire</groupId>
   <artifactId>bookshop</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
+:::
 
 Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added, to extract the models into the `target/cds/` folder of the Maven project, in order to make them available to the CDS Compiler.
 
@@ -93,7 +94,7 @@ When your Maven build is set up correctly, you can use the reuse models in your 
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 ::: details Different resolution rules
-The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/#cds-editor) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
+The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/cds-editors) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
 :::
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}
@@ -131,7 +132,7 @@ In most of the cases an event handler plugin for a CAP Java application can be a
 </dependencies>
 ```
 
-Inside your plugin module, you can define a custom event handler and a registration hook as plain Java code. Once this module deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code is active automatically once your CAP Java application is started along with the new reuse module.
+Inside your plugin module, you can define a custom event handler and a registration hook as plain Java code. Once this module is deployed to a Maven repository it can be added to any CAP Java application as a dependency. The contained event handler code is active automatically once your CAP Java application is started along with the new reuse module.
 
 The heart of the plugin module, the event handler, basically looks like any other CAP Java event handler. Take this one as an example:
 
@@ -177,17 +178,17 @@ import com.sap.cds.services.runtime.CdsRuntimeConfigurer;
 
 public class SampleHandlerRuntimeConfiguration implements CdsRuntimeConfiguration {
 
-	@Override
-	public void eventHandlers(CdsRuntimeConfigurer configurer) {
-		configurer.eventHandler(new SampleHandler());
-	}
+  @Override
+  public void eventHandlers(CdsRuntimeConfigurer configurer) {
+    configurer.eventHandler(new SampleHandler());
+  }
 
 }
 ```
 
 ### Load Plugin Code with the Spring Component Model {#spring-autoconfiguration}
 
-In case your reuse module depends on other components managed as part of the Spring ApplicationContext (having an @Autowired annotation in your class is a good hint for that) you need to register your plugin as a Spring component itself. The most straight forward (but not recommended) way is to annotate the plugin class itself with `@Component`.
+In case your reuse module depends on other components managed as part of the Spring ApplicationContext (having an `@Autowired` annotation in your class is a good hint for that) you need to register your plugin as a Spring component itself. The most straight forward (but not recommended) way is to annotate the plugin class itself with `@Component`.
 
 This is, however, error-prone: [Spring Boot's component scan](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html) is by default scanning downward from the package in which the main `Application` class is declared. Meaning that you need to place the plugin either in a subpackage or the same package as the `Application` class. This would hamper the reuse aspect of the plugin as it would only work applications in a specific package. You could customize the component scan of the application using your plugin but this is also error-prone as you explicitly have to remember to change the `@ComponentScan` annotation each time you include a plugin.
 
@@ -200,7 +201,7 @@ A complete end-to-end example for reusable event handlers can be found in this [
 
 In CAP, the protocol adapter is the mechanism to implement inbound communication (from another service or the UI) to the CAP service in development. You can read more about protocol adapters in our [architecture documentation](developing-applications/building#protocol-adapters).
 
-Usually, a protocol adapter comes in 2 parts:
+Usually, a protocol adapter comes in two parts:
 
 - the adapter
 - a factory class that creates an instance of the adapter
@@ -211,64 +212,62 @@ This is an example implementation of the `ServletAdapterFactory`:
 
 ```java
 public class SampleAdapterFactory implements ServletAdapterFactory, CdsRuntimeAware {
-
   /*
    * a short key identifying the protocol that's being served
    * by the new protocol adapter, for example, odata-v4, hcql, ..
    */
+  static final String PROTOCOL_KEY = "protocol-key";
 
-	static final String PROTOCOL_KEY = "protocol-key";
+  private CdsRuntime runtime;
 
-	private CdsRuntime runtime;
-
-	@Override
-	public void setCdsRuntime(CdsRuntime runtime) {
-
+  @Override
+  public void setCdsRuntime(CdsRuntime runtime) {
     /*
-     * In case the protocol adapter needs the CdsRuntime the
-     * factory can implement CdsRuntimeAware and will be provided
-     * with a CdsRuntime via this method. The create() method
-     * below can then use the provided runtime for the protocol adapter.
+     * In case the protocol adapter needs the CdsRuntime
+     * the factory can implement CdsRuntimeAware and will
+     * be provided with a CdsRuntime via this method.
+     * The create() method below can then use the provided
+     * runtime for the protocol adapter.
      */
-		this.runtime = runtime;
-	}
+    this.runtime = runtime;
+  }
 
-	@Override
-	public Object create() {
+  @Override
+  public Object create() {
     // Create and return the protocol adapter
     return new SampleAdapter(runtime);
-	}
+  }
 
-	@Override
-	public boolean isEnabled() {
+  @Override
+  public boolean isEnabled() {
     // Determines if the protocol adapter is enabled
-	}
+  }
 
-	@Override
-	public String getBasePath() {
+  @Override
+  public String getBasePath() {
     // Return the base path
-	}
+  }
 
-	@Override
-	public String[] getMappings() {
+  @Override
+  public String[] getMappings() {
     /*
-     * Return all paths to which the protocol adapter is going to
-     * be mapped. Usually, this will be each CDS service
-     * with either it's canonical or annotated path prefixed with
-     * the base path of the protocol adapter (see above).
+     * Return all paths to which the protocol adapter is
+     * going to be mapped. Usually, this will be each CDS
+     * service with either it's canonical or annotated
+     * path prefixed with the base path of the protocol
+     * adapter (see above).
      */
+  }
 
-	}
-
-	@Override
-	public UrlResourcePath getServletPath() {
-		/*
-     * Use the UrlResourcePathBuilder to build and return a UrlResourcePath
-     * containing the basePath (see above) and all paths being registered
-     * for the protocol key of the new protocol adapter.
+  @Override
+  public UrlResourcePath getServletPath() {
+    /*
+     * Use the UrlResourcePathBuilder to build and return
+     * a UrlResourcePath containing the basePath (see above)
+     * and all paths being registered for the protocol key
+     * of the new protocol adapter.
      */
-	}
-
+  }
 }
 ```
 
@@ -276,18 +275,18 @@ With the factory in place, you can start to build the actual protocol adapter. A
 
 ```java
 public class SampleAdapter extends HttpServlet {
+  private final CdsRuntime runtime;
 
-	private final CdsRuntime runtime;
+  public SampleAdapter(CdsRuntime runtime) {
+    this.runtime = runtime;
+    // see below for further details
+  }
 
-	public SampleAdapter(CdsRuntime runtime) {
-		this.runtime = runtime;
-        // see below for further details
-	}
-
-	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // see below for further details
-    }
+  @Override
+  public void service(HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
+    // see below for further details
+  }
 }
 ```
 
@@ -307,14 +306,14 @@ Resulting CQL statement:
 CqnSelect select = Select.from("Books").byId(100);
 ```
 
-The `CqnSelect` statement can then be executed with the right (previously selected) `ApplicationService` and then written to `HttpServletResponse` as a String serialization.
+The `CqnSelect` statement can then be executed with the right (previously selected) `ApplicationService` and then written to `HttpServletResponse` as a serialized string.
 
 ```java
 String resposePayload = applicationService.run(select).toJson();
 response.getWriter().write(responsePayload);
 ```
 
-With that a first iteration of a working CAP Java protocol adapter would be complete. As a wrap-up, this would be the tasks that need to be implemented in the adapter:
+With that, a first iteration of a working CAP Java protocol adapter would be complete. As a wrap-up, this would be the tasks that need to be implemented in the adapter:
 
 1. Extract the request path and select the corresponding CDS `ApplicationService`.
 2. Build a CQL statement based on the request path and parameters.

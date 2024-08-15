@@ -28,7 +28,7 @@ Following are cds-plugin packages for CAP Node.js runtime that support respectiv
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SAP HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
+| **[SAP HANA Cloud](databases-hana)**     | [`@cap-js/hana`](https://www.npmjs.com/package/@cap-js/hana) | recommended for production         |
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
@@ -46,13 +46,13 @@ npm add @cap-js/sqlite -D
 Using SAP HANA for production:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/hana
 ```
 
 <!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
-... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
+... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
 
 :::
 
@@ -66,7 +66,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
   "requires": {
     "db": {
       "[development]": { "kind": "sqlite", "impl": "@cap-js/sqlite", "credentials": { "url": "memory" } },
-      "[production]": { "kind": "hana", "impl": "@sap/cds-hana", "deploy-format": "hdbtable" }
+      "[production]": { "kind": "hana", "impl": "@cap-js/hana", "deploy-format": "hdbtable" }
     }
   }
 }}
@@ -85,7 +85,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 The previous setups auto-wire things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
 
-1. Install a database driver package, e.g.
+1. Install a database driver package, for example:
    ```sh
    npm add @cap-js/sqlite
    ```
@@ -141,8 +141,7 @@ cds env cds.requires.db
 
 </div>
 
-
-<div markdown="1" class="impl java">
+### Built-in Database Support {.impl .java}
 
 CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
@@ -156,7 +155,6 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 | **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
 [Learn more about supported databases in CAP Java and their configuration](../java/cqn-services/persistence-services#database-support){ .learn-more}
-</div>
 
 ## Providing Initial Data
 
@@ -273,7 +271,7 @@ Use the properties [cds.dataSource.csv.*](../java/developing-applications/proper
 ---
 spring:
   config.activate.on-profile: test
-cds
+cds:
   dataSource.csv.paths:
   - test/data/**
 ```
@@ -584,7 +582,7 @@ ON Books.author_ID = author.ID;
 </div>
 
 ::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql --dialect <dialect>` to get DDL that matches the target database.
 :::
 
 
@@ -756,7 +754,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author // [!code focus]
+  CONSTRAINT Books_author   -- constraint is explicitly named // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT

@@ -46,7 +46,7 @@ A common example for this is to run the application locally on H2 instead of SAP
 
 The following diagram illustrates the modular stack architecture and highlights the generic components:
 
-<img alt="This screenshot is explained in the accompanying text." src="./assets/modularized-architecture.png" width="600px">
+![This screenshot is explained in the accompanying text.](./assets/modularized-architecture.png){width="600px"}
 
 You can recognize five different areas of the stack, which comprise components according to different tasks:
 
@@ -70,7 +70,7 @@ CAP Java positions [Spring](https://spring.io) or more precisely [Spring Boot](h
 Spring comes as a rich set of industry-proven frameworks, libraries, and tools that greatly simplify custom development.
 Spring Boot also allows the creation of self-contained applications that are easy to configure and run.
 
-As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, thus you aren't obligated to build on Spring.
+As all other components in the different layers of the CAP Java stack are decoupled from the concrete application framework, you aren't obligated to build on Spring.
 In some scenarios, it might be even preferable to run the (web) service with minimal resource consumption or with smallest possible usage of open source dependencies.
 In this case, a solution based on plain Java Servlets could be favorable.
 Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
@@ -141,7 +141,7 @@ Find a full list of standard plugins in [Standard Modules](#standard-modules).
 ### Module Dependencies
 
 All CAP Java modules are built as [Maven](https://maven.apache.org/) artifacts and are available on [Apache Maven Central Repository](https://search.maven.org/search?q=com.sap.cds).
-They've `groupId` `com.sap.cds`.
+They have `groupId` `com.sap.cds`.
 Beside the Java libraries (Jars) reflecting the modularized functionality, the group also contains a "bill of materials" (BOM) pom named `cds-services-bom`, which is recommended especially for multi-project builds.
 It basically helps to control the dependency versions of the artifacts and should be declared in dependency management of the parent `pom`:
 
@@ -256,7 +256,7 @@ CAP Java comes with a rich set of prepared modules for all different layers of t
 
 **Application plugins**:
 * `cds-feature-cloudfoundry`:  Makes your application aware of SAP BTP, Cloud Foundry environment.
-* `cds-feature-k8s`: [Service binding support for SAP BTP, Kyma Runtime](../developing-applications/configuring#kubernetes-service-bindings).
+* `cds-feature-k8s`: Service binding support for SAP BTP, Kyma Runtime.
 * `cds-feature-jdbc`: Consuming JDBC persistences using the CDS4j JDBC runtime.
 * `cds-feature-hana`:  Makes your application aware of SAP HANA data sources.
 * `cds-feature-postgresql`: Makes your application aware of PostgreSQL data sources.
@@ -330,12 +330,13 @@ It supports the following command-line options:
 
 | Option | Description |
 | -- | -- |
-| `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project |
-| `-DincludeIntegrationTest=true` | Adds an integration test module to the project |
-| `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default |
-| `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project |
+| `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project. |
+| `-DincludeIntegrationTest=true` | Adds an integration test module to the project. |
+| `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default. |
+| `-DtargetPlatform=cloudfoundry` | Adds CloudFoundry target platform support to the project. |
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
-| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `17`. |
+| `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `21`. |
+| `-Dpersistence=[true\|false]` | Specify whether persistence is enabled (`true`) or disabled (`false`). Defaults to `true`. |
 
 
 ## Building Projects with Maven { #maven-build-options }
@@ -360,7 +361,7 @@ It can be used in CAP Java projects to perform the following build tasks:
 - Generate Java classes for type-safe access
 - Clean a CAP Java project from artifacts of the previous build
 
-Since CAP Java 1.7.0, that CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks.
+Since CAP Java 1.7.0, the CDS Maven Archetype sets up projects to leverage the CDS Maven plugin to perform the previous mentioned build tasks.
 To have an example on how you can modify a project generated with a previous version of the CDS Maven Archetype, see [this commit](https://github.com/SAP-samples/cloud-cap-samples-java/commit/ceb47b52b1e30c9a3f6e0ea29e207a3dad3c0190).
 
 See [CDS Maven Plugin documentation](../assets/cds-maven-plugin-site/plugin-info.html){target="_blank"} for more details.

@@ -411,6 +411,8 @@ In case your application shares any sensitive data (for example, secrets) via he
 
 ### Custom Fields { #als-custom-fields }
 
+TODO: ALS vs CLS
+
 Information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service can be shown as additional information. This information needs to be provided as custom fields.
 
 By default, the JSON formatter uses the following custom fields configuration, which is configurable using [cds.env](cds-env#cds-env):
@@ -496,7 +498,7 @@ Subsequently, the JSON log formatter (see [Logging in Production](#logging-in-pr
 
 Specifically field `w3c_traceparent` is then used by both SAP Application Logging Service and SAP Cloud Logging to determine `trace_id`.
 
-// TODO: traceparent in spans!!!
+TODO: traceparent in spans!!!
 
 The following screenshot shows an example for log correlation based on field `correlation_id` in a log analytic dashboard of the [SAP Application Logging Service for SAP BTP](https://help.sap.com/docs/application-logging-service).
 

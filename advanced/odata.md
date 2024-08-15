@@ -1093,6 +1093,36 @@ GET /Order(10)/books?
 This query groups the 500 most expensive books by author name and determines the price of the most expensive book per author.
 
 
+### Hierarchical Transformations
+
+| Transformation                                | Description                                                        | Node.js | Java               |
+|-----------------------------------------------|--------------------------------------------------------------------|---------|--------------------|
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data   | <Na/>   | <X/><sup>(1)</sup><sup>(2)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy        | <Na/>   | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy      | <Na/>   | <X/><sup>(1)</sup> |
+
+- <sup>(1)</sup> Supported on SAP HANA only
+- <sup>(2)</sup> Experimental
+
+#### `com.sap.vocabularies.Hierarchy.v1.TopLevels`
+
+The [`TopLevels` transformation](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Hierarchy.xml) produces the hierarchical result based on recursive parent-child relationship:
+
+```http
+GET /SalesOrganizations?$apply=
+     com.sap.vocabularies.Hierarchy.v1.TopLevels(..., NodeProperty='ID', Levels=2)
+```
+#### `ancestors` and `descendants`
+
+The [`ancestors` and `descendants` transformations](https://docs.oasis-open.org/odata/odata-data-aggregation-ext/v4.0/cs03/odata-data-aggregation-ext-v4.0-cs03.html#Transformationsancestorsanddescendants) compute the subset of a given recursive hierarchy, which contains all nodes that are ancestors or descendants of a start nodes set. Its output is the ancestors or descendants set correspondingly.
+
+```http
+GET SalesOrganizations?$apply=
+    descendants(..., ID, filter(ID eq 'US'), keep start)
+   /ancestors(..., ID, filter(contains(Name, 'New York')), keep start)
+```
+
+
 ### Aggregation Methods
 
 | Aggregation Method            | Description        | Node.js | Java   |

@@ -489,6 +489,15 @@ if (!cds.context) cds.context = { id }
 req.headers['x-correlation-id'] = cds.context.id
 ```
 
-The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
+Subsequently, the JSON log formatter (see [Logging in Production](#logging-in-production)) sets the following fields:
+- `cds.context.id` &rarr; `correlation_id`
+- Request header `x_vcap_request_id` &rarr; `request_id`
+- Request header `traceparent` (cf. [W3C Trace Context](https://www.w3.org/TR/trace-context/)) &rarr; `w3c_traceparent`
+
+Specifically field `w3c_traceparent` is then used by both SAP Application Logging Service and SAP Cloud Logging to determine `trace_id`.
+
+// TODO: traceparent in spans!!!
+
+The following screenshot shows an example for log correlation based on field `correlation_id` in a log analytic dashboard of the [SAP Application Logging Service for SAP BTP](https://help.sap.com/docs/application-logging-service).
 
 ![Default Formatter Output](assets/correlation.png)

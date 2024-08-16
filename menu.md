@@ -45,6 +45,7 @@
 
   - [Events from S/4](guides/messaging/s4)
   - [SAP Event Mesh](guides/messaging/event-mesh)
+  - [SAP Event Broker](guides/messaging/event-broker)
 
 - [Protocols/APIs](advanced/publishing-apis/)
 

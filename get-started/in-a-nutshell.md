@@ -647,8 +647,6 @@ Now that you have created the classes for your custom handlers it's time to add 
 ::: code-group
 ```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
     @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-```java [srv/src/main/java/customer/bookshop/handlers/CatalogServiceHandler.java]
-@After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
 	public void addDiscountIfApplicable(List<Books> books) {
 		for (Books book : books) {
 			if (book.getStock() != null && book.getStock() > 111) {

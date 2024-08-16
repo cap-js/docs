@@ -11,7 +11,13 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 <span id="eventbrokerfeaturematrix" />
 
+
+<!--
+
 // --- HERE
+
+-->
+
 
 ## Consuming Events in a Stand-alone App
 
@@ -29,6 +35,8 @@ Differences between the various event transporting technologies are held as tran
 
 Hence, before diving into this development guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
 
+
+<!--
 
 ### Entitlements → TODO for EB
 
@@ -90,6 +98,8 @@ Cannot be done until Communication Arrangement (actually _Communication System_,
   }
   ```
 
+-->
+
 
 ### Add Events to Model
 
@@ -111,6 +121,8 @@ messaging.on('my.name.space.myentity.myoperation.v1', msg => { ... })
 also works, but future ORD integration benefits from modeled approach.
 
 
+<!--
+
 ### Generate Certificate → TODO for EB
 
 How to fulfill prerequisite
@@ -118,6 +130,8 @@ How to fulfill prerequisite
 from [Creating Service Binding for Event Connectivity](https://help.sap.com/docs/event-broker/event-broker-service-guide/creating-service-binding-for-event-connectivity).
 
 NOTE: PKI Service only available SAP-internally.
+
+-->
 
 
 ### Use `event-broker`
@@ -145,7 +159,7 @@ NOTE: `x509` section to be removed with IAS support.
 For more details, see [Node.js → Messaging → Message Brokers → SAP Event Broker for SAP Cloud Applications](../../node.js/messaging#sap-event-broker-for-sap-cloud-applications).
 
 
-### Deploy with MTA → TODO for CAP
+### Deploy with MTA
 
 Sample `mta.yml` that deploys the app while creating and binding the SAP Event Broker instance with the two respective configurations (→ minimize manual efforts!).
 
@@ -164,6 +178,8 @@ configs:
   }
   ```
 
+
+<!--
 
 ### Create System and Integration Dependency → TODO for EB
 
@@ -190,26 +206,16 @@ Note: Until system type _SAP BTP Application_ is available, use formation type _
 
 In SAP Event Broker Application, ...
 
+-->
 
-### Check that it works → TODO for CAP
+
+### Check that it works
 
 For example by triggering a respective event and locating the respective reception in application logs.
 
 NOTE: we should allow testing via `internal-user` → only possible with ias-auth
 
 
-### Hybrid Testing → TODO for CAP
+### Hybrid Testing
 
 Possible? If yes, how?
-
-
-
-## Consuming Events in a SaaS App
-
-TODO
-
-
-
-## Publishing Events in a SaaS App
-
-TODO

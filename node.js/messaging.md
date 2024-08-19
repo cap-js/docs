@@ -399,11 +399,19 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
+### SAP Event Broker
+
+`kind`: `event-broker`
+
+Use this if you want to communicate using [SAP Event Broker for SAP Cloud Applications](https://help.sap.com/docs/event-broker) (or simply _SAP Event Broker_).
+
+TODO
+
+<div id="aftereventbroker" />
+
 <div id="queuing-sap" />
 
 <div id="kafka-sap" />
-
-<div id="event-broker-sap" />
 
 ### Redis PubSub <Beta />
 ::: warning

@@ -390,15 +390,15 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 {
   "tenants": ["*"],
   "_": {
-			"hdi": {
-				"deploy": {
-					"undeploy": [
+      "hdi": {
+        "deploy": {
+          "undeploy": [
             "src/gen/data/my.bookshop-Books.hdbtabledata"
           ],
           "path_parameter": {
             "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
           }
-				}
+        }
       }
   }
 }

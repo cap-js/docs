@@ -160,7 +160,7 @@ Add the following to your _package.json_ to use SAP Event Broker:
 
 NOTE: `x509` section to be removed with IAS support.
 
-For more details, see [Node.js → Messaging → Message Brokers → SAP Event Broker for SAP Cloud Applications](../../node.js/messaging#sap-event-broker-for-sap-cloud-applications).
+For more details, see [Node.js → Messaging → Message Brokers → SAP Event Broker](../../node.js/messaging#sap-event-broker).
 
 
 ### Deploy with MTA

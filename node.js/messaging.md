@@ -405,6 +405,21 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 Use this if you want to communicate using [SAP Event Broker for SAP Cloud Applications](https://help.sap.com/docs/event-broker) (or simply _SAP Event Broker_).
 
+SAP Event Broker integration is based on IAS (TODO: add link).
+If you are not using authentication kind `ias` (TODO: add link), you will need to trigger loading of the IAS credentials into `cds.env` via an additional `requires` entry:
+
+```jsonc
+"cds": {
+  "requires": {
+    "my-ias": { //> any name
+      "vcap": {
+        "label": "identity"
+      }
+    }
+  }
+}
+```
+
 TODO
 
 <div id="aftereventbroker" />

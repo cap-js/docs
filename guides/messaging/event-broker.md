@@ -1,7 +1,11 @@
-# Using SAP Event Broker in Cloud Foundry
+# Using SAP Event Broker in Cloud Foundry (Beta)
 
-[SAP Event Broker](https://help.sap.com/docs/event-broker) is the default offering for messaging in SAP Business Technology Platform (SAP BTP).
-CAP provides out-of-the-box support for SAP Event Broker, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.
+[SAP Event Broker](https://help.sap.com/docs/event-broker) is the new default offering for messaging in SAP Business Technology Platform (SAP BTP).
+CAP provides growing out-of-the-box support for SAP Event Broker, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.
+
+::: warning
+Only available for Node.js. Java to follow soon.
+:::
 
 ::: warning
 The following guide is based on a productive (paid) account on SAP BTP.
@@ -219,3 +223,9 @@ NOTE: we should allow testing via `internal-user` → only possible with ias-aut
 ### Hybrid Testing
 
 Possible? If yes, how?
+
+
+
+<span id="eventbrokersaasconsuming" />
+
+<span id="eventbrokersaaspublishing" />

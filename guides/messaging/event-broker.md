@@ -40,6 +40,11 @@ Differences between the various event transporting technologies are held as tran
 Hence, before diving into this development guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
 
 
+### Prerequisite: Setup SAP Event Broker
+
+Follow guide _SAP Event Broker Service Guide_ &rarr; _Integration Scenarios_ &rarr; [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT) to prepare your SAP BTP account for event consumption.
+
+
 <!--
 
 ### Entitlements → TODO for EB

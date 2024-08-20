@@ -399,11 +399,21 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
-### SAP Event Broker
+### SAP Event Broker <Beta/>
 
 `kind`: `event-broker`
 
-Use this if you want to communicate using [SAP Event Broker for SAP Cloud Applications](https://help.sap.com/docs/event-broker) (or simply _SAP Event Broker_).
+Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "kind": "event-broker"
+    }
+  }
+}
+```
 
 Authentication in the SAP Event Broker integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
 If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
@@ -419,8 +429,6 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
   }
 }
 ```
-
-TODO
 
 <div id="aftereventbroker" />
 

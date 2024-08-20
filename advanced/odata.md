@@ -1095,14 +1095,24 @@ This query groups the 500 most expensive books by author name and determines the
 
 ### Hierarchical Transformations
 
+Provide support for hierarchy attribute calculation and navigation, and allow the execution of typical hierarchy operations directly on relational data.
+
 | Transformation                                | Description                                                        | Node.js | Java               |
 |-----------------------------------------------|--------------------------------------------------------------------|---------|--------------------|
-| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data   | <Na/>   | <X/><sup>(1)</sup><sup>(2)</sup> |
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data   | <Na/>   | <X/><sup>(1)</sup> |
 | `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy        | <Na/>   | <X/><sup>(1)</sup> |
 | `descendants`                                 | return all descendants of a set of start nodes in a hierarchy      | <Na/>   | <X/><sup>(1)</sup> |
 
-- <sup>(1)</sup> Supported on SAP HANA only
-- <sup>(2)</sup> Experimental
+- <sup>(1)</sup> Beta feature, API may change
+
+::: warning
+Generic implementation is supported on SAP HANA only
+:::
+
+:::info
+The source elements of the entity defining the recursive parent-child relation are identified by a naming convention or aliases `node_id` and `parent_id`.
+For more refer to [SAP HANA Hierarchy Developer Guide](https://help.sap.com/docs/SAP_HANA_PLATFORM/4f9859d273254e04af6ab3e9ea3af286/f29c70e984254a6f8df76ad84e78f123.html?locale=en-US&version=2.0.05)
+:::
 
 #### `com.sap.vocabularies.Hierarchy.v1.TopLevels`
 

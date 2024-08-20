@@ -65,7 +65,7 @@ Foo.on('Bar', msg => { ... })
 #### 3. Using Low-Level Messaging
 
 As a third option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
-However, please note that future ORD integration will most likely benefit from modeled approaches.
+However, please note that future [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) integration will most likely benefit from modeled approaches.
 
 
 ### Use `event-broker`
@@ -83,6 +83,8 @@ Add the following to your _package.json_ to use SAP Event Broker:
   }
 }
 ```
+
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 For more details, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#sap-event-broker).
 

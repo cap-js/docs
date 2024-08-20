@@ -150,21 +150,45 @@ resources:
 
 Please note that the mta.yaml snippet above is based on the sample app [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker), i.e., ID, module, and resource names are taken from this context and need to be adjusted.
 
-
-### Check that it works
-
-For example by triggering a respective event and locating the respective reception in application logs.
-
-NOTE: we should allow testing via `internal-user` → only possible with ias-auth
+The full `mta.yaml` of the sample application can be found [here](https://github.com/cap-js/incidents-app/blob/event-broker/mta.yaml).
 
 
-<!--
+### End-to-End Test
+
+You can conduct an end-to-end test of your finalized setup by executing the following steps.
+
+#### 1. Add Integration Dependency
+
+In BTP Cockpit &rarr; System Landscape, navigate to the system that represents your CAP application.
+Add an _Integration Dependency_ using the _Simplified Business Eventing Template_ for _Event Type_ `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` and _Publishing System Namespace_ `sap.s4` as shown in the following screenshot.
+
+![Integration Dependency for Test Event](assets/event-broker-test-integraion-dependency.png)
+
+#### 2. Activate Event Subscription
+
+In SAP Event Broker Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
+
+#### 3. Trigger Test Event
+
+In S/4HANA Cloud, navigate to application _Enterprise Event Enablement - Event Monitor_ and navigate into the channel you created during setup.
+On the top right, press button _Produce Test Event_.
+This will add an entry in the list of _Outbound Events_ with topic `na/na/na/ce/sap/eee/iwxbe/testproducer/v1/Event/Created/v1` and, eventually, status _Acknowledged_.
+
+#### 4. Check Application Logs
+
+In the application logs of your CAP application, check for a log entry noting the successful the event reception as shown in the following screenshot.
+
+![Log Entry for Test Event](assets/event-broker-test-log-entry.png)
+
+
+<!-- TODO
 
 ### Hybrid Testing
 
 Possible? If yes, how?
 
 -->
+
 
 
 <span id="eventbrokersaasconsuming" />

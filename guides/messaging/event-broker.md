@@ -1,4 +1,4 @@
-# Using SAP Event Broker in Cloud Foundry (Beta)
+# Using SAP Event Broker in Cloud Foundry
 
 [SAP Event Broker](https://help.sap.com/docs/event-broker) is the new default offering for messaging in SAP Business Technology Platform (SAP BTP).
 CAP provides growing out-of-the-box support for SAP Event Broker, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.

@@ -608,8 +608,8 @@ Find additional information about deploying SAP Event Broper on SAP BTP in this 
 ## [Events from SAP S/4HANA](./s4)
 <!-- {.toc-redirect} -->
 
-SAP S/4HANA integrates SAP Event Mesh for messaging. That makes it relatively easy
-for CAP-based applications to receive events from SAP S/4HANA systems.
+SAP S/4HANA integrates SAP Event Mesh as well as SAP Event Broker for messaging.
+That makes it relatively easy for CAP-based applications to receive events from SAP S/4HANA systems.
 
 In contrast to CAP, the asynchronous APIs of SAP S/4HANA are separate from the synchronous ones (OData, REST).
 So, the effort on the CAP side is to fill this gap.

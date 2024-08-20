@@ -36,6 +36,8 @@ Hence, before diving into this development guide, you should be familiar with th
 
 ### Prerequisite: Setup SAP Event Broker
 
+// TODO: the guide is not yet published!!!
+
 Follow guide _SAP Event Broker Service Guide_ &rarr; _Integration Scenarios_ &rarr; [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT) to prepare your SAP BTP account for event consumption.
 
 
@@ -86,57 +88,67 @@ Add the following to your _package.json_ to use SAP Event Broker:
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
-For more details, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#sap-event-broker).
+For more details on how to configure using SAP Event Broker, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#sap-event-broker).
 
 
-### Deploy with MTA
+### Deploy to the Cloud (with MTA)
 
-Sample `mta.yml` that deploys the app while creating and binding the SAP Event Broker instance with the two respective configurations (→ minimize manual efforts!).
+Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA.
 
-configs:
-- instance: `systemNamespace` + `webhookUrl`
-- binding:
-  ```jsonc
-  {
-    "authentication-type": "X509_PROVIDED",
-    "x509": {
-      "outbound": {
-          "certificate": "-----BEGIN CERTIFICATE-----\nMIIFuTCCA...vD4uOWDqNcaug=\n-----END CERTIFICATE-----",
-          "key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBA...Yj6ZLnghA==\n-----END PRIVATE KEY-----"
-      }
-    }
-  }
-  ```
+The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.
 
+```yaml
+ID: cap.incidents
 
-<!--
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in webhookUrl and home-url below
+    requires:
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
 
-### Create System and Integration Dependency → TODO for EB
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+    requires:
+      - name: incidents-srv-api
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: incidents-srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+```
 
-Manually add CAP app to _System Landscape_:
-
-![](assets/event_broker_add_system.png)
-
-And define its interest as _Integration Dependency_:
-
-![](assets/event_broker_add_integration_dependency_1.png)
-![](assets/event_broker_add_integration_dependency_2.png)
-![](assets/event_broker_add_integration_dependency_3.png)
-
-
-### Create Formation → TODO for EB
-
-- Formation Type: _Eventing Between SAP Cloud Systems_
-- System Types: _SAP S/4HANA Cloud_, _SAP Event Broker_, and _SAP BTP Application_ ([to be added](https://jira.tools.sap/browse/NGPBUG-398030))
-
-Note: Until system type _SAP BTP Application_ is available, use formation type _Eventing Between SAP Cloud Systems Demo_ and system type _CAP Application_ instead.
-
-
-### Enable Event Consumption → TODO for EB
-
-In SAP Event Broker Application, ...
-
--->
+Please note that the mta.yaml snippet above is based on the sample app [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker), i.e., ID, module, and resource names are taken from this context and need to be adjusted.
 
 
 ### Check that it works
@@ -146,10 +158,13 @@ For example by triggering a respective event and locating the respective recepti
 NOTE: we should allow testing via `internal-user` → only possible with ias-auth
 
 
+<!--
+
 ### Hybrid Testing
 
 Possible? If yes, how?
 
+-->
 
 
 <span id="eventbrokersaasconsuming" />

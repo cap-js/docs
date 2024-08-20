@@ -16,19 +16,13 @@ The following guide is based on a productive (paid) account on SAP BTP.
 <span id="eventbrokerfeaturematrix" />
 
 
-<!--
-
-// --- HERE
-
--->
-
 
 ## Consuming Events in a Stand-alone App
 
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Event Broker.
 The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish cloud events via SAP Event Broker.
 
-Example: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
+Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
 
 
 ### Prerequisite: Events & Messaging in CAP
@@ -45,102 +39,33 @@ Hence, before diving into this development guide, you should be familiar with th
 Follow guide _SAP Event Broker Service Guide_ &rarr; _Integration Scenarios_ &rarr; [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT) to prepare your SAP BTP account for event consumption.
 
 
-<!--
+### Add Events and Handlers
 
-### Entitlements → TODO for EB
+There are three options for adding the events that shall be consumed to your model, and subsequently registering event handlers for the same.
 
-- SAP Event Broker Application (entitlement + subscription)
-- Event Connectivity Service Plan (entitlement only, see _Deploy with MTA_ below)
-- `event-mesh-single-tenant` for [Event Broker "Sibling"](#create-event-broker-sibling-for-s-4hana-cloud-→-todo-for-eb)
+#### 1. Import and Augment
 
+This approach is described in [Events from SAP S/4HANA](../messaging/#events-from-sap-s-4hana), [Receiving Events from SAP S/4HANA Cloud Systems](../messaging/s4), and specifically [Consume Events Agnostically](../messaging/s4#consume-events-agnostically) regarding handler registration.
 
-### Add SAP S/4HANA Cloud to Global Account in SAP BTP → TODO for EB
+#### 2. Decoupled
 
-guides:
-1. [Register an SAP S/4HANA Cloud System in a Global Account in SAP BTP](https://help.sap.com/docs/btp/sap-business-technology-platform/register-sap-s-4hana-cloud-system-in-global-account-in-sap-btp)
-2. [Trigger the Registration in the SAP S/4HANA Cloud Tenant](https://help.sap.com/docs/btp/sap-business-technology-platform/trigger-registration-in-sap-s-4hana-cloud-tenant)
+In the second option, you define the event manually in any service, but link it to the respective cloud event type via `@topic`.
 
-
-### Create Event Broker "Sibling" for S/4HANA Cloud → TODO for EB
-
-Prerequisite for getting `amqpGatewayURL` that is needed in step "Create Communication Arrangement in SAP S/4HANA Cloud"!
-
-__I wasn't able to find any documentation on this!!!__
-
-1. Get entitlement `event-mesh-single-tenant`
-2. Copy System ID of S/4HANA Cloud (see System Landscape)
-3. Create service instance in _Runtime Environment_ "Other" with JSON:
-  ```jsonc
-  {
-    "ceSource": ["/default/sap.s4/<System ID>"], //> the System ID as copied from System Landscape
-    "displayName": "Event Broker for S/4HANA Cloud", //> any name you want to give
-    "deploymentRegion": "default"
+```cds
+service Foo {
+  event Bar @(topic:'my.name.space.myentity.myoperation.v1') {
+    baz: String;
   }
-  ```
-
-
-### Create Communication Arrangement in SAP S/4HANA Cloud → TODO for EB
-
-In your S/4HANA Cloud, create a so-called _Communication Arrangement_ that configures ...
-
-Maybe based on:
-- [Integration with SAP Event Broker](https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/8ed53ec0f7544d7c8342db6e617127a1.html)?
-- [Creating Communication Arrangements](https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/980bd73175d44007b65e67b07eccb730.html)
-
-Note: For getting `amqpGatewayURL` (Step 9), the formation that shall be created in [Create Formation → TODO for EB](#create-formation-→-todo-for-eb) below, already needs to exist... 
-
-
-### Provide S/4HANA Cloud Certificate to Event Broker via Binding → TODO for EB
-
-Cannot be done until Communication Arrangement (actually _Communication System_, but both are done in same guide) was created!
-
-1. Get certificate from S/4HANA Cloud
-  1. In the newly created Communication Arrangement, navigate to the newly created Communication System
-  2. Click on _SSL Client Certificate_
-  3. Click on _Display Certificate_
-  4. Click on _Export_, select checkbox for `.pem`, and press _Export_
-2. Provide certificate to Event Broker
-  1. On service instance of plan `event-mesh-single-tenant`, create a "binding" (somewhat confusing wording as your not binding an app) with JSON:
-  ```jsonc
-  {
-    "certificate": "-----BEGIN CERTIFICATE-----\nMII...\n-----END CERTIFICATE-----"
-  }
-  ```
-
--->
-
-
-### Add Events to Model
-
-Two options:
-- Import and augment → see [Events from SAP S/4HANA](../messaging/#events-from-sap-s-4hana) and [Receiving Events from SAP S/4HANA Cloud Systems](../messaging/s4)
-- Define manually:
-  ```cds
-  service Foo {
-    event Bar @(topic:'my.name.space.myentity.myoperation.v1') {
-      baz: String;
-    }
-  }
-  ```
-
-NOTE: Bare metal
-```js
-messaging.on('my.name.space.myentity.myoperation.v1', msg => { ... })
+}
 ```
-also works, but future ORD integration benefits from modeled approach.
+```js
+Foo.on('Bar', msg => { ... })
+```
 
+#### 3. Using Low-Level Messaging
 
-<!--
-
-### Generate Certificate → TODO for EB
-
-How to fulfill prerequisite
-`You have the private key of the certificate from a trusted Certificate Authority (CA).`
-from [Creating Service Binding for Event Connectivity](https://help.sap.com/docs/event-broker/event-broker-service-guide/creating-service-binding-for-event-connectivity).
-
-NOTE: PKI Service only available SAP-internally.
-
--->
+As a third option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
+However, please note that future ORD integration will most likely benefit from modeled approaches.
 
 
 ### Use `event-broker`
@@ -152,20 +77,14 @@ Add the following to your _package.json_ to use SAP Event Broker:
   "requires": {
     "messaging": {
       "[production]": {
-        "kind": "event-broker",
-        "x509": {
-          "certPath": "./certificate.pem",
-          "pkeyPath": "./key.pem"
-        }
+        "kind": "event-broker"
       }
     }
   }
 }
 ```
 
-NOTE: `x509` section to be removed with IAS support.
-
-For more details, see [Node.js → Messaging → Message Brokers → SAP Event Broker](../../node.js/messaging#sap-event-broker).
+For more details, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#sap-event-broker).
 
 
 ### Deploy with MTA

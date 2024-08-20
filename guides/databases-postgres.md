@@ -314,7 +314,7 @@ cds deploy --profile pg
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
-cds build
+cds build --production
 ```
 
 ::: details What `cds build` does…

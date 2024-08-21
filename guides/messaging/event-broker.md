@@ -187,7 +187,7 @@ This will add an entry in the list of _Outbound Events_ with topic `na/na/na/ce/
 
 #### 4. Check Application Logs
 
-In the application logs of your CAP application, check for a log entry noting the successful the event reception as shown in the following screenshot.
+In the application logs of your CAP application, check for a log entry noting the successful event reception as shown in the following screenshot.
 
 ![Log Entry for Test Event](assets/event-broker-test-log-entry.png)
 

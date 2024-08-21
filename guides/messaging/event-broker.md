@@ -1,11 +1,23 @@
+<script setup>
+  import { h } from 'vue'
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
+  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
+  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
+  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
+</script>
+<style scoped>
+  .ga   { color: var(--vp-c-green-2); font-weight:900;}
+  .na   { color: #aaa; font-size:90%; }
+  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
+  .plan { color: #089; font-size:90% }
+</style>
+
+
+
 # Using SAP Event Broker in Cloud Foundry
 
 [SAP Event Broker](https://help.sap.com/docs/event-broker) is the new default offering for messaging in SAP Business Technology Platform (SAP BTP).
 CAP provides growing out-of-the-box support for SAP Event Broker, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.
-
-::: warning
-Only available for Node.js. Java to follow soon.
-:::
 
 ::: warning
 The following guide is based on a productive (paid) account on SAP BTP.
@@ -17,7 +29,7 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 
 
-## Consuming Events in a Stand-alone App
+## Consuming Events in a Stand-alone App { #consume-standalone }
 
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Event Broker.
 The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish cloud events via SAP Event Broker.
@@ -87,8 +99,7 @@ Add the following to your _package.json_ to use SAP Event Broker:
 ```
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
-
-For more details on how to configure using SAP Event Broker, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#event-broker).
+[Learn more about configuring SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
 
 ### Deploy to the Cloud (with MTA)

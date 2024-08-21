@@ -399,7 +399,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
-### SAP Event Broker <Beta/>
+### SAP Event Broker <Beta/> { #event-broker }
 
 `kind`: `event-broker`
 

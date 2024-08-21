@@ -88,7 +88,7 @@ Add the following to your _package.json_ to use SAP Event Broker:
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
-For more details on how to configure using SAP Event Broker, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#sap-event-broker).
+For more details on how to configure using SAP Event Broker, see _Node.js_ &rarr; _Messaging_ &rarr; _Message Brokers_ &rarr; [SAP Event Broker](../../node.js/messaging#event-broker).
 
 
 ### Deploy to the Cloud (with MTA)

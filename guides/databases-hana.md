@@ -656,3 +656,45 @@ If you need to remove deployed CSV files, also add this entry:
 
 All limitations for the SAP HANA Cloud database can be found in the [SAP Help Portal](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC).
 
+
+### Native Associations
+
+For SAP HANA, CDS associations are by default reflected in the respective database tables and views
+by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
+
+Starting with CAP CDS 8, CAP no longer needs these native associations (provided you use the new database
+service _@cap-js/hana_ for the CAP Node.js stack).
+We recommend to explicitly switch off generation of native associations:
+They need to be validated in the HDI deployment, and they can introduce
+indirect dependencies between other objects, which can trigger other unnecessary revalidations
+or even unnecessary drop/create of indexes. By switching them off, all this effort is saved.
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "sql" {
+      "native_hana_associations": false
+    }
+  }
+}
+```
+
+```json [cdsrc.json]
+{
+  "sql" {
+    "native_hana_associations": false
+  }
+}
+```
+
+:::
+
+For new projects, `cds add hana` automatically adds this configuration.
+
+Note that the first deployment after this configuration change may take longer, as for
+each entity that has associations the respective database object will be touched
+(for views a DROP/CREATE is done, and for tables a full table migration via shadow
+table and data copy is performed). This is also the reason why we haven't yet switched them off by default.
+Subsequent deployments will benefit, however.

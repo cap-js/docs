@@ -211,9 +211,8 @@ Always use OData V4 (`odata`) when calling another CAP service.
 :::
 
 ::: warning Limitations
-Not all features of OData, OpenAPI, or AsyncAPI are supported in CAP.
-Thus an imported model may be rejected by the CDS compiler.
-A known limitation is that CAP doesn't support cyclic type references
+Not all features of OData, OpenAPI, or AsyncAPI are supported in CAP which may lead to the rejection of the imported model by the CDS compiler or may result in a different API when rendered by CAP.
+Known limitations are cyclic type references and inheritance.
 :::
 
 <div class="impl java">

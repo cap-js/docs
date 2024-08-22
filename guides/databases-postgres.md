@@ -480,7 +480,7 @@ point for a manual migration. The effect of `--script` essentially is the same a
 `--dry`, but it also allows the changes listed in [Limitations](#limitations)
 that are disallowed for automatic schema migration.
 
-For generating such a scipt, perform the same steps as in section [Dry-Run Offline](#dry-run-offline)
+For generating such a script, perform the same steps as in section [Dry-Run Offline](#dry-run-offline)
 above, but replace the command in step 3 by
 
 ```sh

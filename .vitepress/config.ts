@@ -23,8 +23,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '3.0.0',
-  java_cds4j: '3.0.0'
+  java_services: '3.1.1',
+  java_cds4j: '3.1.0'
 }
 
 const localSearchOptions = {
@@ -93,8 +93,8 @@ const config:UserConfig<CapireThemeConfig> = {
     // IMPORTANT: Don't use getters here, as they are called again and again!
     sidebar: menu,
     nav: [
-      Object.assign(nav.find(i => i.text === 'Getting Started')!, {text:'Get Started'}),
-      Object.assign(nav.find(i => i.text === 'Cookbook')!, {text:'Guides'}),
+      { ...nav.find(i => i.text === 'Getting Started') ?? {}, text: 'Get Started' },
+      { ...nav.find(i => i.text === 'Cookbook') ?? {}, text: 'Guides' },
       nav.find(i => i.text === 'CDS'),
       nav.find(i => i.text === 'Node'),
       nav.find(i => i.text === 'Java'),

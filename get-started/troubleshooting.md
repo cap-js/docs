@@ -289,7 +289,7 @@ We recommend to implement a proper thread pool and not to rely on these workarou
 
 ## OData
 
-### How Do I Generate an OData Response for Error 404?
+### How Do I Generate an OData Response in Node.js for Error 404?
 
 If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
 
@@ -366,15 +366,40 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://launchpad.support.sap.com/#/notes/2922271) for more details.
 :::
 
-You can apply this solution also when using the `cds-mtx` library. You can either set the options via the environment variable `HDI_DEPLOY_OPTIONS` or you can add them to the model update request as `advancedOptions`:
+You can apply this solution also when using the `cds-mtxs` library. You can either set the options via the environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the CDS configuration or you can add them to the model update request as `hdi` parameter:
 
+CDS configuration for [Deployment Service](../guides/multitenancy/mtxs#deployment-config)
 ```json
-"advancedOptions": {
-  "undeploy": [
-    "src/gen/data/my.bookshop-Books.hdbtabledata"
-  ],
-  "path-parameter": {
-    "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+"cds.xt.DeploymentService": {
+  "hdi": {
+    "deploy": {
+      "undeploy": [
+        "src/gen/data/my.bookshop-Books.hdbtabledata"
+      ],
+      "path_parameter": {
+        "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+      }
+    },
+    ...
+  }
+}
+```
+
+Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#example-usage-1) call payload
+```json
+{
+  "tenants": ["*"],
+  "_": {
+      "hdi": {
+        "deploy": {
+          "undeploy": [
+            "src/gen/data/my.bookshop-Books.hdbtabledata"
+          ],
+          "path_parameter": {
+            "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+          }
+        }
+      }
   }
 }
 ```

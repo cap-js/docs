@@ -475,7 +475,7 @@ You can use `cds deploy` with option `--dry` to simulate and inspect how things 
 
 ### Generate Scripts
 
-You can use `cds deploy` with option `--script` to generate a script as starting
+You can use `cds deploy` with option `--script` to generate a script as a starting
 point for a manual migration. The effect of `--script` essentially is the same as for
 `--dry`, but it also allows changes that could lead to data loss and therefore are not
 supported in the automatic schema migration (see [Limitations](#limitations)).
@@ -487,7 +487,7 @@ above, but replace the command in step 3 by
 cds deploy --script --delta-from cds-model.csn > delta_script.sql
 ```
 
-If your model change includes changes that could lead to a data loss, there will be a warning,
+If your model change includes changes that could lead to data loss, there will be a warning
 and a respective comment is added to the dangerous statements in the resulting script.
 For deleting an element, it would look like this:
  ::: code-group
@@ -501,7 +501,7 @@ ALTER TABLE sap_capire_bookshop_Books DROP price; -- [WARNING] this statement is
 
 :::warning
 
-Always check and, if necessary, adapt the generated script, before you apply it
+Always check and, if necessary, adapt the generated script before you apply it
 to your database.
 
 :::

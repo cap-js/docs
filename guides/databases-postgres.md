@@ -502,7 +502,7 @@ ALTER TABLE sap_capire_bookshop_Books DROP price; -- [WARNING] this statement is
 :::warning
 
 Always check and, if necessary, adapt the generated script before you apply it
-to your database.
+to your database!
 
 :::
 

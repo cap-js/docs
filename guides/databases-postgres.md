@@ -494,7 +494,8 @@ For deleting an element, it would look like this:
 
 ```sql [delta_script.sql]
 ...
-ALTER TABLE sap_capire_bookshop_Books DROP price; -- [WARNING] this statement is lossy
+-- [WARNING] this statement is lossy
+ALTER TABLE sap_capire_bookshop_Books DROP price;
 ...
 ```
 :::

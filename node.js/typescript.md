@@ -30,6 +30,8 @@ Follow these steps to add TypeScript support:
 
 ## Developing with `cds-ts` { #cds-ts}
 
+<div id="cds-tsx" />
+
 Use the `cds-ts` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 
 ```sh

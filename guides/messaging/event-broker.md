@@ -43,7 +43,7 @@ From the perspective of a CAP developer, SAP Event Broker is yet another messagi
 That is to say, CAP developers focus on [modeling their domain](../domain-modeling) and [implementing their domain-specific custom logic](../providing-services#custom-logic).
 Differences between the various event transporting technologies are held as transparent as possible.
 
-Hence, before diving into this development guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
+Hence, before diving into this guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
 
 
 ### Prerequisite: Setup SAP Event Broker

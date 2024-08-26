@@ -55,30 +55,15 @@ Follow guide _SAP Event Broker Service Guide_ &rarr; _Integration Scenarios_ &ra
 
 ### Add Events and Handlers
 
-There are three options for adding the events that shall be consumed to your model, and subsequently registering event handlers for the same.
+There are two options for adding the events that shall be consumed to your model, and subsequently registering event handlers for the same.
 
 #### 1. Import and Augment
 
 This approach is described in [Events from SAP S/4HANA](../messaging/#events-from-sap-s-4hana), [Receiving Events from SAP S/4HANA Cloud Systems](../messaging/s4), and specifically [Consume Events Agnostically](../messaging/s4#consume-events-agnostically) regarding handler registration.
 
-#### 2. Decoupled
+#### 2. Using Low-Level Messaging
 
-In the second option, you define the event manually in any service, but link it to the respective cloud event type via `@topic`.
-
-```cds
-service Foo {
-  event Bar @(topic:'my.name.space.myentity.myoperation.v1') {
-    baz: String;
-  }
-}
-```
-```js
-Foo.on('Bar', msg => { ... })
-```
-
-#### 3. Using Low-Level Messaging
-
-As a third option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
+As a second option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
 However, please note that future [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) integration will most likely benefit from modeled approaches.
 
 

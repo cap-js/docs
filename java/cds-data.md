@@ -527,7 +527,7 @@ interface Equity {
 
 #### Renaming Types in Java
 
-You might also want to rename the type or the entity. For this you can use annotation `@cds.java.this.name` to specify alternative name for the  accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces. This annotation can be used only on definitions and is ignored everywhere else.
+You might also want to rename the type of the entity. For this you can use annotation `@cds.java.this.name` to specify alternative name for the  accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces. This annotation can be used only on definitions and is ignored everywhere else.
 
 See the following example:
 

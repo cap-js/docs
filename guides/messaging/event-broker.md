@@ -69,22 +69,11 @@ However, please note that future [Open Resource Discovery (ORD)](https://sap.git
 
 ### Use `event-broker`
 
-Add the following to your _package.json_ to use SAP Event Broker:
+Configure your application to use the `event-broker` messaging service.
 
-```jsonc
-"cds": {
-  "requires": {
-    "messaging": {
-      "[production]": {
-        "kind": "event-broker"
-      }
-    }
-  }
-}
-```
+[Learn more about configuring SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
-[Learn more about configuring SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
 
 ### Deploy to the Cloud (with MTA)

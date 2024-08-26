@@ -701,7 +701,6 @@ If you need to access an element of an entity in an annotation for a bound actio
 use a path that navigates via an explicitly defined [binding parameter](../cds/cdl#bound-actions).
 
 Example:
-<!-- cds-mode: upcoming, cds-compiler v4.9 -->
 ```cds
 service S {
   entity Order {

@@ -147,7 +147,7 @@ You can conduct an end-to-end test of your finalized setup by executing the foll
 In BTP Cockpit &rarr; System Landscape, navigate to the system that represents your CAP application.
 Add an _Integration Dependency_ using the _Simplified Business Eventing Template_ for _Event Type_ `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` and _Publishing System Namespace_ `sap.s4` as shown in the following screenshot.
 
-![Integration Dependency for Test Event](assets/event-broker-test-integraion-dependency.png)
+![Integration Dependency for Test Event](assets/event-broker-test-integration-dependency.png)
 
 #### 2. Activate Event Subscription
 

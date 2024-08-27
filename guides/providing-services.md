@@ -1034,7 +1034,7 @@ service Sue {
     function getStock() returns Integer;
     action order (x:Integer) returns Integer;
     //bound to the collection and not a specific instance of Foo
-    action customCreate (in: many $self; x: String) returns Foo;
+    action customCreate (in: many $self, x: String) returns Foo;
   }
 }
 ```

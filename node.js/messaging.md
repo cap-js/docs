@@ -435,7 +435,7 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
 
 Your SAP Event Broker configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
 Your IAS instance must be configured to include your SAP Event Broker instance under `consumed-services` in order for your application to accept requests from SAP Event Broker.
-Here's an example configuration based of the mta.yaml file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application:
+Here's an example configuration based of the mta.yaml file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
 
 ```yaml
 ID: cap.incidents

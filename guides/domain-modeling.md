@@ -666,7 +666,7 @@ annotate Authors with @restrict: [
 
 ### Fiori Annotations
 
-Similarly to authorization annotations we would frequently add annotations which are related to UIs, starting with `@title`s used for field or column labels in UIs, or specific Fiori annotations in `@UI`, `@Common`, etc. vocabularies.
+Similarly to authorization annotations we would frequently add annotations which are related to UIs, starting with `@title` annotations used for field or column labels in UIs, or specific Fiori annotations in `@UI`, `@Common`, etc. vocabularies.
 
 Also here we strongly recommend to keep the core domain models clean of that, but put such annotation into respective frontend models:
 

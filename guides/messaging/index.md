@@ -551,9 +551,8 @@ Application developers shouldn't have to care for such technical details. CAP en
 
 ## [Using SAP Event Mesh](./event-mesh) {#sap-event-mesh}
 
-CAP has out-of-the-box support for SAP Event Mesh. As an
-application developer, all you need to do is configuring CAP to use `enterprise-messaging`,
-usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
+CAP has out-of-the-box support for SAP Event Mesh.
+As an application developer, all you need to do is configuring CAP to use `enterprise-messaging`, usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
 
 ```jsonc
 "cds": {

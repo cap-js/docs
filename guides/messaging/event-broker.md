@@ -138,6 +138,11 @@ Please note that the mta.yaml snippet above is based on the sample app [@capire/
 The full `mta.yaml` of the sample application can be found [here](https://github.com/cap-js/incidents-app/blob/event-broker/mta.yaml).
 
 
+<!--
+- Should not be part of the guide, but rather a link to their documentation
+- Test events are not treated differently, if you want to test your app, trigger an event for which you already declared integration dependencies
+
+
 ### End-to-End Test
 
 You can conduct an end-to-end test of your finalized setup by executing the following steps.
@@ -164,6 +169,8 @@ This will add an entry in the list of _Outbound Events_ with topic `na/na/na/ce/
 In the application logs of your CAP application, check for a log entry noting the successful event reception as shown in the following screenshot.
 
 ![Log Entry for Test Event](assets/event-broker-test-log-entry.png)
+
+-->
 
 
 <!-- TODO

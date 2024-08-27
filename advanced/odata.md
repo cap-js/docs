@@ -54,7 +54,7 @@ System query options can also be applied to an [expanded navigation property](ht
 | `$filter`      | Filter associated entities                | <X/>     | <X/>   |
 | `$expand`      | Nested expand                             | <X/>     | <X/>   |
 | `$orderby`     | Sort associated entities                  | <X/>     | <X/>   |
-| `$top`,`$skip` | Paginate associated entities              | <Na/>    | <X/>   |
+| `$top`,`$skip` | Paginate associated entities              | <X/>     | <X/>   |
 | `$count`       | Count associated entities                 | <Na/>    | <X/>   |
 | `$search`      | Search associated entities                | <Na/>    | <Na/>  |
 

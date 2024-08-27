@@ -171,7 +171,7 @@ Configure initial log-levels per module through `cds.env.log.levels`, for exampl
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -306,10 +306,6 @@ Will be debug-enabled by both, `DEBUG=db`, as well as `DEBUG=sql ...`.
 
 **Note:** The alternative ids specified after `|` have no impact on the unique logger ids. That is, the logger above will have the id `'db'`, while `'sql'` will only be used for matching against `DEBUG` env variable.
 
-### *Capture stack trace with SQLite*
-
-Set `DEBUG=sqlite` to activate capturing the stack trace on the way to executing a query.
-
 ## Configuration
 Configuration for `cds.log()` can be specified through `cds.env.log`, for example like that in your `package.json`:
 
@@ -318,7 +314,7 @@ Configuration for `cds.log()` can be specified through `cds.env.log`, for exampl
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -346,9 +342,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | CLI output                               | `cli`             |
 | CDS build output                         | `build`           |
 | [Application Service](./app-services)    | `app`             |
-| [SQLite Database](databases)             | `db\|sql\|sqlite` |
-| [SAP HANA Database](databases)           | `db\|sql\|hana`   |
-| [SAP HANA Database Pool](databases#pool) | `db\|pool`        |
+| [Databases](databases)                   | `db\|sql`         |
 | [Messaging Service](messaging)           | `messaging`       |
 | [Remote Service](remote-services)        | `remote`          |
 | AuditLog Service                         | `audit-log`       |

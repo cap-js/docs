@@ -78,64 +78,64 @@ Configure your application to use the `event-broker` messaging service.
 
 ### Deploy to the Cloud (with MTA)
 
-Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA.
+Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker).
 
-The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.
+<!--The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
 
-```yaml
-ID: cap.incidents
-
-modules:
-  - name: incidents-srv
-    provides:
-      - name: incidents-srv-api
-        properties:
-          url: ${default-url} #> needed in webhookUrl and home-url below
-    requires:
-      - name: incidents-event-broker
-        parameters:
-          config:
-            authentication-type: X509_IAS
-      - name: incidents-ias
-        parameters:
-          config:
-            credential-type: X509_GENERATED
-            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
-
-resources:
-  - name: incidents-event-broker
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: event-broker
-      service-plan: event-connectivity
-      config:
-        # unique identifier for this event broker instance
-        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
-        systemNamespace: cap.incidents
-        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
-    requires:
-      - name: incidents-srv-api
-  - name: incidents-ias
-    type: org.cloudfoundry.managed-service
-    requires:
-      - name: incidents-srv-api
-    processed-after:
-      # for consumed-services (cf. below), incidents-event-broker must already exist
-      # -> ensure incidents-ias is created after incidents-event-broker
-      - incidents-event-broker
-    parameters:
-      service: identity
-      service-plan: application
-      config:
-        consumed-services:
-          - service-instance-name: incidents-event-broker
-        display-name: cap.incidents #> any value, e.g., reuse MTA ID
-        home-url: ~{incidents-srv-api/url}
-```
-
-Please note that the mta.yaml snippet above is based on the sample app [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker), i.e., ID, module, and resource names are taken from this context and need to be adjusted.
-
-The full `mta.yaml` of the sample application can be found [here](https://github.com/cap-js/incidents-app/blob/event-broker/mta.yaml).
+<!--```yaml-->
+<!--ID: cap.incidents-->
+<!---->
+<!--modules:-->
+<!--  - name: incidents-srv-->
+<!--    provides:-->
+<!--      - name: incidents-srv-api-->
+<!--        properties:-->
+<!--          url: ${default-url} #> needed in webhookUrl and home-url below-->
+<!--    requires:-->
+<!--      - name: incidents-event-broker-->
+<!--        parameters:-->
+<!--          config:-->
+<!--            authentication-type: X509_IAS-->
+<!--      - name: incidents-ias-->
+<!--        parameters:-->
+<!--          config:-->
+<!--            credential-type: X509_GENERATED-->
+<!--            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID-->
+<!---->
+<!--resources:-->
+<!--  - name: incidents-event-broker-->
+<!--    type: org.cloudfoundry.managed-service-->
+<!--    parameters:-->
+<!--      service: event-broker-->
+<!--      service-plan: event-connectivity-->
+<!--      config:-->
+<!--        # unique identifier for this event broker instance-->
+<!--        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters-->
+<!--        systemNamespace: cap.incidents-->
+<!--        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook-->
+<!--    requires:-->
+<!--      - name: incidents-srv-api-->
+<!--  - name: incidents-ias-->
+<!--    type: org.cloudfoundry.managed-service-->
+<!--    requires:-->
+<!--      - name: incidents-srv-api-->
+<!--    processed-after:-->
+<!--      # for consumed-services (cf. below), incidents-event-broker must already exist-->
+<!--      # -> ensure incidents-ias is created after incidents-event-broker-->
+<!--      - incidents-event-broker-->
+<!--    parameters:-->
+<!--      service: identity-->
+<!--      service-plan: application-->
+<!--      config:-->
+<!--        consumed-services:-->
+<!--          - service-instance-name: incidents-event-broker-->
+<!--        display-name: cap.incidents #> any value, e.g., reuse MTA ID-->
+<!--        home-url: ~{incidents-srv-api/url}-->
+<!--```-->
+<!---->
+<!--Please note that the mta.yaml snippet above is based on the sample app [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker), i.e., ID, module, and resource names are taken from this context and need to be adjusted.-->
+<!---->
+<!--The full `mta.yaml` of the sample application can be found [here](https://github.com/cap-js/incidents-app/blob/event-broker/mta.yaml).-->
 
 
 <!--

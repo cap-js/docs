@@ -1,7 +1,7 @@
 <template>
   <button v-show="visible" @click="scrollToTop"
     v-bind:class="{ fadeIn: enableFadeInClass, fadeOut: enableFadeOutClass }" class="scroll-to-top">
-    <svg title="uhuh" class="scroll-to-top-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    <svg class="scroll-to-top-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1" viewBox="-10 0 531 512">
       <title>Scroll to top</title>
       <g transform="matrix(1 0 0 -1 0 480)">

@@ -1361,7 +1361,7 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 ## V2 Support
 
-While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+OData V2 has been deprecated, it is not recommended to use a deprecated protocol and While CAP defaults to OData V4, the latest protocol version, older projects may need to fallback to OData V2, for example, to keep using existing V2-based UIs.
 
 ### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 

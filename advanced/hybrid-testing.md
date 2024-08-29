@@ -329,6 +329,27 @@ cds bind --to-app-services bookshop-srv
 ```
 > This shortcut is only possible if you don't need to provide a `kind`.
 
+If your application has multiple service bindings of the same kind, you can resolve the ambiguities by adding the correct service instance name to the cds service configuration using the `vcap.name` property - warnings are logged for services that cannot be bound.
+
+Here is an example of adding `vcap.name` for services of kind `xsuaa`.
+
+```json
+"requires": {
+  "auth": {
+    "kind": "xsuaa",
+    "vcap": {
+      "name": "bookshop-auth1"
+    }
+  },
+  "auth2": {
+    "kind": "xsuaa",
+    "vcap": {
+      "name": "bookshop-auth2"
+    }
+  }
+}
+```
+
 ## `cds bind` Usage { #cds-bind-usage}
 
 ### By Cloud Service Only

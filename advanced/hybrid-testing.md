@@ -329,7 +329,7 @@ cds bind --to-app-services bookshop-srv
 ```
 > This shortcut is only possible if you don't need to provide a `kind`.
 
-If your application has multiple service bindings of the same kind, `cds bind` will log warnings since they can not be resolved automatically. In this case you can resolve the ambiguities by adding the correct service instance name to the cds service configuration using the `vcap.name` property - warnings are logged for services that cannot be bound.
+If your application has multiple service bindings of the same kind, `cds bind` will log warnings since they can not be resolved automatically. In this case you can resolve the ambiguities by adding the correct service instance name to the cds service configuration using the `vcap.name` property.
 
 Here is an example of adding `vcap.name` for services of kind `xsuaa`.
 

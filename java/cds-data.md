@@ -556,7 +556,7 @@ public interface MyJavaClass extends CdsData {
 In contrast with the annotation `@cds.java.name`, the annotation `@cds.java.this.name` does not rename projections of the annotated entity. If you want to rename chain of entities, you must annotate each of them individually.
 
 ::: warning
-This feature requires version 8.x of the [CDS Command Line Interface](/tools/cds-cli).
+This feature requires version 8.2.0 of the [CDS Command Line Interface](/tools/cds-cli).
 :::
 
 #### Entity Inheritance in Java

@@ -274,7 +274,7 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
 
 The buildpack delivers the Open Telemetry Agent Extension library with the common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities.
 
-[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more} 
+[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more}
 
 For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
@@ -592,6 +592,16 @@ The example configuration makes Spring exposing only the health endpoint with he
 
 ::: tip
 For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
+:::
+
+CAP offers two additional health indicators for MTX sidecars:
+  - `modelProvider` for the sidecar backing [Model Provider Service](/java/reflection-api#the-model-provider-service)
+  - `deploymentService` for the sidecar backing [Multitenancy](/java/multitenancy#multitenancy)
+
+You can use them independently, but if both services use the same sidecar, health endpoint of the sidecar will receive calls from each health check independently. In this case, you can choose one of the indicators that best suit your application.
+
+::: warning
+These health indicators require sidecar to use `@sap/cds` version 7.8.0 or higher.
 :::
 
 Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up, `503` for down) in JSON format with the overall `status` property (for example, `UP` or `DOWN`) and the contributing components:

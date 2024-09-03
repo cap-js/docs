@@ -28,11 +28,16 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('scroll', () => {
-      const isVisible = window.scrollY > 240;
-      this.enableFadeInClass = isVisible;
-      this.enableFadeOutClass = !isVisible;
-    });
+    const isIOS = /iPad|iPhone|iPod/i.test(window.navigator.userAgent);
+    if (isIOS) { // iOS already has a system-wide scroll-to-top button at the top
+      this.visible = false;
+    } else {
+      window.addEventListener('scroll', () => {
+        const isVisible = window.scrollY > 240;
+        this.enableFadeInClass = isVisible;
+        this.enableFadeOutClass = !isVisible;
+      });
+    }
   },
 };
 </script>

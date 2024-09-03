@@ -431,8 +431,20 @@ Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` anno
 
 ```cds
 entity Books {
-  @Search.fuzzinessThreshold: 0.7
-  title : String;
+   @Search.fuzzinessThreshold: 0.7
+   title : String;
+}
+```
+
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To adjust the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+
+```cds
+entity Books {
+   @Search.ranking: HIGH
+   title         : String;
+
+   @Search.ranking: LOW
+   publisherName : String;
 }
 ```
 

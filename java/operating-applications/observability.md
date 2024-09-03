@@ -169,11 +169,11 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 ### Logging Service { #logging-service}
 
 The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING)
-and it's recommended successor [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service to which bound Cloud Foundry applications can stream logs.
+and its recommended successor [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service to which bound Cloud Foundry applications can stream logs.
 
 Establishing a connection is the same for both services: The application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
-```xml
+```xml [srv/pom.xml]
 <dependency>
 	<groupId>com.sap.hcp.cf.logging</groupId>
 	<artifactId>cf-java-logging-support-logback</artifactId>
@@ -573,7 +573,7 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 
 By default, Spring exposes the *aggregated* health status on web endpoint `/actuator/health`, including the result of all registered health indicators. But also the `info` actuator is exposed automatically, which might be not desired for security reasons. It's recommended to **explicitly** control web exposition of actuator components in the application configuration. The following configuration snippet is an example suitable for public visible health check information:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 management:
   endpoint:
     health:

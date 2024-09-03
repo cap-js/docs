@@ -228,7 +228,7 @@ Step <span class="list-item">4</span> integrates with `cds add helm`:
 ::: code-group
 ```js [lib/add.js]
 const cds = require('@sap/cds-dk') //> load from cds-dk
-const { write, path } = cds.utils, { join } = path
+const { copy, path } = cds.utils, { join } = path
 const { readProject, merge, registries } = cds.add
 const { srv4 } = registries.mta
 
@@ -278,7 +278,7 @@ For step <span class="list-item">5</span> we'll add some command-specific option
 ::: code-group
 ```js [lib/add.js]
 const cds = require('@sap/cds-dk') //> load from cds-dk
-const { write, path } = cds.utils, { join } = path
+const { copy, path } = cds.utils, { join } = path
 
 module.exports = class extends cds.add.Plugin {
   options() { // [!code ++]
@@ -296,12 +296,32 @@ module.exports = class extends cds.add.Plugin {
     await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code --]
     await copy(pg).to(cds.cli.options.out, 'pg.yaml') //> 'to' is relative to cds.root // [!code ++]
   }
-  async combine {
+  async combine() {
     /* ... */
   }
 }
 ```
 :::
+
+#### Call `cds add` for an NPM package <beta />
+
+Similar to `npx -p`, you can use the `--package/-p` option to directly install a package from an *npm* registry before running the command.
+This lets you invoke `cds add` for CDS plugins easily with a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example
+```
+
+::: details Install directly from your GitHub branch
+
+ For example, if your plugin's code is in `https://github.com/cap-js-community/example` on branch `cds-add` and registers the  command `cds add my-facet`, then doing an integration test of your plugin with `@sap/cds-dk` in a single command:
+
+```sh
+cds add my-facet -p @cap-js-community/example@git+https://github.com/cap-js-community/example#cds-add
+```
+
+:::
+
 
 ## Plugin API
 
@@ -374,7 +394,7 @@ async run() { // [!code focus]
 
 ### `combine()` {.method}
 
-This method is invoked `cds add` is run for other plugins. In here, do any modifications with dependencies on other plugins.
+This method is invoked, when `cds add` is run for other plugins. In here, do any modifications with dependencies on other plugins.
 
 These adjustments typically include enhancing the _mta.yaml_ for Cloud Foundry or _values.yaml_ for Kyma, or adding roles to an _xs-security.json_.
 

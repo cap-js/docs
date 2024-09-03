@@ -129,7 +129,7 @@ Result result = context.getResult();
 The getter and setter methods, still operate on the simple get/put API shown in the previous example. They just provide a type-safe layer on top of it.
 The `as` method makes use of Java Proxies behind the scenes. Therefore an interface definition is all that is required to enable this functionality.
 
-:::
+::: tip
 Use these event-specific type-safe Event Context interfaces whenever possible.
 :::
 
@@ -231,12 +231,14 @@ In case the service name is based on the CDS model it is recommended to use thes
 
 It is possible to specify multiple service names. Event handlers are registered on all of these services.
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(["AdminService", "CatalogService"])
 ```
 
 The `type` attribute of the `@ServiceName` annotation can be used to register event handlers on all services of a certain type:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)
 ```
@@ -263,6 +265,7 @@ The CAP Java SDK Maven Plugin generates interfaces for entities in the CDS model
 It is recommended to use these constants with the `event` or `entity` attributes of the annotations.
 :::
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 // registers on multiple events
 @Before(event = { "CREATE", "UPDATE" }, entity = "AdminService.Books")
@@ -333,7 +336,8 @@ When adding business logic to an Application Service event handlers most commonl
 Entity data can be directly accessed in the event handler method, by using an argument of type `CdsData`:
 
 ```java
-@Before(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE }, entity = Books_.CDS_NAME)
+@Before(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE },
+        entity = Books_.CDS_NAME)
 public void changeBooks(List<CdsData> data) { }
 ```
 > The `CdsData` interface extends `Map<String, Object>` with some additional JSON serialization capabilities and therefore provides a generic data access capability.
@@ -341,7 +345,8 @@ public void changeBooks(List<CdsData> data) { }
 The CAP Java SDK Maven Plugin can generate data accessor interfaces for entities defined in the CDS model. These interfaces allow for a [typed access](../cds-data#typed-access) to data and can be used in arguments as well:
 
 ```java
-@Before(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE }, entity = Books_.CDS_NAME)
+@Before(event = { CqnService.EVENT_CREATE, CqnService.EVENT_UPDATE },
+        entity = Books_.CDS_NAME)
 public void changeBooks(List<Books> books) { }
 ```
 

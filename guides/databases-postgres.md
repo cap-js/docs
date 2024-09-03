@@ -337,7 +337,7 @@ cds build
 :::
 
 
-### Add Postgres Deployment Configuration
+### Add PostgreSQL Deployment Configuration
 
 ```sh
 cds add postgres
@@ -405,7 +405,7 @@ If you need to apply such disallowed changes during development, just drop and r
 
 ### Dry-Run Offline
 
-We can use `cds deploy` with option `--dry` to simulate and inspect how things work.
+You can use `cds deploy` with option `--dry` to simulate and inspect how things work.
 
 1. Capture your current model in a CSN file:
 
@@ -424,13 +424,13 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    entity Foo { key ID: UUID }       //> add a new entity
    ```
 
-3. Generate delta DDL script:
+3. Generate delta DDL statements:
 
    ```sh
    cds deploy --dry --delta-from cds-model.csn > delta.sql
    ```
 
-4. Inspect the generated SQL script, which should look like this:
+4. Inspect the generated SQL statements, which should look like this:
    ::: code-group
 
    ```sql [delta.sql]
@@ -472,6 +472,41 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    :::
 
    > **Note:** If you use SQLite, ALTER TYPE commands are not necessary and so, are not supported, as SQLite is essentially typeless.
+
+### Generate Scripts
+
+You can use `cds deploy` with option `--script` to generate a script as a starting
+point for a manual migration. The effect of `--script` essentially is the same as for
+`--dry`, but it also allows changes that could lead to data loss and therefore are not
+supported in the automatic schema migration (see [Limitations](#limitations)).
+
+For generating such a script, perform the same steps as in section [Dry-Run Offline](#dry-run-offline)
+above, but replace the command in step 3 by
+
+```sh
+cds deploy --script --delta-from cds-model.csn > delta_script.sql
+```
+
+If your model change includes changes that could lead to data loss, there will be a warning
+and a respective comment is added to the dangerous statements in the resulting script.
+For deleting an element, it would look like this:
+ ::: code-group
+
+```sql [delta_script.sql]
+...
+-- [WARNING] this statement is lossy
+ALTER TABLE sap_capire_bookshop_Books DROP price;
+...
+```
+:::
+
+:::warning
+
+Always check and, if necessary, adapt the generated script before you apply it
+to your database!
+
+:::
+
 
 ## Deployment Using Liquibase  { .impl .java }
 

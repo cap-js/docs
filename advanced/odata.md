@@ -1361,7 +1361,14 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 ## V2 Support
 
-OData V2 has been deprecated, it is not recommended to use a deprecated protocol and While CAP defaults to OData V4, the latest protocol version, older projects may need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+While CAP defaults to OData V4, the latest protocol version, older projects may need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+
+
+::: warning
+
+OData V2 is deprecated. Use OData V2 only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable).
+
+:::
 
 ### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 

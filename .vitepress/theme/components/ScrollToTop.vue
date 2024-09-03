@@ -28,11 +28,16 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('scroll', () => {
-      const isVisible = window.scrollY > 240;
-      this.enableFadeInClass = isVisible;
-      this.enableFadeOutClass = !isVisible;
-    });
+    const isIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream
+    if (isIOS) {
+      this.visible = false;
+    } else {
+      window.addEventListener('scroll', () => {
+        const isVisible = window.scrollY > 240;
+        this.enableFadeInClass = isVisible;
+        this.enableFadeOutClass = !isVisible;
+      });
+    }
   },
 };
 </script>

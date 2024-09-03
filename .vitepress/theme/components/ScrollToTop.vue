@@ -28,7 +28,7 @@ export default {
     },
   },
   mounted() {
-    const isIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/i.test(window.navigator.userAgent);
     if (isIOS) { // iOS already has a system-wide scroll-to-top button at the top
       this.visible = false;
     } else {

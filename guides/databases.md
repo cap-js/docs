@@ -365,7 +365,7 @@ This set of functions are by large the same as specified in OData:
 * `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`, `fractionalseconds(x)`, `time(x)`, `date(x)` —
   returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
-* `totalseconds(x)` — returns the total seconds of a datetime a given `cds.DateTime` / `cds.Time`
+* `totalseconds(x)` — returns the total seconds of a datetime for a given `cds.DateTime` / `cds.Time`
 * `now()` — returns the current datetime
 * `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)

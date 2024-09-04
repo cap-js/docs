@@ -1267,7 +1267,7 @@ If you are using feature toggles in your CAP Java project, you have to specify t
 	```
 	This command includes the folder `/fts` and all sub-folders into the CDS model.
 
-4. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
+3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 
 	```xml
 	<dependency>
@@ -1288,7 +1288,7 @@ If you are using feature toggles in your CAP Java project, you have to specify t
 	</dependency>
 	```
 
-5. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
+4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
 
 After rebuilding and restarting your application, your Application Services are exposed as OData V2 and OData V4 in parallel. This way, you can migrate your frontend code iteratively to OData V4.
 

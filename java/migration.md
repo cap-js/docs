@@ -1260,11 +1260,12 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	```
 
 	This command picks up all service definitions in the Java project base directory (`srv` by default) and generates EDMX for OData V2. It also localizes the generated EDMX files with all available translations. For more information on the previous command, call `cds help compile` on the command line. If your service definitions are located in a different directory, adopt the previous command. If your service definitions are contained in multiple directories, add the previous command for each directory separately. Make sure to use at least `cds-dk 3.2.0` for this step.
-If you are using feature toggles in the CAP Java project, you have to specify the features root folder to the command line:
+If you are using feature toggles in your CAP Java project, you have to specify the features root folder to the command line:
 
 ```xml
 <command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
 ```
+	This command includes the folder `/fts` and all sub-folders into the CDS model.
 
 4. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 

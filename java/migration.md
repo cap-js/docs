@@ -1260,8 +1260,13 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	```
 
 	This command picks up all service definitions in the Java project base directory (`srv` by default) and generates EDMX for OData V2. It also localizes the generated EDMX files with all available translations. For more information on the previous command, call `cds help compile` on the command line. If your service definitions are located in a different directory, adopt the previous command. If your service definitions are contained in multiple directories, add the previous command for each directory separately. Make sure to use at least `cds-dk 3.2.0` for this step.
+If you are using feature toggles in the CAP Java project, you have to specify the features root folder to the command line:
 
-3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
+```xml
+<command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
+```
+
+4. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 
 	```xml
 	<dependency>
@@ -1282,7 +1287,7 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	</dependency>
 	```
 
-4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
+5. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
 
 After rebuilding and restarting your application, your Application Services are exposed as OData V2 and OData V4 in parallel. This way, you can migrate your frontend code iteratively to OData V4.
 

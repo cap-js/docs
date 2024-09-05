@@ -432,7 +432,7 @@ book.put("ID", 97);
 book.put("title", "Dracula");
 ```
 
-You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). 
+You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces).
 If you define an interface yourself, it could look like the following example:
 
 ```java
@@ -524,6 +524,40 @@ interface Equity {
 	...
 }
 ```
+
+#### Renaming Types in Java
+
+You might also want to rename the type of the entity. For this you can use annotation `@cds.java.this.name` to specify alternative name for the  accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces. This annotation can be used only on definitions and is ignored everywhere else.
+
+See the following example:
+
+```cds
+@cds.java.this.name: 'MyJavaClass'
+entity Class {
+  key ID: String;
+}
+```
+
+```java
+@CdsName("javaNames.Class")
+public interface MyJavaClass extends CdsData {
+  String ID = "ID";
+
+  @CdsName(ID)
+  String id();
+
+  @CdsName(ID)
+  MyJavaClass id(String id);
+
+  // rest of the interface
+}
+```
+
+In contrast with the annotation `@cds.java.name`, the annotation `@cds.java.this.name` does not rename projections of the annotated entity. If you want to rename chain of entities, you must annotate each of them individually.
+
+::: warning
+This feature requires version 8.2.0 of the [CDS Command Line Interface](/tools/cds-cli).
+:::
 
 #### Entity Inheritance in Java
 

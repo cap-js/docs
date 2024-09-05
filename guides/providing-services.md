@@ -384,7 +384,7 @@ Searches the `title` element only.
 ##### Extend Search to *Associated* Entities
 
 ::: warning
-For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga)
+For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
 :::
 
 ```cds

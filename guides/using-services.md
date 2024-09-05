@@ -46,8 +46,8 @@ Connection in productive use works through SAP BTP Destination services or by sp
 ### Feature Overview
 
 For outbound remote service consumption, the following features are supported:
-+ OData V2
 + OData V4
++ OData V2 (Deprecated)
 + [Querying API](#querying-api-features)
 + [Projections on remote services](#supported-projection-features)
 

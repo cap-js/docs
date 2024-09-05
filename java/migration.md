@@ -1265,7 +1265,7 @@ If you are using feature toggles in your CAP Java project, you have to specify t
 	```xml
 	<command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
 	```
-	This command includes the folder `/fts` and all sub-folders into the CDS model.
+	This command includes the folder _/fts_ and all sub-folders into the CDS model.
 
 3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 

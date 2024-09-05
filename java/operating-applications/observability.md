@@ -594,7 +594,7 @@ The example configuration makes Spring exposing only the health endpoint with he
 For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
 :::
 
-CAP offers additional health indicator for MTX sidecar with name `modelProvider` for the sidecar backing [Model Provider Service](/java/reflection-api#the-model-provider-service).
+CAP offers additional health indicator with name `modelProvider` for the MTX sidecar backing [Model Provider Service](/java/reflection-api#the-model-provider-service).
 
 ::: warning
 Health indicator requires sidecar to use `@sap/cds` version 7.8.0 or higher.

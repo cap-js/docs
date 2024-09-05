@@ -23,20 +23,6 @@ See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) fo
 
 Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity and enables more features like storing active instances in remote systems while keeping the corresponding drafts in the local persistence.
 
-### Enablement
-
-Lean draft is enabled by default. Add this to your `cds` configuration to disable the feature:
-
-```json
-{
-  "cds": {
-    "fiori": {
-      "lean_draft": false
-    }
-  }
-}
-```
-
 ### Handlers Registration {#draft-support}
 
 Class `ApplicationService` provides built-in support for Fiori Draft. All CRUD events are supported for both, active and draft entities.

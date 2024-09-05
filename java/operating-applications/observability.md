@@ -591,13 +591,19 @@ management:
 The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
 
 ::: tip
-For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
+For multitenancy scenarios, CAP Java replaces the default `db` indicator with an implementation that includes the status of all tenant databases.
 :::
 
-CAP offers additional health indicator `modelProvider` for the MTX sidecar backing [Model Provider Service](/java/reflection-api#the-model-provider-service).
+In addition CAP Java offers a health indicator `modelProvider`. This health indicator allows to include the status of the MTX sidecar serving the [Model Provider Service](/java/reflection-api#the-model-provider-service).
+
+```yaml
+management:
+  health:
+    modelProvider.enabled: true
+```
 
 ::: warning
-Health indicator requires sidecar to use `@sap/cds` version 7.8.0 or higher.
+The `modelProvider` health indicator requires `@sap/cds` version `7.8.0` or higher in MTX sidecar.
 :::
 
 Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up, `503` for down) in JSON format with the overall `status` property (for example, `UP` or `DOWN`) and the contributing components:

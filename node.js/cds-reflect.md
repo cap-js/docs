@@ -259,17 +259,6 @@ for (let each in linked.definitions) {
 }
 ```
 
-
-Moreover, you can use common array methods like these:
-
-```js
-linked.definitions .forEach (d => console.log(d.name))
-linked.definitions .filter (d => d.is_entity)
-linked.definitions .find (d => d.name === 'Foo')
-linked.definitions .some (d => d.name === 'Foo')
-linked.definitions .map (d => d.name)
-```
-
 Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
 
 

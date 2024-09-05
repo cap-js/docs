@@ -582,7 +582,7 @@ ON Books.author_ID = author.ID;
 </div>
 
 ::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql --dialect <dialect>` to get DDL that matches the target database.
 :::
 
 

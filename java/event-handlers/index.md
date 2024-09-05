@@ -129,7 +129,7 @@ Result result = context.getResult();
 The getter and setter methods, still operate on the simple get/put API shown in the previous example. They just provide a type-safe layer on top of it.
 The `as` method makes use of Java Proxies behind the scenes. Therefore an interface definition is all that is required to enable this functionality.
 
-:::
+::: tip
 Use these event-specific type-safe Event Context interfaces whenever possible.
 :::
 
@@ -231,12 +231,14 @@ In case the service name is based on the CDS model it is recommended to use thes
 
 It is possible to specify multiple service names. Event handlers are registered on all of these services.
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(["AdminService", "CatalogService"])
 ```
 
 The `type` attribute of the `@ServiceName` annotation can be used to register event handlers on all services of a certain type:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @ServiceName(value = "*", type = ApplicationService.class)
 ```
@@ -263,6 +265,7 @@ The CAP Java SDK Maven Plugin generates interfaces for entities in the CDS model
 It is recommended to use these constants with the `event` or `entity` attributes of the annotations.
 :::
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 // registers on multiple events
 @Before(event = { "CREATE", "UPDATE" }, entity = "AdminService.Books")

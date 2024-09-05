@@ -272,21 +272,6 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
 - In case, there are still errors in the project, use _Maven > Update Project..._ from the project's context menu.
 
-### How to Avoid ClassNotFoundExceptions While Running CAP Java Code Async on Cloud Foundry and in Containers
-
-In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
-
-On Cloud Foundry, the issue might appear only if you increase the __Instance Memory__ available for your application.
-
-The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
-
-The following workarounds are known:
- * For Cloud Foundry and Docker containers you can provide this Java option [-XX:ActiveProcessorCount=1>](https://docs.oracle.com/en/java/javase/11/tools/java.html).
- * In Cloud Foundry, you can reduce the size of available memory for your application instance.
- * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
-
-We recommend to implement a proper thread pool and not to rely on these workarounds as they impair performance of your application.
-
 ## OData
 
 ### How Do I Generate an OData Response in Node.js for Error 404?
@@ -474,14 +459,6 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
-
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
-
-|  | Explanation |
-| --- | ---- |
-| _Root Cause_ | Your HANA Cloud instance is not accessible from your Kyma cluster. |
-| _Solution_ | Specify the trusted source IP addresses for your SAP HANA Cloud instance as described in this tutorial at [Step 11: Check SAP HANA Cloud trusted IP addresses](https://developers.sap.com/tutorials/btp-app-kyma-deploy-application.html#6dca3a73-b42a-4432-892d-a74803389e79).
-
 
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:

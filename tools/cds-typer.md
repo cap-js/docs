@@ -2,7 +2,10 @@
 label: cds-typer
 synopsis: >
   This page explains the package cds-typer in depth.
-# layout: node-js
+typedModels:
+  bookshop: assets/bookshop
+  farm: assets/animal-farm
+  incidents: assets/incidents
 status: released
 ---
 
@@ -19,14 +22,28 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 5. Saving any _.cds_ file of your model from VS Code triggers the type generation process.
 6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
-```js
+```js twoslash
+// @checkJs
+const cds = require('@sap/cds')
+const service = new cds.ApplicationService
+// ---cut---
 //  without cds-typer
 const { Books } = cds.entities('bookshop')
 service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
+//                                 ^?
+```
+<p/>
 
+```js twoslash
+// @checkJs
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+const service = new cds.ApplicationService
+// ---cut---
 // ✨ with cds-typer
-const { Books } = require('#cds-models/bookshop')
+const { Books } = require('#cds-models/sap/capire/bookshop')
 service.before('CREATE', Books, ({ data }) => { /* data is of type Books */})
+//                                 ^?
 ```
 
 
@@ -48,21 +65,25 @@ The types emitted by the type generator are tightly integrated with the CDS API.
 
 Most CQL constructs have an overloaded signature to support passing in generated types. Chained calls will offer code completion related to the type you pass in.
 
-```js
+```js twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+// ---cut---
 // previous approach (still valid, but prefer using reflected entities over string names)
 SELECT('Books')  // etc...
 
 // how you can do it using generated types
-const { Book, Books } = require('#cds-models/sap/capire/Bookshop')
+const { Book, Books } = require('#cds-models/sap/capire/bookshop')
 
 // SELECT
 SELECT(Books)
 SELECT.one(Book)
 SELECT(Books, b => { b.ID })  // projection
 SELECT(Books, b => { b.author(a => a.ID.as('author_id')) })  // nested projection
+//                       ^|
 
 // INSERT / UPSERT
-INSERT.into(Books, […])
+INSERT.into(Books)
 INSERT.into(Books).columns(['title', 'ID'])  // column names derived from Books' properties
 
 // DELETE
@@ -74,11 +95,24 @@ Note that your entities will expose additional capabilities in the context of CQ
 ### CRUD Handlers
 The CRUD handlers `before`, `on`, and `after` accept generated types:
 
-```js
+```js twoslash
+// @checkJs
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+const { Book, Books } = require('#cds-models/sap/capire/bookshop')
+const service = new cds.ApplicationService
+// ---cut---
 // the payload is known to contain Books inside the respective handlers
-service.before('READ', Books, req => { … }
-service.on('READ', Books, req => { … }
-service.after('READ', Books, req => { … }
+service.before('READ', Books, req => {  })
+//                            ^?
+
+
+service.on('READ', Books, req => {  })
+//                        ^?
+
+
+service.after('READ', Books, (books, req) => {  })
+//                            ^?
 ```
 <!--
 🚧 **NOTE to editors:** this particular section is subject to change, as per our last sync.
@@ -94,11 +128,19 @@ service.on('READ', Book,  req => req.data.ID)
 
 In the same manner, actions can be combined with `on`:
 
-```js
-const { submitOrder } = require('#cds-models/sap/capire/Bookshop')
-
-service.on(submitOrder, (…) => { /* implementation of 'submitOrder' */ })
+```js twoslash
+// @checkJs
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+const service = new cds.ApplicationService
+// ---cut---
+const { submitOrder } = require('#cds-models/CatalogService')
+service.on(submitOrder, ({ data }) => {
+  //                        ^?
+  // action implementation
+})
 ```
+<br/><br/>
 
 ::: warning _Lambda Functions vs. Fully Fledged Functions_
 
@@ -108,24 +150,37 @@ You can remedy this by specifying the expected type with one of the following op
 
 Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 
-```js
+```js twoslash
+// @checkJs
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+const service = new cds.ApplicationService
+// ---cut---
+const { Books } = require('#cds-models/sap/capire/bookshop')
 service.on('READ', Books, readBooksHandler)
 
-/** @param {{ data: import('#cds-models/sap/capire/Bookshop').Books }} req */
+/** @param { cds.TypedRequest<Books> } req */
 function readBooksHandler (req) {
-  // req.data is now properly known to be of type Books again
+  req.data // req.data is now properly known to be of type Books again
+//    ^?
 }
 ```
 
-Using `import type` in TypeScript projects:
+<br>
+Using `import` in TypeScript projects:
 
-```ts
-import type { Books } from '#cds-models/sap/capire/bookshop'
-
+```ts twoslash
+// @checkJs
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+const service = new cds.ApplicationService
+// ---cut---
+import { Books } from '#cds-models/sap/capire/bookshop'
 service.on('READ', Books, readBooksHandler)
 
-function readBooksHandler (req: {{ data: Books }}) {
-  // req.data is now properly known to be of type Books again
+function readBooksHandler (req: cds.TypedRequest<Books>) {
+  req.data // req.data is now properly known to be of type Books again
+//    ^?
 }
 ```
 
@@ -136,33 +191,27 @@ function readBooksHandler (req: {{ data: Books }}) {
 
 CDS enums are supported by `cds-typer` and are represented during runtime as well. So you can assign values to enum-typed properties with more confidence:
 
-```cds
-type Priority: String enum {
-  LOW = 'Low';
-  MEDIUM = 'Medium';
-  HIGH = 'High';
-}
+<<< assets/incidents/db/schema.cds
 
-entity Tickets {
-  priority: Priority;
-  status: String enum {
-    ASSIGNED = 'A';
-    UNASSIGNED = 'U';
-  }
-  …
-}
-```
-
-```js
-const { Ticket, Priority } = require('…')
+```js twoslash
+// @paths: {"#cds-models/*": ["%typedModels:incidents:resolved%"]}
+const cds = require('@sap/cds')
+const service = new cds.ApplicationService
+// ---cut---
+const { Ticket, Priority } = require('#cds-models/incidents')
 
 service.before('CREATE', Ticket, (req) => {
-  req.data.priority = Priority.LOW  // [!code focus]
-  //         /                 \  // [!code focus]
-  // inferred as: Priority      suggests LOW, MEDIUM, HIGH  // [!code focus]
+  req.data.priority = Priority.L  // [!code focus]
+//                              ^|
+
+
   req.data.status = Ticket.status.UNASSIGNED  // [!code focus]
-  //         /                   \  // [!code focus]
-  // inferred as: Tickets_status  suggests ASSIGNED, UNASSIGNED  // [!code focus]
+//                          ^?
+
+
+
+
+
 })
 
 ```
@@ -200,27 +249,29 @@ class Book {
 
 In consequence, you will get called out by the type system when trying to chain property calls. You can overcome this in a variety of ways:
 
-```ts
-const myBook: Book = …
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
+import { Author, Book } from '#cds-models/sap/capire/bookshop'
+const myBook = new Book()
 
 // (i) optional chaining
-const authorName = myBook.author?.name
+myBook.author?.name
 
-// (ii) explicitly ruling out the undefined type
-if (myBook.author !== undefined) {
-    const authorName = myBook.author.name
-}
+// (ii) explicitly ruling out the undefined and null types
+if (myBook.author) myBook.author.name
 
 // (iii) non-null assertion operator
-const authorName = myBook.author!.name
+myBook.author!.name
 
 // (iv) explicitly casting your object to a type where all properties are attached
 const myAttachedBook = myBook as Required<Book>
-const authorName = myAttachedBook.author.name
+myAttachedBook.author?.name
 
 // (v) explicitly casting your object to a type where the required property is attached
 const myPartiallyAttachedBook = myBook as Book & { author: Author }
-const authorName = myPartiallyAttachedBook.author.name
+myPartiallyAttachedBook.author?.name
 ```
 
 Note that (iii) through (v) are specific to TypeScript, while (i) and (ii) can also be used in JavaScript projects.
@@ -232,23 +283,14 @@ The generated types offer both a singular and plural form for convenience. The d
 Naturally, this best practice can't be enforced on every model. Even for names that do follow best practices, the heuristic can fail. If you find that you would like to specify custom identifiers for singular or plural forms, you can do so using the `@singular` or `@plural` annotations.
 
 CDS file:
-```cds
-// model.cds
-@singular: 'Mouse'
-entity Mice { … }
 
-@plural: 'FlockOfSheep'
-entity Sheep { … }
-```
+<<< assets/animal-farm/db/schema.cds{3,6}
 
-Generated type file:
+Generated classes:
 
-```ts
-// index.ts
-export class Mouse { … }
-export class Mice { … }
-export class Sheep { … }
-export class FlockOfSheep { … }
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:farm:resolved%"]}
+import { Mouse, Mice, Sheep, FlockOfSheep } from '#cds-models/farm'
 ```
 
 ### Strict Property Checks in JavaScript Projects
@@ -401,10 +443,10 @@ For example, the sample model contains a namespace `sap.capire.bookshop`. You wi
 ```zsh
 @cds-models/
 └── sap/
-    └── capire/
-        └── bookshop/
-            ├── index.js
-            └── index.ts
+  └── capire/
+    └── bookshop/
+      ├── index.js
+      └── index.ts
 ```
 
 Each _index.ts_ file will contain type information for one namespace. For each entity belonging to that namespace, you will find two exports, a singular and a plural form:
@@ -429,7 +471,7 @@ Adding type support via `cds add typer` includes configuring [subpath imports](h
 Consider [the bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) with the following structure with types already generated into _@cds-models_:
 
 ```zsh
-bookstore/
+bookshop/
 ├── package.json
 ├── @cds-models/
 │   └── ‹described in the previous section›
@@ -453,40 +495,52 @@ const { Books } = require('#cds-models/sap/capire/bookshop')
 
 These imports will behave like [`cds.entities('sap.capire.bookshop')`](../node.js/cds-reflect#entities) during runtime, but offer you code completion and type hinting at design time:
 
-```js
+```js twoslash
+// @noErrors
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+// ---cut---
 class CatalogService extends cds.ApplicationService { init(){
   const { Book } = require('#cds-models/sap/capire/bookshop')
 
   this.on ('UPDATE', Book, req => {
     // in here, req is known to hold a payload of type Book.
     // Code completion therefore offers all the properties that are defined in the model.
+    req.data.t
+//            ^|
   })
 })
 ```
 
 Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
 
-```js
+```js twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+const cds = require('@sap/cds')
+// ---cut---
 // ❌ works during design time, but will cause runtime errors
 const { Book } = require('#cds-models/sap/capire/bookshop')
 
 class CatalogService extends cds.ApplicationService { init(){
   // ✅ works both at design time and at runtime
   const { Book } = require('#cds-models/sap/capire/bookshop')
-})
+}}
 ```
 
 In TypeScript you can use [type-only imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) on top level if you just want the types for annotation purposes. The counterpart for the JavaScript example above that works during design time _and_ runtime is a [dynamic import expression](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#dynamic-import-expressions):
 
-```ts
+```ts twoslash
+// @noErrors
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
 // ❌ works during design time, but will cause runtime errors
 import { Book } from '#cds-models/sap/capire/bookshop'
-
 // ✅ works during design time, but is fully erased during runtime
 import type { Book } from '#cds-models/sap/capire/bookshop'
 
 class CatalogService extends cds.ApplicationService { async init(){
   // ✅ works both at design time and at runtime
   const { Book } = await import('#cds-models/sap/capire/bookshop')
-})
+}}
 ```

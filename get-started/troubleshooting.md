@@ -460,14 +460,6 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
-
-|  | Explanation |
-| --- | ---- |
-| _Root Cause_ | Your HANA Cloud instance is not accessible from your Kyma cluster. |
-| _Solution_ | Specify the trusted source IP addresses for your SAP HANA Cloud instance as described in this tutorial at [Step 11: Check SAP HANA Cloud trusted IP addresses](https://developers.sap.com/tutorials/btp-app-kyma-deploy-application.html#6dca3a73-b42a-4432-892d-a74803389e79).
-
-
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:
 + You [added native SAP HANA objects](../advanced/hana#add-native-objects) to your CAP model.

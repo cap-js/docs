@@ -15,7 +15,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 <div markdown="1" class="impl java">
 
-CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
+CAP Java 3 is tested on [PostgreSQL](https://www.postgresql.org/) 16 and most CAP features are supported on PostgreSQL.
 
 [Learn more about features and limitations of using CAP with PostgreSQL](../java/cqn-services/persistence-services#postgresql){.learn-more}
 
@@ -314,7 +314,7 @@ cds deploy --profile pg
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
-cds build
+cds build --production
 ```
 
 ::: details What `cds build` does…

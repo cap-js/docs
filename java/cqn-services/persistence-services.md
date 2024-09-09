@@ -581,7 +581,7 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 The static model and accessor interfaces can be generated using the [CDS Maven Plugin](../developing-applications/building#cds-maven-plugin).
 
 ::: warning _❗ Warning_
-Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation.
+Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation. For entities, you can use [@cds.java.this.name](../cds-data#renaming-types-in-java).
 :::
 
 #### Static Model in the Query Builder
@@ -682,7 +682,7 @@ namespace my.bookshop;
  * The creator/writer of a book, article, or document.
  */
 entity Authors {
-  key Id : Integer;
+  key ID : Integer;
   /**
    * The name of the author.
    */
@@ -697,7 +697,7 @@ entity Authors {
 @CdsName("my.bookshop.Authors")
 public interface Authors extends CdsData {
 
-  String ID = "Id";
+  String ID = "ID";
   String NAME = "name";
 
   Integer getId();

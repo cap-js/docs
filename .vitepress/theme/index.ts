@@ -7,6 +7,7 @@ import Alpha from './components/Alpha.vue';
 import Beta from './components/Beta.vue';
 import Concept from './components/Concept.vue'
 import Since from './components/Since.vue';
+import ScrollToTop from './components/ScrollToTop.vue'
 
 import './custom.scss'
 
@@ -23,5 +24,6 @@ export default {
     ctx.app.component('Beta', Beta)
     ctx.app.component('Concept', Concept)
     ctx.app.component('Since', Since)
+    ctx.app.component('ScrollToTop', ScrollToTop)
   }
 }

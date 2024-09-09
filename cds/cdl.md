@@ -975,7 +975,6 @@ action doSomething() returns @before {
 Values can be literals, references, or expressions. Expressions are explained in more detail in the next section.
 If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @aFlag //= true, if no value is given
 @aBoolean: false
@@ -2021,5 +2020,5 @@ cds.compile(..., { docs: true })
 :::
 
 ::: tip Doc comments are enabled by default in CAP Java.
-In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments]([url](https://pages.github.tools.sap/cap/docs/java/assets/cds-maven-plugin-site/generate-mojo.html#documentation)).
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
 :::

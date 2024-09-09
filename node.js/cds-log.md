@@ -358,7 +358,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 
 During development, we want concise, human-readable output in the console, with clickable stack traces in case of errors. You should not be overloaded with information that is additionally obfuscated by a bad rendering. Hence, [console.log()](https://nodejs.org/api/console.html#console_console_log_data_args), that makes use of [util.format()](https://nodejs.org/api/util.html#util_util_format_format_args) out of the box, with raw arguments is a good choice.
 
-The *plain log formatter* does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
+The *plain log formatter* -- the default in non-production environments -- does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
 
 ![The screenshot is explained in the accompanying text.](./assets/plain-formatter-output.png)
 
@@ -367,9 +367,9 @@ The plain log formatter is the default formatter in non-production.
 
 ## Logging in Production
 
-The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
-
-To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
+SAP BTP offers [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) and [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service) to which bound Cloud Foundry applications can stream logs.
+In both services, operators can access and analyze observability data, as described [here](https://help.sap.com/docs/cloud-logging/cloud-logging/access-and-analyze-observability-data) for SAP Cloud Logging and [here](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics) for SAP Application Logging Service.
+To get connected with SAP Cloud Logging and/ or SAP Application Logging Service, the application needs to be bound to the respective service instance(s) as described [here](https://help.sap.com/docs/cloud-logging/cloud-logging/ingest-via-cloud-foundry-runtime?version=Cloud) and [here](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
 
 Additionally, the log output needs to be formatted in a way that enables the respective dashboard technology to optimally support the user, for example, filtering for logs of specific levels, modules, status, etc.
 

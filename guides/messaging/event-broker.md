@@ -80,6 +80,11 @@ Configure your application to use the `event-broker` messaging service.
 
 Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker).
 
+::: tip Test Events
+For testing purposes, SAP S/4HANA can send technical test events of type `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` which your app can subscribe to. You can trigger such events with _Enterprise Event Enablement - Event Monitor_.
+:::
+
+
 <!--The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
 
 <!--```yaml-->

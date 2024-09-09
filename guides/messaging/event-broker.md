@@ -46,13 +46,6 @@ Differences between the various event transporting technologies are held as tran
 Hence, before diving into this guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
 
 
-### Prerequisite: Setup SAP Event Broker
-
-// TODO: the guide is not yet published!!!
-
-Follow guide _SAP Event Broker Service Guide_ &rarr; _Integration Scenarios_ &rarr; [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT) to prepare your SAP BTP account for event consumption.
-
-
 ### Add Events and Handlers
 
 There are two options for adding the events that shall be consumed to your model, and subsequently registering event handlers for the same.
@@ -75,10 +68,19 @@ Configure your application to use the `event-broker` messaging service.
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
+::: tip Local Testing
+Since SAP Event Broker sends events via HTTP, local 
+:::
+
 
 ### Deploy to the Cloud (with MTA)
 
 Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker).
+
+
+### Connecting it All Together
+
+In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Event Broker) into a formation and enable the event subscription, as described in [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT).
 
 ::: tip Test Events
 For testing purposes, SAP S/4HANA can send technical test events of type `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` which your app can subscribe to. You can trigger such events with _Enterprise Event Enablement - Event Monitor_.

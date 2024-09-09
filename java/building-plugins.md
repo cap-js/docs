@@ -67,7 +67,8 @@ Projects wanting to import the content simply add a Maven dependency to the reus
 
 Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added, to extract the models into the `target/cds/` folder of the Maven project, in order to make them available to the CDS Compiler.
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <plugin>
   <groupId>com.sap.cds</groupId>
   <artifactId>cds-maven-plugin</artifactId>
@@ -84,6 +85,8 @@ Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added
   </executions>
 </plugin>
 ```
+:::
+
 ::: details Reuse module as Maven module
 Please be aware that the module that uses the reuse module needs to be a Maven module itself or a submodule to a Maven module that declares the dependency to the Maven module. Usually you would declare the dependency in the `srv` module of your CAP Java project and use the reuse model in the service's CDS files then. In case you want to use the reuse model in your `db` module you need to make sure that your `db` module is a Maven module and include it to the project's parent `pom.xml` file.
 :::

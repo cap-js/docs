@@ -329,6 +329,27 @@ cds bind --to-app-services bookshop-srv
 ```
 > This shortcut is only possible if you don't need to provide a `kind`.
 
+If your application has multiple service bindings of the same kind, `cds bind` will log warnings since they can not be resolved automatically. In this case you can resolve the ambiguities by adding the correct service instance name to the cds service configuration using the `vcap.name` property.
+
+Here is an example of adding `vcap.name` for services of kind `xsuaa`.
+
+```json
+"requires": {
+  "auth": {
+    "kind": "xsuaa",
+    "vcap": {
+      "name": "bookshop-auth1"
+    }
+  },
+  "auth2": {
+    "kind": "xsuaa",
+    "vcap": {
+      "name": "bookshop-auth2"
+    }
+  }
+}
+```
+
 ## `cds bind` Usage { #cds-bind-usage}
 
 ### By Cloud Service Only
@@ -493,7 +514,7 @@ Learn how to do hybrid testing using the XSUAA service in the [CAP Node.js authe
 Configure your required bindings for testing and save them to your project's _package.json_ file for your tests' profile:
 
 ```sh
-cds bind -2 integration-test-hana -o package.json -p integration-test
+cds bind -2 integration-test-hana -o package.json -4 integration-test
 ```
 
 No credentials are saved!

@@ -143,7 +143,7 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 
 To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet).
 
-However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-serve#cds-server).
+However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-server#cds-server).
 
 Example:
 

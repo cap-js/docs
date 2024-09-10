@@ -32,7 +32,7 @@ The following guide is based on a productive (paid) account on SAP BTP.
 ## Consuming Events in a Stand-alone App { #consume-standalone }
 
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Event Broker.
-The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish cloud events via SAP Event Broker.
+The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Event Broker.
 
 Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
 
@@ -44,6 +44,8 @@ That is to say, CAP developers focus on [modeling their domain](../domain-modeli
 Differences between the various event transporting technologies are held as transparent as possible.
 
 Hence, before diving into this guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
+
+Since SAP Event Broker is based on the [CloudEvents](https://cloudevents.io/) standard, the `@topic` annotation for events in your CDS model is interpreted as the CloudEvents `type` attribute.
 
 
 ### Add Events and Handlers

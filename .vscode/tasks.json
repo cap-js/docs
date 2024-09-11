@@ -14,7 +14,10 @@
     {
       "type": "npm",
       "script": "docs:build",
-      "group": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": [
         "$vite"
       ],

@@ -103,7 +103,7 @@ const config:UserConfig<CapireThemeConfig> = {
     ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {
-      message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="./resources/privacy" target="_blank">Privacy</a> | <a href="./resources/cookies">Cookie Statement</a>',
+      message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="./resources/privacy" target="_blank">Privacy</a> | <a href="./resources/cookies">Cookies</a>',
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`
     },
     editLink: {

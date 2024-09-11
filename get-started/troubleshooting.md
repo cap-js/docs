@@ -141,6 +141,8 @@ Always make sure that database transactions are either committed or rolled back.
 1. Couple it to your request (this happens automatically): Once the request is succeeded, the database service commits the transaction. If there was an error in one of the handlers, the database service performs a rollback.
 2. For manual transactions (for example, by writing `const tx = cds.tx()`), you need to perform the commit/rollback yourself: `await tx.commit()`/`await tx.rollback()`.
 
+If you're using [@sap/hana-client](https://www.npmjs.com/package/@sap/hana-client), make sure to adjust the environment variable [`HDB_NODEJS_THREADPOOL_SIZE`](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/31a8c93a574b4f8fb6a8366d2c758f21.html?version=2.11) which specifies the amount of workers that concurrently execute asynchronous method calls for different connections.
+
 
 ### Why are requests rejected with status `502` and do not seem to reach the application?
 
@@ -181,6 +183,14 @@ module.exports = cds.server
 | --- | ---- |
 | _Root Cause_ | In case the application has a service binding with the same name as the requested destination, the SAP Cloud SDK prioritized the service binding. This service of course does have different endpoints than the originally targeted remote service. For more information, please refer to the [SAP Cloud SDK documentation](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#referencing-destinations-by-name).
 | _Solution_ | Use different names for the service binding and the destination.
+
+### Why does my remote service call not work?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
+| _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
+
 
 ## Java
 
@@ -262,22 +272,9 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
 - In case, there are still errors in the project, use _Maven > Update Project..._ from the project's context menu.
 
-### How to Avoid ClassNotFoundExceptions While Running CAP Java Code Async on Cloud Foundry and in Containers
-
-In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
-
-The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
-
-The following workarounds are known:
- * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1 and Java 17. 
- * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
- * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
-
-We recommend to implement a proper thread pool and not to rely on these workarounds.
-
 ## OData
 
-### How Do I Generate an OData Response for Error 404?
+### How Do I Generate an OData Response in Node.js for Error 404?
 
 If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
 
@@ -354,15 +351,40 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://launchpad.support.sap.com/#/notes/2922271) for more details.
 :::
 
-You can apply this solution also when using the `cds-mtx` library. You can either set the options via the environment variable `HDI_DEPLOY_OPTIONS` or you can add them to the model update request as `advancedOptions`:
+You can apply this solution also when using the `cds-mtxs` library. You can either set the options via the environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the CDS configuration or you can add them to the model update request as `hdi` parameter:
 
+CDS configuration for [Deployment Service](../guides/multitenancy/mtxs#deployment-config)
 ```json
-"advancedOptions": {
-  "undeploy": [
-    "src/gen/data/my.bookshop-Books.hdbtabledata"
-  ],
-  "path-parameter": {
-    "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+"cds.xt.DeploymentService": {
+  "hdi": {
+    "deploy": {
+      "undeploy": [
+        "src/gen/data/my.bookshop-Books.hdbtabledata"
+      ],
+      "path_parameter": {
+        "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+      }
+    },
+    ...
+  }
+}
+```
+
+Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#example-usage-1) call payload
+```json
+{
+  "tenants": ["*"],
+  "_": {
+      "hdi": {
+        "deploy": {
+          "undeploy": [
+            "src/gen/data/my.bookshop-Books.hdbtabledata"
+          ],
+          "path_parameter": {
+            "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+          }
+        }
+      }
   }
 }
 ```
@@ -437,14 +459,6 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
-
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
-
-|  | Explanation |
-| --- | ---- |
-| _Root Cause_ | Your HANA Cloud instance is not accessible from your Kyma cluster. |
-| _Solution_ | Specify the trusted source IP addresses for your SAP HANA Cloud instance as described in this tutorial at [Step 11: Check SAP HANA Cloud trusted IP addresses](https://developers.sap.com/tutorials/btp-app-kyma-deploy-application.html#6dca3a73-b42a-4432-892d-a74803389e79).
-
 
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:
@@ -560,7 +574,8 @@ You can reduce MTA archive sizes, and thereby speedup deployments, by omitting `
 
 First, add a file `less.mtaext` with the following content:
 
-```yaml
+::: code-group
+```yaml [less.mtaext]
 _schema-version: '3.1'
 ID: bookshop-small
 extends: capire.bookshop
@@ -569,6 +584,7 @@ modules:
    build-parameters:
      ignore: ["node_modules/"]
 ```
+:::
 
 Now you can build the archive with:
 
@@ -702,5 +718,11 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 ::: tip
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
+
+
+## CAP on Windows
+
+Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter interoperability issues with specific scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Windows, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal interoperability. Otherwise, problems can occur when building the mtxs extension on Windows, locally, or in the cloud.
 
 <div id="end" />

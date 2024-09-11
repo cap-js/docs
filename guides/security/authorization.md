@@ -142,8 +142,9 @@ Here a combination of `user_name` and `origin` mapped to `$user` might be a feas
 
 - [Set up Authentication in Node.js.](/node.js/authentication)
 - [Custom Authentication in Java.](/java/security#custom-authentication)
-::: warning
-Be very careful when redefining `$user`. The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
+
+::: warning Be very careful when redefining `$user`
+The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
 :::
 
 ## Restrictions { #restrictions}
@@ -889,7 +890,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa
+cds add xsuaa --for production
 ```
 
 This generates an _xs-security.json_ file:

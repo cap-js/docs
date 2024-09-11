@@ -15,7 +15,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 <div markdown="1" class="impl java">
 
-CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
+CAP Java 3 is tested on [PostgreSQL](https://www.postgresql.org/) 16 and most CAP features are supported on PostgreSQL.
 
 [Learn more about features and limitations of using CAP with PostgreSQL](../java/cqn-services/persistence-services#postgresql){.learn-more}
 
@@ -84,9 +84,39 @@ Output:
 
 ## Provisioning a DB Instance
 
-To connect to a PostgreSQL offering from the cloud provider in Production,  leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option).
+To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option). For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
-For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
+
+<div markdown="1" class="impl java">
+
+To consume a PostgreSQL instance from a CAP Java application running on SAP BTP, consider the following:
+
+- Only the Java buildpack `java_buildpack` provided by the Cloud Foundry community allows to consume a PostgreSQL service from a CAP Java application.
+
+- By default, the `java_buildpack` initializes a PostgreSQL datasource with the Java CFEnv library. However, to work properly with CAP, the PostgreSQL datasource must be created by the CAP Java runtime and not by the buildpack. You need to disable the [datasource initialization by the buildback](https://docs.cloudfoundry.org/buildpacks/java/configuring-service-connections.html) using `CFENV_SERVICE_<POSTGRESQL_SERVICE_NAME>_ENABLED: false` at your CAP Java service module.
+
+The following example shows these configuration settings applied to a CAP Java service:
+
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: bookshop-pg-srv
+    type: java
+    path: srv
+    parameters:
+      buildpack: java_buildpack
+    properties:
+        SPRING_PROFILES_ACTIVE: cloud
+        JBP_CONFIG_COMPONENTS: '{jres: ["JavaBuildpack::Jre::SapMachineJRE"]}'
+        JBP_CONFIG_SAP_MACHINE_JRE: '{ jre: { version: "17.+" } }'
+        CFENV_SERVICE_BOOKSHOP-PG-DB_ENABLED: false
+```
+
+:::
+
+> `BOOKSHOP-PG-DB` is the real PostgreSQL service instance name in this example.
+</div>
+
 
 ### Using Docker
 
@@ -141,7 +171,8 @@ If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-c
 You can also explicitly [configure the connection data](../java/cqn-services/persistence-services#postgres-connection) of your PostgreSQL database in the _application.yaml_ file.
 If you run the PostgreSQL database in a [docker container](#using-docker) your connection data might look like this:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 spring:
   config.activate.on-profile: postgres-docker
   datasource:
@@ -150,6 +181,7 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 ```
+:::
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 
@@ -282,7 +314,7 @@ cds deploy --profile pg
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
-cds build
+cds build --production
 ```
 
 ::: details What `cds build` does…
@@ -305,7 +337,7 @@ cds build
 :::
 
 
-### Add Postgres Deployment Configuration
+### Add PostgreSQL Deployment Configuration
 
 ```sh
 cds add postgres
@@ -373,7 +405,7 @@ If you need to apply such disallowed changes during development, just drop and r
 
 ### Dry-Run Offline
 
-We can use `cds deploy` with option `--dry` to simulate and inspect how things work.
+You can use `cds deploy` with option `--dry` to simulate and inspect how things work.
 
 1. Capture your current model in a CSN file:
 
@@ -392,13 +424,13 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    entity Foo { key ID: UUID }       //> add a new entity
    ```
 
-3. Generate delta DDL script:
+3. Generate delta DDL statements:
 
    ```sh
    cds deploy --dry --delta-from cds-model.csn > delta.sql
    ```
 
-4. Inspect the generated SQL script, which should look like this:
+4. Inspect the generated SQL statements, which should look like this:
    ::: code-group
 
    ```sql [delta.sql]
@@ -440,6 +472,41 @@ We can use `cds deploy` with option `--dry` to simulate and inspect how things w
    :::
 
    > **Note:** If you use SQLite, ALTER TYPE commands are not necessary and so, are not supported, as SQLite is essentially typeless.
+
+### Generate Scripts
+
+You can use `cds deploy` with option `--script` to generate a script as a starting
+point for a manual migration. The effect of `--script` essentially is the same as for
+`--dry`, but it also allows changes that could lead to data loss and therefore are not
+supported in the automatic schema migration (see [Limitations](#limitations)).
+
+For generating such a script, perform the same steps as in section [Dry-Run Offline](#dry-run-offline)
+above, but replace the command in step 3 by
+
+```sh
+cds deploy --script --delta-from cds-model.csn > delta_script.sql
+```
+
+If your model change includes changes that could lead to data loss, there will be a warning
+and a respective comment is added to the dangerous statements in the resulting script.
+For deleting an element, it would look like this:
+ ::: code-group
+
+```sql [delta_script.sql]
+...
+-- [WARNING] this statement is lossy
+ALTER TABLE sap_capire_bookshop_Books DROP price;
+...
+```
+:::
+
+:::warning
+
+Always check and, if necessary, adapt the generated script before you apply it
+to your database!
+
+:::
+
 
 ## Deployment Using Liquibase  { .impl .java }
 

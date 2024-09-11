@@ -214,13 +214,13 @@ These are settings from the editor in VS Code:
 1. Filter for _Format_.
 1. Tick the checkboxes to enable the settings.
 
-##### Cds: Workspace Validation Mode
+##### Cds: [Workspace Validation Mode](vscode://settings/cds.workspaceValidationMode)
 
 Default: *ActiveEditorOnly*
 
 Keeps track of the active editor in focus. Only changes there are immediately validated.
 
-The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is having multiple files open (even if they are not shown as tabs)
+The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is, having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
 
 ::: warning Large models can lead to **high CPU and memory load**
@@ -231,13 +231,13 @@ If switched to _OpenEditorsOnly_, all open files, for example split tabs, are re
 The high resource consumption might impact the editor's responsiveness.
 :::
 
-##### Cds > Contributions > Enablement: Odata
+##### Cds > Contributions > [Enablement: Odata](vscode://settings/cds.contributions.enablement.odata)
 
 Default: *on*
 
-This setting enables extended support for annotations, that is refined diagnostics and code completion. Can be switched *off* for performance gains.
+This setting enables extended support for annotations, that is, refined diagnostics and code completion. Can be switched *off* for performance gains.
 
-##### Cds > Workspace: ScanCsn
+##### Cds > [Workspace: ScanCsn](vscode://settings/cds.workspace.scanCsn)
 
 Default: *off*
 
@@ -245,7 +245,7 @@ Switch *on* to scan the workspace also for CSN files, additionally to CDS source
 
 Note: CSN files are still considered if used from a CDS source file.
 
-##### Cds > Quickfix: ImportArtifact
+##### Cds > [Quickfix: ImportArtifact](vscode://settings/cds.quickfix.importArtifact)
 
 Default: *off*
 
@@ -335,7 +335,7 @@ To enable the limit value above, switch *on*.
 - Commands _Go to References_ / _Find All References_ will recompile all models that might have changed due to a change in a depending model. If there are index models, it often means that the complete workspace is being recompiled.
 Until a further change, reference calculation is reasonably fast.
 - Command _Go to Symbol in Workspace_ will recompile the complete workspace once, after that it is reasonable fast.
-- Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
+- Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
 ### CDS Source Formatter <Beta /> { #cds-formatter}
@@ -384,8 +384,7 @@ A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.vis
 The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
 
 * If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
-
-  <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
+   ![The screenshot is explained in the accompanying text.](./assets/cap-notebook-button.png){width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888"}
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 

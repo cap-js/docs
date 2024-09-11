@@ -25,9 +25,9 @@ You can speed up your development turnaround by adding the [Spring Boot Devtools
 
 Once this is added, you can use the restart capabilities of the Spring Boot Devtools while developing your application in your favorite Java IDE. Any change triggers an automatic application context reload without the need to manually restart the complete application. Besides being a lot faster than a complete restart this also eliminates manual steps. The application context reload is triggered by any file change on the application's classpath:
 
-* Java classes (e.g. custom handlers)
+* Java classes (for example, custom handlers)
 * Anything inside src/main/resources
-  * Configuration files (e.g. application.yaml)
+  * Configuration files (for example, _application.yaml_)
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 
@@ -52,7 +52,11 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, which can be executed from the command line by using Maven:
 
 ```sh
+# from your root directory
 mvn com.sap.cds:cds-maven-plugin:watch
+# or your srv/ folder
+cd srv
+mvn cds:watch
 ```
 
 It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
@@ -61,7 +65,7 @@ The `watch` goal uses the `spring-boot-maven-plugin` internally to start the app
 When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools) to your project, the `watch` goal can take advantage of the reload mechanism. In case your application doesn't use the Spring Boot Devtools the `watch` goal performs a complete restart of the Spring Boot application after CDS model changes. As the application context reload is always faster than a complete restart the approach using the Spring Boot Devtools is the preferred approach.
 
 ::: warning
-The `watch` goal only works on Windows if the Spring Boot Devtools are enabled.
+On Windows, the `watch` goal only works if the Spring Boot Devtools are enabled.
 :::
 
 ### CDS Auto-Build

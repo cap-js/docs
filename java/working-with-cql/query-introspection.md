@@ -45,7 +45,7 @@ Select.from("bookshop.Book").where(b -> b.get("ID").eq(42));
 
 ```java
 Select.from("bookshop.Book")
-	.where(b -> b.get("ID").eq(42).and(b.get("title").is("Capire"));
+	.where(b -> b.get("ID").eq(42).and(b.get("title").is("Capire")));
 ```
 
 This rule also applies to all segments of all references of the query, be it simple query or the one with path expression:
@@ -114,7 +114,7 @@ entity OrderItems {
 
 ```sql
 --CQL query
-SELECT from Orders[OrderNo = '42'].items[ID = 1]
+SELECT from Orders[OrderNo = '42']:items[ID = 1]
 ```
 
 the corresponding CQN statement can be analyzed using the `analyze` method of the `CqnAnalyzer`:
@@ -191,7 +191,7 @@ If the reference has more than two segments, such as:
 
 ```sql
 --CQL query
-SELECT from Orders[OrderNo = '42'].items[ID = 1].book
+SELECT from Orders[OrderNo = '42']:items[ID = 1].book
 ```
 
 the segment `items` can be analyzed using an iterator:
@@ -256,7 +256,7 @@ Predicate filter = CQL.and(titles, stock);
 
 The `filter` consists of three predicates, substituting the following tree:
 
-```java
+```
                                        AND
                     ┌───────────────────┴───────────────────┐
                     IN                                      GT
@@ -266,7 +266,7 @@ The `filter` consists of three predicates, substituting the following tree:
 
 which corresponds to the following CQN token tree (numbers in brackets show the visit order):
 
-```java
+```
                             CqnConnectivePredicate (8)
                   ┌───────────────────┴───────────────────┐
             CqnInPredicate (4)                  CqnComparisonPredicate (7)
@@ -293,6 +293,7 @@ class CheckDataVisitor implements CqnVisitor {
         return (Boolean) stack.pop();
     }
     ...
+}
 ```
 
 On the leaf-level, the stack is used to store the concrete values from both data payload and filter expression:

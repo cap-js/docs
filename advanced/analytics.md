@@ -20,7 +20,7 @@ redirect_from: guides/analytics
 _Data Aggregation in OData V4_ is covered in the [OData guide](./odata#data-aggregation).
 :::
 
-To enable the aggregation capability for your OData V2 service, specify which entities in your service model are aggregate entities (entities for which you can execute aggregation queries). Next, specify which properties within these entities constitute the measures and the corresponding aggregation functions.
+OData V2 has been deprecated, it is not recommended to use a deprecated protocol in new projects. This guide is for supporting existing projects. To enable the aggregation capability for your OData V2 service, specify which entities in your service model are aggregate entities (entities for which you can execute aggregation queries). Next, specify which properties within these entities constitute the measures and the corresponding aggregation functions.
 
 Let's look at the following sample code:
 
@@ -64,7 +64,7 @@ You can use the following aggregations: `#SUM`, `#MAX`, `#MIN`, `#AVG`, `#COUNT_
 ### Introduction
 
 An application can implement the Cloud Data Integration (CDI) protocol for exposing its data,
-e.g. to act as a data provider for Data Plane Services (DPS).
+for example, to act as a data provider for Data Plane Services (DPS).
 Basically, this means that the app has to provide a set of OData V4 services as described
 in the [CDI specification](https://github.tools.sap/DataPlane/cloud-data-integration-specification).
 This is easy to achieve for a CAP application, as CAP provides generic OData exposure based on CDS models.

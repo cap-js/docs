@@ -275,7 +275,7 @@ service CatalogService {
 
 ### `localized.` Helper Views
 
-For each exposed entity in a service definition, and all intermediate views, a corresponding `localized.` entity is created. It has the same query clauses and all annotations, except for the `from` clause being redirected to the underlying entity's `localized.` counterpart.  A helper view is only created if the corresponding entity contains at least one element with a `localized` property, or it exposes an association to an entity that is localized.  You may need to cast an element if that property is not propagated, e.g. for expressions such as in `CatalogService.BooksShort`.
+For each exposed entity in a service definition, and all intermediate views, a corresponding `localized.` entity is created. It has the same query clauses and all annotations, except for the `from` clause being redirected to the underlying entity's `localized.` counterpart.  A helper view is only created if the corresponding entity contains at least one element with a `localized` property, or it exposes an association to an entity that is localized.  You may need to cast an element if that property is not propagated, for example for expressions such as in `CatalogService.BooksShort`.
 
 ```cds
 using { localized.Books } from './books_localized';

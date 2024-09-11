@@ -259,17 +259,6 @@ for (let each in linked.definitions) {
 }
 ```
 
-
-Moreover, you can use common array methods like these:
-
-```js
-linked.definitions .forEach (d => console.log(d.name))
-linked.definitions .filter (d => d.is_entity)
-linked.definitions .find (d => d.name === 'Foo')
-linked.definitions .some (d => d.name === 'Foo')
-linked.definitions .map (d => d.name)
-```
-
 Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
 
 
@@ -394,7 +383,7 @@ class cds.struct extends cds.type {...}
 ### . is_struct {.property}
 
 A tag property which is `true` for linked struct definitions (types and elements). <br>
-It is also `true` for linked entity definitions, i.e., instances of as [`cds.entity`](#cds-entity). {.indent}
+It is also `true` for linked entity definitions, that is, instances of as [`cds.entity`](#cds-entity). {.indent}
 
 ### . elements {.property}
 

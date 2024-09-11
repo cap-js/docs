@@ -393,10 +393,6 @@ entity Authors { ... }
 
 Searches all elements of the `Books` entity, as well as all searchable elements of the associated `Authors` entity. Which elements of the associated entity are searchable is determined by the `@cds.search` annotation on the associated entity. So, from `Authors`, all elements of type `String` are searched but `biography` is excluded.
 
-::: warning Only Java
-Extending the search to associated entities is currently only supported on the Java runtime.
-:::
-
 ##### Extend to Individual Elements in Associated Entities
 
 ```cds
@@ -405,11 +401,6 @@ entity Books { ... }
 ```
 
 Searches only in the element `name` of the associated `Authors` entity.
-
-::: warning Only Java
-Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
-:::
-
 
 #### Excluding Fields
 
@@ -436,12 +427,24 @@ cds.sql.hana.search
    fuzzinessThreshold: 0.9
 ```
 
-To override the fuzziness for specific elements, use the `@Search.fuzzinessThreshold` annotation:
+Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
 ```cds
 entity Books {
-  @Search.fuzzinessThreshold: 0.7
-  title : String;
+   @Search.fuzzinessThreshold: 0.7
+   title : String;
+}
+```
+
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To adjust the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+
+```cds
+entity Books {
+   @Search.ranking: HIGH
+   title         : String;
+
+   @Search.ranking: LOW
+   publisherName : String;
 }
 ```
 
@@ -1030,6 +1033,8 @@ service Sue {
   entity Foo { key ID:Integer } actions {
     function getStock() returns Integer;
     action order (x:Integer) returns Integer;
+    //bound to the collection and not a specific instance of Foo
+    action customCreate (in: many $self, x: String) returns Foo;
   }
 }
 ```
@@ -1043,12 +1048,7 @@ The differentiation between *Actions* and *Functions* as well as *bound* and *un
 - **Actions** modify data in the server
 - **Functions** retrieve data
 - **Unbound** actions/functions are like plain unbound functions in JavaScript.
-- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript.
-
-::: tip Prefer *Unbound* Actions/Functions
-From CDS perspective we recommend **preferring unbound** actions/functions, as these are much more straightforward to implement and invoke.
-:::
-
+- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript. The exception are bound actions to collections, which are bound against the collection and not a specific instance of the entity. An example use case are custom create actions for the SAP Fiori elements UI.
 
 
 ### Implementing Actions / Functions

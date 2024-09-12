@@ -7,6 +7,8 @@ import { sidebar, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 import * as MdAttrsPropagate from './lib/md-attrs-propagate'
+import * as MdTypedModels from './lib/md-typed-models'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
@@ -139,8 +141,12 @@ const config:UserConfig<CapireThemeConfig> = {
     toc: {
       level: [2,3]
     },
+    codeTransformers: [
+      transformerTwoslash()
+    ],
     config: md => {
       MdAttrsPropagate.install(md)
+      MdTypedModels.install(md)
     },
   },
   sitemap: {

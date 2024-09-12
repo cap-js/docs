@@ -46,6 +46,6 @@ function runTyper(srcDir:string, out:string) {
 
   const label = '✓ running cds-typer in ' + relative(process.cwd(), srcDir)
   console.time(label)
-  execSync(`npm exec --prefix ${srcDir} -- cds-typer '*' --outputDirectory ${out}`, {cwd: srcDir})
+  execSync(`npm exec --prefix ${srcDir} -- cds-typer * --outputDirectory ${out}`, {cwd: srcDir})
   console.timeEnd(label)
 }

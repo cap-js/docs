@@ -23,7 +23,7 @@
 
 import { useRoute, useData, withBase } from 'vitepress'
 import { onMounted, ref } from 'vue'
-const { frontmatter, site } = useData()
+const { site } = useData()
 const route = useRoute()
 
 const base = site.value.base

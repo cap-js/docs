@@ -1104,6 +1104,8 @@ Each path in the expression is checked:
 * If the annotation is assigned to a subelement of a structured element, the top level
   elements of the entity can be accessed via `$self`.
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
+* For an annotation assigned to a bound action or function, elements of the respective entity
+  can be accessed via `$self`.
 * The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
   During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
   entities (root and sub nodes but not for named types or entity parameters).
@@ -1111,6 +1113,27 @@ Each path in the expression is checked:
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
 is checked by the compiler.
+
+```cds
+@MyAnno: (a)            // reference to element
+entity Foo (par: Integer) {
+  key ID : Integer;
+  @MyAnno: (:par)       // reference to entity parameter
+  a : Integer;
+  @MyAnno: (a)          // reference to sibling element
+  b : Integer;
+  s {
+    @MyAnno: (y)        // reference to sibling element
+    x : Integer;
+    @MyAnno: ($self.a)  // reference to top level element
+    y : Integer;
+  }
+}
+actions {
+  @MyAnno: ($self.a)
+  action A ()
+}
+```
 
 #### CSN Representation
 

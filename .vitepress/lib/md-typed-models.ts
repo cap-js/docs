@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process'
 import { dirname, join, relative, resolve } from 'node:path'
 import { existsSync } from 'node:fs'
 
-type mdItEnv = { frontmatter: Record<string, any>, path: string, realPath: string }
+type mdItEnv = { frontmatter: Record<string, any>, path: string, realPath?: string }
 const modelOut = '@cds-models'
 
 /**
@@ -30,13 +30,22 @@ export function install(md: MarkdownRenderer) {
 
         runTyper(srcDir, modelOut)
 
-        const resolvedPath = resolve(mdDir, modelPath, modelOut, '*')
-        tokens[idx].content = tokens[idx].content.replaceAll(`%typedModels:${modelKey}:resolved%`, resolvedPath)
+        const resPath = resolvedImportPath(srcDir, modelOut)
+        // console.log(`📚 ${modelPath} -> ${resPath}`)
+        tokens[idx].content = tokens[idx].content.replaceAll(`%typedModels:${modelKey}:resolved%`, resPath)
       }
     }
 
     return fence!(tokens, idx, options, env, ...args)
   }
+}
+
+function resolvedImportPath(srcDir: string, modelOut: string) {
+  // make resolved path relative - tsc seems to have problems with absolute Windows paths (C:\...)
+  let resolvedPath = relative(process.cwd(), srcDir)
+  // also make it a local import path, starting with ./ and replacing Windows \
+  resolvedPath = join(resolvedPath, modelOut, '*').replace(/\\/g, '/')
+  return resolvedPath.startsWith('.') ? resolvedPath : './'+resolvedPath
 }
 
 function runTyper(srcDir:string, out:string) {
@@ -46,6 +55,6 @@ function runTyper(srcDir:string, out:string) {
 
   const label = '✓ running cds-typer in ' + relative(process.cwd(), srcDir)
   console.time(label)
-  execSync(`npm exec --prefix ${srcDir} -- cds-typer '*' --outputDirectory ${out}`, {cwd: srcDir})
+  execSync(`npm exec --prefix ${srcDir} -- cds-typer * --outputDirectory ${out}`, {cwd: srcDir})
   console.timeEnd(label)
 }

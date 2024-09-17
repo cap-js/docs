@@ -416,6 +416,8 @@ Use this if you want to communicate using [SAP Event Broker](https://help.sap.co
 }
 ```
 
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Event Broker.
+
 Authentication in the SAP Event Broker integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
 If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
 

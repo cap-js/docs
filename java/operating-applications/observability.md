@@ -268,7 +268,11 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
   # ...
   properties:
     # ...
-    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar']"
+    JBP_CONFIG_JAVA_OPTS: 
+      from_environment: false
+      java_opts: >
+        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar 
+        -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar
 ```
 :::
 
@@ -318,6 +322,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
        # ...
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging
+       OTEL_LOGS_EXPORTER: none
    ```
    :::
 

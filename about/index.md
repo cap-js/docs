@@ -455,9 +455,22 @@ Following is an excerpt of generic features provided:
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
 
-<br>
+**CAP-level Service Integrations ('Calesi')**
 
-[See also the Features Overview](./features){.learn-more}
+- [Authentication → SAP Identity Services](../plugins/#security-ams)
+- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
+- [Attachments → SAP Object Store](../plugins/#attachments)
+- [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
+- [Messaging → SAP Event Broker](../plugins/#event-broker)
+- [Messaging → Kafka](../plugins/#apache-kafka)
+- [Change Tracking](.../plugins/#change-tracking)
+- [Notifications](../plugins/#notifications)
+- [Audit Logging](../plugins/#audit-logging)
+- [Personal Data Management](../guides/data-privacy/)
+
+[Find more in the **CAP Plugins** page](../plugins){.learn-more}
+
+[See also the **Features Overview**](./features){.learn-more}
 
 
 

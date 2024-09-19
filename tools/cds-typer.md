@@ -511,7 +511,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
+Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic (caveat, [see below](#typer-top-level-imports)):
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
@@ -542,4 +542,26 @@ class CatalogService extends cds.ApplicationService { async init(){
   // ✅ works both at design time and at runtime
   const { Book } = await import('#cds-models/sap/capire/bookshop')
 }}
+```
+
+### Static Top-Level Imports {#typer-top-level-imports}
+Starting with `cds-typer@0.26.0`, a new option `useEntitiesProxy` can be passed to `cds-typer` that allows you to statically import your entities on top-level, as you intuitively would. You still have to _use them_ only in a context where the cds runtime is fully booted, like in a service definition:
+
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
+// ✅ top level import now works both during design time and runtime
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ❌ works during design time, but will cause runtime errors
+Book.actions
+
+export class MyService extends cds.ApplicationService {
+  async init () {
+    // ✅ cds runtime is fully booted at this point
+    Book.actions  // works
+    this.on('READ', Book, req => { req.data.author  /* works as well */  })
+  }
+}
 ```

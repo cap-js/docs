@@ -546,7 +546,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic (caveat, [see below](#typer-top-level-imports)):
+Similar to `cds.entities(…)`, you can't use static imports here. Instead, you need to use dynamic imports. However, there's an exception for [static top-level imports](#typer-top-level-imports).
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
@@ -580,7 +580,7 @@ class CatalogService extends cds.ApplicationService { async init(){
 ```
 
 ### Static Top-Level Imports {#typer-top-level-imports}
-Starting with `cds-typer@0.26.0`, a new option `useEntitiesProxy` can be passed to `cds-typer` that allows you to statically import your entities on top-level, as you intuitively would. You can still only _use them_ in a context where the cds runtime is fully booted, like in a service definition:
+Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
 
 ```ts twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}

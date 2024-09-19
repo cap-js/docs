@@ -400,7 +400,6 @@ Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer 
   …
   "cds": {
     "typer": {
-      "propertiesOptional": true,
       "log_level": "DEBUG"
     }
   }

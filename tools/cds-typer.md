@@ -392,7 +392,7 @@ OPTIONS
 
 ### Configuration
 
-Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](#cds-env), for example via your project's _package.json_:
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
 
 ::: code-group
 ```json [package.json]

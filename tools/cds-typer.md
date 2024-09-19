@@ -392,10 +392,12 @@ OPTIONS
 
 ### Configuration
 
-Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](#cds-env):
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](#cds-env), for example via your project's _package.json_:
 
-```json
+::: code-group
+```json [package.json]
 {
+  …
   "cds": {
     "typer": {
       "propertiesOptional": true,
@@ -404,6 +406,7 @@ Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer 
   }
 }
 ```
+:::
 
 ### Version Control
 The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the [typer as facet](#typer-facet) will generate an appropriate entry in your project's `.gitignore` file.
@@ -578,7 +581,7 @@ class CatalogService extends cds.ApplicationService { async init(){
 ```
 
 ### Static Top-Level Imports {#typer-top-level-imports}
-Starting with `cds-typer@0.26.0`, a new option `useEntitiesProxy` can be passed to `cds-typer` that allows you to statically import your entities on top-level, as you intuitively would. You still have to _use them_ only in a context where the cds runtime is fully booted, like in a service definition:
+Starting with `cds-typer@0.26.0`, a new option `useEntitiesProxy` can be passed to `cds-typer` that allows you to statically import your entities on top-level, as you intuitively would. You can still only _use them_ in a context where the cds runtime is fully booted, like in a service definition:
 
 ```ts twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}

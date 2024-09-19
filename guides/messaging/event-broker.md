@@ -82,7 +82,10 @@ Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment w
 
 ### Connecting it All Together
 
-In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Event Broker) into a formation and enable the event subscription, as described in [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT).
+In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Event Broker) into a formation and enable the event subscription.
+
+<!-- TODO: enable once available -->
+<!-- , as described in [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT). -->
 
 ::: tip Test Events
 For testing purposes, SAP S/4HANA can send technical test events of type `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` which your app can subscribe to. You can trigger such events with _Enterprise Event Enablement - Event Monitor_.

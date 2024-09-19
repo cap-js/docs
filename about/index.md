@@ -463,12 +463,12 @@ Following is an excerpt of generic features provided:
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
 - [Messaging → SAP Event Broker](../plugins/#event-broker)
 - [Messaging → Kafka](../plugins/#apache-kafka)
-- [Change Tracking](.../plugins/#change-tracking)
+- [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging](../plugins/#audit-logging)
 - [Personal Data Management](../guides/data-privacy/)
 
-[Find more in the **CAP Plugins** page](../plugins){.learn-more}
+[Find more in the **CAP Plugins** page](../plugins/){.learn-more}
 
 [See also the **Features Overview**](./features){.learn-more}
 

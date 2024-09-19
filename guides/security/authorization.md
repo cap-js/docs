@@ -262,7 +262,7 @@ When restricting service access through `@requires`, the service's metadata endp
 
 ### @restrict { #restrict-annotation}
 
-You can use the `@restrict` annotation to define authorizations on a fine-grained level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
+You can use the `@restrict` annotation to define authorizations on a fine-grained entity level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
 The building block of such a restriction is a single **privilege**, which has the general form:
 
 <!-- cds-mode: ignore -->
@@ -341,10 +341,9 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | CDS Resource    | `grant` | `to` |      `where`      | Remark        |
 |-----------------|:-------:|:----:|:-----------------:|---------------|
 | service         |  <Na/>  | <Y/> |       <Na/>       | = `@requires` |
-| entity          |  <Y/>   | <Y/> |       <Y/>        |               |
-| action/function |  <Na/>  | <Y/> | <Y/><sup>1</sup> | = `@requires` |
+| entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
 
-> <sup>1</sup> Node.js supports `where` clauses for bound actions and functions, which are not bound against the collection. Actions and functions bound against the collection or unbound ones only support static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
+> <sup>1</sup> Node.js supports `where` clauses for granting access to bound actions and functions, which are not bound against the collection. Actions and functions bound against the collection or unbound ones only support static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 

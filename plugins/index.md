@@ -154,17 +154,18 @@ Available for:
 ## Attachments
 
 
-The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
+The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
 
 ```cds
-extend my.Incidents with {
-  attachments: Composition of many Attachments
+using { Attachments } from '@cap-js/attachments';
+entity Incidents { ...
+  attachments: Composition of many Attachments // [!code focus]
 }
 ```
 
-![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
+That's all we need to automatically add an interactive list of attachments to your Fiori UIs as shown below.
 
-It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
 
 Features:
 

@@ -546,7 +546,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic (caveat, [see below](#typer-top-level-imports)):
+Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic (caveat, see [Static Top-Level Imports](#typer-top-level-imports)):
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}

@@ -410,7 +410,7 @@ Use this if you want to communicate using [SAP Event Broker](https://help.sap.co
   "requires": {
     "messaging": {
       "kind": "event-broker",
-      "webhookPath": "-/cds/event-broker/webhook" // default
+      "webhookPath": "/-/cds/event-broker/webhook" // default
     }
   }
 }

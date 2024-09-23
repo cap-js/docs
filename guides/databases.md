@@ -83,7 +83,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 ### Custom Configuration  {.impl .node}
 
-The above-mentioned setup auto-wires things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
+The auto-wired configuration uses configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
 
 1. Install a database driver package, for example:
    ```sh

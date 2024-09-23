@@ -405,7 +405,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
 
-You need to install the package `@cap-js/event-broker`.
+You need to install the package [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
 
 ```bash
 npm install @cap-js/event-broker

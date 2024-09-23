@@ -344,7 +344,8 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
 | action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
-> <sup>1</sup> Node.js supports `where` clauses for granting access to bound actions and functions, which are not bound against the collection. Actions and functions bound against the collection or unbound ones only support static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
+> <sup>1</sup>For bound actions and functions, which are not bound against collection, Node.js supports Instance-Based Authorization on entity level - `where` clauses *containing references to the model* such as `where: CreatedBy = $user`. For all bound actions and functions Node.js supports simple static expressions *that don't have any reference to the model* on entity level such as `where: $user.level = 2`.
+> <sup>2</sup> For unbound actions and functions Node.js supports simple static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. 
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 

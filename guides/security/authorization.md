@@ -342,6 +342,7 @@ Restrictions can be defined on different types of CDS resources, but there are s
 |-----------------|:-------:|:----:|:-----------------:|---------------|
 | service         |  <Na/>  | <Y/> |       <Na/>       | = `@requires` |
 | entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
+| action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
 > <sup>1</sup> Node.js supports `where` clauses for granting access to bound actions and functions, which are not bound against the collection. Actions and functions bound against the collection or unbound ones only support static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
 

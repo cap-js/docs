@@ -262,7 +262,7 @@ When restricting service access through `@requires`, the service's metadata endp
 
 ### @restrict { #restrict-annotation}
 
-You can use the `@restrict` annotation to define authorizations on a fine-grained entity level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
+You can use the `@restrict` annotation to define authorizations on a fine-grained level. In essence, all kinds of restrictions that are based on static user roles, the request operation, and instance filters can be expressed by this annotation.<br>
 The building block of such a restriction is a single **privilege**, which has the general form:
 
 <!-- cds-mode: ignore -->

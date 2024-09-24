@@ -419,7 +419,7 @@ For CloudFoundry, use `cf login ...` and select org and space.
 
 Generates handler stubs for actions and functions in Java projects.
 
-Execute the following from the _srv_ directory of the project to generates handler files for all actions and functions:
+Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
 ```sh
 cds add handler
 ```

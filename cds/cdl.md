@@ -2030,13 +2030,6 @@ In CAP Node.js, doc comments need to be switched on when calling the compiler:
 ```sh [CLI]
 cds compile foo.cds --docs
 ```
-```json [package.json]
-{
-  "cds" : {
-    "docs" : true // [!code focus]
-  }
-}
-```
 ```js [JavaScript]
 cds.compile(..., { docs: true })
 ```

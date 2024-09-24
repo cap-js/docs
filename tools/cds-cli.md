@@ -417,7 +417,32 @@ For CloudFoundry, use `cf login ...` and select org and space.
 
 #### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
 
+Generates handler stubs for actions and functions in Java projects. 
 
+The simplest form of:
+
+```sh
+cds add handler
+```
+
+called from the `srv` directory of the project generates handler files for all actions and functions.
+
+
+#### Filtering {#handler-filtering}
+
+You can filter by the names of actions and functions. 
+
+```sh
+cds add handler --filter submitOrder
+```
+
+#### Other options
+
+The `--out` option for specifying custom output directories and the `--force` option for overwriting existing files are available as well.
+
+```sh
+cds add handler --out customFolder --force
+```
 
 
 ## cds env

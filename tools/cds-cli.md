@@ -429,7 +429,7 @@ called from the `srv` directory of the project generates handler files for all a
 
 #### Filtering {#handler-filtering}
 
-You can filter by the names of actions and functions. 
+You can filter by the names of actions and functions.
 
 ```sh
 cds add handler --filter submitOrder
@@ -438,10 +438,6 @@ cds add handler --filter submitOrder
 #### Other options
 
 The `--out` option for specifying custom output directories and the `--force` option for overwriting existing files are available as well.
-
-```sh
-cds add handler --out customFolder --force
-```
 
 
 ## cds env

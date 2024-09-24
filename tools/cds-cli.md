@@ -427,7 +427,6 @@ cds add handler
 
 called from the `srv` directory of the project generates handler files for all actions and functions.
 
-
 #### Filtering {#handler-filtering}
 
 You can filter by the names of actions and functions. 

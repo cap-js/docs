@@ -31,9 +31,9 @@ CAP Java 3.0 increased some minimum required versions:
 
 | Dependency | Minimum Version |
 | --- | --- |
+| Cloud SDK | 5.9.0 |
 | @sap/cds-dk | ^7 |
 | Maven | 3.6.3 |
-| Cloud SDK | 5.9.0 |
 
 CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 
@@ -42,10 +42,22 @@ CAP Java 3.0 no longer supports @sap/cds-dk ^6.
 The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
 
 One of the effects of the production profile is that the index page is disabled by default.
-If you are using the root path `/` for readiness or liveness probing in Kyma you will need to adjustment them, in this case
-it is recommended to use Spring Boot actuator's `/actuator/health` endpoint instead.
+If you are using the root path `/` for a readiness or liveness probe in Kyma you will need to adjustment them. in this case the recommended approach would be to use the Spring Boot actuator's `/actuator/health` endpoint instead.
 
 [Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
+
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
+If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
+As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed, use the [`Deploy` main method](/java/multitenancy#deploy-main-method) instead. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
 
 ### Removed feature `cds-feature-xsuaa`
 
@@ -57,21 +69,18 @@ If your application relies on the standard security configuration by CAP Java an
 
 If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend using one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
+Though CAP does not support multiple XSUAA bindings, it was possible in previous versions to extend the standard security configuration to work with multiple bindings. If you require this, you need to set `cds.security.xsuaa.allowMultipleBinding` to `true` so that all XSUAA bindings are available in custom spring auto-configurations. Note: CAP Java still does not process multiple bindings and requires a dedicated spring configuration. In general, applications should refrain from configuring several XSUAA bindings.
+
 [Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
-### Removed MTX Classic Support
+### Proof-Of-Possession enforced for IAS-based authentication
 
-Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
-If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
 
-In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
-As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
 
-- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
-- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed. This includes the following endpoints:
-  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
-  - `/messaging/v1.0/em/<tenant>` (PUT)
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
 
 ### Lazy Localization by default
 
@@ -101,9 +110,59 @@ Some parameter defaults of the goal `generate` have been adjusted:
 | Parameter | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
 | `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
-| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions. |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions, by prefixing the interfaces with the entity name. |
 
 Both these changes result in the generation of incompatible POJOs. To get the former POJOs, the new defaults can be overwritten by setting the parameters to the old values.
+
+Consider the following example:
+
+```cds
+service MyService {
+  entity MyEntity {
+	key ID: UUID
+  } actions {
+	// bound action
+	action doSomething(values: MyArray);
+  }
+}
+
+// global arrayed type
+type MyArray: many {
+	value: String;
+}
+```
+
+With the new defaults the generated interface for the `doSomething` action looks like this:
+
+```java
+// uniqueEventContexts: true =>
+// interface is prefixed with entity name "MyEntity"
+public interface MyEntityDoSomethingContext extends EventContext {
+
+  // sharedInterfaces: true => global MyArray type is used
+  Collection<MyArray.Item> getValues();
+  void setValues(Collection<MyArray.Item> values);
+
+}
+```
+
+Formerly the generated interface looked like this:
+
+```java
+// uniqueEventContexts: false =>
+// interface is not prefixed with entity name
+public interface DoSomethingContext extends EventContext {
+
+  // sharedInterfaces: false => global MyArray type is not used,
+  // instead an additional interface Values is generated inline
+  Collection<Values> getValues();
+  void setValues(Collection<Values> values);
+
+  interface Values extends CdsData {
+    // ...
+  }
+}
+```
 
 ### Adjusted Property Defaults
 
@@ -114,7 +173,7 @@ Some property defaults have been adjusted:
 | `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
 | `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
 | `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
-| `cds.auditLog.personalData.throwOnMissingDataSubject` | `false` | `true` | Raise errors for incomplete personal data annotations by default. |
+| `cds.auditLog.personalData.`<br>`throwOnMissingDataSubject` | `false` | `true` | Raise errors for incomplete personal data annotations by default. |
 | `cds.messaging.services.<key>.structured` | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now enabled by default. |
 
 ### Adjusted Property Behavior
@@ -123,6 +182,38 @@ Some property defaults have been adjusted:
 | --- | --- |
 | `cds.outbox.persistent.enabled` | When set to `false`, all persistent outboxes are disabled regardless of their specific configuration. |
 
+### Removed Properties
+
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement / Explanation |
+| --- | --- |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` |
+| `cds.security.identity.authConfig.enabled` | `cds.security.authentication.`<br>`authConfig.enabled` |
+| `cds.security.xsuaa.authConfig.enabled` | `cds.security.authentication.`<br>`authConfig.enabled` |
+| `cds.security.mock.users.<key>.unrestricted` | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` |
+| `cds.multiTenancy.compatibility.enabled` | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` |
+| `cds.multiTenancy.mtxs.enabled` | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.security.deploymentScope` | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` |
+| `cds.odataV4.serializer.enabled` | The legacy serializer has been removed. |
+| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` |
+| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` |
+| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` |
+| `cds.remote.services.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` |
+| `cds.remote.services.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` |
+| `cds.remote.services.<key>.destination.service` | `cds.remote.services.<key>.http.service` |
+| `cds.remote.services.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` |
+| `cds.remote.services.<key>.destination.type` | `cds.remote.services.<key>.type` |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` |
+| `cds.sql.supportedLocales` | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
+
 ### Deprecated Session Context Variables
 
 | Old Variable | Replacement |
@@ -130,38 +221,6 @@ Some property defaults have been adjusted:
 | `$user.tenant` | `$tenant` |
 | `$at.from` | `$valid.from` |
 | `$at.to` | `$valid.to` |
-
-### Removed Properties
-
-The following table gives an overview about the removed properties:
-
-| Removed Property | Replacement | Explanation |
-| --- | --- | --- |
-| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` | |
-| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` | |
-| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` | |
-| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` | |
-| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` | |
-| `cds.identity.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
-| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` | |
-| `cds.multiTenancy.compatibility.enabled` | | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
-| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` | |
-| `cds.multiTenancy.mtxs.enabled` | | MTXS is enabled [by default](#removed-mtx-classic-support). |
-| `cds.multiTenancy.security.deploymentScope` | | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
-| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` | |
-| `cds.odataV4.serializer.enabled` | | The legacy serializer has been removed. |
-| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` | |
-| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` | |
-| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` | |
-| `cds.remote.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` | |
-| `cds.remote.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` | |
-| `cds.remote.<key>.destination.service` | `cds.remote.services.<key>.http.service` | |
-| `cds.remote.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` | |
-| `cds.remote.<key>.destination.type` | `cds.remote.services.<key>.type` | |
-| `cds.security.mock.users.<key>.unrestricted` | | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
-| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` | |
-| `cds.sql.supportedLocales` | | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
-| `cds.xsuaa.authConfig.enabled` | `cds.security.authentication.authConfig.enabled` | |
 
 ### Removed Java APIs
 
@@ -198,17 +257,9 @@ The following table gives an overview about the removed properties:
 
 The goal `addSample` from the `cds-maven-plugin` has been removed. Use the new goal `add` with the property `-Dfeature=TINY_SAMPLE` instead.
 
-### Proof-Of-Possession enforced for IAS-based authentication
-
-In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
-
-Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
-
-[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
-
 ## Cloud SDK 4 to 5 { #cloudsdk5 }
 
-CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.7.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.9.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
 
 ```xml
 <dependency>
@@ -791,6 +842,7 @@ The subfolder structure reflects the Java package names of your Java classes.
 
 Annotate all of your event handler classes with the following annotations and ensure a unique service name:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @org.springframework.stereotype.Component
 @com.sap.cds.services.handler.annotations.ServiceName("serviceName")
@@ -1208,6 +1260,12 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	```
 
 	This command picks up all service definitions in the Java project base directory (`srv` by default) and generates EDMX for OData V2. It also localizes the generated EDMX files with all available translations. For more information on the previous command, call `cds help compile` on the command line. If your service definitions are located in a different directory, adopt the previous command. If your service definitions are contained in multiple directories, add the previous command for each directory separately. Make sure to use at least `cds-dk 3.2.0` for this step.
+If you are using feature toggles in your CAP Java project, the list of models must also contain the features' root folder:
+
+	```xml
+	<command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
+	```
+	This command includes the folder _/fts_ and all sub-folders into the CDS model.
 
 3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 

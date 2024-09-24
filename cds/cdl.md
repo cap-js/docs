@@ -1,7 +1,7 @@
 ---
 # shorty: Definition Language
 synopsis: >
-  A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.
+  Specification of the definition language used to model data models and services in an easy and user-centric syntax. Includes a reference and overview of all CDS concepts and features with compact examples.
 #permalink: /cds/cdl/
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
@@ -975,7 +975,6 @@ action doSomething() returns @before {
 Values can be literals, references, or expressions. Expressions are explained in more detail in the next section.
 If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
-<!-- cds-mode: upcoming, cds-compiler v4.5 -->
 ```cds
 @aFlag //= true, if no value is given
 @aBoolean: false
@@ -1105,7 +1104,10 @@ Each path in the expression is checked:
 * If the annotation is assigned to a subelement of a structured element, the top level
   elements of the entity can be accessed via `$self`.
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
-* If a path cannot be resolved successfully, compilation fails with an error.
+* The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
+  During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
+  entities (root and sub nodes but not for named types or entity parameters).
+* If a path can't be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
 is checked by the compiler.
@@ -2018,5 +2020,5 @@ cds.compile(..., { docs: true })
 :::
 
 ::: tip Doc comments are enabled by default in CAP Java.
-In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments]([url](https://pages.github.tools.sap/cap/docs/java/assets/cds-maven-plugin-site/generate-mojo.html#documentation)).
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
 :::

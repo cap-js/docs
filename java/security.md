@@ -271,7 +271,7 @@ cds:
           additional:
             email: myviewer@crazycars.com
           features:
-	          - cruise
+            - cruise
             - park
 
         - name: Privileged-User

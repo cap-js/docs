@@ -162,7 +162,7 @@ cds:
 ```
 :::
 
-The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore it needs to be explicitly configured in the `options` section.
+The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore, it needs to be explicitly configured in the `options` section.
 As the URL is typically not known at development time, it can be alternatively defined as an environment variable `CDS_REMOTE_SERVICES_<name>_OPTIONS_URL`.
 
 :::tip
@@ -465,7 +465,7 @@ OAuth2DestinationBuilder
         .forTargetUrl("https://example.org")
         .withTokenEndpoint("https://xsuaa.url")
         .withClient(clientCredentials, OnBehalfOf.TECHNICAL_USER_CURRENT_TENANT)
-        .withProperties(Map.of("name", "my-destination"))
+        .property("name", "my-destination")
         .build();
 ```
 
@@ -478,6 +478,6 @@ OAuth2DestinationBuilder
         .forTargetUrl("https://example.org")
         .withTokenEndpoint("https://xsuaa.url")
         .withClient(clientCredentials, OnBehalfOf.NAMED_USER_CURRENT_TENANT)
-        .withProperties(Map.of("name", "my-destination"))
+        .property("name", "my-destination")
         .build();
 ```

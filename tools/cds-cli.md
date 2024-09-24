@@ -44,11 +44,11 @@ Use `cds version` to get information about your installed package version:
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
 
 <em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 7.9.2
-<em>@sap/cds-compiler:</em> 4.9.4
-<em>@sap/cds-dk:</em> 7.9.3
+<em>@sap/cds:</em> 8.2.2
+<em>@sap/cds-compiler:</em> 5.2.0
+<em>@sap/cds-dk:</em> 8.2.1
 <em>@sap/cds-dk (global):</em> 7.9.3
-<em>@sap/cds-mtxs:</em> 1.18.1
+<em>@sap/cds-mtxs:</em> 2.1.0
 <em>@sap/eslint-plugin-cds:</em> 3.0.4
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
@@ -58,9 +58,9 @@ Use `cds version` to get information about your installed package version:
 | @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
 |------------------------|------------------------------------------------------|
 | Node.js                | v18.13.0                                             |
-| @sap/cds               | 7.9.2                                                |
-| @sap/cds-compiler      | 4.9.4                                                |
-| @sap/cds-dk            | 7.9.3                                                |
+| @sap/cds               | 8.2.2                                                |
+| @sap/cds-compiler      | 5.2.0                                                |
+| @sap/cds-dk            | 8.2.1                                                |
 | @sap/eslint-plugin-cds | 3.0.4                                                |
 </pre>
 
@@ -292,7 +292,7 @@ This example creates 2 records for each entity:
 cds add data --records 2
 ```
 
-[Watch a short video by DJ Adams to see this in acion.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
+[Watch a short video by DJ Adams to see this in action.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
 
 #### Formats <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -471,6 +471,7 @@ CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
 CDS_MERMAID_MIN=false|true           # remove unused entities
 CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
 CDS_MERMAID_QUERIES=false|true       # show queries/projections
+CDS_MERMAID_DIRECTION=TB|BT|LR|RL    # layout direction of the diagram
 ```
 
 <div id="mermaid-cli-more" />
@@ -483,9 +484,14 @@ To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use 
 
 If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
 
-To customize the diagram layout, use these settings:
+To customize the diagram layout, use these settings in the _Cds > Preview_ category:
 
-![The screenshot shows the following setting for the CDS Code Editor: Cds>Preview>Diagram: Associations, Cds>Preview>Diagram: Elements, Cds>Preview>Diagram: Minify, Cds>Preview>Diagram: Namespaces, and Cds>Preview>Diagram: Queries](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+- [Diagram: Associations](vscode://settings/cds.preview.diagram.associations)
+- [Diagram: Direction](vscode://settings/cds.preview.diagram.direction)
+- [Diagram: Elements](vscode://settings/cds.preview.diagram.elements)
+- [Diagram: Minify](vscode://settings/cds.preview.diagram.minify)
+- [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
+- [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
 
 ## cds repl

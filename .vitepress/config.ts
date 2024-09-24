@@ -7,6 +7,8 @@ import { sidebar, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 import * as MdAttrsPropagate from './lib/md-attrs-propagate'
+import * as MdTypedModels from './lib/md-typed-models'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
@@ -23,8 +25,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.10.1',
-  java_cds4j: '2.10.1'
+  java_services: '3.2.0',
+  java_cds4j: '3.2.0'
 }
 
 const localSearchOptions = {
@@ -75,7 +77,7 @@ const localSearchOptions = {
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
 const menu = sidebar()
-const nav = nav4(menu) as DefaultTheme.NavItem[]
+const nav = nav4(menu) as DefaultTheme.NavItemWithLink[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
   const grammar:RawGrammar = JSON.parse(src.toString())
@@ -84,6 +86,7 @@ const loadSyntax = async (file:string, name:string, alias:string=name):Promise<L
 
 const config:UserConfig<CapireThemeConfig> = {
   title: 'cap≽ire',
+  titleTemplate: ':title | capire', // for the window title
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
   srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
@@ -92,8 +95,8 @@ const config:UserConfig<CapireThemeConfig> = {
     // IMPORTANT: Don't use getters here, as they are called again and again!
     sidebar: menu,
     nav: [
-      Object.assign(nav.find(i => i.text === 'Getting Started')!, {text:'Get Started'}),
-      Object.assign(nav.find(i => i.text === 'Cookbook')!, {text:'Guides'}),
+      { ...nav.find(i => i.text === 'Getting Started') ?? {}, text: 'Get Started' },
+      { ...nav.find(i => i.text === 'Cookbook') ?? {}, text: 'Guides' },
       nav.find(i => i.text === 'CDS'),
       nav.find(i => i.text === 'Node'),
       nav.find(i => i.text === 'Java'),
@@ -138,8 +141,12 @@ const config:UserConfig<CapireThemeConfig> = {
     toc: {
       level: [2,3]
     },
+    codeTransformers: [
+      transformerTwoslash()
+    ],
     config: md => {
       MdAttrsPropagate.install(md)
+      MdTypedModels.install(md)
     },
   },
   sitemap: {

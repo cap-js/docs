@@ -150,11 +150,18 @@ When SAP Fiori interprets messages it can handle an additional `target` property
 When specifying messages in the `sap-messages` HTTP header, SAP Fiori mostly ignores the `target` value.
 Therefore, specifying the `target` can only correctly be used when throwing a `ServiceException` as SAP Fiori correctly handles the `target` property in OData V4 error responses.
 
-A message target is always relative to an input parameter in the event context. For CRUD-based events this is usually the `cqn` parameter you can find in the underlying map of the event context. For action or function events you find their input parameters in the map, as well.
+A message target is always relative to an input parameter in the event context.
+For CRUD-based events this is always the `cqn` parameter, which represents and carries the payload of the request.
+For actions or functions, a message target can either be relative to the entity to which the action or function is bound (represented by the `cqn` parameter) or relative to a parameter of the action or function.
+In case of actions and functions SAP Fiori also requires the message target to be prefixed with the action or function's binding parameter or parameter names.
 
-Therefore, when creating a message target, one of these event context parameters needs to be selected to specify what the relative message target path refers to.
-
+When creating a message target, the correct parameter needs to be selected to specify what the relative message target path refers to.
 By default a message target always refers to the CQN statement of the event. In case of CRUD events this is the targeted entity. In case of bound actions and functions this is the entity that the action or function was bound to.
+As CRUD event handlers are often called from within bound actions or functions (e.g. `draftActivate`), CAP's OData adapter adds a parameter prefix to a message target referring to the `cqn` parameter only when required.
+
+::: info
+When using the `target(String)` API, which specifices the full target as a `String`, no additional parameter prefixes are added by CAP's OData adapter. The `target` value is used as specified.
+:::
 
 Let's illustrate this with the following example:
 
@@ -204,7 +211,6 @@ Within a `Before` handler that triggers on inserts of new books a message target
 ``` java
 @Before
 public void validateTitle(CdsCreateEventContext context, Books book) {
-
     // ...
 
     // event context contains the "cqn" key
@@ -217,11 +223,16 @@ public void validateTitle(CdsCreateEventContext context, Books book) {
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
         .messageTarget("cqn", b -> b.get("title"));
 
-    // which is the same as (using plain string)
+    // which is the same as using plain string
+    // assuming direct POST request
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
         .messageTarget("title");
 
-    // ...
+    // which is the same as using plain string
+    // assuming surrounding bound action request with binding parameter "in",
+    // e.g. draftActivate
+    throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
+        .messageTarget("in/title");
 }
 ```
 
@@ -235,8 +246,6 @@ public void validateTitle(CdsCreateEventContext context, Books book) {
     // implicitly referring to cqn
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No title specified")
         .messageTarget(Books_.class, b -> b.title());
-
-    // ...
 }
 ```
 
@@ -254,8 +263,6 @@ public void validateAuthorName(CdsCreateEventContext context, Books book) {
     // using typed API
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No author name specified")
         .messageTarget(Books_.class, b -> b.author().name());
-
-    // ...
 }
 ```
 
@@ -291,8 +298,6 @@ public void validateReview(AddReviewContext context) {
      // targeting "text"
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid review text")
         .messageTarget("text");
-
-    // ...
 }
 ```
 
@@ -317,7 +322,9 @@ public void validateReview(AddReviewContext context) {
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
         .messageTarget(Books_.class, b -> b.descr());
 
-    // ...
+    // which is the same as using plain string
+    throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
+        .messageTarget("in/descr");
 }
 ```
 
@@ -355,7 +362,7 @@ public class SimpleExceptionHandler implements EventHandler {
   public void overrideMissingAuthMessage(ErrorResponseEventContext context) {
     if (context.getException().getErrorStatus().equals(CdsErrorStatuses.EVENT_FORBIDDEN)) {
         context.getResult().getMessages().set(0,
-            Message.create(Message.Severity.ERROR, 
+            Message.create(Message.Severity.ERROR,
             "You cannot execute this action"));
     }
   }

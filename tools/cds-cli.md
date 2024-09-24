@@ -419,25 +419,26 @@ For CloudFoundry, use `cf login ...` and select org and space.
 
 Generates handler stubs for actions and functions in Java projects.
 
-The simplest form of:
-
+Execute the following from the _srv_ directory of the project to generates handler files for all actions and functions:
 ```sh
 cds add handler
 ```
 
-called from the `srv` directory of the project generates handler files for all actions and functions.
 
 #### Filtering {#handler-filtering}
 
-You can filter by the names of actions and functions.
+Use the `--filter` option to create handlers for specific actions and functions.
 
 ```sh
 cds add handler --filter submitOrder
 ```
 
-#### Other options
+#### More Options
 
-The `--out` option for specifying custom output directories and the `--force` option for overwriting existing files are available as well.
+| Option | Description |
+| --- | --- |
+| `--out` | Specify custom output directories |
+| `--force` | Overwrite existing files |
 
 
 ## cds env

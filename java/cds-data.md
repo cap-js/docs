@@ -527,9 +527,9 @@ interface Equity {
 }
 ```
 
-#### Renaming Types in Java
+#### Renaming Entities in Java
 
-You might also want to rename the interface for an entity or type. You can also use the annotation `@cds.java.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
+You can also use the annotation `@cds.java.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
 
 See the following example:
 
@@ -548,10 +548,9 @@ public interface Book extends CdsData {
 ```
 
 Annotations are by default propagated along projections or from types to (flattened) elements using that type.
-This can create unexpected behaviour when renaming Java interfaces or attributes, especially when using (structured) types.
-
-Therefore an alternative annotation `@cds.java.this.name` can be used as well.
-This annotation is not propagated and therefore only applies at exactly the CDS definition where it was originally placed.
+This can create unexpected behaviour, especially when setting Java names for (structured) types.
+In these situations the annotation `@cds.java.this.name` should be used instead.
+This annotation is not propagated and therefore only applies at exactly the CDS definition where it is placed.
 
 See the following example:
 

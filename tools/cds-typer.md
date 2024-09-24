@@ -313,9 +313,8 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
-> @cap-js/cds-typer@0.22.0 cli
+> @cap-js/cds-typer@0.26.0 cli
 > node lib/cli.js --help
-
 SYNOPSIS
 
   cds-typer [cds file | "*"]
@@ -326,49 +325,85 @@ SYNOPSIS
 
 OPTIONS
 
-  --IEEE754Compatible: <true | false>
-    (default: false)
-
-    If set to true, floating point properties are generated
-    as IEEE754 compatible '(number | string)' instead of 'number'.
-
   --help
 
     This text.
 
-  --inlineDeclarations: <flat | structured>
+  --inlineDeclarations
+  --inline_declarations: <flat | structured>
     (default: structured)
 
     Whether to resolve inline type declarations
     flat: (x_a, x_b, ...)
     or structured: (x: {a, b}).
 
-  --jsConfigPath: <string>
+  --IEEE754Compatible
+  --ieee754compatible: <true | false>
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
+
+  --jsConfigPath
+  --js_config_path: <string>
 
     Path to where the jsconfig.json should be written.
     If specified, cds-typer will create a jsconfig.json file and
     set it up to restrict property usage in types entities to
     existing properties only.
 
-  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
+  --logLevel
+  --log_level SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
     (default: ERROR)
 
     Minimum log level that is printed.
+    The default is only used if no explicit value is passed
+    and there is no configuration passed via cds.env either.
 
-  --outputDirectory: <string>
+  --outputDirectory
+  --output_directory: <string>
     (default: ./)
 
     Root directory to write the generated files to.
 
-  --propertiesOptional: <true | false>
+  --propertiesOptional
+  --properties_optional: <true | false>
     (default: true)
 
     If set to true, properties in entities are
     always generated as optional (a?: T).
 
+  --useEntitiesProxy
+  --use_entities_proxy: <true | false>
+    (default: false)
+
+    If set to true the 'cds.entities' exports in the generated 'index.js'
+    files will be wrapped in 'Proxy' objects
+    so static import/require calls can be used everywhere.
+    
+    WARNING: entity properties can still only be accessed after
+    'cds.entities' has been loaded
+
   --version
 
     Prints the version of this tool.
+```
+:::
+
+### Configuration
+
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
+
+::: code-group
+```json [package.json]
+{
+  …
+  "cds": {
+    "typer": {
+      "log_level": "DEBUG"
+    }
+  }
+}
 ```
 :::
 
@@ -511,7 +546,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
+Similar to `cds.entities(…)`, you can't use static imports here. Instead, you need to use dynamic imports. However, there's an exception for [static top-level imports](#typer-top-level-imports).
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
@@ -542,4 +577,26 @@ class CatalogService extends cds.ApplicationService { async init(){
   // ✅ works both at design time and at runtime
   const { Book } = await import('#cds-models/sap/capire/bookshop')
 }}
+```
+
+### Static Top-Level Imports {#typer-top-level-imports}
+Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
+
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
+// ✅ top level import now works both during design time and runtime
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ❌ works during design time, but will cause runtime errors
+Book.actions
+
+export class MyService extends cds.ApplicationService {
+  async init () {
+    // ✅ cds runtime is fully booted at this point
+    Book.actions  // works
+    this.on('READ', Book, req => { req.data.author  /* works as well */  })
+  }
+}
 ```

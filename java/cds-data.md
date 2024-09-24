@@ -512,48 +512,118 @@ See the following example:
 entity Equity {
   @cds.java.name : 'clazz'
   class : String;
-  ...
 }
 ```
 
 ```java
 interface Equity {
+
+  @CdsName("class")
   String getClazz();
 
+  @CdsName("class")
   void setClazz(String clazz);
-	...
+
 }
 ```
 
 #### Renaming Types in Java
 
-You might also want to rename the type of the entity. For this you can use annotation `@cds.java.this.name` to specify alternative name for the  accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces. This annotation can be used only on definitions and is ignored everywhere else.
+You might also want to rename the interface for an entity or type. You can also use the annotation `@cds.java.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
 
 See the following example:
 
 ```cds
-@cds.java.this.name: 'MyJavaClass'
-entity Class {
-  key ID: String;
+@cds.java.name: 'Book'
+entity Books {
+  // ...
 }
 ```
 
 ```java
-@CdsName("javaNames.Class")
-public interface MyJavaClass extends CdsData {
-  String ID = "ID";
-
-  @CdsName(ID)
-  String id();
-
-  @CdsName(ID)
-  MyJavaClass id(String id);
-
-  // rest of the interface
+@CdsName("Books")
+public interface Book extends CdsData {
+  // ...
 }
 ```
 
-In contrast with the annotation `@cds.java.name`, the annotation `@cds.java.this.name` does not rename projections of the annotated entity. If you want to rename chain of entities, you must annotate each of them individually.
+Annotations are by default propagated along projections or from types to (flattened) elements using that type.
+This can create unexpected behaviour when renaming Java interfaces or attributes, especially when using (structured) types.
+
+Therefore an alternative annotation `@cds.java.this.name` can be used as well.
+This annotation is not propagated and therefore only applies at exactly the CDS definition where it was originally placed.
+
+See the following example:
+
+```cds
+@cds.java.this.name: 'MyName'
+type Name {
+  firstName: String;
+  lastName: String;
+}
+
+entity Person {
+  publicName: Name;
+  secretName: Name;
+}
+```
+
+```java
+@CdsName("Name")
+public interface MyName extends CdsData {
+  // ...
+}
+
+@CdsName("Person")
+public interface Person extends CdsData {
+  String PUBLIC_NAME = "publicName";
+  String SECRET_NAME = "secretName";
+
+  MyName getPublicName();
+  void setPublicName(MyName publicName);
+
+  MyName getSecretName();
+  void setSecretName(MyName secretName);
+}
+```
+
+::: details See how the result would be with `@cds.java.name`
+
+```cds
+@cds.java.name: 'MyName'
+type Name {
+  firstName: String;
+  lastName: String;
+}
+
+entity Person {
+  publicName: Name;
+  secretName: Name;
+}
+```
+
+```java
+@CdsName("Name")
+public interface MyName extends CdsData {
+  // ...
+}
+
+@CdsName("Person")
+public interface Person extends CdsData {
+  String MY_NAME = "publicName";
+  String MY_NAME = "secretName";
+
+  MyName getMyName();
+  void setMyName(MyName myName);
+
+  MyName getMyName();
+  void setMyName(MyName myName);
+}
+```
+
+Notice, that the propagated annotation `@cds.java.name` creates attribute and method conflicts in `Person`.
+
+:::
 
 ::: warning
 This feature requires version 8.2.0 of the [CDS Command Line Interface](/tools/cds-cli).

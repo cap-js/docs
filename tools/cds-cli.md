@@ -415,9 +415,9 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
-#### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
 
-Generates handler stubs for actions and functions in Java projects. 
+Generates handler stubs for actions and functions in Java projects.
 
 The simplest form of:
 

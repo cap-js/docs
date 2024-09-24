@@ -247,7 +247,7 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
-| `handler`(#handler)           |       <Na/>      |       <X/>       |
+| [`handler`](#handler)         |       <Na/>      |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 

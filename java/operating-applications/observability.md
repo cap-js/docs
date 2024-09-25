@@ -218,6 +218,57 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively,
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
+### JDBC Tracing in SAP Hana
+
+In order to activate JDBC tracing in the SAP Hana JDBC driver, you have to use the driver [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html). You can activate these without stopping and restarting the application using the [command line](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/e411647b03f1425fab1e33bb495c9c42.html).
+
+When running in the cloud it depends on the buildpacks used for the CAP Java application where the exact location of the Hana JDBC driver and the `java` executable are. The following assumes the usage of the [Cloud Native Buildpacks](https://pages.github.tools.sap/unified-runtime/docs/building-blocks/unified-build-and-deploy/buildpacks) as recommended by the [Unified Runtime](https://pages.github.tools.sap/unified-runtime/).
+
+#### On Kyma
+
+Step by step description on how to access a bash session in the application's container in order to use trace options in the Hana JDBC driver:
+
+1. Execute bash in the pod that runs the CAP Java application:
+
+   To identify the pod name, use
+   ```sh
+   kubectl get pods
+   ```
+   in the right namespace and
+   ```sh
+   kubectl exec -it pod/<POD_NAME> -- bash
+   ```
+   to acquire a bash session in the container.
+
+1. Locate java executable and JDBC driver:
+
+   By default `JAVA_HOME` is not set in the buildpack and contains minimal tooling, as it tries to minimize the container size. However, the default location of the `java` executable is `/layers/paketo-buildpacks_sap-machine/jre/bin`.
+   
+   For convenience, store the path into a variable, e.g. `JAVA_HOME`:
+   ```sh
+   export JAVA_HOME=/layers/paketo-buildpacks_sap-machine/jre/bin/
+   ```
+
+   The JDBC driver is usually located in `/workspace/BOOT-INF/lib`. Store it into another variable, e.g. `JDBC_DRIVER_PATH`:
+   ```sh
+   export JDBC_DRIVER_PATH=/workspace/BOOT-INF/lib
+   ```
+
+1. Use JDBC trace options in the driver, using the correct (versioned) name of the `ngdbc.jar`:
+   ```sh
+   $JAVA_HOME/java -jar $JDBC_DRIVER_PATH/ngdbc-<VERSION>.jar <option>
+   ```
+
+   [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html) lists the available options.
+
+   Before turning on tracing with `TRACE ON`, it is recommended to set `TRACE FILENAME` to a path that the current shell user has write access to, e.g.:
+   ```sh
+   $JAVA_HOME/java -jar $JDBC_DRIVER_PATH/ngdbc-<VERSION>.jar TRACE FILENAME ~/tmp/traces/jdbctrace
+   ```
+
+1. Read the trace file while the pod is still running, or use [`kubectl cp`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cp/) to copy the file to your local machine.
+
+
 
 ## Monitoring { #monitoring }
 

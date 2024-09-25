@@ -406,3 +406,27 @@ srv.on('READ', 'Books', (req, next) => {
 ```
 
 In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+
+## Custom $count { #custom-streaming-beta }
+
+When writing custom `READ` on-handlers, one should also support requests containing $count like `GET /Books/$count` or `GET /Books?$count=true`. Consider example below for more details.
+
+Example:
+
+```js
+srv.on('READ', 'NewEmployees', function (req) {
+  // simple '/$count' request
+  if (req.query.SELECT.columns?.length === 1 && req.query.SELECT.columns[0].as === '$count')
+    return [{ $count: 100 }]
+  // support other '/$count' requests
+  ...
+
+  const resultSet = [ ... ]
+
+  // request contains $count=true 
+  if (req.query.SELECT.count === true) resultSet.$count = 100
+
+  return resultSet
+})
+```
+

@@ -44,12 +44,12 @@ Use `cds version` to get information about your installed package version:
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
 
 <em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 8.2.1
+<em>@sap/cds:</em> 8.2.3
 <em>@sap/cds-compiler:</em> 5.2.0
-<em>@sap/cds-dk:</em> 8.2.0
+<em>@sap/cds-dk:</em> 8.2.3
 <em>@sap/cds-dk (global):</em> 7.9.3
 <em>@sap/cds-mtxs:</em> 2.1.0
-<em>@sap/eslint-plugin-cds:</em> 3.0.4
+<em>@sap/eslint-plugin-cds:</em> 3.0.5
 <em>Node.js:</em> v18.13.0
 <em>home:</em> .../node_modules/@sap/cds
 
@@ -58,10 +58,10 @@ Use `cds version` to get information about your installed package version:
 | @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
 |------------------------|------------------------------------------------------|
 | Node.js                | v18.13.0                                             |
-| @sap/cds               | 8.2.1                                                |
+| @sap/cds               | 8.2.3                                                |
 | @sap/cds-compiler      | 5.2.0                                                |
-| @sap/cds-dk            | 8.2.0                                                |
-| @sap/eslint-plugin-cds | 3.0.4                                                |
+| @sap/cds-dk            | 8.2.3                                                |
+| @sap/eslint-plugin-cds | 3.0.5                                                |
 </pre>
 
 ## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
@@ -127,6 +127,7 @@ COMMANDS
     <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
     <em>  | completion</em> add/remove shell completion for cds commands
     <em>  | mock</em>       call cds serve with mocked service
+    <em>  | handler</em>    add handler stubs for actions and functions
 
   Learn more about each command using:
   <em>cds help</em> &lt;command&gt; or
@@ -246,6 +247,7 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
+| [`handler`](#handler)         |       <Na/>      |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 
@@ -412,6 +414,31 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 ::: details Cloud login required
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
+
+### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+
+Generates handler stubs for actions and functions in Java projects.
+
+Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
+```sh
+cds add handler
+```
+
+
+#### Filtering {#handler-filtering}
+
+Use the `--filter` option to create handlers for specific actions and functions.
+
+```sh
+cds add handler --filter submitOrder
+```
+
+#### More Options
+
+| Option | Description |
+| --- | --- |
+| `--out` | Specify custom output directories |
+| `--force` | Overwrite existing files |
 
 
 ## cds env

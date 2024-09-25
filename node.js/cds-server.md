@@ -44,7 +44,7 @@ with `cds run` and `cds watch` as convenience variants.
 The built-in `server.js` constructs an [express.js app](cds-facade#cds-app), and bootstraps all CAP services using [`cds.connect`](cds-connect) and [`cds.serve`](cds-serve).
 Its implementation essentially is as follows:
 
-```js
+```js twoslash
 const cds = require('@sap/cds')
 module.exports = async function cds_server(options) {
 
@@ -103,7 +103,8 @@ The CLI command `cds serve` optionally bootstraps from project-local `./server.j
 
 In custom `server.js`, you can plugin to all parts of `@sap/cds`.  Most commonly you'd register own handlers to lifecycle events emitted to [the `cds` facade object](cds-facade) as below:
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 // react on bootstrapping events...
 cds.on('bootstrap', ...)
@@ -116,7 +117,8 @@ Provide an own bootstrapping function if you want to access and process the comm
 This also allows you to override certain options before delegating to the built-in `server.js`.
 In the example below, we construct the express.js app ourselves and fix the models to be loaded.
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 // react on bootstrapping events...
 cds.on('bootstrap', ...)
@@ -142,10 +144,11 @@ The `req` object in your express middleware is not the same as `req` in your CDS
 A one-time event, emitted immediately after the [express.js app](cds-facade#cds-app)
 has been created and before any middleware or CDS services are added to it.
 
-```js
+```js twoslash
+// @checkJs
 const cds = require('@sap/cds')
 const express = require('express')
-cds.on('bootstrap', (app)=>{
+cds.on('bootstrap', app => {
   // add your own middleware before any by cds are added
 
   // for example, serve static resources incl. index.html
@@ -176,7 +179,8 @@ Emitted for each service constructed by [`cds.serve`](cds-serve).
 
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 
-```js
+```js twoslash
+// @checkJs
 const cds = require('@sap/cds')
 cds.on('served', (services)=>{
   // We can savely access service instances through the provided argument:
@@ -210,7 +214,11 @@ This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://n
 
 In other words this asynchronous handler code does **not work** as expected:
 
-```js
+```js twoslash
+// @checkJs
+const cds = require('@sap/cds')
+const asyncCode = async () => Promise.resolve()
+// ---cut---
 cds.on ('bootstrap', async ()=> {
   await asyncCode() // [!code error] // will NOT be awaited
 })
@@ -218,7 +226,9 @@ cds.on ('bootstrap', async ()=> {
 
 You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
 
-```js
+```js twoslash
+const cds = require('@sap/cds')
+// ---cut---
 let done
 cds.on('bootstrap', ()=> {
   done = asyncCode()

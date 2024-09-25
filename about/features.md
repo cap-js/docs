@@ -180,10 +180,13 @@ Following is an index of the features currently covered by CAP, with status and 
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
 | Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| SAP Event Mesh (For single-tenant apps) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| SAP Event Broker (For single-tenant apps) [[Node.js](../node.js/messaging#event-broker)]            | <Na/> |  <X/><br>beta<sup>1</sup>   | <D/> |
 | Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
 | Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
 | Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
+
+> <sup>1</sup> May be outsourced into a plugin, hence the status _beta_. <br>
 
 <span id="events-messaging-more" />
 

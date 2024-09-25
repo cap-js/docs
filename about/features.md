@@ -186,8 +186,6 @@ Following is an index of the features currently covered by CAP, with status and 
 | Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
 | Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
 
-> <sup>1</sup> May be outsourced into a plugin, hence the status _beta_. <br>
-
 <span id="events-messaging-more" />
 
 ### Database Support

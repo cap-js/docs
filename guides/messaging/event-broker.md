@@ -71,7 +71,7 @@ Configure your application to use the `event-broker` messaging service.
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 ::: tip Local Testing
-Since SAP Event Broker sends events via HTTP, local 
+Since SAP Event Broker sends events via HTTP, local TODO
 :::
 
 

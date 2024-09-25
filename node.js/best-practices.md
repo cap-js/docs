@@ -414,7 +414,7 @@ When writing custom `READ` on-handlers, one should also support requests contain
 Example:
 
 ```js
-srv.on('READ', 'NewEmployees', function (req) {
+srv.on('READ', 'Books', function (req) {
   // simple '/$count' request
   if (req.query.SELECT.columns?.length === 1 && req.query.SELECT.columns[0].as === '$count')
     return [{ $count: 100 }]

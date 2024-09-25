@@ -405,7 +405,7 @@ To update the `@sap/cds-dk` version in your application project do the following
     ```
 
 ::: tip _Recommendation_ <!--  -->
-This should be done at least with every **major update** of `@sap/cds-dk`.
+This should be done regularly to get the latest bugfixes, but at least with every **major update** of `@sap/cds-dk`.
 :::
 
 <div id="xmake-troubleshooting" />

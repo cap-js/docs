@@ -409,9 +409,7 @@ In the returned object, `value` is an instance of [stream.Readable](https://node
 
 ## Custom $count { #custom-count }
 
-When you write custom `READ` on-handlers, you should also support requests that contain `$count`, such as `GET /Books/$count` or `GET /Books?$count=true`. For more details, consider the example below.
-
-Example:
+When you write custom `READ` on-handlers, you should also support requests that contain `$count`, such as `GET /Books/$count` or `GET /Books?$count=true`. For more details, consider the following example:
 
 ```js
 srv.on('READ', 'Books', function (req) {

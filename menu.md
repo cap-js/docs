@@ -225,3 +225,4 @@
 - [Telemetry](plugins/#telemetry)
 - [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
+- [SAP Event Broker](plugins/#event-broker-plugin)

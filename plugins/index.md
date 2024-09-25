@@ -349,7 +349,7 @@ Available for:
 ## SAP Event Broker {#event-broker-plugin}
 
 The plugin provides integration with SAP Event Broker.
-For more details, please see [Using SAP Event Broker](../guides/messaging/#sap-event-broker).
+For more details, please see [Events and Messaging &rarr; Using SAP Event Broker](../guides/messaging/#sap-event-broker).
 
 Available for:
 

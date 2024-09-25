@@ -405,13 +405,14 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
 
-You need to add the package [`@cap-js/event-broker`](https://github.com/cap-js/event-broker) to your project:
+The integration with SAP Event Broker is provided via plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+Hence, you first need to install the plugin:
 
 ```bash
 npm add @cap-js/event-broker
 ```
 
-Set the `kind` of your messaging service to `event-broker`:
+Then, set the `kind` of your messaging service to `event-broker`:
 
 ```jsonc
 "cds": {

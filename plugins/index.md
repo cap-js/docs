@@ -346,6 +346,16 @@ Available for:
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 
+## SAP Event Broker {#event-broker-plugin}
+
+The plugin provides integration with SAP Event Broker.
+For more details, please see [Using SAP Event Broker](../guides/messaging/#sap-event-broker).
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
+
+
 <div id="internal-plugins" />
 
 <div id="upcoming-plugins" />

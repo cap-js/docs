@@ -348,7 +348,13 @@ Available for:
 
 ## SAP Event Broker {#event-broker-plugin}
 
-The plugin provides integration with SAP Event Broker.
+The plugin provides out-of-the-box support for consuming events from [SAP Event Broker](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+
+```js
+const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
+S4bupa.on ('BusinessPartner.Changed', msg => {...})
+```
+
 For more details, please see [Events and Messaging &rarr; Using SAP Event Broker](../guides/messaging/#sap-event-broker).
 
 Available for:

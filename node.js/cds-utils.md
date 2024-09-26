@@ -245,7 +245,7 @@ await rm('dist/db/data')
 The implementation essentially uses `fs.promises.rm()`, with relative fileames resolved in relation to [`cds.root`](cds-facade#cds-root).
 
 
-### colors {.module}
+### colors {.property}
 
 Provides utilities for coloring terminal output. Colors are automatically enabled if the terminal supports it, but can be oversteered via environment variables `NO_COLOR` or `FORCE_COLOR`.
 

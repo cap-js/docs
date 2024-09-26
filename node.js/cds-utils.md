@@ -245,7 +245,21 @@ await rm('dist/db/data')
 The implementation essentially uses `fs.promises.rm()`, with relative fileames resolved in relation to [`cds.root`](cds-facade#cds-root).
 
 
+### colors {.module}
 
+Provides utilities for coloring terminal output. Colors are automatically enabled if the terminal supports it, but can be oversteered via environment variables `NO_COLOR` or `FORCE_COLOR`.
+
+```js
+const { BRIGHT, RED, RESET, bg } = cds.utils.colors
+console.log(BRIGHT, RED, 'this is bright red text', RESET)
+console.log(bg.BLUE, 'this is text with a blue background', RESET)
+```
+
+| **Category**         | **Values**                                                                                |
+|----------------------|-------------------------------------------------------------------------------------------|
+| **Formatting**        | `RESET`, `BOLD`, `BRIGHT`, `DIMMED`, `ITALIC`, `UNDER`, `BLINK`, `FLASH`, `INVERT`        |
+| **Text Colors**       | `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `PINK`, `CYAN`, `LIGHT_GRAY`, `DEFAULT`, `GRAY`, `LIGHT_RED`, `LIGHT_GREEN`, `LIGHT_YELLOW`, `LIGHT_BLUE`, `LIGHT_PINK`, `LIGHT_CYAN`, `WHITE` |
+| **Background Colors** | `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `PINK`, `CYAN`, `WHITE`, `DEFAULT`, `LIGHT_GRAY`, `LIGHT_RED`, `LIGHT_GREEN`, `LIGHT_YELLOW`, `LIGHT_BLUE`, `LIGHT_PINK`, `LIGHT_CYAN`, `LIGHT_WHITE` |
 
 
 ## Shortcuts to Node.js Modules

@@ -250,6 +250,7 @@ main {
   .constructor::before { content: 'Constructor: '; color: #999 }
   .annotation::before { content: 'Annotation: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
+  .module::before { content: 'Module: '; color: #999 }
   .method::before { content: 'Method: '; color: #999 }
   .event::before { content: 'Event: '; color: #999 }
   .class::before { content: 'Class: '; color: #999 }
@@ -262,10 +263,12 @@ main {
   }
   h4.annotation + h4.annotation,
   h4.property + h4.property,
+  h4.module + h4.module,
   h4.event + h4.event,
   h4.method + h4.method,
   h3.annotation + h3.annotation,
   h3.property + h3.property,
+  h3.module + h3.module,
   h3.event + h3.event,
   h3.class + h3.class,
   h3.method + h3.method {

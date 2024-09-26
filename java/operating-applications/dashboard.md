@@ -5,7 +5,7 @@ status: released
 redirect_from: java/observability
 ---
 
-# Developer Dashsboard
+# Developer Dashboard
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;

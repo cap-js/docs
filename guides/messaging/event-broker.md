@@ -71,7 +71,7 @@ Configure your application to use the `event-broker` messaging service.
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 ::: tip Local Testing
-Since SAP Event Broker sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. It's therefore recommended to use a messaging service of kind `local-messaging` for local testing.
+Since SAP Event Broker sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. It's therefore recommended to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
 :::
 
 

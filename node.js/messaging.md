@@ -405,7 +405,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
 
-The integration with SAP Event Broker is provided via plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+The integration with SAP Event Broker is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
 Hence, you first need to install the plugin:
 
 ```bash

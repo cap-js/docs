@@ -123,6 +123,10 @@ Finally, you need to customize the approuter configuration by enabling support f
 
 Now you can deploy the application in BTP and assign the `cds.Developer` role to the users you want to grant access to the CAP Developer Dashboard.
 
+::: warning
+For security reasons, the **cds.Developer** role should only be used in conjunction with test users. It is strongly recommended not to use this role with users who could potentially be used in production systems.
+:::
+
 ## Unauthorized Access
 
 In some cases, your application may run in a complex environment such as DwC and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access. 

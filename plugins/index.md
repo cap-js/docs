@@ -219,7 +219,7 @@ Available for:
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
-annotate my.Customers with @PersonalData  : {
+annotate my.Customers with @PersonalData : {
   DataSubjectRole : 'Customer',
   EntitySemantics : 'DataSubject'
 } {

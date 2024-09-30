@@ -344,8 +344,8 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
 | action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
-> <sup>1</sup>For bound actions and functions, which are not bound against collection, Node.js supports Instance-Based Authorization on entity level - `where` clauses *containing references to the model* such as `where: CreatedBy = $user`. For all bound actions and functions Node.js supports simple static expressions *that don't have any reference to the model* on entity level such as `where: $user.level = 2`.
-> <sup>2</sup> For unbound actions and functions Node.js supports simple static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. 
+> <sup>1</sup>For bound actions and functions that aren't bound against a collection, Node.js supports instance-based authorization at the entity level. For example, you can use `where` clauses that *contain references to the model*, such as `where: CreatedBy = $user`. For all bound actions and functions, Node.js supports simple static expressions at the entity level that *don't have any reference to the model*, such as `where: $user.level = 2`.
+> <sup>2</sup> For unbound actions and functions, Node.js supports simple static expressions that *don't have any reference to the model*, such as `where: $user.level = 2`. 
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 
@@ -495,7 +495,7 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition)
 - `DELETE` (as reject condition)
 
- > <sup>1</sup> Node.js supports _static expressions_ *that don't have any reference to the model* such as `where: $user.level = 2` for all events.
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 

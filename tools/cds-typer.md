@@ -10,7 +10,6 @@ status: released
 ---
 
 # CDS Typer {#cds-typer}
-
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
 ## Quickstart using VS Code {#cds-typer-vscode}
@@ -310,66 +309,7 @@ npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/myb
 The CLI offers several parameters which you can list using the `--help` parameter.
 
 ::: details You should then see the following output:
-
-<!-- TODO: automatically pull command line options from cds-typer --help -->
-```log
-> @cap-js/cds-typer@0.22.0 cli
-> node lib/cli.js --help
-
-SYNOPSIS
-
-  cds-typer [cds file | "*"]
-
-  Generates type information based on a CDS model.
-  Call with at least one positional parameter pointing
-  to the (root) CDS file you want to compile.
-
-OPTIONS
-
-  --IEEE754Compatible: <true | false>
-    (default: false)
-
-    If set to true, floating point properties are generated
-    as IEEE754 compatible '(number | string)' instead of 'number'.
-
-  --help
-
-    This text.
-
-  --inlineDeclarations: <flat | structured>
-    (default: structured)
-
-    Whether to resolve inline type declarations
-    flat: (x_a, x_b, ...)
-    or structured: (x: {a, b}).
-
-  --jsConfigPath: <string>
-
-    Path to where the jsconfig.json should be written.
-    If specified, cds-typer will create a jsconfig.json file and
-    set it up to restrict property usage in types entities to
-    existing properties only.
-
-  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
-    (default: ERROR)
-
-    Minimum log level that is printed.
-
-  --outputDirectory: <string>
-    (default: ./)
-
-    Root directory to write the generated files to.
-
-  --propertiesOptional: <true | false>
-    (default: true)
-
-    If set to true, properties in entities are
-    always generated as optional (a?: T).
-
-  --version
-
-    Prints the version of this tool.
-```
+<!--@include: ./cds-typer_help-output.md-->
 :::
 
 ### Version Control

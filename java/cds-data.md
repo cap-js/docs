@@ -529,12 +529,19 @@ interface Equity {
 
 #### Renaming Entities in Java
 
-You can also use the annotation `@cds.java.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
+For entities and types it is recommended to use `@cds.java.this.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
+The annotation `@cds.java.this.name` - in contrast to `@cds.java.name` - is not propagated, along projections, includes or from types to elements.
 
-See the following example:
+::: warning Unexpected effects of `@cds.java.name` on entities and types
+The annotation propagation behaviour applied to `@cds.java.name` can have unexpected side effects when used to rename entities or types,
+as it is propagated along projections, includes or from structured types to (flattened) elements. Nevertheless it might be useful in simple 1:1-projection scenarios,
+where the base entity and the projected entity should be renamed in the same way.
+:::
+
+See the following example, renaming an entity:
 
 ```cds
-@cds.java.name: 'Book'
+@cds.java.this.name: 'Book'
 entity Books {
   // ...
 }
@@ -547,12 +554,7 @@ public interface Book extends CdsData {
 }
 ```
 
-Annotations are by default propagated along projections or from types to (flattened) elements using that type.
-This can create unexpected behaviour, especially when setting Java names for (structured) types.
-In these situations the annotation `@cds.java.this.name` should be used instead.
-This annotation is not propagated and therefore only applies at exactly the CDS definition where it is placed.
-
-See the following example:
+Here is another example, renaming a type:
 
 ```cds
 @cds.java.this.name: 'MyName'
@@ -586,7 +588,7 @@ public interface Person extends CdsData {
 }
 ```
 
-::: details See how the result would be with `@cds.java.name`
+::: details See how the previous example would turn out with `@cds.java.name`
 
 ```cds
 @cds.java.name: 'MyName'

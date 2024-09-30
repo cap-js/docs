@@ -1482,18 +1482,21 @@ Predicates are expressions with a Boolean value, which are used in [filters](#wh
 These comparison operators are supported:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Predicate
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 EQ
@@ -1634,6 +1637,7 @@ BETWEEN
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `ETag Predicate` {#etag-predicate}
@@ -1663,18 +1667,21 @@ Update.entity(ORDER)
 Predicates can be combined using logical operators:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 AND
@@ -1724,6 +1731,7 @@ NOT
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `Predicate Functions` {#predicate-functions}
@@ -1731,18 +1739,21 @@ NOT
 These boolean-valued functions can be used in filters:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 CONTAINS
@@ -1790,6 +1801,7 @@ ENDS WITH
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `matchesPattern` Predicate {#matches-pattern}

@@ -129,6 +129,12 @@ You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in you
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
+::: warn
+Be aware, that jest helpers might cause conflicts with the generic implementation of `@sap/cds`.
+- jest.resetModules()
+- jest.useFakeTimers()
+:::
+
 ### Using Test Watchers
 
 You can also start the tests in watch mode, for example:

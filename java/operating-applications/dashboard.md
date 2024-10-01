@@ -138,7 +138,7 @@ For security reasons, the **cds.Developer** role should only be used in conjunct
 
 In some cases, your application may run in a complex environment and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access.
 
-1. Switch off authorization.
+1. Switch off authorization using one of the following options:
 
 	::: code-group
 	```yaml [application.yaml]

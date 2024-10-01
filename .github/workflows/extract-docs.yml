@@ -48,5 +48,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ steps.push_changes.outputs.BRANCH_NAME }}
           title: "chore: Update synopsis for cds-typer"
-          body: "This PR was automatically generated and updates the output of `cds-typer --help` to the latest version."
+          body: "Updates the output of `cds-typer --help` to the latest version."
           base: main

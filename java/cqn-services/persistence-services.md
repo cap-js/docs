@@ -24,8 +24,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-Write operations through views are supported by the CAP runtime as described in [Resolvable Views](../working-with-cql/query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
-
 ### SAP HANA Cloud
 
 SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy. Noteworthy:

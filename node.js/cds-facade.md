@@ -178,6 +178,9 @@ Trace : {
 
 For example, [`cds-plugins`](cds-serve) can use that to plug into different parts of the framework for different commands being executed.
 
+Known values for `cds.cli.command` are `add`, `build`, `compile`, `deploy`, `import`, `init`, `serve`.
+`cds watch` is normalized to `serve`.
+
 ### cds. entities {.property}
 
 Is a shortcut to `cds.db.entities`. Used as a function, you can [specify a namespace](/node.js/cds-reflect#entities).

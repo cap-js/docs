@@ -622,7 +622,7 @@ public interface Person extends CdsData {
 }
 ```
 
-Notice, that the propagated annotation `@cds.java.name` creates attribute and method conflicts in `Person`.
+Note, that the propagated annotation `@cds.java.name` creates attribute and method conflicts in `Person`.
 
 :::
 

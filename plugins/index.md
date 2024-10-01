@@ -142,28 +142,6 @@ Available for:
 
 [![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/websocket#readme)
 
-## Event Queue
-
-An event queue that enables secure multi-tenant enabled transactional processing of asynchronous events, featuring instant event processing with Redis Pub/Sub and load distribution across all application instances.
-
-![Event Queue](./assets/index/event-queue.drawio.svg)
-
-Available for:
-
-[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/event-queue#readme)
-
-## Feature Toggle Library
-
-SAP BTP feature toggle library enables Node.js applications using the SAP Cloud Application Programming Model to maintain live-updatable feature toggles via Redis.
-
-![Feature Toggle Library Single Key Access](./assets/index/concepts-single-key.drawio.svg)
-
-
-Available for:
-
-[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/feature-toggle-library#readme)
-
-
 ## UI5 Dev Server
 
 

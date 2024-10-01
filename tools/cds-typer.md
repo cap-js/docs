@@ -10,6 +10,7 @@ status: released
 ---
 
 # CDS Typer {#cds-typer}
+
 The following chapter describes the [`cds-typer` package](https://www.npmjs.com/package/@cap-js/cds-typer) in detail using the [bookshop sample](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop) as a running example.
 
 ## Quickstart using VS Code {#cds-typer-vscode}
@@ -354,13 +355,8 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
-<<<<<<< HEAD
-## Integrate Into Your Multitarget Application
-Having `cds-typer` present as dependency provides a build task "`typescript`" which is automatically included as part of `cds build` if your project has a dependency on `typescript`.
-=======
 ## Integrate Into Your Build Process
 Having `cds-typer` present as dependency provides a build task "`typescript`". If your project also depends on `typescript,` this build tasks is automatically included when you run `cds build`.
->>>>>>> main
 This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group

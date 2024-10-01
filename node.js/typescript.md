@@ -22,6 +22,7 @@ Follow these steps to add TypeScript support:
     ```
 
 2. Add a basic _tsconfig.json_ file to your project:
+
     ```sh
     cds add typescript
     ```

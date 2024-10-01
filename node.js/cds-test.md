@@ -129,10 +129,10 @@ You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in you
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
-::: warning
+::: warning Helpers can cause conflicts
 _jest_ helpers might cause conflicts with the generic implementation of `@sap/cds`.
 
-**DON'T use**
+To avoid such conflicts, do not use the following helpers:
 - _jest.resetModules_ as it leaves the server in an inconsistent state. 
 - _jest.useFakeTimers_ as it intercepts the server shutdown causing test timeouts.
 :::

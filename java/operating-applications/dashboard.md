@@ -2,7 +2,6 @@
 synopsis: >
   This section describes how the CAP Developer Dashboard can be set up in both the local and cloud development environment to improve the developer experience.
 status: released
-redirect_from: java/observability
 ---
 
 # Developer Dashboard
@@ -23,6 +22,8 @@ The dashboard is only intended for use in the development environment. It is str
 
 
 The CAP Developer Dashboard simplifies development by providing a centralized point where developers can efficiently manage and monitor their CAP applications. It offers tools and functions to support the development process and helps developers to quickly identify and resolve problems. Additionally, the dashboard facilitates better integration of CAP components, such as messaging, resilience and multitenancy, ensuring seamless functionality throughout CAP applications.
+
+You can get a brief overview of the dashboard's features in the [Developer Dashboard Presentation](https://broadcast.sap.com/replay/240604_recap?playhead=2188) at our RECAP 2024 conference.
 
 Add the `cds-feature-dev-dashboard` feature to your maven dependencies:
 
@@ -72,23 +73,33 @@ cds:
 ```
 :::
 
-Second, you need to add the `cds.Developer` role to your security configuration. Here is an example of the XSUAA configuration:
+- Second, you need to add the `cds.Developer` role to your security configuration (**xs-security.json** is an example of the XSUAA configuration).
+
+- And finally, you need to customize the approuter configuration (**xs-app.json**) by enabling support for websocket connections and defining the dashboard routes.
 
 ::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: my-cap-app-srv
+    [...]
+    properties:
+      CDS_ENVIRONMENT_PRODUCTION_ENABLED: false
+```
+
 ```json [xs-security.json]
 {
 	"xsappname": "dashboard-test",
-	...
+	[...]
 	"scopes": [
 		{
 			"name": "$XSAPPNAME.cds.Developer",
 			"description": "CAP Developer"
 		},
-    ...
+    [...]
 	],
  "attributes": [
 		{
-			...
+			[...]
 		}
 	],
 	"role-templates": [
@@ -99,15 +110,11 @@ Second, you need to add the `cds.Developer` role to your security configuration.
 				"$XSAPPNAME.cds.Developer"
 			]
 		},
-    ...
+    [...]
 	]
 }
 ```
-:::
 
-Finally, you need to customize the approuter configuration by enabling support for websocket connections and defining the dashboard routes:
-
-::: code-group
 ```json [xs-app.json]
 {
 	...
@@ -131,7 +138,7 @@ Finally, you need to customize the approuter configuration by enabling support f
 			"authenticationType": "xsuaa",
 			"destination": "backend"
 		}, 
-    ...
+    [...]
 	]
 }
 ```
@@ -139,9 +146,13 @@ Finally, you need to customize the approuter configuration by enabling support f
 
 Now you can deploy the application in BTP and assign the `cds.Developer` role to the users you want to grant access to the CAP Developer Dashboard.
 
-## Unauthorized Access
+::: warning
+For security reasons, the **cds.Developer** role should only be used in conjunction with test users. It is strongly recommended not to use this role with users who could potentially be used in production systems.
+:::
 
-In some cases, your application may run in a complex environment such as DwC and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access. 
+## Disable Authorization
+
+In some cases, your application may run in a complex environment such as DwC and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access (either via the static configuration **application.yaml** or in the deployment configuration **mta.yaml**). 
 
 ::: code-group
 ```yaml [application.yaml]
@@ -150,6 +161,15 @@ cds:
     authorization:
       enabled: false
 ```
+
+```yaml [mta.yaml]
+modules:
+  - name: my-cap-app-srv
+    [...]
+    properties:
+      CDS_DASHBOARD_AUTHORIZATION_ENABLED: false
+```
+
 :::
 
 To open finally the endpoint, authentication can be disabled via the spring web security configuration. Alternatively, the DwC web security configuration is provided to disable mTLS for the CAP Developer Dashboard endpoint.

@@ -54,7 +54,23 @@ cds:
 
 If you also want to use the CAP Developer Dashboard in your cloud development scenario, you need to take a few more steps to achieve this. Let's take an example of a BTP Cloud Foundry app example with Approuter and XSUAA.
 
-First you must deactivate the [production profile](https://pages.github.tools.sap/cap/docs/java/developing-applications/configuring#production-profile). To do this, set the property `cds.environment.production.enabled` in `application.yaml` or `CDS_ENVIRONMENT_PRODUCTION_ENABLED` in `mta.yaml` to `false`.
+First you must deactivate the [production profile](../developing-applications/configuring#production-profile).
+
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: yourSRV
+    [...]
+	properties:
+	  CDS_ENVIRONMENT_PRODUCTION_ENABLED: false
+
+```
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  environment.production.enabled: false
+
+```
+:::
 
 Second, you need to add the `cds.Developer` role to your security configuration. Here is an example of the XSUAA configuration:
 

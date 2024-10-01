@@ -72,7 +72,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 }}
 ```
 
-::: details In contrast to pre CDS 7 setups this means...
+::: details In contrast to pre-CDS 7 setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
 2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
@@ -83,7 +83,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 ### Custom Configuration  {.impl .node}
 
-The previous setups auto-wire things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
+The auto-wired configuration uses configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
 
 1. Install a database driver package, for example:
    ```sh

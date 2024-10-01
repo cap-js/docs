@@ -313,10 +313,8 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 <!-- TODO: automatically pull command line options from cds-typer --help -->
 ```log
-
-> @cap-js/cds-typer@0.22.0 cli
+> @cap-js/cds-typer@0.26.0 cli
 > node lib/cli.js --help
-
 SYNOPSIS
 
   cds-typer [cds file | "*"]
@@ -327,49 +325,85 @@ SYNOPSIS
 
 OPTIONS
 
-  --IEEE754Compatible: <true | false>
-    (default: false)
-
-    If set to true, floating point properties are generated
-    as IEEE754 compatible '(number | string)' instead of 'number'.
-
   --help
 
     This text.
 
-  --inlineDeclarations: <flat | structured>
+  --inlineDeclarations
+  --inline_declarations: <flat | structured>
     (default: structured)
 
     Whether to resolve inline type declarations
     flat: (x_a, x_b, ...)
     or structured: (x: {a, b}).
 
-  --jsConfigPath: <string>
+  --IEEE754Compatible
+  --ieee754compatible: <true | false>
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
+
+  --jsConfigPath
+  --js_config_path: <string>
 
     Path to where the jsconfig.json should be written.
     If specified, cds-typer will create a jsconfig.json file and
     set it up to restrict property usage in types entities to
     existing properties only.
 
-  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
+  --logLevel
+  --log_level SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
     (default: ERROR)
 
     Minimum log level that is printed.
+    The default is only used if no explicit value is passed
+    and there is no configuration passed via cds.env either.
 
-  --outputDirectory: <string>
+  --outputDirectory
+  --output_directory: <string>
     (default: ./)
 
     Root directory to write the generated files to.
 
-  --propertiesOptional: <true | false>
+  --propertiesOptional
+  --properties_optional: <true | false>
     (default: true)
 
     If set to true, properties in entities are
     always generated as optional (a?: T).
 
+  --useEntitiesProxy
+  --use_entities_proxy: <true | false>
+    (default: false)
+
+    If set to true the 'cds.entities' exports in the generated 'index.js'
+    files will be wrapped in 'Proxy' objects
+    so static import/require calls can be used everywhere.
+    
+    WARNING: entity properties can still only be accessed after
+    'cds.entities' has been loaded
+
   --version
 
     Prints the version of this tool.
+```
+:::
+
+### Configuration
+
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
+
+::: code-group
+```json [package.json]
+{
+  …
+  "cds": {
+    "typer": {
+      "log_level": "DEBUG"
+    }
+  }
+}
 ```
 :::
 
@@ -379,18 +413,18 @@ You can safely remove and recreate the types at any time.
 We especially suggest deleting all generated types when switching between development branches to avoid unexpected behavior from lingering types.
 
 ## Integrate Into TypeScript Projects
-The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration.
+The types emitted by `cds-typer` can be used in TypeScript projects as well! Depending on your project setup you may have to do some manual configuration for your local development setup.
 
 1. Make sure the directory the types are generated into are part of your project's files. You will either have to add that folder to your `rootDirs` in your _tsconfig.json_ or make sure the types are generated into a directory that is already part of your `rootDir`.
 2. Preferably run the project using `cds-ts`.
-3. If you have to use `tsc`, for example for deployment, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
+3. If you have to use `tsc`, you have to touch up on the generated files. Assume your types are in _@cds-models_ below your project's root directory and your code is transpiled to _dist/_, you would use:
 
 ```sh
 tsc && cp -r @cds-models dist
 ```
 
 ## Integrate Into Your CI
-As the generated types are build artifacts, we recommend to exclude them from your software versioning process. Still, as using `cds-typer` changes how you include your model in your service implementation, you need to include the emitted files when releasing your project or running tests in your continuous integration pipeline.
+As the generated types are build artifacts, we recommend to exclude them from your software versioning process. Still, as using `cds-typer` changes how you include your model in your service implementation, you need to include the emitted files when running tests in your continuous integration pipeline.
 You should therefore trigger `cds-typer` as part of your build process. One easy way to do so is to add a variation of the following command to your build script:
 
 ```sh
@@ -398,21 +432,21 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
-## Integrate Into Your Multitarget Application
-Similar to the integration in your CI, you need to add `cds-typer` to the build process of your MTA file as well.
+## Integrate Into Your Build Process
+Having `cds-typer` present as dependency provides a build task "`typescript`". If your project also depends on `typescript,` this build tasks is automatically included when you run `cds build`.
+This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group
-```yaml [mta.yaml]
-build-parameters:
-  before-all:
-  - builder: custom
-    commands:
-    - npx cds build --production
-    - npx @cap-js/cds-typer "*" --outputDirectory gen/srv/@cds-models
+```json [tsconfig.cdsbuild.json]
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./gen/srv",
+  },
+  "exclude": ["app", "gen"]
+}
 ```
 :::
-
-This integration into a custom build ensures that the types are generated into the `gen/srv` folder, so that they are present at runtime.
 
 ## About The Facet {#typer-facet}
 Type generation can be added to your project as [facet](../tools/cds-cli#cds-add) via `cds add typer`.
@@ -512,7 +546,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
+Similar to `cds.entities(…)`, you can't use static imports here. Instead, you need to use dynamic imports. However, there's an exception for [static top-level imports](#typer-top-level-imports).
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
@@ -543,4 +577,26 @@ class CatalogService extends cds.ApplicationService { async init(){
   // ✅ works both at design time and at runtime
   const { Book } = await import('#cds-models/sap/capire/bookshop')
 }}
+```
+
+### Static Top-Level Imports {#typer-top-level-imports}
+Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
+
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
+// ✅ top level import now works both during design time and runtime
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ❌ works during design time, but will cause runtime errors
+Book.actions
+
+export class MyService extends cds.ApplicationService {
+  async init () {
+    // ✅ cds runtime is fully booted at this point
+    Book.actions  // works
+    this.on('READ', Book, req => { req.data.author  /* works as well */  })
+  }
+}
 ```

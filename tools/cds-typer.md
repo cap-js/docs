@@ -312,6 +312,23 @@ The CLI offers several parameters which you can list using the `--help` paramete
 <!--@include: ./cds-typer_help-output.md-->
 :::
 
+### Configuration
+
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
+
+::: code-group
+```json [package.json]
+{
+  …
+  "cds": {
+    "typer": {
+      "log_level": "DEBUG"
+    }
+  }
+}
+```
+:::
+
 ### Version Control
 The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the [typer as facet](#typer-facet) will generate an appropriate entry in your project's `.gitignore` file.
 You can safely remove and recreate the types at any time.
@@ -337,8 +354,13 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 ```
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
+<<<<<<< HEAD
 ## Integrate Into Your Multitarget Application
 Having `cds-typer` present as dependency provides a build task "`typescript`" which is automatically included as part of `cds build` if your project has a dependency on `typescript`.
+=======
+## Integrate Into Your Build Process
+Having `cds-typer` present as dependency provides a build task "`typescript`". If your project also depends on `typescript,` this build tasks is automatically included when you run `cds build`.
+>>>>>>> main
 This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group
@@ -451,7 +473,7 @@ class CatalogService extends cds.ApplicationService { init(){
 })
 ```
 
-Just as with `cds.entities(…)`, these imports can't be static, but need to be dynamic:
+Similar to `cds.entities(…)`, you can't use static imports here. Instead, you need to use dynamic imports. However, there's an exception for [static top-level imports](#typer-top-level-imports).
 
 ```js twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
@@ -482,4 +504,26 @@ class CatalogService extends cds.ApplicationService { async init(){
   // ✅ works both at design time and at runtime
   const { Book } = await import('#cds-models/sap/capire/bookshop')
 }}
+```
+
+### Static Top-Level Imports {#typer-top-level-imports}
+Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
+
+```ts twoslash
+// @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
+import cds from '@sap/cds'
+// ---cut---
+// ✅ top level import now works both during design time and runtime
+import { Book } from '#cds-models/sap/capire/bookshop'
+
+// ❌ works during design time, but will cause runtime errors
+Book.actions
+
+export class MyService extends cds.ApplicationService {
+  async init () {
+    // ✅ cds runtime is fully booted at this point
+    Book.actions  // works
+    this.on('READ', Book, req => { req.data.author  /* works as well */  })
+  }
+}
 ```

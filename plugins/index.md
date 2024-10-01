@@ -154,17 +154,18 @@ Available for:
 ## Attachments
 
 
-The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
+The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
 
 ```cds
-extend my.Incidents with {
-  attachments: Composition of many Attachments
+using { Attachments } from '@cap-js/attachments';
+entity Incidents { ...
+  attachments: Composition of many Attachments // [!code focus]
 }
 ```
 
-![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
+That's all we need to automatically add an interactive list of attachments to your Fiori UIs as shown below.
 
-It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
 
 Features:
 
@@ -218,7 +219,10 @@ Available for:
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
-annotate my.Customers with @PersonalData {
+annotate my.Customers with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubject'
+} {
   ID           @PersonalData.FieldSemantics: 'DataSubjectID';
   name         @PersonalData.IsPotentiallyPersonal;
   email        @PersonalData.IsPotentiallyPersonal;
@@ -343,6 +347,22 @@ Available for:
 
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
+
+
+## SAP Event Broker {#event-broker-plugin}
+
+The plugin provides out-of-the-box support for consuming events from [SAP Event Broker](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+
+```js
+const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
+S4bupa.on ('BusinessPartner.Changed', msg => {...})
+```
+
+For more details, please see [Events and Messaging &rarr; Using SAP Event Broker](../guides/messaging/#sap-event-broker).
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
 
 
 <div id="internal-plugins" />

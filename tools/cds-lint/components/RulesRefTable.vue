@@ -48,7 +48,7 @@ export default {
         <th class="lint-rule">Rule</th>
       </tr>
     </thead>
-    <tr v-for="entry in data[category]">
+    <tr v-for="entry in data[category]" :key="entry.rule">
       <td class="lint-rule-prop">
         <text class="lint-prop-symbol">{{ entry.isRecommended }}</text>
       </td>

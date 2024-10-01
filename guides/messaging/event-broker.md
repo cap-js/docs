@@ -1,3 +1,9 @@
+---
+# # layout: cookbook
+shorty: SAP Event Broker
+status: released
+---
+
 <script setup>
   import { h } from 'vue'
   const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )

@@ -220,11 +220,61 @@ follow the instructions given in the guide [Instrumenting Servlets](https://gith
 
 ### JDBC Tracing in SAP Hana
 
-In order to activate JDBC tracing in the SAP Hana JDBC driver, you have to use the driver [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html). You can activate these without stopping and restarting the application using the [command line](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/e411647b03f1425fab1e33bb495c9c42.html).
+In order to activate JDBC tracing in the SAP Hana JDBC driver, you have to use the driver [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html). You can activate these by setting datasource properties in the `application.yaml` which requires you to stop and restart the application, or without stopping and restarting by using the [command line](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/e411647b03f1425fab1e33bb495c9c42.html).
 
-When running in the cloud it depends on the buildpacks used for the CAP Java application where the exact location of the Hana JDBC driver and the `java` executable are. The following assumes the usage of the [Cloud Native Buildpacks](https://pages.github.tools.sap/unified-runtime/docs/building-blocks/unified-build-and-deploy/buildpacks) as recommended by the [Unified Runtime](https://pages.github.tools.sap/unified-runtime/).
+#### Using datasource properties
 
-#### On Kyma
+In the `application.yaml` under `cds.dataSource.<service-binding-name>:` specify `hikari.data-source-properties.traceFile` and `hikari.data-source-properties.traceOptions`, e.g.
+
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  dataSource:
+    service-manager: # name of service binding
+      hikari:
+        data-source-properties:
+          traceFile: "/home/user/jdbctraces/trace_.log" # use a path that is write accessible
+          traceOptions: "CONNECTIONS,API,PACKET"
+```
+:::
+
+::: tip
+Use a `_` at the end in the file name for the trace file for better readability, as the JDBC tracing process creates several files and appends random numeric values to the file names:
+
+```sh
+~/jdbctraces/ $ ls
+
+trace_10324282997834295561.log
+trace_107295864860396783.log
+trace_10832681394984179734.log
+trace_11222964343246588836.log
+trace_11899150308439828686.log
+```
+:::
+
+[Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html) lists available command line options. For the datasource property only use the option name, such as `CONNECTIONS`, `API` or `PACKET`. You can specify more than one option, separated by commas.
+
+This method of activating JDBC tracing requires restarting the application. For cloud deployments on Cloud Foundry this typically means redeploying via MTA, on Kyma this means rebuilding the application, recreating and publishing the container image to the container image registry and redeploying the application via Helm.
+
+Once the `application.yaml` of the deployed application contains both `hikari.data-source-properties.traceFile` and `hikari.data-source-properties.traceOptions`, their values can also be overwritten by setting the corresponding environment variables in the container.
+
+For example, to overwrite the tracefile path for the `application.yaml` you have to set the environment variable such as this with `SERVICE_MANAGER` being the name of the service binding:
+```yaml
+CDS_DATASOURCE_SERVICE_MANAGER_HIKARI_DATA_SOURCE_PROPERTIES_TRACEFILE: "/home/cnb/jdbctraces/sm/trace_.log"
+```
+To overwrite the tracing options respectively:
+```yaml
+CDS_DATASOURCE_SERVICE_MANAGER_HIKARI_DATA_SOURCE_PROPERTIES_TRACEOPTIONS: "DISTRIBUTIONS"
+```
+
+#### Using the command line
+
+Using the command line to activate JDBC tracing it is not required to restart the application.
+
+However, when running in the cloud it depends on the buildpacks used for the CAP Java application where the exact location of the Hana JDBC driver and the `java` executable are. The following assumes the usage of the [Cloud Native Buildpacks](https://pages.github.tools.sap/unified-runtime/docs/building-blocks/unified-build-and-deploy/buildpacks) as recommended by the [Unified Runtime](https://pages.github.tools.sap/unified-runtime/).
+
+
+##### On Kyma
 
 Step by step description on how to access a bash session in the application's container in order to use trace options in the Hana JDBC driver:
 

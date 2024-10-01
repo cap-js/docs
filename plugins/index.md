@@ -114,7 +114,7 @@ As CAP is blessed with an active community, there are many useful plugins availa
 :::
 
 
-## OData v2 Proxy
+## OData v2 Proxy {#odata-v2-proxy}
 
 
 OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.

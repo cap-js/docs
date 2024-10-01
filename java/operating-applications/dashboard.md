@@ -136,83 +136,57 @@ For security reasons, the **cds.Developer** role should only be used in conjunct
 
 ## Disable Authorization
 
-In some cases, your application may run in a complex environment such as DwC and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access (either via the static configuration **application.yaml** or in the deployment configuration **mta.yaml**). 
+In some cases, your application may run in a complex environment and you simply want to access the CAP Developer Dashboard running in your CAP Service Module directly without using a router in between. For this reason, you can switch off the authorization to grant direct unauthorized access.
 
-::: code-group
-```yaml [application.yaml]
-cds:
-  dashboard:
-    authorization:
-      enabled: false
-```
+1. Switch off authorization.
 
-```yaml [mta.yaml]
-modules:
-  - name: my-cap-app-srv
-    [...]
-    properties:
-      CDS_DASHBOARD_AUTHORIZATION_ENABLED: false
-```
+	::: code-group
+	```yaml [application.yaml]
+	cds:
+	dashboard:
+		authorization:
+		enabled: false
+	```
 
-:::
+	```yaml [mta.yaml]
+	modules:
+	- name: my-cap-app-srv
+		[...]
+		properties:
+		CDS_DASHBOARD_AUTHORIZATION_ENABLED: false
+	```
 
-To open finally the endpoint, authentication can be disabled via the spring web security configuration. Alternatively, the DwC web security configuration is provided to disable mTLS for the CAP Developer Dashboard endpoint.
+	:::
 
-::: code-group
-```java [WebSecurity]
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+2. Disable authentication. 
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+	::: code-group
+	```java [WebSecurity]
+	import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-@Configuration
-@Order(1)
-public class WebSecurity {
+	import org.springframework.context.annotation.Bean;
+	import org.springframework.context.annotation.Configuration;
+	import org.springframework.core.annotation.Order;
+	import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+	import org.springframework.security.web.SecurityFilterChain;
 
-	@Bean
-	public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
+	@Configuration
+	@Order(1)
+	public class WebSecurity {
 
-		return http
-				.securityMatchers(m -> m.requestMatchers(antMatcher("/dashboard/**"), antMatcher("/dashboard_api/**")))
-				.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-				.csrf(c-> c.disable())
-				.build();
+		@Bean
+		public SecurityFilterChain appFilterChain(HttpSecurity http) throws Exception {
 
+			return http
+					.securityMatchers(m -> m.requestMatchers(antMatcher("/dashboard/**"), antMatcher("/dashboard_api/**")))
+					.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+					.csrf(c-> c.disable())
+					.build();
+
+		}
 	}
-}
-```
+	```
+	:::
 
-```java [DwC WebSecurity]
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
-
-@Configuration
-@EnableWebSecurity
-@Order(1)
-public class DwcWebSecurityConfiguration {
-
-	@Bean
-	SecurityFilterChain configure(HttpSecurity http) throws Exception {
-
-		return http
-				.authorizeHttpRequests(auth -> auth.requestMatchers(antMatcher("/dashboard/**"), antMatcher("/dashboard_api/**")).permitAll())
-				.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.httpBasic(b -> b.disable())
-				.formLogin(f -> f.disable())
-				.csrf(c -> c.disable())
-				.build();
-	}
-}
-```
-:::
+<div id="inOpenEndpoint" />

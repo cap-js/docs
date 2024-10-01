@@ -1,8 +1,7 @@
-name: Create PR on File Change
+name: PR Latest cds-typer Output
 
-# Define triggers for the workflow:
 on:
-  workflow_dispatch: # Allows manual triggering from the GitHub UI
+  workflow_dispatch:
   schedule:
     # Runs every Wednesday at 02:45 AM (UTC)
     - cron: '45 2 * * 3'

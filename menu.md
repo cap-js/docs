@@ -198,6 +198,7 @@
 - [Operating Applications](java/operating-applications/)
   - [Optimizing](java/operating-applications/optimizing)
   - [Observability](java/operating-applications/observability)
+  - [Developer Dashboard](java/operating-applications/dashboard)
 - [Migration Guides](java/migration)
 
 ### [Tools](tools/)

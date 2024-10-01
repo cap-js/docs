@@ -1,4 +1,4 @@
-name: PR Latest cds-typer Output
+name: Update CLI Texts
 
 on:
   workflow_dispatch:
@@ -6,8 +6,12 @@ on:
     # Runs every Wednesday at 02:45 AM (UTC)
     - cron: '45 2 * * 3'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  run_script_and_create_pr:
+  run:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,34 +23,25 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Extract cds-typer --help text
-        run: node .github/typer/grab-typer-synopsis.js
+      - name: Extract CLI texts
+        run: |
+          npm i -g @sap/cds-dk
+          .github/cli/grab-cli-texts.sh
 
       - name: Check for changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -A
-          if git diff --cached --exit-code; then
+          if git diff --exit-code; then
             echo "No changes detected. Exiting."
             exit 0
           fi
 
-      - name: Commit changes
-        run: |
-          git commit -m "Update cds-typer synopsis"
-      
-      - name: Push changes
-        run: |
-          BRANCH_NAME="update-cds-typer-synopsis-$(date +'%Y%m%d%H%M%S')"
-          git checkout -b "$BRANCH_NAME"
-          git push origin "$BRANCH_NAME"
-
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ steps.push_changes.outputs.BRANCH_NAME }}
-          title: "chore: Update synopsis for cds-typer"
-          body: "Updates the output of `cds-typer --help` to the latest version."
-          base: main
+          branch: "update-cds-cli-texts"
+          commit-message: "Update CLI texts"
+          title: "chore: Update CLI texts"
+          body: "Updates the output of cds CLI texts to the latest version."

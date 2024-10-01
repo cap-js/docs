@@ -40,29 +40,12 @@ npm i -g @sap/cds-dk
 
 Use `cds version` to get information about your installed package version:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
+<!--@include: ./assets/help/cds-version.out.md-->
 
-<em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 8.3.0
-<em>@sap/cds-compiler:</em> 5.3.0
-<em>@sap/cds-dk:</em> 8.3.0
-<em>@sap/cds-dk (global):</em> 7.9.3
-<em>@sap/cds-mtxs:</em> 2.2.0
-<em>@sap/eslint-plugin-cds:</em> 3.1.0
-<em>Node.js:</em> v18.13.0
-<em>home:</em> .../node_modules/@sap/cds
+Using `--markdown` you can get the information in markdown format:
 
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
+<!--@include: ./assets/help/cds-version-md.out.md-->
 
-| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
-|------------------------|------------------------------------------------------|
-| Node.js                | v18.13.0                                             |
-| @sap/cds               | 8.3.0                                                |
-| @sap/cds-compiler      | 5.3.0                                                |
-| @sap/cds-dk            | 8.3.0                                                |
-| @sap/eslint-plugin-cds | 3.1.0                                                |
-</pre>
 
 ## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -95,90 +78,11 @@ Then source or restart your shell.
 
 Use `cds help` to see an overview of all commands:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">help</span>
-
-USAGE
-
-    <em>cds</em> &lt;command&gt; [&lt;args&gt;]
-    <em>cds</em> &lt;src&gt;  =  cds compile &lt;src&gt;
-    <em>cds</em>        =  cds help
-
-COMMANDS
-
-    <em>i | init</em>       jump-start cds-based projects
-    <em>a | add</em>        add a feature to an existing project
-    <em>y | bind</em>       bind application to remote services
-    <em>m | import</em>     add models from external sources
-    <em>c | compile</em>    compile cds models to different outputs
-    <em>p | parse</em>      parses given cds models
-    <em>s | serve</em>      run your services in local server
-    <em>w | watch</em>      run and restart on file changes
-    <em>r | repl</em>       read-eval-event loop
-    <em>e | env</em>        inspect effective configuration
-    <em>b | build</em>      prepare for deployment
-    <em>d | deploy</em>     deploy to databases or cloud
-    <em>l | login</em>      login to extendable SaaS application
-    <em>t | lint</em>       [beta] run linter for env or model checks
-    <em>v | version</em>    get detailed version information
-    <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull base model for a SaaS app extension
-    <em>  | push</em>       push extension to SaaS app to enable or update it
-    <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
-    <em>  | completion</em> add/remove shell completion for cds commands
-    <em>  | mock</em>       call cds serve with mocked service
-    <em>  | handler</em>    add handler stubs for actions and functions
-
-  Learn more about each command using:
-  <em>cds help</em> &lt;command&gt; or
-  <em>cds</em> &lt;command&gt; <em>--help</em>
-</pre>
-
+<!--@include: ./assets/help/cds-help.out.md-->
 
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">watch</span> <span class="flags">--help</span>
-
-<em>SYNOPSIS</em>
-
-  <em>cds watch</em> [&lt;project&gt;]
-
-  Tells cds to watch for relevant things to come or change in the specified
-  project or the current work directory. Compiles and (re-)runs the server
-  on every change detected.
-
-  Actually, cds watch is just a convenient shortcut for:
-  <em>cds serve all --with-mocks --in-memory?</em>
-
-OPTIONS
-
-  <em>--port</em> &lt;number&gt;
-
-    Specify the port on which the launched server listens.
-    If you specify '0', the server picks a random free port.
-    Alternatively, specify the port using env variable PORT.
-
-  <em>--ext</em> &lt;extensions&gt;
-
-    Specify file extensions to watch for in a comma-separated list.
-    Example: cds w --ext cds,json,js.
-
-  <em>--livereload</em> &lt;port | false&gt;
-
-    Specify the port for the livereload server. Defaults to '35729'.
-    Disable it with value false.
-
-  <em>--open</em> &lt;url&gt;
-
-    Open the given URL (suffix) in the browser after starting.
-    If none is given, the default application URL will be opened.
-
-SEE ALSO
-
-  <em>cds serve --help</em> for the different start options.
-</pre>
-
+<!--@include: ./assets/help/cds-watch.out.md-->
 
 
 ## cds init

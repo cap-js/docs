@@ -26,7 +26,7 @@ const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
   java_services: '3.2.0',
-  java_cds4j: '3.2.0'
+  java_cds4j: '3.3.0'
 }
 
 const localSearchOptions = {

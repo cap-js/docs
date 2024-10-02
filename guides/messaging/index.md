@@ -582,9 +582,9 @@ Find additional information about deploying SAP Event Mesh on SAP BTP in this gu
 
 
 
-## [Using SAP Event Broker](./event-broker) {#sap-event-broker}
+## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
 
-CAP has growing out-of-the-box support for SAP Event Broker.
+CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
 As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
 
 ```jsonc
@@ -604,7 +604,7 @@ As an application developer, all you need to do is configuring CAP to use `event
 
 ::: tip Read the guide
 Find additional information about deploying SAP Event Broper on SAP BTP in this guide:
-[&rarr; **_Using SAP Event Broker in BTP_**](./event-broker)
+[&rarr; **_Using SAP Cloud Application Event Hub in BTP_**](./event-broker)
 :::
 
 
@@ -612,7 +612,7 @@ Find additional information about deploying SAP Event Broper on SAP BTP in this 
 ## [Events from SAP S/4HANA](./s4)
 <!-- {.toc-redirect} -->
 
-SAP S/4HANA integrates SAP Event Mesh as well as SAP Event Broker for messaging.
+SAP S/4HANA integrates SAP Event Mesh as well as SAP Cloud Application Event Hub for messaging.
 That makes it relatively easy for CAP-based applications to receive events from SAP S/4HANA systems.
 
 In contrast to CAP, the asynchronous APIs of SAP S/4HANA are separate from the synchronous ones (OData, REST).

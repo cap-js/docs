@@ -44,7 +44,7 @@
 - [Events & Messaging](guides/messaging/)
 
   - [SAP Event Mesh](guides/messaging/event-mesh)
-  - [SAP Event Broker](guides/messaging/event-broker)
+  - [SAP Cloud Application Event Hub](guides/messaging/event-broker)
   - [Events from S/4](guides/messaging/s4)
 
 - [Protocols/APIs](advanced/publishing-apis/)
@@ -226,4 +226,4 @@
 - [Telemetry](plugins/#telemetry)
 - [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
-- [SAP Event Broker](plugins/#event-broker-plugin)
+- [SAP Cloud Application Event Hub](plugins/#event-broker-plugin)

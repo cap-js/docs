@@ -310,7 +310,7 @@ npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/myb
 The CLI offers several parameters which you can list using the `--help` parameter.
 
 ::: details You should then see the following output:
-<!--@include: ./cds-typer_help-output.md-->
+<!--@include: ./assets/help/cds-typer.out.md-->
 :::
 
 ### Configuration

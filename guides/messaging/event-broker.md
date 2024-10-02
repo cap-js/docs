@@ -1,3 +1,9 @@
+---
+# # layout: cookbook
+shorty: SAP Event Broker
+status: released
+---
+
 <script setup>
   import { h } from 'vue'
   const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
@@ -71,7 +77,7 @@ Configure your application to use the `event-broker` messaging service.
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 ::: tip Local Testing
-Since SAP Event Broker sends events via HTTP, local 
+Since SAP Event Broker sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
 :::
 
 

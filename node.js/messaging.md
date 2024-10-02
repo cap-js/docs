@@ -444,7 +444,7 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
 #### Deployment
 
 Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
-Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Event Broker.
+Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
 Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
 
 ::: code-group

@@ -33,6 +33,7 @@ const toOutput = (version, str) => [
 try {
     const version = (await exec(`npm view ${pkg} version`)).stdout.trim()
     const cmdString = `npm exec --package=${pkg}@${version} -c "${cmd}"`
+    // stdout is redirected to file -> use stderr for debugging output
     console.error(`> ${cmdString}`)
     const { stdout: cmdOut }   = await exec(cmdString, {cwd, env: { FORCE_COLOR: 'true', ...process.env }})
 

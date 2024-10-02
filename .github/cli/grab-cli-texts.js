@@ -22,9 +22,9 @@ const toOutput = (str) => [
     str
         .replace(/\n.*home.*[|:].*/g, '') // remove absolute cds home path as it's system-specific
         .replace(/\<(.*?)\>/g, '&lt;$1&gt;') // <foo> -> &lt;foo&gt;
-        .replace(/^\x1b\[1m(.*?)\x1b\[0m\n/gm, '<strong>$1</strong>') // bold at beginning of line -> strong
-        .replace(/(\s*)\x1b\[4m(.*?)\x1b\[0m/g, '$1<i>$2</i>') // underline -> i
-        .replace(/(\s*)\x1b\[\d+m(.*?)\x1b\[0m/g, '$1<em>$2</em>') // other colors -> em
+        .replace(/^\x1b\[1m(.*?)\x1b\[(:?0|39|49)m\n/gm, '<strong>$1</strong>') // bold at beginning of line -> strong
+        .replace(/(\s*)\x1b\[4m(.*?)\x1b\[(:?0|39|49)m/g, '$1<i>$2</i>') // underline -> i
+        .replace(/(\s*)\x1b\[\d+m(.*?)\x1b\[(:?0|39|49)m/g, '$1<em>$2</em>') // other colors -> em
     ,
     `</pre>`
 ].join('\n')
@@ -36,6 +36,7 @@ try {
     }
 
     const cmdString = `npm exec --package=${pkg}@${version} -c "${cmd}"`
+    // const cmdString = `${cmd}` // for local testing
     console.error(`> ${cmdString}`) // use stderr for debugging output
     const { stdout: cmdOut }   = await exec(cmdString, {cwd, env: { FORCE_COLOR: 'true', ...process.env }})
 

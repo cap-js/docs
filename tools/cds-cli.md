@@ -349,14 +349,7 @@ cds add handler --filter submitOrder
 
 Use `cds env` to inspect currently effective config settings:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">env get</span> <span class="flags">requires.db</span>
-{
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  kind: <em>'sqlite'</em>
-}
-</pre>
+<!--@include: ./assets/help/cds-env-requires-db.out.md -->
 
 
 ## cds compile
@@ -431,7 +424,7 @@ Use `cds repl` to live-interact with Node.js APIs:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
-<em>Welcome to cds repl v6.7.0</em>
+<em>Welcome to cds repl</em>
 > SELECT.from(Foo)
 Query {
   SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
@@ -439,9 +432,8 @@ Query {
 
 > cds.requires.db
 {
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
+  impl: <em>'@cap-js/sqlite'</em>,
   credentials: { url: <em>':memory:'</em> },
-  use: [Getter],
   kind: <em>'sqlite'</em>
 }
 </pre>

@@ -239,7 +239,7 @@ cds:
 :::
 
 ::: tip
-Use a `_` at the end in the file name for the trace file for better readability, as the JDBC tracing process creates several files and appends random numeric values to the file names:
+Use a `_` at the end in the file name for the trace file for better readability, as the JDBC tracing process creates several files and appends an epoch timestamp to the file names:
 
 ```sh
 ~/jdbctraces/ $ ls

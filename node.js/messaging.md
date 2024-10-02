@@ -399,13 +399,13 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
-### SAP Event Broker <Beta/> { #event-broker }
+### SAP Cloud Application Event Hub <Beta/> { #event-broker }
 
 `kind`: `event-broker`
 
-Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
+Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).
 
-The integration with SAP Event Broker is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
 Hence, you first need to install the plugin:
 
 ```bash
@@ -424,9 +424,9 @@ Then, set the `kind` of your messaging service to `event-broker`:
 }
 ```
 
-The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Event Broker.
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
 
-Authentication in the SAP Event Broker integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
+Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
 If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
 
 ```jsonc
@@ -443,8 +443,8 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
 
 #### Deployment
 
-Your SAP Event Broker configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
-Your IAS instance must be configured to include your SAP Event Broker instance under `consumed-services` in order for your application to accept requests from SAP Event Broker.
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
+Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Event Broker.
 Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
 
 ::: code-group

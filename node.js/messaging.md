@@ -405,13 +405,14 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 Use this if you want to communicate using [SAP Event Broker](https://help.sap.com/docs/event-broker).
 
-You need to install the package [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+The integration with SAP Event Broker is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+Hence, you first need to install the plugin:
 
 ```bash
-npm install @cap-js/event-broker
+npm add @cap-js/event-broker
 ```
 
-Set the `kind` of your messaging service to `event-broker`:
+Then, set the `kind` of your messaging service to `event-broker`:
 
 ```jsonc
 "cds": {
@@ -444,9 +445,10 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
 
 Your SAP Event Broker configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
 Your IAS instance must be configured to include your SAP Event Broker instance under `consumed-services` in order for your application to accept requests from SAP Event Broker.
-Here's an example configuration based of the mta.yaml file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
+Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
 
-```yaml
+::: code-group
+```yaml [mta.yaml]
 ID: cap.incidents
 
 modules:
@@ -496,6 +498,7 @@ resources:
         display-name: cap.incidents #> any value, e.g., reuse MTA ID
         home-url: ~{incidents-srv-api/url}
 ```
+:::
 
 
 <div id="aftereventbroker" />

@@ -198,6 +198,7 @@
 - [Operating Applications](java/operating-applications/)
   - [Optimizing](java/operating-applications/optimizing)
   - [Observability](java/operating-applications/observability)
+  - [Developer Dashboard](java/operating-applications/dashboard)
 - [Migration Guides](java/migration)
 
 ### [Tools](tools/)
@@ -225,3 +226,4 @@
 - [Telemetry](plugins/#telemetry)
 - [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
+- [SAP Event Broker](plugins/#event-broker-plugin)

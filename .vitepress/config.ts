@@ -26,7 +26,7 @@ const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
   java_services: '3.2.0',
-  java_cds4j: '3.2.0'
+  java_cds4j: '3.3.0'
 }
 
 const localSearchOptions = {
@@ -105,7 +105,7 @@ const config:UserConfig<CapireThemeConfig> = {
     ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {
-      message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
+      message: `<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="${base}/resources/privacy" target="_blank">Privacy</a> | <a href="${base}/resources/cookies">Cookies</a>`,
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`
     },
     editLink: {

@@ -99,7 +99,7 @@ For testing purposes, SAP S/4HANA can send technical test events of type `sap.ee
 :::
 
 
-<!--The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
+<!--The following mta.yaml snippet ensures the sequential creation of the SAP Cloud Application Event Hub and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
 
 <!--```yaml-->
 <!--ID: cap.incidents-->
@@ -175,7 +175,7 @@ Add an _Integration Dependency_ using the _Simplified Business Eventing Template
 
 #### 2. Activate Event Subscription
 
-In SAP Event Broker Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
+In SAP Cloud Application Event Hub Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
 
 #### 3. Trigger Test Event
 

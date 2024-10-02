@@ -698,15 +698,16 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
-### as() {.method}
+### from() {.method #from}
 
 
 Constructs a _INSERT into SELECT_ statement.
 ```js
-INSERT.into('Bar') .as (SELECT.from('Foo'))
+INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
+### as() {.method}
 
-
+The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.
 
 
 ## UPSERT {.class}
@@ -836,7 +837,7 @@ let [ ID, quantity ] = [ 201, 1 ]
 UPDATE (Books,ID) .with ({
   title: 'Sturmhöhe',       //>  simple value
   stock: {'-=': quantity},    //>  qbe expression
-  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.'])
+  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.']}
 })
 ```
 

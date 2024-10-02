@@ -1,4 +1,3 @@
-import path from 'node:path'
 import fs  from 'node:fs'
 
 import rulesSidebar from '../tools/cds-lint/sidebar.js'
@@ -13,7 +12,7 @@ const dynamicItems = (item) => {
 /**
  * Construct sidebar from markdown
 */
-export function sidebar (file = 'menu.md', filter=(_)=>true) {
+export function sidebar (file = 'menu.md', filter=()=>true) {
   const source = file
   const markdown = fs.readFileSync(source,'utf8')
   const sidebar = []
@@ -26,13 +25,13 @@ export function sidebar (file = 'menu.md', filter=(_)=>true) {
       let [, text, link ] = /^-\s*\[(.*)\]\((.*)\)/.exec(line) || /^-\s*(.*)/.exec(line) || []
       if (text && filter(link)) section.items.push (item = _item({ link, text }))
       else {
-        let [, text, link ] = /^  -\s*\[(.*)\]\((.*)\)/.exec(line) || /^  -\s*(.*)/.exec(line) || []
+        let [, text, link ] = /^ {2}-\s*\[(.*)\]\((.*)\)/.exec(line) || /^ {2}-\s*(.*)/.exec(line) || []
         if (text && filter(link)) {
           (item.items ??= []).push (subitem = _item({ link, text }))
           item.collapsed = true
         }
         else {
-          let [, text, link ] = /^    -\s*\[(.*)\]\((.*)\)/.exec(line) || /^    -\s*(.*)/.exec(line) || []
+          let [, text, link ] = /^ {4}-\s*\[(.*)\]\((.*)\)/.exec(line) || /^ {4}-\s*(.*)/.exec(line) || []
           if (text && filter(link)) {
             (subitem.items ??= []).push (_item({ link, text }))
             subitem.collapsed = true
@@ -63,5 +62,6 @@ export function nav4(sidebar) {
 
 if (process.argv[1] === import.meta.url.slice(7)) {
   let {inspect} = await import ('node:util')
+  // eslint-disable-next-line no-console
   console.log(inspect(sidebar('menu.md'),{depth:11,colors:true}))
 }

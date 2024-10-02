@@ -113,12 +113,9 @@ Prefer public repositories and issues over private/internal ones, as they help e
 As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [bestofcapjs.org](https://bestofcapjs.org/)
 :::
 
+## OData V2 Adapter {#odata-v2-proxy}
 
-## OData v2 Proxy
-
-
-OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
-
+OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The CDS OData V2 Adapter is a protocol adapter that allows you to expose your services as OData V2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
 
 Available for:
 
@@ -127,6 +124,23 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
+## Websocket
+
+Exposes a WebSocket protocol via WebSocket standard or Socket.IO for CDS services.
+
+```cds
+@protocol: 'websocket'
+service ChatService {
+  function message(text: String) returns String;
+  event received {
+    text: String;
+  }
+}
+```
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/websocket#readme)
 
 ## UI5 Dev Server
 
@@ -154,17 +168,18 @@ Available for:
 ## Attachments
 
 
-The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
+The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
 
 ```cds
-extend my.Incidents with {
-  attachments: Composition of many Attachments
+using { Attachments } from '@cap-js/attachments';
+entity Incidents { ...
+  attachments: Composition of many Attachments // [!code focus]
 }
 ```
 
-![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
+That's all we need to automatically add an interactive list of attachments to your Fiori UIs as shown below.
 
-It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
 
 Features:
 
@@ -218,7 +233,10 @@ Available for:
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
-annotate my.Customers with @PersonalData {
+annotate my.Customers with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubject'
+} {
   ID           @PersonalData.FieldSemantics: 'DataSubjectID';
   name         @PersonalData.IsPotentiallyPersonal;
   email        @PersonalData.IsPotentiallyPersonal;
@@ -343,6 +361,22 @@ Available for:
 
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
+
+
+## SAP Cloud Application Event Hub {#event-broker-plugin}
+
+The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+
+```js
+const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
+S4bupa.on ('BusinessPartner.Changed', msg => {...})
+```
+
+For more details, please see [Events and Messaging &rarr; Using SAP Cloud Application Event Hub](../guides/messaging/#sap-event-broker).
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
 
 
 <div id="internal-plugins" />

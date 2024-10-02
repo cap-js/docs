@@ -461,8 +461,8 @@ Following is an excerpt of generic features provided:
 - [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
 - [Attachments → SAP Object Store](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
-- [Messaging → SAP Event Broker](../plugins/#event-broker-plugin)
-<!-- - [Messaging → SAP Event Broker (Multitenancy)](../plugins/#event-broker-multitenancy) -->
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+<!-- - [Messaging → SAP Cloud Application Event Hub (Multitenancy)](../plugins/#event-broker-multitenancy) -->
 <!-- - [Messaging → Kafka](../plugins/#apache-kafka) -->
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)

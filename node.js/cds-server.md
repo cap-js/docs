@@ -145,7 +145,7 @@ A one-time event, emitted immediately after the [express.js app](cds-facade#cds-
 has been created and before any middleware or CDS services are added to it.
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 const express = require('express')
 cds.on('bootstrap', app => {
@@ -180,7 +180,7 @@ Emitted for each service constructed by [`cds.serve`](cds-serve).
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 cds.on('served', (services)=>{
   // We can savely access service instances through the provided argument:
@@ -215,7 +215,7 @@ This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://n
 In other words this asynchronous handler code does **not work** as expected:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 const asyncCode = async () => Promise.resolve()
 // ---cut---

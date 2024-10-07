@@ -332,7 +332,6 @@ The database services guarantee identical behavior of these operators:
 * `==`, `=` — with `=` null being translated to `is null`
 * `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
 * `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
-* `||` — concatenation operator
 
 In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 

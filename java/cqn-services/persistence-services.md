@@ -24,8 +24,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
-Write operations through views are supported by the CAP runtime as described in [Resolvable Views](../working-with-cql/query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
-
 ### SAP HANA Cloud
 
 SAP HANA Cloud is the CAP standard database recommended for productive use with needs for schema evolution and multitenancy. Noteworthy:
@@ -158,7 +156,7 @@ cds.sql.hana.optimizationMode: legacy
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
 ::: warning Rare error in `HEX` mode
-In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode. 
+In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode.
 If you know upfront that a query can't be executed by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the query, so the SQL generator won't use features that require the HEX engine.
 :::
 
@@ -179,7 +177,7 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to postgres --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
+			<command>deploy --to postgres --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
@@ -229,7 +227,7 @@ To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` co
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to h2 --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
+			<command>deploy --to h2 --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
@@ -258,7 +256,7 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > "${project.basedir}/src/main/resources/schema.sql"</command>
+			<command>deploy --to sqlite --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
@@ -581,7 +579,7 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 The static model and accessor interfaces can be generated using the [CDS Maven Plugin](../developing-applications/building#cds-maven-plugin).
 
 ::: warning _❗ Warning_
-Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation.
+Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation. For entities it is recommended to use [@cds.java.this.name](../cds-data#renaming-types-in-java).
 :::
 
 #### Static Model in the Query Builder

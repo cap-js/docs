@@ -42,9 +42,11 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 | `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
 | `$expand`      | Deep-read associated entities             | <X/>      | <X/>   |
 | [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(2)</sup> |
+| [Parameters Aliases](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ParameterAliases) | Replace literal value in URL with parameter alias | <X/> | <X/> <sup>(3)</sup>   |
 
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
 - <sup>(2)</sup> The navigation path identifying the collection can only contain one segment.
+- <sup>(3)</sup> Supported for key values and for parameters of functions only.
 
 System query options can also be applied to an [expanded navigation property](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
 
@@ -1361,7 +1363,14 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 ## V2 Support
 
-While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+While CAP defaults to OData V4, the latest protocol version, older projects may need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+
+
+::: warning
+
+OData V2 is deprecated. Use OData V2 only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable).
+
+:::
 
 ### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 

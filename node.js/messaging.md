@@ -399,11 +399,113 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
+### SAP Cloud Application Event Hub <Beta/> { #event-broker }
+
+`kind`: `event-broker`
+
+Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).
+
+The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+Hence, you first need to install the plugin:
+
+```bash
+npm add @cap-js/event-broker
+```
+
+Then, set the `kind` of your messaging service to `event-broker`:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "kind": "event-broker"
+    }
+  }
+}
+```
+
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
+
+Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
+If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
+
+```jsonc
+"cds": {
+  "requires": {
+    "ias": { // any name
+      "vcap": {
+        "label": "identity"
+      }
+    }
+  }
+}
+```
+
+#### Deployment
+
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
+Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
+Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
+
+::: code-group
+```yaml [mta.yaml]
+ID: cap.incidents
+
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in webhookUrl and home-url below
+    requires:
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+    requires:
+      - name: incidents-srv-api
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: incidents-srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+```
+:::
+
+
+<div id="aftereventbroker" />
+
 <div id="queuing-sap" />
 
 <div id="kafka-sap" />
-
-<div id="event-broker-sap" />
 
 ### Redis PubSub <Beta />
 ::: warning

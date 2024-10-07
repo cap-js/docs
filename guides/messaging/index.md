@@ -191,6 +191,11 @@ Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://gi
 The message payload is in the `data` property of the inbound `msg` object.
 
 
+::: tip
+To have more control over imported service definitions, you can set the `model` configuration of your external service to a cds file where you define the external service and only use the imported definitions your app needs. This way, plugins like [Open Resource Discovery (ORD)](../../plugins/#ord-open-resource-discovery) know which parts of the external service you actually use in your application.
+:::
+
+
 ## In-Process Eventing
 
 As emitting and handling events is an intrinsic feature of the CAP core runtimes, there's nothing else required when emitters and receivers live in the same process.
@@ -577,11 +582,38 @@ Find additional information about deploying SAP Event Mesh on SAP BTP in this gu
 
 
 
+## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
+
+CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
+As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "[production]": {
+        "kind": "event-broker"
+      }
+    }
+  }
+}
+```
+
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+
+
+::: tip Read the guide
+Find additional information about deploying SAP Event Broper on SAP BTP in this guide:
+[&rarr; **_Using SAP Cloud Application Event Hub in BTP_**](./event-broker)
+:::
+
+
+
 ## [Events from SAP S/4HANA](./s4)
 <!-- {.toc-redirect} -->
 
-SAP S/4HANA integrates SAP Event Mesh for messaging. That makes it relatively easy
-for CAP-based applications to receive events from SAP S/4HANA systems.
+SAP S/4HANA integrates SAP Event Mesh as well as SAP Cloud Application Event Hub for messaging.
+That makes it relatively easy for CAP-based applications to receive events from SAP S/4HANA systems.
 
 In contrast to CAP, the asynchronous APIs of SAP S/4HANA are separate from the synchronous ones (OData, REST).
 So, the effort on the CAP side is to fill this gap.

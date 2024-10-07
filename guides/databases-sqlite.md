@@ -88,7 +88,7 @@ Further configuration depends on whether you run SQLite as an [in-memory databas
 
 ### Initial Database Schema
 
-Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry --out srv/src/main/resources/schema.sql`.
 
 ::: code-group
 ```xml [srv/pom.xml]
@@ -99,7 +99,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to sqlite --dry --out srv/src/main/resources/schema.sql</command>
 		</commands>
 	</configuration>
 </execution>

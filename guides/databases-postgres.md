@@ -15,7 +15,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 <div markdown="1" class="impl java">
 
-CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15. Most CAP features are supported on PostgreSQL.
+CAP Java 3 is tested on [PostgreSQL](https://www.postgresql.org/) 16 and most CAP features are supported on PostgreSQL.
 
 [Learn more about features and limitations of using CAP with PostgreSQL](../java/cqn-services/persistence-services#postgresql){.learn-more}
 
@@ -314,7 +314,7 @@ cds deploy --profile pg
 When deploying to Cloud Foundry, this can be accomplished by providing a simple deployer app. Similar to SAP HANA deployer apps, it is auto-generated for PostgreSQL-enabled projects by running
 
 ```sh
-cds build
+cds build --production
 ```
 
 ::: details What `cds build` does…
@@ -410,7 +410,7 @@ You can use `cds deploy` with option `--dry` to simulate and inspect how things 
 1. Capture your current model in a CSN file:
 
    ```sh
-   cds deploy --dry --model-only > cds-model.csn
+   cds deploy --dry --model-only --out cds-model.csn
    ```
 
 2. Change your models, for example in *[cap/samples/bookshop/db/schema.cds](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookshop/db/schema.cds)*:
@@ -427,7 +427,7 @@ You can use `cds deploy` with option `--dry` to simulate and inspect how things 
 3. Generate delta DDL statements:
 
    ```sh
-   cds deploy --dry --delta-from cds-model.csn > delta.sql
+   cds deploy --dry --delta-from cds-model.csn --out delta.sql
    ```
 
 4. Inspect the generated SQL statements, which should look like this:
@@ -484,7 +484,7 @@ For generating such a script, perform the same steps as in section [Dry-Run Offl
 above, but replace the command in step 3 by
 
 ```sh
-cds deploy --script --delta-from cds-model.csn > delta_script.sql
+cds deploy --script --delta-from cds-model.csn --out delta_script.sql
 ```
 
 If your model change includes changes that could lead to data loss, there will be a warning
@@ -542,12 +542,12 @@ databaseChangeLog:
 Use `cds deploy` to create the _v1/model.sql_ file:
 
 ```sh
-cds deploy --profile pg --dry > srv/src/main/resources/db/changelog/v1/model.sql
+cds deploy --profile pg --dry --out srv/src/main/resources/db/changelog/v1/model.sql
 ```
 Finally, store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v1/model.csn
+cds deploy --model-only --dry --out srv/src/main/resources/db/changelog/v1/model.csn
 ```
 
 The CSN file is needed as an input to compute the delta DDL script for the next change set.
@@ -565,7 +565,7 @@ If changes of the CDS model require changes on the database, you can create a ne
 Use `cds deploy` to compute the delta DDL script based on the previous model versions (_v1/model.csn_) and the current model. Write the diff into a _v2/delta.sql_ file:
 
 ```sh
-cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn > \
+cds deploy --profile pg --dry --delta-from srv/src/main/resources/db/changelog/v1/model.csn --out \
                                            srv/src/main/resources/db/changelog/v2/model.sql
 ```
 
@@ -592,7 +592,7 @@ databaseChangeLog:
 Finally, store the CSN file, which corresponds to this schema version:
 
 ```sh
-cds deploy --model-only --dry > srv/src/main/resources/db/changelog/v2/model.csn
+cds deploy --model-only --dry --out srv/src/main/resources/db/changelog/v2/model.csn
 ```
 
 If you now start the application, Liquibase executes all change sets, which haven't yet been deployed to the database.

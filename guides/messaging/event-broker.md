@@ -1,3 +1,9 @@
+---
+# # layout: cookbook
+shorty: SAP Cloud Application Event Hub
+status: released
+---
+
 <script setup>
   import { h } from 'vue'
   const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
@@ -14,10 +20,10 @@
 
 
 
-# Using SAP Event Broker in Cloud Foundry
+# Using SAP Cloud Application Event Hub in Cloud Foundry
 
-[SAP Event Broker](https://help.sap.com/docs/event-broker) is the new default offering for messaging in SAP Business Technology Platform (SAP BTP).
-CAP provides out-of-the-box support for SAP Event Broker, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.
+[SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker) is the new default offering for messaging in SAP Business Technology Platform (SAP BTP).
+CAP provides out-of-the-box support for SAP Cloud Application Event Hub, and automatically handles many things behind the scenes, so that application coding stays agnostic and focused on conceptual messaging.
 
 ::: warning
 The following guide is based on a productive (paid) account on SAP BTP.
@@ -31,21 +37,21 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 ## Consuming Events in a Stand-alone App { #consume-standalone }
 
-This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Event Broker.
-The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Event Broker.
+This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Cloud Application Event Hub.
+The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Cloud Application Event Hub.
 
 Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
 
 
 ### Prerequisite: Events & Messaging in CAP
 
-From the perspective of a CAP developer, SAP Event Broker is yet another messaging broker.
+From the perspective of a CAP developer, SAP Cloud Application Event Hub is yet another messaging broker.
 That is to say, CAP developers focus on [modeling their domain](../domain-modeling) and [implementing their domain-specific custom logic](../providing-services#custom-logic).
 Differences between the various event transporting technologies are held as transparent as possible.
 
 Hence, before diving into this guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
 
-Since SAP Event Broker is based on the [CloudEvents](https://cloudevents.io/) standard, the `@topic` annotation for events in your CDS model is interpreted as the CloudEvents `type` attribute.
+Since SAP Cloud Application Event Hub is based on the [CloudEvents](https://cloudevents.io/) standard, the `@topic` annotation for events in your CDS model is interpreted as the CloudEvents `type` attribute.
 
 
 ### Add Events and Handlers
@@ -66,24 +72,24 @@ However, please note that future [Open Resource Discovery (ORD)](https://sap.git
 
 Configure your application to use the `event-broker` messaging service.
 
-[Learn more about configuring SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 ::: tip Local Testing
-Since SAP Event Broker sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
+Since SAP Cloud Application Event Hub sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
 :::
 
 
 ### Deploy to the Cloud (with MTA)
 
-Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Event Broker in CAP Node.js](../../node.js/messaging#event-broker).
+Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker).
 
 
 ### Connecting it All Together
 
-In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Event Broker) into a formation and enable the event subscription.
-Please refer to the [official SAP Event Broker documentation](https://help.sap.com/docs/event-broker) for more info.
+In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Cloud Application Event Hub) into a formation and enable the event subscription.
+Please refer to the [official SAP Cloud Application Event Hub documentation](https://help.sap.com/docs/event-broker) for more info.
 
 <!-- TODO: enable once available -->
 <!-- , as described in [CAP Application as a Subscriber](https://help.sap.com/docs/event-broker/event-broker-draft-service/integration-example-using-cap-application?state=DRAFT). -->
@@ -93,7 +99,7 @@ For testing purposes, SAP S/4HANA can send technical test events of type `sap.ee
 :::
 
 
-<!--The following mta.yaml snippet ensures the sequential creation of the SAP Event Broker and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
+<!--The following mta.yaml snippet ensures the sequential creation of the SAP Cloud Application Event Hub and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
 
 <!--```yaml-->
 <!--ID: cap.incidents-->
@@ -169,7 +175,7 @@ Add an _Integration Dependency_ using the _Simplified Business Eventing Template
 
 #### 2. Activate Event Subscription
 
-In SAP Event Broker Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
+In SAP Cloud Application Event Hub Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
 
 #### 3. Trigger Test Event
 

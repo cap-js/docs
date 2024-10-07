@@ -457,13 +457,13 @@ Following is an excerpt of generic features provided:
 
 **CAP-level Service Integrations ('Calesi')**
 
-- [Authentication → SAP Identity Services](../plugins/#security-ams)
+<!-- - [Authentication → SAP Identity Services](../plugins/#security-ams) -->
 - [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
 - [Attachments → SAP Object Store](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
-- [Messaging → SAP Event Broker](../plugins/#event-broker-plugin)
-- [Messaging → SAP Event Broker (Multitenancy)](../plugins/#event-broker-multitenancy)
-- [Messaging → Kafka](../plugins/#apache-kafka)
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+<!-- - [Messaging → SAP Cloud Application Event Hub (Multitenancy)](../plugins/#event-broker-multitenancy) -->
+<!-- - [Messaging → Kafka](../plugins/#apache-kafka) -->
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging](../plugins/#audit-logging)

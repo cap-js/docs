@@ -600,6 +600,7 @@ type Name {
 entity Person {
   publicName: Name;
   secretName: Name;
+
 }
 ```
 
@@ -625,6 +626,7 @@ public interface Person extends CdsData {
 Note, that the propagated annotation `@cds.java.name` creates attribute and method conflicts in `Person`.
 
 :::
+
 
 ::: warning
 This feature requires version 8.2.0 of the [CDS Command Line Interface](/tools/cds-cli).

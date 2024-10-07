@@ -335,7 +335,9 @@ The database services guarantee identical behavior of these operators:
 
 In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
 
-> These operators are available for runtime queries, but not in CDS files.
+::: warning Runtime Only
+The operator mappings are available for runtime queries only, but not in CDS files.
+:::
 
 
 ### Functions Mappings for Runtime Queries {.impl .node}
@@ -383,6 +385,10 @@ The database service implementation translates these to the best-possible native
 With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
 
 > For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
+
+::: warning Runtime Only
+The function mappings are available for runtime queries only, but not in CDS files.
+:::
 
 
 ### Session Variables {.impl .node}

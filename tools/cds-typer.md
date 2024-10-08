@@ -23,7 +23,7 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 6. Model types now have to be imported to service implementation files by traditional imports of the generated files:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 const service = new cds.ApplicationService
 // ---cut---
@@ -35,7 +35,7 @@ service.before('CREATE', Books, ({ data }) => { /* data is of type any */})
 <p/>
 
 ```js twoslash
-// @checkJs
+// @noErrors
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
 const cds = require('@sap/cds')
 const service = new cds.ApplicationService
@@ -96,7 +96,7 @@ Note that your entities will expose additional capabilities in the context of CQ
 The CRUD handlers `before`, `on`, and `after` accept generated types:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
 const cds = require('@sap/cds')
 const { Book, Books } = require('#cds-models/sap/capire/bookshop')
@@ -129,7 +129,7 @@ service.on('READ', Book,  req => req.data.ID)
 In the same manner, actions can be combined with `on`:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
 const cds = require('@sap/cds')
 const service = new cds.ApplicationService
@@ -151,7 +151,7 @@ You can remedy this by specifying the expected type with one of the following op
 Using [JSDoc](https://jsdoc.app/) in JavaScript projects:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
 const cds = require('@sap/cds')
 const service = new cds.ApplicationService
@@ -170,7 +170,7 @@ function readBooksHandler (req) {
 Using `import` in TypeScript projects:
 
 ```ts twoslash
-// @checkJs
+// @noErrors
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}
 import cds from '@sap/cds'
 const service = new cds.ApplicationService
@@ -310,84 +310,7 @@ npx @cap-js/cds-typer /home/mybookshop/db/schema.cds --outputDirectory /home/myb
 The CLI offers several parameters which you can list using the `--help` parameter.
 
 ::: details You should then see the following output:
-
-<!-- TODO: automatically pull command line options from cds-typer --help -->
-```log
-> @cap-js/cds-typer@0.26.0 cli
-> node lib/cli.js --help
-SYNOPSIS
-
-  cds-typer [cds file | "*"]
-
-  Generates type information based on a CDS model.
-  Call with at least one positional parameter pointing
-  to the (root) CDS file you want to compile.
-
-OPTIONS
-
-  --help
-
-    This text.
-
-  --inlineDeclarations
-  --inline_declarations: <flat | structured>
-    (default: structured)
-
-    Whether to resolve inline type declarations
-    flat: (x_a, x_b, ...)
-    or structured: (x: {a, b}).
-
-  --IEEE754Compatible
-  --ieee754compatible: <true | false>
-    (default: false)
-
-    If set to true, floating point properties are generated
-    as IEEE754 compatible '(number | string)' instead of 'number'.
-
-  --jsConfigPath
-  --js_config_path: <string>
-
-    Path to where the jsconfig.json should be written.
-    If specified, cds-typer will create a jsconfig.json file and
-    set it up to restrict property usage in types entities to
-    existing properties only.
-
-  --logLevel
-  --log_level SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
-    (default: ERROR)
-
-    Minimum log level that is printed.
-    The default is only used if no explicit value is passed
-    and there is no configuration passed via cds.env either.
-
-  --outputDirectory
-  --output_directory: <string>
-    (default: ./)
-
-    Root directory to write the generated files to.
-
-  --propertiesOptional
-  --properties_optional: <true | false>
-    (default: true)
-
-    If set to true, properties in entities are
-    always generated as optional (a?: T).
-
-  --useEntitiesProxy
-  --use_entities_proxy: <true | false>
-    (default: false)
-
-    If set to true the 'cds.entities' exports in the generated 'index.js'
-    files will be wrapped in 'Proxy' objects
-    so static import/require calls can be used everywhere.
-    
-    WARNING: entity properties can still only be accessed after
-    'cds.entities' has been loaded
-
-  --version
-
-    Prints the version of this tool.
-```
+<!--@include: ./assets/help/cds-typer.out.md-->
 :::
 
 ### Configuration

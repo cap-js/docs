@@ -20,7 +20,7 @@ Some annotations such as `@requires` or `@readonly` are just convenience shortcu
 
 #### ✅ &nbsp; Correct example
 
-In the following example, the `CatalogService` action `addRating` correctly uses `@requires: Admin` to indicate granting of unrestricted events to the `Admin` role:
+In the following example, the `CatalogService` action `addRating` correctly uses `@requires: 'Admin'` to indicate granting of unrestricted events to the `Admin` role:
 
 ::: code-group
 <<< ../examples/auth-use-requires/correct/srv/cat-service.cds#snippet{cds:line-numbers} [srv/cat-service.cds]

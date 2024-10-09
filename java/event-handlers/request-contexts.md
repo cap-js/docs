@@ -162,7 +162,7 @@ public void afterHandler(EventContext context){
 
 ![The graphic is explained in the accompanying text.](./assets/switchprovidertenant.drawio.svg)
 
-The application offers an action for one of its CDS entities. Within the action, a communication happens with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. Using the `systemUserProvider()` method, the existing user information is removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service, which is secured using the pseudo-role `internal-user`.
+The application offers an action for one of its CDS entities. Within the action, the application communicate with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. Using the `systemUserProvider()` method, the existing user information is removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service, which is secured using the pseudo-role `internal-user`.
 
 ```java
 @On(entity = Books_.CDS_NAME)
@@ -211,7 +211,7 @@ Similarly, it's possible to fully control the `UserInfo` instance provided in th
 Some more examples:
 
 - `modifyUser(user -> user.removeRole("read").setTenant(null).run(...)`: Creates a context with a user that is similar to the outer context but without role `read` and tenant.
-- `modifyParameters(param -> param.setHeader("MY-HEADER", "my value"))`: Adds a header parameter `MY-HEADER:my value`.
+- `modifyParameters(param -> param.setHeader("MY-HEADER", "my value"))`: Adds or sets a header parameter `MY-HEADER:my value`.
 
 The modifications can be combined arbitrarily in fluent syntax.
 
@@ -222,14 +222,14 @@ Any modifications that you perform are applied on the information obtained by th
 - A new nested Request Context, created within a scope that already has a Request Context, inherits copies of all values from its parent Request Context.
 - Modifications in that scenario are applied on the inherited information.
 
-Special care needs to be taken with regards to the CDS model and feature toggles.
+Special care needs to be taken with regard to the CDS model and feature toggles.
 - Both of these are _only_ determined in the initial Request Context.
 - It's not possible to modify the CDS Model and feature toggles when creating a nested Request Context.
 
 There's one exception to that rule: When modifying the user's tenant the CDS model is also redetermined.
 
 ::: tip
-When changing the user's tenant it's required to open a new ChangeSet, to ensure that database transactions and connections are directed to the new tenant. In case you miss this step CAP Java SDK detects this error and prevent any database access to avoid leaking information between tenants.
+When changing the user's tenant it's required to open a new [ChangeSet](./changeset-contexts#changeset-contexts), to ensure that database transactions and connections are directed to the new tenant. In case you miss this step CAP Java SDK detects this error and prevent any database access to avoid leaking information between tenants.
 :::
 
 ## Registering Global Providers { #global-providers}
@@ -279,7 +279,8 @@ public class CustomUserInfoProvider implements UserInfoProvider {
             }
         }
         if (userInfo != null) {
-            userInfo.setName(userInfo.getName().toLowerCase()); // Normalize user name
+            // Normalize user name
+            userInfo.setName(userInfo.getName().toLowerCase(Locale.US));
         }
 
         return userInfo;

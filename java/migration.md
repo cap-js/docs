@@ -862,7 +862,7 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 @Component
 @ServiceName("AdminService")
 public class AdminServiceHandler implements EventHandler {
-
+  // ...
 }
 ```
 

@@ -374,7 +374,7 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
       containers:
       - name: bookshop-srv
         env:
-        ...
+        # ...
         - name: SERVICE_BINDING_ROOT
           value: /bindings
     ```
@@ -389,9 +389,9 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
     metadata:
       name: bookshop-xsuaa-binding
     spec:
-        serviceInstanceName: bookshop-xsuaa-binding
-        externalName: bookshop-xsuaa-binding
-        secretName: bookshop-xsuaa-secret
+      serviceInstanceName: bookshop-xsuaa-binding
+      externalName: bookshop-xsuaa-binding
+      secretName: bookshop-xsuaa-secret
     ```
 
     Bindings to other services need to follow the [servicebinding.io workload projection specification](https://servicebinding.io/spec/core/1.0.0-rc3/#workload-projection).
@@ -402,7 +402,7 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
     spec:
       containers:
       - name: bookshop-srv
-        ...
+        # ...
         volumeMounts:
         - name: bookshop-auth
           mountPath: "/bindings/auth"
@@ -437,7 +437,7 @@ Please pay attention to the underscore ("`_`") character at the end of the prefi
   spec:
     containers:
     - name: app-srv
-      ...
+      # ...
       envFrom:
         - prefix: cds_requires_db_credentials_
           secretRef:
@@ -473,7 +473,7 @@ For Kubernetes, you can create a volume with the content of a secret and mount i
           secretName: app-db
     containers:
     - name: app-srv
-      ...
+      # ...
       env:
         - name: CDS_CONFIG
           value: /etc/secrets/cds

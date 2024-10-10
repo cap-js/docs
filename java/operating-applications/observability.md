@@ -361,7 +361,7 @@ The following steps describe the required configuration:
 
 #### CAP Instrumentation
 
-By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
+By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
 | Logger Name                                    | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|

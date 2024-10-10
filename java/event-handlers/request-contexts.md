@@ -280,7 +280,7 @@ public class CustomUserInfoProvider implements UserInfoProvider {
         }
         if (userInfo != null) {
             // Normalize user name
-            userInfo.setName(userInfo.getName().toLowerCase(Locale.US));
+            userInfo.setName(userInfo.getName().toLowerCase(Locale.ENGLISH));
         }
 
         return userInfo;

@@ -162,7 +162,7 @@ public void afterHandler(EventContext context){
 
 ![The graphic is explained in the accompanying text.](./assets/switchprovidertenant.drawio.svg)
 
-The application offers an action for one of its CDS entities. Within the action, the application communicate with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. Using the `systemUserProvider()` method, the existing user information is removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service, which is secured using the pseudo-role `internal-user`.
+The application offers an action for one of its CDS entities. Within the action, the application communicates with a remote CAP service using an internal technical user from the provider account. The corresponding `on` handler of the action needs to create a new Request Context by calling `requestContext()`. Using the `systemUserProvider()` method, the existing user information is removed and the tenant is automatically set to the provider tenant. This allows the application to perform an HTTP call to the remote CAP service, which is secured using the pseudo-role `internal-user`.
 
 ```java
 @On(entity = Books_.CDS_NAME)

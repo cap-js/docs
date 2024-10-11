@@ -126,7 +126,10 @@ By default, not all events are send asynchronously via (persistent) outbox.
 
 ### Default Handler
 
-By default, the CAP Java SDK provides an AuditLog handler that writes the AuditLog messages to the application log. This default handler is registered on all AuditLog events, but the log entries are not written to the application log, as the corresponding log level is `DEBUG`. To enable audit logging to the application log, the log level of the default handler needs to be set to `DEBUG` level:
+By default, the CAP Java SDK provides an AuditLog handler that writes the AuditLog messages to the application log.
+This default handler is registered on all AuditLog events and writes `DEBUG` log entries.
+However, the application log does not log `DEBUG` entries by default.
+To enable audit logging to the application log, the log level of the default handler needs to be set to `DEBUG` level:
 
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]

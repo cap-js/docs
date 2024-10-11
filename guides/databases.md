@@ -143,7 +143,7 @@ cds env cds.requires.db
 
 ### Built-in Database Support {.impl .java}
 
-CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
 Database support is enabled by adding a Maven dependency to the JDBC driver, as shown in the following table:
 

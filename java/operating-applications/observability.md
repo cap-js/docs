@@ -235,7 +235,7 @@ SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-conf
 
 - [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
 
-- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
+- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alm).
 
 ### Open Telemetry { #open-telemetry }
 
@@ -361,7 +361,7 @@ The following steps describe the required configuration:
 
 #### CAP Instrumentation
 
-By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
+By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
 | Logger                                         | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|

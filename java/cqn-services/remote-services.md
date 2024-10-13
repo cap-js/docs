@@ -389,7 +389,7 @@ However, this involves low-level operations like payload de-/serialization. Usag
 
 ### Using Service Bindings { #native-bindings }
 
-If the URL and credentials of the remote API is available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it's possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
+If the URL and credentials of the remote API are available as a service binding, you can create a Cloud SDK destination for the service binding using the `ServiceBindingDestinationLoader` API. Based on this, it's possible to create an instance of `HttpClient` using the `HttpClientAccessor`:
 
 ```java
 ServiceBinding binding = ...;

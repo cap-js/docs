@@ -124,6 +124,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
+    ['meta', { 'http-equiv': 'Content-Security-Policy', content: "script-src 'self' https://www.capire-matomo.cloud.sap 'unsafe-inline'" }],
     ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }],
     ['script', {}, ` const variant = localStorage.getItem('impl-variant') ?? 'node'; document.documentElement.classList.add(variant)`]

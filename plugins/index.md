@@ -218,9 +218,20 @@ extend my.Incidents with {
 
 Features:
 
-- A predefined type called `Attachment` for use in entity definitions.
-- Automatic handling of all upload, download, delete and rename operations.
-- Automatically scans for viruses before storing files.
+- **Pre-defined Type Attachment for Entity Definitions**: Seamlessly integrate attachments into your entity definitions with our pre-defined type, simplifying the process of linking files.
+- **Automatic Management of File Operations**: Effortlessly manage file operations, including upload, view, download, delete, and rename functions, with built-in automation. This ensures a smooth and user-friendly experience.
+- **Automated Malware Scanning for Uploaded Files**: Enhance security by automatically scanning all uploaded files for malware, ensuring the integrity and safety of your data.
+- **Automatic Fiori Annotations for Upload Controls**: Streamlined user interactions with automatic SAP Fiori annotations that enhance upload controls, providing a more intuitive and seamless user experience.
+- **Support for SAP Document Management Service-Hosted Cloud Repository**: Leverage the robust capabilities of the SAP Document Management service-hosted cloud repository to store and manage your documents efficiently.
+- **Support for Third-Party CMIS-Compliant Repositories**: Integrate with third-party repositories that adhere to the Content Management Interoperability Services (CMIS) standard, offering flexibility and compatibility with various document management systems.
+- **Intrinsic Multitenancy Handling**: Benefit from built-in multi-tenancy support, allowing for efficient management of multiple tenants without additional configuration.
+
+Outlook:
+
+- **Java Plug-In**: Use a robust Java plug-in designed to enhance the document management capabilities within your environment, offering a seamless integration experience.
+- **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
+- **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
+- **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
 
 Available for:
 

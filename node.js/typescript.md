@@ -119,7 +119,9 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 ## Building TypeScript Projects
 
-A dedicated build task for `cds build` is provided as part of the `cds-typer` package. See [Integrate Into Your Multitarget Application](../tools/cds-typer#integrate-into-your-build-process) for more information on how to customize this task.
+A dedicated build task for `cds build` is provided as part of the `cds-typer` package.
+
+[Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
 
 ## TypeScript APIs in `@sap/cds`
 

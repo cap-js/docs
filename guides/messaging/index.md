@@ -511,7 +511,7 @@ If you want to manually define the topic, you can use the `@topic` annotation:
 
 ```cds
 //...
-@topic: 'some/very/different/topic-name'
+@topic: 'some.very.different.topic-name'
 event SomeEvent { ... }
 ```
 

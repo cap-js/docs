@@ -140,7 +140,7 @@ Using CAP, it's a rule of thumb that related files are placed next to each other
 :::
 
 #### Using Subfolders
-The `cds build` assumes some default locations for your files. If you want to deviate from those defaults, for example, to organize annotations files or database-specific files in subfolders, you need to add an _index.cds_ file that contains the information where to find the needed files.
+CAP assumes some default locations for your files. If you want to deviate from those defaults, for example, to organize annotations files or database-specific files in subfolders, you need to add an _index.cds_ file that contains the information where to find the needed files.
 
 ### Minimal Configuration
 

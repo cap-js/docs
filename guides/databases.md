@@ -240,14 +240,28 @@ cds add data
 
 ### Location of CSV Files
 
-CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
+CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files. `cds watch` or `cds deploy` by default load CSV files from _test/data_ while `cds build`, which is used to prepare production deployments, will not. 
 
 ::: details Adding initial data next to your data model
 The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
+
+If you want to use some CSV files only for your production deployments, but not in tests, you can do so by adding them to a separate data folder, e.g. _db/hana/data_. Define a _index.cds_ file in the _hana_ folder as described above and configure this model location in a dummy cds service (e.g. _hanaDataSrv_) using the `[production]` profile:
+
+```json
+"cds": {
+  "requires": {
+    "[production]": {
+      "hanaDataSrv ": { "model": "hana" }
+     }
+  }
+}
+````
+
+As a consequence `cds build –production` will add the model folder _hana_ while `cds deploy` or `cds watch` will not as the development profile is used by default. You can verify by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
 :::
 
 ::: details On SAP HANA ...
-CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are.
+CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are. The advantage of this solution is that you can customize the _hdbtabledata_ files if required (e.g. adding a custom `include_filter` setting if you need to mix initial and customer data in one table). The disadvantage is that you have to redundantly maintain them in order to keep them in-sync with your CSV files.
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:

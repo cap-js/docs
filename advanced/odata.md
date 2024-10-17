@@ -318,9 +318,7 @@ Note that there's no interpretation and no special handling for these qualifiers
 
 ### Primitives
 
-::: tip
-The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
-:::
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
 
 Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are mapped to corresponding OData annotations as follows:
 

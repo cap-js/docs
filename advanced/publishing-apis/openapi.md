@@ -169,6 +169,25 @@ annotate MyService with @(
 ```
 [See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
 
+## OpenAPI
+
+| Term              | Annotation Target | OpenAPI field                                                                  |
+|-------------------|-------------------|--------------------------------------------------------------------------------|
+| `externalDocs`  | EntityContainer   | Links to external documentation that explain more about APIs are helpful to developers. |
+
+This is an example of a CDS service annotated with the annotations above:
+
+```cds
+annotate SampleService with @(
+    OpenAPI:{
+        externalDocs:{
+            description: 'API Guide',
+            url        : 'https://help.sap.com/docs/product/sample.html'
+        }
+    }
+);
+```
+
 
 ## Frequently Asked Questions { #faq label='FAQs'}
 

@@ -360,7 +360,7 @@ Record-like source structures are mapped to `<Record>` nodes in EDMX, with primi
 
 ```cds
 @Some.Record: {
-  Null: null,
+  Null: { $edmJson: { $Null } },
   Boolean: true,
   Integer: 1,
   Number: 3.14,

@@ -388,13 +388,13 @@ service CustomerService @(requires: 'authenticated-user') {
 
 The resulting authorizations are illustrated in the following access matrix:
 
-| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | `anonymous` |
-|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------|
-| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>        |
-| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
-| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>        |
-| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>        |
-| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
+| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | not authenticated |
+|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------------|
+| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>              |
+| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
+| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>              |
+| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>              |
+| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
 
 > <sup>1</sup> A `Vendor` user can only access the instances that they created. <br>
 
@@ -725,8 +725,8 @@ In some cases it can be helpful to restrict entity access as much as possible an
 ```cds
 service GitHubRepositoryService @(requires: 'authenticated-user') {
   @readonly entity Organizations as projection on GitHub.Organizations actions {
-    action rename @(requires: 'Admin') (newName : String);
-    action delete @(requires: 'Admin') ();
+    @(requires: 'Admin') action rename(newName : String);
+    @(requires: 'Admin') action delete();
   };
 }
 ```

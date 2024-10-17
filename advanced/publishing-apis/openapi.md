@@ -37,7 +37,7 @@ cds compile srv service.cds --to openapi --openapi:servers "\"'[{\\\"url\\\":\\\
 
 _Note:_ `--openapi:url` is ignored when this option is specified.
 
-Using the `--openapi:config-file <JSON_config_filepath>` option, configurations for all supported options can be provided in a config file, which accepts a JSON file incorporating all the OpenAPI compile options. Inline options take precedence over those defined in the config file.
+Use the `--openapi:config-file <JSON_config_filepath>` option to provide configurations for all supported options in a configuration file. This file accepts a JSON format that incorporates all the OpenAPI compile options. Inline options take precedence over those defined in the configuration file.
 
 ```sh
 cds compile srv service.cds --to openapi --openapi:config-file configFile.json
@@ -49,7 +49,7 @@ Here is an example where `--openapi:config-file` option is used with other inlin
 cds compile srv service.cds --to openapi --openapi:config-file configFile.json --odata-version 4.0 --openapi:diagram false
 ```
 
-In the above command, the `--openapi:diagram` and `--odata-version` inline options will override the `--openapi:diagram` and `--odata-version` options if it is also there in the configFile.json. 
+In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there. 
 
 _Note:_ This will throw an error if the filepath doesn't exist.
 

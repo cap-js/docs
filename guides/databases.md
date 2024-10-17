@@ -261,7 +261,7 @@ As a consequence, when you run `cds build –production` the model folder _hana_
 :::
 
 ::: details On SAP HANA ...
-CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are. The advantage of this solution is that you can customize the _hdbtabledata_ files if required (e.g. adding a custom `include_filter` setting if you need to mix initial and customer data in one table). The disadvantage is that you have to redundantly maintain them in order to keep them in-sync with your CSV files.
+CSV and _hdbtabledata_ files found in the _src_ folder of your database module are treated as native SAP HANA artifacts and deployed as they are. This approach offers the advantage of customizing the _hdbtabledata_ files if needed, such as adding a custom `include_filter` setting to mix initial and customer data in one table. However, the downside is that you must redundantly maintain them to keep them in sync with your CSV files.
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:

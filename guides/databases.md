@@ -257,7 +257,7 @@ If you need to use certain CSV files exclusively for your production deployments
 }
 ````
 
-As a consequence `cds build –production` will add the model folder _hana_ while `cds deploy` or `cds watch` will not as the development profile is used by default. You can verify by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
+As a consequence, when you run `cds build –production` the model folder _hana_ is added, but it's not added when you run `cds deploy` or `cds watch` because the development profile is used by default. You can verify this by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
 :::
 
 ::: details On SAP HANA ...

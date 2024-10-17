@@ -27,11 +27,12 @@ Follow the steps below to set up a local development environment. If you are a d
 
 #### … from [nodejs.org](https://nodejs.org)
 
-Choose the **LTS** version, via the left-hand side button:
+On the Node.js page, use the download button which gets you the current long-term support (LTS) version:
 
-![Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button.](./assets/jumpstart/image-20230310202845639.png){style="zoom: 33%;" }
+![Screenshot showing the default download button from the nodejs.org home page.](./assets/jumpstart/node-download-lts.png){style="width:400px;"}
 
-
+[See other ways to install Node.js.](https://nodejs.org/en/download/package-manager){.learn-more}
+[Learn more about long-term support (LTS) versions.](https://nodejs.org/en/about/previous-releases){.learn-more}
 
 
 ### 2. Install CAP's cds-dk
@@ -43,16 +44,13 @@ npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
 
-Activate CDS Shell Completion:
-The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
+The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems. Run this command for the initial setup:
 
-For Linux, macOS and Windows use the following command to activate the shell completion:
 ```sh
 cds add completion
 ```
 
-You can find more information [here](/tools/cds-cli#cds-completion).
-
+[Find more information in the `cds` CLI documentation](/tools/cds-cli#cds-completion){.learn-more}
 
 ### 3. Install Git
 

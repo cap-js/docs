@@ -79,7 +79,16 @@ This aspect adds the association `changes` that lets you consume the change log 
 via CQN statements and in the UI. This implies that every projection
 of the entity `Books` has this association and the changes will be visible in all of them.
 
-Your extended service definition should look like this:
+Annotate elements of the entity that you want to track with the `@changelog` annotation:
+
+```cds
+annotate Bookshop.Books {
+  title @changelog;
+  stock @changelog;
+};
+```
+
+Your complete service definition should look like this:
 
 ```cds
 namespace srv;
@@ -87,16 +96,14 @@ namespace srv;
 using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
 using {model} from '../db/schema';
 
+// The domain entity extended with change tracking aspect.
 extend model.Books with changelog.changeTracked;
 
 service Bookshop {
     entity Books as projection on model.Books;
 }
-```
 
-Annotate elements of the entity that you want to track with the `@changelog` annotation:
-
-```cds
+// Projection is annotated to indicate which elements are change tracked.
 annotate Bookshop.Books {
   title @changelog;
   stock @changelog;

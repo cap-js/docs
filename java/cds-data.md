@@ -432,7 +432,7 @@ book.put("ID", 97);
 book.put("title", "Dracula");
 ```
 
-You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces). 
+You can now either define an accessor interface or use a [generated accessor interface](#generated-accessor-interfaces).
 If you define an interface yourself, it could look like the following example:
 
 ```java
@@ -512,39 +512,148 @@ See the following example:
 entity Equity {
   @cds.java.name : 'clazz'
   class : String;
-  ...
 }
 ```
 
 ```java
 interface Equity {
+
+  @CdsName("class")
   String getClazz();
 
+  @CdsName("class")
   void setClazz(String clazz);
-	...
+
 }
 ```
+
+#### Renaming Types in Java
+
+For entities and types it is recommended to use `@cds.java.this.name` to specify an alternative name for the accessor interfaces and [static model](./cqn-services/persistence-services#staticmodel) interfaces.
+The annotation `@cds.java.this.name` - in contrast to `@cds.java.name` - is not propagated, along projections, includes or from types to elements.
+
+::: warning Unexpected effects of `@cds.java.name` on entities and types
+The annotation propagation behaviour applied to `@cds.java.name` can have unexpected side effects when used to rename entities or types,
+as it is propagated along projections, includes or from structured types to (flattened) elements. Nevertheless it might be useful in simple 1:1-projection scenarios,
+where the base entity and the projected entity should be renamed in the same way.
+:::
+
+See the following example, renaming an entity:
+
+```cds
+@cds.java.this.name: 'Book'
+entity Books {
+  // ...
+}
+```
+
+```java
+@CdsName("Books")
+public interface Book extends CdsData {
+  // ...
+}
+```
+
+Here is another example, renaming a type:
+
+```cds
+@cds.java.this.name: 'MyName'
+type Name {
+  firstName: String;
+  lastName: String;
+}
+
+entity Person {
+  publicName: Name;
+  secretName: Name;
+}
+```
+
+```java
+@CdsName("Name")
+public interface MyName extends CdsData {
+  // ...
+}
+
+@CdsName("Person")
+public interface Person extends CdsData {
+  String PUBLIC_NAME = "publicName";
+  String SECRET_NAME = "secretName";
+
+  MyName getPublicName();
+  void setPublicName(MyName publicName);
+
+  MyName getSecretName();
+  void setSecretName(MyName secretName);
+}
+```
+
+::: details See how the previous example would turn out with `@cds.java.name`
+
+```cds
+@cds.java.name: 'MyName'
+type Name {
+  firstName: String;
+  lastName: String;
+}
+
+entity Person {
+  publicName: Name;
+  secretName: Name;
+
+}
+```
+
+```java
+@CdsName("Name")
+public interface MyName extends CdsData {
+  // ...
+}
+
+@CdsName("Person")
+public interface Person extends CdsData {
+  String MY_NAME = "publicName";
+  String MY_NAME = "secretName";
+
+  MyName getMyName();
+  void setMyName(MyName myName);
+
+  MyName getMyName();
+  void setMyName(MyName myName);
+}
+```
+
+Note, that the propagated annotation `@cds.java.name` creates attribute and method conflicts in `Person`.
+
+:::
+
+
+::: warning
+This feature requires version 8.2.0 of the [CDS Command Line Interface](/tools/cds-cli).
+:::
 
 #### Entity Inheritance in Java
 
 In CDS models it is allowed to extend a definition (for example, of an entity) with one or more named [aspects](../cds/cdl#aspects). The aspect allows to define elements or annotations that are common to all extending definitions in one place.
 
 This concept is similar to a template or include mechanism as the extending definitions can redefine the included elements, for example, to change their types or annotations. Therefore, Java inheritance cannot be used in all cases to mimic the [include mechanism](../cds/cdl#includes). Instead, to establish Java inheritance between the interfaces generated for an aspect and the interfaces generated for an extending definition, the `@cds.java.extends` annotation must be used. This feature comes with many limitations and does not promise support in all scenarios.
-The `@cds.java.extends` annotation can contain an array of string values, each of which denoting the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `my.model.Temporal` is generated.
+
+The `@cds.java.extends` annotation can contain an array of string values, each of which denote the fully qualified name of a CDS definition (typically an aspect) that is extended. In the following example, the Java accessor interface generated for the `AuthorManager` entity shall extend the accessor interface of the aspect `temporal` for which the Java accessor interface `cds.gen.Temporal` is generated.
 
 ```cds
 using { temporal } from '@sap/cds/common';
 
 @cds.java.extends: ['temporal']
 entity AuthorManager : temporal {
-	key Id : Integer;
-	name 	  : String(30);
+  key ID : Integer;
+  name   : String(30);
 }
 ```
 
-The accessor interface generated for the `AuthorManager` entity is as shown in the following sample:
+The accessor interface generated for the `AuthorManager` entity is shown in the following sample:
 
 ```java
+import cds.gen.Temporal;
 import com.sap.cds.CdsData;
 import com.sap.cds.Struct;
 import com.sap.cds.ql.CdsName;
@@ -553,7 +662,7 @@ import java.lang.String;
 
 @CdsName("AuthorManager")
 public interface AuthorManager extends CdsData, Temporal {
-  String ID = "Id";
+  String ID = "ID";
 
   String NAME = "name";
 
@@ -573,13 +682,15 @@ public interface AuthorManager extends CdsData, Temporal {
 }
 ```
 
-In CDS, annotations on an entity are propagated to views on that entity. If a view does a projection exposing different elements, the inheritance relationship defined on the underlying entity via `@cds.java.extends` does not hold for the view. Therefore, the `@cds.java.extends` annotation needs to be overwritten in the view definition.
+In CDS, annotations on an entity are propagated to views on that entity. If a view projects different elements, the inheritance relationship defined on the underlying entity via `@cds.java.extends` does not hold for the view. Therefore, the `@cds.java.extends` annotation needs to be overwritten in the view definition.
 In the following example, a view with projection is defined on the `AuthorManager` entity and the inherited annotation overwritten via `@cds.java.extends : null` to avoid the accessor interface of `AuthorManagerService` to extend the interface generated for `temporal`.
 
 ```cds
 service Catalogue {
-	@cds.java.extends : null
-	entity AuthorManagerService as projection on AuthorManager { Id, name, validFrom };
+  @cds.java.extends : null
+  entity AuthorManagerService as projection on AuthorManager {
+    Id, name, validFrom,
+  };
 }
 ```
 
@@ -616,7 +727,7 @@ If the entity has a single key, the generated interface has an additional static
 ```java
 Book book = Books.create("9780141439846");
 
-String id = book.getId(); // id: 9780141439846
+String id = book.getId(); // id: "9780141439846"
 ```
 
 For entities that have more than one key, for example, for draft-enabled entities, the additional `create` method isn't generated and only the default one is available.

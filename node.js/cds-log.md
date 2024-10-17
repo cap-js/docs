@@ -171,7 +171,7 @@ Configure initial log-levels per module through `cds.env.log.levels`, for exampl
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -306,10 +306,6 @@ Will be debug-enabled by both, `DEBUG=db`, as well as `DEBUG=sql ...`.
 
 **Note:** The alternative ids specified after `|` have no impact on the unique logger ids. That is, the logger above will have the id `'db'`, while `'sql'` will only be used for matching against `DEBUG` env variable.
 
-### *Capture stack trace with SQLite*
-
-Set `DEBUG=sqlite` to activate capturing the stack trace on the way to executing a query.
-
 ## Configuration
 Configuration for `cds.log()` can be specified through `cds.env.log`, for example like that in your `package.json`:
 
@@ -318,7 +314,7 @@ Configuration for `cds.log()` can be specified through `cds.env.log`, for exampl
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -346,9 +342,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | CLI output                               | `cli`             |
 | CDS build output                         | `build`           |
 | [Application Service](./app-services)    | `app`             |
-| [SQLite Database](databases)             | `db\|sql\|sqlite` |
-| [SAP HANA Database](databases)           | `db\|sql\|hana`   |
-| [SAP HANA Database Pool](databases#pool) | `db\|pool`        |
+| [Databases](databases)                   | `db\|sql`         |
 | [Messaging Service](messaging)           | `messaging`       |
 | [Remote Service](remote-services)        | `remote`          |
 | AuditLog Service                         | `audit-log`       |
@@ -389,7 +383,7 @@ Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.featu
 
 Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
 1. Running on Cloud Foundry: `tenant_subdomain`, `CF_INSTANCE_IP` and information from `VCAP_APPLICATION`
-1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [Custom Fields](#als-custom-fields)
+1. Bound to an instance of the [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment) or [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging/sap-cloud-logging/what-is-sap-cloud-logging): `categories` and *custom fields* as described in [Custom Fields](#custom-fields)
 
 The following screenshot shows the log output for the rejection in the previous example with the JSON log formatter including the two aspects.
 
@@ -409,19 +403,20 @@ In case your application shares any sensitive data (for example, secrets) via he
 :::
 
 
-### Custom Fields { #als-custom-fields }
+### Custom Fields { #custom-fields }
 
 Information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service can be shown as additional information. This information needs to be provided as custom fields.
 
-By default, the JSON formatter uses the following custom fields configuration, which is configurable using [cds.env](cds-env#cds-env):
+By default, the JSON formatter uses the following custom fields configuration for SAP Application Logging Service:
 
 ```jsonc
 {
   "log": {
     "als_custom_fields": {
       // <key>: <index>
-      "query": 0,               //> sql
-      "target": 1, "details": 2 //> generic validations
+      "query": 0,                //> sql
+      "target": 1, "details": 2, //> generic validations
+      "reason": 3                //> errors
     }
   }
 }
@@ -473,6 +468,22 @@ Without the additional custom field `query` and it's respective value, it would 
 Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
 :::
 
+For SAP Cloud Logging, the JSON formatter uses the following default configuration:
+
+```jsonc
+{
+  "log": {
+    "cls_custom_fields": [
+      "query",             //> sql
+      "target", "details", //> generic validations
+      "reason"             //> errors
+    ]
+  }
+}
+```
+
+As always, both defaults are overridable via [cds.env](cds-env#cds-env).
+
 
 ## Request Correlation { #node-observability-correlation }
 
@@ -489,6 +500,13 @@ if (!cds.context) cds.context = { id }
 req.headers['x-correlation-id'] = cds.context.id
 ```
 
-The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
+Subsequently, the JSON log formatter (see [Logging in Production](#logging-in-production)) sets the following fields:
+- `cds.context.id` &rarr; `correlation_id`
+- Request header `x_vcap_request_id` &rarr; `request_id`
+- Request header `traceparent` (cf. [W3C Trace Context](https://www.w3.org/TR/trace-context/)) &rarr; `w3c_traceparent`
+
+Specifically field `w3c_traceparent` is then used by both SAP Application Logging Service and SAP Cloud Logging to determine field `trace_id` in order to correlate requests, logs, and traces across multiple applications.
+
+The following screenshot shows an example for log correlation based on field `correlation_id` in a log analytic dashboard of the [SAP Application Logging Service for SAP BTP](https://help.sap.com/docs/application-logging-service).
 
 ![Default Formatter Output](assets/correlation.png)

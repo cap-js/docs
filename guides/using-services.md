@@ -46,8 +46,8 @@ Connection in productive use works through SAP BTP Destination services or by sp
 ### Feature Overview
 
 For outbound remote service consumption, the following features are supported:
-+ OData V2
 + OData V4
++ OData V2 (Deprecated)
 + [Querying API](#querying-api-features)
 + [Projections on remote services](#supported-projection-features)
 
@@ -208,6 +208,11 @@ When importing the specification files, the `kind` is set according to the follo
 
 ::: tip
 Always use OData V4 (`odata`) when calling another CAP service.
+:::
+
+::: warning Limitations
+Not all features of OData, OpenAPI, or AsyncAPI are supported in CAP which may lead to the rejection of the imported model by the CDS compiler or may result in a different API when rendered by CAP.
+Known limitations are cyclic type references and inheritance.
 :::
 
 <div class="impl java">

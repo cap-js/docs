@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, onMounted, onUnmounted, watch } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 
 const { site, theme, page } = useData()
@@ -46,7 +46,7 @@ const dialog = ref(null) // must match to ref="dialog" from template
 const querySelectorSearchInput = 'input[class=search-input]'
 
 const showHiddenCommands = ref(false)
-const commands = reactive([
+const commands = computed(() => [
   DOMCommand('Search', 'local-search', keyStrokesSearch, false, ()=>{}), // VP search has the actual logic
   DOMCommand('Toggle dark/light mode', 'VPSwitchAppearance', ['.']),
   DOMCommand('Toggle Node.js or Java', 'SwitchImplVariant', ['v']),
@@ -59,16 +59,15 @@ const commands = reactive([
   { name:'Close dialog', keys:[ref('Escape')], hidden:true, run: () => visible.value = false },
 ])
 
-const activeCommands = computed(() => {
-  return commands
-    .filter(cmd => (showHiddenCommands.value || !cmd.hidden) && ('enabled' in cmd ? cmd.enabled() : true))
-    .map(cmd => {
-      cmd.keyStrings = cmd.keys.map(stroke => stroke.length
-        ? `${formattedStrokes[stroke[0].value]||stroke[0].value} ${formattedStrokes[stroke[1].value]||stroke[1].value}`
-        : formattedStrokes[stroke.value]||stroke.value)
-      return cmd
-    })
-})
+const activeCommands = computed(() => commands.value
+  .filter(cmd => (showHiddenCommands.value || !cmd.hidden) && ('enabled' in cmd ? cmd.enabled() : true))
+  .map(cmd => {
+    cmd.keyStrings = cmd.keys.map(stroke => stroke.length
+      ? `${formattedStrokes[stroke[0].value]||stroke[0].value} ${formattedStrokes[stroke[1].value]||stroke[1].value}`
+      : formattedStrokes[stroke.value]||stroke.value)
+    return cmd
+  })
+)
 
 // Close when the user clicks anywhere outside of the dialog.
 // This is not a true 'modal' behavior, but still more convenient than not.
@@ -91,7 +90,7 @@ function onKeyDown(event) {
     showHiddenCommands.value = !showHiddenCommands.value
     return
   }
-  const cmd = commands.find(cmd => !!cmd.keys.find(k => k.value === event.key))
+  const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k.value === event.key))
   const enabled = cmd && cmd.run && ('enabled' in cmd ? cmd.enabled() : true)
   if (enabled)  {
     event.preventDefault()

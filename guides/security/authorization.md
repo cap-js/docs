@@ -142,8 +142,9 @@ Here a combination of `user_name` and `origin` mapped to `$user` might be a feas
 
 - [Set up Authentication in Node.js.](/node.js/authentication)
 - [Custom Authentication in Java.](/java/security#custom-authentication)
-::: warning
-Be very careful when redefining `$user`. The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
+
+::: warning Be very careful when redefining `$user`
+The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
 :::
 
 ## Restrictions { #restrictions}
@@ -340,10 +341,11 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | CDS Resource    | `grant` | `to` |      `where`      | Remark        |
 |-----------------|:-------:|:----:|:-----------------:|---------------|
 | service         |  <Na/>  | <Y/> |       <Na/>       | = `@requires` |
-| entity          |  <Y/>   | <Y/> |       <Y/>        |               |
-| action/function |  <Na/>  | <Y/> | <Na/><sup>1</sup> | = `@requires` |
+| entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
+| action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
-> <sup>1</sup> Node.js supports static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
+> <sup>1</sup>For bound actions and functions that aren't bound against a collection, Node.js supports instance-based authorization at the entity level. For example, you can use `where` clauses that *contain references to the model*, such as `where: CreatedBy = $user`. For all bound actions and functions, Node.js supports simple static expressions at the entity level that *don't have any reference to the model*, such as `where: $user.level = 2`.
+> <sup>2</sup> For unbound actions and functions, Node.js supports simple static expressions that *don't have any reference to the model*, such as `where: $user.level = 2`. 
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 
@@ -386,13 +388,13 @@ service CustomerService @(requires: 'authenticated-user') {
 
 The resulting authorizations are illustrated in the following access matrix:
 
-| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | `anonymous` |
-|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------|
-| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>        |
-| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
-| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>        |
-| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>        |
-| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
+| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | not authenticated |
+|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------------|
+| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>              |
+| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
+| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>              |
+| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>              |
+| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
 
 > <sup>1</sup> A `Vendor` user can only access the instances that they created. <br>
 
@@ -493,7 +495,7 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition)
 - `DELETE` (as reject condition)
 
- > <sup>1</sup> Node.js supports _static expressions_ *that don't have any reference to the model* such as `where: $user.level = 2` for all events including action and functions.
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 
@@ -723,8 +725,8 @@ In some cases it can be helpful to restrict entity access as much as possible an
 ```cds
 service GitHubRepositoryService @(requires: 'authenticated-user') {
   @readonly entity Organizations as projection on GitHub.Organizations actions {
-    action rename @(requires: 'Admin') (newName : String);
-    action delete @(requires: 'Admin') ();
+    @(requires: 'Admin') action rename(newName : String);
+    @(requires: 'Admin') action delete();
   };
 }
 ```

@@ -51,8 +51,6 @@ cds compile srv service.cds --to openapi --openapi:config-file configFile.json -
 
 In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there. 
 
-_Note:_ This will throw an error if the filepath doesn't exist.
-
 ## Swagger UI { #swagger-ui}
 
 #### Embedded in Node.js

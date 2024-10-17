@@ -240,7 +240,7 @@ cds add data
 
 ### Location of CSV Files
 
-CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files. `cds watch` or `cds deploy` by default load CSV files from _test/data_ while `cds build`, which is used to prepare production deployments, will not. 
+CSV files can be found in the folders _db/data_ and _test/data_, as well as in any _data_ folder next to your CDS model files. When you use `cds watch` or `cds deploy`, CSV files are loaded by default from _test/data_. However, when preparing for production deployments using `cds build`, CSV files from _test/data_ are not loaded.
 
 ::: details Adding initial data next to your data model
 The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.

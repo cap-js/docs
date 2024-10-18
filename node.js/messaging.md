@@ -94,7 +94,7 @@ Example:
 
 ```cds
 service OwnService {
-    @topic: 'my.custom/topic'
+    @topic: 'my.custom.topic'
     event OwnEvent { ID: UUID; name: String; }
 }
 ```

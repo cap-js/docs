@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "@sap/cds": "^7"
+    "@sap/cds": "^8"
   },
   "devDependencies": {
     "@sap/eslint-plugin-cds": "^3",

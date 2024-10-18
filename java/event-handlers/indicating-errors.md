@@ -42,7 +42,7 @@ throw new ServiceException(ErrorStatuses.CONFLICT, "Not enough stock available")
 throw new ServiceException(ErrorStatuses.BAD_REQUEST, "No book title specified", originalException);
 ```
 
-The OData V4 adapter turns all exceptions into an OData error response to indicate the error to the client.
+The OData adapters turn all exceptions into an OData error response to indicate the error to the client.
 
 ## Messages
 
@@ -81,7 +81,7 @@ messages.throwIfError();
 ```
 
 If there are any collected error messages, this method creates a [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) from _one_ of these error messages.
-The OData V4 adapter turns this exception into an OData error response to indicate the error to the client. The remaining error messages are written into the `details` section of the error response.
+The OData adapter turns this exception into an OData error response to indicate the error to the client. The remaining error messages are written into the `details` section of the error response.
 
 If the CDS property [`cds.errors.combined`](../developing-applications/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
 
@@ -89,7 +89,7 @@ If the CDS property [`cds.errors.combined`](../developing-applications/propertie
 ## Formatting and Localization
 
 Texts passed to both `ServiceException` and the `Messages` API can be formatted and localized.
-By default you can use [SLF4J's messaging formatting style](https://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
+By default, you can use [SLF4J's messaging formatting style](https://www.slf4j.org/api/org/slf4j/helpers/MessageFormatter.html) to format strings passed to both APIs.
 
 ```java
 // message with placeholders
@@ -249,7 +249,7 @@ public void validateTitle(CdsCreateEventContext context, Books book) {
 }
 ```
 
-This also works for nested paths that with associations:
+This also works for nested paths with associations:
 
 ``` java
 @Before
@@ -273,7 +273,7 @@ The same applies to message targets that refer to an action or function input pa
 
 ``` java
 @Before
-public void validateReview(AddReviewContext context) {
+public void validateReview(BooksAddReviewContext context) {
     // ...
 
     // event context contains the keys "reviewer", "rating", "title", "text",
@@ -285,7 +285,7 @@ public void validateReview(AddReviewContext context) {
 
     // which is equivalent to using the typed API
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid reviewer first name")
-        .messageTarget("reviewer", Reviewer_.class, r -> r.firstName());
+        .messageTarget(BooksAddReviewContext.REVIEWER, Reviewer_.class, r -> r.firstName());
 
     // targeting "rating"
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid review rating")
@@ -307,7 +307,7 @@ For the `addReview` action that is the `Books` entity, as in the following examp
 
 ``` java
 @Before
-public void validateReview(AddReviewContext context) {
+public void validateReview(BooksAddReviewContext context) {
     // ...
 
     // referring to the bound entity `Books`
@@ -385,9 +385,9 @@ public class ExceptionServiceErrorMessagesHandler implements EventHandler {
           Message message = messages.get(i);
           if (CdsErrorStatuses.VALUE_OUT_OF_RANGE.getCodeString().equals(message.getCode())) { // filter by error code
             if (Books.PRICE.equals(message.getTarget().getRef().targetSegment().id())) { // filter by target
-              messages.set(i, Message.create(Severity.ERROR, "The exceptional price is not in defined range!", message));
+              messages.set(i, Message.create(Message.Severity.ERROR, "The exceptional price is not in defined range!", message));
             } else if (Books.STOCK.equals(message.getTarget().getRef().targetSegment().id())) {
-              messages.set(i, Message.create(Severity.ERROR, "The exceptional stock of specified items is not available!", message));
+              messages.set(i, Message.create(Message.Severity.ERROR, "The exceptional stock of specified items is not available!", message));
             }
           }
         }

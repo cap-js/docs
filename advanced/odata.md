@@ -336,18 +336,14 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-Rendering a `null` value must be done as dynamic expression:
+Rendering a `null` value must be done as dynamic expression or as an [annotation expression](#expression-annotations):
 
 ```cds
 @Some.Null: { $edmJson: { $Null } }
-```
-
-or as an [annotation expression](#expression-annotations):
-
-```cds
+// or
 @Some.Null: (null)
 ```
-
+Both result in the following:
 ```xml
 <Annotation Term="Some.Null">
   <Null/>

@@ -1113,7 +1113,7 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.

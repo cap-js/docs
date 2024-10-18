@@ -367,6 +367,46 @@ The following articles might be of interest:
 
 
 
+## Decimals and Big Integers
+
+JSON numbers cannot reliably capture 64-bit binary format IEEE 754 values.
+That is, they loose precision for numbers with more than 16 digits and/or when converting to binary, for example, for a calculation:
+```
+> 12345678901234567
+12345678901234568
+> 0.1+0.2
+0.30000000000000004
+```
+
+By default (= new odata adapter + @cap-js database), `cds.Int64` are selected as strings but `cds.Decimal` are selected as numbers.
+The rationale is that `cds.Int64` are more commonly "big numbers", whereas decimals are mostly in the safe range.
+However, you can instruct the @cap-js databases to select decimals as strings as well via `cds.env.features.string_decimals = true`.
+TODO: change name?
+
+Inbound, the new (and default) protocol adapters accept numbers in decimal notation (`1.23`), numbers in exponential notation (`1.23e1`), as well as strings in decimal notation (`'1.23'`).
+The are taken as is and __not__ normalized.
+Hence, your custom code must be able to handle both numbers and strings:
+```
+> 1 + '1'
+'11'
+> Number(1) + Number('1')
+2
+```
+
+Behavior of remote systems is inconsistent:
+- OData v2 always sends strings
+- OData v4 may ignore a IEEE754Compatible instruction
+&rarr; behavior in production may differ from behavior of local mocking
+&rarr; data from remote mixed into local data may result in inconsistencies
+
+Summary:
+- you must be able to deal with numbers and strings
+- `cds.env.features.string_decimals = true` to select decimals as strings
+- `cds.env.features.ensure_ieee754 = true` ensures that a `cds.ApplicationService` returns strings for decimals and big integers
+  + TODO: promote? was meant as compat for data returned by custom handlers while we always select as string...
+
+
+
 ## Timestamps
 
 When using [timestamps](events#timestamp) (for example for managed dates) the Node.js runtime offers a way to easily deal with that without knowing the format of the time string. The `req` object contains a property `timestamp` that holds the current time (specifically `new Date()`, which is comparable to `CURRENT_TIMESTAMP` in SQL). It also stays the same until the request finished, so if it is used in multiple places in the same transaction or request it will always be the same.

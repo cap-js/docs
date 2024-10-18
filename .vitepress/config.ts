@@ -25,8 +25,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '3.3.0',
-  java_cds4j: '3.3.0'
+  java_services: '3.3.1',
+  java_cds4j: '3.3.1'
 }
 
 const localSearchOptions = {
@@ -159,7 +159,17 @@ const config:UserConfig<CapireThemeConfig> = {
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 5000 // chunk for local search index dominates
+      chunkSizeWarningLimit: 5000, // chunk for local search index dominates
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: [
+            'legacy-js-api', // to avoid 'Deprecation Warning: The legacy JS API...', see https://github.com/vitejs/vite/issues/18164
+            'global-builtin'
+          ]
+        }
+      }
     }
   },
   transformHtml(code, id, ctx) {

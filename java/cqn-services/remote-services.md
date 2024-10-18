@@ -163,7 +163,9 @@ cds:
 :::
 
 The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore, it needs to be explicitly configured in the `options` section.
-As the URL is typically not known at development time, it can be alternatively defined as an environment variable, i.e. `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL` for the previous example. See "[Binding From Environment Variables](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables)" of the Spring Boot documentation for details. 
+Since the URL is typically not known during development, you can define it as an environment variable. For the previous example, use `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL`. 
+
+[Learn more about Binding From Environment Variables in the Spring Boot documentation.](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables){.learn-more}
 
 :::tip
 Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token (i.e. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 

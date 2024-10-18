@@ -218,6 +218,107 @@ In case you've configured `cf-java-logging-support` as described in [Logging Ser
 By default, the ID is accepted and forwarded via HTTP header `X-CorrelationID`. If you want to accept `X-Correlation-Id` header in incoming requests alternatively,
 follow the instructions given in the guide [Instrumenting Servlets](https://github.com/SAP/cf-java-logging-support/wiki/Instrumenting-Servlets#correlation-id).
 
+### JDBC Tracing in SAP Hana
+
+In order to activate JDBC tracing in the SAP Hana JDBC driver, you have to use the driver [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html). You can activate these by setting datasource properties in the `application.yaml` which requires you to stop and restart the application, or without stopping and restarting by using the [command line](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/e411647b03f1425fab1e33bb495c9c42.html).
+
+#### Using datasource properties
+
+In the `application.yaml` under `cds.dataSource.<service-binding-name>:` specify `hikari.data-source-properties.traceFile` and `hikari.data-source-properties.traceOptions`, e.g.
+
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  dataSource:
+    service-manager: # name of service binding
+      hikari:
+        data-source-properties:
+          traceFile: "/home/user/jdbctraces/trace_.log" # use a path that is write accessible
+          traceOptions: "CONNECTIONS,API,PACKET"
+```
+:::
+
+::: tip
+Use a `_` at the end in the file name for the trace file for better readability, as the JDBC tracing process creates several files and appends an epoch timestamp to the file names:
+
+```sh
+~/jdbctraces/ $ ls
+
+trace_10324282997834295561.log
+trace_107295864860396783.log
+trace_10832681394984179734.log
+trace_11222964343246588836.log
+trace_11899150308439828686.log
+```
+:::
+
+[Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html) lists available command line options. For the datasource property only use the option name, such as `CONNECTIONS`, `API` or `PACKET`. You can specify more than one option, separated by commas.
+
+This method of activating JDBC tracing requires restarting the application. For cloud deployments on Cloud Foundry this typically means redeploying via MTA, on Kyma this means rebuilding the application, recreating and publishing the container image to the container image registry and redeploying the application via Helm.
+
+Once the `application.yaml` of the deployed application contains both `hikari.data-source-properties.traceFile` and `hikari.data-source-properties.traceOptions`, their values can also be overwritten by setting the corresponding environment variables in the container.
+
+For example, to overwrite the tracefile path for the `application.yaml` you have to set the environment variable such as this with `SERVICE_MANAGER` being the name of the service binding:
+```yaml
+CDS_DATASOURCE_SERVICE_MANAGER_HIKARI_DATA_SOURCE_PROPERTIES_TRACEFILE: "/home/cnb/jdbctraces/sm/trace_.log"
+```
+To overwrite the tracing options respectively:
+```yaml
+CDS_DATASOURCE_SERVICE_MANAGER_HIKARI_DATA_SOURCE_PROPERTIES_TRACEOPTIONS: "DISTRIBUTIONS"
+```
+
+#### Using the command line
+
+Using the command line to activate JDBC tracing it is not required to restart the application.
+
+However, when running in the cloud it depends on the buildpacks used for the CAP Java application where the exact location of the Hana JDBC driver and the `java` executable are. The following assumes the usage of the [Cloud Native Buildpacks](https://pages.github.tools.sap/unified-runtime/docs/building-blocks/unified-build-and-deploy/buildpacks) as recommended by the [Unified Runtime](https://pages.github.tools.sap/unified-runtime/).
+
+
+##### On Kyma
+
+Step by step description on how to access a bash session in the application's container in order to use trace options in the Hana JDBC driver:
+
+1. Execute bash in the pod that runs the CAP Java application:
+
+   To identify the pod name, use
+   ```sh
+   kubectl get pods
+   ```
+   in the right namespace and
+   ```sh
+   kubectl exec -it pod/<POD_NAME> -- bash
+   ```
+   to acquire a bash session in the container.
+
+1. Locate java executable and JDBC driver:
+
+   By default `JAVA_HOME` is not set in the buildpack and contains minimal tooling, as it tries to minimize the container size. However, the default location of the `java` executable is `/layers/paketo-buildpacks_sap-machine/jre/bin`.
+   
+   For convenience, store the path into a variable, e.g. `JAVA_HOME`:
+   ```sh
+   export JAVA_HOME=/layers/paketo-buildpacks_sap-machine/jre/bin/
+   ```
+
+   The JDBC driver is usually located in `/workspace/BOOT-INF/lib`. Store it into another variable, e.g. `JDBC_DRIVER_PATH`:
+   ```sh
+   export JDBC_DRIVER_PATH=/workspace/BOOT-INF/lib
+   ```
+
+1. Use JDBC trace options in the driver, using the correct (versioned) name of the `ngdbc.jar`:
+   ```sh
+   $JAVA_HOME/java -jar $JDBC_DRIVER_PATH/ngdbc-<VERSION>.jar <option>
+   ```
+
+   [Trace Options](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/4033f8e603504c0faf305ab77627af03.html) lists the available options.
+
+   Before turning on tracing with `TRACE ON`, it is recommended to set `TRACE FILENAME` to a path that the current shell user has write access to, e.g.:
+   ```sh
+   $JAVA_HOME/java -jar $JDBC_DRIVER_PATH/ngdbc-<VERSION>.jar TRACE FILENAME ~/tmp/traces/jdbctrace
+   ```
+
+1. Read the trace file while the pod is still running, or use [`kubectl cp`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cp/) to copy the file to your local machine.
+
+
 
 ## Monitoring { #monitoring }
 

@@ -168,7 +168,7 @@ Since the URL is typically not known during development, you can define it as an
 [Learn more about Binding From Environment Variables in the Spring Boot documentation.](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables){.learn-more}
 
 :::tip
-Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token (i.e. [proof-of-possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation)). 
+Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token, see [ProofOfPossession validation](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation). 
 CAP _Remote Services_ automatically takes care of this by initiating a mutual TLS handshake with the remote API.
 :::
 

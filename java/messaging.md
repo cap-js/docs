@@ -234,7 +234,7 @@ In this example, the `ReviewService` is declared as a remote service and thus wi
 
 ### Local Testing
 
-The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event waits until all receivers have processed the event.
+The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event blocks until all receivers have processed the event.
 
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]

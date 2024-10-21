@@ -502,8 +502,8 @@ class CatalogService extends cds.ApplicationService { async init(){
 }}
 ```
 
-### Static Top-Level Imports {#typer-top-level-imports}
-Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
+### Static Top-Level Imports <Since version="0.26.0" of="@cap-js/cds-typer" /> {#typer-top-level-imports}
+You can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
 
 ```ts twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}

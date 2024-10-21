@@ -94,7 +94,7 @@ Example:
 
 ```cds
 service OwnService {
-    @topic: 'my.custom/topic'
+    @topic: 'my.custom.topic'
     event OwnEvent { ID: UUID; name: String; }
 }
 ```
@@ -495,6 +495,7 @@ resources:
       config:
         consumed-services:
           - service-instance-name: incidents-event-broker
+       	xsuaa-cross-consumption: true #> if token exchange from IAS token to XSUAA token is needed
         display-name: cap.incidents #> any value, e.g., reuse MTA ID
         home-url: ~{incidents-srv-api/url}
 ```

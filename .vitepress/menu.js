@@ -11,7 +11,9 @@ const dynamicItems = (item) => {
 
 /**
  * Construct sidebar from markdown
-*/
+ * @param {string} file - markdown file with sidebar content
+ * @param {(string) => boolean} filter - function to filter links
+ */
 export function sidebar (file = 'menu.md', filter=()=>true) {
   const source = file
   const markdown = fs.readFileSync(source,'utf8')

@@ -8,8 +8,8 @@ import Beta from './components/Beta.vue';
 import Concept from './components/Concept.vue'
 import Since from './components/Since.vue';
 import ScrollToTop from './components/ScrollToTop.vue'
+import Inspect from './components/Inspect.vue';
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
-
 
 import '@shikijs/vitepress-twoslash/style.css'
 import './custom.scss'
@@ -23,6 +23,7 @@ export default {
   enhanceApp(ctx: EnhanceAppContext) {
     ctx.app.component('IndexList', IndexList)
     ctx.app.component('ImplVariantsHint', ImplVariantsHint)
+    ctx.app.component('Inspect', Inspect)
     ctx.app.component('Alpha', Alpha)
     ctx.app.component('Beta', Beta)
     ctx.app.component('Concept', Concept)

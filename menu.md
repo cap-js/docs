@@ -44,7 +44,7 @@
 - [Events & Messaging](guides/messaging/)
 
   - [SAP Event Mesh](guides/messaging/event-mesh)
-  - [SAP Cloud Application Event Hub](guides/messaging/event-broker)
+  - [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
   - [Events from S/4](guides/messaging/s4)
 
 - [Protocols/APIs](advanced/publishing-apis/)

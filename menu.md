@@ -226,4 +226,4 @@
 - [Telemetry](plugins/#telemetry)
 - [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
-- [SAP Cloud Application Event Hub](plugins/#event-broker-plugin)
+- [SAP Cloud Appl. Event Hub](plugins/#event-broker-plugin)

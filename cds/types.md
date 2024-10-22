@@ -33,7 +33,7 @@ The following built-in types are provided:
 | `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
 | `LargeBinary` |  | | _BLOB_ |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
-| `Map` | a JSON Object | `{ foo: "bar" }` | <sup>(7)</sup> |
+| `Map` | a JSON Object | `{ "foo": "bar" }` | <sup>(7)</sup> |
 | `Vector` | (dimensionality) <sup>(8)</sup> | |  _REAL_VECTOR_  |
 
 

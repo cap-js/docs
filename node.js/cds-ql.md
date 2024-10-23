@@ -198,10 +198,9 @@ Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent 
 
 
 
-### .cmd {.property}
+### .kind {.property}
 
-
-The current command, that is one of these strings:
+The kind of query, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`

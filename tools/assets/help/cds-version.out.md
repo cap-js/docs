@@ -14,6 +14,6 @@
 <em>@sap/cds-foss</em>: 5.0.1
 <em>@sap/cds-mtxs</em>: 2.2.0
 <em>@sap/eslint-plugin-cds</em>: 3.1.0
-<em>Node.js</em>: v20.17.0
+<em>Node.js</em>: v20.18.0
 <em>your-project</em>: 1.0.0
 </pre>

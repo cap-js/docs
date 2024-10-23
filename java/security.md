@@ -126,8 +126,8 @@ The following properties can be used to switch off automatic security configurat
 
 | Configuration Property                               | Description                                             | Default
 | :---------------------------------------------------- | :----------------------------------------------------- | ------------
-| `cds.security.xsuaa.enabled`  | Switches off automatic XSUAA security configuration. | `true`
-| `cds.security.identity.enabled`  | Switches off automatic IAS security configuration. | `true`
+| `cds.security.xsuaa.enabled`  | Whether automatic XSUAA security configuration is enabled. | `true`
+| `cds.security.identity.enabled`  | Whether automatic IAS security configuration is enabled. | `true`
 
 #### Setting the Authentication Mode { #auth-mode}
 
@@ -201,7 +201,7 @@ public class ActuatorSecurityConfig {
 
 You're free to configure any authentication method according to your needs. CAP isn't bound to any specific authentication method or user representation such as introduced with XSUAA, it rather runs the requests based on a [user abstraction](../guides/security/authorization#user-claims). The CAP user of a request is represented by a [UserInfo](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) object that can be retrieved from the [RequestContext](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/RequestContext.html) as explained in [Enforcement API & Custom Handlers](#enforcement-api).
 
-Hence, if you bring your own authentication, you've to transform the authenticated user and inject as `UserInfo` to the current request. This is done by means of [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) interface that can be implemented as Spring bean as demonstrated in [Registering Global Parameter Providers](../java/event-handlers/request-contexts#global-providers).
+Hence, if you bring your own authentication, you have to transform the authenticated user and inject as `UserInfo` to the current request. This is done by means of [UserInfoProvider](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/UserInfoProvider.html) interface that can be implemented as Spring bean as demonstrated in [Registering Global Parameter Providers](../java/event-handlers/request-contexts#global-providers).
 More frequently you might have the requirement to just adapt the request's `UserInfo` which is possible with the same interface:
 
 

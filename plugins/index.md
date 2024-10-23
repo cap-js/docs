@@ -113,12 +113,9 @@ Prefer public repositories and issues over private/internal ones, as they help e
 As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [bestofcapjs.org](https://bestofcapjs.org/)
 :::
 
+## OData V2 Adapter {#odata-v2-proxy}
 
-## OData v2 Proxy
-
-
-OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
-
+OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The CDS OData V2 Adapter is a protocol adapter that allows you to expose your services as OData V2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
 
 Available for:
 
@@ -127,6 +124,23 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
+## Websocket
+
+Exposes a WebSocket protocol via WebSocket standard or Socket.IO for CDS services.
+
+```cds
+@protocol: 'websocket'
+service ChatService {
+  function message(text: String) returns String;
+  event received {
+    text: String;
+  }
+}
+```
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/websocket#readme)
 
 ## UI5 Dev Server
 
@@ -204,9 +218,20 @@ extend my.Incidents with {
 
 Features:
 
-- A predefined type called `Attachment` for use in entity definitions.
-- Automatic handling of all upload, download, delete and rename operations.
-- Automatically scans for viruses before storing files.
+- **Pre-defined Type Attachment for Entity Definitions**: Seamlessly integrate attachments into your entity definitions with our pre-defined type, simplifying the process of linking files.
+- **Automatic Management of File Operations**: Effortlessly manage file operations, including upload, view, download, delete, and rename functions, with built-in automation. This ensures a smooth and user-friendly experience.
+- **Automated Malware Scanning for Uploaded Files**: Enhance security by automatically scanning all uploaded files for malware, ensuring the integrity and safety of your data.
+- **Automatic Fiori Annotations for Upload Controls**: Streamlined user interactions with automatic SAP Fiori annotations that enhance upload controls, providing a more intuitive and seamless user experience.
+- **Support for SAP Document Management Service-Hosted Cloud Repository**: Leverage the robust capabilities of the SAP Document Management service-hosted cloud repository to store and manage your documents efficiently.
+- **Support for Third-Party CMIS-Compliant Repositories**: Integrate with third-party repositories that adhere to the Content Management Interoperability Services (CMIS) standard, offering flexibility and compatibility with various document management systems.
+- **Intrinsic Multitenancy Handling**: Benefit from built-in multi-tenancy support, allowing for efficient management of multiple tenants without additional configuration.
+
+Outlook:
+
+- **Java Plug-In**: Use a robust Java plug-in designed to enhance the document management capabilities within your environment, offering a seamless integration experience.
+- **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
+- **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
+- **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
 
 Available for:
 
@@ -219,7 +244,10 @@ Available for:
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
-annotate my.Customers with @PersonalData {
+annotate my.Customers with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubject'
+} {
   ID           @PersonalData.FieldSemantics: 'DataSubjectID';
   name         @PersonalData.IsPotentiallyPersonal;
   email        @PersonalData.IsPotentiallyPersonal;
@@ -346,16 +374,16 @@ Available for:
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 
-## SAP Event Broker {#event-broker-plugin}
+## SAP Cloud Application Event Hub {#event-broker-plugin}
 
-The plugin provides out-of-the-box support for consuming events from [SAP Event Broker](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
 
 ```js
 const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
 S4bupa.on ('BusinessPartner.Changed', msg => {...})
 ```
 
-For more details, please see [Events and Messaging &rarr; Using SAP Event Broker](../guides/messaging/#sap-event-broker).
+For more details, please see [Events and Messaging &rarr; Using SAP Cloud Application Event Hub](../guides/messaging/#sap-event-broker).
 
 Available for:
 

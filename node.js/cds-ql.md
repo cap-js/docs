@@ -198,10 +198,9 @@ Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent 
 
 
 
-### .cmd {.property}
+### .kind {.property}
 
-
-The current command, that is one of these strings:
+The kind of query, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`
@@ -837,7 +836,7 @@ let [ ID, quantity ] = [ 201, 1 ]
 UPDATE (Books,ID) .with ({
   title: 'Sturmhöhe',       //>  simple value
   stock: {'-=': quantity},    //>  qbe expression
-  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.'])
+  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.']}
 })
 ```
 

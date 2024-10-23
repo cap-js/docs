@@ -235,7 +235,7 @@ SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-conf
 
 - [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
 
-- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
+- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alm).
 
 ### Open Telemetry { #open-telemetry }
 
@@ -361,11 +361,11 @@ The following steps describe the required configuration:
 
 #### CAP Instrumentation
 
-By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
+By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
-| Logger Name                                    | Required Level | Description                                                |
+| Logger                                         | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|
-| `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
+| `com.sap.cds.otel.span.ODataBatch`             | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
 | `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garbage collection.       |

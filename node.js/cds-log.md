@@ -164,7 +164,7 @@ const LOG = cds.log('foo', cds.log.levels.WARN)
 
 ### *Configuring Log Levels*
 
-Configure initial log-levels per module through `cds.env.log.levels`, for example like that in your `package.json`:
+Configure initial log-levels per module through `cds.log.levels`, for example like that in your `package.json`:
 
 ```json
 {
@@ -378,7 +378,7 @@ The *JSON log formatter* constructs a loggable object from the passed arguments 
 The JSON log formatter is the default formatter in production.
 
 ::: tip
-Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.features.kibana_formatter = true` are no longer needed. If you want to opt-out of the JSON formatter in production, set `cds.env.log.format = 'plain'`.
+Since `@sap/cds 7.5`, running `cds add kibana-logging` or setting <Config>cds.features.kibana_formatter: true</Config> are no longer needed. If you want to opt-out of the JSON formatter in production, set <Config>cds.log.format: plain</Config>.
 :::
 
 Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
@@ -396,7 +396,7 @@ The SAP Application Logging Service offers [different plans with different quota
 
 ### Header Masking
 
-Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i', '/cert/i', '/ssl/i']`.
+Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option <Config keyOnly>cds.log.mask_headers: ["/authorization/i", "/cookie/i", "/cert/i", "/ssl/i"]</Config> allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default value is `["/authorization/i", "/cookie/i", "/cert/i", "/ssl/i"]`.
 
 ::: warning
 In case your application shares any sensitive data (for example, secrets) via headers, please ensure that you adjust the configuration as necessary.

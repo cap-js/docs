@@ -127,7 +127,7 @@ Result result = context.getResult();
 ```
 
 The getter and setter methods, still operate on the simple get/put API shown in the previous example. They just provide a type-safe layer on top of it.
-The `as` method makes use of Java Proxies behind the scenes. Therefore an interface definition is all that is required to enable this functionality.
+The `as` method makes use of Java Proxies behind the scenes. Therefore, an interface definition is all that is required to enable this functionality.
 
 ::: tip
 Use these event-specific type-safe Event Context interfaces whenever possible.
@@ -183,6 +183,7 @@ public interface MyEventContext extends EventContext {
         return EventContext.create(MyEventContext.class, null);
     }
 
+    @CdsName("Param")
     String getParam();
     void setParam(String param);
 
@@ -215,7 +216,7 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 @Component
 @ServiceName("AdminService")
 public class AdminServiceHandler implements EventHandler {
-
+  // ...
 }
 ```
 :::

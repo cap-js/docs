@@ -16,5 +16,5 @@
 | @sap/cds-foss          | 5.0.1                                   |
 | @sap/cds-mtxs          | 2.2.0                                   |
 | @sap/eslint-plugin-cds | 3.1.0                                   |
-| Node.js                | v20.17.0                                |
+| Node.js                | v20.18.0                                |
 </pre>

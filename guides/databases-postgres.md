@@ -355,12 +355,6 @@ You can package and deploy that application, for example using [MTA-based deploy
 
 ## Automatic Schema Evolution { #schema-evolution }
 
-::: danger
-
-Manually altering the database will most likely break automatic schema evolution!
-
-:::
-
 When redeploying after you changed your CDS models, like adding fields, automatic schema evolution is applied. Whenever you  run `cds deploy` (or `cds-deploy`) it executes these steps:
 
 1. Read a CSN of a former deployment from table `cds_model`.
@@ -373,6 +367,11 @@ When redeploying after you changed your CDS models, like adding fields, automati
 4. Fill in initial data from provided _.csv_ files using `UPSERT` commands.
 5. Store a CSN representation of the current model in `cds_model`.
 
+::: danger
+
+Manually altering the database will most likely break automatic schema evolution!
+
+:::
 
 > You can disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
 

@@ -108,13 +108,10 @@
   const slots = useSlots()
   const slotVal = slots.default?.().at(0)?.children?.toString() ?? 'error: provide <Config>your_key:value</Config>'
 
-  const { java, keyOnly } = withDefaults(defineProps<{
-    java?:boolean,
+  const { java, keyOnly } = defineProps<{
+    java?: boolean,
     keyOnly?: boolean
-  }>(), {
-    java: false,
-    keyOnly: false
-  })
+  }>()
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
   let value:any = val

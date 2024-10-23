@@ -117,14 +117,20 @@
   let value:any = val
   if (val === 'true')  value = true
   else if (val === 'false')  value = false
+  else if (val === 'null')  value = null
+  else if (parseInt(val).toString() === val)  value = parseInt(val)
+  else if (parseFloat(val).toString() === val)  value = parseFloat(val)
   else if (!val)  value = '…'
 
   const group = 'group-'+key
 
-  const pkg = toJson(key, value)
+  let jsonVal
+  if (typeof value === 'string' && value.trim().match(/^[[{].*[\]}]$/)) { try { jsonVal = JSON.parse(value) } catch {/*ignore*/ } }
+  const pkg = toJson(key, jsonVal ?? value)
+
   const pkgStr = JSON.stringify(pkg, null, 2)
-  const propStr = `${key}=${value}`
-  const envStr = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${value}`
+  const propStr = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
+  const envStr = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
   import yaml from 'yaml'
   const javaAppyml = yaml.stringify(pkg)

@@ -324,7 +324,7 @@ cds build --production
    ```json
    {
      "dependencies": {
-       "@sap/cds": "^7",
+       "@sap/cds": "^8",
        "@cap-js/postgres": "^1"
      },
      "scripts": {

@@ -21,32 +21,38 @@ Follow these steps to add TypeScript support:
     npm i -g typescript ts-node
     ```
 
-2. Add a _tsconfig.json_ file to your project.
+2. Add a basic _tsconfig.json_ file to your project:
 
-    You need to provide a _tsconfig.json_ file in which you configure how you want
-    to use TypeScript. See the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for more details.
+    ```sh
+    cds add typescript
+    ```
+
+    You can modify this configuration file to match your project setup. See the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for more details.
+    Note that adding the `typescript` facet, [`cds-typer`](../tools/cds-typer) is also automatically added to your project.
 
 
 
-## Developing with `cds-ts` { #cds-ts}
+## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> <Beta /> { #cds-tsx}
 
-Use the `cds-ts` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
+Use the `cds-tsx` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 
 ```sh
-cds-ts serve world.cds
+cds-tsx watch
 ```
 
 ```sh
-cds-ts watch
+cds-tsx serve world.cds
 ```
 
-When using the binary `cds-ts`, the [ts-node](https://github.com/TypeStrong/ts-node) engine is used to start the project instead of the default node engine.
+When using the binary `cds-tsx`, the [tsx](https://tsx.is/) engine is used to start the project instead of the default node engine.
+You can install it globally with:
+```sh
+npm i -g tsx
+```
 
-::: warning
-Note that this binary should be used **for development only**. For productive usage
-always precompile TypeScript code to JavaScript due to performance reasons and use the `cds` binary.
+::: warning Not for production
+`cds-tsx` / `tsx` should be used for development only. **For productive usage always precompile TypeScript code** to JavaScript for best performance and use `cds-serve` as usual.
 :::
-
 
 ### Writing TypeScript Files
 
@@ -56,6 +62,22 @@ instead of JavaScript files. This applies for service handlers, as well as a cus
 ### Samples
 
 You can also download the [*Hello World!* TypeScript sample](https://github.com/SAP-samples/cloud-cap-samples/tree/master/hello) or try out the [Full Stack TypeScript App](https://github.com/SAP-samples/btp-full-stack-typescript-app).
+
+### Developing with `cds-ts` { #cds-ts}
+
+Much like `cds-tsx`, you can also use the `cds-ts` CLI command:
+
+```sh
+cds-ts watch
+cds-ts serve world.cds
+```
+
+It uses the [ts-node](https://github.com/TypeStrong/ts-node) engine under the hood.
+
+::: tip _cds-tsx_ or _cds-ts_?
+In general, `cds-tsx` seems to be the better choice as `tsx` is much faster than `ts-node` because it does not perform type checks.
+See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
+:::
 
 ## Testing with `ts-jest`
 
@@ -95,7 +117,9 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
     jest
     ```
 
+## Building TypeScript Projects
 
+A dedicated build task for `cds build` is provided as part of the `cds-typer` package. See [Integrate Into Your Multitarget Application](../tools/cds-typer#integrate-into-your-build-process) for more information on how to customize this task.
 
 ## TypeScript APIs in `@sap/cds`
 

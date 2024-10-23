@@ -69,6 +69,8 @@ If your application relies on the standard security configuration by CAP Java an
 
 If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend using one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
 
+Though CAP does not support multiple XSUAA bindings, it was possible in previous versions to extend the standard security configuration to work with multiple bindings. If you require this, you need to set `cds.security.xsuaa.allowMultipleBinding` to `true` so that all XSUAA bindings are available in custom spring auto-configurations. Note: CAP Java still does not process multiple bindings and requires a dedicated spring configuration. In general, applications should refrain from configuring several XSUAA bindings.
+
 [Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
 [Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
 
@@ -860,7 +862,7 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 @Component
 @ServiceName("AdminService")
 public class AdminServiceHandler implements EventHandler {
-
+  // ...
 }
 ```
 
@@ -1258,6 +1260,12 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	```
 
 	This command picks up all service definitions in the Java project base directory (`srv` by default) and generates EDMX for OData V2. It also localizes the generated EDMX files with all available translations. For more information on the previous command, call `cds help compile` on the command line. If your service definitions are located in a different directory, adopt the previous command. If your service definitions are contained in multiple directories, add the previous command for each directory separately. Make sure to use at least `cds-dk 3.2.0` for this step.
+If you are using feature toggles in your CAP Java project, the list of models must also contain the features' root folder:
+
+	```xml
+	<command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
+	```
+	This command includes the folder _/fts_ and all sub-folders into the CDS model.
 
 3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 

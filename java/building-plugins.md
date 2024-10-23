@@ -67,7 +67,8 @@ Projects wanting to import the content simply add a Maven dependency to the reus
 
 Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added, to extract the models into the `target/cds/` folder of the Maven project, in order to make them available to the CDS Compiler.
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <plugin>
   <groupId>com.sap.cds</groupId>
   <artifactId>cds-maven-plugin</artifactId>
@@ -84,6 +85,8 @@ Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added
   </executions>
 </plugin>
 ```
+:::
+
 ::: details Reuse module as Maven module
 Please be aware that the module that uses the reuse module needs to be a Maven module itself or a submodule to a Maven module that declares the dependency to the Maven module. Usually you would declare the dependency in the `srv` module of your CAP Java project and use the reuse model in the service's CDS files then. In case you want to use the reuse model in your `db` module you need to make sure that your `db` module is a Maven module and include it to the project's parent `pom.xml` file.
 :::
@@ -94,7 +97,7 @@ When your Maven build is set up correctly, you can use the reuse models in your 
 using { CatalogService } from 'com.sap.capire/bookshop';
 ```
 ::: details Different resolution rules
-The location in the `using` directive differs from the [CDS model resolution rules](../cds/cdl#model-resolution). The *name* doesn't start with a `/`, `./`, `../`, or `@`. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder. Also, the [CDS editor](../tools/cds-editors) does not yet support this new location and hence shows an error marker for this line. This is going to be fixed soon.
+The location in the `using` directive differs from the default [CDS model resolution rules](../cds/cdl#model-resolution). The *name* does not refer to a local file/package, nor to an NPM package. Instead, it follows to the groupId/artifactId scheme. The name doesn't directly refer to an actual file system location but is looked up in a _cds_ folder in Maven's _target_ folder.
 :::
 
 [Learn more about providing and using reuse packages.](../guides/extensibility/composition){.learn-more}

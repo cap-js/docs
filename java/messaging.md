@@ -234,7 +234,7 @@ In this example, the `ReviewService` is declared as a remote service and thus wi
 
 ### Local Testing
 
-The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event waits until all receivers have processed the event.
+The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event blocks until all receivers have processed the event.
 
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
@@ -265,7 +265,7 @@ In local testing scenarios it might be useful to manually inject messages into t
 
 ### Using Real Brokers
 
-Besides the built-in support for `local-messaging` and `file-based-messaging`, all other implementations of technical messaging services are provided as separate CAP features, that can be included via Maven dependencies. This way you can only include the implementations needed for the message brokers you want to address.
+Besides the built-in support for `local-messaging` and `file-based-messaging`, all other implementations of technical messaging services are provided as separate CAP features, that can be included as Maven dependencies. This way you can include only the implementations needed for the message brokers you want to address.
 
 
 #### Configuring SAP Event Mesh Support: { #configuring-sap-event-mesh-support}
@@ -320,7 +320,7 @@ In contrast to SAP Event Mesh the Redis feature is a PubSub service which means 
 
 The included broker dependencies create technical CAP messaging services at the time of application start, corresponding to the bound platform services. You can access these messaging services at runtime either via the CAP service catalog, or conveniently use autowiring for injecting an instance.
 
-If using autowiring and there is only one messaging service bound, then this single instance can be injected without further parameterization. But if several messaging services are bound to your application, you need to define which of these to inject. In the following, different ways of declaring CAP messaging service instances are explained and how they relate to specific message broker service instances. After that we show how to inject a specific CAP messaging service using its name, to avoid ambiguity in case of multiple of such services should exist.
+If you're using autowiring and there is only one messaging service bound, then this single instance can be injected without further parameterization. But if several messaging services are bound to your application, you need to define which of these to inject. In the following, different ways of declaring CAP messaging service instances are explained and how they relate to specific message broker service instances. After that we show how to inject a specific CAP messaging service using its name, to avoid ambiguity in case of multiple of such services should exist.
 
 Example:
 
@@ -403,7 +403,7 @@ The Cloud Foundry environment provides information about bound services to the a
 
 #### Running on the Local System
 
-For a local development scenario, it would be annoying to deploy the application to the cloud after each change to test messaging with real brokers. You can let your local application use the message broker services in Cloud Foundry by mocking the `VCAP_SERVICES` and `VCAP_APPLICATION` environment variables locally, that Cloud Foundry uses to parametrize your application and bound services.
+For a local development scenario, it would be annoying to deploy the application to the cloud after each change to test messaging with real brokers. You can let your local application use the message broker services in Cloud Foundry by mocking the `VCAP_SERVICES` and `VCAP_APPLICATION` environment variables locally which Cloud Foundry uses to parametrize your application and bound services.
 
 In `VCAP_APPLICATION` environment variable, you need to set `application_id` and `application_name` as this information will be used when automatically generating queue names in case no names have been configured explicitly. You can set these values to arbitrary values for testing, for example, as shown here:
 
@@ -453,7 +453,7 @@ VCAP_SERVICES = {
 
 In some scenarios you need to deal with multiple message brokers, and thus have multiple messaging services bound to your application. Unfortunately, at the time of development, it is not always known how many and what kind of messaging services will be bound to the application later, and which messages should be sent to or received from which of these brokers.
 
-In such scenarios, the "Composite Messaging Service" can be used, which allows you to later on change the routing of messages to/from different brokers by the means of pure configuration, without the need of changing your code.
+In such scenarios, the "Composite Messaging Service" can be used, which allows you to change the routing of messages to/from different brokers later on by the means of pure configuration, without the need of changing your code.
 
 Let's start with a configuration example (excerpt from _application.yaml_):
 
@@ -601,7 +601,7 @@ public void receiveMyCustomQueueMessage(TopicMessageEventContext context) {
 }
 ```
 
-Furthermore, some messaging brokers support forwarding of messages to another queue. A typical use case is a dead-letter queue that receives messages that could not be delivered from another queue. For those messages you can't register a queue event as the messages have a different topic or event origin. To receive messages from a dead-letter queue, you need to register a `\*`-handler in order to receive all topic or event messages. As a `\*`-handler is not an explicit subscription it doesn't start queue listening by default. You need to explicitly enable queue listening and set property `forceListening` to `true`.
+Furthermore, some messaging brokers support forwarding of messages to another queue. A typical use case is a dead-letter queue that receives messages that could not be delivered from another queue. For those messages you can't register a queue event as the messages have a different topic or event origin. To receive messages from a dead-letter queue, you need to register a `*`-handler in order to receive all topic or event messages. As a `*`-handler is not an explicit subscription it doesn't start queue listening by default. You need to explicitly enable queue listening and set property `forceListening` to `true`.
 
 Example:
 ::: code-group
@@ -656,7 +656,7 @@ In this example, the `first-messaging` service uses the default connection and t
 
 To ensure successful delivery of messages, some message brokers require that consumers acknowledge successfully received and processed messages. Otherwise they redeliver the message. By default, messages are only acknowledged if they have been successfully processed by the CAP handler. Hence, if the message handling fails with an exception, it's redelivered by the messaging broker which can end up in an endless loop. To avoid this, you can register an error handler on the corresponding messaging service. The error handler is called when an exception is thrown during message processing and it allows you to explicitly control whether the message should be acknowledged or not.
 
-The following example demonstrates how the error handler can be used to catch messaging errors. According to the error code you can differentiate between the CAP infrastructure errors and application errors in order to inspect them and decide whether the message should be acknowledged by the broker or not.
+The following example demonstrates how the error handler can be used to catch messaging errors. Based on the error code you can differentiate between the CAP infrastructure errors and application errors in order to inspect them and decide whether the message should be acknowledged by the broker or not.
 
 ```java
 @On(service = "messaging")
@@ -706,7 +706,7 @@ If a broker supports the message acknowledgement and a message is not acknowledg
 
 Consider the following scenario: You send messages with a certain topic in your application. Now, you are also registering an `@On` handler for the same event or message topic in the same application. In such a situation the message will be sent to the broker, and once it is received back from the message broker, your registered handler will be called.
 
-If you want to consume the message purely local, and prevent the message from being sent out to the message broker, you need to register your handler with a higher priority than the default handler that sends out the message, and set the message's context to completed, so it won't be processed further (and thus sent out by the default handler).
+If you want to consume the message purely locally, and prevent the message from being sent out to the message broker, you need to register your handler with a higher priority than the default handler that sends out the message, and set the message's context to completed, so it won't be processed further (and thus sent out by the default handler).
 
 You can register your handler with a higher priority than the default handler like this:
 
@@ -724,7 +724,7 @@ public void receiveMyTopic(TopicMessageEventContext context) {
 }
 ```
 
-In the handler, we now receive the message regardless if it is incoming from a real broker, our if it is outgoing because it was emitted in the local application. We can now check if the message is incoming or outgoing, and set the context to completed, if we want to stop further processing (that means "sending") of the message.
+In the handler, we now receive the message regardless if it is incoming from a real broker, or if it is outgoing because it was emitted in the local application. We can now check if the message is incoming or outgoing, and set the context to completed, if we want to stop further processing (that means "sending") of the message.
 
 
 ### Topic Prefixing

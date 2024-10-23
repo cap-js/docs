@@ -235,7 +235,7 @@ SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-conf
 
 - [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
 
-- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
+- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alm).
 
 ### Open Telemetry { #open-telemetry }
 
@@ -268,13 +268,17 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
   # ...
   properties:
     # ...
-    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar']"
+    JBP_CONFIG_JAVA_OPTS: 
+      from_environment: false
+      java_opts: >
+        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar 
+        -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar
 ```
 :::
 
 The buildpack delivers the Open Telemetry Agent Extension library with the common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities.
 
-[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more} 
+[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more}
 
 For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
@@ -318,6 +322,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
        # ...
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging
+       OTEL_LOGS_EXPORTER: none
    ```
    :::
 
@@ -356,9 +361,9 @@ The following steps describe the required configuration:
 
 #### CAP Instrumentation
 
-By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
+By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
-| Logger Name                                    | Required Level | Description                                                |
+| Logger                                         | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|
 | `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
@@ -591,7 +596,19 @@ management:
 The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
 
 ::: tip
-For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
+For multitenancy scenarios, CAP Java replaces the default `db` indicator with an implementation that includes the status of all tenant databases.
+:::
+
+In addition CAP Java offers a health indicator `modelProvider`. This health indicator allows to include the status of the MTX sidecar serving the [Model Provider Service](/java/reflection-api#the-model-provider-service).
+
+```yaml
+management:
+  health:
+    modelProvider.enabled: true
+```
+
+::: warning
+The `modelProvider` health indicator requires `@sap/cds` version `7.8.0` or higher in MTX sidecar.
 :::
 
 Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up, `503` for down) in JSON format with the overall `status` property (for example, `UP` or `DOWN`) and the contributing components:

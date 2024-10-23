@@ -383,6 +383,10 @@ Searches the `title` element only.
 
 ##### Extend Search to *Associated* Entities
 
+::: warning Node.js: Only w/ streamlined database services
+For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
+:::
+
 ```cds
 @cds.search: { author }
 entity Books { ... }
@@ -1033,6 +1037,8 @@ service Sue {
   entity Foo { key ID:Integer } actions {
     function getStock() returns Integer;
     action order (x:Integer) returns Integer;
+    //bound to the collection and not a specific instance of Foo
+    action customCreate (in: many $self, x: String) returns Foo;
   }
 }
 ```
@@ -1046,12 +1052,7 @@ The differentiation between *Actions* and *Functions* as well as *bound* and *un
 - **Actions** modify data in the server
 - **Functions** retrieve data
 - **Unbound** actions/functions are like plain unbound functions in JavaScript.
-- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript.
-
-::: tip Prefer *Unbound* Actions/Functions
-From CDS perspective we recommend **preferring unbound** actions/functions, as these are much more straightforward to implement and invoke.
-:::
-
+- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript. The exception are bound actions to collections, which are bound against the collection and not a specific instance of the entity. An example use case are custom create actions for the SAP Fiori elements UI.
 
 
 ### Implementing Actions / Functions
@@ -1163,10 +1164,6 @@ You can use the following annotations in the service model to indicate that an e
 
 `@Core.ContentDisposition.Type`
 : Can be used to instruct the browser to display the element inline, even if `@Core.ContentDisposition.Filename` is specified, by setting to `inline` (see the fifth example). If omitted, the behavior is `@Core.ContentDisposition.Type: 'attachment'`.
-
-::: warning
-`@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
-:::
 
 [Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 

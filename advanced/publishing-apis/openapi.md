@@ -202,6 +202,22 @@ annotate SampleService with @(
 );
 ```
 
+## OpenAPI Extensions
+
+To add the sap defined Specification Extensions `@OpenAPI.Extensions` can be used like below.
+
+This is an example of a CDS service annotated with the annotations above:
+
+```cds
+annotate SampleService with @(
+    @OpenAPI.Extensions: {
+        ![compliance-level]: 'sap:base:v1'
+      }
+);
+```
+
+This annotation can be used in root, entity and in function/action level.
+
 
 ## Frequently Asked Questions { #faq label='FAQs'}
 

@@ -36,7 +36,7 @@ In addition, for activating the Spring integration of CAP Java, the following ru
 <dependency>
 	<groupId>com.sap.cds</groupId>
 	<artifactId>cds-framework-spring-boot</artifactId>
-	<version>${revision}</version>
+	<version>${cds.services.version}</version>
 	<scope>runtime</scope>
 </dependency>
 ```
@@ -47,12 +47,12 @@ It might be easier to use the CDS starter bundle `cds-starter-spring-boot-odata`
 <dependency>
 	<groupId>com.sap.cds</groupId>
 	<artifactId>cds-starter-spring-boot-odata</artifactId>
-	<version>${revision}</version>
+	<version>${cds.services.version}</version>
 </dependency>
 ```
 
 ::: tip
-If you refreign from adding explicit Spring or Spring Boot dependencies in your service configuration,
+If you refrain from adding explicit Spring or Spring Boot dependencies in your service configuration,
 the CDS integration libraries transitively retrieve the recommended Spring Boot version for the current CAP Java version.
 :::
 

@@ -1931,7 +1931,7 @@ Select.from(AUTHORS).where(author -> author.name().in(
 ));
 ```
 
-or in tree style. In this example we check wether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+or in tree style. In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
 
 ```java
 CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));

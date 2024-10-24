@@ -435,7 +435,7 @@ WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
 ::: warning
-Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Constant values, expressions such as *case when* and [associations with filter](../../cds/cdl#publish-associations-with-filter) are currently ignored.
+Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Constant values, expressions such as *case when* and [association filters](../../cds/cdl#publish-associations-with-filter) are currently ignored.
 
 Complex views using aggregations or union/join/subqueries in `FROM` are not supported.
 :::

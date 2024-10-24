@@ -1433,19 +1433,14 @@ Scalar functions are values that are calculated from other values. This calculat
 
 #### Case-When-Then Expressions
 
-Use a case expression to compute a value based on the evaluation of connditions. The following query converts a person's numeric age value to a textual ageTxt representation:
+Use a case expression to compute a value based on the evaluation of conditions. The following query converts the stock of Books into a textual representation as 'stockLevel':
 
 ```java
-Select.from(PERSONS).columns(
-  p -> p.name(),
-  p -> p.when(p.age().lt(25)).then("young")
-        .when(p.age().ge(75)).then("elderly")
-        .orElse("adult").as("ageTxt").type(CdsBaseType.String));
-```
-
-::: tip
-You should specify the result type so that the runtime case respect it accordingly.
-:::
+Select.from(BOOKS).columns(
+  b -> b.title(),
+  b -> b.when(b.stock().lt(10)).then("low")
+        .when(b.stock().gt(100)).then("high")
+        .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
 
 
 #### Arithmetic Expressions

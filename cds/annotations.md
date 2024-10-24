@@ -66,15 +66,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Persistence
 
-| Annotation                | Description                                                        |
-|---------------------------|--------------------------------------------------------------------|
-| `@cds.persistence.exists` | tells `compile.to.sql` this is created otherwise                   |
-| `@cds.persistence.table`  | tells `compile.to.sql` to create a table, not a view               |
-| `@cds.persistence.skip`   | tells the compiler, this entity shall not exist in database at all |
-| `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                |
-| `@cds.on.insert`          | see [Providing Services](../guides/providing-services)            |
-| `@cds.on.update`          | see [Providing Services](../guides/providing-services)            |
-
+| Annotation                | Description                                                            |
+|---------------------------|------------------------------------------------------------------------|
+| `@cds.persistence.exists` | see [Generating DDL Files](../guides/databases#cds-persistence-exists) |
+| `@cds.persistence.table`  | see [Generating DDL Files](../guides/databases#cds-persistence-table)  |
+| `@cds.persistence.skip`   | see [Generating DDL Files](../guides/databases#cds-persistence-skip)   |
+| `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                    |
+| `@cds.on.insert`          | see [Providing Services](../guides/providing-services)                 |
+| `@cds.on.update`          | see [Providing Services](../guides/providing-services)                 |
+| `@sql.prepend`            | see [Generating DDL Files](../guides/databases#sql-prepend-append)     |
+| `@sql.append`             | see [Generating DDL Files](../guides/databases#sql-prepend-append)     |
 
 ## OData
 

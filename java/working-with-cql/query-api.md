@@ -1431,6 +1431,18 @@ Scalar functions are values that are calculated from other values. This calculat
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
 
+#### Case-When-Then Expressions
+
+Use a case expression to compute a value based on the evaluation of conditions. The following query converts the stock of Books into a textual representation as 'stockLevel':
+
+```java
+Select.from(BOOKS).columns(
+  b -> b.title(),
+  b -> b.when(b.stock().lt(10)).then("low")
+        .when(b.stock().gt(100)).then("high")
+        .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
+
+
 #### Arithmetic Expressions
 
 Arithmetic Expressions are captured by scalar functions as well:
@@ -1908,7 +1920,24 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 > **Note:** Chaining `$outer` in nested subqueries is not supported.
 
+### `IN` Subquery
 
+An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style as well as in fluent style:
+
+```java
+// fluent style
+Select.from(AUTHORS).where(author -> author.name().in(
+    Select.from(ASTRONAUTS).columns(astro -> astro.name())
+));
+```
+
+or in tree style. In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+
+```java
+CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
+CqnSelect subquery = Select.from("spaceflight.Astronauts").columns("firstName", "lastName");
+Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
+```
 
 ## Parsing CQN
 

@@ -4,7 +4,7 @@
   >
   <!-- :hideTriggers="[]" :shown="true" -->
 
-    <a class="cfg vp-doc"><code>{{ label }}</code></a>
+    <a class="cfg vp-doc"><code class="cfg">{{ label }}</code></a>
 
     <template #popper>
       <div class="vp-code-group vp-doc" v-if="java">
@@ -76,12 +76,15 @@
       </div>
     </template>
   </VDropdown>
-  <code v-else>{{ label }}</code> <!-- intermdiate fallback -->
+  <code class="cfg" v-else>{{ label }}</code> <!-- intermdiate fallback -->
 </template>
 
 <style>
   .v-popper--theme-cfgPopper .v-popper__inner {
     background-color: var(--vp-code-block-bg) !important;
+  }
+  code.cfg::after {
+    content: " ⛭";
   }
 </style>
 
@@ -116,7 +119,7 @@
   const slotVal = slots.default?.().at(0)?.children?.toString() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
-  const label = `${keyOnly ? key: slotVal} ⛭`
+  const label = `${keyOnly ? key: slotVal}`
 
   const cfgKey = ref()
   const popperVisible = ref(false)

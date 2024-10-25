@@ -344,7 +344,7 @@ npm add @sap/xssec
 [See **XSUAA in Hybrid Setup** below for additional information of how to test this](#xsuaa-setup){.learn-more}
 
 ::: warning
-It's recommended to only use this authentication kind if it's necessary for your use case, as it denotes a lock-in to SAP BTP.
+Only use this authentication kind if it's required for your use case, as it binds you to a specific authentication service on SAP BTP.  Adjustments might be necessary if you want to change to a different authentication service in the future.
 :::
 
 

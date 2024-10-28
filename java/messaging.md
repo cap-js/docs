@@ -681,7 +681,7 @@ private void handleError(MessagingErrorEventContext ctx) {
 }
 ```
 
- In the multitenant application, there may be scenarios in which the client is not yet or no longer available. In this case, the message cannot be processed for the client because the client context is not available. In this case, the standard error handler acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant. 
+In the multitenant application, there may be race conditions in the subscription process. In this case, the message cannot be processed for the tenant because the tenant context is not available. In this case, the standard error handler acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant. 
 
 
 ```java

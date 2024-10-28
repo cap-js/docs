@@ -828,6 +828,14 @@ CREATE TABLE Books_texts (
 Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
+
+
+**this is the text from spec meeting wiki, needs to be reworked:**  
+If a user runs into a FK constraint error, there is nothing he/she can do, but it signals that the implementation of the app itself has deficiencies
+→ the FK constraint is on the level of an assertion.
+Thus a FK violation error is a signal to the app developer that he needs to do something. This signal comes quite late, only when the app is already up and running.
+In the same sense the deployment error  due to trigger limit is an early signal to the app developer that he needs to think about a mechanism in the app that ensures that no wrong data can get in to the DB.
+
 :::
 
 

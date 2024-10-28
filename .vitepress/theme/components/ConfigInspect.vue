@@ -1,9 +1,10 @@
 <template>
-  <VDropdown theme="cfgPopper" :distance="6" :triggers="['click', 'hover']" :delay="300" :popperTriggers="['hover']"
+
+  <VDropdown v-if="popperVisible" :ariaId="`aria-`+cfgKey" theme="cfgPopper" :distance="6" :triggers="['click', 'hover']" :delay="300" :popperTriggers="['hover']"
   >
   <!-- :hideTriggers="[]" :shown="true" -->
 
-    <a class="cfg vp-doc"><code>{{ label }}</code></a>
+    <a class="cfg vp-doc"><code class="cfg">{{ label }}</code></a>
 
     <template #popper>
       <div class="vp-code-group vp-doc" v-if="java">
@@ -75,11 +76,15 @@
       </div>
     </template>
   </VDropdown>
+  <code class="cfg" v-else>{{ label }}</code> <!-- intermdiate fallback -->
 </template>
 
 <style>
   .v-popper--theme-cfgPopper .v-popper__inner {
     background-color: var(--vp-code-block-bg) !important;
+  }
+  code.cfg::after {
+    content: " ⛭";
   }
 </style>
 
@@ -100,50 +105,66 @@
 </style>
 
 <script setup lang="ts">
+  import { onMounted, ref, useSlots } from 'vue'
   import FloatingVue from 'floating-vue'
-  FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
+  import yaml from 'yaml'
 
-  import { useSlots } from 'vue'
+  const { java, keyOnly } = defineProps<{
+    java?: boolean,
+    keyOnly?: boolean
+  }>()
+  FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()
   const slotVal = slots.default?.().at(0)?.children?.toString() ?? 'error: provide <Config>your_key:value</Config>'
 
-  const { java, keyOnly } = withDefaults(defineProps<{
-    java?:boolean,
-    keyOnly?: boolean
-  }>(), {
-    java: false,
-    keyOnly: false
+  const [key, val] = slotVal.split(/\s*[:=]\s*/)
+  const label = `${keyOnly ? key: slotVal}`
+
+  const cfgKey = ref()
+  const popperVisible = ref(false)
+  const group = ref()
+  const pkgStr = ref()
+  const propStr = ref()
+  const envStr = ref()
+  const javaAppyml = ref()
+  const javaEnvStr = ref()
+
+  onMounted(() => {
+    popperVisible.value = true
+
+    cfgKey.value = key
+    let value:any = val
+    if (val === 'true')  value = true
+    else if (val === 'false')  value = false
+    else if (val === 'null')  value = null
+    else if (parseInt(val).toString() === val)  value = parseInt(val)
+    else if (parseFloat(val).toString() === val)  value = parseFloat(val)
+    else if (!val)  value = '…'
+
+    group.value = 'group-'+key
+
+    let jsonVal
+    if (typeof value === 'string' && value.trim().match(/^[[{].*[\]}]$/)) { try { jsonVal = JSON.parse(value) } catch {/*ignore*/ } }
+    const pkg = toJson(key, jsonVal ?? value)
+
+    pkgStr.value = JSON.stringify(pkg, null, 2)
+    propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
+    envStr.value = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${jsonVal ? JSON.stringify(jsonVal) : value}`
+
+    javaAppyml.value = yaml.stringify(pkg)
+    javaEnvStr.value = `-D${propStr.value}`
+
   })
 
-  const [key, val] = slotVal.split(/\s*[:=]\s*/)
-  let value:any = val
-  if (val === 'true')  value = true
-  else if (val === 'false')  value = false
-  else if (!val)  value = '…'
-
-  const group = 'group-'+key
-
-  const pkg = toJson(key, value)
-  const pkgStr = JSON.stringify(pkg, null, 2)
-  const propStr = `${key}=${value}`
-  const envStr = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${value}`
-
-  import yaml from 'yaml'
-  const javaAppyml = yaml.stringify(pkg)
-
-  const javaEnvStr = `-D${propStr}`
-
-  const label = `${keyOnly ? key: slotVal} ⛭`
-
-  function toJson(key:string, value:string): Record<string, any> {
-    let res  = {}
-    const parts = key.split('.')
-    parts.reduce((r:Record<string,any>, a, i) => {
-      r[a] = r[a] || (i < parts.length-1 ? {} : value)
-      return r[a];
-    }, res)
-    return res
-  }
+function toJson(key:string, value:string): Record<string, any> {
+  let res  = {}
+  const parts = key.split('.')
+  parts.reduce((r:Record<string,any>, a, i) => {
+    r[a] = r[a] || (i < parts.length-1 ? {} : value)
+    return r[a];
+  }, res)
+  return res
+}
 
 </script>

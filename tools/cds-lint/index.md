@@ -8,25 +8,6 @@ status: released
 
 # CDS Lint
 
-
-<style lang="scss" scoped>
-  .cols-2 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  @media (min-width: 640px) {
-    .cols-2 {
-      gap: 2em;
-    }
-    .cols-2 > * {
-      &:first-child {
-        flex: 1;
-      }
-    }
-  }
-</style>
-
 <div class="cols-2">
 
 <div>

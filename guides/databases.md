@@ -735,9 +735,7 @@ The information about foreign key relations contained in the associations of CDS
 
 Enable generation of foreign key constraints on the database with:
 
-```js
-cds.features.assert_integrity = 'db'
-```
+<Config>cds.features.assert_integrity = db</Config>
 
 ::: warning Database constraints are not supported for H2
 Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.

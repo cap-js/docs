@@ -123,7 +123,7 @@ cap/sflight/
 
 ### `.Bundle` {.property}
 
-Facade property providing access to the [`I18nBundle`](#i18nbundle) class. While you should prefer usiing the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can use this to create own subclasses of `I18nBundle`, like this: {.indent}
+Facade property providing access to the [`I18nBundle`](#i18nbundle) class. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can use this to create own subclasses of `I18nBundle`, like this: {.indent}
 
 ```js
 class My18nBundle extends cds.i18n.Bundle {...}

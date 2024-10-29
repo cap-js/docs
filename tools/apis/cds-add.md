@@ -98,7 +98,7 @@ In our example, we'll create a file _lib/add.js_:
 
 ::: code-group
 ```js [lib/add.js]
-const cds = require('@sap/cds-dk') //> load from cds-dk
+const cds = require('@sap/cds')
 
 module.exports = class extends cds.add.Plugin {
 

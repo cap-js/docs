@@ -15,9 +15,9 @@ There are two standard i18n bundles available through these static properties:
 - [`cds.i18n.labels`](#labels) are used for generating localised UIs.
 - [`cds.i18n.messages`](#messages) are used for error messages generated at runtime.
 
-#### Localized UIs
+### Localized (Fiori) UIs
 
-The former is used automatically when generating OData `$metadata` documents for Fiori elements to lookup translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
+The former, that is [`cds.i18n.labels`](#labels), is used automatically when generating OData `$metadata` documents for Fiori elements to lookup translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
 
 ::: code-group
 
@@ -29,9 +29,9 @@ annotate CatalogService.Books with @title: '{i18n>Book}'
 
 
 
-#### Localized Messages
+### Localized Messages
 
-The latter is used automatically for all error or notification messages created through [`req.reject/error/info/warn(...)`](./events#req-reject), which includes all framework-created error messages, like input validation errors, as well as custom errors. For example you could add a new entry to the `_i18n/messages.properties`:
+The latter, that is [`cds.i18n.messages`](#messages), is used automatically for all error or notification messages created through [`req.reject/error/info/warn(...)`](./events#req-reject), which includes all framework-created error messages, like input validation errors, as well as custom errors. For example you could add a new entry to the `_i18n/messages.properties`:
 
 ::: code-group
 ```properties [_i18n/messages.properties]
@@ -56,9 +56,9 @@ ORDER_EXCEEDS_STOCK = The order of {quantity} books exceeds available stock {sto
 
 
 
-#### Direct Usage of `cds.i18n`
+### Direct Usage of `cds.i18n`
 
-In addition, you can also use `cds.i18n` explicitly like that:
+In addition, you can also use both standard bundles directly in your code like that:
 
 ```js
 cds.i18n.labels.at('CreatedAt','de')  //> 'Erstellt am'
@@ -66,7 +66,7 @@ cds.i18n.labels.at('CreatedAt')       //> 'Created At'
 cds.i18n.messages.at('ASSERT_FORMAT', [11,12])
 ```
 
-You can also introduce and use new bundles:
+You can also introduce and use your own, separate bundles:
 
 ```js
 const b = cds.i18n.bundle4('your-bundle')
@@ -396,6 +396,46 @@ cds.i18n.sources //> ...
 ### `.roots` {.property}
 
 An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n [`.folders`](#folders). The default is `[ cds.root ]`. {.indent}
+
+
+
+## Configuration Options
+
+Find the configuration options to customize `cds.i18n` in the table below. You can use these options in your package.json like so:
+
+::: code-group
+
+```json [package.json]
+"cds": {
+  "i18n": {
+    "default_language": "fr"
+  }
+}
+```
+
+:::
+
+[Learn more about configuration in the reference docs for `cds.env`](cds-env){.learn-more}
+
+
+
+| Config Option               | Description                                                  |
+| --------------------------- | ------------------------------------------------------------ |
+| `cds.i18n.file`             | The [`.file` basename](#file) used for the [`cds.i18n.labels`](#labels) bundle. <br />*Default:* `"i18n"`. |
+| `cds.i18n.folders`          | An array of (relative) folder names that will be appended to the source directories in a cross-product fashion of the default `cds.model`  when fetching for existing i18n [`folders`](#folders). <br />*Default:* `["_i18n","i18n"]` |
+| `cds.i18n.default_language` | The locale used for [default translations](#defaults). <br />*Default:* `"en"` |
+
+::: danger
+
+Please be aware that changing these configurations does not only affect your usage of your i18n bundles, but also all bundles provided by reuse packages you might use, including the ones provided by the CAP framework itself, such as the labels for the `@sap/cds/common` types, or the default messages used by the Node.js runtime.  
+
+:::
+
+::: warning
+
+Ensure you correctly understand how the config option `cds.i18n.folders` work before changing it: essentially a **cartesian product** (*source dirs **x** i18n folders*) of all source directories with the entries in this config option is created to check each if such a directory exists and contains files matching the respective bundle's basename.
+
+:::
 
 
 

@@ -168,7 +168,7 @@ b1 === cds.i18n.foo                //> true
 
 ## `I18nBundle` {.class}
 
-Instances of this class provide access to translated texts in different languages. You can refer to this class from the [`cds.i18n.Bundle`](#bundle) facade property. 
+Instances of this class provide access to translated texts in different languages. You can refer to this class from the [`cds.i18n.Bundle`](#bundle) facade property.
 
 
 
@@ -186,7 +186,7 @@ function constructor (options: {
 })
 ```
 
-Fills in the properties from options into the respective instance properties documented subsequently. For example this will create a new instance with properties [`file`](#file) and [`folder`](#folder) filled in from the passed in options:
+Fills in the properties from options into the respective instance properties documented subsequently. For example this will create a new instance with properties [`file`](#file) and [`folder`](#folders) filled in from the passed in options:
 
 ```js
 const b = new cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
@@ -204,7 +204,7 @@ The locale used for [default translations](#defaults). By default `en` is used a
 
 ### `.defaults` {.property}
 
-Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. By default loads the translations with [`default_language`](#default_language) {.indent}
+Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. By default loads the translations with [`default_language`](#default-language) {.indent}
 
 
 
@@ -230,7 +230,7 @@ cds.i18n.labels.file   //> 'i18n'
 
 ### `.folders` {.property}
 
-An array of folder names to fetch i18n files from. Values can be specified through the constructor for individual bundles. If not specified the value is taken from config option <Config keyOnly> cds.i18n.folders </Config>. *Default:* `['_i18n','i18n']`: {.indent}
+An array of folder names to fetch i18n files from. Values can be specified through the constructor for individual bundles. If not specified the value is taken from config option <Config keyOnly> cds.i18n.folders: ["_i18n","i18n"] </Config>. *Default:* `['_i18n','i18n']`: {.indent}
 
 [Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
 
@@ -360,7 +360,7 @@ In effect i18n folders and hence files are fetched from the neighborhood of the 
 
 #### 1. Starting from model `$sources`
 
-For example given these model sources in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample: 
+For example given these model sources in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample:
 
 ```js
 $sources = cds.model.$sources //> ...
@@ -406,13 +406,13 @@ For each of the source directories, we would now check for existence of a sub di
 
 ```sh
 check /cap/sflight/node_modules/@sap/cds
-  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES 
+  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES
 
 check /cap/sflight/db
   exists ./_i18n/i18n*.properties #> no
   exists ./i18n/i18n*.properties #> no
 check /cap/sflight
-  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES  
+  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES
 
 check /cap/sflight/srv
   exists ./_i18n/i18n*.properties #> no
@@ -452,7 +452,7 @@ i18n_folders = [
 
 ::: tip Why fetching from model's neighborhood?
 
-The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to easily support usage of reuse packages, which might come with own i18n bundles. As such reuse packages frequently bring own `.cds` models, we can take the locations of these as the starting points to search for i18n folders up the file system hierarchy. 
+The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to easily support usage of reuse packages, which might come with own i18n bundles. As such reuse packages frequently bring own `.cds` models, we can take the locations of these as the starting points to search for i18n folders up the file system hierarchy.
 
 :::
 
@@ -517,7 +517,7 @@ Find the configuration options to customize `cds.i18n` in the table below. You c
 
 ::: danger
 
-Please be aware that changing these configurations does not only affect your usage of your i18n bundles, but also all bundles provided by reuse packages you might use, including the ones provided by the CAP framework itself, such as the labels for the `@sap/cds/common` types, or the default messages used by the Node.js runtime.  
+Please be aware that changing these configurations does not only affect your usage of your i18n bundles, but also all bundles provided by reuse packages you might use, including the ones provided by the CAP framework itself, such as the labels for the `@sap/cds/common` types, or the default messages used by the Node.js runtime.
 
 :::
 

@@ -198,10 +198,9 @@ Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent 
 
 
 
-### .cmd {.property}
+### .kind {.property}
 
-
-The current command, that is one of these strings:
+The kind of query, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`
@@ -542,7 +541,7 @@ try {
 
 The `options` argument is optional; currently supported is:
 
-* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
+* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via <Config keyOnly>cds.sql.lock_acquire_timeout: -1</Config>. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
 
 All acquired locks are released when the current transaction is finished, that is, committed  or rolled back.
 

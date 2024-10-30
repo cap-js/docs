@@ -426,7 +426,7 @@ export default function custom_auth(req: Req, res: Response, next: NextFunction)
 
 In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitely get `@requires: 'authenticated-user'`.
 
-This can be disabled via feature flag `cds.env.requires.auth.restrict_all_services: false`, or by using [mocked authentication](#mocked) explicitly in production.
+This can be disabled via feature flag <Config>cds.requires.auth.restrict_all_services: false</Config>, or by using [mocked authentication](#mocked) explicitly in production.
 
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}

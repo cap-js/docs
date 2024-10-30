@@ -1893,17 +1893,17 @@ You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/co
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
-import static spaceflight.Astronautics_.ASTRONAUTS;
+import static socialmedia.Journalists_.JOURNALISTS;
 
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name()))
+      Select.from(JOURNALISTS).where(journalist -> journalist.name().eq($outer.name()))
     )
   );
 ```
 
-This query selects all authors with the name of an astronaut.
+This query selects all authors with the name of an journalist.
 ::: tip
 With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
@@ -1913,7 +1913,7 @@ When using the [tree-style API](#composing-predicates) the _outer_ query is addr
 ```java
 // tree style
 CqnSelect subquery =
-  Select.from("Astronauts")
+  Select.from("Journalists")
         .where(a -> a.get("name").eq(CQL.get("$outer.name")));
 Select.from("Authors").where(CQL.exists(subquery));
 ```
@@ -1922,20 +1922,21 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 ### `IN` Subquery
 
-An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style as well as in fluent style:
+An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style or in tree style:
 
 ```java
 // fluent style
 Select.from(AUTHORS).where(author -> author.name().in(
-    Select.from(ASTRONAUTS).columns(astro -> astro.name())
+    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
 ));
 ```
 
-or in tree style. In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
 
 ```java
+// tree style
 CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
-CqnSelect subquery = Select.from("spaceflight.Astronauts").columns("firstName", "lastName");
+CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
 Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
 ```
 

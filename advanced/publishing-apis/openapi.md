@@ -242,3 +242,9 @@ To suppress only GET by-key requests to an entity set and still allow GET list, 
     }
 }
 ```
+
+### Why are enumeration types not part of the API?
+
+If the `enum` type is not part of the `service` definition, they are not explicitly exposed and hence
+not part of the API. Exposing just elements that are typed with an enumeration type is not sufficient.
+This is done on purpose to not "leak" intentionally private information.

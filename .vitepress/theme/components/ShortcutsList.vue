@@ -134,7 +134,7 @@ function commandsFromConfig() {
           url.search = window.location.search
           url.hash = window.location.hash
         } else { // local URLs
-          url.href = url.href.replace('${filePath}', page.value.filePath)
+          url.href = url.href.replace(encodeURIComponent('${filePath}'), page.value.filePath)
           const el = document.getElementById('secondary-file')
           if (el?.textContent) {
             url.href = url.href.replace('${secondaryFilePath}', el.textContent)

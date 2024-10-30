@@ -483,6 +483,8 @@ i18n_folders = [
 ]
 ```
 
+Static folders can also be fully-qualified absolute filenames, e.g. `path.resolve(__dirname,'../i18n')`.
+
 You can also combine static folders with relative ones in your custom configs.
 
 

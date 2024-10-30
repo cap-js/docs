@@ -66,6 +66,8 @@ cds.i18n.labels.at('CreatedAt')       //> 'Created At'
 cds.i18n.messages.at('ASSERT_FORMAT', [11,12])
 ```
 
+[Learn more about `bundle.at(key...)`, the central method to lookup localized texts](#at-key){.learn-more}
+
 You can also introduce and use your own, separate bundles:
 
 ```js
@@ -166,23 +168,87 @@ b1 === cds.i18n.foo                //> true
 
 ## `I18nBundle` {.class}
 
+Instances of this class provide access to translated texts in different languages. You can refer to this class from the [`cds.i18n.Bundle`](#bundle) facade property. 
+
+
+
+### `constructor` {.method}
+
 ```tsx
-class I18nBundle extends I18nResources {...}
+function constructor (options: {
+  default_language?: string,
+  defaults?: { [string]: [string] },
+  fallback?: { [string]: [string] },
+  file?: string,
+  folders?: string[],
+  roots?: string[],
+  model?: CSN,
+})
 ```
 
-Instances of this class provide access to translated texts in different languages.
+Fills in the properties from options into the respective instance properties documented subsequently. For example this will create a new instance with properties [`file`](#file) and [`folder`](#folder) filled in from the passed in options:
+
+```js
+const b = new cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
+```
+
+
+
+
+
+### `.default_language` {.property}
+
+The locale used for [default translations](#defaults). By default `en` is used as the default locale, which can be changed through config option <Config> cds.i18n.default_language </Config>. {.indent}
 
 
 
 ### `.defaults` {.property}
 
-Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. By default `en` is used as the default locale, which can be changed through config option <Config> cds.i18n.default_language </Config>. {.indent}
+Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. By default loads the translations with [`default_language`](#default_language) {.indent}
 
 
 
 ### `.fallback` {.property}
 
 Provides access to the fallback translations used as a second-level fallback if a locale-specific translation is not found and also none in the [default translations](#defaults). {.indent}
+
+
+
+
+
+### `.file` {.property}
+
+This is the base name for properties files to load translations from by this bundle. For example the basename of the [`cds.i18n.messages`](#messages) bundle is `'messages'`, the basename of the [`cds.i18n.labels`](#labels) bundle is `'i18n'`:
+{.indent}
+
+```js
+cds.i18n.messages.file  //> 'messages'
+cds.i18n.labels.file   //> 'i18n'
+```
+
+
+
+### `.folders` {.property}
+
+An array of folder names to fetch i18n files from. Values can be specified through the constructor for individual bundles. If not specified the value is taken from config option <Config keyOnly> cds.i18n.folders </Config>. *Default:* `['_i18n','i18n']`: {.indent}
+
+[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
+
+
+
+### `.model` {.property}
+
+The model passed in through the constructor, if any. Used when resolving relative [`.folders`](#folders) entries from the neighborhood of this model's `$sources`. {.indent}
+
+[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
+
+
+
+### `.roots` {.property}
+
+An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n [`.folders`](#folders). The default is `[ cds.root ]`. {.indent}
+
+[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
 
 
 
@@ -272,91 +338,32 @@ This method is used internally by [`bundle.at()`](#at-key) to lazily load all tr
 
 
 
-## `I18nResources` {.class}
+## Fetching i18n Folders...
 
-This is the base class of [`I18nBundle`](#i18nbundle) which provides all methods to fetch and load 18n [`.files`](#files).
+### from models' neighborhood
 
+By default, the config option <Config keyOnly> `cds.i18n.folders` </Config> is defined using relative folder names (i.e., ***without* leading slash**) as follows:
 
+::: code-group
 
-### `constructor` {.method}
-
-```tsx
-function constructor (options: {
-  file?: string,
-  folders?: string[],
-  roots?: string[],
-  model?: CSN,
-})
-```
-
-
-
-### `.file` {.property}
-
-This is the base name for properties files to load translations from by this bundle. For example the basename of the [`cds.i18n.messages`](#messages) bundle is `'messages'`, the basename of the [`cds.i18n.labels`](#labels) bundle is `'i18n'`:
-{.indent}
-
-```js
-cds.i18n.messages.file  //> 'messages'
-cds.i18n.labels.file   //> 'i18n'
-```
-
-
-
-### `.files` {.property}
-
-This is a getter which lazily fetches all files matching this bundle's [`.file` base name](#file) in all i18n [`.folders`](#folders). The value returned is a dictionary of files by folders like that in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample: {.indent}
-
-```js
-cds.i18n.files  //> ...
-{
-  '/cap/sflight/node_modules/@sap/cds/_i18n': [
-    'i18n.properties',
-    'i18n_ar.properties',
-    'i18n_bg.properties',
-    'i18n_cs.properties',
-    'i18n_da.properties',
-    'i18n_de.properties',
-    'i18n_en.properties',
-    // ...
-  ],
-  '/cap/sflight/_i18n': [
-    'i18n.properties',
-    'i18n_de.properties',
-    'i18n_en.properties',
-    'i18n_fr.properties'
-  ]
+```json [package.json]
+"cds": {
+  "i18n": {
+    "folders": ["_i18n","i18n"]
+  }
 }
 ```
 
+:::
 
+In effect i18n folders and hence files are fetched from the neighborhood of the current `cds.model`'s `$sources` as follows...
 
+#### 1. Starting from model `$sources`
 
-
-### `.folders` {.property}
-
-The effective i18n folders from which this bundle will load files from. If not specified in the constructor, the getter lazily fetches all i18n [`.files`](#files)  in the neighborhood of the current default model's source files, with a result like this in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample: {.indent}
-
-An array of folder names to fetch i18n files from. By default this is filled from config option <Config keyOnly> cds.i18n.folders </Config>, which has these default values: {.indent}
+For example given these model sources in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample: 
 
 ```js
-cds.i18n.folders //> ...
-[
-  '/cap/sflight/node_modules/@sap/cds/_i18n',
-  '/cap/sflight/_i18n'
-]
-```
-
-
-
-
-
-### `.sources` {.property}
-
-An array of absolute directory names used as the starting point to fetch for i18n [`.folders`](#folders) and [`.files`](#files).  By default these are the directories of the current default model's sources files. For example given these model sources in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample: {.indent}
-
-```js
-cds.model.$sources //> ...
+$sources = cds.model.$sources //> ...
 [
   '/cap/sflight/app/value-helps.cds',
   '/cap/sflight/app/services.cds',
@@ -375,10 +382,10 @@ cds.model.$sources //> ...
 ]
 ```
 
-... we would get these source directories:
+#### 2. Get distinct source directories
 
 ```js
-cds.i18n.sources //> ...
+$sourcedirs = Array.from(new Set($sources.map(path.dirname))).reverse() //> ...
 [
   '/cap/sflight/node_modules/@sap/cds',
   '/cap/sflight/db',
@@ -393,9 +400,90 @@ cds.i18n.sources //> ...
 
 
 
-### `.roots` {.property}
+#### 3. Check for existing & matching `i18n.folders`
 
-An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n [`.folders`](#folders). The default is `[ cds.root ]`. {.indent}
+For each of the source directories, we would now check for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename, and if none match move up the directory tree and repeat like that:
+
+```sh
+check /cap/sflight/node_modules/@sap/cds
+  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES 
+
+check /cap/sflight/db
+  exists ./_i18n/i18n*.properties #> no
+  exists ./i18n/i18n*.properties #> no
+check /cap/sflight
+  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES  
+
+check /cap/sflight/srv
+  exists ./_i18n/i18n*.properties #> no
+  exists ./i18n/i18n*.properties #> no
+check /cap/sflight #> already checked above
+
+check /cap/sflight/app/travel_analytics
+  exists ./_i18n/i18n*.properties #> no
+  exists ./i18n/i18n*.properties #> no
+check /cap/sflight/app
+  exists ./_i18n/i18n*.properties #> no
+  exists ./i18n/i18n*.properties #> no
+check /cap/sflight #> already checked above
+
+check /cap/sflight/app/travel_processor
+  exists ./_i18n/i18n*.properties #> no
+  exists ./i18n/i18n*.properties #> no
+check /cap/sflight/app #> already checked above
+
+check /cap/sflight/app #> already checked above
+```
+
+
+
+#### 4. Result: i18n folders used by bundle
+
+So we would end up in having found these two directories from which we would load `.properties` files subsequently:
+
+```js
+i18n_folders = [
+  '/cap/sflight/node_modules/@sap/cds/_i18n',
+  '/cap/sflight/_i18n'
+]
+```
+
+
+
+::: tip Why fetching from model's neighborhood?
+
+The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to easily support usage of reuse packages, which might come with own i18n bundles. As such reuse packages frequently bring own `.cds` models, we can take the locations of these as the starting points to search for i18n folders up the file system hierarchy. 
+
+:::
+
+
+
+### from static folders
+
+In alternative to fetching i18n folders from models' neighborhood as explained above, you can also specify static folders to be used as is, by adding a **leading slash**. For example:
+
+::: code-group
+
+```json [package.json]
+"cds": {
+  "i18n": {
+    "folders": [ "/_i18n", "/app/_i18n" ]
+  }
+}
+```
+
+:::
+
+With that configuration, there is no search for i18n folders but all .properties files would be load from the respective directories within your project, e.g.:
+
+```js
+i18n_folders = [
+  '/cap/sflight/_i18n',
+  '/cap/sflight/app/_i18n'
+]
+```
+
+You can also combine static folders with relative ones in your custom configs.
 
 
 

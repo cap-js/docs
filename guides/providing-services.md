@@ -745,8 +745,11 @@ Elements annotated with `@readonly`, as well as [_calculated elements_](../cds/c
 By default [`virtual` elements](../cds/cdl#virtual-elements) are also _calculated_.
 ::: tip
 The same applies for fields with the [OData Annotations](../advanced/odata#annotations) `@FieldControl.ReadOnly` (static), `@Core.Computed`, or `@Core.Immutable` (the latter only on UPDATEs).
+:::
 
- :::
+::: warning
+Read-only keys in all variants are not supported and the respective annotation is ignored.
+:::
 
 ### `@mandatory` {#mandatory}
 

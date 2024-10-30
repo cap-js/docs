@@ -116,7 +116,7 @@
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()
-  const slotVal = slots.default?.().at(0)?.children?.toString() ?? 'error: provide <Config>your_key:value</Config>'
+  const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
   const label = `${keyOnly ? key: slotVal}`

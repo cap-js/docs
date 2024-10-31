@@ -8,13 +8,13 @@
 
     <template #popper>
       <div class="vp-code-group vp-doc" v-if="java">
-        <CodeBlock :blocks="[
+        <CodeGroup :groups="[
           { id: 'java-appyml',  label: 'application.yml', lang: 'yml',        group, code: javaAppyml },
           { id: 'java-sysprop', label: 'System property', lang: 'properties', group, code: javaEnvStr }
         ]" />
       </div>
       <div class="vp-code-group vp-doc" v-else>
-        <CodeBlock :blocks="[
+        <CodeGroup :groups="[
           { id: 'pkg', label: 'package/.cdsrc.json', lang: 'json',       group, code: pkgStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
           { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr },
@@ -24,22 +24,22 @@
       </div>
     </template>
   </VDropdown>
-  <code class="cfg" v-else>{{ label }}</code> <!-- intermdiate fallback -->
+  <code class="cfg" v-else>{{ label }}</code> <!-- intermediate fallback -->
 </template>
 
 <script setup lang="ts">
-  import { h, onMounted, ref, useSlots, defineComponent } from 'vue'
+  import { defineComponent, h, onMounted, ref, useSlots } from 'vue'
   import FloatingVue from 'floating-vue'
   import yaml from 'yaml'
 
   // sub component that renders code blocks similar to the markdown `::: code-block` syntax
-  const CodeBlock = defineComponent(
-    (props) => () => [
-      h('div', { class: 'tabs' }, props.blocks.flatMap((b, idx) => [
+  const CodeGroup = defineComponent(
+    ({ groups }) => () => [
+      h('div', { class: 'tabs' }, groups.flatMap((b, idx) => [
         h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
         h('label', { for: `${b.group}-${b.id}` }, b.label)
       ])),
-      h('div', { class: 'blocks' }, props.blocks.flatMap((b, idx) => [
+      h('div', { class: 'blocks' }, groups.flatMap((b, idx) => [
         h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
           h('button', { title: 'Copy Code', class: 'copy' }),
           h('span', { class: 'lang' }, b.lang),
@@ -54,7 +54,7 @@
       ]))
     ], {
       props: {
-        blocks: { type: Array<{id:string, group:string, code:string, label:string, lang:string}>, required: true }
+        groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string }>, required: true }
       }
     }
   )

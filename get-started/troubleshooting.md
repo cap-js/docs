@@ -498,7 +498,7 @@ Please check the [configuration for Extensibility](http://localhost:5173/docs/gu
 
 ::: danger
 If data loss is intended, you can disable the check by adding
-```
+```jsonc
 "cds": {
     "requires": {
       "cds.xt.DeplyomentService": {

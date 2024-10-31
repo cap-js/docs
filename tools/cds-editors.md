@@ -258,7 +258,7 @@ Enable to get quickfix proposals for artifact names, like entities, that aren't 
 1. Press <kbd>F1</kbd>
 1. Open *CDS: Show CAP Release Notes*
 
-If there are new release notes, this page opens on startup. You can disable this behavior using the *CDS > Release Notes: Show Automatically* (`cds.releaseNotes.showAutomatically`) setting.
+If there are new release notes, this page opens on startup. You can disable this behavior using the *Cds > [Release Notes: Show Automatically](vscode://settings/cds.releaseNotes.showAutomatically)* setting.
 
 ##### CAP Notebooks Page { #cap-notebooks-page }
 

@@ -315,20 +315,10 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 ### Configuration
 
-Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env) in the section `cds.typer`. For example, so set a project-wide custom output directory for cds-typer to `myCustomDirectory`, you would set
 
-::: code-group
-```json [package.json]
-{
-  …
-  "cds": {
-    "typer": {
-      "log_level": "DEBUG"
-    }
-  }
-}
-```
-:::
+<Config>cds.typer.output_directory: myCustomDirectory</Config>
+
 
 ### Version Control
 The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the [typer as facet](#typer-facet) will generate an appropriate entry in your project's `.gitignore` file.
@@ -502,8 +492,8 @@ class CatalogService extends cds.ApplicationService { async init(){
 }}
 ```
 
-### Static Top-Level Imports {#typer-top-level-imports}
-Starting with `cds-typer@0.26.0`, you can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
+### Static Top-Level Imports <Since version="0.26.0" of="@cap-js/cds-typer" /> {#typer-top-level-imports}
+You can pass a new option, `useEntitiesProxy`, to `cds-typer`. This option allows you to statically import your entities at the top level, as you intuitively would. However, you can still only _use these entities_ in a context where the CDS runtime is fully booted, like in a service definition:
 
 ```ts twoslash
 // @paths: {"#cds-models/*": ["%typedModels:bookshop:resolved%"]}

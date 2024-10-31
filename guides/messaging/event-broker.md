@@ -89,6 +89,7 @@ Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment w
 ### Connecting it All Together
 
 In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Cloud Application Event Hub) into a formation and enable the event subscription.
+
 For more details, please refer to guide [CAP Application as a Consumer](https://help.sap.com/docs/event-broker/event-broker-service-guide/cap-application-as-subscriber) in the official documentation of SAP Cloud Application Event Hub.
 
 ::: tip Test Events

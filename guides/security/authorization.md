@@ -256,7 +256,7 @@ annotate ShopService.ReplicationAction with @(requires: 'system-user');
 
 In this example, the `BrowseBooksService` service is open for authenticated but not for anonymous users. A user who has the `Vendor` _or_ `ProcurementManager` role is allowed to access the `ShopService.Books` entity. Unbound action `ShopService.ReplicationAction` can only be triggered by a technical user.
 ::: tip
-When restricting service access through `@requires`, the service's metadata endpoints (that means, `/$metadata` as well as the service root `/`) are restricted by default as well. If you require public metadata, you can disable the check through config `cds.env.odata.protectMetadata = false` (Node.js) or `cds.security.authentication.authenticateMetadataEndpoints = false` (Java), respectively. Please be aware that the `/$metadata` endpoint is *not* checking for authorizations implied by `@restrict` annotation.
+When restricting service access through `@requires`, the service's metadata endpoints (that means, `/$metadata` as well as the service root `/`) are restricted by default as well. If you require public metadata, you can disable the check through config <Config>cds.odata.protectMetadata: false</Config> (Node.js) or <Config java>cds.security.authentication.authenticateMetadataEndpoints = false</Config> (Java), respectively. Please be aware that the `/$metadata` endpoint is *not* checking for authorizations implied by `@restrict` annotation.
 :::
 
 
@@ -345,7 +345,7 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
 > <sup>1</sup>For bound actions and functions that aren't bound against a collection, Node.js supports instance-based authorization at the entity level. For example, you can use `where` clauses that *contain references to the model*, such as `where: CreatedBy = $user`. For all bound actions and functions, Node.js supports simple static expressions at the entity level that *don't have any reference to the model*, such as `where: $user.level = 2`.
-> <sup>2</sup> For unbound actions and functions, Node.js supports simple static expressions that *don't have any reference to the model*, such as `where: $user.level = 2`. 
+> <sup>2</sup> For unbound actions and functions, Node.js supports simple static expressions that *don't have any reference to the model*, such as `where: $user.level = 2`.
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 
@@ -864,9 +864,9 @@ If generic enforcement doesn't fit your needs, you can override or adapt it with
 
 The Authorization Management Service (AMS) as part of SAP Cloud Identity Services (SCI) provides libraries and services for developers of cloud business applications to declare, enforce and manage instance based authorization checks. When used together with CAP the AMS  "Policies” can contain the CAP roles as well as additional filter criteria for instance based authorizations that can be defined in the CAP model. transformed to AMS policies and later on refined by customers user and authorization administrators in the SCI administration console and assigned to business users.
 
-### Use AMS as Authorization Management System on SAP BTP 
+### Use AMS as Authorization Management System on SAP BTP
 
-SAP BTP is currently replacing the authorization management done with XSUAA by an integrated solution with AMS. AMS is integrated into SAP Cloud Identity (SCI), which will offer authentication, authorization, user provisioning and management in one place. 
+SAP BTP is currently replacing the authorization management done with XSUAA by an integrated solution with AMS. AMS is integrated into SAP Cloud Identity (SCI), which will offer authentication, authorization, user provisioning and management in one place.
 
 For newly build applications the usage of AMS is generally recommended. The only constraint that comes with the usage of AMS is that customers need to copy their users to the Identity Directory Service as the central place to manage users for SAP BTP applications. This is also the general SAP strategy to simplify user management in the future.
 
@@ -874,7 +874,7 @@ For newly build applications the usage of AMS is generally recommended. The only
 
 There is one use case where currently an XSUAA based authorization management is preferable: When XSUAA based services to be consumed by a CAP application come with their own business user roles and thus make user role assignment in the SAP Cloud Cockpit necessary. This will be resolved in the future when the authorization management will be fully based on the SCI Admin console.
 
-For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS. 
+For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS.
 
 
 <!-- [Learn more about using IAS and AMS with CAP Java.](/java/ams){.learn-more} -->

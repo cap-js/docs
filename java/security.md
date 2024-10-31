@@ -126,8 +126,8 @@ The following properties can be used to switch off automatic security configurat
 
 | Configuration Property                               | Description                                             | Default
 | :---------------------------------------------------- | :----------------------------------------------------- | ------------
-| `cds.security.xsuaa.enabled`  | Switches off automatic XSUAA security configuration. | `true`
-| `cds.security.identity.enabled`  | Switches off automatic IAS security configuration. | `true`
+| `cds.security.xsuaa.enabled`  | Whether automatic XSUAA security configuration is enabled. | `true`
+| `cds.security.identity.enabled`  | Whether automatic IAS security configuration is enabled. | `true`
 
 #### Setting the Authentication Mode { #auth-mode}
 

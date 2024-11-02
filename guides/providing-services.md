@@ -512,8 +512,8 @@ Don't use reliable pagination if an entity set is sorted by elements that contai
 :::
 
 The feature can be enabled with the following [configuration options](../node.js/cds-env#project-settings) set to `true`:
-- Java: `cds.query.limit.reliablePaging.enabled`
-- Node.js: `cds.query.limit.reliablePaging`
+- Java: <Config java keyOnly>cds.query.limit.reliablePaging.enabled: true</Config>
+- Node.js: <Config keyOnly>cds.query.limit.reliablePaging: true</Config>
 
 
 #### Paging Limits
@@ -1113,7 +1113,7 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1321,7 +1321,7 @@ a CDS query, a binary string is used to query data stored as binary, this wouldn
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.
 - In the Node.js Runtime, all binary strings are converted into binary data according to SAP HANA property types.
-To disable this default behavior, you can set the environment variable `cds.env.hana.base64_to_buffer` to `false`.
+To disable this default behavior, you can set the environment variable <Config>cds.hana.base64_to_buffer: false</Config>.
 
 # Best Practices
 

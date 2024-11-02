@@ -257,7 +257,7 @@ If you need to use certain CSV files exclusively for your production deployments
 }
 ````
 
-As a consequence, when you run `cds build –production` the model folder _hana_ is added, but it's not added when you run `cds deploy` or `cds watch` because the development profile is used by default. You can verify this by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
+As a consequence, when you run `cds build -–production` the model folder _hana_ is added, but it's not added when you run `cds deploy` or `cds watch` because the development profile is used by default. You can verify this by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
 :::
 
 ::: details On SAP HANA ...
@@ -735,9 +735,7 @@ The information about foreign key relations contained in the associations of CDS
 
 Enable generation of foreign key constraints on the database with:
 
-```js
-cds.features.assert_integrity = 'db'
-```
+<Config>cds.features.assert_integrity = db</Config>
 
 ::: warning Database constraints are not supported for H2
 Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.

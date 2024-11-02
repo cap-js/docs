@@ -324,7 +324,7 @@ cds build --production
    ```json
    {
      "dependencies": {
-       "@sap/cds": "^7",
+       "@sap/cds": "^8",
        "@cap-js/postgres": "^1"
      },
      "scripts": {
@@ -368,7 +368,7 @@ When redeploying after you changed your CDS models, like adding fields, automati
 5. Store a CSN representation of the current model in `cds_model`.
 
 
-> You can disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
+> You can disable automatic schema evolution, if necessary, by setting <Config>cds.requires.db.schema_evolution = false</Config>.
 
 ### Limitations
 

@@ -3,10 +3,8 @@
 > cds env requires.db
 
 {
-  "impl": "@cap-js/sqlite",
-  "credentials": {
-    "url": ":memory:"
-  },
-  "kind": "sqlite"
+  impl: <em>'@cap-js/sqlite'</em>,
+  credentials: { url: <em>':memory:'</em> },
+  kind: <em>'sqlite'</em>
 }
 </pre>

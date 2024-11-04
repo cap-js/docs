@@ -200,7 +200,7 @@ annotate SampleService with @(
         externalDocs: {
             description: 'API Guide',
             url        : 'https://help.sap.com/docs/product/sample.html'
-        }
+        },
         Extensions: {
         ![compliance-level]: 'sap:base:v1'
       }

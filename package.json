@@ -1,6 +1,6 @@
 {
   "name": "@cap-js/docs",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "Capire on VitePress",
   "type": "module",
   "scripts": {

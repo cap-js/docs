@@ -96,7 +96,7 @@ Shortcuts to corresponding i18n [config options](#config). {.indent}
 
 ### `.messages` {.property}
 
-Provides access to the I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
+The I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
 
 ```zsh
 cap/samples/bookshop/
@@ -113,7 +113,7 @@ cap/samples/bookshop/
 
 ### `.labels` {.property}
 
-Provides access to the I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
+The I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
 
 ```zsh
 cap/samples/bookshop/
@@ -188,7 +188,7 @@ Constructs a new instance with the provided options forwarded to the [`I18nFiles
 
 ### `.defaults` {.property}
 
-Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. Can be provided as constructor option, else loads the translations for the default language as configured in [config option](#config) <Config> `cds.i18n.default_language` </Config>. {.indent}
+The default translations used as a first-level fallback if a locale-specific translation is not found. Can be provided as constructor option, else loads the translations for the default language as configured in [config option](#config) <Config> `cds.i18n.default_language` </Config>. {.indent}
 
 
 
@@ -278,7 +278,18 @@ cds.i18n.labels.at(title)    //> 'Titre'
 
 ### `key4 (csn)` {.method}
 
-This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation looks up the value of the CSN definition's annotations `@Common.Label`, `@title`, or `@UI.HeaderInfo.TypeName`, and returns the i18n key excerpt from that value's `{i18n>...}` content, if any. {.indent}
+This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation works like that: 
+
+```js
+const a = csn['@title'] 
+ || csn['@Common.Label'] 
+ || csn['@UI.HeaderInfo.TypeName'] 
+//> e.g. '{i18n>Books}'
+return a.match(/{i18n>(.+)}/)[1] 
+//> 'Books'
+```
+
+>  If no such annotation is found, the CSN definition's `name` is returned. 
 
 
 

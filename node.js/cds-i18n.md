@@ -58,7 +58,7 @@ ORDER_EXCEEDS_STOCK = The order of {quantity} books exceeds available stock {sto
 
 ### Direct Usage of `cds.i18n`
 
-In addition, you can also use both standard bundles directly in your code, with [`<bundle>.at(key)`]() the central method to obtain localized texts:
+In addition, you can also use both standard bundles directly in your code, with [`<bundle>.at(key)`](#at-key) the central method to obtain localized texts:
 
 ```js
 cds.i18n.labels.at('CreatedAt','de')  //> 'Erstellt am'
@@ -309,16 +309,6 @@ JSON.stringify(all)
 
 
 
-### `locales()` {.method}
-
-Returns an arry of all locales for which translations have been found. {.indent}
-
-```js
-cds.i18n.labels.locales() //> [ '', 'de', 'en', 'fr', ... ]
-```
-
-
-
 
 
 ## `I18nFiles` {.class}
@@ -414,6 +404,14 @@ The leafs of the filesystem hierarchy to start fetch i18n folders recursively. D
 An array of folder names to fetch i18n files from. Can be relative names of subfolders or absolute names as explained iin [Fetching 18n Folders...](#fetching-i18n-folders) below. <br/>
 *Default*: as [configured](#config) through <Config> cds.i18n.folders: [ "_i18n", "i18n" ] </Config>. {.indent}
 
+### `locales()` {.method}
+
+Returns an array of all locales for which translations have been found. {.indent}
+
+```js
+cds.i18n.labels.files.locales() //> [ '', 'de', 'en', 'fr', ... ]
+```
+
 
 
 ## Fetching i18n Folders...
@@ -459,7 +457,7 @@ $sources = cds.model.$sources //> ...
   '/cap/samples/orders/db/schema.cds',
   '/cap/samples/bookshop/db/schema.cds',
   '/cap/samples/common/index.cds',
-  '/cap/samples/node_moduels/@sap/cds/common.cds'
+  '/cap/samples/node_modules/@sap/cds/common.cds'
 ]
 ```
 

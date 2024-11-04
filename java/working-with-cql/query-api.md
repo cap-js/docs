@@ -1441,7 +1441,7 @@ Select.from(BOOKS).columns(
   b -> b.when(b.stock().lt(10)).then("low")
         .when(b.stock().gt(100)).then("high")
         .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
-
+```
 
 #### Arithmetic Expressions
 

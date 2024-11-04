@@ -497,19 +497,7 @@ This message indicates that extensions exist, but the application is not configu
 Please check the [configuration for Extensibility](http://localhost:5173/docs/guides/extensibility/customization#_1-enable-extensibility).
 
 ::: danger
-If data loss is intended, you can disable the check by adding
-```jsonc
-"cds": {
-    "requires": {
-      "cds.xt.DeplyomentService": {
-        "upgrade": {
-          "skipExtensionCheck": true
-        }
-      }
-    }
-}
-```
-to the configuration.
+If data loss is intended, you can disable the check by adding <Config>cds.requires.cds.xt.DeploymentService.upgrade.skipExtensionCheck = true</Config> to the configuration.
 :::
 
 ## MTX (legacy)

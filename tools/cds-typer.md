@@ -360,7 +360,7 @@ Having `cds-typer` present as dependency provides the `typescript` build task. I
 
 If you are [customizing your build task](../guides/deployment/custom-builds), you can add it after the `nodejs` build task:
 
-```json
+```json {3}
 "tasks": [
   { "for": "nodejs" },
   { "for": "typescript" },

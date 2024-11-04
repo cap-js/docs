@@ -17,7 +17,7 @@ There are two standard i18n bundles available through these static properties:
 
 ### Localized (Fiori) UIs
 
-The former, that is [`cds.i18n.labels`](#labels), is used automatically when generating OData `$metadata` documents for Fiori elements to lookup translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
+The former, that is [`cds.i18n.labels`](#labels), is used automatically when generating OData `$metadata` documents for Fiori elements to look up translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
 
 ::: code-group
 
@@ -58,7 +58,7 @@ ORDER_EXCEEDS_STOCK = The order of {quantity} books exceeds available stock {sto
 
 ### Direct Usage of `cds.i18n`
 
-In addition, you can also use both standard bundles directly in your code like that:
+In addition, you can also use both standard bundles directly in your code, with [`<bundle>.at(key)`]() the central method to obtain localized texts:
 
 ```js
 cds.i18n.labels.at('CreatedAt','de')  //> 'Erstellt am'
@@ -66,16 +66,14 @@ cds.i18n.labels.at('CreatedAt')       //> 'Created At'
 cds.i18n.messages.at('ASSERT_FORMAT', [11,12])
 ```
 
-[Learn more about `bundle.at(key...)`, the central method to lookup localized texts](#at-key){.learn-more}
-
 You can also introduce and use your own, separate bundles:
 
 ```js
-const b = cds.i18n.bundle4('your-bundle')
+const b = cds.i18n.bundle4('yours')
 b.at('some key')
 ```
 
-And provide texts and translations in corresponding files like `_i18n/your-bundle.properties`.
+And provide texts and translations in corresponding files like `_i18n/yours.properties`.
 
 
 
@@ -90,10 +88,10 @@ This is a global object acting as the facade to the i18n features as outlined be
 
 ### `.messages` {.property}
 
-Provides access to the I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in *[cap/sflight](https://github.com/sap-samples/cap-sflight/tree/main/_i18n)*: {.indent}
+Provides access to the I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
 
 ```zsh
-cap/sflight/
+cap/samples/bookshop/
 ├─ _i18n/
 │  ├─ messages_de.properties
 │  ├─ messages_en.properties
@@ -107,28 +105,16 @@ cap/sflight/
 
 ### `.labels` {.property}
 
-Provides access to the I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in *[cap/sflight](https://github.com/sap-samples/cap-sflight/tree/main/_i18n)*: {.indent}
+Provides access to the I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
 
 ```zsh
-cap/sflight/
+cap/samples/bookshop/
 ├─ _i18n/
 │  ├─ i18n_de.properties
 │  ├─ i18n_en.properties
 │  ├─ i18n_fr.properties
 │  └─ i18n.properties
 │  ...
-```
-
-
-
-
-
-### `.Bundle` {.property}
-
-Facade property providing access to the [`I18nBundle`](#i18nbundle) class. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can use this to create own subclasses of `I18nBundle`, like this: {.indent}
-
-```js
-class My18nBundle extends cds.i18n.Bundle {...}
 ```
 
 
@@ -153,13 +139,13 @@ const mm = await cds.load('my-model.cds')
 const b2 = cds.i18n.bundle4(mm)
 ```
 
-When using the string variant, the created bundle is additionally cached under the given string in `cds.i18n.<file>`, and subsequent calls will return the cached instance:
+When using the string variant, the created bundle is additionally cached under the given string, and subsequent calls will return the cached instance:
 
 ```js
 const b1 = cds.i18n.bundle4('foo') //> creates a new I18nBundle for 'foo'
 const b2 = cds.i18n.bundle4('foo') //> returns the formerly created one
+b1 === cds.i18n.foo                //> true – cached under specified name
 b1 === b2                          //> true
-b1 === cds.i18n.foo                //> true
 ```
 
 
@@ -168,101 +154,60 @@ b1 === cds.i18n.foo                //> true
 
 ## `I18nBundle` {.class}
 
-Instances of this class provide access to translated texts in different languages. You can refer to this class from the [`cds.i18n.Bundle`](#bundle) facade property.
+Instances of this class provide access to translated texts in different languages. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can refer to this class from the `cds.i18n.Bundle` facade property, for example to create subclasses: 
+
+```js
+class YourI18nBundle extends cds.i18n.Bundle {...}
+```
 
 
 
 ### `constructor` {.method}
 
 ```tsx
-function constructor (options: {
-  default_language?: string,
-  defaults?: { [string]: [string] },
-  fallback?: { [string]: [string] },
-  file?: string,
-  folders?: string[],
-  roots?: string[],
-  model?: CSN,
+function I18nBundle (options: {
+  
+  //... as in I18nFiles constructor
 })
 ```
 
-Fills in the properties from options into the respective instance properties documented subsequently. For example this will create a new instance with properties [`file`](#file) and [`folder`](#folders) filled in from the passed in options:
-
-```js
-const b = new cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
-```
-
-
-
-
-
-### `.default_language` {.property}
-
-The locale used for [default translations](#defaults). By default `en` is used as the default locale, which can be changed through config option <Config> cds.i18n.default_language </Config>. {.indent}
+Constructs a new instance with the provided options forwarded to the [`I18nFiles` constructor](#constructor-1) for [`this.files`](#files). {.indent}
 
 
 
 ### `.defaults` {.property}
 
-Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. By default loads the translations with [`default_language`](#default-language) {.indent}
+Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. Can be provided as constructor option, else loads the translations for the default language as configured in [config option](#config) <Config> `cds.i18n.default_language` </Config>. {.indent}
 
 
 
 ### `.fallback` {.property}
 
-Provides access to the fallback translations used as a second-level fallback if a locale-specific translation is not found and also none in the [default translations](#defaults). {.indent}
+The texts used as second-level fallback if a locale-specific translation is not found and also none in [`.defaults`](#defaults). Can be provided as constructor option, else loads the translations from `<basename>.properties`, i.e., without language suffix. {.indent}
 
 
 
+### `.files` {.property}
+
+An instance of [`I18nFiles`](#i18nfiles) with the found folders and files to load i18n content from. {.indent}
 
 
-### `.file` {.property}
-
-This is the base name for properties files to load translations from by this bundle. For example the basename of the [`cds.i18n.messages`](#messages) bundle is `'messages'`, the basename of the [`cds.i18n.labels`](#labels) bundle is `'i18n'`:
-{.indent}
-
-```js
-cds.i18n.messages.file  //> 'messages'
-cds.i18n.labels.file   //> 'i18n'
-```
-
-
-
-### `.folders` {.property}
-
-An array of folder names to fetch i18n files from. Values can be specified through the constructor for individual bundles. If not specified the value is taken from config option <Config keyOnly> cds.i18n.folders: ["_i18n","i18n"] </Config>. *Default:* `['_i18n','i18n']`: {.indent}
-
-[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
-
-
-
-### `.model` {.property}
-
-The model passed in through the constructor, if any. Used when resolving relative [`.folders`](#folders) entries from the neighborhood of this model's `$sources`. {.indent}
-
-[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
-
-
-
-### `.roots` {.property}
-
-An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n [`.folders`](#folders). The default is `[ cds.root ]`. {.indent}
-
-[Learn more in Fetching i18n Folders below](#fetching-i18n-folders){.learn-more .indent}
 
 
 
 ### `at (key, ...)` {.method}
 
+### `for (key, ...)` {.method}
+
 ```tsx
-function bundle.at (
-   key: number|string|object,
-   locale?: string,
-   args?: object|array
-) : string
+function at (
+  key     : number | string | object,
+  locale? : string,
+  args?   : object | array
+) => string
 ```
 
-This is the central method to lookup up localized texts for given keys and locales. Most commonly this method is used for runtime messages taken from the standard [`cds.i18n.messages`](#messages) bundle like that:
+This is the central method to look up up localized texts for given keys and locales, with `at` and `for` being synonyms. Basic usage, for example, with the standard [`cds.i18n.messages`](#messages) bundle, looks like that: {.indent}
 
 ```js
 cds.i18n.messages.at(404)       //> 'Not Found'
@@ -273,7 +218,7 @@ cds.i18n.messages.at(404,'de')  //> 'Nicht Gefunden'
 
 #### Using Default Locales
 
-If `locale` is omitted, the current default locale is taken from [`cds.context.locale`](events#cds-context).
+If `locale` is omitted, the current default locale is taken from [`cds.context.locale`](events#cds-context). {.indent}
 
 ```js
 cds.context = {locale:'de'} //> as automatically set by protocol adapters
@@ -282,59 +227,192 @@ cds.i18n.messages.at(404)  //> 'Nicht Gefunden'
 
 
 
-#### Parameterized Messages
+#### Using Message Templates
 
-If `args` are specified, corresponding `{}` placeholders in the translations are replaced by values. For example, given these entries in respective `.properties` files:
+If `args` are specified, corresponding `{}` placeholders in texts are replaced by the values from `args`. For example, given these entries in respective `.properties` files: {.indent}
 
 ```properties
 WRONG_FORMAT = '{0}' is not in format '{1}'
 WRONG_RANGE = {val} is not in range {min}..{max}
 ```
 
-You would obtain respective messages like that:
+You would obtain respective messages like that: {.indent}
 
 ```js
-const b = cds.i18n.messages
-b.at('WRONG_FORMAT', ['foo','bar'])        //> 'foo' is not in format 'bar'
-b.at('WRONG_RANGE', {val:0,min:1,max:11})  //> 0 is not in range 1..11
+const msg = cds.i18n.messages
+msg.for('WRONG_FORMAT', ['foo','bar'])        //> 'foo' is not in format 'bar'
+msg.for('WRONG_RANGE', {val:0,min:1,max:11})  //> 0 is not in range 1..11
 ```
 
 
 
-#### Looking up UI labels for CSN definitions
+#### Looking up labels for CSN definitions
 
-You can alternatively pass in a CSN definition instead of an i18n key to lookup the localized UI label for that an entity or element. For example, try this with `cds repl` from within the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample:
+You can alternatively pass in a CSN definition instead of an i18n key to look up the localized UI label for that an entity or element. For example, try this in `cds repl` from within the [*cap/samples* root folder](../get-started/samples#bookshop-et-al): {.indent}
 
-1. start `cds repl`
-   ```sh
-   cds repl
-   ```
+```sh
+.run fiori
+```
 
-2. start the CAP server within the repl
-   ```sh
-   .run
-   ```
-3. lookup UI labels for CSN definitions
-   ```js
-   let {Travel} = TravelService.entities, {TotalPrice} = Travel.elements
-   cds.context = {locale:'fr'}     // as automatically set by protocol adapters
-   cds.i18n.labels.at(Travel)      //> 'Voyage'
-   cds.i18n.labels.at(TotalPrice)  //> 'Prix total'
-   ```
+```js
+let {Books} = CatalogService.entities, {title} = Books.elements
+cds.context = {locale:'fr'}  // as automatically set by protocol adapters
+cds.i18n.labels.at(Books)    //> 'Livre'
+cds.i18n.labels.at(title)    //> 'Titre'
+```
 
-In essence, this would first lookup the value of the CSN definitions annotations `@Common.Label`, `@title`, or `@UI.HeaderInfo.TypeName`, extract the i18n key from that value's `{i18n>...}` content, and finally lookup the translated text with that key.
+> Uses the [`.key4 (csn)`](#key4-csn) method to determine the i18n key for CSN definitions.
 
 
 
-### `for (locale)` {.method}
+### `key4 (csn)` {.method}
+
+This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation looks up the value of the CSN definition's annotations `@Common.Label`, `@title`, or `@UI.HeaderInfo.TypeName`, and returns the i18n key excerpt from that value's `{i18n>...}` content, if any. {.indent}
+
+
+
+### `texts4 (locale)` {.method}
 
 ```tsx
-function bundle.for (locale: string) : Translations
+function texts4 (locale: string) => Texts
 ```
 
-This method is used internally by [`bundle.at()`](#at-key) to lazily load all translations for a locale.
+This method is used by [`bundle.at()`](#at-key) to obtain the set of translated texts for a specific locale.
+For example, try this in `cds repl`: {.indent}
+
+```js
+var texts = cds.i18n.labels.texts4('de')
+texts.CreatedBy // or texts[<key>] in general
+```
 
 
+
+### `translations4 (locales)` {.method}
+
+```tsx
+function translations4 (...locales : 'all' | string[])
+=> { [locale]: Texts }
+```
+
+Obtains one or more sets of translated texts for multiple locales. <br/>For example, try this in `cds repl`: {.indent}
+
+```js
+var { de, en, fr } = cds.i18n.labels.translations4('de','en','fr')
+de.CreatedBy //> Angelegt von
+en.CreatedBy //> Created by
+fr.CreatedBy //> Auteur de la création
+```
+```js
+var all = cds.i18n.labels.translations4('all')
+JSON.stringify(all)
+```
+
+
+
+### `locales()` {.method}
+
+Returns an arry of all locales for which translations have been found. {.indent}
+
+```js
+cds.i18n.labels.locales() //> [ '', 'de', 'en', 'fr', ... ]
+```
+
+
+
+
+
+## `I18nFiles` {.class}
+
+
+
+Instances of this class are used through [`I18nBundle.files`](#files) to fetch and construct a lookup dictionary of i18n folders and files matching a given configuration in a files-by-folders structure. 
+
+By default fetches i18n folders and files from the [neighborhood](#from-models-neighborhood) of a given model's sources, by default using `cds.model`.
+
+
+For example, try this in `cds repl` run from the project root of *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)*:
+
+```js
+cds.model = await cds.load('bookstore')
+cds.i18n.labels.files //> displays:
+```
+```js
+I18nFiles {
+  '/cap/samples/node_modules/@sap/cds/_i18n': [
+    'i18n.properties',
+    'i18n_de.properties', 
+    'i18n_en.properties', 
+    'i18n_fr.properties',
+    // ...
+  ],
+  '/cap/samples/orders/_i18n': [ 
+    'i18n_de.properties', 
+    'i18n_en.properties', 
+    'i18n_fr.properties' 
+  ],
+  '/cap/samples/reviews/_i18n': [ 
+    'i18n_de.properties', 
+    'i18n_en.properties', 
+    'i18n_fr.properties' 
+  ],
+  '/cap/samples/bookstore/_i18n': [ 
+    'i18n_de.properties', 
+    'i18n_en.properties', 
+    'i18n_fr.properties' 
+  ]
+}
+```
+
+[Learn more about that in Fetching i18n Folders below](#fetching-i18n-folders) {.learn-more}
+
+
+
+### `constructor` {.method}
+
+```tsx
+function I18nFiles (options: {
+  file?    : string   = cds.env.i18n.file, basename = file,
+  model?   : CSN      = cds.model
+  roots?   : string[] = [ cds.root, cds.home ],
+  leafs?   : string[] = model?.$sources.map(path.dirname) ?? roots,
+  folders? : string[] = cds.env.i18n.folders,
+})
+```
+
+Constructs a new instance which fetches i18n folders and files according to the specified options. For example this will create a new I18nBundle with the content read from `./_i18n/messages_*.properties` files in the current working directory:  
+
+```js
+const msg = cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
+```
+
+The options are as follows... 
+
+### `.options` `.basename` {.property}
+
+### `.options` `.file` {.property}
+
+The basename of `.properties` files to load translations from (either of both can be used). <br/>
+*Default*:  as [configured](#config) through <Config> cds.i18n.file: i18n </Config> {.indent}
+
+### `.options` `.model` {.property}
+
+The model to fetch i18n files and folders from respective `$sources`' [neighborhood](#from-models-neighborhood). <br/>
+*Default*: [`cds.model`](cds-facade#cds-model). {.indent}
+
+### `.options` `.roots` {.property}
+
+An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n folders. <br/>
+*Default*: `[` [`cds.root`](cds-facade#cds-root), [`cds.home`](cds-facade#cds-home) `]`. {.indent}
+
+### `.options` `.leafs` {.property}
+
+The leafs of the filesystem hierarchy to start fetch i18n folders recursively. Determined by `model?.$sources.map(path.dirname)`  if a [`model`](#options-model) (or [`cds.model`](cds-facade#cds-model)) is given.  <br/>
+*Default*: [`options.roots`](#options-roots). {.indent}
+
+### `.options` `.folders` {.property}
+
+An array of folder names to fetch i18n files from. Can be relative names of subfolders or absolute names as explained iin [Fetching 18n Folders...](#fetching-i18n-folders) below. <br/>
+*Default*: as [configured](#config) through <Config> cds.i18n.folders: [ "_i18n", "i18n" ] </Config>. {.indent}
 
 
 
@@ -358,41 +436,52 @@ By default, the config option <Config keyOnly> `cds.i18n.folders` </Config> is d
 
 In effect i18n folders and hence files are fetched from the neighborhood of the current `cds.model`'s `$sources` as follows...
 
-#### 1. Starting from model `$sources`
+#### 1. Starting from the current model's `$sources`
 
-For example given these model sources in the *[cap/sflight](../get-started/samples#sflight-fiori-app)* sample:
+For example given these model sources from [cap/samples](https://github.com/sap-samples/cloud-cap-samples):
 
 ```js
+cds.model = await cds.load('bookstore')
 $sources = cds.model.$sources //> ...
 [
-  '/cap/sflight/app/value-helps.cds',
-  '/cap/sflight/app/services.cds',
-  '/cap/sflight/app/labels.cds',
-  '/cap/sflight/app/common.cds',
-  '/cap/sflight/app/travel_processor/layouts.cds',
-  '/cap/sflight/app/travel_processor/field-control.cds',
-  '/cap/sflight/app/travel_processor/capabilities.cds',
-  '/cap/sflight/app/travel_analytics/annotations.cds',
-  '/cap/sflight/srv/travel-service.cds',
-  '/cap/sflight/srv/analytics-service.cds',
-  '/cap/sflight/db/schema.cds',
-  '/cap/sflight/db/master-data.cds',
-  '/cap/sflight/db/common.cds',
-  '/cap/sflight/node_modules/@sap/cds/common.cds'
+  '/cap/samples/bookstore/index.cds',
+  '/cap/samples/bookstore/srv/mashup.cds',
+  '/cap/samples/reviews/index.cds',
+  '/cap/samples/orders/index.cds',
+  '/cap/samples/orders/app/fiori.cds',
+  '/cap/samples/bookshop/index.cds',
+  '/cap/samples/reviews/srv/reviews-service.cds',
+  '/cap/samples/orders/srv/orders-service.cds',
+  '/cap/samples/bookshop/srv/user-service.cds',
+  '/cap/samples/bookshop/srv/cat-service.cds',
+  '/cap/samples/bookshop/srv/admin-service.cds',
+  '/cap/samples/reviews/db/schema.cds',
+  '/cap/samples/orders/db/schema.cds',
+  '/cap/samples/bookshop/db/schema.cds',
+  '/cap/samples/common/index.cds',
+  '/cap/samples/node_moduels/@sap/cds/common.cds'
 ]
 ```
 
 #### 2. Get distinct source directories
 
 ```js
-$sourcedirs = Array.from(new Set($sources.map(path.dirname))).reverse() //> ...
+$sourcedirs = $sources.map(path.dirname) //> ...
 [
-  '/cap/sflight/node_modules/@sap/cds',
-  '/cap/sflight/db',
-  '/cap/sflight/srv',
-  '/cap/sflight/app/travel_analytics',
-  '/cap/sflight/app/travel_processor',
-  '/cap/sflight/app'
+  '/cap/samples/bookstore',
+  '/cap/samples/bookstore/srv',
+  '/cap/samples/reviews',
+  '/cap/samples/orders',
+  '/cap/samples/orders/app',
+  '/cap/samples/bookshop',
+  '/cap/samples/reviews/srv',
+  '/cap/samples/orders/srv',
+  '/cap/samples/bookshop/srv',
+  '/cap/samples/reviews/db',
+  '/cap/samples/orders/db',
+  '/cap/samples/bookshop/db',
+  '/cap/samples/common',
+  '/cap/samples/node_moduels/@sap/cds'
 ]
 ```
 
@@ -402,49 +491,37 @@ $sourcedirs = Array.from(new Set($sources.map(path.dirname))).reverse() //> ...
 
 #### 3. Check for existing & matching `i18n.folders`
 
-For each of the source directories, we would now check for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename, and if none match move up the directory tree and repeat like that:
+To fetch i18n folder, these source directories are processed in reverse order, and each is checked for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename. If none match, we move up the directory tree and repeat these checks, as depicted in this matrix:
 
-```sh
-check /cap/sflight/node_modules/@sap/cds
-  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES
-
-check /cap/sflight/db
-  exists ./_i18n/i18n*.properties #> no
-  exists ./i18n/i18n*.properties #> no
-check /cap/sflight
-  exists ./_i18n/i18n*.properties #>>>>>>>>>>>>>>>>>>>>>>> YES
-
-check /cap/sflight/srv
-  exists ./_i18n/i18n*.properties #> no
-  exists ./i18n/i18n*.properties #> no
-check /cap/sflight #> already checked above
-
-check /cap/sflight/app/travel_analytics
-  exists ./_i18n/i18n*.properties #> no
-  exists ./i18n/i18n*.properties #> no
-check /cap/sflight/app
-  exists ./_i18n/i18n*.properties #> no
-  exists ./i18n/i18n*.properties #> no
-check /cap/sflight #> already checked above
-
-check /cap/sflight/app/travel_processor
-  exists ./_i18n/i18n*.properties #> no
-  exists ./i18n/i18n*.properties #> no
-check /cap/sflight/app #> already checked above
-
-check /cap/sflight/app #> already checked above
-```
+| $sourcedirs | \_i18n | i18n |
+| ----------- | :---: | :--: |
+| /cap/samples/node_moduels/@sap/cds | 👍 | |
+| /cap/samples/common | | |
+| /cap/samples/bookshop/db | | |
+| /cap/samples/bookshop/srv | | |
+| /cap/samples/bookshop | | |
+| /cap/samples/reviews/db | | |
+| /cap/samples/reviews/srv | | |
+| /cap/samples/reviews | 👍 | |
+| /cap/samples/orders/db | | |
+| /cap/samples/orders/srv | | |
+| /cap/samples/orders/app | | |
+| /cap/samples/orders | 👍 | |
+| /cap/samples/bookstore/srv | | |
+| /cap/samples/bookstore | 👍 | |
 
 
 
 #### 4. Result: i18n folders used by bundle
 
-So we would end up in having found these two directories from which we would load `.properties` files subsequently:
+So we would end up in having found these four directories from which we would load `.properties` files subsequently:
 
 ```js
 i18n_folders = [
-  '/cap/sflight/node_modules/@sap/cds/_i18n',
-  '/cap/sflight/_i18n'
+  '/cds/samples/node_modules/@sap/cds/_i18n',
+  '/cap/samples/orders/_i18n',
+  '/cap/samples/reviews/_i18n',
+  '/cap/samples/bookstore/_i18n'
 ]
 ```
 
@@ -489,7 +566,7 @@ You can also combine static folders with relative ones in your custom configs.
 
 
 
-## Configuration Options
+## Configuration Options {#config}
 
 Find the configuration options to customize `cds.i18n` in the table below. You can use these options in your package.json like so:
 
@@ -500,6 +577,13 @@ Find the configuration options to customize `cds.i18n` in the table below. You c
   "i18n": {
     "default_language": "fr"
   }
+}
+```
+```js [defaults.js by @sap/cds]
+cds.env.i18n = {
+  default_language: "en",
+  folders: [ "_i18n", "i18n" ],
+  file: "i18n",
 }
 ```
 

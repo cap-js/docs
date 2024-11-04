@@ -256,7 +256,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
-#### From `entity set` {#from-entity-set}
+#### `FROM` Entity Set {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -272,7 +272,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {#from-reference}
+#### `FROM` Reference {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 

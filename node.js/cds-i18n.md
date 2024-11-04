@@ -395,7 +395,7 @@ An array of root directories up to which to recurse up the filesystem hierarchy 
 ### – `leafs` {.property}
 
 The leafs of the filesystem hierarchy to start fetch i18n folders recursively. Determined by `model?.$sources.map(path.dirname)`  if a [`model`](#–-model) (or [`cds.model`](cds-facade#cds-model)) is given.  <br/>
-*Default*: [option `roots`](#–-roots). {.indent}
+*Default*: [`roots`](#–-roots). {.indent}
 
 ### – `folders` {.property}
 

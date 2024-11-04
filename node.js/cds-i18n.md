@@ -244,15 +244,15 @@ If `args` are specified, corresponding `{}` placeholders in texts are replaced b
 
 ```properties
 WRONG_FORMAT = '{0}' is not in format '{1}'
-WRONG_RANGE = {val} is not in range {min}..{max}
+OUT_OF_RANGE = {val} is not in range {min}..{max}
 ```
 
 You would obtain respective messages like that: {.indent}
 
 ```js
 const msg = cds.i18n.messages
-msg.for('WRONG_FORMAT', ['foo','bar'])        //> 'foo' is not in format 'bar'
-msg.for('WRONG_RANGE', {val:0,min:1,max:11})  //> 0 is not in range 1..11
+msg.for('WRONG_FORMAT', ['x',/.../])          //> 'x' is not in format '...'
+msg.for('OUT_OF_RANGE', {val:0,min:1,max:11}) //> 0 is not in range 1..11
 ```
 
 

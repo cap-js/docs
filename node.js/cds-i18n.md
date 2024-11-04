@@ -8,12 +8,14 @@ status: released
 
 ## Introduction
 
-The `cds.i18n` module supports internationalization features. In CAP these are used automatically behind the scenes for both, localisation of UIs, i.e. labels or headers, as well as localised error messages returned in responses to requests from UIs. In addition, you can use these features in your application-specific custom code.
+The `cds.i18n` module supports internationalization. In CAP it used automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
 
 There are two standard i18n bundles available through these static properties:
 
 - [`cds.i18n.labels`](#labels) are used for generating localised UIs.
 - [`cds.i18n.messages`](#messages) are used for error messages generated at runtime.
+
+
 
 ### Localized (Fiori) UIs
 

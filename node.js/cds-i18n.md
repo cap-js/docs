@@ -8,7 +8,7 @@ status: released
 
 ## Introduction
 
-The `cds.i18n` module supports internationalization. In CAP it used automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
+The `cds.i18n` module supports internationalization. It is mostly used by the framework automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
 
 There are two standard i18n bundles available through these static properties:
 
@@ -502,20 +502,22 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 
 | $sourcedirs | \_i18n | i18n |
 | ----------- | :---: | :--: |
-| /cap/samples/node_modules/@sap/cds | 👍 | |
+| /cap/samples/node_modules/@sap/cds | 🎯 | |
 | /cap/samples/common | | |
 | /cap/samples/bookshop/db | | |
 | /cap/samples/bookshop/srv | | |
 | /cap/samples/bookshop | | |
 | /cap/samples/reviews/db | | |
 | /cap/samples/reviews/srv | | |
-| /cap/samples/reviews | 👍 | |
+| /cap/samples/reviews | 🎯 | |
 | /cap/samples/orders/db | | |
 | /cap/samples/orders/srv | | |
 | /cap/samples/orders/app | | |
-| /cap/samples/orders | 👍 | |
+| /cap/samples/orders | 🎯 | |
 | /cap/samples/bookstore/srv | | |
-| /cap/samples/bookstore | 👍 | |
+| /cap/samples/bookstore | 🎯 |  |
+
+> 🎯 marks existing i18n subfolders containing matching `<basename>_*.properties` files.
 
 
 
@@ -524,7 +526,8 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 So we would end up in having found these four directories from which we would load `.properties` files subsequently:
 
 ```js
-i18n_folders = [
+Object.keys (cds.i18n.labels.files) //>... 
+[
   '/cds/samples/node_modules/@sap/cds/_i18n',
   '/cap/samples/orders/_i18n',
   '/cap/samples/reviews/_i18n',
@@ -536,7 +539,7 @@ i18n_folders = [
 
 ::: tip Why fetching from model's neighborhood?
 
-The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to easily support usage of reuse packages, which might come with own i18n bundles. As such reuse packages frequently bring own `.cds` models, we can take the locations of these as the starting points to search for i18n folders up the file system hierarchy.
+The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to find i18n content from reuse packages with zero configuration: As such reuse packages frequently come with own `.cds` models, we simply use the locations of these sources as the starting points to search for i18n folders up the file system hierarchy.
 
 :::
 

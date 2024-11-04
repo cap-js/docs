@@ -216,7 +216,8 @@
 
 ### [Plugins](plugins/)
 
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [OData v2 Adapter](plugins/#odata-v2-proxy)
+- [WebSocket](plugins/#websocket)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
 - [SAP Document Management](plugins/#@cap-js/sdm)

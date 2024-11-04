@@ -166,7 +166,6 @@ class YourI18nBundle extends cds.i18n.Bundle {...}
 
 ```tsx
 function I18nBundle (options: {
-
   //... as in I18nFiles constructor
 })
 ```

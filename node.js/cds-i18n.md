@@ -136,7 +136,7 @@ function cds.i18n.bundle4 (file : string, options?)
 function cds.i18n.bundle4 (model : CSN, options?)
 ```
 
-Factory method to create instances of  [`I18nBundle`](#i18nbundle). The first argument is either a string used as the bundle's basename (→ see [`i18n.file`](#file) below), or a CDS model.
+Factory method to create instances of  [`I18nBundle`](#i18nbundle). The first argument is either a string used as the bundle's [`file`/`basename`](#–-file-basename), or a CDS model.
 
 ```js
 const b1 = cds.i18n.bundle4('foo')
@@ -162,13 +162,17 @@ b1 === b2                          //> true
 
 ## `I18nBundle` {.class}
 
-Instances of this class provide access to translated texts in different languages. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can refer to this class from the `cds.i18n.Bundle` facade property, for example to create subclasses:
+Instances of this class provide access to translated texts in different languages. 
+
+::: details Prefer using [`cds.i18n.bundle4()`](#bundle4) to create instances...
+
+Yet, you can refer to this class from the `cds.i18n.Bundle` facade property, for example to create subclasses:
 
 ```js
 class YourI18nBundle extends cds.i18n.Bundle {...}
 ```
 
-
+:::
 
 ### `constructor` {.method}
 

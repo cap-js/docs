@@ -358,7 +358,7 @@ Make sure to add the quotes around the asterisk so your shell environment does n
 ## Integrate Into Your Build Process
 Having `cds-typer` present as dependency provides the `typescript` build task. If your project also depends on the `typescript` package, this build task is automatically included when you run `cds build`.
 
-If you are [customizing your build task](../guides/deployment/custom-builds.md), you can add it after the `nodejs` build task:
+If you are [customizing your build task](../guides/deployment/custom-builds), you can add it after the `nodejs` build task:
 
 ```json
 "tasks": [

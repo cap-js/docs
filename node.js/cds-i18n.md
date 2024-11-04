@@ -56,9 +56,9 @@ ORDER_EXCEEDS_STOCK = The order of {quantity} books exceeds available stock {sto
 
 
 
-### Direct Usage of `cds.i18n`
+### Direct Usage 
 
-In addition, you can also use both standard bundles directly in your code, with [`<bundle>.at(key)`](#at-key) the central method to obtain localized texts:
+In addition, you can use both standard bundles directly in your code, with [`<bundle>.at(key)`](#at-key) the central method to obtain localized texts:
 
 ```js
 cds.i18n.labels.at('CreatedAt','de')  //> 'Erstellt am'

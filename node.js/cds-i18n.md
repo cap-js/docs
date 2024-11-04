@@ -479,7 +479,7 @@ $sourcedirs = $sources.map(path.dirname) //> ...
   '/cap/samples/orders/db',
   '/cap/samples/bookshop/db',
   '/cap/samples/common',
-  '/cap/samples/node_moduels/@sap/cds'
+  '/cap/samples/node_modules/@sap/cds'
 ]
 ```
 
@@ -493,7 +493,7 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 
 | $sourcedirs | \_i18n | i18n |
 | ----------- | :---: | :--: |
-| /cap/samples/node_moduels/@sap/cds | 👍 | |
+| /cap/samples/node_modules/@sap/cds | 👍 | |
 | /cap/samples/common | | |
 | /cap/samples/bookshop/db | | |
 | /cap/samples/bookshop/srv | | |

@@ -154,7 +154,7 @@ b1 === b2                          //> true
 
 ## `I18nBundle` {.class}
 
-Instances of this class provide access to translated texts in different languages. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can refer to this class from the `cds.i18n.Bundle` facade property, for example to create subclasses: 
+Instances of this class provide access to translated texts in different languages. While you should prefer using the [`i18n.bundle4()`](#bundle4) factory method to create bundles, you can refer to this class from the `cds.i18n.Bundle` facade property, for example to create subclasses:
 
 ```js
 class YourI18nBundle extends cds.i18n.Bundle {...}
@@ -166,7 +166,7 @@ class YourI18nBundle extends cds.i18n.Bundle {...}
 
 ```tsx
 function I18nBundle (options: {
-  
+
   //... as in I18nFiles constructor
 })
 ```
@@ -315,7 +315,7 @@ JSON.stringify(all)
 
 
 
-Instances of this class are used through [`I18nBundle.files`](#files) to fetch and construct a lookup dictionary of i18n folders and files matching a given configuration in a files-by-folders structure. 
+Instances of this class are used through [`I18nBundle.files`](#files) to fetch and construct a lookup dictionary of i18n folders and files matching a given configuration in a files-by-folders structure.
 
 By default fetches i18n folders and files from the [neighborhood](#from-models-neighborhood) of a given model's sources, by default using `cds.model`.
 
@@ -330,25 +330,25 @@ cds.i18n.labels.files //> displays:
 I18nFiles {
   '/cap/samples/node_modules/@sap/cds/_i18n': [
     'i18n.properties',
-    'i18n_de.properties', 
-    'i18n_en.properties', 
+    'i18n_de.properties',
+    'i18n_en.properties',
     'i18n_fr.properties',
     // ...
   ],
-  '/cap/samples/orders/_i18n': [ 
-    'i18n_de.properties', 
-    'i18n_en.properties', 
-    'i18n_fr.properties' 
+  '/cap/samples/orders/_i18n': [
+    'i18n_de.properties',
+    'i18n_en.properties',
+    'i18n_fr.properties'
   ],
-  '/cap/samples/reviews/_i18n': [ 
-    'i18n_de.properties', 
-    'i18n_en.properties', 
-    'i18n_fr.properties' 
+  '/cap/samples/reviews/_i18n': [
+    'i18n_de.properties',
+    'i18n_en.properties',
+    'i18n_fr.properties'
   ],
-  '/cap/samples/bookstore/_i18n': [ 
-    'i18n_de.properties', 
-    'i18n_en.properties', 
-    'i18n_fr.properties' 
+  '/cap/samples/bookstore/_i18n': [
+    'i18n_de.properties',
+    'i18n_en.properties',
+    'i18n_fr.properties'
   ]
 }
 ```
@@ -369,37 +369,35 @@ function I18nFiles (options: {
 })
 ```
 
-Constructs a new instance which fetches i18n folders and files according to the specified options. For example this will create a new I18nBundle with the content read from `./_i18n/messages_*.properties` files in the current working directory:  
+Constructs a new instance which fetches i18n folders and files according to the specified options. For example this will create a new I18nBundle with the content read from `./_i18n/messages_*.properties` files in the current working directory:
 
 ```js
 const msg = cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
 ```
 
-The options are as follows... 
+The options are as follows...
 
-### `.options` `.basename` {.property}
-
-### `.options` `.file` {.property}
+### – `file` / `basename` {.property}
 
 The basename of `.properties` files to load translations from (either of both can be used). <br/>
 *Default*:  as [configured](#config) through <Config> cds.i18n.file: i18n </Config> {.indent}
 
-### `.options` `.model` {.property}
+### – `model` {.property}
 
 The model to fetch i18n files and folders from respective `$sources`' [neighborhood](#from-models-neighborhood). <br/>
 *Default*: [`cds.model`](cds-facade#cds-model). {.indent}
 
-### `.options` `.roots` {.property}
+### – `roots` {.property}
 
 An array of root directories up to which to recurse up the filesystem hierarchy when searching for i18n folders. <br/>
 *Default*: `[` [`cds.root`](cds-facade#cds-root), [`cds.home`](cds-facade#cds-home) `]`. {.indent}
 
-### `.options` `.leafs` {.property}
+### – `leafs` {.property}
 
 The leafs of the filesystem hierarchy to start fetch i18n folders recursively. Determined by `model?.$sources.map(path.dirname)`  if a [`model`](#options-model) (or [`cds.model`](cds-facade#cds-model)) is given.  <br/>
 *Default*: [`options.roots`](#options-roots). {.indent}
 
-### `.options` `.folders` {.property}
+### – `folders` {.property}
 
 An array of folder names to fetch i18n files from. Can be relative names of subfolders or absolute names as explained iin [Fetching 18n Folders...](#fetching-i18n-folders) below. <br/>
 *Default*: as [configured](#config) through <Config> cds.i18n.folders: [ "_i18n", "i18n" ] </Config>. {.indent}

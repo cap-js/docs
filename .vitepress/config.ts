@@ -200,7 +200,7 @@ if (process.env.VITE_CAPIRE_PREVIEW) {
 if (process.env.NODE_ENV !== 'production') {
   // open in VS Code
   const srcDir = resolve(__dirname, '..')
-  let href = 'vscode://' + join('file', srcDir, '${filePath}').replaceAll(/\\/g, '/').replace('@external/', '')
+  let href = 'vscode://' + join('file', srcDir, encodeURIComponent('${filePath}')).replaceAll(/\\/g, '/').replace('@external/', '')
   config.themeConfig!.capire!.gotoLinks!.push({ href, key: 'o', name: 'VS Code' })
 }
 

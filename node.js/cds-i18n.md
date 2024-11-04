@@ -84,6 +84,12 @@ And provide texts and translations in corresponding files like `_i18n/yours.prop
 
 This is a global object acting as the facade to the i18n features as outlined below.
 
+### `.file` {.property}
+
+### `.folders` {.property}
+
+Shortcuts to corresponding i18n [config options](#config). {.indent}
+
 
 
 ### `.messages` {.property}
@@ -530,34 +536,61 @@ The reason we do this fetching in the neighborhood of the current model's `.cds`
 
 
 
-### from static folders
+### from static project folders 
 
-In alternative to fetching i18n folders from models' neighborhood as explained above, you can also specify static folders to be used as is, by adding a **leading slash**. For example:
+In addition to fetching i18n folders from models' neighborhood as explained above, you can also specify static folders to be used as is, by adding a **leading slash**. For example:
 
 ::: code-group
 
-```json [package.json]
+```jsonc [package.json]
 "cds": {
   "i18n": {
-    "folders": [ "/_i18n", "/app/_i18n" ]
+    "folders": [ 
+      "_i18n",                   // fetched from model's neighborhood
+      "/app/browse/webapp/i18n"  // static folder in project's root
+    ]
   }
 }
 ```
 
 :::
 
-With that configuration, there is no search for i18n folders but all .properties files would be load from the respective directories within your project, e.g.:
+With that configuration, we'll search for subfolders named `_i18n` in the neighborhood of model sources, plus load .properties files from `<cds.root>/app/browse/webapp/i18n`, i.e.:
 
 ```js
-i18n_folders = [
-  '/cap/sflight/_i18n',
-  '/cap/sflight/app/_i18n'
+Object.keys (cds.i18n.labels.files) //> ...
+[
+  '.../node_modules/@sap/cds/_i18n', // found in model's neighborhood
+  '.../_i18n',                       // found in model's neighborhood
+  '.../app/browse/webapp/i18n'       // found statically 
 ]
 ```
 
-Static folders can also be fully-qualified absolute filenames, e.g. `path.resolve(__dirname,'../i18n')`.
 
-You can also combine static folders with relative ones in your custom configs.
+
+You can specify static folders only to not fetching i18n folders in model's neighborhood at all, both by default configuration as well as for individual bundles. For example: 
+
+```js
+const b = cds.i18n.bundle4 ({ folders: ['/_i18n', ...] })
+```
+
+
+
+### from absolute folders
+
+Static folders can also be fully-qualified absolute filenames. For example, plugins could use that to add own translations or bundles like so: 
+
+::: code-group
+
+```js [cds-plugin.js]
+cds.i18n.folders .push (path.join(__dirname,'_i18n'))
+```
+
+:::
+
+
+
+
 
 
 

@@ -489,12 +489,12 @@ Do not use a `XS_` prefix.
 ### I get a 401 error when logging in to MTXS through App Router { #mtxs-sidecar-approuter-401}
 
 See [How to configure your App Router](../guides/extensibility/customization#app-router) to verify your setup.
-Also check the [Detailed Documentation about `cds login`](../guides/extensibility/customization#cds-login).
+Also check the [documentation about `cds login`](../guides/extensibility/customization#cds-login).
 
 ### When running a tenant upgrade, I get the message 'Extensions exist, but extensibility is disabled.'
 
-This message indicates that extensions exist, but the application is not configured for Extensibility. To avoid accidental data loss by removing existing extensions from the database, the upgrade is blocked in that case.
-Please check the [configuration for Extensibility](../guides/extensibility/customization#_1-enable-extensibility).
+This message indicates that extensions exist, but the application is not configured for extensibility. To avoid accidental data loss by removing existing extensions from the database, the upgrade is blocked in that case.
+Please check the [configuration for extensibility](../guides/extensibility/customization#_1-enable-extensibility).
 
 ::: danger
 If data loss is intended, you can disable the check by adding <Config>cds.requires.cds.xt.DeploymentService.upgrade.skipExtensionCheck = true</Config> to the configuration.

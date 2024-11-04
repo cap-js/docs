@@ -8,7 +8,7 @@ status: released
 
 ## Introduction
 
-The `cds.i18n` module supports internationalization. In CAP it used automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
+The `cds.i18n` module supports internationalization. It is mostly used by the framework automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
 
 There are two standard i18n bundles available through these static properties:
 
@@ -96,7 +96,7 @@ Shortcuts to corresponding i18n [config options](#config). {.indent}
 
 ### `.messages` {.property}
 
-Provides access to the I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
+The I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
 
 ```zsh
 cap/samples/bookshop/
@@ -113,7 +113,7 @@ cap/samples/bookshop/
 
 ### `.labels` {.property}
 
-Provides access to the I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in the [*bookshop* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/_i18n): {.indent}
+The I18n bundle used for UI labels, such as `CreatedAt` or `CreatedBy`, referenced from respective [Fiori annotations](../guides/i18n#externalizing-texts-bundles). Translations are loaded from properties with base name `i18n`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
 
 ```zsh
 cap/samples/bookshop/
@@ -188,7 +188,7 @@ Constructs a new instance with the provided options forwarded to the [`I18nFiles
 
 ### `.defaults` {.property}
 
-Provides access to the default translations used as a first-level fallback if a locale-specific translation is not found. Can be provided as constructor option, else loads the translations for the default language as configured in [config option](#config) <Config> `cds.i18n.default_language` </Config>. {.indent}
+The default translations used as a first-level fallback if a locale-specific translation is not found. Can be provided as constructor option, else loads the translations for the default language as configured in [config option](#config) <Config> `cds.i18n.default_language` </Config>. {.indent}
 
 
 
@@ -244,15 +244,15 @@ If `args` are specified, corresponding `{}` placeholders in texts are replaced b
 
 ```properties
 WRONG_FORMAT = '{0}' is not in format '{1}'
-WRONG_RANGE = {val} is not in range {min}..{max}
+OUT_OF_RANGE = {val} is not in range {min}..{max}
 ```
 
 You would obtain respective messages like that: {.indent}
 
 ```js
 const msg = cds.i18n.messages
-msg.for('WRONG_FORMAT', ['foo','bar'])        //> 'foo' is not in format 'bar'
-msg.for('WRONG_RANGE', {val:0,min:1,max:11})  //> 0 is not in range 1..11
+msg.for('WRONG_FORMAT', ['x',/.../])          //> 'x' is not in format '...'
+msg.for('OUT_OF_RANGE', {val:0,min:1,max:11}) //> 0 is not in range 1..11
 ```
 
 
@@ -278,7 +278,18 @@ cds.i18n.labels.at(title)    //> 'Titre'
 
 ### `key4 (csn)` {.method}
 
-This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation looks up the value of the CSN definition's annotations `@Common.Label`, `@title`, or `@UI.HeaderInfo.TypeName`, and returns the i18n key excerpt from that value's `{i18n>...}` content, if any. {.indent}
+This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation works like that: 
+
+```js
+const a = csn['@title'] 
+ || csn['@Common.Label'] 
+ || csn['@UI.HeaderInfo.TypeName'] 
+//> e.g. '{i18n>Books}'
+return a.match(/{i18n>(.+)}/)[1] 
+//> 'Books'
+```
+
+>  If no such annotation is found, the CSN definition's `name` is returned. 
 
 
 
@@ -502,20 +513,22 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 
 | $sourcedirs | \_i18n | i18n |
 | ----------- | :---: | :--: |
-| /cap/samples/node_modules/@sap/cds | 👍 | |
+| /cap/samples/node_modules/@sap/cds | 🎯 | |
 | /cap/samples/common | | |
 | /cap/samples/bookshop/db | | |
 | /cap/samples/bookshop/srv | | |
 | /cap/samples/bookshop | | |
 | /cap/samples/reviews/db | | |
 | /cap/samples/reviews/srv | | |
-| /cap/samples/reviews | 👍 | |
+| /cap/samples/reviews | 🎯 | |
 | /cap/samples/orders/db | | |
 | /cap/samples/orders/srv | | |
 | /cap/samples/orders/app | | |
-| /cap/samples/orders | 👍 | |
+| /cap/samples/orders | 🎯 | |
 | /cap/samples/bookstore/srv | | |
-| /cap/samples/bookstore | 👍 | |
+| /cap/samples/bookstore | 🎯 |  |
+
+> 🎯 marks existing i18n subfolders containing matching `<basename>_*.properties` files.
 
 
 
@@ -524,7 +537,8 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 So we would end up in having found these four directories from which we would load `.properties` files subsequently:
 
 ```js
-i18n_folders = [
+Object.keys (cds.i18n.labels.files) //>... 
+[
   '/cds/samples/node_modules/@sap/cds/_i18n',
   '/cap/samples/orders/_i18n',
   '/cap/samples/reviews/_i18n',
@@ -536,7 +550,7 @@ i18n_folders = [
 
 ::: tip Why fetching from model's neighborhood?
 
-The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to easily support usage of reuse packages, which might come with own i18n bundles. As such reuse packages frequently bring own `.cds` models, we can take the locations of these as the starting points to search for i18n folders up the file system hierarchy.
+The reason we do this fetching in the neighborhood of the current model's `.cds` source files is to find i18n content from reuse packages with zero configuration: As such reuse packages frequently come with own `.cds` models, we simply use the locations of these sources as the starting points to search for i18n folders up the file system hierarchy.
 
 :::
 

@@ -104,9 +104,9 @@ Available for:
 
 With this application, we give SAP partners guidance on how to extend SAP ERP solutions with side-by-side cloud applications running on SAP Business Technology Platform (SAP BTP). It includes:
 
-- a preselection of SAP BTP components with architecture guidance tailored to meet the cost requirements of small and midsize enterprises (SME),
-- best practices (golden path) to build, deploy, and provision full-stack SAP BTP applications, and
-- information on the interoperability and integration with cloud ERP solutions such as SAP Business ByDesign and SAP S/4HANA Cloud Public Edition.
+- A preselection of SAP BTP components with architecture guidance tailored to meet the cost requirements of small and midsize enterprises (SME).
+- Best practices (golden path) to build, deploy, and provision full-stack SAP BTP applications.
+- Information on the interoperability and integration with cloud ERP solutions such as SAP Business ByDesign and SAP S/4HANA Cloud Public Edition.
 
 Available for:
 

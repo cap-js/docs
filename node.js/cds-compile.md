@@ -116,7 +116,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 | Option      | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | `flavor`    | By default the returned CSN is in `'inferred'` flavor, which is an effective model, with all aspects, includes, extensions and redirects applied and all views and projections inferred. Specify `'parsed'` to only have single models parsed. |
-| `min`       | Specify `true` to have [`cds.minify)`](#cds-minify) applied after compiling the models. |
+| `min`       | Specify `true` to have [`cds.minify()`](#cds-minify) applied after compiling the models. |
 | `docs`      | Specify `true` to have the all `/** ... */` doc comments captured in the CSN. |
 | `locations` | Specify `true` to have the all `$location` properties preserved in serialized CSN. |
 | `messages`  | Pass an empty array to get all compiler messages collected in there. |

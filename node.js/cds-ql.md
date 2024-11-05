@@ -444,13 +444,15 @@ SELECT.from ('Authors').alias('a').where({
 
 ### having() {.method}
 
+These two methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions.
+
 ```tsx
 function SELECT.where/having ( qbeobj : query-by-example object )
 function SELECT.where/having ( clause : tagged template string )
 function SELECT.where/having ( expr: string, value: any, ... )
 ```
 
-These methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions, which can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
+Expressions can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
 
 ```js
 SELECT.from `Books` .where ({ ID: req.data.ID }) // qbe

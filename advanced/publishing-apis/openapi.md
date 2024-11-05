@@ -189,7 +189,7 @@ annotate MyService with @(
 | Term              | Annotation Target | OpenAPI field                                                                  |
 |-------------------|-------------------|--------------------------------------------------------------------------------|
 | `externalDocs`  | EntityContainer   | Links to external documentation that explain more about APIs are helpful to developers. |
-| `Extensions` | EntityContainer   | To add the sap defined (`x-sap`) Specification Extensions.                                           |
+| `Extensions` | EntityContainer   | To add the sap defined (`x-sap`) Specification Extensions. This annotation can an be used in root, entity and in function/action level.                                        |
 
 
 This is an example of a CDS service annotated with the annotations above:
@@ -207,9 +207,6 @@ annotate SampleService with @(
     }
 );
 ```
-
-
-`Extensions` annotation can be used in root, entity and in function/action level.
 
 
 ## Frequently Asked Questions { #faq label='FAQs'}

@@ -98,3 +98,16 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 Available for:
 
 [![Node.js logo](../assets/logos/nodejs.svg 'Link to the Sustainable SaaS (SusaaS) repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/SAP-samples/btp-cap-multitenant-saas)
+
+
+## Partner Reference App {.github}
+
+With this application, we give SAP partners guidance on how to extend SAP ERP solutions with side-by-side cloud applications running on SAP Business Technology Platform (SAP BTP). It includes:
+
+- a preselection of SAP BTP components with architecture guidance tailored to meet the cost requirements of small and midsize enterprises (SME),
+- best practices (golden path) to build, deploy, and provision full-stack SAP BTP applications, and
+- information on the interoperability and integration with cloud ERP solutions such as SAP Business ByDesign and SAP S/4HANA Cloud Public Edition.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the Partner Reference app repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/SAP-samples/partner-reference-application)

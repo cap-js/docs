@@ -102,7 +102,7 @@ Available for:
 
 ## Partner Reference App {.github}
 
-With this application, we give SAP partners guidance on how to extend SAP ERP solutions with side-by-side cloud applications running on SAP Business Technology Platform (SAP BTP). It includes:
+With this application, we give SAP partners guidance on how to extend SAP ERP solutions with side-by-side cloud applications running on SAP Business Technology Platform (SAP BTP). It includes the following:
 
 - A preselection of SAP BTP components with architecture guidance tailored to meet the cost requirements of small and midsize enterprises (SME).
 - Best practices (golden path) to build, deploy, and provision full-stack SAP BTP applications.

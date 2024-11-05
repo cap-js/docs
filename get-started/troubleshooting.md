@@ -226,7 +226,7 @@ To fix this, either switch the Node.js version using a Node version manager, or 
 
 ```
 
-[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
+[Learn more about the install-node goal.](../java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more target="_blank"}
 
 ### How can I expose custom REST APIs with CAP?
 

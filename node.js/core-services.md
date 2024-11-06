@@ -881,7 +881,7 @@ All *cds.Services* are intrinsically events & messaging-enabled. The core implem
 
 ::: danger **PLEASE NOTE**
 
-Even though emitters never wait for consumers to receive and process event messages, keep in mind that `srv.emit()` is an *`async`* method, and that it is of **utter importance** to properly handle the returned *Promises* with `await`. Not doing so ends up  in unhandled promises, and likely invalid transaction states and deadlocks.
+Although emitters do not handle any return values from consumers, keep in mind that `srv.emit()` is an *`async`* method, and that it is of **utter importance** to properly handle the returned *Promises* with `await`. Not doing so ends up  in unhandled promises, and likely invalid transaction states and deadlocks.
 
 :::
 

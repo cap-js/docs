@@ -92,7 +92,7 @@ Use `cds init` to create new projects.
 The simplest form creates a minimal Node.js project.  For Java, use
 
 ```sh
-cds init --add java
+cds init --java
 ```
 
 In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.

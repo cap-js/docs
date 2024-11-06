@@ -100,7 +100,7 @@ Assumed we want to create a project named *bookshop*, we'd do so like this:
 cds init bookshop
 ```
 ```sh [Java]
-cds init bookshop --add java
+cds init bookshop --java
 ```
 
 :::

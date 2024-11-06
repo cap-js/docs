@@ -81,7 +81,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
 
@@ -148,7 +148,7 @@ The generated folders have the following content:
 For a quick start, you can use `cds init` to bootstrap a CAP Java application based on Spring Boot. Run the following command:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 
 You can also specify the package name through parameter `--java:package`. Default for the package name is: `org.<PROJECT-ROOT>`.

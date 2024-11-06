@@ -100,7 +100,7 @@ Assumed we want to create a project named *bookshop*, we'd do so like this:
 cds init bookshop
 ```
 ```sh [Java]
-cds init bookshop --add java
+cds init bookshop --java
 ```
 
 :::
@@ -130,7 +130,15 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
+### Project Content
 
+::: tip Principle of locality
+Using CAP, it's a rule of thumb that related files are placed next to each other. This is prominently demonstrated with sibling `.js` files, next to `.cds` sources, for [implementing services](/node.js/core-services#implementing-services).
+
+:::
+
+#### Using Subfolders
+CAP assumes some default locations for your files. If you want to deviate from those defaults, for example, to organize annotations files or database-specific files in subfolders, you need to add an _index.cds_ file that contains the information where to find the needed files.
 
 ### Minimal Configuration
 

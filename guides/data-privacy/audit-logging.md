@@ -40,14 +40,7 @@ npm add @cap-js/audit-logging
 
 [CDS Plugin Packages](../../node.js/cds-plugins) are self-contained extensions. They not only include the relevant code but also bring their own default configuration. In our case, next to bringing the respective code, the plugin does the following:
 
-1. Sets `cds.requires.audit-log: true` in `cds.env`, equivalent to:
-    ```json
-    {"cds":{
-      "requires": {
-        "audit-log": true
-      }
-    }}
-    ```
+1. Sets <Config>cds.requires.audit-log: true</Config>
 
 2. Which in turn activates the `audit-log` configuration **presets**:
     ```jsonc

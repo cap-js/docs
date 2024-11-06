@@ -97,16 +97,16 @@ Output:
 
 #### Shared Service Instances on Cloud Foundry <Since version="7.9.0" of="@sap/cds-dk" /> { #binding-shared-service-instances}
 
-On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. If you have access to a shared service instance, you can also bind to a shared service instance just like any other service instance.
+On SAP BTP Cloud Foundry, service instances can be shared across orgs and spaces. Even such shared instances can be used in `cds bind`:
 
 ```sh
-cds bind messages --to redis-cache
+cds bind messaging --to bookshop-redis
 ```
 
-Binds the `messages` service of your CAP application to the shared service instance `redis-cache`. `cds bind` reads `org` and `space` from where the service has been shared from as the service-key needs to be created in that org and space. This requires the Space Developer role for both spaces.
+Binds the `messaging` service of your CAP application to the shared `bookshop-redis` service instance. `cds bind` retrieves the `org` and `space` where the service is shared from, as the service key needs to be created within that org and space. This requires the _Space Developer_ role for both spaces.
 
-::: tip
-The service name `messages` can be omitted as it represents the default value for the service kind `redis-messaging`.
+::: tip Use `cds bind --to bookshop-redis`
+The service name `messaging` can be omitted as it represents the default value for the service kind `redis-messaging`.
 :::
 
 ::: code-group

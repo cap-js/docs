@@ -312,7 +312,7 @@ REST-style APIs using `srv.send()` tend to become protocol-specific, for example
 
 
 
-## Class `cds.Service`
+## `cds.Service` {.class}
 
 
 

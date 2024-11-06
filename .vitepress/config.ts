@@ -25,8 +25,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '3.2.0',
-  java_cds4j: '3.3.0'
+  java_services: '3.4.0',
+  java_cds4j: '3.4.0'
 }
 
 const localSearchOptions = {
@@ -124,6 +124,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
+    ['meta', { 'http-equiv': 'Content-Security-Policy', content: "script-src 'self' https://www.capire-matomo.cloud.sap 'unsafe-inline' 'unsafe-eval'" }],
     ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }],
     ['script', {}, ` const variant = localStorage.getItem('impl-variant') ?? 'node'; document.documentElement.classList.add(variant)`]
@@ -158,7 +159,17 @@ const config:UserConfig<CapireThemeConfig> = {
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 5000 // chunk for local search index dominates
+      chunkSizeWarningLimit: 5000, // chunk for local search index dominates
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: [
+            'legacy-js-api', // to avoid 'Deprecation Warning: The legacy JS API...', see https://github.com/vitejs/vite/issues/18164
+            'global-builtin'
+          ]
+        }
+      }
     }
   },
   transformHtml(code, id, ctx) {
@@ -189,7 +200,7 @@ if (process.env.VITE_CAPIRE_PREVIEW) {
 if (process.env.NODE_ENV !== 'production') {
   // open in VS Code
   const srcDir = resolve(__dirname, '..')
-  let href = 'vscode://' + join('file', srcDir, '${filePath}').replaceAll(/\\/g, '/').replace('@external/', '')
+  let href = 'vscode://' + join('file', srcDir, encodeURIComponent('${filePath}')).replaceAll(/\\/g, '/').replace('@external/', '')
   config.themeConfig!.capire!.gotoLinks!.push({ href, key: 'o', name: 'VS Code' })
 }
 

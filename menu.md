@@ -44,7 +44,7 @@
 - [Events & Messaging](guides/messaging/)
 
   - [SAP Event Mesh](guides/messaging/event-mesh)
-  - [SAP Event Broker](guides/messaging/event-broker)
+  - [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
   - [Events from S/4](guides/messaging/s4)
 
 - [Protocols/APIs](advanced/publishing-apis/)
@@ -216,7 +216,8 @@
 
 ### [Plugins](plugins/)
 
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [OData v2 Adapter](plugins/#odata-v2-proxy)
+- [WebSocket](plugins/#websocket)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
 - [SAP Document Management](plugins/#@cap-js/sdm)
@@ -226,4 +227,4 @@
 - [Telemetry](plugins/#telemetry)
 - [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
-- [SAP Event Broker](plugins/#event-broker-plugin)
+- [SAP Cloud Appl. Event Hub](plugins/#event-broker-plugin)

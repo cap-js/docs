@@ -145,7 +145,7 @@ A one-time event, emitted immediately after the [express.js app](cds-facade#cds-
 has been created and before any middleware or CDS services are added to it.
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 const express = require('express')
 cds.on('bootstrap', app => {
@@ -180,7 +180,7 @@ Emitted for each service constructed by [`cds.serve`](cds-serve).
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 cds.on('served', (services)=>{
   // We can savely access service instances through the provided argument:
@@ -215,7 +215,7 @@ This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://n
 In other words this asynchronous handler code does **not work** as expected:
 
 ```js twoslash
-// @checkJs
+// @noErrors
 const cds = require('@sap/cds')
 const asyncCode = async () => Promise.resolve()
 // ---cut---
@@ -247,7 +247,7 @@ The behavior of the built-in `server.js` can be customized through the options d
 
 ### CORS Middleware
 
-The built-in CORS middleware can be enabled explicitly with `cds.env.server.cors = true`.  By default, this is `false` if in production.
+The built-in CORS middleware can be enabled explicitly with <Config>cds.server.cors: true</Config>.  By default, this is `false` if in production.
 
 [Learn more about best practices regarding **Cross-Origin Resource Sharing (CORS)**.](../node.js/best-practices.md#cross-origin-resource-sharing-cors) {.learn-more}
 
@@ -255,7 +255,7 @@ The built-in CORS middleware can be enabled explicitly with `cds.env.server.cors
 
 ### Toggle Generic Index Page
 
-The default generic _index.html_ page is not served if `NODE_ENV` is set to `production`. Set `cds.env.server.index = true` to restore the generic index page in production.
+The default generic _index.html_ page is not served if `NODE_ENV` is set to `production`. Set <Config>cds.server.index: true</Config> to restore the generic index page in production.
 
 [See the **Generic *index.html*** page in action.](../get-started/in-a-nutshell.md#generic-index-html) {.learn-more}
 

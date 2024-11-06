@@ -2,19 +2,19 @@
 <pre class="log">
 > cds version --markdown
 
-| your-project           | &lt;Add your repository here&gt;                      |
-| ---------------------- | ----------------------------------------------- |
-| @cap-js/asyncapi       | 1.0.2                                           |
-| @cap-js/cds-types      | 0.6.5                                           |
-| @cap-js/db-service     | 1.13.0                                          |
-| @cap-js/openapi        | 1.0.5                                           |
-| @cap-js/sqlite         | 1.7.3                                           |
-| @sap/cds               | 8.3.0                                           |
-| @sap/cds-compiler      | 5.3.0                                           |
-| @sap/cds-dk (global)   | 8.4.0                                           |
-| @sap/cds-fiori         | 1.2.7                                           |
-| @sap/cds-foss          | 5.0.1                                           |
-| @sap/cds-mtxs          | 2.1.1                                           |
-| @sap/eslint-plugin-cds | 3.0.6                                           |
-| Node.js                | v22.8.0                                         |
+| your-project           | &lt;Add your repository here&gt;              |
+| ---------------------- | --------------------------------------- |
+| @cap-js/asyncapi       | 1.0.2                                   |
+| @cap-js/cds-types      | 0.7.0                                   |
+| @cap-js/db-service     | 1.14.1                                  |
+| @cap-js/openapi        | 1.0.7                                   |
+| @cap-js/sqlite         | 1.7.5                                   |
+| @sap/cds               | 8.4.0                                   |
+| @sap/cds-compiler      | 5.4.0                                   |
+| @sap/cds-dk (global)   | 8.4.0                                   |
+| @sap/cds-fiori         | 1.2.7                                   |
+| @sap/cds-foss          | 5.0.1                                   |
+| @sap/cds-mtxs          | 2.3.0                                   |
+| @sap/eslint-plugin-cds | 3.1.1                                   |
+| Node.js                | v20.18.0                                |
 </pre>

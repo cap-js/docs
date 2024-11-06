@@ -44,7 +44,7 @@ cd hello-world
 <!-- IMPORTANT: tiny-sample is needed here as otherwise, w/o a model, Java build fails -->
 
 ```sh
-cds init hello-world --add java,tiny-sample --java:mvn -DgroupId=com.sap.capire
+cds init hello-world --java --java:mvn -DgroupId=com.sap.capire --add tiny-sample
 cd hello-world
 ```
 

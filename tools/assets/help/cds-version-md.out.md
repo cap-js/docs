@@ -8,7 +8,7 @@
 | @cap-js/cds-types      | 0.7.0                                   |
 | @cap-js/db-service     | 1.14.1                                  |
 | @cap-js/openapi        | 1.0.7                                   |
-| @cap-js/sqlite         | 1.7.5                                   |
+| @cap-js/sqlite         | 1.7.6                                   |
 | @sap/cds               | 8.4.0                                   |
 | @sap/cds-compiler      | 5.4.0                                   |
 | @sap/cds-dk (global)   | 8.4.0                                   |

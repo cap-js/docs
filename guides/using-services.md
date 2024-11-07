@@ -52,12 +52,8 @@ For outbound remote service consumption, the following features are supported:
 + [Projections on remote services](#supported-projection-features)
 
 ### Tutorials and Examples
-
-Most snippets in this guide are from the [Build an Application End-to-End using CAP, Node.js, and VS Code](https://developers.sap.com/mission.btp-application-cap-e2e.html) tutorial, in particular [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html).
-
 | Example                                                                                                                            | Description                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP Business Accelerator Hub |
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
@@ -73,8 +69,7 @@ You have all your answers and know your scenario, go on reading about [external 
 
 #### Sample Scenario from End-to-End Tutorial
 
-<!-- Bookshop, SFlight, Incidents Mgmt, Risk Mgmt, Orders Mgmt. etc. -> we might want to cut down on our sample scenarios  -->
-The risk management use case of the previously mentioned [tutorial](https://developers.sap.com/mission.btp-application-cap-e2e.html) shows you one possible scenario:
+<!-- Bookshop, SFlight, Incidents Mgmt, Orders Mgmt. etc. -> we might want to cut down on our sample scenarios  -->
 
 ![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){style="width: 500px"}
 

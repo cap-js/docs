@@ -13,24 +13,23 @@ notebook: true
 ## Prepare a project
 
 Clone samples:
-<div class="impl node">
+
+
 ```sh
 git clone https://github.com/sap-samples/cloud-cap-samples samples
 cd samples
 npm install
 cd bookstore
 ```
-</div>
+
 
 Start the server:
 
-<div class="impl node">
 
 ```sh
 cds watch
 ```
 
-</div>
 
 ## Sample queries
 

@@ -17,21 +17,19 @@
 
 <script setup>
 
-import { onMounted, computed, ref } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { computed } from 'vue'
+import { useData } from 'vitepress'
 
-const { frontmatter, base, page, site } = useData()
-const { path } = useRoute()
+const { frontmatter, site } = useData()
 
 const supportsNotebook = computed(() => !!frontmatter.value['notebook'])
-const isExternal = import.meta.env.VITE_CAPIRE_ENV === 'external'
 
 function linkNotebook($event) {
   return typeof localStorage !== 'undefined' ? useNotebook($event) : () => {}
 }
 
 function useNotebook(event) {
-  function getNotebook(event) {
+  function getNotebook() {
     const baseUrl = new URL(window.location);
     const urlParams = new URLSearchParams(window.location.search)
     const implVariant = urlParams.get('impl-variant')

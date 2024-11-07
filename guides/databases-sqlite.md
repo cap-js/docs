@@ -88,7 +88,7 @@ Further configuration depends on whether you run SQLite as an [in-memory databas
 
 ### Initial Database Schema
 
-Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry > srv/src/main/resources/schema.sql`.
+Configure the build to create an initial _schema.sql_ file for SQLite using `cds deploy --to sqlite --dry --out srv/src/main/resources/schema.sql`.
 
 ::: code-group
 ```xml [srv/pom.xml]
@@ -99,7 +99,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to sqlite --dry --out srv/src/main/resources/schema.sql</command>
 		</commands>
 	</configuration>
 </execution>
@@ -145,7 +145,7 @@ Using in-memory databases is the most recommended option for test drives and tes
 The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
 
 ::: code-group
-```yaml [application.yaml]
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: default
@@ -232,7 +232,8 @@ With that in place, the server will use this prepared database instead of bootst
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 ---
 spring:
   config.activate.on-profile: sqlite
@@ -242,6 +243,7 @@ spring:
     hikari:
       maximum-pool-size: 1
 ```
+:::
 
 [Learn how to configure a file-based SQLite database](../java/cqn-services/persistence-services#file-based-storage){.learn-more}
 
@@ -407,7 +409,7 @@ A specified set of standard functions is now supported in a **database-agnostic*
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
-* `matchesPattern(x,y)` — checks whether `x` matches regex `y`
+* `matchespattern(x,y)` — checks whether `x` matches regex `y`
 * `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
 * `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
@@ -748,7 +750,7 @@ ID;title;author.ID;currency.code // [!code --]
 
 As mentioned in [Using Lean Draft](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*.
 
-When using the new service, the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on `cds.fiori.draft_compat` in case you run into problems.
+When using the new service, the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on <Config keyOnly>cds.fiori.draft_compat:true</Config> in case you run into problems.
 
 More detailed documentation for that is coming.
 

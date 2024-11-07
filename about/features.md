@@ -40,7 +40,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | CLI commands                                                                    |                            |
 |---------------------------------------------------------------------------------|----------------------------|
 | [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
-| Add a feature to an existing project                                            | `cds add <facets>`         |
+| [Add a feature to an existing project](../tools/cds-cli#cds-add)                | `cds add <facets>`         |
 | [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
 | [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
 | [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
@@ -143,7 +143,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> Export CDS models to ... <br>
 > <sup>2</sup> To support customers with existing OData V2 UIs<br>
-> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-proxy-node)  <br>
+> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-adapter-node)  <br>
 > <sup>4</sup> Could be a good case for 3rd-party contribution <br>
 > <sup>5</sup> For Node.js try out the [GraphQL Adapter](/plugins/#graphql-adapter) <br>
 > <sup>6</sup> For Java try out the provided [sample code](https://github.com/SAP-samples/cloud-cap-samples-java/commit/16dc5d9a1f103eb1336405ee601dc7004f70538f). <br>
@@ -162,12 +162,12 @@ Following is an index of the features currently covered by CAP, with status and 
 
 <br>
 
-| Outbound Protocol Support                                 | CDS <sup>1</sup> | Node.js | Java |
-|-----------------------------------------------------------|:----------------:|:-------:|:----:|
-| [REST/OpenAPI](../node.js/cds-dk#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
-| OData V2                                                  |       <X/>       |  <X/>   | <X/> |
-| OData V4                                                  |       <X/>       |  <X/>   | <X/> |
-| GraphQL<sup>2</sup>                                       |       <C/>       |  <C/>   | <C/> |
+| Outbound Protocol Support                                        | CDS <sup>1</sup> | Node.js | Java |
+|------------------------------------------------------------------|:----------------:|:-------:|:----:|
+| [REST/OpenAPI](../tools/apis/cds-import#cds-import-from-openapi) |       <X/>       |  <X/>   | <X/> |
+| OData V2                                                         |       <X/>       |  <X/>   | <X/> |
+| OData V4                                                         |       <X/>       |  <X/>   | <X/> |
+| GraphQL<sup>2</sup>                                              |       <C/>       |  <C/>   | <C/> |
 
 > <sup>1</sup> Import API to CSN <br>
 > <sup>2</sup> Could be a good case for 3rd-party contribution <br>
@@ -180,7 +180,8 @@ Following is an index of the features currently covered by CAP, with status and 
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
 | [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
 | Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| SAP Event Mesh (For single-tenant apps) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
+| SAP Cloud Application Event Hub (For single-tenant apps) [[Node.js](../node.js/messaging#event-broker)]            | <Na/> |  <X/><br>beta   | <D/> |
 | Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
 | Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
 | Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
@@ -223,7 +224,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Draft Support](../advanced/fiori#draft-support)                                                 | <X/> |  <X/>   | <X/> |
 | [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                           | <X/> |  <X/>   | <X/> |
 | [Support for Fiori Analytics](../advanced/analytics)                                             | <X/> |  <D/>   | <X/> |
-| [Support for other UI technologies, e.g. Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
+| [Support for other UI technologies, for example Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
 
 >  <sup>1</sup> through standard REST/AJAX
 
@@ -259,5 +260,4 @@ Following is an index of the features currently covered by CAP, with status and 
 | Declarative Constraints                                                                  | <O/> |
 | Execute Sandboxed Code                                                                   | <O/> |
 | Runtime API for In-App Extensibility                                                     | <D/> |
-| [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                     | <D/> |
 | Propagating Extensions across (µ) Services                                               | <O/> |

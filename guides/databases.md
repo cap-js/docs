@@ -28,7 +28,7 @@ Following are cds-plugin packages for CAP Node.js runtime that support respectiv
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| **[SAP HANA Cloud](databases-hana)**     | [`@sap/cds-hana`](https://www.npmjs.com/package/@sap/cds-hana) | recommended for production         |
+| **[SAP HANA Cloud](databases-hana)**     | [`@cap-js/hana`](https://www.npmjs.com/package/@cap-js/hana) | recommended for production         |
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
@@ -46,13 +46,13 @@ npm add @cap-js/sqlite -D
 Using SAP HANA for production:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/hana
 ```
 
 <!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
-... which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
+... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
 
 :::
 
@@ -66,13 +66,13 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
   "requires": {
     "db": {
       "[development]": { "kind": "sqlite", "impl": "@cap-js/sqlite", "credentials": { "url": "memory" } },
-      "[production]": { "kind": "hana", "impl": "@sap/cds-hana", "deploy-format": "hdbtable" }
+      "[production]": { "kind": "hana", "impl": "@cap-js/hana", "deploy-format": "hdbtable" }
     }
   }
 }}
 ```
 
-::: details In contrast to pre CDS 7 setups this means...
+::: details In contrast to pre-CDS 7 setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
 2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
@@ -83,9 +83,9 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 ### Custom Configuration  {.impl .node}
 
-The previous setups auto-wire things through configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configurations for other setups, or override individual properties as follows:
+The auto-wired configuration uses configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
 
-1. Install a database driver package, e.g.
+1. Install a database driver package, for example:
    ```sh
    npm add @cap-js/sqlite
    ```
@@ -141,10 +141,9 @@ cds env cds.requires.db
 
 </div>
 
+### Built-in Database Support {.impl .java}
 
-<div markdown="1" class="impl java">
-
-CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
+CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
 Database support is enabled by adding a Maven dependency to the JDBC driver, as shown in the following table:
 
@@ -156,7 +155,6 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 | **[PostgreSQL](databases-postgres)** | `org.postgresql:postgresql` | Supported for productive use |
 
 [Learn more about supported databases in CAP Java and their configuration](../java/cqn-services/persistence-services#database-support){ .learn-more}
-</div>
 
 ## Providing Initial Data
 
@@ -242,14 +240,28 @@ cds add data
 
 ### Location of CSV Files
 
-CSV files can be located in the folders _db/data_ and _test/data_ as well as in any _data_ folder next to your CDS model files.
+CSV files can be found in the folders _db/data_ and _test/data_, as well as in any _data_ folder next to your CDS model files. When you use `cds watch` or `cds deploy`, CSV files are loaded by default from _test/data_. However, when preparing for production deployments using `cds build`, CSV files from _test/data_ are not loaded.
 
 ::: details Adding initial data next to your data model
 The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
+
+If you need to use certain CSV files exclusively for your production deployments, but not for tests, you can achieve this by including them in a separate data folder, for example, _db/hana/data_. Create an _index.cds_ file in the _hana_ folder as outlined earlier. Then, set up this model location in a dummy cds service, for example _hanaDataSrv_, using the `[production]` profile.
+
+```json
+"cds": {
+  "requires": {
+    "[production]": {
+      "hanaDataSrv ": { "model": "hana" }
+     }
+  }
+}
+````
+
+As a consequence, when you run `cds build -–production` the model folder _hana_ is added, but it's not added when you run `cds deploy` or `cds watch` because the development profile is used by default. You can verify this by checking the cds build logs for the hana build task. Of course, this mechanism can also be used for PostgreSQL database deployments.
 :::
 
 ::: details On SAP HANA ...
-CSV and _hdbtabledata_ files located in the _src_ folder of your database module will be treated as native SAP HANA artifacts and deployed as they are.
+CSV and _hdbtabledata_ files found in the _src_ folder of your database module are treated as native SAP HANA artifacts and deployed as they are. This approach offers the advantage of customizing the _hdbtabledata_ files if needed, such as adding a custom `include_filter` setting to mix initial and customer data in one table. However, the downside is that you must redundantly maintain them to keep them in sync with your CSV files.
 :::
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
@@ -273,7 +285,7 @@ Use the properties [cds.dataSource.csv.*](../java/developing-applications/proper
 ---
 spring:
   config.activate.on-profile: test
-cds
+cds:
   dataSource.csv.paths:
   - test/data/**
 ```
@@ -379,7 +391,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 <div markdown="1" class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 [Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
@@ -584,7 +596,7 @@ ON Books.author_ID = author.ID;
 </div>
 
 ::: tip
-Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql -- dialect <dialect>` to get DDL that matches the target database.
+Use the specific SQL dialect (`hana`, `sqlite`, `h2`, `postgres`) with `cds compile --to sql --dialect <dialect>` to get DDL that matches the target database.
 :::
 
 
@@ -723,9 +735,7 @@ The information about foreign key relations contained in the associations of CDS
 
 Enable generation of foreign key constraints on the database with:
 
-```js
-cds.features.assert_integrity = 'db'
-```
+<Config>cds.features.assert_integrity = db</Config>
 
 ::: warning Database constraints are not supported for H2
 Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.
@@ -756,7 +766,7 @@ CREATE TABLE Books (
   author_ID INTEGER,    -- generated foreign key field
   ...,
   PRIMARY KEY(ID),
-  CONSTRAINT Books_author // [!code focus]
+  CONSTRAINT Books_author   -- constraint is explicitly named // [!code focus]
     FOREIGN KEY(author_ID)  -- link generated foreign key field author_ID ...
     REFERENCES Authors(ID)  -- ... with primary key field ID of table Authors
     ON UPDATE RESTRICT

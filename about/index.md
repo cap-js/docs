@@ -3,26 +3,6 @@ section: About
 status: released
 ---
 
-<style scoped>
-.cols-2 {
-  display: flex;
-  flex-wrap: wrap;
-}
-.cols-2 > * {
-  width: 100%;
-}
-@media (min-width: 640px) {
-  .cols-2 {
-    gap: 1em;
-  }
-  .cols-2 > * {
-    flex: 1;
-    width: calc(100% / 2);
-  }
-}
-
-</style>
-
 # About CAP
 
 The _SAP Cloud Application Programming Model_ (CAP) is a framework of **languages**, **libraries**, and **tools** for building enterprise-grade services and applications. It guides developers along a 'golden path' of proven [**best practices**](#enterprise-best-practices) and a great wealth of [**out-of-the-box solutions**](#generic-providers) to recurring tasks.
@@ -36,17 +16,36 @@ CAP-based projects benefit from a **[primary focus on domain](#domain-modeling)*
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies, as highlighted in the figure below.
 
-<img src="../assets/overview.drawio.svg" style="width:450px; margin: auto" alt="The graphic is explained in the accompanying text.">
+![The graphic is explained in the accompanying text.](../assets/overview.drawio.svg){style="width:480px; margin: auto"}
 
 <div id="logos" style="text-align:center;">
   <img src="../assets/logos/nodejs.svg" style="height:40px" alt="Node.js logo" />
-  <img src="../assets/logos/express.png" style="height:30px" alt="Express logo"/>
-  <img src="../assets/logos/java.svg" style="height:44px" alt="Java logo"/>
+  <img src="../assets/logos/express.png" style="height:34px" alt="Express logo"/>
+  <img src="../assets/logos/java.svg" style="height:44px;margin-top:-10px;" alt="Java logo"/>
   <img src="../assets/logos/spring.svg" style="height:25px" alt="spring logo" />
 </div>
 
 <style scoped>
-  #logos img { display:inline-block; margin: 12px;align-items:center;vertical-align:middle }
+  #logos {
+    margin: 24px auto;
+    max-width: 280px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #logos img {
+    margin: 4px auto;
+  }
+
+  @media (min-width: 500px) {
+    #logos {
+      max-width: 500px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 </style>
 
 On top of open source technologies, CAP mainly adds:
@@ -291,8 +290,8 @@ All behavioral aspects in CAP are based on ubiquitous notions of [Services](#ser
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-  <img src="../assets/agnostic-services.drawio.svg" width="333px">
-  <figcaption><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
+   <img src="../assets/agnostic-services.drawio.svg" width="400px">
+  <figcaption style="text-align: center"><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
 <br><br>
@@ -377,7 +376,7 @@ cds.service.impl (function(){
 
 
 // Emitting Events
-// e.g. in this.on ('cancelOrder', ...)
+// in this.on ('cancelOrder', ...)
 let { ID } = req.data
 this.emit ('orderCancelled', {ID})
 
@@ -436,9 +435,23 @@ Following is an excerpt of generic features provided:
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
 
-<br>
+**CAP-level Service Integrations ('Calesi')**
 
-[See also the Features Overview](./features){.learn-more}
+<!-- - [Authentication → SAP Identity Services](../plugins/#security-ams) -->
+- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
+- [Attachments → SAP Object Store](../plugins/#attachments)
+- [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+<!-- - [Messaging → SAP Cloud Application Event Hub (Multitenancy)](../plugins/#event-broker-multitenancy) -->
+<!-- - [Messaging → Kafka](../plugins/#apache-kafka) -->
+- [Change Tracking](../plugins/#change-tracking)
+- [Notifications](../plugins/#notifications)
+- [Audit Logging](../plugins/#audit-logging)
+- [Personal Data Management](../guides/data-privacy/)
+
+[Find more in the **CAP Plugins** page](../plugins/){.learn-more}
+
+[See also the **Features Overview**](./features){.learn-more}
 
 
 

@@ -44,7 +44,7 @@ cd hello-world
 <!-- IMPORTANT: tiny-sample is needed here as otherwise, w/o a model, Java build fails -->
 
 ```sh
-cds init hello-world --add java,tiny-sample
+cds init hello-world --java --java:mvn -DgroupId=com.sap.capire --add tiny-sample
 cd hello-world
 ```
 
@@ -101,8 +101,8 @@ module.exports = class say {
 
 ::: code-group
 
-```java [srv/src/main/java/customer/hello_world/handlers/HelloHandler.java]
-package customer.hello_world.handlers;
+```java [srv/src/main/java/com/sap/capire/hello_world/handlers/HelloHandler.java]
+package com.sap.capire.hello_world.handlers;
 
 import org.springframework.stereotype.Component;
 
@@ -146,7 +146,8 @@ cds watch
 <div class="impl java">
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:watch
+cd srv
+mvn cds:watch
 ```
 
 </div>

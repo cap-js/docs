@@ -10,6 +10,8 @@ status: released
 
 You can convert CDS models to the [OpenAPI Specification](https://www.openapis.org), a widely adopted API description standard.
 
+[[toc]]
+
 ## Usage from CLI { #cli}
 
 For example, this is how you convert all services in `srv/` and store the API files in the `docs/` folder:
@@ -34,6 +36,20 @@ cds compile srv service.cds --to openapi --openapi:servers "\"'[{\\\"url\\\":\\\
 ```
 
 _Note:_ `--openapi:url` is ignored when this option is specified.
+
+Use the `--openapi:config-file <JSON_config_filepath>` option to provide configurations for all supported options in a configuration file. This file accepts a JSON format that incorporates all the OpenAPI compile options. Inline options take precedence over those defined in the configuration file.
+
+```sh
+cds compile srv service.cds --to openapi --openapi:config-file configFile.json
+```
+
+Here is an example where `--openapi:config-file` option is used with other inline options:
+
+```sh
+cds compile srv service.cds --to openapi --openapi:config-file configFile.json --odata-version 4.0 --openapi:diagram false
+```
+
+In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there. 
 
 ## Swagger UI { #swagger-ui}
 
@@ -72,9 +88,9 @@ See [Frequently Asked Questions](#faq) for examples on how to use these annotati
 | `Computed`         | Property                                                                      | omit from Create and Update structures                            |
 | `DefaultNamespace` | Schema                                                                        | path templates for actions and functions without namespace prefix |
 | `Description`      | Action, ActionImport, Function, FunctionImport                                | `summary` of Operation Object                                     |
-| `Description`      | EntitySet, Singleton                                                          | `title` of Tag Object                                       |
-| `Description`      | EntityType                                                                    | `title` of Request Body Object                              |
-| `Description`      | ComplexType, EntityType, EnumerationType, Parameter, Property, TypeDefinition | `title` of Schema Object                                    |
+| `Description`      | EntitySet, Singleton                                                          | `title` of Tag Object                                             |
+| `Description`      | EntityType                                                                    | `title` of Request Body Object                                    |
+| `Description`      | ComplexType, EntityType, EnumerationType, Parameter, Property, TypeDefinition | `title` of Schema Object                                          |
 | `Description`      | Schema, EntityContainer                                                       | `info.title`                                                      |
 | `Example`          | Property                                                                      | `example` of Schema Object                                        |
 | `Immutable`        | Property                                                                      | omit from Update structure                                        |
@@ -148,6 +164,43 @@ See [Frequently Asked Questions](#faq) for examples on how to use these annotati
 |-------------------|-------------------|--------------------------------------------------------------------------------|
 | `Authorizations`  | EntityContainer   | `securitySchemes` of Components Object/`securityDefinitions` of Swagger Object |
 | `SecuritySchemes` | EntityContainer   | `security` of OpenAPI/Swagger Object                                           |
+
+This is an example of a CDS service annotated with the annotations above:
+
+```cds
+annotate MyService with @(
+  Authorization: {
+    Authorizations: [
+      { $Type : 'Auth.Http', Name : 'Basic', Scheme : 'basic' },
+      { $Type : 'Auth.Http', Name : 'JWT',   Scheme : 'bearer', BearerFormat : 'JWT' },
+    ],
+    SecuritySchemes: [
+      { Authorization : 'Basic' },
+      { Authorization : 'JWT', RequiredScopes : [] },
+    ]
+  }
+);
+```
+[See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
+
+## OpenAPI
+
+| Term              | Annotation Target | OpenAPI field                                                                  |
+|-------------------|-------------------|--------------------------------------------------------------------------------|
+| `externalDocs`  | EntityContainer   | Links to external documentation that explain more about APIs are helpful to developers. |
+
+This is an example of a CDS service annotated with the annotations above:
+
+```cds
+annotate SampleService with @(
+    OpenAPI:{
+        externalDocs:{
+            description: 'API Guide',
+            url        : 'https://help.sap.com/docs/product/sample.html'
+        }
+    }
+);
+```
 
 
 ## Frequently Asked Questions { #faq label='FAQs'}

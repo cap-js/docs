@@ -53,8 +53,8 @@ It is available in both Node.js and Java. The Node.js variant contains additiona
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the cloud-cap-samples repository." style="height:2.5em; display:inline; margin:0 0.2em;"  alt="Node.js logo"/>](https://github.com/sap-samples/cloud-cap-samples)
-[<img src="../assets/logos/java.svg" title="link to the cloud-cap-samples-java repository." style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo" />](https://github.com/sap-samples/cloud-cap-samples-java)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the cloud-cap-samples repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cloud-cap-samples)
+[![Java logo](../assets/logos/java.svg 'link to the cloud-cap-samples-java repository.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cloud-cap-samples-java)
 
 
 
@@ -64,7 +64,7 @@ A reference sample application for CAP and the SAP BTP Developer Guide.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the incident-app repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/cap-js/incidents-app)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the incident-app repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/incidents-app)
 
 
 
@@ -74,8 +74,8 @@ This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the cap-sflight repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/sap-samples/cap-sflight)
-[<img src="../assets/logos/java.svg" title="Link to the cap-sflight repository." style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>](https://github.com/sap-samples/cap-sflight)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the cap-sflight repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cap-sflight)
+[![Java logo](../assets/logos/java.svg 'Link to the cap-sflight repository.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/sap-samples/cap-sflight)
 
 
 
@@ -87,7 +87,7 @@ The projects described above have fallen out of maintenance but still offered th
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the Star Wars app repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/SAP-samples/cloud-cap-hana-swapi)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the Star Wars app repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/SAP-samples/cloud-cap-hana-swapi)
 
 
 
@@ -97,4 +97,23 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the Sustainable SaaS (SusaaS) repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo"/>](https://github.com/SAP-samples/btp-cap-multitenant-saas)
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the Sustainable SaaS (SusaaS) repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/SAP-samples/btp-cap-multitenant-saas)
+
+
+## Partner Reference App {.github}
+
+The Partner Reference Application repository provides you with a “golden path” to becoming a SaaS provider of multi-tenant applications based on the SAP Business Technology Platform (SAP BTP).
+The guidance covers building, running, and integrating scalable full-stack cloud applications. It includes an ERP-agnostic design that lets you deliver your application as a side-by-side extension to consumers using any SAP solution, such as SAP S/4HANA Cloud, SAP Business One, and SAP Business ByDesign.
+
+By using BTP services and the SAP Cloud Application Programming Model (CAP), your application meets SAP standards for enterprise-class business solutions. It offers a harmonized user experience and seamless integration, including:
+- centralized identity and access management,
+- a common launchpad,
+- cross-application front-end navigation,
+- and secure back-channel integration.
+
+The repository includes the “Poetry Slam Manager” application as a ready-to-run example. It also provides tutorials on how to build the application from scratch using an incremental development approach.
+Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the Partner Reference app repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/SAP-samples/partner-reference-application)

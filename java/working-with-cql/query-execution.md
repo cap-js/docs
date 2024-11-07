@@ -94,25 +94,26 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, build a select statement and execute it with [named parameter](#named-parameters) values that correspond to the view's parameters.
 
-Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
+Let's consider the following `Books` entity and a parameterized view `BooksView`, which returns the `ID` and `title` of `Books` with `stock` greater or equal to the value of the parameter `minStock`:
 
 ```cds
-entity Book {
-    key ID : Integer;
+entity Books {
+    key ID : UUID;
     title  : String;
-    pages  : Integer;
+    stock  : Integer;
 }
 
-entity BookView(numOfPages : Integer) as SELECT FROM Book {ID, title} WHERE pages < :numOfPages;
+entity BooksView(minStock : Integer) as
+   SELECT from Books {ID, title} where stock >= :minStock;
 ```
 
-The Java query that returns books with number of pages less than *200*:
+To query `BooksView` in Java, run a select statement and provide values for all view parameters:
 
 ```java
-CqnSelect query = Select.from("BookView");
-Map<String, Object> params = Collections.singletonMap("numOfPages", 200);
+CqnSelect query = Select.from("BooksView");
+var params = Map.of("minStock", 100);
 
 Result result = service.run(query, params);
 ```
@@ -276,7 +277,8 @@ The `@odata.etag` annotation indicates to the OData protocol adapter that the va
 ```cds
 entity Order : cuid {
     @odata.etag
-    @cds.on.update : $now @cds.on.insert : $now
+    @cds.on.update : $now
+    @cds.on.insert : $now
     modifiedAt : Timestamp;
     product : Association to Product;
 }
@@ -288,7 +290,7 @@ An ETag can also be used programmatically in custom code. Use the `CqnEtagPredic
 
 ```java
 PersistenceService db = ...
-Instant expectedLastModification = ...
+Instant expectedLastModification = ...;
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
@@ -361,7 +363,7 @@ orders.forEach(o -> o.setStatus("cancelled"));
 
 Result rs = db.execute(Update.entity(ORDER).entries(orders));
 
-for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
+for(int i = 0; i < orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
 }
 ```
@@ -427,8 +429,8 @@ Select BooksWithLowStock where author = 'Kafka'
 is executed against SQL databases as
 
 ```SQL
-SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
-  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
+  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 

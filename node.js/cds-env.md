@@ -30,41 +30,26 @@ cds env ?             #> get help
 
 For example:
 
-<pre class="log">
-<i>$</i> cds env ls requires.sql
-requires.sql.credentials.database = <em>:memory:</em>
-requires.sql.impl = <em>@sap/cds/lib/db/sql-service</em>
-requires.sql.kind = <em>sqlite</em>
-</pre>
+<!--@include: ../tools/assets/help/cds-env-ls-requires-db.out.md -->
 
-<pre class="log">
-<i>$</i> cds env get requires.sql
-{
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
-  kind: <em>'sqlite</em>'
-}
-</pre>
+<br>
+
+<!--@include: ../tools/assets/help/cds-env-requires-db.out.md -->
 
 
 Alternatively, you can also use the `cds eval` or `cds repl` CLI commands to access the `cds.env` property, which provides programmatic access to the effective settings:
 
-<pre class="log">
-<i>$</i> cds -e .env.requires.sql
-{
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
-  kind: <em>'sqlite'</em>
-}
-</pre>
+<!--@include: ../tools/assets/help/cds-eval-env-requires-db.out.md -->
+
+<br>
 
 <pre class="log">
 <i>$</i> cds -r
 <em>Welcome to cds repl ...</em>
-> cds.env.requires.sql
+> cds.env.requires.db
 {
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
+  impl: <em>'@cap-js/sqlite'</em>,
+  credentials: { url: <em>':memory:'</em> },
   kind: <em>'sqlite'</em>
 }
 </pre>
@@ -218,7 +203,7 @@ You can provide static settings in a `"cds"` section of your project's _package.
 ```json
 "cds": {
   "requires": {
-    "db": { "kind": "sql" }
+    "db": "sql"
   }
 }
 ```
@@ -229,21 +214,17 @@ Alternatively, you can put static settings in _.cdsrc.json_ file in your project
 
 ```json
 "requires": {
-  "db": { "kind": "sql" }
+  "db": "sql"
 }
 ```
 
-::: tip
-_.cdsrc_ goes without an enclosing  `"cds"` section.
-:::
-
 ## Private Project Settings {#private-project-settings}
+
 ### In _./.cdsrc-private.json_
 
-Put your private settings for local testing here. The file should not be submitted to your source code management system. The file's structure is the same like for _./.cdsrc.json_.
+A _.cdsrc.json_ equivalent for your private settings used in local testing. The file should not be committed to your version control system.
 
 ## Process Environment {#process-env}
-
 
 ### On the Command Line
 
@@ -308,7 +289,8 @@ You can use the `CDS_CONFIG` env variable in three different ways to add setting
     For each file and folder, a new property is added to the configuration with its name. For a file the property value is the string content of the file. But if a file contains a parsable JSON string starting with `[` or `{` character, it is parsed and added as a substructure.
     For a directory an object is added and the algorithm continues there.
 
-    ```yaml    /etc/secrets/cds/requires/auth/kind: xsuaa
+    ```yaml
+    /etc/secrets/cds/requires/auth/kind: xsuaa
     /etc/secrets/cds/requires/auth/credentials/clientid: capapp
     /etc/secrets/cds/requires/auth/credentials/clientsecret: dlfed4XYZ
     /etc/secrets/cds/requires/db:

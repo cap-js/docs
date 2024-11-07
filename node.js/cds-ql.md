@@ -149,7 +149,7 @@ The query is...
 
 1. captured as a CQN object with the where clause represented as:
 ```js
-..., where:[ {ref:['title']}, '=', {val:201} ]
+..., where:[ {ref:['ID']}, '=', {val:201} ]
 ```
 
 2. translated to plain SQL string with binding parameters
@@ -162,7 +162,7 @@ SELECT ID from Books where ID=?
 dbc.run (sql, [201])
 ```
 
-The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
+The only mistake you could make is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
 
 ```js
 let input = 201 //> might be entered by end users
@@ -198,10 +198,9 @@ Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent 
 
 
 
-### .cmd {.property}
+### .kind {.property}
 
-
-The current command, that is one of these strings:
+The kind of query, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`
@@ -326,10 +325,10 @@ SELECT.distinct.from (Authors)
 ### columns() {.method}
 
 ```tsx
-function SELECT.colums ( projection : function )
-function SELECT.colums ( cql : tagged template string )
-function SELECT.colums ( columns[] : CQL expr string | CQN expr object )
-function SELECT.colums ( ...columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( projection : function )
+function SELECT.columns ( cql : tagged template string )
+function SELECT.columns ( columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( ...columns[] : CQL expr string | CQN expr object )
 ```
 
 Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select).
@@ -445,13 +444,15 @@ SELECT.from ('Authors').alias('a').where({
 
 ### having() {.method}
 
+These two methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions.
+
 ```tsx
 function SELECT.where/having ( qbeobj : query-by-example object )
 function SELECT.where/having ( clause : tagged template string )
 function SELECT.where/having ( expr: string, value: any, ... )
 ```
 
-These methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions, which can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
+Expressions can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
 
 ```js
 SELECT.from `Books` .where ({ ID: req.data.ID }) // qbe
@@ -542,7 +543,7 @@ try {
 
 The `options` argument is optional; currently supported is:
 
-* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
+* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via <Config keyOnly>cds.sql.lock_acquire_timeout: -1</Config>. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
 
 All acquired locks are released when the current transaction is finished, that is, committed  or rolled back.
 
@@ -698,15 +699,16 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
-### as() {.method}
+### from() {.method #from}
 
 
 Constructs a _INSERT into SELECT_ statement.
 ```js
-INSERT.into('Bar') .as (SELECT.from('Foo'))
+INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
+### as() {.method}
 
-
+The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.
 
 
 ## UPSERT {.class}
@@ -836,7 +838,7 @@ let [ ID, quantity ] = [ 201, 1 ]
 UPDATE (Books,ID) .with ({
   title: 'Sturmhöhe',       //>  simple value
   stock: {'-=': quantity},    //>  qbe expression
-  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.'])
+  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.']}
 })
 ```
 

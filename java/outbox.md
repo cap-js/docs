@@ -32,59 +32,63 @@ Once the transaction succeeds, the messages are read from the database table and
 - If an emit was successful, the respective message is deleted from the database table.
 - If an emit wasn't successful, there will be a retry after some (exponentially growing) waiting time. After a maximum number of attempts, the message is ignored for processing and remains in the database table. Even if the app crashes the messages can be redelivered after successful application startup.
 
-To enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_. Please note that the _cdsrc.json_ file represents already the `cds` section and only the `requires` section should be added to the _cdsrc.json_ file:
+To enable the persistence for the outbox, you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section in the _package.json_ or _cdsrc.json_, which will automatically enhance your CDS model in order to support the persistent outbox.
 
-
-```json
-    "cds": {
-        "requires": {
-            "outbox": {
-                "kind": "persistent-outbox"
-            }
-        }
+```jsonc 
+{
+  // ...
+  "cds": {
+    "requires": {
+      "outbox": {
+        "kind": "persistent-outbox"
+      }
     }
+  }
+}
 ```
 
 ::: warning _❗ Warning_
 Be aware that you need to migrate the database schemas of all tenants after you've enhanced your model with an outbox version from `@sap/cds`  version 6.0.0 or later.
 :::
 
-For a multitenancy scenario, make sure that the required configuration is also done in MTX sidecar service. Make sure that the base model in all tenants is updated to activate the outbox.
+For a multitenancy scenario, make sure that the required configuration is also done in the MTX sidecar service. Make sure that the base model in all tenants is updated to activate the outbox.
 
 ::: info Option: Add outbox to your base model
 Alternatively, you can add `using from '@sap/cds/srv/outbox';` to your base model. In this case, you need to update the tenant models after deployment but you don't need to update MTX Sidecar.
 :::
 
-CAP Java by default provides two persistent outbox services:
+If enabled, CAP Java provides two persistent outbox services by default:
 
 -  `DefaultOutboxOrdered` - is used by default by messaging services
 -  `DefaultOutboxUnordered` - is used by default by the AuditLog service
 
 The default configuration for both outboxes can be overridden using the `cds.outbox.services` section, for example in the _application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   outbox:
     services:
       DefaultOutboxOrdered:
         maxAttempts: 10
         storeLastError: true
+        # ordered: true
       DefaultOutboxUnordered:
         maxAttempts: 10
         storeLastError: true
+        # ordered: false
 ```
-
+:::
 You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
 - `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
-of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
-- `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances.
+  of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
+- `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise, the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances. This option can't be changed for the default persistent outboxes.
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
 Custom persistent outboxes can be configured using the `cds.outbox.services` section, for example in the _application.yaml_:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   outbox:
     services:
@@ -95,8 +99,8 @@ cds:
         maxAttempts: 10
         storeLastError: true
 ```
-
-Afterwards you can access the outbox instances from the service catalog:
+:::
+Afterward you can access the outbox instances from the service catalog:
 
 ```java
 OutboxService myCustomOutbox = cdsRuntime.getServiceCatalog().getService(OutboxService.class, "MyCustomOutbox");
@@ -142,7 +146,7 @@ CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
-If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods. 
+If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods.
 To improve this the API `OutboxService.outboxed(Service, Class)` can be used, which wraps a service with an asynchronous suited API while outboxing it.
 This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
 
@@ -208,7 +212,7 @@ void processMyEvent(OutboxMessageEventContext context) {
 
   // Perform processing logic for myEvent
 
-  ctx.setCompleted();
+  context.setCompleted();
 }
 ```
 

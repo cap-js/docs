@@ -113,19 +113,34 @@ Prefer public repositories and issues over private/internal ones, as they help e
 As CAP is blessed with an active community, there are many useful plugins available created by the community. Have a look at the [CAP JS community](https://github.com/cap-js-community) to browse all available plugins. A broader collection of plugins can be found at [bestofcapjs.org](https://bestofcapjs.org/)
 :::
 
+## OData V2 Adapter {#odata-v2-proxy}
 
-## OData v2 Proxy
-
-
-The OData v2 Proxy is a protocol adapter that allows you to expose your services as OData v2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
-
+OData V2 has been deprecated. Use the plugin only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable). The CDS OData V2 Adapter is a protocol adapter that allows you to expose your services as OData V2 services. For Node.js, this is provided through the [@cap-js-community/odata-v2-adapter](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter) plugin, which converts incoming OData V2 requests to CDS OData V4 service calls and responses back. For Java, this is built in.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js-community/odata-v2-adapter#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the OData feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/migration#v2adapter)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/odata-v2-adapter#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the OData feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/migration#v2adapter)
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
+
+## WebSocket
+
+Exposes a WebSocket protocol via WebSocket standard or Socket.IO for CDS services.
+
+```cds
+@protocol: 'websocket'
+service ChatService {
+  function message(text: String) returns String;
+  event received {
+    text: String;
+  }
+}
+```
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js-community/websocket#readme)
 
 ## UI5 Dev Server
 
@@ -134,7 +149,7 @@ The UI5 Dev Server is a CDS server plugin that enables the integration of UI5 (U
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/ui5-community/ui5-ecosystem-showcase/tree/main/packages/cds-plugin-ui5#cds-plugin-ui5)
 
 ## GraphQL Adapter
 
@@ -146,14 +161,52 @@ The GraphQL Adapter is a protocol adapter that generically generates a GraphQL s
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" />](https://github.com/cap-js/graphql#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/graphql#readme)
 
 
 
-## Attachments <Beta />
+## Attachments
 
 
-The Attachments plugin provides out-of-the-box asset storage and handling. To use it, extend a domain model by using the predefined `aspect` called Attachments:
+The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
+
+```cds
+using { Attachments } from '@cap-js/attachments';
+entity Incidents { ...
+  attachments: Composition of many Attachments // [!code focus]
+}
+```
+
+That's all we need to automatically add an interactive list of attachments to your Fiori UIs as shown below.
+
+![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
+
+Features:
+
+- Pre-defined type `Attachment` to use in entity definitions
+- Automatic handling of all upload and download operations
+- Automatic malware scanning for uploaded files
+- (Automatic) Fiori Annotations for Upload Controls
+- Streaming and piping to avoid memory overloads
+- Support for different storage backends
+
+Outlook:
+
+- Multitenancy intrinsically handled by the plugin
+
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the repository for cap-js attachments.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/attachments#readme)
+[![Java](../assets/logos/java.svg 'Link to the repository for cap-java-attachments.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-attachments#readme)
+
+
+
+## SAP Document Management Service {#@cap-js/sdm}
+
+@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
+
+To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
 
 ```cds
 extend my.Incidents with {
@@ -161,28 +214,28 @@ extend my.Incidents with {
 }
 ```
 
-![Screenshot showing the Attachments Table in a fiori app](assets/index/attachments-table.png)
-
-It also provides a CAP-level, easy-to-use integration of the [SAP Object store](https://discovery-center.cloud.sap/serviceCatalog/object-store).
+![Screenshot showing the Attachments Table in a Fiori app](assets/index/sdm-table.png)
 
 Features:
 
-- Pre-defined type `Attachment` to use in entity definitions
-- Automatic handling of all upload and download operations
-- (Automatic) Fiori Annotations for Upload Controls
-- Streaming and piping to avoid memory overloads
-- Support for different storage backends
+- **Pre-defined Type Attachment for Entity Definitions**: Seamlessly integrate attachments into your entity definitions with our pre-defined type, simplifying the process of linking files.
+- **Automatic Management of File Operations**: Effortlessly manage file operations, including upload, view, download, delete, and rename functions, with built-in automation. This ensures a smooth and user-friendly experience.
+- **Automated Malware Scanning for Uploaded Files**: Enhance security by automatically scanning all uploaded files for malware, ensuring the integrity and safety of your data.
+- **Automatic Fiori Annotations for Upload Controls**: Streamlined user interactions with automatic SAP Fiori annotations that enhance upload controls, providing a more intuitive and seamless user experience.
+- **Support for SAP Document Management Service-Hosted Cloud Repository**: Leverage the robust capabilities of the SAP Document Management service-hosted cloud repository to store and manage your documents efficiently.
+- **Support for Third-Party CMIS-Compliant Repositories**: Integrate with third-party repositories that adhere to the Content Management Interoperability Services (CMIS) standard, offering flexibility and compatibility with various document management systems.
+- **Intrinsic Multitenancy Handling**: Benefit from built-in multi-tenancy support, allowing for efficient management of multiple tenants without additional configuration.
 
 Outlook:
 
-- Automatic malware scanning for uploaded files
-- Multi-tenancy intrinsically handled by the plugin
-
+- **Java Plug-In**: Use a robust Java plug-in designed to enhance the document management capabilities within your environment, offering a seamless integration experience.
+- **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
+- **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
+- **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" Title="Link to the repository for cap-js attachments." alt="Node.js logo"/>](https://github.com/cap-js/attachments#readme)
-[<img src="../assets/logos/java.svg" title="Link to the repository for cap-java-attachments." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](https://github.com/cap-java/cds-feature-attachments#readme)
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
 
 
 ## Audit Logging
@@ -191,7 +244,10 @@ Available for:
 The new Audit Log plugin provides out-of-the box support for logging personal data-related operations with the [SAP Audit Log Service](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service). All we need is annotations of respective entities and fields like that:
 
 ```cds
-annotate my.Customers with @PersonalData {
+annotate my.Customers with @PersonalData : {
+  DataSubjectRole : 'Customer',
+  EntitySemantics : 'DataSubject'
+} {
   ID           @PersonalData.FieldSemantics: 'DataSubjectID';
   name         @PersonalData.IsPotentiallyPersonal;
   email        @PersonalData.IsPotentiallyPersonal;
@@ -209,8 +265,8 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/audit-logging#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>
+[![Node.js logo](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/audit-logging#readme)
+![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 Learn more about audit logging in [Node.js](../guides/data-privacy/audit-logging) and in [Java](../java/auditlog) {.learn-more}
 
@@ -232,9 +288,8 @@ annotate my.Incidents {
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js" title="Link to the plugins repository."/>](https://github.com/cap-js/change-tracking#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the change-tracking feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/change-tracking)
-
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/change-tracking#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the change-tracking feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/change-tracking)
 
 
 ## Notifications
@@ -262,10 +317,10 @@ Features:
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/notifications#readme)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/notifications#readme)
 
 
-## Telemetry <Beta />
+## Telemetry
 
 
 The Telemetry plugin provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/automatic).
@@ -289,9 +344,22 @@ Telemetry data can be exported to [SAP Cloud Logging](https://help.sap.com/docs/
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" title="Link to the plugins repository." style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js"/>](https://github.com/cap-js/telemetry#readme)
-[<img src="../assets/logos/java.svg" title="Link to the documentation of the telemetry feature." style="height:3em; display:inline; margin:0 0.2em;" alt="Java"/>](../java/operating-applications/observability#open-telemetry)
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/telemetry#readme)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the telemetry feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](../java/operating-applications/observability#open-telemetry)
 
+## ORD (Open Resource Discovery)
+
+This plugin enables generation of [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) documents for CAP based applications.
+
+When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
+
+![](./assets/index/ordCLI.png){style="width:450px; box-shadow: 1px 1px 5px #888888" .mute-dark}
+
+You can get the ORD document in multiple ways, see the readme of the plugin.
+
+Available for:
+
+[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
 
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}
@@ -302,13 +370,29 @@ This is where the CAP Operator **plugin** is very useful, as it provides an easy
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="Node.js logo" />](https://github.com/cap-js/cap-operator-plugin#readme)
-<img src="../assets/logos/java.svg" style="height:3em; display:inline; margin:0 0.2em;" alt="Java logo"/>
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/cap-operator-plugin#readme)
+![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
+
+
+## SAP Cloud Application Event Hub {#event-broker-plugin}
+
+The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+
+```js
+const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
+S4bupa.on ('BusinessPartner.Changed', msg => {...})
+```
+
+For more details, please see [Events and Messaging &rarr; Using SAP Cloud Application Event Hub](../guides/messaging/#sap-event-broker).
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
+
 
 <div id="internal-plugins" />
 
 <div id="upcoming-plugins" />
 
 <div id="planned-plugins" />
-
 

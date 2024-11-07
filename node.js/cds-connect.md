@@ -256,6 +256,8 @@ Find general information about how to configure service bindings in Cloud Foundr
 
 Cloud Foundry uses auto configuration of service credentials through the `VCAP_SERVICES` environment variable.
 
+[Learn more about environment variables on Cloud Foundry and `cf env`.](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html){.learn-more}
+
 #### Through `VCAP_SERVICES` env var {#vcap_services}
 
 When deploying to Cloud Foundry, service bindings are provided in `VCAP_SERVICES` process environment variables, which is JSON-stringified array containing credentials for multiple services. The entries are matched to the entries in `cds.requires` as follows, in order of precedence:
@@ -268,15 +270,24 @@ When deploying to Cloud Foundry, service bindings are provided in `VCAP_SERVICES
 6. The service's `kind` is matched against the `type` property (The type property is only relevant for [servicebinding.io](https://servicebinding.io) bindings)
 7. The service's `vcap.name` is matched against the `name` property
 
-All the config properties found in the first matched entry will be copied into the `cds.env.requires.<i>\<srv\></i>.credentials` property.
+All the config properties found in the first matched entry will be copied into the <Config>cds.requires.\<srv\>.credentials</Config> property.
 
 Here are a few examples:
 
-<table>
+<style scoped>
+  .no-stripes tr:nth-child(2n) {
+    background-color:unset;
+  }
+</style>
+
+<table class="no-stripes">
+<thead>
 <tr>
-<td>CAP config</td>
-<td>VCAP_SERVICES</td>
+<th>CAP config</th>
+<th>VCAP_SERVICES</th>
 </tr>
+</thead>
+<tbody>
 <tr >
 <td >
 
@@ -358,6 +369,7 @@ Here are a few examples:
 ```
 </td>
 </tr>
+</tbody>
 </table>
 
 
@@ -372,7 +384,7 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
       containers:
       - name: bookshop-srv
         env:
-        ...
+        # ...
         - name: SERVICE_BINDING_ROOT
           value: /bindings
     ```
@@ -387,9 +399,9 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
     metadata:
       name: bookshop-xsuaa-binding
     spec:
-        serviceInstanceName: bookshop-xsuaa-binding
-        externalName: bookshop-xsuaa-binding
-        secretName: bookshop-xsuaa-secret
+      serviceInstanceName: bookshop-xsuaa-binding
+      externalName: bookshop-xsuaa-binding
+      secretName: bookshop-xsuaa-secret
     ```
 
     Bindings to other services need to follow the [servicebinding.io workload projection specification](https://servicebinding.io/spec/core/1.0.0-rc3/#workload-projection).
@@ -400,7 +412,7 @@ CAP supports [servicebinding.io](https://servicebinding.io/) service bindings an
     spec:
       containers:
       - name: bookshop-srv
-        ...
+        # ...
         volumeMounts:
         - name: bookshop-auth
           mountPath: "/bindings/auth"
@@ -435,7 +447,7 @@ Please pay attention to the underscore ("`_`") character at the end of the prefi
   spec:
     containers:
     - name: app-srv
-      ...
+      # ...
       envFrom:
         - prefix: cds_requires_db_credentials_
           secretRef:
@@ -471,7 +483,7 @@ For Kubernetes, you can create a volume with the content of a secret and mount i
           secretName: app-db
     containers:
     - name: app-srv
-      ...
+      # ...
       env:
         - name: CDS_CONFIG
           value: /etc/secrets/cds

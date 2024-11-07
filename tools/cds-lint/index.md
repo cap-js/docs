@@ -8,25 +8,6 @@ status: released
 
 # CDS Lint
 
-
-<style lang="scss" scoped>
-  .cols-2 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  @media (min-width: 640px) {
-    .cols-2 {
-      gap: 2em;
-    }
-    .cols-2 > * {
-      &:first-child {
-        flex: 1;
-      }
-    }
-  }
-</style>
-
 <div class="cols-2">
 
 <div>
@@ -37,7 +18,7 @@ To catch issues in CDS models and the CDS environment early, CAP provides an [ES
 
 <div>
 
-<img src="../assets/cdslint.svg" alt="ESLint plugin for CDS logo" width="130px" class="ignore-dark" />
+![ESLint plugin for CDS logo](../assets/cdslint.svg){width="130px" class="ignore-dark"}
 
 </div>
 
@@ -63,7 +44,7 @@ Successfully added features to your project.
 
 <span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
 
-(1) ESLint v>=7.0.0
+(1) ESLint v>=8.0.0
 (2) ESLint plugin for CDS
 
 
@@ -96,7 +77,7 @@ To turn on Lint checking in your VS Code Editor simply download the [ESLint exte
 CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
 Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules). Any other (project-based) rules are not turned on by
-default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header#❌-incorrect-example) rule reports in the Editor, we would add the following to our ESLint 
+default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header) rule reports in the Editor, we would add the following to our ESLint
 `rules` configuration:
 
 ```json

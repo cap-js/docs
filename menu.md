@@ -9,6 +9,7 @@
 - [Sample Projects](get-started/samples)
 - [Learning Sources](get-started/learning-sources)
 - [Troubleshooting](get-started/troubleshooting)
+- [Features Overview](about/features)
 
 ### [Cookbook](guides/)
 
@@ -42,8 +43,9 @@
 
 - [Events & Messaging](guides/messaging/)
 
-  - [Events from S/4](guides/messaging/s4)
   - [SAP Event Mesh](guides/messaging/event-mesh)
+  - [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
+  - [Events from S/4](guides/messaging/s4)
 
 - [Protocols/APIs](advanced/publishing-apis/)
 
@@ -159,8 +161,6 @@
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
-<!-- - [cds. import()](node.js/cds-dk#cds-import) -->
-<!-- - [cds. add()](tools/cds-add) -->
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
@@ -198,6 +198,7 @@
 - [Operating Applications](java/operating-applications/)
   - [Optimizing](java/operating-applications/optimizing)
   - [Observability](java/operating-applications/observability)
+  - [Developer Dashboard](java/operating-applications/dashboard)
 - [Migration Guides](java/migration)
 
 ### [Tools](tools/)
@@ -208,18 +209,22 @@
   - [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
 - [CDS Typer](tools/cds-typer)
 - [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
-- [CDS Design Time APIs](node.js/cds-dk)
-  - [cds. add()](tools/cds-add)
-  - [cds. import()](node.js/cds-dk#cds-import)
 - [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
+- [CDS Design Time APIs](tools/apis/)
+  - [cds. add()](tools/apis/cds-add)
+  - [cds. import()](tools/apis/cds-import)
 
 ### [Plugins](plugins/)
 
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [OData v2 Adapter](plugins/#odata-v2-proxy)
+- [WebSocket](plugins/#websocket)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
+- [SAP Document Management](plugins/#@cap-js/sdm)
 - [Audit Logging](plugins/#audit-logging)
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
+- [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
+- [SAP Cloud Appl. Event Hub](plugins/#event-broker-plugin)

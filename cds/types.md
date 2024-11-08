@@ -33,7 +33,8 @@ The following built-in types are provided:
 | `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
 | `LargeBinary` |  | | _BLOB_ |
 | `LargeString` |  | `'hello world'` | _NCLOB_  |
-| `Vector` | (dimensionality) <sup>(7)</sup> | |  _REAL_VECTOR_  |
+| `Map` | a JSON Object | `{ "foo": "bar" }` | <sup>(7)</sup> |
+| `Vector` | (dimensionality) <sup>(8)</sup> | |  _REAL_VECTOR_  |
 
 
 ### Remarks
@@ -51,7 +52,9 @@ The following built-in types are provided:
 
 > <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
 
-> <sup>(7)</sup> requires SAP HANA Cloud (QRC 1/2024 or later).
+> <sup>(7)</sup> SAP HANA: `NCLOB`, SQLite: `JSON_TEXT`, H2: `JSON`, Postgres: `JSONB`
+
+> <sup>(8)</sup> requires SAP HANA Cloud (QRC 1/2024 or later).
 
 ### See also...
 

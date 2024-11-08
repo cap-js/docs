@@ -370,6 +370,12 @@ When redeploying after you changed your CDS models, like adding fields, automati
 
 > You can disable automatic schema evolution, if necessary, by setting <Config>cds.requires.db.schema_evolution = false</Config>.
 
+::: danger No manual altering
+
+Manually altering the database will most likely break automatic schema evolution!
+
+:::
+
 ### Limitations
 
 Automatic schema evolution only allows changes without potential data loss.

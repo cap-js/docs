@@ -149,8 +149,6 @@ UPSERT.into('db.Books')
 
 The following actions are *not* performed on upsert:
  * UUID key values are _not generated_.
- * The `@cds.on.insert` annotation is _not handled_.
- * Elements are _not initialized_ with default values if the element's value is not given.
  * Generic CAP handlers, such as audit logging, are not invoked.
 
 ::: warning

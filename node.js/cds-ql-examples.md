@@ -25,11 +25,13 @@ cd bookstore
 
 Start the server:
 
+<div class="impl node">
 
 ```sh
 cds watch
 ```
 
+</div>
 
 ## Sample queries
 

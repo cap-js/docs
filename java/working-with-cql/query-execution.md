@@ -403,7 +403,7 @@ The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock
 
 ## Runtime Views { #runtimeviews}
 
-The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
 
 To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
 

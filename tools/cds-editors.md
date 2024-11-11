@@ -129,7 +129,7 @@ entity Books {};
 ```
 ````
 
-This will render like this:
+This will render like so:
 ```cds
 entity Books {};
 ```
@@ -142,7 +142,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/syntax-coloring-completions.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/syntax-coloring-completions_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -165,7 +165,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/snippets.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/snippets_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -191,7 +191,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/format.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/format_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -221,7 +221,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/inventory.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/inventory_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -240,7 +240,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/hover.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/hover_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -262,7 +262,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/where-used.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/where-used_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -282,7 +282,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/quick-fixes.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/quick-fixes_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 
@@ -302,7 +302,7 @@ entity Books {};
 
 <div>
 
-<video src="./assets/vscode/translation-support.mov" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/vscode/translation-support_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
 
 </div>
 

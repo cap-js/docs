@@ -119,21 +119,6 @@ Using the CDS language server implementation, editors can provide additional sou
 
 [Watch the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
-### GitHub Integration
-
-CAP is registered with GitHub [`linguist`](https://github.com/github-linguist/linguist) repository, which means you can use Markdown rendering on GitHub in `cds` code fences like so:
-
-````md
-```cds
-entity Books {};
-```
-````
-
-This will render like so:
-```cds
-entity Books {};
-```
-
 ### Features and Functions
 
 #### Syntax Coloring & Code Completion
@@ -481,6 +466,21 @@ By default, backup files with _.bak_ file extension will be created.
 Use `-f` switch to force an overwrite without creating a backup.
 This is on your own risk. Should there be problems data loss might occur, especially when formatting in a pre-commit hook.
 Better add _.bak_ to your _.gitignore_ file and not use `-f`.
+
+### GitHub Integration
+
+CAP is registered with GitHub [`linguist`](https://github.com/github-linguist/linguist) repository, which means you can use Markdown rendering on GitHub in `cds` code fences like so:
+
+````md
+```cds
+entity Books {};
+```
+````
+
+This will render like so:
+```cds
+entity Books {};
+```
 
 
 ## CAP Notebooks { #cap-vscode-notebook }

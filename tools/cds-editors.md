@@ -123,7 +123,7 @@ Using the CDS language server implementation, editors can provide additional sou
 
 CAP is registered with GitHub [`linguist`](https://github.com/github-linguist/linguist) repository, which means you can use Markdown rendering on GitHub in `cds` code fences like so:
 
-````
+````md
 ```cds
 entity Books {};
 ```

@@ -10,53 +10,41 @@ status: released
 # Built-in Types
 
 
-The following built-in types are provided:
+The following table lists the built-in types available to all CDS models:
 
 
-| CDS Type | Arguments / Remarks | Example Value | SQL <sup>(6)</sup> |
-| --- | --- | ---  | --- |
-| `UUID` | an opaque string <sup>(1)</sup> | `'be071623-8699-4106-...'` | _NVARCHAR(36)_  |
-| `Boolean` | | `true` | _BOOLEAN_  |
-| `UInt8` | <sup>(2)</sup> | `133` | _TINYINT_  |
-| `Int16` | | `1337` | _SMALLINT_  |
-| `Int32` | | `1337` | _INTEGER_  |
-| `Integer` | | `1337` | _INTEGER_  |
-| `Int64` | | `1337` | _BIGINT_  |
-| `Integer64` | | `1337` | _BIGINT_  |
-| `Decimal` | (precision, scale) <sup>(3)</sup> | `15.2` | _DECIMAL_  |
-| `Double` | | `15.2` | _DOUBLE_  |
-| `Date` | | `'2021-06-27'` | _DATE_  |
-| `Time` | | `'07:59:59'` | _TIME_  |
-| `DateTime` | _sec_ precision | `'2021-06-27T14:52:23Z'` | _TIMESTAMP_  |
-| `Timestamp` | _µs_ precision <sup>(4)</sup> | `'2021-06-27T14:52:23.123Z'` |  _TIMESTAMP_  |
-| `String` | (length ) <sup>(5)</sup> | `'hello world'` | _NVARCHAR_  |
-| `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
-| `LargeBinary` |  | | _BLOB_ |
-| `LargeString` |  | `'hello world'` | _NCLOB_  |
-| `Map` | a JSON Object | `{ "foo": "bar" }` | <sup>(7)</sup> |
-| `Vector` | (dimensionality) <sup>(8)</sup> | |  _REAL_VECTOR_  |
+| CDS Type | Remarks | ANSI SQL <sup>(1)</sup> |
+| --- | --- | --- |
+| `UUID` | CAP generates [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant UUIDs <sup>(2)</sup> | _NVARCHAR(36)_  |
+| `Boolean` | | _BOOLEAN_  |
+| `Integer` |  | _INTEGER_  |
+| `Int16` | | _SMALLINT_  |
+| `Int32` | | _INTEGER_  |
+| `Int64` | | _BIGINT_  |
+| `UInt8` | Not available on PostgreSQL and H2 | _TINYINT_  |
+| `Decimal` (`prec`, `scale`) | A *decfloat* type is used if arguments are omitted | _DECIMAL_  |
+| `Double` | | _DOUBLE_  |
+| `Date` | | _DATE_  |
+| `Time` | | _TIME_  |
+| `DateTime` | _sec_ precision | _TIMESTAMP_  |
+| `Timestamp` | _µs_ precision, with up to 7 fractional digits |  _TIMESTAMP_  |
+| `String` (`length`) | Default *length*: 255; on HANA: 5000 <sup>(3)</sup> | _NVARCHAR_  |
+| `Binary` (`length`) | default *length*: 255; on HANA: 5000 <sup>(4)</sup> |  _VARBINARY_  |
+| `LargeBinary` |  | _BLOB_ |
+| `LargeString` |  | _NCLOB_  |
+| `Map` | Mapped to *NCLOB* for HANA. | *JSON* type |
+| `Vector` (`dimension `) | Requires SAP HANA Cloud QRC 1/2024, or later |  _REAL_VECTOR_  |
 
 
-### Remarks
+> <sup>(1)</sup> Concrete mappings to specific databases may differ.
+>
+> <sup>(2)</sup> See also [Best Practices](../guides/domain-modeling#don-t-interpret-uuids).
+>
+> <sup>(3)</sup> Configurable through `cds.cdsc.defaultStringLength`. 
+>
+> <sup>(4)</sup> Configurable through `cds.cdsc.defaultBinaryLength`. 
 
-
-> <sup>(1)</sup> At runtime, UUIDs are treated as opaque values and are, for example, not converted to lower case on input. UUIDs generated in the application are [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant. See [Don't Interpret UUIDs!](../guides/domain-modeling#don-t-interpret-uuids) for details.
-
-> <sup>(2)</sup> Not supported on PostgreSQL, as there is no `TINYINT`. Not supported on H2, as `TINYINT` is signed on H2. Use `Int16` instead.
-
-> <sup>(3)</sup> Arguments `precision` and `scale` are optional → if omitted a *decfloat* type is used
-
-> <sup>(4)</sup> Up to 7 digits of fractional seconds; if a data is given with higher precision truncation may occur
-
-> <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. If no option is specified, a hard-coded default length of 5000 for SAP HANA and 255 for all other SQL backends applies. Note that these hard-coded default lengths are only applied on database level. Specify fixed lengths to get length checks on service level and/or inbound data.
-
-> <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
-
-> <sup>(7)</sup> SAP HANA: `NCLOB`, SQLite: `JSON_TEXT`, H2: `JSON`, Postgres: `JSONB`
-
-> <sup>(8)</sup> requires SAP HANA Cloud (QRC 1/2024 or later).
-
-### See also...
+#### See also...
 
 [**Mapping to OData EDM types**](../advanced/odata#type-mapping){.learn-more}
 

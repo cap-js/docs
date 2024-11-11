@@ -457,7 +457,7 @@ For all transitions you want to execute in HDI, you need to specify an undeploy 
 :::tip Moving From _.hdbcds_ To _.hdbtable_
 There a migration guide providing you step-by-step instructions for making the switch.
 
-[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler-hdbcds-to-hdbtable){.learn-more}
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler/hdbcds-to-hdbtable){.learn-more}
 :::
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}

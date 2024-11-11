@@ -10,7 +10,7 @@ status: released
 # Built-in Types
 
 
-The following table lists the built-in types available to all CDS models:
+The following table lists the built-in types available to all CDS models. In addition to that, there are common reuse types and aspects provided through [`@sap/cds/common`](common).
 
 
 | CDS Type | Remarks | ANSI SQL <sup>(1)</sup> |
@@ -46,6 +46,8 @@ The following table lists the built-in types available to all CDS models:
 
 #### See also...
 
-[**Mapping to OData EDM types**](../advanced/odata#type-mapping){.learn-more}
+[Common Types and Aspects](common) {.learn-more}
 
-[**HANA-native Data Types**](../advanced/hana#hana-types){.learn-more}
+[Mapping to OData EDM types](../advanced/odata#type-mapping) {.learn-more}
+
+[HANA-native Data Types](../advanced/hana#hana-types){.learn-more}

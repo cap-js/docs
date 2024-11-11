@@ -339,7 +339,85 @@ Select.from(AUTHOR)
 
 </div>
 
+### Standard Operators {.impl .node}
 
+The database services guarantee identical behavior of these operators:
+
+* `==`, `=` — with `=` null being translated to `is null`
+* `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
+* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
+
+In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
+
+::: warning Runtime Only
+The operator mappings are available for runtime queries only, but not in CDS files.
+:::
+
+
+### Functions Mappings for Runtime Queries {.impl .node}
+
+A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
+Note that these functions are only supported within runtime queries, but not in CDS files.
+This set of functions are by large the same as specified in OData:
+
+* `concat(x,y,...)` — concatenates the given strings or numbers
+* `trim(x)` — removes leading and trailing whitespaces
+* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
+* `startswith(x,y)` — checks whether `y` starts with `x`
+* `endswith(x,y)` — checks whether `y` ends with `x`
+* `matchespattern(x,y)` — checks whether `x` matches regex `y`
+* `substring(x,i,n?)` <sup>1</sup> — extracts a substring from `x` starting at `i` (may be negative) with length `n` (optional; may be negative)
+* `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
+* `length(x)` — returns the length of string `x`
+* `tolower(x)` — returns all-lowercased `x`
+* `toupper(x)` — returns all-uppercased `x`
+* `ceiling(x)` —  rounds the input numeric parameter up to the nearest numeric value
+* `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
+* `round(x)` — rounds the input numeric parameter to the nearest numeric value.
+               The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
+* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`, `fractionalseconds(x)`, `time(x)`, `date(x)` —
+  returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `totalseconds(x)` — returns the total seconds of a datetime for a given `cds.DateTime` / `cds.Time`
+* `now()` — returns the current datetime
+* `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
+* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
+* `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
+> <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
+
+> You have to write these functions exactly as given; all-uppercase usages aren't supported.
+
+In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
+
+* `years_between` — Computes the number of years between two specified dates.
+* `months_between` — Computes the number of months between two specified dates.
+* `days_between` — Computes the number of days between two specified dates.
+* `seconds_between` — Computes the number of seconds between two specified dates.
+* `nano100_between` — Computes the time difference between two dates to the precision of 0.1 microseconds.
+
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
+With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
+
+> For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
+
+::: warning Runtime Only
+The function mappings are available for runtime queries only, but not in CDS files.
+:::
+
+
+### Session Variables {.impl .node}
+
+The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
+This allows you to write respective code once and run it on all these databases:
+
+```sql
+SELECT session_context('$user.id')
+SELECT session_context('$user.locale')
+SELECT session_context('$valid.from')
+SELECT session_context('$valid.to')
+```
+
+Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
 
 ### Native DB Queries
 
@@ -391,7 +469,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 <div markdown="1" class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 [Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 

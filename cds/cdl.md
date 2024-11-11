@@ -7,44 +7,352 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
 
-<!--@include: ../links.md-->
 
-# Definition Language (CDL)
-<!-- <style scoped>
-  h2 {
-    font-weight: 300; font-size: 2.8em; color: #222;
-    border-bottom: .5px solid silver;
-    padding-bottom: 5px;
-  }
-  h3 {
-    font-weight: 400;
-    font-size: 1.5em;
-  }
-</style> -->
 
-Find here a reference of all CDS concepts and features in the form of compact examples.
-The examples are given in **_CDL_**, a human-readable syntax for defining models, and **_CQL_**, an extension of SQL to write queries.
+
+
+# CDS Definition Language (CDL)
+
+
+
+The *CDS Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
+
+
 
 [[toc]]
 
 
-<br>
-
-Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./csn) to complete your understanding of CDS.
-
-<br>
 
 
-## Entity and Type Definitions
+
+## Language Preliminaries
+
+
+
+- [Keywords & Identifiers](#keywords-identifiers)
+- [Built-in Types](#built-in-types)
+- [Literals](#literals)
+- [Model Imports](#imports)
+- [Namespaces](#namespace)
+- [Comments](#comments)
+
+
+
+### Keywords & Identifiers
+
+*Keywords* in CDL are used to prelude statements, such as imports and namespace directives as well as entity and type declarations. *Identifiers* are used to refer to definitions.
+
+```cds
+namespace capire.bookshop;
+using { managed } from `@sap/cds/common`;
+aspect entity : managed { key ID: Integer }
+
+entity Books : entity {
+  title  : String;
+  author : Association to Authors;
+}
+
+entity Authors : entity {
+  name   : String;
+}
+```
+
+::: details Noteworthy...
+
+In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
+
+As indicated by the syntax coloring, `Association` is not a keyword, but a type name identifier, similar to `String`, `Integer`, `Books` and `Authors`.
+
+:::
+
+Keywords are *case-insensitive*, but most commonly used in lowercase notation.
+
+Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
+
+Identifiers have to comply to `/[$A-Za-z_]\w*/` or be enclosed in `![`...`]` like that:
+
+```cds
+type ![Delimited Identifier] : String;
+```
+
+::: warning Avoid using delimited identifiers
+Delimited identifiers in general, but in articular non-ansi characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
+:::
+
+
+
+### Built-in Types
+
+<!--@include: ./types.md{11,}-->
+
+
+
+
+
+### Literals
+
+The following literals can be used in CDL (mostly as in JavaScript, Java, and SQL):
+
+<!-- cds-mode: ignore; values only, no valid CDS file -->
+```cds
+true , false , null        // as in all common languages
+11 , 2.4 , 1e3, 1.23e-11   // for numbers
+'A string''s literal'      // for strings
+{ foo:'boo', bar:'car' }   // for records
+[ 1, 'two', {three:4} ]    // for arrays
+```
+
+[Learn more about literals and their representation in CSN.](./csn#literals) {.learn-more}
+
+#### Date & Time Literals
+
+In addition, type-keyword-prefixed strings can be used for date & time literals:
+
+<!-- cds-mode: ignore; values only, no valid CDS file -->
+```cds
+date'2016-11-24'
+time'16:11:32'
+timestamp'2016-11-24T12:34:56.789Z'
+```
+
+
+
+
+#### Multiline String Literals {#multiline-literals}
+
+Use string literals enclosed in **single or triple backticks** for multiline strings:
+
+```cds
+@escaped: `OK Emoji: \u{1f197}`
+@multiline: ```
+    This is a CDS multiline string.
+    - The indentation is stripped.
+    - \u{0055}nicode escape sequences are possible,
+      just like common escapes from JavaScript such as
+      \r \t \n and more! ```
+@data: ```xml
+    <main>
+      The tag is ignored by the core-compiler but may be
+      used for syntax highlighting, similar to markdown.
+    </main> ```
+entity DocumentedEntity {
+  // ...
+}
+```
+
+Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). For string literals inside triple backticks, indentation is stripped and tagging is possible.
+
+
+
+
+
+### Model Imports {#imports}
+
+
+
+
+#### The `using` Directive {#using}
+
+Using directives allows to import definitions from other CDS models. As shown in line three below you can specify aliases to be used subsequently. You can import single definitions as well as several ones with a common namespace prefix. Optional: Choose a local alias.
+
+::: code-group
+
+```cds [using-from.cds]
+using foo.bar.scoped.Bar from './contexts';
+using foo.bar.scoped.nested from './contexts';
+using foo.bar.scoped.nested as specified from './contexts';
+
+entity Car : Bar {}            //> : foo.bar.scoped.Bar
+entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
+entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
+```
+
+:::
+
+Multiple named imports through ES6-like deconstructors:
+
+```cds
+using { Foo as Moo, sub.Bar } from './base-model';
+entity Boo : Moo { /*...*/ }
+entity Car : Bar { /*...*/ }
+```
+
+> Also in the deconstructor variant of `using` shown in the previous example, specify fully qualified names.
+
+
+
+
+#### Model Resolution
+
+Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
+In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
+Hence, the same rules apply:
+
+- Relative path resolution<br>
+  Names starting with `./` or `../` are resolved relative to the current model.
+- Resolving absolute references<br>
+  Names starting with `/` are resolved absolute to the file system.
+- Resolving module references<br>
+  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
+   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+
+::: tip
+To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
+:::
+
+
+
+
+
+### Namespaces
+
+
+#### The `namespace` Directive {#namespace}
+
+To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
+
+::: code-group
+
+```cds[namespace.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+entity Bar : Foo {}     //> foo.bar.Bar
+```
+
+:::
+
+A namespace is not an object of its own. There is no corresponding definition in CSN.
+
+#### The `context` Directive {#context}
+
+Use `contexts` for nested namespace sections.
+
+::: code-group
+
+```cds[contexts.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+context scoped {
+  entity Bar : Foo {}   //> foo.bar.scoped.Bar
+  context nested {
+    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
+  }
+}
+```
+
+:::
+
+
+#### Scoped Definitions {#scoped-names}
+
+You can define types and entities with other definitions' names as prefixes:
+
+```cds
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+entity Foo.Bar {}       //> foo.bar.Foo.Bar
+type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
+```
+
+
+#### Fully Qualified Names
+
+A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
+
+::: code-group
+
+```json [contexts.json]
+{"definitions":{
+  "foo.bar.Foo": { "kind": "entity" },
+  "foo.bar.scoped": { "kind": "context" },
+  "foo.bar.scoped.Bar": { "kind": "entity",
+    "includes": [ "foo.bar.Foo" ]
+  },
+  "foo.bar.scoped.nested": { "kind": "context" },
+  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
+}}
+```
+
+:::
+
+
+
+
+
+### Comments
+
+CDL supports line-end, block comments, and *doc* comments as in Java and JavaScript:
+
+```cds
+// line-end comment 
+/* block comment */
+/** doc comment */
+```
+
+#### Doc Comments {#doc-comment}
+
+A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
+
+```cds
+/**
+ * I am the description for "Employee"
+ */
+entity Employees {
+  key ID : Integer;
+  /**
+   * I am the description for "name"
+   */
+  name : String;
+}
+```
+
+The text of a doc comment is stored in CSN in the property `doc`.
+When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
+
+When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
+
+```sql
+CREATE TABLE Employees (
+  ID INTEGER,
+  name NVARCHAR(...) COMMENT 'I am the description for "name"'
+) COMMENT 'I am the description for "Employee"'
+```
+
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::
+
+In CAP Node.js, doc comments need to be switched on when calling the compiler:
+
+::: code-group
+
+```sh [CLI]
+cds compile foo.cds --docs
+```
+
+```js [JavaScript]
+cds.compile(..., { docs: true })
+```
+
+:::
+
+::: tip Doc comments are enabled by default in CAP Java.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
+:::
+
+
+
+
+
+
+## Entities & Type Definitions
 
 - [Entity Definitions](#entities) — `define entity`
 - [Type Definitions](#types) — `define type`
-- [Predefined Types](#predefined-types)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
-- [Literals](#literals)
-- [Delimited Identifiers](#delimited-identifiers)
 - [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
 - [Type References](#typereferences)
@@ -88,12 +396,6 @@ define type Currency : Association to Currencies;
 [Learn more about **Definitions of Named Aspects**.](#aspects){.learn-more}
 
 
-
-
-### Predefined Types
-
-
-[See list of **Built-in Types**](types){.learn-more}
 
 
 
@@ -180,74 +482,7 @@ entity Employees {
   virtual something : String(11);
 }
 ```
-### Literals
 
-Using literals in CDS models is commonly used, for example, to set default values. The literals in the following table show you how to define these values in your CDS source.
-
-| Kind      | Example |
-| --------- | --- |
-| Null      | `null` |
-| Boolean   | `true`, `false` |
-| Numbers   | `11`, `2.4`, or `1.34e10` |
-| Strings   | `'foo'` or `` `foo` `` or ```` ```foo``` ```` |
-| Dates     | `date'2016-11-24'` |
-| Times     | `time'16:11:32Z'` |
-| Timestamp | `timestamp'2016-11-24T16:11:32.4209753Z'` |
-| DateTime  | `'2016-11-24T16:11Z'` |
-| Records   | `{"foo":<literal>, ...}` |
-| Arrays    | `[<literal>, ...]` |
-
-[Learn more about literals and their representation in CSN.](./csn#literals){.learn-more}
-
-
-#### String Literals
-{#multiline-literals}
-
-String literals enclosed in single ticks, for example `'string'`,
-are limited to a single line. A single tick `'` inside the literal is escaped by doubling it: `'it''s escaped`.
-
-Use string literals enclosed in single or triple **backticks** for multiline strings. Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). Only for string literals inside triple backticks, indentation is stripped and tagging is possible.
-
-**Examples:**
-
-```cds
-@documentation: ```
-    This is a CDS multiline string.
-    - The indentation is stripped.
-    - \u{0055}nicode escape sequences are possible,
-      just like common escapes from JavaScript such as
-      \r \t \n and more!
-    ```
-
-@data: ```xml
-    <main>
-      The tag is ignored by the core-compiler but may be
-      used for syntax highlighting, similar to markdown.
-    </main>
-    ```
-@escaped: `OK Emoji: \u{1f197}`
-entity DocumentedEntity {
-  // ...
-}
-```
-
-
-### Delimited Identifiers
-
-Delimited identifiers allow you to use any identifier, even containing special characters or using a keyword.
-
-::: warning
-Special characters in identifiers or keywords as identifiers should be avoided for best interoperability.
-:::
-
-```cds
-entity ![Entity] {
-  bar           : ![Keyword];
-  ![with space] : Integer;
-}
-```
-
-> You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
 
@@ -446,7 +681,7 @@ For localization of enum values, model them as [code list](./common#adding-own-c
 <br>
 
 
-## Views and Projections
+## Views & Projections
 {#views}
 
 Use `as select from` or `as projection on` to derive new entities from existing ones by projections, very much like views in SQL. When mapped to relational databases, such entities are in fact translated to SQL views but they're frequently also used to declare projections without any SQL views involved.
@@ -563,7 +798,7 @@ as SELECT * from Employees where ID=:foo;
 
 
 
-## Associations & Compositions {#associations}
+## Associations
 
 Associations capture relationships between entities. They are like forward-declared joins added to a table definition in SQL.
 
@@ -837,7 +1072,7 @@ entity P_Books as projection on Books {
 
 Publishing a _composition_ with a filter is similar, with an important difference:
 in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
-Thus the type of the resulting element is set to `cds.Association`. 
+Thus the type of the resulting element is set to `cds.Association`.
 
 [Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
 
@@ -1672,6 +1907,8 @@ service AdminService {
 }
 ```
 
+
+
 ### Auto-Exposed Entities {#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
@@ -1719,6 +1956,8 @@ service Sue {
 ```
 
 [Learn more about **CodeLists in `@sap/cds/common`**.](./common#code-lists){.learn-more}
+
+
 
 ### Custom Actions and Functions {#actions}
 
@@ -1781,6 +2020,7 @@ service CatalogService {
 Explicitly modelled binding parameters are ignored for OData V2.
 
 
+
 ### Custom-Defined Events {#events}
 
 Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
@@ -1801,6 +2041,7 @@ service MyOrders { ...
   event OrderCanceledNarrow : projection on OrderCanceled { orderID }
 }
 ```
+
 
 
 ### Extending Services {#extend-service}
@@ -1826,216 +2067,3 @@ extend entity CatalogService.Products with actions {
 
 <div id="beforenamespaces" />
 
-## Namespaces
-
-- [The `namespace` Directive](#namespace)
-- [The `context` Directive](#context)
-- [Scoped Definitions](#scoped-names)
-- [Fully Qualified Names](#fully-qualified-names)
-
-
-### The `namespace` Directive {#namespace}
-
-To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
-
-::: code-group
-```cds[namespace.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Bar : Foo {}     //> foo.bar.Bar
-```
-:::
-
-A namespace is not an object of its own. There is no corresponding definition in CSN.
-
-### The `context` Directive {#context}
-
-Use `contexts` for nested namespace sections.
-
-::: code-group
-```cds[contexts.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-context scoped {
-  entity Bar : Foo {}   //> foo.bar.scoped.Bar
-  context nested {
-    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
-  }
-}
-```
-:::
-
-
-### Scoped Definitions {#scoped-names}
-
-You can define types and entities with other definitions' names as prefixes:
-
-```cds
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Foo.Bar {}       //> foo.bar.Foo.Bar
-type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
-```
-
-
-### Fully Qualified Names
-
-A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
-
-::: code-group
-```json [contexts.json]
-{"definitions":{
-  "foo.bar.Foo": { "kind": "entity" },
-  "foo.bar.scoped": { "kind": "context" },
-  "foo.bar.scoped.Bar": { "kind": "entity",
-    "includes": [ "foo.bar.Foo" ]
-  },
-  "foo.bar.scoped.nested": { "kind": "context" },
-  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
-}}
-```
-:::
-
-<br>
-
-## Import Directives {#imports}
-
-- [The `using` Directive](#using)
-
-<span id="tocimport" />
-
-- [Model Resolution](#model-resolution)
-
-
-### The `using` Directive {#using}
-
-Using directives allows to import definitions from other CDS models. As shown in line three below you can specify aliases to be used subsequently. You can import single definitions as well as several ones with a common namespace prefix. Optional: Choose a local alias.
-
-::: code-group
-```cds [using-from.cds]
-using foo.bar.scoped.Bar from './contexts';
-using foo.bar.scoped.nested from './contexts';
-using foo.bar.scoped.nested as specified from './contexts';
-
-entity Car : Bar {}            //> : foo.bar.scoped.Bar
-entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
-entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
-```
-:::
-
-Multiple named imports through ES6-like deconstructors:
-
-```cds
-using { Foo as Moo, sub.Bar } from './base-model';
-entity Boo : Moo { /*...*/ }
-entity Car : Bar { /*...*/ }
-```
-
-> Also in the deconstructor variant of `using` shown in the previous example, specify fully qualified names.
-
-
-<span id="import-dir"/>
-
-### Model Resolution
-
-Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
-In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
-Hence, the same rules apply:
-
-- Relative path resolution<br>
-  Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references<br>
-  Names starting with `/` are resolved absolute to the file system.
-- Resolving module references<br>
-  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
-   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
-
-::: tip
-To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
-:::
-
-
-
-## Comments {#comments}
-
-- [Single-Line Comments](#single-comment)
-- [Multi-Line Comments](#multi-comment)
-- [Doc comments](#doc-comment)
-
-
-### Single-Line Comments — `//` {#single-comment}
-
-Any text between `//` and the end of the line is ignored:
-
-```cds
-entity Employees {
-  key ID : Integer;  // a single-line comment
-  name : String;
-}
-```
-
-### Multi-Line Comments — `/*  */` {#multi-comment}
-
-Any text between `/*` and `*/` is ignored:
-
-```cds
-entity Employees {
-  key ID : Integer;
-/*
-  a multi-line comment
-*/
-  name : String;
-}
-```
-
-unless it is a doc comment.
-
-### Doc Comments — `/**  */`
-{#doc-comment}
-
-A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
-
-```cds
-/**
- * I am the description for "Employee"
- */
-entity Employees {
-  key ID : Integer;
-  /**
-   * I am the description for "name"
-   */
-  name : String;
-}
-```
-
-The text of a doc comment is stored in CSN in the property `doc`.
-When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
-
-When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
-
-```sql
-CREATE TABLE Employees (
-  ID INTEGER,
-  name NVARCHAR(...) COMMENT 'I am the description for "name"'
-) COMMENT 'I am the description for "Employee"'
-```
-
-::: tip
-Propagation of doc comments can be stopped via an empty one: `/** */`.
-:::
-
-In CAP Node.js, doc comments need to be switched on when calling the compiler:
-
-::: code-group
-```sh [CLI]
-cds compile foo.cds --docs
-```
-```js [JavaScript]
-cds.compile(..., { docs: true })
-```
-:::
-
-::: tip Doc comments are enabled by default in CAP Java.
-In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
-:::

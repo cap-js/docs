@@ -91,7 +91,7 @@ Delimited identifiers in general, but in articular non-ansi characters, or keywo
 
 ### Literals
 
-The following literals can be used in CDL (mostly as in JavaScript. Java, and SQL):
+The following literals can be used in CDL (mostly as in JavaScript, Java, and SQL):
 
 ```cds
 true , false , null        // as in all common languages

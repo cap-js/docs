@@ -903,12 +903,14 @@ entity Foo {
 
 By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
 
+<!-- cds-mode: ignore; duplicate annotations -->
 ```cds
 @assert.range: [(0),100]    // 0 < input ≤ 100
 @assert.range: [0,(100)]    // 0 ≤ input < 100
 @assert.range: [(0),(100)]  // 0 < input < 100
 ```
 In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
 ```cds
 @assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
 @assert.range: [_,(0)]  // negative number only, _ means -Infinity here

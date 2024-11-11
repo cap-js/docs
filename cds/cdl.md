@@ -43,9 +43,9 @@ The *CDS Definition Language (CDL)* is a human-readable language for defining CD
 *Keywords* in CDL are used to prelude statements, such as imports and namespace directives as well as entity and type declarations. *Identifiers* are used to refer to definitions.
 
 ```cds
+namespace capire.bookshop;
 using { managed } from `@sap/cds/common`;
 aspect entity : managed { key ID: Integer }
-namespace capire.bookshop;
 
 entity Books : entity {
   title  : String;
@@ -93,6 +93,7 @@ Delimited identifiers in general, but in articular non-ansi characters, or keywo
 
 The following literals can be used in CDL (mostly as in JavaScript, Java, and SQL):
 
+<!-- cds-mode: ignore; values only, no valid CDS file -->
 ```cds
 true , false , null        // as in all common languages
 11 , 2.4 , 1e3, 1.23e-11   // for numbers
@@ -105,8 +106,9 @@ true , false , null        // as in all common languages
 
 #### Date & Time Literals
 
-In addition type-keyword-prefixed strings can be used for date & time literals:
+In addition, type-keyword-prefixed strings can be used for date & time literals:
 
+<!-- cds-mode: ignore; values only, no valid CDS file -->
 ```cds
 date'2016-11-24'
 time'16:11:32'

@@ -421,8 +421,6 @@ This can be useful to understand architectural violations.
 
 Hovering over a node will show the number of files involved and their combined size. Use this function to get a rough understanding about complexity and compilation speed.
 
-<!-- The command requires the third-party extension [_Graphviz (dot) language support for Visual Studio Code_](https://marketplace.visualstudio.com/items?itemName=Stephanvs.dot). If you haven't installed it already, it will be suggested to install. -->
-
 ### Editor Performance
 
 With the following [settings](#settings) you can influence the performance of the editor:

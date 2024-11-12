@@ -7,11 +7,22 @@ status: released
 ---
 
 
-# Built-in Types
+# Core / Built-in Types
 
 
-The following table lists the built-in types available to all CDS models. In addition to that, there are common reuse types and aspects provided through [`@sap/cds/common`](common).
+The following table lists the built-in types available to all CDS models, and can be used to define entity elements or custom types as follows:
 
+```cds
+entity Books {
+  key ID : UUID;
+  title  : String(111);
+  stock  : Integer;
+  price  : Price;
+}
+type Price : Decimal;
+```
+
+These types are used to define the structure of entities and services, and are mapped to respective database types when the model is deployed.
 
 | CDS Type | Remarks | ANSI SQL <sup>(1)</sup> |
 | --- | --- | --- |
@@ -42,13 +53,13 @@ The following table lists the built-in types available to all CDS models. In add
 >
 > <sup>(3)</sup> Not available on PostgreSQL and H2.
 >
-> <sup>(4)</sup> Configurable through `cds.cdsc.defaultStringLength`. 
+> <sup>(4)</sup> Configurable through `cds.cdsc.defaultStringLength`.
 >
-> <sup>(5)</sup> Configurable through `cds.cdsc.defaultBinaryLength`. 
+> <sup>(5)</sup> Configurable through `cds.cdsc.defaultBinaryLength`.
 
 #### See also...
 
-[Common Types and Aspects](common) {.learn-more}
+[Additional Reuse Types and Aspects by `@sap/cds/common`](common) {.learn-more}
 
 [Mapping to OData EDM types](../advanced/odata#type-mapping) {.learn-more}
 

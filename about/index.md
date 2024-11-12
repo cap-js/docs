@@ -570,7 +570,7 @@ Business Object Patterns promote the notion of active objects, which provide ins
 - [**CAP**]() — Colloquial shorthand for "SAP Cloud Application Programming Model".
 Not an official product name, though.
 
-- [**CDS**](../cds/) — Core Data and Services
+- [**CDS**](../cds/) — Core Data Services
   : a family of languages, tools and libraries to declare, process and consume conceptual, semantically enriched data models.
 
 - [**CDL**](../cds/cdl) — CDS Definition Language

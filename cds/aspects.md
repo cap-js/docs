@@ -258,7 +258,7 @@ aspect temporal {
 
 [Some of such common reuse aspects are already covered by `@sap/cds/common`.](common) {.learn-more}
 
-Consumers would then flexible use these reuse aspects like so:
+Consumers would then flexibly use these reuse aspects like so:
 
 ```cds
 using { cuid, managed, tracked, extensible, temporal } from 'your-base-classes';
@@ -421,7 +421,7 @@ entity UsersAndGroups as (
 
 ### Table per class strategy
 
-If we want a separate table for each entity in our model above, including the 'superclass' entity Grantee, we'd have to rewrite our model to use composition over inheritance like that:
+If we want a separate table for each entity in our model above, including the 'superclass' entity `Grantees`, we'd have to rewrite our model to use composition over inheritance like that:
 
 ```cds
 entity Grantees {
@@ -437,7 +437,7 @@ entity Groups {
 }
 ```
 
-This would allow to display heterogeneous lists of Grantees without UNIONs. A lot more JOINs would be required in real-world examples.
+This would allow to display heterogeneous lists of `Grantees` without UNIONs. A lot more JOINs would be required in real-world examples, though.
 
 
 

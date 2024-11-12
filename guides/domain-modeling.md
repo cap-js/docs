@@ -372,7 +372,7 @@ CDS comes with a small set of built-in types:
 - `String`, `LargeString`
 - `Binary`, `LargeBinary`
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
+[See list of **Built-in Types** in the CDS reference docs](../cds/types){.learn-more}
 
 #### Common Reuse Types
 

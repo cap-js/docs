@@ -671,7 +671,7 @@ INSERT.into(Books).entries(await SELECT.from(Products))
 
 
 
-### values() {.method}
+### values() {.method alt="The following documentation on rows also applies to values. "}
 
 ### rows() {.method}
 
@@ -819,7 +819,7 @@ UPDATE (Books.texts, {ID:201, locale:'de'}) ...
 
 
 
-### set() {.method}
+### set() {.method alt="The following documentation on with also applies to set. "}
 
 ### with() {.method}
 

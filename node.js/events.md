@@ -188,11 +188,11 @@ Provides access to headers of the event message or request. In the case of async
 
 
 
-### eve. before 'commit' {.event}
+### eve. before 'commit' {.event alt="The following documentation on done also applies to commit. "}
 
-### eve. on 'succeeded' {.event}
+### eve. on 'succeeded' {.event alt="The following documentation on done also applies to succeeded. "}
 
-### eve. on 'failed' {.event}
+### eve. on 'failed' {.event alt="The following documentation on done also applies to failed. "}
 
 ### eve. on 'done' {.event}
 

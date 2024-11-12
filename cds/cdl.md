@@ -1626,7 +1626,7 @@ extend Bar with @title:'Bar' {
 }
 ```
 
-::: details Note the nested `extend` for existing fielsd
+::: details Note the nested `extend` for existing fields
 Make sure that you prepend the `extend` keyword to nested elements if you want to modify them. Without that a new field with that name would be added. If you only want to add annotations to an existing field, you can use [the **annotate** directive.](#annotate) instead.
 :::
 

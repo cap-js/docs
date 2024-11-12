@@ -397,9 +397,9 @@ var srv.options : { //> from cds.requires config
 
 
 
-### . entities {.property}
+### . entities {.property alt="The following documentation on operations also applies to entities. "}
 
-### . events {.property}
+### . events {.property alt="The following documentation on operations also applies to events. "}
 
 ### . operations {.property}
 

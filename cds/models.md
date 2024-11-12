@@ -1,13 +1,12 @@
 ---
 # layout: cds-ref
-shorty: Nature of Models
 synopsis: >
   Introduces the fundamental principles of CDS models.
 status: released
 ---
 
 
-# The Nature of Models
+# The Nature of CDS Models
 
 {{ $frontmatter.synopsis }}
 

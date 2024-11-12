@@ -7,11 +7,22 @@ status: released
 ---
 
 
-# Built-in Types
+# Core / Built-in Types
 
 
-The following built-in types are provided:
+The following table lists the built-in types available to all CDS models, and can be used to define entity elements or custom types as follows:
 
+```cds
+entity Books {
+  key ID : UUID;
+  title  : String(111);
+  stock  : Integer;
+  price  : Price;
+}
+type Price : Decimal;
+```
+
+These types are used to define the structure of entities and services, and are mapped to respective database types when the model is deployed.
 
 | CDS Type | Arguments / Remarks | Example Value | SQL <sup>(6)</sup> |
 | --- | --- | ---  | --- |
@@ -37,10 +48,18 @@ The following built-in types are provided:
 | `Vector` | (dimensionality) <sup>(8)</sup> | |  _REAL_VECTOR_  |
 
 
-### Remarks
+> <sup>(1)</sup> Concrete mappings to specific databases may differ.
+>
+> <sup>(2)</sup> See also [Best Practices](../guides/domain-modeling#don-t-interpret-uuids).
+>
+> <sup>(3)</sup> Not available on PostgreSQL and H2.
+>
+> <sup>(4)</sup> Configurable through `cds.cdsc.defaultStringLength`.
+>
+> <sup>(5)</sup> Configurable through `cds.cdsc.defaultBinaryLength`.
 
 
-> <sup>(1)</sup> At runtime, UUIDs are treated as opaque values and are, for example, not converted to lower case on input. UUIDs generated in the application are [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant. See [Don't Interpret UUIDs!](../guides/domain-modeling#don-t-interpret-uuids) for details.
+[Additional Reuse Types and Aspects by `@sap/cds/common`](common) {.learn-more}
 
 > <sup>(2)</sup> Not supported on PostgreSQL, as there is no `TINYINT`. Not supported on H2, as `TINYINT` is signed on H2. Use `Int16` instead.
 

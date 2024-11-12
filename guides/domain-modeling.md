@@ -771,7 +771,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 
 
-### `@cds.on.insert` {.annotation}
+### `@cds.on.insert` {.annotation alt="The following documentation on cds.on.update also applies to cds.on.insert. "}
 
 ### `@cds.on.update` {.annotation}
 

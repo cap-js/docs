@@ -440,7 +440,7 @@ SELECT.from ('Authors').alias('a').where({
 
 
 
-### where() {.method}
+### where(){.method alt="The following documentation on having also applies to where"}
 
 ### having() {.method}
 

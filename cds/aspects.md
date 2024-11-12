@@ -261,7 +261,7 @@ aspect temporal {
 Consumers would then flexibly use these reuse aspects like so:
 
 ```cds
-using { cuid, managed, tracked, extensible, temporal } from 'your-base-classes';
+using { cuid, managed, tracked, extensible, temporal } from 'your-reuse-aspects';
 entity Foo : cuid, managed, tracked, extensible {...}
 entity Bar : cuid, managed, temporal {...}
 ```

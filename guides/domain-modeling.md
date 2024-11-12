@@ -253,7 +253,7 @@ entity name {
 }
 ```
 
-[Learn more about entity definitions](../cds/cdl.md#entity-and-type-definitions){.learn-more}
+[Learn more about entity definitions](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -267,7 +267,7 @@ entity ProjectedEntity as select from BaseEntity {
 };
 ```
 
-[Learn more about views and projections](../cds/cdl.md#views-and-projections){.learn-more}
+[Learn more about views and projections](../cds/cdl.md#views-projections){.learn-more}
 
 
 

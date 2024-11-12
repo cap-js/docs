@@ -275,7 +275,7 @@ Not only does that approach allow clearer separation of concerns, and thus freed
 ::: tip Looks Like Inheritance...
 
 The [`:`-based syntax for includes](cdl#includes) looks very much like (multiple) inheritance and in fact has very much the same effects.
-Yet, it is not based on inheritance but on mixins, which are more powerful and also avoid common problems like the infamous diamond shapes in clasical inheritance-based approaches.
+Yet, it is not based on inheritance but on mixins, which are more powerful and also avoid common problems like the infamous diamond shapes in classical inheritance-based approaches.
 
 :::
 

@@ -195,6 +195,15 @@ module.exports = cds.server
 
 ### Type definitions for `@sap/cds` not found or incomplete
 
+|                | Explanation                                                           |
+|----------------|-----------------------------------------------------------------------|
+| _Root Cause 1_ | The package `@cap-js/cds-typer` is not installed.                     |
+| _Solution 1_   | Install the package as a dev dependency.                              |
+| _Root Cause 2_ | Symlink is missing.                                                   |
+| _Solution 2_   | Try `npm rebuild` or add `@cap-js/cds-types` in your _tsconfig.json_. |
+
+
+#### Install package as dev dependency
 The type definitions for `@sap/cds` are maintained in a separate package `@cap-js/cds-types` and have to be explicitly installed as a dev dependency. This can be done by adding the `typescript` facet:
 
 ::: code-group

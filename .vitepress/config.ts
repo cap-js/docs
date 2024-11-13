@@ -7,6 +7,8 @@ import { sidebar, nav4 } from './menu'
 import * as redirects from './lib/redirects'
 import * as cdsMavenSite from './lib/cds-maven-site'
 import * as MdAttrsPropagate from './lib/md-attrs-propagate'
+import * as MdTypedModels from './lib/md-typed-models'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 
 export type CapireThemeConfig = DefaultTheme.Config & {
   capire: {
@@ -23,8 +25,8 @@ if (!siteURL.pathname.endsWith('/'))  siteURL.pathname += '/'
 const redirectLinks: Record<string, string> = {}
 
 const latestVersions = {
-  java_services: '2.10.1',
-  java_cds4j: '2.10.1'
+  java_services: '3.4.0',
+  java_cds4j: '3.4.0'
 }
 
 const localSearchOptions = {
@@ -75,7 +77,7 @@ const localSearchOptions = {
 } as { provider: 'local'; options?: DefaultTheme.LocalSearchOptions }
 
 const menu = sidebar()
-const nav = nav4(menu) as DefaultTheme.NavItem[]
+const nav = nav4(menu) as DefaultTheme.NavItemWithLink[]
 const loadSyntax = async (file:string, name:string, alias:string=name):Promise<LanguageInput> => {
   const src = await fs.readFile(join(__dirname, file))
   const grammar:RawGrammar = JSON.parse(src.toString())
@@ -84,6 +86,7 @@ const loadSyntax = async (file:string, name:string, alias:string=name):Promise<L
 
 const config:UserConfig<CapireThemeConfig> = {
   title: 'cap≽ire',
+  titleTemplate: ':title | capire', // for the window title
   description: 'Documentation for SAP Cloud Application Programming Model',
   base,
   srcExclude: ['**/.github/**', '**/README.md', '**/LICENSE.md', '**/CONTRIBUTING.md', '**/CODE_OF_CONDUCT.md', '**/menu.md', '**/-*.md'],
@@ -92,8 +95,8 @@ const config:UserConfig<CapireThemeConfig> = {
     // IMPORTANT: Don't use getters here, as they are called again and again!
     sidebar: menu,
     nav: [
-      Object.assign(nav.find(i => i.text === 'Getting Started')!, {text:'Get Started'}),
-      Object.assign(nav.find(i => i.text === 'Cookbook')!, {text:'Guides'}),
+      { ...nav.find(i => i.text === 'Getting Started') ?? {}, text: 'Get Started' },
+      { ...nav.find(i => i.text === 'Cookbook') ?? {}, text: 'Guides' },
       nav.find(i => i.text === 'CDS'),
       nav.find(i => i.text === 'Node'),
       nav.find(i => i.text === 'Java'),
@@ -102,7 +105,7 @@ const config:UserConfig<CapireThemeConfig> = {
     ] as DefaultTheme.NavItem[],
     search: localSearchOptions,
     footer: {
-      message: '<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="https://www.sap.com/about/legal/privacy.html" target="_blank">Privacy</a>',
+      message: `<a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> | <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> | <a href="${base}/resources/privacy" target="_blank">Privacy</a> | <a href="${base}/resources/cookies">Cookies</a>`,
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`
     },
     editLink: {
@@ -121,6 +124,7 @@ const config:UserConfig<CapireThemeConfig> = {
   },
   head: [
     ['meta', { name: 'theme-color', content: '#db8b0b' }],
+    ['meta', { 'http-equiv': 'Content-Security-Policy', content: "script-src 'self' https://www.capire-matomo.cloud.sap 'unsafe-inline' 'unsafe-eval'" }],
     ['link', { rel: 'shortcut icon', href: base+'/assets/logos/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: base+'/assets/logos/apple-touch-icon.png' }],
     ['script', {}, ` const variant = localStorage.getItem('impl-variant') ?? 'node'; document.documentElement.classList.add(variant)`]
@@ -138,8 +142,12 @@ const config:UserConfig<CapireThemeConfig> = {
     toc: {
       level: [2,3]
     },
+    codeTransformers: [
+      transformerTwoslash()
+    ],
     config: md => {
       MdAttrsPropagate.install(md)
+      MdTypedModels.install(md)
     },
   },
   sitemap: {
@@ -151,7 +159,17 @@ const config:UserConfig<CapireThemeConfig> = {
       redirects.devPlugin()
     ],
     build: {
-      chunkSizeWarningLimit: 5000 // chunk for local search index dominates
+      chunkSizeWarningLimit: 5000, // chunk for local search index dominates
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: [
+            'legacy-js-api', // to avoid 'Deprecation Warning: The legacy JS API...', see https://github.com/vitejs/vite/issues/18164
+            'global-builtin'
+          ]
+        }
+      }
     }
   },
   transformHtml(code, id, ctx) {
@@ -182,7 +200,7 @@ if (process.env.VITE_CAPIRE_PREVIEW) {
 if (process.env.NODE_ENV !== 'production') {
   // open in VS Code
   const srcDir = resolve(__dirname, '..')
-  let href = 'vscode://' + join('file', srcDir, '${filePath}').replaceAll(/\\/g, '/').replace('@external/', '')
+  let href = 'vscode://' + join('file', srcDir, encodeURIComponent('${filePath}')).replaceAll(/\\/g, '/').replace('@external/', '')
   config.themeConfig!.capire!.gotoLinks!.push({ href, key: 'o', name: 'VS Code' })
 }
 

@@ -22,9 +22,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Database Support { #database-support}
 
-CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't an enterprise grade database and are recommended for nonproductive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
-
-Write operations through views are supported by the CAP runtime as described in [Resolvable Views](../working-with-cql/query-execution#updatable-views). Operations on views that cannot be resolved by the CAP runtime are passed through to the database.
+CAP Java has built-in support for various databases. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
 ### SAP HANA Cloud
 
@@ -50,7 +48,7 @@ entity Books : cuid {
 To disable collating for all queries, set [`cds.sql.hana.ignoreLocale`](../developing-applications/properties#cds-sql-hana-ignoreLocale) to `true`.
 :::
 
-4. The SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
+4. SAP HANA supports _Perl Compatible Regular Expressions_ (PCRE) for regular expression matching. If you need to match a string against a regular expression and are not interested in the exact number of the occurrences, consider using lazy (_ungreedy_) quantifiers in the pattern or the option `U`.
 
 ### PostgreSQL
 
@@ -149,18 +147,18 @@ Advise the CDS Compiler to generate _tables without associations_, as associatio
 
 #### SQL Optimization Mode
 
-By default, the SAP HANA adapter in CAP Java generates SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html).
-To generate SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud, set the [CDS property](../developing-applications/properties#cds-properties):
+By default, the SAP HANA adapter in CAP Java generates SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud. To generate SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html), set the [CDS property](../developing-applications/properties#cds-properties):
 
 ```yaml
-cds.sql.hana.optimizationMode: hex
+cds.sql.hana.optimizationMode: legacy
 ```
 
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
 ::: warning Rare error in `HEX` mode
-In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. To avoid such issues, make sure you're using the latest [SAP HANA Cloud version](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-overview-guide/releases-and-upgrades-in-sap-hana-cloud). Until the missing feature is supported by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the failing query, so the SQL generator doesn't use features that require the HEX engine.
-::: 
+In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode.
+If you know upfront that a query can't be executed by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the query, so the SQL generator won't use features that require the HEX engine.
+:::
 
 ### PostgreSQL { #postgresql-1 }
 
@@ -168,9 +166,10 @@ PostgreSQL can be configured when running locally as well as when running produc
 
 #### Initial Database Schema
 
-To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `cds deploy` command: `cds deploy --to postgres --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
+::: code-group
+```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
 	<goals>
@@ -178,13 +177,19 @@ To generate a `schema.sql` for PostgreSQL, use the dialect `postgres` with the `
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to postgres --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to postgres --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/howto.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+The generated `schema.sql` can be automatically deployed by Spring if you configure the [sql.init.mode](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts) to `always`.
+
+Using the `@sap/cds-dk` you can add PostgreSQL support to your CAP Java project:
+```sh
+cds add postgres
+```
 
 ::: warning
 Automatic schema deployment isn't suitable for productive use. Consider using production-ready tools like Flyway or Liquibase. See more on that in the [Database guide for PostgreSQL](../../guides/databases-postgres.md?impl-variant=java#deployment-using-liquibase)
@@ -211,35 +216,9 @@ spring:
 
 For local development, [H2](https://www.h2database.com/) can be configured to run in-memory or in the file-based mode.
 
-To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+To generate a `schema.sql` for H2, use the dialect `h2` with the `cds deploy` command: `cds deploy --to h2 --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
 
-```xml
-<execution>
-	<id>schema.sql</id>
-	<goals>
-		<goal>cds</goal>
-	</goals>
-	<configuration>
-		<commands>
-			<command>deploy --to h2 --dry > srv/src/main/resources/schema.sql</command>
-		</commands>
-	</configuration>
-</execution>
-```
-
-In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
-
-The `cds-maven-plugin` provides the goal `add` that can be used to add H2 support to the CAP Java project:
-```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=H2 -Dprofile=default
-```
-
-### SQLite
-
-#### Initial Database Schema
-
-To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet from _srv/pom.xml_ configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
-
+::: code-group
 ```xml [srv/pom.xml]
 <execution>
 	<id>schema.sql</id>
@@ -248,15 +227,45 @@ To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds de
 	</goals>
 	<configuration>
 		<commands>
-			<command>deploy --to sqlite --dry > srv/src/main/resources/schema.sql</command>
+			<command>deploy --to h2 --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
 		</commands>
 	</configuration>
 </execution>
 ```
+:::
 
-The `cds-maven-plugin` provides the goal `add` that can be used to add Sqlite support to the CAP Java project:
+In Spring, H2 is automatically initialized in-memory when present on the classpath. See the official [documentation](https://www.h2database.com/html/features.html) for H2 for file-based database configuration.
+
+Using the `@sap/cds-dk` you can add H2 support to your CAP Java project:
 ```sh
-mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SQLITE -Dprofile=default
+cds add h2
+```
+
+### SQLite
+
+#### Initial Database Schema
+
+To generate a `schema.sql` for SQLite, use the dialect `sqlite` with the `cds deploy` command: `cds deploy --to sqlite --dry`. The following snippet configures the [cds-maven-plugin](../developing-applications/building#cds-maven-plugin) accordingly:
+
+::: code-group
+```xml [srv/pom.xml]
+<execution>
+	<id>schema.sql</id>
+	<goals>
+		<goal>cds</goal>
+	</goals>
+	<configuration>
+		<commands>
+			<command>deploy --to sqlite --dry --out "${project.basedir}/src/main/resources/schema.sql"</command>
+		</commands>
+	</configuration>
+</execution>
+```
+:::
+
+Using the `@sap/cds-dk` you can add SQLite support to your CAP Java project:
+```sh
+cds add sqlite
 ```
 
 #### File-Based Storage
@@ -570,7 +579,7 @@ See [Class JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/ja
 The static model and accessor interfaces can be generated using the [CDS Maven Plugin](../developing-applications/building#cds-maven-plugin).
 
 ::: warning _❗ Warning_
-Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation.
+Currently, the generator doesn't support using reserved [Java keywords](https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9) as identifiers in the CDS model. Conflicting element names can be renamed in Java using the [@cds.java.name](../cds-data#renaming-elements-in-java) annotation. For entities it is recommended to use [@cds.java.this.name](../cds-data#renaming-types-in-java).
 :::
 
 #### Static Model in the Query Builder
@@ -634,9 +643,9 @@ public interface Authors_ extends StructuredType<Authors_> {
 
 ####  Accessor Interfaces
 
-The corresponding data is captured in a data model similar to JavaBeans. These beans are interfaces generated by the framework and providing the data access methods - getters and setters - and containing the CDS element names as well. The instances of the data model are created by the [CDS Query Language (CQL)](/cds/cql) Execution Engine (see the following example).
+The corresponding data is captured in a data model similar to JavaBeans. These beans are interfaces generated by the framework, providing the data access methods - getters and setters - and containing the CDS element names as well. The instances of the data model are created by the [CDS Query Language (CQL)](/cds/cql) Execution Engine (see the following example).
 
-Note the following naming convention: the model interfaces, which represent the structure of the CDS Model, always end with underscore, for example `Books_`. The accessor interface, which refers to data model, is simply the name of the CDS entity - `Books`.
+Note the following naming convention: the model interfaces, which represent the structure of the CDS Model, always end with an underscore, for example `Books_`. The accessor interface, which refers to data model, is simply the name of the CDS entity - `Books`.
 
 The following data model interface is generated for `Books`:
 
@@ -663,19 +672,19 @@ public interface Books extends CdsData {
 
 The static model and accessor interfaces can be extended with [Javadoc comments](../../cds/cdl#doc-comment).
 
-Currently the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
+Currently, the generator supports Javadoc comments using the interface and getter/setter methods. The following example shows Javadoc comments defined in the CDS model and how they appear in the generated interfaces.
 
 ```cds
 namespace my.bookshop;
 /**
  * The creator/writer of a book, article, or document.
  */
-entity Author {
-	   key Id : Integer;
-	   /**
-	    * The name of the author.
-	    */
-	   name : String(30);
+entity Authors {
+  key ID : Integer;
+  /**
+   * The name of the author.
+   */
+  name : String(30);
 }
 ```
 
@@ -683,10 +692,10 @@ entity Author {
 /**
  * The creator/writer of a book, article, or document.
  */
-@CdsName("my.bookshop.Author")
-public interface Author extends CdsData {
+@CdsName("my.bookshop.Authors")
+public interface Authors extends CdsData {
 
-  String ID = "Id";
+  String ID = "ID";
   String NAME = "name";
 
   Integer getId();
@@ -708,9 +717,12 @@ In the query builder, the interfaces reference entities. The interface methods c
 lambda expressions to reference elements or to compose path expressions:
 
 ```java
-Select<Books_> query = Select.from(Books_.class)			// Note the usage of model interface Books_ here
+// Note the usage of model interface `Books_` here
+Select<Books_> query = Select.from(Books_.class)
   .columns(book -> book.title())
   .where  (book -> book.author().name().eq("Edgar Allan Poe"));
 
-List<Books> books = dataStore.execute(query).listOf(Books.class);	// After executing the query the result can be converted to a typed representation List of Books.
+// After executing the query the result can be converted to
+// a typed representation List of Books.
+List<Books> books = dataStore.execute(query).listOf(Books.class);
 ```

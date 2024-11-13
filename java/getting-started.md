@@ -45,7 +45,7 @@ This section describes the prerequisites and tools to build a CAP application lo
 
 2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
-3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.5.0 is required).
+3. [Install Apache Maven](https://maven.apache.org/download.cgi) (at least version 3.6.3 is required).
 
 <span id="maven-sap" />
 
@@ -81,7 +81,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
 
@@ -148,7 +148,7 @@ The generated folders have the following content:
 For a quick start, you can use `cds init` to bootstrap a CAP Java application based on Spring Boot. Run the following command:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 
 You can also specify the package name through parameter `--java:package`. Default for the package name is: `org.<PROJECT-ROOT>`.
@@ -165,7 +165,7 @@ The `artifactId` is set to `<PROJECT-ROOT>` and the `groupId` to `customer`.
 Optionally, you can use the [CDS Maven plugin](./developing-applications/building#cds-maven-plugin) to enhance your CAP Java application with an additional Maven module to perform integration tests. To add such a module, go into the root folder of your CAP Java project and execute the following Maven command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addIntegrationTest
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=INTEGRATION_TEST
 ```
 
 This command also creates a new folder *integration-tests/src/test/java*, which contains integration test classes.

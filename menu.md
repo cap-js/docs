@@ -43,8 +43,9 @@
 
 - [Events & Messaging](guides/messaging/)
 
-  - [Events from S/4](guides/messaging/s4)
   - [SAP Event Mesh](guides/messaging/event-mesh)
+  - [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
+  - [Events from S/4](guides/messaging/s4)
 
 - [Protocols/APIs](advanced/publishing-apis/)
 
@@ -91,14 +92,23 @@
 ### [CDS](cds/)
 
 - [Definition Language (CDL)](cds/cdl)
+  - [Keywords & Identifiers](cds/cdl#keywords-identifiers)
+  - [Built-in Types & Literals](cds/cdl#built-in-types)
+  - [Entities & Type Definitions](cds/cdl#entities-type-definitions)
+  - [Views & Projections](cds/cdl#views-projections)
+  - [Associations](cds/cdl#associations)
+  - [Annotations](cds/cdl#annotations)
+  - [Aspects](cds/cdl#aspects)
+  - [Services](cds/cdl#services)
 - [Schema Notation (CSN)](cds/csn)
 - [Query Language (CQL)](cds/cql)
 - [Query Notation (CQN)](cds/cqn)
 - [Expressions (CXN)](cds/cxn)
-- [Built-in Types](cds/types)
-- [Common Types and Aspects](cds/common)
+- [Core / Built-in Types](cds/types)
+- [Common Reuse Types](cds/common)
 - [Common Annotations](cds/annotations)
-- [Nature of Models](cds/models)
+- [Aspects vs. Inheritance](cds/aspects)
+- [The Nature of CDS Models](cds/models)
 
 ### [Node](node.js/)
 
@@ -129,7 +139,7 @@
   - [cds. minify()](node.js/cds-compile#cds-minify)
   - [cds. resolve()](node.js/cds-compile#cds-resolve)
 
-- [cds. reflect()](node.js/cds-reflect)
+- [cds. linked()](node.js/cds-reflect)
 
   - [Class LinkedCSN](node.js/cds-reflect#linked-csn)
   - [Class LinkedDefinitions](node.js/cds-reflect#iterable)
@@ -160,6 +170,7 @@
 - [cds. utils](node.js/cds-utils)
 - [cds. test()](node.js/cds-test)
 - [cds. plugins](node.js/cds-plugins)
+- [cds. outboxed()](node.js/outbox)
 - [TypeScript](node.js/typescript)
 - [Fiori Support](node.js/fiori)
 - [Best Practices](node.js/best-practices)
@@ -197,6 +208,7 @@
 - [Operating Applications](java/operating-applications/)
   - [Optimizing](java/operating-applications/optimizing)
   - [Observability](java/operating-applications/observability)
+  - [Developer Dashboard](java/operating-applications/dashboard)
 - [Migration Guides](java/migration)
 
 ### [Tools](tools/)
@@ -214,11 +226,15 @@
 
 ### [Plugins](plugins/)
 
-- [OData v2 Proxy](plugins/#odata-v2-proxy)
+- [OData v2 Adapter](plugins/#odata-v2-proxy)
+- [WebSocket](plugins/#websocket)
 - [UI5 Dev Server](plugins/#ui5-dev-server)
 - [GraphQL Adapter](plugins/#graphql-adapter)
+- [SAP Document Management](plugins/#@cap-js/sdm)
 - [Audit Logging](plugins/#audit-logging)
 - [Change Tracking](plugins/#change-tracking)
 - [Notifications](plugins/#notifications)
 - [Telemetry](plugins/#telemetry)
+- [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 - [CAP Operator for K8s](plugins/#cap-operator-plugin)
+- [SAP Cloud Appl. Event Hub](plugins/#event-broker-plugin)

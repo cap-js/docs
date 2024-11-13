@@ -215,13 +215,13 @@ app.use (cds.middlewares.before, protocol_adapter)
 ```
 
 The standard set of middlewares uses the following order:
+
 ```js
 cds.middlewares.before = [
-  context(),  // provides cds.context
-  trace(),    // provides detailed trace logs when DEBUG=trace
-  auth(),     // provides req.user & tenant
-  ctx_auth(),  // propagates auth results to cds.context
-  ctx_model(),    // fills in cds.context.model
+  context(),   // provides cds.context
+  trace(),     // provides detailed trace logs when DEBUG=trace
+  auth(),      // provides cds.context.user & .tenant
+  ctx_model(), // fills in cds.context.model, in case of extensibility
 ]
 ```
 
@@ -235,19 +235,21 @@ _ctx_auth_ requires that _authentication_ has run before.
 
 This middleware initializes [cds.context](events#cds-context) and starts the continuation. It's required for every application.
 
-### . auth() {.method}
-
-[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy and subsequently adds the user and tenant identified by that strategy to [cds.context](events#cds-context).
-
-### . ctx_model() {.method}
-
-It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 ### . trace() {.method}
 
 The tracing middleware allows you to do a first-level performance analysis. It logs how much time is spent on which layer of the framework when serving a request.
 To enable this middleware, you can set for example the [environment variable](cds-log#debug-env-variable) `DEBUG=trace`.
 
+
+### . auth() {.method}
+
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy and subsequently adds the user and tenant identified by that strategy to [cds.context](events#cds-context).
+
+
+### . ctx_model() {.method}
+
+It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 
 ### .add(mw, pos?) {.method}
@@ -256,14 +258,16 @@ Registers additional middlewares at the specified position.
 `mw` must be a function that returns an express middleware.
 `pos` specified the index or a relative position within the middleware chain. If not specified, the middleware is added to the end.
 
- ```js
- cds.middlewares.add (mw, {at:0}) // to the front
- cds.middlewares.add (mw, {at:2})
- cds.middlewares.add (mw, {before:'auth'})
- cds.middlewares.add (mw, {after:'auth'})
- cds.middlewares.add (mw) // to the end
- ```
+```js
+cds.middlewares.add (mw, {at:0}) // to the front
+cds.middlewares.add (mw, {at:2})
+cds.middlewares.add (mw, {before:'auth'})
+cds.middlewares.add (mw, {after:'auth'})
+cds.middlewares.add (mw) // to the end
+```
+
 <div id="beforecustomization" />
+
 
 ### Custom Middlewares
 
@@ -275,7 +279,6 @@ The framework exports the default middlewares itself and the list of middlewares
 cds.middlewares = {
   auth,
   context,
-  ctx_auth,
   ctx_model,
   errors,
   trace,
@@ -283,13 +286,13 @@ cds.middlewares = {
     context(),
     trace(),
     auth(),
-    ctx_auth(),
     ctx_model()
   ]
 }
 ```
 
 In order to plug in custom middlewares, you can override the complete list of middlewares or extend the list programmatically.
+
 ::: warning
 Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
 :::
@@ -299,31 +302,34 @@ Be aware that overriding requires constant updates as new middlewares by the fra
 #### Customization of `req.user`
 
 You can register middlewares to customize `req.user`.
-It must be set after authentication but before `cds.context` is initialized.
+It must be done after authentication.
+If `cds.context.tenant` is manipulated as well, it must also be done before `cds.context.model` is set for the current request.
 
 ```js
 cds.middlewares.before = [
   cds.middlewares.context(),
   cds.middlewares.trace(),
   cds.middlewares.auth(),
-  function req_user (req,res,next) {
-    req.user.id = '<my-idp>' + req.user.id
+  function ctx_user (_,__,next) {
+    const ctx = cds.context
+    ctx.user.id = '<my-idp>' + ctx.user.id
     next()
   },
-  cds.middlewares.ctx_auth()
+  cds.middlewares.ctx_model()
 ]
 ```
 
 #### Enabling Feature Flags
 
+You can register middlewares to customize `req.features`.
+It must be done before `cds.context.model` is set for the current request.
 
 ```js
 cds.middlewares.before = [
   cds.middlewares.context(),
   cds.middlewares.trace(),
   cds.middlewares.auth(),
-  cds.middlewares.ctx_auth(),
-  function req_features (req,res,next) {
+  function req_features (req,_,next) {
     req.features = ['<feature-1>', '<feature-2>']
     next()
   },
@@ -333,9 +339,11 @@ cds.middlewares.before = [
 
 [Learn more about Feature Vector Providers.](../guides/extensibility/feature-toggles#feature-vector-providers){.learn-more}
 
+
 ### Current Limitations
 
 - Configuration of middlewares must be done programmatically.
+
 
 
 ## cds. protocols

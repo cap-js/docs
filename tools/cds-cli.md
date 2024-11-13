@@ -40,29 +40,12 @@ npm i -g @sap/cds-dk
 
 Use `cds version` to get information about your installed package version:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
+<!--@include: ./assets/help/cds-version.out.md-->
 
-<em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 7.9.2
-<em>@sap/cds-compiler:</em> 4.9.4
-<em>@sap/cds-dk:</em> 7.9.3
-<em>@sap/cds-dk (global):</em> 7.9.3
-<em>@sap/cds-mtxs:</em> 1.18.1
-<em>@sap/eslint-plugin-cds:</em> 3.0.4
-<em>Node.js:</em> v18.13.0
-<em>home:</em> .../node_modules/@sap/cds
+Using `--markdown` you can get the information in markdown format:
 
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
+<!--@include: ./assets/help/cds-version-md.out.md-->
 
-| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
-|------------------------|------------------------------------------------------|
-| Node.js                | v18.13.0                                             |
-| @sap/cds               | 7.9.2                                                |
-| @sap/cds-compiler      | 4.9.4                                                |
-| @sap/cds-dk            | 7.9.3                                                |
-| @sap/eslint-plugin-cds | 3.0.4                                                |
-</pre>
 
 ## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -95,89 +78,11 @@ Then source or restart your shell.
 
 Use `cds help` to see an overview of all commands:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">help</span>
-
-USAGE
-
-    <em>cds</em> &lt;command&gt; [&lt;args&gt;]
-    <em>cds</em> &lt;src&gt;  =  cds compile &lt;src&gt;
-    <em>cds</em>        =  cds help
-
-COMMANDS
-
-    <em>i | init</em>       jump-start cds-based projects
-    <em>a | add</em>        add a feature to an existing project
-    <em>y | bind</em>       bind application to remote services
-    <em>m | import</em>     add models from external sources
-    <em>c | compile</em>    compile cds models to different outputs
-    <em>p | parse</em>      parses given cds models
-    <em>s | serve</em>      run your services in local server
-    <em>w | watch</em>      run and restart on file changes
-    <em>r | repl</em>       read-eval-event loop
-    <em>e | env</em>        inspect effective configuration
-    <em>b | build</em>      prepare for deployment
-    <em>d | deploy</em>     deploy to databases or cloud
-    <em>l | login</em>      login to extendable SaaS application
-    <em>t | lint</em>       [beta] run linter for env or model checks
-    <em>v | version</em>    get detailed version information
-    <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull base model for a SaaS app extension
-    <em>  | push</em>       push extension to SaaS app to enable or update it
-    <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
-    <em>  | completion</em> add/remove shell completion for cds commands
-    <em>  | mock</em>       call cds serve with mocked service
-
-  Learn more about each command using:
-  <em>cds help</em> &lt;command&gt; or
-  <em>cds</em> &lt;command&gt; <em>--help</em>
-</pre>
-
+<!--@include: ./assets/help/cds-help.out.md-->
 
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">watch</span> <span class="flags">--help</span>
-
-<em>SYNOPSIS</em>
-
-  <em>cds watch</em> [&lt;project&gt;]
-
-  Tells cds to watch for relevant things to come or change in the specified
-  project or the current work directory. Compiles and (re-)runs the server
-  on every change detected.
-
-  Actually, cds watch is just a convenient shortcut for:
-  <em>cds serve all --with-mocks --in-memory?</em>
-
-OPTIONS
-
-  <em>--port</em> &lt;number&gt;
-
-    Specify the port on which the launched server listens.
-    If you specify '0', the server picks a random free port.
-    Alternatively, specify the port using env variable PORT.
-
-  <em>--ext</em> &lt;extensions&gt;
-
-    Specify file extensions to watch for in a comma-separated list.
-    Example: cds w --ext cds,json,js.
-
-  <em>--livereload</em> &lt;port | false&gt;
-
-    Specify the port for the livereload server. Defaults to '35729'.
-    Disable it with value false.
-
-  <em>--open</em> &lt;url&gt;
-
-    Open the given URL (suffix) in the browser after starting.
-    If none is given, the default application URL will be opened.
-
-SEE ALSO
-
-  <em>cds serve --help</em> for the different start options.
-</pre>
-
+<!--@include: ./assets/help/cds-watch.out.md-->
 
 
 ## cds init
@@ -187,7 +92,7 @@ Use `cds init` to create new projects.
 The simplest form creates a minimal Node.js project.  For Java, use
 
 ```sh
-cds init --add java
+cds init --java
 ```
 
 In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.
@@ -246,6 +151,7 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
+| [`handler`](#handler)         |       <Na/>      |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
 
@@ -279,7 +185,7 @@ cds add data --filter "books$"
 
 ::: details Special characters like `?` or `*` need escaping or quoting in shells
 
-The escape character is usually the backslash, e.g. `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
+The escape character is usually the backslash, for example, `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
 :::
 
 #### Sample records <Since version="7.9.0" of="@sap/cds-dk" />
@@ -292,7 +198,7 @@ This example creates 2 records for each entity:
 cds add data --records 2
 ```
 
-[Watch a short video by DJ Adams to see this in acion.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
+[Watch a short video by DJ Adams to see this in action.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
 
 #### Formats <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -413,19 +319,37 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
+### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+
+Generates handler stubs for actions and functions in Java projects.
+
+Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
+```sh
+cds add handler
+```
+
+
+#### Filtering {#handler-filtering}
+
+Use the `--filter` option to create handlers for specific actions and functions.
+
+```sh
+cds add handler --filter submitOrder
+```
+
+#### More Options
+
+| Option | Description |
+| --- | --- |
+| `--out` | Specify custom output directories |
+| `--force` | Overwrite existing files |
+
 
 ## cds env
 
 Use `cds env` to inspect currently effective config settings:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">env get</span> <span class="flags">requires.db</span>
-{
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  kind: <em>'sqlite'</em>
-}
-</pre>
+<!--@include: ./assets/help/cds-env-requires-db.out.md -->
 
 
 ## cds compile
@@ -471,6 +395,7 @@ CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
 CDS_MERMAID_MIN=false|true           # remove unused entities
 CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
 CDS_MERMAID_QUERIES=false|true       # show queries/projections
+CDS_MERMAID_DIRECTION=TB|BT|LR|RL    # layout direction of the diagram
 ```
 
 <div id="mermaid-cli-more" />
@@ -483,9 +408,14 @@ To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use 
 
 If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
 
-To customize the diagram layout, use these settings:
+To customize the diagram layout, use these settings in the _Cds > Preview_ category:
 
-![The screenshot shows the following setting for the CDS Code Editor: Cds>Preview>Diagram: Associations, Cds>Preview>Diagram: Elements, Cds>Preview>Diagram: Minify, Cds>Preview>Diagram: Namespaces, and Cds>Preview>Diagram: Queries](assets/mermaid-settings.png){style="height:400px;"} {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+- [Diagram: Associations](vscode://settings/cds.preview.diagram.associations)
+- [Diagram: Direction](vscode://settings/cds.preview.diagram.direction)
+- [Diagram: Elements](vscode://settings/cds.preview.diagram.elements)
+- [Diagram: Minify](vscode://settings/cds.preview.diagram.minify)
+- [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
+- [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
 
 ## cds repl
@@ -494,7 +424,7 @@ Use `cds repl` to live-interact with Node.js APIs:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
-<em>Welcome to cds repl v6.7.0</em>
+<em>Welcome to cds repl</em>
 > SELECT.from(Foo)
 Query {
   SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
@@ -502,9 +432,8 @@ Query {
 
 > cds.requires.db
 {
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
+  impl: <em>'@cap-js/sqlite'</em>,
   credentials: { url: <em>':memory:'</em> },
-  use: [Getter],
   kind: <em>'sqlite'</em>
 }
 </pre>

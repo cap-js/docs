@@ -9,7 +9,7 @@ synopsis: Start with a minimal setup and a grow-as-you-go approach.
 CAP promotes getting started with **minimal upfront setup**, based on **convention over configuration**, and a **grow-as-you-go** approach, adding settings and tools later on, only when you need them. So, let's get started…
 
 > Looking for other ways to set up and start projects?
-> See the _Get Started_ menu in the left-hand sidebar.
+> See the _Getting Started_ menu in the left-hand sidebar.
 
 [[toc]]
 
@@ -27,11 +27,12 @@ Follow the steps below to set up a local development environment. If you are a d
 
 #### … from [nodejs.org](https://nodejs.org)
 
-Choose the **LTS** version, via the left-hand side button:
+On the Node.js page, use the download button which gets you the current long-term support (LTS) version:
 
-![Screenshot showing exemplary buttons from the nodejs.org download page. The term LTS is magnified on the left-hand button.](./assets/jumpstart/image-20230310202845639.png){style="zoom: 33%;" }
+![Screenshot showing the default download button from the nodejs.org home page.](./assets/jumpstart/node-download-lts.png){style="width:400px;"}
 
-
+[See other ways to install Node.js.](https://nodejs.org/en/download/package-manager){.learn-more}
+[Learn more about long-term support (LTS) versions.](https://nodejs.org/en/about/previous-releases){.learn-more}
 
 
 ### 2. Install CAP's cds-dk
@@ -43,16 +44,13 @@ npm add -g @sap/cds-dk
 cds #> run the installed CLI
 ```
 
-Activate CDS Shell Completion:
-The `cds` command supports shell completion with <kbd>tab</kbd> key for several shells and operating systems.
+The `cds` command supports shell completion with the <kbd>tab</kbd> key for several shells and operating systems. Run this command for the initial setup:
 
-For Linux, macOS and Windows use the following command to activate the shell completion:
 ```sh
 cds add completion
 ```
 
-You can find more information [here](/tools/cds-cli#cds-completion).
-
+[Find more information in the `cds` CLI documentation](/tools/cds-cli#cds-completion){.learn-more}
 
 ### 3. Install Git
 
@@ -102,7 +100,7 @@ Assumed we want to create a project named *bookshop*, we'd do so like this:
 cds init bookshop
 ```
 ```sh [Java]
-cds init bookshop --add java
+cds init bookshop --java
 ```
 
 :::
@@ -132,7 +130,15 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
+### Project Content
 
+::: tip Principle of locality
+Using CAP, it's a rule of thumb that related files are placed next to each other. This is prominently demonstrated with sibling `.js` files, next to `.cds` sources, for [implementing services](/node.js/core-services#implementing-services).
+
+:::
+
+#### Using Subfolders
+CAP assumes some default locations for your files. If you want to deviate from those defaults, for example, to organize annotations files or database-specific files in subfolders, you need to add an _index.cds_ file that contains the information where to find the needed files.
 
 ### Minimal Configuration
 

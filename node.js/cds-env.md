@@ -30,41 +30,26 @@ cds env ?             #> get help
 
 For example:
 
-<pre class="log">
-<i>$</i> cds env ls requires.sql
-requires.sql.credentials.database = <em>:memory:</em>
-requires.sql.impl = <em>@sap/cds/lib/db/sql-service</em>
-requires.sql.kind = <em>sqlite</em>
-</pre>
+<!--@include: ../tools/assets/help/cds-env-ls-requires-db.out.md -->
 
-<pre class="log">
-<i>$</i> cds env get requires.sql
-{
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
-  kind: <em>'sqlite</em>'
-}
-</pre>
+<br>
+
+<!--@include: ../tools/assets/help/cds-env-requires-db.out.md -->
 
 
 Alternatively, you can also use the `cds eval` or `cds repl` CLI commands to access the `cds.env` property, which provides programmatic access to the effective settings:
 
-<pre class="log">
-<i>$</i> cds -e .env.requires.sql
-{
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
-  kind: <em>'sqlite'</em>
-}
-</pre>
+<!--@include: ../tools/assets/help/cds-eval-env-requires-db.out.md -->
+
+<br>
 
 <pre class="log">
 <i>$</i> cds -r
 <em>Welcome to cds repl ...</em>
-> cds.env.requires.sql
+> cds.env.requires.db
 {
-  credentials: { database: <em>':memory:'</em> },
-  impl: <em>'@sap/cds/lib/db/sql-service'</em>,
+  impl: <em>'@cap-js/sqlite'</em>,
+  credentials: { url: <em>':memory:'</em> },
   kind: <em>'sqlite'</em>
 }
 </pre>

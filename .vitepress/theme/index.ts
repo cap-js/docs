@@ -7,7 +7,11 @@ import Alpha from './components/Alpha.vue';
 import Beta from './components/Beta.vue';
 import Concept from './components/Concept.vue'
 import Since from './components/Since.vue';
+import ScrollToTop from './components/ScrollToTop.vue'
+import CfgInspect from './components/ConfigInspect.vue';
+import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 
+import '@shikijs/vitepress-twoslash/style.css'
 import './custom.scss'
 
 /**
@@ -17,11 +21,14 @@ export default {
   extends: DefaultTheme,
   Layout: Layout,
   enhanceApp(ctx: EnhanceAppContext) {
+    ctx.app.component('Config', CfgInspect)
     ctx.app.component('IndexList', IndexList)
     ctx.app.component('ImplVariantsHint', ImplVariantsHint)
     ctx.app.component('Alpha', Alpha)
     ctx.app.component('Beta', Beta)
     ctx.app.component('Concept', Concept)
     ctx.app.component('Since', Since)
+    ctx.app.component('ScrollToTop', ScrollToTop)
+    ctx.app.use(TwoslashFloatingVue)
   }
 }

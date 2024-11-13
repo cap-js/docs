@@ -37,6 +37,8 @@ jobs:
         working-directory: docs
       - run: npm test
         working-directory: docs
+      - run: npm run lint
+        working-directory: docs
       - run: npm run docs:build
         working-directory: docs
         env:

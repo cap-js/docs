@@ -21,7 +21,7 @@ This section describes the [Spring Boot](https://spring.io/projects/spring-boot)
 Running your application with Spring Boot framework offers a number of helpful benefits that simplify the development and maintenance of the application to a high extend.
 Spring not only provides a rich set of libraries and tools for most common challenges in development, you also profit from a huge community, which constantly contributes optimizations, bug fixes and new features.
 
-As Spring Boot not only is widely accepted but also most popular application framework, CAP Java SDK comes with a seamless integration of Spring Boot as described in the following sections.
+As Spring Boot is not only widely accepted but also the most popular application framework, CAP Java SDK comes with seamless integration of Spring Boot as described in the following sections.
 
 ## Integration Configuration
 
@@ -36,7 +36,7 @@ In addition, for activating the Spring integration of CAP Java, the following ru
 <dependency>
 	<groupId>com.sap.cds</groupId>
 	<artifactId>cds-framework-spring-boot</artifactId>
-	<version>${revision}</version>
+	<version>${cds.services.version}</version>
 	<scope>runtime</scope>
 </dependency>
 ```
@@ -47,18 +47,18 @@ It might be easier to use the CDS starter bundle `cds-starter-spring-boot-odata`
 <dependency>
 	<groupId>com.sap.cds</groupId>
 	<artifactId>cds-starter-spring-boot-odata</artifactId>
-	<version>${revision}</version>
+	<version>${cds.services.version}</version>
 </dependency>
 ```
 
 ::: tip
-If you refreign from adding explicit Spring or Spring Boot dependencies in your service configuration,
+If you refrain from adding explicit Spring or Spring Boot dependencies in your service configuration,
 the CDS integration libraries transitively retrieve the recommended Spring Boot version for the current CAP Java version.
 :::
 
 ## Integration Features
 
-Beside the common Spring features such as dependency injection and a sophisticated [test framework](./developing-applications/testing), the following features are available in Spring CAP applications:
+Besides common Spring features such as dependency injection and a sophisticated [test framework](./developing-applications/testing), the following features are available in Spring CAP applications:
 
 * CDS event handlers within custom Spring beans are automatically registered at startup.
 * Full integration into Spring transaction management (`@Transactional` is supported).

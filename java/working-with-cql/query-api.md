@@ -359,8 +359,6 @@ Select.from(AUTHORS)
                       b -> b.year()));
 ```
 
-<span id="indeepread" />
-
 It expands the elements `title`, and `year` of the `Books` entity into a substructure with the name of the association `books`:
 
 ```json
@@ -381,6 +379,8 @@ It expands the elements `title`, and `year` of the `Books` entity into a substru
   }, ...
 ]
 ```
+
+<span id="indeepread" />
 
 To only expand entities that fulfill a certain condition, use [infix filters](#target-entity-sets) on the association:
 
@@ -480,8 +480,6 @@ and make sure the parent entity has all key elements exposed.
 To flatten deeply structured documents or include elements of associated entities into a flat result,
 you can use `inline` as a short notation for using multiple paths.
 
-<span id="inflattenedresults" />
-
 ```java
 // Java example
 import static bookshop.Bookshop_.AUTHORS;
@@ -517,6 +515,8 @@ Both queries are equivalent and have the same result: a _flat_ structure:
 ]
 ```
 
+<span id="inflattenedresults" />
+
 #### Managed Associations on the Select List
 
 To select the key elements of a [managed to-one association](../../cds/cdl#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
@@ -551,7 +551,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../../guides/providing-services#searching-data).
 
-Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
+Consider following CDS Entity. There are two elements, `title` and `name`, of type String, making them both searchable by default.
 
 ```cds
 entity Book {
@@ -834,17 +834,9 @@ CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```java
 import static bookshop.Bookshop_.BOOKS;
 
-Map<String, Object> b1;
-b1.put("ID", 101);
-b2.put("title", "Capire 1");
-
-Map<String, Object> b2;
-b2.put("ID", 103);
-b2.put("title", "Capire 2");
-
-List<Map<String, Object>> data = new ArrayList<>();
-data.add(b1);
-data.add(b2);
+var data = List.of(
+	Map.of("ID", 101, "title", "Capire"),
+	Map.of("ID", 103, "title", "CAP Java"));
 
 CqnInsert insert = Insert.into(BOOKS).entries(data);
 ```
@@ -879,15 +871,8 @@ Java:
 ```java
 import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> item;
-item.put("ID", 1);
-item.put("book_ID", 101);
-item.put("quantity", 1);
-List<Map<String, Object>> items;
-items.add(item);
-Map<String, Object> order;
-order.put("OrderNo", "1000");
-order.put("Items", items);
+var items = List.of(Map.of("ID", 1, "book_ID", 101, "quantity", 1));
+var order = Map.of("OrderNo", "1000", "Items", items);
 
 CqnInsert insert = Insert.into(ORDERS).entry(order);
 ```
@@ -1446,6 +1431,18 @@ Scalar functions are values that are calculated from other values. This calculat
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
 
+#### Case-When-Then Expressions
+
+Use a case expression to compute a value based on the evaluation of conditions. The following query converts the stock of Books into a textual representation as 'stockLevel':
+
+```java
+Select.from(BOOKS).columns(
+  b -> b.title(),
+  b -> b.when(b.stock().lt(10)).then("low")
+        .when(b.stock().gt(100)).then("high")
+        .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
+```
+
 #### Arithmetic Expressions
 
 Arithmetic Expressions are captured by scalar functions as well:
@@ -1497,18 +1494,21 @@ Predicates are expressions with a Boolean value, which are used in [filters](#wh
 These comparison operators are supported:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Predicate
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 EQ
@@ -1649,6 +1649,7 @@ BETWEEN
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `ETag Predicate` {#etag-predicate}
@@ -1678,18 +1679,21 @@ Update.entity(ORDER)
 Predicates can be combined using logical operators:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 AND
@@ -1739,6 +1743,7 @@ NOT
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `Predicate Functions` {#predicate-functions}
@@ -1746,18 +1751,21 @@ NOT
 These boolean-valued functions can be used in filters:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 CONTAINS
@@ -1805,6 +1813,7 @@ ENDS WITH
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `matchesPattern` Predicate {#matches-pattern}
@@ -1884,17 +1893,17 @@ You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/co
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
-import static spaceflight.Astronautics_.ASTRONAUTS;
+import static socialmedia.Journalists_.JOURNALISTS;
 
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name()))
+      Select.from(JOURNALISTS).where(journalist -> journalist.name().eq($outer.name()))
     )
   );
 ```
 
-This query selects all authors with the name of an astronaut.
+This query selects all authors with the name of an journalist.
 ::: tip
 With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
@@ -1904,14 +1913,32 @@ When using the [tree-style API](#composing-predicates) the _outer_ query is addr
 ```java
 // tree style
 CqnSelect subquery =
-  Select.from("Astronauts")
+  Select.from("Journalists")
         .where(a -> a.get("name").eq(CQL.get("$outer.name")));
 Select.from("Authors").where(CQL.exists(subquery));
 ```
 
 > **Note:** Chaining `$outer` in nested subqueries is not supported.
 
+### `IN` Subquery
 
+An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style or in tree style:
+
+```java
+// fluent style
+Select.from(AUTHORS).where(author -> author.name().in(
+    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
+));
+```
+
+In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+
+```java
+// tree style
+CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
+CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
+Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
+```
 
 ## Parsing CQN
 

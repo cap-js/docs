@@ -383,6 +383,10 @@ Searches the `title` element only.
 
 ##### Extend Search to *Associated* Entities
 
+::: warning Node.js: Only w/ streamlined database services
+For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
+:::
+
 ```cds
 @cds.search: { author }
 entity Books { ... }
@@ -393,10 +397,6 @@ entity Authors { ... }
 
 Searches all elements of the `Books` entity, as well as all searchable elements of the associated `Authors` entity. Which elements of the associated entity are searchable is determined by the `@cds.search` annotation on the associated entity. So, from `Authors`, all elements of type `String` are searched but `biography` is excluded.
 
-::: warning Only Java
-Extending the search to associated entities is currently only supported on the Java runtime.
-:::
-
 ##### Extend to Individual Elements in Associated Entities
 
 ```cds
@@ -405,11 +405,6 @@ entity Books { ... }
 ```
 
 Searches only in the element `name` of the associated `Authors` entity.
-
-::: warning Only Java
-Extending the search to individual elements in associated entities is currently only supported on the Java runtime.
-:::
-
 
 #### Excluding Fields
 
@@ -440,8 +435,20 @@ Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` anno
 
 ```cds
 entity Books {
-  @Search.fuzzinessThreshold: 0.7
-  title : String;
+   @Search.fuzzinessThreshold: 0.7
+   title : String;
+}
+```
+
+The relevance of a search match depends on the weight of the element causing the match. By default, all [searchable elements](#cds-search) have equal weight. To adjust the weight of an element, use the `@Search.ranking` annotation. Allowed values are HIGH, MEDIUM (default), and LOW:
+
+```cds
+entity Books {
+   @Search.ranking: HIGH
+   title         : String;
+
+   @Search.ranking: LOW
+   publisherName : String;
 }
 ```
 
@@ -505,8 +512,8 @@ Don't use reliable pagination if an entity set is sorted by elements that contai
 :::
 
 The feature can be enabled with the following [configuration options](../node.js/cds-env#project-settings) set to `true`:
-- Java: `cds.query.limit.reliablePaging.enabled`
-- Node.js: `cds.query.limit.reliablePaging`
+- Java: <Config java keyOnly>cds.query.limit.reliablePaging.enabled: true</Config>
+- Node.js: <Config keyOnly>cds.query.limit.reliablePaging: true</Config>
 
 
 #### Paging Limits
@@ -892,9 +899,31 @@ entity Foo {
   zoo : String   @assert.range enum { high; medium; low; };
 }
 ```
-::: tip
-Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
+#### ... with open intervals
+
+By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
+
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),100]    // 0 < input ≤ 100
+@assert.range: [0,(100)]    // 0 ≤ input < 100
+@assert.range: [(0),(100)]  // 0 < input < 100
+```
+In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
+@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
+```
+>  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
+
+::: warning Support in latest runtimes 
+
+Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
+
 :::
+
+
 
 ### `@assert.notNull` {#assert-notNull}
 
@@ -1030,6 +1059,8 @@ service Sue {
   entity Foo { key ID:Integer } actions {
     function getStock() returns Integer;
     action order (x:Integer) returns Integer;
+    //bound to the collection and not a specific instance of Foo
+    action customCreate (in: many $self, x: String) returns Foo;
   }
 }
 ```
@@ -1043,12 +1074,7 @@ The differentiation between *Actions* and *Functions* as well as *bound* and *un
 - **Actions** modify data in the server
 - **Functions** retrieve data
 - **Unbound** actions/functions are like plain unbound functions in JavaScript.
-- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript.
-
-::: tip Prefer *Unbound* Actions/Functions
-From CDS perspective we recommend **preferring unbound** actions/functions, as these are much more straightforward to implement and invoke.
-:::
-
+- **Bound** actions/functions always receive the bound entity's primary key as implicit first argument, similar to `this` pointers in Java or JavaScript. The exception are bound actions to collections, which are bound against the collection and not a specific instance of the entity. An example use case are custom create actions for the SAP Fiori elements UI.
 
 
 ### Implementing Actions / Functions
@@ -1109,7 +1135,7 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1160,10 +1186,6 @@ You can use the following annotations in the service model to indicate that an e
 
 `@Core.ContentDisposition.Type`
 : Can be used to instruct the browser to display the element inline, even if `@Core.ContentDisposition.Filename` is specified, by setting to `inline` (see the fifth example). If omitted, the behavior is `@Core.ContentDisposition.Type: 'attachment'`.
-
-::: warning
-`@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
-:::
 
 [Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 
@@ -1321,7 +1343,7 @@ a CDS query, a binary string is used to query data stored as binary, this wouldn
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.
 - In the Node.js Runtime, all binary strings are converted into binary data according to SAP HANA property types.
-To disable this default behavior, you can set the environment variable `cds.env.hana.base64_to_buffer` to `false`.
+To disable this default behavior, you can set the environment variable <Config>cds.hana.base64_to_buffer: false</Config>.
 
 # Best Practices
 

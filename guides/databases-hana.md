@@ -63,7 +63,7 @@ The [modules](../java/developing-applications/building#standard-modules) `cds-st
 
 The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
 
-Learn more about the [configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
+[Learn more about the configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
 
 </div>
 
@@ -270,7 +270,7 @@ Vector embeddings are numerical representations that capture important features 
 
 Typically vector embeddings are computed using an **embedding model**. The embedding model is specifically designed to capture important features and semantics of a specific type of data, it also determines the dimensionality of the vector embedding space. Unified consumption of embedding models and LLMs across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
-In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types):
 
 ```cds
 entity Books : cuid { // [!code focus]
@@ -291,7 +291,7 @@ let similarBooks = await SELECT.from('Books')
 ```
 
 ```java [Java]
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
 Result similarBooks = service.run(Select.from(BOOKS).where(b ->
@@ -453,6 +453,12 @@ During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deplo
 
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
 For all transitions you want to execute in HDI, you need to specify an undeploy allowlist as described in [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/hdi-delta-deployment-and-undeploy-allow-list?) in the SAP HANA documentation.
+
+:::tip Moving From _.hdbcds_ To _.hdbtable_
+There a migration guide providing you step-by-step instructions for making the switch.
+
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler/hdbcds-to-hdbtable){.learn-more}
+:::
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
@@ -645,3 +651,52 @@ If you need to remove deployed CSV files, also add this entry:
 :::
 
 *See this [troubleshooting](../get-started/troubleshooting#hana-csv) entry for more information.*{.learn-more}
+
+### SAP HANA Cloud System Limits
+
+All limitations for the SAP HANA Cloud database can be found in the [SAP Help Portal](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC).
+
+
+### Native Associations
+
+For SAP HANA, CDS associations are by default reflected in the respective database tables and views
+by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
+
+CAP no longer needs these native associations (provided you use the new database
+service _@cap-js/hana_ for the CAP Node.js stack).
+
+Unless you explicitly use them in other native HANA objects, we recommend
+switching off the generation of native HANA associations, as they increase deploy times:
+They need to be validated in the HDI deployment, and they can introduce
+indirect dependencies between other objects, which can trigger other unnecessary revalidations
+or even unnecessary drop/create of indexes. By switching them off, all this effort is saved.
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "sql": {
+      "native_hana_associations": false
+    }
+  }
+}
+```
+
+```json [cdsrc.json]
+{
+  "sql": {
+    "native_hana_associations": false
+  }
+}
+```
+
+:::
+
+For new projects, `cds add hana` automatically adds this configuration.
+
+Note that the first deployment after this configuration change may take longer, as for
+each entity with associations the respective database object will be touched
+(DROP/CREATE for views, full table migration via shadow table and data copy for tables).
+This is also the reason why we haven't changed the default so far.
+Subsequent deployments will benefit, however.

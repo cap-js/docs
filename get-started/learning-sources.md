@@ -20,6 +20,10 @@ We're just getting started with this page. Please help us in that endeavour by [
 - [Getting started with SAP Cloud Application Programming Model](https://learning.sap.com/learning-journeys/getting-started-with-sap-cloud-application-programming-model) (Beginner)
 - [Building side-by-side extensions on SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp) (Intermediate)
 
+## SAP Discovery Center Missions
+- [Develop a Full-Stack CAP Application Following the SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4327/4608/)
+- [Develop a Side-by-Side CAP-Based Extension Application Following the SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4426/4712/)
+- [Implement Observability in a Full-Stack CAP Application Following SAP BTP Developer's Guide](https://discovery-center.cloud.sap/missiondetail/4432/4718/)
 
 
 ## Tutorials

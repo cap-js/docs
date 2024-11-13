@@ -226,7 +226,7 @@ To fix this, either switch the Node.js version using a Node version manager, or 
 
 ```
 
-[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
+[Learn more about the install-node goal.](../java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more target="_blank"}
 
 ### How can I expose custom REST APIs with CAP?
 
@@ -272,24 +272,9 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
 - In case, there are still errors in the project, use _Maven > Update Project..._ from the project's context menu.
 
-### How to Avoid ClassNotFoundExceptions While Running CAP Java Code Async on Cloud Foundry and in Containers
-
-In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
-
-On Cloud Foundry, the issue might appear only if you increase the __Instance Memory__ available for your application.
-
-The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
-
-The following workarounds are known:
- * For Cloud Foundry and Docker containers you can provide this Java option [-XX:ActiveProcessorCount=1>](https://docs.oracle.com/en/java/javase/11/tools/java.html).
- * In Cloud Foundry, you can reduce the size of available memory for your application instance.
- * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
-
-We recommend to implement a proper thread pool and not to rely on these workarounds as they impair performance of your application.
-
 ## OData
 
-### How Do I Generate an OData Response for Error 404?
+### How Do I Generate an OData Response in Node.js for Error 404?
 
 If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
 
@@ -366,15 +351,40 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://launchpad.support.sap.com/#/notes/2922271) for more details.
 :::
 
-You can apply this solution also when using the `cds-mtx` library. You can either set the options via the environment variable `HDI_DEPLOY_OPTIONS` or you can add them to the model update request as `advancedOptions`:
+You can apply this solution also when using the `cds-mtxs` library. You can either set the options via the environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the CDS configuration or you can add them to the model update request as `hdi` parameter:
 
+CDS configuration for [Deployment Service](../guides/multitenancy/mtxs#deployment-config)
 ```json
-"advancedOptions": {
-  "undeploy": [
-    "src/gen/data/my.bookshop-Books.hdbtabledata"
-  ],
-  "path-parameter": {
-    "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+"cds.xt.DeploymentService": {
+  "hdi": {
+    "deploy": {
+      "undeploy": [
+        "src/gen/data/my.bookshop-Books.hdbtabledata"
+      ],
+      "path_parameter": {
+        "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+      }
+    },
+    ...
+  }
+}
+```
+
+Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#example-usage-1) call payload
+```json
+{
+  "tenants": ["*"],
+  "_": {
+      "hdi": {
+        "deploy": {
+          "undeploy": [
+            "src/gen/data/my.bookshop-Books.hdbtabledata"
+          ],
+          "path_parameter": {
+            "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+          }
+        }
+      }
   }
 }
 ```
@@ -450,14 +460,6 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
-
-|  | Explanation |
-| --- | ---- |
-| _Root Cause_ | Your HANA Cloud instance is not accessible from your Kyma cluster. |
-| _Solution_ | Specify the trusted source IP addresses for your SAP HANA Cloud instance as described in this tutorial at [Step 11: Check SAP HANA Cloud trusted IP addresses](https://developers.sap.com/tutorials/btp-app-kyma-deploy-application.html#6dca3a73-b42a-4432-892d-a74803389e79).
-
-
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:
 + You [added native SAP HANA objects](../advanced/hana#add-native-objects) to your CAP model.
@@ -482,6 +484,21 @@ The _cds runtime_ sets the session variable `APPLICATIONUSER`. This should alway
 
 Do not use a `XS_` prefix.
 
+## MTXS
+
+### I get a 401 error when logging in to MTXS through App Router { #mtxs-sidecar-approuter-401}
+
+See [How to configure your App Router](../guides/extensibility/customization#app-router) to verify your setup.
+Also check the [documentation about `cds login`](../guides/extensibility/customization#cds-login).
+
+### When running a tenant upgrade, I get the message 'Extensions exist, but extensibility is disabled.'
+
+This message indicates that extensions exist, but the application is not configured for extensibility. To avoid accidental data loss by removing existing extensions from the database, the upgrade is blocked in that case.
+Please check the [configuration for extensibility](../guides/extensibility/customization#_1-enable-extensibility).
+
+::: danger
+If data loss is intended, you can disable the check by adding <Config>cds.requires.cds.xt.DeploymentService.upgrade.skipExtensionCheck = true</Config> to the configuration.
+:::
 
 ## MTX (legacy)
 

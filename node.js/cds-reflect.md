@@ -79,7 +79,7 @@ A tag property which is `true` for linked models. {.indent}
 
 The [CSN definitions](../cds/csn#definitions) of the model, turned into an instance of [`LinkedDefinitions`].  {.indent}
 
-### . services {.property}
+### . services {.property alt="The following documentation on entities also applies to services. "}
 
 ### . entities {.property}
 
@@ -259,17 +259,6 @@ for (let each in linked.definitions) {
 }
 ```
 
-
-Moreover, you can use common array methods like these:
-
-```js
-linked.definitions .forEach (d => console.log(d.name))
-linked.definitions .filter (d => d.is_entity)
-linked.definitions .find (d => d.name === 'Foo')
-linked.definitions .some (d => d.name === 'Foo')
-linked.definitions .map (d => d.name)
-```
-
 Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
 
 
@@ -331,9 +320,9 @@ class cds.service extends cds.context {...}
 
 A tag property which is `true` for linked entity definitions. {.indent}
 
-### . entities {.property}
+### . entities {.property alt="The following documentation on actions also applies to entities. "}
 
-### . events {.property}
+### . events {.property alt="The following documentation on actions also applies to events. "}
 
 ### . actions {.property}
 
@@ -357,12 +346,12 @@ class cds.entity extends cds.struct {...}
 A tag property which is `true` for linked entity definitions.
 {.indent}
 
-### . keys {.property}
+### . keys {.property alt="The following documentation on actions also applies to keys. "}
 
 
-### . associations {.property}
+### . associations {.property alt="The following documentation on actions also applies to associations. "}
 
-### . compositions {.property}
+### . compositions {.property alt="The following documentation on actions also applies to compositions. "}
 
 ### . actions {.property}
 

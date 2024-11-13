@@ -46,18 +46,14 @@ Connection in productive use works through SAP BTP Destination services or by sp
 ### Feature Overview
 
 For outbound remote service consumption, the following features are supported:
-+ OData V2
 + OData V4
++ OData V2 (Deprecated)
 + [Querying API](#querying-api-features)
 + [Projections on remote services](#supported-projection-features)
 
 ### Tutorials and Examples
-
-Most snippets in this guide are from the [Build an Application End-to-End using CAP, Node.js, and VS Code](https://developers.sap.com/mission.btp-application-cap-e2e.html) tutorial, in particular [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html).
-
 | Example                                                                                                                            | Description                                                                               |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Consume Remote Services from SAP S/4HANA Cloud Using CAP](https://developers.sap.com/mission.btp-consume-external-service-cap.html) | End-to-end Tutorial, Node.js, SAP S/4HANA Cloud, SAP Business Accelerator Hub |
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
@@ -73,8 +69,7 @@ You have all your answers and know your scenario, go on reading about [external 
 
 #### Sample Scenario from End-to-End Tutorial
 
-<!-- Bookshop, SFlight, Incidents Mgmt, Risk Mgmt, Orders Mgmt. etc. -> we might want to cut down on our sample scenarios  -->
-The risk management use case of the previously mentioned [tutorial](https://developers.sap.com/mission.btp-application-cap-e2e.html) shows you one possible scenario:
+<!-- Bookshop, SFlight, Incidents Mgmt, Orders Mgmt. etc. -> we might want to cut down on our sample scenarios  -->
 
 ![A graphic showing the flow for one possible scenario. A user can either view risks or view the suppliers. The suppliers master data is already available from a system and is consumed in an application that enables the user to add the risks. From the maintained risks the user can get information about the supplier connected to a risk. From the supplier view, it's also possible to get details about a risk that is associated with a supplier. The user can block/unblock suppliers from the risk view.](./assets/using-services/risk-mgmt.drawio.svg){style="width: 500px"}
 
@@ -210,6 +205,11 @@ When importing the specification files, the `kind` is set according to the follo
 Always use OData V4 (`odata`) when calling another CAP service.
 :::
 
+::: warning Limitations
+Not all features of OData, OpenAPI, or AsyncAPI are supported in CAP which may lead to the rejection of the imported model by the CDS compiler or may result in a different API when rendered by CAP.
+Known limitations are cyclic type references and inheritance.
+:::
+
 <div class="impl java">
 
 You need to configure remote services in Spring Boot's _application.yaml_:
@@ -220,8 +220,7 @@ spring:
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
-      destination:
-        type: "odata-v2"
+      type: "odata-v2"
 ```
 :::
 To work with remote services, add the following dependency to your Maven project:
@@ -1012,7 +1011,8 @@ Additionally, you can provide [destination options](https://sap.github.io/cloud-
 
 The `selectionStrategy` property controls how a [destination is resolved](#destination-resolution).
 
-The `useCache` option controls whether the SAP Cloud SDK caches the destination. Read [Destination Cache](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination-cache#destination-cache) to learn more about how the cache works.
+The `useCache` option controls whether the SAP Cloud SDK caches the destination. It's enabled by default but can be disabled by explicitly setting it to `false`.
+Read [Destination Cache](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination-cache#destination-cache) to learn more about how the cache works.
 
 If you want to configure additional headers for the HTTP request to the system behind the destination, for example an Application Interface Register (AIR) header, you can specify such headers in the destination definition itself using the property [_URL.headers.\<header-key\>_](https://help.sap.com/docs/CP_CONNECTIVITY/cca91383641e40ffbe03bdc78f00f681/4e1d742a3d45472d83b411e141729795.html?q=URL.headers).
 
@@ -1024,10 +1024,11 @@ Destinations are configured in Spring Boot's _application.yaml_ file:
 cds:
   remote.services:
     API_BUSINESS_PARTNER:
+      type: "odata-v2"
       destination:
         name: "cpapp-bupa"
+      http:
         suffix: "/sap/opu/odata/sap"
-        type: "odata-v2"
 ```
 :::
 [Learn more about configuring destinations for Java.](../java/cqn-services/remote-services#destination-based-scenarios){.learn-more}
@@ -1146,11 +1147,12 @@ Destinations are configured in Spring Boot's _application.yaml_ file.
 cds:
   remote.services:
     REVIEWS:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         properties:
           url: https://reviews.ondemand.com/reviews
           authentication: TokenForwarding
+      http:
         headers:
           my-header: "header value"
         queries:
@@ -1168,9 +1170,9 @@ You can use the APIs offered by SAP Cloud SDK to create destinations programmati
 cds:
   remote.services:
     REVIEWS:
+      type: "odata-v2"
       destination:
         name: "reviews-destination"
-        type: "odata-v2"
 ```
 :::
 [Learn more about programmatic destination registration.](../java/cqn-services/remote-services#programmatic-destination-registration){.learn-more} [See examples for different authentication types.](../java/cqn-services/remote-services#programmatic-destinations){.learn-more}
@@ -1254,10 +1256,11 @@ spring:
 cds:
   remote.services:
   - name: API_BUSINESS_PARTNER
+    type: "odata-v2"
     destination:
       name: "cpapp-bupa"
+    http:
       suffix: "/sap/opu/odata/sap"
-      type: "odata-v2"
 ```
 :::
 Run your application with the Destination service:
@@ -1318,8 +1321,8 @@ Or declare the destination in your _application.yaml_ file:
 cds:
   remote.services:
     order-service:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         properties:
           url: "<set via env var in deployment>"
           authentication: TokenForwarding
@@ -1407,13 +1410,13 @@ cds add xsuaa,destination,connectivity --for production
         service: xsuaa
         service-plan: application
         path: ./xs-security.json
-    
+
     - name: cpapp-destination
       type: org.cloudfoundry.managed-service
       parameters:
         service: destination
         service-plan: lite
-    
+
     # Required for on-premise connectivity only
     - name: cpapp-connectivity
       type: org.cloudfoundry.managed-service
@@ -1516,8 +1519,8 @@ For Java use the property `retrievalStrategy` in the destination configuration, 
 cds:
   remote.services:
     service-for-provider:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
         retrievalStrategy: "AlwaysProvider"
 
 ```

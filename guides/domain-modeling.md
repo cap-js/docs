@@ -178,8 +178,8 @@ To easily distinguish type / entity names  from elements names we recommend to..
 
 ::: tip Capitalize *Type / Entity* Names
 
-* Start **_entity_** and **_type_** names with capital letters — e.g., `Authors`
-* Start **_elements_** with a lowercase letter — e.g., `name`
+* Start **_entity_** and **_type_** names with capital letters — for example, `Authors`
+* Start **_elements_** with a lowercase letter — for example, `name`
 
 :::
 
@@ -187,8 +187,8 @@ As entities represent not only data types, but also data sets, from which we can
 
 ::: tip Pluralize *Entity* Names
 
-* Use **plural** form for **_entities_** — e.g., `Authors`
-* Use **singular** form for **_types_** — e.g., `Genre`
+* Use **plural** form for **_entities_** — for example, `Authors`
+* Use **singular** form for **_types_** — for example, `Genre`
 
 :::
 
@@ -196,8 +196,8 @@ In general always prefer conciseness, comprehensibility and readability, and avo
 
 ::: tip Prefer *Concise* Names
 
-- Don't repeat contexts &rarr; e.g. `Authors.name` instead of `Authors.authorName`
-- Prefer one-word names &rarr;  e.g. `address` instead of `addressInformation`
+- Don't repeat contexts &rarr; for example `Authors.name` instead of `Authors.authorName`
+- Prefer one-word names &rarr;  for example `address` instead of `addressInformation`
 - Use `ID` for technical primary keys &rarr; see also [Use Canonic Primary Keys](#prefer-canonic-keys)
 
 :::
@@ -253,7 +253,7 @@ entity name {
 }
 ```
 
-[Learn more about entity definitions](../cds/cdl.md#entity-and-type-definitions){.learn-more}
+[Learn more about entity definitions](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -267,7 +267,7 @@ entity ProjectedEntity as select from BaseEntity {
 };
 ```
 
-[Learn more about views and projections](../cds/cdl.md#views-and-projections){.learn-more}
+[Learn more about views and projections](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -372,7 +372,7 @@ CDS comes with a small set of built-in types:
 - `String`, `LargeString`
 - `Binary`, `LargeBinary`
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
+[See list of **Built-in Types** in the CDS reference docs](../cds/types){.learn-more}
 
 #### Common Reuse Types
 
@@ -498,7 +498,7 @@ entity Authors { ...
 }
 ```
 
-> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, e.g. `books.author.ID = ID`.
+> The `on` condition can either compare a backlink association to `$self`, or a backlink foreign key to the own primary key, for example `books.author.ID = ID`.
 
 #### Many-to-Many Associations
 
@@ -511,9 +511,9 @@ entity Projects { ...
 entity Users { ...
   projects : Composition of many Members on projects.user = $self;
 }
-entity Members { // link table
-  key project : Association to Projects;
-  key user : Association to Users;
+entity Members: cuid { // link table
+  project : Association to Projects;
+  user : Association to Users;
 }
 ```
 
@@ -529,6 +529,7 @@ entity Users { ...
 ```
 
 Behind the scenes the equivalent of the model above would be generated, with the link table called `Projects.members` and the backlink association to `Projects` in there called `up_`.
+Consider that for SAP Fiori elements 'project' and 'user' shall not be keys, even if their combination is unique, because as keys those fields can't be edited on the UI. In this case a different key is required, for example a UUID, and the unique constraint for `project` and `user` can be expressed via `@assert.unique`.
 
 ### Compositions
 
@@ -570,7 +571,16 @@ entity Orders { ...
 
 [Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions){ .learn-more}
 
-Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above.
+Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above. You can annotate the inline composition with UI annotations as follows:
+
+```cds
+annotate Orders.Items with @(
+   UI.LineItem : [
+      {Value: pos},
+      {Value: quantity},
+   ],
+);
+```
 
 ## Aspects
 
@@ -656,7 +666,7 @@ annotate Authors with @restrict: [
 
 ### Fiori Annotations
 
-Similarly to authorization annotations we would frequently add annotations which are related to UIs, starting with `@title`s used for field or column labels in UIs, or specific Fiori annotations in `@UI`, `@Common`, etc. vocabularies.
+Similarly to authorization annotations we would frequently add annotations which are related to UIs, starting with `@title` annotations used for field or column labels in UIs, or specific Fiori annotations in `@UI`, `@Common`, etc. vocabularies.
 
 Also here we strongly recommend to keep the core domain models clean of that, but put such annotation into respective frontend models:
 
@@ -761,7 +771,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 
 
-### `@cds.on.insert` {.annotation}
+### `@cds.on.insert` {.annotation alt="The following documentation on cds.on.update also applies to cds.on.insert. "}
 
 ### `@cds.on.update` {.annotation}
 

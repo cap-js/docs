@@ -18,15 +18,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## The CDS Model
 
- The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
+The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
 
- The `CdsModel` can be obtained from the `EventContext`:
+The `CdsModel` can be obtained from the `EventContext`:
 
  ```java
+import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.EventContext;
 import com.sap.cds.reflect.CdsModel;
 
-@On(event = "READ", entity = "my.catalogservice.books")
+@On(event = "READ", entity = "CatalogService.Books")
 public void readBooksVerify(EventContext context) {
     CdsModel model = context.getModel();
    ...
@@ -46,6 +47,12 @@ On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector
 InputStream csnJson = ...;
 CdsModel model = CdsModel.read(csnJson);
 ```
+
+::: tip
+Instead of bare string literals, you can also use auto-generated string constants and interfaces in event handlers.
+
+[Learn more about event handlers.](./event-handlers/){.learn-more}
+:::
 
 ## Examples
 
@@ -142,16 +149,6 @@ String displayName = annotation.map(CdsAnnotation::getValue)
         .orElse(orderNo.getName());   // "Order Number"
 ```
 
-### Filter a Stream of Services for non-abstract Services
-
-Using a stream we determine all non-abstract services:
-
-```java
-Stream<CdsService> services = model.services()
-    .filter(s -> !s.isAbstract());
-List<CdsService> serviceList = services.collect(Collectors.toList());
-```
-
 ### Filter a Stream of Entities by Namespace
 
 The static method `com.sap.cds.reflect.CdsDefinition.byNamespace` allows to create a predicate to filter a stream of definitions
@@ -222,7 +219,7 @@ The database schema resulting from CDS build at design time contains *all* featu
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 
 ::: warning
-The active features set can't be changed within an active transaction.
+The active feature set can't be changed within an active transaction.
 :::
 
 ### Toggling SAP Fiori UI Elements
@@ -312,7 +309,7 @@ Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
 
 ### Using Feature Toggles in Custom Code
 
-Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./spring-boot-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
+Custom code, which depends on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./spring-boot-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
 
 ```java
 @After

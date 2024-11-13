@@ -3,26 +3,6 @@ section: About
 status: released
 ---
 
-<style scoped>
-.cols-2 {
-  display: flex;
-  flex-wrap: wrap;
-}
-.cols-2 > * {
-  width: 100%;
-}
-@media (min-width: 640px) {
-  .cols-2 {
-    gap: 1em;
-  }
-  .cols-2 > * {
-    flex: 1;
-    width: calc(100% / 2);
-  }
-}
-
-</style>
-
 # About CAP
 
 The _SAP Cloud Application Programming Model_ (CAP) is a framework of **languages**, **libraries**, and **tools** for building enterprise-grade services and applications. It guides developers along a 'golden path' of proven [**best practices**](#enterprise-best-practices) and a great wealth of [**out-of-the-box solutions**](#generic-providers) to recurring tasks.
@@ -310,8 +290,8 @@ All behavioral aspects in CAP are based on ubiquitous notions of [Services](#ser
 Services in CAP are **stateless** and with a **minimal footprint**, which allows you to modularize solutions into single-purposed (nano) services or functions-as-a-service.
 
 <figure>
-   <img src="../assets/agnostic-services.drawio.svg" width="333px">
-  <figcaption><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
+   <img src="../assets/agnostic-services.drawio.svg" width="400px">
+  <figcaption style="text-align: center"><a href="#hexagonal-architecture">Hexagonal Architecture à la CAP</a></figcaption>
 </figure>
 
 <br><br>
@@ -396,7 +376,7 @@ cds.service.impl (function(){
 
 
 // Emitting Events
-// e.g. in this.on ('cancelOrder', ...)
+// in this.on ('cancelOrder', ...)
 let { ID } = req.data
 this.emit ('orderCancelled', {ID})
 
@@ -455,9 +435,23 @@ Following is an excerpt of generic features provided:
 - [Temporal Data](../guides/temporal-data)
 - [Verticalization & Extensibility](../guides/extensibility/)
 
-<br>
+**CAP-level Service Integrations ('Calesi')**
 
-[See also the Features Overview](./features){.learn-more}
+<!-- - [Authentication → SAP Identity Services](../plugins/#security-ams) -->
+- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
+- [Attachments → SAP Object Store](../plugins/#attachments)
+- [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+<!-- - [Messaging → SAP Cloud Application Event Hub (Multitenancy)](../plugins/#event-broker-multitenancy) -->
+<!-- - [Messaging → Kafka](../plugins/#apache-kafka) -->
+- [Change Tracking](../plugins/#change-tracking)
+- [Notifications](../plugins/#notifications)
+- [Audit Logging](../plugins/#audit-logging)
+- [Personal Data Management](../guides/data-privacy/)
+
+[Find more in the **CAP Plugins** page](../plugins/){.learn-more}
+
+[See also the **Features Overview**](./features){.learn-more}
 
 
 

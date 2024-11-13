@@ -169,11 +169,11 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 ### Logging Service { #logging-service}
 
 The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING)
-and it's recommended successor [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service to which bound Cloud Foundry applications can stream logs.
+and its recommended successor [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) service to which bound Cloud Foundry applications can stream logs.
 
 Establishing a connection is the same for both services: The application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics). To match the log output format and structure expected by the logging service, it's recommended to use a prepared encoder from [cf-java-logging-support](https://github.com/SAP/cf-java-logging-support) that matches the configured logger framework. `logback` is used by default as outlined in [Logging Frameworks](#logging-configuration):
 
-```xml
+```xml [srv/pom.xml]
 <dependency>
 	<groupId>com.sap.hcp.cf.logging</groupId>
 	<artifactId>cf-java-logging-support-logback</artifactId>
@@ -235,7 +235,7 @@ SAP Cloud Logging is supported with [minimal configuration](#open-telemetry-conf
 
 - [Spring Boot Actuators](#spring-boot-actuators) can help operators to quickly get an overview about the general status of the application on a technical level.
 
-- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alml).
+- [Availability](#availability) checks are offered by [SAP Cloud ALM for Operations](https://help.sap.com/docs/cloud-alm).
 
 ### Open Telemetry { #open-telemetry }
 
@@ -268,13 +268,17 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
   # ...
   properties:
     # ...
-    JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar']"
+    JBP_CONFIG_JAVA_OPTS: 
+      from_environment: false
+      java_opts: >
+        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar 
+        -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar
 ```
 :::
 
 The buildpack delivers the Open Telemetry Agent Extension library with the common configuration for Open Telemetry that applies to Cloud Logging Service and Dynatrace. This library provides out-of-the box configuration of the required credentials taken from the service bindings and more sophisticated configuration possibilities.
 
-[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more} 
+[Learn more in the Open Telemetry Agent Extension library documentation](https://github.com/SAP/cf-java-logging-support/tree/main/cf-java-logging-support-opentelemetry-agent-extension){.learn-more}
 
 For troubleshooting purposes, you can increase the log level of the Open Telemetry Java Agent by adding the parameter `-Dotel.javaagent.debug=true` to the `JBP_CONFIG_JAVA_OPTS` argument.
 
@@ -318,6 +322,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
        # ...
        OTEL_METRICS_EXPORTER: cloud-logging
        OTEL_TRACES_EXPORTER: cloud-logging
+       OTEL_LOGS_EXPORTER: none
    ```
    :::
 
@@ -356,11 +361,11 @@ The following steps describe the required configuration:
 
 #### CAP Instrumentation
 
-By default, instrumentations for CAP-specific components are disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
+By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
-| Logger Name                                    | Required Level | Description                                                |
+| Logger                                         | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|
-| `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
+| `com.sap.cds.otel.span.ODataBatch`             | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
 | `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garbage collection.       |
@@ -573,7 +578,7 @@ To do so, first add a dependency to Spring Actuators, which forms the basis for 
 
 By default, Spring exposes the *aggregated* health status on web endpoint `/actuator/health`, including the result of all registered health indicators. But also the `info` actuator is exposed automatically, which might be not desired for security reasons. It's recommended to **explicitly** control web exposition of actuator components in the application configuration. The following configuration snippet is an example suitable for public visible health check information:
 
-```yaml
+```yaml [srv/src/main/resources/application.yaml]
 management:
   endpoint:
     health:
@@ -591,7 +596,19 @@ management:
 The example configuration makes Spring exposing only the health endpoint with health indicators `db` and `ping`. Other indicators ready for auto-configuration such as `diskSpace` are omitted. All components contributing to the aggregated status are shown individually, which helps to understand the reason for overall status `DOWN`.
 
 ::: tip
-For multitenancy scenarios, CAP Java SDK replaces default the `db` indicator with an implementation that includes the status of all tenant databases.
+For multitenancy scenarios, CAP Java replaces the default `db` indicator with an implementation that includes the status of all tenant databases.
+:::
+
+In addition CAP Java offers a health indicator `modelProvider`. This health indicator allows to include the status of the MTX sidecar serving the [Model Provider Service](/java/reflection-api#the-model-provider-service).
+
+```yaml
+management:
+  health:
+    modelProvider.enabled: true
+```
+
+::: warning
+The `modelProvider` health indicator requires `@sap/cds` version `7.8.0` or higher in MTX sidecar.
 :::
 
 Endpoint `/actuator/health` delivers a response (HTTP response code `200` for up, `503` for down) in JSON format with the overall `status` property (for example, `UP` or `DOWN`) and the contributing components:

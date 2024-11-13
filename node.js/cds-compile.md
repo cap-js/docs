@@ -116,7 +116,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 | Option      | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | `flavor`    | By default the returned CSN is in `'inferred'` flavor, which is an effective model, with all aspects, includes, extensions and redirects applied and all views and projections inferred. Specify `'parsed'` to only have single models parsed. |
-| `min`       | Specify `true` to have [`cds.minify)`](#cds-minify) applied after compiling the models. |
+| `min`       | Specify `true` to have [`cds.minify()`](#cds-minify) applied after compiling the models. |
 | `docs`      | Specify `true` to have the all `/** ... */` doc comments captured in the CSN. |
 | `locations` | Specify `true` to have the all `$location` properties preserved in serialized CSN. |
 | `messages`  | Pass an empty array to get all compiler messages collected in there. |
@@ -156,14 +156,14 @@ Renders the given model to a formatted JSON  or YAML string.
 
 
 
-### .edm() {.method}
+### .edm() {.method alt="The following documentation on .edmx also applies to .edm."}
 
 ### .edmx() {.method}
 
 
 Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
 
-Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-odata) above, with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
+Accepted `options` are the same [as documented for `cds.compile`](#additional-options), with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
 
 * Either choose exactly one, for example, `{service:'Catalog'}`
 * Choose to return EDM objects for all, that means, `{service:'all'}`

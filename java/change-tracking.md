@@ -29,10 +29,8 @@ To use the change tracking feature, you need to add a dependency to [cds-feature
 </dependency>
 ```
 
-Your POM must also include the goal to resolve the CDS model delivered from the feature.
+- Your POM must also include the goal to resolve the CDS model delivered from the feature.
 See [Reference the New CDS Model in an Existing CAP Java Project](/java/building-plugins#reference-the-new-cds-model-in-an-existing-cap-java-project).
-
-- For the UI part, you also need to enable the [On-the-fly Localization of EDMX](/releases/archive/2023/dec23#on-the-fly-localization-of-edmx).
 
 - If you use SAP Fiori elements as your UI framework and intend to use the built-in UI, update your SAP UI5 version to 1.121.2 or higher.
 
@@ -81,7 +79,16 @@ This aspect adds the association `changes` that lets you consume the change log 
 via CQN statements and in the UI. This implies that every projection
 of the entity `Books` has this association and the changes will be visible in all of them.
 
-Your extended service definition should look like this:
+Annotate elements of the entity that you want to track with the `@changelog` annotation:
+
+```cds
+annotate Bookshop.Books {
+  title @changelog;
+  stock @changelog;
+};
+```
+
+Your complete service definition should look like this:
 
 ```cds
 namespace srv;
@@ -89,16 +96,14 @@ namespace srv;
 using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
 using {model} from '../db/schema';
 
+// The domain entity extended with change tracking aspect.
 extend model.Books with changelog.changeTracked;
 
 service Bookshop {
     entity Books as projection on model.Books;
 }
-```
 
-Annotate elements of the entity that you want to track with the `@changelog` annotation:
-
-```cds
+// Projection is annotated to indicate which elements are change tracked.
 annotate Bookshop.Books {
   title @changelog;
   stock @changelog;

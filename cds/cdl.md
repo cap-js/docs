@@ -1138,14 +1138,8 @@ For an `@inner` annotation, only the syntax `@(...)` is available.
 Instead of interspersing annotations with definitions, you can also use the `annotate` directive to add annotations to existing definitions.
 
 ```cds
-annotate entity Foo with
-  @my.annotation:foo,
-  @another.one: 4711
-;
-```
-```cds
-annotate entity Foo with @(
-  my.annotation:foo,
+annotate Foo with @(
+  my.annotation: foo,
   another.one: 4711
 );
 ```

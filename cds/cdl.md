@@ -1139,7 +1139,7 @@ Instead of interspersing annotations with definitions, you can also use the `ann
 
 ```cds
 annotate entity Foo with
-  @my.annotation:foo
+  @my.annotation:foo,
   @another.one: 4711
 ;
 ```

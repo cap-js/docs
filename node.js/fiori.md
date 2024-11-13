@@ -174,3 +174,14 @@ You can set the property to one of the following:
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 
+
+### Programmatic Invocation of Draft Actions <Beta />
+
+You can programmatically invoke draft actions with the following APIs:
+
+```js
+await srv.new(MyEntity, data)           // create new draft
+await srv.cancel(MyEntity.drafts, keys) // cancel draft
+await srv.edit(MyEntity, keys)          // create draft from active instance
+await srv.save(MyEntity.drafts, keys)   // activate draft
+```

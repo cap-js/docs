@@ -191,6 +191,36 @@ module.exports = cds.server
 | _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
 | _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
 
+## TypeScript
+
+### Type definitions for `@sap/cds` not found or incomplete
+
+The type definitions for `@sap/cds` are maintained in a separate package `@cap-js/cds-types` and have to be explicitly installed as a dev dependency. This can be done by adding the `typescript` facet:
+
+::: code-group
+```sh [facet]
+cds add typescript
+```
+```sh [manually]
+npm i -D @cap-js/cds-types
+```
+:::
+
+Installing `@cap-js/cds-types` leverages vscode's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
+
+If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_: 
+
+::: code-group
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    "types": ["@cap-js/cds-types"],
+  }
+}
+```
+:::
+
+If you find that the types are still incomplete, open a bug report in [the `@cap-js/cds-types` repository](https://github.com/cap-js/cds-types/issues/new/choose).
 
 ## Java
 

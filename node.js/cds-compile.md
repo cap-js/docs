@@ -156,7 +156,7 @@ Renders the given model to a formatted JSON  or YAML string.
 
 
 
-### .edm() {.method}
+### .edm() {.method alt="The following documentation on .edmx also applies to .edm."}
 
 ### .edmx() {.method}
 

@@ -86,7 +86,7 @@ And provide texts and translations in corresponding files like `_i18n/yours.prop
 
 This is a global object acting as the facade to the i18n features as outlined below.
 
-### `.file` {.property}
+### `.file` {.property alt="The following documentation on .folders also applies to .file. "}
 
 ### `.folders` {.property}
 
@@ -206,7 +206,7 @@ An instance of [`I18nFiles`](#i18nfiles) with the found folders and files to loa
 
 
 
-### `at (key, ...)` {.method}
+### `at (key, ...)` {.method alt="The following documentation on for also applies to at. "}
 
 ### `for (key, ...)` {.method}
 

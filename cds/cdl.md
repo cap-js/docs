@@ -285,7 +285,7 @@ A model ultimately is a collection of definitions with unique, fully qualified n
 CDL supports line-end, block comments, and *doc* comments as in Java and JavaScript:
 
 ```cds
-// line-end comment 
+// line-end comment
 /* block comment */
 /** doc comment */
 ```
@@ -348,8 +348,8 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 ## Entities & Type Definitions
 
-- [Entity Definitions](#entities) — `define entity`
-- [Type Definitions](#types) — `define type`
+- [Entity Definitions](#entities)
+- [Type Definitions](#types)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
@@ -362,7 +362,7 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 
 
-### Entity Definitions — `define entity` {#entities}
+### Entity Definitions {#entities}
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -379,7 +379,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions — `define type` {#types}
+### Type Definitions {#types}
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -1132,6 +1132,28 @@ entity Foo { /* elements */ }
 
 For an `@inner` annotation, only the syntax `@(...)` is available.
 
+
+#### Using `annotate` Directives
+
+Instead of interspersing annotations with definitions, you can also use the `annotate` directive to add annotations to existing definitions.
+
+```cds
+annotate entity Foo with
+  @my.annotation:foo
+  @another.one: 4711
+;
+```
+```cds
+annotate entity Foo with @(
+  my.annotation:foo,
+  another.one: 4711
+);
+```
+
+[Learn more about the `annotate` directive in the _Aspects_ chapter below.](#annotate){.learn-more}
+
+
+
 ### Annotation Targets
 
 You can basically annotate any named thing in a CDS model, such as:
@@ -1140,23 +1162,18 @@ Contexts and services:
 
 <!-- cds-mode: ignore, because it shows syntax alternatives -->
 ```cds
-@before [define] (context|service) Foo @inner { ... }
+@before context foo.bar @inner { ... }
+@before service Sue @inner { ... }
 ```
 
-Definitions and elements with simple types:
+Definitions and elements with simple or struct types:
 
 <!-- cds-mode: ignore, because it shows syntax alternatives -->
 ```cds
-@before [define] type Foo @inner : String @after;
-@before [key] anElement @inner : String @after;
-```
-
-Entities, aspects, and other struct types and elements thereof:
-
-<!-- cds-mode: ignore, because it shows syntax alternatives -->
-```cds
-@before [define] (entity|type|aspect|annotation) Foo @inner {
-  @before simple @inner : String @after;
+@before type Foo @inner : String @after;
+@before entity Foo @inner {
+  @before key ID @inner : String @after;
+  @before title @inner : String @after;
   @before struct @inner { ...elements... };
 }
 ```
@@ -1166,7 +1183,11 @@ Enums:
 <!-- cds-mode: ignore, because it shows only partial CDS -->
 ```cds
 … status : String @inner enum {
-  fulfilled @after;
+  open @after;
+  closed @after;
+  cancelled @after;
+  accepted @after;
+  rejected @after;
 }
 ```
 
@@ -1483,50 +1504,6 @@ The OData backend of the CAP CDS compiler supports expression-valued annotations
 See [Expressions in OData Annotations](../advanced/odata#expression-annotations).
 
 
-### The `annotate` Directive
-{#annotate}
-
-The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
-
-```cds
-annotate Foo with @title:'Foo' {
-  nestedStructField {
-    existingField @title:'Nested Field';
-  }
-}
-annotate Bar with @title:'Bar';
-```
-
-You can also directly annotate a single element:
-```cds
-annotate Foo:existingField @title: 'Simple Field';
-annotate Foo:nestedStructField.existingField @title:'Nested Field';
-```
-
-Actions, functions, their parameters and `returns` can be annotated:
-
-
-```cds
-service SomeService {
-  entity SomeEntity { key id: Integer } actions
-  {
-    action boundAction(P: Integer) returns String;
-  };
-  action unboundAction(P: Integer) returns String;
-};
-
-annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P)
-                                        returns @label: 'Returns a string';
-annotate SomeService.SomeEntity with actions {
-     @label: 'Action label'
-     boundAction(@label: 'firstParameter' P) returns @label: 'Returns a string';
-}
-```
-
-The `annotate` directive is a variant of the [`extend` directive](#extend).
-Actually, `annotate` is just a shortcut with the default mode being switched to `extend`ing existing fields instead of adding new ones.
-
-
 
 ### Extend Array Annotations {#extend-array-annotations}
 
@@ -1624,32 +1601,35 @@ CDS's aspects allow to flexibly extend definitions by new elements as well as ov
 They're based on a mixin approach as known from Aspect-oriented Programming methods.
 
 - [The `extend` Directive](#extend)
-- [Named Aspects](#aspect) — `define aspect`
+- [The `annotate` Directive](#annotate)
+- [Named Aspects](#named-aspects)
 - [Shortcut Syntax `:`](#includes)
-- [Looks Like Inheritance](#looks-like-inheritance)
 - [Extending Views / Projections](#extend-view)
+- See also: [Aspect-oriented Modelling](aspects)
 
 
-### The `extend` Directive { #extend}
+
+
+### The `extend` Directive
+{#extend}
 
 Use `extend` to add extension fields or to add/override metadata to existing definitions, for example, annotations, as follows:
 
 ```cds
-extend Foo with @(title: 'Foo') {
+extend Foo with @title:'Foo';
+extend Bar with @title:'Bar' {
   newField : String;
   extend nestedStructField {
     newField : String;
     extend existingField @title:'Nested Field';
   }
 }
-extend Bar with @title: 'Bar'; // nothing for elements
 ```
 
-::: tip
-Make sure that you prepend the `extend` keyword to nested elements, otherwise this would mean that you want to add a new field with that name:
+::: details Note the nested `extend` for existing fields
+Make sure that you prepend the `extend` keyword to nested elements if you want to modify them. Without that a new field with that name would be added. If you only want to add annotations to an existing field, you can use [the **annotate** directive.](#annotate) instead.
 :::
 
-[Learn more about the **annotate** Directive.](#annotate){.learn-more}
 
 You can also directly extend a single element:
 ```cds
@@ -1667,21 +1647,58 @@ For multiple conflicting `extend` statements, the last `extend` wins, that means
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
-### Named Aspects — `define aspect` {#aspect}
+
+### The `annotate` Directive
+{#annotate}
+
+The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
+
+```cds
+annotate Foo with @title:'Foo';
+annotate Bar with @title:'Bar' {
+  nestedStructField {
+    existingField @title:'Nested Field';
+  }
+}
+```
+
+::: details `annotate` is a shortcut for `extend` ...
+
+The `annotate` directive is essentially a shortcut variant of the [`extend` directive](#extend), with the default mode being switched to `extend`ing existing fields instead of adding new ones. For example, the following is equivalent to the previous example:
+
+```cds
+extend Foo with @title:'Foo';
+extend Bar with @title:'Bar' {
+  extend nestedStructField {
+    extend existingField @title:'Nested Field';
+  }
+}
+```
+:::
+
+
+You can also directly annotate a single element:
+```cds
+annotate Foo:existingField @title: 'Simple Field';
+annotate Foo:nestedStructField.existingField @title:'Nested Field';
+```
+
+
+
+
+### Named Aspects
 
 You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
 
 ```cds
-extend Foo with ManagedObject;
-extend Bar with ManagedObject;
-```
-```cds
-aspect ManagedObject {
+aspect SomeAspect {
   created { at: Timestamp; _by: User; }
 }
 ```
-
-> The `define` keyword is optional, that means `define aspect Foo` is equal to `aspect Foo`.
+```cds
+extend Foo with SomeAspect;
+extend Bar with SomeAspect;
+```
 
 If you use `extend`, all nested fields in the named aspect are interpreted as being extension fields. If you use `annotate`, the nested fields are interpreted as existing fields and the annotations are copied to the corresponding target elements.
 
@@ -1692,11 +1709,11 @@ Use keyword `aspect` as shown in the example to declare definitions that are onl
 
 ### Includes -- `:` as Shortcut Syntax {#includes}
 
-You can use an inheritance-like syntax option to extend a definition with one or more [named aspects](#aspect)
+You can use an inheritance-like syntax option to extend a definition with one or more [named aspects](#named-aspects)
 as follows:
 
 ```cds
-define entity Foo : ManagedObject, AnotherAspect {
+define entity Foo : SomeAspect, AnotherAspect {
   key ID : Integer;
   name : String;
   [...]
@@ -1707,7 +1724,7 @@ This is syntactical sugar and equivalent to using a sequence of [extends](#exten
 
 ```cds
 define entity Foo {}
-extend Foo with ManagedObject;
+extend Foo with SomeAspect;
 extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
@@ -1720,13 +1737,6 @@ You can apply this to any definition of an entity or a structured type.
 
 
 
-### Looks Like Inheritance
-
-The `:`-based syntax option described before looks very much like (multiple) inheritance and in fact has very much the same effects. Yet, as mentioned in the beginning of this
-section, it isn't based on inheritance but on mixins, which are more powerful and also avoid common problems like the infamous diamond shapes in type derivations.
-
-When combined with persistence mapping there are a few things to note, that goes down to which strategy to choose to map inheritance to, for example, relational models. See [_Aspects vs Inheritance_](./aspects-inheritance) for more details.
-
 
 ### Extending Views and Projections { #extend-view}
 
@@ -1737,16 +1747,16 @@ Use the `extend <entity> with columns` variant to extend the select list of a pr
 * Add new unmanaged associations.
 
 ```cds
-extend Foo with @title:'Foo' columns {
+extend SomeView with columns {
   foo as moo @woo,
   1 + 1 as two,
   bar : Association to Bar on bar.ID = moo
 }
 ```
 
-::: tip
-Enhancing nested structs isn't supported. Note also that you can use the common [`annotate`](#annotate) syntax, to just add/override annotations of a view's elements.
-:::
+Enhancing nested structs isn't supported.
+
+You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 
 <br>
 
@@ -2066,4 +2076,3 @@ extend entity CatalogService.Products with actions {
 ```
 
 <div id="beforenamespaces" />
-

@@ -372,7 +372,7 @@ CDS comes with a small set of built-in types:
 - `String`, `LargeString`
 - `Binary`, `LargeBinary`
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
+[See list of **Built-in Types** in the CDS reference docs](../cds/types){.learn-more}
 
 #### Common Reuse Types
 
@@ -771,7 +771,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 
 
-### `@cds.on.insert` {.annotation}
+### `@cds.on.insert` {.annotation alt="The following documentation on cds.on.update also applies to cds.on.insert. "}
 
 ### `@cds.on.update` {.annotation}
 

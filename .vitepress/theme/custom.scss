@@ -367,7 +367,7 @@ kbd {
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-  &, & a { color: #999 !important; .dark & { color: #777 !important }};
+  & { color: #999 !important; .dark & { color: #777 !important }};
 
   &::before {
     content: url('/images/learn-more.svg');

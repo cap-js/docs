@@ -206,7 +206,7 @@ npm i -D @cap-js/cds-types
 ```
 :::
 
-Installing `@cap-js/cds-types` leverages vscode's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
+Installing `@cap-js/cds-types` leverages VS Code's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
 
 If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_: 
 

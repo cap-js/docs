@@ -183,21 +183,27 @@ annotate MyService with @(
 ```
 [See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
 
+
 ## OpenAPI
 
 | Term              | Annotation Target | OpenAPI field                                                                  |
 |-------------------|-------------------|--------------------------------------------------------------------------------|
 | `externalDocs`  | EntityContainer   | Links to external documentation that explain more about APIs are helpful to developers. |
+| `Extensions` | EntityContainer   | To add the sap defined (`x-sap`) specification extensions. This annotation can an be used in root, entity and in function/action level.                                        |
+
 
 This is an example of a CDS service annotated with the annotations above:
 
 ```cds
 annotate SampleService with @(
     OpenAPI:{
-        externalDocs:{
+        externalDocs: {
             description: 'API Guide',
             url        : 'https://help.sap.com/docs/product/sample.html'
-        }
+        },
+        Extensions: {
+        ![compliance-level]: 'sap:base:v1'
+      }
     }
 );
 ```

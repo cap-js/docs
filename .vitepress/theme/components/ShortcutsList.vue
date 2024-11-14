@@ -134,13 +134,13 @@ function commandsFromConfig() {
           url.search = window.location.search
           url.hash = window.location.hash
         } else { // local URLs
-          url.href = url.href.replace('${filePath}', page.value.filePath)
+          url.href = url.href.replace(encodeURIComponent('${filePath}'), page.value.filePath)
           const el = document.getElementById('secondary-file')
           if (el?.textContent) {
-            url.href = url.href.replace('${secondaryFilePath}', el.textContent)
+            url.href = url.href.replace(encodeURIComponent('${secondaryFilePath}'), el.textContent)
           }
           // if still unresolved placeholders, stop here
-          if (url.href.match(/\$\{.*?\}/g)) return
+          if (url.href.match(RegExp(encodeURIComponent('${'), 'g'))) return
         }
         window.open(url, '_blank');
       },

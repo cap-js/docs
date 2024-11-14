@@ -191,6 +191,47 @@ module.exports = cds.server
 | _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
 | _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
 
+## TypeScript
+
+### Type definitions for `@sap/cds` not found or incomplete
+
+|                | Explanation                                                           |
+|----------------|-----------------------------------------------------------------------|
+| _Root Cause 1_ | The package `@cap-js/cds-typer` is not installed.                     |
+| _Solution 1_   | Install the package as a dev dependency.                              |
+| _Root Cause 2_ | Symlink is missing.                                                   |
+| _Solution 2_   | Try `npm rebuild` or add `@cap-js/cds-types` in your _tsconfig.json_. |
+
+
+#### Install package as dev dependency
+The type definitions for `@sap/cds` are maintained in a separate package `@cap-js/cds-types` and have to be explicitly installed as a dev dependency. This can be done by adding the `typescript` facet:
+
+::: code-group
+```sh [facet]
+cds add typescript
+```
+```sh [manually]
+npm i -D @cap-js/cds-types
+```
+:::
+
+#### Fix missing symlink
+
+Installing `@cap-js/cds-types` leverages VS Code's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
+
+If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_: 
+
+::: code-group
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    "types": ["@cap-js/cds-types"],
+  }
+}
+```
+:::
+
+If you find that the types are still incomplete, open a bug report in [the `@cap-js/cds-types` repository](https://github.com/cap-js/cds-types/issues/new/choose).
 
 ## Java
 
@@ -226,7 +267,7 @@ To fix this, either switch the Node.js version using a Node version manager, or 
 
 ```
 
-[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
+[Learn more about the install-node goal.](../java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more target="_blank"}
 
 ### How can I expose custom REST APIs with CAP?
 
@@ -484,6 +525,21 @@ The _cds runtime_ sets the session variable `APPLICATIONUSER`. This should alway
 
 Do not use a `XS_` prefix.
 
+## MTXS
+
+### I get a 401 error when logging in to MTXS through App Router { #mtxs-sidecar-approuter-401}
+
+See [How to configure your App Router](../guides/extensibility/customization#app-router) to verify your setup.
+Also check the [documentation about `cds login`](../guides/extensibility/customization#cds-login).
+
+### When running a tenant upgrade, I get the message 'Extensions exist, but extensibility is disabled.'
+
+This message indicates that extensions exist, but the application is not configured for extensibility. To avoid accidental data loss by removing existing extensions from the database, the upgrade is blocked in that case.
+Please check the [configuration for extensibility](../guides/extensibility/customization#_1-enable-extensibility).
+
+::: danger
+If data loss is intended, you can disable the check by adding <Config>cds.requires.cds.xt.DeploymentService.upgrade.skipExtensionCheck = true</Config> to the configuration.
+:::
 
 ## MTX (legacy)
 

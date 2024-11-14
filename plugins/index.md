@@ -124,7 +124,7 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
-## Websocket
+## WebSocket
 
 Exposes a WebSocket protocol via WebSocket standard or Socket.IO for CDS services.
 

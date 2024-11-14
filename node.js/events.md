@@ -52,7 +52,7 @@ Prefer local  `req`  objects in your handlers for accessing event context proper
 
 
 
-## Class `cds.EventContext` { #cds-event-context }
+## `cds.EventContext` { .class #cds-event-context }
 
 [`cds.EventContext`]: #cds-event-context	"Class cds.EventContext"
 
@@ -146,7 +146,7 @@ The current user, an instance of `cds.User` as identified and verified by the au
 
 
 
-## Class `cds.Event`  { #cds-event}
+## `cds.Event`  { .class #cds-event}
 [`cds.Event`]: #cds-event	"Class cds.Event"
 
 
@@ -188,11 +188,11 @@ Provides access to headers of the event message or request. In the case of async
 
 
 
-### eve. before 'commit' {.event}
+### eve. before 'commit' {.event alt="The following documentation on done also applies to commit. "}
 
-### eve. on 'succeeded' {.event}
+### eve. on 'succeeded' {.event alt="The following documentation on done also applies to succeeded. "}
 
-### eve. on 'failed' {.event}
+### eve. on 'failed' {.event alt="The following documentation on done also applies to failed. "}
 
 ### eve. on 'done' {.event}
 
@@ -232,7 +232,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 
 
 
-## Class `cds.Request` { #cds-request }
+## `cds.Request` { .class #cds-request }
 
 [`cds.Request`]: #cds-request	"Class cds.Request"
 

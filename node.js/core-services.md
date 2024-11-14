@@ -312,7 +312,7 @@ REST-style APIs using `srv.send()` tend to become protocol-specific, for example
 
 
 
-## Class `cds.Service`
+## `cds.Service` {.class}
 
 
 
@@ -397,9 +397,9 @@ var srv.options : { //> from cds.requires config
 
 
 
-### . entities {.property}
+### . entities {.property alt="The following documentation on operations also applies to entities. "}
 
-### . events {.property}
+### . events {.property alt="The following documentation on operations also applies to events. "}
 
 ### . operations {.property}
 

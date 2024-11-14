@@ -105,7 +105,7 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
    <div class="impl java">
 
    ```sh [Java]
-   cds init bookshop --add java --java:mvn -DgroupId=com.sap.capire
+   cds init bookshop --java --java:mvn -DgroupId=com.sap.capire
    ```
 
 
@@ -508,12 +508,16 @@ Instead of in-memory databases we can also use persistent ones. For example, sti
 ::: code-group
 
 ```json [package.json]
-{ "cds": { "requires": {
-  "db": {
-      "kind": "sqlite",
-      "credentials": { "url": "db.sqlite" } // [!code focus]
+{
+  "cds": {
+    "requires": {
+      "db": {
+          "kind": "sqlite",
+          "credentials": { "url": "db.sqlite" } // [!code focus]
+      }
+    }
   }
-}}}
+}
 ```
 
 :::
@@ -583,11 +587,13 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl node">
 
-```console
-./srv
-  - cat-service.cds  # service definitions
-  - cat-service.js   # service implementation
-...
+```zsh
+bookshop/
+├─ srv/
+│ ├─ ...
+│ ├─ cat-service.cds # [!code focus]
+│ └─ cat-service.js # [!code focus]
+└─ ...
 ```
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}

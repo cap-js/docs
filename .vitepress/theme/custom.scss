@@ -65,6 +65,10 @@ main {
     h2, .h2 { font-size: 24px; margin: 4em 0 2em; padding-top: 12px; }
     h3, .h3 { font-size: 20px; margin: 3em 0 1em; }
     h4, .h4 { font-size: 17px; margin: 2em 0 1em; }
+
+    // Set margin-bottom to group groups of h3/h4 together, as in req.error/warn/info/notify
+    h3, h4 { margin-bottom: 0em; }
+
     h1 + .subtitle {
       margin: -40px 0 48px;
       font-size: 1.7em;
@@ -363,7 +367,7 @@ kbd {
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-  &, & a { color: #999 !important; .dark & { color: #777 !important }};
+  & { color: #999 !important; .dark & { color: #777 !important }};
 
   &::before {
     content: url('/images/learn-more.svg');

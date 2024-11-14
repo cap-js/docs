@@ -492,7 +492,7 @@ This transparently applies to all implementations, even [custom implementations]
 {
    "audit-log": {
      "[development]": {
-       "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
+       "kind": "audit-log-to-console",
        "outbox": false // [!code focus]
      }
    }

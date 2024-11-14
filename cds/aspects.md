@@ -169,7 +169,7 @@ abstract entity BusinessObject {
 
 ```cds
 aspect Changes {
-  operation : String enum { CREATED, MODIFIED, DELETED };
+  operation : String enum { CREATED; MODIFIED; DELETED };
   changedAt : DateTime;
   changedBy : User;
   diff : array of {
@@ -414,7 +414,7 @@ entity UsersAndGroups as (
   SELECT from Users
 ) UNION ALL (
   SELECT from Groups
-)
+);
 ```
 
 

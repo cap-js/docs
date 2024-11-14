@@ -741,7 +741,9 @@ Enable generation of foreign key constraints on the database with:
 Referential constraints on H2 cannot be defined as "deferred", which is needed for database constraints within CAP.
 :::
 
-With that switched on, foreign key constraints are generated for managed to-one associations. For example, given this model:
+With that switched on, foreign key constraints are generated for managed to-one associations, if both
+the source and the target entity of the association are tables in the database.
+For example, given this model:
 
 ```cds
 entity Books {
@@ -825,19 +827,25 @@ CREATE TABLE Books_texts (
 ```
 
 ::: warning Database constraints aren't intended for checking user input
-Instead, they protect the integrity of your data in the database layer against programming errors. If a constraint violation occurs, the error messages coming from the database aren't standardized by the runtimes but presented as-is.
 
+As developer of an application, you have to ensure in your implementation that the data written to the database is consistent.
+For example, user input must be checked by the application.
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 
-
-**this is the text from spec meeting wiki, needs to be reworked:**  
-If a user runs into a FK constraint error, there is nothing he/she can do, but it signals that the implementation of the app itself has deficiencies
-→ the FK constraint is on the level of an assertion.
-Thus a FK violation error is a signal to the app developer that he needs to do something. This signal comes quite late, only when the app is already up and running.
-In the same sense the deployment error  due to trigger limit is an early signal to the app developer that he needs to think about a mechanism in the app that ensures that no wrong data can get in to the DB.
+Database constraints act as a last line of defense that protect the integrity of your data
+in the database layer against programming errors, like an assertion.
+If a constraint violation occurs, the error message coming from the database isn't standardized by the runtimes but presented as-is.
+Such an error is a (late) signal to the _application developer_ that the implementation of the app itself has deficiencies.
 
 :::
 
+On SAP HANA, database constraints are internally implemented via triggers on both
+related tables. HANA allows no more than 1024 triggers for a table,
+resulting in limits for managed associations with database constraints switched on:
+An entity can't contain more than 1024 such associations, and a given entity cannot be
+the target of more than 1024 associations. If you run into this limitation, deactivate
+database level constraints (globally or selectively for some associations)
+and implement another mechanism to assert data integrity.
 
 
 ## Using Native Features  { #native-db-functions}

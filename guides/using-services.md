@@ -1622,7 +1622,7 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 | `where`                           | <Y/> |  <Y/>   |
 | `orderby`                         | <Y/> |  <Y/>   |
 | `limit` (top & skip)              | <Y/> |  <Y/>   |
-| `$apply` (groupedby, ...)         | <X/> |  <X/>   |
+| `$apply` (groupby, ...)           | <X/> |  <X/>   |
 | `$search` (OData v4)              | <Y/> |  <Y/>   |
 | `search` (SAP OData v2 extension) | <Y/> |  <Y/>   |
 

@@ -490,13 +490,12 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
-This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring outbox: false in the configuration, for example, as we do in the default configuration for development:
+This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring outbox: false in the configuration, for example, as shown in the following snippet for profile `development`:
 
 ```json
 {
    "audit-log": {
      "[development]": {
-       "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
        "outbox": false // [!code focus]
      }
    }

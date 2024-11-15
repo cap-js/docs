@@ -75,15 +75,15 @@
 
         Specify the service plan.
 
-
     <em>cds add cloud-logging</em>
 
       --plan
 
-        Override the service plan used for the MTA generation.      --with-telemetry
+        Override the service plan used for the MTA generation.
+
+      --with-telemetry
 
         Add telemetry capabilities.
-
 
     <em>cds add completion</em>
 
@@ -92,7 +92,6 @@
         &lt;optional&gt; Forces completion setup for a given shell and disables auto detection.
         Usually the shell is determined automatically and this is only for cases where the automatic
         detection fails. Valid values: bash, fish, gitbash, ps, zsh.
-
 
     <em>cds add data</em>
 
@@ -118,20 +117,17 @@
 
         The output target folder.
 
-
     <em>cds add enterprise-messaging</em>
 
       --cloudevents | -c
 
         Use CloudEvents formatting.
 
-
     <em>cds add enterprise-messaging-shared</em>
 
       --cloudevents | -c
 
         Use CloudEvents formatting.
-
 
     <em>cds add handler</em>
 
@@ -147,13 +143,11 @@
         Custom output directory.
         For Java, the default is 'handlers'. For Node.js, the default is 'srv'.
 
-
     <em>cds add helm</em>
 
       --y
 
         If provided, the default values will be used for all prompts.
-
 
     <em>cds add http</em>
 
@@ -165,11 +159,15 @@
 
       --for-app | -a
 
-        Specify the name of the app to generate requests for. If not specified, localhost and default auth will be used.
+        Specify the name of the app to generate requests for.
+        If not specified, localhost and default auth will be used.
 
       --out | -o
 
-        The output directory. By default, an `http` dir will be created in one of the following: test/tests/__tests__, whichever already exists. If none exists, an `http` dir will be created at the root level.      --dry
+        The output directory.
+        By default, an `http` dir is created in either `test/`, `tests/`, `__tests__/`, or at the root level.
+
+      --dry
 
         Print the generated requests to the console instead of writing them to a file.
 

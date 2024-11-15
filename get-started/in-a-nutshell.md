@@ -600,6 +600,10 @@ bookshop/
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
+::: tip Auto-generate handlers
+You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler).
+:::
+
 </div>
 
 <div class="impl java">
@@ -634,14 +638,19 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 
 ::: code-group
 ```js [srv/cat-service.js]
-module.exports = function (){
-  // Register your event handlers in here, for example, ...
-  this.after ('each','Books', book => {
-    if (book.stock > 111) {
-      book.title += ` -- 11% discount!`
-    }
-  })
-}
+const cds = require('@sap/cds')
+module.exports = class CatalogService extends cds.ApplicationService { init() {
+  const { Books } = cds.entities('CatalogService')
+
+  // Register your event handlers in here, for example:  // [!code focus]
+  this.after ('each', Books, book => { // [!code focus]
+    if (book.stock > 111) { // [!code focus]
+      book.title += ` -- 11% discount!` // [!code focus]
+    } // [!code focus]
+  }) // [!code focus]
+
+  return super.init()
+}}
 ```
 :::
 
@@ -712,7 +721,7 @@ Quite frequently, event handler implementations consume other services, sending 
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = async function (){
+module.exports = class CatalogService extends cds.ApplicationService { async init() {
 
   const db = await cds.connect.to('db') // connect to database service
   const { Books } = db.entities         // get reflected definitions
@@ -730,7 +739,9 @@ module.exports = async function (){
   this.after ('each','Books', book => {
     if (book.stock > 111) book.title += ` -- 11% discount!`
   })
-}
+
+  return super.init()
+}}
 ```
 :::
 </div>

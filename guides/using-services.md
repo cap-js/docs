@@ -1613,18 +1613,18 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 
 ### Querying API Features
 
-| Feature                           | Java | Node.js |
-|-----------------------------------|:----:|:-------:|
-| READ                              | <Y/> |  <Y/>   |
-| INSERT/UPDATE/DELETE              | <Y/> |  <Y/>   |
-| Actions                           | <Y/> |  <Y/>   |
-| `columns`                         | <Y/> |  <Y/>   |
-| `where`                           | <Y/> |  <Y/>   |
-| `orderby`                         | <Y/> |  <Y/>   |
-| `limit` (top & skip)              | <Y/> |  <Y/>   |
-| `$apply` (groupby, ...)           | <X/> |  <X/>   |
-| `$search` (OData v4)              | <Y/> |  <Y/>   |
-| `search` (SAP OData v2 extension) | <Y/> |  <Y/>   |
+| Feature                            | Java | Node.js |
+|------------------------------------|:----:|:-------:|
+| READ                               | <Y/> |  <Y/>   |
+| INSERT/UPDATE/DELETE               | <Y/> |  <Y/>   |
+| Actions                            | <Y/> |  <Y/>   |
+| `columns`                          | <Y/> |  <Y/>   |
+| `where`                            | <Y/> |  <Y/>   |
+| `orderby`                          | <Y/> |  <Y/>   |
+| `limit` (top & skip)               | <Y/> |  <Y/>   |
+| `$apply` (aggregate, groupby, ...) | <X/> |  <X/>   |
+| `$search` (OData v4)               | <Y/> |  <Y/>   |
+| `search` (SAP OData v2 extension)  | <Y/> |  <Y/>   |
 
 ### Supported Projection Features
 

@@ -600,7 +600,7 @@ bookshop/
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
-::: tip
+::: tip Auto-generate handlers
 You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler).
 :::
 

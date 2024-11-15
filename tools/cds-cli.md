@@ -335,7 +335,7 @@ cds add handler
 ```
 ```sh [Java]
 mvn compile  # let Java know what your model looks like
-cd srv       # folowing must be run from srv/
+cd srv       # following must be run from srv/
 cds add handler
 ```
 :::

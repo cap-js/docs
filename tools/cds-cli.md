@@ -148,6 +148,7 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | [`http`](#http)               |       <X/>       |       <X/>       |
 | `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
+| `esm`                         |       <X/>       |      <Na/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |

@@ -10,8 +10,12 @@
     Pick any of these:
 
       <em>completion</em>                   - shell completion for cds commands
+      <em>esm</em>                          - ESM-compatible Node.js project
       <em>tiny-sample</em>                  - add minimal sample files
       <em>sample</em>                       - add sample files including Fiori UI
+      <em>typer</em>                        - type generation for CDS models
+      <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
+      <em>handler</em>                      - handler stubs for service entities, actions and functions
       <em>mta</em>                          - Cloud Foundry deployment using mta.yaml
       <em>cf-manifest</em>                  - Cloud Foundry deployment using manifest files
       <em>helm</em>                         - Kyma deployment using Helm charts
@@ -50,9 +54,6 @@
       <em>http</em>                         - add .http files for modeled services
       <em>lint</em>                         - configure cds lint
       <em>pipeline</em>                     - CI/CD pipeline integration
-      <em>typer</em>                        - type generation for CDS models
-      <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
-      <em>handler</em>                      - handler stubs for service entities, actions and functions
 
 <strong>OPTIONS</strong>
     <em>--for | -4</em> &lt;profile&gt;
@@ -75,6 +76,7 @@
 
         Specify the service plan.
 
+
     <em>cds add cloud-logging</em>
 
       --plan
@@ -85,6 +87,7 @@
 
         Add telemetry capabilities.
 
+
     <em>cds add completion</em>
 
       --shell | -s
@@ -92,6 +95,7 @@
         &lt;optional&gt; Forces completion setup for a given shell and disables auto detection.
         Usually the shell is determined automatically and this is only for cases where the automatic
         detection fails. Valid values: bash, fish, gitbash, ps, zsh.
+
 
     <em>cds add data</em>
 
@@ -117,17 +121,20 @@
 
         The output target folder.
 
+
     <em>cds add enterprise-messaging</em>
 
       --cloudevents | -c
 
         Use CloudEvents formatting.
 
+
     <em>cds add enterprise-messaging-shared</em>
 
       --cloudevents | -c
 
         Use CloudEvents formatting.
+
 
     <em>cds add handler</em>
 
@@ -143,11 +150,13 @@
         Custom output directory.
         For Java, the default is 'handlers'. For Node.js, the default is 'srv'.
 
+
     <em>cds add helm</em>
 
       --y
 
         If provided, the default values will be used for all prompts.
+
 
     <em>cds add http</em>
 

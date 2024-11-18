@@ -42,6 +42,10 @@
   --vp-sidebar-width: 300px;
   --vp-nav-height: 44px;
 
+  &.light {
+    --vp-c-text-1: #000;
+  }
+
   /* inverts image colors in dark mode */
   &.dark {
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
@@ -90,6 +94,13 @@ main {
       text-align: center;
       color: #888;
     }
+
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      width: max-content;
+    }
+
     div.language-zsh pre code {
       line-height: 1.4em
     }
@@ -207,6 +218,15 @@ main {
     font-size: 95%;
     border-width: 0 0 0 7px;
     border-radius: 14px;
+
+    &.note {
+      background-color: #f4f4f4;
+      border-color: #999;
+      .dark & {
+        background-color: #444;
+        &, & code, & a { color: #eee; }
+      }
+    }
     &.tip {
       background-color: #dfe;
       border-color: #096;
@@ -230,7 +250,7 @@ main {
         &, & code, & a { color: #ea0; }
       }
     }
-    &.danger {
+    &.danger, &.caution {
       background-color: #fee;
       border-color: #900;
       &, & code, & a { color: #600; }
@@ -267,6 +287,7 @@ main {
   }
 
   .good { color:teal }
+  .red { color:#e00 }; .green { color:#0a0 };
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
   .constructor::before { content: 'Constructor: '; color: #999 }
   .annotation::before { content: 'Annotation: '; color: #999 }
@@ -293,6 +314,12 @@ main {
     margin-top: 0
   }
 
+  sup {
+    line-height: 0px; // remove the space between the line and the superscript
+    font-size: 80%;
+    font-weight: 600;
+    color: #777;
+  }
 }
 
 // Menu Sidebar
@@ -320,8 +347,15 @@ aside.VPSidebar {
   }
 }
 
-// "On this page" Outlines
+// "On this page" outlines
 div.aside nav {
+
+  .outline-title {
+    &:hover { color: var(--vp-c-brand-1) }
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+
   .outline-link {
     font-weight: inherit;
   };
@@ -364,13 +398,13 @@ kbd {
 
 .learn-more {
   font-style: italic;
+  font-size: 95%;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-  & { color: #999 !important; .dark & { color: #777 !important }};
-
+  &, & a { color: #999 !important; .dark &, & a { color: #777 !important }};
   &::before {
-    content: url('/images/learn-more.svg');
+    content: url('/learn-more.svg');
     vertical-align: middle;
     height: 20px;
     width: 20px;

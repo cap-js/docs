@@ -48,7 +48,7 @@ export class MenuItem {
     const root = dirname(parent), folder = dirname(filename)
     const rewrite = _inline ? _rewrite : link => link[0] === '/' ? link : _rewrite (normalize(join(folder,link)))
     const {items} = await Menu.from (join(root,filename), rewrite)
-    this.items = items
+    const children = this.items ??= []; children.push (...items)
     this.link = '/'+folder+'/'
     this.collapsed = true
   }
@@ -66,35 +66,37 @@ export class Menu extends MenuItem {
     DEBUG?.('reading:', relative(cwd,file))
     const lines = await fs.readFile(resolve(file),'utf8') .then (s => s.split('\n'))
     const menu = new this, children = [ menu ] // stack of recent children, used below
-    const includes = []
 
-    lines.forEach ((line,i) => { if (!line) return //> skip empty lines
+    for (let i=0; i<lines.length; i++) {
+      const each = lines[i]; if (!each) continue //> skip empty lines
 
       // Parse line into hashes, text, and link
       let [, hashes, text, link ] =
-        /^\s*(#+)\s*\[(.*)\]\((.*)\)/.exec(line) || // with link
-        /^\s*(#+)\s(.*)/.exec(line) || []          // without link
-      if (!hashes) return //> skip lines not starting with #es
+        /^\s*(#+)\s*\[(.*)\]\((.*)\)/.exec(each) || // with link
+        /^\s*(#+)\s(.*)/.exec(each) || []          // without link
+      if (!hashes) continue //> skip lines not starting with #es
 
       // Get parent from stack -> it's the recent stack entry with less hashes
       let parent = children [hashes.length-1]
-      if (!parent) throw new Error (`Missing parent for: ${line.trim()} at ${relative(cwd,file)}:${i+1}`)
+      if (!parent) throw new Error (`Missing parent for: ${each.trim()} at ${relative(cwd,file)}:${i+1}`)
 
       // Rewrite link and skip if excluded
       let is_submenu = /\/(_?menu.md)$/.exec(link)
       if (link) {
         if (link[0] !== '/' && !is_submenu) link = rewrite(link)
-        if (exclude(link) || !include(link))
-          return DEBUG?.('skipped:', line.trim(), 'at', relative(cwd,file)+'.'+(i+1))
+        if (exclude(link) || !include(link)) {
+          DEBUG?.('skipped:', each.trim(), 'at', relative(cwd,file)+'.'+(i+1))
+          continue
+        }
       }
 
       // Add new item to parent, and to the stack of children
       let child = !text ? parent : children[hashes.length] = parent.add (text, link)
-      if (is_submenu) includes.push( child.include (link, file, rewrite, !text) )
-    })
+      if (is_submenu) await child.include (link, file, rewrite, !text)
+    }
 
     // Return menu when all includes are done
-    return Promise.all (includes) .then (() => menu)
+    return menu
   }
 
   /**

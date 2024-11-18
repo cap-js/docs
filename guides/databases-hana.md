@@ -270,7 +270,7 @@ Vector embeddings are numerical representations that capture important features 
 
 Typically vector embeddings are computed using an **embedding model**. The embedding model is specifically designed to capture important features and semantics of a specific type of data, it also determines the dimensionality of the vector embedding space. Unified consumption of embedding models and LLMs across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
-In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types):
 
 ```cds
 entity Books : cuid { // [!code focus]
@@ -457,7 +457,7 @@ For all transitions you want to execute in HDI, you need to specify an undeploy 
 :::tip Moving From _.hdbcds_ To _.hdbtable_
 There a migration guide providing you step-by-step instructions for making the switch.
 
-[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler-hdbcds-to-hdbtable){.learn-more}
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler/hdbcds-to-hdbtable){.learn-more}
 :::
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}

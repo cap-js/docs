@@ -508,12 +508,16 @@ Instead of in-memory databases we can also use persistent ones. For example, sti
 ::: code-group
 
 ```json [package.json]
-{ "cds": { "requires": {
-  "db": {
-      "kind": "sqlite",
-      "credentials": { "url": "db.sqlite" } // [!code focus]
+{
+  "cds": {
+    "requires": {
+      "db": {
+          "kind": "sqlite",
+          "credentials": { "url": "db.sqlite" } // [!code focus]
+      }
+    }
   }
-}}}
+}
 ```
 
 :::
@@ -583,16 +587,22 @@ In Node.js, the easiest way to provide implementations for services is through e
 
 <div class="impl node">
 
-```console
-./srv
-  - cat-service.cds  # service definitions
-  - cat-service.js   # service implementation
-...
+```zsh
+bookshop/
+├─ srv/
+│ ├─ ...
+│ ├─ cat-service.cds # [!code focus]
+│ └─ cat-service.js # [!code focus]
+└─ ...
 ```
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
+
+::: tip Auto-generate handlers
+You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler).
+:::
 
 </div>
 
@@ -628,14 +638,19 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 
 ::: code-group
 ```js [srv/cat-service.js]
-module.exports = function (){
-  // Register your event handlers in here, for example, ...
-  this.after ('each','Books', book => {
-    if (book.stock > 111) {
-      book.title += ` -- 11% discount!`
-    }
-  })
-}
+const cds = require('@sap/cds')
+module.exports = class CatalogService extends cds.ApplicationService { init() {
+  const { Books } = cds.entities('CatalogService')
+
+  // Register your event handlers in here, for example:  // [!code focus]
+  this.after ('each', Books, book => { // [!code focus]
+    if (book.stock > 111) { // [!code focus]
+      book.title += ` -- 11% discount!` // [!code focus]
+    } // [!code focus]
+  }) // [!code focus]
+
+  return super.init()
+}}
 ```
 :::
 
@@ -649,14 +664,14 @@ Now that you have created the classes for your custom handlers it's time to add 
 
 ::: code-group
 ```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
-    @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-	public void addDiscountIfApplicable(List<Books> books) {
-		for (Books book : books) {
-			if (book.getStock() != null && book.getStock() > 111) {
-				book.setTitle(book.getTitle() + " -- 11% discount!");
-			}
-		}
-	}
+  @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+  public void addDiscountIfApplicable(List<Books> books) {
+    for (Books book : books) {
+      if (book.getStock() != null && book.getStock() > 111) {
+        book.setTitle(book.getTitle() + " -- 11% discount!");
+      }
+    }
+  }
 ```
 :::
 
@@ -666,14 +681,11 @@ Now that you have created the classes for your custom handlers it's time to add 
 package com.sap.capire.bookshop.handlers;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
-
 import com.sap.cds.services.cds.CqnService;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.After;
 import com.sap.cds.services.handler.annotations.ServiceName;
-
 import cds.gen.catalogservice.Books;
 import cds.gen.catalogservice.Books_;
 import cds.gen.catalogservice.CatalogService_;
@@ -681,17 +693,15 @@ import cds.gen.catalogservice.CatalogService_;
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 public class CatalogServiceHandler implements EventHandler {
-	@After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-	public void addDiscountIfApplicable(List<Books> books) {
-		for (Books book : books) {
-			if (book.getStock() != null && book.getStock() > 111) {
-				book.setTitle(book.getTitle() + " -- 11% discount!");
-			}
-		}
-	}
+  @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+  public void addDiscountIfApplicable(List<Books> books) {
+    for (Books book : books) {
+      if (book.getStock() != null && book.getStock() > 111) {
+        book.setTitle(book.getTitle() + " -- 11% discount!");
+      }
+    }
+  }
 }
-
-
 ```
 :::
 
@@ -711,7 +721,7 @@ Quite frequently, event handler implementations consume other services, sending 
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = async function (){
+module.exports = class CatalogService extends cds.ApplicationService { async init() {
 
   const db = await cds.connect.to('db') // connect to database service
   const { Books } = db.entities         // get reflected definitions
@@ -729,7 +739,9 @@ module.exports = async function (){
   this.after ('each','Books', book => {
     if (book.stock > 111) book.title += ` -- 11% discount!`
   })
-}
+
+  return super.init()
+}}
 ```
 :::
 </div>
@@ -742,22 +754,22 @@ module.exports = async function (){
 @ServiceName(CatalogService_.CDS_NAME)
 public class SubmitOrderHandler implements EventHandler {
 
-    private final PersistenceService persistenceService;
+  private final PersistenceService persistenceService;
 
-    public SubmitOrderHandler(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
-    }
+  public SubmitOrderHandler(PersistenceService persistenceService) {
+    this.persistenceService = persistenceService;
+  }
 
-    @On
-    public void onSubmitOrder(SubmitOrderContext context) {
-        Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
-        Books book = persistenceService.run(byId).single().as(Books.class);
-        if (context.getQuantity() > book.getStock())
-            throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
-        book.setStock(book.getStock() - context.getQuantity());
-        persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
-        context.setCompleted();
-    }
+  @On
+  public void onSubmitOrder(SubmitOrderContext context) {
+    Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
+    Books book = persistenceService.run(byId).single().as(Books.class);
+    if (context.getQuantity() > book.getStock())
+      throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+    book.setStock(book.getStock() - context.getQuantity());
+    persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
+    context.setCompleted();
+  }
 }
 ```
 :::
@@ -768,14 +780,12 @@ public class SubmitOrderHandler implements EventHandler {
 package com.sap.capire.bookshop.handlers;
 
 import org.springframework.stereotype.Component;
-
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.Update;
 import com.sap.cds.services.handler.EventHandler;
 import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import com.sap.cds.services.persistence.PersistenceService;
-
 import cds.gen.catalogservice.Books;
 import cds.gen.catalogservice.Books_;
 import cds.gen.catalogservice.CatalogService_;
@@ -785,24 +795,24 @@ import cds.gen.catalogservice.SubmitOrderContext;
 @ServiceName(CatalogService_.CDS_NAME)
 public class SubmitOrderHandler implements EventHandler {
 
-    private final PersistenceService persistenceService;
+  private final PersistenceService persistenceService;
 
-    public SubmitOrderHandler(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
-    }
+  public SubmitOrderHandler(PersistenceService persistenceService) {
+    this.persistenceService = persistenceService;
+  }
 
-    @On
-    public void onSubmitOrder(SubmitOrderContext context) {
-        Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
-        Books book = persistenceService.run(byId).single().as(Books.class);
-        if (context.getQuantity() > book.getStock())
-            throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
-        book.setStock(book.getStock() - context.getQuantity());
+  @On
+  public void onSubmitOrder(SubmitOrderContext context) {
+    Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
+    Books book = persistenceService.run(byId).single().as(Books.class);
+    if (context.getQuantity() > book.getStock())
+      throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+    book.setStock(book.getStock() - context.getQuantity());
 
-        persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
+    persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
 
-        context.setCompleted();
-    }
+    context.setCompleted();
+  }
 }
 
 

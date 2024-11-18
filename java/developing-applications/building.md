@@ -337,6 +337,7 @@ It supports the following command-line options:
 | `-DinMemoryDatabase=[h2\|sqlite]` | Specify which in-memory database is used for local testing. If not specified, the default value is `h2`. |
 | `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `21`. |
 | `-Dpersistence=[true\|false]` | Specify whether persistence is enabled (`true`) or disabled (`false`). Defaults to `true`. |
+| `-DcdsdkVersion=<a valid cds-dk version>` | Sets the provided cds-dk version in the project. If not specified, the default of CAP Java is used. |
 
 
 ## Building Projects with Maven { #maven-build-options }

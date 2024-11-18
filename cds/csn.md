@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [JSON Schema]: https://json-schema.org
 [OpenAPI]: https://www.openapis.org
 
-# Schema Notation (CSN)
+# Core Schema Notation (CSN)
 
 CSN (pronounced as "_Season_") is a notation for compact representations of CDS models — tailored to serve as an optimized format to share and interpret models with minimal footprint and dependencies.
 
@@ -551,7 +551,7 @@ with:
 
 ### Extend with \<named aspect\>
 
-The most basic form allows to express an extension of a named definition with another named definition (&rarr; see [Named Aspects](cdl#aspect)):
+The most basic form allows to express an extension of a named definition with another named definition (&rarr; see [Named Aspects](cdl#named-aspects)):
 
 ```js
 csn = { extensions:[

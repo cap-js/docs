@@ -675,10 +675,10 @@ CAP runtime differentiates several types of error situations during request proc
 In general, **exceptions immediately stop the execution of the current request**.
 
 In Java, the thrown [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is automatically scoped to the current request by means of thread isolation.
-{ .impl .java }
+{ .java }
 
 CAP Node.js adds an exception wrapper to ensure that only the failing request is affected by the exception.
-{ .impl .node }
+{ .node }
 
 Customers can react in dedicated exception handlers if necessary.
 

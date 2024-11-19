@@ -15,6 +15,7 @@
   }
 }
 
+
 :root {
   // add Avenir Next first
   --vp-font-family-base: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif,
@@ -42,12 +43,15 @@
   --vp-sidebar-width: 300px;
   --vp-nav-height: 44px;
 
-  &.light {
-    --vp-c-text-1: #000;
-  }
+  --vp-c-text-1: #000;
+  h1, h2, h3, h4, h5 { color: rgba(60, 60, 67) }
+
 
   /* inverts image colors in dark mode */
   &.dark {
+    h1, h2, h3, h4, h5 { color: var(--vp-c-text-1) }
+    --vp-c-text-1: rgba(255, 255, 245, 0.86);
+
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
     img, svg.adapt-dark {
       filter: brightness(.884) invert(1) hue-rotate(177deg)
@@ -90,6 +94,37 @@ main {
     ul, ol {
       padding-left: 2.5em;
     }
+
+    .step-by-step {
+      ol {
+        counter-reset: my-counter;
+        margin-left: 20px;
+        > li {
+          counter-increment: my-counter;
+          list-style: none;
+          margin-top: 30px;
+          &::before {
+            content: counter(my-counter);
+            color: var(--vp-c-text-2);
+            background-color: var(--vp-code-bg);
+            width: 31px;
+            height: 30px;
+            background-size: 30px;
+            line-height: 31px;
+            border-radius: 50%;
+            font-weight: 600;
+            text-align: center;
+            font-size: 16px;
+            display: inline-block;
+            position: absolute;
+            // top: -3px;
+            margin-left: -50px;
+            margin-top: -3px;
+          }
+        }
+      }
+    }
+
     .caption {
       text-align: center;
       color: #888;
@@ -396,13 +431,24 @@ kbd {
   padding-left: 22px;
 }
 
-.learn-more {
+a.learn-more, .learn-more {
   font-style: italic;
-  font-size: 95%;
   margin-top: -5px;
   margin-bottom: 5px;
   display: block;
-  &, & a { color: #999 !important; .dark &, & a { color: #777 !important }};
+  &, & a {
+    font-weight: 400;
+    color: #666 ;
+    .dark & {
+      color: #999
+    }
+    em {
+      font-weight: 500;
+    }
+  };
+  & a:hover {
+    color: var(--vp-c-brand-1);
+  }
   &::before {
     content: url('/learn-more.svg');
     vertical-align: middle;
@@ -411,6 +457,9 @@ kbd {
     display: inline-block;
     margin-right: 5px;
   }
+  + .learn-more {
+    margin-top: -9px;
+  }
 }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */
@@ -418,11 +467,15 @@ tr:nth-child(odd) {
   background-color: var(--vp-c-bg);
 }
 
-html.java .node {
-  display: none;
+html.java {
+  & node, & .node {
+    display: none;
+  }
 }
-html.node .java {
-  display: none;
+html.node {
+  & java, & .java {
+    display: none;
+  }
 }
 
 /* expand width on big screens */

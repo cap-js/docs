@@ -18,6 +18,13 @@ const { frontmatter } = useData()
 <template>
 
   <Layout>
+    <template #layout-top>
+      <ScrollToTop />
+      <slot name="layout-top" />
+    </template>
+    <template #doc-top>
+      <slot name="doc-top" />
+    </template>
     <template #not-found>
       <NotFound />
     </template>

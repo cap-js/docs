@@ -468,12 +468,12 @@ tr:nth-child(odd) {
 }
 
 html.java {
-  & node, & .node {
+  & .node {
     display: none;
   }
 }
 html.node {
-  & java, & .java {
+  & .java {
     display: none;
   }
 }

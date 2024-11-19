@@ -482,6 +482,8 @@ For SAP Cloud Logging, the JSON formatter uses the following default configurati
 }
 ```
 
+In order for the JSON formatter to detect the binding to SAP Cloud Logging via user-provided service, the user-provided service must have a tag `cloud-logging`.
+
 As always, both defaults are overridable via [cds.env](cds-env#cds-env).
 
 

@@ -148,12 +148,17 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | [`http`](#http)               |       <X/>       |       <X/>       |
 | `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
+| `esm`                         |       <X/>       |      <Na/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
-| [`handler`](#handler)         |       <Na/>      |       <X/>       |
+| [`handler`](#handler)         |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
+
+::: details See the full help text of `cds add`
+<!--@include: ./assets/help/cds-add.out.md -->
+:::
 
 ### data {.add}
 
@@ -319,30 +324,36 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
-### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+### handler <Since version="8.5.0" of="@sap/cds-dk" /> {.add}
 
-Generates handler stubs for actions and functions in Java projects.
+Generates handler stubs for actions and functions for both Java and Node.js projects.
 
-Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
-```sh
+To generate handler files, run:
+
+::: code-group
+```sh [Node.js]
 cds add handler
 ```
+```sh [Java]
+mvn compile  # let Java know what your model looks like
+cd srv       # following must be run from srv/
+cds add handler
+```
+:::
+
+The files contain handlers for
+- actions and functions
+- service entities (Node.js only)
 
 
 #### Filtering {#handler-filtering}
 
-Use the `--filter` option to create handlers for specific actions and functions.
+Use the `--filter` option to create handlers for specific actions/functions or entities.
 
 ```sh
 cds add handler --filter submitOrder
+cds add handler --filter Books
 ```
-
-#### More Options
-
-| Option | Description |
-| --- | --- |
-| `--out` | Specify custom output directories |
-| `--force` | Overwrite existing files |
 
 
 ## cds env

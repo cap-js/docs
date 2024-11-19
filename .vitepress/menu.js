@@ -44,9 +44,9 @@ export class MenuItem {
    * Reads a submenu from the given file and adds all its items
    * into this item's child items.
    */
-  async include (filename, parent='.', _rewrite = rewrites, _inline) {
+  async include (filename, parent='.', _rewrite = rewrites) {
     const root = dirname(parent), folder = dirname(filename)
-    const rewrite = _inline ? _rewrite : link => link[0] === '/' ? link : _rewrite (normalize(join(folder,link)))
+    const rewrite = link => link[0] === '/' ? link : _rewrite (normalize(join(folder,link)))
     const {items} = await Menu.from (join(root,filename), rewrite)
     const children = this.items ??= []; children.push (...items)
     this.link = '/'+folder+'/'

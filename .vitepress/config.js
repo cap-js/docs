@@ -8,7 +8,7 @@ import path from 'node:path'
 
 const config = defineConfig({
 
-  title: 'cap≽ire',
+  title: 'capire',
   titleTemplate: ':title | capire', // for the window title
   description: 'Documentation for SAP Cloud Application Programming Model',
 

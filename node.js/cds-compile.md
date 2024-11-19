@@ -310,7 +310,7 @@ let csn = cds.parse.cdl (`entity Foo{}`)
 
 ### `CQL`, cds. parse. cql() {.method #parse-cql }
 
-Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_][../cds/cqn].
+Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn).
 
 Examples:
 ```js

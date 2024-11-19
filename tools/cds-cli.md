@@ -449,6 +449,35 @@ Query {
 }
 </pre>
 
+## Debugging with `cds debug` <Beta /> {.nodejs}
+
+`cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
+
+To debug remote applications in the currently targeted CF space, run:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">bookshop-srv</span>
+
+Opening SSH tunnel for CF app 'bookshop-srv'
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
+
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+Without an app name, `cds debug` starts `cds watch --debug` locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'cds watch --debug'
+...
+Debugger listening on ws://127.0.0.1:9229/...
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+[cds] - ...
+</pre>
+
 ## Debugging with `cds watch`
 
 Start `cds watch` and enter `debug`. This restarts the application in debug mode. Similarly, `debug-brk` will start debug mode, but pause the application at the first line, so that you can debug bootstrap code.

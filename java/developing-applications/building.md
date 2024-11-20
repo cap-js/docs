@@ -24,7 +24,7 @@ The [modular architecture](#modular_architecture) reflects this requirement, all
 One of the basic design principle of the CAP Java is to keep orthogonal functionality separated in independent components.
 The obvious advantage of this decoupling is that it makes concrete components exchangeable independently.
 Hence, it reduces the risk of expensive adaptions in custom code, which can be necessary due to new requirements with regards to the platform environment or used version of platform services.
-Hence, the application is [platform **and** service agnostic](../../about/#agnostic-approach).
+Hence, the application is [platform **and** service agnostic](../../about/#agnostic-design).
 
 For instance, custom code doesn't need to be written against the chosen type of persistence service, but can use the generic persistence service based on [CQL](../working-with-cqn/../working-with-cql/query-api).
 Likewise, the application isn't aware of the concrete (cloud) platform environment in which it gets embedded.
@@ -94,7 +94,7 @@ Note that different endpoints can be served by different protocol adapters at th
 
 ### Service Providers { #service-providers}
 
-Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../about/#domain-modeling).
+Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../guides/domain-modeling).
 Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface.
 As described in CAPs [core concepts](../../about/#services), services share the same generic provider interface and are implemented by event handlers.
 The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model.

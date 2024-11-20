@@ -3,8 +3,6 @@ synopsis: >
   Learn here about developing a CAP Java application.
 
 status: released
-- java/development
-- java/development/
 ---
 
 # Developing CAP Java Applications

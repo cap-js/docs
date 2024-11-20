@@ -46,21 +46,21 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 - Create a new project using `cds init`
 
-   <div class="impl node">
+   <span class="impl node">
 
    ```sh [Node.js]
    cds init bookshop
    ```
 
-   </div>
+   </span>
 
-   <div class="impl java">
+   <span class="impl java">
 
    ```sh [Java]
    cds init bookshop --java --java:mvn -DgroupId=com.sap.capire
    ```
 
-   </div>
+   </span>
 
 - Open the project in VS Code
 
@@ -74,35 +74,35 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 - Run the following command in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
-   <div class="impl node">
+   <span class="impl node">
 
    ```sh [Node.js]
    cds watch
    ```
 
-   </div>
+   </span>
 
-   <div class="impl java">
+   <span class="impl java">
 
    ```sh [Java]
    cd srv && mvn cds:watch
    ```
 
-   </div>
+   </span>
 
    ::: details `cds watch` is waiting for things to come...
 
    ```log
    [dev] cds w
-
+   
    cds serve all --with-mocks --in-memory?
    live reload enabled for browsers
-
+   
          ___________________________
-
+   
      No models found in db/,srv/,app/,schema,services. // [!code focus]
      Waiting for some to arrive... // [!code focus]
-
+   
    ```
 
    So, let's go on feeding it...
@@ -156,7 +156,7 @@ _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-sam
 
 ### Deployed to Databases {#deployed-in-memory}
 
-<div class="impl node">
+<span class="impl node">
 
 As soon as you save the *schema.cds* file, the still running `cds watch` reacts immediately with new output like this:
 
@@ -167,14 +167,14 @@ As soon as you save the *schema.cds* file, the still running `cds watch` reacts 
 
 This means that `cds watch` detected the changes in _db/schema.cds_ and automatically bootstrapped an in-memory _SQLite_ database when restarting the server process.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 As soon as you save your CDS file, the still running `mvn cds:watch` command reacts immediately with a CDS
 compilation and reload of the CAP Java application. The embedded database of the started application will reflect the schema defined in your CDS file.
 
-</div>
+</span>
 
 ### Compiling Models {#cli}
 
@@ -200,7 +200,7 @@ cds db/schema.cds -2 sql
 ## Providing Services {#services}
 
 
-<div class="impl node">
+<span class="impl node">
 
 After the recent changes, `cds watch` also prints this message:
 
@@ -209,13 +209,13 @@ No service definitions found in loaded models.
 Waiting for some to arrive...
 ```
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 After the recent changes, the running CAP Java application is still not exposing any service endpoints.
 
-</div>
+</span>
 
 So, let's go on feeding it with two service definitions for different use cases:
 
@@ -255,7 +255,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 
 ### Served via OData
 
-<div class="impl node">
+<span class="impl node">
 
 This time `cds watch` reacted with additional output like this:
 
@@ -268,9 +268,9 @@ This time `cds watch` reacted with additional output like this:
 
 As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/admin_ and _/browse_.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
@@ -290,7 +290,7 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
 
 :::
 
-</div>
+</span>
 
 
 > [!tip]
@@ -315,7 +315,7 @@ While we don't really need such explicit compile steps, you can do this to test 
 
 ### Generic *index.html*
 
-<div class="impl node">
+<span class="impl node">
 
 Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
 
@@ -323,9 +323,9 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 > Note: User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
 
@@ -333,7 +333,7 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 
 > Note: User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
 
-</div>
+</span>
 
 
 
@@ -376,7 +376,7 @@ ID,name
 
 [Find a full set of `.csv` files in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/data){ .learn-more target="_blank"}
 
-<div class="impl node">
+<span class="impl node">
 
 After you've added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
@@ -393,9 +393,9 @@ After you've added these files, `cds watch` restarts the server with output, tel
 
 > Note: This is the output when you're using the [samples](https://github.com/sap-samples/cloud-cap-samples). It's less if you've followed the manual steps here.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 After you've added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
@@ -404,7 +404,7 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
 ```
 
-</div>
+</span>
 
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
@@ -515,7 +515,7 @@ While the generic providers serve most CRUD requests out of the box, you can add
 
 In Node.js, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file: {.impl .node}
 
-<div class="impl node">
+<span class="impl node">
 
 ```zsh
 bookshop/
@@ -532,9 +532,9 @@ bookshop/
 
 You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler). {.learn-more}
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
 
@@ -552,7 +552,7 @@ public class CatalogServiceHandler implements EventHandler {
 Place the code in your package of choice and use your IDE to generate the needed `import` statements.
 :::
 
-</div>
+</span>
 
 
 
@@ -560,7 +560,7 @@ Place the code in your package of choice and use your IDE to generate the needed
 
 Service implementations essentially consist of one or more event handlers.
 
-<div class="impl node">
+<span class="impl node">
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
@@ -585,9 +585,9 @@ module.exports = CatalogService
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 
@@ -637,7 +637,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 [Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers/#handlerclasses){.learn-more}
 
-</div>
+</span>
 
 
 
@@ -645,7 +645,7 @@ public class CatalogServiceHandler implements EventHandler {
 
 Quite frequently, event handler implementations consume other services, sending requests and queries, as in the completed example below.
 
-<div class="impl node">
+<span class="impl node">
 
 ::: code-group
 ```js [srv/cat-service.js]
@@ -674,9 +674,9 @@ class CatalogService extends cds.ApplicationService { async init() {
 module.exports = CatalogService
 ```
 :::
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 ::: code-group
 ```java [srv/src/main/java/com/sap/capire/bookshop/handlers/SubmitOrderHandler.java]
@@ -749,7 +749,7 @@ public class SubmitOrderHandler implements EventHandler {
 ```
 :::
 
-</div>
+</span>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
 [Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
@@ -766,7 +766,7 @@ public class SubmitOrderHandler implements EventHandler {
 
 Test the implementation by submitting orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
-<div class="impl node">
+<span class="impl node">
 
 ::: code-group
 
@@ -784,9 +784,9 @@ Authorization: Basic alice:
 
 :::
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 ::: code-group
 
@@ -804,7 +804,7 @@ Authorization: Basic authenticated:
 
 :::
 
-</div>
+</span>
 
 
 ## Summary

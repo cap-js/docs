@@ -321,6 +321,14 @@ main {
     margin: 30px auto;
   }
 
+  img.zoom75 { zoom: 75% }
+  img.zoom66 { zoom: 66% }
+  img.zoom50 { zoom: 50% }
+  img.zoom44 { zoom: 44% }
+  img.zoom40 { zoom: 40% }
+  img.zoom33 { zoom: 33% }
+  img.zoom25 { zoom: 25% }
+
   .good { color:teal }
   .red { color:#e00 }; .green { color:#0a0 };
   .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
@@ -461,6 +469,8 @@ a.learn-more, p.learn-more, .learn-more {
     margin-top: 7px;
   }
 }
+
+.VPBadge { white-space: nowrap; }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */
 tr:nth-child(odd) {

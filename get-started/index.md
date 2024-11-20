@@ -1,3 +1,8 @@
+---
+status: released
+
+---
+
 # Getting Started
 
 Very First Steps {.subtitle}

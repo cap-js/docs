@@ -3,9 +3,6 @@ synopsis: >
   This guide introduces how to define and implement services, leveraging
   generic implementations provided by the CAP runtimes, complemented by
   domain-specific custom logic.
-redirect_from:
-- guides/services
-- guides/generic
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -917,7 +914,7 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 ```
 >  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
 
-::: warning Support in latest runtimes 
+::: warning Support in latest runtimes
 
 Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
 

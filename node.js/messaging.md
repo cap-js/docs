@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---

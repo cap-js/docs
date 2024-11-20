@@ -3,7 +3,6 @@ synopsis: >
   Learn here about developing a CAP Java application.
 
 status: released
-redirect_from: 
 - java/development
 - java/development/
 ---

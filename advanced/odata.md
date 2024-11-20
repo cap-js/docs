@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -1246,7 +1244,7 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
 
 Example 1:
 

@@ -2,7 +2,6 @@
 shorty: OpenAPI
 synopsis: >
   About how to publish service APIs in OpenAPI format.
-redirect_from: advanced/openapi
 status: released
 ---
 
@@ -49,7 +48,7 @@ Here is an example where `--openapi:config-file` option is used with other inlin
 cds compile srv service.cds --to openapi --openapi:config-file configFile.json --odata-version 4.0 --openapi:diagram false
 ```
 
-In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there. 
+In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there.
 
 ## Swagger UI { #swagger-ui}
 

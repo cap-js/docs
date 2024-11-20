@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about the outbox feature.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---

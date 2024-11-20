@@ -613,7 +613,7 @@ We can also apply named aspects as **includes** in an inheritance-like syntax:
 entity Books : NamedAspect { ... }
 ```
 
-[Learn more about Aspects in the _CDS Language Reference_](../cds/cdl#aspects){ .learn-more}
+[Learn more about the usage of aspects in the _Aspect-oriented Modeling_ section](../cds/aspects).{ .learn-more}
 
 ::: tip
 

@@ -1,60 +1,17 @@
 ---
-shorty: in a Nutshell
-synopsis: >
-  Get started with CAP in a minimalistic setup.
 notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
-redirect_from: get-started/
 impl-variants: true
 ---
 
-<script setup>
-  import NotebookHint from '../.vitepress/theme/components/NotebookHint.vue'
-</script>
-
-<style scoped lang="scss">
-  ol {
-    margin-left: 10px;
-    counter-reset: my-counter;
-    li {
-      counter-increment: my-counter;
-      list-style: none;
-      margin-top: 30px;
-      &::before {
-        content: counter(my-counter);
-        color: var(--vp-c-text-2);
-        background-color: var(--vp-code-bg);
-        width: 31px;
-        height: 30px;
-        background-size: 30px;
-        line-height: 31px;
-        border-radius: 50%;
-        font-weight: 600;
-        text-align: center;
-        font-size: 16px;
-        vertical-align: middle;
-        display: inline-block;
-        position: relative;
-        top: -1px;
-        left: -40px;
-        margin-right: -25px;
-      }
-      p {
-        display: inline;
-      }
-    }
-  }
-</style>
 
 # Getting Started in a Nutshell
-
-Using a minimal setup
-{ .subtitle}
+Build Your First App with CAP {.subtitle}
 
 
-This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
 
+CAP is a full-stack framework for building cloud-native applications. It provides a set of tools and libraries to develop, deploy, and operate applications in the cloud. This guide helps you to get started with CAP by building a simple bookshop application.
 
 
 ::: details Optionally clone sample from GitHub ...
@@ -78,21 +35,16 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 :::
 
 
-<ImplVariantsHint />
-<NotebookHint />
-
 [[toc]]
 
 
 
+## Jumpstart a Project {#jumpstart}
 
 
-## Jumpstart a CAP Project {#jumpstart}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+- Assumed you completed the [*Initial Setup*](./), ...
 
-Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](../tools/cds-cli)* CLI, and *[Visual Studio Code](https://code.visualstudio.com/)* as described in the [_Jumpstart_ guide](jumpstart), ...
-
-1. Create a new project using `cds init`
+- Create a new project using `cds init`
 
    <div class="impl node">
 
@@ -108,22 +60,19 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
    cds init bookshop --java --java:mvn -DgroupId=com.sap.capire
    ```
 
-
    </div>
 
-2. Open the project in VS Code
+- Open the project in VS Code
 
    ```sh
    code bookshop
    ```
+   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
 
-   ::: details **Note:** VS Code CLI on macOS needs extra setup
-   In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
-   :::
+   For Java development in VS Code you need to [install extensions](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack). {.learn-more .java}
 
-   > For Java development in VS Code you need to [install extensions](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack).
 
-3. Run the following command in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+- Run the following command in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
 
    <div class="impl node">
 
@@ -156,14 +105,14 @@ Assumed you've installed *[Node.js](https://nodejs.org/)*, the *[@sap/cds-dk](..
 
    ```
 
-   So, let's go on adding some CDS model as follows...
+   So, let's go on feeding it...
 
    :::
 
 
 
 ## Capture Domain Models {#domain-models}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ and copy the following definitions into it:
 
@@ -199,8 +148,6 @@ entity Genres : sap.common.CodeList { // [!code focus]
 
 ```
 :::
-
-<!--- % include _code from='bookshop:db/schema.cds' %} -->
 
 _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds)_{ .learn-more}
 [Learn more about **Domain Modeling**.](../guides/domain-modeling){ .learn-more}
@@ -252,7 +199,6 @@ cds db/schema.cds -2 sql
 
 ## Providing Services {#services}
 
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
 <div class="impl node">
 
@@ -302,6 +248,7 @@ service CatalogService @(path:'/browse') { // [!code focus]
 :::
 
 *Find this source also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
+
 [Learn more about **Defining Services**.](../guides/providing-services){ .learn-more}
 
 
@@ -346,19 +293,11 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
 </div>
 
 
-::: tip CAP-based services are full-fledged OData services out of the box
-
-Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
-:::
-
-You can even use advanced query options, such as `$select`, `$expand`, `$search`, and many more. For example, try out this link:
-
-http://localhost:4004/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title {.impl .node}
-
-http://localhost:8080/odata/v4/browse/Books?$search=Brontë&$select=title,author&$expand=currency($select=code,name,symbol)&$orderby=title {.impl .java}
+> [!tip]
+>
+>  CAP-based services are full-fledged OData services out of the box. Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
 
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
-[Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 
 
@@ -376,13 +315,11 @@ While we don't really need such explicit compile steps, you can do this to test 
 
 ### Generic *index.html*
 
-<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-
 <div class="impl node">
 
 Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
 
 > Note: User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
 
@@ -392,7 +329,7 @@ Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ 
 
 Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](./assets/in-a-nutshell/welcome_java.png)
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](./assets/welcome-java.png)
 
 > Note: User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
 
@@ -403,14 +340,11 @@ Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ 
 
 
 ## Using Databases {#databases}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
-
 
 ### SQLite In-Memory {.impl .node}
 
 As [previously shown](#deployed-in-memory), `cds watch` automatically bootstraps an SQLite in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up development turn-around times, essentially by mocking your target database, for example, SAP HANA. {.impl .node}
 
-[Learn more about mocking options in **Jumpstart Development**.](./jumpstart){.learn-more .impl .node}
 
 ### H2 In-Memory {.impl .java}
 
@@ -443,11 +377,6 @@ ID,name
 [Find a full set of `.csv` files in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/data){ .learn-more target="_blank"}
 
 <div class="impl node">
-
-<!-- Add a file named `init.js` in your `db` folder. The next time you run `cds deploy` it will automatically detect that file and run it after the schema has been deployed.
-
-% include _code from='bookshop:db/init.js' %}
-[learn more about using `cds.ql` for reading and writing data](../node.js/cds-ql){ .learn-more}  -->
 
 After you've added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
@@ -551,7 +480,7 @@ cds deploy --to hana
 
 ## Serving UIs {#uis}
 
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
 
@@ -560,7 +489,7 @@ Simply add an _index.html_ file into the _app/_ folder, to replace the generic i
 
 CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori Draft.
 
-![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/in-a-nutshell/fiori-app.png){.mute-dark}
+![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/fiori-app.png)
 
 [Learn more about **Serving Fiori UIs**.](../advanced/fiori){.learn-more}
 
@@ -575,13 +504,14 @@ For example, you can [find a simple Vue.js app in **cap/samples**](https://githu
 
 
 ## Adding Custom Logic
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
+
 
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
 
-### Adding Service Implementations
+### Service Implementations
 
 In Node.js, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file: {.impl .node}
 
@@ -600,9 +530,7 @@ bookshop/
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
 [Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
-::: tip Auto-generate handlers
-You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler).
-:::
+You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler). {.learn-more}
 
 </div>
 
@@ -639,7 +567,7 @@ Copy this into _srv/cat-service.js_ to add custom event handlers:
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = class CatalogService extends cds.ApplicationService { init() {
+class CatalogService extends cds.ApplicationService { init() {
   const { Books } = cds.entities('CatalogService')
 
   // Register your event handlers in here, for example:  // [!code focus]
@@ -651,6 +579,7 @@ module.exports = class CatalogService extends cds.ApplicationService { init() {
 
   return super.init()
 }}
+module.exports = CatalogService
 ```
 :::
 
@@ -721,7 +650,7 @@ Quite frequently, event handler implementations consume other services, sending 
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = class CatalogService extends cds.ApplicationService { async init() {
+class CatalogService extends cds.ApplicationService { async init() {
 
   const db = await cds.connect.to('db') // connect to database service
   const { Books } = db.entities         // get reflected definitions
@@ -742,6 +671,7 @@ module.exports = class CatalogService extends cds.ApplicationService { async ini
 
   return super.init()
 }}
+module.exports = CatalogService
 ```
 :::
 </div>
@@ -832,7 +762,7 @@ public class SubmitOrderHandler implements EventHandler {
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
-### Sample HTTP Request
+### Sample HTTP Requests
 
 Test the implementation by submitting orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
 
@@ -877,18 +807,14 @@ Authorization: Basic authenticated:
 </div>
 
 
-## Summary and Next Steps
+## Summary
+
 With this getting started guide we introduced many of the basics of CAP, such as:
 
-- [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
 - [Domain Modeling](../guides/domain-modeling)
-- [Defining Services and APIs](../guides/providing-services)
 - [Providing Services](../guides/providing-services)
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
-- [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services#custom-logic)
+- [Serving UIs](../advanced/fiori)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/security/authorization) or [Deploying to SAP BTP](../guides/deployment/).
-
-Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.
+Visit the [***Cookbook***](../guides/) for deep dive guides on these topics and more. Also see the reference documentations for [***CDS***](../cds/), as well as [***Node.js***](../node.js/) and [***Java***](../java/) Service SDKs and runtimes.

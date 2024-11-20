@@ -462,7 +462,7 @@ Following the principle of **convention over configuration**, there's no need to
 
 CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP greatly facilitates **integration scenarios** by simply importing an API from, say, an SAP S/4 backend or from SAP API Hub and running mocks for this locally.
 
-Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
+Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code.
 
 Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
 
@@ -541,25 +541,6 @@ CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer query
 #### CAP != Business Objects
 
 Business Object Patterns promote the notion of active objects, which provide instance methods to modify their internal state. In contrast to that, CAP promotes a strict separation of passive data, read and exchanged in RESTful ways, and pure, stateless services. (→ see also the relationship to Functional Programming above). {.indent}
-
-
-
-## About Capire
-
-"*Capire*" (Italian for 'understand') is the name of our CAP documentation you're looking at right now. It's organized as follows:
-
-- [*About CAP*](../about/) — a brief introduction and overview of key concepts
-- [*Getting Started*](../get-started/jumpstart) — a few guides to get you started quickly
-- [*Cookbook*](../guides/) — task-oriented guides from an app developer's point of view
-- [*Tools*](../tools/) — choose your preferred tools
-- *Reference docs* → for [*CDS*](../cds/), [*Node.js*](../node.js/), [*Java*](../java/)
-- [*Releases*](../releases/) — information about what is new and what has changed
-- [*Resources*](../resources/) — links to other sources of information
-
-**TL;DR** — too long; didn't read — is a common social phenomenon these days. Therefore, capire is rather meagre with text and greased with code. You have to read between the lines, sorry.
-
-
-
 
 
 

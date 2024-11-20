@@ -26,14 +26,14 @@ Not supported for CAP Node.js.
 
 </div>
 
-## Setup & Configuration {.impl .java}
+## Setup & Configuration {.java}
 
-### Using the Maven Archetype {.impl .java}
+### Using the Maven Archetype {.java}
 
 When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype) or with `cds init`,
 H2 is automatically configured as in-memory database used for development and testing in the `default` profile.
 
-### Manual Configuration {.impl .java}
+### Manual Configuration {.java}
 
 To use H2, just add a Maven dependency to the H2 JDBC driver:
 
@@ -51,7 +51,7 @@ In Spring, H2 is automatically initialized as in-memory database when the driver
 
 [Learn more about the configuration of H2 ](../java/cqn-services/persistence-services#h2){.learn-more}
 
-## Features {.impl .java}
+## Features {.java}
 
 CAP supports most of the major features on H2:
 

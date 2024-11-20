@@ -71,7 +71,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
 | **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS](#cqrs) or [Event Sourcing](#event-sourcing), for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/cds-editors#bas) or [Visual Studio Code](../tools/cds-editors#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../get-started/jumpstart) CLI and any editor or IDE of your choice. |
+| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/cds-editors#bas) or [Visual Studio Code](../tools/cds-editors#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../tools/cds-cli) CLI and any editor or IDE of your choice. |
 
 
 
@@ -462,7 +462,7 @@ Following the principle of **convention over configuration**, there's no need to
 
 CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP greatly facilitates **integration scenarios** by simply importing an API from, say, an SAP S/4 backend or from SAP API Hub and running mocks for this locally.
 
-Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code. → see [*Grow-as-you-Go*](../get-started/grow-as-you-go).
+Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code.
 
 Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
 
@@ -541,25 +541,6 @@ CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer query
 #### CAP != Business Objects
 
 Business Object Patterns promote the notion of active objects, which provide instance methods to modify their internal state. In contrast to that, CAP promotes a strict separation of passive data, read and exchanged in RESTful ways, and pure, stateless services. (→ see also the relationship to Functional Programming above). {.indent}
-
-
-
-## About Capire
-
-"*Capire*" (Italian for 'understand') is the name of our CAP documentation you're looking at right now. It's organized as follows:
-
-- [*About CAP*](../about/) — a brief introduction and overview of key concepts
-- [*Getting Started*](../get-started/jumpstart) — a few guides to get you started quickly
-- [*Cookbook*](../guides/) — task-oriented guides from an app developer's point of view
-- [*Tools*](../tools/) — choose your preferred tools
-- *Reference docs* → for [*CDS*](../cds/), [*Node.js*](../node.js/), [*Java*](../java/)
-- [*Releases*](../releases/) — information about what is new and what has changed
-- [*Resources*](../resources/) — links to other sources of information
-
-**TL;DR** — too long; didn't read — is a common social phenomenon these days. Therefore, capire is rather meagre with text and greased with code. You have to read between the lines, sorry.
-
-
-
 
 
 

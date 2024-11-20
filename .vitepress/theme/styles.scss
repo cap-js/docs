@@ -431,9 +431,9 @@ kbd {
   padding-left: 22px;
 }
 
-a.learn-more, .learn-more {
+a.learn-more, p.learn-more, .learn-more {
   font-style: italic;
-  margin-top: -5px;
+  margin-top: -10px;
   margin-bottom: 5px;
   display: block;
   &, & a {
@@ -457,8 +457,8 @@ a.learn-more, .learn-more {
     display: inline-block;
     margin-right: 5px;
   }
-  + .learn-more {
-    margin-top: -9px;
+  + a.learn-more, + p.learn-more {
+    margin-top: 7px;
   }
 }
 
@@ -468,12 +468,12 @@ tr:nth-child(odd) {
 }
 
 html.java {
-  & node, & .node {
+  & .node {
     display: none;
   }
 }
 html.node {
-  & java, & .java {
+  & .java {
     display: none;
   }
 }

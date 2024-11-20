@@ -17,6 +17,13 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 
 ## Setup {#setup}
 
+
+### Can't start VSCode from Command Line on macOS {#vscode-macos}
+
+In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+
+
+
 ### Check the Node.js version { #node-version}
 
 Make sure you run the latest long-term support (LTS) version of Node.js with an even number like `20`. Refrain from using odd versions, for which some modules with native parts will have no support and thus might even fail to install. Check version with:
@@ -219,7 +226,7 @@ npm i -D @cap-js/cds-types
 
 Installing `@cap-js/cds-types` leverages VS Code's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
 
-If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_: 
+If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_:
 
 ::: code-group
 ```json [tsconfig.json]

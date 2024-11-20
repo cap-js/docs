@@ -1,6 +1,9 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
+status: released
+title: Home
+titleTemplate: ':title | capire'
 
 hero:
   name: "SAP Cloud Application Programming Model"
@@ -17,7 +20,7 @@ hero:
 
     - theme: alt
       text: Get Started
-      link: /get-started/in-a-nutshell
+      link: /get-started/
 
     - theme: alt
       text: Learn More
@@ -45,7 +48,7 @@ features:
     •&nbsp; Rapid dev at minimized costs <br/>
     •&nbsp; Grow as you go... <br/>
   link: get-started/in-a-nutshell
-  linkText: Getting Started
+  linkText: Get Started in a Nutshell
 
 - title: Proven Best Practices
   icon: 🧩

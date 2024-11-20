@@ -1,15 +1,11 @@
 
-# Getting Started
+# [Getting Started](get-started/)
 
-## [Introduction — About CAP](about/)
-## [Get Started in a Nutshell](get-started/in-a-nutshell)
-## [Jumpstart Development](get-started/jumpstart)
-## [Grow As You Go...](get-started/grow-as-you-go)
-## [Hello World!](get-started/hello-world)
-## [Sample Projects](get-started/samples)
-## [Learning Sources](get-started/learning-sources)
-## [Troubleshooting](get-started/troubleshooting)
-## [Features Overview](about/features)
+  ## [Bookshop by capire](get-started/in-a-nutshell)
+  ## [Best Practices](about/)
+  ## [Learn More](get-started/learning-sources)
+  ## [Features Matrix](about/features)
+  ## [Troubleshooting](get-started/troubleshooting)
 
 # [Cookbook](guides/)
 

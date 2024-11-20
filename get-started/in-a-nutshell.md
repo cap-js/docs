@@ -499,7 +499,7 @@ CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect
 Besides Fiori UIs, CAP services can be consumed from any UI frontends using standard AJAX requests.
 For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#services). {.impl .node}
 
-![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/in-a-nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
+![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/vue-app.png){style="margin:0" .impl .node .adapt}
 
 
 

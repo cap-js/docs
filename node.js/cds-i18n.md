@@ -503,13 +503,15 @@ $sourcedirs = $sources.map(path.dirname) //> ...
 ]
 ```
 
-> Note: reverse order means: entries in `app`  override same entries in `db`, etc.
 
 
 
 #### 3. Check for existing & matching `i18n.folders`
 
 To fetch i18n folder, these source directories are processed in reverse order, and each is checked for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename. If none match, we move up the directory tree and repeat these checks, as depicted in this matrix:
+
+> 🎯 <br>
+>Marks existing i18n subfolders containing matching `<basename>_*.properties` files.
 
 | $sourcedirs | \_i18n | i18n |
 | ----------- | :---: | :--: |
@@ -528,7 +530,7 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 | /cap/samples/bookstore/srv | | |
 | /cap/samples/bookstore | 🎯 |  |
 
-> 🎯 marks existing i18n subfolders containing matching `<basename>_*.properties` files.
+> Note on _reverse order_: means entries in `app`  override same entries in `db`, etc.
 
 
 

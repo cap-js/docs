@@ -455,7 +455,7 @@ Supported wildcards are '*' matching zero or more characters and '?' matching a 
 :::
 
 ::: warning Only Java
-Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
+Fuzzy search on SAP HANA Cloud requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
 :::
 
 

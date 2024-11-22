@@ -454,7 +454,7 @@ When using wildcards in search terms, an *exact pattern search* is performed.
 Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
 :::
 
-::: warning Only Java
+::: warning
 Fuzzy search on SAP HANA Cloud requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
 :::
 

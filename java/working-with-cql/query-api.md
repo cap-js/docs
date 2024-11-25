@@ -253,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
-#### From `entity set` {#from-entity-set}
+#### `FROM` Entity Set {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -269,7 +269,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {#from-reference}
+#### `FROM` Reference {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 
@@ -287,7 +287,7 @@ import static bookshop.Bookshop_.ORDERS;
 Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 ```
 
-#### From `subquery` {#from-select}
+#### `FROM` Subquery {#from-select}
 
 It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
@@ -1885,8 +1885,8 @@ Select.from(AUTHORS).where(a -> a.books().anyMatch(
 
 #### `EXISTS` Subquery {#exists-subquery}
 
-An `EXISTS` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
-You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
+An `exists` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
+You construct an `exists` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
@@ -1919,7 +1919,7 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 ### `IN` Subquery
 
-An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style or in tree style:
+An `in` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `in` subquery in fluent style or in tree style:
 
 ```java
 // fluent style

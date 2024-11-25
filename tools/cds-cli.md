@@ -479,10 +479,10 @@ Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
 </pre>
 
 ::: tip Scale to one application instance only
-We recommend to only scale to _one_ app instance on CF as then your request is guaranteed to hit this one instance.
-If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to, resulting in 'missed breakpoints'.
+We recommend to only scale to _one_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
 
-It is, however, possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
 :::
 
 

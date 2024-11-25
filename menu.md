@@ -3,6 +3,7 @@
 
   ## [Bookshop by capire](get-started/in-a-nutshell)
   ## [Best Practices](about/)
+  ## [Next Steps](get-started/#next-steps)
   ## [Learn More](get-started/learning-sources)
   ## [Features Matrix](about/features)
   ## [Troubleshooting](get-started/troubleshooting)

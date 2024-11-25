@@ -15,10 +15,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-<style>
-  .best-practice::before { content: 'Best Practice:  '; color: teal }
-</style>
-
 ## Intro: Core Concepts {#introduction}
 
 The following sections give a brief overview of CAP's core concepts.

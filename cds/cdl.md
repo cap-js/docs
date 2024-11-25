@@ -11,7 +11,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 
-# CDS Definition Language (CDL)
+# Conceptual Schema Definition Language (CDL)
 
 
 

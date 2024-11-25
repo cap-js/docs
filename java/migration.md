@@ -1,5 +1,5 @@
----
-synopsis: >
+
+synopsis--e: >
   This chapter contains comprehensive guides that help you to work through migrations such as from CAP Java 1.x to CAP Java 2.x.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
@@ -252,6 +252,7 @@ The following table gives an overview about the removed properties:
 - Deprecations:
   - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
+  - `com.sap.cds.services.messaging.MessageService.emit(String, String)` instead use `emit(String, Map)` or `emit(String, Map, Map)`
 
 ### Removed goals in `cds-maven-plugin`
 

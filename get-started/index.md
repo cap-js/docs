@@ -1,15 +1,35 @@
 ---
 status: released
-
 ---
 
 # Getting Started
+Your First Steps {.subtitle}
 
-Very First Steps {.subtitle}
+Welcome to CAP, and to *capire*, its one-stop documentation.
+
+[**CAP** [ˈkap(m)] — (unofficial) abbreviation for the *"SAP Cloud Application Programming Model"*](https://translate.google.com/details?sl=en&text=cap){.learn-more .dict}
+
+[**capire** [ca·pì·re] — Italian for _"understand"_](https://translate.google.com/details?sl=it&tl=en&text=capire){.learn-more .dict}
+
+<style>
+  a.dict { font-family: serif; font-weight: 100 }
+</style>
 
 
 
-## Local Setup {#setup}
+We strongly recommend to follow this flow to get started with and proficient in using CAP:
+
+| #    | Get started with...                            | to learn about...                                            | Required Time |
+| ---- | ---------------------------------------------- | ------------------------------------------------------------ | ------------- |
+| 1    | [Initial Setup](#setup)                        | Minimalistic setup to get you jump-started.                  | 1-11 minutes  |
+| 2    | [Bookshop by capire](in-a-nutshell)            | Building your first CAP application.                         | 4-44 minutes  |
+| 3    | [Best Practices](../about/) <br> → *must read* | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 7-14 hours    |
+
+So, fasten your seat belts and get started in the next section right below...
+
+
+
+## Initial Setup {#setup}
 
 Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
 
@@ -19,8 +39,8 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 
 - [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
 - [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
-- A Terminal — for using the `cds` command line interface (CLI)
-- A Text Editor → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
+- **A Terminal**{style="font-weight: 500"} — for using the `cds` command line interface (CLI)
+- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
 
 
 #### Installation
@@ -43,13 +63,13 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 
   ```sh
   USAGE
-  
+
       cds <command> [<args>]
       cds <src>  =  cds compile <src>
       cds        =  cds help
-  
+
   COMMANDS
-  
+
       i | init        jump-start cds-based projects
       a | add         add a feature to an existing project
       c | compile     compile cds models to different outputs
@@ -61,11 +81,11 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
       d | deploy      deploy to databases or cloud
       v | version     get detailed version information
       ? | help        get detailed usage information
-  
+
     Learn more about each command using:
     cds help <command> or
     cds <command> --help
-  
+
   ```
 
 
@@ -134,12 +154,13 @@ CAP has defaults for many things that you'd have to configure in other framework
 
 ## Next Steps...
 
-Follow this recommended flow of next steps, which also reflects the overall structure of this documentation:
+After you finished the [getting started](#) part, continue with the following learning sources as needed, while you grow as you go...:
 
-- [Bookshop by capire](in-a-nutshell) — build your first CAP application within less than 1 hour.
-- [Best Practices Primer](../about/) — read about key concepts and benefits of CAP.
-- [Learn More](learning-sources) — find samples, videos, blogs, tutorials, etc.
-- [Cookbook](../guides/) — these guides walk you through the most common tasks.
-- [Advanced](../advanced/) — deep dive into advanced topics in CAP-based development.
+| #    | Guide                                                        | Description                                    |
+| ---- | ------------------------------------------------------------ | ---------------------------------------------- |
+| 4    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.   |
+| 5    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.            |
+| 6    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
 
-[CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) — are respective reference docs for these areas.
+
+This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

@@ -15,10 +15,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-<style>
-  .best-practice::before { content: 'Best Practice:  '; color: teal }
-</style>
-
 ## Intro: Core Concepts {#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
@@ -418,15 +414,15 @@ You can explicitly annotate calculated elements to make them searchable, even th
 
 #### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
+> Prerequisite: For CAP Java, you need to run in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud and enable <Config java keyOnly>cds.sql.hana.search.fuzzy = true</Config>
+
 Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
 
-If you run CAP Java in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud, you can enable fuzzy search in the *application.yaml* and configure the default fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search. The default fuzziness is 0.8.
+You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
-```yml
-cds.sql.hana.search
-   fuzzy: true
-   fuzzinessThreshold: 0.9
-```
+- Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
@@ -454,9 +450,6 @@ When using wildcards in search terms, an *exact pattern search* is performed.
 Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
 :::
 
-::: warning Only Java
-Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
-:::
 
 
 ### Pagination & Sorting

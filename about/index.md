@@ -9,7 +9,7 @@ The Art and Science of ...
 
 <br>
 
-The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](#enterprise-best-practices), served [out-of-the-box](#served-out-of-the-box), and hence greatly reducing boilerplate and tedious recurring tasks.
+The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](#enterprise-best-practices), served [out-of-the-box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
 
 In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimised costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters [evolution w/o disruption]() in a world of rapidly changing technologies.
 
@@ -31,11 +31,11 @@ The structure of this primer is influenced by Simon Lewis' approach in *[The Art
 #### The Art
 
 - applies the science as best and simple as possible → [*Key Features & Qualities*]()
-- tries to avoid common misttakes as much as possible → *[Bad Bractices]()*
+- tries to avoid common mistakes as much as possible → *[Bad Practices]()*
 
 #### The Ingredients
 
-The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies. The figure below depicts the CAP's place and focus in a stack architecture.
+The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies. The figure below depicts CAP's place and focus in a stack architecture.
 
 ![Architecture of CAP](assets/architecture.drawio.svg){style="width:555px"}
 
@@ -67,11 +67,11 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ### Domain Models
 
-[CDS](../cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. As we'll learn below, this ultimately fuels generic runtimes to automatically serve requests out-of-the-box.
+[CDS](../cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. As we'll learn below, this ultimately fuels generic runtimes to automatically serve requests out of the box.
 
 #### Entity-Relationship Models
 
-Data models capture the *static* aspects of a domain using the commonly known and widely used approach of [*entity-relationship modelling*](). A simplistic one looks like this in CDS:
+Data models capture the *static* aspects of a domain using the commonly known and widely used approach of [*entity-relationship modelling*](). A simple one looks like this in CDS:
 
 ::: code-group
 ```cds [Domain Data Model]
@@ -91,12 +91,11 @@ entity Authors : cuid, managed {
 
 :::
 
->  [!note]
->
-> We use [CDS's *Conceptual Schema Definition Language (CDL)*](../cds/cdl) to get human-readable models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
->
-> See also *[On the Nature of Models](../cds/models)* in the CDS reference docs. {.learn-more}
+:::info Definition language
+We use [CDS's *Conceptual Schema Definition Language (CDL)*](../cds/cdl) to get human-readable models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
 
+See also *[On the Nature of Models](../cds/models)* in the CDS reference docs. {.learn-more}
+:::
 
 
 #### (Managed) Associations
@@ -108,7 +107,7 @@ entity EnglishBooks as select from Books
 where author.country.code = 'GB';
 ```
 
-... or, even more compact using *[infix filters]()* and [*navigation*](), like that:
+This is an even more compact version, using *[infix filters]()* and [*navigation*]():
 
 ```cds
 entity EnglishBooks as select from Authors[country.code='GB']:books;
@@ -184,9 +183,9 @@ extend Books with { ISBN: String }
 
 <br/>
 
-> [!tip]
->
-> CDS greatly promotes [***Focus on Domain***]() by a *concise* and *comprehensible* language. Intrinsic support for *[aspect-oriented modeling]()* fosters *[**Separation of Concerns**]()*, as well as *[**Extensibility**]()* in [customization](), [verticalization](), and [composition]() scenarios.
+:::tip Key features & qualities
+CDS greatly promotes [***Focus on Domain***]() by a *concise* and *comprehensible* language. Intrinsic support for *[aspect-oriented modeling]()* fosters *[**Separation of Concerns**]()*, as well as *[**Extensibility**]()* in [customization](), [verticalization](), and [composition]() scenarios.
+:::
 
 
 
@@ -201,17 +200,17 @@ Services are the most central concept in CAP when it comes to an application's b
 - Services react to **events** → *in sync and async ones*{.grey}
 - Services run **queries** → *pushed down to database*{.grey}
 - Services are **agnostic** → *platforms and protocols*{.grey}
-- Services are **stateless** → *processing passive data*{.grey}
+- Services are **stateless** → *process passive data*{.grey}
 
 ![Key Design Principles](assets/paradigm.drawio.svg)
 
-> [!tip]
->
-> As depicted in the figure above, these design principles — and hence adherence to them — is crucial for many of the [key features and benefits]().
+:::tip Design principles and benefits
+The design principles - and adherence to them - are crucial for the [key features & benefits]().
+:::
 
 #### Services as Interfaces
 
-Services models capture the *behavioral* aspects of an application. In its simplest form a service definition focusing on the *interface* only could look like that:
+Service models capture the *behavioral* aspects of an application. In its simplest form a service definition focusing on the *interface* only could look like that:
 
 ::: code-group
 
@@ -227,7 +226,7 @@ service BookshopService {
 
 #### Services as Facades
 
-Most frequently though, services would expose (denormalised) views on underlying domain models. They thereby act as *facades* to an application's core domain data. The service interface would result from the *inferred* elements structures from the given projections.
+Most frequently, services expose denormalized views of underlying domain models. They act as facades to an application's core domain data. The service interface results from the inferred element structures of the given projections.
 
 For example, if we take the [*bookshop* domain model](../get-started/in-a-nutshell#capture-domain-models) as a basis, we could define a service that exposes a flattened view on books with authors names as follows (note and click on the *⇒ Inferred Interface* tab):
 
@@ -257,9 +256,9 @@ service CatalogService {
 
 :::
 
-> [!tip]
->
-> The example above is a good example for the recommended best practice of a *[single-purposed service]()* which is specialised on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
+:::tip Example for single-purposed service
+The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
+:::
 
 
 
@@ -300,7 +299,7 @@ All events of all kinds are handled in the same fundamental ways. Your code stay
 
 ::: code-group
 
-```js [Handling sync Requests, an emitting async ones]
+```js [Handling sync Requests, and emitting async ones]
 class CatalogService extends cds.ApplicationService { init() {
   this.on ('submitOrder', req => {
     await this.emit ('BookOrdered', req.data) // inform others

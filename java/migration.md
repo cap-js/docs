@@ -1,4 +1,4 @@
-
+---
 synopsis: >
   This chapter contains comprehensive guides that help you to work through migrations such as from CAP Java 1.x to CAP Java 2.x.
 status: released

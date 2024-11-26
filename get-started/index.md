@@ -159,10 +159,8 @@ After you finished the [getting started](#) part, continue with the following le
 | #    | Guide                                                        | Description                                    |
 | ---- | ------------------------------------------------------------ | ---------------------------------------------- |
 | 4    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.   |
-| 5    | [Cookbook](../guides/)                                       | Walkthroughs for most common tasks.            |
-| 7    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.        |
-| 8    | [Advanced](../advanced/)                                     | Deep dives into advanced tasks and topics.     |
-| 9    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
+| 5    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.            |
+| 6    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

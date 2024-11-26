@@ -711,8 +711,8 @@ These would be in conflict with CAP's focus on stateless services processing pas
 
 CAP's design principles are very much in line with the approaches of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what hexagonal architecture is aiming for:
 
-- your core domain logic stays agnostic to protocols and changing low-level technologies
-- hence becomes reselient to disrupting changes in those spaces.
+- domain logic stays agnostic to protocols and changing low-level technologies
+- resilience to disrupting changes in those spaces
 
 So, there's little need to homebrew your own hexagonal architecture on top of CAP, and high risks you miss CAP's advantages in this regard.
 

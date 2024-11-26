@@ -42,7 +42,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 ## Jumpstart a Project {#jumpstart}
 
 
-- Assumed you completed the [*Initial Setup*](./), ...
+After you completed the [*Initial Setup*](./), you jumpstart a project as follows:
 
 - Create a new project using `cds init`
 

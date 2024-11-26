@@ -125,7 +125,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](../node.js/cds-env) if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -145,9 +145,17 @@ CAP has defaults for many things that you'd have to configure in other framework
 
 :::
 
-> [!tip]
-> We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
+::: tip Convention over configuration
+We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
 
+To explore the defaults in your projects do as follows:
+```sh
+cds env ls defaults
+```
+cds env ls defaults
+```
+
+:::
 
 
 
@@ -159,10 +167,8 @@ After you finished the [getting started](#) part, continue with the following le
 | #    | Guide                                                        | Description                                    |
 | ---- | ------------------------------------------------------------ | ---------------------------------------------- |
 | 4    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.   |
-| 5    | [Cookbook](../guides/)                                       | Walkthroughs for most common tasks.            |
-| 7    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.        |
-| 8    | [Advanced](../advanced/)                                     | Deep dives into advanced tasks and topics.     |
-| 9    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
+| 5    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.            |
+| 6    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

@@ -523,7 +523,7 @@ Supported features are:
 
 <div class="impl java">
 
-CAP Java 3.5.0 introduced an option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it via <Config java keyOnly>cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>
+CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it via <Config java keyOnly>cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>
 
 </div>
 

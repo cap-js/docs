@@ -2,9 +2,6 @@
 synopsis: >
   This section describes how to register event handlers on services. In CAP everything that happens at runtime is an event that is sent to a service.
   With event handlers the processing of these events can be extended or overridden. Event handlers can be used to handle CRUD events, implement actions and functions and to handle asynchronous events from a messaging service.
-redirect_from:
-- java/srv-impl
-- java/provisioning-api
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -127,7 +124,7 @@ Result result = context.getResult();
 ```
 
 The getter and setter methods, still operate on the simple get/put API shown in the previous example. They just provide a type-safe layer on top of it.
-The `as` method makes use of Java Proxies behind the scenes. Therefore an interface definition is all that is required to enable this functionality.
+The `as` method makes use of Java Proxies behind the scenes. Therefore, an interface definition is all that is required to enable this functionality.
 
 ::: tip
 Use these event-specific type-safe Event Context interfaces whenever possible.
@@ -183,6 +180,7 @@ public interface MyEventContext extends EventContext {
         return EventContext.create(MyEventContext.class, null);
     }
 
+    @CdsName("Param")
     String getParam();
     void setParam(String param);
 
@@ -215,7 +213,7 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 @Component
 @ServiceName("AdminService")
 public class AdminServiceHandler implements EventHandler {
-
+  // ...
 }
 ```
 :::

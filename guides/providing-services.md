@@ -3,9 +3,6 @@ synopsis: >
   This guide introduces how to define and implement services, leveraging
   generic implementations provided by the CAP runtimes, complemented by
   domain-specific custom logic.
-redirect_from:
-- guides/services
-- guides/generic
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -17,10 +14,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [[toc]]
 
-
-<style>
-  .best-practice::before { content: 'Best Practice:  '; color: teal }
-</style>
 
 ## Intro: Core Concepts {#introduction}
 
@@ -512,8 +505,8 @@ Don't use reliable pagination if an entity set is sorted by elements that contai
 :::
 
 The feature can be enabled with the following [configuration options](../node.js/cds-env#project-settings) set to `true`:
-- Java: `cds.query.limit.reliablePaging.enabled`
-- Node.js: `cds.query.limit.reliablePaging`
+- Java: <Config java keyOnly>cds.query.limit.reliablePaging.enabled: true</Config>
+- Node.js: <Config keyOnly>cds.query.limit.reliablePaging: true</Config>
 
 
 #### Paging Limits
@@ -899,9 +892,31 @@ entity Foo {
   zoo : String   @assert.range enum { high; medium; low; };
 }
 ```
-::: tip
-Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
+#### ... with open intervals
+
+By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
+
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),100]    // 0 < input ≤ 100
+@assert.range: [0,(100)]    // 0 ≤ input < 100
+@assert.range: [(0),(100)]  // 0 < input < 100
+```
+In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
+@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
+```
+>  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
+
+::: warning Support in latest runtimes
+
+Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
+
 :::
+
+
 
 ### `@assert.notNull` {#assert-notNull}
 
@@ -1113,7 +1128,7 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1164,10 +1179,6 @@ You can use the following annotations in the service model to indicate that an e
 
 `@Core.ContentDisposition.Type`
 : Can be used to instruct the browser to display the element inline, even if `@Core.ContentDisposition.Filename` is specified, by setting to `inline` (see the fifth example). If omitted, the behavior is `@Core.ContentDisposition.Type: 'attachment'`.
-
-::: warning
-`@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
-:::
 
 [Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 
@@ -1325,7 +1336,7 @@ a CDS query, a binary string is used to query data stored as binary, this wouldn
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.
 - In the Node.js Runtime, all binary strings are converted into binary data according to SAP HANA property types.
-To disable this default behavior, you can set the environment variable `cds.env.hana.base64_to_buffer` to `false`.
+To disable this default behavior, you can set the environment variable <Config>cds.hana.base64_to_buffer: false</Config>.
 
 # Best Practices
 

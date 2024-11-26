@@ -60,7 +60,7 @@ After that, you can use the `cds deploy` command to [deploy](#using-cds-deploy) 
 
 </div>
 
-### Auto-Wired Configuration {.impl .node}
+### Auto-Wired Configuration {.node}
 
 The `@cap-js/postgres` package uses `cds-plugin` technique to auto-configure your application and use a PostgreSQL database for production.
 
@@ -164,7 +164,7 @@ For local development provide the credentials using a suitable [`cds env`](../no
 
 </div>
 
-### Configure Connection Data {.impl .java}
+### Configure Connection Data {.java}
 
 If a PostgreSQL service binding exists, the corresponding `DataSource` is auto-configured.
 
@@ -185,9 +185,9 @@ spring:
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
 Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 
-### Service Bindings for CDS Tooling {.impl .java}
+### Service Bindings for CDS Tooling {.java}
 
-#### Using Defaults with `[pg]` Profile {.impl .java}
+#### Using Defaults with `[pg]` Profile {.java}
 
 `@cds-js/postgres` comes with a set of default credentials under the profile `[pg]` that matches the defaults used in the [docker setup](#using-docker). So, if you stick to these defaults you can skip to deploying your database with:
 
@@ -195,7 +195,7 @@ Learn more about the [configuration of a PostgreSQL database](../java/cqn-servic
 cds deploy --profile pg
 ```
 
-#### In Your Private `.cdsrc-private.json` {.impl .java}
+#### In Your Private `.cdsrc-private.json` {.java}
 
 If you don't use the default credentials and want to use just `cds deploy`, you need to configure the service bindings (connection data) for the CDS tooling. Add the connection data to your private `.cdsrc-private.json`:
 
@@ -216,7 +216,7 @@ If you don't use the default credentials and want to use just `cds deploy`, you 
 }
 ```
 
-### Configure Service Bindings {.impl .node}
+### Configure Service Bindings {.node}
 
 #### Using Defaults with `[pg]` Profile
 
@@ -324,7 +324,7 @@ cds build --production
    ```json
    {
      "dependencies": {
-       "@sap/cds": "^7",
+       "@sap/cds": "^8",
        "@cap-js/postgres": "^1"
      },
      "scripts": {
@@ -368,7 +368,13 @@ When redeploying after you changed your CDS models, like adding fields, automati
 5. Store a CSN representation of the current model in `cds_model`.
 
 
-> You can disable automatic schema evolution, if necessary, by setting `cds.requires.db.schema_evolution = false`.
+> You can disable automatic schema evolution, if necessary, by setting <Config>cds.requires.db.schema_evolution = false</Config>.
+
+::: danger No manual altering
+
+Manually altering the database will most likely break automatic schema evolution!
+
+:::
 
 ### Limitations
 
@@ -508,7 +514,7 @@ to your database!
 :::
 
 
-## Deployment Using Liquibase  { .impl .java }
+## Deployment Using Liquibase  { .java }
 
 You can also use [Liquibase](https://www.liquibase.org/) to control when, where, and how database changes are deployed. Liquibase lets you define database changes [in an SQL file](https://docs.liquibase.com/change-types/sql-file.html), use `cds deploy` to quickly generate DDL scripts which can be used by Liquibase.
 
@@ -606,7 +612,7 @@ If the changes in the model could lead to data loss, an error is raised.
 
 :::
 
-## Migration { .impl .node }
+## Migration { .node }
 
 Thanks to CAP's database-agnostic cds.ql API, we're confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
 

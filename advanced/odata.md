@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -126,27 +124,28 @@ Limitations:
 
 The table below lists [CDS's built-in types](../cds/types) and their mapping to the OData EDM type system.
 
-| CDS Type       | OData V4                                |
-| -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
-| `Boolean`      | _Edm.Boolean_                           |
-| `UInt8  `      | _Edm.Byte_                              |
-| `Int16`        | _Edm.Int16_                             |
-| `Int32`        | _Edm.Int32_                             |
-| `Integer`      | _Edm.Int32_                             |
-| `Int64`        | _Edm.Int64_                             |
-| `Integer64`    | _Edm.Int64_                             |
-| `Decimal`      | _Edm.Decimal_                           |
-| `Double`       | _Edm.Double_                            |
-| `Date`         | _Edm.Date_                              |
-| `Time`         | _Edm.TimeOfDay_                         |
-| `DateTime`     | _Edm.DateTimeOffset_                    |
-| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7" |
-| `String`       | _Edm.String_                            |
-| `Binary`       | _Edm.Binary_                            |
-| `LargeBinary`  | _Edm.Binary_                            |
-| `LargeString`  | _Edm.String_                            |
-| `Vector`       | not supported <sup>(2)</sup>            |
+| CDS Type       | OData V4                                  |
+| -------------- | ---------------------------------------   |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>                 |
+| `Boolean`      | _Edm.Boolean_                             |
+| `UInt8  `      | _Edm.Byte_                                |
+| `Int16`        | _Edm.Int16_                               |
+| `Int32`        | _Edm.Int32_                               |
+| `Integer`      | _Edm.Int32_                               |
+| `Int64`        | _Edm.Int64_                               |
+| `Integer64`    | _Edm.Int64_                               |
+| `Decimal`      | _Edm.Decimal_                             |
+| `Double`       | _Edm.Double_                              |
+| `Date`         | _Edm.Date_                                |
+| `Time`         | _Edm.TimeOfDay_                           |
+| `DateTime`     | _Edm.DateTimeOffset_                      |
+| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7"   |
+| `String`       | _Edm.String_                              |
+| `Binary`       | _Edm.Binary_                              |
+| `LargeBinary`  | _Edm.Binary_                              |
+| `LargeString`  | _Edm.String_                              |
+| `Map`          | represented as empty, open complex type   |
+| `Vector`       | not supported <sup>(2)</sup>              |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
 
@@ -158,6 +157,7 @@ OData V2 has the following differences:
 | ------------ | ----------------------------------------------- |
 | `Date`       | _Edm.DateTime_ with `sap:display-format="Date"` |
 | `Time`       | _Edm.Time_                                      |
+| `Map`        | not supported                                   |
 
 
 ### Overriding Type Mapping { #override-type-mapping}
@@ -1244,7 +1244,7 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
 
 Example 1:
 

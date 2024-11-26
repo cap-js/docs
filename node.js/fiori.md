@@ -183,5 +183,6 @@ You can programmatically invoke draft actions with the following APIs:
 await srv.new(MyEntity, data)            // create new draft
 await srv.discard(MyEntity.drafts, keys) // discard draft
 await srv.edit(MyEntity, keys)           // create draft from active instance
+await srv.new(MyEntity).for(keys)        // same as above
 await srv.save(MyEntity.drafts, keys)    // activate draft
 ```

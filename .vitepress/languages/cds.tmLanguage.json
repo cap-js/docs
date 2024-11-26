@@ -3,7 +3,7 @@
   "fileTypes": [
     "cds"
   ],
-  "name": "CDS",
+  "name": "CDS Definition Language (CDL)",
   "patterns": [
     {
       "comment": "entityDef, aspectDef, and others containing elements",

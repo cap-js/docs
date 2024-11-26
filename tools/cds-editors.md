@@ -66,10 +66,23 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 #### Add CDS Editor
 
 1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
-2. Choose *Install* and VS Code opens the details page for the extension **SAP CDS language support**.
+2. Click *Install* and confirm the popup dialog.
 3. In VS Code, choose *Install* to enable the extension.
 
 <span id="invscodeeditor" />
+
+
+
+#### Add Useful Plugins
+
+In addition we recommend installing these VS Code Extensions:
+
+   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+
 
 
 #### Run Services
@@ -119,87 +132,197 @@ Using the CDS language server implementation, editors can provide additional sou
 
 [Watch the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
-
 ### Features and Functions
 
-#### Syntax Highlighting
+#### Syntax Coloring & Code Completion
 
-#### Code Completion
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/syntax-coloring-completions_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - Keywords
-- Identifiers including not yet imported identifiers with corresponding `using` statement
-- Using paths and artifacts including showing README.md documentation as details
+- Annotations
+- Identifiers including ones defined in `using` references
+- `using` paths <!--and artifacts including _README.md_ documentation-->
 - i18n translation IDs
-- Turn on/off formatting regions
+<!-- - Turn on/off formatting regions -->
 
-#### Where-used Navigation
+</div>
 
-- Navigate to definitions
-- Navigate to references
-- Highlight occurrences
+</div>
 
-#### Quick Fixes
+#### Snippets
 
-+ Create using statement for unknown artifacts.
-+ Maintain missing translation.
-+ Convert `@cds.doc` and `@description` annotations to doc comments.
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/snippets_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
+- `using`
+- `namespace` and `context`
+- `service` and `type`
+- `entity` and `projection`
+- `Association` and `Composition`
+- `extend` and `annotate`
+- Elements
+- Annotations for documentation
+
+</div>
+
+</div>
+
 
 #### Code Formatting
 
-Format...
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/format_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
 - the whole document
 - a selected range
 - on-the-fly when completing statements using ```;``` or ```}```
 - on save (depending on the IDE)
 - on paste (depending on the IDE)
 
-Use...
+<!-- Use...
 - many options, configurable using
   - settings file
   - command line switches
   - config UI with simulation of options for VS Code
   - JSON schema for textual support
-- also for markdown in doc comments
+- also for markdown in doc comments -->
 
-#### Inventory (symbols)
+</div>
+
+</div>
+
+<!-- #### Inventory (symbols)
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/inventory_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - An inventory for the current file.
 - An inventory for the workspace including query capabilities to select. For example, artifact types, names, also include reuse models.
 
-#### Snippets
+</div>
 
-- Namespace and context
-- `using`
-- `service`
-- `type`
-- Entity and projections, ...
-- Element, associations, and compositions
-- Extend and annotate
-- Annotations for documentation
-
-> With documentation extracts of [capire](../cds/cdl) explaining language concepts.
+</div> -->
 
 #### Hover Information
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/hover_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - Doc comments
 - `@title`, `@description`, and ~~`@cds.doc`~~ (deprecated) annotations
 - Translations
 
+> With documentation extracts of [capire](../cds/cdl) explaining language concepts.
+
+</div>
+
+</div>
+
+#### Where-used Navigation
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/where-used_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
+- Navigate to definitions
+- Navigate to references
+- Highlight occurrences
+
+</div>
+
+</div>
+
+#### Quick Fixes
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/quick-fixes_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
++ Create using statement for unknown artifacts.
++ Maintain missing translation.
++ Convert `@cds.doc` and `@description` annotations to doc comments.
+
+</div>
+
+</div>
+
 #### Translation Support
 
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/translation-support_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
 - Properties, JSON, and CSV files
-- Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`.
-- Show translations on hover.
-- Quickfix to maintain missing translations
+- Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`
+- Show translations on hover
+
+</div>
+
+</div>
 
 #### And More…
 
 - Plugin framework for external handlers of annotation domains
+- Dependency graph visualization
 
 
 ### Settings
 
-##### Code formatting settings
+##### Code formatting
 
 These are settings coming with the CDS language server implementation.
 Use the command *CDS: Show Formatting Options Configuration*.
@@ -287,29 +410,14 @@ Use the command from the context menu on a folder or CDS file.
 
 A selection popup appears to choose one of three modes:
 
-1. _File to file_ (detailed)
-2. _File to file_ (reduced to folders)
-3. _Complete folder to complete folder_
+1. **_File to file_ (detailed)**: shows every model file on its own. For very large models, the number of files and interdependencies may be too complex to be graphically shown. A message about insufficient memory will appear. In this case use the second option.
+2. **_File to file_ (reduced to folders)**: reduces the graph by only showing the folders of all involved files and their interdependencies. Only the files reachable from the start model where the command was invoked on are evaluated.
+4. **_Complete folder to complete folder_**: always considers all files in a folder and their dependencies.
+   This can be useful to understand architectural violations.
+   > **Example for architectural violation:**<br>
+   > You want a clean layering in your project: _app_ → _srv_ → _db_. With this option, you can visualize and identify that there is a dependency from a file in the service layer to an annotation file in the application layer.
 
-The _first option_ shows every model file on its own.
-For very large models, the number of files and interdependencies may be too complex to be graphically shown.
-A message about insufficient memory will appear. In this case use the second option.
-
-The _second option_ reduces the graph by only showing the folders of all involved files and their interdependencies.
-::: tip
-Only those files are evaluated that are reachable from the start model where the command was invoked on.
-:::
-
-The _third option_ always considers all files in a folder and their dependencies.
-This can be useful to understand architectural violations.
-> **Example for architectural violation:**<br>
-> You want a clean layering in your project: _app_ -> _srv_ -> _db_. With this option, you can visualize and identify that there is a dependency from a file in the service layer to an annotation file in the application layer.
-
-
-Hovering over a node will show the number of files involved and the combined size of all involved files. Use this function to get a rough understanding about the complexity and the compilation speed.
-
-The command requires the third-party extension _Graphviz (dot) language support for Visual Studio Code_ (joaompinto.vscode-graphviz). If you haven't installed it already, it will be suggested to install.
-
+Hovering over a node will show the number of files involved and their combined size. Use this function to get a rough understanding about complexity and compilation speed.
 
 ### Editor Performance
 
@@ -371,6 +479,21 @@ By default, backup files with _.bak_ file extension will be created.
 Use `-f` switch to force an overwrite without creating a backup.
 This is on your own risk. Should there be problems data loss might occur, especially when formatting in a pre-commit hook.
 Better add _.bak_ to your _.gitignore_ file and not use `-f`.
+
+### GitHub Integration
+
+CAP is registered with GitHub [`linguist`](https://github.com/github-linguist/linguist) repository, which means you can use Markdown rendering on GitHub in `cds` code fences like so:
+
+````md
+```cds
+entity Books {};
+```
+````
+
+This will render like so:
+```cds
+entity Books {};
+```
 
 
 ## CAP Notebooks { #cap-vscode-notebook }

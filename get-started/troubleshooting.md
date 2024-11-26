@@ -1,9 +1,6 @@
 ---
 synopsis: >
   Find here common solutions to frequently occurring issues.
-redirect_from:
-  - advanced/troubleshooting
-  - resources/troubleshooting
 status: released
 outline: 2
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d2ee648522044ea19d3b5126c29692b5.html
@@ -16,6 +13,13 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 [[toc]]
 
 ## Setup {#setup}
+
+
+### Can't start VSCode from Command Line on macOS {#vscode-macos}
+
+In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+
+
 
 ### Check the Node.js version { #node-version}
 
@@ -191,6 +195,47 @@ module.exports = cds.server
 | _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
 | _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
 
+## TypeScript
+
+### Type definitions for `@sap/cds` not found or incomplete
+
+|                | Explanation                                                           |
+|----------------|-----------------------------------------------------------------------|
+| _Root Cause 1_ | The package `@cap-js/cds-typer` is not installed.                     |
+| _Solution 1_   | Install the package as a dev dependency.                              |
+| _Root Cause 2_ | Symlink is missing.                                                   |
+| _Solution 2_   | Try `npm rebuild` or add `@cap-js/cds-types` in your _tsconfig.json_. |
+
+
+#### Install package as dev dependency
+The type definitions for `@sap/cds` are maintained in a separate package `@cap-js/cds-types` and have to be explicitly installed as a dev dependency. This can be done by adding the `typescript` facet:
+
+::: code-group
+```sh [facet]
+cds add typescript
+```
+```sh [manually]
+npm i -D @cap-js/cds-types
+```
+:::
+
+#### Fix missing symlink
+
+Installing `@cap-js/cds-types` leverages VS Code's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
+
+If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_:
+
+::: code-group
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    "types": ["@cap-js/cds-types"],
+  }
+}
+```
+:::
+
+If you find that the types are still incomplete, open a bug report in [the `@cap-js/cds-types` repository](https://github.com/cap-js/cds-types/issues/new/choose).
 
 ## Java
 

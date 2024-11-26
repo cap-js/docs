@@ -94,15 +94,15 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
    ```log
    [dev] cds w
-   
+
    cds serve all --with-mocks --in-memory?
    live reload enabled for browsers
-   
+
          ___________________________
-   
+
      No models found in db/,srv/,app/,schema,services. // [!code focus]
      Waiting for some to arrive... // [!code focus]
-   
+
    ```
 
    So, let's go on feeding it...
@@ -111,7 +111,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 
 
-## Capture Domain Models {#domain-models}
+## Capture Domain Models
 
 
 Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ and copy the following definitions into it:

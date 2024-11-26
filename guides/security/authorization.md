@@ -528,7 +528,7 @@ CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE`
 </div>
 
 ::: info Avoid enumerable keys
-For `UPDATE` and `DELETE`, it is not checked if the user can read the targeted entity. If the user is not authorized, the request is rejected, which could disclose to unauthorized users that an entity under a given key exists.
+In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.
 :::
 
 ### User Attribute Values { #user-attrs}

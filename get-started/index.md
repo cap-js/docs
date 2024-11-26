@@ -19,11 +19,11 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 We strongly recommend to follow this flow to get started with and proficient in using CAP:
 
-| # | Get started with...                            | to learn about...                                                            | Required Time |
-|---|------------------------------------------------|------------------------------------------------------------------------------|---------------|
-| 1 | [Initial Setup](#setup)                        | Minimalistic setup to get you jump-started.                                  | 1-11 minutes  |
-| 2 | [Bookshop by capire](in-a-nutshell)            | Building your first CAP application.                                         | 4-44 minutes  |
-| 3 | [Best Practices](../about/) <br> → *must read* | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 7-14 hours    |
+| # | Get started with...                 | to learn about...                                                            | Required Time |
+|---|-------------------------------------|------------------------------------------------------------------------------|---------------|
+| 1 | [Initial Setup](#setup)             | Minimalistic setup to get you jump-started.                                  | 1-11 minutes  |
+| 2 | [Bookshop by capire](in-a-nutshell) | Building your first CAP application.                                         | 4-44 minutes  |
+| 3 | [Best Practices](../about/)         | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 4-14 hours    |
 
 So, fasten your seat belts and get started in the next section right below...
 

@@ -149,6 +149,8 @@ CAP has defaults for many things that you'd have to configure in other framework
 We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
 
 To explore the defaults in your projects do as follows:
+```sh
+cds env ls defaults
 ```
 cds env ls defaults
 ```

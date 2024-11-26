@@ -58,7 +58,7 @@ ORDER_EXCEEDS_STOCK = The order of {quantity} books exceeds available stock {sto
 
 
 
-### Direct Usage 
+### Direct Usage
 
 In addition, you can use both standard bundles directly in your code, with [`<bundle>.at(key)`](#at-key) the central method to obtain localized texts:
 
@@ -86,7 +86,7 @@ And provide texts and translations in corresponding files like `_i18n/yours.prop
 
 This is a global object acting as the facade to the i18n features as outlined below.
 
-### `.file` {.property}
+### `.file` {.property alt="The following documentation on .folders also applies to .file. "}
 
 ### `.folders` {.property}
 
@@ -162,7 +162,7 @@ b1 === b2                          //> true
 
 ## `I18nBundle` {.class}
 
-Instances of this class provide access to translated texts in different languages. 
+Instances of this class provide access to translated texts in different languages.
 
 ::: details Prefer using [`cds.i18n.bundle4()`](#bundle4) to create instances...
 
@@ -206,7 +206,7 @@ An instance of [`I18nFiles`](#i18nfiles) with the found folders and files to loa
 
 
 
-### `at (key, ...)` {.method}
+### `at (key, ...)` {.method alt="The following documentation on for also applies to at. "}
 
 ### `for (key, ...)` {.method}
 
@@ -259,7 +259,7 @@ msg.for('OUT_OF_RANGE', {val:0,min:1,max:11}) //> 0 is not in range 1..11
 
 #### Looking up labels for CSN definitions
 
-You can alternatively pass in a CSN definition instead of an i18n key to look up the localized UI label for that an entity or element. For example, try this in `cds repl` from within the [*cap/samples* root folder](../get-started/samples#bookshop-et-al): {.indent}
+You can alternatively pass in a CSN definition instead of an i18n key to look up the localized UI label for that an entity or element. For example, try this in `cds repl` from within the [*cap/samples* root folder](https://github.com/sap-samples/cloud-cap-samples): {.indent}
 
 ```sh
 .run fiori
@@ -278,18 +278,18 @@ cds.i18n.labels.at(title)    //> 'Titre'
 
 ### `key4 (csn)` {.method}
 
-This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation works like that: 
+This method is used by [`bundle.at()`](#at-key) to determine the an i18n key for a CSN definition. In essence, the implementation works like that:
 
 ```js
-const a = csn['@title'] 
- || csn['@Common.Label'] 
- || csn['@UI.HeaderInfo.TypeName'] 
+const a = csn['@title']
+ || csn['@Common.Label']
+ || csn['@UI.HeaderInfo.TypeName']
 //> e.g. '{i18n>Books}'
-return a.match(/{i18n>(.+)}/)[1] 
+return a.match(/{i18n>(.+)}/)[1]
 //> 'Books'
 ```
 
->  If no such annotation is found, the CSN definition's `name` is returned. 
+>  If no such annotation is found, the CSN definition's `name` is returned.
 
 
 
@@ -503,13 +503,15 @@ $sourcedirs = $sources.map(path.dirname) //> ...
 ]
 ```
 
-> Note: reverse order means: entries in `app`  override same entries in `db`, etc.
 
 
 
 #### 3. Check for existing & matching `i18n.folders`
 
 To fetch i18n folder, these source directories are processed in reverse order, and each is checked for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename. If none match, we move up the directory tree and repeat these checks, as depicted in this matrix:
+
+> 🎯 <br>
+>Marks existing i18n subfolders containing matching `<basename>_*.properties` files.
 
 | $sourcedirs | \_i18n | i18n |
 | ----------- | :---: | :--: |
@@ -528,7 +530,7 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 | /cap/samples/bookstore/srv | | |
 | /cap/samples/bookstore | 🎯 |  |
 
-> 🎯 marks existing i18n subfolders containing matching `<basename>_*.properties` files.
+> Note on _reverse order_: means entries in `app`  override same entries in `db`, etc.
 
 
 
@@ -537,7 +539,7 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 So we would end up in having found these four directories from which we would load `.properties` files subsequently:
 
 ```js
-Object.keys (cds.i18n.labels.files) //>... 
+Object.keys (cds.i18n.labels.files) //>...
 [
   '/cds/samples/node_modules/@sap/cds/_i18n',
   '/cap/samples/orders/_i18n',
@@ -556,7 +558,7 @@ The reason we do this fetching in the neighborhood of the current model's `.cds`
 
 
 
-### from static project folders 
+### from static project folders
 
 In addition to fetching i18n folders from models' neighborhood as explained above, you can also specify static folders to be used as is, by adding a **leading slash**. For example:
 
@@ -565,7 +567,7 @@ In addition to fetching i18n folders from models' neighborhood as explained abov
 ```jsonc [package.json]
 "cds": {
   "i18n": {
-    "folders": [ 
+    "folders": [
       "_i18n",                   // fetched from model's neighborhood
       "/app/browse/webapp/i18n"  // static folder in project's root
     ]
@@ -582,13 +584,13 @@ Object.keys (cds.i18n.labels.files) //> ...
 [
   '.../node_modules/@sap/cds/_i18n', // found in model's neighborhood
   '.../_i18n',                       // found in model's neighborhood
-  '.../app/browse/webapp/i18n'       // found statically 
+  '.../app/browse/webapp/i18n'       // found statically
 ]
 ```
 
 
 
-You can specify static folders only to not fetching i18n folders in model's neighborhood at all, both by default configuration as well as for individual bundles. For example: 
+You can specify static folders only to not fetching i18n folders in model's neighborhood at all, both by default configuration as well as for individual bundles. For example:
 
 ```js
 const b = cds.i18n.bundle4 ({ folders: ['/_i18n', ...] })
@@ -598,7 +600,7 @@ const b = cds.i18n.bundle4 ({ folders: ['/_i18n', ...] })
 
 ### from absolute folders
 
-Static folders can also be fully-qualified absolute filenames. For example, plugins could use that to add own translations or bundles like so: 
+Static folders can also be fully-qualified absolute filenames. For example, plugins could use that to add own translations or bundles like so:
 
 ::: code-group
 

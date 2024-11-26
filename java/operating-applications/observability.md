@@ -2,7 +2,6 @@
 synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
-redirect_from: java/observability
 ---
 
 # Observability
@@ -369,10 +368,10 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
   # ...
   properties:
     # ...
-    JBP_CONFIG_JAVA_OPTS: 
+    JBP_CONFIG_JAVA_OPTS:
       from_environment: false
       java_opts: >
-        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar 
+        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar
         -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar
 ```
 :::

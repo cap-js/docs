@@ -15,6 +15,7 @@
   }
 }
 
+
 :root {
   // add Avenir Next first
   --vp-font-family-base: 'Avenir Next', 'Inter var', 'Inter', ui-sans-serif,
@@ -42,8 +43,15 @@
   --vp-sidebar-width: 300px;
   --vp-nav-height: 44px;
 
+  --vp-c-text-1: #000;
+  h1, h2, h3, h4, h5 { color: rgba(60, 60, 67) }
+
+
   /* inverts image colors in dark mode */
   &.dark {
+    h1, h2, h3, h4, h5 { color: var(--vp-c-text-1) }
+    --vp-c-text-1: rgba(255, 255, 245, 0.86);
+
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
     img, svg.adapt-dark {
       filter: brightness(.884) invert(1) hue-rotate(177deg)
@@ -65,11 +73,21 @@ main {
     h2, .h2 { font-size: 24px; margin: 4em 0 2em; padding-top: 12px; }
     h3, .h3 { font-size: 20px; margin: 3em 0 1em; }
     h4, .h4 { font-size: 17px; margin: 2em 0 1em; }
+
+    // Set margin-bottom to group groups of h3/h4 together, as in req.error/warn/info/notify
+    h3, h4 { margin-bottom: 0em; }
+
     h1 + .subtitle {
       margin: -40px 0 48px;
       font-size: 1.7em;
       font-weight: 400;
     }
+    h3 + .subtitle {
+      margin-top: 0;
+      font-size: 1.1em;
+    }
+
+
     p + h1 {
       margin-top: 3em
     }
@@ -82,10 +100,48 @@ main {
     ul, ol {
       padding-left: 2.5em;
     }
+
+    .step-by-step {
+      ol {
+        counter-reset: my-counter;
+        margin-left: 20px;
+        > li {
+          counter-increment: my-counter;
+          list-style: none;
+          margin-top: 30px;
+          &::before {
+            content: counter(my-counter);
+            color: var(--vp-c-text-2);
+            background-color: var(--vp-code-bg);
+            width: 31px;
+            height: 30px;
+            background-size: 30px;
+            line-height: 31px;
+            border-radius: 50%;
+            font-weight: 600;
+            text-align: center;
+            font-size: 16px;
+            display: inline-block;
+            position: absolute;
+            // top: -3px;
+            margin-left: -50px;
+            margin-top: -3px;
+          }
+        }
+      }
+    }
+
     .caption {
       text-align: center;
       color: #888;
     }
+
+    table.centered {
+      margin-left: auto;
+      margin-right: auto;
+      width: max-content;
+    }
+
     div.language-zsh pre code {
       line-height: 1.4em
     }
@@ -203,6 +259,15 @@ main {
     font-size: 95%;
     border-width: 0 0 0 7px;
     border-radius: 14px;
+
+    &.note {
+      background-color: #f6f6f6;
+      border-color: #bbb;
+      .dark & {
+        border-color: #666;
+        background-color: #222;
+      }
+    }
     &.tip {
       background-color: #dfe;
       border-color: #096;
@@ -226,7 +291,7 @@ main {
         &, & code, & a { color: #ea0; }
       }
     }
-    &.danger {
+    &.danger, &.caution {
       background-color: #fee;
       border-color: #900;
       &, & code, & a { color: #600; }
@@ -262,8 +327,23 @@ main {
     margin: 30px auto;
   }
 
-  .good { color:teal }
-  .bad, .important { color:darkred }; .dark & { .bad, .important { color:#e00 } }
+  img.zoom75 { zoom: 75% }
+  img.zoom66 { zoom: 66% }
+  img.zoom50 { zoom: 50% }
+  img.zoom44 { zoom: 44% }
+  img.zoom40 { zoom: 40% }
+  img.zoom33 { zoom: 33% }
+  img.zoom25 { zoom: 25% }
+
+  .best-practice::after { content: ' — Best Practice'; color: #777; font-style: italic; }
+  .anti-pattern::after { content: ' — Anti Pattern'; color: #e00 }
+  .prefer::before { content: 'Prefer: '; color: #0a0 }
+  .avoid::before { content: 'Avoid: '; color: #e00 }
+
+  .good .green { color:#0a0 };
+  .bad, .red, .important { color:darkred; .dark & { color:#e00 } }
+  .grey { color:#777 };
+
   .constructor::before { content: 'Constructor: '; color: #999 }
   .annotation::before { content: 'Annotation: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
@@ -289,6 +369,12 @@ main {
     margin-top: 0
   }
 
+  sup {
+    line-height: 0px; // remove the space between the line and the superscript
+    font-size: 80%;
+    font-weight: 600;
+    color: #777;
+  }
 }
 
 // Menu Sidebar
@@ -316,8 +402,15 @@ aside.VPSidebar {
   }
 }
 
-// "On this page" Outlines
+// "On this page" outlines
 div.aside nav {
+
+  .outline-title {
+    &:hover { color: var(--vp-c-brand-1) }
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+
   .outline-link {
     font-weight: inherit;
   };
@@ -358,33 +451,53 @@ kbd {
   padding-left: 22px;
 }
 
-.learn-more {
+a.learn-more, p.learn-more, .learn-more {
   font-style: italic;
-  margin-top: -5px;
+  margin-top: -10px;
   margin-bottom: 5px;
   display: block;
-  &, & a { color: #999 !important; .dark & { color: #777 !important }};
-
+  &, & a {
+    font-weight: 400;
+    color: #666 ;
+    .dark & {
+      color: #999
+    }
+    em {
+      font-weight: 500;
+    }
+  };
+  & a:hover {
+    color: var(--vp-c-brand-1);
+  }
   &::before {
-    content: url('/images/learn-more.svg');
+    content: url('/learn-more.svg');
     vertical-align: middle;
     height: 20px;
     width: 20px;
     display: inline-block;
     margin-right: 5px;
   }
+  + a.learn-more, + p.learn-more {
+    margin-top: 7px;
+  }
 }
+
+.VPBadge { white-space: nowrap; }
 
 /* remove transparency in the odd rows (when it scrolls over outline) */
 tr:nth-child(odd) {
   background-color: var(--vp-c-bg);
 }
 
-html.java .node {
-  display: none;
+html.java {
+  & .node {
+    display: none;
+  }
 }
-html.node .java {
-  display: none;
+html.node {
+  & .java {
+    display: none;
+  }
 }
 
 /* expand width on big screens */

@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -252,7 +251,7 @@ To safely send and receive messages between applications, you need a message bro
 
 In CDS, you can configure one of the available broker services in your [`requires` section](cds-connect#cds-env-requires).
 
-According to our [grow as you go principle](../get-started/grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
+According to our [grow as you go principle](../about/#grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
 
 ### Configuring Message Brokers
 

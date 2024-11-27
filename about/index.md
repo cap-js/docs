@@ -324,10 +324,9 @@ class AnotherService extends cds.ApplicationService { async init() {
 
 :::
 
-> [!tip]
->
-> This ubiquitous notion of events, intrinsically used everywhere, combined with the protocol-agnostic and platform-agnostic way to emit and handle events fuels many key features and qualities, like [*Agnostic Core*](), *[Inner Loop Development]()*, and *[Late-cut µ Services]()*.
-
+:::tip
+This ubiquitous notion of events, intrinsically used everywhere, combined with the protocol-agnostic and platform-agnostic way to emit and handle events fuels many key features and qualities, like [*Agnostic Core*](), *[Inner Loop Development]()*, and *[Late-cut µ Services]()*.
+:::
 
 
 ### Passive Data

@@ -6,7 +6,16 @@
 [SQLite]: /guides/databases-sqlite
 [H2]: /guides/databases-h2
 
-[CDS]: /cds
+[Getting Started]: /get-started/
+[Cookbook]: /guides/
+[Advanced]: /guides/
+[Node.js runtime]: /node.js/
+[Java runtime]: /java/
+[CAP Plugins]: /plugins/
+[Plugins]: /plugins/
+[Tools]: /tools/
+
+[CDS]: /cds/
 [CDL]: /cds/cdl
 [CSN]: /cds/csn
 [CQL]: /cds/cql
@@ -16,3 +25,8 @@
 [cap/sflight]: https://github.com/sap-samples/cap-sflight
 
 [bookshop]: /get-started/in-a-nutshell
+
+
+
+[Node.js]: https://nodejs.org/
+[Java]: https://www.oracle.com/java/

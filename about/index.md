@@ -26,15 +26,15 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 
 The major building blocks are as follows:
 
-- [**Core Data Services** (CDS)](/cds) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
+- [**Core Data Services** (CDS)](/cds/) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
 
 - [**Service Runtimes**](/guides/providing-services.md) for [Node.js](/node.js/) and [Java](/java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
 
-- [**Platform Integrations**](/guides/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
+- [**Platform Integrations**](/plugins/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
 
 - [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there is a fast-growing number of [CAP plugins]() contributions by open-source and inner-source [communities]() that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
+In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities]() that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
 
 #### Models fuel Generic Runtimes
 
@@ -279,6 +279,8 @@ CAP has a *ubiquitous* notion of events: they show up everywhere and everything 
 - *local* or *remote*
 - *sync* or *async*
 
+![events.drawio](assets/events.drawio.svg){style="padding-right:123px"}
+
 #### Event Handlers
 
 Services react to events by registering *event handlers*, the sum of which constitutes a *service implementation*. This is an example of that in Node.js:
@@ -343,6 +345,8 @@ class AnotherService extends cds.ApplicationService { async init() {
 ### Passive Data
 
 All data processed and server by CAP services is *passive*, and representations are *plain simple* data structures as much as possible. In Node.js it's plain JavaScript record objects, in Java it's hash maps.  This is **of utter importance** due to the following reasons...
+
+![passive-data.drawio](assets/passive-data.drawio.svg)
 
 #### Extensible Data
 

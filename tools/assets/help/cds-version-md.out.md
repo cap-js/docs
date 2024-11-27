@@ -6,15 +6,15 @@
 | ---------------------- | --------------------------------------- |
 | @cap-js/asyncapi       | 1.0.2                                   |
 | @cap-js/cds-types      | 0.7.0                                   |
-| @cap-js/db-service     | 1.14.1                                  |
+| @cap-js/db-service     | 1.16.0                                  |
 | @cap-js/openapi        | 1.0.7                                   |
-| @cap-js/sqlite         | 1.7.6                                   |
-| @sap/cds               | 8.4.1                                   |
-| @sap/cds-compiler      | 5.4.2                                   |
-| @sap/cds-dk (global)   | 8.4.1                                   |
-| @sap/cds-fiori         | 1.2.7                                   |
+| @cap-js/sqlite         | 1.7.7                                   |
+| @sap/cds               | 8.5.0                                   |
+| @sap/cds-compiler      | 5.5.0                                   |
+| @sap/cds-dk (global)   | 8.5.0                                   |
+| @sap/cds-fiori         | 1.2.8                                   |
 | @sap/cds-foss          | 5.0.1                                   |
-| @sap/cds-mtxs          | 2.3.0                                   |
+| @sap/cds-mtxs          | 2.4.0                                   |
 | @sap/eslint-plugin-cds | 3.1.2                                   |
-| Node.js                | v20.18.0                                |
+| Node.js                | v20.18.1                                |
 </pre>

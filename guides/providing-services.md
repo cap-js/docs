@@ -926,6 +926,12 @@ entity Foo {
 ```
 
 
+### `@Common.FieldControl` {#common-fieldControl}
+
+The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
+The input validation for `@Common.FieldControl` with static or dynamic numeric values(e.g. `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field` ) has to be done by custom implementation.
+
+
 
 ## Custom Logic
 

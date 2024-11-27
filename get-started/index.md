@@ -19,11 +19,11 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 We strongly recommend to follow this flow to get started with and proficient in using CAP:
 
-| #    | Get started with...                            | to learn about...                                            | Required Time |
-| ---- | ---------------------------------------------- | ------------------------------------------------------------ | ------------- |
-| 1    | [Initial Setup](#setup)                        | Minimalistic setup to get you jump-started.                  | 1-11 minutes  |
-| 2    | [Bookshop by capire](in-a-nutshell)            | Building your first CAP application.                         | 4-44 minutes  |
-| 3    | [Best Practices](../about/) <br> → *must read* | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 7-14 hours    |
+| # | Get started with...                 | to learn about...                                                            | Required Time |
+|---|-------------------------------------|------------------------------------------------------------------------------|---------------|
+| 1 | [Initial Setup](#setup)             | Minimalistic setup to get you jump-started.                                  | 1-11 minutes  |
+| 2 | [Bookshop by capire](in-a-nutshell) | Building your first CAP application.                                         | 4-44 minutes  |
+| 3 | [Best Practices](../about/)         | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 4-14 hours    |
 
 So, fasten your seat belts and get started in the next section right below...
 
@@ -125,7 +125,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](../node.js/cds-env) if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -148,7 +148,7 @@ To explore the defaults in your projects do as follows:
 cds env ls defaults
 ```
 
-[Learn more about project-sepcific configuration.](../node.js/cds-env){.learn-more}
+[Learn more about project-specific configuration.](../node.js/cds-env){.learn-more}
 :::
 
 ::: tip Convention over configuration
@@ -162,11 +162,11 @@ We recommend to stick to CAP's way of [Convention over Configuration](https://en
 
 After you finished the [getting started](#) part, continue with the following learning sources as needed, while you grow as you go...:
 
-| #    | Guide                                                        | Description                                    |
-| ---- | ------------------------------------------------------------ | ---------------------------------------------- |
-| 4    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.   |
-| 5    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.            |
-| 6    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
+| # | Guide                                                                        | Description                                    |
+|---|------------------------------------------------------------------------------|------------------------------------------------|
+| 4 | [Learn More](learning-sources)                                               | Find samples, videos, blogs, tutorials, etc.   |
+| 5 | [Cookbook](../guides/)                                                       | Walkthroughs for the most common tasks.        |
+| 6 | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

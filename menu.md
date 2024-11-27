@@ -1,8 +1,10 @@
 
 # [Getting Started](get-started/)
 
+  ## [Introduction — What is CAP?](about/)
   ## [Bookshop by capire](get-started/in-a-nutshell)
-  ## [Best Practices](about/)
+  ## [Best Practices](about/best-practices)
+  ## [Anti Patterns](about/bad-practices)
   ## [Next Steps](get-started/#next-steps)
   ## [Learn More](get-started/learning-sources)
   ## [Features Matrix](about/features)

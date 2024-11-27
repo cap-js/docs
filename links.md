@@ -26,7 +26,9 @@
 
 [bookshop]: /get-started/in-a-nutshell
 
-
-
 [Node.js]: https://nodejs.org/
 [Java]: https://www.oracle.com/java/
+[GraphQL]: https://graphql.org/
+[OData]: https://www.odata.org/
+[REST]: https://restfulapi.net/
+[SQL]: https://en.wikipedia.org/wiki/SQL

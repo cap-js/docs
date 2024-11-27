@@ -29,15 +29,15 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 - [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
 - [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
 - **A Terminal**{style="font-weight: 500"} — for using the `cds` command line interface (CLI)
-- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](/tools(/cds/editors#vscode).
+- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](/tools/cds-editors#vscode).
 
 
 #### Installation
 
-- With the prerequisites met, install the [`cds` toolkit](/tools(/cds/cli) *globally*:
+- With the prerequisites met, install the [`cds` toolkit](/tools/cds-cli) *globally*:
 
     ```sh
-    npm add -g @sap(/cds/dk
+    npm add -g @sap/cds-dk
     ```
 
     [Visit the _Troubleshooting_ guide](troubleshooting.md) if you encounter any errors. {.learn-more}
@@ -97,7 +97,7 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
    ```sh
    code bookshop
    ```
-   [Assumes you activated the `code` command on macOS as documented](/tools(/cds/editors#vscode) {.learn-more}
+   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
 
 
 
@@ -114,7 +114,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](/node.js(/cds/env) if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](/node.js/cds-env) if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 

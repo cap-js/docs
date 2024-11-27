@@ -63,7 +63,7 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 
 #### Enterprise Best Practices
 
-- [Common Reuse Types & Aspects](/cds/ommon)
+- [Common Reuse Types & Aspects](/cds/common)
 - [Managed Data](/guides/domain-modeling#managed-data)
 - [Localized Data](/guides/localized-data)
 - [Temporal Data](/guides/temporal-data)

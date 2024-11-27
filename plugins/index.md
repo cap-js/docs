@@ -390,6 +390,16 @@ Available for:
 [![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
 
 
+## RFC
+
+The  `@sap/cds-rfc` plugin allows to import the API of RFC-enabled function modules from
+ABAP systems and to call these functions in your custom code.
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugin page.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://www.npmjs.com/package/@sap/cds-rfc)
+
+
 <div id="internal-plugins" />
 
 <div id="upcoming-plugins" />

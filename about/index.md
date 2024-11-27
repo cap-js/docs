@@ -7,8 +7,9 @@ status: released
 Key Concepts & Benefits
 {.subtitle}
 
-[[toc]]
+<!-- @include: ../links.md -->
 
+[[toc]]
 
 
 ## Introduction
@@ -25,13 +26,13 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 
 The major building blocks are as follows:
 
-- [**Core Data Services** (CDS)](../cds/) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
+- [**Core Data Services** (CDS)](/cds) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
 
-- [**Service Runtimes**](../guides/providing-services.md) for [Node.js](../node.js/) and [Java](../java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
+- [**Service Runtimes**](/guides/providing-services.md) for [Node.js](/node.js/) and [Java](/java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
 
-- [**Platform Integrations**](../guides/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
+- [**Platform Integrations**](/guides/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
 
-- [**Command Line Interface** (CLI)](../tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
+- [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
 In addition, there is a fast-growing number of [CAP plugins]() contributions by open-source and inner-source [communities]() that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
 
@@ -64,11 +65,11 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ### Domain Models
 
-[CDS](../cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
+[CDS](/cds) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
 
 ![bookshop-erm.drawio](assets/bookshop-erm.drawio.svg)
 
-... would look like this in CDS:
+... would look like this in CDS in first iteration (with some fields added):
 
 ::: code-group
 
@@ -82,25 +83,25 @@ entity Books : cuid, managed {
 
 entity Authors : cuid, managed {
   name    : String;
+  books   : Association to many Books on books.author = $self;
   country : Country;
 }
 ```
 
 :::
 
-[Type `Country` is declared to be an association to `sap.common.Countries`.](../cds/common#type-country) {.learn-more}
-
+[Type `Country` is declared to be an association to `sap.common.Countries`.](/cdscommon#type-country) {.learn-more}
 
 
 #### Conceptual Definition Language (CDL)
 
-We use CDS's [*Conceptual Definition Language (CDL)*](../cds/cdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
+We use CDS's [*Conceptual Definition Language (CDL)*](/cdscdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
 
-For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](../cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are SQLite and H2 for development, and SAP HANA and PostgreSQL for production.
+For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](/cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are *[SQLite]* and *[H2]* for development, and *[SAP HANA]* and *[PostgreSQL]* for production.
 
 ![cdl-csn.drawio](assets/cdl-csn.drawio.svg)
 
-See also *[On the Nature of Models](../cds/models)* in the CDS reference docs. {.learn-more}
+See also *[On the Nature of Models](/cdsmodels)* in the CDS reference docs. {.learn-more}
 
 
 
@@ -234,7 +235,7 @@ service BookshopService {
 
 Most frequently, services expose denormalized views of underlying domain models. They act as facades to an application's core domain data. The service interface results from the _inferred_ element structures of the given projections.
 
-For example, if we take the [*bookshop* domain model](../get-started/in-a-nutshell#capture-domain-models) as a basis, we could define a service that exposes a flattened view on books with authors names as follows (note and click on the *⇒ Inferred Interface* tab):
+For example, if we take the [*bookshop* domain model](/get-started/in-a-nutshell#capture-domain-models) as a basis, we could define a service that exposes a flattened view on books with authors names as follows (note and click on the *⇒ Inferred Interface* tab):
 
 ::: code-group
 
@@ -396,11 +397,11 @@ entity ListOfBooks as projection on underlying.Books {
 ```
 
 
-We use [CDS's *Conceptual Query Language (CQL)*](../cds/cql) to write queries in a human-readable way. For reasons of familarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
+We use [CDS's *Conceptual Query Language (CQL)*](/cdscql) to write queries in a human-readable way. For reasons of familarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
 
 #### Core Query Notation (CQN)
 
-CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](../cds/cqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
+CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](/cdscqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
 
 ::: code-group
 
@@ -484,20 +485,9 @@ As apparent from this comparison, we can regard CQL as a superset of the other q
 
 ### Protocols
 
-## Key Features & Qualities
+## Key Benefits & Qualities
 
-- Best Practices, Served Out Of The Box
-- Accelerated Development at Minimized Costs
-- Jumpstart & Grow as you Go
-- Inner Loop Development
-- Agnostic by Design
-- Intrinsic Extensibility
-- Intrinsic Cloud Qualities
-- Primary Focus on Domain
-- Safeguarding Investments
-- Minimize Technical Debt
-
-### Served Out Of The Box
+### Served Out Of The Box...
 
 The CAP runtimes in Node.js and Java provide many generic implementations for recurring tasks and best practices, distilled from proven SAP applications.
 Benefits are significantly **accelerated** development, **minimized boilerplate** code, as well as **increased quality** through single points to fix and optimize, hence **reduced technical debt**.
@@ -505,45 +495,78 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 
 #### Automatically Serving Requests
 
-- [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#deep-reads-writes)
-- [Serving Media Data](../guides/providing-services#serving-media-data)
-- [Serving Draft Choreography](../advanced/fiori#draft-support)
+- [Serving CRUD Requests](/guides/providing-services#generic-providers)
+- [Serving Nested Documents](/guides/providing-services#deep-reads-writes)
+- [Serving Media Data](/guides/providing-services#serving-media-data)
+- [Serving Draft Choreography](/advanced/fiori#draft-support)
 
 #### Handling Recurring Tasks
 
-- [Implicit Pagination](../guides/providing-services#implicit-pagination)
-- [Input Validation](../guides/providing-services#input-validation)
-- [Authentication](../node.js/authentication)
-- [Authorization](../guides/security/authorization)
-- [Localization / i18n](../guides/i18n)
-- [Concurrency Control](../guides/providing-services#concurrency-control)
+- [Implicit Pagination](/guides/providing-services#implicit-pagination)
+- [Input Validation](/guides/providing-services#input-validation)
+- [Authentication](/node.js/authentication)
+- [Authorization](/guides/security/authorization)
+- [Localization / i18n](/guides/i18n)
+- [Concurrency Control](/guides/providing-services#concurrency-control)
 
 #### Enterprise Best Practices
 
-- [Common Reuse Types & Aspects](../cds/common)
-- [Managed Data](../guides/domain-modeling#managed-data)
-- [Localized Data](../guides/localized-data)
-- [Temporal Data](../guides/temporal-data)
-- [Verticalization & Extensibility](../guides/extensibility/)
+- [Common Reuse Types & Aspects](/cdscommon)
+- [Managed Data](/guides/domain-modeling#managed-data)
+- [Localized Data](/guides/localized-data)
+- [Temporal Data](/guides/temporal-data)
+- [Verticalization & Extensibility](/guides/extensibility/)
 
 #### **CAP-level Service Integrations ('Calesi')**
 
-- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
-- [Attachments → SAP Object Store](../plugins/#attachments)
-- [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
-- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](/plugins/#telemetry)
+- [Attachments → SAP Object Store](/plugins/#attachments)
+- [Attachments → SAP Document Management Service](/plugins/#@cap-js/sdm)
+- [Messaging → SAP Cloud Application Event Hub](/plugins/#event-broker-plugin)
 - [Messaging → Kafka]()
-- [Change Tracking](../plugins/#change-tracking)
-- [Notifications](../plugins/#notifications)
-- [Audit Logging](../plugins/#audit-logging)
-- [Personal Data Management](../guides/data-privacy/)
+- [Change Tracking](/plugins/#change-tracking)
+- [Notifications](/plugins/#notifications)
+- [Audit Logging](/plugins/#audit-logging)
+- [Personal Data Management](/guides/data-privacy/)
 
-[Find more in the **CAP Plugins** page](../plugins/){.learn-more}
+[Find more in the **CAP Plugins** page](/plugins/){.learn-more}
 
 [See also the **Features Overview**](./features){.learn-more}
 
 
+
+### Intrinsic Cloud Qualities
+
+#### Multitenancy
+
+#### Extensibility
+
+#### Security
+
+#### Scalability
+
+#### Resilience
+
+
+
+### Intrinsic Extensibility
+
+- in models
+- in (service) implementations
+
+#### Extensible Framework Services
+
+As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
+
+And as everybody can add event handlers to services, not only the service implementations, you can also add event handlers to framework services, and thereby extend the core framework.
+
+For example, you could extend the database service like this:
+
+```js
+cds.db.before ('*', req => {
+  console.log (req.event, req.target.name)
+})
+```
 
 
 
@@ -583,7 +606,7 @@ srv.on('DELETE','SomeEntity', req => {/* process req.query */})
 ```
 
 :::tip Late-cut µ services
-The agnostic design allows [mocking remote services](../guides/using-services#local-mocking), as well as doing late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
+The agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
 :::
 
 
@@ -608,7 +631,7 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
  <!-- label='Grow as You Go' -->
 
-Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
+Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](/get-started/in-a-nutshell).
 
 CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP facilitates **integration scenarios** by importing an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and running mocks for this locally.
 
@@ -618,67 +641,27 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 
 
 
-
-
 ### Inner Loop Development
 
-*"Developing for the cloud doesn't mean development in the cloud"* → means: even though your productive application will be deployed to the cloud, using many cloud-based services, and maybe micro services
+### Safeguarding Investments
 
-- Local / Inner Loop Development
-  - using mocked platform services
-- Disconnected Development
-  - using mocked remote services
-- Speedup Pipelines
+### Minimising Technical Debt
 
+### Hexagonal Architecture & DDD
 
-### Intrinsic Cloud Qualities
-
-#### Multitenancy
-
-#### Extensibility
-
-#### Security
-
-#### Scalability
-
-#### Resilience
-
-
-
-### Intrinsic Extensibility
-
-- in models
-- in (service) implementations
-
-#### Extensible Framework Services
-
-As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
-
-And as everybody can add event handlers to services, not only the service implementations, you can also add event handlers to framework services, and thereby extend the core framework.
-
-For example, you could extend the database service like this:
-
-```js
-cds.db.before ('*', req => {
-  console.log (req.event, req.target.name)
-})
-```
-
-
+CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
 
 ### Open _and_ Opinionated
 
-[SAP Fiori]: https://developers.sap.com/topics/ui-development.html
-[SAP HANA]: https://developers.sap.com/topics/hana.html
 
 That might sound like a contradiction, but isn't: While CAP certainly gives *opinionated* guidance, we do so without sacrificing openness and flexibility.  At the end of the day, you stay in control of which tools or technologies to choose, or which architecture patterns to follow as depicted in the table below.
 
 | CAP is *Opinionated* in...                                                                                                                                                 | CAP is *Open* as...                                                                                                                                                                                                                             |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols                                                     | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required                                                                                                                                  |
-| **Best Practices served out of the box** with generic solutions for many recurring tasks                                                                                   | You can always handle things your way in [custom handlers](../guides/providing-services#custom-logic), decide whether to adopt [CQRS]() or [Event Sourcing](), for example ... while CAP simply tries to get the tedious tasks out of your way. |
-| **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue), or databases, by providing new database integrations.                                                                                               |
-| **Dedicated tools support** provided in [SAP Business Application Studio](../tools/cds-editors#bas) or [Visual Studio Code](../tools/cds-editors#vscode).                  | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](../tools/cds-cli) CLI and any editor or IDE of your choice.                                                                                          |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks                                                                                   | You can always handle things your way in [custom handlers](/guides/providing-services#custom-logic), decide whether to adopt [CQRS]() or [Event Sourcing](), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](/get-started/in-a-nutshell#vue), or databases, by providing new database integrations.                                                                                               |
+| **Dedicated tools support** provided in [SAP Business Application Studio](/tools/cds-editors#bas) or [Visual Studio Code](/tools/cds-editors#vscode).                  | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](/tools/cds-cli) CLI and any editor or IDE of your choice.                                                                                          |
 
 
 
@@ -687,24 +670,6 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 ## Related Art
 
 The sections below provide additional information about CAP in the context of, and in comparison to, related concepts.
-
-### Domain-driven Design (DDD)
-
-### Command-Query Separation (CQRS)
-
-### Hexagonal Archictecture
-
-CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
-
-### OData and GraphQL
-
-### SQL and NoSQL
-
-### ABAP and RAP
-
-### Aspect Orientation, AOP
-
-### Functional Programming
 
 ----
 
@@ -724,7 +689,7 @@ In contrast to DDD however, CAP prefers a strong distinction of active services 
 
 #### CAP promotes CQRS
 
-Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](../guides/providing-services#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There's no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'. {.indent}
+Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](/guides/providing-services#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There's no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'. {.indent}
 
 
 #### CAP and Event Sourcing
@@ -733,12 +698,12 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cdscql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cdscdl#associations), [Path Expressions](/cdscql#path-expressions), and [Nested Projections](/cdscql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL
 
-The previously mentioned extensions in [CQL](../cds/cql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
+The previously mentioned extensions in [CQL](/cdscql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
 
 
 #### CAP and the Relational Model
@@ -748,12 +713,12 @@ While CDS extends SQL and the relational model by means to [describe, read, and 
 
 #### CAP == Entity-Relationship Modeling
 
-CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](../cds/cdl#associations) and [Compositions](../cds/cdl#compositions). {.indent}
+CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cdscdl#associations) and [Compositions](/cdscdl#compositions). {.indent}
 
 
 #### CAP == Aspect-Oriented Programming
 
-[Aspects](../cds/cdl#aspects) in [CDS](../cds/) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
+[Aspects](/cdscdl#aspects) in [CDS](/cds) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
 
 
 #### CAP == Functional Programming
@@ -765,7 +730,7 @@ In addition, CAP features _queries as first-class and higher-order objects_, all
 
 #### CAP != Object-Relational Mapping
 
-CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](../cds/cql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
+CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](/cdscql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
 
 #### CAP != Business Objects
 

@@ -143,18 +143,16 @@ CAP has defaults for many things that you'd have to configure in other framework
 }
 ```
 
-:::
-
-::: tip Convention over configuration
-We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
-
 To explore the defaults in your projects do as follows:
 ```sh
 cds env ls defaults
 ```
-cds env ls defaults
-```
 
+[Learn more about project-specific configuration.](../node.js/cds-env){.learn-more}
+:::
+
+::: tip Convention over configuration
+We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
 :::
 
 

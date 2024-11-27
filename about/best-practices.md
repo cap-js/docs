@@ -4,12 +4,12 @@ status: released
 
 # Best Practices by CAP
 
-Key Concepts & Benefits
+Key Concepts & Qualities
 {.subtitle}
 
-<!-- @include: ../links.md -->
+[[toc]] <!-- @include: ../links.md -->
 
-[[toc]]
+
 
 
 ## Introduction
@@ -485,76 +485,56 @@ CAP queries are **first-class** objects with **late materialization**: they capt
 
 
 
-## Key Benefits & Qualities
+## Agnostic by Design
 
-### Served Out Of The Box...
+to _protocols_ and _platform_ {.subtitle}
 
-The CAP runtimes in Node.js and Java provide many generic implementations for recurring tasks and best practices, distilled from proven SAP applications.
-Benefits are significantly **accelerated** development, **minimized boilerplate** code, as well as **increased quality** through single points to fix and optimize, hence **reduced technical debt**.
+Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. CAP avoids such lock-ins and shields application developers from things like SAML, OAuth, HTTP, OData, GraphQL, Kafka, or other message brokers, different databases, and so forth...
+
+### ... to Protocols
+
+Services are always consumed in the same ways, regardless of whether you call a local service, or a remote one, and independent of the protocol:
+
+```js
+const srv = await cds.connect.to('SomeService')
+```
+
+```js
+await srv.emit('SomeEvent', {...payload})
+await srv.send('SomeRequest', {...data})
+await srv.read('SomeEntity').where({ID:4711})
+```
+
+The same applies to the way we subscribe to and react to incoming events / requests / queries in event handlers:
+
+```js
+srv.on('SomeEvent', msg => {/* process msg.data */})
+srv.on('SomeRequest', req => {/* process req.data */})
+srv.on('READ','SomeEntity', req => {/* process req.query */})
+```
+
+:::tip Late-cut µ services
+The agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
+:::
 
 
-#### Automatically Serving Requests
+### ... to Platforms
 
-- [Serving CRUD Requests](/guides/providing-services#generic-providers)
-- [Serving Nested Documents](/guides/providing-services#deep-reads-writes)
-- [Serving Media Data](/guides/providing-services#serving-media-data)
-- [Serving Draft Choreography](/advanced/fiori#draft-support)
-
-#### Handling Recurring Tasks
-
-- [Implicit Pagination](/guides/providing-services#implicit-pagination)
-- [Input Validation](/guides/providing-services#input-validation)
-- [Authentication](/node.js/authentication)
-- [Authorization](/guides/security/authorization)
-- [Localization / i18n](/guides/i18n)
-- [Concurrency Control](/guides/providing-services#concurrency-control)
-
-#### Enterprise Best Practices
-
-- [Common Reuse Types & Aspects](/cds/ommon)
-- [Managed Data](/guides/domain-modeling#managed-data)
-- [Localized Data](/guides/localized-data)
-- [Temporal Data](/guides/temporal-data)
-- [Verticalization & Extensibility](/guides/extensibility/)
-
-#### **CAP-level Service Integrations ('Calesi')**
-
-- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](/plugins/#telemetry)
-- [Attachments → SAP Object Store](/plugins/#attachments)
-- [Attachments → SAP Document Management Service](/plugins/#@cap-js/sdm)
-- [Messaging → SAP Cloud Application Event Hub](/plugins/#event-broker-plugin)
-- [Messaging → Kafka]()
-- [Change Tracking](/plugins/#change-tracking)
-- [Notifications](/plugins/#notifications)
-- [Audit Logging](/plugins/#audit-logging)
-- [Personal Data Management](/guides/data-privacy/)
-
-[Find more in the **CAP Plugins** page](/plugins/){.learn-more}
-
-[See also the **Features Overview**](./features){.learn-more}
+These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
 
 
 
-### Intrinsic Cloud Qualities
+### ⇒ Hexagonal Architecture
 
-#### Multitenancy
+CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
 
-#### Extensibility
+## Intrinsic Extensibility
 
-#### Security
+### Extending Models
 
-#### Scalability
+### Extension Logic
 
-#### Resilience
-
-
-
-### Intrinsic Extensibility
-
-- in models
-- in (service) implementations
-
-#### Extensible Framework Services
+### Extensible Framework 
 
 As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
 
@@ -570,102 +550,7 @@ cds.db.before ('*', req => {
 
 
 
-### Agnostic by Design
-
-to _protocols_ and _platform_ {.subtitle}
-
-Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. CAP avoids such lock-ins and shields application developers from things like SAML, OAuth, HTTP, OData, GraphQL, Kafka, or other message brokers, different databases, and so forth...
-
-#### Protocol-agnostic Consumption
-
-Services are always consumed in the same ways, regardless of whether you call a local service, or a remote one, and independent of the protocol:
-
-```js
-const srv = await cds.connect.to('SomeService')
-```
-
-```js
-await srv.emit('SomeEvent', {...payload})
-await srv.send('SomeRequest', {...data})
-await srv.read('SomeEntity').where({ID:4711})
-await srv.create('SomeEntity').entries({...data})
-await srv.update('SomeEntity',4711).with({...data})
-await srv.delete('SomeEntity',4711)
-```
-
-#### Protocol-agnostic Implementation
-
-The same applies to the way we subscribe to and react to incoming events / requests / queries in event handlers:
-
-```js
-srv.on('SomeEvent', msg => {/* process msg.data */})
-srv.on('SomeRequest', req => {/* process req.data */})
-srv.on('READ','SomeEntity', req => {/* process req.query */})
-srv.on('WRITE','SomeEntity', req => {/* process req.query */})
-srv.on('DELETE','SomeEntity', req => {/* process req.query */})
-```
-
-:::tip Late-cut µ services
-The agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
-:::
-
-
-#### Agnostic to Framework Services
-
-These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
-
-
-
-### Focus On Domain
-
-CAP places **primary focus on domain**, by capturing _domain knowledge_ and _intent_ instead of imperative coding — that means, _What, not How_ — which promotes the following:
-
-- Close collaboration of _developers_ and _domain experts_ in domain modeling.
-- _Out-of-the-box_ implementations for _best practices_ and recurring tasks.
-- _Platform-agnostic_ approach to _avoid lock-ins_, hence _protecting investments_.
-
-
-
-
-### Grow As You Go...
-
- <!-- label='Grow as You Go' -->
-
-Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](/get-started/in-a-nutshell).
-
-CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP facilitates **integration scenarios** by importing an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and running mocks for this locally.
-
-Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code.
-
-Finally, projects are encouraged to **parallelize workloads**. For example, following a **contracts-first** approach, a service definition is all that is required to automatically run a full-fledged REST or OData service. So, projects could spawn two teams in parallel: one working on the frontend, while the other one works on the backend part. A third one could start setting up CI/CD and delivery in parallel.
-
-
-
-### Inner Loop Development
-
-### Safeguarding Investments
-
-### Minimising Technical Debt
-
-### Hexagonal Architecture & DDD
-
-CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
-
-### Open _and_ Opinionated
-
-
-That might sound like a contradiction, but isn't: While CAP certainly gives *opinionated* guidance, we do so without sacrificing openness and flexibility.  At the end of the day, you stay in control of which tools or technologies to choose, or which architecture patterns to follow as depicted in the table below.
-
-| CAP is *Opinionated* in...                                                                                                                                                 | CAP is *Open* as...                                                                                                                                                                                                                           |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols                                                     | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required                                                                                                                                |
-| **Best Practices served out of the box** with generic solutions for many recurring tasks                                                                                   | You can always handle things your way in [custom handlers](/guides/providing-services#custom-logic), decide whether to adopt [CQRS]() or [Event Sourcing](), for example ... while CAP simply tries to get the tedious tasks out of your way. |
-| **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](/get-started/in-a-nutshell#vue), or databases, by providing new database integrations.                                                                                               |
-| **Dedicated tools support** provided in [SAP Business Application Studio](/tools/cds-editors#bas) or [Visual Studio Code](/tools/cds-editors#vscode).                      | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](/tools/cds-cli) CLI and any editor or IDE of your choice.                                                                                          |
-
-
-
-
+## Inner Loop Development
 
 ## The 'Calesi' Effect
 
@@ -674,10 +559,6 @@ TODO...
 ## Related Art
 
 The sections below provide additional information about CAP in the context of, and in comparison to, related concepts.
-
-----
-
-
 
 #### CAP == _Hexagonal Architecture_
 

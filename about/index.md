@@ -65,7 +65,7 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ### Domain Models
 
-[CDS](/cds) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
+[CDS](/cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
 
 ![bookshop-erm.drawio](assets/bookshop-erm.drawio.svg)
 
@@ -90,7 +90,7 @@ entity Authors : cuid, managed {
 
 :::
 
-[Type `Country` is declared to be an association to `sap.common.Countries`.](/cdscommon#type-country) {.learn-more}
+[Type `Country` is declared to be an association to `sap.common.Countries`.](/cds/common#type-country) {.learn-more}
 
 
 #### Conceptual Definition Language (CDL)
@@ -401,11 +401,11 @@ entity ListOfBooks as projection on underlying.Books {
 ```
 
 
-We use [CDS's *Conceptual Query Language (CQL)*](/cdscql) to write queries in a human-readable way. For reasons of familarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
+We use [CDS's *Conceptual Query Language (CQL)*](/cds/cql) to write queries in a human-readable way. For reasons of familarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
 
 #### Core Query Notation (CQN)
 
-CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](/cdscqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
+CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](/cds/cqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
 
 ::: code-group
 
@@ -515,7 +515,7 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 
 #### Enterprise Best Practices
 
-- [Common Reuse Types & Aspects](/cdscommon)
+- [Common Reuse Types & Aspects](/cds/common)
 - [Managed Data](/guides/domain-modeling#managed-data)
 - [Localized Data](/guides/localized-data)
 - [Temporal Data](/guides/temporal-data)
@@ -702,12 +702,12 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cdscql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cdscdl#associations), [Path Expressions](/cdscql#path-expressions), and [Nested Projections](/cdscql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cdscdl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL
 
-The previously mentioned extensions in [CQL](/cdscql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
+The previously mentioned extensions in [CQL](/cds/cql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
 
 
 #### CAP and the Relational Model
@@ -722,7 +722,7 @@ CAP employs proven basics of Entity-Relationship Modeling for capturing the conc
 
 #### CAP == Aspect-Oriented Programming
 
-[Aspects](/cdscdl#aspects) in [CDS](/cds) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
+[Aspects](/cdscdl#aspects) in [CDS](/cds/) are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
 
 
 #### CAP == Functional Programming
@@ -734,7 +734,7 @@ In addition, CAP features _queries as first-class and higher-order objects_, all
 
 #### CAP != Object-Relational Mapping
 
-CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](/cdscql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
+CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](/cds/cql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
 
 #### CAP != Business Objects
 
